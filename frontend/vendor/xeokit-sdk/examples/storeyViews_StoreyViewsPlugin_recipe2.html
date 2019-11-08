@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>xeokit StoreyViewsPlugin createStoreyMap()</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+
+        #myCanvas {
+            /*background: lightblue;*/
+        }
+
+        #info {
+            max-width: 410px;
+        }
+
+        #storeyMap {
+            margin-top: 20px;
+            overflow-y: hidden;
+            height: auto;
+            pointer-events: all;
+            width: auto;
+        }
+
+        #myNavCubeCanvas {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            bottom: 50px;
+            right: 10px;
+            z-index: 200000;
+        }
+
+        #planPointer {
+            color: #000000;
+            line-height: 1.8;
+            text-align: center;
+            font-family: "monospace";
+            font-weight: bold;
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-image: url(images/storeyMapCamera.png);
+            background-repeat: no-repeat;
+            background-size: 60px 60px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<canvas id="myNavCubeCanvas"></canvas>
+
+<div id="info">
+    <h1>StoreyViewsPlugin UX Recipe #2</h1>
+
+    <br>
+    <p>Click anywhere in the 2D plan to go there in <b>first-person mode</b> in the 3D view.</p>
+    <p>Click empty space in the 2D plan to return to ortho view.</p>
+
+    <div id="storeyMap"></div>
+
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a>
+            - Provides tools for visualizing IfcBuildingStoreys
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads model and IFC data from file system
+        </li>
+        <li>
+            <a target="_other"
+               href="https://github.com/openBIMstandards/DataSetSchependomlaan">Model source</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {StoreyViewsPlugin} from "../src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {math} from "../src/viewer/scene/math/math.js";
+    import {NavCubePlugin} from "../src/plugins/NavCubePlugin/NavCubePlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer, arrange the Camera and configure highlighting effect
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.camera.eye = [-2.56, 8.38, 8.27];
+    viewer.camera.look = [13.44, 3.31, -14.83];
+    viewer.camera.up = [0.10, 0.98, -0.14];
+    viewer.camera.perspective.fov = 65;
+    viewer.camera.orbitPitch(20);
+
+    viewer.cameraControl.panToPointer = true;
+    viewer.cameraControl.inertia = 0.75;
+
+    viewer.scene.highlightMaterial.fill = false;
+    viewer.scene.highlightMaterial.fillAlpha = 0.3;
+    viewer.scene.highlightMaterial.edgeColor = [1, 1, 0];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a NavCubePlugin
+    //------------------------------------------------------------------------------------------------------------------
+
+    new NavCubePlugin(viewer, {
+        canvasId: "myNavCubeCanvas",
+        visible: true,           // Initially visible (default)
+        size: 250,               // NavCube size in pixels (default is 200)
+        alignment: "topRight",   // Align NavCube to top-left of Viewer canvas
+        topMargin: 170,          // 170 pixels margin from top of Viewer canvas
+        cameraFly: true,       // Fly camera to each selected axis/diagonal
+        cameraFitFOV: 45,        // How much field-of-view the scene takes once camera has fitted it to view
+        cameraFlyDuration: 0.5 // How long (in seconds) camera takes to fly to each new axis/diagonal
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add an XKTLoaderPlugin and load a model
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/schependomlaan/schependomlaan.xkt",
+        metaModelSrc: "./metaModels/schependomlaan/metaModel.json",
+        edges: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a StoreyViewsPlugin
+    //------------------------------------------------------------------------------------------------------------------
+
+    const storeyViewsPlugin = new StoreyViewsPlugin(viewer);
+
+    //------------------------------------------------------------------------------------------------------------------
+    // When the model has loaded, create a StoreyMap, insert its 2D plan image into the document,
+    // bind mouse events to fly the Camera to a first-person view at whatever location we click
+    // within the plan view image
+    //------------------------------------------------------------------------------------------------------------------
+
+    model.on("loaded", () => {
+
+        // Make all doors transparent
+        viewer.scene.setObjectsOpacity(viewer.metaScene.getObjectIDsByType("IfcDoor"), 0.3);
+
+        storeyViewsPlugin.showStoreyObjects("2SWZMQPyD9pfT9q87pgXa1", {
+            hideOthers: true,
+            useObjectStates: false
+        });
+
+        storeyViewsPlugin.gotoStoreyCamera("2SWZMQPyD9pfT9q87pgXa1", {
+            projection: "ortho"
+        });
+
+        const storeyMap = storeyViewsPlugin.createStoreyMap("2SWZMQPyD9pfT9q87pgXa1", {
+            format: "png",
+            width: 380,
+            useObjectStates: true
+        });
+
+        const img = document.createElement("img");
+        img.src = storeyMap.imageData;
+        img.style.width = storeyMap.width + "px";
+        img.style.height = storeyMap.height + "px";
+        img.style.padding = "0";
+        img.style.margin = "0";
+
+        const storeyMapDiv = document.getElementById("storeyMap");
+        storeyMapDiv.appendChild(img);
+
+        const pointer = document.createElement("div");
+        pointer.id = "planPointer";
+        pointer.style.width = "60px";
+        pointer.style.height = "60px";
+        pointer.style.position = "absolute";
+        pointer.style["z-index"] = 100000;
+        pointer.style.left = "0px";
+        pointer.style.top = "0px";
+        pointer.style.cursor = "none";
+        pointer.style["pointer-events"] = "none";
+        pointer.style.transform = "rotate(0deg)";
+        pointer.style.visibility = "hidden";
+        document.body.appendChild(pointer);
+
+        const canStandOnTypes = {
+            IfcSlab: true,
+            IfcStair: true,
+            IfcFloor: true,
+            IfcFooting: true
+        };
+
+        img.onmouseenter = (e) => {
+            img.style.cursor = "default";
+        };
+
+        img.onmousemove = (e) => {
+
+            img.style.cursor = "default";
+
+            const imagePos = [e.offsetX, e.offsetY];
+
+            const pickResult = storeyViewsPlugin.pickStoreyMap(storeyMap, imagePos, {});
+
+            if (pickResult) {
+
+                const entity = pickResult.entity;
+                const metaObject = viewer.metaScene.metaObjects[entity.id];
+
+                if (metaObject) {
+                    if (canStandOnTypes[metaObject.type]) {
+                        img.style.cursor = "pointer";
+                    }
+                }
+            }
+        };
+
+        img.onmouseleave = (e) => {
+            img.style.cursor = "default";
+        };
+
+        const worldPos = math.vec3();
+
+        img.onclick = (e) => {
+            const imagePos = [e.offsetX, e.offsetY];
+            const pickResult = storeyViewsPlugin.pickStoreyMap(storeyMap, imagePos, {
+                pickSurface: true
+            });
+            if (pickResult) {
+                worldPos.set(pickResult.worldPos);
+                worldPos[1] += 1.5;
+                viewer.cameraFlight.flyTo({
+                    eye: worldPos,
+                    up: viewer.camera.worldUp,
+                    look: math.addVec3(worldPos, viewer.camera.worldForward, []),
+                    projection: "perspective",
+                    duration: 1.5
+                }, () => {
+                    viewer.cameraControl.firstPerson = true;
+                    viewer.cameraControl.planView = false;
+                });
+            } else {
+                storeyViewsPlugin.gotoStoreyCamera("2SWZMQPyD9pfT9q87pgXa1", {
+                    projection: "ortho",
+                    duration: 1.5,
+                    done: () => {
+                        viewer.cameraControl.firstPerson = false;
+                        viewer.cameraControl.planView = true;
+                    }
+                });
+            }
+        };
+
+        const imagePos = math.vec2();
+        const worldDir = math.vec3();
+        const imageDir = math.vec2();
+
+        const updatePointer = () => {
+            const eye = viewer.camera.eye;
+            const storeyId = storeyViewsPlugin.getStoreyContainingWorldPos(eye);
+            if (!storeyId) {
+                hidePointer();
+                return;
+            }
+            const inBounds = storeyViewsPlugin.worldPosToStoreyMap(storeyMap, eye, imagePos);
+            if (!inBounds) {
+                hidePointer();
+                return;
+            }
+            var offset = getPosition(img);
+            imagePos[0] += offset.x;
+            imagePos[1] += offset.y;
+
+            storeyViewsPlugin.worldDirToStoreyMap(storeyMap, worldDir, imageDir);
+
+            showPointer(imagePos, imageDir);
+        };
+
+        viewer.camera.on("viewMatrix", updatePointer);
+        viewer.scene.canvas.on("boundary", updatePointer);
+
+        function getPosition(el) {
+            var xPos = 0;
+            var yPos = 0;
+            while (el) {
+                if (el.tagName === "BODY") {      // deal with browser quirks with body/window/document and page scroll
+                    var xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+                    var yScroll = el.scrollTop || document.documentElement.scrollTop;
+                    xPos += (el.offsetLeft - xScroll + el.clientLeft);
+                    yPos += (el.offsetTop - yScroll + el.clientTop);
+                } else {
+                    // for all other non-BODY elements
+                    xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+                    yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+                }
+                el = el.offsetParent;
+            }
+            return {x: xPos, y: yPos};
+        }
+
+        function hidePointer() {
+            pointer.style.visibility = "hidden";
+        }
+
+        function showPointer(imagePos, imageDir) {
+
+            const angleRad = Math.atan2(imageDir[0], imageDir[1]);
+            const angleDeg = Math.floor(180 * angleRad / Math.PI);
+
+            pointer.style.left = (imagePos[0] - 30) + "px";
+            pointer.style.top = (imagePos[1] - 30) + "px";
+            pointer.style.transform = "rotate(" + -(angleDeg - 45) + "deg)";
+            pointer.style.visibility = "visible";
+        }
+    });
+
+</script>
+</html>

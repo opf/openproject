@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>XKTLoaderPlugin - Loading Five IFC Models from the File System</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+        #myCanvas {
+            width: 100%;
+            height: 100%;
+            background: lightBlue;
+        }
+
+        #myNavCubeCanvas {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            bottom: 50px;
+            right: 10px;
+            z-index: 200000;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<canvas id="myNavCubeCanvas"></canvas>
+
+<div id="info">
+    <h1>XKTLoaderPlugin - Loading Five IFC Models from the File System</h1><br>
+    <ul>
+        <li>
+            <div id="time">Loading JavaScript modules...</div>
+        </li>
+        <li>
+            Fire Alarm, Electrical, Plumbing, Sprinkler and Structure models are from the Autodesk <a target="_other"
+                                                                                                      href="http://openifcmodel.cs.auckland.ac.nz/Model/Details/305">West
+            RiverSide
+            Hospital</a> example
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            docs
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/Importing-Models">User Guide</a>
+        </li>
+    </ul>
+</div>
+</body>
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {NavCubePlugin} from "../src/plugins/NavCubePlugin/NavCubePlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.camera.eye = [110.27, 172.88, -6.49];
+    viewer.camera.look = [33.88, 177.99, -101.79];
+    viewer.camera.up = [0.02, 0.99, 0.03];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a NavCube gizmo
+    //------------------------------------------------------------------------------------------------------------------
+
+    new NavCubePlugin(viewer, {
+        canvasId: "myNavCubeCanvas",
+        visible: true,
+        size: 250,
+        alignment: "bottomRight",
+        bottomMargin: 100,
+        rightMargin: 10
+    });
+
+    //----------------------------------------------------------------------------------------------------------------------
+    // Load model and fit it to view
+    //----------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    var t0 = performance.now();
+
+    document.getElementById("time").innerHTML = "Loading model 1 of 5";
+
+    const structure = xktLoader.load({
+        id: "structure",
+        src: "./models/xkt/WestRiverSideHospital/structure.xkt",
+        metaModelSrc: "./metaModels/WestRiverSideHospital/structure.json",
+        edges: true,
+        Zxrayed: true
+    });
+
+    structure.on("loaded", () => {
+
+        document.getElementById("time").innerHTML = "Loading model 2 of 5";
+
+        const electrical = xktLoader.load({
+            id: "electrical",
+            src: "./models/xkt/WestRiverSideHospital/electrical.xkt",
+            metaModelSrc: "./metaModels/WestRiverSideHospital/electrical.json",
+            edges: true
+        });
+
+        electrical.on("loaded", () => {
+
+            document.getElementById("time").innerHTML = "Loading model 3 of 5";
+
+            const fireAlarms = xktLoader.load({
+                id: "fireAlarms",
+                src: "./models/xkt/WestRiverSideHospital/fireAlarms.xkt",
+                metaModelSrc: "./metaModels/WestRiverSideHospital/fireAlarms.json",
+                edges: true
+            });
+
+            fireAlarms.on("loaded", () => {
+
+                document.getElementById("time").innerHTML = "Loading model 4 of 5";
+
+                const sprinklers = xktLoader.load({
+                    id: "sprinklers",
+                    src: "./models/xkt/WestRiverSideHospital/sprinklers.xkt",
+                    metaModelSrc: "./metaModels/WestRiverSideHospital/sprinklers.json",
+                    edges: true
+                });
+
+                sprinklers.on("loaded", () => {
+
+                    document.getElementById("time").innerHTML = "Loading model 5 of 5";
+
+                    const plumbing = xktLoader.load({
+                        id: "plumbing",
+                        src: "./models/xkt/WestRiverSideHospital/plumbing.xkt",
+                        metaModelSrc: "./metaModels/WestRiverSideHospital/plumbing.json",
+                        edges: true
+                    });
+
+                    plumbing.on("loaded", () => {
+
+                        document.getElementById("time").innerHTML = "Loaded model 5 of 5";
+
+                        var numEntities = 0;
+                        var numTriangles = 0;
+
+                        for (var id in viewer.scene.models) {
+                            const model = viewer.scene.models[id];
+                            numEntities += model.numEntities;
+                        }
+
+                        var t1 = performance.now();
+
+                        document.getElementById("time").innerHTML = "Loaded 5 models in " + Math.floor((t1 - t0)) / 1000 + " seconds<br>Objects: " + numEntities;
+
+                    });
+                });
+            });
+        });
+    });
+
+</script>
+</html>

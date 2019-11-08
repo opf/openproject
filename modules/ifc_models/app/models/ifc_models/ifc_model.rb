@@ -1,6 +1,6 @@
 module IFCModels
   class IFCModel < ActiveRecord::Base
-    acts_as_attachable delete_permission: :manage_ifc_models
+    acts_as_attachable delete_permission: :manage_ifc_models, view_permission: :view_ifc_models
 
     belongs_to :project
     belongs_to :uploader, class_name: 'User', foreign_key: 'uploader_id'

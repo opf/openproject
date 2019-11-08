@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BIMServerLoaderPlugin - Loading a model from BIMServer</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="libs/perfect-scrollbar.min.js"></script>
+
+    <style>
+        #treePanel {
+            /*padding: 5px;*/
+            padding-top: 25px;
+            pointer-events: all;
+            height: 100%;
+            overflow-y: scroll;
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.86);
+            color: black;
+            top: 0;
+            z-index: 200000;
+            float: left;
+            left: 0;
+            font-family: 'Roboto', sans-serif;
+            font-size: 15px;
+            user-select: none;
+            -ms-user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            width: 350px;
+        }
+
+        #myCanvas {
+            background: #ffffff;
+        }
+
+        #myNavCubeCanvas {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            bottom: 50px;
+            right: 10px;
+            z-index: 200000;
+        }
+    </style>
+
+    <link href="./libs/inspire-tree/site-min.css" type="text/css" rel="stylesheet"/>
+    <script src="./libs/lodash.js"></script>
+    <script src="./libs/inspire-tree/inspire-tree.min.js"></script>
+    <script src="./libs/inspire-tree/inspire-tree-dom-min.js"></script>
+
+</head>
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<canvas id="myNavCubeCanvas"></canvas>
+
+<div id="treePanel" class="treePanel"></div>
+<div id="info">
+    <h1>BIMServerPlugin - Loading an IFC Model from BIMServer</h1>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a>
+        </li>
+        <li>
+            <a target="_other"
+               href="http://openifcmodel.cs.auckland.ac.nz/Model/Details/274">Model source</a>
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/Viewing-Models-from-BIMServer">User
+                Guide</a>
+        </li>
+    </ul>
+</div>
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "./../src/viewer/Viewer.js";
+    import BimServerClient from "../src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js"
+    import {BIMServerLoaderPlugin} from "../src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js";
+    import {NavCubePlugin} from "../src/plugins/NavCubePlugin/NavCubePlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // BIMServer parameters for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    const bimServerAddress = "https://xeokit.cleverapps.io/";
+
+    const username = "kevin.flynn@en.com";
+    const password = "secretPassword";
+
+    const poid = 262145;
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer,
+    // position the camera and
+    // tweak the default xraying and highlighting materials
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.camera.eye = [-2.56, 8.38, 8.27];
+    viewer.camera.look = [13.44, 3.31, -14.83];
+    viewer.camera.up = [0.10, 0.98, -0.14];
+
+    viewer.scene.xrayMaterial.fillAlpha = 0.1;
+    viewer.scene.xrayMaterial.fillColor = [0, 0, 0];
+    viewer.scene.xrayMaterial.edgeAlpha = 0.4;
+    viewer.scene.xrayMaterial.edgeColor = [0, 0, 0];
+
+    viewer.scene.highlightMaterial.edges = false;
+    viewer.scene.highlightMaterial.fillAlpha = 0.3;
+    viewer.scene.highlightMaterial.edgeColor = [1, 1, 0];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a NavCube gizmo
+    //------------------------------------------------------------------------------------------------------------------
+
+    new NavCubePlugin(viewer, {
+        canvasId: "myNavCubeCanvas",
+        visible: true,
+        size: 250,
+        alignment: "bottomRight",
+        bottomMargin: 100,
+        rightMargin: 10
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Mouse over objects to highlight them
+    //------------------------------------------------------------------------------------------------------------------
+
+    var lastEntity = null;
+
+    viewer.scene.input.on("mousemove", function (coords) {
+        var hit = viewer.scene.pick({
+            canvasPos: coords
+        });
+        if (hit) {
+            if (!lastEntity || hit.entity.id !== lastEntity.id) {
+                if (lastEntity) {
+                    lastEntity.highlighted = false;
+                }
+                lastEntity = hit.entity;
+                hit.entity.highlighted = true;
+            }
+        } else {
+
+            if (lastEntity) {
+                lastEntity.highlighted = false;
+                lastEntity = null;
+            }
+        }
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Click objects to get their IFC info in the JS console
+    //------------------------------------------------------------------------------------------------------------------
+
+    viewer.scene.input.on("mouseclicked", function (coords) {
+
+        var hit = viewer.scene.pick({
+            canvasPos: coords
+        });
+
+        if (hit) {
+            var entity = hit.entity;
+            var metaObject = viewer.metaScene.metaObjects[entity.id];
+            if (metaObject) {
+                console.log(JSON.stringify(metaObject.getJSON(), null, "\t"));
+            } else {
+                const parent = entity.parent;
+                if (parent) {
+                    metaObject = viewer.metaScene.metaObjects[parent.id];
+                    if (metaObject) {
+                        console.log(JSON.stringify(metaObject.getJSON(), null, "\t"));
+                    }
+                }
+            }
+        }
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a BIMServerClient
+    //------------------------------------------------------------------------------------------------------------------
+
+    const bimServerClient = new BimServerClient(bimServerAddress);
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a BIMServerLoaderPlugin to the Viewer
+    //------------------------------------------------------------------------------------------------------------------
+
+    const bimServerLoader = new BIMServerLoaderPlugin(viewer, {
+        bimServerClient: bimServerClient
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Initialize the BIMServerClient
+    //------------------------------------------------------------------------------------------------------------------
+
+    bimServerClient.init(() => {
+
+        //--------------------------------------------------------------------------------------------------------------
+        // Login to the BIMServerClient
+        //--------------------------------------------------------------------------------------------------------------
+
+        bimServerClient.login(username, password, () => {
+
+            //----------------------------------------------------------------------------------------------------------
+            // Login to BIMServer
+            //----------------------------------------------------------------------------------------------------------
+
+            bimServerClient.call("ServiceInterface", "getProjectByPoid", {
+                poid: poid
+            }, (project) => {
+
+                //------------------------------------------------------------------------------------------------------
+                // Load the latest revision of the project using the BIMServerLoaderPlugin.
+                // The BIMServerLoaderPlugin uses the BIMServerClient to load the model and IFC metadata.
+                //------------------------------------------------------------------------------------------------------
+
+                // Load the latest revision of the project
+                // Use whatever IFC schema that's for
+
+                const roid = project.lastRevisionId;
+                const schema = project.schema;
+
+                const model = bimServerLoader.load({
+
+                    id: "myModel",                  // Assigned to Entity#id, and Entity#isModel will also be set true
+
+                    poid: poid,
+                    roid: roid,
+                    schema: schema,
+
+                    //  scale: [0.001, 0.001, 0.001],   // Assigned to Entity#scale, since model boundary exceeds view volume
+                    rotation: [-90, 0, 0],          // Assigned to Entity#rotation, since model "up" is +Z
+                    edges: true
+                });
+
+                //------------------------------------------------------------------------------------------------------
+                // When model loaded, create a tree view to navigate the objects in our model.
+                //
+                // The BIMServerLoaderPlugin created a MetaModel, with MetaObjects, from the IFC data it loaded
+                // from BIMServer.
+                //
+                // We'll use the Inspire Tree UI tree component (https://github.com/helion3/inspire-tree) to create a
+                // tree view from the MetaModel, with which we'll navigate the model's objects.
+                //------------------------------------------------------------------------------------------------------
+
+                model.on("loaded", function () {
+
+                    // Fit model to view
+                    viewer.cameraFlight.jumpTo(model);
+
+                    // Builds tree view data from MetaModel
+                    var createData = function (metaModel) {
+                        const data = [];
+
+                        function visit(expand, data, metaObject) {
+                            if (!metaObject) {
+                                return;
+                            }
+                            var child = {
+                                id: metaObject.id,
+                                text: metaObject.name
+                            };
+                            data.push(child);
+                            const children = metaObject.children;
+                            if (children) {
+                                child.children = [];
+                                for (var i = 0, len = children.length; i < len; i++) {
+                                    visit(true, child.children, children[i]);
+                                }
+                            }
+                        }
+
+                        visit(true, data, metaModel.rootMetaObject);
+                        return data;
+                    };
+
+                    // Get the MetaModel thet BIMServerLoaderPlugin loaded for our model
+                    const modelId = model.id;
+                    const metaModel = viewer.metaScene.metaModels[modelId];
+
+                    // Create the tree view
+                    var treeView = new InspireTree({
+                        selection: {
+                            autoSelectChildren: true,
+                            autoDeselect: true,
+                            mode: 'checkbox'
+                        },
+                        checkbox: {
+                            autoCheckChildren: true
+                        },
+                        data: createData(metaModel)
+                    });
+
+                    new InspireTreeDOM(treeView, {
+                        target: document.getElementById("treePanel")
+                    });
+
+                    // Initialize the tree view once loaded
+                    treeView.on('model.loaded', function () {
+
+                        treeView.select();
+
+                        treeView.model.expand();
+
+                        treeView.on('node.selected', function (event, node) {
+                            const objectId = event.id;
+                            viewer.scene.setObjectsXRayed(objectId, false);
+                            viewer.scene.setObjectsCollidable(objectId, true);
+                            viewer.scene.setObjectsPickable(objectId, true);
+                        });
+
+                        treeView.on('node.deselected', function (event, node) {
+                            const objectId = event.id;
+                            viewer.scene.setObjectsXRayed(objectId, true);
+                            viewer.scene.setObjectsCollidable(objectId, false);
+                            viewer.scene.setObjectsPickable(objectId, false);
+                        });
+                    });
+                });
+
+            }, function (error) {
+                console.log(error);
+            });
+
+        }, function (error) {
+            console.log(error);
+        });
+    });
+
+</script>
+
+</html>

@@ -1,0 +1,190 @@
+[
+  {
+    "name": "BimServerClient#call",
+    "filePath": "src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js",
+    "lines": [
+      {
+        "lineNumber": 928,
+        "line": "\t/**"
+      },
+      {
+        "lineNumber": 929,
+        "line": "\t * Call a single method, this method delegates to the multiCall method"
+      },
+      {
+        "lineNumber": 930,
+        "line": "\t * @param {string} interfaceName - Interface name, e.g. \"ServiceInterface\""
+      },
+      {
+        "lineNumber": 931,
+        "line": "\t * @param {string} methodName - Methodname, e.g. \"addProject\""
+      },
+      {
+        "lineNumber": 932,
+        "line": "\t * @param {Object} data - Object with a field per arument"
+      },
+      {
+        "lineNumber": 933,
+        "line": "\t * @param {Function} callback - Function to callback, first argument in callback will be the returned object"
+      },
+      {
+        "lineNumber": 934,
+        "line": "\t * @param {Function} errorCallback - Function to callback on error"
+      },
+      {
+        "lineNumber": 935,
+        "line": "\t * @param {boolean} showBusy - Whether to show busy indication"
+      },
+      {
+        "lineNumber": 936,
+        "line": "\t * @param {boolean} showDone - Whether to show done indication"
+      },
+      {
+        "lineNumber": 937,
+        "line": "\t * @param {boolean} showError - Whether to show errors"
+      },
+      {
+        "lineNumber": 938,
+        "line": "\t * "
+      },
+      {
+        "lineNumber": 939,
+        "line": "\t */"
+      },
+      {
+        "lineNumber": 940,
+        "line": "\tcall(interfaceName, methodName, data, callback, errorCallback, showBusy = true, showDone = false, showError = true, connectWebSocket = true) {"
+      }
+    ],
+    "codeParams": [
+      "interfaceName",
+      "methodName",
+      "data",
+      "callback",
+      "errorCallback",
+      "showBusy",
+      "showDone",
+      "showError",
+      "connectWebSocket"
+    ],
+    "docParams": [
+      "interfaceName",
+      "methodName",
+      "data",
+      "callback",
+      "errorCallback",
+      "showBusy",
+      "showDone",
+      "showError"
+    ]
+  },
+  {
+    "name": "BimServerClient#call",
+    "filePath": "src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js",
+    "lines": [
+      {
+        "lineNumber": 928,
+        "line": "\t/**"
+      },
+      {
+        "lineNumber": 929,
+        "line": "\t * Call a single method, this method delegates to the multiCall method"
+      },
+      {
+        "lineNumber": 930,
+        "line": "\t * @param {string} interfaceName - Interface name, e.g. \"ServiceInterface\""
+      },
+      {
+        "lineNumber": 931,
+        "line": "\t * @param {string} methodName - Methodname, e.g. \"addProject\""
+      },
+      {
+        "lineNumber": 932,
+        "line": "\t * @param {Object} data - Object with a field per arument"
+      },
+      {
+        "lineNumber": 933,
+        "line": "\t * @param {Function} callback - Function to callback, first argument in callback will be the returned object"
+      },
+      {
+        "lineNumber": 934,
+        "line": "\t * @param {Function} errorCallback - Function to callback on error"
+      },
+      {
+        "lineNumber": 935,
+        "line": "\t * @param {boolean} showBusy - Whether to show busy indication"
+      },
+      {
+        "lineNumber": 936,
+        "line": "\t * @param {boolean} showDone - Whether to show done indication"
+      },
+      {
+        "lineNumber": 937,
+        "line": "\t * @param {boolean} showError - Whether to show errors"
+      },
+      {
+        "lineNumber": 938,
+        "line": "\t * "
+      },
+      {
+        "lineNumber": 939,
+        "line": "\t */"
+      },
+      {
+        "lineNumber": 940,
+        "line": "\tcall(interfaceName, methodName, data, callback, errorCallback, showBusy = true, showDone = false, showError = true, connectWebSocket = true) {"
+      }
+    ],
+    "codeParams": [
+      "interfaceName",
+      "methodName",
+      "data",
+      "callback",
+      "errorCallback",
+      "showBusy",
+      "showDone",
+      "showError",
+      "connectWebSocket"
+    ],
+    "docParams": [
+      "interfaceName",
+      "methodName",
+      "data",
+      "callback",
+      "errorCallback",
+      "showBusy",
+      "showDone",
+      "showError"
+    ]
+  },
+  {
+    "name": "PickResult#reset",
+    "filePath": "src/viewer/scene/webgl/PickResult.js",
+    "lines": [
+      {
+        "lineNumber": 295,
+        "line": "    /**"
+      },
+      {
+        "lineNumber": 296,
+        "line": "     * @private"
+      },
+      {
+        "lineNumber": 297,
+        "line": "     * @param value"
+      },
+      {
+        "lineNumber": 298,
+        "line": "     */"
+      },
+      {
+        "lineNumber": 299,
+        "line": "    reset() {"
+      }
+    ],
+    "codeParams": [],
+    "docParams": [
+      "value"
+    ]
+  }
+]

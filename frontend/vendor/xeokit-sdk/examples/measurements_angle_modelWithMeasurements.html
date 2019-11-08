@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>AngleMeasurementPlugin - Programmatically create angle measurements</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+
+    </style>
+
+</head>
+
+<body>
+<canvas id="myCanvas"></canvas>
+
+<div id="info">
+    <h1>AngleMeasurementPlugin - Programmatically create angle measurements</h1><br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a>
+            - Creates AngleMeasurements
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads model from file system
+        </li>
+    </ul>
+</div>
+</body>
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {AngleMeasurementsPlugin} from "../src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas"
+    });
+
+    viewer.camera.eye = [-3.93, 2.85, 27.01];
+    viewer.camera.look = [4.40, 3.72, 8.89];
+    viewer.camera.up = [-0.01, 0.99, 0.039];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Load a model
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/duplex/duplex.xkt",
+        metaModelSrc: "./metaModels/duplex/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+        edges: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a AngleMeasurementsPlugin, with which we'll create AngleMeasurements
+    //------------------------------------------------------------------------------------------------------------------
+
+    const angleMeasurements = new AngleMeasurementsPlugin(viewer);
+
+    model.on("loaded", () => {
+
+        //------------------------------------------------------------------------------------------------------------------
+        // Create some AngleMeasurements
+        //------------------------------------------------------------------------------------------------------------------
+
+        const myMeasurement1 = angleMeasurements.createMeasurement({
+            id: "angleMeasurement1",
+            origin: {
+                entity: viewer.scene.objects["1CZILmCaHETO8tf3SgGEXu"],
+                worldPos: [0.41385602951049805,-0.030549049377441406,17.801637649536133]
+            },
+            corner: {
+                entity: viewer.scene.objects["1CZILmCaHETO8tf3SgGEXu"],
+                worldPos: [0.4156308174133301, -0.03379631042480469, 22.138973236083984]
+            },
+            target: {
+                entity: viewer.scene.objects["1CZILmCaHETO8tf3SgGEXu"],
+                worldPos: [6.181171894073486, -0.0305633544921875,22.141223907470703]
+            },
+            visible: true
+        });
+
+        const myMeasurement2 = angleMeasurements.createMeasurement({
+            id: "angleMeasurement2",
+            origin: {
+                entity: viewer.scene.objects["2O2Fr$t4X7Zf8NOew3FNr2"],
+                worldPos: [6.226694107055664,2.4763600826263428,17.717445373535156]
+            },
+            corner: {
+                entity: viewer.scene.objects[ "2O2Fr$t4X7Zf8NOew3FNqI"],
+                worldPos: [ 8.781314849853516 ,-0.01338815689086914,17.71697235107422]
+
+            },
+            target: {
+                entity: viewer.scene.objects["1s1jVhK8z0pgKYcr9jt7AB"],
+                worldPos: [6.220065593719482, 0.017018556594848633, 17.736911773681645]
+            },
+            visible: true
+        });
+    });
+
+    window.viewer = viewer;
+
+</script>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>DirLight</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+
+<canvas id="myCanvas"></canvas>
+<div id="info">
+    <h1>DirLight</h1>
+    <br>
+    <p>Three World-space DirLights.</p>
+    <br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/Viewer.js~Viewer.html">Viewer</a>
+            - xeokit Viewer
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a>
+            - Scene graph mesh
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a>
+            - ReadableGeometry
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/function/index.html#static-function-buildTorusGeometry">buildTorusGeometry()</a>
+            - creates the torus
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a>
+            - Phong material
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a>
+            - Texture map
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a>
+            - Light source type
+        </li>
+    </ul>
+</div>
+</body>
+
+<script type="module" id="source">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {Mesh} from "../src/viewer/scene/mesh/Mesh.js";
+    import {buildSphereGeometry} from "../src/viewer/scene/geometry/builders/buildSphereGeometry.js";
+    import {buildPlaneGeometry} from "../src/viewer/scene/geometry/builders/buildPlaneGeometry.js";
+    import {ReadableGeometry} from "../src/viewer/scene/geometry/ReadableGeometry.js";
+    import {PhongMaterial} from "../src/viewer/scene/materials/PhongMaterial.js";
+    import {Texture} from "../src/viewer/scene/materials/Texture.js";
+    import {DirLight} from "../src/viewer/scene/lights/DirLight.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas"
+    });
+
+    viewer.scene.camera.eye = [0, 0, 5];
+    viewer.scene.camera.look = [0, 0, 0];
+    viewer.scene.camera.up = [0, 1, 0];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Replace the Scene's default lights with three custom world-space DirLights
+    //------------------------------------------------------------------------------------------------------------------
+
+    viewer.scene.clearLights();
+
+    new DirLight(viewer.scene, {
+        id: "keyLight",
+        dir: [0.8, -0.6, -0.8],
+        color: [1.0, 0.3, 0.3],
+        intensity: 1.0,
+        space: "world"
+    });
+
+    new DirLight(viewer.scene, {
+        id: "fillLight",
+        dir: [-0.8, -0.4, -0.4],
+        color: [0.3, 1.0, 0.3],
+        intensity: 1.0,
+        space: "world"
+    });
+
+    new DirLight(viewer.scene, {
+        id: "rimLight",
+        dir: [0.2, -0.8, 0.8],
+        color: [0.6, 0.6, 0.6],
+        intensity: 1.0,
+        space: "world"
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a sphere and ground plane
+    //------------------------------------------------------------------------------------------------------------------
+
+    new Mesh(viewer.scene, {
+        geometry: new ReadableGeometry(viewer.scene, buildSphereGeometry({
+            radius: 1.3
+        })),
+        material: new PhongMaterial(viewer.scene, {
+            diffuse: [0.7, 0.7, 0.7],
+            specular: [1.0, 1.0, 1.0],
+            emissive: [0, 0, 0],
+            alpha: 1.0,
+            ambient: [1, 1, 0],
+            diffuseMap: new Texture(viewer.scene, {
+                src: "textures/diffuse/uvGrid2.jpg"
+            })
+        })
+    });
+
+    new Mesh(viewer.scene, {
+        geometry: new ReadableGeometry(viewer.scene, buildPlaneGeometry({
+            xSize: 30,
+            zSize: 30
+        })),
+        material: new PhongMaterial(viewer.scene, {
+            diffuseMap: new Texture(viewer.scene, {
+                src: "textures/diffuse/uvGrid2.jpg"
+            }),
+            backfaces: true
+        }),
+        position: [0, -2.1, 0]
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Orbit camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    viewer.scene.on("tick", function () {
+        viewer.scene.camera.orbitYaw(0.3);
+    });
+
+
+</script>
+</html>

@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../../">
+  <title data-ice="title">src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import BimServerApiPromise from &apos;./bimserverapipromise.js&apos;;
+import BimServerApiWebSocket from &apos;./bimserverapiwebsocket.js&apos;;
+import {geometry} from &apos;./geometry.js&apos;;
+import {ifc2x3tc1} from &apos;./ifc2x3tc1.js&apos;;
+import {ifc4} from &apos;./ifc4.js&apos;;
+import Model from &apos;./model.js&apos;;
+import {translations} from &apos;./translations_en.js&apos;;
+
+//var XMLHttpRequest = require(&apos;node-http-xhr&apos;);
+
+export { default as BimServerApiPromise } from &apos;./bimserverapipromise.js&apos;;
+export { default as BimServerApiWebSocket } from &apos;./bimserverapiwebsocket.js&apos;;
+export { default as Model } from &apos;./model.js&apos;;
+
+//import XMLHttpRequest from &apos;xhr2&apos;;
+
+// Where does this come frome? The API crashes on the absence of this
+// member function?
+String.prototype.firstUpper = function () {
+	return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
+export default class BimServerClient {
+	constructor(baseUrl, notifier = null, translate = null) {
+		this.interfaceMapping = {
+			&quot;ServiceInterface&quot;: &quot;org.bimserver.ServiceInterface&quot;,
+			&quot;NewServicesInterface&quot;: &quot;org.bimserver.NewServicesInterface&quot;,
+			&quot;AuthInterface&quot;: &quot;org.bimserver.AuthInterface&quot;,
+			&quot;OAuthInterface&quot;: &quot;org.bimserver.OAuthInterface&quot;,
+			&quot;SettingsInterface&quot;: &quot;org.bimserver.SettingsInterface&quot;,
+			&quot;AdminInterface&quot;: &quot;org.bimserver.AdminInterface&quot;,
+			&quot;PluginInterface&quot;: &quot;org.bimserver.PluginInterface&quot;,
+			&quot;MetaInterface&quot;: &quot;org.bimserver.MetaInterface&quot;,
+			&quot;LowLevelInterface&quot;: &quot;org.bimserver.LowLevelInterface&quot;,
+			&quot;NotificationRegistryInterface&quot;: &quot;org.bimserver.NotificationRegistryInterface&quot;,
+		};
+
+		// translate function override
+		this.translateOverride = translate;
+
+		// Current BIMserver token
+		this.token = null;
+
+		// Base URL of the BIMserver
+		this.baseUrl = baseUrl;
+		if (this.baseUrl.substring(this.baseUrl.length - 1) == &quot;/&quot;) {
+			this.baseUrl = this.baseUrl.substring(0, this.baseUrl.length - 1);
+		}
+
+		// JSON endpoint on BIMserver
+		this.address = this.baseUrl + &quot;/json&quot;;
+
+		// Notifier, default implementation does nothing
+		this.notifier = notifier;
+		if (this.notifier == null) {
+			this.notifier = {
+				setInfo: function (message) {
+					console.log(&quot;[default]&quot;, message);
+				},
+				setSuccess: function () {},
+				setError: function () {},
+				resetStatus: function () {},
+				resetStatusQuick: function () {},
+				clear: function () {}
+			};
+		}
+		
+		// ID -&gt; Resolve method
+		this.websocketCalls = new Map(); 
+
+		// The websocket client
+		this.webSocket = new BimServerApiWebSocket(baseUrl, this);
+		this.webSocket.listener = this.processNotification.bind(this);
+
+		// Cached user object
+		this.user = null;
+
+		// Keeps track of the unique ID&apos;s required to handle websocket calls that return something
+		this.idCounter = 0;
+		
+		this.listeners = {};
+
+		//    	this.autoLoginTried = false;
+
+		// Cache for serializers, PluginClassName(String) -&gt; Serializer
+		this.serializersByPluginClassName = [];
+
+		// Whether debugging is enabled, just a lot more logging
+		this.debug = false;
+
+		// Mapping from ChannelId -&gt; Listener (function)
+		this.binaryDataListener = {};
+
+		// This mapping keeps track of the prototype objects per class, will be lazily popuplated by the getClass method
+		this.classes = {};
+
+		// Schema name (String) -&gt; Schema
+		this.schemas = {};
+	}
+
+	init(callback) {
+		var promise = new Promise((resolve, reject) =&gt; {
+			this.call(&quot;AdminInterface&quot;, &quot;getServerInfo&quot;, {}, (serverInfo) =&gt; {
+				this.version = serverInfo.version;
+				//const versionString = this.version.major + &quot;.&quot; + this.version.minor + &quot;.&quot; + this.version.revision;
+				
+				this.schemas.geometry = geometry.classes;
+				this.addSubtypesToSchema(this.schemas.geometry);
+				
+				this.schemas.ifc2x3tc1 = ifc2x3tc1.classes;
+				this.addSubtypesToSchema(this.schemas.ifc2x3tc1);
+				
+				this.schemas.ifc4 = ifc4.classes;
+				this.addSubtypesToSchema(this.schemas.ifc4);
+
+				if (callback != null) {
+					callback(this, serverInfo);
+				}
+				resolve(serverInfo);
+			});
+		});
+		return promise;
+	}
+
+	addSubtypesToSchema(classes) {
+		for (let typeName in classes) {
+			const type = classes[typeName];
+			if (type.superclasses != null) {
+				type.superclasses.forEach((superClass) =&gt; {
+					let directSubClasses = classes[superClass].directSubClasses;
+					if (directSubClasses == null) {
+						directSubClasses = [];
+						classes[superClass].directSubClasses = directSubClasses;
+					}
+					directSubClasses.push(typeName);
+				});
+			}
+		}
+	}
+
+	getAllSubTypes(schema, typeName, callback) {
+		const type = schema[typeName];
+		if (type.directSubClasses != null) {
+			type.directSubClasses.forEach((subTypeName) =&gt; {
+				callback(subTypeName);
+				this.getAllSubTypes(schema, subTypeName, callback);
+			});
+		}
+	}
+
+	log(message, message2) {
+		if (this.debug) {
+			console.log(message, message2);
+		}
+	}
+
+	translate(key) {
+		if (this.translateOverride !== null) {
+			return this.translateOverride(key);
+		}
+		key = key.toUpperCase();
+		if (translations != null) {
+			const translated = translations[key];
+			if (translated == null) {
+				console.warn(&quot;translation for &quot; + key + &quot; not found, using key&quot;);
+				return key;
+			}
+			return translated;
+		}
+		this.error(&quot;no translations&quot;);
+		return key;
+	}
+
+	login(username, password, callback, errorCallback, options) {
+		if (options == null) {
+			options = {};
+		}
+		const request = {
+			username: username,
+			password: password
+		};
+		this.call(&quot;AuthInterface&quot;, &quot;login&quot;, request, (data) =&gt; {
+			this.token = data;
+			if (options.done !== false) {
+				this.notifier.setInfo(this.translate(&quot;LOGIN_DONE&quot;), 2000);
+			}
+			this.resolveUser(callback);
+		}, errorCallback, options.busy === false ? false : true, options.done === false ? false : true, options.error === false ? false : true);
+	}
+
+	downloadViaWebsocket(msg) {
+		msg.action = &quot;download&quot;;
+		msg.token = this.token;
+		this.webSocket.send(msg);
+	}
+
+	setBinaryDataListener(topicId, listener) {
+		this.binaryDataListener[topicId] = listener;
+	}
+
+	clearBinaryDataListener(topicId) {
+		delete this.binaryDataListener[topicId];
+	}
+	
+	processNotification(message) {
+		if (message instanceof ArrayBuffer) {
+			if (message == null || message.byteLength == 0) {
+				return;
+			}
+			const view = new DataView(message, 0, 8);
+			const topicId = view.getUint32(0, true) + 0x100000000 * view.getUint32(4, true); // TopicId&apos;s are of type long (64 bit)
+			const listener = this.binaryDataListener[topicId];
+			if (listener != null) {
+				listener(message);
+			} else {
+				console.error(&quot;No listener for topicId&quot;, topicId);
+			}
+		} else {
+			const intf = message[&quot;interface&quot;];
+			if (this.listeners[intf] != null) {
+				if (this.listeners[intf][message.method] != null) {
+					let ar = null;
+					this.listeners[intf][message.method].forEach((listener) =&gt; {
+						if (ar == null) {
+							// Only parse the arguments once, or when there are no listeners, not even once
+							ar = [];
+							let i = 0;
+							for (let key in message.parameters) {
+								ar[i++] = message.parameters[key];
+							}
+						}
+						listener.apply(null, ar);
+					});
+				} else {
+					console.log(&quot;No listeners on interface &quot; + intf + &quot; for method &quot; + message.method);
+				}
+			} else {
+				console.log(&quot;No listeners for interface &quot; + intf);
+			}
+		}
+	}
+
+	resolveUser(callback) {
+		this.call(&quot;AuthInterface&quot;, &quot;getLoggedInUser&quot;, {}, (data) =&gt; {
+			this.user = data;
+			if (callback != null) {
+				callback(this.user);
+			}
+		});
+	}
+
+	logout(callback) {
+		this.call(&quot;AuthInterface&quot;, &quot;logout&quot;, {}, () =&gt; {
+			this.notifier.setInfo(this.translate(&quot;LOGOUT_DONE&quot;));
+			callback();
+		});
+	}
+
+	generateRevisionDownloadUrl(settings) {
+		return this.baseUrl + &quot;/download?token=&quot; + this.token + (settings.zip ? &quot;&amp;zip=on&quot; : &quot;&quot;) + &quot;&amp;topicId=&quot; + settings.topicId;
+	}
+
+	generateExtendedDataDownloadUrl(edid) {
+		return this.baseUrl + &quot;/download?token=&quot; + this.token + &quot;&amp;action=extendeddata&amp;edid=&quot; + edid;
+	}
+
+	getJsonSerializer(callback) {
+		this.getSerializerByPluginClassName(&quot;org.bimserver.serializers.JsonSerializerPlugin&quot;).then((serializer) =&gt; {
+			callback(serializer);
+		});
+	}
+
+	getJsonStreamingSerializer(callback) {
+		this.getSerializerByPluginClassName(&quot;org.bimserver.serializers.JsonStreamingSerializerPlugin&quot;).then((serializer) =&gt; {
+			callback(serializer);
+		});
+	}
+
+	getSerializerByPluginClassName(pluginClassName) {
+		if (this.serializersByPluginClassName[pluginClassName] != null) {
+			return this.serializersByPluginClassName[pluginClassName];
+		} else {
+			var promise = new Promise((resolve, reject) =&gt; {
+				this.call(&quot;PluginInterface&quot;, &quot;getSerializerByPluginClassName&quot;, {
+					pluginClassName: pluginClassName
+				}, (serializer) =&gt; {
+					resolve(serializer);
+				});
+			});
+
+			this.serializersByPluginClassName[pluginClassName] = promise;
+			
+			return promise;
+		}
+	}
+
+	getMessagingSerializerByPluginClassName(pluginClassName, callback) {
+		if (this.serializersByPluginClassName[pluginClassName] == null) {
+			this.call(&quot;PluginInterface&quot;, &quot;getMessagingSerializerByPluginClassName&quot;, {
+				pluginClassName: pluginClassName
+			}, (serializer) =&gt; {
+				this.serializersByPluginClassName[pluginClassName] = serializer;
+				callback(serializer);
+			});
+		} else {
+			callback(this.serializersByPluginClassName[pluginClassName]);
+		}
+	}
+
+	register(interfaceName, methodName, callback, registerCallback) {
+		if (callback == null) {
+			throw &quot;Cannot register null callback&quot;;
+		}
+		if (this.listeners[interfaceName] == null) {
+			this.listeners[interfaceName] = {};
+		}
+		if (this.listeners[interfaceName][methodName] == null) {
+			this.listeners[interfaceName][methodName] = new Set();
+		}
+		this.listeners[interfaceName][methodName].add(callback);
+		if (registerCallback != null) {
+			registerCallback();
+		}
+	}
+
+	registerNewRevisionOnSpecificProjectHandler(poid, handler, callback) {
+		this.register(&quot;NotificationInterface&quot;, &quot;newRevision&quot;, handler, () =&gt; {
+			this.call(&quot;NotificationRegistryInterface&quot;, &quot;registerNewRevisionOnSpecificProjectHandler&quot;, {
+				endPointId: this.webSocket.endPointId,
+				poid: poid
+			}, () =&gt; {
+				if (callback != null) {
+					callback();
+				}
+			});
+		});
+	}
+
+	registerNewExtendedDataOnRevisionHandler(roid, handler, callback) {
+		this.register(&quot;NotificationInterface&quot;, &quot;newExtendedData&quot;, handler, () =&gt; {
+			this.call(&quot;NotificationRegistryInterface&quot;, &quot;registerNewExtendedDataOnRevisionHandler&quot;, {
+				endPointId: this.webSocket.endPointId,
+				roid: roid
+			}, () =&gt; {
+				if (callback != null) {
+					callback();
+				}
+			});
+		});
+	}
+
+	registerNewUserHandler(handler, callback) {
+		this.register(&quot;NotificationInterface&quot;, &quot;newUser&quot;, handler, () =&gt; {
+			this.call(&quot;NotificationRegistryInterface&quot;, &quot;registerNewUserHandler&quot;, {
+				endPointId: this.webSocket.endPointId
+			}, () =&gt; {
+				if (callback != null) {
+					callback();
+				}
+			});
+		});
+	}
+
+	unregisterNewUserHandler(handler, callback) {
+		this.unregister(handler);
+		this.call(&quot;NotificationRegistryInterface&quot;, &quot;unregisterNewUserHandler&quot;, {
+			endPointId: this.webSocket.endPointId
+		}, () =&gt; {
+			if (callback != null) {
+				callback();
+			}
+		});
+	}
+
+	unregisterChangeProgressProjectHandler(poid, newHandler, closedHandler, callback) {
+		this.unregister(newHandler);
+		this.unregister(closedHandler);
+		this.call(&quot;NotificationRegistryInterface&quot;, &quot;unregisterChangeProgressOnProject&quot;, {
+			poid: poid,
+			endPointId: this.webSocket.endPointId
+		}, callback);
+	}
+
+	registerChangeProgressProjectHandler(poid, newHandler, closedHandler, callback) {
+		this.register(&quot;NotificationInterface&quot;, &quot;newProgressOnProjectTopic&quot;, newHandler, () =&gt; {
+			this.register(&quot;NotificationInterface&quot;, &quot;closedProgressOnProjectTopic&quot;, closedHandler, () =&gt; {
+				this.call(&quot;NotificationRegistryInterface&quot;, &quot;registerChangeProgressOnProject&quot;, {
+					poid: poid,
+					endPointId: this.webSocket.endPointId
+				}, () =&gt; {
+					if (callback != null) {
+						callback();
+					}
+				});
+			});
+		});
+	}
+
+	unregisterChangeProgressServerHandler(newHandler, closedHandler, callback) {
+		this.unregister(newHandler);
+		this.unregister(closedHandler);
+		if (this.webSocket.endPointId != null) {
+			this.call(&quot;NotificationRegistryInterface&quot;, &quot;unregisterChangeProgressOnServer&quot;, {
+				endPointId: this.webSocket.endPointId
+			}, callback);
+		}
+	}
+
+	registerChangeProgressServerHandler(newHandler, closedHandler, callback) {
+		this.register(&quot;NotificationInterface&quot;, &quot;newProgressOnServerTopic&quot;, newHandler, () =&gt; {
+			this.register(&quot;NotificationInterface&quot;, &quot;closedProgressOnServerTopic&quot;, closedHandler, () =&gt; {
+				this.call(&quot;NotificationRegistryInterface&quot;, &quot;registerChangeProgressOnServer&quot;, {
+					endPointId: this.webSocket.endPointId
+				}, () =&gt; {
+					if (callback != null) {
+						callback();
+					}
+				});
+			});
+		});
+	}
+
+	unregisterChangeProgressRevisionHandler(roid, newHandler, closedHandler, callback) {
+		this.unregister(newHandler);
+		this.unregister(closedHandler);
+		this.call(&quot;NotificationRegistryInterface&quot;, &quot;unregisterChangeProgressOnProject&quot;, {
+			roid: roid,
+			endPointId: this.webSocket.endPointId
+		}, callback);
+	}
+
+	registerChangeProgressRevisionHandler(poid, roid, newHandler, closedHandler, callback) {
+		this.register(&quot;NotificationInterface&quot;, &quot;newProgressOnRevisionTopic&quot;, newHandler, () =&gt; {
+			this.register(&quot;NotificationInterface&quot;, &quot;closedProgressOnRevisionTopic&quot;, closedHandler, () =&gt; {
+				this.call(&quot;NotificationRegistryInterface&quot;, &quot;registerChangeProgressOnRevision&quot;, {
+					poid: poid,
+					roid: roid,
+					endPointId: this.webSocket.endPointId
+				}, () =&gt; {
+					if (callback != null) {
+						callback();
+					}
+				});
+			});
+		});
+	}
+
+	registerNewProjectHandler(handler, callback) {
+		this.register(&quot;NotificationInterface&quot;, &quot;newProject&quot;, handler, () =&gt; {
+			this.call(&quot;NotificationRegistryInterface&quot;, &quot;registerNewProjectHandler&quot;, {
+				endPointId: this.webSocket.endPointId
+			}, () =&gt; {
+				if (callback != null) {
+					callback();
+				}
+			});
+		});
+	}
+
+	unregisterNewProjectHandler(handler, callback) {
+		this.unregister(handler);
+		if (this.webSocket.endPointId != null) {
+			this.call(&quot;NotificationRegistryInterface&quot;, &quot;unregisterNewProjectHandler&quot;, {
+				endPointId: this.webSocket.endPointId
+			}, () =&gt; {
+				if (callback != null) {
+					callback();
+				}
+			}, () =&gt; {
+				// Discard
+			});
+		}
+	}
+
+	unregisterNewRevisionOnSpecificProjectHandler(poid, handler, callback) {
+		this.unregister(handler);
+		this.call(&quot;NotificationRegistryInterface&quot;, &quot;unregisterNewRevisionOnSpecificProjectHandler&quot;, {
+			endPointId: this.webSocket.endPointId,
+			poid: poid
+		}, () =&gt; {
+			if (callback != null) {
+				callback();
+			}
+		}, () =&gt; {
+			// Discard
+		});
+	}
+
+	unregisterNewExtendedDataOnRevisionHandler(roid, handler, callback) {
+		this.unregister(handler);
+		this.call(&quot;NotificationRegistryInterface&quot;, &quot;unregisterNewExtendedDataOnRevisionHandler&quot;, {
+			endPointId: this.webSocket.endPointId,
+			roid: roid
+		}, () =&gt; {
+			if (callback != null) {
+				callback();
+			}
+		});
+	}
+
+	registerProgressHandler(topicId, handler, callback) {
+		this.register(&quot;NotificationInterface&quot;, &quot;progress&quot;, handler, () =&gt; {
+			this.call(&quot;NotificationRegistryInterface&quot;, &quot;registerProgressHandler&quot;, {
+				topicId: topicId,
+				endPointId: this.webSocket.endPointId
+			}, () =&gt; {
+				if (callback != null) {
+					callback();
+				} else {
+					this.call(&quot;NotificationRegistryInterface&quot;, &quot;getProgress&quot;, {
+						topicId: topicId
+					}, (state) =&gt; {
+						handler(topicId, state);
+					});
+				}
+			});
+		});
+	}
+
+	unregisterProgressHandler(topicId, handler, callback) {
+		this.unregister(handler);
+		this.call(&quot;NotificationRegistryInterface&quot;, &quot;unregisterProgressHandler&quot;, {
+			topicId: topicId,
+			endPointId: this.webSocket.endPointId
+		}, () =&gt; {}).done(callback);
+	}
+
+	unregister(listener) {
+		for (let i in this.listeners) {
+			for (let j in this.listeners[i]) {
+				const list = this.listeners[i][j];
+				for (let k = 0; k &lt; list.length; k++) {
+					if (list[k] === listener) {
+						list.splice(k, 1);
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	createRequest(interfaceName, method, data) {
+		let object = {};
+		object[&quot;interface&quot;] = interfaceName;
+		object.method = method;
+		for (var key in data) {
+			if (data[key] instanceof Set) {
+				// Convert ES6 Set to an array
+				data[key] = Array.from(data[key]);
+			}
+		}
+		object.parameters = data;
+
+		return object;
+	}
+
+	getJson(address, data, success, error) {
+		const xhr = new XMLHttpRequest();
+		xhr.open(&quot;POST&quot;, address);
+		xhr.onerror = () =&gt; {
+			if (error != null) {
+				error(&quot;Unknown network error&quot;);
+			}
+		};
+		xhr.setRequestHeader(&quot;Content-Type&quot;, &quot;application/json; charset=UTF-8&quot;);
+		xhr.onload = (jqXHR, textStatus, errorThrown) =&gt; {
+			if (xhr.status === 200) {
+				let data = &quot;&quot;;
+				try {
+					data = JSON.parse(xhr.responseText);
+				} catch (e) {
+					if (e instanceof SyntaxError) {
+						if (error != null) {
+							error(e);
+						} else {
+							this.notifier.setError(e);
+							console.error(e);
+						}
+					} else {
+						console.error(e);
+					}
+				}
+				success(data);
+			} else {
+				if (error != null) {
+					error(jqXHR, textStatus, errorThrown);
+				} else {
+					this.notifier.setError(textStatus);
+					console.error(jqXHR, textStatus, errorThrown);
+				}
+			}
+		};
+		xhr.send(JSON.stringify(data));
+	}
+
+	multiCall(requests, callback, errorCallback, showBusy, showDone, showError, connectWebSocket) {
+		if (!this.webSocket.connected &amp;&amp; this.token != null &amp;&amp; connectWebSocket) {
+			this.webSocket.connect().then(() =&gt; {
+				this.multiCall(requests, callback, errorCallback, showBusy, showDone, showError);
+			});
+			return;
+		}
+		const promise = new BimServerApiPromise();
+		let request = null;
+		if (requests.length == 1) {
+			request = requests[0];
+			if (this.interfaceMapping[request[0]] == null) {
+				this.log(&quot;Interface &quot; + request[0] + &quot; not found&quot;);
+			}
+			request = {
+				request: this.createRequest(this.interfaceMapping[request[0]], request[1], request[2])
+			};
+		} else if (requests.length &gt; 1) {
+			let requestObjects = [];
+			requests.forEach((request) =&gt; {
+				if (this.interfaceMapping[request[0]] == null) {
+					this.log(&quot;Interface &quot; + request[0] + &quot; not found&quot;);
+				}
+				requestObjects.push(this.createRequest(this.interfaceMapping[request[0]], request[1], request[2]));
+			});
+			request = {
+				requests: requestObjects
+			};
+		} else if (requests.length === 0) {
+			promise.fire();
+			callback();
+		}
+
+		//    		this.notifier.clear();
+
+		if (this.token != null) {
+			request.token = this.token;
+		}
+
+		let key = requests[0][1];
+		requests.forEach((item, index) =&gt; {
+			if (index &gt; 0) {
+				key += &quot;_&quot; + item;
+			}
+		});
+
+		let showedBusy = false;
+		if (showBusy) {
+			if (this.lastBusyTimeOut != null) {
+				clearTimeout(this.lastBusyTimeOut);
+				this.lastBusyTimeOut = null;
+			}
+			if (typeof window !== &apos;undefined&apos; &amp;&amp; window.setTimeout != null) {
+				this.lastBusyTimeOut = window.setTimeout(() =&gt; {
+					this.notifier.setInfo(this.translate(key + &quot;_BUSY&quot;), -1);
+					showedBusy = true;
+				}, 200);
+			}
+		}
+
+		//    		this.notifier.resetStatusQuick();
+
+		this.log(&quot;request&quot;, request);
+
+		this.getJson(this.address, request, (data) =&gt; {
+				this.log(&quot;response&quot;, data);
+				let errorsToReport = [];
+				if (requests.length == 1) {
+					if (showBusy) {
+						if (this.lastBusyTimeOut != null) {
+							clearTimeout(this.lastBusyTimeOut);
+						}
+					}
+					if (data.response.exception != null) {
+						if (showError) {
+							if (this.lastTimeOut != null) {
+								clearTimeout(this.lastTimeOut);
+							}
+							this.notifier.setError(data.response.exception.message);
+						} else {
+							if (showedBusy) {
+								this.notifier.resetStatus();
+							}
+						}
+					} else {
+						if (showDone) {
+							this.notifier.setSuccess(this.translate(key + &quot;_DONE&quot;), 5000);
+						} else {
+							if (showedBusy) {
+								this.notifier.resetStatus();
+							}
+						}
+					}
+				} else if (requests.length &gt; 1) {
+					data.responses.forEach((response) =&gt; {
+						if (response.exception != null) {
+							if (errorCallback == null) {
+								this.notifier.setError(response.exception.message);
+							} else {
+								errorsToReport.push(response.exception);
+							}
+						}
+					});
+				}
+				if (errorsToReport.length &gt; 0) {
+					errorCallback(errorsToReport);
+				} else {
+					if (requests.length == 1) {
+						callback(data.response);
+					} else if (requests.length &gt; 1) {
+						callback(data.responses);
+					}
+				}
+				promise.fire();
+			},
+			(jqXHR, textStatus, errorThrown) =&gt; {
+				if (textStatus == &quot;abort&quot;) {
+					// ignore
+				} else {
+					this.log(errorThrown);
+					this.log(textStatus);
+					this.log(jqXHR);
+					if (this.lastTimeOut != null) {
+						clearTimeout(this.lastTimeOut);
+					}
+					this.notifier.setError(this.translate(&quot;ERROR_REMOTE_METHOD_CALL&quot;));
+				}
+				if (callback != null) {
+					const result = {};
+					result.error = textStatus;
+					result.ok = false;
+					callback(result);
+				}
+				promise.fire();
+			});
+		return promise;
+	}
+
+	getModel(poid, roid, schema, deep, callback, name) {
+		const model = new Model(this, poid, roid, schema);
+		if (name != null) {
+			model.name = name;
+		}
+		model.load(deep, callback);
+		return model;
+	}
+
+	createModel(poid, callback) {
+		const model = new Model(this, poid);
+		model.init(callback);
+		return model;
+	}
+
+	callWithNoIndication(interfaceName, methodName, data, callback, errorCallback) {
+		return this.call(interfaceName, methodName, data, callback, errorCallback, false, false, false);
+	}
+
+	callWithFullIndication(interfaceName, methodName, data, callback) {
+		return this.call(interfaceName, methodName, data, callback, null, true, true, true);
+	}
+
+	callWithUserErrorIndication(action, data, callback) {
+		return this.call(null, null, data, callback, null, false, false, true);
+	}
+
+	callWithUserErrorAndDoneIndication(action, data, callback) {
+		return this.call(null, null, data, callback, null, false, true, true);
+	}
+
+	isA(schema, typeSubject, typeName) {
+		let isa = false;
+		if (typeSubject == typeName) {
+			return true;
+		}
+
+		let subject = this.schemas[schema][typeSubject];
+		if (typeSubject == &quot;GeometryInfo&quot; || typeSubject == &quot;GeometryData&quot;) {
+			subject = this.schemas.geometry[typeSubject];
+		}
+
+		if (subject == null) {
+			console.log(typeSubject, &quot;not found&quot;);
+		}
+		subject.superclasses.some((superclass) =&gt; {
+			if (superclass == typeName) {
+				isa = true;
+				return true;
+			}
+			if (this.isA(schema, superclass, typeName)) {
+				isa = true;
+				return true;
+			}
+			return false;
+		});
+		return isa;
+	}
+
+	initiateCheckin(project, deserializerOid, callback, errorCallback) {
+		this.callWithNoIndication(&quot;ServiceInterface&quot;, &quot;initiateCheckin&quot;, {
+			deserializerOid: deserializerOid,
+			poid: project.oid
+		}, (topicId) =&gt; {
+			if (callback != null) {
+				callback(topicId);
+			}
+		}, (error) =&gt; {
+			errorCallback(error);
+		});
+	}
+
+	checkin(topicId, project, comment, file, deserializerOid, progressListener, success, error) {
+		const xhr = new XMLHttpRequest();
+
+		xhr.upload.addEventListener(&quot;progress&quot;,
+			(e) =&gt; {
+				if (e.lengthComputable) {
+					const percentage = Math.round((e.loaded * 100) / e.total);
+					progressListener(percentage);
+				}
+			}, false);
+
+		xhr.addEventListener(&quot;load&quot;, (event) =&gt; {
+			const result = JSON.parse(xhr.response);
+
+			if (result.exception == null) {
+				if (success != null) {
+					success(result.checkinid);
+				}
+			} else {
+				if (error == null) {
+					console.error(result.exception);
+				} else {
+					error(result.exception);
+				}
+			}
+		}, false);
+
+		xhr.open(&quot;POST&quot;, this.baseUrl + &quot;/upload&quot;);
+
+		const formData = new FormData();
+
+		formData.append(&quot;token&quot;, this.token);
+		formData.append(&quot;deserializerOid&quot;, deserializerOid);
+		formData.append(&quot;comment&quot;, comment);
+		formData.append(&quot;poid&quot;, project.oid);
+		formData.append(&quot;topicId&quot;, topicId);
+		formData.append(&quot;file&quot;, file);
+
+		xhr.send(formData);
+	}
+
+	addExtendedData(roid, title, schema, data, success, error) {
+		const reader = new FileReader();
+		const xhr = new XMLHttpRequest();
+
+		xhr.addEventListener(&quot;load&quot;, (e) =&gt; {
+			const result = JSON.parse(xhr.response);
+
+			if (result.exception == null) {
+				this.call(&quot;ServiceInterface&quot;, &quot;addExtendedDataToRevision&quot;, {
+					roid: roid,
+					extendedData: {
+						__type: &quot;SExtendedData&quot;,
+						title: title,
+						schemaId: schema.oid,
+						fileId: result.fileId
+					}
+				}, () =&gt; {
+					success(result.checkinid);
+				});
+			} else {
+				error(result.exception);
+			}
+		}, false);
+		xhr.open(&quot;POST&quot;, this.baseUrl + &quot;/upload&quot;);
+		if (typeof data == &quot;File&quot;) {
+			reader.onload = () =&gt; {
+				const formData = new FormData();
+				formData.append(&quot;action&quot;, &quot;file&quot;);
+				formData.append(&quot;token&quot;, this.token);
+
+				const blob = new Blob([file], {
+					type: schema.contentType
+				});
+
+				formData.append(&quot;file&quot;, blob, file.name);
+				xhr.send(formData);
+			};
+			reader.readAsBinaryString(file);
+		} else {
+			// Assuming data is a Blob
+			const formData = new FormData();
+			formData.append(&quot;action&quot;, &quot;file&quot;);
+			formData.append(&quot;token&quot;, this.token);
+			formData.append(&quot;file&quot;, data, data.name);
+			xhr.send(formData);
+		}
+	}
+
+	setToken(token, callback, errorCallback) {
+		this.token = token;
+		this.call(&quot;AuthInterface&quot;, &quot;getLoggedInUser&quot;, {}, (data) =&gt; {
+			this.user = data;
+			this.webSocket.connect(callback);
+		}, () =&gt; {
+			if (errorCallback != null) {
+				errorCallback();
+			}
+		}, true, false, true, false);
+	}
+	
+	callWithWebsocket(interfaceName, methodName, data) {
+		var promise = new Promise((resolve, reject) =&gt; {
+			var id = this.idCounter++;
+			this.websocketCalls.set(id, (response) =&gt; {
+				resolve(response.response.result);
+			});
+			var request = {
+				id: id,
+				request: {
+					interface: interfaceName,
+					method: methodName,
+					parameters: data
+				}
+			};
+			if (this.token != null) {
+				request.token = this.token;
+			}
+			this.webSocket.send(request);
+		});
+		return promise;
+	}
+
+	/**
+	 * Call a single method, this method delegates to the multiCall method
+	 * @param {string} interfaceName - Interface name, e.g. &quot;ServiceInterface&quot;
+	 * @param {string} methodName - Methodname, e.g. &quot;addProject&quot;
+	 * @param {Object} data - Object with a field per arument
+	 * @param {Function} callback - Function to callback, first argument in callback will be the returned object
+	 * @param {Function} errorCallback - Function to callback on error
+	 * @param {boolean} showBusy - Whether to show busy indication
+	 * @param {boolean} showDone - Whether to show done indication
+	 * @param {boolean} showError - Whether to show errors
+	 * 
+	 */
+	call(interfaceName, methodName, data, callback, errorCallback, showBusy = true, showDone = false, showError = true, connectWebSocket = true) {
+		return this.multiCall([
+			[
+				interfaceName,
+				methodName,
+				data
+			]
+		], (data) =&gt; {
+			if (data.exception == null) {
+				if (callback != null) {
+					callback(data.result);
+				}
+			} else {
+				if (errorCallback != null) {
+					errorCallback(data.exception);
+				}
+			}
+		}, errorCallback, showBusy, showDone, showError, connectWebSocket);
+	}
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

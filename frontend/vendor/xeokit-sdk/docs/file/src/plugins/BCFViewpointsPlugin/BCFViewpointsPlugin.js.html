@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {Plugin} from &quot;../../viewer/Plugin.js&quot;;
+import {SectionPlane} from &quot;../../viewer/scene/sectionPlane/SectionPlane.js&quot;;
+import {math} from &quot;../../viewer/scene/math/math.js&quot;;
+
+const tempVec3 = math.vec3();
+
+/**
+ * {@link Viewer} plugin that saves and loads BCF viewpoints as JSON objects.
+ *
+ * BCF is a format for managing issues on a BIM project. This plugin&apos;s viewpoints conform to
+ * the &lt;a href=&quot;https://github.com/buildingSMART/BCF-API&quot;&gt;BCF Version 2.1&lt;/a&gt; specification.
+ *
+ * ## Saving a BCF Viewpoint
+ *
+ * In the example below we&apos;ll create a {@link Viewer}, load a glTF model into it using a {@link GLTFLoaderPlugin},
+ * slice the model in half using a {@link SectionPlanesPlugin}, then use a {@link BCFViewpointsPlugin#getViewpoint}
+ * to save a viewpoint to JSON, which we&apos;ll log to the JavaScript developer console.
+ *
+ * [[Run this example](http://xeokit.github.io/xeokit-sdk/examples/#BCF_SaveViewpoint)]
+ *
+ * ````javascript
+ * import {Viewer} from &quot;../src/viewer/Viewer.js&quot;;
+ * import {GLTFLoaderPlugin} from &quot;../src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js&quot;;
+ * import {SectionPlanesPlugin} from &quot;../src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js&quot;;
+ * import {BCFViewpointsPlugin} from &quot;../src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js&quot;;
+ *
+ * // Create a Viewer
+ * const viewer = new Viewer({
+ *      canvasId: &quot;myCanvas&quot;,
+ *      transparent: true
+ * });
+ *
+ * // Add a GLTFLoaderPlugin
+ * const gltfLoader = new GLTFLoaderPlugin(viewer);
+ *
+ * // Add a SectionPlanesPlugin
+ * const sectionPlanes = new SectionPlanesPlugin(viewer);
+ *
+ * // Add a BCFViewpointsPlugin
+ * const bcfViewpoints = new BCFViewpointsPlugin(viewer);
+ *
+ * // Load a glTF model
+ * const modelNode = gltfLoader.load({
+ *      id: &quot;myModel&quot;,
+ *      src: &quot;./models/gltf/schependomlaan/scene.gltf&quot;,
+ *      metaModelSrc: &quot;./metaModels/schependomlaan/metaModel.json&quot;, // Creates a MetaObject instances in scene.metaScene.metaObjects
+ *      lambertMaterial: true,
+ *      edges: true // Emphasise edges
+ * });
+ *
+ * // Slice it in half
+ * sectionPlanes.createSectionPlane({
+ *      id: &quot;myClip&quot;,
+ *      pos: [0, 0, 0],
+ *      dir: [0.5, 0.0, 0.5]
+ * });
+ *
+ * // When model is loaded, set camera, select some objects and capture a BCF viewpoint to the console
+ * modelNode.on(&quot;loaded&quot;, () =&gt; {
+ *
+ *      const scene = viewer.scene;
+ *      const camera = scene.camera;
+ *
+ *      camera.eye = [-2.37, 18.97, -26.12];
+ *      camera.look = [10.97, 5.82, -11.22];
+ *      camera.up = [0.36, 0.83, 0.40];
+ *
+ *      scene.setObjectsSelected([
+ *          &quot;3b2U496P5Ebhz5FROhTwFH&quot;,
+ *          &quot;2MGtJUm9nD$Re1_MDIv0g2&quot;,
+ *          &quot;3IbuwYOm5EV9Q6cXmwVWqd&quot;,
+ *          &quot;3lhisrBxL8xgLCRdxNG$2v&quot;,
+ *          &quot;1uDn0xT8LBkP15zQc9MVDW&quot;
+ *      ], true);
+ *
+ *      const viewpoint = bcfViewpoints.getViewpoint();
+ *      const viewpointStr = JSON.stringify(viewpoint, null, 4);
+ *
+ *      console.log(viewpointStr);
+ * });
+ * ````
+ *
+ * ## Saving View Setup Hints
+ *
+ * BCFViewpointsPlugin can optionally save hints in the viewpoint, which indicate how to set up the view when
+ * loading it again.
+ *
+ * Here&apos;s the {@link BCFViewpointsPlugin#getViewpoint} call again, this time saving some hints:
+ *
+ * ````javascript
+ * const viewpoint = bcfViewpoints.getViewpoint({ // Options
+ *     spacesVisible: true, // Force IfcSpace types visible in the viewpoint (default is false)
+ *     spaceBoundariesVisible: false, // Show IfcSpace boundaries in the viewpoint (default is false)
+ *     openingsVisible: true // Force IfcOpening types visible in the viewpoint (default is false)
+ * });
+ * ````
+ *
+ * ## Loading a BCF Viewpoint
+ *
+ * Assuming that we have our BCF viewpoint in a JSON object, let&apos;s now restore it with {@link BCFViewpointsPlugin#setViewpoint}:
+ *
+ * ````javascript
+ * bcfViewpoints.setViewpoint(viewpoint);
+ * ````
+ *
+ * ## Handling BCF Incompatibility with xeokit&apos;s Camera
+ *
+ * xeokit&apos;s {@link Camera#look} is the current 3D *point-of-interest* (POI).
+ *
+ * A BCF viewpoint, however, has a direction vector instead of a POI, and so {@link BCFViewpointsPlugin#getViewpoint} saves
+ * xeokit&apos;s POI as a normalized vector from {@link Camera#eye} to {@link Camera#look}, which unfortunately loses
+ * that positional information. Loading the viewpoint with {@link BCFViewpointsPlugin#setViewpoint} will restore {@link Camera#look} to
+ * the viewpoint&apos;s camera position, offset by the normalized vector.
+ *
+ * As shown below, providing a ````rayCast```` option to ````setViewpoint```` will set {@link Camera#look} to the closest
+ * surface intersection on the direction vector. Internally, ````setViewpoint```` supports this option by firing a ray
+ * along the vector, and if that hits an {@link Entity}, sets {@link Camera#look} to ray&apos;s intersection point with the
+ * Entity&apos;s surface.
+ *
+ * ````javascript
+ * bcfViewpoints.setViewpoint(viewpoint, {
+ *      rayCast: true // &lt;&lt;--------------- Attempt to set Camera#look to surface intersection point (default)
+ * });
+ * ````
+ *
+ * @class BCFViewpointsPlugin
+ */
+class BCFViewpointsPlugin extends Plugin {
+
+    /**
+     * @constructor
+     * @param {Viewer} viewer The Viewer.
+     * @param {Object} cfg  Plugin configuration.
+     * @param {String} [cfg.id=&quot;BCFViewpoints&quot;] Optional ID for this plugin, so that we can find it within {@link Viewer#plugins}.
+     * @param {String} [cfg.originatingSystem] Identifies the originating system for BCF records.
+     * @param {String} [cfg.authoringTool] Identifies the authoring tool for BCF records.
+     */
+    constructor(viewer, cfg = {}) {
+
+        super(&quot;BCFViewpoints&quot;, viewer, cfg);
+
+        /**
+         * Identifies the originating system to include in BCF viewpoints saved by this plugin.
+         * @property originatingSystem
+         * @type {string}
+         */
+        this.originatingSystem = cfg.originatingSystem || &quot;xeokit&quot;;
+
+        /**
+         * Identifies the authoring tool to include in BCF viewpoints saved by this plugin.
+         * @property authoringTool
+         * @type {string}
+         */
+        this.authoringTool = cfg.authoringTool || &quot;xeokit&quot;;
+    }
+
+    /**
+     * Saves viewer state to a BCF viewpoint.
+     *
+     * Note that xeokit&apos;s {@link Camera#look} is the **point-of-interest**, whereas the BCF ````camera_direction```` is a
+     * direction vector. Therefore, we save ````camera_direction```` as the vector from {@link Camera#eye} to {@link Camera#look}.
+     *
+     * @param {*} [options] Options for getting the viewpoint.
+     * @param {Boolean} [options.spacesVisible=false] Indicates whether ````IfcSpace```` types should be forced visible in the viewpoint.
+     * @param {Boolean} [options.openingsVisible=false] Indicates whether ````IfcOpening```` types should be forced visible in the viewpoint.
+     * @param {Boolean} [options.spaceBoundariesVisible=false] Indicates whether the boundaries of ````IfcSpace```` types should be visible in the viewpoint.
+     * @returns {*} BCF JSON viewpoint object
+     * @example
+     *
+     * const viewer = new Viewer();
+     *
+     * const bcfPlugin = new BCFPlugin(viewer, {
+     *     //...
+     * });
+     *
+     * const viewpoint = bcfPlugin.getViewpoint({ // Options - see constructor
+     *     spacesVisible: false,          // Default
+     *     spaceBoundariesVisible: false, // Default
+     *     openingsVisible: false         // Default
+     * });
+     *
+     * // viewpoint will resemble the following:
+     *
+     * {
+     *     perspective_camera: {
+     *         camera_view_point: {
+     *             x: 0.0,
+     *             y: 0.0,
+     *             z: 0.0
+     *         },
+     *         camera_direction: {
+     *             x: 1.0,
+     *             y: 1.0,
+     *             z: 2.0
+     *         },
+     *         camera_up_vector: {
+     *             x: 0.0,
+     *             y: 0.0,
+     *             z: 1.0
+     *         },
+     *         field_of_view: 90.0
+     *     },
+     *     lines: [],
+     *     clipping_planes: [{
+     *         location: {
+     *             x: 0.5,
+     *             y: 0.5,
+     *             z: 0.5
+     *         },
+     *         direction: {
+     *             x: 1.0,
+     *             y: 0.0,
+     *             z: 0.0
+     *         }
+     *     }],
+     *     bitmaps: [],
+     *     snapshot: {
+     *         snapshot_type: png,
+     *         snapshot_data: &quot;data:image/png;base64,......&quot;
+     *     },
+     *     components: {
+     *         visibility: {
+     *             default_visibility: false,
+     *             exceptions: [{
+     *                 ifc_guid: 4$cshxZO9AJBebsni$z9Yk,
+     *                 originating_system: xeokit.io,
+     *                 authoring_tool_id: xeokit/v1.0
+     *             }]
+     *        },
+     *         selection: [{
+     *            ifc_guid: &quot;4$cshxZO9AJBebsni$z9Yk&quot;,
+     *         }]
+     *     }
+     * }
+     */
+    getViewpoint(options={}) {
+
+        const scene = this.viewer.scene;
+        const camera = scene.camera;
+
+        let bcfViewpoint = {};
+
+        // Camera
+
+        const lookDirection = math.normalizeVec3(math.subVec3(camera.look, camera.eye, math.vec3()));
+
+        bcfViewpoint.perspective_camera = {
+            camera_view_point: xyzArrayToObject(camera.eye),
+            camera_direction: xyzArrayToObject(lookDirection),
+            camera_up_vector: xyzArrayToObject(camera.up),
+            field_of_view: camera.perspective.fov,
+        };
+
+        bcfViewpoint.orthogonal_camera = {
+            camera_view_point: xyzArrayToObject(camera.eye),
+            camera_direction: xyzArrayToObject(lookDirection),
+            camera_up_vector: xyzArrayToObject(camera.up),
+            view_to_world_scale: camera.ortho.scale,
+        };
+
+        bcfViewpoint.lines = [];
+        bcfViewpoint.bitmaps = [];
+
+        // Clipping planes
+
+        bcfViewpoint.clipping_planes = [];
+        const sectionPlanes = scene.sectionPlanes;
+        for (let id in sectionPlanes) {
+            if (sectionPlanes.hasOwnProperty(id)) {
+                let sectionPlane = sectionPlanes[id];
+                bcfViewpoint.clipping_planes.push({
+                    location: xyzArrayToObject(sectionPlane.pos),
+                    direction: xyzArrayToObject(sectionPlane.dir)
+                });
+            }
+        }
+
+        // Entity states
+
+        bcfViewpoint.components = {
+            visibility: {
+                view_setup_hints: {
+                    spaces_visible: !!options.spacesVisible,
+                    space_boundaries_visible: !!options.spaceBoundariesVisible,
+                    openings_visible: !!options.openingsVisible
+                }
+            }
+        };
+
+        const objectIds = scene.objectIds;
+        const visibleObjects = scene.visibleObjects;
+        const visibleObjectIds = scene.visibleObjectIds;
+        const invisibleObjectIds = objectIds.filter(id =&gt; !visibleObjects[id]);
+        const selectedObjectIds = scene.selectedObjectIds;
+
+        if (visibleObjectIds.length &lt; invisibleObjectIds.length) {
+            bcfViewpoint.components.visibility.exceptions = visibleObjectIds.map(el =&gt; this._objectIdToComponent(el));
+            bcfViewpoint.components.visibility.default_visibility = false;
+        } else {
+            bcfViewpoint.components.visibility.exceptions = invisibleObjectIds.map(el =&gt; this._objectIdToComponent(el));
+            bcfViewpoint.components.visibility.default_visibility = true;
+        }
+
+        bcfViewpoint.components.selection = selectedObjectIds.map(el =&gt; this._objectIdToComponent(el));
+
+        bcfViewpoint.snapshot = {
+            snapshot_type: &quot;png&quot;,
+            snapshot_data: this.viewer.getSnapshot({format: &quot;png&quot;})
+        };
+
+        return bcfViewpoint;
+    }
+
+    _objectIdToComponent(objectId) {
+        return {
+            ifc_guid: objectId,
+            originating_system: this.originatingSystem || &quot;xeokit.io&quot;,
+            authoring_tool_id: this.authoringTool || &quot;xeokit.io&quot;
+        };
+    }
+
+    /**
+     * Sets viewer state to the given BCF viewpoint.
+     *
+     * Note that xeokit&apos;s {@link Camera#look} is the **point-of-interest**, whereas the BCF ````camera_direction```` is a
+     * direction vector. Therefore, when loading a BCF viewpoint, we set {@link Camera#look} to the absolute position
+     * obtained by offsetting the BCF ````camera_view_point````  along ````camera_direction````.
+     *
+     * When loading a viewpoint, we also have the option to find {@link Camera#look} as the closest point of intersection
+     * (on the surface of any visible and pickable {@link Entity}) with a 3D ray fired from ````camera_view_point```` in
+     * the direction of ````camera_direction````.
+     *
+     * @param {*} bcfViewpoint  BCF JSON viewpoint object or &quot;reset&quot; / &quot;RESET&quot; to reset the viewer, which clears SectionPlanes,
+     * shows default visible entities and restores camera to initial default position.
+     * @param {*} [options] Options for setting the viewpoint.
+     * @param {Boolean} [options.rayCast=true] When ````true```` (default), will attempt to set {@link Camera#look} to the closest
+     * point of surface intersection with a ray fired from the BCF ````camera_view_point```` in the direction of ````camera_direction````.
+     */
+    setViewpoint(bcfViewpoint, options = {}) {
+
+        if (!bcfViewpoint) {
+            return;
+        }
+
+        const viewer = this.viewer;
+        const scene = viewer.scene;
+        const camera = scene.camera;
+        const rayCast = (options.rayCast !== false);
+
+        scene.clearSectionPlanes();
+
+        if (bcfViewpoint.clipping_planes) {
+            bcfViewpoint.clipping_planes.forEach(function (e) {
+                new SectionPlane(scene, {
+                    pos: xyzObjectToArray(e.location, tempVec3),
+                    dir: xyzObjectToArray(e.direction, tempVec3)
+                });
+            });
+        }
+
+        if (bcfViewpoint.components) {
+
+            if (!bcfViewpoint.components.visibility.default_visibility) {
+                scene.setObjectsVisible(scene.objectIds, false);
+                bcfViewpoint.components.visibility.exceptions.forEach(x =&gt; scene.setObjectsVisible(x.ifc_guid, true));
+            } else {
+                scene.setObjectsVisible(scene.objectIds, true);
+                bcfViewpoint.components.visibility.exceptions.forEach(x =&gt; scene.setObjectsVisible(x.ifc_guid, false));
+            }
+
+            const view_setup_hints = bcfViewpoint.components.visibility.view_setup_hints;
+            if (view_setup_hints) {
+                if (view_setup_hints.spaces_visible !== undefined) {
+                    scene.setObjectsVisible(viewer.metaScene.getObjectIDsByType(&quot;IfcSpace&quot;), !!view_setup_hints.spaces_visible);
+                }
+                if (view_setup_hints.openings_visible !== undefined) {
+                    scene.setObjectsVisible(viewer.metaScene.getObjectIDsByType(&quot;IfcOpening&quot;), !!view_setup_hints.openings_visible);
+                }
+                if (view_setup_hints.space_boundaries_visible !== undefined) {
+                    // TODO: Ability to show boundaries
+                }
+            }
+        }
+
+        if (bcfViewpoint.components.selection) {
+            scene.setObjectsSelected(scene.selectedObjectIds, false);
+            Object.keys(scene.models).forEach(() =&gt; {
+                bcfViewpoint.components.selection.forEach(x =&gt; scene.setObjectsSelected(x.ifc_guid, true));
+            });
+        }
+
+        if (bcfViewpoint.perspective_camera || bcfViewpoint.orthogonal_camera) {
+
+            let eye;
+            let look;
+            let up;
+
+            if (bcfViewpoint.perspective_camera) {
+
+                eye = xyzObjectToArray(bcfViewpoint.perspective_camera.camera_view_point, tempVec3);
+                look = xyzObjectToArray(bcfViewpoint.perspective_camera.camera_direction, tempVec3);
+                up = xyzObjectToArray(bcfViewpoint.perspective_camera.camera_up_vector, tempVec3);
+
+                camera.perspective.fov = bcfViewpoint.perspective_camera.field_of_view;
+            }
+
+            if (bcfViewpoint.orthogonal_camera) {
+
+                eye = xyzObjectToArray(bcfViewpoint.orthogonal_camera.camera_view_point, tempVec3);
+                look = xyzObjectToArray(bcfViewpoint.orthogonal_camera.camera_direction, tempVec3);
+                up = xyzObjectToArray(bcfViewpoint.orthogonal_camera.camera_up_vector, tempVec3);
+
+                camera.ortho.scale = bcfViewpoint.orthogonal_camera.field_of_view;
+            }
+
+            if (rayCast) {
+
+                const hit = scene.pick({
+                    pickSurface: true,  // &lt;&lt;------ This causes picking to find the intersection point on the entity
+                    origin: eye,
+                    direction: look
+                });
+
+                camera.eye = eye;
+                camera.look = (hit ? hit.worldPos : math.addVec3(eye, look, tempVec3));
+                camera.up = up;
+
+            } else {
+
+                camera.eye = eye;
+                camera.look = math.addVec3(eye, look, tempVec3);
+                camera.up = up;
+            }
+        }
+    }
+
+    /**
+     * Destroys this BCFViewpointsPlugin.
+     */
+    destroy() {
+        super.destroy();
+    }
+}
+
+function xyzArrayToObject(arr) {
+    return {&quot;x&quot;: arr[0], &quot;y&quot;: arr[1], &quot;z&quot;: arr[2]};
+}
+
+function xyzObjectToArray(xyz, arry) {
+    arry = new Float32Array(3);
+    arry[0] = xyz.x;
+    arry[1] = xyz.y;
+    arry[2] = xyz.z;
+    return arry;
+}
+
+export {BCFViewpointsPlugin}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

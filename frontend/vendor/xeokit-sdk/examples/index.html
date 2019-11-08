@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>xeokit - Examples</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800,900,700,600,500|Roboto:100,300,400,500,700,900'
+          rel='stylesheet' type='text/css'>
+
+    <link href="css/styles.css" rel="stylesheet"/>
+    <link href="libs/perfect-scrollbar.css" rel="stylesheet"/>
+    <script src="libs/perfect-scrollbar.min.js"></script>
+
+</head>
+<body>
+
+<div id="contents" class="container">
+    <div id="list" class="content">
+        <h1><a href="http://xeokit.io">xeokit</a> / Examples</h1>
+    </div>
+</div>
+
+<iframe id="viewer"></iframe>
+
+<script>
+
+    window.onload = function () {
+        var div = document.getElementById('contents');
+        Ps.initialize(div);
+    };
+    var files = {
+
+        "Annotations": [
+            "#Annotating models with 3D labels",
+            "annotations_clickShowLabels",
+            "annotations_hoverShowLabels",
+            "annotations_clickFlyToPosition",
+            "annotations_createWithMouse",
+            "annotations_externalElements"
+        ],
+
+        "Serverless BIM": [
+
+            "#Loading IFC models from .xkt files",
+            "BIMOffline_XKT_Duplex",
+            "BIMOffline_XKT_Schependomlaan",
+            "BIMOffline_XKT_OTCConferenceCenter",
+            "BIMOffline_XKT_includeTypes",
+            "BIMOffline_XKT_objectDefaults",
+            "BIMOffline_XKT_metadata_Schependomlaan",
+
+            "#Loading BIM models from glTF files",
+            "BIMOffline_glTF_Duplex",
+            "BIMOffline_glTF_Schependomlaan",
+            "BIMOffline_glTF_OTCConferenceCenter",
+            "BIMOffline_glTF_includeTypes_PlanView",
+            "BIMOffline_glTF_objectDefaults",
+            "BIMOffline_glTF_metadata_Schependomlaan"
+        ],
+
+        "BIMServer": [
+
+            "#Loading models from the xeolabs BIMServer v1.5.120 instance",
+
+            "BIMServer_Schependomlaan",
+
+            "#Custom initial object states",
+
+            "BIMServer_objectDefaults"
+        ],
+
+        "BCF": [
+            "#Saving and loading BCF viewpoints",
+            "BCF_SaveViewpoint",
+            "BCF_LoadViewpoint",
+            "BCF_LoadViewpoint_withSectionPlanesPlugin"
+        ],
+
+        "Camera": [
+            "camera_CameraPathAnimation",
+            "camera_fitToModel",
+            "camera_CameraFlightAnimation_projection"
+        ],
+
+        "Geometry": [
+
+            "#Geometry components",
+            "geometry_VBOGeometry",
+            "geometry_ReadableGeometry",
+
+            "#Geometry builders",
+            "geometry_builders_buildBoxGeometry",
+            "geometry_builders_buildCylinderGeometry",
+            "geometry_builders_buildSphereGeometry",
+            "geometry_builders_buildTorusGeometry",
+            "geometry_builders_buildVectorTextGeometry",
+
+            "#Geometry loaders",
+            "geometry_loaders_loadOBJGeometry",
+            "geometry_loaders_load3DSGeometry"
+        ],
+
+        "Gizmos": [
+            "#Gizmos",
+            "gizmos_NavCubePlugin",
+            "gizmos_NavCubePlugin_customColors",
+            "gizmos_AxisGizmoPlugin",
+            "gizmos_SectionPlanesPlugin",
+            "gizmos_SectionPlanesPlugin_getSnapshot"
+        ],
+
+        "Lights": [
+            "#Light sources",
+            "lights_AmbientLight",
+
+            "lights_DirLight_view",
+            "lights_DirLight_world",
+
+            "lights_PointLight_view",
+            "lights_PointLight_world"
+        ],
+
+        "Loaders": [
+
+            "#Loading models from xeokit .XKT format",
+            "loading_XKT_Duplex",
+            "loading_XKT_Duplex_transform",
+            "loading_XKT_Schependomlaan",
+            "loading_XKT_OTCConferenceCenter",
+            "loading_XKT_WestRiverSideHospital",
+            "loading_XKT_dataSource",
+
+            "#Loading models from various formats",
+            "loading_3DXML_Widget",
+            "loading_glTF_Duplex_transform",
+            "loading_glTF_Schependomlaan",
+            "loading_glTF_Schependomlaan_lowPerf",
+            "loading_glTF_dataSource",
+            "loading_OBJ_SportsCar",
+            "loading_STL_SpurGear",
+
+            "#Loading multiple models, from various formats",
+            "loading_MultipleModels"
+        ],
+
+        "Materials": [
+
+            "#Material components",
+            "materials_PhongMaterial",
+            "materials_MetallicMaterial",
+            "materials_LambertMaterial",
+            "materials_EdgeMaterial",
+            "materials_EmphasisMaterial",
+
+            "#Texture maps",
+            "materials_Texture",
+
+            "#Fresnel effects",
+            "materials_Fresnel"
+        ],
+
+        "Measurements": [
+
+            "#Measuring angles",
+            "measurements_angle_modelWithMeasurements",
+            "measurements_angle_createWithMouse",
+
+            "#Measuring distances",
+            "measurements_distance_modelWithMeasurements",
+            "measurements_distance_createWithMouse",
+            "measurements_distance_unitsAndScale"
+        ],
+
+        "Picking": [
+            "#Selecting scene content",
+            "picking_canvas_mesh_colorize",
+            "picking_canvas_mesh_highlight",
+            "picking_canvas_mesh_select",
+            "picking_canvas_surface",
+
+            "picking_ray_mesh",
+            "picking_ray_surface",
+            "picking_ray_matrix"
+        ],
+
+        "Scene Representations": [
+
+            "#Standard representation",
+            "sceneRepresentation_SceneGraph",
+            "sceneRepresentation_SceneGraph_metadata",
+
+            // ,
+            // "sceneGraph_SceneGraphWithModels",
+
+            "#High-performance representation",
+            "sceneRepresentation_PerformanceModel_instancing",
+            "sceneRepresentation_PerformanceModel_instancing_transform",
+            "sceneRepresentation_PerformanceModel_instancing_benchmark",
+            "sceneRepresentation_PerformanceModel_batching",
+            "sceneRepresentation_PerformanceModel_batching_transform",
+            "sceneRepresentation_PerformanceModel_batching_benchmark",
+            "sceneRepresentation_PerformanceModel_batching_benchmark_tiles",
+            "sceneRepresentation_PerformanceModel_metadata"
+        ],
+
+        "Screenshots": [
+            "screenshots_png_getSnapshot",
+            "gizmos_SectionPlanesPlugin_getSnapshot"
+        ],
+
+        "Section Planes": [
+            "gizmos_SectionPlanesPlugin",
+            "gizmos_SectionPlanesPlugin_getSnapshot"
+        ],
+
+        "Spinner": [
+            "spinner_custom"
+        ],
+
+        "Storey Views": [
+
+            "#Setting up 3D views of storeys",
+
+            "storeyViews_StoreyViewsPlugin_showStoreyObjects",
+            "storeyViews_StoreyViewsPlugin_gotoStoreyCamera",
+            "storeyViews_StoreyViewsPlugin_gotoStoreyCamera2",
+
+            "#Creating interactive 2D plan views",
+
+            "storeyViews_StoreyViewsPlugin_createStoreyMap",
+            "storeyViews_StoreyViewsPlugin_pickStoreyMap",
+
+            "#UX Recipes",
+
+            "storeyViews_StoreyViewsPlugin_recipe1",
+            "storeyViews_StoreyViewsPlugin_recipe2",
+            "storeyViews_StoreyViewsPlugin_recipe3",
+            "storeyViews_StoreyViewsPlugin_recipe4"
+        ]
+    };
+
+    //
+
+    var list = document.getElementById('list');
+    var viewer = document.getElementById('viewer');
+
+    var container = document.createElement('div');
+    list.appendChild(container);
+
+    var sourceButton = document.createElement('div');
+    sourceButton.id = 'sourceButton';
+    sourceButton.textContent = 'View source';
+
+    sourceButton.addEventListener('click', function (event) {
+        window.open('https://github.com/xeokit/xeokit-sdk/blob/master/examples/' + selected + '.html');
+    }, false);
+
+    sourceButton.style.display = 'none';
+    document.body.appendChild(sourceButton);
+
+    var catDivs = {};
+    var divs = {};
+    var selected = null;
+    var index = 1;
+    var indexStr;
+
+    // Table of contents
+    var div = document.createElement('h2');
+    div.textContent = "Contents";
+
+    container.appendChild(div);
+    container.appendChild(document.createElement('hr'));
+
+    for (var key in files) {
+        var section = files[key];
+        var div = document.createElement('div');
+        div.className = 'link';
+        indexStr = "" + index++ + ".";
+        for (var i = indexStr.length, len = 5; i < len; i++) {
+            indexStr += ".";
+        }
+        div.textContent = indexStr + key;
+        div.addEventListener('click', (function () {
+            var k = key;
+            return function () {
+                catDivs[k].scrollIntoView();
+            }
+        })());
+        container.appendChild(div);
+    }
+
+    container.appendChild(document.createElement('hr'));
+
+    _index = 1;
+
+    var clickedFile = null;
+
+    for (var key in files) {
+        var section = files[key];
+        var div = document.createElement('h2');
+        div.textContent = _index++ + ". " + key;
+        container.appendChild(div);
+        catDivs[key] = div;
+        for (var i = 0; i < section.length; i++) {
+            var file = section[i];
+            if (file.charAt(0) == "#") {
+                var div = document.createElement('div');
+                div.textContent = "// " + file.substring(1);
+                //div.textContent = "";
+                div.className = (i == 0 ? 'infoFirst' : 'info');
+                container.appendChild(div);
+                continue;
+            }
+            (function (file) {
+                var name = file.split('_');
+                name.shift();
+                name = name.join(' / ');
+                var div = document.createElement('div');
+                div.className = 'link';
+                div.textContent = name; // expandCamel(name);
+                div.addEventListener('click', function () {
+                    clickedFile = file;
+                    window.location.hash = "#" + file;
+                });
+                container.appendChild(div);
+                divs[file] = div;
+            })(file);
+        }
+    }
+
+    function expandCamel(str) {
+        return str.replace(/([A-Z])/g, function ($1) {
+            return " " + $1.toLowerCase();
+        });
+    }
+
+    var load = function (file) {
+
+        if (file.indexOf(".html", file.length - 5) !== -1) {
+            window.location = "./" + file + ".html";
+            return;
+        }
+
+        if (selected !== null) divs[selected].className = 'link';
+        divs[file].className = 'link selected';
+        window.location.hash = file;
+        viewer.src = file + '.html';
+        viewer.focus();
+        sourceButton.style.display = '';
+        selected = file;
+        if (clickedFile !== file) {
+            scrollIntoView(divs[file]);
+        }
+        clickedFile = null;
+    };
+
+    if (window.location.hash !== '') {
+        load(window.location.hash.substring(1));
+    }
+
+    var hash = window.location.hash;
+
+    window.setInterval(function () {
+        if (window.location.hash != hash) {
+            load(window.location.hash.substring(1));
+            hash = window.location.hash;
+        }
+    }, 200);
+
+    function scrollIntoView(div) {
+        document.getElementById("contents").scrollTop = documentOffsetTop(div) - (window.innerHeight / 6);
+    }
+
+    function documentOffsetTop(div) {
+        return div.offsetTop + (div.offsetParent ? documentOffsetTop(div.offsetParent) : 0);
+    }
+
+</script>
+
+</body>
+</html>

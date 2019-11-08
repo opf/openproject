@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../../../">
+  <title data-ice="title">src/viewer/scene/mesh/draw/DrawShaderSource.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/viewer/scene/mesh/draw/DrawShaderSource.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * @private
+ */
+const DrawShaderSource = function (mesh) {
+    if (mesh._material._state.type === &quot;LambertMaterial&quot;) {
+        this.vertex = buildVertexLambert(mesh);
+        this.fragment = buildFragmentLambert(mesh);
+    } else {
+        this.vertex = buildVertexDraw(mesh);
+        this.fragment = buildFragmentDraw(mesh);
+    }
+};
+
+const TEXTURE_DECODE_FUNCS = {
+    &quot;linear&quot;: &quot;linearToLinear&quot;,
+    &quot;sRGB&quot;: &quot;sRGBToLinear&quot;,
+    &quot;gamma&quot;: &quot;gammaToLinear&quot;
+};
+
+function getReceivesShadow(mesh) {
+    if (!mesh.receivesShadow) {
+        return false;
+    }
+    const lights = mesh.scene._lightsState.lights;
+    if (!lights || lights.length === 0) {
+        return false;
+    }
+    for (let i = 0, len = lights.length; i &lt; len; i++) {
+        if (lights[i].castsShadow) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function hasTextures(mesh) {
+    if (!mesh._geometry._state.uvBuf) {
+        return false;
+    }
+    const material = mesh._material;
+    return !!(material._ambientMap ||
+        material._occlusionMap ||
+        material._baseColorMap ||
+        material._diffuseMap ||
+        material._alphaMap ||
+        material._specularMap ||
+        material._glossinessMap ||
+        material._specularGlossinessMap ||
+        material._emissiveMap ||
+        material._metallicMap ||
+        material._roughnessMap ||
+        material._metallicRoughnessMap ||
+        material._reflectivityMap ||
+        material._normalMap);
+}
+
+function hasNormals(mesh) {
+    const primitive = mesh._geometry._state.primitiveName;
+    if ((mesh._geometry._state.autoVertexNormals || mesh._geometry._state.normalsBuf) &amp;&amp; (primitive === &quot;triangles&quot; || primitive === &quot;triangle-strip&quot; || primitive === &quot;triangle-fan&quot;)) {
+        return true;
+    }
+    return false;
+}
+
+function getFragmentFloatPrecision(gl) {
+    if (!gl.getShaderPrecisionFormat) {
+        return &quot;mediump&quot;;
+    }
+    if (gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT).precision &gt; 0) {
+        return &quot;highp&quot;;
+    }
+    if (gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.MEDIUM_FLOAT).precision &gt; 0) {
+        return &quot;mediump&quot;;
+    }
+    return &quot;lowp&quot;;
+}
+
+function buildVertexLambert(mesh) {
+    const sectionPlanesState = mesh.scene._sectionPlanesState;
+    const lightsState = mesh.scene._lightsState;
+    const geometryState = mesh._geometry._state;
+    const billboard = mesh._state.billboard;
+    const stationary = mesh._state.stationary;
+    const clipping = sectionPlanesState.sectionPlanes.length &gt; 0;
+    const quantizedGeometry = !!geometryState.compressGeometry;
+    let i;
+    let len;
+    let light;
+    const src = [];
+    src.push(&quot;// Lambertian drawing vertex shader&quot;);
+    src.push(&quot;attribute vec3 position;&quot;);
+    src.push(&quot;uniform mat4 modelMatrix;&quot;);
+    src.push(&quot;uniform mat4 viewMatrix;&quot;);
+    src.push(&quot;uniform mat4 projMatrix;&quot;);
+    src.push(&quot;uniform vec4 colorize;&quot;);
+    if (quantizedGeometry) {
+        src.push(&quot;uniform mat4 positionsDecodeMatrix;&quot;);
+    }
+    if (clipping) {
+        src.push(&quot;varying vec4 vWorldPosition;&quot;);
+    }
+    src.push(&quot;uniform vec4 lightAmbient;&quot;);
+    src.push(&quot;uniform vec4 materialColor;&quot;);
+    src.push(&quot;uniform vec3 materialEmissive;&quot;);
+    if (geometryState.normalsBuf) {
+        src.push(&quot;attribute vec3 normal;&quot;);
+        src.push(&quot;uniform mat4 modelNormalMatrix;&quot;);
+        src.push(&quot;uniform mat4 viewNormalMatrix;&quot;);
+        for (i = 0, len = lightsState.lights.length; i &lt; len; i++) {
+            light = lightsState.lights[i];
+            if (light.type === &quot;ambient&quot;) {
+                continue;
+            }
+            src.push(&quot;uniform vec4 lightColor&quot; + i + &quot;;&quot;);
+            if (light.type === &quot;dir&quot;) {
+                src.push(&quot;uniform vec3 lightDir&quot; + i + &quot;;&quot;);
+            }
+            if (light.type === &quot;point&quot;) {
+                src.push(&quot;uniform vec3 lightPos&quot; + i + &quot;;&quot;);
+            }
+            if (light.type === &quot;spot&quot;) {
+                src.push(&quot;uniform vec3 lightPos&quot; + i + &quot;;&quot;);
+                src.push(&quot;uniform vec3 lightDir&quot; + i + &quot;;&quot;);
+            }
+        }
+        if (quantizedGeometry) {
+            src.push(&quot;vec3 octDecode(vec2 oct) {&quot;);
+            src.push(&quot;    vec3 v = vec3(oct.xy, 1.0 - abs(oct.x) - abs(oct.y));&quot;);
+            src.push(&quot;    if (v.z &lt; 0.0) {&quot;);
+            src.push(&quot;        v.xy = (1.0 - abs(v.yx)) * vec2(v.x &gt;= 0.0 ? 1.0 : -1.0, v.y &gt;= 0.0 ? 1.0 : -1.0);&quot;);
+            src.push(&quot;    }&quot;);
+            src.push(&quot;    return normalize(v);&quot;);
+            src.push(&quot;}&quot;);
+        }
+    }
+    src.push(&quot;varying vec4 vColor;&quot;);
+    if (geometryState.primitiveName === &quot;points&quot;) {
+        src.push(&quot;uniform float pointSize;&quot;);
+    }
+    if (billboard === &quot;spherical&quot; || billboard === &quot;cylindrical&quot;) {
+        src.push(&quot;void billboard(inout mat4 mat) {&quot;);
+        src.push(&quot;   mat[0][0] = 1.0;&quot;);
+        src.push(&quot;   mat[0][1] = 0.0;&quot;);
+        src.push(&quot;   mat[0][2] = 0.0;&quot;);
+        if (billboard === &quot;spherical&quot;) {
+            src.push(&quot;   mat[1][0] = 0.0;&quot;);
+            src.push(&quot;   mat[1][1] = 1.0;&quot;);
+            src.push(&quot;   mat[1][2] = 0.0;&quot;);
+        }
+        src.push(&quot;   mat[2][0] = 0.0;&quot;);
+        src.push(&quot;   mat[2][1] = 0.0;&quot;);
+        src.push(&quot;   mat[2][2] =1.0;&quot;);
+        src.push(&quot;}&quot;);
+    }
+    src.push(&quot;void main(void) {&quot;);
+    src.push(&quot;vec4 localPosition = vec4(position, 1.0); &quot;);
+    src.push(&quot;vec4 worldPosition;&quot;);
+    if (quantizedGeometry) {
+        src.push(&quot;localPosition = positionsDecodeMatrix * localPosition;&quot;);
+    }
+    if (geometryState.normalsBuf) {
+        if (quantizedGeometry) {
+            src.push(&quot;vec4 localNormal = vec4(octDecode(normal.xy), 0.0); &quot;);
+        } else {
+            src.push(&quot;vec4 localNormal = vec4(normal, 0.0); &quot;);
+        }
+        src.push(&quot;mat4 modelNormalMatrix2 = modelNormalMatrix;&quot;);
+        src.push(&quot;mat4 viewNormalMatrix2 = viewNormalMatrix;&quot;);
+    }
+    src.push(&quot;mat4 viewMatrix2 = viewMatrix;&quot;);
+    src.push(&quot;mat4 modelMatrix2 = modelMatrix;&quot;);
+    if (stationary) {
+        src.push(&quot;viewMatrix2[3][0] = viewMatrix2[3][1] = viewMatrix2[3][2] = 0.0;&quot;)
+    }
+    if (billboard === &quot;spherical&quot; || billboard === &quot;cylindrical&quot;) {
+        src.push(&quot;mat4 modelViewMatrix = viewMatrix2 * modelMatrix2;&quot;);
+        src.push(&quot;billboard(modelMatrix2);&quot;);
+        src.push(&quot;billboard(viewMatrix2);&quot;);
+        src.push(&quot;billboard(modelViewMatrix);&quot;);
+        if (geometryState.normalsBuf) {
+            src.push(&quot;mat4 modelViewNormalMatrix =  viewNormalMatrix2 * modelNormalMatrix2;&quot;);
+            src.push(&quot;billboard(modelNormalMatrix2);&quot;);
+            src.push(&quot;billboard(viewNormalMatrix2);&quot;);
+            src.push(&quot;billboard(modelViewNormalMatrix);&quot;);
+        }
+        src.push(&quot;worldPosition = modelMatrix2 * localPosition;&quot;);
+        src.push(&quot;vec4 viewPosition = modelViewMatrix * localPosition;&quot;);
+    } else {
+        src.push(&quot;worldPosition = modelMatrix2 * localPosition;&quot;);
+        src.push(&quot;vec4 viewPosition  = viewMatrix2 * worldPosition; &quot;);
+    }
+    if (geometryState.normalsBuf) {
+        src.push(&quot;vec3 viewNormal = normalize((viewNormalMatrix2 * modelNormalMatrix2 * localNormal).xyz);&quot;);
+    }
+    src.push(&quot;vec3 reflectedColor = vec3(0.0, 0.0, 0.0);&quot;);
+    src.push(&quot;vec3 viewLightDir = vec3(0.0, 0.0, -1.0);&quot;);
+    src.push(&quot;float lambertian = 1.0;&quot;);
+    if (geometryState.normalsBuf) {
+        for (i = 0, len = lightsState.lights.length; i &lt; len; i++) {
+            light = lightsState.lights[i];
+            if (light.type === &quot;ambient&quot;) {
+                continue;
+            }
+            if (light.type === &quot;dir&quot;) {
+                if (light.space === &quot;view&quot;) {
+                    src.push(&quot;viewLightDir = normalize(lightDir&quot; + i + &quot;);&quot;);
+                } else {
+                    src.push(&quot;viewLightDir = normalize((viewMatrix2 * vec4(lightDir&quot; + i + &quot;, 0.0)).xyz);&quot;);
+                }
+            } else if (light.type === &quot;point&quot;) {
+                if (light.space === &quot;view&quot;) {
+                    src.push(&quot;viewLightDir = normalize(lightPos&quot; + i + &quot; - viewPosition.xyz);&quot;);
+                } else {
+                    src.push(&quot;viewLightDir = normalize((viewMatrix2 * vec4(lightPos&quot; + i + &quot;, 0.0)).xyz);&quot;);
+                }
+            } else if (light.type === &quot;spot&quot;) {
+                if (light.space === &quot;view&quot;) {
+                    src.push(&quot;viewLightDir = normalize(lightDir&quot; + i + &quot;);&quot;);
+                } else {
+                    src.push(&quot;viewLightDir = normalize((viewMatrix2 * vec4(lightDir&quot; + i + &quot;, 0.0)).xyz);&quot;);
+                }
+            } else {
+                continue;
+            }
+            src.push(&quot;lambertian = max(dot(-viewNormal, viewLightDir), 0.0);&quot;);
+            src.push(&quot;reflectedColor += lambertian * (lightColor&quot; + i + &quot;.rgb * lightColor&quot; + i + &quot;.a);&quot;);
+        }
+    }
+    //src.push(&quot;vColor = vec4((reflectedColor * materialColor) + (lightAmbient.rgb * lightAmbient.a), 1.0) * colorize;&quot;);
+    src.push(&quot;vColor = vec4(materialEmissive.rgb + (reflectedColor * materialColor.rgb), materialColor.a) * colorize;&quot;); // TODO: How to have ambient bright enough for canvas BG but not too bright for scene?
+    if (clipping) {
+        src.push(&quot;vWorldPosition = worldPosition;&quot;);
+    }
+    if (geometryState.primitiveName === &quot;points&quot;) {
+        src.push(&quot;gl_PointSize = pointSize;&quot;);
+    }
+    src.push(&quot;   gl_Position = projMatrix * viewPosition;&quot;);
+    src.push(&quot;}&quot;);
+    return src;
+}
+
+function buildFragmentLambert(mesh) {
+    const scene = mesh.scene;
+    const sectionPlanesState = scene._sectionPlanesState;
+    const materialState = mesh._material._state;
+    const geometryState = mesh._geometry._state;
+    let i;
+    let len;
+    const clipping = sectionPlanesState.sectionPlanes.length &gt; 0;
+    const solid = false &amp;&amp; materialState.backfaces;
+    const gammaOutput = scene.gammaOutput; // If set, then it expects that all textures and colors need to be outputted in premultiplied gamma. Default is false.
+    const src = [];
+    src.push(&quot;// Lambertian drawing fragment shader&quot;);
+    src.push(&quot;precision lowp float;&quot;);
+    if (clipping) {
+        src.push(&quot;varying vec4 vWorldPosition;&quot;);
+        src.push(&quot;uniform bool clippable;&quot;);
+        for (i = 0, len = sectionPlanesState.sectionPlanes.length; i &lt; len; i++) {
+            src.push(&quot;uniform bool sectionPlaneActive&quot; + i + &quot;;&quot;);
+            src.push(&quot;uniform vec3 sectionPlanePos&quot; + i + &quot;;&quot;);
+            src.push(&quot;uniform vec3 sectionPlaneDir&quot; + i + &quot;;&quot;);
+        }
+    }
+    src.push(&quot;varying vec4 vColor;&quot;);
+    if (gammaOutput) {
+        src.push(&quot;uniform float gammaFactor;&quot;);
+        src.push(&quot;    vec4 linearToGamma( in vec4 value, in float gammaFactor ) {&quot;);
+        src.push(&quot;    return vec4( pow( value.xyz, vec3( 1.0 / gammaFactor ) ), value.w );&quot;);
+        src.push(&quot;}&quot;);
+    }
+    src.push(&quot;void main(void) {&quot;);
+    if (clipping) {
+        src.push(&quot;if (clippable) {&quot;);
+        src.push(&quot;  float dist = 0.0;&quot;);
+        for (i = 0, len = sectionPlanesState.sectionPlanes.length; i &lt; len; i++) {
+            src.push(&quot;if (sectionPlaneActive&quot; + i + &quot;) {&quot;);
+            src.push(&quot;   dist += clamp(dot(-sectionPlaneDir&quot; + i + &quot;.xyz, vWorldPosition.xyz - sectionPlanePos&quot; + i + &quot;.xyz), 0.0, 1000.0);&quot;);
+            src.push(&quot;}&quot;);
+        }
+        src.push(&quot;  if (dist &gt; 0.0) { discard; }&quot;);
+        if (solid) {
+            src.push(&quot;  if (gl_FrontFacing == false) {&quot;);
+            src.push(&quot;     gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);&quot;);
+            src.push(&quot;     return;&quot;);
+            src.push(&quot;  }&quot;);
+        }
+        src.push(&quot;}&quot;);
+    }
+    if (geometryState.primitiveName === &quot;points&quot;) {
+        src.push(&quot;vec2 cxy = 2.0 * gl_PointCoord - 1.0;&quot;);
+        src.push(&quot;float r = dot(cxy, cxy);&quot;);
+        src.push(&quot;if (r &gt; 1.0) {&quot;);
+        src.push(&quot;   discard;&quot;);
+        src.push(&quot;}&quot;);
+
+    }
+    if (gammaOutput) {
+        src.push(&quot;gl_FragColor = linearToGamma(vColor, gammaFactor);&quot;);
+    } else {
+        src.push(&quot;gl_FragColor = vColor;&quot;);
+    }
+    src.push(&quot;}&quot;);
+    return src;
+}
+
+function buildVertexDraw(mesh) {
+    const scene = mesh.scene;
+    const material = mesh._material;
+    const meshState = mesh._state;
+    const sectionPlanesState = scene._sectionPlanesState;
+    const geometryState = mesh._geometry._state;
+    const lightsState = scene._lightsState;
+    let i;
+    let len;
+    let light;
+    const billboard = meshState.billboard;
+    const stationary = meshState.stationary;
+    const texturing = hasTextures(mesh);
+    const normals = hasNormals(mesh);
+    const clipping = sectionPlanesState.sectionPlanes.length &gt; 0;
+    const receivesShadow = getReceivesShadow(mesh);
+    const quantizedGeometry = !!geometryState.compressGeometry;
+    const src = [];
+    if (normals &amp;&amp; material._normalMap) {
+        src.push(&quot;#extension GL_OES_standard_derivatives : enable&quot;);
+    }
+    src.push(&quot;// Drawing vertex shader&quot;);
+    src.push(&quot;attribute  vec3 position;&quot;);
+
+    if (quantizedGeometry) {
+        src.push(&quot;uniform mat4 positionsDecodeMatrix;&quot;);
+    }
+    src.push(&quot;uniform  mat4 modelMatrix;&quot;);
+    src.push(&quot;uniform  mat4 viewMatrix;&quot;);
+    src.push(&quot;uniform  mat4 projMatrix;&quot;);
+    src.push(&quot;varying  vec3 vViewPosition;&quot;);
+    if (clipping) {
+        src.push(&quot;varying vec4 vWorldPosition;&quot;);
+    }
+    if (lightsState.lightMaps.length &gt; 0) {
+        src.push(&quot;varying    vec3 vWorldNormal;&quot;);
+    }
+    if (normals) {
+        src.push(&quot;attribute  vec3 normal;&quot;);
+        src.push(&quot;uniform    mat4 modelNormalMatrix;&quot;);
+        src.push(&quot;uniform    mat4 viewNormalMatrix;&quot;);
+        src.push(&quot;varying    vec3 vViewNormal;&quot;);
+        for (i = 0, len = lightsState.lights.length; i &lt; len; i++) {
+            light = lightsState.lights[i];
+            if (light.type === &quot;ambient&quot;) {
+                continue;
+            }
+            if (light.type === &quot;dir&quot;) {
+                src.push(&quot;uniform vec3 lightDir&quot; + i + &quot;;&quot;);
+            }
+            if (light.type === &quot;point&quot;) {
+                src.push(&quot;uniform vec3 lightPos&quot; + i + &quot;;&quot;);
+            }
+            if (light.type === &quot;spot&quot;) {
+                src.push(&quot;uniform vec3 lightPos&quot; + i + &quot;;&quot;);
+                src.push(&quot;uniform vec3 lightDir&quot; + i + &quot;;&quot;);
+            }
+            if (!(light.type === &quot;dir&quot; &amp;&amp; light.space === &quot;view&quot;)) {
+                src.push(&quot;varying vec4 vViewLightReverseDirAndDist&quot; + i + &quot;;&quot;);
+            }
+        }
+        if (quantizedGeometry) {
+            src.push(&quot;vec3 octDecode(vec2 oct) {&quot;);
+            src.push(&quot;    vec3 v = vec3(oct.xy, 1.0 - abs(oct.x) - abs(oct.y));&quot;);
+            src.push(&quot;    if (v.z &lt; 0.0) {&quot;);
+            src.push(&quot;        v.xy = (1.0 - abs(v.yx)) * vec2(v.x &gt;= 0.0 ? 1.0 : -1.0, v.y &gt;= 0.0 ? 1.0 : -1.0);&quot;);
+            src.push(&quot;    }&quot;);
+            src.push(&quot;    return normalize(v);&quot;);
+            src.push(&quot;}&quot;);
+        }
+    }
+    if (texturing) {
+        src.push(&quot;attribute vec2 uv;&quot;);
+        src.push(&quot;varying vec2 vUV;&quot;);
+        if (quantizedGeometry) {
+            src.push(&quot;uniform mat3 uvDecodeMatrix;&quot;)
+        }
+    }
+    if (geometryState.colors) {
+        src.push(&quot;attribute vec4 color;&quot;);
+        src.push(&quot;varying vec4 vColor;&quot;);
+    }
+    if (geometryState.primitiveName === &quot;points&quot;) {
+        src.push(&quot;uniform float pointSize;&quot;);
+    }
+    if (billboard === &quot;spherical&quot; || billboard === &quot;cylindrical&quot;) {
+        src.push(&quot;void billboard(inout mat4 mat) {&quot;);
+        src.push(&quot;   mat[0][0] = 1.0;&quot;);
+        src.push(&quot;   mat[0][1] = 0.0;&quot;);
+        src.push(&quot;   mat[0][2] = 0.0;&quot;);
+        if (billboard === &quot;spherical&quot;) {
+            src.push(&quot;   mat[1][0] = 0.0;&quot;);
+            src.push(&quot;   mat[1][1] = 1.0;&quot;);
+            src.push(&quot;   mat[1][2] = 0.0;&quot;);
+        }
+        src.push(&quot;   mat[2][0] = 0.0;&quot;);
+        src.push(&quot;   mat[2][1] = 0.0;&quot;);
+        src.push(&quot;   mat[2][2] =1.0;&quot;);
+        src.push(&quot;}&quot;);
+    }
+    if (receivesShadow) {
+        src.push(&quot;const mat4 texUnitConverter = mat4(0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.5, 0.5, 0.5, 1.0);&quot;);
+        for (i = 0, len = lightsState.lights.length; i &lt; len; i++) { // Light sources
+            if (lightsState.lights[i].castsShadow) {
+                src.push(&quot;uniform mat4 shadowViewMatrix&quot; + i + &quot;;&quot;);
+                src.push(&quot;uniform mat4 shadowProjMatrix&quot; + i + &quot;;&quot;);
+                src.push(&quot;varying vec4 vShadowPosFromLight&quot; + i + &quot;;&quot;);
+            }
+        }
+    }
+    src.push(&quot;void main(void) {&quot;);
+    src.push(&quot;vec4 localPosition = vec4(position, 1.0); &quot;);
+    src.push(&quot;vec4 worldPosition;&quot;);
+    if (quantizedGeometry) {
+        src.push(&quot;localPosition = positionsDecodeMatrix * localPosition;&quot;);
+    }
+    if (normals) {
+        if (quantizedGeometry) {
+            src.push(&quot;vec4 localNormal = vec4(octDecode(normal.xy), 0.0); &quot;);
+        } else {
+            src.push(&quot;vec4 localNormal = vec4(normal, 0.0); &quot;);
+        }
+        src.push(&quot;mat4 modelNormalMatrix2    = modelNormalMatrix;&quot;);
+        src.push(&quot;mat4 viewNormalMatrix2     = viewNormalMatrix;&quot;);
+    }
+    src.push(&quot;mat4 viewMatrix2           = viewMatrix;&quot;);
+    src.push(&quot;mat4 modelMatrix2          = modelMatrix;&quot;);
+    if (stationary) {
+        src.push(&quot;viewMatrix2[3][0] = viewMatrix2[3][1] = viewMatrix2[3][2] = 0.0;&quot;)
+    }
+    if (billboard === &quot;spherical&quot; || billboard === &quot;cylindrical&quot;) {
+        src.push(&quot;mat4 modelViewMatrix = viewMatrix2 * modelMatrix2;&quot;);
+        src.push(&quot;billboard(modelMatrix2);&quot;);
+        src.push(&quot;billboard(viewMatrix2);&quot;);
+        src.push(&quot;billboard(modelViewMatrix);&quot;);
+        if (normals) {
+            src.push(&quot;mat4 modelViewNormalMatrix =  viewNormalMatrix2 * modelNormalMatrix2;&quot;);
+            src.push(&quot;billboard(modelNormalMatrix2);&quot;);
+            src.push(&quot;billboard(viewNormalMatrix2);&quot;);
+            src.push(&quot;billboard(modelViewNormalMatrix);&quot;);
+        }
+        src.push(&quot;worldPosition = modelMatrix2 * localPosition;&quot;);
+        src.push(&quot;vec4 viewPosition = modelViewMatrix * localPosition;&quot;);
+    } else {
+        src.push(&quot;worldPosition = modelMatrix2 * localPosition;&quot;);
+        src.push(&quot;vec4 viewPosition  = viewMatrix2 * worldPosition; &quot;);
+    }
+    if (normals) {
+        src.push(&quot;vec3 worldNormal = (modelNormalMatrix2 * localNormal).xyz; &quot;);
+        if (lightsState.lightMaps.length &gt; 0) {
+            src.push(&quot;vWorldNormal = worldNormal;&quot;);
+        }
+        src.push(&quot;vViewNormal = normalize((viewNormalMatrix2 * vec4(worldNormal, 1.0)).xyz);&quot;);
+        src.push(&quot;vec3 tmpVec3;&quot;);
+        src.push(&quot;float lightDist;&quot;);
+        for (i = 0, len = lightsState.lights.length; i &lt; len; i++) { // Lights
+            light = lightsState.lights[i];
+            if (light.type === &quot;ambient&quot;) {
+                continue;
+            }
+            if (light.type === &quot;dir&quot;) {
+                if (light.space === &quot;world&quot;) {
+                    src.push(&quot;tmpVec3 = vec3(viewMatrix2 * vec4(lightDir&quot; + i + &quot;, 0.0) ).xyz;&quot;);
+                    src.push(&quot;vViewLightReverseDirAndDist&quot; + i + &quot; = vec4(-tmpVec3, 0.0);&quot;);
+                }
+            }
+            if (light.type === &quot;point&quot;) {
+                if (light.space === &quot;world&quot;) {
+                    src.push(&quot;tmpVec3 = (viewMatrix2 * vec4(lightPos&quot; + i + &quot;, 1.0)).xyz - viewPosition.xyz;&quot;);
+                    src.push(&quot;lightDist = abs(length(tmpVec3));&quot;);
+                } else {
+                    src.push(&quot;tmpVec3 = lightPos&quot; + i + &quot;.xyz - viewPosition.xyz;&quot;);
+                    src.push(&quot;lightDist = abs(length(tmpVec3));&quot;);
+                }
+                src.push(&quot;vViewLightReverseDirAndDist&quot; + i + &quot; = vec4(tmpVec3, lightDist);&quot;);
+            }
+        }
+    }
+    if (texturing) {
+        if (quantizedGeometry) {
+            src.push(&quot;vUV = (uvDecodeMatrix * vec3(uv, 1.0)).xy;&quot;);
+        } else {
+            src.push(&quot;vUV = uv;&quot;);
+        }
+    }
+    if (geometryState.colors) {
+        src.push(&quot;vColor = color;&quot;);
+    }
+    if (geometryState.primitiveName === &quot;points&quot;) {
+        src.push(&quot;gl_PointSize = pointSize;&quot;);
+    }
+    if (clipping) {
+        src.push(&quot;vWorldPosition = worldPosition;&quot;);
+    }
+    src.push(&quot;   vViewPosition = viewPosition.xyz;&quot;);
+    src.push(&quot;   gl_Position = projMatrix * viewPosition;&quot;);
+    src.push(&quot;const mat4 texUnitConverter = mat4(0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.5, 0.5, 0.5, 1.0);&quot;);
+    if (receivesShadow) {
+        src.push(&quot;vec4 tempx; &quot;);
+        for (i = 0, len = lightsState.lights.length; i &lt; len; i++) { // Light sources
+            if (lightsState.lights[i].castsShadow) {
+                src.push(&quot;vShadowPosFromLight&quot; + i + &quot; = texUnitConverter * shadowProjMatrix&quot; + i + &quot; * (shadowViewMatrix&quot; + i + &quot; * worldPosition); &quot;);
+            }
+        }
+    }
+    src.push(&quot;}&quot;);
+    return src;
+}
+
+function buildFragmentDraw(mesh) {
+
+    const scene = mesh.scene;
+    const gl = scene.canvas.gl;
+    const material = mesh._material;
+    const geometryState = mesh._geometry._state;
+    const sectionPlanesState = mesh.scene._sectionPlanesState;
+    const lightsState = mesh.scene._lightsState;
+    const materialState = mesh._material._state;
+    const clipping = sectionPlanesState.sectionPlanes.length &gt; 0;
+    const normals = hasNormals(mesh);
+    const uvs = geometryState.uvBuf;
+    const solid = false &amp;&amp; materialState.backfaces;
+    const phongMaterial = (materialState.type === &quot;PhongMaterial&quot;);
+    const metallicMaterial = (materialState.type === &quot;MetallicMaterial&quot;);
+    const specularMaterial = (materialState.type === &quot;SpecularMaterial&quot;);
+    const receivesShadow = getReceivesShadow(mesh);
+    const gammaInput = scene.gammaInput; // If set, then it expects that all textures and colors are premultiplied gamma. Default is false.
+    const gammaOutput = scene.gammaOutput; // If set, then it expects that all textures and colors need to be outputted in premultiplied gamma. Default is false.
+    var i;
+    let len;
+    let light;
+    const src = [];
+
+    src.push(&quot;// Drawing fragment shader&quot;);
+
+    if (normals &amp;&amp; material._normalMap) {
+        src.push(&quot;#extension GL_OES_standard_derivatives : enable&quot;);
+    }
+
+    src.push(&quot;precision &quot; + getFragmentFloatPrecision(gl) + &quot; float;&quot;);
+
+    if (receivesShadow) {
+        src.push(&quot;float unpackDepth (vec4 color) {&quot;);
+        src.push(&quot;  const vec4 bitShift = vec4(1.0, 1.0/256.0, 1.0/(256.0 * 256.0), 1.0/(256.0*256.0*256.0));&quot;);
+        src.push(&quot;  return dot(color, bitShift);&quot;);
+        src.push(&quot;}&quot;);
+    }
+
+    //--------------------------------------------------------------------------------
+    // GAMMA CORRECTION
+    //--------------------------------------------------------------------------------
+
+    src.push(&quot;uniform float gammaFactor;&quot;);
+    src.push(&quot;vec4 linearToLinear( in vec4 value ) {&quot;);
+    src.push(&quot;  return value;&quot;);
+    src.push(&quot;}&quot;);
+    src.push(&quot;vec4 sRGBToLinear( in vec4 value ) {&quot;);
+    src.push(&quot;  return vec4( mix( pow( value.rgb * 0.9478672986 + vec3( 0.0521327014 ), vec3( 2.4 ) ), value.rgb * 0.0773993808, vec3( lessThanEqual( value.rgb, vec3( 0.04045 ) ) ) ), value.w );&quot;);
+    src.push(&quot;}&quot;);
+    src.push(&quot;vec4 gammaToLinear( in vec4 value) {&quot;);
+    src.push(&quot;  return vec4( pow( value.xyz, vec3( gammaFactor ) ), value.w );&quot;);
+    src.push(&quot;}&quot;);
+    if (gammaOutput) {
+        src.push(&quot;vec4 linearToGamma( in vec4 value, in float gammaFactor ) {&quot;);
+        src.push(&quot;  return vec4( pow( value.xyz, vec3( 1.0 / gammaFactor ) ), value.w );&quot;);
+        src.push(&quot;}&quot;);
+    }
+
+    //--------------------------------------------------------------------------------
+    // USER CLIP PLANES
+    //--------------------------------------------------------------------------------
+
+    if (clipping) {
+        src.push(&quot;varying vec4 vWorldPosition;&quot;);
+        src.push(&quot;uniform bool clippable;&quot;);
+        for (var i = 0; i &lt; sectionPlanesState.sectionPlanes.length; i++) {
+            src.push(&quot;uniform bool sectionPlaneActive&quot; + i + &quot;;&quot;);
+            src.push(&quot;uniform vec3 sectionPlanePos&quot; + i + &quot;;&quot;);
+            src.push(&quot;uniform vec3 sectionPlaneDir&quot; + i + &quot;;&quot;);
+        }
+    }
+
+    if (normals) {
+
+        //--------------------------------------------------------------------------------
+        // LIGHT AND REFLECTION MAP INPUTS
+        // Define here so available globally to shader functions
+        //--------------------------------------------------------------------------------
+
+        if (lightsState.lightMaps.length &gt; 0) {
+            src.push(&quot;uniform samplerCube lightMap;&quot;);
+            src.push(&quot;uniform mat4 viewNormalMatrix;&quot;);
+        }
+        if (lightsState.reflectionMaps.length &gt; 0) {
+            src.push(&quot;uniform samplerCube reflectionMap;&quot;);
+        }
+        if (lightsState.lightMaps.length &gt; 0 || lightsState.reflectionMaps.length &gt; 0) {
+            src.push(&quot;uniform mat4 viewMatrix;&quot;);
+        }
+
+        //--------------------------------------------------------------------------------
+        // SHADING FUNCTIONS
+        //--------------------------------------------------------------------------------
+
+        // CONSTANT DEFINITIONS
+
+        src.push(&quot;#define PI 3.14159265359&quot;);
+        src.push(&quot;#define RECIPROCAL_PI 0.31830988618&quot;);
+        src.push(&quot;#define RECIPROCAL_PI2 0.15915494&quot;);
+        src.push(&quot;#define EPSILON 1e-6&quot;);
+
+        src.push(&quot;#define saturate(a) clamp( a, 0.0, 1.0 )&quot;);
+
+        // UTILITY DEFINITIONS
+
+        src.push(&quot;vec3 inverseTransformDirection(in vec3 dir, in mat4 matrix) {&quot;);
+        src.push(&quot;   return normalize( ( vec4( dir, 0.0 ) * matrix ).xyz );&quot;);
+        src.push(&quot;}&quot;);
+
+        // STRUCTURES
+
+        src.push(&quot;struct IncidentLight {&quot;);
+        src.push(&quot;   vec3 color;&quot;);
+        src.push(&quot;   vec3 direction;&quot;);
+        src.push(&quot;};&quot;);
+
+        src.push(&quot;struct ReflectedLight {&quot;);
+        src.push(&quot;   vec3 diffuse;&quot;);
+        src.push(&quot;   vec3 specular;&quot;);
+        src.push(&quot;};&quot;);
+
+        src.push(&quot;struct Geometry {&quot;);
+        src.push(&quot;   vec3 position;&quot;);
+        src.push(&quot;   vec3 viewNormal;&quot;);
+        src.push(&quot;   vec3 worldNormal;&quot;);
+        src.push(&quot;   vec3 viewEyeDir;&quot;);
+        src.push(&quot;};&quot;);
+
+        src.push(&quot;struct Material {&quot;);
+        src.push(&quot;   vec3    diffuseColor;&quot;);
+        src.push(&quot;   float   specularRoughness;&quot;);
+        src.push(&quot;   vec3    specularColor;&quot;);
+        src.push(&quot;   float   shine;&quot;); // Only used for Phong
+        src.push(&quot;};&quot;);
+
+        // COMMON UTILS
+
+        if (phongMaterial) {
+
+            if (lightsState.lightMaps.length &gt; 0 || lightsState.reflectionMaps.length &gt; 0) {
+
+                src.push(&quot;void computePhongLightMapping(const in Geometry geometry, const in Material material, inout ReflectedLight reflectedLight) {&quot;);
+                if (lightsState.lightMaps.length &gt; 0) {
+                    src.push(&quot;   vec3 irradiance = &quot; + TEXTURE_DECODE_FUNCS[lightsState.lightMaps[0].encoding] + &quot;(textureCube(lightMap, geometry.worldNormal)).rgb;&quot;);
+                    src.push(&quot;   irradiance *= PI;&quot;);
+                    src.push(&quot;   vec3 diffuseBRDFContrib = (RECIPROCAL_PI * material.diffuseColor);&quot;);
+                    src.push(&quot;   reflectedLight.diffuse += irradiance * diffuseBRDFContrib;&quot;);
+                }
+                if (lightsState.reflectionMaps.length &gt; 0) {
+                    src.push(&quot;   vec3 reflectVec             = reflect(-geometry.viewEyeDir, geometry.viewNormal);&quot;);
+                    src.push(&quot;   vec3 radiance               = textureCube(reflectionMap, reflectVec).rgb * 0.2;&quot;);
+                    //      src.push(&quot;   radiance *= PI;&quot;);
+                    src.push(&quot;   reflectedLight.specular     += radiance;&quot;);
+                }
+                src.push(&quot;}&quot;);
+            }
+
+            src.push(&quot;void computePhongLighting(const in IncidentLight directLight, const in Geometry geometry, const in Material material, inout ReflectedLight reflectedLight) {&quot;);
+            src.push(&quot;   float dotNL     = saturate(dot(geometry.viewNormal, directLight.direction));&quot;);
+            src.push(&quot;   vec3 irradiance = dotNL * directLight.color * PI;&quot;);
+            src.push(&quot;   reflectedLight.diffuse  += irradiance * (RECIPROCAL_PI * material.diffuseColor);&quot;);
+            src.push(&quot;   reflectedLight.specular += directLight.color * material.specularColor * pow(max(dot(reflect(-directLight.direction, -geometry.viewNormal), geometry.viewEyeDir), 0.0), material.shine);&quot;);
+            src.push(&quot;}&quot;);
+        }
+
+        if (metallicMaterial || specularMaterial) {
+
+            // IRRADIANCE EVALUATION
+
+            src.push(&quot;float GGXRoughnessToBlinnExponent(const in float ggxRoughness) {&quot;);
+            src.push(&quot;   float r = ggxRoughness + 0.0001;&quot;);
+            src.push(&quot;   return (2.0 / (r * r) - 2.0);&quot;);
+            src.push(&quot;}&quot;);
+
+            src.push(&quot;float getSpecularMIPLevel(const in float blinnShininessExponent, const in int maxMIPLevel) {&quot;);
+            src.push(&quot;   float maxMIPLevelScalar = float( maxMIPLevel );&quot;);
+            src.push(&quot;   float desiredMIPLevel = maxMIPLevelScalar - 0.79248 - 0.5 * log2( ( blinnShininessExponent * blinnShininessExponent ) + 1.0 );&quot;);
+            src.push(&quot;   return clamp( desiredMIPLevel, 0.0, maxMIPLevelScalar );&quot;);
+            src.push(&quot;}&quot;);
+
+            if (lightsState.reflectionMaps.length &gt; 0) {
+                src.push(&quot;vec3 getLightProbeIndirectRadiance(const in vec3 reflectVec, const in float blinnShininessExponent, const in int maxMIPLevel) {&quot;);
+                src.push(&quot;   float mipLevel = 0.5 * getSpecularMIPLevel(blinnShininessExponent, maxMIPLevel);&quot;); //TODO: a random factor - fix this
+                src.push(&quot;   vec3 envMapColor = &quot; + TEXTURE_DECODE_FUNCS[lightsState.reflectionMaps[0].encoding] + &quot;(textureCube(reflectionMap, reflectVec, mipLevel)).rgb;&quot;);
+                src.push(&quot;  return envMapColor;&quot;);
+                src.push(&quot;}&quot;);
+            }
+
+            // SPECULAR BRDF EVALUATION
+
+            src.push(&quot;vec3 F_Schlick(const in vec3 specularColor, const in float dotLH) {&quot;);
+            src.push(&quot;   float fresnel = exp2( ( -5.55473 * dotLH - 6.98316 ) * dotLH );&quot;);
+            src.push(&quot;   return ( 1.0 - specularColor ) * fresnel + specularColor;&quot;);
+            src.push(&quot;}&quot;);
+
+            src.push(&quot;float G_GGX_Smith(const in float alpha, const in float dotNL, const in float dotNV) {&quot;);
+            src.push(&quot;   float a2 = ( alpha * alpha );&quot;);
+            src.push(&quot;   float gl = dotNL + sqrt( a2 + ( 1.0 - a2 ) * ( dotNL * dotNL ) );&quot;);
+            src.push(&quot;   float gv = dotNV + sqrt( a2 + ( 1.0 - a2 ) * ( dotNV * dotNV ) );&quot;);
+            src.push(&quot;   return 1.0 / ( gl * gv );&quot;);
+            src.push(&quot;}&quot;);
+
+            src.push(&quot;float G_GGX_SmithCorrelated(const in float alpha, const in float dotNL, const in float dotNV) {&quot;);
+            src.push(&quot;   float a2 = ( alpha * alpha );&quot;);
+            src.push(&quot;   float gv = dotNL * sqrt( a2 + ( 1.0 - a2 ) * ( dotNV * dotNV ) );&quot;);
+            src.push(&quot;   float gl = dotNV * sqrt( a2 + ( 1.0 - a2 ) * ( dotNL * dotNL ) );&quot;);
+            src.push(&quot;   return 0.5 / max( gv + gl, EPSILON );&quot;);
+            src.push(&quot;}&quot;);
+
+            src.push(&quot;float D_GGX(const in float alpha, const in float dotNH) {&quot;);
+            src.push(&quot;   float a2 = ( alpha * alpha );&quot;);
+            src.push(&quot;   float denom = ( dotNH * dotNH) * ( a2 - 1.0 ) + 1.0;&quot;);
+            src.push(&quot;   return RECIPROCAL_PI * a2 / ( denom * denom);&quot;);
+            src.push(&quot;}&quot;);
+
+            src.push(&quot;vec3 BRDF_Specular_GGX(const in IncidentLight incidentLight, const in Geometry geometry, const in vec3 specularColor, const in float roughness) {&quot;);
+            src.push(&quot;   float alpha = ( roughness * roughness );&quot;);
+            src.push(&quot;   vec3 halfDir = normalize( incidentLight.direction + geometry.viewEyeDir );&quot;);
+            src.push(&quot;   float dotNL = saturate( dot( geometry.viewNormal, incidentLight.direction ) );&quot;);
+            src.push(&quot;   float dotNV = saturate( dot( geometry.viewNormal, geometry.viewEyeDir ) );&quot;);
+            src.push(&quot;   float dotNH = saturate( dot( geometry.viewNormal, halfDir ) );&quot;);
+            src.push(&quot;   float dotLH = saturate( dot( incidentLight.direction, halfDir ) );&quot;);
+            src.push(&quot;   vec3  F = F_Schlick( specularColor, dotLH );&quot;);
+            src.push(&quot;   float G = G_GGX_SmithCorrelated( alpha, dotNL, dotNV );&quot;);
+            src.push(&quot;   float D = D_GGX( alpha, dotNH );&quot;);
+            src.push(&quot;   return F * (G * D);&quot;);
+            src.push(&quot;}&quot;);
+
+            src.push(&quot;vec3 BRDF_Specular_GGX_Environment(const in Geometry geometry, const in vec3 specularColor, const in float roughness) {&quot;);
+            src.push(&quot;   float dotNV = saturate(dot(geometry.viewNormal, geometry.viewEyeDir));&quot;);
+            src.push(&quot;   const vec4 c0 = vec4( -1, -0.0275, -0.572,  0.022);&quot;);
+            src.push(&quot;   const vec4 c1 = vec4(  1,  0.0425,   1.04, -0.04);&quot;);
+            src.push(&quot;   vec4 r = roughness * c0 + c1;&quot;);
+            src.push(&quot;   float a004 = min(r.x * r.x, exp2(-9.28 * dotNV)) * r.x + r.y;&quot;);
+            src.push(&quot;   vec2 AB    = vec2(-1.04, 1.04) * a004 + r.zw;&quot;);
+            src.push(&quot;   return specularColor * AB.x + AB.y;&quot;);
+            src.push(&quot;}&quot;);
+
+            if (lightsState.lightMaps.length &gt; 0 || lightsState.reflectionMaps.length &gt; 0) {
+
+                src.push(&quot;void computePBRLightMapping(const in Geometry geometry, const in Material material, inout ReflectedLight reflectedLight) {&quot;);
+                if (lightsState.lightMaps.length &gt; 0) {
+                    src.push(&quot;   vec3 irradiance = sRGBToLinear(textureCube(lightMap, geometry.worldNormal)).rgb;&quot;);
+                    src.push(&quot;   irradiance *= PI;&quot;);
+                    src.push(&quot;   vec3 diffuseBRDFContrib = (RECIPROCAL_PI * material.diffuseColor);&quot;);
+                    src.push(&quot;   reflectedLight.diffuse += irradiance * diffuseBRDFContrib;&quot;);
+                    //   src.push(&quot;   reflectedLight.diffuse = vec3(1.0, 0.0, 0.0);&quot;);
+                }
+                if (lightsState.reflectionMaps.length &gt; 0) {
+                    src.push(&quot;   vec3 reflectVec             = reflect(-geometry.viewEyeDir, geometry.viewNormal);&quot;);
+                    src.push(&quot;   reflectVec                  = inverseTransformDirection(reflectVec, viewMatrix);&quot;);
+                    src.push(&quot;   float blinnExpFromRoughness = GGXRoughnessToBlinnExponent(material.specularRoughness);&quot;);
+                    src.push(&quot;   vec3 radiance               = getLightProbeIndirectRadiance(reflectVec, blinnExpFromRoughness, 8);&quot;);
+                    src.push(&quot;   vec3 specularBRDFContrib    = BRDF_Specular_GGX_Environment(geometry, material.specularColor, material.specularRoughness);&quot;);
+                    src.push(&quot;   reflectedLight.specular     += radiance * specularBRDFContrib;&quot;);
+                }
+                src.push(&quot;}&quot;);
+            }
+
+            // MAIN LIGHTING COMPUTATION FUNCTION
+
+            src.push(&quot;void computePBRLighting(const in IncidentLight incidentLight, const in Geometry geometry, const in Material material, inout ReflectedLight reflectedLight) {&quot;);
+            src.push(&quot;   float dotNL     = saturate(dot(geometry.viewNormal, incidentLight.direction));&quot;);
+            src.push(&quot;   vec3 irradiance = dotNL * incidentLight.color * PI;&quot;);
+            src.push(&quot;   reflectedLight.diffuse  += irradiance * (RECIPROCAL_PI * material.diffuseColor);&quot;);
+            src.push(&quot;   reflectedLight.specular += irradiance * BRDF_Specular_GGX(incidentLight, geometry, material.specularColor, material.specularRoughness);&quot;);
+            src.push(&quot;}&quot;);
+
+        } // (metallicMaterial || specularMaterial)
+
+    } // geometry.normals
+
+    //--------------------------------------------------------------------------------
+    // GEOMETRY INPUTS
+    //--------------------------------------------------------------------------------
+
+    src.push(&quot;varying vec3 vViewPosition;&quot;);
+
+    if (geometryState.colors) {
+        src.push(&quot;varying vec4 vColor;&quot;);
+    }
+
+    if (uvs &amp;&amp;
+        ((normals &amp;&amp; material._normalMap)
+            || material._ambientMap
+            || material._baseColorMap
+            || material._diffuseMap
+            || material._emissiveMap
+            || material._metallicMap
+            || material._roughnessMap
+            || material._metallicRoughnessMap
+            || material._specularMap
+            || material._glossinessMap
+            || material._specularGlossinessMap
+            || material._occlusionMap
+            || material._alphaMap)) {
+        src.push(&quot;varying vec2 vUV;&quot;);
+    }
+
+    if (normals) {
+        if (lightsState.lightMaps.length &gt; 0) {
+            src.push(&quot;varying vec3 vWorldNormal;&quot;);
+        }
+        src.push(&quot;varying vec3 vViewNormal;&quot;);
+    }
+
+    //--------------------------------------------------------------------------------
+    // MATERIAL CHANNEL INPUTS
+    //--------------------------------------------------------------------------------
+
+    if (materialState.ambient) {
+        src.push(&quot;uniform vec3 materialAmbient;&quot;);
+    }
+    if (materialState.baseColor) {
+        src.push(&quot;uniform vec3 materialBaseColor;&quot;);
+    }
+    if (materialState.alpha !== undefined &amp;&amp; materialState.alpha !== null) {
+        src.push(&quot;uniform vec4 materialAlphaModeCutoff;&quot;); // [alpha, alphaMode, alphaCutoff]
+    }
+    if (materialState.emissive) {
+        src.push(&quot;uniform vec3 materialEmissive;&quot;);
+    }
+    if (materialState.diffuse) {
+        src.push(&quot;uniform vec3 materialDiffuse;&quot;);
+    }
+    if (materialState.glossiness !== undefined &amp;&amp; materialState.glossiness !== null) {
+        src.push(&quot;uniform float materialGlossiness;&quot;);
+    }
+    if (materialState.shininess !== undefined &amp;&amp; materialState.shininess !== null) {
+        src.push(&quot;uniform float materialShininess;&quot;);  // Phong channel
+    }
+    if (materialState.specular) {
+        src.push(&quot;uniform vec3 materialSpecular;&quot;);
+    }
+    if (materialState.metallic !== undefined &amp;&amp; materialState.metallic !== null) {
+        src.push(&quot;uniform float materialMetallic;&quot;);
+    }
+    if (materialState.roughness !== undefined &amp;&amp; materialState.roughness !== null) {
+        src.push(&quot;uniform float materialRoughness;&quot;);
+    }
+    if (materialState.specularF0 !== undefined &amp;&amp; materialState.specularF0 !== null) {
+        src.push(&quot;uniform float materialSpecularF0;&quot;);
+    }
+
+    //--------------------------------------------------------------------------------
+    // MATERIAL TEXTURE INPUTS
+    //--------------------------------------------------------------------------------
+
+    if (uvs &amp;&amp; material._ambientMap) {
+        src.push(&quot;uniform sampler2D ambientMap;&quot;);
+        if (material._ambientMap._state.matrix) {
+            src.push(&quot;uniform mat4 ambientMapMatrix;&quot;);
+        }
+    }
+    if (uvs &amp;&amp; material._baseColorMap) {
+        src.push(&quot;uniform sampler2D baseColorMap;&quot;);
+        if (material._baseColorMap._state.matrix) {
+            src.push(&quot;uniform mat4 baseColorMapMatrix;&quot;);
+        }
+    }
+    if (uvs &amp;&amp; material._diffuseMap) {
+        src.push(&quot;uniform sampler2D diffuseMap;&quot;);
+        if (material._diffuseMap._state.matrix) {
+            src.push(&quot;uniform mat4 diffuseMapMatrix;&quot;);
+        }
+    }
+    if (uvs &amp;&amp; material._emissiveMap) {
+        src.push(&quot;uniform sampler2D emissiveMap;&quot;);
+        if (material._emissiveMap._state.matrix) {
+            src.push(&quot;uniform mat4 emissiveMapMatrix;&quot;);
+        }
+    }
+    if (normals &amp;&amp; uvs &amp;&amp; material._metallicMap) {
+        src.push(&quot;uniform sampler2D metallicMap;&quot;);
+        if (material._metallicMap._state.matrix) {
+            src.push(&quot;uniform mat4 metallicMapMatrix;&quot;);
+        }
+    }
+    if (normals &amp;&amp; uvs &amp;&amp; material._roughnessMap) {
+        src.push(&quot;uniform sampler2D roughnessMap;&quot;);
+        if (material._roughnessMap._state.matrix) {
+            src.push(&quot;uniform mat4 roughnessMapMatrix;&quot;);
+        }
+    }
+    if (normals &amp;&amp; uvs &amp;&amp; material._metallicRoughnessMap) {
+        src.push(&quot;uniform sampler2D metallicRoughnessMap;&quot;);
+        if (material._metallicRoughnessMap._state.matrix) {
+            src.push(&quot;uniform mat4 metallicRoughnessMapMatrix;&quot;);
+        }
+    }
+    if (normals &amp;&amp; material._normalMap) {
+        src.push(&quot;uniform sampler2D normalMap;&quot;);
+        if (material._normalMap._state.matrix) {
+            src.push(&quot;uniform mat4 normalMapMatrix;&quot;);
+        }
+        src.push(&quot;vec3 perturbNormal2Arb( vec3 eye_pos, vec3 surf_norm, vec2 uv ) {&quot;);
+        src.push(&quot;      vec3 q0 = vec3( dFdx( eye_pos.x ), dFdx( eye_pos.y ), dFdx( eye_pos.z ) );&quot;);
+        src.push(&quot;      vec3 q1 = vec3( dFdy( eye_pos.x ), dFdy( eye_pos.y ), dFdy( eye_pos.z ) );&quot;);
+        src.push(&quot;      vec2 st0 = dFdx( uv.st );&quot;);
+        src.push(&quot;      vec2 st1 = dFdy( uv.st );&quot;);
+        src.push(&quot;      vec3 S = normalize( q0 * st1.t - q1 * st0.t );&quot;);
+        src.push(&quot;      vec3 T = normalize( -q0 * st1.s + q1 * st0.s );&quot;);
+        src.push(&quot;      vec3 N = normalize( surf_norm );&quot;);
+        src.push(&quot;      vec3 mapN = texture2D( normalMap, uv ).xyz * 2.0 - 1.0;&quot;);
+        src.push(&quot;      mat3 tsn = mat3( S, T, N );&quot;);
+        //     src.push(&quot;      mapN *= 3.0;&quot;);
+        src.push(&quot;      return normalize( tsn * mapN );&quot;);
+        src.push(&quot;}&quot;);
+    }
+    if (uvs &amp;&amp; material._occlusionMap) {
+        src.push(&quot;uniform sampler2D occlusionMap;&quot;);
+        if (material._occlusionMap._state.matrix) {
+            src.push(&quot;uniform mat4 occlusionMapMatrix;&quot;);
+        }
+    }
+    if (uvs &amp;&amp; material._alphaMap) {
+        src.push(&quot;uniform sampler2D alphaMap;&quot;);
+        if (material._alphaMap._state.matrix) {
+            src.push(&quot;uniform mat4 alphaMapMatrix;&quot;);
+        }
+    }
+    if (normals &amp;&amp; uvs &amp;&amp; material._specularMap) {
+        src.push(&quot;uniform sampler2D specularMap;&quot;);
+        if (material._specularMap._state.matrix) {
+            src.push(&quot;uniform mat4 specularMapMatrix;&quot;);
+        }
+    }
+    if (normals &amp;&amp; uvs &amp;&amp; material._glossinessMap) {
+        src.push(&quot;uniform sampler2D glossinessMap;&quot;);
+        if (material._glossinessMap._state.matrix) {
+            src.push(&quot;uniform mat4 glossinessMapMatrix;&quot;);
+        }
+    }
+    if (normals &amp;&amp; uvs &amp;&amp; material._specularGlossinessMap) {
+        src.push(&quot;uniform sampler2D materialSpecularGlossinessMap;&quot;);
+        if (material._specularGlossinessMap._state.matrix) {
+            src.push(&quot;uniform mat4 materialSpecularGlossinessMapMatrix;&quot;);
+        }
+    }
+
+    //--------------------------------------------------------------------------------
+    // MATERIAL FRESNEL INPUTS
+    //--------------------------------------------------------------------------------
+
+    if (normals &amp;&amp; (material._diffuseFresnel ||
+        material._specularFresnel ||
+        material._alphaFresnel ||
+        material._emissiveFresnel ||
+        material._reflectivityFresnel)) {
+        src.push(&quot;float fresnel(vec3 eyeDir, vec3 normal, float edgeBias, float centerBias, float power) {&quot;);
+        src.push(&quot;    float fr = abs(dot(eyeDir, normal));&quot;);
+        src.push(&quot;    float finalFr = clamp((fr - edgeBias) / (centerBias - edgeBias), 0.0, 1.0);&quot;);
+        src.push(&quot;    return pow(finalFr, power);&quot;);
+        src.push(&quot;}&quot;);
+        if (material._diffuseFresnel) {
+            src.push(&quot;uniform float  diffuseFresnelCenterBias;&quot;);
+            src.push(&quot;uniform float  diffuseFresnelEdgeBias;&quot;);
+            src.push(&quot;uniform float  diffuseFresnelPower;&quot;);
+            src.push(&quot;uniform vec3   diffuseFresnelCenterColor;&quot;);
+            src.push(&quot;uniform vec3   diffuseFresnelEdgeColor;&quot;);
+        }
+        if (material._specularFresnel) {
+            src.push(&quot;uniform float  specularFresnelCenterBias;&quot;);
+            src.push(&quot;uniform float  specularFresnelEdgeBias;&quot;);
+            src.push(&quot;uniform float  specularFresnelPower;&quot;);
+            src.push(&quot;uniform vec3   specularFresnelCenterColor;&quot;);
+            src.push(&quot;uniform vec3   specularFresnelEdgeColor;&quot;);
+        }
+        if (material._alphaFresnel) {
+            src.push(&quot;uniform float  alphaFresnelCenterBias;&quot;);
+            src.push(&quot;uniform float  alphaFresnelEdgeBias;&quot;);
+            src.push(&quot;uniform float  alphaFresnelPower;&quot;);
+            src.push(&quot;uniform vec3   alphaFresnelCenterColor;&quot;);
+            src.push(&quot;uniform vec3   alphaFresnelEdgeColor;&quot;);
+        }
+        if (material._reflectivityFresnel) {
+            src.push(&quot;uniform float  materialSpecularF0FresnelCenterBias;&quot;);
+            src.push(&quot;uniform float  materialSpecularF0FresnelEdgeBias;&quot;);
+            src.push(&quot;uniform float  materialSpecularF0FresnelPower;&quot;);
+            src.push(&quot;uniform vec3   materialSpecularF0FresnelCenterColor;&quot;);
+            src.push(&quot;uniform vec3   materialSpecularF0FresnelEdgeColor;&quot;);
+        }
+        if (material._emissiveFresnel) {
+            src.push(&quot;uniform float  emissiveFresnelCenterBias;&quot;);
+            src.push(&quot;uniform float  emissiveFresnelEdgeBias;&quot;);
+            src.push(&quot;uniform float  emissiveFresnelPower;&quot;);
+            src.push(&quot;uniform vec3   emissiveFresnelCenterColor;&quot;);
+            src.push(&quot;uniform vec3   emissiveFresnelEdgeColor;&quot;);
+        }
+    }
+
+    //--------------------------------------------------------------------------------
+    // LIGHT SOURCES
+    //--------------------------------------------------------------------------------
+
+    src.push(&quot;uniform vec4   lightAmbient;&quot;);
+
+    if (normals) {
+        for (i = 0, len = lightsState.lights.length; i &lt; len; i++) { // Light sources
+            light = lightsState.lights[i];
+            if (light.type === &quot;ambient&quot;) {
+                continue;
+            }
+            src.push(&quot;uniform vec4 lightColor&quot; + i + &quot;;&quot;);
+            if (light.type === &quot;point&quot;) {
+                src.push(&quot;uniform vec3 lightAttenuation&quot; + i + &quot;;&quot;);
+            }
+            if (light.type === &quot;dir&quot; &amp;&amp; light.space === &quot;view&quot;) {
+                src.push(&quot;uniform vec3 lightDir&quot; + i + &quot;;&quot;);
+            }
+            if (light.type === &quot;point&quot; &amp;&amp; light.space === &quot;view&quot;) {
+                src.push(&quot;uniform vec3 lightPos&quot; + i + &quot;;&quot;);
+            } else {
+                src.push(&quot;varying vec4 vViewLightReverseDirAndDist&quot; + i + &quot;;&quot;);
+            }
+        }
+    }
+
+    if (receivesShadow) {
+
+        // Variance castsShadow mapping filter
+
+        // src.push(&quot;float linstep(float low, float high, float v){&quot;);
+        // src.push(&quot;      return clamp((v-low)/(high-low), 0.0, 1.0);&quot;);
+        // src.push(&quot;}&quot;);
+        //
+        // src.push(&quot;float VSM(sampler2D depths, vec2 uv, float compare){&quot;);
+        // src.push(&quot;      vec2 moments = texture2D(depths, uv).xy;&quot;);
+        // src.push(&quot;      float p = smoothstep(compare-0.02, compare, moments.x);&quot;);
+        // src.push(&quot;      float variance = max(moments.y - moments.x*moments.x, -0.001);&quot;);
+        // src.push(&quot;      float d = compare - moments.x;&quot;);
+        // src.push(&quot;      float p_max = linstep(0.2, 1.0, variance / (variance + d*d));&quot;);
+        // src.push(&quot;      return clamp(max(p, p_max), 0.0, 1.0);&quot;);
+        // src.push(&quot;}&quot;);
+
+        for (i = 0, len = lightsState.lights.length; i &lt; len; i++) { // Light sources
+            if (lightsState.lights[i].castsShadow) {
+                src.push(&quot;varying vec4 vShadowPosFromLight&quot; + i + &quot;;&quot;);
+                src.push(&quot;uniform sampler2D shadowMap&quot; + i + &quot;;&quot;);
+            }
+        }
+    }
+
+    src.push(&quot;uniform vec4 colorize;&quot;);
+
+    //================================================================================
+    // MAIN
+    //================================================================================
+
+    src.push(&quot;void main(void) {&quot;);
+
+    if (clipping) {
+        src.push(&quot;if (clippable) {&quot;);
+        src.push(&quot;  float dist = 0.0;&quot;);
+        for (var i = 0; i &lt; sectionPlanesState.sectionPlanes.length; i++) {
+            src.push(&quot;if (sectionPlaneActive&quot; + i + &quot;) {&quot;);
+            src.push(&quot;   dist += clamp(dot(-sectionPlaneDir&quot; + i + &quot;.xyz, vWorldPosition.xyz - sectionPlanePos&quot; + i + &quot;.xyz), 0.0, 1000.0);&quot;);
+            src.push(&quot;}&quot;);
+        }
+        src.push(&quot;  if (dist &gt; 0.0) { discard; }&quot;);
+        if (solid) {
+            src.push(&quot;  if (gl_FrontFacing == false) {&quot;);
+            src.push(&quot;     gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);&quot;);
+            src.push(&quot;     return;&quot;);
+            src.push(&quot;  }&quot;);
+        }
+        src.push(&quot;}&quot;);
+    }
+
+    if (geometryState.primitiveName === &quot;points&quot;) {
+        src.push(&quot;vec2 cxy = 2.0 * gl_PointCoord - 1.0;&quot;);
+        src.push(&quot;float r = dot(cxy, cxy);&quot;);
+        src.push(&quot;if (r &gt; 1.0) {&quot;);
+        src.push(&quot;   discard;&quot;);
+        src.push(&quot;}&quot;);
+    }
+
+    src.push(&quot;float occlusion = 1.0;&quot;);
+
+    if (materialState.ambient) {
+        src.push(&quot;vec3 ambientColor = materialAmbient;&quot;);
+    } else {
+        src.push(&quot;vec3 ambientColor = vec3(1.0, 1.0, 1.0);&quot;);
+    }
+
+    if (materialState.diffuse) {
+        src.push(&quot;vec3 diffuseColor = materialDiffuse;&quot;);
+    } else if (materialState.baseColor) {
+        src.push(&quot;vec3 diffuseColor = materialBaseColor;&quot;);
+    } else {
+        src.push(&quot;vec3 diffuseColor = vec3(1.0, 1.0, 1.0);&quot;);
+    }
+
+    if (geometryState.colors) {
+        src.push(&quot;diffuseColor *= vColor.rgb;&quot;);
+    }
+
+    if (materialState.emissive) {
+        src.push(&quot;vec3 emissiveColor = materialEmissive;&quot;); // Emissive default is (0,0,0), so initializing here
+    } else {
+        src.push(&quot;vec3  emissiveColor = vec3(0.0, 0.0, 0.0);&quot;);
+    }
+
+    if (materialState.specular) {
+        src.push(&quot;vec3 specular = materialSpecular;&quot;);
+    } else {
+        src.push(&quot;vec3 specular = vec3(1.0, 1.0, 1.0);&quot;);
+    }
+
+    if (materialState.alpha !== undefined) {
+        src.push(&quot;float alpha = materialAlphaModeCutoff[0];&quot;);
+    } else {
+        src.push(&quot;float alpha = 1.0;&quot;);
+    }
+
+    if (geometryState.colors) {
+        src.push(&quot;alpha *= vColor.a;&quot;);
+    }
+
+    if (materialState.glossiness !== undefined) {
+        src.push(&quot;float glossiness = materialGlossiness;&quot;);
+    } else {
+        src.push(&quot;float glossiness = 1.0;&quot;);
+    }
+
+    if (materialState.metallic !== undefined) {
+        src.push(&quot;float metallic = materialMetallic;&quot;);
+    } else {
+        src.push(&quot;float metallic = 1.0;&quot;);
+    }
+
+    if (materialState.roughness !== undefined) {
+        src.push(&quot;float roughness = materialRoughness;&quot;);
+    } else {
+        src.push(&quot;float roughness = 1.0;&quot;);
+    }
+
+    if (materialState.specularF0 !== undefined) {
+        src.push(&quot;float specularF0 = materialSpecularF0;&quot;);
+    } else {
+        src.push(&quot;float specularF0 = 1.0;&quot;);
+    }
+
+    //--------------------------------------------------------------------------------
+    // TEXTURING
+    //--------------------------------------------------------------------------------
+
+    if (uvs &amp;&amp; ((normals &amp;&amp; material._normalMap)
+        || material._ambientMap
+        || material._baseColorMap
+        || material._diffuseMap
+        || material._occlusionMap
+        || material._emissiveMap
+        || material._metallicMap
+        || material._roughnessMap
+        || material._metallicRoughnessMap
+        || material._specularMap
+        || material._glossinessMap
+        || material._specularGlossinessMap
+        || material._alphaMap)) {
+        src.push(&quot;vec4 texturePos = vec4(vUV.s, vUV.t, 1.0, 1.0);&quot;);
+        src.push(&quot;vec2 textureCoord;&quot;);
+    }
+
+    if (uvs &amp;&amp; material._ambientMap) {
+        if (material._ambientMap._state.matrix) {
+            src.push(&quot;textureCoord = (ambientMapMatrix * texturePos).xy;&quot;);
+        } else {
+            src.push(&quot;textureCoord = texturePos.xy;&quot;);
+        }
+        src.push(&quot;vec4 ambientTexel = texture2D(ambientMap, textureCoord).rgb;&quot;);
+        src.push(&quot;ambientTexel = &quot; + TEXTURE_DECODE_FUNCS[material._ambientMap._state.encoding] + &quot;(ambientTexel);&quot;);
+        src.push(&quot;ambientColor *= ambientTexel.rgb;&quot;);
+    }
+
+    if (uvs &amp;&amp; material._diffuseMap) {
+        if (material._diffuseMap._state.matrix) {
+            src.push(&quot;textureCoord = (diffuseMapMatrix * texturePos).xy;&quot;);
+        } else {
+            src.push(&quot;textureCoord = texturePos.xy;&quot;);
+        }
+        src.push(&quot;vec4 diffuseTexel = texture2D(diffuseMap, textureCoord);&quot;);
+        src.push(&quot;diffuseTexel = &quot; + TEXTURE_DECODE_FUNCS[material._diffuseMap._state.encoding] + &quot;(diffuseTexel);&quot;);
+        src.push(&quot;diffuseColor *= diffuseTexel.rgb;&quot;);
+        src.push(&quot;alpha *= diffuseTexel.a;&quot;);
+    }
+
+    if (uvs &amp;&amp; material._baseColorMap) {
+        if (material._baseColorMap._state.matrix) {
+            src.push(&quot;textureCoord = (baseColorMapMatrix * texturePos).xy;&quot;);
+        } else {
+            src.push(&quot;textureCoord = texturePos.xy;&quot;);
+        }
+        src.push(&quot;vec4 baseColorTexel = texture2D(baseColorMap, textureCoord);&quot;);
+        src.push(&quot;baseColorTexel = &quot; + TEXTURE_DECODE_FUNCS[material._baseColorMap._state.encoding] + &quot;(baseColorTexel);&quot;);
+        src.push(&quot;diffuseColor *= baseColorTexel.rgb;&quot;);
+        src.push(&quot;alpha *= baseColorTexel.a;&quot;);
+    }
+
+    if (uvs &amp;&amp; material._emissiveMap) {
+        if (material._emissiveMap._state.matrix) {
+            src.push(&quot;textureCoord = (emissiveMapMatrix * texturePos).xy;&quot;);
+        } else {
+            src.push(&quot;textureCoord = texturePos.xy;&quot;);
+        }
+        src.push(&quot;vec4 emissiveTexel = texture2D(emissiveMap, textureCoord);&quot;);
+        src.push(&quot;emissiveTexel = &quot; + TEXTURE_DECODE_FUNCS[material._emissiveMap._state.encoding] + &quot;(emissiveTexel);&quot;);
+        src.push(&quot;emissiveColor *= emissiveTexel.rgb;&quot;);
+    }
+
+    if (uvs &amp;&amp; material._alphaMap) {
+        if (material._alphaMap._state.matrix) {
+            src.push(&quot;textureCoord = (alphaMapMatrix * texturePos).xy;&quot;);
+        } else {
+            src.push(&quot;textureCoord = texturePos.xy;&quot;);
+        }
+        src.push(&quot;alpha *= texture2D(alphaMap, textureCoord).r;&quot;);
+    }
+
+    if (uvs &amp;&amp; material._occlusionMap) {
+        if (material._occlusionMap._state.matrix) {
+            src.push(&quot;textureCoord = (occlusionMapMatrix * texturePos).xy;&quot;);
+        } else {
+            src.push(&quot;textureCoord = texturePos.xy;&quot;);
+        }
+        src.push(&quot;occlusion *= texture2D(occlusionMap, textureCoord).r;&quot;);
+    }
+
+    if (normals &amp;&amp; ((lightsState.lights.length &gt; 0) || lightsState.lightMaps.length &gt; 0 || lightsState.reflectionMaps.length &gt; 0)) {
+
+        //--------------------------------------------------------------------------------
+        // SHADING
+        //--------------------------------------------------------------------------------
+
+        if (uvs &amp;&amp; material._normalMap) {
+            if (material._normalMap._state.matrix) {
+                src.push(&quot;textureCoord = (normalMapMatrix * texturePos).xy;&quot;);
+            } else {
+                src.push(&quot;textureCoord = texturePos.xy;&quot;);
+            }
+            src.push(&quot;vec3 viewNormal = perturbNormal2Arb( vViewPosition, normalize(vViewNormal), textureCoord );&quot;);
+        } else {
+            src.push(&quot;vec3 viewNormal = normalize(vViewNormal);&quot;);
+        }
+
+        if (uvs &amp;&amp; material._specularMap) {
+            if (material._specularMap._state.matrix) {
+                src.push(&quot;textureCoord = (specularMapMatrix * texturePos).xy;&quot;);
+            } else {
+                src.push(&quot;textureCoord = texturePos.xy;&quot;);
+            }
+            src.push(&quot;specular *= texture2D(specularMap, textureCoord).rgb;&quot;);
+        }
+
+        if (uvs &amp;&amp; material._glossinessMap) {
+            if (material._glossinessMap._state.matrix) {
+                src.push(&quot;textureCoord = (glossinessMapMatrix * texturePos).xy;&quot;);
+            } else {
+                src.push(&quot;textureCoord = texturePos.xy;&quot;);
+            }
+            src.push(&quot;glossiness *= texture2D(glossinessMap, textureCoord).r;&quot;);
+        }
+
+        if (uvs &amp;&amp; material._specularGlossinessMap) {
+            if (material._specularGlossinessMap._state.matrix) {
+                src.push(&quot;textureCoord = (materialSpecularGlossinessMapMatrix * texturePos).xy;&quot;);
+            } else {
+                src.push(&quot;textureCoord = texturePos.xy;&quot;);
+            }
+            src.push(&quot;vec4 specGlossRGB = texture2D(materialSpecularGlossinessMap, textureCoord).rgba;&quot;); // TODO: what if only RGB texture?
+            src.push(&quot;specular *= specGlossRGB.rgb;&quot;);
+            src.push(&quot;glossiness *= specGlossRGB.a;&quot;);
+        }
+
+        if (uvs &amp;&amp; material._metallicMap) {
+            if (material._metallicMap._state.matrix) {
+                src.push(&quot;textureCoord = (metallicMapMatrix * texturePos).xy;&quot;);
+            } else {
+                src.push(&quot;textureCoord = texturePos.xy;&quot;);
+            }
+            src.push(&quot;metallic *= texture2D(metallicMap, textureCoord).r;&quot;);
+        }
+
+        if (uvs &amp;&amp; material._roughnessMap) {
+            if (material._roughnessMap._state.matrix) {
+                src.push(&quot;textureCoord = (roughnessMapMatrix * texturePos).xy;&quot;);
+            } else {
+                src.push(&quot;textureCoord = texturePos.xy;&quot;);
+            }
+            src.push(&quot;roughness *= texture2D(roughnessMap, textureCoord).r;&quot;);
+        }
+
+        if (uvs &amp;&amp; material._metallicRoughnessMap) {
+            if (material._metallicRoughnessMap._state.matrix) {
+                src.push(&quot;textureCoord = (metallicRoughnessMapMatrix * texturePos).xy;&quot;);
+            } else {
+                src.push(&quot;textureCoord = texturePos.xy;&quot;);
+            }
+            src.push(&quot;vec3 metalRoughRGB = texture2D(metallicRoughnessMap, textureCoord).rgb;&quot;);
+            src.push(&quot;metallic *= metalRoughRGB.b;&quot;);
+            src.push(&quot;roughness *= metalRoughRGB.g;&quot;);
+        }
+
+        src.push(&quot;vec3 viewEyeDir = normalize(-vViewPosition);&quot;);
+
+        if (material._diffuseFresnel) {
+            src.push(&quot;float diffuseFresnel = fresnel(viewEyeDir, viewNormal, diffuseFresnelEdgeBias, diffuseFresnelCenterBias, diffuseFresnelPower);&quot;);
+            src.push(&quot;diffuseColor *= mix(diffuseFresnelEdgeColor, diffuseFresnelCenterColor, diffuseFresnel);&quot;);
+        }
+        if (material._specularFresnel) {
+            src.push(&quot;float specularFresnel = fresnel(viewEyeDir, viewNormal, specularFresnelEdgeBias, specularFresnelCenterBias, specularFresnelPower);&quot;);
+            src.push(&quot;specular *= mix(specularFresnelEdgeColor, specularFresnelCenterColor, specularFresnel);&quot;);
+        }
+        if (material._alphaFresnel) {
+            src.push(&quot;float alphaFresnel = fresnel(viewEyeDir, viewNormal, alphaFresnelEdgeBias, alphaFresnelCenterBias, alphaFresnelPower);&quot;);
+            src.push(&quot;alpha *= mix(alphaFresnelEdgeColor.r, alphaFresnelCenterColor.r, alphaFresnel);&quot;);
+        }
+        if (material._emissiveFresnel) {
+            src.push(&quot;float emissiveFresnel = fresnel(viewEyeDir, viewNormal, emissiveFresnelEdgeBias, emissiveFresnelCenterBias, emissiveFresnelPower);&quot;);
+            src.push(&quot;emissiveColor *= mix(emissiveFresnelEdgeColor, emissiveFresnelCenterColor, emissiveFresnel);&quot;);
+        }
+
+        src.push(&quot;if (materialAlphaModeCutoff[1] == 1.0 &amp;&amp; alpha &lt; materialAlphaModeCutoff[2]) {&quot;); // ie. (alphaMode == &quot;mask&quot; &amp;&amp; alpha &lt; alphaCutoff)
+        src.push(&quot;   discard;&quot;); // TODO: Discard earlier within this shader?
+        src.push(&quot;}&quot;);
+
+        // PREPARE INPUTS FOR SHADER FUNCTIONS
+
+        src.push(&quot;IncidentLight  light;&quot;);
+        src.push(&quot;Material       material;&quot;);
+        src.push(&quot;Geometry       geometry;&quot;);
+        src.push(&quot;ReflectedLight reflectedLight = ReflectedLight(vec3(0.0,0.0,0.0), vec3(0.0,0.0,0.0));&quot;);
+        src.push(&quot;vec3           viewLightDir;&quot;);
+
+        if (phongMaterial) {
+            src.push(&quot;material.diffuseColor      = diffuseColor;&quot;);
+            src.push(&quot;material.specularColor     = specular;&quot;);
+            src.push(&quot;material.shine             = materialShininess;&quot;);
+        }
+
+        if (specularMaterial) {
+            src.push(&quot;float oneMinusSpecularStrength = 1.0 - max(max(specular.r, specular.g ),specular.b);&quot;); // Energy conservation
+            src.push(&quot;material.diffuseColor      = diffuseColor * oneMinusSpecularStrength;&quot;);
+            src.push(&quot;material.specularRoughness = clamp( 1.0 - glossiness, 0.04, 1.0 );&quot;);
+            src.push(&quot;material.specularColor     = specular;&quot;);
+        }
+
+        if (metallicMaterial) {
+            src.push(&quot;float dielectricSpecular = 0.16 * specularF0 * specularF0;&quot;);
+            src.push(&quot;material.diffuseColor      = diffuseColor * (1.0 - dielectricSpecular) * (1.0 - metallic);&quot;);
+            src.push(&quot;material.specularRoughness = clamp(roughness, 0.04, 1.0);&quot;);
+            src.push(&quot;material.specularColor     = mix(vec3(dielectricSpecular), diffuseColor, metallic);&quot;);
+        }
+
+        src.push(&quot;geometry.position      = vViewPosition;&quot;);
+        if (lightsState.lightMaps.length &gt; 0) {
+            src.push(&quot;geometry.worldNormal   = normalize(vWorldNormal);&quot;);
+        }
+        src.push(&quot;geometry.viewNormal    = viewNormal;&quot;);
+        src.push(&quot;geometry.viewEyeDir    = viewEyeDir;&quot;);
+
+        // ENVIRONMENT AND REFLECTION MAP SHADING
+
+        if ((phongMaterial) &amp;&amp; (lightsState.lightMaps.length &gt; 0 || lightsState.reflectionMaps.length &gt; 0)) {
+            src.push(&quot;computePhongLightMapping(geometry, material, reflectedLight);&quot;);
+        }
+
+        if ((specularMaterial || metallicMaterial) &amp;&amp; (lightsState.lightMaps.length &gt; 0 || lightsState.reflectionMaps.length &gt; 0)) {
+            src.push(&quot;computePBRLightMapping(geometry, material, reflectedLight);&quot;);
+        }
+
+        // LIGHT SOURCE SHADING
+
+        src.push(&quot;float shadow = 1.0;&quot;);
+
+        // if (receivesShadow) {
+        //
+        //     src.push(&quot;float lightDepth2 = clamp(length(lightPos)/40.0, 0.0, 1.0);&quot;);
+        //     src.push(&quot;float illuminated = VSM(sLightDepth, lightUV, lightDepth2);&quot;);
+        //
+        src.push(&quot;float shadowAcneRemover = 0.007;&quot;);
+        src.push(&quot;vec3 fragmentDepth;&quot;);
+        src.push(&quot;float texelSize = 1.0 / 1024.0;&quot;);
+        src.push(&quot;float amountInLight = 0.0;&quot;);
+        src.push(&quot;vec3 shadowCoord;&quot;);
+        src.push(&apos;vec4 rgbaDepth;&apos;);
+        src.push(&quot;float depth;&quot;);
+        // }
+
+        const numShadows = 0;
+        for (i = 0, len = lightsState.lights.length; i &lt; len; i++) {
+
+            light = lightsState.lights[i];
+
+            if (light.type === &quot;ambient&quot;) {
+                continue;
+            }
+            if (light.type === &quot;dir&quot; &amp;&amp; light.space === &quot;view&quot;) {
+                src.push(&quot;viewLightDir = -normalize(lightDir&quot; + i + &quot;);&quot;);
+            } else if (light.type === &quot;point&quot; &amp;&amp; light.space === &quot;view&quot;) {
+                src.push(&quot;viewLightDir = normalize(lightPos&quot; + i + &quot; - vViewPosition);&quot;);
+                //src.push(&quot;tmpVec3 = lightPos&quot; + i + &quot;.xyz - viewPosition.xyz;&quot;);
+                //src.push(&quot;lightDist = abs(length(tmpVec3));&quot;);
+            } else {
+                src.push(&quot;viewLightDir = normalize(vViewLightReverseDirAndDist&quot; + i + &quot;.xyz);&quot;); // If normal mapping, the fragment-&gt;light vector will be in tangent space
+            }
+
+            if (receivesShadow &amp;&amp; light.castsShadow) {
+
+                // if (true) {
+                //     src.push(&apos;shadowCoord = (vShadowPosFromLight&apos; + i + &apos;.xyz/vShadowPosFromLight&apos; + i + &apos;.w)/2.0 + 0.5;&apos;);
+                //     src.push(&quot;lightDepth2 = clamp(length(vec3[0.0, 20.0, 20.0])/40.0, 0.0, 1.0);&quot;);
+                //     src.push(&quot;castsShadow *= VSM(shadowMap&apos; + i + &apos;, shadowCoord, lightDepth2);&quot;);
+                // }
+                //
+                // if (false) {
+                //
+                // PCF
+
+                src.push(&quot;shadow = 0.0;&quot;);
+
+                src.push(&quot;fragmentDepth = vShadowPosFromLight&quot; + i + &quot;.xyz;&quot;);
+                src.push(&quot;fragmentDepth.z -= shadowAcneRemover;&quot;);
+                src.push(&quot;for (int x = -3; x &lt;= 3; x++) {&quot;);
+                src.push(&quot;  for (int y = -3; y &lt;= 3; y++) {&quot;);
+                src.push(&quot;      float texelDepth = unpackDepth(texture2D(shadowMap&quot; + i + &quot;, fragmentDepth.xy + vec2(x, y) * texelSize));&quot;);
+                src.push(&quot;      if (fragmentDepth.z &lt; texelDepth) {&quot;);
+                src.push(&quot;          shadow += 1.0;&quot;);
+                src.push(&quot;      }&quot;);
+                src.push(&quot;  }&quot;);
+                src.push(&quot;}&quot;);
+
+                src.push(&quot;shadow = shadow / 9.0;&quot;);
+
+                src.push(&quot;light.color =  lightColor&quot; + i + &quot;.rgb * (lightColor&quot; + i + &quot;.a * shadow);&quot;); // a is intensity
+                //
+                // }
+                //
+                // if (false){
+                //
+                //     src.push(&quot;shadow = 1.0;&quot;);
+                //
+                //     src.push(&apos;shadowCoord = (vShadowPosFromLight&apos; + i + &apos;.xyz/vShadowPosFromLight&apos; + i + &apos;.w)/2.0 + 0.5;&apos;);
+                //
+                //     src.push(&apos;shadow -= (shadowCoord.z &gt; unpackDepth(texture2D(shadowMap&apos; + i + &apos;, shadowCoord.xy + vec2( -0.94201624, -0.39906216 ) / 700.0)) + 0.0015) ? 0.2 : 0.0;&apos;);
+                //     src.push(&apos;shadow -= (shadowCoord.z &gt; unpackDepth(texture2D(shadowMap&apos; + i + &apos;, shadowCoord.xy + vec2( 0.94558609, -0.76890725 ) / 700.0)) + 0.0015) ? 0.2 : 0.0;&apos;);
+                //     src.push(&apos;shadow -= (shadowCoord.z &gt; unpackDepth(texture2D(shadowMap&apos; + i + &apos;, shadowCoord.xy + vec2( -0.094184101, -0.92938870 ) / 700.0)) + 0.0015) ? 0.2 : 0.0;&apos;);
+                //     src.push(&apos;shadow -= (shadowCoord.z &gt; unpackDepth(texture2D(shadowMap&apos; + i + &apos;, shadowCoord.xy + vec2( 0.34495938, 0.29387760 ) / 700.0)) + 0.0015) ? 0.2 : 0.0;&apos;);
+                //
+                //     src.push(&quot;light.color =  lightColor&quot; + i + &quot;.rgb * (lightColor&quot; + i + &quot;.a * shadow);&quot;);
+                // }
+            } else {
+                src.push(&quot;light.color =  lightColor&quot; + i + &quot;.rgb * (lightColor&quot; + i + &quot;.a );&quot;); // a is intensity
+            }
+
+            src.push(&quot;light.direction = viewLightDir;&quot;);
+
+            if (phongMaterial) {
+                src.push(&quot;computePhongLighting(light, geometry, material, reflectedLight);&quot;);
+            }
+
+            if (specularMaterial || metallicMaterial) {
+                src.push(&quot;computePBRLighting(light, geometry, material, reflectedLight);&quot;);
+            }
+        }
+
+        if (numShadows &gt; 0) {
+            //src.push(&quot;shadow /= &quot; + (9 * numShadows) + &quot;.0;&quot;);
+        }
+
+        //src.push(&quot;reflectedLight.diffuse *= shadow;&quot;);
+
+        // COMBINE TERMS
+
+        if (phongMaterial) {
+
+            src.push(&quot;ambientColor *= (lightAmbient.rgb * lightAmbient.a);&quot;);
+
+            src.push(&quot;vec3 outgoingLight =  ((occlusion * (( reflectedLight.diffuse + reflectedLight.specular)))) + emissiveColor;&quot;);
+
+        } else {
+            src.push(&quot;vec3 outgoingLight = (occlusion * (reflectedLight.diffuse)) + (occlusion * reflectedLight.specular) + emissiveColor;&quot;);
+        }
+
+    } else {
+
+        //--------------------------------------------------------------------------------
+        // NO SHADING - EMISSIVE and AMBIENT ONLY
+        //--------------------------------------------------------------------------------
+
+        src.push(&quot;ambientColor *= (lightAmbient.rgb * lightAmbient.a);&quot;);
+
+        src.push(&quot;vec3 outgoingLight = emissiveColor + ambientColor;&quot;);
+    }
+
+    src.push(&quot;gl_FragColor = vec4(outgoingLight, alpha) * colorize;&quot;);
+
+    if (gammaOutput) {
+        src.push(&quot;gl_FragColor = linearToGamma(gl_FragColor, gammaFactor);&quot;);
+    }
+
+    src.push(&quot;}&quot;);
+
+    return src;
+}
+
+export {DrawShaderSource};</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

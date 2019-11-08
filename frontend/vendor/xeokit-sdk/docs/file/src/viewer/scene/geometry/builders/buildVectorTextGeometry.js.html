@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../../../">
+  <title data-ice="title">src/viewer/scene/geometry/builders/buildVectorTextGeometry.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/viewer/scene/geometry/builders/buildVectorTextGeometry.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {utils} from &quot;../../utils.js&quot;;
+
+const letters = {
+    &apos; &apos;: {width: 16, points: []},
+    &apos;!&apos;: {
+        width: 10, points: [
+            [5, 21],
+            [5, 7],
+            [-1, -1],
+            [5, 2],
+            [4, 1],
+            [5, 0],
+            [6, 1],
+            [5, 2]
+        ]
+    },
+    &apos;&quot;&apos;: {
+        width: 16, points: [
+            [4, 21],
+            [4, 14],
+            [-1, -1],
+            [12, 21],
+            [12, 14]
+        ]
+    },
+    &apos;#&apos;: {
+        width: 21, points: [
+            [11, 25],
+            [4, -7],
+            [-1, -1],
+            [17, 25],
+            [10, -7],
+            [-1, -1],
+            [4, 12],
+            [18, 12],
+            [-1, -1],
+            [3, 6],
+            [17, 6]
+        ]
+    },
+    &apos;$&apos;: {
+        width: 20, points: [
+            [8, 25],
+            [8, -4],
+            [-1, -1],
+            [12, 25],
+            [12, -4],
+            [-1, -1],
+            [17, 18],
+            [15, 20],
+            [12, 21],
+            [8, 21],
+            [5, 20],
+            [3, 18],
+            [3, 16],
+            [4, 14],
+            [5, 13],
+            [7, 12],
+            [13, 10],
+            [15, 9],
+            [16, 8],
+            [17, 6],
+            [17, 3],
+            [15, 1],
+            [12, 0],
+            [8, 0],
+            [5, 1],
+            [3, 3]
+        ]
+    },
+    &apos;%&apos;: {
+        width: 24, points: [
+            [21, 21],
+            [3, 0],
+            [-1, -1],
+            [8, 21],
+            [10, 19],
+            [10, 17],
+            [9, 15],
+            [7, 14],
+            [5, 14],
+            [3, 16],
+            [3, 18],
+            [4, 20],
+            [6, 21],
+            [8, 21],
+            [10, 20],
+            [13, 19],
+            [16, 19],
+            [19, 20],
+            [21, 21],
+            [-1, -1],
+            [17, 7],
+            [15, 6],
+            [14, 4],
+            [14, 2],
+            [16, 0],
+            [18, 0],
+            [20, 1],
+            [21, 3],
+            [21, 5],
+            [19, 7],
+            [17, 7]
+        ]
+    },
+    &apos;&amp;&apos;: {
+        width: 26, points: [
+            [23, 12],
+            [23, 13],
+            [22, 14],
+            [21, 14],
+            [20, 13],
+            [19, 11],
+            [17, 6],
+            [15, 3],
+            [13, 1],
+            [11, 0],
+            [7, 0],
+            [5, 1],
+            [4, 2],
+            [3, 4],
+            [3, 6],
+            [4, 8],
+            [5, 9],
+            [12, 13],
+            [13, 14],
+            [14, 16],
+            [14, 18],
+            [13, 20],
+            [11, 21],
+            [9, 20],
+            [8, 18],
+            [8, 16],
+            [9, 13],
+            [11, 10],
+            [16, 3],
+            [18, 1],
+            [20, 0],
+            [22, 0],
+            [23, 1],
+            [23, 2]
+        ]
+    },
+    &apos;\&apos;&apos;: {
+        width: 10, points: [
+            [5, 19],
+            [4, 20],
+            [5, 21],
+            [6, 20],
+            [6, 18],
+            [5, 16],
+            [4, 15]
+        ]
+    },
+    &apos;(&apos;: {
+        width: 14, points: [
+            [11, 25],
+            [9, 23],
+            [7, 20],
+            [5, 16],
+            [4, 11],
+            [4, 7],
+            [5, 2],
+            [7, -2],
+            [9, -5],
+            [11, -7]
+        ]
+    },
+    &apos;)&apos;: {
+        width: 14, points: [
+            [3, 25],
+            [5, 23],
+            [7, 20],
+            [9, 16],
+            [10, 11],
+            [10, 7],
+            [9, 2],
+            [7, -2],
+            [5, -5],
+            [3, -7]
+        ]
+    },
+    &apos;*&apos;: {
+        width: 16, points: [
+            [8, 21],
+            [8, 9],
+            [-1, -1],
+            [3, 18],
+            [13, 12],
+            [-1, -1],
+            [13, 18],
+            [3, 12]
+        ]
+    },
+    &apos;+&apos;: {
+        width: 26, points: [
+            [13, 18],
+            [13, 0],
+            [-1, -1],
+            [4, 9],
+            [22, 9]
+        ]
+    },
+    &apos;,&apos;: {
+        width: 10, points: [
+            [6, 1],
+            [5, 0],
+            [4, 1],
+            [5, 2],
+            [6, 1],
+            [6, -1],
+            [5, -3],
+            [4, -4]
+        ]
+    },
+    &apos;-&apos;: {
+        width: 26, points: [
+            [4, 9],
+            [22, 9]
+        ]
+    },
+    &apos;.&apos;: {
+        width: 10, points: [
+            [5, 2],
+            [4, 1],
+            [5, 0],
+            [6, 1],
+            [5, 2]
+        ]
+    },
+    &apos;/&apos;: {
+        width: 22, points: [
+            [20, 25],
+            [2, -7]
+        ]
+    },
+    &apos;0&apos;: {
+        width: 20, points: [
+            [9, 21],
+            [6, 20],
+            [4, 17],
+            [3, 12],
+            [3, 9],
+            [4, 4],
+            [6, 1],
+            [9, 0],
+            [11, 0],
+            [14, 1],
+            [16, 4],
+            [17, 9],
+            [17, 12],
+            [16, 17],
+            [14, 20],
+            [11, 21],
+            [9, 21]
+        ]
+    },
+    &apos;1&apos;: {
+        width: 20, points: [
+            [6, 17],
+            [8, 18],
+            [11, 21],
+            [11, 0]
+        ]
+    },
+    &apos;2&apos;: {
+        width: 20, points: [
+            [4, 16],
+            [4, 17],
+            [5, 19],
+            [6, 20],
+            [8, 21],
+            [12, 21],
+            [14, 20],
+            [15, 19],
+            [16, 17],
+            [16, 15],
+            [15, 13],
+            [13, 10],
+            [3, 0],
+            [17, 0]
+        ]
+    },
+    &apos;3&apos;: {
+        width: 20, points: [
+            [5, 21],
+            [16, 21],
+            [10, 13],
+            [13, 13],
+            [15, 12],
+            [16, 11],
+            [17, 8],
+            [17, 6],
+            [16, 3],
+            [14, 1],
+            [11, 0],
+            [8, 0],
+            [5, 1],
+            [4, 2],
+            [3, 4]
+        ]
+    },
+    &apos;4&apos;: {
+        width: 20, points: [
+            [13, 21],
+            [3, 7],
+            [18, 7],
+            [-1, -1],
+            [13, 21],
+            [13, 0]
+        ]
+    },
+    &apos;5&apos;: {
+        width: 20, points: [
+            [15, 21],
+            [5, 21],
+            [4, 12],
+            [5, 13],
+            [8, 14],
+            [11, 14],
+            [14, 13],
+            [16, 11],
+            [17, 8],
+            [17, 6],
+            [16, 3],
+            [14, 1],
+            [11, 0],
+            [8, 0],
+            [5, 1],
+            [4, 2],
+            [3, 4]
+        ]
+    },
+    &apos;6&apos;: {
+        width: 20, points: [
+            [16, 18],
+            [15, 20],
+            [12, 21],
+            [10, 21],
+            [7, 20],
+            [5, 17],
+            [4, 12],
+            [4, 7],
+            [5, 3],
+            [7, 1],
+            [10, 0],
+            [11, 0],
+            [14, 1],
+            [16, 3],
+            [17, 6],
+            [17, 7],
+            [16, 10],
+            [14, 12],
+            [11, 13],
+            [10, 13],
+            [7, 12],
+            [5, 10],
+            [4, 7]
+        ]
+    },
+    &apos;7&apos;: {
+        width: 20, points: [
+            [17, 21],
+            [7, 0],
+            [-1, -1],
+            [3, 21],
+            [17, 21]
+        ]
+    },
+    &apos;8&apos;: {
+        width: 20, points: [
+            [8, 21],
+            [5, 20],
+            [4, 18],
+            [4, 16],
+            [5, 14],
+            [7, 13],
+            [11, 12],
+            [14, 11],
+            [16, 9],
+            [17, 7],
+            [17, 4],
+            [16, 2],
+            [15, 1],
+            [12, 0],
+            [8, 0],
+            [5, 1],
+            [4, 2],
+            [3, 4],
+            [3, 7],
+            [4, 9],
+            [6, 11],
+            [9, 12],
+            [13, 13],
+            [15, 14],
+            [16, 16],
+            [16, 18],
+            [15, 20],
+            [12, 21],
+            [8, 21]
+        ]
+    },
+    &apos;9&apos;: {
+        width: 20, points: [
+            [16, 14],
+            [15, 11],
+            [13, 9],
+            [10, 8],
+            [9, 8],
+            [6, 9],
+            [4, 11],
+            [3, 14],
+            [3, 15],
+            [4, 18],
+            [6, 20],
+            [9, 21],
+            [10, 21],
+            [13, 20],
+            [15, 18],
+            [16, 14],
+            [16, 9],
+            [15, 4],
+            [13, 1],
+            [10, 0],
+            [8, 0],
+            [5, 1],
+            [4, 3]
+        ]
+    },
+    &apos;:&apos;: {
+        width: 10, points: [
+            [5, 14],
+            [4, 13],
+            [5, 12],
+            [6, 13],
+            [5, 14],
+            [-1, -1],
+            [5, 2],
+            [4, 1],
+            [5, 0],
+            [6, 1],
+            [5, 2]
+        ]
+    },
+    &apos;;&apos;: {
+        width: 10, points: [
+            [5, 14],
+            [4, 13],
+            [5, 12],
+            [6, 13],
+            [5, 14],
+            [-1, -1],
+            [6, 1],
+            [5, 0],
+            [4, 1],
+            [5, 2],
+            [6, 1],
+            [6, -1],
+            [5, -3],
+            [4, -4]
+        ]
+    },
+    &apos;&lt;&apos;: {
+        width: 24, points: [
+            [20, 18],
+            [4, 9],
+            [20, 0]
+        ]
+    },
+    &apos;=&apos;: {
+        width: 26, points: [
+            [4, 12],
+            [22, 12],
+            [-1, -1],
+            [4, 6],
+            [22, 6]
+        ]
+    },
+    &apos;&gt;&apos;: {
+        width: 24, points: [
+            [4, 18],
+            [20, 9],
+            [4, 0]
+        ]
+    },
+    &apos;?&apos;: {
+        width: 18, points: [
+            [3, 16],
+            [3, 17],
+            [4, 19],
+            [5, 20],
+            [7, 21],
+            [11, 21],
+            [13, 20],
+            [14, 19],
+            [15, 17],
+            [15, 15],
+            [14, 13],
+            [13, 12],
+            [9, 10],
+            [9, 7],
+            [-1, -1],
+            [9, 2],
+            [8, 1],
+            [9, 0],
+            [10, 1],
+            [9, 2]
+        ]
+    },
+    &apos;@&apos;: {
+        width: 27, points: [
+            [18, 13],
+            [17, 15],
+            [15, 16],
+            [12, 16],
+            [10, 15],
+            [9, 14],
+            [8, 11],
+            [8, 8],
+            [9, 6],
+            [11, 5],
+            [14, 5],
+            [16, 6],
+            [17, 8],
+            [-1, -1],
+            [12, 16],
+            [10, 14],
+            [9, 11],
+            [9, 8],
+            [10, 6],
+            [11, 5],
+            [-1, -1],
+            [18, 16],
+            [17, 8],
+            [17, 6],
+            [19, 5],
+            [21, 5],
+            [23, 7],
+            [24, 10],
+            [24, 12],
+            [23, 15],
+            [22, 17],
+            [20, 19],
+            [18, 20],
+            [15, 21],
+            [12, 21],
+            [9, 20],
+            [7, 19],
+            [5, 17],
+            [4, 15],
+            [3, 12],
+            [3, 9],
+            [4, 6],
+            [5, 4],
+            [7, 2],
+            [9, 1],
+            [12, 0],
+            [15, 0],
+            [18, 1],
+            [20, 2],
+            [21, 3],
+            [-1, -1],
+            [19, 16],
+            [18, 8],
+            [18, 6],
+            [19, 5]
+        ]
+    },
+    &apos;A&apos;: {
+        width: 18, points: [
+            [9, 21],
+            [1, 0],
+            [-1, -1],
+            [9, 21],
+            [17, 0],
+            [-1, -1],
+            [4, 7],
+            [14, 7]
+        ]
+    },
+    &apos;B&apos;: {
+        width: 21, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [4, 21],
+            [13, 21],
+            [16, 20],
+            [17, 19],
+            [18, 17],
+            [18, 15],
+            [17, 13],
+            [16, 12],
+            [13, 11],
+            [-1, -1],
+            [4, 11],
+            [13, 11],
+            [16, 10],
+            [17, 9],
+            [18, 7],
+            [18, 4],
+            [17, 2],
+            [16, 1],
+            [13, 0],
+            [4, 0]
+        ]
+    },
+    &apos;C&apos;: {
+        width: 21, points: [
+            [18, 16],
+            [17, 18],
+            [15, 20],
+            [13, 21],
+            [9, 21],
+            [7, 20],
+            [5, 18],
+            [4, 16],
+            [3, 13],
+            [3, 8],
+            [4, 5],
+            [5, 3],
+            [7, 1],
+            [9, 0],
+            [13, 0],
+            [15, 1],
+            [17, 3],
+            [18, 5]
+        ]
+    },
+    &apos;D&apos;: {
+        width: 21, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [4, 21],
+            [11, 21],
+            [14, 20],
+            [16, 18],
+            [17, 16],
+            [18, 13],
+            [18, 8],
+            [17, 5],
+            [16, 3],
+            [14, 1],
+            [11, 0],
+            [4, 0]
+        ]
+    },
+    &apos;E&apos;: {
+        width: 19, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [4, 21],
+            [17, 21],
+            [-1, -1],
+            [4, 11],
+            [12, 11],
+            [-1, -1],
+            [4, 0],
+            [17, 0]
+        ]
+    },
+    &apos;F&apos;: {
+        width: 18, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [4, 21],
+            [17, 21],
+            [-1, -1],
+            [4, 11],
+            [12, 11]
+        ]
+    },
+    &apos;G&apos;: {
+        width: 21, points: [
+            [18, 16],
+            [17, 18],
+            [15, 20],
+            [13, 21],
+            [9, 21],
+            [7, 20],
+            [5, 18],
+            [4, 16],
+            [3, 13],
+            [3, 8],
+            [4, 5],
+            [5, 3],
+            [7, 1],
+            [9, 0],
+            [13, 0],
+            [15, 1],
+            [17, 3],
+            [18, 5],
+            [18, 8],
+            [-1, -1],
+            [13, 8],
+            [18, 8]
+        ]
+    },
+    &apos;H&apos;: {
+        width: 22, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [18, 21],
+            [18, 0],
+            [-1, -1],
+            [4, 11],
+            [18, 11]
+        ]
+    },
+    &apos;I&apos;: {
+        width: 8, points: [
+            [4, 21],
+            [4, 0]
+        ]
+    },
+    &apos;J&apos;: {
+        width: 16, points: [
+            [12, 21],
+            [12, 5],
+            [11, 2],
+            [10, 1],
+            [8, 0],
+            [6, 0],
+            [4, 1],
+            [3, 2],
+            [2, 5],
+            [2, 7]
+        ]
+    },
+    &apos;K&apos;: {
+        width: 21, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [18, 21],
+            [4, 7],
+            [-1, -1],
+            [9, 12],
+            [18, 0]
+        ]
+    },
+    &apos;L&apos;: {
+        width: 17, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [4, 0],
+            [16, 0]
+        ]
+    },
+    &apos;M&apos;: {
+        width: 24, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [4, 21],
+            [12, 0],
+            [-1, -1],
+            [20, 21],
+            [12, 0],
+            [-1, -1],
+            [20, 21],
+            [20, 0]
+        ]
+    },
+    &apos;N&apos;: {
+        width: 22, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [4, 21],
+            [18, 0],
+            [-1, -1],
+            [18, 21],
+            [18, 0]
+        ]
+    },
+    &apos;O&apos;: {
+        width: 22, points: [
+            [9, 21],
+            [7, 20],
+            [5, 18],
+            [4, 16],
+            [3, 13],
+            [3, 8],
+            [4, 5],
+            [5, 3],
+            [7, 1],
+            [9, 0],
+            [13, 0],
+            [15, 1],
+            [17, 3],
+            [18, 5],
+            [19, 8],
+            [19, 13],
+            [18, 16],
+            [17, 18],
+            [15, 20],
+            [13, 21],
+            [9, 21]
+        ]
+    },
+    &apos;P&apos;: {
+        width: 21, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [4, 21],
+            [13, 21],
+            [16, 20],
+            [17, 19],
+            [18, 17],
+            [18, 14],
+            [17, 12],
+            [16, 11],
+            [13, 10],
+            [4, 10]
+        ]
+    },
+    &apos;Q&apos;: {
+        width: 22, points: [
+            [9, 21],
+            [7, 20],
+            [5, 18],
+            [4, 16],
+            [3, 13],
+            [3, 8],
+            [4, 5],
+            [5, 3],
+            [7, 1],
+            [9, 0],
+            [13, 0],
+            [15, 1],
+            [17, 3],
+            [18, 5],
+            [19, 8],
+            [19, 13],
+            [18, 16],
+            [17, 18],
+            [15, 20],
+            [13, 21],
+            [9, 21],
+            [-1, -1],
+            [12, 4],
+            [18, -2]
+        ]
+    },
+    &apos;R&apos;: {
+        width: 21, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [4, 21],
+            [13, 21],
+            [16, 20],
+            [17, 19],
+            [18, 17],
+            [18, 15],
+            [17, 13],
+            [16, 12],
+            [13, 11],
+            [4, 11],
+            [-1, -1],
+            [11, 11],
+            [18, 0]
+        ]
+    },
+    &apos;S&apos;: {
+        width: 20, points: [
+            [17, 18],
+            [15, 20],
+            [12, 21],
+            [8, 21],
+            [5, 20],
+            [3, 18],
+            [3, 16],
+            [4, 14],
+            [5, 13],
+            [7, 12],
+            [13, 10],
+            [15, 9],
+            [16, 8],
+            [17, 6],
+            [17, 3],
+            [15, 1],
+            [12, 0],
+            [8, 0],
+            [5, 1],
+            [3, 3]
+        ]
+    },
+    &apos;T&apos;: {
+        width: 16, points: [
+            [8, 21],
+            [8, 0],
+            [-1, -1],
+            [1, 21],
+            [15, 21]
+        ]
+    },
+    &apos;U&apos;: {
+        width: 22, points: [
+            [4, 21],
+            [4, 6],
+            [5, 3],
+            [7, 1],
+            [10, 0],
+            [12, 0],
+            [15, 1],
+            [17, 3],
+            [18, 6],
+            [18, 21]
+        ]
+    },
+    &apos;V&apos;: {
+        width: 18, points: [
+            [1, 21],
+            [9, 0],
+            [-1, -1],
+            [17, 21],
+            [9, 0]
+        ]
+    },
+    &apos;W&apos;: {
+        width: 24, points: [
+            [2, 21],
+            [7, 0],
+            [-1, -1],
+            [12, 21],
+            [7, 0],
+            [-1, -1],
+            [12, 21],
+            [17, 0],
+            [-1, -1],
+            [22, 21],
+            [17, 0]
+        ]
+    },
+    &apos;X&apos;: {
+        width: 20, points: [
+            [3, 21],
+            [17, 0],
+            [-1, -1],
+            [17, 21],
+            [3, 0]
+        ]
+    },
+    &apos;Y&apos;: {
+        width: 18, points: [
+            [1, 21],
+            [9, 11],
+            [9, 0],
+            [-1, -1],
+            [17, 21],
+            [9, 11]
+        ]
+    },
+    &apos;Z&apos;: {
+        width: 20, points: [
+            [17, 21],
+            [3, 0],
+            [-1, -1],
+            [3, 21],
+            [17, 21],
+            [-1, -1],
+            [3, 0],
+            [17, 0]
+        ]
+    },
+    &apos;[&apos;: {
+        width: 14, points: [
+            [4, 25],
+            [4, -7],
+            [-1, -1],
+            [5, 25],
+            [5, -7],
+            [-1, -1],
+            [4, 25],
+            [11, 25],
+            [-1, -1],
+            [4, -7],
+            [11, -7]
+        ]
+    },
+    &apos;\\&apos;: {
+        width: 14, points: [
+            [0, 21],
+            [14, -3]
+        ]
+    },
+    &apos;]&apos;: {
+        width: 14, points: [
+            [9, 25],
+            [9, -7],
+            [-1, -1],
+            [10, 25],
+            [10, -7],
+            [-1, -1],
+            [3, 25],
+            [10, 25],
+            [-1, -1],
+            [3, -7],
+            [10, -7]
+        ]
+    },
+    &apos;^&apos;: {
+        width: 16, points: [
+            [6, 15],
+            [8, 18],
+            [10, 15],
+            [-1, -1],
+            [3, 12],
+            [8, 17],
+            [13, 12],
+            [-1, -1],
+            [8, 17],
+            [8, 0]
+        ]
+    },
+    &apos;_&apos;: {
+        width: 16, points: [
+            [0, -2],
+            [16, -2]
+        ]
+    },
+    &apos;`&apos;: {
+        width: 10, points: [
+            [6, 21],
+            [5, 20],
+            [4, 18],
+            [4, 16],
+            [5, 15],
+            [6, 16],
+            [5, 17]
+        ]
+    },
+    &apos;a&apos;: {
+        width: 19, points: [
+            [15, 14],
+            [15, 0],
+            [-1, -1],
+            [15, 11],
+            [13, 13],
+            [11, 14],
+            [8, 14],
+            [6, 13],
+            [4, 11],
+            [3, 8],
+            [3, 6],
+            [4, 3],
+            [6, 1],
+            [8, 0],
+            [11, 0],
+            [13, 1],
+            [15, 3]
+        ]
+    },
+    &apos;b&apos;: {
+        width: 19, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [4, 11],
+            [6, 13],
+            [8, 14],
+            [11, 14],
+            [13, 13],
+            [15, 11],
+            [16, 8],
+            [16, 6],
+            [15, 3],
+            [13, 1],
+            [11, 0],
+            [8, 0],
+            [6, 1],
+            [4, 3]
+        ]
+    },
+    &apos;c&apos;: {
+        width: 18, points: [
+            [15, 11],
+            [13, 13],
+            [11, 14],
+            [8, 14],
+            [6, 13],
+            [4, 11],
+            [3, 8],
+            [3, 6],
+            [4, 3],
+            [6, 1],
+            [8, 0],
+            [11, 0],
+            [13, 1],
+            [15, 3]
+        ]
+    },
+    &apos;d&apos;: {
+        width: 19, points: [
+            [15, 21],
+            [15, 0],
+            [-1, -1],
+            [15, 11],
+            [13, 13],
+            [11, 14],
+            [8, 14],
+            [6, 13],
+            [4, 11],
+            [3, 8],
+            [3, 6],
+            [4, 3],
+            [6, 1],
+            [8, 0],
+            [11, 0],
+            [13, 1],
+            [15, 3]
+        ]
+    },
+    &apos;e&apos;: {
+        width: 18, points: [
+            [3, 8],
+            [15, 8],
+            [15, 10],
+            [14, 12],
+            [13, 13],
+            [11, 14],
+            [8, 14],
+            [6, 13],
+            [4, 11],
+            [3, 8],
+            [3, 6],
+            [4, 3],
+            [6, 1],
+            [8, 0],
+            [11, 0],
+            [13, 1],
+            [15, 3]
+        ]
+    },
+    &apos;f&apos;: {
+        width: 12, points: [
+            [10, 21],
+            [8, 21],
+            [6, 20],
+            [5, 17],
+            [5, 0],
+            [-1, -1],
+            [2, 14],
+            [9, 14]
+        ]
+    },
+    &apos;g&apos;: {
+        width: 19, points: [
+            [15, 14],
+            [15, -2],
+            [14, -5],
+            [13, -6],
+            [11, -7],
+            [8, -7],
+            [6, -6],
+            [-1, -1],
+            [15, 11],
+            [13, 13],
+            [11, 14],
+            [8, 14],
+            [6, 13],
+            [4, 11],
+            [3, 8],
+            [3, 6],
+            [4, 3],
+            [6, 1],
+            [8, 0],
+            [11, 0],
+            [13, 1],
+            [15, 3]
+        ]
+    },
+    &apos;h&apos;: {
+        width: 19, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [4, 10],
+            [7, 13],
+            [9, 14],
+            [12, 14],
+            [14, 13],
+            [15, 10],
+            [15, 0]
+        ]
+    },
+    &apos;i&apos;: {
+        width: 8, points: [
+            [3, 21],
+            [4, 20],
+            [5, 21],
+            [4, 22],
+            [3, 21],
+            [-1, -1],
+            [4, 14],
+            [4, 0]
+        ]
+    },
+    &apos;j&apos;: {
+        width: 10, points: [
+            [5, 21],
+            [6, 20],
+            [7, 21],
+            [6, 22],
+            [5, 21],
+            [-1, -1],
+            [6, 14],
+            [6, -3],
+            [5, -6],
+            [3, -7],
+            [1, -7]
+        ]
+    },
+    &apos;k&apos;: {
+        width: 17, points: [
+            [4, 21],
+            [4, 0],
+            [-1, -1],
+            [14, 14],
+            [4, 4],
+            [-1, -1],
+            [8, 8],
+            [15, 0]
+        ]
+    },
+    &apos;l&apos;: {
+        width: 8, points: [
+            [4, 21],
+            [4, 0]
+        ]
+    },
+    &apos;m&apos;: {
+        width: 30, points: [
+            [4, 14],
+            [4, 0],
+            [-1, -1],
+            [4, 10],
+            [7, 13],
+            [9, 14],
+            [12, 14],
+            [14, 13],
+            [15, 10],
+            [15, 0],
+            [-1, -1],
+            [15, 10],
+            [18, 13],
+            [20, 14],
+            [23, 14],
+            [25, 13],
+            [26, 10],
+            [26, 0]
+        ]
+    },
+    &apos;n&apos;: {
+        width: 19, points: [
+            [4, 14],
+            [4, 0],
+            [-1, -1],
+            [4, 10],
+            [7, 13],
+            [9, 14],
+            [12, 14],
+            [14, 13],
+            [15, 10],
+            [15, 0]
+        ]
+    },
+    &apos;o&apos;: {
+        width: 19, points: [
+            [8, 14],
+            [6, 13],
+            [4, 11],
+            [3, 8],
+            [3, 6],
+            [4, 3],
+            [6, 1],
+            [8, 0],
+            [11, 0],
+            [13, 1],
+            [15, 3],
+            [16, 6],
+            [16, 8],
+            [15, 11],
+            [13, 13],
+            [11, 14],
+            [8, 14]
+        ]
+    },
+    &apos;p&apos;: {
+        width: 19, points: [
+            [4, 14],
+            [4, -7],
+            [-1, -1],
+            [4, 11],
+            [6, 13],
+            [8, 14],
+            [11, 14],
+            [13, 13],
+            [15, 11],
+            [16, 8],
+            [16, 6],
+            [15, 3],
+            [13, 1],
+            [11, 0],
+            [8, 0],
+            [6, 1],
+            [4, 3]
+        ]
+    },
+    &apos;q&apos;: {
+        width: 19, points: [
+            [15, 14],
+            [15, -7],
+            [-1, -1],
+            [15, 11],
+            [13, 13],
+            [11, 14],
+            [8, 14],
+            [6, 13],
+            [4, 11],
+            [3, 8],
+            [3, 6],
+            [4, 3],
+            [6, 1],
+            [8, 0],
+            [11, 0],
+            [13, 1],
+            [15, 3]
+        ]
+    },
+    &apos;r&apos;: {
+        width: 13, points: [
+            [4, 14],
+            [4, 0],
+            [-1, -1],
+            [4, 8],
+            [5, 11],
+            [7, 13],
+            [9, 14],
+            [12, 14]
+        ]
+    },
+    &apos;s&apos;: {
+        width: 17, points: [
+            [14, 11],
+            [13, 13],
+            [10, 14],
+            [7, 14],
+            [4, 13],
+            [3, 11],
+            [4, 9],
+            [6, 8],
+            [11, 7],
+            [13, 6],
+            [14, 4],
+            [14, 3],
+            [13, 1],
+            [10, 0],
+            [7, 0],
+            [4, 1],
+            [3, 3]
+        ]
+    },
+    &apos;t&apos;: {
+        width: 12, points: [
+            [5, 21],
+            [5, 4],
+            [6, 1],
+            [8, 0],
+            [10, 0],
+            [-1, -1],
+            [2, 14],
+            [9, 14]
+        ]
+    },
+    &apos;u&apos;: {
+        width: 19, points: [
+            [4, 14],
+            [4, 4],
+            [5, 1],
+            [7, 0],
+            [10, 0],
+            [12, 1],
+            [15, 4],
+            [-1, -1],
+            [15, 14],
+            [15, 0]
+        ]
+    },
+    &apos;v&apos;: {
+        width: 16, points: [
+            [2, 14],
+            [8, 0],
+            [-1, -1],
+            [14, 14],
+            [8, 0]
+        ]
+    },
+    &apos;w&apos;: {
+        width: 22, points: [
+            [3, 14],
+            [7, 0],
+            [-1, -1],
+            [11, 14],
+            [7, 0],
+            [-1, -1],
+            [11, 14],
+            [15, 0],
+            [-1, -1],
+            [19, 14],
+            [15, 0]
+        ]
+    },
+    &apos;x&apos;: {
+        width: 17, points: [
+            [3, 14],
+            [14, 0],
+            [-1, -1],
+            [14, 14],
+            [3, 0]
+        ]
+    },
+    &apos;y&apos;: {
+        width: 16, points: [
+            [2, 14],
+            [8, 0],
+            [-1, -1],
+            [14, 14],
+            [8, 0],
+            [6, -4],
+            [4, -6],
+            [2, -7],
+            [1, -7]
+        ]
+    },
+    &apos;z&apos;: {
+        width: 17, points: [
+            [14, 14],
+            [3, 0],
+            [-1, -1],
+            [3, 14],
+            [14, 14],
+            [-1, -1],
+            [3, 0],
+            [14, 0]
+        ]
+    },
+    &apos;{&apos;: {
+        width: 14, points: [
+            [9, 25],
+            [7, 24],
+            [6, 23],
+            [5, 21],
+            [5, 19],
+            [6, 17],
+            [7, 16],
+            [8, 14],
+            [8, 12],
+            [6, 10],
+            [-1, -1],
+            [7, 24],
+            [6, 22],
+            [6, 20],
+            [7, 18],
+            [8, 17],
+            [9, 15],
+            [9, 13],
+            [8, 11],
+            [4, 9],
+            [8, 7],
+            [9, 5],
+            [9, 3],
+            [8, 1],
+            [7, 0],
+            [6, -2],
+            [6, -4],
+            [7, -6],
+            [-1, -1],
+            [6, 8],
+            [8, 6],
+            [8, 4],
+            [7, 2],
+            [6, 1],
+            [5, -1],
+            [5, -3],
+            [6, -5],
+            [7, -6],
+            [9, -7]
+        ]
+    },
+    &apos;|&apos;: {
+        width: 8, points: [
+            [4, 25],
+            [4, -7]
+        ]
+    },
+    &apos;}&apos;: {
+        width: 14, points: [
+            [5, 25],
+            [7, 24],
+            [8, 23],
+            [9, 21],
+            [9, 19],
+            [8, 17],
+            [7, 16],
+            [6, 14],
+            [6, 12],
+            [8, 10],
+            [-1, -1],
+            [7, 24],
+            [8, 22],
+            [8, 20],
+            [7, 18],
+            [6, 17],
+            [5, 15],
+            [5, 13],
+            [6, 11],
+            [10, 9],
+            [6, 7],
+            [5, 5],
+            [5, 3],
+            [6, 1],
+            [7, 0],
+            [8, -2],
+            [8, -4],
+            [7, -6],
+            [-1, -1],
+            [8, 8],
+            [6, 6],
+            [6, 4],
+            [7, 2],
+            [8, 1],
+            [9, -1],
+            [9, -3],
+            [8, -5],
+            [7, -6],
+            [5, -7]
+        ]
+    },
+    &apos;~&apos;: {
+        width: 24, points: [
+            [3, 6],
+            [3, 8],
+            [4, 11],
+            [6, 12],
+            [8, 12],
+            [10, 11],
+            [14, 8],
+            [16, 7],
+            [18, 7],
+            [20, 8],
+            [21, 10],
+            [-1, -1],
+            [3, 8],
+            [4, 10],
+            [6, 11],
+            [8, 11],
+            [10, 10],
+            [14, 7],
+            [16, 6],
+            [18, 6],
+            [20, 7],
+            [21, 10],
+            [21, 12]
+        ]
+    }
+};
+
+/**
+ * @desc Creates wireframe vector text {@link Geometry}.
+ *
+ * ## Usage
+ *
+ * Creating a {@link Mesh} with vector text {@link ReadableGeometry} :
+ *
+ * [[Run this example](http://xeokit.github.io/xeokit-sdk/examples/#geometry_builders_buildVectorTextGeometry)]
+ *
+ * ````javascript
+ *
+ * import {Viewer} from &quot;../src/viewer/Viewer.js&quot;;
+ * import {Mesh} from &quot;../src/scene/mesh/Mesh.js&quot;;
+ * import {buildVectorTextGeometry} from &quot;../src/scene/geometry/builders/buildVectorTextGeometry.js&quot;;
+ * import {ReadableGeometry} from &quot;../src/scene/geometry/ReadableGeometry.js&quot;;
+ * import {PhongMaterial} from &quot;../src/scene/materials/PhongMaterial.js&quot;;
+ *
+ * const viewer = new Viewer({
+ *      canvasId: &quot;myCanvas&quot;
+ * });
+ *
+ * viewer.camera.eye = [0, 0, 100];
+ * viewer.camera.look = [0, 0, 0];
+ * viewer.camera.up = [0, 1, 0];
+ *
+ * new Mesh(viewer.scene, {
+ *      geometry: new ReadableGeometry(viewer.scene, buildVectorTextGeometry({
+ *          origin: [0,0,0],
+ *          text: &quot;On the other side of the screen, it all looked so easy&quot;
+ *      }),
+ *      material: new PhongMaterial(viewer.scene, {
+ *         diffuseMap: new Texture(viewer.scene, {
+ *             src: &quot;textures/diffuse/uvGrid2.jpg&quot;
+ *         })
+ *      })
+ * });
+ * ````
+ *
+ * @function buildVectorTextGeometry
+ * @param {*} [cfg] Configs
+ * @param {String} [cfg.id] Optional ID, unique among all components in the parent {@link Scene}, generated automatically when omitted.
+ * @param {Number[]} [cfg.center]  3D point indicating the center position.
+ * @param {Number[]} [cfg.origin] 3D point indicating the top left corner.
+ * @param {Number} [cfg.size=1] Size of each character.
+ * @param {String} [cfg.text=&quot;&quot;] The text.
+ * @returns {Object} Configuration for a {@link Geometry} subtype.
+ */
+function buildVectorTextGeometry(cfg = {}) {
+
+    var origin = cfg.origin || [0, 0, 0];
+    var xOrigin = origin[0];
+    var yOrigin = origin[1];
+    var zOrigin = origin[2];
+    var size = cfg.size || 1;
+
+    var positions = [];
+    var indices = [];
+    var text = cfg.text;
+    if (utils.isNumeric(text)) {
+        text = &quot;&quot; + text;
+    }
+    var lines = (text || &quot;&quot;).split(&quot;\n&quot;);
+    var countVerts = 0;
+    var y = 0;
+    var x;
+    var str;
+    var len;
+    var c;
+    var mag = 1.0 / 25.0;
+    var penUp;
+    var p1;
+    var p2;
+    var needLine;
+    var pointsLen;
+    var a;
+
+    for (var iLine = 0; iLine &lt; lines.length; iLine++) {
+
+        x = 0;
+        str = lines[iLine];
+        len = str.length;
+
+        for (var i = 0; i &lt; len; i++) {
+
+            c = letters[str.charAt(i)];
+
+            if (c === &apos;\n&apos;) {
+                //alert(&quot;newline&quot;);
+            }
+
+            if (!c) {
+                continue;
+            }
+
+            penUp = 1;
+            p1 = -1;
+            p2 = -1;
+            needLine = false;
+
+            pointsLen = c.points.length;
+
+            for (var j = 0; j &lt; pointsLen; j++) {
+                a = c.points[j];
+
+                if (a[0] === -1 &amp;&amp; a[1] === -1) {
+                    penUp = 1;
+                    needLine = false;
+                    continue;
+                }
+
+                positions.push((x + (a[0] * size) * mag) + xOrigin);
+                positions.push((y + (a[1] * size) * mag) + yOrigin);
+                positions.push(0 + zOrigin);
+
+                if (p1 === -1) {
+                    p1 = countVerts;
+                } else if (p2 === -1) {
+                    p2 = countVerts;
+                } else {
+                    p1 = p2;
+                    p2 = countVerts;
+                }
+                countVerts++;
+
+                if (penUp) {
+                    penUp = false;
+
+                } else {
+                    indices.push(p1);
+                    indices.push(p2);
+                }
+
+                needLine = true;
+            }
+            x += c.width * mag * size;
+
+        }
+        y -= 35 * mag * size;
+    }
+
+    return utils.apply(cfg, {
+        primitive: &quot;lines&quot;,
+        positions: positions,
+        indices: indices
+    });
+}
+
+
+export {buildVectorTextGeometry}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

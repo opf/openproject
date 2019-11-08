@@ -1,0 +1,11 @@
+{
+    "browser": true,
+    "laxbreak": true,
+    "undef": true,
+    "globals": {
+        "console": false,
+        "escape": false,
+        "unescape": false,
+        "zip": false
+    }
+}

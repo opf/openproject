@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>GLTFLoaderPlugin - Loading multiple Models from GLTF</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+        #myCanvas {
+            width: 100%;
+            height: 100%;
+            background: lightBlue;
+        }
+    </style>
+</head>
+
+<body>
+<canvas id="myCanvas"></canvas>
+<div id="info">
+    <h1>GLTFLoaderPlugin - Loading multiple models from GLTF</h1><br>
+    <li>
+        <a target="_other"
+           href="http://openifcmodel.cs.auckland.ac.nz/Model/Details/305">Model source</a>
+    </li>
+</div>
+</body>
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {GLTFLoaderPlugin} from "../src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.camera.orbitPitch(20);
+
+    //----------------------------------------------------------------------------------------------------------------------
+    // Load model and fit it to view
+    //----------------------------------------------------------------------------------------------------------------------
+
+    const gltfLoader = new GLTFLoaderPlugin(viewer);
+
+    const structure = gltfLoader.load({
+        id: "structure",
+        src: "./models/gltf/WestRiverSideHospital/structure.gltf",
+        metaModelSrc: "./metaModels/WestRiverSideHospital/structure.json",
+        edges: true
+    });
+
+    structure.on("loaded", function () {
+
+        const electrical = gltfLoader.load({
+            id: "electrical",
+            src: "./models/gltf/WestRiverSideHospital/electrical.gltf",
+            metaModelSrc: "./metaModels/WestRiverSideHospital/electrical.json",
+            edges: true
+        });
+
+        electrical.on("loaded", function () {
+            const fireAlarms = gltfLoader.load({
+                id: "fireAlarms",
+                src: "./models/gltf/WestRiverSideHospital/fireAlarms.gltf",
+                metaModelSrc: "./metaModels/WestRiverSideHospital/fireAlarms.json",
+                edges: true
+            });
+
+            fireAlarms.on("loaded", function () {
+                const sprinklers = gltfLoader.load({
+                    id: "sprinklers",
+                    src: "./models/gltf/WestRiverSideHospital/sprinklers.gltf",
+                    metaModelSrc: "./metaModels/WestRiverSideHospital/sprinklers.json",
+                    edges: true
+                });
+
+            });
+        });
+    });
+
+
+    structure.on("loaded", () => {
+        viewer.cameraFlight.jumpTo(structure);
+    });
+
+</script>
+</html>

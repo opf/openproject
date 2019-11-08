@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>xeokit Annotations Example</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+
+        .annotation-marker {
+            color: #ffffff;
+            line-height: 1.8;
+            text-align: center;
+            font-family: "monospace";
+            font-weight: bold;
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border-radius: 15px;
+            border: 2px solid #ffffff;
+            background: black;
+            visibility: hidden;
+            box-shadow: 5px 5px 15px 1px #000000;
+            z-index: 0;
+        }
+
+        .annotation-label {
+            position: absolute;
+            max-width: 250px;
+            min-height: 50px;
+            padding: 8px;
+            padding-left: 12px;
+            padding-right: 12px;
+            background: #ffffff;
+            color: #000000;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 8px;
+            border: #ffffff solid 2px;
+            box-shadow: 5px 5px 15px 1px #000000;
+            z-index: 90000;
+        }
+
+        .annotation-label:after {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            border-width: 8px 12px 8px 0;
+            border-color: transparent white;
+            display: block;
+            width: 0;
+            z-index: 1;
+            margin-top: -11px;
+            left: -12px;
+            top: 20px;
+        }
+
+        .annotation-label:before {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            border-width: 9px 13px 9px 0;
+            border-color: transparent #ffffff;
+            display: block;
+            width: 0;
+            z-index: 0;
+            margin-top: -12px;
+            left: -15px;
+            top: 20px;
+        }
+
+        .annotation-title {
+            font: normal 20px arial, serif;
+            margin-bottom: 8px;
+        }
+
+        .annotation-desc {
+            font: normal 14px arial, serif;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+<canvas id="myCanvas"></canvas>
+
+<div id="info">
+    <h1>Click an Annotation to position camera at associated viewpoint</h1>
+    <p><br>Each Annotation can be associated with a camera viewpoint. Click the markers in this example to fly the camera to
+        their associated camera positions.</p><br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a>
+            - Creates Annotations
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads model from file system
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeolabs/xeokit-sdk/wiki/Annotations">User Guide</a>
+        </li>
+    </ul>
+</div>
+</body>
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {AnnotationsPlugin} from "../src/plugins/AnnotationsPlugin/AnnotationsPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas"
+    });
+
+    viewer.camera.eye = [-3.93, 2.85, 27.01];
+    viewer.camera.look = [4.40, 3.72, 8.89];
+    viewer.camera.up = [-0.01, 0.99, 0.039];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Load a model
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/duplex/duplex.xkt",
+        metaModelSrc: "./metaModels/duplex/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+        edges: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create an AnnotationsPlugin, with which we'll create annotations
+    //------------------------------------------------------------------------------------------------------------------
+
+    const annotations = new AnnotationsPlugin(viewer, {
+
+        markerHTML: "<div class='annotation-marker' style='background-color: {{markerBGColor}};'>{{glyph}}</div>",
+        labelHTML: "<div class='annotation-label' style='background-color: {{labelBGColor}};'>\
+            <div class='annotation-title'>{{title}}</div>\
+            <div class='annotation-desc'>{{description}}</div>\
+            </div>",
+
+        values: {
+            markerBGColor: "red",
+            labelBGColor: "white",
+            glyph: "X",
+            title: "Untitled",
+            description: "No description"
+        }
+    });
+
+    var prevAnnotationClicked = null;
+
+    annotations.on("markerClicked", (annotation) => {
+        if (prevAnnotationClicked) {
+            prevAnnotationClicked.setLabelShown(false);
+        }
+        annotation.setLabelShown(true);
+        viewer.cameraFlight.flyTo(annotation);
+        prevAnnotationClicked = annotation;
+    });
+
+    model.on("loaded", () => {
+
+        //------------------------------------------------------------------------------------------------------------------
+        // Create some Annotations
+        //------------------------------------------------------------------------------------------------------------------
+
+        annotations.createAnnotation({
+
+            id: "myAnnotation1",
+
+            entity: viewer.scene.objects["2O2Fr$t4X7Zf8NOew3FNqI"],
+
+            worldPos: [6.919, 3.534, 14.846],
+
+            eye: [5.800, 3.922, 16.919],
+            look: [8.374, 3.293, 9.799],
+            up: [0.0358, 0.987, -0.078],
+
+            occludable: true,
+            markerShown: true,
+            labelShown: false,
+
+            values: {
+                glyph: "A1",
+                title: "Bed",
+                description: "This is the bed in the top storey bedroom",
+                markerBGColor: "green"
+            }
+        });
+
+        annotations.createAnnotation({
+
+            id: "myAnnotation2",
+
+            entity: viewer.scene.objects["2OBrcmyk58NupXoVOHUvr5"],
+
+            worldPos: [4.981, 0.469, 12.745],
+
+            eye: [2.053, 1.930, 16.046],
+            look: [5.044, 1.843, 9.077],
+            up: [0.012, 0.990, -0.011],
+
+            occludable: true,
+            markerShown: true,
+            labelShown: false,
+
+            values: {
+                glyph: "A2",
+                title: "Kitchen counter",
+                description: "This is the kitchen counter",
+                markerBGColor: "blue"
+            }
+        });
+
+        annotations.createAnnotation({
+
+            id: "myAnnotation3",
+
+            entity: viewer.scene.objects["2O2Fr$t4X7Zf8NOew3FNhv"],
+
+            worldPos: [-0.163, 1.810, 7.977],
+
+            eye: [-17.662, 2.697, 8.80],
+            look: [4.400, 3.720, 8.890],
+            up: [-0.042, 0.989, 0.007],
+
+            occludable: true,
+            markerShown: true,
+            labelShown: false,
+
+            labelHTML: "<div class='annotation-label' style='background-color: {{labelBGColor}};'>\
+                <div class='annotation-title'>{{title}}</div>\
+                <div class='annotation-desc'>{{description}}</div>\
+                <br><img alt='myImage' width='150px' height='100px' src='{{imageSrc}}'>\
+                </div>",
+
+            values: {
+                glyph: "A3",
+                title: "The West wall",
+                description: "Annotations can contain<br>custom HTML like this<br>image:",
+                markerBGColor: "red",
+                imageSrc: "https://xeokit.io/img/docs/BIMServerLoaderPlugin/schependomlaan.png"
+            }
+        });
+
+        annotations.createAnnotation({
+
+            id: "myAnnotation4",
+
+            entity: viewer.scene.objects["1CZILmCaHETO8tf3SgGEWh"],
+
+            worldPos: [3.796, 0.163, -1.115],
+
+            eye: [7.755, 3.477, -8.128],
+            look: [5.5, -0.061, -2.191],
+            up: [-0.179, 0.863, 0.450],
+
+            occludable: true,
+            markerShown: true,
+            labelShown: false,
+
+            values: {
+                glyph: "A4",
+                title: "The South entrance landing",
+                description: "A big slab of concrete<br>at the Southern door",
+                markerBGColor: "purple"
+            }
+        });
+
+        annotations.createAnnotation({
+
+            id: "myAnnotation5",
+
+            entity: viewer.scene.objects["2O2Fr$t4X7Zf8NOew3FLR9"],
+
+            worldPos: [8.947, 4.257, 9.297],
+
+            eye: [26.368, 6.376, 17.063],
+            look: [7.320, 3.304, 9.351],
+            up: [-0.136, 0.979, -0.063],
+
+            occludable: true,
+            markerShown: true,
+            labelShown: false,
+
+            values: {
+                glyph: "A5",
+                title: "The East upstairs wall",
+                description: "The East-facing upstairs wall",
+                markerBGColor: "orange"
+            }
+        });
+
+        annotations.createAnnotation({
+
+            id: "myAnnotation6",
+
+            entity: viewer.scene.objects["2O2Fr$t4X7Zf8NOew3FLR9"],
+
+            worldPos: [4.436, 6.429, 17.966],
+
+            eye: [4.690, 9.349, 28.039],
+            look: [4.400, 3.720, 8.890],
+            up: [0.003, 0.949, -0.282],
+
+            occludable: true,
+            markerShown: true,
+            labelShown: false,
+
+            values: {
+                glyph: "A6",
+                title: "The North upstairs wall",
+                description: "The North-facing upstairs wall",
+                markerBGColor: "black"
+            }
+        });
+
+        annotations.createAnnotation({
+
+            id: "myAnnotation7",
+
+            entity: viewer.scene.objects["2OBrcmyk58NupXoVOHUsc7"],
+
+            worldPos: [6.890, 0.650, 3.537],
+
+            eye: [8.093, 1.833, 0.109],
+            look: [6.662, 0.486, 2.578],
+            up: [-0.220, 0.894, 0.364],
+
+            occludable: true,
+            markerShown: true,
+            labelShown: false,
+
+            values: {
+                glyph: "A7",
+                title: "Sofa",
+                description: "The South appartment sofa",
+                markerBGColor: "black"
+            }
+        });
+    });
+
+    window.viewer = viewer;
+
+</script>
+</html>

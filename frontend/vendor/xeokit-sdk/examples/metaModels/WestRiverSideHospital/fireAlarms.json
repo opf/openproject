@@ -1,0 +1,5264 @@
+{
+  "modelId": "myModel",
+  "revisionId": 983043,
+  "projectId": 917505,
+  "metaObjects": [
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5kM",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646382",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "3O4n4IwsrFkPdc5dROLCkL",
+      "name": "Level 1",
+      "type": "IfcBuildingStorey",
+      "parent": "3O4n4IwsrFkPdc5dOdgpLJ",
+      "children": []
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5k0",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646392",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5fw",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646402",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5fq",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646412",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5fd",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646431",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5fK",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646444",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5fB",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646451",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5f5",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646461",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5eo",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646474",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5eY",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646490",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5eP",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646497",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5eG",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646504",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5eN",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646511",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5e4",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646524",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5hx",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646531",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5ho",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646538",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5hf",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646545",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5hc",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646558",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5hG",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646568",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5hA",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646578",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5h4",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646588",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5gn",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646601",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5ge",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646608",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5gl",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646615",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5gc",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646622",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5gT",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646629",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5gK",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646636",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5gB",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646643",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5g2",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646650",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5by",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646660",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5bs",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646670",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5bW",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646680",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5bQ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646690",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5bK",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646700",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5bE",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646710",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5ax",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646723",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5ar",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646733",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5al",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646743",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5aP",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646753",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5aJ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646763",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5aA",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646770",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5a1",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646777",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5d_",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646790",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5dR",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646819",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5d6",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646846",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5ck",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646870",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5Xh",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646931",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5Xb",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646941",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5XV",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646951",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5X9",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646961",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5X3",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646971",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5Wz",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646981",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5Wt",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:646991",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5WX",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647001",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5WH",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647017",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5W4",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647036",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5Z_",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647046",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5Ze",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647056",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5ZY",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647066",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5ZS",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647076",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5ZJ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647083",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5Z0",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647096",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5Yw",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647106",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5Yn",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647113",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5Yk",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647126",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5Yb",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647133",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5YS",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647140",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5YJ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647147",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5YA",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647154",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp5Y1",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647161",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Tx",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647171",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Th",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647187",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Tb",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647197",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6TV",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647207",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6T9",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647217",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6T6",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647230",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Sz",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647237",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Sq",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647244",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6SQ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647266",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6SD",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647285",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6S7",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647295",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6V_",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647302",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Vr",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647309",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Vi",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647316",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Vc",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647326",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6VG",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647336",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6VA",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647346",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6V4",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647356",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6U_",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647366",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Ue",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647376",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6UY",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647386",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6US",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647396",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6UM",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647406",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6U0",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647416",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Pm",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647432",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Pg",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647442",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Pa",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647452",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6PU",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647462",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6P8",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647472",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6P2",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647482",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6O$",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647495",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6Oa",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647516",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6OI",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:647530",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp6cx",
+      "name": "Utility Switchboard:36\"x26.25\":650947",
+      "type": "IfcBuildingElementProxy",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp70a",
+      "name": "Fire Alarm Terminal Cabinet:Fire Alarm Terminal Cabinet:653148",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7qD",
+      "name": "M_Fire Alarm Control Panel:FA-1:653941",
+      "type": "IfcBuildingElementProxy",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6i1",
+      "name": "M_Smoke Detector:Plain:658841",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6in",
+      "name": "M_Smoke Detector:Plain:658857",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6ih",
+      "name": "M_Smoke Detector:Plain:658867",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6jO",
+      "name": "M_Smoke Detector:Plain:658880",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6jI",
+      "name": "M_Smoke Detector:Plain:658890",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6jF",
+      "name": "M_Smoke Detector:Plain:658903",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6jv",
+      "name": "M_Smoke Detector:Plain:658913",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6jm",
+      "name": "M_Smoke Detector:Plain:658920",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6jW",
+      "name": "M_Smoke Detector:Plain:658936",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6jd",
+      "name": "M_Smoke Detector:Plain:658943",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6YK",
+      "name": "M_Smoke Detector:Plain:658956",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6Y1",
+      "name": "M_Smoke Detector:Plain:658969",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6Yn",
+      "name": "M_Smoke Detector:Plain:658985",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6Yk",
+      "name": "M_Smoke Detector:Plain:658998",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6ZO",
+      "name": "M_Smoke Detector:Plain:659008",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6ZI",
+      "name": "M_Smoke Detector:Plain:659018",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6ZC",
+      "name": "M_Smoke Detector:Plain:659028",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6Z6",
+      "name": "M_Smoke Detector:Plain:659038",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6Zm",
+      "name": "M_Smoke Detector:Plain:659048",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6Zt",
+      "name": "M_Smoke Detector:Plain:659055",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6WG",
+      "name": "M_Smoke Detector:Plain:659080",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6WA",
+      "name": "M_Smoke Detector:Plain:659090",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6W4",
+      "name": "M_Smoke Detector:Plain:659100",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6Wx",
+      "name": "M_Smoke Detector:Plain:659107",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6Wr",
+      "name": "M_Smoke Detector:Plain:659117",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6Wi",
+      "name": "M_Smoke Detector:Plain:659124",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6XP",
+      "name": "M_Smoke Detector:Plain:659137",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6XM",
+      "name": "M_Smoke Detector:Plain:659150",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6X3",
+      "name": "M_Smoke Detector:Plain:659163",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6Xz",
+      "name": "M_Smoke Detector:Plain:659173",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0l8__Y_rP8xQQhMTrPT6cP",
+      "name": "M_Smoke Detector:Plain:659201",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhth",
+      "name": "M_Smoke Detector:Plain:659248",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhtW",
+      "name": "M_Smoke Detector:Plain:659259",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhsA",
+      "name": "M_Smoke Detector:Plain:659281",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhs5",
+      "name": "M_Smoke Detector:Plain:659294",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhsp",
+      "name": "M_Smoke Detector:Plain:659304",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhsf",
+      "name": "M_Smoke Detector:Plain:659314",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhsY",
+      "name": "M_Smoke Detector:Plain:659321",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhrD",
+      "name": "M_Smoke Detector:Plain:659350",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhrz",
+      "name": "M_Smoke Detector:Plain:659366",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhrh",
+      "name": "M_Smoke Detector:Plain:659376",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhrX",
+      "name": "M_Smoke Detector:Plain:659386",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhqV",
+      "name": "M_Smoke Detector:Plain:659396",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhqL",
+      "name": "M_Smoke Detector:Plain:659406",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhq3",
+      "name": "M_Smoke Detector:Plain:659416",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhq4",
+      "name": "M_Smoke Detector:Plain:659423",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhqz",
+      "name": "M_Smoke Detector:Plain:659430",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhqs",
+      "name": "M_Smoke Detector:Plain:659437",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhql",
+      "name": "M_Smoke Detector:Plain:659444",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWhqW",
+      "name": "M_Smoke Detector:Plain:659451",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgBP",
+      "name": "M_Smoke Detector:Plain:659458",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgBN",
+      "name": "M_Smoke Detector:Plain:659468",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgBD",
+      "name": "M_Smoke Detector:Plain:659478",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgBx",
+      "name": "M_Smoke Detector:Plain:659488",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgBn",
+      "name": "M_Smoke Detector:Plain:659498",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgBi",
+      "name": "M_Smoke Detector:Plain:659511",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgAQ",
+      "name": "M_Smoke Detector:Plain:659521",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgAF",
+      "name": "M_Smoke Detector:Plain:659540",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgA5",
+      "name": "M_Smoke Detector:Plain:659550",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgAp",
+      "name": "M_Smoke Detector:Plain:659560",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgAf",
+      "name": "M_Smoke Detector:Plain:659570",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgAd",
+      "name": "M_Smoke Detector:Plain:659580",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg9T",
+      "name": "M_Smoke Detector:Plain:659590",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg9B",
+      "name": "M_Smoke Detector:Plain:659600",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg91",
+      "name": "M_Smoke Detector:Plain:659610",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg9$",
+      "name": "M_Smoke Detector:Plain:659620",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg9g",
+      "name": "M_Smoke Detector:Plain:659633",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg9W",
+      "name": "M_Smoke Detector:Plain:659643",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg8U",
+      "name": "M_Smoke Detector:Plain:659653",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg8E",
+      "name": "M_Smoke Detector:Plain:659669",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg84",
+      "name": "M_Smoke Detector:Plain:659679",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg8o",
+      "name": "M_Smoke Detector:Plain:659689",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg8e",
+      "name": "M_Smoke Detector:Plain:659699",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg8c",
+      "name": "M_Smoke Detector:Plain:659709",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgFS",
+      "name": "M_Smoke Detector:Plain:659719",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgFA",
+      "name": "M_Smoke Detector:Plain:659729",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgF0",
+      "name": "M_Smoke Detector:Plain:659739",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgF_",
+      "name": "M_Smoke Detector:Plain:659749",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgFt",
+      "name": "M_Smoke Detector:Plain:659756",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgEP",
+      "name": "M_Smoke Detector:Plain:659778",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgEN",
+      "name": "M_Smoke Detector:Plain:659788",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgED",
+      "name": "M_Smoke Detector:Plain:659798",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgEu",
+      "name": "M_Smoke Detector:Plain:659811",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgEs",
+      "name": "M_Smoke Detector:Plain:659821",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgEX",
+      "name": "M_Smoke Detector:Plain:659834",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgDV",
+      "name": "M_Smoke Detector:Plain:659844",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgDF",
+      "name": "M_Smoke Detector:Plain:659860",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgD5",
+      "name": "M_Smoke Detector:Plain:659870",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgDp",
+      "name": "M_Smoke Detector:Plain:659880",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgCT",
+      "name": "M_Smoke Detector:Plain:659910",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgC8",
+      "name": "M_Smoke Detector:Plain:659923",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgC1",
+      "name": "M_Smoke Detector:Plain:659930",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgCw",
+      "name": "M_Smoke Detector:Plain:659937",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgCp",
+      "name": "M_Smoke Detector:Plain:659944",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgCf",
+      "name": "M_Smoke Detector:Plain:659954",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWgCd",
+      "name": "M_Smoke Detector:Plain:659964",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg3T",
+      "name": "M_Smoke Detector:Plain:659974",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg3D",
+      "name": "M_Smoke Detector:Plain:659990",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg3x",
+      "name": "M_Smoke Detector:Plain:660000",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg3n",
+      "name": "M_Smoke Detector:Plain:660010",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg3l",
+      "name": "M_Smoke Detector:Plain:660020",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg2Q",
+      "name": "M_Smoke Detector:Plain:660033",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg2L",
+      "name": "M_Smoke Detector:Plain:660046",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg23",
+      "name": "M_Smoke Detector:Plain:660056",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg2v",
+      "name": "M_Smoke Detector:Plain:660066",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg2t",
+      "name": "M_Smoke Detector:Plain:660076",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg2j",
+      "name": "M_Smoke Detector:Plain:660086",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg2c",
+      "name": "M_Smoke Detector:Plain:660093",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg1B",
+      "name": "M_Smoke Detector:Plain:660112",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg11",
+      "name": "M_Smoke Detector:Plain:660122",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg1n",
+      "name": "M_Smoke Detector:Plain:660138",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg1X",
+      "name": "M_Smoke Detector:Plain:660154",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg0E",
+      "name": "M_Smoke Detector:Plain:660181",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg0x",
+      "name": "M_Smoke Detector:Plain:660192",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg0n",
+      "name": "M_Smoke Detector:Plain:660202",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg0l",
+      "name": "M_Smoke Detector:Plain:660212",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg7Q",
+      "name": "M_Smoke Detector:Plain:660225",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg7G",
+      "name": "M_Smoke Detector:Plain:660235",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg7E",
+      "name": "M_Smoke Detector:Plain:660245",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg7r",
+      "name": "M_Smoke Detector:Plain:660270",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "1DMWZjMz5A4APS_MZSWg7k",
+      "name": "M_Smoke Detector:Plain:660277",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8JD",
+      "name": "M_Manual Pull Station:Standard:664903",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8J5",
+      "name": "M_Manual Pull Station:Standard:664911",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Jl",
+      "name": "M_Manual Pull Station:Standard:664933",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Jd",
+      "name": "M_Manual Pull Station:Standard:664941",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8GO",
+      "name": "M_Manual Pull Station:Standard:664978",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Gc",
+      "name": "M_Manual Pull Station:Standard:665004",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8H2",
+      "name": "M_Manual Pull Station:Standard:665032",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Hy",
+      "name": "M_Manual Pull Station:Standard:665078",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Uw",
+      "name": "M_Manual Pull Station:Standard:665136",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8V4",
+      "name": "M_Manual Pull Station:Standard:665166",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Vc",
+      "name": "M_Manual Pull Station:Standard:665196",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8SR",
+      "name": "M_Manual Pull Station:Standard:665233",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Sx",
+      "name": "M_Manual Pull Station:Standard:665265",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Tg",
+      "name": "M_Manual Pull Station:Standard:665312",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Q6",
+      "name": "M_Manual Pull Station:Standard:665356",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Rf",
+      "name": "M_Manual Pull Station:Standard:665443",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8R$",
+      "name": "M_Manual Pull Station:Standard:665461",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8OI",
+      "name": "M_Manual Pull Station:Standard:665496",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Om",
+      "name": "M_Manual Pull Station:Standard:665530",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Po",
+      "name": "M_Manual Pull Station:Standard:665592",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8cQ",
+      "name": "M_Manual Pull Station:Standard:665616",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8cq",
+      "name": "M_Manual Pull Station:Standard:665662",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8db",
+      "name": "M_Manual Pull Station:Standard:665711",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8d$",
+      "name": "M_Manual Pull Station:Standard:665717",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8aI",
+      "name": "M_Manual Pull Station:Standard:665752",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8ap",
+      "name": "M_Manual Pull Station:Standard:665785",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCkL"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$3Q",
+      "name": "M_Fire Alarm Control Panel:FA-5:656565",
+      "type": "IfcBuildingElementProxy",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3O4n4IwsrFkPdc5dROKtZT",
+      "name": "Level 5",
+      "type": "IfcBuildingStorey",
+      "parent": "3O4n4IwsrFkPdc5dOdgpLJ",
+      "children": []
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$5i",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656643",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$5b",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656650",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$5_",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656657",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$5t",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656664",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$5m",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656671",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$53",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656684",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$5J",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656700",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$4i",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656707",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuYr6",
+      "name": "M_Smoke Detector:Plain:663489",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuYrF",
+      "name": "M_Smoke Detector:Plain:663496",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuYr8",
+      "name": "M_Smoke Detector:Plain:663503",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuYrH",
+      "name": "M_Smoke Detector:Plain:663510",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuYre",
+      "name": "M_Smoke Detector:Plain:663535",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuXA8",
+      "name": "M_Smoke Detector:Plain:663567",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuXAH",
+      "name": "M_Smoke Detector:Plain:663574",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuXAd",
+      "name": "M_Smoke Detector:Plain:663584",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuXAu",
+      "name": "M_Smoke Detector:Plain:663615",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuXBE",
+      "name": "M_Smoke Detector:Plain:663625",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuXBK",
+      "name": "M_Smoke Detector:Plain:663635",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuXBQ",
+      "name": "M_Smoke Detector:Plain:663645",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuXBW",
+      "name": "M_Smoke Detector:Plain:663655",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuXBm",
+      "name": "M_Smoke Detector:Plain:663671",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuX8A",
+      "name": "M_Smoke Detector:Plain:663693",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuX8J",
+      "name": "M_Smoke Detector:Plain:663700",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuX8j",
+      "name": "M_Smoke Detector:Plain:663722",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuX8p",
+      "name": "M_Smoke Detector:Plain:663732",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuX96",
+      "name": "M_Smoke Detector:Plain:663745",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuX9C",
+      "name": "M_Smoke Detector:Plain:663755",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuX9I",
+      "name": "M_Smoke Detector:Plain:663765",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "3uiON$zU135fNRgIuVuX9O",
+      "name": "M_Smoke Detector:Plain:663775",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZT"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7tG",
+      "name": "M_Fire Alarm Control Panel:FA-2:653992",
+      "type": "IfcBuildingElementProxy",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "3O4n4IwsrFkPdc5dROLCWK",
+      "name": "Level 2",
+      "type": "IfcBuildingStorey",
+      "parent": "3O4n4IwsrFkPdc5dOdgpLJ",
+      "children": []
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7sd",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654047",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7s6",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654078",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7nf",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654097",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7nZ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654107",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7nQ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654114",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7nK",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654124",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7n4",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654140",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7m_",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654150",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7me",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654160",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7mY",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654170",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7mP",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654177",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7mJ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654187",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7mA",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654194",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7m1",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654201",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7p_",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654214",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7pr",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654221",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7pl",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654231",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7pS",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654244",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7pM",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654254",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7p0",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654264",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7ow",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654274",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7oq",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654284",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7ok",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654294",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7oO",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654304",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7oI",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654314",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7oC",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654324",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7jy",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654340",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7js",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654350",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7jW",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654360",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7jQ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654370",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7jL",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654381",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7j0",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654392",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7iw",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654402",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7iq",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654412",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7ik",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654422",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7iA",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654450",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7i4",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654460",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7ln",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654473",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7le",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654480",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7ll",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654487",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7lL",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654509",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7lF",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654519",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7kw",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654530",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7kt",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654543",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7kd",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654559",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7kH",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654569",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7kE",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654582",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7fv",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654593",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7fd",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654623",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7fU",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654630",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7f8",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654640",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7f2",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654650",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7ey",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654660",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7eY",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654682",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7eP",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654689",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7e9",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654705",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7e3",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654715",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7hz",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654725",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7ht",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654735",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7hX",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654745",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7hR",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654755",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7hL",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654765",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7gt",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654799",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7gk",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654806",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7gO",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654816",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7gI",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654826",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7gF",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654839",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7bv",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654849",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7bp",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654859",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7bj",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654869",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7ba",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654876",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7bH",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654889",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7di",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:654996",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7dc",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655006",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7dG",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655016",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7dA",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655026",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7d4",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655036",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7c_",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655046",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7cf",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655057",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7cZ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655067",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7cT",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655077",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7cN",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655087",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7c4",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655100",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7Xg",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655122",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7XX",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655129",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7Zf",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655249",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2NvWEO1Wb9Jwl21EQJp7ZZ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655259",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQyX",
+      "name": "M_Smoke Detector:Plain:660507",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQyV",
+      "name": "M_Smoke Detector:Plain:660517",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQy8",
+      "name": "M_Smoke Detector:Plain:660530",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQy6",
+      "name": "M_Smoke Detector:Plain:660540",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQzy",
+      "name": "M_Smoke Detector:Plain:660550",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQzg",
+      "name": "M_Smoke Detector:Plain:660560",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQzj",
+      "name": "M_Smoke Detector:Plain:660567",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQzU",
+      "name": "M_Smoke Detector:Plain:660580",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQzK",
+      "name": "M_Smoke Detector:Plain:660590",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQzF",
+      "name": "M_Smoke Detector:Plain:660597",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQz5",
+      "name": "M_Smoke Detector:Plain:660607",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQ_g",
+      "name": "M_Smoke Detector:Plain:660624",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQ_S",
+      "name": "M_Smoke Detector:Plain:660646",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQ_N",
+      "name": "M_Smoke Detector:Plain:660653",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQ_D",
+      "name": "M_Smoke Detector:Plain:660663",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQ_4",
+      "name": "M_Smoke Detector:Plain:660670",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQ$o",
+      "name": "M_Smoke Detector:Plain:660680",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQ$e",
+      "name": "M_Smoke Detector:Plain:660690",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQ$c",
+      "name": "M_Smoke Detector:Plain:660700",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQ$J",
+      "name": "M_Smoke Detector:Plain:660713",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQ$A",
+      "name": "M_Smoke Detector:Plain:660720",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQuv",
+      "name": "M_Smoke Detector:Plain:660739",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQum",
+      "name": "M_Smoke Detector:Plain:660746",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQuk",
+      "name": "M_Smoke Detector:Plain:660756",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQu5",
+      "name": "M_Smoke Detector:Plain:660799",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQvs",
+      "name": "M_Smoke Detector:Plain:660812",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQvi",
+      "name": "M_Smoke Detector:Plain:660822",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQvJ",
+      "name": "M_Smoke Detector:Plain:660841",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQv9",
+      "name": "M_Smoke Detector:Plain:660851",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQv7",
+      "name": "M_Smoke Detector:Plain:660861",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQwz",
+      "name": "M_Smoke Detector:Plain:660871",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQwT",
+      "name": "M_Smoke Detector:Plain:660903",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQwB",
+      "name": "M_Smoke Detector:Plain:660913",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQw2",
+      "name": "M_Smoke Detector:Plain:660920",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQw5",
+      "name": "M_Smoke Detector:Plain:660927",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQxs",
+      "name": "M_Smoke Detector:Plain:660940",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQxS",
+      "name": "M_Smoke Detector:Plain:660966",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQxA",
+      "name": "M_Smoke Detector:Plain:660976",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQx0",
+      "name": "M_Smoke Detector:Plain:660986",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQq_",
+      "name": "M_Smoke Detector:Plain:660996",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQqq",
+      "name": "M_Smoke Detector:Plain:661006",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQqY",
+      "name": "M_Smoke Detector:Plain:661016",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQqO",
+      "name": "M_Smoke Detector:Plain:661026",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQqF",
+      "name": "M_Smoke Detector:Plain:661045",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQrh",
+      "name": "M_Smoke Detector:Plain:661073",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQrY",
+      "name": "M_Smoke Detector:Plain:661080",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQrb",
+      "name": "M_Smoke Detector:Plain:661087",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQrJ",
+      "name": "M_Smoke Detector:Plain:661097",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQr9",
+      "name": "M_Smoke Detector:Plain:661107",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQr0",
+      "name": "M_Smoke Detector:Plain:661114",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQsi",
+      "name": "M_Smoke Detector:Plain:661142",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQsQ",
+      "name": "M_Smoke Detector:Plain:661152",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQsN",
+      "name": "M_Smoke Detector:Plain:661165",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQsD",
+      "name": "M_Smoke Detector:Plain:661175",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQtz",
+      "name": "M_Smoke Detector:Plain:661191",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQtk",
+      "name": "M_Smoke Detector:Plain:661204",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQta",
+      "name": "M_Smoke Detector:Plain:661214",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQtI",
+      "name": "M_Smoke Detector:Plain:661224",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQtL",
+      "name": "M_Smoke Detector:Plain:661231",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQtC",
+      "name": "M_Smoke Detector:Plain:661238",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQmp",
+      "name": "M_Smoke Detector:Plain:661257",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQmj",
+      "name": "M_Smoke Detector:Plain:661271",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQmG",
+      "name": "M_Smoke Detector:Plain:661290",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQnx",
+      "name": "M_Smoke Detector:Plain:661313",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQno",
+      "name": "M_Smoke Detector:Plain:661320",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQne",
+      "name": "M_Smoke Detector:Plain:661330",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQnc",
+      "name": "M_Smoke Detector:Plain:661340",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQn2",
+      "name": "M_Smoke Detector:Plain:661368",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQn5",
+      "name": "M_Smoke Detector:Plain:661375",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQos",
+      "name": "M_Smoke Detector:Plain:661388",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQoi",
+      "name": "M_Smoke Detector:Plain:661398",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQoQ",
+      "name": "M_Smoke Detector:Plain:661408",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "1B_M8O_WX4pxty2LVAiQoG",
+      "name": "M_Smoke Detector:Plain:661418",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8bw",
+      "name": "M_Manual Pull Station:Standard:665840",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8bt",
+      "name": "M_Manual Pull Station:Standard:665853",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Ya",
+      "name": "M_Manual Pull Station:Standard:665902",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8ZD",
+      "name": "M_Manual Pull Station:Standard:665927",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8ZH",
+      "name": "M_Manual Pull Station:Standard:665947",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Zy",
+      "name": "M_Manual Pull Station:Standard:665974",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8WJ",
+      "name": "M_Manual Pull Station:Standard:666009",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Wn",
+      "name": "M_Manual Pull Station:Standard:666043",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8Xv",
+      "name": "M_Manual Pull Station:Standard:666099",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8kF",
+      "name": "M_Manual Pull Station:Standard:666117",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8kN",
+      "name": "M_Manual Pull Station:Standard:666141",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8lP",
+      "name": "M_Manual Pull Station:Standard:666195",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8lt",
+      "name": "M_Manual Pull Station:Standard:666237",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8i7",
+      "name": "M_Manual Pull Station:Standard:666253",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8jD",
+      "name": "M_Manual Pull Station:Standard:666311",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8jg",
+      "name": "M_Manual Pull Station:Standard:666336",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8gF",
+      "name": "M_Manual Pull Station:Standard:666373",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8gI",
+      "name": "M_Manual Pull Station:Standard:666392",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8ga",
+      "name": "M_Manual Pull Station:Standard:666414",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8h8",
+      "name": "M_Manual Pull Station:Standard:666434",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8hL",
+      "name": "M_Manual Pull Station:Standard:666463",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8ha",
+      "name": "M_Manual Pull Station:Standard:666478",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8eh",
+      "name": "M_Manual Pull Station:Standard:666529",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8et",
+      "name": "M_Manual Pull Station:Standard:666557",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8fO",
+      "name": "M_Manual Pull Station:Standard:666578",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8fy",
+      "name": "M_Manual Pull Station:Standard:666614",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8sS",
+      "name": "M_Manual Pull Station:Standard:666646",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8sl",
+      "name": "M_Manual Pull Station:Standard:666661",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2_EJ_3e6TBRhcQwBRfV8tD",
+      "name": "M_Manual Pull Station:Standard:666695",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROLCWK"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuev_",
+      "name": "M_Fire Alarm Control Panel:FA-3:655279",
+      "type": "IfcBuildingElementProxy",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3O4n4IwsrFkPdc5dROKtYt",
+      "name": "Level 3",
+      "type": "IfcBuildingStorey",
+      "parent": "3O4n4IwsrFkPdc5dOdgpLJ",
+      "children": []
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPueu6",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655319",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPueum",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655329",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPueuw",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655339",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPueuf",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655352",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN7J",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655362",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN7T",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655372",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN77",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655382",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN7n",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655392",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN7y",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655405",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN7c",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655415",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN64",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655445",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN6E",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655455",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN6u",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655465",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN5Q",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655499",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN54",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655509",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN5E",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655519",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN5z",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655532",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN5d",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655542",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN4O",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655561",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN47",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655574",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN4n",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655584",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN4x",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655594",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN4b",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655604",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN4l",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655614",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN3P",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655624",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN3k",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655679",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN2T",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655692",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN27",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655702",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN2n",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655712",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN2x",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655722",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN2b",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655732",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN2l",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655742",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN1m",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655777",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN1$",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655790",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN1f",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655800",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN0J",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655810",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN0T",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655820",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN08",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655833",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN0o",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655843",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuN0y",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655853",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNF_",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655919",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNFj",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655932",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNEN",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655942",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNE2",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655955",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNEC",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655965",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNEs",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655975",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNEW",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655985",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNEg",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:655995",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNDP",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656008",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuND3",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656018",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNDD",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656028",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNDt",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656038",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNDX",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656048",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNCH",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656064",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNCR",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656074",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "2ihPmWBZfDOwAhcRfPuNC5",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656084",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Ve",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656263",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vd",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656264",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vc",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656265",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vb",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656266",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Va",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656267",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VZ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656268",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VY",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656269",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VX",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656270",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VW",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656271",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$V$",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656272",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vy",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656275",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vx",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656276",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vw",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656277",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vv",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656278",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vu",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656279",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vt",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656280",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vs",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656281",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vr",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656282",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vq",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656283",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vp",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656284",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vo",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656285",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vn",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656286",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Vm",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656287",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VF",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656288",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VE",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656289",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VD",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656290",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VC",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656291",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VB",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656292",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VA",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656293",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$V9",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656294",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$V8",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656295",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$V7",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656296",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$V6",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656297",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$V5",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656298",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$V4",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656299",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$V3",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656300",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$V2",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656301",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$V1",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656302",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$V0",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656303",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VU",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656305",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VT",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656306",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VS",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656307",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VR",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656308",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VQ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656309",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VP",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656310",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VO",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656311",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VN",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656312",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VM",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656313",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VL",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656314",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VK",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656315",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VJ",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656316",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VI",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656317",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VH",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656318",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$VG",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656319",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Ul",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656320",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Uk",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656321",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$Uj",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656322",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$UI",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656381",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$UH",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656382",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$UG",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656383",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1l",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656384",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1k",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656385",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1j",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656386",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1i",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656387",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1h",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656388",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1g",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656389",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1f",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656390",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1c",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656393",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1b",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656394",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1a",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656395",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1Z",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656396",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1Y",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656397",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1X",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656398",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1W",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656399",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1$",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656400",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1_",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656401",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1z",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656402",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1y",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656403",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1x",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656404",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1w",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656405",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1v",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656406",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1u",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656407",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1t",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656408",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1s",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656409",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1r",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656410",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1q",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656411",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1p",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656412",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1o",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656413",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1n",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656414",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1m",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656415",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1F",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656416",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1E",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656417",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1D",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656418",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1C",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656419",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1B",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656420",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1A",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656421",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$19",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656422",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$18",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656423",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$17",
+      "name": "Fire Alarm Horn Strobe - Ceiling Mounted:Standard:656424",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Cb",
+      "name": "M_Smoke Detector:Plain:661521",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Cl",
+      "name": "M_Smoke Detector:Plain:661531",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1CS",
+      "name": "M_Smoke Detector:Plain:661544",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1C6",
+      "name": "M_Smoke Detector:Plain:661554",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1CB",
+      "name": "M_Smoke Detector:Plain:661567",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1DX",
+      "name": "M_Smoke Detector:Plain:661589",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1DM",
+      "name": "M_Smoke Detector:Plain:661602",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1DO",
+      "name": "M_Smoke Detector:Plain:661612",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1D8",
+      "name": "M_Smoke Detector:Plain:661628",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Ez",
+      "name": "M_Smoke Detector:Plain:661641",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Ed",
+      "name": "M_Smoke Detector:Plain:661651",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Ef",
+      "name": "M_Smoke Detector:Plain:661661",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1EJ",
+      "name": "M_Smoke Detector:Plain:661671",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1E5",
+      "name": "M_Smoke Detector:Plain:661681",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1EF",
+      "name": "M_Smoke Detector:Plain:661691",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Fn",
+      "name": "M_Smoke Detector:Plain:661701",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1F2",
+      "name": "M_Smoke Detector:Plain:661750",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z18q",
+      "name": "M_Smoke Detector:Plain:661760",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z18_",
+      "name": "M_Smoke Detector:Plain:661770",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z18W",
+      "name": "M_Smoke Detector:Plain:661780",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z18g",
+      "name": "M_Smoke Detector:Plain:661790",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z18S",
+      "name": "M_Smoke Detector:Plain:661800",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z186",
+      "name": "M_Smoke Detector:Plain:661810",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z19o",
+      "name": "M_Smoke Detector:Plain:661830",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z19a",
+      "name": "M_Smoke Detector:Plain:661840",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z19Q",
+      "name": "M_Smoke Detector:Plain:661870",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1A_",
+      "name": "M_Smoke Detector:Plain:661898",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1A0",
+      "name": "M_Smoke Detector:Plain:661940",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1AA",
+      "name": "M_Smoke Detector:Plain:661950",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Bk",
+      "name": "M_Smoke Detector:Plain:661978",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1BG",
+      "name": "M_Smoke Detector:Plain:661988",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1BQ",
+      "name": "M_Smoke Detector:Plain:661998",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z14C",
+      "name": "M_Smoke Detector:Plain:662072",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z15n",
+      "name": "M_Smoke Detector:Plain:662085",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z15x",
+      "name": "M_Smoke Detector:Plain:662095",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z15j",
+      "name": "M_Smoke Detector:Plain:662105",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z15N",
+      "name": "M_Smoke Detector:Plain:662115",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z15P",
+      "name": "M_Smoke Detector:Plain:662125",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z15E",
+      "name": "M_Smoke Detector:Plain:662138",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z16m",
+      "name": "M_Smoke Detector:Plain:662148",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z16b",
+      "name": "M_Smoke Detector:Plain:662161",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z16l",
+      "name": "M_Smoke Detector:Plain:662171",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z16S",
+      "name": "M_Smoke Detector:Plain:662184",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z17S",
+      "name": "M_Smoke Detector:Plain:662248",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z176",
+      "name": "M_Smoke Detector:Plain:662258",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z178",
+      "name": "M_Smoke Detector:Plain:662268",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z10o",
+      "name": "M_Smoke Detector:Plain:662278",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z10a",
+      "name": "M_Smoke Detector:Plain:662288",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z10k",
+      "name": "M_Smoke Detector:Plain:662298",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z10G",
+      "name": "M_Smoke Detector:Plain:662308",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z11c",
+      "name": "M_Smoke Detector:Plain:662354",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z127",
+      "name": "M_Smoke Detector:Plain:662451",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z129",
+      "name": "M_Smoke Detector:Plain:662461",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z13_",
+      "name": "M_Smoke Detector:Plain:662474",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z13W",
+      "name": "M_Smoke Detector:Plain:662484",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z13L",
+      "name": "M_Smoke Detector:Plain:662497",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1SX",
+      "name": "M_Smoke Detector:Plain:662549",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Sh",
+      "name": "M_Smoke Detector:Plain:662559",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1S6",
+      "name": "M_Smoke Detector:Plain:662578",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1SB",
+      "name": "M_Smoke Detector:Plain:662591",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Tz",
+      "name": "M_Smoke Detector:Plain:662601",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Tj",
+      "name": "M_Smoke Detector:Plain:662617",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1TI",
+      "name": "M_Smoke Detector:Plain:662630",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1T4",
+      "name": "M_Smoke Detector:Plain:662640",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1P9",
+      "name": "M_Smoke Detector:Plain:662909",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1PA",
+      "name": "M_Smoke Detector:Plain:662910",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1PB",
+      "name": "M_Smoke Detector:Plain:662911",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qq",
+      "name": "M_Smoke Detector:Plain:662912",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qr",
+      "name": "M_Smoke Detector:Plain:662913",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qs",
+      "name": "M_Smoke Detector:Plain:662914",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qt",
+      "name": "M_Smoke Detector:Plain:662915",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qm",
+      "name": "M_Smoke Detector:Plain:662916",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qn",
+      "name": "M_Smoke Detector:Plain:662917",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qo",
+      "name": "M_Smoke Detector:Plain:662918",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qp",
+      "name": "M_Smoke Detector:Plain:662919",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qy",
+      "name": "M_Smoke Detector:Plain:662920",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qz",
+      "name": "M_Smoke Detector:Plain:662921",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Q_",
+      "name": "M_Smoke Detector:Plain:662922",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Q$",
+      "name": "M_Smoke Detector:Plain:662923",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qu",
+      "name": "M_Smoke Detector:Plain:662924",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qv",
+      "name": "M_Smoke Detector:Plain:662925",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qw",
+      "name": "M_Smoke Detector:Plain:662926",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qx",
+      "name": "M_Smoke Detector:Plain:662927",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qa",
+      "name": "M_Smoke Detector:Plain:662928",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qb",
+      "name": "M_Smoke Detector:Plain:662929",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qc",
+      "name": "M_Smoke Detector:Plain:662930",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qd",
+      "name": "M_Smoke Detector:Plain:662931",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QW",
+      "name": "M_Smoke Detector:Plain:662932",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QX",
+      "name": "M_Smoke Detector:Plain:662933",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QY",
+      "name": "M_Smoke Detector:Plain:662934",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QZ",
+      "name": "M_Smoke Detector:Plain:662935",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qi",
+      "name": "M_Smoke Detector:Plain:662936",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qj",
+      "name": "M_Smoke Detector:Plain:662937",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qk",
+      "name": "M_Smoke Detector:Plain:662938",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Ql",
+      "name": "M_Smoke Detector:Plain:662939",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qe",
+      "name": "M_Smoke Detector:Plain:662940",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qf",
+      "name": "M_Smoke Detector:Plain:662941",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qg",
+      "name": "M_Smoke Detector:Plain:662942",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Qh",
+      "name": "M_Smoke Detector:Plain:662943",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QK",
+      "name": "M_Smoke Detector:Plain:662944",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QL",
+      "name": "M_Smoke Detector:Plain:662945",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QM",
+      "name": "M_Smoke Detector:Plain:662946",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QN",
+      "name": "M_Smoke Detector:Plain:662947",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QG",
+      "name": "M_Smoke Detector:Plain:662948",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QH",
+      "name": "M_Smoke Detector:Plain:662949",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QI",
+      "name": "M_Smoke Detector:Plain:662950",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QJ",
+      "name": "M_Smoke Detector:Plain:662951",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QS",
+      "name": "M_Smoke Detector:Plain:662952",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QT",
+      "name": "M_Smoke Detector:Plain:662953",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QU",
+      "name": "M_Smoke Detector:Plain:662954",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QV",
+      "name": "M_Smoke Detector:Plain:662955",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QO",
+      "name": "M_Smoke Detector:Plain:662956",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QP",
+      "name": "M_Smoke Detector:Plain:662957",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QQ",
+      "name": "M_Smoke Detector:Plain:662958",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QR",
+      "name": "M_Smoke Detector:Plain:662959",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Q4",
+      "name": "M_Smoke Detector:Plain:662960",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Q5",
+      "name": "M_Smoke Detector:Plain:662961",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Q6",
+      "name": "M_Smoke Detector:Plain:662962",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Q7",
+      "name": "M_Smoke Detector:Plain:662963",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Q0",
+      "name": "M_Smoke Detector:Plain:662964",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Q1",
+      "name": "M_Smoke Detector:Plain:662965",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Q2",
+      "name": "M_Smoke Detector:Plain:662966",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Q3",
+      "name": "M_Smoke Detector:Plain:662967",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QC",
+      "name": "M_Smoke Detector:Plain:662968",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QD",
+      "name": "M_Smoke Detector:Plain:662969",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QE",
+      "name": "M_Smoke Detector:Plain:662970",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1QF",
+      "name": "M_Smoke Detector:Plain:662971",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Q8",
+      "name": "M_Smoke Detector:Plain:662972",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Ku",
+      "name": "M_Smoke Detector:Plain:663052",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Kv",
+      "name": "M_Smoke Detector:Plain:663053",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Kw",
+      "name": "M_Smoke Detector:Plain:663054",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Kx",
+      "name": "M_Smoke Detector:Plain:663055",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Ka",
+      "name": "M_Smoke Detector:Plain:663056",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Kb",
+      "name": "M_Smoke Detector:Plain:663057",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Kc",
+      "name": "M_Smoke Detector:Plain:663058",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Kd",
+      "name": "M_Smoke Detector:Plain:663059",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KW",
+      "name": "M_Smoke Detector:Plain:663060",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KX",
+      "name": "M_Smoke Detector:Plain:663061",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KY",
+      "name": "M_Smoke Detector:Plain:663062",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KZ",
+      "name": "M_Smoke Detector:Plain:663063",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Ki",
+      "name": "M_Smoke Detector:Plain:663064",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Kj",
+      "name": "M_Smoke Detector:Plain:663065",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Kk",
+      "name": "M_Smoke Detector:Plain:663066",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Kl",
+      "name": "M_Smoke Detector:Plain:663067",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Ke",
+      "name": "M_Smoke Detector:Plain:663068",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Kf",
+      "name": "M_Smoke Detector:Plain:663069",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Kg",
+      "name": "M_Smoke Detector:Plain:663070",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1Kh",
+      "name": "M_Smoke Detector:Plain:663071",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KK",
+      "name": "M_Smoke Detector:Plain:663072",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KL",
+      "name": "M_Smoke Detector:Plain:663073",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KM",
+      "name": "M_Smoke Detector:Plain:663074",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KN",
+      "name": "M_Smoke Detector:Plain:663075",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KG",
+      "name": "M_Smoke Detector:Plain:663076",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KH",
+      "name": "M_Smoke Detector:Plain:663077",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KI",
+      "name": "M_Smoke Detector:Plain:663078",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KJ",
+      "name": "M_Smoke Detector:Plain:663079",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KS",
+      "name": "M_Smoke Detector:Plain:663080",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KT",
+      "name": "M_Smoke Detector:Plain:663081",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KU",
+      "name": "M_Smoke Detector:Plain:663082",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KV",
+      "name": "M_Smoke Detector:Plain:663083",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KO",
+      "name": "M_Smoke Detector:Plain:663084",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KP",
+      "name": "M_Smoke Detector:Plain:663085",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KQ",
+      "name": "M_Smoke Detector:Plain:663086",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KR",
+      "name": "M_Smoke Detector:Plain:663087",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1K4",
+      "name": "M_Smoke Detector:Plain:663088",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1K5",
+      "name": "M_Smoke Detector:Plain:663089",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1K6",
+      "name": "M_Smoke Detector:Plain:663090",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1K7",
+      "name": "M_Smoke Detector:Plain:663091",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1K0",
+      "name": "M_Smoke Detector:Plain:663092",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1K1",
+      "name": "M_Smoke Detector:Plain:663093",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1K2",
+      "name": "M_Smoke Detector:Plain:663094",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1K3",
+      "name": "M_Smoke Detector:Plain:663095",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KC",
+      "name": "M_Smoke Detector:Plain:663096",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KD",
+      "name": "M_Smoke Detector:Plain:663097",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KE",
+      "name": "M_Smoke Detector:Plain:663098",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "3kx$mzKhbDBegDvDB9z1KF",
+      "name": "M_Smoke Detector:Plain:663099",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSwk",
+      "name": "M_Manual Pull Station:Standard:666817",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSwd",
+      "name": "M_Manual Pull Station:Standard:666824",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSws",
+      "name": "M_Manual Pull Station:Standard:666841",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSwV",
+      "name": "M_Manual Pull Station:Standard:666864",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSzF",
+      "name": "M_Manual Pull Station:Standard:666912",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSyk",
+      "name": "M_Manual Pull Station:Standard:666945",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeS$2",
+      "name": "M_Manual Pull Station:Standard:667053",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeS$G",
+      "name": "M_Manual Pull Station:Standard:667071",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSnk",
+      "name": "M_Manual Pull Station:Standard:667137",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSnO",
+      "name": "M_Manual Pull Station:Standard:667191",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSmX",
+      "name": "M_Manual Pull Station:Standard:667214",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSmC",
+      "name": "M_Manual Pull Station:Standard:667235",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSpA",
+      "name": "M_Manual Pull Station:Standard:667301",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSoX",
+      "name": "M_Manual Pull Station:Standard:667342",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "1r6vC9VnH1BQ8flD9ZeSr$",
+      "name": "M_Manual Pull Station:Standard:667408",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtYt"
+    },
+    {
+      "id": "0eLgK3jR98evJJw7_Yd$1K",
+      "name": "M_Fire Alarm Control Panel:FA-4:656443",
+      "type": "IfcBuildingElementProxy",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "3O4n4IwsrFkPdc5dROKtZF",
+      "name": "Level 4",
+      "type": "IfcBuildingStorey",
+      "parent": "3O4n4IwsrFkPdc5dOdgpLJ",
+      "children": []
+    },
+    {
+      "id": "33YXbSPfzBbeAKdlct2pXo",
+      "name": "M_Smoke Detector:Plain:663183",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "33YXbSPfzBbeAKdlct2pXh",
+      "name": "M_Smoke Detector:Plain:663190",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "33YXbSPfzBbeAKdlct2pXT",
+      "name": "M_Smoke Detector:Plain:663200",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "33YXbSPfzBbeAKdlct2pXN",
+      "name": "M_Smoke Detector:Plain:663210",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "33YXbSPfzBbeAKdlct2pX9",
+      "name": "M_Smoke Detector:Plain:663220",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "33YXbSPfzBbeAKdlct2pX3",
+      "name": "M_Smoke Detector:Plain:663230",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "33YXbSPfzBbeAKdlct2pWr",
+      "name": "M_Smoke Detector:Plain:663240",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "33YXbSPfzBbeAKdlct2pWl",
+      "name": "M_Smoke Detector:Plain:663250",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "33YXbSPfzBbeAKdlct2pWX",
+      "name": "M_Smoke Detector:Plain:663260",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVIR",
+      "name": "M_Manual Pull Station:Standard:668163",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVIK",
+      "name": "M_Manual Pull Station:Standard:668172",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVI5",
+      "name": "M_Manual Pull Station:Standard:668189",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVIe",
+      "name": "M_Manual Pull Station:Standard:668208",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVGd",
+      "name": "M_Manual Pull Station:Standard:668351",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVHM",
+      "name": "M_Manual Pull Station:Standard:668366",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVNT",
+      "name": "M_Manual Pull Station:Standard:668485",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVNA",
+      "name": "M_Manual Pull Station:Standard:668498",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVN4",
+      "name": "M_Manual Pull Station:Standard:668508",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVKQ",
+      "name": "M_Manual Pull Station:Standard:668546",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVAV",
+      "name": "M_Manual Pull Station:Standard:668679",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVBI",
+      "name": "M_Manual Pull Station:Standard:668746",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVBk",
+      "name": "M_Manual Pull Station:Standard:668790",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkV84",
+      "name": "M_Manual Pull Station:Standard:668828",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkV8k",
+      "name": "M_Manual Pull Station:Standard:668854",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkV9A",
+      "name": "M_Manual Pull Station:Standard:668882",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkV9r",
+      "name": "M_Manual Pull Station:Standard:668909",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVEe",
+      "name": "M_Manual Pull Station:Standard:668976",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVEd",
+      "name": "M_Manual Pull Station:Standard:668991",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVFA",
+      "name": "M_Manual Pull Station:Standard:669010",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVDE",
+      "name": "M_Manual Pull Station:Standard:669142",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVD0",
+      "name": "M_Manual Pull Station:Standard:669144",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVD2",
+      "name": "M_Manual Pull Station:Standard:669146",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVD3",
+      "name": "M_Manual Pull Station:Standard:669147",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVD5",
+      "name": "M_Manual Pull Station:Standard:669149",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVD7",
+      "name": "M_Manual Pull Station:Standard:669151",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVDv",
+      "name": "M_Manual Pull Station:Standard:669153",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVDx",
+      "name": "M_Manual Pull Station:Standard:669155",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVDz",
+      "name": "M_Manual Pull Station:Standard:669157",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVD$",
+      "name": "M_Manual Pull Station:Standard:669159",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVDn",
+      "name": "M_Manual Pull Station:Standard:669161",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVDp",
+      "name": "M_Manual Pull Station:Standard:669163",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVDq",
+      "name": "M_Manual Pull Station:Standard:669164",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVDs",
+      "name": "M_Manual Pull Station:Standard:669166",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVDe",
+      "name": "M_Manual Pull Station:Standard:669168",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "19LZmD0frCTAH2AW6nkVDg",
+      "name": "M_Manual Pull Station:Standard:669170",
+      "type": "IfcDistributionControlElement",
+      "parent": "3O4n4IwsrFkPdc5dROKtZF"
+    },
+    {
+      "id": "3O4n4IwsrFkPdc5dOdgpLG",
+      "name": "Default",
+      "type": "IfcSite",
+      "parent": "3O4n4IwsrFkPdc5dOdgpLI",
+      "children": []
+    },
+    {
+      "id": "3O4n4IwsrFkPdc5dOdgpLI",
+      "name": "Project Number",
+      "type": "IfcProject",
+      "children": []
+    },
+    {
+      "id": "3O4n4IwsrFkPdc5dOdgpLJ",
+      "name": "",
+      "type": "IfcBuilding",
+      "parent": "3O4n4IwsrFkPdc5dOdgpLG",
+      "children": []
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Box geometry</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+
+<canvas id="myCanvas"></canvas>
+<div id="info">
+    <h1>VBOGeometry</h1>
+    <br>
+    <p>Keeps its geometry data solely in GPU memory for lower memory footprint.</p>
+    <br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/Viewer.js~Viewer.html">Viewer</a>
+            - xeokit Viewer
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a>
+            - Scene graph mesh
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a>
+            - VBOGeometry
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a>
+            - Blinn/Phong material
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a>
+            - Texture map
+        </li>
+    </ul>
+</div>
+</body>
+
+<script type="module" id="source">
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {Mesh} from "../src/viewer/scene/mesh/Mesh.js";
+    import {VBOGeometry} from "../src/viewer/scene/geometry/VBOGeometry.js"
+    import {PhongMaterial} from "../src/viewer/scene/materials/PhongMaterial.js";
+    import {Texture} from "../src/viewer/scene/materials/Texture.js";
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas"
+    });
+
+    new Mesh(viewer.scene, {
+        geometry: new VBOGeometry(viewer.scene, {
+            primitive: "triangles",
+            positions: [0.0, 3, 0.0, -3, -3, 0.0, 3, -3, 0.0],
+            normals: [0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0],
+            uv: [0.0, 0.0, 0.5, 1.0, 1.0, 0.0],
+            indices: [0, 1, 2]
+        }),
+        material: new PhongMaterial(viewer.scene, {
+            diffuseMap: new Texture(viewer.scene, {
+                src: "textures/diffuse/uvGrid2.jpg"
+            }),
+            backfaces: true
+        })
+    });
+
+    viewer.scene.on("tick", function () {
+        viewer.scene.camera.orbitYaw(0.2);
+        viewer.scene.camera.orbitPitch(0.1);
+    });
+
+</script>
+</html>

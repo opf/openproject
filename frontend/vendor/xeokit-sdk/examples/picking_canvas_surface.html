@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Surface Picking with the Pointer</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+<canvas id="myCanvas"></canvas>
+<div id="info">
+    <h1>Surface Picking with the Pointer</h1>
+    <ul>
+
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads .xkt model from file system
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/Picking">User Guide</a>
+        </li>
+    </ul>
+</div>
+</body>
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {Node} from "../src/viewer/scene/nodes/Node.js";
+    import {Mesh} from "../src/viewer/scene/mesh/Mesh.js";
+    import {VBOGeometry} from "../src/viewer/scene/geometry/VBOGeometry.js";
+    import {buildSphereGeometry} from "../src/viewer/scene/geometry/builders/buildSphereGeometry.js";
+    import {PhongMaterial} from "../src/viewer/scene/materials/PhongMaterial.js";
+    import {math} from "../src/viewer/scene/math/math.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas"
+    });
+
+    viewer.camera.eye = [-3.93, 2.85, 27.01];
+    viewer.camera.look = [4.40, 3.72, 8.89];
+    viewer.camera.up = [-0.01, 0.99, 0.039];
+    //------------------------------------------------------------------------------------------------------------------
+    // Load a model
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/duplex/duplex.xkt",
+        metaModelSrc: "./metaModels/duplex/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+        edges: true
+    });
+    //------------------------------------------------------------------------------------------------------------------
+    // Display an indicator wherever the pointer picks a surface
+    //------------------------------------------------------------------------------------------------------------------
+
+    var hitHelper = new (function () {
+
+        const zeroVec = new Float32Array([0, 0, -1]);
+        const quat = new Float32Array(4);
+
+        var node = new Node(viewer.scene, {
+            pickable: false,
+            visible: true,
+            position: [0, 0, 0],
+
+            children: [
+                new Mesh(viewer.scene, {
+                    geometry: new VBOGeometry(viewer.scene, buildSphereGeometry({radius: .4})),
+                    material: new PhongMaterial(viewer.scene, {emissive: [1, 0, 0], diffuse: [0, 0, 0]}),
+                    pickable: false
+                }),
+                new Mesh(viewer.scene, {
+                    geometry: new VBOGeometry(viewer.scene, {
+                        primitive: "lines",
+                        positions: [
+                            0.0, 0.0, 0.0, 0.0, 0.0, -2.0
+                        ],
+                        indices: [0, 1]
+                    }),
+                    material: new PhongMaterial(viewer.scene, {emissive: [1, 1, 0], diffuse: [0, 0, 0], lineWidth: 4}),
+                    pickable: false
+                })
+            ]
+        });
+
+        this.show = function (hit) {
+            node.position = hit.worldPos;
+            node.visible = true;
+
+            (this._dir = this._dir || math.vec3()).set(hit.worldNormal || [0, 0, 1]);
+            math.vec3PairToQuaternion(zeroVec, this._dir, quat);
+            node.quaternion = quat;
+        };
+
+        this.hide = function () {
+            node.visible = false;
+        };
+    })();
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Dynamically pick surfaces of model with the pointer, show pick intersection with red sphere
+    //------------------------------------------------------------------------------------------------------------------
+
+    var lastEntity = null;
+    var lastColorize = null;
+
+    viewer.scene.input.on("mousemove", function (coords) {
+
+        var hit = viewer.scene.pick({
+            canvasPos: coords,
+            pickSurface: true  // <<------ This causes picking to find the intersection point on the entity
+        });
+
+        if (hit) {
+
+            if (!lastEntity || hit.entity.id !== lastEntity.id) {
+
+                if (lastEntity) {
+                    lastEntity.colorize = lastColorize;
+                }
+
+                lastEntity = hit.entity;
+                lastColorize = hit.entity.colorize.slice();
+
+                hit.entity.colorize = [0.0, 1.0, 0.0, 1.0];
+            }
+
+            hitHelper.show(hit);
+
+        } else {
+
+            if (lastEntity) {
+                lastEntity.colorize = lastColorize;
+                lastEntity = null;
+
+                hitHelper.hide();
+            }
+        }
+    });
+</script>
+</html>

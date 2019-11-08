@@ -30,6 +30,8 @@
 
 module ::IFCModels
   class IFCModelsController < BaseController
+    include IFCModelsHelper
+
     before_action :find_project_by_project_id, only: %i[index new create show edit update destroy]
     before_action :find_ifc_model_object, except: %i[index new create]
 
@@ -49,6 +51,7 @@ module ::IFCModels
     end
 
     def edit; end
+
     def show; end
 
     def create

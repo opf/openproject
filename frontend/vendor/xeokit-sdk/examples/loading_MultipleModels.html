@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Scene graph containing OBJ and glTF models</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<div id="info">
+    <h1>Loading Multiple Models</h1>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a>
+            - Loads the house from glTF
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a>
+            - Loads the car from OBJ
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Node</a>
+            - Creates the ground plane
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/Importing-Models">User Guide</a>
+        </li>
+    </ul>
+</div>
+</body>
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {OBJLoaderPlugin} from "../src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js";
+    import {GLTFLoaderPlugin} from "../src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js";
+    import {Mesh} from "../src/viewer/scene/mesh/Mesh.js";
+    import {buildPlaneGeometry} from "../src/viewer/scene/geometry/builders/buildPlaneGeometry.js";
+    import {ReadableGeometry} from "../src/viewer/scene/geometry/ReadableGeometry.js";
+    import {PhongMaterial} from "../src/viewer/scene/materials/PhongMaterial.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas"
+    });
+
+    viewer.camera.eye = [-11.07, 1.75, 9.38];
+    viewer.camera.look = [-5.32, -0.70, 1.99];
+    viewer.camera.up = [0.15, 0.94, -0.20];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Build a scene graph containing a bunch of models
+    //------------------------------------------------------------------------------------------------------------------
+
+    const objLoader = new OBJLoaderPlugin(viewer);
+    const gltfLoader = new GLTFLoaderPlugin(viewer);
+
+    // Car
+
+    objLoader.load({ // Returns an Entity that will be registered on Viewer#scene#models
+        id: "myModel",
+        src: "./models/obj/sportsCar/sportsCar.obj",
+        position: [-5, -1, 0],
+        scale: [1.5, 1.5, 1.5]
+    });
+
+    // House
+
+    gltfLoader.load({ // Returns an Entity that will be registered on Viewer#scene#models
+        id: "myModel2",
+        src: "./models/gltf/schependomlaan/scene.gltf",
+        metaModelSrc: "./metaModels/schependomlaan/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+        rotation: [0, 50, 0],
+        edges: true
+    });
+
+    // Ground plane
+
+    new Mesh(viewer.scene, {
+        geometry: new ReadableGeometry(viewer.scene, buildPlaneGeometry({
+            xSize: 500,
+            zSize: 500
+        })),
+        material: new PhongMaterial(viewer.scene, {
+            diffuse: [0.4, 1.0, 0.4],
+            backfaces: true
+        }),
+        position: [0, -1.0, 0],
+        pickable: false,
+        collidable: false
+    });
+
+    window.viewer = viewer;
+
+</script>
+</html>

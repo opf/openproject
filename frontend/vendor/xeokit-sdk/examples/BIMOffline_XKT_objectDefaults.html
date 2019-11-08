@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XKTLoaderPlugin - Setting Initial Object Appearances</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+
+        #myCanvas {
+            background: #ffffff;
+        }
+    </style>
+
+</head>
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<div id="info">
+    <h1>XKTLoaderPlugin - Setting Initial Object Appearances by IFC Type</h1>
+    <br>
+    <p>Configuring XKTLoaderPlugin with our own map of initial default states for IFC objects</p><br>
+    <ul>
+        <li>
+            <div id="time">Loading JavaScript modules...</div>
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads model and IFC data from file system
+        </li>
+        <li>
+            <a target="_other"
+               href="http://openifcmodel.cs.auckland.ac.nz/Model/Details/274">Model source</a>
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/Viewing-BIM-Models-Offline">User
+                Guide</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer, arrange the camera, tweak xraying and highlight materials
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.camera.eye = [-3.933, 2.855, 27.018];
+    viewer.camera.look = [4.400, 3.724, 8.899];
+    viewer.camera.up = [-0.018, 0.999, 0.039];
+
+    viewer.cameraFlight.fitFOV = 15;
+
+    viewer.scene.xrayMaterial.fillAlpha = 0.1;
+    viewer.scene.xrayMaterial.fillColor = [0, 0, 0];
+    viewer.scene.xrayMaterial.edgeAlpha = 0.4;
+    viewer.scene.xrayMaterial.edgeColor = [0, 0, 0];
+
+    viewer.scene.highlightMaterial.fillAlpha = 0.3;
+    viewer.scene.highlightMaterial.edgeColor = [1, 1, 0];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Load model and metadata using a XKTLoaderPlugin
+    //
+    // Use our own map of initial default states for each Entity in the model
+    //------------------------------------------------------------------------------------------------------------------
+
+    const myObjectDefaults = {
+        IfcRoof: {
+            colorize: [0.337255, 0.803922, 0.270588],
+            priority: 0
+        },
+        IfcSlab: {
+            colorize: [0.837255, 0.603922, 0.670588],
+            priority: 0
+        },
+        IfcWall: {
+            colorize: [0.537255, 0.537255, 0.837255],
+            priority: 0
+        },
+        IfcWallStandardCase: {
+            colorize: [0.537255, 0.337255, 0.237255],
+            priority: 0
+        },
+        IfcCovering: {
+            colorize: [0.8470588235, 0.427450980392, 0],
+            priority: 0
+        },
+        IfcDoor: {
+            colorize: [0.637255, 0.603922, 0.670588],
+            priority: 1
+        },
+        IfcStair: {
+            colorize: [0.637255, 0.603922, 0.670588],
+            priority: 2
+        },
+        IfcStairFlight: {
+            colorize: [0.637255, 0.603922, 0.670588],
+            priority: 2
+        },
+        IfcProxy: {
+            colorize: [0.137255, 0.403922, 0.870588],
+            priority: 2
+        },
+        IfcRamp: {
+            colorize: [0.8470588235, 0.427450980392, 0],
+            priority: 2
+        },
+        IfcColumn: {
+            colorize: [0.137255, 0.403922, 0.870588],
+            priority: 3
+        },
+        IfcBeam: {
+            colorize: [0.137255, 0.403922, 0.870588],
+            priority: 3
+        },
+        IfcCurtainWall: {
+            colorize: [0.137255, 0.403922, 0.870588],
+            priority: 3
+        },
+        IfcPlate: {
+            colorize: [0.8470588235, 0.427450980392, 0, 0.5],
+            opacity: 0.5,
+            priority: 3
+        },
+        IfcTransportElement: {
+            colorize: [0.8470588235, 0.427450980392, 0],
+            priority: 3
+        },
+        IfcFooting: {
+            colorize: [0.8470588235, 0.427450980392, 0],
+            priority: 3
+        },
+        IfcRailing: {
+            colorize: [0.137255, 0.403922, 0.870588],
+            priority: 4
+        },
+        IfcFurnishingElement: {
+            colorize: [0.137255, 0.403922, 0.870588],
+            priority: 4
+        },
+        IfcFurniture: {
+            colorize: [0.8470588235, 0.427450980392, 0],
+            priority: 4
+        },
+        IfcSystemFurnitureElement: {
+            colorize: [0.8470588235, 0.427450980392, 0],
+            priority: 4
+        },
+        IfcFlowSegment: {
+            colorize: [0.137255, 0.403922, 0.870588],
+            priority: 5
+        },
+        IfcFlowitting: {
+            colorize: [0.137255, 0.403922, 0.870588],
+            priority: 5
+        },
+        IfcFlowTerminal: {
+            colorize: [0.137255, 0.403922, 0.870588],
+            priority: 5
+        },
+        IfcFlowController: {
+            colorize: [0.8470588235, 0.427450980392, 0],
+            priority: 5
+        },
+        IfcFlowFitting: {
+            colorize: [0.8470588235, 0.427450980392, 0],
+            priority: 5
+        },
+        IfcDuctSegment: {
+            colorize: [0.8470588235, 0.427450980392, 0],
+            priority: 5
+        },
+        IfcDistributionFlowElement: {
+            colorize: [0.8470588235, 0.427450980392, 0],
+            priority: 5
+        },
+        IfcDuctFitting: {
+            colorize: [0.8470588235, 0.427450980392, 0],
+            priority: 5
+        },
+        IfcLightFixture: {
+            colorize: [0.8470588235, 0.8470588235, 0.870588],
+            priority: 5
+        },
+        IfcAirTerminal: {
+            colorize: [0.8470588235, 0.427450980392, 0],
+            priority: 6
+        },
+        IfcOpeningElement: {
+            colorize: [0.137255, 0.403922, 0.870588],
+            pickable: false,
+            visible: false,
+            priority: 6
+        },
+        IfcSpace: {
+            colorize: [0.137255, 0.403922, 0.870588],
+            pickable: false,
+            visible: false,
+            opacity: 0.5,
+            priority: 6
+        },
+        IfcWindow: {
+            colorize: [0.137255, 0.403922, 0.870588],
+            pickable: false,
+            opacity: 0.4,
+            priority: 6
+        },
+        IfcBuildingElementProxy: {
+            colorize: [0.5, 0.5, 0.5]
+        },
+
+        IfcSite: {
+            colorize: [0.137255, 0.403922, 0.870588]
+        },
+
+        IfcMember: {
+            colorize: [0.8470588235, 0.427450980392, 0]
+        },
+
+        DEFAULT: {
+            colorize: [0.5, 0.5, 0.5],
+            priority: 10
+        }
+    };
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/duplex/duplex.xkt",
+        metaModelSrc: "./metaModels/duplex/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+        objectDefaults: myObjectDefaults, // Use our custom initial default states for object Entities
+        edges: true
+    });
+
+    const t0 = performance.now();
+
+    document.getElementById("time").innerHTML = "Loading model...";
+
+    model.on("loaded", function () {
+        const t1 = performance.now();
+        document.getElementById("time").innerHTML = "Model loaded in " + Math.floor(t1 - t0) / 1000.0 + " seconds<br>Objects: " + model.numEntities + "<br>Triangles: " + model.numTriangles;
+
+    });
+
+</script>
+</html>

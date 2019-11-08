@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../../">
+  <title data-ice="title">src/viewer/scene/input/Input.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/viewer/scene/input/Input.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ Publishes keyboard and mouse events that occur on the parent {@link Scene}&apos;s {@link Canvas}.
+
+ * Each {@link Scene} provides an Input on itself as a read-only property.
+
+ ## Usage
+
+ In this example, we&apos;re subscribing to some mouse and key events that will occur on
+ a {@link Scene} {@link Canvas&quot;}}Canvas{{/crossLink}}.
+
+ ````javascript
+ var myScene = new xeokit.Scene();
+
+ var input = myScene.input;
+
+ // We&apos;ll save a handle to this subscription
+ // to show how to unsubscribe, further down
+ var handle = input.on(&quot;mousedown&quot;, function(coords) {
+       console.log(&quot;Mouse down at: x=&quot; + coords[0] + &quot;, y=&quot; + coords[1]);
+ });
+
+ input.on(&quot;mouseup&quot;, function(coords) {
+       console.log(&quot;Mouse up at: x=&quot; + coords[0] + &quot;, y=&quot; + coords[1]);
+ });
+
+ input.on(&quot;mouseclicked&quot;, function(coords) {
+      console.log(&quot;Mouse clicked at: x=&quot; + coords[0] + &quot;, y=&quot; + coords[1]);
+ });
+
+ input.on(&quot;dblclick&quot;, function(coords) {
+       console.log(&quot;Double-click at: x=&quot; + coords[0] + &quot;, y=&quot; + coords[1]);
+ });
+
+ input.on(&quot;keydown&quot;, function(keyCode) {
+        switch (keyCode) {
+
+            case this.KEY_A:
+               console.log(&quot;The &apos;A&apos; key is down&quot;);
+               break;
+
+            case this.KEY_B:
+               console.log(&quot;The &apos;B&apos; key is down&quot;);
+               break;
+
+            case this.KEY_C:
+               console.log(&quot;The &apos;C&apos; key is down&quot;);
+               break;
+
+            default:
+               console.log(&quot;Some other key is down&quot;);
+       }
+     });
+
+ input.on(&quot;keyup&quot;, function(keyCode) {
+        switch (keyCode) {
+
+            case this.KEY_A:
+               console.log(&quot;The &apos;A&apos; key is up&quot;);
+               break;
+
+            case this.KEY_B:
+               console.log(&quot;The &apos;B&apos; key is up&quot;);
+               break;
+
+            case this.KEY_C:
+               console.log(&quot;The &apos;C&apos; key is up&quot;);
+               break;
+
+            default:
+               console.log(&quot;Some other key is up&quot;);
+        }
+     });
+
+ // TODO: ALT and CTRL keys etc
+ ````
+
+ ### Unsubscribing from Events
+
+ In the snippet above, we saved a handle to one of our event subscriptions.
+
+ We can then use that handle to unsubscribe again, like this:
+
+ ````javascript
+ input.off(handle);
+ ````
+
+ @class Input
+ @module xeokit
+ @submodule input
+ @extends Component
+ */
+import {Component} from &apos;../Component.js&apos;;
+import {math} from &apos;../math/math.js&apos;;
+
+class Input extends Component {
+
+    /**
+     @private
+     */
+    get type() {
+        return &quot;Input&quot;;
+    }
+
+    constructor(owner, cfg={}) {
+
+        super(owner, cfg);
+
+        const self = this;
+
+        // Key codes
+
+        /**
+         * Code for the BACKSPACE key.
+         * @property KEY_BACKSPACE
+         * @final
+         * @type {Number}
+         */
+        this.KEY_BACKSPACE = 8;
+
+        /**
+         * Code for the TAB key.
+         * @property KEY_TAB
+         * @final
+         * @type {Number}
+         */
+        this.KEY_TAB = 9;
+
+        /**
+         * Code for the ENTER key.
+         * @property KEY_ENTER
+         * @final
+         * @type {Number}
+         */
+        this.KEY_ENTER = 13;
+
+        /**
+         * Code for the SHIFT key.
+         * @property KEY_SHIFT
+         * @final
+         * @type {Number}
+         */
+        this.KEY_SHIFT = 16;
+
+        /**
+         * Code for the CTRL key.
+         * @property KEY_CTRL
+         * @final
+         * @type {Number}
+         */
+        this.KEY_CTRL = 17;
+
+        /**
+         * Code for the ALT key.
+         * @property KEY_ALT
+         * @final
+         * @type {Number}
+         */
+        this.KEY_ALT = 18;
+
+        /**
+         * Code for the PAUSE_BREAK key.
+         * @property KEY_PAUSE_BREAK
+         * @final
+         * @type {Number}
+         */
+        this.KEY_PAUSE_BREAK = 19;
+
+        /**
+         * Code for the CAPS_LOCK key.
+         * @property KEY_CAPS_LOCK
+         * @final
+         * @type {Number}
+         */
+        this.KEY_CAPS_LOCK = 20;
+
+        /**
+         * Code for the ESCAPE key.
+         * @property KEY_ESCAPE
+         * @final
+         * @type {Number}
+         */
+        this.KEY_ESCAPE = 27;
+
+        /**
+         * Code for the PAGE_UP key.
+         * @property KEY_PAGE_UP
+         * @final
+         * @type {Number}
+         */
+        this.KEY_PAGE_UP = 33;
+
+        /**
+         * Code for the PAGE_DOWN key.
+         * @property KEY_PAGE_DOWN
+         * @final
+         * @type {Number}
+         */
+        this.KEY_PAGE_DOWN = 34;
+
+        /**
+         * Code for the END key.
+         * @property KEY_END
+         * @final
+         * @type {Number}
+         */
+        this.KEY_END = 35;
+
+        /**
+         * Code for the HOME key.
+         * @property KEY_HOME
+         * @final
+         * @type {Number}
+         */
+        this.KEY_HOME = 36;
+
+        /**
+         * Code for the LEFT_ARROW key.
+         * @property KEY_LEFT_ARROW
+         * @final
+         * @type {Number}
+         */
+        this.KEY_LEFT_ARROW = 37;
+
+        /**
+         * Code for the UP_ARROW key.
+         * @property KEY_UP_ARROW
+         * @final
+         * @type {Number}
+         */
+        this.KEY_UP_ARROW = 38;
+
+        /**
+         * Code for the RIGHT_ARROW key.
+         * @property KEY_RIGHT_ARROW
+         * @final
+         * @type {Number}
+         */
+        this.KEY_RIGHT_ARROW = 39;
+
+        /**
+         * Code for the DOWN_ARROW key.
+         * @property KEY_DOWN_ARROW
+         * @final
+         * @type {Number}
+         */
+        this.KEY_DOWN_ARROW = 40;
+
+        /**
+         * Code for the INSERT key.
+         * @property KEY_INSERT
+         * @final
+         * @type {Number}
+         */
+        this.KEY_INSERT = 45;
+
+        /**
+         * Code for the DELETE key.
+         * @property KEY_DELETE
+         * @final
+         * @type {Number}
+         */
+        this.KEY_DELETE = 46;
+
+        /**
+         * Code for the 0 key.
+         * @property KEY_NUM_0
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUM_0 = 48;
+
+        /**
+         * Code for the 1 key.
+         * @property KEY_NUM_1
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUM_1 = 49;
+
+        /**
+         * Code for the 2 key.
+         * @property KEY_NUM_2
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUM_2 = 50;
+
+        /**
+         * Code for the 3 key.
+         * @property KEY_NUM_3
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUM_3 = 51;
+
+        /**
+         * Code for the 4 key.
+         * @property KEY_NUM_4
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUM_4 = 52;
+
+        /**
+         * Code for the 5 key.
+         * @property KEY_NUM_5
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUM_5 = 53;
+
+        /**
+         * Code for the 6 key.
+         * @property KEY_NUM_6
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUM_6 = 54;
+
+        /**
+         * Code for the 7 key.
+         * @property KEY_NUM_7
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUM_7 = 55;
+
+        /**
+         * Code for the 8 key.
+         * @property KEY_NUM_8
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUM_8 = 56;
+
+        /**
+         * Code for the 9 key.
+         * @property KEY_NUM_9
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUM_9 = 57;
+
+        /**
+         * Code for the A key.
+         * @property KEY_A
+         * @final
+         * @type {Number}
+         */
+        this.KEY_A = 65;
+
+        /**
+         * Code for the B key.
+         * @property KEY_B
+         * @final
+         * @type {Number}
+         */
+        this.KEY_B = 66;
+
+        /**
+         * Code for the C key.
+         * @property KEY_C
+         * @final
+         * @type {Number}
+         */
+        this.KEY_C = 67;
+
+        /**
+         * Code for the D key.
+         * @property KEY_D
+         * @final
+         * @type {Number}
+         */
+        this.KEY_D = 68;
+
+        /**
+         * Code for the E key.
+         * @property KEY_E
+         * @final
+         * @type {Number}
+         */
+        this.KEY_E = 69;
+
+        /**
+         * Code for the F key.
+         * @property KEY_F
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F = 70;
+
+        /**
+         * Code for the G key.
+         * @property KEY_G
+         * @final
+         * @type {Number}
+         */
+        this.KEY_G = 71;
+
+        /**
+         * Code for the H key.
+         * @property KEY_H
+         * @final
+         * @type {Number}
+         */
+        this.KEY_H = 72;
+
+        /**
+         * Code for the I key.
+         * @property KEY_I
+         * @final
+         * @type {Number}
+         */
+        this.KEY_I = 73;
+
+        /**
+         * Code for the J key.
+         * @property KEY_J
+         * @final
+         * @type {Number}
+         */
+        this.KEY_J = 74;
+
+        /**
+         * Code for the K key.
+         * @property KEY_K
+         * @final
+         * @type {Number}
+         */
+        this.KEY_K = 75;
+
+        /**
+         * Code for the L key.
+         * @property KEY_L
+         * @final
+         * @type {Number}
+         */
+        this.KEY_L = 76;
+
+        /**
+         * Code for the M key.
+         * @property KEY_M
+         * @final
+         * @type {Number}
+         */
+        this.KEY_M = 77;
+
+        /**
+         * Code for the N key.
+         * @property KEY_N
+         * @final
+         * @type {Number}
+         */
+        this.KEY_N = 78;
+
+        /**
+         * Code for the O key.
+         * @property KEY_O
+         * @final
+         * @type {Number}
+         */
+        this.KEY_O = 79;
+
+        /**
+         * Code for the P key.
+         * @property KEY_P
+         * @final
+         * @type {Number}
+         */
+        this.KEY_P = 80;
+
+        /**
+         * Code for the Q key.
+         * @property KEY_Q
+         * @final
+         * @type {Number}
+         */
+        this.KEY_Q = 81;
+
+        /**
+         * Code for the R key.
+         * @property KEY_R
+         * @final
+         * @type {Number}
+         */
+        this.KEY_R = 82;
+
+        /**
+         * Code for the S key.
+         * @property KEY_S
+         * @final
+         * @type {Number}
+         */
+        this.KEY_S = 83;
+
+        /**
+         * Code for the T key.
+         * @property KEY_T
+         * @final
+         * @type {Number}
+         */
+        this.KEY_T = 84;
+
+        /**
+         * Code for the U key.
+         * @property KEY_U
+         * @final
+         * @type {Number}
+         */
+        this.KEY_U = 85;
+
+        /**
+         * Code for the V key.
+         * @property KEY_V
+         * @final
+         * @type {Number}
+         */
+        this.KEY_V = 86;
+
+        /**
+         * Code for the W key.
+         * @property KEY_W
+         * @final
+         * @type {Number}
+         */
+        this.KEY_W = 87;
+
+        /**
+         * Code for the X key.
+         * @property KEY_X
+         * @final
+         * @type {Number}
+         */
+        this.KEY_X = 88;
+
+        /**
+         * Code for the Y key.
+         * @property KEY_Y
+         * @final
+         * @type {Number}
+         */
+        this.KEY_Y = 89;
+
+        /**
+         * Code for the Z key.
+         * @property KEY_Z
+         * @final
+         * @type {Number}
+         */
+        this.KEY_Z = 90;
+
+        /**
+         * Code for the LEFT_WINDOW key.
+         * @property KEY_LEFT_WINDOW
+         * @final
+         * @type {Number}
+         */
+        this.KEY_LEFT_WINDOW = 91;
+
+        /**
+         * Code for the RIGHT_WINDOW key.
+         * @property KEY_RIGHT_WINDOW
+         * @final
+         * @type {Number}
+         */
+        this.KEY_RIGHT_WINDOW = 92;
+
+        /**
+         * Code for the SELECT key.
+         * @property KEY_SELECT
+         * @final
+         * @type {Number}
+         */
+        this.KEY_SELECT_KEY = 93;
+
+        /**
+         * Code for the number pad 0 key.
+         * @property KEY_NUMPAD_0
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUMPAD_0 = 96;
+
+        /**
+         * Code for the number pad 1 key.
+         * @property KEY_NUMPAD_1
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUMPAD_1 = 97;
+
+        /**
+         * Code for the number pad 2 key.
+         * @property KEY_NUMPAD 2
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUMPAD_2 = 98;
+
+        /**
+         * Code for the number pad 3 key.
+         * @property KEY_NUMPAD_3
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUMPAD_3 = 99;
+
+        /**
+         * Code for the number pad 4 key.
+         * @property KEY_NUMPAD_4
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUMPAD_4 = 100;
+
+        /**
+         * Code for the number pad 5 key.
+         * @property KEY_NUMPAD_5
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUMPAD_5 = 101;
+
+        /**
+         * Code for the number pad 6 key.
+         * @property KEY_NUMPAD_6
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUMPAD_6 = 102;
+
+        /**
+         * Code for the number pad 7 key.
+         * @property KEY_NUMPAD_7
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUMPAD_7 = 103;
+
+        /**
+         * Code for the number pad 8 key.
+         * @property KEY_NUMPAD_8
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUMPAD_8 = 104;
+
+        /**
+         * Code for the number pad 9 key.
+         * @property KEY_NUMPAD_9
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUMPAD_9 = 105;
+
+        /**
+         * Code for the MULTIPLY key.
+         * @property KEY_MULTIPLY
+         * @final
+         * @type {Number}
+         */
+        this.KEY_MULTIPLY = 106;
+
+        /**
+         * Code for the ADD key.
+         * @property KEY_ADD
+         * @final
+         * @type {Number}
+         */
+        this.KEY_ADD = 107;
+
+        /**
+         * Code for the SUBTRACT key.
+         * @property KEY_SUBTRACT
+         * @final
+         * @type {Number}
+         */
+        this.KEY_SUBTRACT = 109;
+
+        /**
+         * Code for the DECIMAL POINT key.
+         * @property KEY_DECIMAL_POINT
+         * @final
+         * @type {Number}
+         */
+        this.KEY_DECIMAL_POINT = 110;
+
+        /**
+         * Code for the DIVIDE key.
+         * @property KEY_DIVIDE
+         * @final
+         * @type {Number}
+         */
+        this.KEY_DIVIDE = 111;
+
+        /**
+         * Code for the F1 key.
+         * @property KEY_F1
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F1 = 112;
+
+        /**
+         * Code for the F2 key.
+         * @property KEY_F2
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F2 = 113;
+
+        /**
+         * Code for the F3 key.
+         * @property KEY_F3
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F3 = 114;
+
+        /**
+         * Code for the F4 key.
+         * @property KEY_F4
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F4 = 115;
+
+        /**
+         * Code for the F5 key.
+         * @property KEY_F5
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F5 = 116;
+
+        /**
+         * Code for the F6 key.
+         * @property KEY_F6
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F6 = 117;
+
+        /**
+         * Code for the F7 key.
+         * @property KEY_F7
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F7 = 118;
+
+        /**
+         * Code for the F8 key.
+         * @property KEY_F8
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F8 = 119;
+
+        /**
+         * Code for the F9 key.
+         * @property KEY_F9
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F9 = 120;
+
+        /**
+         * Code for the F10 key.
+         * @property KEY_F10
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F10 = 121;
+
+        /**
+         * Code for the F11 key.
+         * @property KEY_F11
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F11 = 122;
+
+        /**
+         * Code for the F12 key.
+         * @property KEY_F12
+         * @final
+         * @type {Number}
+         */
+        this.KEY_F12 = 123;
+
+        /**
+         * Code for the NUM_LOCK key.
+         * @property KEY_NUM_LOCK
+         * @final
+         * @type {Number}
+         */
+        this.KEY_NUM_LOCK = 144;
+
+        /**
+         * Code for the SCROLL_LOCK key.
+         * @property KEY_SCROLL_LOCK
+         * @final
+         * @type {Number}
+         */
+        this.KEY_SCROLL_LOCK = 145;
+
+        /**
+         * Code for the SEMI_COLON key.
+         * @property KEY_SEMI_COLON
+         * @final
+         * @type {Number}
+         */
+        this.KEY_SEMI_COLON = 186;
+
+        /**
+         * Code for the EQUAL_SIGN key.
+         * @property KEY_EQUAL_SIGN
+         * @final
+         * @type {Number}
+         */
+        this.KEY_EQUAL_SIGN = 187;
+
+        /**
+         * Code for the COMMA key.
+         * @property KEY_COMMA
+         * @final
+         * @type {Number}
+         */
+        this.KEY_COMMA = 188;
+
+        /**
+         * Code for the DASH key.
+         * @property KEY_DASH
+         * @final
+         * @type {Number}
+         */
+        this.KEY_DASH = 189;
+
+        /**
+         * Code for the PERIOD key.
+         * @property KEY_PERIOD
+         * @final
+         * @type {Number}
+         */
+        this.KEY_PERIOD = 190;
+
+        /**
+         * Code for the FORWARD_SLASH key.
+         * @property KEY_FORWARD_SLASH
+         * @final
+         * @type {Number}
+         */
+        this.KEY_FORWARD_SLASH = 191;
+
+        /**
+         * Code for the GRAVE_ACCENT key.
+         * @property KEY_GRAVE_ACCENT
+         * @final
+         * @type {Number}
+         */
+        this.KEY_GRAVE_ACCENT = 192;
+
+        /**
+         * Code for the OPEN_BRACKET key.
+         * @property KEY_OPEN_BRACKET
+         * @final
+         * @type {Number}
+         */
+        this.KEY_OPEN_BRACKET = 219;
+
+        /**
+         * Code for the BACK_SLASH key.
+         * @property KEY_BACK_SLASH
+         * @final
+         * @type {Number}
+         */
+        this.KEY_BACK_SLASH = 220;
+
+        /**
+         * Code for the CLOSE_BRACKET key.
+         * @property KEY_CLOSE_BRACKET
+         * @final
+         * @type {Number}
+         */
+        this.KEY_CLOSE_BRACKET = 221;
+
+        /**
+         * Code for the SINGLE_QUOTE key.
+         * @property KEY_SINGLE_QUOTE
+         * @final
+         * @type {Number}
+         */
+        this.KEY_SINGLE_QUOTE = 222;
+
+        /**
+         * Code for the SPACE key.
+         * @property KEY_SPACE
+         * @final
+         * @type {Number}
+         */
+        this.KEY_SPACE = 32;
+
+        this._element = cfg.element;
+
+        // True when ALT down
+        this.altDown = false;
+
+        /** True whenever CTRL is down
+         *
+         * @type {boolean}
+         */
+        this.ctrlDown = false;
+
+        /** True whenever left mouse button is down
+         *
+         * @type {boolean}
+         */
+        this.mouseDownLeft = false;
+
+        /** True whenever middle mouse button is down
+         *
+         * @type {boolean}
+         */
+        this.mouseDownMiddle = false;
+
+        /** True whenever right mouse button is down
+         *
+         * @type {boolean}
+         */
+        this.mouseDownRight = false;
+
+        /** Flag for each key that&apos;s down
+         *
+         * @type {boolean}
+         */
+        this.keyDown = [];
+
+        /** True while input enabled
+         *
+         * @type {boolean}
+         */
+        this.enabled = true;
+
+        /** True while mouse is over the parent {@link Scene} {@link Canvas&quot;}}Canvas{{/crossLink}}
+         *
+         * @type {boolean}
+         */
+        this.mouseover = false;
+
+        // Capture input events and publish them on this component
+
+        document.addEventListener(&quot;keydown&quot;, this._keyDownListener = function (e) {
+
+            if (!self.enabled) {
+                return;
+            }
+
+            if (e.target.tagName !== &quot;INPUT&quot; &amp;&amp; e.target.tagName !== &quot;TEXTAREA&quot;) {
+
+                if (e.keyCode === self.KEY_CTRL) {
+                    self.ctrlDown = true;
+                } else if (e.keyCode === self.KEY_ALT) {
+                    self.altDown = true;
+                }
+
+                self.keyDown[e.keyCode] = true;
+
+                /**
+                 * Fired whenever a key is pressed while the parent
+                 * {@link Scene}&apos;s {@link Canvas&quot;}}Canvas{{/crossLink}} has input focus.
+                 * @event keydown
+                 * @param value {Number} The key code, for example {@link Input/KEY_LEFT_ARROW},
+                 */
+                self.fire(&quot;keydown&quot;, e.keyCode, true);
+            }
+
+            if (self.mouseover) {
+                e.preventDefault();
+            }
+
+        }, false);
+
+        document.addEventListener(&quot;keyup&quot;, this._keyUpListener = function (e) {
+
+            if (!self.enabled) {
+                return;
+            }
+
+            if (e.target.tagName !== &quot;INPUT&quot; &amp;&amp; e.target.tagName !== &quot;TEXTAREA&quot;) {
+
+                if (e.keyCode === self.KEY_CTRL) {
+                    self.ctrlDown = false;
+                } else if (e.keyCode === self.KEY_ALT) {
+                    self.altDown = false;
+                }
+
+                self.keyDown[e.keyCode] = false;
+
+                /**
+                 * Fired whenever a key is released while the parent
+                 * {@link Scene}&apos;s {@link Canvas&quot;}}Canvas{{/crossLink}} has input focus.
+                 * @event keyup
+                 * @param value {Number} The key code, for example {@link Input/KEY_LEFT_ARROW},
+                 */
+                self.fire(&quot;keyup&quot;, e.keyCode, true);
+            }
+        });
+
+        cfg.element.addEventListener(&quot;mouseenter&quot;, this._mouseEnterListener = function (e) {
+
+            if (!self.enabled) {
+                return;
+            }
+
+            self.mouseover = true;
+
+            const coords = self._getClickCoordsWithinElement(e);
+
+            /**
+             * Fired whenever the mouse is moved into of the parent
+             * {@link Scene}&apos;s {@link Canvas&quot;}}Canvas{{/crossLink}}.
+             * @event mouseenter
+             * @param value {[Number, Number]} The mouse coordinates within the {@link Canvas&quot;}}Canvas{{/crossLink}},
+             */
+            self.fire(&quot;mouseenter&quot;, coords, true);
+        });
+
+        cfg.element.addEventListener(&quot;mouseleave&quot;, this._mouseLeaveListener = function (e) {
+
+            if (!self.enabled) {
+                return;
+            }
+
+            self.mouseover = false;
+
+            const coords = self._getClickCoordsWithinElement(e);
+
+            /**
+             * Fired whenever the mouse is moved out of the parent
+             * {@link Scene}&apos;s {@link Canvas&quot;}}Canvas{{/crossLink}}.
+             * @event mouseleave
+             * @param value {[Number, Number]} The mouse coordinates within the {@link Canvas&quot;}}Canvas{{/crossLink}},
+             */
+            self.fire(&quot;mouseleave&quot;, coords, true);
+        });
+
+
+        cfg.element.addEventListener(&quot;mousedown&quot;, this._mouseDownListener = function (e) {
+
+            if (!self.enabled) {
+                return;
+            }
+
+            switch (e.which) {
+
+                case 1:// Left button
+                    self.mouseDownLeft = true;
+                    break;
+
+                case 2:// Middle/both buttons
+                    self.mouseDownMiddle = true;
+                    break;
+
+                case 3:// Right button
+                    self.mouseDownRight = true;
+                    break;
+
+                default:
+                    break;
+            }
+
+            const coords = self._getClickCoordsWithinElement(e);
+
+            cfg.element.focus();
+
+            /**
+             * Fired whenever the mouse is pressed over the parent
+             * {@link Scene}&apos;s {@link Canvas&quot;}}Canvas{{/crossLink}}.
+             * @event mousedown
+             * @param value {[Number, Number]} The mouse coordinates within the {@link Canvas&quot;}}Canvas{{/crossLink}},
+             */
+            self.fire(&quot;mousedown&quot;, coords, true);
+
+            if (self.mouseover) {
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener(&quot;mouseup&quot;, this._mouseUpListener = function (e) {
+
+            if (!self.enabled) {
+                return;
+            }
+
+            switch (e.which) {
+
+                case 1:// Left button
+                    self.mouseDownLeft = false;
+                    break;
+
+                case 2:// Middle/both buttons
+                    self.mouseDownMiddle = false;
+                    break;
+
+                case 3:// Right button
+                    self.mouseDownRight = false;
+                    break;
+
+                default:
+                    break;
+            }
+
+            const coords = self._getClickCoordsWithinElement(e);
+
+            /**
+             * Fired whenever the mouse is released over the parent
+             * {@link Scene}&apos;s {@link Canvas&quot;}}Canvas{{/crossLink}}.
+             * @event mouseup
+             * @param value {[Number, Number]} The mouse coordinates within the {@link Canvas&quot;}}Canvas{{/crossLink}},
+             */
+            self.fire(&quot;mouseup&quot;, coords, true);
+
+            if (self.mouseover) {
+                e.preventDefault();
+            }
+        }, true);
+
+        document.addEventListener(&quot;click&quot;, this._clickListener = function (e) {
+
+            if (!self.enabled) {
+                return;
+            }
+
+            switch (e.which) {
+
+                case 1:// Left button
+                    self.mouseDownLeft = false;
+                    self.mouseDownRight = false;
+                    break;
+
+                case 2:// Middle/both buttons
+                    self.mouseDownMiddle = false;
+                    break;
+
+                case 3:// Right button
+                    self.mouseDownLeft = false;
+                    self.mouseDownRight = false;
+                    break;
+
+                default:
+                    break;
+            }
+
+            const coords = self._getClickCoordsWithinElement(e);
+
+            /**
+             * Fired whenever the mouse is clicked over the parent
+             * {@link Scene}&apos;s {@link Canvas&quot;}}Canvas{{/crossLink}}.
+             * @event dblclick
+             * @param value {[Number, Number]} The mouse coordinates within the {@link Canvas&quot;}}Canvas{{/crossLink}},
+             */
+            self.fire(&quot;click&quot;, coords, true);
+
+            if (self.mouseover) {
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener(&quot;dblclick&quot;, this._dblClickListener = function (e) {
+
+            if (!self.enabled) {
+                return;
+            }
+
+            switch (e.which) {
+
+                case 1:// Left button
+                    self.mouseDownLeft = false;
+                    self.mouseDownRight = false;
+                    break;
+
+                case 2:// Middle/both buttons
+                    self.mouseDownMiddle = false;
+                    break;
+
+                case 3:// Right button
+                    self.mouseDownLeft = false;
+                    self.mouseDownRight = false;
+                    break;
+
+                default:
+                    break;
+            }
+
+            const coords = self._getClickCoordsWithinElement(e);
+
+            /**
+             * Fired whenever the mouse is double-clicked over the parent
+             * {@link Scene}&apos;s {@link Canvas&quot;}}Canvas{{/crossLink}}.
+             * @event dblclick
+             * @param value {[Number, Number]} The mouse coordinates within the {@link Canvas&quot;}}Canvas{{/crossLink}},
+             */
+            self.fire(&quot;dblclick&quot;, coords, true);
+
+            if (self.mouseover) {
+                e.preventDefault();
+            }
+        });
+
+        cfg.element.addEventListener(&quot;mousemove&quot;, this._mouseMoveListener = function (e) {
+
+            if (!self.enabled) {
+                return;
+            }
+
+            const coords = self._getClickCoordsWithinElement(e);
+
+            /**
+             * Fired whenever the mouse is moved over the parent
+             * {@link Scene}&apos;s {@link Canvas&quot;}}Canvas{{/crossLink}}.
+             * @event mousedown
+             * @param value {[Number, Number]} The mouse coordinates within the {@link Canvas&quot;}}Canvas{{/crossLink}},
+             */
+            self.fire(&quot;mousemove&quot;, coords, true);
+
+            if (self.mouseover) {
+                e.preventDefault();
+            }
+        });
+
+        cfg.element.addEventListener(&quot;wheel&quot;, this._mouseWheelListener = function (e, d) {
+
+            if (!self.enabled) {
+                return;
+            }
+
+            const delta = Math.max(-1, Math.min(1, -e.deltaY * 40));
+
+            /**
+             * Fired whenever the mouse wheel is moved over the parent
+             * {@link Scene}&apos;s {@link Canvas&quot;}}Canvas{{/crossLink}}.
+             * @event mousewheel
+             * @param delta {Number} The mouse wheel delta,
+             */
+            self.fire(&quot;mousewheel&quot;, delta, true);
+        }, {passive: true});
+
+        // mouseclicked
+
+        (function () {
+
+            let downX;
+            let downY;
+
+            // Tolerance between down and up positions for a mouse click
+            const tolerance = 2;
+
+            self.on(&quot;mousedown&quot;, function (params) {
+                downX = params[0];
+                downY = params[1];
+            });
+
+            self.on(&quot;mouseup&quot;, function (params) {
+
+                if (downX &gt;= (params[0] - tolerance) &amp;&amp;
+                    downX &lt;= (params[0] + tolerance) &amp;&amp;
+                    downY &gt;= (params[1] - tolerance) &amp;&amp;
+                    downY &lt;= (params[1] + tolerance)) {
+
+                    /**
+                     * Fired whenever the mouse is clicked over the parent
+                     * {@link Scene}&apos;s {@link Canvas&quot;}}Canvas{{/crossLink}}.
+                     * @event mouseclicked
+                     * @param value {[Number, Number]} The mouse coordinates within the {@link Canvas&quot;}}Canvas{{/crossLink}},
+                     */
+                    self.fire(&quot;mouseclicked&quot;, params, true);
+                }
+            });
+        })();
+
+
+        // VR
+
+        (function () {
+
+            const orientationAngleLookup = {
+                &apos;landscape-primary&apos;: 90,
+                &apos;landscape-secondary&apos;: -90,
+                &apos;portrait-secondary&apos;: 180,
+                &apos;portrait-primary&apos;: 0
+            };
+
+            let orientation;
+            let orientationAngle;
+            const acceleration = math.vec3();
+            const accelerationIncludingGravity = math.vec3();
+
+            const orientationChangeEvent = {
+                orientation: null,
+                orientationAngle: 0
+            };
+
+            const deviceMotionEvent = {
+                orientationAngle: 0,
+                acceleration: null,
+                accelerationIncludingGravity: accelerationIncludingGravity,
+                rotationRate: math.vec3(),
+                interval: 0
+            };
+
+            const deviceOrientationEvent = {
+                alpha: 0,
+                beta: 0,
+                gamma: 0,
+                absolute: false
+            };
+
+            if (window.OrientationChangeEvent) {
+                window.addEventListener(&apos;orientationchange&apos;, self._orientationchangedListener = function () {
+
+                        orientation = window.screen.orientation || window.screen.mozOrientation || window.msOrientation || null;
+                        orientationAngle = orientation ? (orientationAngleLookup[orientation] || 0) : 0;
+
+                        orientationChangeEvent.orientation = orientation;
+                        orientationChangeEvent.orientationAngle = orientationAngle;
+
+                        /**
+                         * Fired when the orientation of the device has changed.
+                         *
+                         * @event orientationchange
+                         * @param orientation The orientation: &quot;landscape-primary&quot;, &quot;landscape-secondary&quot;, &quot;portrait-secondary&quot; or &quot;portrait-primary&quot;
+                         * @param orientationAngle The orientation angle in degrees: 90 for landscape-primary, -90 for landscape-secondary, 180 for portrait-secondary or 0 for portrait-primary.
+                         */
+                        self.fire(&quot;orientationchange&quot;, orientationChangeEvent);
+                    },
+                    false);
+            }
+
+            if (window.DeviceMotionEvent) {
+                window.addEventListener(&apos;devicemotion&apos;, self._deviceMotionListener = function (e) {
+
+                        deviceMotionEvent.interval = e.interval;
+                        deviceMotionEvent.orientationAngle = orientationAngle;
+
+                        const accel = e.acceleration;
+
+                        if (accel) {
+                            acceleration[0] = accel.x;
+                            acceleration[1] = accel.y;
+                            acceleration[2] = accel.z;
+                            deviceMotionEvent.acceleration = acceleration;
+                        } else {
+                            deviceMotionEvent.acceleration = null;
+                        }
+
+                        const accelGrav = e.accelerationIncludingGravity;
+
+                        if (accelGrav) {
+                            accelerationIncludingGravity[0] = accelGrav.x;
+                            accelerationIncludingGravity[1] = accelGrav.y;
+                            accelerationIncludingGravity[2] = accelGrav.z;
+                            deviceMotionEvent.accelerationIncludingGravity = accelerationIncludingGravity;
+                        } else {
+                            deviceMotionEvent.accelerationIncludingGravity = null;
+                        }
+
+                        deviceMotionEvent.rotationRate = e.rotationRate;
+
+                        /**
+                         * Fires on a regular interval and returns data about the rotation
+                         * (in degrees per second) and acceleration (in meters per second squared) of the device, at that moment in
+                         * time. Some devices do not have the hardware to exclude the effect of gravity.
+                         *
+                         * @event devicemotion
+                         * @param Float32Array acceleration The acceleration of the device, in meters per second squared, as a 3-element vector. This value has taken into account the effect of gravity and removed it from the figures. This value may not exist if the hardware doesn&apos;t know how to remove gravity from the acceleration data.
+                         * @param Float32Array accelerationIncludingGravity The acceleration of the device, in meters per second squared, as a 3-element vector. This value includes the effect of gravity, and may be the only value available on devices that don&apos;t have a gyroscope to allow them to properly remove gravity from the data.
+                         * @param, Number interval The interval, in milliseconds, at which this event is fired. The next event will be fired in approximately this amount of time.
+                         * @param  Float32Array rotationRate The rates of rotation of the device about each axis, in degrees per second.
+                         */
+                        self.fire(&quot;devicemotion&quot;, deviceMotionEvent);
+                    },
+                    false);
+            }
+
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener(&quot;deviceorientation&quot;, self._deviceOrientListener = function (e) {
+
+                        deviceOrientationEvent.gamma = e.gamma;
+                        deviceOrientationEvent.beta = e.beta;
+                        deviceOrientationEvent.alpha = e.alpha;
+                        deviceOrientationEvent.absolute = e.absolute;
+
+                        /**
+                         * Fired when fresh data is available from an orientation sensor about the current orientation
+                         * of the device as compared to the Earth coordinate frame. This data is gathered from a
+                         * magnetometer inside the device. See
+                         * &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Orientation_and_motion_data_explained&quot;&gt;Orientation and motion data explained&lt;/a&gt; for more info.
+                         *
+                         * @event deviceorientation
+                         * @param Number alpha The current orientation of the device around the Z axis in degrees; that is, how far the device is rotated around a line perpendicular to the device.
+                         * @param Number beta The current orientation of the device around the X axis in degrees; that is, how far the device is tipped forward or backward.
+                         * @param Number gamma The current orientation of the device around the Y axis in degrees; that is, how far the device is turned left or right.
+                         * @param Boolean absolute This value is true if the orientation is provided as a difference between the device coordinate frame and the Earth coordinate frame; if the device can&apos;t detect the Earth coordinate frame, this value is false.
+                         */
+                        self.fire(&quot;deviceorientation&quot;, deviceOrientationEvent);
+                    },
+                    false);
+            }
+        })();
+    }
+
+    _getClickCoordsWithinElement(event) {
+        const coords = [0, 0];
+        if (!event) {
+            event = window.event;
+            coords.x = event.x;
+            coords.y = event.y;
+        }
+        else {
+            let element = event.target;
+            let totalOffsetLeft = 0;
+            let totalOffsetTop = 0;
+
+            while (element.offsetParent) {
+                totalOffsetLeft += element.offsetLeft;
+                totalOffsetTop += element.offsetTop;
+                element = element.offsetParent;
+            }
+            coords[0] = event.pageX - totalOffsetLeft;
+            coords[1] = event.pageY - totalOffsetTop;
+        }
+        return coords;
+    }
+
+    /**
+     * Enable or disable all input handlers
+     *
+     * @param enable
+     */
+    setEnabled(enable) {
+        if (this.enabled !== enable) {
+            this.fire(&quot;enabled&quot;, this.enabled = enable);
+        }
+    }
+
+    destroy() {
+        super.destroy();
+        // Prevent memory leak when destroying canvas/WebGL context
+        document.removeEventListener(&quot;keydown&quot;, this._keyDownListener);
+        document.removeEventListener(&quot;keyup&quot;, this._keyUpListener);
+        this._element.removeEventListener(&quot;mouseenter&quot;, this._mouseEnterListener);
+        this._element.removeEventListener(&quot;mouseleave&quot;, this._mouseLeaveListener);
+        this._element.removeEventListener(&quot;mousedown&quot;, this._mouseDownListener);
+        document.removeEventListener(&quot;mouseup&quot;, this._mouseDownListener);
+        document.removeEventListener(&quot;click&quot;, this._clickListener);
+        document.removeEventListener(&quot;dblclick&quot;, this._dblClickListener);
+        this._element.removeEventListener(&quot;mousemove&quot;, this._mouseMoveListener);
+        this._element.removeEventListener(&quot;wheel&quot;, this._mouseWheelListener);
+        if (window.OrientationChangeEvent) {
+            window.removeEventListener(&apos;orientationchange&apos;, this._orientationchangedListener);
+        }
+        if (window.DeviceMotionEvent) {
+            window.removeEventListener(&apos;devicemotion&apos;, this._deviceMotionListener);
+        }
+        if (window.DeviceOrientationEvent) {
+            window.removeEventListener(&quot;deviceorientation&quot;, this._deviceOrientListener);
+        }
+    }
+}
+
+export {Input};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

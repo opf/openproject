@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>GLTFLoaderPlugin - Loading a Model from GLTF</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+        #myCanvas {
+            width: 100%;
+            height: 100%;
+            background: lightBlue;
+        }
+    </style>
+</head>
+
+<body>
+<canvas id="myCanvas"></canvas>
+<div id="info">
+    <h1>GLTFLoaderPlugin - Loading Model & IFC Metadata</h1>
+    <br>
+    <p>Loads a glTF BIM model and JSON IFC metadata from the file system, then uses the metadata to xray the whole
+        third storey and fit it to view.</p><br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/Viewer.js~Viewer.html">Viewer</a>
+            - xeokit Viewer
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a>
+            - Loads model and IFC data from file system
+        </li>
+        <li>
+            <a target="_other"
+               href="https://github.com/openBIMstandards/DataSetSchependomlaan">Model source</a>
+        </li>
+        <li>
+            <a target="_other"
+               href="https://github.com/xeokit/xeokit-sdk/wiki/Viewing-BIM-Models-Offline">User Guide</a>
+        </li>
+    </ul>
+</div>
+</body>
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {GLTFLoaderPlugin} from "../src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // 1. Create a Viewer,
+    // 2. Arrange the camera,
+    // 3. Tweak the xray material
+    //------------------------------------------------------------------------------------------------------------------
+
+    // 1
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    // 2
+    viewer.camera.eye = [-2.56, 8.38, 8.27];
+    viewer.camera.look = [13.44, 3.31, -14.83];
+    viewer.camera.up = [0.10, 0.98, -0.14];
+
+    // 3
+    viewer.scene.xrayMaterial.fillColor = [0.0, 0.0, 1.0];
+    viewer.scene.xrayMaterial.edgeColor = [0.0, 0.0, 0.0];
+    viewer.scene.xrayMaterial.fillAlpha = 0.1;
+    viewer.scene.xrayMaterial.edgeAlpha = 0.4;
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // 1. Create a glTF loader plugin,
+    // 2. Load a glTF model and JSON IFC metadata
+    //------------------------------------------------------------------------------------------------------------------
+
+    // 1
+    const gltfLoader = new GLTFLoaderPlugin(viewer);
+
+    // 2
+    const model = gltfLoader.load({                                     // Creates a Node representing the model
+        id: "myModel",
+        src: "./models/gltf/schependomlaan/scene.gltf",
+        metaModelSrc: "./metaModels/schependomlaan/metaModel.json",     // Creates a MetaModel (see below)
+        edges: true
+    });
+
+    model.on("loaded", () => {
+
+        //--------------------------------------------------------------------------------------------------------------
+        // 1. Find metadata on the third storey
+        // 2. Xray all the objects in the third storey
+        //--------------------------------------------------------------------------------------------------------------
+
+        // 1
+        const metaModel = viewer.metaScene.metaModels["myModel"];       // MetaModel with ID "myModel"
+        const metaObject
+            = viewer.metaScene.metaObjects["0u4wgLe6n0ABVaiXyikbkA"];   // MetaObject with ID "0u4wgLe6n0ABVaiXyikbkA"
+
+        const name = metaObject.name;                                   // "01 eerste verdieping"
+        const type = metaObject.type;                                   // "IfcBuildingStorey"
+        const parent = metaObject.parent;                               // MetaObject with type "IfcBuilding"
+        const children = metaObject.children;                           // Array of child MetaObjects
+        const objectId = metaObject.id;                                 // "0u4wgLe6n0ABVaiXyikbkA"
+        const objectIds = viewer.metaScene.getObjectIDsInSubtree(objectId);   // IDs of leaf sub-objects
+        const aabb = viewer.scene.getAABB(objectIds);                   // Axis-aligned boundary of the leaf sub-objects
+
+        // 2
+        viewer.scene.setObjectsXRayed(objectIds, true);
+        viewer.scene.setObjectsPickable(objectIds, false);
+    });
+
+    viewer.cameraControl.on("doublePicked", function (e) {
+        console.log("Picked: " + e);
+    });
+
+    window.viewer = viewer;
+
+</script>
+</html>

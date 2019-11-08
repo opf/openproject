@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SectionPlanesPlugin</title>
+    <link href="./css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+
+        #myCanvas {
+            width: 100%;
+            height: 100%;
+            background: lightBlue;
+        }
+
+        #mySectionPlanesOverviewCanvas {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            bottom: 70px;
+            right: 10px;
+            z-index: 200000;
+            /*border: 1px solid blue;*/
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<canvas id="mySectionPlanesOverviewCanvas"></canvas>
+
+<div id="info">
+    <h1>Section planes</h1><br>
+    <p>This example contains an IFC appartment model with two section planes. At bottom right is an overview of the section planes. Click the planes in
+        the overview to activate an editing gizmo with which you can reposition them.</p>
+    <br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads model from file system
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a>
+            - Creates section planes
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/Section-Planes">User Guide</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {SectionPlanesPlugin} from "../src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.camera.eye = [-5.02, 2.22, 15.09];
+    viewer.camera.look = [4.97, 2.79, 9.89];
+    viewer.camera.up = [-0.05, 0.99, 0.02];
+    viewer.camera.project.fov = 45;
+
+    viewer.camera.zoom(5);
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a XKTModelsPlugin - we'll use this to load the model geometry
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a SectionPlanesPlugin - we'll use this to create cross-section planes
+    //------------------------------------------------------------------------------------------------------------------
+
+    const sectionPlanes = new SectionPlanesPlugin(viewer, {
+        overviewCanvasId: "mySectionPlanesOverviewCanvas",
+        overviewVisible: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Load the .xkt model and IFC metadata
+    //------------------------------------------------------------------------------------------------------------------
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/duplex/duplex.xkt",
+        metaModelSrc: "./metaModels/duplex/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+        edges: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a couple of cross-section planes
+    //------------------------------------------------------------------------------------------------------------------
+
+    sectionPlanes.createSectionPlane({
+        id: "mySectionPlane",
+        pos: [1.04, 1.95, 9.74],
+        dir: [1.0, 0.0, 0.0]
+    });
+
+    sectionPlanes.createSectionPlane({
+        id: "mySectionPlane2",
+        pos: [2.30, 4.46, 14.93],
+        dir: [0.0, -0.09, -0.79]
+    });
+
+    // viewer.scene.input.on("mouseup", function (coords) {
+    //     var hit = viewer.scene.pick({
+    //         canvasPos: coords,
+    //         pickSurface: true  // <<------ This causes picking to find the intersection point on the entity
+    //     });
+    //     if (hit) {
+    //         if (hit.entity.isObject) { // Only create CrossSections on surfaces of model objects, not on gizmos etc
+    //
+    //             const sectionPlane = sectionPlanes.createSectionPlane({
+    //                 canvasPos: hit.canvasPos,
+    //                 pos: hit.worldPos,
+    //                 dir: [-hit.worldNormal[0], -hit.worldNormal[1], -hit.worldNormal[2]]
+    //             });
+    //
+    //             sectionPlanes.showControl(sectionPlane.id);
+    //         }
+    //     }
+    // });
+
+    window.viewer = viewer;
+</script>
+
+</html>

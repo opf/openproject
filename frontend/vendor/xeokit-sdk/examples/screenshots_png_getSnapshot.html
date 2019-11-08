@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Capturing PNG Screenshots</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+        #myCanvas {
+            background: lightblue;
+        }
+
+        #screenshots {
+            margin-top: 20px;
+            overflow-y: scroll;
+            height: 600px;
+            pointer-events: all;
+        }
+
+        #info {
+            position: absolute;
+            top: 0;
+            z-index: 200000;
+            float: right;
+            right: 0;
+            padding: 10px;
+            height: auto;
+            text-align: left;
+            pointer-events: none;
+            background: RGBA(0, 0, 0, 0.4);
+            max-width: 500px;
+            color: white;
+        }
+
+    </style>
+
+
+</head>
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<div id="info">
+    <h1>Capturing PNG Screenshots</h1>
+    <p>Using viewer.getSnapshot()</p>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads model and IFC data from file system
+        </li>
+        <li>
+            <a target="_other"
+               href="https://github.com/openBIMstandards/DataSetSchependomlaan">Model source</a>
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/Plan-Views">User Guide</a>
+        </li>
+    </ul>
+    <div id="screenshots"></div>
+</div>
+
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer, arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true, // Default
+        preserveDrawingBuffer: true // Default - needed true for canvas screenshots
+    });
+
+    viewer.camera.eye = [-3.933, 2.855, 27.018];
+    viewer.camera.look = [4.400, 3.724, 8.899];
+    viewer.camera.up = [-0.018, 0.999, 0.039];
+
+    //----------------------------------------------------------------------------------------------------------------------
+    // Load a model and fit it to view
+    //----------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/duplex/duplex.xkt",
+        metaModelSrc: "./metaModels/duplex/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+        edges: true
+    });
+
+    var canvas = viewer.scene.canvas;
+
+    //------------------------------------------------------------------------------------------------------------------
+    // When model loaded, start capturing PNG screenshots
+    //------------------------------------------------------------------------------------------------------------------
+
+    model.on("loaded", function () {
+
+        const screenshotsDiv = document.getElementById("screenshots");
+        var numScreenshots = 0;
+
+        setInterval(() => {
+
+            if (numScreenshots++ > 5) {
+                return;
+            }
+
+            viewer.camera.orbitYaw(10);
+
+            const canvas = viewer.scene.canvas;
+            const canvasElement = canvas.canvas;
+            const aspect = canvasElement.height / canvasElement.width;
+            const width = 200;
+            const height = Math.floor(width * aspect);
+
+            const imageData = viewer.getSnapshot({
+                format: "png",
+                width: width,
+                height: height
+            });
+
+            const img = document.createElement("img");
+
+            img.src = imageData;
+            img.style.border = "1px solid #000000";
+            img.style.background = "lightblue";
+
+            screenshotsDiv.appendChild(img);
+
+        }, 1000);
+    });
+
+</script>
+</html>

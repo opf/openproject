@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>xeokit StoreyViewsPlugin showStoryObjects()</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+
+        #myCanvas {
+            background: lightblue;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<div id="info">
+    <h1>StoreyViewsPlugin showStoreyObjects()</h1>
+
+    <br>
+    <p>Showing only the objects within an IfcBuildingStorey</p>
+    <br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a>
+            - Provides tools for visualizing IfcBuildingStoreys
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads model and IFC data from file system
+        </li>
+        <li>
+            <a target="_other"
+               href="https://github.com/openBIMstandards/DataSetSchependomlaan">Model source</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {StoreyViewsPlugin} from "../src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {ObjectsMemento} from "../src/viewer/scene/mementos/ObjectsMemento.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer, arrange the Camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.camera.eye = [-2.56, 8.38, 8.27];
+    viewer.camera.look = [13.44, 3.31, -14.83];
+    viewer.camera.up = [0.10, 0.98, -0.14];
+
+    viewer.camera.orbitPitch(20);
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add an XKTLoaderPlugin and load a model
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/schependomlaan/schependomlaan.xkt",
+        metaModelSrc: "./metaModels/schependomlaan/metaModel.json",
+        edges: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a StoreyViewsPlugin
+    //------------------------------------------------------------------------------------------------------------------
+
+    const storeyViewsPlugin = new StoreyViewsPlugin(viewer);
+
+    //------------------------------------------------------------------------------------------------------------------
+    // When the model has loaded, after a short delay show only the objects within a given IfcBuildingStorey
+    //------------------------------------------------------------------------------------------------------------------
+
+    model.on("loaded",  () =>{
+
+        setTimeout(() => {
+
+            storeyViewsPlugin.showStoreyObjects("2SWZMQPyD9pfT9q87pgXa1", {
+                hideOthers: true,
+                useObjectStates: false
+            });
+
+        }, 1000);
+    });
+
+</script>
+</html>

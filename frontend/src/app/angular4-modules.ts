@@ -94,6 +94,7 @@ import {PreviewTriggerService} from "core-app/globals/global-listeners/preview-t
 import {OpenprojectOverviewModule} from "core-app/modules/overview/openproject-overview.module";
 import {OpenprojectMyPageModule} from "core-app/modules/my-page/openproject-my-page.module";
 import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-projects.module";
+import {OpenprojectIFCModelsModule} from "core-app/modules/ifc_models/openproject-ifc-models.module";
 
 @NgModule({
   imports: [
@@ -140,6 +141,9 @@ import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-p
 
     // Global Search
     OpenprojectGlobalSearchModule,
+
+    // IFC Models
+    OpenprojectIFCModelsModule,
 
     // Admin module
     OpenprojectAdminModule,

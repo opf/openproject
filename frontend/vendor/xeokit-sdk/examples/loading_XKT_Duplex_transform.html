@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>XKTLoaderPlugin - Loading And Transforming Models</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+        #myCanvas {
+            width: 100%;
+            height: 100%;
+            background: lightBlue;
+        }
+    </style>
+
+</head>
+
+<body>
+<canvas id="myCanvas"></canvas>
+<div id="info">
+    <h1>XKTLoaderPlugin - Loading And Transforming Models</h1><br>
+    <ul>
+        <li>
+            <div id="time">Loading JavaScript modules...</div>
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads xeokit XKT model from the file system
+        </li>
+        <li>
+            <a target="_other"
+               href="http://openifcmodel.cs.auckland.ac.nz/Model/Details/274">Model source</a>
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/Importing-Models">User Guide</a>
+        </li>
+    </ul>
+</div>
+</body>
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer, arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.camera.eye = [-5.13, 16.83, 39.46];
+    viewer.camera.look = [22.20, 1.86, 4.44];
+    viewer.camera.up = [0.19, 0.94, -0.25];
+
+    //----------------------------------------------------------------------------------------------------------------------
+    // Create a xeokit loader plugin, load a model, fit to view
+    //----------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    var t0 = performance.now();
+
+    document.getElementById("time").innerHTML = "Loading models...";
+
+    var i = 0;
+    xktLoader.load({
+        src: "./models/xkt/duplex/duplex.xkt",
+        metaModelSrc: "./metaModels/duplex/metaModel.json",
+        edges: true,
+        scale: [0.5, 0.5, 0.5],
+        position: [i++ * 10, 0, 0]
+    })
+
+        .on("loaded", () => {
+            xktLoader.load({
+                src: "./models/xkt/duplex/duplex.xkt",
+                metaModelSrc: "./metaModels/duplex/metaModel.json",
+                edges: true,
+                scale: [0.5, 0.5, 0.5],
+                position: [i++ * 10, 0, 0]
+            })
+
+                .on("loaded", () => {
+                    xktLoader.load({
+                        src: "./models/xkt/duplex/duplex.xkt",
+                        metaModelSrc: "./metaModels/duplex/metaModel.json",
+                        edges: true,
+                        scale: [0.5, 0.5, 0.5],
+                        position: [i++ * 10, 0, 0]
+                    })
+
+                        .on("loaded", () => {
+                            xktLoader.load({
+                                src: "./models/xkt/duplex/duplex.xkt",
+                                metaModelSrc: "./metaModels/duplex/metaModel.json",
+                                edges: true,
+                                scale: [0.5, 0.5, 0.5],
+                                position: [i++ * 10, 0, 0]
+                            })
+
+                                .on("loaded", () => {
+
+                                    xktLoader.load({
+                                        src: "./models/xkt/duplex/duplex.xkt",
+                                        metaModelSrc: "./metaModels/duplex/metaModel.json",
+                                        edges: true,
+                                        scale: [0.5, 0.5, 0.5],
+                                        position: [i++ * 10, 0, 0]
+                                    })
+                                        .on("loaded", () => {
+                                            var t1 = performance.now();
+                                            document.getElementById("time").innerHTML = "Models loaded in " + Math.floor(t1 - t0) / 1000.0 + " seconds";
+                                        });
+                                });
+                        });
+                });
+        });
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Mouse over Entities to highlight them
+    //------------------------------------------------------------------------------------------------------------------
+
+    var lastEntity = null;
+
+    viewer.scene.input.on("mousemove", function (coords) {
+
+        var hit = viewer.scene.pick({
+            canvasPos: coords
+        });
+
+        if (hit) {
+
+            if (!lastEntity || hit.entity.id !== lastEntity.id) {
+
+                if (lastEntity) {
+                    lastEntity.highlighted = false;
+                }
+
+                lastEntity = hit.entity;
+                hit.entity.highlighted = true;
+            }
+        } else {
+
+            if (lastEntity) {
+                lastEntity.highlighted = false;
+                lastEntity = null;
+            }
+        }
+    });
+
+    window.viewer = viewer
+
+</script>
+</html>

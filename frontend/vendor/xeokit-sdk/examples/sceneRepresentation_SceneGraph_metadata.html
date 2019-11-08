@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Basic Scene Graph with Metadata</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <link href="./libs/inspire-tree/site-min.css" type="text/css" rel="stylesheet"/>
+
+    <script src="./libs/lodash.js"></script>
+    <script src="./libs/inspire-tree/inspire-tree.min.js"></script>
+    <script src="./libs/inspire-tree/inspire-tree-dom-min.js"></script>
+
+    <style>
+        #treePanel {
+            /*padding: 5px;*/
+            padding-top: 25px;
+            pointer-events: all;
+            height: 100%;
+            overflow-y: scroll;
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.86);
+            color: black;
+            top: 0;
+            z-index: 200000;
+            float: left;
+            left: 0;
+            font-family: 'Roboto', sans-serif;
+            font-size: 15px;
+            user-select: none;
+            -ms-user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            width: 350px;
+        }
+
+        #myCanvas {
+            background: #ffffff;
+        }
+
+        .inspire-tree .selected > .title-wrap:hover + .wholerow, .inspire-tree .selected > .wholerow {
+            background: rgba(47, 221, 22, 0.5);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<div id="treePanel" class="treePanel"></div>
+
+<div id="info">
+    <h1>Basic Scene Graph with Metadata</h1>
+    <br>
+    <p>Simple scene graph containing model and objects, with associated metadata. Tree UI on the left is generated from
+        the metadata.</p>
+    <br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/Viewer.js~Viewer.html">Viewer</a>
+            - xeokit Viewer
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a>
+            - scene metadata registry
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/nodes/Node.js~Node.html">Node</a>
+            - scene graph nodes
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a>
+            - scene graph meshes
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a>
+            - box geometry
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/function/index.html#static-function-buildBoxGeometry">buildBoxGeometry()</a>
+            - builds box
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a>
+            - Phong materials for meshes
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/Scene-Graphs">User Guide</a>
+        </li>
+
+    </ul>
+</div>
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {Mesh} from "../src/viewer/scene/mesh/Mesh.js";
+    import {Node} from "../src/viewer/scene/nodes/Node.js";
+    import {PhongMaterial} from "../src/viewer/scene/materials/PhongMaterial.js";
+    import {buildBoxGeometry} from "../src/viewer/scene/geometry/builders/buildBoxGeometry.js";
+    import {ReadableGeometry} from "../src/viewer/scene/geometry/ReadableGeometry.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.scene.camera.eye = [-21.80, 4.01, 6.56];
+    viewer.scene.camera.look = [0, -5.75, 0];
+    viewer.scene.camera.up = [0.37, 0.91, -0.11];
+
+    viewer.cameraFlight.fitFOV = 35;
+
+    viewer.scene.highlightMaterial.edgeColor = [0, 0, 0];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Build a simple scene graph representing a table with four legs
+    //------------------------------------------------------------------------------------------------------------------
+
+    const boxGeometry = new ReadableGeometry(viewer.scene, buildBoxGeometry({
+        xSize: 1,
+        ySize: 1,
+        zSize: 1
+    }));
+
+    new Node(viewer.scene, {
+        id: "furniture",
+        isModel: true, // <------------------------------ Node represents a model
+
+        children: [
+            new Node(viewer.scene, { // Anonymous transform group
+
+                rotation: [0, 50, 0],
+                position: [0, 0, 0],
+                scale: [1, 1, 1],
+
+                children: [
+
+                    new Mesh(viewer.scene, { // Red table leg
+                        id: "redLeg",
+                        isObject: true, // <---------- Node represents an object
+
+                        position: [-4, -6, -4],
+                        scale: [1, 3, 1],
+                        rotation: [0, 0, 0],
+                        geometry: boxGeometry,
+                        material: new PhongMaterial(viewer.scene, {
+                            diffuse: [1, 0.3, 0.3]
+                        })
+                    }),
+
+                    new Mesh(viewer.scene, { // Green table leg
+                        id: "greenLeg",
+                        isObject: true, // <---------- Node represents an object
+
+                        position: [4, -6, -4],
+                        scale: [1, 3, 1],
+                        rotation: [0, 0, 0],
+                        geometry: boxGeometry,
+                        material: new PhongMaterial(viewer.scene, {
+                            diffuse: [0.3, 1.0, 0.3]
+                        })
+                    }),
+
+                    new Mesh(viewer.scene, {// Blue table leg
+                        id: "blueLeg",
+                        isObject: true, // <---------- Node represents an object
+
+                        position: [4, -6, 4],
+                        scale: [1, 3, 1],
+                        rotation: [0, 0, 0],
+                        geometry: boxGeometry,
+                        material: new PhongMaterial(viewer.scene, {
+                            diffuse: [0.3, 0.3, 1.0]
+                        })
+                    }),
+
+                    new Mesh(viewer.scene, {  // Yellow table leg
+                        id: "yellowLeg",
+                        isObject: true, // <---------- Node represents an object
+
+                        position: [-4, -6, 4],
+                        scale: [1, 3, 1],
+                        rotation: [0, 0, 0],
+                        geometry: boxGeometry,
+                        material: new PhongMaterial(viewer.scene, {
+                            diffuse: [1.0, 1.0, 0.0]
+                        })
+                    }),
+
+                    new Mesh(viewer.scene, { // Purple table top
+                        id: "tableTop",
+                        isObject: true, // <---------- Node represents an object
+
+                        position: [0, -3, 0],
+                        scale: [6, 0.5, 6],
+                        rotation: [0, 0, 0],
+                        geometry: boxGeometry,
+                        material: new PhongMaterial(viewer.scene, {
+                            diffuse: [1.0, 0.3, 1.0]
+                        })
+                    })
+                ]
+            })
+        ]
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create some metadata for our model
+    //------------------------------------------------------------------------------------------------------------------
+
+    viewer.metaScene                            // This is the MetaScene for the Viewer
+        .createMetaModel("furniture", {         // Creates a MetaModel in the MetaScene
+            "projectId": "myTableProject",
+            "revisionId": "V1.0",
+            "metaObjects": [
+                {
+                    "id": "table",              // ID does not match any Entity
+                    "name": "Table",
+                    "type": "furniture",        // Arbitrary type, could be IFC type
+                    "properties": {             // Arbitrary properties, could be IfcPropertySet
+                        "cost": "200"
+                    }
+                },
+                {
+                    "id": "redLeg",             // ID matches Node
+                    "name": "Red table Leg",
+                    "type": "leg",
+                    "parent": "table",          // References first MetaObject as parent
+                    "properties": {
+                        "material": "wood"
+                    }
+                },
+                {
+                    "id": "greenLeg",
+                    "name": "Green table leg",
+                    "type": "leg",
+                    "parent": "table",
+                    "properties": {
+                        "material": "wood"
+                    }
+                },
+                {
+                    "id": "blueLeg",
+                    "name": "Blue table leg",
+                    "type": "leg",
+                    "parent": "table",
+                    "properties": {
+                        "material": "wood"
+                    }
+                },
+                {
+                    "id": "yellowLeg",
+                    "name": "Yellow table leg",
+                    "type": "leg",
+                    "parent": "table",
+                    "properties": {
+                        "material": "wood"
+                    }
+                },
+                {
+                    "id": "tableTop",
+                    "name": "Purple table top",
+                    "type": "surface",
+                    "parent": "table",
+                    "properties": {
+                        "material": "formica",
+                        "width": "60",
+                        "depth": "60",
+                        "thickness": "5"
+                    }
+                }
+            ]
+        });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Find scene graph nodes by their model and object IDs
+    //------------------------------------------------------------------------------------------------------------------
+
+    // Get the whole table model
+    var tableModel = viewer.scene.models["furniture"];
+
+    tableModel.edges = true;
+
+    // Get some leg objects
+    var redLegObject = viewer.scene.objects["redLeg"];
+    var greenLegObject = viewer.scene.objects["greenLeg"];
+    var blueLegObject = viewer.scene.objects["blueLeg"];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a tree view that toggles object visibilities
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    // Builds tree view data from MetaModel
+    var createData = function (metaModel) {
+        const data = [];
+
+        function visit(expand, data, metaObject) {
+            if (!metaObject) {
+                return;
+            }
+            var child = {
+                id: metaObject.id,
+                text: metaObject.name
+            };
+            data.push(child);
+            const children = metaObject.children;
+            if (children) {
+                child.children = [];
+                for (var i = 0, len = children.length; i < len; i++) {
+                    visit(true, child.children, children[i]);
+                }
+            }
+        }
+
+        visit(true, data, metaModel.rootMetaObject);
+        return data;
+    };
+
+    // Get MetaModel we loaded for our model
+    const modelId = tableModel.id;
+    const metaModel = viewer.metaScene.metaModels[modelId];
+
+    // Create the tree view
+    var treeView = new InspireTree({
+        selection: {
+            autoSelectChildren: true,
+            autoDeselect: true,
+            mode: 'default'
+        },
+        checkbox: {
+            autoCheckChildren: true
+        },
+        showCheckboxes: true,
+        data: createData(metaModel)
+    });
+
+    new InspireTreeDOM(treeView, {
+        target: document.getElementById("treePanel")
+    });
+
+    // Initialize the tree view once loaded
+    treeView.on('model.loaded', function () {
+
+        treeView.select();
+
+        treeView.model.expand();
+        treeView.model[0].children[0].expand();
+
+
+        treeView.on('node.selected', function (event, node) {
+            const objectId = event.id;
+            viewer.scene.setObjectsVisible(objectId, true);
+        });
+
+        treeView.on('node.deselected', function (event, node) {
+            const objectId = event.id;
+            viewer.scene.setObjectsVisible(objectId, false);
+        });
+
+    });
+
+
+
+</script>
+</html>

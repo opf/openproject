@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Surface Picking with a Ray</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+<canvas id="myCanvas"></canvas>
+<div id="info">
+    <h1>Surface Picking with a Ray Implicitly Represented by a 4x4 Matrix</h1>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads .xkt model from file system
+        </li>
+    </ul>
+</div>
+</body>
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {Mesh} from "../src/viewer/scene/mesh/Mesh.js";
+    import {buildSphereGeometry} from "../src/viewer/scene/geometry/builders/buildSphereGeometry.js";
+    import {PhongMaterial} from "../src/viewer/scene/materials/PhongMaterial.js";
+    import {ReadableGeometry} from "../src/viewer/scene/geometry/ReadableGeometry.js";
+    import {math} from "../src/viewer/scene/math/math.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and tilt the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas"
+    });
+
+    viewer.camera.eye = [-9.54, 13.47, 29.97];
+    viewer.camera.look = [4.40, 3.72, 8.89];
+    viewer.camera.up = [0.21, 0.91, -0.31];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Load a model and fit it to view
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/duplex/duplex.xkt",
+        metaModelSrc: "./metaModels/duplex/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+        edges: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Display a red line segment to show the picking ray 
+    //------------------------------------------------------------------------------------------------------------------
+
+    var rayHelper = new (function () {
+
+        var origin = new Mesh(viewer.scene, {
+            geometry: new ReadableGeometry(viewer.scene, buildSphereGeometry({
+                radius: 0.3,
+                heightSegments: 60,
+                widthSegments: 60
+            })),
+            material: new PhongMaterial(viewer.scene, {emissive: [0, 1, 0], diffuse: [0, 0, 0]}),
+            position: [0, 0, 0],
+            pickable: false,
+            visible: true
+        });
+
+        var ray = new Mesh(viewer.scene, {
+            geometry: new ReadableGeometry(viewer.scene, {
+                primitive: "lines",
+                positions: [0, 0, 0, 0, 0, 0],
+                indices: [0, 1]
+            }),
+            material: new PhongMaterial(viewer.scene, {
+                emissive: [1, 0.3, 0.3],
+                diffuse: [0, 0, 0],
+                ambient: [0, 0, 0],
+                lineWidth: 2
+            }),
+            pickable: false
+        });
+
+        var rayPositions = new Float32Array(6);
+
+        this.setRay = function (pos, dir) {
+
+            origin.position = pos;
+
+            rayPositions[0] = pos[0]; // Origin
+            rayPositions[1] = pos[1];
+            rayPositions[2] = pos[2];
+            rayPositions[3] = pos[0] + dir[0]; // Direction
+            rayPositions[4] = pos[1] + dir[1];
+            rayPositions[5] = pos[2] + dir[2];
+
+            ray.geometry.positions = rayPositions;
+        };
+
+        this.setHighlighted = function (highlighted) {
+            ray.material.emissive = highlighted ? [0.5, 1.0, 0.5] : [0.5, 0.3, 0.3];
+            ray.material.lineWidth = highlighted ? 6 : 2;
+        };
+    })();
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Display a red sphere wherever the ray picks a surface
+    //------------------------------------------------------------------------------------------------------------------
+
+    var hitHelper = new (function () {
+
+        var mesh = new Mesh(viewer.scene, {
+            geometry: new ReadableGeometry(viewer.scene, buildSphereGeometry({
+                radius: 0.3,
+                heightSegments: 60,
+                widthSegments: 60
+            })),
+            material: new PhongMaterial(viewer.scene, {emissive: [1, 0, 0], diffuse: [0, 0, 0]}),
+            position: [0, 0, 0],
+            pickable: false,
+            visible: true
+        });
+
+        this.show = function (hit) {
+            mesh.position = hit.worldPos;
+            mesh.visible = true;
+        };
+
+        this.hide = function () {
+            mesh.visible = false;
+        };
+    })();
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Dynamically pick surfaces of model with the pointer, show pick intersection with red sphere
+    //------------------------------------------------------------------------------------------------------------------
+
+    const rayOrigin = new Float32Array([-10, 0, 5.0]);
+    const rayDirection = new Float32Array([20, -10, -10]);
+
+    var xinc = 0.05;
+    var i = 0;
+
+    var lastEntity = null;
+    var lastColorize = null;
+
+    model.on("loaded", function () {
+
+        viewer.scene.on("tick", function () {
+
+            // Orbit the camera
+            //camera.orbitYaw(xinc < 0 ? 0.2 : -0.2);
+            // camera.orbitPitch(xinc < 0 ? 0.1 : -0.1);
+
+            rayOrigin[2] += xinc;
+            rayOrigin[1] = 10 + Math.sin(rayOrigin[2] * 2.0) * 5;
+
+            i++;
+
+            if (i < 0 || i > 450) {
+                xinc = -xinc;
+                i = 0;
+            }
+
+            rayHelper.setRay(rayOrigin, rayDirection);
+
+            const eye = rayOrigin;
+            const look = math.addVec3(rayOrigin, rayDirection, new Float32Array(3));
+            const up = new Float32Array([0, 1, 0]);
+            const matrix = math.lookAtMat4v(eye, look, up);
+
+            var hit = viewer.scene.pick({
+                pickSurface: true,  // <<------ This causes picking to find the intersection point on the entity
+                matrix: matrix
+            });
+
+            if (hit && hit.worldPos) {
+
+                hitHelper.show(hit);
+
+                if (!lastEntity || hit.entity.id !== lastEntity.id) {
+
+                    if (lastEntity) {
+                        lastEntity.colorize = lastColorize;
+                    }
+
+                    lastEntity = hit.entity;
+                    lastColorize = hit.entity.colorize.slice();
+
+                    hit.entity.colorize = [0.0, 1.0, 0.0, 1.0];
+
+                    rayHelper.setHighlighted(true);
+                }
+
+            } else {
+
+                if (lastEntity) {
+                    lastEntity.colorize = lastColorize;
+                    lastEntity = null;
+                }
+
+                hitHelper.hide();
+                rayHelper.setHighlighted(false);
+            }
+        });
+    });
+
+    window.viewer = viewer;
+
+</script>
+</html>

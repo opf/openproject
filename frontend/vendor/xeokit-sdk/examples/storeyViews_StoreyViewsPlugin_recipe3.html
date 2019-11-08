@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>xeokit StoreyViewsPlugin</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+
+        #myCanvas {
+            background: lightblue;
+        }
+
+        #storeys {
+            margin-top: 20px;
+            overflow-y: scroll;
+            height: 500px;
+            pointer-events: all;
+        }
+
+        #info {
+            position: absolute;
+            top: 0;
+            z-index: 200000;
+            float: right;
+            right: 0;
+            padding: 10px;
+            height: auto;
+            text-align: left;
+            pointer-events: none;
+            background: RGBA(0, 0, 0, 0.4);
+            max-width: 500px;
+            color: white;
+        }
+
+        #myNavCubeCanvas {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            bottom: 50px;
+            right: 10px;
+            z-index: 200000;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<canvas id="myNavCubeCanvas"></canvas>
+
+<div id="info">
+    <h1>StoreyViewsPlugin UX Recipe #3</h1>
+
+    <br>
+    <p>Click a room in the plan images below to go there in <b>first-person mode</b>.</p>
+    <p>Click empty space in the images to return.</p>
+
+    <div id="storeys"></div>
+
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a>
+            - Provides tools for visualizing IfcBuildingStoreys
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads model and IFC data from file system
+        </li>
+        <li>
+            <a target="_other"
+               href="https://github.com/openBIMstandards/DataSetSchependomlaan">Model source</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {StoreyViewsPlugin} from "../src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js";
+    import {math} from "../src/viewer/scene/math/math.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {CameraMemento} from "../src/viewer/scene/mementos/CameraMemento.js";
+    import {NavCubePlugin} from "../src/plugins/NavCubePlugin/NavCubePlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer, arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.camera.eye = [-2.56, 8.38, 8.27];
+    viewer.camera.look = [13.44, 3.31, -14.83];
+    viewer.camera.up = [0.10, 0.98, -0.14];
+    viewer.camera.orbitYaw(180);
+
+    viewer.cameraControl.panToPointer = true;
+    viewer.cameraControl.pivoting = true;
+
+    viewer.scene.highlightMaterial.fill = false;
+    viewer.scene.highlightMaterial.fillAlpha = 0.3;
+    viewer.scene.highlightMaterial.edgeColor = [1, 1, 0];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a NavCubePlugin
+    //------------------------------------------------------------------------------------------------------------------
+    
+    new NavCubePlugin(viewer, {
+        canvasId: "myNavCubeCanvas",
+        visible: true,           // Initially visible (default)
+        size: 250,               // NavCube size in pixels (default is 200)
+        alignment: "topRight",   // Align NavCube to top-left of Viewer canvas
+        topMargin: 170,          // 170 pixels margin from top of Viewer canvas
+        cameraFly: true,       // Fly camera to each selected axis/diagonal
+        cameraFitFOV: 45,        // How much field-of-view the scene takes once camera has fitted it to view
+        cameraFlyDuration: 0.5 // How long (in seconds) camera takes to fly to each new axis/diagonal
+    });
+    
+    //------------------------------------------------------------------------------------------------------------------
+    // Load a model
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/schependomlaan/schependomlaan.xkt",
+        metaModelSrc: "./metaModels/schependomlaan/metaModel.json",
+        edges: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a StoreyViewsPlugin
+    //------------------------------------------------------------------------------------------------------------------
+
+    const storeyViewsPlugin = new StoreyViewsPlugin(viewer);
+
+    //------------------------------------------------------------------------------------------------------------------
+    // When model loaded, build a clickable set of storey plan images from the StoreyViewsPlugin, bind mouse
+    // events to fly the Camera to a first-person view at whatever location we click within each plan view image
+    //------------------------------------------------------------------------------------------------------------------
+
+    model.on("loaded", function () {
+
+        // Make all doors transparent
+        viewer.scene.setObjectsOpacity(viewer.metaScene.getObjectIDsByType("IfcDoor"), 0.3);
+
+        buildStoreyMapsMenu();
+    });
+
+    function buildStoreyMapsMenu() {
+
+        const cameraMemento = new CameraMemento(); // Saves 3D perspective camera to restore
+        cameraMemento.saveCamera(viewer.scene);
+
+        const storeyDiv = document.getElementById("storeys");
+        const storeyIds = Object.keys(storeyViewsPlugin.storeys);
+
+        const canStandOnTypes = { // IFC types we can stand on in first-person mode
+            IfcSlab: true,
+            IfcStair: true,
+            IfcFloor: true,
+            IfcFooting: true
+        };
+
+        for (var i = 0, len = storeyIds.length; i < len; i++) {
+
+            const storeyId = storeyIds[i];
+
+            const storeyMap = storeyViewsPlugin.createStoreyMap(storeyId, {
+                format: "png",
+                width: 300,
+                useObjectStates: true
+            });
+
+            const img = document.createElement("img");
+            img.src = storeyMap.imageData;
+            img.style.border = "1px solid #000000";
+            img.style.background = "lightblue";
+            img.style.width = storeyMap.width + "px";
+            img.style.height = storeyMap.height + "px";
+
+            storeyDiv.appendChild(img);
+
+            img.onmouseenter = () => {
+                img.style.cursor = "default";
+            };
+
+            img.onmousemove = (e) => {
+                img.style.cursor = "default";
+                const imagePos = [e.offsetX, e.offsetY];
+                const pickResult = storeyViewsPlugin.pickStoreyMap(storeyMap, imagePos, {});
+                if (pickResult) {
+                    const entity = pickResult.entity;
+                    const metaObject = viewer.metaScene.metaObjects[entity.id];
+                    if (metaObject) {
+                        if (canStandOnTypes[metaObject.type]) {
+                            img.style.cursor = "pointer";
+                        }
+                    }
+                }
+            };
+
+            img.onmouseleave = (e) => {
+                img.style.cursor = "default";
+            };
+
+            const worldPos = math.vec3();
+
+            img.onclick = (e) => {
+
+                const imagePos = [e.offsetX, e.offsetY];
+
+                const pickResult = storeyViewsPlugin.pickStoreyMap(storeyMap, imagePos, {
+                    pickSurface: true
+                });
+
+                if (pickResult) {
+                    worldPos.set(pickResult.worldPos);
+                    worldPos[1] += 1.5;
+
+                    viewer.cameraFlight.flyTo({
+                        eye: worldPos,
+                        up: viewer.camera.worldUp,
+                        look: math.addVec3(worldPos, viewer.camera.worldForward, []),
+                        projection: "perspective",
+                        duration: 1.5
+                    }, () => {
+                        viewer.cameraControl.firstPerson = true;
+                        viewer.cameraControl.pivoting = false;
+                    });
+                } else {
+                    cameraMemento.restoreCamera(viewer.scene, () => {
+                        viewer.cameraControl.firstPerson = false;
+                    });
+                }
+            };
+        }
+    }
+
+</script>
+</html>

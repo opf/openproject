@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CameraFlightAnimation - Transition between ortho and perspective projections</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+        #myCanvas {
+            background: lightblue;
+        }
+    </style>
+
+</head>
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<div id="info" style="max-width: 350px">
+
+    <h1>CameraFlightAnimation - Transition between ortho and perspective projections</h1><br>
+
+    <p></p>
+
+    <ul>
+        <li>
+            <a
+                    href="javascript:viewer.cameraFlight.flyTo({ projection: 'ortho', duration: 1.0  })">cameraFlight.flyTo({
+                projection: 'ortho' })</a>
+        </li>
+        <li>
+            <a href="javascript:viewer.cameraFlight.flyTo({ projection: 'perspective', duration: 1.0  })">cameraFlight.flyTo({
+                projection: 'perspective' })</a>
+        </li>
+    </ul>
+
+    <br>
+
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a>
+        </li>
+        <li>
+            <a target="_other"
+               href="https://github.com/openBIMstandards/DataSetSchependomlaan">Model source</a>
+        </li>
+    </ul>
+</div>
+
+
+</body>
+
+<script type="module">
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas"
+    });
+
+    viewer.camera.eye = [-3.933, 2.855, 27.018];
+    viewer.camera.look = [4.400, 3.724, 8.899];
+    viewer.camera.up = [-0.018, 0.999, 0.039];
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/duplex/duplex.xkt",
+        metaModelSrc: "./metaModels/duplex/metaModel.json", // Sets visual states of object in model
+        edges: true
+    });
+
+    model.on("loaded", function () {
+        viewer.cameraFlight.flyTo(model);
+    });
+
+    window.viewer = viewer;
+
+</script>
+</html>

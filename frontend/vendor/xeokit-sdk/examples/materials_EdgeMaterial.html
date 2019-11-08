@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Torus geometry</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+        #myCanvas {
+            background: lightblue;
+        }
+    </style>
+</head>
+
+<body>
+
+<canvas id="myCanvas"></canvas>
+<div id="info">
+    <h1>EdgeMaterial</h1>
+    <br>
+    <p>Configures appearance of emphasised edges.</p>
+    <br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/Viewer.js~Viewer.html">Viewer</a>
+            - xeokit Viewer
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a>
+            - Scene graph mesh
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a>
+            - the geometry
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/function/index.html#static-function-buildSphereGeometry">buildSphereGeometry()</a>
+            - creates the sphere
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a>
+            - Phong material
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a>
+            - Edge material
+        </li>
+    </ul>
+</div>
+</body>
+
+<script type="module" id="source">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {Mesh} from "../src/viewer/scene/mesh/Mesh.js";
+    import {buildSphereGeometry} from "../src/viewer/scene/geometry/builders/buildSphereGeometry.js";
+    import {ReadableGeometry} from "../src/viewer/scene/geometry/ReadableGeometry.js";
+    import {PhongMaterial} from "../src/viewer/scene/materials/PhongMaterial.js";
+    import {EdgeMaterial} from "../src/viewer/scene/materials/EdgeMaterial.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.scene.camera.eye = [0, 0, 5];
+    viewer.scene.camera.look = [0, 0, 0];
+    viewer.scene.camera.up = [0, 1, 0];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a mesh with torus shape, PhongMaterial and EdgeMaterial
+    //------------------------------------------------------------------------------------------------------------------
+
+    new Mesh(viewer.scene, {
+
+        geometry: new ReadableGeometry(viewer.scene, buildSphereGeometry({
+            radius: 1.5,
+            heightSegments: 24,
+            widthSegments: 16,
+            edgeThreshold: 2 // Default is 10
+        })),
+
+        material: new PhongMaterial(viewer.scene, {
+            diffuse: [0.4, 0.4, 1.0],
+            ambient: [0.9, 0.3, 0.9],
+            shininess: 30,
+            alpha: 0.5,
+            alphaMode: "blend"
+        }),
+
+        edgeMaterial: new EdgeMaterial(viewer.scene, {
+            edgeColor: [0.0, 0.0, 1.0],
+            edgeAlpha: 1.0,
+            edgeWidth: 2
+        }),
+
+        edges: true
+    });
+
+</script>
+</html>

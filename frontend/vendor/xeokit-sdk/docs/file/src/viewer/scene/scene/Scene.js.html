@@ -1,0 +1,2239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../../">
+  <title data-ice="title">src/viewer/scene/scene/Scene.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/viewer/scene/scene/Scene.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {core} from &apos;../core.js&apos;;
+import {utils} from &apos;../utils.js&apos;;
+import {math} from &apos;../math/math.js&apos;;
+import {Component} from &apos;../Component.js&apos;;
+import {Canvas} from &apos;../canvas/Canvas.js&apos;;
+import {Renderer} from &apos;../webgl/Renderer.js&apos;;
+import {Input} from &apos;../input/Input.js&apos;;
+import {Viewport} from &apos;../viewport/Viewport.js&apos;;
+import {Camera} from &apos;../camera/Camera.js&apos;;
+import {DirLight} from &apos;../lights/DirLight.js&apos;;
+import {AmbientLight} from &apos;../lights/AmbientLight.js&apos;;
+import {ReadableGeometry} from &quot;../geometry/ReadableGeometry.js&quot;;
+import {buildBoxGeometry} from &apos;../geometry/builders/buildBoxGeometry.js&apos;;
+import {PhongMaterial} from &apos;../materials/PhongMaterial.js&apos;;
+import {EmphasisMaterial} from &apos;../materials/EmphasisMaterial.js&apos;;
+import {EdgeMaterial} from &apos;../materials/EdgeMaterial.js&apos;;
+import {Metrics} from &quot;../metriqs/Metriqs.js&quot;;
+
+// Cached vars to avoid garbage collection
+
+function getEntityIDMap(scene, entityIds) {
+    const map = {};
+    let entityId;
+    let entity;
+    for (let i = 0, len = entityIds.length; i &lt; len; i++) {
+        entityId = entityIds[i];
+        entity = scene.component[entityId];
+        if (!entity) {
+            scene.warn(&quot;pick(): Component not found: &quot; + entityId);
+            continue;
+        }
+        if (!entity.isEntity) {
+            scene.warn(&quot;pick(): Component is not an Entity: &quot; + entityId);
+            continue;
+        }
+        map[entityId] = true;
+    }
+    return map;
+}
+
+/**
+ * Fired whenever a debug message is logged on a component within this Scene.
+ * @event log
+ * @param {String} value The debug message
+ */
+
+/**
+ * Fired whenever an error is logged on a component within this Scene.
+ * @event error
+ * @param {String} value The error message
+ */
+
+/**
+ * Fired whenever a warning is logged on a component within this Scene.
+ * @event warn
+ * @param {String} value The warning message
+ */
+
+/**
+ * @desc Contains the components that comprise a 3D scene.
+ *
+ * * A {@link Viewer} has a single Scene, which it provides in {@link Viewer#scene}.
+ * * Plugins like {@link AxisGizmoPlugin} also have their own private Scenes.
+ * * Each Scene has a corresponding {@link MetaScene}, which the Viewer provides in {@link Viewer#metaScene}.
+ *
+ * ## Getting a Viewer&apos;s Scene
+ *
+ * ````javascript
+ * var scene = viewer.scene;
+ * ````
+ *
+ * ## Creating and accessing Scene components
+ *
+ * As a brief introduction to creating Scene components, we&apos;ll create a {@link Mesh} that has a
+ * {@link uildTorusGeometry} and a {@link PhongMaterial}:
+ *
+ * ````javascript
+ * var teapotMesh = new Mesh(scene, {
+ *     id: &quot;myMesh&quot;,                               // &lt;&lt;---------- ID automatically generated if not provided
+ *     geometry: new TorusGeometry(scene),
+ *     material: new PhongMaterial(scene, {
+ *         id: &quot;myMaterial&quot;,
+ *         diffuse: [0.2, 0.2, 1.0]
+ *     })
+ * });
+ *
+ * teapotMesh.scene.camera.eye = [45, 45, 45];
+ * ````
+ *
+ * Find components by ID in their Scene&apos;s {@link Scene#components} map:
+ *
+ * ````javascript
+ * var teapotMesh = scene.components[&quot;myMesh&quot;];
+ * teapotMesh.visible = false;
+ *
+ * var teapotMaterial = scene.components[&quot;myMaterial&quot;];
+ * teapotMaterial.diffuse = [1,0,0]; // Change to red
+ * ````
+ *
+ * A Scene also has a map of component instances for each {@link Component} subtype:
+ *
+ * ````javascript
+ * var meshes = scene.types[&quot;Mesh&quot;];
+ * var teapotMesh = meshes[&quot;myMesh&quot;];
+ * teapotMesh.xrayed = true;
+ *
+ * var phongMaterials = scene.types[&quot;PhongMaterial&quot;];
+ * var teapotMaterial = phongMaterials[&quot;myMaterial&quot;];
+ * teapotMaterial.diffuse = [0,1,0]; // Change to green
+ * ````
+ *
+ * See {@link Node}, {@link Node} and {@link Model} for how to create and access more sophisticated content.
+ *
+ * ## Controlling the camera
+ *
+ * Use the Scene&apos;s {@link Camera} to control the current viewpoint and projection:
+ *
+ * ````javascript
+ * var camera = myScene.camera;
+ *
+ * camera.eye = [-10,0,0];
+ * camera.look = [-10,0,0];
+ * camera.up = [0,1,0];
+ *
+ * camera.projection = &quot;perspective&quot;;
+ * camera.perspective.fov = 45;
+ * //...
+ * ````
+ *
+ * ## Managing the canvas
+ *
+ * The Scene&apos;s {@link Canvas} component provides various conveniences relevant to the WebGL canvas, such
+ * as firing resize events etc:
+ *
+ * ````javascript
+ * var canvas = scene.canvas;
+ *
+ * canvas.on(&quot;boundary&quot;, function(boundary) {
+ *     //...
+ * });
+ * ````
+ *
+ * ## Picking
+ *
+ * Use {@link Scene#pick} to pick and raycast entites.
+ *
+ * For example, to pick a point on the surface of the closest entity at the given canvas coordinates:
+ *
+ * ````javascript
+ * var hit = scene.pick({
+ *      pickSurface: true,
+ *      canvasPos: [23, 131]
+ * });
+ *
+ * if (hit) { // Picked an entity
+ *
+ *     var entity = hit.entity;
+ *
+ *     var primitive = hit.primitive; // Type of primitive that was picked, usually &quot;triangles&quot;
+ *     var primIndex = hit.primIndex; // Position of triangle&apos;s first index in the picked Mesh&apos;s Geometry&apos;s indices array
+ *     var indices = hit.indices; // UInt32Array containing the triangle&apos;s vertex indices
+ *     var localPos = hit.localPos; // Float32Array containing the picked Local-space position on the triangle
+ *     var worldPos = hit.worldPos; // Float32Array containing the picked World-space position on the triangle
+ *     var viewPos = hit.viewPos; // Float32Array containing the picked View-space position on the triangle
+ *     var bary = hit.bary; // Float32Array containing the picked barycentric position within the triangle
+ *     var normal = hit.normal; // Float32Array containing the interpolated normal vector at the picked position on the triangle
+ *     var uv = hit.uv; // Float32Array containing the interpolated UV coordinates at the picked position on the triangle
+ * }
+ * ````
+ *
+ * ## Pick masking
+ *
+ * We can use {@link Scene#pick}&apos;s ````includeEntities```` and ````excludeEntities````  options to mask which {@link Mesh}es we attempt to pick.
+ *
+ * This is useful for picking through things, to pick only the Entities of interest.
+ *
+ * To pick only Entities ````&quot;gearbox#77.0&quot;```` and ````&quot;gearbox#79.0&quot;````, picking through any other Entities that are
+ * in the way, as if they weren&apos;t there:
+ *
+ * ````javascript
+ * var hit = scene.pick({
+ *      canvasPos: [23, 131],
+ *      includeEntities: [&quot;gearbox#77.0&quot;, &quot;gearbox#79.0&quot;]
+ * });
+ *
+ * if (hit) {
+ *       // Entity will always be either &quot;gearbox#77.0&quot; or &quot;gearbox#79.0&quot;
+ *       var entity = hit.entity;
+ * }
+ * ````
+ *
+ * To pick any pickable Entity, except for ````&quot;gearbox#77.0&quot;```` and ````&quot;gearbox#79.0&quot;````, picking through those
+ * Entities if they happen to be in the way:
+ *
+ * ````javascript
+ * var hit = scene.pick({
+ *      canvasPos: [23, 131],
+ *      excludeEntities: [&quot;gearbox#77.0&quot;, &quot;gearbox#79.0&quot;]
+ * });
+ *
+ * if (hit) {
+ *       // Entity will never be &quot;gearbox#77.0&quot; or &quot;gearbox#79.0&quot;
+ *       var entity = hit.entity;
+ * }
+ * ````
+ *
+ * See {@link Scene#pick} for more info on picking.
+ *
+ * ## Querying and tracking boundaries
+ *
+ * Getting a Scene&apos;s World-space axis-aligned boundary (AABB):
+ *
+ * ````javascript
+ * var aabb = scene.aabb; // [xmin, ymin, zmin, xmax, ymax, zmax]
+ * ````
+ *
+ * Subscribing to updates to the AABB, which occur whenever {@link Entity}s are transformed, their
+ * {@link ReadableGeometry}s have been updated, or the {@link Camera} has moved:
+ *
+ * ````javascript
+ * scene.on(&quot;boundary&quot;, function() {
+ *      var aabb = scene.aabb;
+ * });
+ * ````
+ *
+ * Getting the AABB of the {@link Entity}s with the given IDs:
+ *
+ * ````JavaScript
+ * scene.getAABB(); // Gets collective boundary of all Entities in the scene
+ * scene.getAABB(&quot;saw&quot;); // Gets boundary of an Object
+ * scene.getAABB([&quot;saw&quot;, &quot;gearbox&quot;]); // Gets collective boundary of two Objects
+ * ````
+ *
+ * See {@link Scene#getAABB} and {@link Entity} for more info on querying and tracking boundaries.
+ *
+ * ## Managing the viewport
+ *
+ * The Scene&apos;s {@link Viewport} component manages the WebGL viewport:
+ *
+ * ````javascript
+ * var viewport = scene.viewport
+ * viewport.boundary = [0, 0, 500, 400];;
+ * ````
+ *
+ * ## Controlling rendering
+ *
+ * You can configure a Scene to perform multiple &quot;passes&quot; (renders) per frame. This is useful when we want to render the
+ * scene to multiple viewports, such as for stereo effects.
+ *
+ * In the example, below, we&apos;ll configure the Scene to render twice on each frame, each time to different viewport. We&apos;ll do this
+ * with a callback that intercepts the Scene before each render and sets its {@link Viewport} to a
+ * different portion of the canvas. By default, the Scene will clear the canvas only before the first render, allowing the
+ * two views to be shown on the canvas at the same time.
+ *
+ * ````Javascript
+ * var viewport = scene.viewport;
+ *
+ * // Configure Scene to render twice for each frame
+ * scene.passes = 2; // Default is 1
+ * scene.clearEachPass = false; // Default is false
+ *
+ * // Render to a separate viewport on each render
+ *
+ * var viewport = scene.viewport;
+ * viewport.autoBoundary = false;
+ *
+ * scene.on(&quot;rendering&quot;, function (e) {
+ *      switch (e.pass) {
+ *          case 0:
+ *              viewport.boundary = [0, 0, 200, 200]; // xmin, ymin, width, height
+ *              break;
+ *
+ *          case 1:
+ *              viewport.boundary = [200, 0, 200, 200];
+ *              break;
+ *      }
+ * });
+ *
+ * // We can also intercept the Scene after each render,
+ * // (though we&apos;re not using this for anything here)
+ * scene.on(&quot;rendered&quot;, function (e) {
+ *      switch (e.pass) {
+ *          case 0:
+ *              break;
+ *
+ *          case 1:
+ *              break;
+ *      }
+ * });
+ * ````
+ *
+ * ## Gamma correction
+ *
+ * Within its shaders, xeokit performs shading calculations in linear space.
+ *
+ * By default, the Scene expects color textures (eg. {@link PhongMaterial#diffuseMap},
+ * {@link MetallicMaterial#baseColorMap} and {@link SpecularMaterial#diffuseMap}) to
+ * be in pre-multipled gamma space, so will convert those to linear space before they are used in shaders. Other textures are
+ * always expected to be in linear space.
+ *
+ * By default, the Scene will also gamma-correct its rendered output.
+ *
+ * You can configure the Scene to expect all those color textures to be linear space, so that it does not gamma-correct them:
+ *
+ * ````javascript
+ * scene.gammaInput = false;
+ * ````
+ *
+ * You would still need to gamma-correct the output, though, if it&apos;s going straight to the canvas, so normally we would
+ * leave that enabled:
+ *
+ * ````javascript
+ * scene.gammaOutput = true;
+ * ````
+ *
+ * See {@link Texture} for more information on texture encoding and gamma.
+ *
+ * @class Scene
+ */
+class Scene extends Component {
+
+    /**
+     @private
+     */
+    get type() {
+        return &quot;Scene&quot;;
+    }
+
+    /**
+     * @constructor
+     * @param {Object} cfg Scene configuration.
+     * @param {String} [cfg.canvasId]  ID of an existing HTML canvas for the {@link Scene#canvas} - either this or canvasElement is mandatory. When both values are given, the element reference is always preferred to the ID.
+     * @param {HTMLCanvasElement} [cfg.canvasElement] Reference of an existing HTML canvas for the {@link Scene#canvas} - either this or canvasId is mandatory. When both values are given, the element reference is always preferred to the ID.
+     * @throws {String} Throws an exception when both canvasId or canvasElement are missing or they aren&apos;t pointing to a valid HTMLCanvasElement.
+     */
+    constructor(cfg = {}) {
+
+        super(null, cfg);
+
+        const canvas = cfg.canvasElement || document.getElementById(cfg.canvasId);
+
+        if (!(canvas instanceof HTMLCanvasElement)) {
+            throw &quot;Mandatory config expected: valid canvasId or canvasElement&quot;;
+        }
+
+        const transparent = !!cfg.transparent;
+
+        /**
+         The number of models currently loading.
+
+         @property loading
+         @final
+         @type {Number}
+         */
+        this.loading = 0;
+
+        /**
+         The epoch time (in milliseconds since 1970) when this Scene was instantiated.
+
+         @property timeCreated
+         @final
+         @type {Number}
+         */
+        this.startTime = (new Date()).getTime();
+
+        /**
+         * Map of {@link Entity}s that represent models.
+         *
+         * Each {@link Entity} is mapped here by {@link Entity#id} when {@link Entity#isModel} is ````true````.
+         *
+         * @property models
+         * @final
+         * @type {{String:Entity}}
+         */
+        this.models = {};
+
+        /**
+         * Map of {@link Entity}s that represents objects.
+         *
+         * Each {@link Entity} is mapped here by {@link Entity#id} when {@link Entity#isObject} is ````true````.
+         *
+         * @property objects
+         * @final
+         * @type {{String:Entity}}
+         */
+        this.objects = {};
+
+        /**
+         * Map of currently visible {@link Entity}s that represent objects.
+         *
+         * An Entity represents an object if {@link Entity#isObject} is ````true````, and is visible when {@link Entity#visible} is true.
+         *
+         * @property visibleObjects
+         * @final
+         * @type {{String:Object}}
+         */
+        this.visibleObjects = {};
+
+        /**
+         * Map of currently xrayed {@link Entity}s that represent objects.
+         *
+         * An Entity represents an object if {@link Entity#isObject} is ````true````, and is xrayed when {@link Entity#xrayed} is true.
+         *
+         * Each {@link Entity} is mapped here by {@link Entity#id}.
+         *
+         * @property xrayedObjects
+         * @final
+         * @type {{String:Object}}
+         */
+        this.xrayedObjects = {};
+
+        /**
+         * Map of currently highlighted {@link Entity}s that represent objects.
+         *
+         * An Entity represents an object if {@link Entity#isObject} is ````true```` is true, and is highlighted when {@link Entity#highlighted} is true.
+         *
+         * Each {@link Entity} is mapped here by {@link Entity#id}.
+         *
+         * @property highlightedObjects
+         * @final
+         * @type {{String:Object}}
+         */
+        this.highlightedObjects = {};
+
+        /**
+         * Map of currently selected {@link Entity}s that represent objects.
+         *
+         * An Entity represents an object if {@link Entity#isObject} is true, and is selected while {@link Entity#selected} is true.
+         *
+         * Each {@link Entity} is mapped here by {@link Entity#id}.
+         *
+         * @property selectedObjects
+         * @final
+         * @type {{String:Object}}
+         */
+        this.selectedObjects = {};
+
+        // Cached ID arrays, lazy-rebuilt as needed when stale after map updates
+
+        /**
+         Lazy-regenerated ID lists.
+         */
+        this._modelIds = null;
+        this._objectIds = null;
+        this._visibleObjectIds = null;
+        this._xrayedObjectIds = null;
+        this._highlightedObjectIds = null;
+        this._selectedObjectIds = null;
+
+        this._collidables = {}; // Components that contribute to the Scene AABB
+        this._compilables = {}; // Components that require shader compilation
+
+        this._needRecompile = false;
+
+        /**
+         * For each {@link Component} type, a map of IDs to {@link Component} instances of that type.
+         *
+         * @type {{String:{String:Component}}}
+         */
+        this.types = {};
+
+        /**
+         * The {@link Component}s within this Scene, each mapped to its {@link Component#id}.
+         *
+         * *@type {{String:Component}}
+         */
+        this.components = {};
+
+        /**
+         * The {@link SectionPlane}s in this Scene, each mapped to its {@link SectionPlane#id}.
+         *
+         * @type {{String:SectionPlane}}
+         */
+        this.sectionPlanes = {};
+
+        /**
+         * The {@link Light}s in this Scene, each mapped to its {@link Light#id}.
+         *
+         * @type {{String:Light}}
+         */
+        this.lights = {};
+
+        /**
+         * The {@link LightMap}s in this Scene, each mapped to its {@link LightMap#id}.
+         *
+         * @type {{String:LightMap}}
+         */
+        this.lightMaps = {};
+
+        /**
+         * The {@link ReflectionMap}s in this Scene, each mapped to its {@link ReflectionMap#id}.
+         *
+         * @type {{String:ReflectionMap}}
+         */
+        this.reflectionMaps = {};
+
+        /**
+         * Manages the HTML5 canvas for this Scene.
+         *
+         * @type {Canvas}
+         */
+        this.canvas = new Canvas(this, {
+            dontClear: true, // Never destroy this component with Scene#clear();
+            canvas: canvas,
+            spinnerElementId: cfg.spinnerElementId,
+            transparent: transparent,
+            backgroundColor: cfg.backgroundColor,
+            webgl2: cfg.webgl2 !== false,
+            contextAttr: cfg.contextAttr || {},
+            clearColorAmbient: cfg.clearColorAmbient
+        });
+
+        this.canvas.on(&quot;boundary&quot;, () =&gt; {
+            this.glRedraw();
+        });
+
+        this.canvas.on(&quot;webglContextFailed&quot;, () =&gt; {
+            alert(&quot;xeokit failed to find WebGL!&quot;);
+        });
+
+        this._renderer = new Renderer(this, {
+            transparent: transparent
+        });
+
+        this._sectionPlanesState = new (function () {
+
+            this.sectionPlanes = [];
+
+            let hash = null;
+
+            this.getHash = function () {
+                if (hash) {
+                    return hash;
+                }
+                const sectionPlanes = this.sectionPlanes;
+                if (sectionPlanes.length === 0) {
+                    return this.hash = &quot;;&quot;;
+                }
+                let sectionPlane;
+                const hashParts = [];
+                for (let i = 0, len = sectionPlanes.length; i &lt; len; i++) {
+                    sectionPlane = sectionPlanes[i];
+                    hashParts.push(&quot;cp&quot;);
+                }
+                hashParts.push(&quot;;&quot;);
+                hash = hashParts.join(&quot;&quot;);
+                return hash;
+            };
+
+            this.addSectionPlane = function (sectionPlane) {
+                this.sectionPlanes.push(sectionPlane);
+                hash = null;
+            };
+
+            this.removeSectionPlane = function (sectionPlane) {
+                for (let i = 0, len = this.sectionPlanes.length; i &lt; len; i++) {
+                    if (this.sectionPlanes[i].id === sectionPlane.id) {
+                        this.sectionPlanes.splice(i, 1);
+                        hash = null;
+                        return;
+                    }
+                }
+            };
+        })();
+
+        this._lightsState = new (function () {
+
+            const DEFAULT_AMBIENT = math.vec3([0, 0, 0]);
+            const ambientColor = math.vec3();
+
+            this.lights = [];
+            this.reflectionMaps = [];
+            this.lightMaps = [];
+
+            let hash = null;
+            let ambientLight = null;
+
+            this.getHash = function () {
+                if (hash) {
+                    return hash;
+                }
+                const hashParts = [];
+                const lights = this.lights;
+                let light;
+                for (let i = 0, len = lights.length; i &lt; len; i++) {
+                    light = lights[i];
+                    hashParts.push(&quot;/&quot;);
+                    hashParts.push(light.type);
+                    hashParts.push((light.space === &quot;world&quot;) ? &quot;w&quot; : &quot;v&quot;);
+                    if (light.castsShadow) {
+                        hashParts.push(&quot;sh&quot;);
+                    }
+                }
+                if (this.lightMaps.length &gt; 0) {
+                    hashParts.push(&quot;/lm&quot;);
+                }
+                if (this.reflectionMaps.length &gt; 0) {
+                    hashParts.push(&quot;/rm&quot;);
+                }
+                hashParts.push(&quot;;&quot;);
+                hash = hashParts.join(&quot;&quot;);
+                return hash;
+            };
+
+            this.addLight = function (state) {
+                this.lights.push(state);
+                ambientLight = null;
+                hash = null;
+            };
+
+            this.removeLight = function (state) {
+                for (let i = 0, len = this.lights.length; i &lt; len; i++) {
+                    const light = this.lights[i];
+                    if (light.id === state.id) {
+                        this.lights.splice(i, 1);
+                        if (ambientLight &amp;&amp; ambientLight.id === state.id) {
+                            ambientLight = null;
+                        }
+                        hash = null;
+                        return;
+                    }
+                }
+            };
+
+            this.addReflectionMap = function (state) {
+                this.reflectionMaps.push(state);
+                hash = null;
+            };
+
+            this.removeReflectionMap = function (state) {
+                for (let i = 0, len = this.reflectionMaps.length; i &lt; len; i++) {
+                    if (this.reflectionMaps[i].id === state.id) {
+                        this.reflectionMaps.splice(i, 1);
+                        hash = null;
+                        return;
+                    }
+                }
+            };
+
+            this.addLightMap = function (state) {
+                this.lightMaps.push(state);
+                hash = null;
+            };
+
+            this.removeLightMap = function (state) {
+                for (let i = 0, len = this.lightMaps.length; i &lt; len; i++) {
+                    if (this.lightMaps[i].id === state.id) {
+                        this.lightMaps.splice(i, 1);
+                        hash = null;
+                        return;
+                    }
+                }
+            };
+
+            this.getAmbientColor = function () {
+                if (!ambientLight) {
+                    for (let i = 0, len = this.lights.length; i &lt; len; i++) {
+                        const light = this.lights[i];
+                        if (light.type === &quot;ambient&quot;) {
+                            ambientLight = light;
+                            break;
+                        }
+                    }
+                }
+                if (ambientLight) {
+                    const color = ambientLight.color;
+                    const intensity = ambientLight.intensity;
+                    ambientColor[0] = color[0] * intensity;
+                    ambientColor[1] = color[1] * intensity;
+                    ambientColor[2] = color[2] * intensity;
+                    return ambientColor;
+                } else {
+                    return DEFAULT_AMBIENT;
+                }
+            };
+
+        })();
+
+        /**
+         * Publishes input events that occur on this Scene&apos;s canvas.
+         *
+         * @property input
+         * @type {Input}
+         * @final
+         */
+        this.input = new Input(this, {
+            dontClear: true, // Never destroy this component with Scene#clear();
+            element: this.canvas.canvas
+        });
+
+        /**
+         * Configures this Scene&apos;s units of measurement and coordinate mapping between Real-space and World-space 3D coordinate systems.
+         *
+         * @property metrics
+         * @type {Metrics}
+         * @final
+         */
+        this.metrics = new Metrics(this, {
+            units: cfg.units,
+            scale: cfg.scale,
+            origin: cfg.origin
+        });
+
+        this.ticksPerRender = cfg.ticksPerRender;
+        this.ticksPerOcclusionTest = cfg.ticksPerOcclusionTest;
+        this.passes = cfg.passes;
+        this.clearEachPass = cfg.clearEachPass;
+        this.gammaInput = cfg.gammaInput;
+        this.gammaOutput = cfg.gammaOutput;
+        this.gammaFactor = cfg.gammaFactor;
+
+        // Register Scene on xeokit
+        // Do this BEFORE we add components below
+        core._addScene(this);
+
+        this._initDefaults();
+
+        // Global components
+
+        this._viewport = new Viewport(this, {
+            id: &quot;default.viewport&quot;,
+            autoBoundary: true,
+            dontClear: true // Never destroy this component with Scene#clear();
+        });
+
+        this._camera = new Camera(this, {
+            id: &quot;default.camera&quot;,
+            dontClear: true // Never destroy this component with Scene#clear();
+        });
+
+        // Default lights
+
+        new AmbientLight(this, {
+            color: [0.3, 0.3, 0.3],
+            intensity: 1.0
+        });
+
+        new DirLight(this, {
+            dir: [0.8, -0.6, -0.8],
+            color: [1.0, 1.0, 1.0],
+            intensity: 1.0,
+            space: &quot;view&quot;
+        });
+
+        new DirLight(this, {
+            dir: [-0.8, -0.4, -0.4],
+            color: [1.0, 1.0, 1.0],
+            intensity: 1.0,
+            space: &quot;view&quot;
+        });
+
+        new DirLight(this, {
+            dir: [0.2, -0.8, 0.8],
+            color: [0.6, 0.6, 0.6],
+            intensity: 1.0,
+            space: &quot;view&quot;
+        });
+
+        this._camera.on(&quot;dirty&quot;, () =&gt; {
+            this._renderer.imageDirty();
+        });
+    }
+
+    _initDefaults() {
+
+        // Call this Scene&apos;s property accessors to lazy-init their properties
+
+        let dummy; // Keeps Codacy happy
+
+        dummy = this.geometry;
+        dummy = this.material;
+        dummy = this.xrayMaterial;
+        dummy = this.edgeMaterial;
+        dummy = this.selectedMaterial;
+        dummy = this.highlightMaterial;
+    }
+
+    _addComponent(component) {
+        if (component.id) { // Manual ID
+            if (this.components[component.id]) {
+                this.error(&quot;Component &quot; + utils.inQuotes(component.id) + &quot; already exists in Scene - ignoring ID, will randomly-generate instead&quot;);
+                component.id = null;
+            }
+        }
+        if (!component.id) { // Auto ID
+            if (window.nextID === undefined) {
+                window.nextID = 0;
+            }
+            //component.id = math.createUUID();
+            component.id = &quot;_&quot; + window.nextID++;
+            while (this.components[component.id]) {
+                component.id = math.createUUID();
+            }
+        }
+        this.components[component.id] = component;
+
+        // Register for class type
+        const type = component.type;
+        let types = this.types[component.type];
+        if (!types) {
+            types = this.types[type] = {};
+        }
+        types[component.id] = component;
+
+        if (component.compile) {
+            this._compilables[component.id] = component;
+        }
+        if (component.isDrawable) {
+            this._renderer.addDrawable(component.id, component);
+            this._collidables[component.id] = component;
+        }
+    }
+
+    _removeComponent(component) {
+        var id = component.id;
+        var type = component.type;
+        delete this.components[id];
+        // Unregister for types
+        const types = this.types[type];
+        if (types) {
+            delete types[id];
+            if (utils.isEmptyObject(types)) {
+                delete this.types[type];
+            }
+        }
+        if (component.compile) {
+            delete this._compilables[component.id];
+        }
+        if (component.isDrawable) {
+            this._renderer.removeDrawable(component.id);
+            delete this._collidables[component.id];
+        }
+    }
+
+    // Methods below are called by various component types to register themselves on their
+    // Scene. Violates Hollywood Principle, where we could just filter on type in _addComponent,
+    // but this is faster than checking the type of each component in such a filter.
+
+    _sectionPlaneCreated(sectionPlane) {
+        this.sectionPlanes[sectionPlane.id] = sectionPlane;
+        this.scene._sectionPlanesState.addSectionPlane(sectionPlane._state);
+        this.scene.fire(&quot;sectionPlaneCreated&quot;, sectionPlane, true /* Don&apos;t retain event */);
+        this._needRecompile = true;
+    }
+
+    _lightCreated(light) {
+        this.lights[light.id] = light;
+        this.scene._lightsState.addLight(light._state);
+        this._needRecompile = true;
+    }
+
+    _lightMapCreated(lightMap) {
+        this.lightMaps[lightMap.id] = lightMap;
+        this.scene._lightsState.addLightMap(lightMap._state);
+        this._needRecompile = true;
+    }
+
+    _reflectionMapCreated(reflectionMap) {
+        this.reflectionMaps[reflectionMap.id] = reflectionMap;
+        this.scene._lightsState.addReflectionMap(reflectionMap._state);
+        this._needRecompile = true;
+    }
+
+    _sectionPlaneDestroyed(sectionPlane) {
+        delete this.sectionPlanes[sectionPlane.id];
+        this.scene._sectionPlanesState.removeSectionPlane(sectionPlane._state);
+        this._needRecompile = true;
+    }
+
+    _lightDestroyed(light) {
+        delete this.lights[light.id];
+        this.scene._lightsState.removeLight(light._state);
+        this._needRecompile = true;
+    }
+
+    _lightMapDestroyed(lightMap) {
+        delete this.lightMaps[lightMap.id];
+        this.scene._lightsState.removeLightMap(lightMap._state);
+        this._needRecompile = true;
+    }
+
+    _reflectionMapDestroyed(reflectionMap) {
+        delete this.reflectionMaps[reflectionMap.id];
+        this.scene._lightsState.removeReflectionMap(reflectionMap._state);
+        this._needRecompile = true;
+    }
+
+    _registerModel(entity) {
+        this.models[entity.id] = entity;
+        this._modelIds = null; // Lazy regenerate
+    }
+
+    _deregisterModel(entity) {
+        delete this.models[entity.id];
+        this._modelIds = null; // Lazy regenerate
+    }
+
+    _registerObject(entity) {
+        this.objects[entity.id] = entity;
+        this._objectIds = null; // Lazy regenerate
+    }
+
+    _deregisterObject(entity) {
+        delete this.objects[entity.id];
+        this._objectIds = null; // Lazy regenerate
+    }
+
+    _objectVisibilityUpdated(entity, visible = entity.visible) {
+        if (visible) {
+            this.visibleObjects[entity.id] = entity;
+        } else {
+            delete this.visibleObjects[entity.id];
+        }
+        this._visibleObjectIds = null; // Lazy regenerate
+        this.fire(&quot;objectVisibility&quot;, entity, true);
+    }
+
+    _objectXRayedUpdated(entity, xrayed = entity.xrayed) {
+        if (xrayed) {
+            this.xrayedObjects[entity.id] = entity;
+        } else {
+            delete this.xrayedObjects[entity.id];
+        }
+        this._xrayedObjectIds = null; // Lazy regenerate
+    }
+
+    _objectHighlightedUpdated(entity, highlighted = entity.highlighted) {
+        if (highlighted) {
+            this.highlightedObjects[entity.id] = entity;
+        } else {
+            delete this.highlightedObjects[entity.id];
+        }
+        this._highlightedObjectIds = null; // Lazy regenerate
+    }
+
+    _objectSelectedUpdated(entity, selected = entity.selected) {
+        if (selected) {
+            this.selectedObjects[entity.id] = entity;
+        } else {
+            delete this.selectedObjects[entity.id];
+        }
+        this._selectedObjectIds = null; // Lazy regenerate
+    }
+
+    _webglContextLost() {
+        //  this.loading++;
+        this.canvas.spinner.processes++;
+        for (const id in this.components) {
+            if (this.components.hasOwnProperty(id)) {
+                const component = this.components[id];
+                if (component._webglContextLost) {
+                    component._webglContextLost();
+                }
+            }
+        }
+        this._renderer.webglContextLost();
+    }
+
+    _webglContextRestored() {
+        const gl = this.canvas.gl;
+        for (const id in this.components) {
+            if (this.components.hasOwnProperty(id)) {
+                const component = this.components[id];
+                if (component._webglContextRestored) {
+                    component._webglContextRestored(gl);
+                }
+            }
+        }
+        this._renderer.webglContextRestored(gl);
+        //this.loading--;
+        this.canvas.spinner.processes--;
+    }
+
+    /**
+     * Performs an occlusion test on all {@link Marker}s in this {@link Scene}.
+     *
+     * Sets each {@link Marker#visible} ````true```` if the Marker is currently not occluded by any opaque {@link Entity}s
+     * in the Scene, or ````false```` if an Entity is occluding it.
+     */
+    doOcclusionTest() {
+        if (this._needRecompile) {
+            this._recompile();
+            this._needRecompile = false;
+        }
+        this._renderer.doOcclusionTest();
+    }
+
+    /**
+     * Renders a single frame of this Scene.
+     *
+     * The Scene will periodically render itself after any updates, but you can call this method to force a render
+     * if required.
+     *
+     * @param {Boolean} [forceRender=false] Forces a render when true, otherwise only renders if something has changed in this Scene
+     * since the last render.
+     */
+    render(forceRender) {
+
+        if (forceRender) {
+            core.runTasks();
+        }
+
+        const renderEvent = {
+            sceneId: null,
+            pass: 0
+        };
+
+        if (this._needRecompile) {
+            this._recompile();
+            this._renderer.imageDirty();
+            this._needRecompile = false;
+        }
+
+        renderEvent.sceneId = this.id;
+
+        const passes = this._passes;
+        const clearEachPass = this._clearEachPass;
+        let pass;
+        let clear;
+
+        for (pass = 0; pass &lt; passes; pass++) {
+
+            renderEvent.pass = pass;
+
+            /**
+             * Fired when about to render a frame for a Scene.
+             *
+             * @event rendering
+             * @param {String} sceneID The ID of this Scene.
+             * @param {Number} pass Index of the pass we are about to render (see {@link Scene#passes}).
+             */
+            this.fire(&quot;rendering&quot;, renderEvent, true);
+
+            clear = clearEachPass || (pass === 0);
+
+            this._renderer.render({pass: pass, clear: clear, force: forceRender});
+
+            /**
+             * Fired when we have just rendered a frame for a Scene.
+             *
+             * @event rendering
+             * @param {String} sceneID The ID of this Scene.
+             * @param {Number} pass Index of the pass we rendered (see {@link Scene#passes}).
+             */
+            this.fire(&quot;rendered&quot;, renderEvent, true);
+        }
+
+        this._saveAmbientColor();
+    }
+
+    _recompile() {
+        for (const id in this._compilables) {
+            if (this._compilables.hasOwnProperty(id)) {
+                this._compilables[id].compile();
+            }
+        }
+    }
+
+    _saveAmbientColor() {
+        const canvas = this.canvas;
+        if (!canvas.transparent &amp;&amp; !canvas.backgroundImage &amp;&amp; !canvas.backgroundColor) {
+            const ambientColor = this._lightsState.getAmbientColor();
+            if (!this._lastAmbientColor ||
+                this._lastAmbientColor[0] !== ambientColor[0] ||
+                this._lastAmbientColor[1] !== ambientColor[1] ||
+                this._lastAmbientColor[2] !== ambientColor[2] ||
+                this._lastAmbientColor[3] !== ambientColor[3]) {
+                canvas.backgroundColor = ambientColor;
+                if (!this._lastAmbientColor) {
+                    this._lastAmbientColor = math.vec4([0, 0, 0, 1]);
+                }
+                this._lastAmbientColor.set(ambientColor);
+            }
+        } else {
+            this._lastAmbientColor = null;
+        }
+    }
+
+    /**
+     * Gets the IDs of the {@link Entity}s in {@link Scene#models}.
+     *
+     * @type {String[]}
+     */
+    get modelIds() {
+        if (!this._modelIds) {
+            this._modelIds = Object.keys(this.models);
+        }
+        return this._modelIds;
+    }
+
+    /**
+     * Gets the IDs of the {@link Entity}s in {@link Scene#objects}.
+     *
+     * @type {String[]}
+     */
+    get objectIds() {
+        if (!this._objectIds) {
+            this._objectIds = Object.keys(this.objects);
+        }
+        return this._objectIds;
+    }
+
+    /**
+     * Gets the IDs of the {@link Entity}s in {@link Scene#visibleObjects}.
+     *
+     * @type {String[]}
+     */
+    get visibleObjectIds() {
+        if (!this._visibleObjectIds) {
+            this._visibleObjectIds = Object.keys(this.visibleObjects);
+        }
+        return this._visibleObjectIds;
+    }
+
+    /**
+     * Gets the IDs of the {@link Entity}s in {@link Scene#xrayedObjects}.
+     *
+     * @type {String[]}
+     */
+    get xrayedObjectIds() {
+        if (!this._xrayedObjectIds) {
+            this._xrayedObjectIds = Object.keys(this.xrayedObjects);
+        }
+        return this._xrayedObjectIds;
+    }
+
+    /**
+     * Gets the IDs of the {@link Entity}s in {@link Scene#highlightedObjects}.
+     *
+     * @type {String[]}
+     */
+    get highlightedObjectIds() {
+        if (!this._highlightedObjectIds) {
+            this._highlightedObjectIds = Object.keys(this.highlightedObjects);
+        }
+        return this._highlightedObjectIds;
+    }
+
+    /**
+     * Gets the IDs of the {@link Entity}s in {@link Scene#selectedObjects}.
+     *
+     * @type {String[]}
+     */
+    get selectedObjectIds() {
+        if (!this._selectedObjectIds) {
+            this._selectedObjectIds = Object.keys(this.selectedObjects);
+        }
+        return this._selectedObjectIds;
+    }
+
+    /**
+     * Sets the number of &quot;ticks&quot; that happen between each render or this Scene.
+     *
+     * Default value is ````1````.
+     *
+     * @type {Number}
+     */
+    set ticksPerRender(value) {
+        if (value === undefined || value === null) {
+            value = 1;
+        } else if (!utils.isNumeric(value) || value &lt;= 0) {
+            this.error(&quot;Unsupported value for &apos;ticksPerRender&apos;: &apos;&quot; + value +
+                &quot;&apos; - should be an integer greater than zero.&quot;);
+            value = 1;
+        }
+        if (value === this._ticksPerRender) {
+            return;
+        }
+        this._ticksPerRender = value;
+    }
+
+    /**
+     * Gets the number of &quot;ticks&quot; that happen between each render or this Scene.
+     *
+     * Default value is ````1````.
+     *
+     * @type {Number}
+     */
+    get ticksPerRender() {
+        return this._ticksPerRender;
+    }
+
+    /**
+     * Sets the number of &quot;ticks&quot; that happen between occlusion testing for {@link Marker}s.
+     *
+     * Default value is ````20````.
+     *
+     * @type {Number}
+     */
+    set ticksPerOcclusionTest(value) {
+        if (value === undefined || value === null) {
+            value = 20;
+        } else if (!utils.isNumeric(value) || value &lt;= 0) {
+            this.error(&quot;Unsupported value for &apos;ticksPerOcclusionTest&apos;: &apos;&quot; + value +
+                &quot;&apos; - should be an integer greater than zero.&quot;);
+            value = 20;
+        }
+        if (value === this._ticksPerOcclusionTest) {
+            return;
+        }
+        this._ticksPerOcclusionTest = value;
+    }
+
+    /**
+     * Gets the number of &quot;ticks&quot; that happen between each render of this Scene.
+     *
+     * Default value is ````1````.
+     *
+     * @type {Number}
+     */
+    get ticksPerOcclusionTest() {
+        return this._ticksPerOcclusionTest;
+    }
+
+    /**
+     * Sets the number of times this Scene renders per frame.
+     *
+     * Default value is ````1````.
+     *
+     * @type {Number}
+     */
+    set passes(value) {
+        if (value === undefined || value === null) {
+            value = 1;
+        } else if (!utils.isNumeric(value) || value &lt;= 0) {
+            this.error(&quot;Unsupported value for &apos;passes&apos;: &apos;&quot; + value +
+                &quot;&apos; - should be an integer greater than zero.&quot;);
+            value = 1;
+        }
+        if (value === this._passes) {
+            return;
+        }
+        this._passes = value;
+        this.glRedraw();
+    }
+
+    /**
+     * Gets the number of times this Scene renders per frame.
+     *
+     * Default value is ````1````.
+     *
+     * @type {Number}
+     */
+    get passes() {
+        return this._passes;
+    }
+
+    /**
+     * When {@link Scene#passes} is greater than ````1````, indicates whether or not to clear the canvas before each pass (````true````) or just before the first pass (````false````).
+     *
+     * Default value is ````false````.
+     *
+     * @type {Boolean}
+     */
+    set clearEachPass(value) {
+        value = !!value;
+        if (value === this._clearEachPass) {
+            return;
+        }
+        this._clearEachPass = value;
+        this.glRedraw();
+    }
+
+    /**
+     * When {@link Scene#passes} is greater than ````1````, indicates whether or not to clear the canvas before each pass (````true````) or just before the first pass (````false````).
+     *
+     * Default value is ````false````.
+     *
+     * @type {Boolean}
+     */
+    get clearEachPass() {
+        return this._clearEachPass;
+    }
+
+    /**
+     * Sets whether or not {@link Scene} should expect all {@link Texture}s and colors to have pre-multiplied gamma.
+     *
+     * Default value is ````false````.
+     *
+     * @type {Boolean}
+     */
+    set gammaInput(value) {
+        value = value !== false;
+        if (value === this._renderer.gammaInput) {
+            return;
+        }
+        this._renderer.gammaInput = value;
+        this._needRecompile = true;
+    }
+
+    /**
+     * Gets whether or not {@link Scene} should expect all {@link Texture}s and colors to have pre-multiplied gamma.
+     *
+     * Default value is ````false````.
+     *
+     * @type {Boolean}
+     */
+    get gammaInput() {
+        return this._renderer.gammaInput;
+    }
+
+    /**
+     * Sets whether or not to render pixels with pre-multiplied gama.
+     *
+     * Default value is ````true````.
+     *
+     * @type {Boolean}
+     */
+    set gammaOutput(value) {
+        value = value !== false;
+        if (value === this._renderer.gammaOutput) {
+            return;
+        }
+        this._renderer.gammaOutput = value;
+        this._needRecompile = true;
+    }
+
+    /**
+     * Gets whether or not to render pixels with pre-multiplied gama.
+     *
+     * Default value is ````true````.
+     *
+     * @type {Boolean}
+     */
+    get gammaOutput() {
+        return this._renderer.gammaOutput;
+    }
+
+    /**
+     * Sets the gamma factor to use when {@link Scene#gammaOutput} is set true.
+     *
+     * Default value is ````2.2````.
+     *
+     * @type {Number}
+     */
+    set gammaFactor(value) {
+        value = (value === undefined || value === null) ? 2.2 : value;
+        if (value === this._renderer.gammaFactor) {
+            return;
+        }
+        this._renderer.gammaFactor = value;
+        this.glRedraw();
+    }
+
+    /**
+     * Gets the gamma factor to use when {@link Scene#gammaOutput} is set true.
+     *
+     * Default value is ````2.2````.
+     *
+     * @type {Number}
+     */
+    get gammaFactor() {
+        return this._renderer.gammaFactor;
+    }
+
+    /**
+     * Gets the default {@link Geometry} for this Scene, which is a {@link ReadableGeometry} with a unit-sized box shape.
+     *
+     * Has {@link ReadableGeometry#id} set to &quot;default.geometry&quot;.
+     *
+     * {@link Mesh}s in this Scene have {@link Mesh#geometry} set to this {@link ReadableGeometry} by default.
+     *
+     * @type {ReadableGeometry}
+     */
+    get geometry() {
+        return this.components[&quot;default.geometry&quot;] || buildBoxGeometry(ReadableGeometry, this, {
+            id: &quot;default.geometry&quot;,
+            dontClear: true
+        });
+    }
+
+    /**
+     * Gets the default {@link Material} for this Scene, which is a {@link PhongMaterial}.
+     *
+     * Has {@link PhongMaterial#id} set to &quot;default.material&quot;.
+     *
+     * {@link Mesh}s in this Scene have {@link Mesh#material} set to this {@link PhongMaterial} by default.
+     *
+     * @type {PhongMaterial}
+     */
+    get material() {
+        return this.components[&quot;default.material&quot;] || new PhongMaterial(this, {
+            id: &quot;default.material&quot;,
+            emissive: [0.4, 0.4, 0.4], // Visible by default on geometry without normals
+            dontClear: true
+        });
+    }
+
+    /**
+     * Gets the default xraying {@link EmphasisMaterial} for this Scene.
+     *
+     * Has {@link EmphasisMaterial#id} set to &quot;default.xrayMaterial&quot;.
+     *
+     * {@link Mesh}s in this Scene have {@link Mesh#xrayMaterial} set to this {@link EmphasisMaterial} by default.
+     *
+     * {@link Mesh}s are xrayed while {@link Mesh#xrayed} is ````true````.
+     *
+     * @type {EmphasisMaterial}
+     */
+    get xrayMaterial() {
+        return this.components[&quot;default.xrayMaterial&quot;] || new EmphasisMaterial(this, {
+            id: &quot;default.xrayMaterial&quot;,
+            preset: &quot;sepia&quot;,
+            dontClear: true
+        });
+    }
+
+    /**
+     * Gets the default highlight {@link EmphasisMaterial} for this Scene.
+     *
+     * Has {@link EmphasisMaterial#id} set to &quot;default.highlightMaterial&quot;.
+     *
+     * {@link Mesh}s in this Scene have {@link Mesh#highlightMaterial} set to this {@link EmphasisMaterial} by default.
+     *
+     * {@link Mesh}s are highlighted while {@link Mesh#highlighted} is ````true````.
+     *
+     * @type {EmphasisMaterial}
+     */
+    get highlightMaterial() {
+        return this.components[&quot;default.highlightMaterial&quot;] || new EmphasisMaterial(this, {
+            id: &quot;default.highlightMaterial&quot;,
+            preset: &quot;yellowHighlight&quot;,
+            dontClear: true
+        });
+    }
+
+    /**
+     * Gets the default selection {@link EmphasisMaterial} for this Scene.
+     *
+     * Has {@link EmphasisMaterial#id} set to &quot;default.selectedMaterial&quot;.
+     *
+     * {@link Mesh}s in this Scene have {@link Mesh#highlightMaterial} set to this {@link EmphasisMaterial} by default.
+     *
+     * {@link Mesh}s are highlighted while {@link Mesh#highlighted} is ````true````.
+     *
+     * @type {EmphasisMaterial}
+     */
+    get selectedMaterial() {
+        return this.components[&quot;default.selectedMaterial&quot;] || new EmphasisMaterial(this, {
+            id: &quot;default.selectedMaterial&quot;,
+            preset: &quot;greenSelected&quot;,
+            dontClear: true
+        });
+    }
+
+    /**
+     * Gets the default {@link EdgeMaterial} for this Scene.
+     *
+     * Has {@link EdgeMaterial#id} set to &quot;default.edgeMaterial&quot;.
+     *
+     * {@link Mesh}s in this Scene have {@link Mesh#edgeMaterial} set to this {@link EdgeMaterial} by default.
+     *
+     * {@link Mesh}s have their edges emphasized while {@link Mesh#edges} is ````true````.
+     *
+     * @type {EdgeMaterial}
+     */
+    get edgeMaterial() {
+        return this.components[&quot;default.edgeMaterial&quot;] || new EdgeMaterial(this, {
+            id: &quot;default.edgeMaterial&quot;,
+            preset: &quot;default&quot;,
+            edgeColor: [0.0, 0.0, 0.0],
+            edgeAlpha: 1.0,
+            edgeWidth: 1,
+            dontClear: true
+        });
+    }
+
+    /**
+     * Gets the {@link Viewport} for this Scene.
+     *
+     * @type Viewport
+     */
+    get viewport() {
+        return this._viewport;
+    }
+
+    /**
+     * Gets the {@link Camera} for this Scene.
+     *
+     * @type {Camera}
+     */
+    get camera() {
+        return this._camera;
+    }
+
+    /**
+     * Gets the World-space 3D center of this Scene.
+     *
+     *@type {Number[]}
+     */
+    get center() {
+        if (this._aabbDirty || !this._center) {
+            if (!this._center || !this._center) {
+                this._center = math.vec3();
+            }
+            const aabb = this.aabb;
+            this._center[0] = (aabb[0] + aabb[3]) / 2;
+            this._center[1] = (aabb[1] + aabb[4]) / 2;
+            this._center[2] = (aabb[2] + aabb[5]) / 2;
+        }
+        return this._center;
+    }
+
+    /**
+     * Gets the World-space axis-aligned 3D boundary (AABB) of this Scene.
+     *
+     * The AABB is represented by a six-element Float32Array containing the min/max extents of the axis-aligned volume, ie. ````[xmin, ymin,zmin,xmax,ymax, zmax]````.
+     *
+     * @type {Number[]}
+     */
+    get aabb() {
+        if (this._aabbDirty) {
+            if (!this._aabb) {
+                this._aabb = math.AABB3(); // FIXME: return useful AABB when there are no collidables
+            }
+            let xmin = math.MAX_DOUBLE;
+            let ymin = math.MAX_DOUBLE;
+            let zmin = math.MAX_DOUBLE;
+            let xmax = -math.MAX_DOUBLE;
+            let ymax = -math.MAX_DOUBLE;
+            let zmax = -math.MAX_DOUBLE;
+            let aabb;
+            const collidables = this._collidables;
+            let collidable;
+            let valid = false;
+            for (const collidableId in collidables) {
+                if (collidables.hasOwnProperty(collidableId)) {
+                    collidable = collidables[collidableId];
+                    if (collidable.collidable === false) {
+                        continue;
+                    }
+                    aabb = collidable.aabb;
+                    if (aabb[0] &lt; xmin) {
+                        xmin = aabb[0];
+                    }
+                    if (aabb[1] &lt; ymin) {
+                        ymin = aabb[1];
+                    }
+                    if (aabb[2] &lt; zmin) {
+                        zmin = aabb[2];
+                    }
+                    if (aabb[3] &gt; xmax) {
+                        xmax = aabb[3];
+                    }
+                    if (aabb[4] &gt; ymax) {
+                        ymax = aabb[4];
+                    }
+                    if (aabb[5] &gt; zmax) {
+                        zmax = aabb[5];
+                    }
+                    valid = true;
+                }
+            }
+            if (!valid) {
+                xmin = -1;
+                ymin = -1;
+                zmin = -1;
+                xmax = 1;
+                ymax = 1;
+                zmax = 1;
+            }
+            this._aabb[0] = xmin;
+            this._aabb[1] = ymin;
+            this._aabb[2] = zmin;
+            this._aabb[3] = xmax;
+            this._aabb[4] = ymax;
+            this._aabb[5] = zmax;
+            this._aabbDirty = false;
+        }
+        return this._aabb;
+    }
+
+    _setAABBDirty() {
+        //if (!this._aabbDirty) {
+        this._aabbDirty = true;
+        this.fire(&quot;boundary&quot;);
+        // }
+    }
+
+    /**
+     * Attempts to pick an {@link Entity} in this Scene.
+     *
+     * Ignores {@link Entity}s with {@link Entity#pickable} set ````false````.
+     *
+     * When an {@link Entity} is picked, fires a &quot;pick&quot; event on the {@link Entity} with the pick result as parameters.
+     *
+     * Picking the {@link Entity} at the given canvas coordinates:
+
+     * ````javascript
+     * var pickResult = scene.pick({
+     *          canvasPos: [23, 131]
+     *       });
+     *
+     * if (pickResult) { // Picked an Entity
+     *         var entity = pickResult.entity;
+     *     }
+     * ````
+     *
+     * Picking, with a ray cast through the canvas, hits an {@link Entity}:
+     *
+     * ````javascript
+     * var pickResult = scene.pick({
+     *         pickSurface: true,
+     *         canvasPos: [23, 131]
+     *      });
+     *
+     * if (pickResult) { // Picked an Entity
+     *
+     *     var entity = pickResult.entity;
+     *
+     *     if (pickResult.primitive === &quot;triangle&quot;) {
+     *
+     *         // Picked a triangle on the entity surface
+     *
+     *         var primIndex = pickResult.primIndex; // Position of triangle&apos;s first index in the picked Entity&apos;s Geometry&apos;s indices array
+     *         var indices = pickResult.indices; // UInt32Array containing the triangle&apos;s vertex indices
+     *         var localPos = pickResult.localPos; // Float32Array containing the picked Local-space position on the triangle
+     *         var worldPos = pickResult.worldPos; // Float32Array containing the picked World-space position on the triangle
+     *         var viewPos = pickResult.viewPos; // Float32Array containing the picked View-space position on the triangle
+     *         var bary = pickResult.bary; // Float32Array containing the picked barycentric position within the triangle
+     *         var worldNormal = pickResult.worldNormal; // Float32Array containing the interpolated World-space normal vector at the picked position on the triangle
+     *         var uv = pickResult.uv; // Float32Array containing the interpolated UV coordinates at the picked position on the triangle
+     *
+     *     } else if (pickResult.worldPos) {
+     *
+     *         // Picked a point and normal on the entity surface
+     *
+     *         var worldPos = pickResult.worldPos; // Float32Array containing the picked World-space position on the Entity surface
+     *         var worldNormal = pickResult.worldNormal; // Float32Array containing the picked World-space normal vector on the Entity Surface
+     *     }
+     * }
+     * ````
+     *
+     * Picking the {@link Entity} that intersects an arbitrarily-aligned World-space ray:
+     *
+     * ````javascript
+     * var pickResult = scene.pick({
+     *       pickSurface: true,   // Picking with arbitrarily-positioned ray
+     *       origin: [0,0,-5],    // Ray origin
+     *       direction: [0,0,1]   // Ray direction
+     * });
+     *
+     * if (pickResult) { // Picked an Entity with the ray
+     *
+     *       var entity = pickResult.entity;
+     *
+     *       if (pickResult.primitive == &quot;triangle&quot;) {
+     *
+     *          // Picked a triangle on the entity surface
+     *
+     *           var primitive = pickResult.primitive; // Type of primitive that was picked, usually &quot;triangles&quot;
+     *           var primIndex = pickResult.primIndex; // Position of triangle&apos;s first index in the picked Entity&apos;s Geometry&apos;s indices array
+     *           var indices = pickResult.indices; // UInt32Array containing the triangle&apos;s vertex indices
+     *           var localPos = pickResult.localPos; // Float32Array containing the picked Local-space position on the triangle
+     *           var worldPos = pickResult.worldPos; // Float32Array containing the picked World-space position on the triangle
+     *           var viewPos = pickResult.viewPos; // Float32Array containing the picked View-space position on the triangle
+     *           var bary = pickResult.bary; // Float32Array containing the picked barycentric position within the triangle
+     *           var worldNormal = pickResult.worldNormal; // Float32Array containing the interpolated World-space normal vector at the picked position on the triangle
+     *           var uv = pickResult.uv; // Float32Array containing the interpolated UV coordinates at the picked position on the triangle
+     *           var origin = pickResult.origin; // Float32Array containing the World-space ray origin
+     *           var direction = pickResult.direction; // Float32Array containing the World-space ray direction
+     *
+     *     } else if (pickResult.worldPos) {
+     *
+     *         // Picked a point and normal on the entity surface
+     *
+     *         var worldPos = pickResult.worldPos; // Float32Array containing the picked World-space position on the Entity surface
+     *         var worldNormal = pickResult.worldNormal; // Float32Array containing the picked World-space normal vector on the Entity Surface
+     *     }
+     * }
+     * ````
+     *
+     * Picking the {@link Entity} that intersects an arbitrarily-aligned World-space ray, implicitly given as a 4x4 matrix:
+     *
+     * ````javascript
+     * const matrix = math.lookAtMat4v([0,10,0], [0,-1,0], [0,0,-1]); // Eye, look and up vectors
+     *
+     * const pickResult = scene.pick({
+     *       pickSurface: true,   // Picking with arbitrarily-positioned ray
+     *       matrix: matrix
+     * });
+     *
+     * if (pickResult) { // Picked an Entity with the ray
+     *      ....
+     * }
+     * ````
+     *
+     * @param {*} params Picking parameters.
+     * @param {Boolean} [params.pickSurface=false] Whether to find the picked position on the surface of the Entity.
+     * @param {Number[]} [params.canvasPos] Canvas-space coordinates. When ray-picking, this will override the ````origin````, ````direction```` and ````matrix```` parameters. Effectively fires a ray through the canvas at this position, directly along the negative View-space Z-axis.
+     * @param {Number[]} [params.origin] World-space ray origin when ray-picking. Ignored when ````canvasPos```` given.
+     * @param {Number[]} [params.direction] World-space ray direction when ray-picking. Ignored when ````canvasPos```` given.
+     * @param {Number[]} [params.matrix] Alternative way to indicate ray origin and direction when ray-picking. Overrides ````origin```` and ````direction````. Ignored when ````canvasPos```` given.
+     * @param {String[]} [params.includeEntities] IDs of {@link Entity}s to restrict picking to. When given, ignores {@link Entity}s whose IDs are not in this list.
+     * @param {String[]} [params.excludeEntities] IDs of {@link Entity}s to ignore. When given, will pick *through* these {@link Entity}s, as if they were not there.
+     * @param {Boolean} [params.pickInvisible=false] When ````true````, will pick all Entities, including those that are currently invisible.
+     * @param {PickResult} [pickResult] Holds the results of the pick attempt. Will use the Scene&apos;s singleton PickResult if you don&apos;t supply your own.
+     * @returns {PickResult} Holds results of the pick attempt, returned when an {@link Entity} is picked, else null. See method comments for description.
+     */
+    pick(params, pickResult) {
+
+        if (this.canvas.boundary[2] === 0 || this.canvas.boundary[3] === 0) {
+            this.error(&quot;Picking not allowed while canvas has zero width or height&quot;);
+            return null;
+        }
+
+        params = params || {};
+
+        params.pickSurface = params.pickSurface || params.rayPick; // Backwards compatibility
+
+        if (!params.canvasPos &amp;&amp; !params.matrix &amp;&amp; (!params.origin || !params.direction)) {
+            this.warn(&quot;picking without canvasPos, matrix or ray origin and direction&quot;);
+        }
+
+        const includeEntities = params.includeEntities || params.include; // Backwards compat
+        if (includeEntities) {
+            params.includeEntityIds = getEntityIDMap(this, includeEntities);
+        }
+
+        const excludeEntities = params.excludeEntities || params.exclude; // Backwards compat
+        if (excludeEntities) {
+            params.excludeEntityIds = getEntityIDMap(this, excludeEntities);
+        }
+
+        if (this._needRecompile) {
+            this._recompile();
+            this._renderer.imageDirty();
+            this._needRecompile = false;
+        }
+
+        pickResult = this._renderer.pick(params, pickResult);
+
+        if (pickResult) {
+            if (pickResult.entity.fire) {
+                pickResult.entity.fire(&quot;picked&quot;, pickResult); // TODO: PerformanceModelNode doeosn&apos;t fire events...
+            }
+            return pickResult;
+        }
+    }
+
+    /**
+     * Destroys all non-default {@link Component}s in this Scene.
+     */
+    clear() {
+        var component;
+        for (const id in this.components) {
+            if (this.components.hasOwnProperty(id)) {
+                component = this.components[id];
+                if (!component._dontClear) { // Don&apos;t destroy components like Camera, Input, Viewport etc.
+                    component.destroy();
+                }
+            }
+        }
+    }
+
+    /**
+     * Destroys all {@link Light}s in this Scene..
+     */
+    clearLights() {
+        const ids = Object.keys(this.lights);
+        for (let i = 0, len = ids.length; i &lt; len; i++) {
+            this.lights[ids[i]].destroy();
+        }
+    }
+
+    /**
+     * Destroys all {@link SectionPlane}s in this Scene.
+     */
+    clearSectionPlanes() {
+        const ids = Object.keys(this.sectionPlanes);
+        for (let i = 0, len = ids.length; i &lt; len; i++) {
+            this.sectionPlanes[ids[i]].destroy();
+        }
+    }
+
+    /**
+     * Gets the collective axis-aligned boundary (AABB) of a batch of {@link Entity}s that represent objects.
+     *
+     * An {@link Entity} represents an object when {@link Entity#isObject} is ````true````.
+     *
+     * Each {@link Entity} on which {@link Entity#isObject} is registered by {@link Entity#id} in {@link Scene#visibleObjects}.
+     *
+     * Each {@link Entity} is only included in the AABB when {@link Entity#collidable} is ````true````.
+     *
+     * Returns the AABB of all {@link Entity}s in {@link Scene#objects} by default, or TODO
+     *
+     * @param {String[]} ids Array of {@link Entity#id} values.
+     * @returns {[Number, Number, Number, Number, Number, Number]} An axis-aligned World-space bounding box, given as elements ````[xmin, ymin, zmin, xmax, ymax, zmax]````.
+     */
+    getAABB(ids) {
+        if (ids === undefined) {
+            return this.aabb;
+        }
+        if (utils.isString(ids)) {
+            const entity = this.objects[ids];
+            if (entity &amp;&amp; entity.aabb) { // A Component subclass with an AABB
+                return entity.aabb;
+            }
+            ids = [ids]; // Must be an entity type
+        }
+        if (ids.length === 0) {
+            return this.aabb;
+        }
+        let xmin = 100000;
+        let ymin = 100000;
+        let zmin = 100000;
+        let xmax = -100000;
+        let ymax = -100000;
+        let zmax = -100000;
+        let valid;
+        this._withEntities(ids, this.objects, entity =&gt; {
+                if (entity.collidable) {
+                    const aabb = entity.aabb;
+                    if (aabb[0] &lt; xmin) {
+                        xmin = aabb[0];
+                    }
+                    if (aabb[1] &lt; ymin) {
+                        ymin = aabb[1];
+                    }
+                    if (aabb[2] &lt; zmin) {
+                        zmin = aabb[2];
+                    }
+                    if (aabb[3] &gt; xmax) {
+                        xmax = aabb[3];
+                    }
+                    if (aabb[4] &gt; ymax) {
+                        ymax = aabb[4];
+                    }
+                    if (aabb[5] &gt; zmax) {
+                        zmax = aabb[5];
+                    }
+                    valid = true;
+                }
+            }
+        );
+        if (valid) {
+            const aabb2 = math.AABB3();
+            aabb2[0] = xmin;
+            aabb2[1] = ymin;
+            aabb2[2] = zmin;
+            aabb2[3] = xmax;
+            aabb2[4] = ymax;
+            aabb2[5] = zmax;
+            return aabb2;
+        } else {
+            return this.aabb; // Scene AABB
+        }
+    }
+
+    /**
+     * Batch-updates {@link Entity#visible} on {@link Entity}s that represent objects.
+     *
+     * An {@link Entity} represents an object when {@link Entity#isObject} is ````true````.
+     *
+     * Each {@link Entity} on which both {@link Entity#isObject} and {@link Entity#visible} are ````true```` is
+     * registered by {@link Entity#id} in {@link Scene#visibleObjects}.
+     *
+     * @param {String[]} ids Array of {@link Entity#id} values.
+     * @param {Boolean} visible Whether or not to cull.
+     * @returns {Boolean} True if any {@link Entity}s were updated, else false if all updates were redundant and not applied.
+     */
+    setObjectsVisible(ids, visible) {
+        return this._withEntities(ids, this.objects, entity =&gt; {
+            const changed = (entity.visible !== visible);
+            entity.visible = visible;
+            return changed;
+        });
+    }
+
+    /**
+     * Batch-updates {@link Entity#collidable} on {@link Entity}s that represent objects.
+     *
+     * An {@link Entity} represents an object when {@link Entity#isObject} is ````true````.
+     *
+     * @param {String[]} ids Array of {@link Entity#id} values.
+     * @param {Boolean} collidable Whether or not to cull.
+     * @returns {Boolean} True if any {@link Entity}s were updated, else false if all updates were redundant and not applied.
+     */
+    setObjectsCollidable(ids, collidable) {
+        return this._withEntities(ids, this.objects, entity =&gt; {
+            const changed = (entity.collidable !== collidable);
+            entity.collidable = collidable;
+            return changed;
+        });
+    }
+
+    /**
+     * Batch-updates {@link Entity#culled} on {@link Entity}s that represent objects.
+     *
+     * An {@link Entity} represents an object when {@link Entity#isObject} is ````true````.
+     *
+     * @param {String[]} ids Array of {@link Entity#id} values.
+     * @param {Boolean} culled Whether or not to cull.
+     * @returns {Boolean} True if any {@link Entity}s were updated, else false if all updates were redundant and not applied.
+     */
+    setObjectsCulled(ids, culled) {
+        return this._withEntities(ids, this.objects, entity =&gt; {
+            const changed = (entity.culled !== culled);
+            entity.culled = culled;
+            return changed;
+        });
+    }
+
+    /**
+     * Batch-updates {@link Entity#selected} on {@link Entity}s that represent objects.
+     *
+     * An {@link Entity} represents an object when {@link Entity#isObject} is ````true````.
+     *
+     * Each {@link Entity} on which both {@link Entity#isObject} and {@link Entity#selected} are ````true```` is
+     * registered by {@link Entity#id} in {@link Scene#selectedObjects}.
+     *
+     * @param {String[]} ids Array of {@link Entity#id} values.
+     * @param {Boolean} selected Whether or not to highlight.
+     * @returns {Boolean} True if any {@link Entity}s were updated, else false if all updates were redundant and not applied.
+     */
+    setObjectsSelected(ids, selected) {
+        return this._withEntities(ids, this.objects, entity =&gt; {
+            const changed = (entity.selected !== selected);
+            entity.selected = selected;
+            return changed;
+        });
+    }
+
+    /**
+     * Batch-updates {@link Entity#highlighted} on {@link Entity}s that represent objects.
+     *
+     * An {@link Entity} represents an object when {@link Entity#isObject} is ````true````.
+     *
+     * Each {@link Entity} on which both {@link Entity#isObject} and {@link Entity#highlighted} are ````true```` is
+     * registered by {@link Entity#id} in {@link Scene#highlightedObjects}.
+     *
+     * @param {String[]} ids Array of {@link Entity#id} values.
+     * @param {Boolean} highlighted Whether or not to highlight.
+     * @returns {Boolean} True if any {@link Entity}s were updated, else false if all updates were redundant and not applied.
+     */
+    setObjectsHighlighted(ids, highlighted) {
+        return this._withEntities(ids, this.objects, entity =&gt; {
+            const changed = (entity.highlighted !== highlighted);
+            entity.highlighted = highlighted;
+            return changed;
+        });
+    }
+
+    /**
+     * Batch-updates {@link Entity#xrayed} on {@link Entity}s that represent objects.
+     *
+     * An {@link Entity} represents an object when {@link Entity#isObject} is ````true````.
+     *
+     * Each {@link Entity} on which both {@link Entity#isObject} and {@link Entity#xrayed} are ````true```` is
+     * registered by {@link Entity#id} in {@link Scene#xrayedObjects}.
+     *
+     * @param {String[]} ids Array of {@link Entity#id} values.
+     * @param {Boolean} xrayed Whether or not to xray.
+     * @returns {Boolean} True if any {@link Entity}s were updated, else false if all updates were redundant and not applied.
+     */
+    setObjectsXRayed(ids, xrayed) {
+        return this._withEntities(ids, this.objects, entity =&gt; {
+            const changed = (entity.xrayed !== xrayed);
+            entity.xrayed = xrayed;
+            return changed;
+        });
+    }
+
+    /**
+     * Batch-updates {@link Entity#edges} on {@link Entity}s that represent objects.
+     *
+     * An {@link Entity} represents an object when {@link Entity#isObject} is ````true````.
+     *
+     * @param {String[]} ids Array of {@link Entity#id} values.
+     * @param {Boolean} edges Whether or not to show edges.
+     * @returns {Boolean} True if any {@link Entity}s were updated, else false if all updates were redundant and not applied.
+     */
+    setObjectsEdges(ids, edges) {
+        return this._withEntities(ids, this.objects, entity =&gt; {
+            const changed = (entity.edges !== edges);
+            entity.edges = edges;
+            return changed;
+        });
+    }
+
+    /**
+     * Batch-updates {@link Entity#colorize} on {@link Entity}s that represent objects.
+     *
+     * An {@link Entity} represents an object when {@link Entity#isObject} is ````true````.
+     *
+     * @param {String[]} ids Array of {@link Entity#id} values.
+     * @param {Number[]} [colorize=(1,1,1)] RGB colorize factors, multiplied by the rendered pixel colors.
+     * @returns {Boolean} True if any {@link Entity}s changed opacity, else false if all updates were redundant and not applied.
+     */
+    setObjectsColorized(ids, colorize) {
+        return this._withEntities(ids, this.objects, entity =&gt; {
+            entity.colorize = colorize;
+        });
+    }
+
+    /**
+     * Batch-updates {@link Entity#opacity} on {@link Entity}s that represent objects.
+     *
+     * An {@link Entity} represents an object when {@link Entity#isObject} is ````true````.
+     *
+     * @param {String[]} ids Array of {@link Entity#id} values.
+     * @param {Number} [opacity=1.0] Opacity factor, multiplied by the rendered pixel alphas.
+     * @returns {Boolean} True if any {@link Entity}s changed opacity, else false if all updates were redundant and not applied.
+     */
+    setObjectsOpacity(ids, opacity) {
+        return this._withEntities(ids, this.objects, entity =&gt; {
+            const changed = (entity.opacity !== opacity);
+            entity.opacity = opacity;
+            return changed;
+        });
+    }
+
+    /**
+     * Batch-updates {@link Entity#pickable} on {@link Entity}s that represent objects.
+     *
+     * An {@link Entity} represents an object when {@link Entity#isObject} is ````true````.
+     *
+     * @param {String[]} ids Array of {@link Entity#id} values.
+     * @param {Boolean} pickable Whether or not to enable picking.
+     * @returns {Boolean} True if any {@link Entity}s were updated, else false if all updates were redundant and not applied.
+     */
+    setObjectsPickable(ids, pickable) {
+        return this._withEntities(ids, this.objects, entity =&gt; {
+            const changed = (entity.pickable !== pickable);
+            entity.pickable = pickable;
+            return changed;
+        });
+    }
+
+    _withEntities(ids, entities, callback) {
+        if (utils.isString(ids)) {
+            ids = [ids];
+        }
+        let changed = false;
+        for (let i = 0, len = ids.length; i &lt; len; i++) {
+            const id = ids[i];
+            let entity = entities[id];
+            if (entity) {
+                changed = callback(entity) || changed;
+            }
+            //   this.warn(&quot;Entity not found: &apos;&quot; + id + &quot;&apos;&quot;);
+        }
+        return changed;
+    }
+
+    /**
+     * Destroys this Scene.
+     */
+    destroy() {
+
+        super.destroy();
+
+        for (const id in this.components) {
+            if (this.components.hasOwnProperty(id)) {
+                this.components[id].destroy();
+            }
+        }
+
+        this.canvas.gl = null;
+
+        // Memory leak prevention
+        this.components = null;
+        this.models = null;
+        this.objects = null;
+        this.visibleObjects = null;
+        this.xrayedObjects = null;
+        this.highlightedObjects = null;
+        this.selectedObjects = null;
+        this.sectionPlanes = null;
+        this.lights = null;
+        this.lightMaps = null;
+        this.reflectionMaps = null;
+        this._objectIds = null;
+        this._visibleObjectIds = null;
+        this._xrayedObjectIds = null;
+        this._highlightedObjectIds = null;
+        this._selectedObjectIds = null;
+        this.types = null;
+        this.components = null;
+        this.canvas = null;
+        this._renderer = null;
+        this.input = null;
+        this._viewport = null;
+        this._camera = null;
+    }
+}
+
+export {Scene};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

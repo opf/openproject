@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {Plugin} from &quot;../../viewer/Plugin.js&quot;;
+import {PerformanceModel} from &quot;../../viewer/scene/PerformanceModel/PerformanceModel.js&quot;;
+
+import {BIMServerPerformanceGeometryLoader} from &quot;./lib/BIMServerPerformanceGeometryLoader.js&quot;;
+import {loadBIMServerMetaModel} from &quot;./lib/loadBIMServerMetaModel.js&quot;;
+import {IFCObjectDefaults} from &quot;../../viewer/metadata/IFCObjectDefaults.js&quot;;
+import {utils} from &quot;../../viewer/scene/utils.js&quot;;
+import {Executor} from &quot;./lib/Executor.js&quot;;
+
+/**
+ * {@link Viewer} plugin that loads models from a [BIMServer](http://bimserver.org).
+ *
+ * Tested with BIMServer v1.5.120 and IFC schema ifc2x3tc1.
+ *
+ * * For each model loaded, creates a tree of {@link Entity}s within its {@link Viewer}&apos;s {@link Scene}, with the root {@link Entity} representing the model and sub-{@link Entity}s representing objects within the model.
+ * * The root {@link Entity} will have {@link Entity#isModel} set ````true```` and will be registered by {@link Entity#id} in {@link Scene#models}.
+ * * Each sub-{@link Entity} that represents an object will have {@link Entity#isObject} set ````true```` and will be registered by {@link Entity#id} in {@link Scene#objects}.
+ * * When loading a model, we can specify a World-space transformation to position and orient it, along with initial rendering states to recursively apply to the Entity tree.
+ *
+ * ## Usage
+ *
+ * In the example below, we&apos;ll load the latest revision of a project&apos;s model from BIMSserver. We&apos;ll assume that we have a BIMServer
+ * instance running and serving requests on port 8082, with a model loaded for project ID ````131073````.
+ *
+ * Since xeokit&apos;s default World &quot;up&quot; direction is +Y, while the model&apos;s &quot;up&quot; is +Z, we&apos;ll rotate the
+ * model 90 degrees about the X-axis as we load it. Note that we could also instead configure xeokit to use +Z as &quot;up&quot;.
+ *
+ * A BIMServerLoaderPlugin is configured with a BIMServerClient, which provides a client-side facade through which
+ * we can issue RPC calls to the BIMServer Service Interface. The BIMServerLoaderPlugin makes RPC calls through that
+ * to download the model and it&apos;s IFC metadata.
+ *
+ * Note that BIMServerLoaderPlugin works with BIMServer V1.5.120 or later.
+ *
+ * Read more about this example in the user guide on [Viewing Models from BIMServer](https://github.com/xeokit/xeokit-sdk/wiki/Viewing-Models-from-BIMServer).
+ *
+ *  [[Run this example](http://xeokit.github.io/xeokit-sdk/examples/#BIMServer_Schependomlaan)]
+ *
+ * ````javascript
+ * import {Viewer} from &quot;./../src/viewer/Viewer.js&quot;;
+ * import BimServerClient from &quot;./../src/viewer/utils/BIMServerClient/bimserverclient.js&quot;
+ * import {BIMServerLoaderPlugin} from &quot;./../src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js&quot;;
+ *
+ * const bimServerAddress = &quot;https://xeokit.cleverapps.io/&quot;;
+ * const username = &quot;kevin.flynn@en.com&quot;;
+ * const password = &quot;secretPassword&quot;;
+ * const poid = 196609;
+ *
+ * // Create a xeokit Viewer
+ * const viewer = new Viewer({
+ *     canvasId: &quot;myCanvas&quot;
+ * });
+ *
+ * // Create a BimServerClient
+ * const bimServerClient = new BimServerClient(bimServerAddress);
+ *
+ * // Add a BIMServerLoaderPlugin to the Viewer, configured with the BIMServerClient
+ * const bimServerLoader = new BIMServerLoaderPlugin(viewer, {
+ *     bimServerClient: bimServerClient
+ * });
+ *
+ * // Initialize the BIMServer client
+ * bimServerClient.init(() =&gt; {
+ *
+ *     // Login to BIMServer
+ *     bimServerClient.login(username, password, () =&gt; {
+ *
+ *         // Query a project by ID
+ *         bimServerClient.call(&quot;ServiceInterface&quot;, &quot;getProjectByPoid&quot;, {
+ *             poid: poid
+ *         }, (project) =&gt; {
+ *
+ *             // From the project info returned by BIMServerClient, we&apos;ll get the ID of the latest
+ *             // model revision and the version of the IFC schema to which the model conforms.
+ *
+ *             // Load the latest revision of the project
+ *
+ *             const roid = project.lastRevisionId;
+ *             const schema = project.schema;
+ *
+ *             var model = bimServerLoader.load({ // Returns an Entity
+ *                 id: &quot;myModel&quot;,
+ *                 poid: poid,                      // Project ID
+ *                 roid: roid,                      // Revision ID
+ *                 schema: schema,                  // Schema version
+ *                 edges: true,                     // Render with emphasized edges (default is false)
+ *                 lambertMaterial: true,          // Lambertian flat-shading instead of default Blinn/Phong
+ *                 scale: [0.001, 0.001, 0.001],    // Shrink the model a bit
+ *                 rotation: [-90, 0, 0]            // Rotate model for World +Y &quot;up&quot;
+ *             });
+ *
+ *             const scene = viewer.scene;  // xeokit.Scene
+ *             const camera = scene.camera; // xeokit.Camera
+ *
+ *             model.on(&quot;loaded&quot;, () =&gt; { // When loaded, fit camera and start orbiting
+ *                 camera.orbitPitch(20);
+ *                 viewer.cameraFlight.flyTo(model);
+ *                 scene.on(&quot;tick&quot;, () =&gt; {
+ *                     camera.orbitYaw(0.3);
+ *                 })
+ *
+ *                 // We can find the model Entity by ID
+ *                 model = viewer.scene.models[&quot;myModel&quot;];
+ *
+ *                 // To destroy the model, call destroy() on the model Entity
+ *                 model.destroy();
+ *             });
+ *
+ *             model.on(&quot;error&quot;, function(errMsg}
+ *                  console.error(&quot;Error while loading: &quot; + errMsg);
+ *             });
+ *         });
+ *     });
+ * });
+ * ````
+ * @class BIMServerLoaderPluginOLD
+ */
+class BIMServerLoaderPlugin extends Plugin {
+
+    /**
+     * @constructor
+     * @param {Viewer} viewer The Viewer.
+     * @param {Object} cfg  Plugin configuration.
+     * @param {String} [cfg.id=&quot;BIMServerModels&quot;] Optional ID for this plugin, so that we can find it within {@link Viewer#plugins}.
+     * @param {Object} cfg.bimServerClient A BIMServer client API instance.
+     * @param {{String:Object}} [cfg.objectDefaults] Map of initial default states for each loaded {@link Entity} that represents an object. Default value for this parameter is {@link IFCObjectDefaults}.
+     */
+    constructor(viewer, cfg) {
+
+        super(&quot;BIMServerModels&quot;, viewer, cfg);
+
+        /**
+         * Version of BIMServer supported by this plugin.
+         * @type {string}
+         */
+        this.BIMSERVER_VERSION = &quot;1.5&quot;;
+
+        if (!cfg.bimServerClient) {
+            this.error(&quot;Config expected: bimServerClient&quot;);
+        }
+
+        /**
+         * The BIMServer API.
+         * @type {BIMServerClient}
+         */
+        this.bimServerClient = cfg.bimServerClient;
+
+        /**
+         * IFC types that are hidden by default.
+         * @type {{IfcOpeningElement: boolean, IfcSpace: boolean}}
+         */
+        this.hiddenTypes = {
+            &quot;IfcOpeningElement&quot;: true,
+            &quot;IfcSpace&quot;: true
+        };
+
+        this.objectDefaults = cfg.objectDefaults;
+    }
+
+    /**
+     * Sets map of initial default states for each loaded {@link Entity} that represents an object.
+     *
+     * Default value is {@link IFCObjectDefaults}.
+     *
+     * @type {{String: Object}}
+     */
+    set objectDefaults(value) {
+        this._objectDefaults = value || IFCObjectDefaults;
+    }
+
+    /**
+     * Gets map of initial default states for each loaded {@link Entity} that represents an object.
+     *
+     * Default value is {@link IFCObjectDefaults}.
+     *
+     * @type {{String: Object}}
+     */
+    get objectDefaults() {
+        return this._objectDefaults;
+    }
+
+    /**
+     * Loads a model from a BIMServer into this BIMServerLoaderPlugin&apos;s {@link Viewer}.
+     *
+     * Creates a tree of {@link Entity}s that represents the model.
+     *
+     * The root {@link Entity} will have {@link Entity#isModel} set true to indicate that it represents a model, and will therefore be registered in {@link Scene#models}.
+     *
+     * @param {Object} params Loading parameters.
+     * @param {String} [params.id] ID to assign to the root {@link Entity#id}, unique among all components in the Viewer&apos;s {@link Scene}, generated automatically by default.
+     * @param {Number} params.poid ID of the model&apos;s project within BIMServer.
+     * @param {Number} params.roid ID of the model&apos;s revision within BIMServer. See the class example for how to query the latest project revision ID via the BIMServer client API.
+     * @param {Number} params.schema The model&apos;s IFC schema. See the class example for how to query the project&apos;s schema via the BIMServer client API.
+     * @param {{String:Object}} [params.objectDefaults] Map of initial default states for each loaded {@link Entity} that represents an object. Default value for this parameter is {@link IFCObjectDefaults}.
+     * @param {Boolean} [params.edges=false] Whether or not xeokit renders the model with edges emphasized.
+     * @param {Number[]} [params.position=[0,0,0]] The model World-space 3D position.
+     * @param {Number[]} [params.scale=[1,1,1]] The model&apos;s World-space scale.
+     * @param {Number[]} [params.rotation=[0,0,0]] The model&apos;s World-space rotation, as Euler angles given in degrees, for each of the X, Y and Z axis.
+     * @param {Number[]} [params.matrix=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]] The model&apos;s world transform matrix. Overrides the position, scale and rotation parameters.
+     * @param {Boolean} [params.backfaces=false] When true, allows visible backfaces, wherever specified. When false, ignores backfaces.
+     * @param {Number} [params.edgeThreshold=20] When xraying, highlighting, selecting or edging, this is the threshold angle between normals of adjacent triangles, below which their shared wireframe edge is not drawn.
+     * @returns {Entity} Root Entity representing the loaded model. The Entity will have {@link Entity#isModel} set ````true```` and will be registered by {@link Entity#id} in {@link Scene#models}
+     */
+    load(params = {}) {
+
+        if (params.id &amp;&amp; this.viewer.scene.components[params.id]) {
+            this.error(&quot;Component with this ID already exists in viewer: &quot; + params.id + &quot; - will autogenerate this ID&quot;);
+            delete params.id;
+        }
+
+        const poid = params.poid;
+        const roid = params.roid;
+        const schema = params.schema;
+        const viewer = this.viewer;
+        const scene = viewer.scene;
+        const bimServerClient = this.bimServerClient;
+        const objectDefaults = params.objectDefaults || this._objectDefaults || IFCObjectDefaults;
+
+        const performanceModel = new PerformanceModel(scene, params);
+        const modelId = performanceModel.id;
+
+        var onTick;
+
+        if (!poid) {
+            this.error(&quot;load() param expected: poid&quot;);
+            return performanceModel; // TODO: Finalize?
+        }
+
+        if (!roid) {
+            this.error(&quot;load() param expected: roid&quot;);
+            return performanceModel; // TODO: Finalize?
+        }
+
+        if (!schema) {
+            this.error(&quot;load() param expected: schema&quot;);
+            return performanceModel; // TODO: Finalize?
+        }
+
+        const logging = !!params.logging;
+
+        const executor = new Executor(4);
+
+        scene.canvas.spinner.processes++;
+
+        // Get model info from BIMServer
+
+        bimServerClient.getModel(poid, roid, schema, false, bimServerClientModel =&gt; {  // TODO: Preload not necessary combined with the bruteforce tree
+
+            // Create a xeokit MetaModel and MetaObjects
+
+            loadBIMServerMetaModel(viewer, modelId, poid, roid, schema, bimServerClientModel).then(() =&gt; {
+
+                // Load geometry from BIMServer to create PerformanceModel and Entitys
+
+                performanceModel.once(&quot;destroyed&quot;, function () {
+                    viewer.metaScene.destroyMetaModel(modelId);
+                });
+
+                const oids = [];
+                const oidToGuid = {};
+                const guidToOid = {};
+
+                const visit = metaObject =&gt; {
+                    oids[metaObject.external.gid] = metaObject.external.extId;
+                    oidToGuid[metaObject.external.extId] = metaObject.id;
+                    guidToOid[metaObject.id] = metaObject.external.extId;
+                    for (let i = 0; i &lt; (metaObject.children || []).length; ++i) {
+                        visit(metaObject.children[i]);
+                    }
+                };
+
+                const metaModel = viewer.metaScene.metaModels[modelId];
+                const rootMetaObject = metaModel.rootMetaObject;
+
+                visit(rootMetaObject);
+
+                const loader = new BIMServerPerformanceGeometryLoader(bimServerClient, bimServerClientModel, roid, null, {
+
+                    objectDefaults: objectDefaults,
+
+                    log: (msg) =&gt; {
+                        if (logging) {
+                            this.log(msg);
+                        }
+                    },
+
+                    error: (msg) =&gt; {
+                        this.error(msg);
+                        performanceModel.fire(&quot;error&quot;, msg);
+                    },
+
+                    warn: (msg) =&gt; {
+                        this.warn(msg);
+                    },
+
+                    gotModelBoundary: (boundary) =&gt; {
+
+                        const xmin = boundary[0];
+                        const ymin = boundary[1];
+                        const zmin = boundary[2];
+                        const xmax = boundary[3];
+                        const ymax = boundary[4];
+                        const zmax = boundary[5];
+
+                        const diagonal = Math.sqrt(
+                            Math.pow(xmax - xmin, 2) +
+                            Math.pow(ymax - ymin, 2) +
+                            Math.pow(zmax - zmin, 2));
+
+                        const scale = 100 / diagonal;
+
+                        const center = [
+                            scale * ((xmax + xmin) / 2),
+                            scale * ((ymax + ymin) / 2),
+                            scale * ((zmax + zmin) / 2)
+                        ];
+
+                        // TODO
+
+                        //o.viewer.setScale(scale); // Temporary until we find a better scaling system.
+                    },
+
+                    createGeometry: (geometryDataId, positions, normals, indices) =&gt; {
+                        const geometryId = `${modelId}.${geometryDataId}`;
+                        performanceModel.createGeometry({
+                            id: geometryId,
+                            primitive: &quot;triangles&quot;,
+                            positions: positions,
+                            normals: normals,
+                            indices: indices
+                        });
+                    },
+
+                    createMeshInstancingGeometry: (geometryDataId, matrix, color, opacity) =&gt; {
+                        const meshId = `${modelId}.${geometryDataId}.mesh`;
+                        const geometryId = `${modelId}.${geometryDataId}`;
+                        performanceModel.createMesh({
+                            id: meshId,
+                            geometryId: geometryId,
+                            matrix: matrix,
+                            color: color,
+                            opacity: opacity
+                        });
+                    },
+
+                    createMeshSpecifyingGeometry: (geometryDataId, positions, normals, indices, matrix, color, opacity) =&gt; {
+                        const meshId = `${modelId}.${geometryDataId}.mesh`;
+                        performanceModel.createMesh({
+                            id: meshId,
+                            primitive: &quot;triangles&quot;,
+                            positions: positions,
+                            normals: normals,
+                            indices: indices,
+                            matrix: matrix,
+                            color: color,
+                            opacity: opacity
+                        });
+                    },
+
+                    createEntity: (id, geometryDataId, ifcType) =&gt; { // Pass in color to set transparency
+                        id = oidToGuid[id];
+                        const meshId = `${modelId}.${geometryDataId}.mesh`;
+                        if (scene.objects[id]) {
+                            this.error(`Can&apos;t create object - object with id ${id} already exists`);
+                            return;
+                        }
+                        if (scene.components[id]) {
+                            this.error(`Can&apos;t create object - scene component with this ID already exists: ${id}`);
+                            return;
+                        }
+                        ifcType = ifcType || &quot;DEFAULT&quot;;
+                        const props = objectDefaults[ifcType] || {};
+                        performanceModel.createEntity(utils.apply(props, {
+                            id: id,
+                            isObject: true,
+                            meshIds: [meshId]
+                        }));
+                    }
+                });
+
+                loader.addProgressListener((progress, nrObjectsRead, totalNrObjects) =&gt; {
+                    if (progress === &quot;start&quot;) {
+                        if (logging) {
+                            this.log(&quot;Started loading geometries&quot;);
+                        }
+                    } else if (progress === &quot;done&quot;) {
+                        if (logging) {
+                            this.log(`Finished loading geometries (${totalNrObjects} objects received)`);
+                        }
+                        viewer.scene.off(onTick);
+                        scene.canvas.spinner.processes--;
+                        performanceModel.finalize();
+                        performanceModel.fire(&quot;loaded&quot;);
+                    }
+                });
+
+                loader.setLoadOids(oids); // TODO: Why do we do this?
+
+                // onTick = viewer.scene.on(&quot;tick&quot;, () =&gt; {
+                //     loader.process();
+                // });
+
+                loader.start();
+
+            }, (errMsg) =&gt; {
+                this.error(errMsg)
+            });
+        });
+
+        return performanceModel;
+    }
+
+    /**
+     * Destroys this BIMServerLoaderPlugin.
+     */
+    destroy() {
+        super.destroy();
+    }
+}
+
+export {BIMServerLoaderPlugin}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {Plugin} from &quot;../../viewer/Plugin.js&quot;;
+import {Storey} from &quot;./Storey.js&quot;;
+import {IFCStoreyPlanObjectStates} from &quot;./IFCStoreyPlanObjectStates.js&quot;;
+import {math} from &quot;../../viewer/scene/math/math.js&quot;;
+import {ObjectsMemento} from &quot;../../viewer/scene/mementos/ObjectsMemento.js&quot;;
+import {CameraMemento} from &quot;../../viewer/scene/mementos/CameraMemento.js&quot;;
+import {StoreyMap} from &quot;./StoreyMap.js&quot;;
+import {utils} from &quot;../../viewer/scene/utils.js&quot;;
+
+const tempVec3a = math.vec3();
+const tempMat4 = math.mat4();
+
+const EMPTY_IMAGE = &quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==&quot;;
+
+
+
+/**
+ * @desc A {@link Viewer} plugin that provides methods for visualizing IfcBuildingStoreys.
+ *
+ *  &lt;a href=&quot;https://xeokit.github.io/xeokit-sdk/examples/#storeyViews_StoreyViewsPlugin_recipe2&quot;&gt;&lt;img src=&quot;http://xeokit.io/img/docs/StoreyViewsPlugin/minimap.gif&quot;&gt;&lt;/a&gt;
+ *
+ * [[Run this example](https://xeokit.github.io/xeokit-sdk/examples/#storeyViews_StoreyViewsPlugin_recipe2)]
+ *
+ * ## Overview
+ *
+ * StoreyViewsPlugin provides a flexible set of methods for visualizing building storeys in 3D and 2D.
+ *
+ * Use the first two methods to set up 3D views of storeys:
+ *
+ * * [showStoreyObjects](#instance-method-showStoreyObjects) - shows the {@link Entity}s within a storey, and
+ * * [gotoStoreyCamera](#instance-method-gotoStoreyCamera) - positions the {@link Camera} for a plan view of the Entitys within a storey.
+ * &lt;br&gt; &lt;br&gt;
+ *
+ * Use the second two methods to create 2D plan view mini-map images:
+ *
+ * * [createStoreyMap](#instance-method-createStoreyMap) - creates a 2D plan view image of a storey, and
+ * * [pickStoreyMap](#instance-method-pickStoreyMap) - picks the {@link Entity} at the given 2D pixel coordinates within a plan view image.
+ *
+ * ## Usage
+ *
+ * Let&apos;s start by creating a {@link Viewer} with a StoreyViewsPlugin and an {@link XKTLoaderPlugin}.
+ *
+ * Then we&apos;ll load a BIM building model from an  ```.xkt``` file.
+ *
+ * ````javascript
+ * import {Viewer} from &quot;../src/viewer/Viewer.js&quot;;
+ * import {XKTLoaderPlugin} from &quot;../src/viewer/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js&quot;;
+ * import {StoreyViewsPlugin} from &quot;../src/viewer/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js&quot;;
+ *
+ * // Create a Viewer, arrange the camera
+ *
+ * const viewer = new Viewer({
+ *        canvasId: &quot;myCanvas&quot;,
+ *        transparent: true
+ *    });
+ *
+ * viewer.camera.eye = [-2.56, 8.38, 8.27];
+ * viewer.camera.look = [13.44, 3.31, -14.83];
+ * viewer.camera.up = [0.10, 0.98, -0.14];
+ *
+ * // Add an XKTLoaderPlugin
+ *
+ * const xktLoader = new XKTLoaderPlugin(viewer);
+ *
+ * // Add a StoreyViewsPlugin
+ *
+ * const storeyViewsPlugin = new StoreyViewsPlugin(viewer);
+ *
+ * // Load a BIM model from .xkt format
+ *
+ * const model = xktLoader.load({
+ *      id: &quot;myModel&quot;,
+ *      src: &quot;./models/xkt/schependomlaan/schependomlaan.xkt&quot;,
+ *      metaModelSrc: &quot;./metaModels/schependomlaan/metaModel.json&quot;,
+ *      edges: true
+ * });
+ * ````
+ *
+ * ## Finding Storeys
+ *
+ * Getting information on a storey in our model:
+ *
+ * ````javascript
+ * const storey = storeyViewsPlugin.storeys[&quot;2SWZMQPyD9pfT9q87pgXa1&quot;]; // ID of the IfcBuildingStorey
+ *
+ * const modelId  = storey.modelId;  // &quot;myModel&quot;
+ * const storeyId = storey.storeyId; // &quot;2SWZMQPyD9pfT9q87pgXa1&quot;
+ * const aabb     = storey.aabb;     // Axis-aligned 3D World-space boundary of the IfcBuildingStorey
+ * ````
+ *
+ * ## Showing Entitys within Storeys
+ *
+ * Showing the {@link Entity}s within a storey:
+ *
+ * ````javascript
+ * storeyViewsPlugin.showStoreyObjects(&quot;2SWZMQPyD9pfT9q87pgXa1&quot;);
+ * ````
+ *
+ * Showing **only** the Entitys in a storey, hiding all others:
+ *
+ * ````javascript
+ * storeyViewsPlugin.showStoreyObjects(&quot;2SWZMQPyD9pfT9q87pgXa1&quot;, {
+ *     hideOthers: true
+ * });
+ * ````
+ * Showing only the storey Entitys, applying custom appearances configured on {@link StoreyViewsPlugin#objectStates}:
+ *
+ * ````javascript
+ * storeyViewsPlugin.showStoreyObjects(&quot;2SWZMQPyD9pfT9q87pgXa1&quot;, {
+ *     hideOthers: true,
+ *     useObjectStates: true
+ * });
+ * ````
+ *
+ * &lt;a href=&quot;https://xeokit.github.io/xeokit-sdk/examples/#storeyViews_StoreyViewsPlugin_showStoreyObjects&quot;&gt;&lt;img src=&quot;http://xeokit.io/img/docs/StoreyViewsPlugin/showStoreyObjects.gif&quot;&gt;&lt;/a&gt;
+ *
+ * [[Run this example](https://xeokit.github.io/xeokit-sdk/examples/#storeyViews_StoreyViewsPlugin_showStoreyObjects)]
+ *
+ * When using this option, at some point later you&apos;ll probably want to restore all Entitys to their original visibilities and
+ * appearances.
+ *
+ * To do that, save their visibility and appearance states in an {@link ObjectsMemento} beforehand, from
+ * which you can restore them later:
+ *
+ * ````javascript
+ * const objectsMemento = new ObjectsMemento();
+ *
+ * // Save all Entity visibility and appearance states
+ *
+ * objectsMemento.saveObjects(viewer.scene);
+ *
+ * // Show storey view Entitys, with custom appearances as configured for IFC types
+ *
+ * storeyViewsPlugin.showStoreyObjects(&quot;2SWZMQPyD9pfT9q87pgXa1&quot;, {
+ *     useObjectStates: true // &lt;&lt;--------- Apply custom appearances
+ * });
+ *
+ * //...
+ *
+ * // Later, restore all Entitys to their saved visibility and appearance states
+ * objectsMemento.restoreObjects(viewer.scene);
+ * ````
+ *
+ * ## Arranging the Camera for Storey Plan Views
+ *
+ * The {@link StoreyViewsPlugin#gotoStoreyCamera} method positions the {@link Camera} for a plan view of
+ * the {@link Entity}s within the given storey.
+ *
+ * &lt;a href=&quot;https://xeokit.github.io/xeokit-sdk/examples/#storeyViews_StoreyViewsPlugin_gotoStoreyCamera&quot;&gt;&lt;img src=&quot;http://xeokit.io/img/docs/StoreyViewsPlugin/gotoStoreyCamera.gif&quot;&gt;&lt;/a&gt;
+ *
+ * [[Run this example](https://xeokit.github.io/xeokit-sdk/examples/#storeyViews_StoreyViewsPlugin_gotoStoreyCamera)]
+ *
+ * Let&apos;s fly the {@link Camera} to a downward-looking orthographic view of the Entitys within our storey.
+ *
+ * ````javascript
+ * storeyViewsPlugin.gotoStoreyCamera(&quot;2SWZMQPyD9pfT9q87pgXa1&quot;, {
+ *     projection: &quot;ortho&quot;, // Orthographic projection
+ *     duration: 2.5,       // 2.5 second transition
+ *     done: () =&gt; {
+ *         viewer.cameraControl.planView = true; // Disable rotation
+ *     }
+ * });
+ * ````
+ *
+ * Note that we also set {@link CameraControl#planView} ````true````, which prevents the CameraControl from rotating
+ * or orbiting. In orthographic mode, this effectively makes the {@link Viewer} behave as if it were a 2D viewer, with
+ * picking, panning and zooming still enabled.
+ *
+ * If you need to be able to restore the Camera to its previous state, you can save it to a {@link CameraMemento}
+ * beforehand, from which you can restore it later:
+ *
+ * ````javascript
+ * const cameraMemento = new CameraMemento();
+ *
+ * // Save camera state
+ *
+ * cameraMemento.saveCamera(viewer.scene);
+ *
+ * // Position camera for a downward-looking orthographic view of our storey
+ *
+ * storeyViewsPlugin.gotoStoreyCamera(&quot;2SWZMQPyD9pfT9q87pgXa1&quot;, {
+ *     projection: &quot;ortho&quot;,
+ *     duration: 2.5,
+ *     done: () =&gt; {
+ *         viewer.cameraControl.planView = true; // Disable rotation
+ *     }
+ * });
+ *
+ * //...
+ *
+ * // Later, restore the Camera to its saved state
+ * cameraMemento.restoreCamera(viewer.scene);
+ * ````
+ *
+ * ## Creating StoreyMaps
+ *
+ * The {@link StoreyViewsPlugin#createStoreyMap} method creates a 2D orthographic plan image of the given storey.
+ *
+ * &lt;a href=&quot;https://xeokit.github.io/xeokit-sdk/examples/#storeyViews_StoreyViewsPlugin_createStoreyMap&quot;&gt;&lt;img src=&quot;http://xeokit.io/img/docs/StoreyViewsPlugin/createStoreyMap.png&quot;&gt;&lt;/a&gt;
+ *
+ * [[Run this example](https://xeokit.github.io/xeokit-sdk/examples/#storeyViews_StoreyViewsPlugin_createStoreyMap)]
+ *
+ * This method creates a {@link StoreyMap}, which provides the plan image as a Base64-encoded string.
+ *
+ * Let&apos;s create a 2D plan image of our building storey:
+ *
+ * ````javascript
+ * const storeyMap = storeyViewsPlugin.createStoreyMap(&quot;2SWZMQPyD9pfT9q87pgXa1&quot;, {
+ *     width: 300,
+ *     format: &quot;png&quot;
+ * });
+ *
+ * const imageData = storeyMap.imageData; // Base64-encoded image data string
+ * const width     = storeyMap.width; // 300
+ * const height    = storeyMap.height; // Automatically derived from width
+ * const format    = storeyMap.format; // &quot;png&quot;
+ * ````
+ *
+ * As with ````showStoreyEntitys````,  We also have the option to customize the appearance of the Entitys in our plan
+ * images according to their IFC types, using the lookup table configured on {@link StoreyViewsPlugin#objectStates}.
+ *
+ * For example, we usually want to show only element types like ````IfcWall````,  ````IfcDoor```` and
+ * ````IfcFloor```` in our plan images.
+ *
+ * Let&apos;s create another StoreyMap, this time applying the custom appearances:
+ *
+ * ````javascript
+ * const storeyMap = storeyViewsPlugin.createStoreyMap(&quot;2SWZMQPyD9pfT9q87pgXa1&quot;, {
+ *     width: 300,
+ *     format: &quot;png&quot;,
+ *     useObjectStates: true // &lt;&lt;--------- Apply custom appearances
+ * });
+ *````
+ *
+ * ## Picking Entities in StoreyMaps
+ *
+ * We can use {@link StoreyViewsPlugin#pickStoreyMap} to pick Entities in our building storey, using 2D coordinates from mouse or touch events on our {@link StoreyMap}&apos;s 2D plan image.
+ *
+ * &lt;a href=&quot;https://xeokit.github.io/xeokit-sdk/examples/#storeyViews_StoreyViewsPlugin_recipe2&quot;&gt;&lt;img src=&quot;http://xeokit.io/img/docs/StoreyViewsPlugin/recipe2.gif&quot;&gt;&lt;/a&gt;
+ *
+ * [[Run this example](https://xeokit.github.io/xeokit-sdk/examples/#storeyViews_StoreyViewsPlugin_recipe2)]
+ *
+ * Let&apos;s programmatically pick the Entity at the given 2D pixel coordinates within our image:
+ *
+ * ````javascript
+ * const mouseCoords = [65, 120]; // Mouse coords within the image extents
+ *
+ * const pickResult = storeyViewsPlugin.pickStoreyMap(storeyMap, mouseCoords);
+ *
+ * if (pickResult &amp;&amp; pickResult.entity) {
+ *     pickResult.entity.highlighted = true;
+ * }
+ * ````
+ */
+class StoreyViewsPlugin extends Plugin {
+
+    /**
+     * @constructor
+     *
+     * @param {Viewer} viewer The Viewer.
+     * @param {Object} cfg  Plugin configuration.
+     * @param {String} [cfg.id=&quot;StoreyViews&quot;] Optional ID for this plugin, so that we can find it within {@link Viewer#plugins}.
+     * @param {Object} [cfg.objectStates] Map of visual states for the {@link Entity}s as rendered within each {@link Storey}.  Default value is {@link IFCStoreyPlanObjectStates}.
+     */
+    constructor(viewer, cfg = {}) {
+
+        super(&quot;StoreyViews&quot;, viewer);
+
+        this._objectsMemento = new ObjectsMemento();
+        this._cameraMemento = new CameraMemento();
+
+        /**
+         * A {@link Storey} for each ````IfcBuildingStorey```.
+         *
+         * There will be a {@link Storey} for every existing {@link MetaObject} whose {@link MetaObject#type} equals &quot;IfcBuildingStorey&quot;.
+         *
+         * These are created and destroyed automatically as models are loaded and destroyed.
+         *
+         * @type {{String:Storey}}
+         */
+        this.storeys = {};
+
+        /**
+         * A set of {@link Storey}s for each {@link MetaModel}.
+         *
+         * These are created and destroyed automatically as models are loaded and destroyed.
+         *
+         * @type {{String: {String:Storey}}}
+         */
+        this.modelStoreys = {};
+
+        this.objectStates = cfg.objectStates;
+
+        this._onModelLoaded = this.viewer.scene.on(&quot;modelLoaded&quot;, (modelId) =&gt; {
+            this._registerModelStoreys(modelId);
+        });
+    }
+
+    _registerModelStoreys(modelId) {
+        const viewer = this.viewer;
+        const scene = viewer.scene;
+        const metaScene = viewer.metaScene;
+        const metaModel = metaScene.metaModels[modelId];
+        const model = scene.models[modelId];
+        if (!metaModel || !metaModel.rootMetaObject) {
+            return;
+        }
+        const storeyIds = metaModel.rootMetaObject.getObjectIDsInSubtreeByType([&quot;IfcBuildingStorey&quot;]);
+        for (let i = 0, len = storeyIds.length; i &lt; len; i++) {
+            const storeyId = storeyIds[i];
+            const metaObject = metaScene.metaObjects[storeyId];
+            const childObjectIds = metaObject.getObjectIDsInSubtree();
+            const aabb = scene.getAABB(childObjectIds);
+            const storey = new Storey(this, aabb, modelId, storeyId);
+            storey._onModelDestroyed = model.once(&quot;destroyed&quot;, () =&gt; {
+                this._deregisterModelStoreys(modelId);
+            });
+            this.storeys[storeyId] = storey;
+            if (!this.modelStoreys[modelId]) {
+                this.modelStoreys[modelId] = {};
+            }
+            this.modelStoreys[modelId][storeyId] = storey;
+        }
+    }
+
+    // _hasVisibleObjects(objectIds) {
+    //     const viewer = this.viewer;
+    //     const scene = viewer.scene;
+    //     const metaScene = viewer.metaScene;
+    //     for (var i = 0, len = objectIds.length; i &lt; len; i++) {
+    //         const objectId = objectIds[i];
+    //         const metaObject = metaScene.metaObjects[objectId];
+    //         if (metaObject) {
+    //             const objectState = this.objectStates[metaObject.type];
+    //             if (objectState &amp;&amp; objectState.visible) {
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    _deregisterModelStoreys(modelId) {
+        const storeys = this.modelStoreys[modelId];
+        if (storeys) {
+            const scene = this.viewer.scene;
+            for (let storyObjectId in storeys) {
+                if (storeys.hasOwnProperty(storyObjectId)) {
+                    const storey = storeys[storyObjectId];
+                    const model = scene.models[storey.modelId];
+                    if (model) {
+                        model.off(&quot;destroyed&quot;, storey._onModelDestroyed);
+                    }
+                    delete this.storeys[storyObjectId];
+                }
+            }
+            delete this.modelStoreys[modelId];
+        }
+    }
+
+    /**
+     * Sets map of visual states for the {@link Entity}s as rendered within each {@link Storey}.
+     *
+     * Default value is {@link IFCStoreyPlanObjectStates}.
+     *
+     * @type {{String: Object}}
+     */
+    set objectStates(value) {
+        this._objectStates = value || IFCStoreyPlanObjectStates;
+    }
+
+    /**
+     * Gets map of visual states for the {@link Entity}s as rendered within each {@link Storey}.
+     *
+     * Default value is {@link IFCStoreyPlanObjectStates}.
+     *
+     * @type {{String: Object}}
+     */
+    get objectStates() {
+        return this._objectStates;
+    }
+
+    /**
+     * Arranges the {@link Camera} for a 3D orthographic view of the {@link Entity}s within the given storey.
+     *
+     * See also: {@link CameraMemento}, which saves and restores the state of the {@link Scene}&apos;s {@link Camera}
+     *
+     * @param {String} storeyId ID of the ````IfcBuildingStorey```` object.
+     * @param {*} [options] Options for arranging the Camera.
+     * @param {String} [options.projection] Projection type to transition the Camera to. Accepted values are &quot;perspective&quot; and &quot;ortho&quot;.
+     * @param {Function} [options.done] Callback to fire when the Camera has arrived. When provided, causes an animated flight to the saved state. Otherwise jumps to the saved state.
+     */
+    gotoStoreyCamera(storeyId, options = {}) {
+
+        const storey = this.storeys[storeyId];
+
+        if (!storey) {
+            this.error(&quot;IfcBuildingStorey not found with this ID: &quot; + storeyId);
+            if (options.done) {
+                options.done();
+            }
+            return;
+        }
+
+        const viewer = this.viewer;
+        const scene = viewer.scene;
+        const camera = scene.camera;
+
+        const aabb = this.viewer.scene.aabb;
+        if (aabb[3] &lt; aabb[0] || aabb[4] &lt; aabb[1] || aabb[5] &lt; aabb[2]) { // Don&apos;t fly to an inverted boundary
+            if (options.done) {
+                options.done();
+            }
+            return;
+        }
+        if (aabb[3] === aabb[0] &amp;&amp; aabb[4] === aabb[1] &amp;&amp; aabb[5] === aabb[2]) { // Don&apos;t fly to an empty boundary
+            if (options.done) {
+                options.done();
+            }
+            return;
+        }
+        const look2 = math.getAABB3Center(aabb);
+        const diag = math.getAABB3Diag(aabb);
+        const fitFOV = 45; // fitFOV;
+        const sca = Math.abs(diag / Math.tan(fitFOV * math.DEGTORAD));
+
+        const orthoScale2 = diag * 1.3;
+
+        const eye2 = tempVec3a;
+
+        eye2[0] = look2[0] + (camera.worldUp[0] * sca);
+        eye2[1] = look2[1] + (camera.worldUp[1] * sca);
+        eye2[2] = look2[2] + (camera.worldUp[2] * sca);
+
+        const up2 = camera.worldForward;
+
+        if (options.done) {
+
+            viewer.cameraFlight.flyTo(utils.apply(options, {
+                eye: eye2,
+                look: look2,
+                up: up2,
+                orthoScale: orthoScale2
+            }), () =&gt; {
+                options.done();
+            });
+
+        } else {
+
+            viewer.cameraFlight.jumpTo(utils.apply(options, {
+                eye: eye2,
+                look: look2,
+                up: up2,
+                orthoScale: orthoScale2
+            }));
+
+            viewer.camera.ortho.scale = orthoScale2;
+        }
+    }
+
+    /**
+     * Shows the {@link Entity}s within the given storey.
+     *
+     * Optionally hides all other Entitys.
+     *
+     * Optionally sets the visual appearance of each of the Entitys according to its IFC type. The appearance of
+     * IFC types in plan views is configured by {@link StoreyViewsPlugin#objectStates}.
+     *
+     * See also: {@link ObjectsMemento}, which saves and restores a memento of the visual state
+     * of the {@link Entity}&apos;s that represent objects within a {@link Scene}.
+     *
+     * @param {String} storeyId ID of the ````IfcBuildingStorey```` object.
+     * @param {*} [options] Options for showing the Entitys within the storey.
+     * @param {Boolean} [options.hideOthers=false] When ````true````, hide all other {@link Entity}s.
+     * @param {Boolean} [options.useObjectStates=false] When ````true````, apply the custom visibilities and appearances configured for IFC types in {@link StoreyViewsPlugin#objectStates}.
+     */
+    showStoreyObjects(storeyId, options = {}) {
+
+        const storey = this.storeys[storeyId];
+
+        if (!storey) {
+            this.error(&quot;IfcBuildingStorey not found with this ID: &quot; + storeyId);
+            return;
+        }
+
+        const viewer = this.viewer;
+        const scene = viewer.scene;
+        const metaScene = viewer.metaScene;
+        const storeyMetaObject = metaScene.metaObjects[storeyId];
+
+        if (!storeyMetaObject) {
+            return;
+        }
+
+        if (options.hideOthers) {
+            scene.setObjectsVisible(viewer.scene.visibleObjectIds, false);
+        }
+
+        this.withStoreyObjects(storeyId, (entity, metaObject) =&gt; {
+            if (entity) {
+                if (options.useObjectStates) {
+                    const props = this._objectStates[metaObject.type] || this._objectStates[&quot;DEFAULT&quot;];
+                    if (props) {
+                        entity.visible = props.visible;
+                        entity.edges = props.edges;
+                        // entity.xrayed = props.xrayed; // FIXME: Buggy
+                        // entity.highlighted = props.highlighted;
+                        // entity.selected = props.selected;
+                        if (props.colorize) {
+                            entity.colorize = props.colorize;
+                        }
+                        if (props.opacity !== null &amp;&amp; props.opacity !== undefined) {
+                            entity.opacity = props.opacity;
+                        }
+                    }
+                } else {
+                    entity.visible = true;
+                }
+            }
+        });
+    }
+
+    /**
+     * Executes a callback on each of the objects within the given storey.
+     *
+     * ## Usage
+     * 
+     * In the example below, we&apos;ll show all the {@link Entity}s, within the given ````IfcBuildingStorey````,
+     * that have {@link MetaObject}s with type ````IfcSpace````. Note that the callback will only be given
+     * an {@link Entity} when one exists for the given {@link MetaObject}.
+     * 
+     * ````JavaScript
+     * myStoreyViewsPlugin.withStoreyObjects(storeyId, (entity, metaObject) =&gt; {
+     *      if (entity &amp;&amp; metaObject &amp;&amp; metaObject.type === &quot;IfcSpace&quot;) {
+     *          entity.visible = true;
+     *      }
+     * });
+     * ````
+     * 
+     * @param {String} storeyId ID of the ````IfcBuildingStorey```` object.
+     * @param {Function} callback The callback.
+     */
+    withStoreyObjects(storeyId, callback) {
+        const viewer = this.viewer;
+        const scene = viewer.scene;
+        const metaScene = viewer.metaScene;
+        const rootMetaObject = metaScene.metaObjects[storeyId];
+        if (!rootMetaObject) {
+            return;
+        }
+        const storeySubObjects = rootMetaObject.getObjectIDsInSubtree();
+        for (var i = 0, len = storeySubObjects.length; i &lt; len; i++) {
+            const objectId = storeySubObjects[i];
+            const metaObject = metaScene.metaObjects[objectId];
+            const entity = scene.objects[objectId];
+            if (entity) {
+                callback(entity, metaObject);
+            }
+        }
+    }
+
+    /**
+     * Creates a 2D map of the given storey.
+     *
+     * @param {String} storeyId ID of the ````IfcBuildingStorey```` object.
+     * @param {*} [options] Options for creating the image.
+     * @param {Number} [options.width=300] Image width in pixels. Height will be automatically determined.
+     * @param {String} [options.format=&quot;png&quot;] Image format. Accepted values are &quot;png&quot; and &quot;jpeg&quot;.
+     * @returns {StoreyMap} The StoreyMap.
+     */
+    createStoreyMap(storeyId, options = {}) {
+
+        const storey = this.storeys[storeyId];
+        if (!storey) {
+            this.error(&quot;IfcBuildingStorey not found with this ID: &quot; + storeyId);
+            return EMPTY_IMAGE;
+        }
+
+        const viewer = this.viewer;
+        const scene = viewer.scene;
+        const format = options.format || &quot;png&quot;;
+        const width = options.width || 300;
+        const aabb = storey.aabb;
+        const aspect = (aabb[5] - aabb[2]) / (aabb[3] - aabb[0]);
+        const height = width * aspect;
+        const padding = options.padding || 0;
+
+        this._objectsMemento.saveObjects(scene);
+        this._cameraMemento.saveCamera(scene);
+
+        this.showStoreyObjects(storeyId, utils.apply(options, {
+            useObjectStates: true,
+            hideOthers: true
+        }));
+
+        this._arrangeStoreyMapCamera();
+
+        //scene.render(true); // Force-render a frame
+
+        const src = viewer.getSnapshot({
+            width: width,
+            height: height,
+            format: format,
+        });
+
+        this._objectsMemento.restoreObjects(scene);
+        this._cameraMemento.restoreCamera(scene);
+
+        return new StoreyMap(storeyId, src, format, width, height, padding);
+    }
+
+    _arrangeStoreyMapCamera() {
+        const viewer = this.viewer;
+        const scene = viewer.scene;
+        const camera = scene.camera;
+        const aabb = this.viewer.scene.aabb;
+        const look = math.getAABB3Center(aabb);
+        const sca = 0.5;
+        const eye = tempVec3a;
+        eye[0] = look[0] + (camera.worldUp[0] * sca);
+        eye[1] = look[1] + (camera.worldUp[1] * sca);
+        eye[2] = look[2] + (camera.worldUp[2] * sca);
+        const up = camera.worldForward;
+        viewer.cameraFlight.jumpTo({eye: eye, look: look, up: up});
+        const xHalfSize = (aabb[3] - aabb[0]) / 2;
+        const yHalfSize = (aabb[4] - aabb[1]) / 2;
+        const zHalfSize = (aabb[5] - aabb[2]) / 2;
+        const xmin = -xHalfSize;
+        const xmax = +xHalfSize;
+        const ymin = -yHalfSize;
+        const ymax = +yHalfSize;
+        const zmin = -zHalfSize;
+        const zmax = +zHalfSize;
+        viewer.camera.customProjection.matrix = math.orthoMat4c(xmin, xmax, zmin, zmax, ymin, ymax, tempMat4);
+        viewer.camera.projection = &quot;customProjection&quot;;
+    }
+
+    /**
+     * Attempts to pick an {@link Entity} at the given pixel coordinates within a StoreyMap image.
+     *
+     * @param {StoreyMap} storeyMap The StoreyMap.
+     * @param {Number[]} imagePos 2D pixel coordinates within the bounds of {@link StoreyMap#imageData}.
+     * @param {*} [options] Picking options.
+     * @param {Boolean} [options.pickSurface=false] Whether to return the picked position on the surface of the Entity.
+     * @returns {PickResult} The pick result, if an Entity was successfully picked, else null.
+     */
+    pickStoreyMap(storeyMap, imagePos, options={}) {
+
+        const storeyId = storeyMap.storeyId;
+        const storey = this.storeys[storeyId];
+
+        if (!storey) {
+            this.error(&quot;IfcBuildingStorey not found with this ID: &quot; + storeyId);
+            return null
+        }
+
+        const normX = 1.0 - (imagePos[0] / storeyMap.width);
+        const normZ = 1.0 - (imagePos[1] / storeyMap.height);
+
+        const aabb = storey.aabb;
+
+        const xmin = aabb[0];
+        const ymin = aabb[1];
+        const zmin = aabb[2];
+        const xmax = aabb[3];
+        const ymax = aabb[4];
+        const zmax = aabb[5];
+
+        const xWorldSize = xmax - xmin;
+        const yWorldSize = ymax - ymin;
+        const zWorldSize = zmax - zmin;
+
+        const origin = math.vec3([xmin + (xWorldSize * normX), ymin + (yWorldSize * 0.5), zmin + (zWorldSize * normZ)]);
+        const direction = math.vec3([0, -1, 0]);
+        const look = math.addVec3(origin, direction, tempVec3a);
+        const worldForward = this.viewer.camera.worldForward;
+        const matrix = math.lookAtMat4v(origin, look, worldForward, tempMat4);
+
+        const pickResult = this.viewer.scene.pick({  // Picking with arbitrarily-positioned ray
+            pickSurface: options.pickSurface,
+            pickInvisible: true,
+            matrix: matrix
+        });
+
+        if (pickResult) {
+            const metaObject = this.viewer.metaScene.metaObjects[pickResult.entity.id];
+            const objectState = this.objectStates[metaObject.type];
+            if (!objectState || !objectState.visible) {
+                return null;
+            }
+        }
+
+        return pickResult;
+    }
+
+    /**
+     * Gets the ID of the storey that contains the given 3D World-space position.
+     *.
+     * @param {Number[]} worldPos 3D World-space position.
+     * @returns {String} ID of the storey containing the position, or null if the position falls outside all the storeys.
+     */
+    getStoreyContainingWorldPos(worldPos) {
+        for (var storeyId in this.storeys) {
+            const storey = this.storeys[storeyId];
+            if (math.point3AABB3Intersect(storey.aabb, worldPos)) {
+                return storeyId;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Converts a 3D World-space position to a 2D position within a StoreyMap image.
+     *
+     * Use {@link StoreyViewsPlugin#pickStoreyMap} to convert 2D image positions to 3D world-space.
+     *
+     * @param {StoreyMap} storeyMap The StoreyMap.
+     * @param {Number[]} worldPos 3D World-space position within the storey.
+     * @param {Number[]} imagePos 2D pixel position within the {@link StoreyMap#imageData}.
+     * @returns {Boolean} True if ````imagePos```` is within the bounds of the {@link StoreyMap#imageData}, else ````false```` if it falls outside.
+     */
+    worldPosToStoreyMap(storeyMap, worldPos, imagePos) {
+
+        const storeyId = storeyMap.storeyId;
+        const storey = this.storeys[storeyId];
+
+        if (!storey) {
+            this.error(&quot;IfcBuildingStorey not found with this ID: &quot; + storeyId);
+            return false
+        }
+
+        const aabb = storey.aabb;
+
+        const xmin = aabb[0];
+        const ymin = aabb[1];
+        const zmin = aabb[2];
+
+        const xmax = aabb[3];
+        const ymax = aabb[4];
+        const zmax = aabb[5];
+
+        const xWorldSize = xmax - xmin;
+        const yWorldSize = ymax - ymin;
+        const zWorldSize = zmax - zmin;
+
+        const camera = this.viewer.camera;
+        const worldUp = camera.worldUp;
+
+        const xUp = worldUp[0] &gt; worldUp[1] &amp;&amp; worldUp[0] &gt; worldUp[2];
+        const yUp = !xUp &amp;&amp; worldUp[1] &gt; worldUp[0] &amp;&amp; worldUp[1] &gt; worldUp[2];
+        const zUp = !xUp &amp;&amp; !yUp &amp;&amp; worldUp[2] &gt; worldUp[0] &amp;&amp; worldUp[2] &gt; worldUp[1];
+
+        const ratioX = (storeyMap.width / xWorldSize);
+        const ratioY = yUp ? (storeyMap.height / zWorldSize) : (storeyMap.height / yWorldSize); // Assuming either Y or Z is &quot;up&quot;, but never X
+
+        imagePos[0] = Math.floor(storeyMap.width - ((worldPos[0] - xmin) * ratioX));
+        imagePos[1] = Math.floor(storeyMap.height - ((worldPos[2] - zmin) * ratioY));
+
+        return (imagePos[0] &gt;= 0 &amp;&amp; imagePos[0] &lt; storeyMap.width &amp;&amp; imagePos[1] &gt;= 0 &amp;&amp; imagePos[1] &lt;= storeyMap.height);
+    }
+
+    // /**
+    //  * Converts 2D position within a StoreyMap image to a 3D World-space position.
+    //  *
+    //  * @param {StoreyMap} storeyMap The StoreyMap.
+    //  * @param {Number[]} imagePos 2D pixel position within the bounds of {@link StoreyMap#imageData}.
+    //  * @param {Number[]} worldPos 3D World-space position within the storey.
+    //  */
+    // storeyMapToWorldPos(storeyMap, imagePos, worldPos) {
+    //
+    // }
+
+    /**
+     * Converts a 3D World-space direction vector to a 2D vector within a StoreyMap image.
+     *
+     * @param {StoreyMap} storeyMap The StoreyMap.
+     * @param {Number[]} worldDir 3D World-space direction vector.
+     * @param {Number[]} imageDir Normalized 2D direction vector.
+     */
+    worldDirToStoreyMap(storeyMap, worldDir, imageDir) {
+        const camera = this.viewer.camera;
+        const eye = camera.eye;
+        const look = camera.look;
+        const eyeLookDir = math.subVec3(look, eye, tempVec3a);
+        const worldUp = camera.worldUp;
+        const xUp = worldUp[0] &gt; worldUp[1] &amp;&amp; worldUp[0] &gt; worldUp[2];
+        const yUp = !xUp &amp;&amp; worldUp[1] &gt; worldUp[0] &amp;&amp; worldUp[1] &gt; worldUp[2];
+        const zUp = !xUp &amp;&amp; !yUp &amp;&amp; worldUp[2] &gt; worldUp[0] &amp;&amp; worldUp[2] &gt; worldUp[1];
+        if (xUp) {
+            imageDir[0] = eyeLookDir[1];
+            imageDir[1] = eyeLookDir[2];
+        } else if (yUp) {
+            imageDir[0] = eyeLookDir[0];
+            imageDir[1] = eyeLookDir[2];
+        } else {
+            imageDir[0] = eyeLookDir[0];
+            imageDir[1] = eyeLookDir[1];
+        }
+        math.normalizeVec2(imageDir);
+    }
+
+    /**
+     * Destroys this StoreyViewsPlugin.
+     */
+    destroy() {
+        this.viewer.scene.off(this._onModelLoaded);
+        super.destroy();
+    }
+}
+
+export {StoreyViewsPlugin}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

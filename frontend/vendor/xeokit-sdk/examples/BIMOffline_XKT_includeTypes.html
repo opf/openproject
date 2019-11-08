@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XKTLoaderPlugin - Load Only the Specified IFC Types</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+        #myCanvas {
+            background: #ffffff;
+        }
+    </style>
+
+</head>
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<div id="info">
+    <h1>XKTLoaderPlugin - Load Only the Specified IFC Types</h1>
+    <br>
+    <p>Plan view - load only IfcWallStandardCase types, set orthographic camera looking downwards</p>
+    <br>
+    <ul>
+        <li>
+            <div id="time">Loading JavaScript modules...</div>
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads model and IFC data from file system
+        </li>
+        <li>
+            <a target="_other"
+               href="http://openifcmodel.cs.auckland.ac.nz/Model/Details/301">Model source</a>
+        </li>
+        <li>
+            <a target="_other"
+               href="https://github.com/xeokit/xeokit-sdk/wiki/Viewing-BIM-Models-Offline">User Guide</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.scene.camera.eye = [35.68373489379883, -112.8068618774414, -28.667211532592773];
+    viewer.scene.camera.look = [35.685237884521484, 10.682899475097656, -29.21514892578125];
+    viewer.scene.camera.up = [-0.0002078038960462436, 0.9970942139625549, 0.07618584483861923];
+
+    viewer.scene.camera.projection = "ortho";
+    viewer.scene.camera.ortho.scale = 170;
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Load a model
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/OTCConferenceCenter/OTCConferenceCenter.xkt",
+
+        // Classify entities as IFC elements
+        metaModelSrc: "./metaModels/OTCConferenceCenter/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+
+        // Load the walls only
+        includeTypes: [
+            "IfcWallStandardCase"
+        ],
+
+        // Make the walls black
+        objectDefaults: {
+            IfcWallStandardCase: {
+                colorize: [0, 0, 0]
+            }
+        },
+
+        edges: true // highlight edges
+    });
+
+    const t0 = performance.now();
+
+    document.getElementById("time").innerHTML = "Loading model...";
+
+    model.on("loaded", function () {
+        const t1 = performance.now();
+        document.getElementById("time").innerHTML = "Model loaded in " + Math.floor(t1 - t0) / 1000.0 + " seconds<br>Objects: " + model.numEntities + "<br>Triangles: " + model.numTriangles;
+
+    });
+
+</script>
+</html>

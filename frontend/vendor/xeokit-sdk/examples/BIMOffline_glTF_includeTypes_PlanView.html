@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Loading a BIM Model from the File System</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+        #treePanel {
+            /*padding: 5px;*/
+            padding-top: 25px;
+            pointer-events: all;
+            height: 100%;
+            overflow-y: scroll;
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.86);
+            color: black;
+            top: 0;
+            z-index: 200000;
+            float: left;
+            left: 0;
+            font-family: 'Roboto', sans-serif;
+            font-size: 15px;
+            user-select: none;
+            -ms-user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            width: 350px;
+        }
+
+        #myCanvas {
+            background: #ffffff;
+        }
+    </style>
+
+    <link href="./libs/inspire-tree/site-min.css" type="text/css" rel="stylesheet"/>
+    <script src="./libs/lodash.js"></script>
+    <script src="./libs/inspire-tree/inspire-tree.min.js"></script>
+    <script src="./libs/inspire-tree/inspire-tree-dom-min.js"></script>
+
+</head>
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<div id="treePanel" class="treePanel"></div>
+
+<div id="info">
+    <h1>BIM Plan View</h1>
+    <br>
+    <p>Plan view - load only IfcWallStandardCase types, set orthographic camera looking downwards</p>
+    <br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a>
+            - Loads model and IFC data from file system
+        </li>
+        <li>
+            <a target="_other"
+               href="http://openifcmodel.cs.auckland.ac.nz/Model/Details/301">Model source</a>
+        </li>
+        <li>
+            <a target="_other"
+               href="https://github.com/xeokit/xeokit-sdk/wiki/Viewing-BIM-Models-Offline">User Guide</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {GLTFLoaderPlugin} from "../src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.scene.camera.eye = [35.68373489379883, -112.8068618774414, -28.667211532592773];
+    viewer.scene.camera.look = [35.685237884521484, 10.682899475097656, -29.21514892578125];
+    viewer.scene.camera.up = [-0.0002078038960462436, 0.9970942139625549, 0.07618584483861923];
+
+    viewer.scene.camera.projection = "ortho";
+    viewer.scene.camera.ortho.scale = 170;
+
+    viewer.cameraControl.planView = true; // <<----- Disables rotation
+
+    //  viewer.scene.selectedMaterial.fillAlpha = 0.1;
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Load a model and fit it to view
+    //------------------------------------------------------------------------------------------------------------------
+
+    const gltfLoader = new GLTFLoaderPlugin(viewer);
+
+    const model = gltfLoader.load({
+        id: "myModel",
+        src: "./models/gltf/OTCConferenceCenter/scene.gltf",
+
+        // Classify entities as IFC elements
+        metaModelSrc: "./metaModels/OTCConferenceCenter/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+
+        // Load the walls only
+        includeTypes: ["IfcWallStandardCase"],
+
+        // Make the walls black
+        objectDefaults: {
+            IfcWallStandardCase: {
+                colorize: [0, 0, 0]
+            }
+        },
+
+        edges: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Mouse over Entities to highlight them
+    // Configure default highlight material to highlight edges yellow
+    //------------------------------------------------------------------------------------------------------------------
+
+    viewer.scene.highlightMaterial.fill = false;
+    viewer.scene.highlightMaterial.edgeColor = [1, 1, 0];
+
+    var lastEntity = null;
+
+    viewer.scene.input.on("mousemove", function (coords) {
+
+        var hit = viewer.scene.pick({
+            canvasPos: coords
+        });
+
+        if (hit) {
+
+            if (!lastEntity || hit.entity.id !== lastEntity.id) {
+
+                if (lastEntity) {
+                    lastEntity.highlighted = false;
+                }
+
+                lastEntity = hit.entity;
+                hit.entity.highlighted = true;
+            }
+        } else {
+
+            if (lastEntity) {
+                lastEntity.highlighted = false;
+                lastEntity = null;
+            }
+        }
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // When model loaded, create a tree view that toggles object visibilities
+    //------------------------------------------------------------------------------------------------------------------
+
+    model.on("loaded", function () {
+
+        // Builds tree view data from MetaModel
+        var createData = function (metaModel) {
+            const data = [];
+
+            function visit(expand, data, metaObject) {
+                if (!metaObject) {
+                    return;
+                }
+                var child = {
+                    id: metaObject.id,
+                    text: metaObject.name
+                };
+                data.push(child);
+                const children = metaObject.children;
+                if (children) {
+                    child.children = [];
+                    for (var i = 0, len = children.length; i < len; i++) {
+                        visit(true, child.children, children[i]);
+                    }
+                }
+            }
+
+            visit(true, data, metaModel.rootMetaObject);
+            return data;
+        };
+
+        // Get MetaModel we loaded for our model
+        const modelId = model.id;
+        const metaModel = viewer.metaScene.metaModels[modelId];
+
+        // Create the tree view
+        var treeView = new InspireTree({
+            selection: {
+                autoSelectChildren: true,
+                autoDeselect: true,
+                mode: 'checkbox'
+            },
+            checkbox: {
+                autoCheckChildren: true
+            },
+            data: createData(metaModel)
+        });
+
+        new InspireTreeDOM(treeView, {
+            target: document.getElementById("treePanel")
+        });
+
+        // Initialize the tree view once loaded
+        treeView.on('model.loaded', function () {
+
+            treeView.select();
+
+            treeView.model.expand();
+            treeView.model[0].children[0].expand();
+            treeView.model[0].children[0].children[0].expand();
+
+            treeView.on('node.selected', function (event, node) {
+                const objectId = event.id;
+                viewer.scene.setObjectsVisible(objectId, true);
+            });
+
+            treeView.on('node.deselected', function (event, node) {
+                const objectId = event.id;
+                viewer.scene.setObjectsVisible(objectId, false);
+            });
+
+        });
+
+        const slabs = viewer.metaScene.metaObjectsByType["IfcWallStandardCase"];
+        if (slabs) {
+            const slabObjectIds = Object.keys(slabs);
+            viewer.scene.setObjectsColorized(slabObjectIds, [0, 0, 0]);
+        }
+
+        viewer.cameraFlight.jumpTo(model);
+
+        //  window.treeView = treeView;
+    });
+
+
+    window.viewer = viewer;
+
+</script>
+</html>

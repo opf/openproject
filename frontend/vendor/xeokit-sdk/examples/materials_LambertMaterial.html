@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Torus geometry</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+
+<canvas id="myCanvas"></canvas>
+<div id="info">
+    <h1>LambertMaterial</h1>
+    <br>
+    <p>A non-physically-correct flat-shading material.</p>
+    <br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/Viewer.js~Viewer.html">Viewer</a>
+            - xeokit Viewer
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a>
+            - Scene graph mesh
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a>
+            - ReadableGeometry
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/function/index.html#static-function-buildTorusGeometry">buildTorusGeometry()</a>
+            - creates the torus
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a>
+            - Lambert material
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/Material-Workflows">User Guide</a>
+        </li>
+
+    </ul>
+</div>
+</body>
+
+<script type="module" id="source">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {Mesh} from "../src/viewer/scene/mesh/Mesh.js";
+    import {buildTorusGeometry} from "../src/viewer/scene/geometry/builders/buildTorusGeometry.js";
+    import {ReadableGeometry} from "../src/viewer/scene/geometry/ReadableGeometry.js";
+    import {LambertMaterial} from "../src/viewer/scene/materials/LambertMaterial.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas"
+    });
+
+    viewer.scene.camera.eye = [0, 0, 5];
+    viewer.scene.camera.look = [0, 0, 0];
+    viewer.scene.camera.up = [0, 1, 0];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a mesh with torus shape and LambertMaterial
+    //------------------------------------------------------------------------------------------------------------------
+
+    new Mesh(viewer.scene, {
+        geometry: new ReadableGeometry(viewer.scene, buildTorusGeometry({
+            center: [0, 0, 0],
+            radius: 1.5,
+            tube: 0.5,
+            radialSegments: 12,
+            tubeSegments: 8,
+            arc: Math.PI * 2.0
+        })),
+        material: new LambertMaterial(viewer.scene, {
+            ambient: [0.3, 0.3, 0.3],
+            color: [0.5, 0.5, 0.0],
+            alpha: 1.0, // Default
+            lineWidth: 1,
+            pointSize: 1,
+            backfaces: false,
+            frontFace: "ccw"
+        })
+    });
+
+</script>
+</html>

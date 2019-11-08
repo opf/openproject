@@ -1,0 +1,200 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+#myCanvas {
+    width: 100%;
+    height: 100%;
+}
+
+#viewer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+b {
+    font-size: 110%;
+}
+
+em {
+    color: red;
+}
+
+#maincontainer {
+    height: 100vh;
+    width: 100vw;
+    position:fixed;
+    top:0;
+    left:0;
+}
+
+#topsection {
+    background: #000000;
+    color:white;
+    height: 70px; /*Height of top section*/
+}
+
+#topsection h1 {
+    color:#78ce73;
+    margin: 0;
+    padding-top: 35px;
+    padding-left: 10px;
+}
+
+#contentwrapper {
+    float: left;
+    width: 100%;
+    height: 100%;
+}
+
+#contentcolumn {
+    margin: 0 200px 0 340px; /*Margins for content column. Should be "0 RightColumnWidth 0 LeftColumnWidth*/
+    height: 100%;
+}
+
+#myCanvas {
+    width:100%;
+    height: 100%;
+    background: lightBlue;
+}
+
+#leftcolumn {
+    float: left;
+    width: 340px; /*Width of left column*/
+    height: 100%;
+    margin-left: -100%;
+    background: #000000;
+    color: white;
+    overflow-y: scroll;
+    padding-top: 20px;
+}
+
+#rightcolumn {
+    float: left;
+    width: 200px; /*Width of right column*/
+    height: 100%;
+    margin-left: -200px; /*Set left marginto -(RightColumnWidth)*/
+    background: #FDE95E;
+}
+
+#footer {
+    clear: left;
+    width: 100%;
+    background: black;
+    color: #FFF;
+    text-align: center;
+    padding: 4px 0;
+}
+
+#footer a {
+    color: #FFFF80;
+}
+
+.innertube {
+    margin: 0px; /*Margins for inner DIV inside each column (to provide padding)*/
+    margin-top: 0;
+    height: 100%;
+}
+
+/* ####### responsive layout CSS ####### */
+
+@media (max-width: 840px) {
+    /* 1st level responsive layout break point- drop right column down*/
+    #leftcolumn {
+        margin-left: -100%;
+    }
+
+    #rightcolumn {
+        float: none;
+        width: 100%;
+        margin-left: 0;
+        clear: both;
+    }
+
+    #contentcolumn {
+        margin-right: 0; /*Set margin to LeftColumnWidth*/
+    }
+}
+
+@media (max-width: 600px) {
+    /* 2nd level responsive layout break point- drop left column down */
+    #leftcolumn {
+        float: none;
+        width: 100%;
+        clear: both;
+        margin-left: 0;
+    }
+
+    #contentcolumn {
+        margin-left: 0;
+    }
+}
+
+
+#info {
+    position: absolute;
+    top: 0;
+    z-index: 200000;
+    /*font-weight: 600;*/
+    float: left;
+    left: 340px;
+    padding: 10px;
+    /*border-radius: 0 0 4px 0;*/
+    /*border-radius:6px;*/
+    height: auto;
+    text-align: left;
+    /*border: solid 1px #bdbcbc;*/
+    pointer-events: none;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    background: RGBA(1,1,1,0.4);
+    /*width:100%;*/
+}
+
+#info h1 {
+    color: #fffbf2;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 5px;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+#info a {
+    z-index: 200000;
+    /*text-decoration: none;*/
+    color: #ffffff;
+    pointer-events: all;
+}
+
+#info a:hover {
+    color: #ffffff;
+    /*text-decoration: underline;*/
+}
+
+#info p {
+    padding: 0px;
+    margin: 0px;
+}
+
+#info ul {
+    margin: 0px;
+    padding: 0;
+    margin-left: 1em;
+}
+
+#info ul:first-child {
+    margin-top: 0;
+}
+
+#info li {
+    margin: 5px;
+    padding: 0px;
+}

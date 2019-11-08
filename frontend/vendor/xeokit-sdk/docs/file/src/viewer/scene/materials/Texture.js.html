@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../../">
+  <title data-ice="title">src/viewer/scene/materials/Texture.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/viewer/scene/materials/Texture.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {Component} from &apos;../Component.js&apos;;
+import {RenderState} from &apos;../webgl/RenderState.js&apos;;
+import {Texture2D} from &apos;../webgl/Texture2D.js&apos;;
+import {math} from &apos;../math/math.js&apos;;
+import {stats} from &apos;../stats.js&apos;;
+
+function ensureImageSizePowerOfTwo(image) {
+    if (!isPowerOfTwo(image.width) || !isPowerOfTwo(image.height)) {
+        const canvas = document.createElement(&quot;canvas&quot;);
+        canvas.width = nextHighestPowerOfTwo(image.width);
+        canvas.height = nextHighestPowerOfTwo(image.height);
+        const ctx = canvas.getContext(&quot;2d&quot;);
+        ctx.drawImage(image,
+            0, 0, image.width, image.height,
+            0, 0, canvas.width, canvas.height);
+        image = canvas;
+    }
+    return image;
+}
+
+function isPowerOfTwo(x) {
+    return (x &amp; (x - 1)) === 0;
+}
+
+function nextHighestPowerOfTwo(x) {
+    --x;
+    for (let i = 1; i &lt; 32; i &lt;&lt;= 1) {
+        x = x | x &gt;&gt; i;
+    }
+    return x + 1;
+}
+
+/**
+ * @desc A 2D texture map.
+ *
+ * * Textures are attached to {@link Material}s, which are attached to {@link Mesh}es.
+ * * To create a Texture from an image file, set {@link Texture#src} to the image file path.
+ * * To create a Texture from an HTMLImageElement, set the Texture&apos;s {@link Texture#image} to the HTMLImageElement.
+ *
+ * ## Usage
+ *
+ * In this example we have a Mesh with a {@link PhongMaterial} which applies diffuse {@link Texture}, and a {@link buildTorusGeometry} which builds a {@link ReadableGeometry}.
+ *
+ * Note that xeokit will ignore {@link PhongMaterial#diffuse} and {@link PhongMaterial#specular}, since we override those
+ * with {@link PhongMaterial#diffuseMap} and {@link PhongMaterial#specularMap}. The {@link Texture} pixel colors directly
+ * provide the diffuse and specular components for each fragment across the {@link ReadableGeometry} surface.
+ *
+ * [[Run this example](http://xeokit.github.io/xeokit-sdk/examples/#materials_Texture)]
+ *
+ * ```` javascript
+ * import {Viewer} from &quot;../src/viewer/Viewer.js&quot;;
+ * import {Mesh} from &quot;../src/scene/mesh/Mesh.js&quot;;
+ * import {buildTorusGeometry} from &quot;../src/scene/geometry/builders/buildTorusGeometry.js&quot;;
+ * import {ReadableGeometry} from &quot;../src/scene/geometry/ReadableGeometry.js&quot;;
+ * import {PhongMaterial} from &quot;../src/scene/materials/PhongMaterial.js&quot;;
+ * import {Texture} from &quot;../src/scene/materials/Texture.js&quot;;
+ *
+ * const viewer = new Viewer({
+ *      canvasId: &quot;myCanvas&quot;
+ * });
+ *
+ * viewer.camera.eye = [0, 0, 5];
+ * viewer.camera.look = [0, 0, 0];
+ * viewer.camera.up = [0, 1, 0];
+ *
+ * new Mesh(viewer.scene, {
+ *      geometry: new ReadableGeometry(viewer.scene, buildTorusGeometry({
+ *          center: [0, 0, 0],
+ *          radius: 1.5,
+ *          tube: 0.5,
+ *          radialSegments: 32,
+ *          tubeSegments: 24,
+ *          arc: Math.PI * 2.0
+ *      }),
+ *      material: new PhongMaterial(viewer.scene, {
+ *          ambient: [0.9, 0.3, 0.9],
+ *          shininess: 30,
+ *          diffuseMap: new Texture(viewer.scene, {
+ *              src: &quot;textures/diffuse/uvGrid2.jpg&quot;
+ *          })
+ *      })
+ * });
+ *````
+ */
+class Texture extends Component {
+
+    /**
+     @private
+     */
+    get type() {
+        return &quot;Texture&quot;;
+    }
+
+    /**
+     * @constructor
+     * @param {Component} owner Owner component. When destroyed, the owner will destroy this Texture as well.
+     * @param {*} [cfg] Configs
+     * @param {String} [cfg.id] Optional ID for this Texture, unique among all components in the parent scene, generated automatically when omitted.
+     * @param {String} [cfg.src=null] Path to image file to load into this Texture. See the {@link Texture#src} property for more info.
+     * @param {HTMLImageElement} [cfg.image=null] HTML Image object to load into this Texture. See the {@link Texture#image} property for more info.
+     * @param {String} [cfg.minFilter=&quot;linearMipmapLinear&quot;] How the texture is sampled when a texel covers less than one pixel. See the {@link Texture#minFilter} property for more info.
+     * @param {String} [cfg.magFilter=&quot;linear&quot;] How the texture is sampled when a texel covers more than one pixel. See the {@link Texture#magFilter} property for more info.
+     * @param {String} [cfg.wrapS=&quot;repeat&quot;] Wrap parameter for texture coordinate *S*. See the {@link Texture#wrapS} property for more info.
+     * @param {String} [cfg.wrapT=&quot;repeat&quot;] Wrap parameter for texture coordinate *S*. See the {@link Texture#wrapT} property for more info.
+     * @param {Boolean} [cfg.flipY=false] Flips this Texture&apos;s source data along its vertical axis when true.
+     * @param {Number[]} [cfg.translate=[0,0]] 2D translation vector that will be added to texture&apos;s *S* and *T* coordinates.
+     * @param {Number[]} [cfg.scale=[1,1]] 2D scaling vector that will be applied to texture&apos;s *S* and *T* coordinates.
+     * @param {Number} [cfg.rotate=0] Rotation, in degrees, that will be applied to texture&apos;s *S* and *T* coordinates.
+     * @param  {String} [cfg.encoding=&quot;linear&quot;] Encoding format.  See the {@link Texture#encoding} property for more info.
+     */
+    constructor(owner, cfg = {}) {
+
+        super(owner, cfg);
+
+        this._state = new RenderState({
+            texture: new Texture2D(this.scene.canvas.gl),
+            matrix: math.identityMat4(),   // Float32Array
+            hasMatrix: (cfg.translate &amp;&amp; (cfg.translate[0] !== 0 || cfg.translate[1] !== 0)) || (!!cfg.rotate) || (cfg.scale &amp;&amp; (cfg.scale[0] !== 0 || cfg.scale[1] !== 0)),
+            minFilter: this._checkMinFilter(cfg.minFilter),
+            magFilter: this._checkMagFilter(cfg.magFilter),
+            wrapS: this._checkWrapS(cfg.wrapS),
+            wrapT: this._checkWrapT(cfg.wrapT),
+            flipY: this._checkFlipY(cfg.flipY),
+            encoding: this._checkEncoding(cfg.encoding)
+        });
+
+        // Data source
+
+        this._src = null;
+        this._image = null;
+
+        // Transformation
+
+        this._translate = math.vec2([0, 0]);
+        this._scale = math.vec2([1, 1]);
+        this._rotate = math.vec2([0, 0]);
+
+        this._matrixDirty = false;
+
+        // Transform
+
+        this.translate = cfg.translate;
+        this.scale = cfg.scale;
+        this.rotate = cfg.rotate;
+
+        // Data source
+
+        if (cfg.src) {
+            this.src = cfg.src; // Image file
+        } else if (cfg.image) {
+            this.image = cfg.image; // Image object
+        }
+
+        stats.memory.textures++;
+    }
+
+    _checkMinFilter(value) {
+        value = value || &quot;linearMipmapLinear&quot;;
+        if (value !== &quot;linear&quot; &amp;&amp;
+            value !== &quot;linearMipmapNearest&quot; &amp;&amp;
+            value !== &quot;linearMipmapLinear&quot; &amp;&amp;
+            value !== &quot;nearestMipmapLinear&quot; &amp;&amp;
+            value !== &quot;nearestMipmapNearest&quot;) {
+            this.error(&quot;Unsupported value for &apos;minFilter&apos;: &apos;&quot; + value +
+                &quot;&apos; - supported values are &apos;linear&apos;, &apos;linearMipmapNearest&apos;, &apos;nearestMipmapNearest&apos;, &quot; +
+                &quot;&apos;nearestMipmapLinear&apos; and &apos;linearMipmapLinear&apos;. Defaulting to &apos;linearMipmapLinear&apos;.&quot;);
+            value = &quot;linearMipmapLinear&quot;;
+        }
+        return value;
+    }
+
+    _checkMagFilter(value) {
+        value = value || &quot;linear&quot;;
+        if (value !== &quot;linear&quot; &amp;&amp; value !== &quot;nearest&quot;) {
+            this.error(&quot;Unsupported value for &apos;magFilter&apos;: &apos;&quot; + value +
+                &quot;&apos; - supported values are &apos;linear&apos; and &apos;nearest&apos;. Defaulting to &apos;linear&apos;.&quot;);
+            value = &quot;linear&quot;;
+        }
+        return value;
+    }
+
+    _checkFilter(value) {
+        value = value || &quot;linear&quot;;
+        if (value !== &quot;linear&quot; &amp;&amp; value !== &quot;nearest&quot;) {
+            this.error(&quot;Unsupported value for &apos;magFilter&apos;: &apos;&quot; + value +
+                &quot;&apos; - supported values are &apos;linear&apos; and &apos;nearest&apos;. Defaulting to &apos;linear&apos;.&quot;);
+            value = &quot;linear&quot;;
+        }
+        return value;
+    }
+
+    _checkWrapS(value) {
+        value = value || &quot;repeat&quot;;
+        if (value !== &quot;clampToEdge&quot; &amp;&amp; value !== &quot;mirroredRepeat&quot; &amp;&amp; value !== &quot;repeat&quot;) {
+            this.error(&quot;Unsupported value for &apos;wrapS&apos;: &apos;&quot; + value +
+                &quot;&apos; - supported values are &apos;clampToEdge&apos;, &apos;mirroredRepeat&apos; and &apos;repeat&apos;. Defaulting to &apos;repeat&apos;.&quot;);
+            value = &quot;repeat&quot;;
+        }
+        return value;
+    }
+
+    _checkWrapT(value) {
+        value = value || &quot;repeat&quot;;
+        if (value !== &quot;clampToEdge&quot; &amp;&amp; value !== &quot;mirroredRepeat&quot; &amp;&amp; value !== &quot;repeat&quot;) {
+            this.error(&quot;Unsupported value for &apos;wrapT&apos;: &apos;&quot; + value +
+                &quot;&apos; - supported values are &apos;clampToEdge&apos;, &apos;mirroredRepeat&apos; and &apos;repeat&apos;. Defaulting to &apos;repeat&apos;.&quot;);
+            value = &quot;repeat&quot;;
+        }
+        return value;
+    }
+
+    _checkFlipY(value) {
+        return !!value;
+    }
+
+    _checkEncoding(value) {
+        value = value || &quot;linear&quot;;
+        if (value !== &quot;linear&quot; &amp;&amp; value !== &quot;sRGB&quot; &amp;&amp; value !== &quot;gamma&quot;) {
+            this.error(&quot;Unsupported value for &apos;encoding&apos;: &apos;&quot; + value + &quot;&apos; - supported values are &apos;linear&apos;, &apos;sRGB&apos;, &apos;gamma&apos;. Defaulting to &apos;linear&apos;.&quot;);
+            value = &quot;linear&quot;;
+        }
+        return value;
+    }
+
+    _webglContextRestored() {
+        this._state.texture = new Texture2D(this.scene.canvas.gl);
+        if (this._image) {
+            this.image = this._image;
+        } else if (this._src) {
+            this.src = this._src;
+        }
+    }
+
+    _update() {
+        const state = this._state;
+        if (this._matrixDirty) {
+            let matrix;
+            let t;
+            if (this._translate[0] !== 0 || this._translate[1] !== 0) {
+                matrix = math.translationMat4v([this._translate[0], this._translate[1], 0], this._state.matrix);
+            }
+            if (this._scale[0] !== 1 || this._scale[1] !== 1) {
+                t = math.scalingMat4v([this._scale[0], this._scale[1], 1]);
+                matrix = matrix ? math.mulMat4(matrix, t) : t;
+            }
+            if (this._rotate !== 0) {
+                t = math.rotationMat4v(this._rotate * 0.0174532925, [0, 0, 1]);
+                matrix = matrix ? math.mulMat4(matrix, t) : t;
+            }
+            if (matrix) {
+                state.matrix = matrix;
+            }
+            this._matrixDirty = false;
+        }
+        this.glRedraw();
+    }
+
+
+    /**
+     * Sets an HTML DOM Image object to source this Texture from.
+     *
+     * Sets {@link Texture#src} null.
+     *
+     * @type {HTMLImageElement}
+     */
+    set image(value) {
+        this._image = ensureImageSizePowerOfTwo(value);
+        this._image.crossOrigin = &quot;Anonymous&quot;;
+        this._state.texture.setImage(this._image, this._state);
+        this._state.texture.setProps(this._state); // Generate mipmaps
+        this._src = null;
+        this.glRedraw();
+    }
+
+    /**
+     * Gets HTML DOM Image object this Texture is sourced from, if any.
+     *
+     * Returns null if not set.
+     *
+     * @type {HTMLImageElement}
+     */
+    get image() {
+        return this._image;
+    }
+
+    /**
+     * Sets path to an image file to source this Texture from.
+     *
+     * Sets {@link Texture#image} null.
+     *
+     * @type {String}
+     */
+    set src(src) {
+        this.scene.loading++;
+        this.scene.canvas.spinner.processes++;
+        const self = this;
+        let image = new Image();
+        image.onload = function () {
+            image = ensureImageSizePowerOfTwo(image);
+            //self._image = image; // For faster WebGL context restore - memory inefficient?
+            self._state.texture.setImage(image, self._state);
+            self._state.texture.setProps(self._state); // Generate mipmaps
+            self.scene.loading--;
+            self.scene.canvas.spinner.processes--;
+            self.glRedraw();
+        };
+        image.src = src;
+        this._src = src;
+        this._image = null;
+    }
+
+    /**
+     * Gets path to the image file this Texture from, if any.
+     *
+     * Returns null if not set.
+     *
+     * @type {String}
+     */
+    get src() {
+        return this._src;
+    }
+
+    /**
+     * Sets the 2D translation vector added to this Texture&apos;s *S* and *T* UV coordinates.
+     *
+     * Default value is ````[0, 0]````.
+     *
+     * @type {Number[]}
+     */
+    set translate(value) {
+        this._translate.set(value || [0, 0]);
+        this._matrixDirty = true;
+        this._needUpdate();
+    }
+
+    /**
+     * Gets the 2D translation vector added to this Texture&apos;s *S* and *T* UV coordinates.
+     *
+     * Default value is ````[0, 0]````.
+     *
+     * @type {Number[]}
+     */
+    get translate() {
+        return this._translate;
+    }
+
+    /**
+     * Sets the 2D scaling vector that will be applied to this Texture&apos;s *S* and *T* UV coordinates.
+     *
+     * Default value is ````[1, 1]````.
+     *
+     * @type {Number[]}
+     */
+    set scale(value) {
+        this._scale.set(value || [1, 1]);
+        this._matrixDirty = true;
+        this._needUpdate();
+    }
+
+    /**
+     * Gets the 2D scaling vector that will be applied to this Texture&apos;s *S* and *T* UV coordinates.
+     *
+     * Default value is ````[1, 1]````.
+     *
+     * @type {Number[]}
+     */
+    get scale() {
+        return this._scale;
+    }
+
+    /**
+     * Sets the rotation angles, in degrees, that will be applied to this Texture&apos;s *S* and *T* UV coordinates.
+     *
+     * Default value is ````0````.
+     *
+     * @type {Number}
+     */
+    set rotate(value) {
+        value = value || 0;
+        if (this._rotate === value) {
+            return;
+        }
+        this._rotate = value;
+        this._matrixDirty = true;
+        this._needUpdate();
+    }
+
+    /**
+     * Gets the rotation angles, in degrees, that will be applied to this Texture&apos;s *S* and *T* UV coordinates.
+     *
+     * Default value is ````0````.
+     *
+     * @type {Number}
+     */
+    get rotate() {
+        return this._rotate;
+    }
+
+    /**
+     * Gets how this Texture is sampled when a texel covers less than one pixel.
+     *
+     * Options are:
+     *
+     * * &quot;nearest&quot; - Uses the value of the texture element that is nearest
+     * (in Manhattan distance) to the center of the pixel being textured.
+     *
+     * * &quot;linear&quot; - Uses the weighted average of the four texture elements that are
+     * closest to the center of the pixel being textured.
+     *
+     * * &quot;nearestMipmapNearest&quot; - Chooses the mipmap that most closely matches the
+     * size of the pixel being textured and uses the &quot;nearest&quot; criterion (the texture
+     * element nearest to the center of the pixel) to produce a texture value.
+     *
+     * * &quot;linearMipmapNearest&quot; - Chooses the mipmap that most closely matches the size of
+     * the pixel being textured and uses the &quot;linear&quot; criterion (a weighted average of the
+     * four texture elements that are closest to the center of the pixel) to produce a
+     * texture value.
+     *
+     * * &quot;nearestMipmapLinear&quot; - Chooses the two mipmaps that most closely
+     * match the size of the pixel being textured and uses the &quot;nearest&quot; criterion
+     * (the texture element nearest to the center of the pixel) to produce a texture
+     * value from each mipmap. The final texture value is a weighted average of those two
+     * values.
+     *
+     * * &quot;linearMipmapLinear&quot; - (default) - Chooses the two mipmaps that most closely match the size
+     * of the pixel being textured and uses the &quot;linear&quot; criterion (a weighted average
+     * of the four texture elements that are closest to the center of the pixel) to
+     * produce a texture value from each mipmap. The final texture value is a weighted
+     * average of those two values.
+     *
+     * Default value is &quot;linearMipmapLinear&quot;.
+     *
+     *  @type {String}
+     */
+    get minFilter() {
+        return this._state.minFilter;
+    }
+
+    /**
+     * Gets how this Texture is sampled when a texel covers more than one pixel.
+     *
+     * * &quot;nearest&quot; - Uses the value of the texture element that is nearest
+     * (in Manhattan distance) to the center of the pixel being textured.
+     * * &quot;linear&quot; - (default) - Uses the weighted average of the four texture elements that are
+     * closest to the center of the pixel being textured.
+     *
+     * Default value is &quot;linearMipmapLinear&quot;.
+     *
+     * @type {String}
+     */
+    get magFilter() {
+        return this._state.magFilter;
+    }
+
+    /**
+     * Gets the wrap parameter for this Texture&apos;s *S* coordinate.
+     *
+     * Values can be:
+     *
+     * * &quot;clampToEdge&quot; -  causes *S* coordinates to be clamped to the size of the texture.
+     * * &quot;mirroredRepeat&quot; - causes the *S* coordinate to be set to the fractional part of the texture coordinate
+     * if the integer part of *S* is even; if the integer part of *S* is odd, then the *S* texture coordinate is
+     * set to *1 - frac &#x2061; S* , where *frac &#x2061; S* represents the fractional part of *S*.
+     * * &quot;repeat&quot; - (default) - causes the integer part of the *S* coordinate to be ignored; xeokit uses only the
+     * fractional part, thereby creating a repeating pattern.
+     *
+     * Default value is &quot;repeat&quot;.
+     *
+     * @type {String}
+     */
+    get wrapS() {
+        return this._state.wrapS;
+    }
+
+    /**
+     * Gets the wrap parameter for this Texture&apos;s *T* coordinate.
+     *
+     * Values can be:
+     *
+     * * &quot;clampToEdge&quot; -  causes *S* coordinates to be clamped to the size of the texture.
+     *  * &quot;mirroredRepeat&quot; - causes the *S* coordinate to be set to the fractional part of the texture coordinate
+     * if the integer part of *S* is even; if the integer part of *S* is odd, then the *S* texture coordinate is
+     * set to *1 - frac &#x2061; S* , where *frac &#x2061; S* represents the fractional part of *S*.
+     * * &quot;repeat&quot; - (default) - causes the integer part of the *S* coordinate to be ignored; xeokit uses only the
+     * fractional part, thereby creating a repeating pattern.
+     *
+     * Default value is &quot;repeat&quot;.
+     *
+     * @type {String}
+     */
+    get wrapT() {
+        return this._state.wrapT;
+    }
+
+    /**
+     * Gets if this Texture&apos;s source data is flipped along its vertical axis.
+     *
+     * @type {Boolean}
+     */
+    get flipY() {
+        return this._state.flipY;
+    }
+
+    /**
+     * Gets the Texture&apos;s encoding format.
+     *
+     * @type {String}
+     */
+    get encoding() {
+        return this._state.encoding;
+    }
+
+    /**
+     * Destroys this Texture
+     */
+    destroy() {
+        super.destroy();
+        if (this._state.texture) {
+            this._state.texture.destroy();
+        }
+        this._state.destroy();
+        stats.memory.textures--;
+    }
+}
+
+export {Texture};</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

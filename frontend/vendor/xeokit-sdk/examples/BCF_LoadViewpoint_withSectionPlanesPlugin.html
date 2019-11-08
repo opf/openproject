@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>BCFViewpointsPlugin - Loading a BCF Viewpoint</title>
+    <link href="./css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+
+        #myCanvas {
+            width: 100%;
+            height: 100%;
+            background: lightBlue;
+        }
+
+        #mySectionPlanesOverviewCanvas {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            bottom: 50px;
+            right: 10px;
+            z-index: 200000;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<canvas id="mySectionPlanesOverviewCanvas"></canvas>
+
+<div id="info">
+    <h1>Loading a BCF Viewpoint</h1>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads BIM model from the file system
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a>
+            - Saves and loads BCF viewpoints
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a>
+            - Creates and edits SectionPlanes
+        </li>
+        <li>See source code to examine the BCF JSON record</li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/BCF-Viewpoints">User Guide</a>
+        </li>
+
+    </ul>
+</div>
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {BCFViewpointsPlugin} from "../src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js";
+    import {SectionPlanesPlugin} from "../src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Define the JSON BCF viewpoint we'll load
+    //------------------------------------------------------------------------------------------------------------------
+
+    const bcfViewpoint = {
+        "perspective_camera": {
+            "camera_view_point": {"x": -2.36, "y": 18.96, "z": -26.12},
+            "camera_direction": {"x": 0.55, "y": -0.54, "z": 0.62},
+            "camera_up_vector": {"x": 0.36, "y": 0.82, "z": 0.40},
+            "field_of_view": 60
+        },
+        "orthogonal_camera": {
+            "camera_view_point": {"x": -2.36, "y": 18.96, "z": -26.12},
+            "camera_direction": {"x": 0.55, "y": -0.54, "z": 0.62},
+            "camera_up_vector": {"x": 0.36, "y": 0.82, "z": 0.40},
+            "view_to_world_scale": 1
+        },
+        "lines": [],
+        "bitmaps": [],
+        "clipping_planes": [
+            {
+                "location": {"x": 0, "y": 0, "z": 0},
+                "direction": {"x": 0.5, "y": 0, "z": 0.5}
+            }
+        ],
+        "components": {
+            "visibility": {
+                "view_setup_hints": {
+                    "spaces_visible": false,
+                    "space_boundaries_visible": false,
+                    "openings_visible": false
+                },
+                "exceptions": [],
+                "default_visibility": true
+            },
+            "selection": [
+                {
+                    "ifc_guid": "3b2U496P5Ebhz5FROhTwFH",
+                    "originating_system": "xeokit",
+                    "authoring_tool_id": "xeokit"
+                },
+                {
+                    "ifc_guid": "2MGtJUm9nD$Re1_MDIv0g2",
+                    "originating_system": "xeokit",
+                    "authoring_tool_id": "xeokit"
+                },
+                {
+                    "ifc_guid": "3IbuwYOm5EV9Q6cXmwVWqd",
+                    "originating_system": "xeokit",
+                    "authoring_tool_id": "xeokit"
+                },
+                {
+                    "ifc_guid": "3lhisrBxL8xgLCRdxNG$2v",
+                    "originating_system": "xeokit",
+                    "authoring_tool_id": "xeokit"
+                },
+                {
+                    "ifc_guid": "1uDn0xT8LBkP15zQc9MVDW",
+                    "originating_system": "xeokit",
+                    "authoring_tool_id": "xeokit"
+                }
+            ]
+        },
+        "snapshot": {
+            "snapshot_type": "png",
+            "snapshot_data": "data:image/png;base64,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"
+        }
+    };
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    const camera = viewer.camera;
+
+    camera.eye = [-2.37, 18.97, -26.12];
+    camera.look = [10.97, 5.82, -11.22];
+    camera.up = [0.36, 0.83, 0.40];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a XKTModelsPlugin - we'll use this to load the model geometry and IFC metadata
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a SectionPlanesPlugin - this will visualize the cross-section planes loaded by BCFViewpointsPlugin
+    // This is not required by the BCFViewpointsPlugin, we're just demonstrating compatibility
+    //------------------------------------------------------------------------------------------------------------------
+
+    const sectionPlanes = new SectionPlanesPlugin(viewer, {
+        overviewCanvasId: "mySectionPlanesOverviewCanvas",
+        overviewVisible: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a BCFViewpointsPlugin - we'll use this to load the BCF viewpoint
+    //------------------------------------------------------------------------------------------------------------------
+
+    const bcfViewpoints = new BCFViewpointsPlugin(viewer);
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Load the .xkt model and IFC metadata
+    //------------------------------------------------------------------------------------------------------------------
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/schependomlaan/schependomlaan.xkt",
+        metaModelSrc: "./metaModels/schependomlaan/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+        edges: true // Emphasise edges
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // When the model has loaded, load the BCF viewpoint
+    //
+    // The BCF viewpoint loads the camera position, creates a clipping plane, and selects several objects
+    //------------------------------------------------------------------------------------------------------------------
+
+    model.on("loaded", () => {
+        bcfViewpoints.setViewpoint(bcfViewpoint);
+    });
+
+    window.viewer = viewer; // For testing
+
+</script>
+
+</html>

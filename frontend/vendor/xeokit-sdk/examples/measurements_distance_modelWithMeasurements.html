@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>DistanceMeasurementPlugin - Programmatically create distance measurements</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+
+    </style>
+
+</head>
+
+<body>
+<canvas id="myCanvas"></canvas>
+
+<div id="info">
+    <h1>DistanceMeasurementPlugin - Programmatically create distance measurements</h1><br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a>
+            - Creates DistanceMeasurements
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads model from file system
+        </li>
+    </ul>
+</div>
+</body>
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {DistanceMeasurementsPlugin} from "../src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas"
+    });
+
+    viewer.camera.eye = [-3.93, 2.85, 27.01];
+    viewer.camera.look = [4.40, 3.72, 8.89];
+    viewer.camera.up = [-0.01, 0.99, 0.039];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Load a model
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/duplex/duplex.xkt",
+        metaModelSrc: "./metaModels/duplex/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+        edges: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a DistanceMeasurementsPlugin, with which we'll create DistanceMeasurements
+    //------------------------------------------------------------------------------------------------------------------
+
+    const distanceMeasurements = new DistanceMeasurementsPlugin(viewer);
+
+    model.on("loaded", () => {
+
+        //------------------------------------------------------------------------------------------------------------------
+        // Create some DistanceMeasurements
+        //------------------------------------------------------------------------------------------------------------------
+
+        const myMeasurement1 = distanceMeasurements.createMeasurement({
+            id: "distanceMeasurement1",
+            origin: {
+                entity: viewer.scene.objects["0jf0rYHfX3RAB3bSIRjmoa"],
+                worldPos: [0.04815268516540527, 6.0054426193237305, 17.76587677001953]
+            },
+            target: {
+                entity: viewer.scene.objects["2O2Fr$t4X7Zf8NOew3FLOH"],
+                worldPos: [4.70150089263916, 3.09493088722229, 17.766956329345703]
+            },
+            visible: true,
+            wireVisible: true
+        });
+
+        const myMeasurement2 = distanceMeasurements.createMeasurement({
+            id: "distanceMeasurement2",
+            origin: {
+                entity: viewer.scene.objects["2O2Fr$t4X7Zf8NOew3FNr2"],
+                worldPos: [5.268430233001709, 2.5119516849517822, 17.761802673339844]
+            },
+            target: {
+                entity: viewer.scene.objects["1CZILmCaHETO8tf3SgGEXu"],
+                worldPos: [0.3977813720703125, 0.0014836788177490234, 22.1480712890625]
+            },
+            visible: true,
+            wireVisible: true
+        });
+    });
+
+    window.viewer = viewer;
+
+</script>
+</html>

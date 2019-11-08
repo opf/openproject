@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>PerformanceModel Geometry Instancing</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+        #myCanvas {
+            background: lightblue;
+        }
+
+        #pleaseWait {
+            position: absolute;
+            margin: auto;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 350px;
+            height: 100px;
+            border-radius: 3px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<div id="info">
+    <h1>PerformanceModel Benchmark</h1>
+    <p>582786 objects using geometry instancing</p>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/Viewer.js~Viewer.html">Viewer</a>
+            - xeokit Viewer
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a>
+            - high-performance model representation
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/High-Performance-Model-Representation">User
+                Guide</a>
+        </li>
+
+    </ul>
+</div>
+
+<div id="pleaseWait">Geometry instancing benchmark<br>generated <span id="numObjects"></span> of 582786 objects, please
+    wait...
+</div>
+
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {PerformanceModel} from "../src/viewer/scene/PerformanceModel/PerformanceModel.js";
+    import {buildBoxGeometry} from "../src/viewer/scene/geometry/builders/buildBoxGeometry.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.scene.camera.perspective.far = 10000;
+
+    viewer.scene.camera.eye = [-2760.80, 606.64, -1098.80];
+    viewer.scene.camera.look = [-106.46, -434.89, -171.60];
+    viewer.scene.camera.up = [0.32, 0.92, 0.11];
+
+    viewer.scene.highlightMaterial.edges = false;
+
+    viewer.scene.gammaInput = false;
+    viewer.scene.gammaOutput = false;
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Generate the buildings
+    //------------------------------------------------------------------------------------------------------------------
+
+    viewer.scene.canvas.spinner.processes += 1;
+
+    const performanceModel = new PerformanceModel(viewer.scene, {
+        id: "table",
+        isModel: true, // <----------------- Represents a model, registers PerformanceModel by ID on viewer.scene.models
+        position: [0, 0, 0],
+        scale: [1, 1, 1],
+        rotation: [0, 0, 0],
+        edges: false
+    });
+
+    // Create a reusable geometry within the PerformanceModel
+
+    performanceModel.createGeometry(buildBoxGeometry({
+        id: "myBoxGeometry",
+        xSize: 1,
+        ySize: 1,
+        zSize: 1
+    }));
+
+    var numObjects = 0;
+
+    const numObjectsSpan = document.getElementById("numObjects");
+    const pleaseWaitSpan = document.getElementById("pleaseWait");
+
+    function makeBuilding(xmin, zmin, xmax, zmax) {
+
+        var xpos = (xmin + xmax) * 0.5;
+        var ypos = 0;
+        var zpos = (zmin + zmax) * 0.5;
+
+        // Now generate the building as a bunch of boxes
+
+        var yMaxSize = (Math.random() * 10) + 10;
+        var ySize = yMaxSize;
+        var width;
+        var axis;
+        var sign;
+
+        var xminBox;
+        var zminBox;
+        var xmaxBox;
+        var zmaxBox;
+
+        while (ySize > 2) {
+            width = (Math.random() * 5) + 2;
+            axis = Math.round(Math.random());
+            sign = Math.round(Math.random());
+            switch (axis) {
+                case 0:
+                    if (sign === 0) {
+                        xminBox = xmin;
+                        zminBox = zpos - width;
+                        xmaxBox = xpos + width;
+                        zmaxBox = zpos + width;
+                    } else {
+                        xminBox = xpos - width;
+                        zminBox = zpos - width;
+                        xmaxBox = xmax;
+                        zmaxBox = zpos + width;
+                    }
+                    break;
+
+                case 1:
+                    if (sign === 0) {
+                        xminBox = xpos - width;
+                        zminBox = zmin;
+                        xmaxBox = xpos + width;
+                        zmaxBox = zpos + width;
+                    } else {
+                        xminBox = xpos - width;
+                        zminBox = zpos - width;
+                        xmaxBox = xpos + width;
+                        zmaxBox = zmax;
+                    }
+                    break;
+            }
+
+            const meshId = "mesh" + numObjects++;
+
+            if (numObjects % 1000 === 0) {
+                numObjectsSpan.innerHTML = "" + numObjects;
+            }
+
+            performanceModel.createMesh({
+                id: meshId,
+                geometryId: "myBoxGeometry",
+                position: [xpos, ypos + ySize, zpos],
+                scale: [(xmaxBox - xminBox) * 0.5, ySize, (zmaxBox - zminBox) * 0.5],
+                rotation: [0, 0, 0],
+                color: [0.3 + Math.random() * 0.5, 0.3 + Math.random() * 0.5, 0.3 + Math.random() * 0.5, 1.0]
+            });
+
+            performanceModel.createEntity({
+                meshIds: [meshId],
+                isObject: true // <--- Represents an object, registers Entity by ID on viewer.scene.objects
+            });
+
+            // Decrease current vertical box size
+            ySize -= (Math.random() * 2) + .5;
+        }
+    }
+
+    var extent = 2500;
+    var x = -extent;
+    var z = -extent;
+    var done = false;
+
+    function nextBuilding() {
+        if (done) {
+            return;
+        }
+        if (z < extent) {
+            if (x < extent) {
+                x += 20;
+            } else {
+                x = -extent;
+                z += 20;
+            }
+            makeBuilding(x + 2, z + 2, x + 5 - 2, z + 5 - 2);
+        } else {
+            pleaseWaitSpan.innerHTML += "preparing model..";
+            performanceModel.finalize();
+            const pleaseWait = document.getElementById("pleaseWait");
+            pleaseWait.parentElement.removeChild(pleaseWait);
+            viewer.scene.canvas.spinner.processes -= 1;
+
+            // viewer.scene.on("tick", () => {
+            //     viewer.camera.orbitYaw(0.4);
+            // });
+
+            done = true;
+        }
+    }
+
+    function run() {
+        for (var i = 0; i < 1000; i++) {
+            nextBuilding();
+        }
+
+        if (!done) {
+            setTimeout(run);
+        }
+    }
+
+    run();
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Mouse over Entities to highlight them
+    //------------------------------------------------------------------------------------------------------------------
+
+    var lastEntity = null;
+
+    viewer.scene.input.on("mousemove", function (coords) {
+
+        var hit = viewer.scene.pick({
+            canvasPos: coords
+        });
+
+        if (hit) {
+
+            if (!lastEntity || hit.entity.id !== lastEntity.id) {
+
+                if (lastEntity) {
+                    lastEntity.highlighted = false;
+                }
+
+                lastEntity = hit.entity;
+                hit.entity.highlighted = true;
+            }
+        } else {
+
+            if (lastEntity) {
+                lastEntity.highlighted = false;
+                lastEntity = null;
+            }
+        }
+    });
+
+    window.model = performanceModel;
+
+</script>
+</html>

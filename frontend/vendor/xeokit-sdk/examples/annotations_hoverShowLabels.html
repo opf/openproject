@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>xeokit Annotations Example</title>
+    <link href="css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+
+        .annotation-marker {
+            color: #ffffff;
+            line-height: 1.8;
+            text-align: center;
+            font-family: "monospace";
+            font-weight: bold;
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border-radius: 15px;
+            border: 2px solid #ffffff;
+            background: black;
+            visibility: hidden;
+            box-shadow: 5px 5px 15px 1px #000000;
+            z-index: 0;
+        }
+
+        .annotation-label {
+            position: absolute;
+            max-width: 250px;
+            min-height: 50px;
+            padding: 8px;
+            padding-left: 12px;
+            padding-right: 12px;
+            background: #ffffff;
+            color: #000000;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 8px;
+            border: #ffffff solid 2px;
+            box-shadow: 5px 5px 15px 1px #000000;
+            z-index: 90000;
+        }
+
+        .annotation-label:after {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            border-width: 8px 12px 8px 0;
+            border-color: transparent white;
+            display: block;
+            width: 0;
+            z-index: 1;
+            margin-top: -11px;
+            left: -12px;
+            top: 20px;
+        }
+
+        .annotation-label:before {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            border-width: 9px 13px 9px 0;
+            border-color: transparent #ffffff;
+            display: block;
+            width: 0;
+            z-index: 0;
+            margin-top: -12px;
+            left: -15px;
+            top: 20px;
+        }
+
+        .annotation-title {
+            font: normal 20px arial, serif;
+            margin-bottom: 8px;
+        }
+
+        .annotation-desc {
+            font: normal 14px arial, serif;
+        }
+
+    </style>
+
+</head>
+
+<body>
+<canvas id="myCanvas"></canvas>
+<div id="info">
+    <h1>Hover over Annotation to show labels</h1>
+    <p><br>Shows how to customize annotation interaction using callbacks.</p><br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a>
+            - Creates Annotations
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads model from file system
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeolabs/xeokit-sdk/wiki/Annotations">User Guide</a>
+        </li>
+    </ul>
+</div>
+</body>
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {AnnotationsPlugin} from "../src/plugins/AnnotationsPlugin/AnnotationsPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer and arrange the camera
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas"
+    });
+
+    viewer.camera.eye = [-3.93, 2.85, 27.01];
+    viewer.camera.look = [4.40, 3.72, 8.89];
+    viewer.camera.up = [-0.01, 0.99, 0.039];
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Load a model
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/duplex/duplex.xkt",
+        metaModelSrc: "./metaModels/duplex/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+        edges: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create an AnnotationsPlugin, with which we'll create annotations
+    //------------------------------------------------------------------------------------------------------------------
+
+    const annotations = new AnnotationsPlugin(viewer, {
+
+        markerHTML: "<div class='annotation-marker' style='background-color: {{markerBGColor}};'>{{glyph}}</div>",
+        labelHTML: "<div class='annotation-label' style='background-color: {{labelBGColor}};'>\
+            <div class='annotation-title'>{{title}}</div>\
+            <div class='annotation-desc'>{{description}}</div>\
+            </div>",
+
+        values: {
+            markerBGColor: "red",
+            labelBGColor: "white",
+            glyph: "X",
+            title: "Untitled",
+            description: "No description"
+        }
+    });
+
+    annotations.on("markerMouseEnter", (annotation) => {
+        annotation.setLabelShown(true);
+    });
+
+    annotations.on("markerMouseLeave", (annotation) => {
+        annotation.setLabelShown(false);
+    });
+
+
+    model.on("loaded", () => {
+
+        //------------------------------------------------------------------------------------------------------------------
+        // Create some Annotations
+        //------------------------------------------------------------------------------------------------------------------
+
+        annotations.createAnnotation({
+            id: "myAnnotation1",
+            entity: viewer.scene.objects["2O2Fr$t4X7Zf8NOew3FLOH"],
+            worldPos: [2.039, 4.418, 17.965],
+            occludable: true,
+            markerShown: true,
+            labelShown: false,
+
+            values: {
+                glyph: "A1",
+                title: "Front wall",
+                description: "This is the front wall",
+                markerBGColor: "green"
+            }
+        });
+
+        annotations.createAnnotation({
+            id: "myAnnotation2",
+            /////////////////////////////////////////  Entity
+            worldPos: [4.981, 0.469, 12.745],
+            occludable: true,
+            markerShown: true,
+            labelShown: false,
+
+            values: {
+                glyph: "A2",
+                title: "Kitchen bench",
+                description: "This annotation becomes visible<br>whenever you can see its marker<br>through the window",
+                markerBGColor: "blue"
+            }
+        });
+
+        annotations.createAnnotation({
+            id: "myAnnotation3",
+            /////////////////////////////////////////  Entity
+            worldPos: [-0.163, 1.810, 7.977],
+            occludable: true,
+            markerShown: true,
+            labelShown: false,
+
+            labelHTML: "<div class='annotation-label' style='background-color: {{labelBGColor}};'>\
+                <div class='annotation-title'>{{title}}</div>\
+                <div class='annotation-desc'>{{description}}</div>\
+                <br><img alt='myImage' width='150px' height='100px' src='{{imageSrc}}'>\
+                </div>",
+
+            values: {
+                glyph: "A3",
+                title: "The West wall",
+                description: "Annotations can contain<br>custom HTML like this<br>image:",
+                markerBGColor: "red",
+                imageSrc: "https://xeokit.io/img/docs/BIMServerLoaderPlugin/schependomlaan.png"
+            },
+            onMarkerClick: (annotation) => {
+                annotation.setLabelShown(!annotation.getLabelShown());
+            }
+        });
+
+        annotations.createAnnotation({
+            id: "myAnnotation4",
+            /////////////////////////////////////////  Entity
+            worldPos: [3.796, 0.163, -1.115],
+            occludable: true,
+            markerShown: true,
+            labelShown: false,
+
+            values: {
+                glyph: "A4",
+                title: "The South entrance landing",
+                description: "A big slab of concrete<br>at the Southern door",
+                markerBGColor: "purple"
+            }
+        });
+
+        annotations.createAnnotation({
+            id: "myAnnotation5",
+            /////////////////////////////////////////  Entity
+            worldPos: [8.947, 4.257, 9.297],
+            occludable: true,
+            markerShown: true,
+            labelShown: false,
+
+            values: {
+                glyph: "A5",
+                title: "The East upstairs wall",
+                description: "The East-facing upstairs wall",
+                markerBGColor: "orange"
+            }
+        });
+    });
+
+</script>
+</html>

@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href>
+  <title data-ice="title">Source | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">1764/3793</span></h1>
+
+<table class="files-summary" data-ice="files" data-use-coverage="true">
+  <thead>
+    <tr>
+      <td>File</td>
+      <td>Identifier</td>
+      <td class="coverage">Document</td>
+      <td style="display: none;">Size</td>
+      <td style="display: none;">Lines</td>
+      <td style="display: none;">Updated</td>
+    </tr>
+  </thead>
+  <tbody>
+    
+  <tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js.html#errorLines=102,119,228,31,38,39,40,42,43,44,46,47,48,49,51,52,53,55,56,58,60,61,62,64,65,66,67,69,70,72,8,9,92,97">src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></td>
+      <td class="coverage"><span data-ice="coverage">39 %</span><span data-ice="coverageCount" class="coverage-count">22/56</span></td>
+      <td style="display: none;" data-ice="size">13243 byte</td>
+      <td style="display: none;" data-ice="lines">461</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js.html#errorLines=104,112,33,34,35,36,37,38,39,4,40,5,6,7">src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></td>
+      <td class="coverage"><span data-ice="coverage">36 %</span><span data-ice="coverageCount" class="coverage-count">8/22</span></td>
+      <td style="display: none;" data-ice="size">10297 byte</td>
+      <td style="display: none;" data-ice="lines">278</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js.html#errorLines=144,146,148">src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">75 %</span><span data-ice="coverageCount" class="coverage-count">9/12</span></td>
+      <td style="display: none;" data-ice="size">10388 byte</td>
+      <td style="display: none;" data-ice="lines">266</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/AnnotationsPlugin/Annotation.js.html#errorLines=24,36,39,49,51,57,58,60,65,66,67,68,69,73">src/plugins/AnnotationsPlugin/Annotation.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></td>
+      <td class="coverage"><span data-ice="coverage">57 %</span><span data-ice="coverageCount" class="coverage-count">19/33</span></td>
+      <td style="display: none;" data-ice="size">12238 byte</td>
+      <td style="display: none;" data-ice="lines">361</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js.html#errorLines=372,373,374,375,6,7,8">src/plugins/AnnotationsPlugin/AnnotationsPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">53 %</span><span data-ice="coverageCount" class="coverage-count">8/15</span></td>
+      <td style="display: none;" data-ice="size">23243 byte</td>
+      <td style="display: none;" data-ice="lines">521</td>
+      <td style="display: none;" data-ice="updated">2019-09-02 13:03:14 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js.html#errorLines=224">src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">80 %</span><span data-ice="coverageCount" class="coverage-count">4/5</span></td>
+      <td style="display: none;" data-ice="size">11833 byte</td>
+      <td style="display: none;" data-ice="lines">373</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js.html#errorLines=314,445,449,5">src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">63 %</span><span data-ice="coverageCount" class="coverage-count">7/11</span></td>
+      <td style="display: none;" data-ice="size">17476 byte</td>
+      <td style="display: none;" data-ice="lines">457</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverapipromise.js.html#errorLines=12,29,36,47,5,6,64,7,8,9">src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverapipromise.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">9 %</span><span data-ice="coverageCount" class="coverage-count">1/11</span></td>
+      <td style="display: none;" data-ice="size">1601 byte</td>
+      <td style="display: none;" data-ice="lines">89</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverapiwebsocket.js.html#errorLines=10,11,12,13,14,140,146,15,16,17,20,43,57,62,7,72,8,80,89,9,95">src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverapiwebsocket.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">4 %</span><span data-ice="coverageCount" class="coverage-count">1/22</span></td>
+      <td style="display: none;" data-ice="size">4128 byte</td>
+      <td style="display: none;" data-ice="lines">147</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js.html#errorLines=101,104,125,141,151,157,174,19,191,197,201,205,23,24,243,25,252,259,263,267,273,279,297,310,326,339,352,364,375,384,39,399,409,42,423,432,448,45,460,475,489,501,51,520,528,54,542,557,596,646,69,72,734,743,749,753,757,76,761,765,79,793,806,81,847,86,89,895,907,92,95,98">src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></td>
+      <td class="coverage"><span data-ice="coverage">1 %</span><span data-ice="coverageCount" class="coverage-count">1/73</span></td>
+      <td style="display: none;" data-ice="size">26809 byte</td>
+      <td style="display: none;" data-ice="lines">960</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/BIMServerClient/geometry.js.html">src/plugins/BIMServerLoaderPlugin/BIMServerClient/geometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">1420 byte</td>
+      <td style="display: none;" data-ice="lines">83</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/BIMServerClient/ifc2x3tc1.js.html">src/plugins/BIMServerLoaderPlugin/BIMServerClient/ifc2x3tc1.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">379691 byte</td>
+      <td style="display: none;" data-ice="lines">18800</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/BIMServerClient/ifc4.js.html">src/plugins/BIMServerLoaderPlugin/BIMServerClient/ifc4.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">567320 byte</td>
+      <td style="display: none;" data-ice="lines">21037</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/BIMServerClient/model.js.html#errorLines=10,11,117,12,121,133,14,144,148,15,155,16,18,19,20,23,24,25,26,27,29,30,33,37,421,454,498,521,529,539,632,641,665,674,7,764,8,82,86,9,92,99">src/plugins/BIMServerLoaderPlugin/BIMServerClient/model.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">2 %</span><span data-ice="coverageCount" class="coverage-count">1/43</span></td>
+      <td style="display: none;" data-ice="size">24607 byte</td>
+      <td style="display: none;" data-ice="lines">857</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/BIMServerClient/translations_en.js.html">src/plugins/BIMServerLoaderPlugin/BIMServerClient/translations_en.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">4490 byte</td>
+      <td style="display: none;" data-ice="lines">78</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js.html#errorLines=166">src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">90 %</span><span data-ice="coverageCount" class="coverage-count">9/10</span></td>
+      <td style="display: none;" data-ice="size">18001 byte</td>
+      <td style="display: none;" data-ice="lines">415</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:23 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/lib/BIMServerPerformanceGeometryLoader.js.html">src/plugins/BIMServerLoaderPlugin/lib/BIMServerPerformanceGeometryLoader.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">21531 byte</td>
+      <td style="display: none;" data-ice="lines">565</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:23 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/lib/DataInputStreamReader.js.html#errorLines=10,101,107,11,14,23,27,36,45,51,57,63,69,75,8,85,9,91">src/plugins/BIMServerLoaderPlugin/lib/DataInputStreamReader.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">5 %</span><span data-ice="coverageCount" class="coverage-count">1/19</span></td>
+      <td style="display: none;" data-ice="size">3006 byte</td>
+      <td style="display: none;" data-ice="lines">117</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js.html#errorLines=111,121,131,141,151,157,163,173,179,18,19,2,20,21,24,28,37,45,5,53,59,6,65,71,77,83,97">src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></td>
+      <td class="coverage"><span data-ice="coverage">3 %</span><span data-ice="coverageCount" class="coverage-count">1/28</span></td>
+      <td style="display: none;" data-ice="size">4500 byte</td>
+      <td style="display: none;" data-ice="lines">187</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 18:04:11 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/lib/EventHandler.js.html#errorLines=12,27,8">src/plugins/BIMServerLoaderPlugin/lib/EventHandler.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">25 %</span><span data-ice="coverageCount" class="coverage-count">1/4</span></td>
+      <td style="display: none;" data-ice="size">776 byte</td>
+      <td style="display: none;" data-ice="lines">36</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/lib/Executor.js.html#errorLines=10,11,12,14,15,18,28,43,49,6,65,7,74,76,77,83,84,9">src/plugins/BIMServerLoaderPlugin/lib/Executor.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></td>
+      <td class="coverage"><span data-ice="coverage">5 %</span><span data-ice="coverageCount" class="coverage-count">1/19</span></td>
+      <td style="display: none;" data-ice="size">2379 byte</td>
+      <td style="display: none;" data-ice="lines">87</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 19:09:15 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/lib/MetaDataReader.js.html#errorLines=28,64">src/plugins/BIMServerLoaderPlugin/lib/MetaDataReader.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">2/4</span></td>
+      <td style="display: none;" data-ice="size">7280 byte</td>
+      <td style="display: none;" data-ice="lines">232</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/lib/Notifier.js.html">src/plugins/BIMServerLoaderPlugin/lib/Notifier.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">714 byte</td>
+      <td style="display: none;" data-ice="lines">34</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/lib/StringView.js.html#errorLines=330,350,393,397,408,425,431,448,467,488,510,523,574,592,629">src/plugins/BIMServerLoaderPlugin/lib/StringView.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">6 %</span><span data-ice="coverageCount" class="coverage-count">1/16</span></td>
+      <td style="display: none;" data-ice="size">24632 byte</td>
+      <td style="display: none;" data-ice="lines">693</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/lib/defaultMaterials.js.html">src/plugins/BIMServerLoaderPlugin/lib/defaultMaterials.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">2205 byte</td>
+      <td style="display: none;" data-ice="lines">44</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/lib/loadBIMServerMetaModel.js.html">src/plugins/BIMServerLoaderPlugin/lib/loadBIMServerMetaModel.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">11851 byte</td>
+      <td style="display: none;" data-ice="lines">297</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:23 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/lib/preloadQuery.js.html">src/plugins/BIMServerLoaderPlugin/lib/preloadQuery.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">2246 byte</td>
+      <td style="display: none;" data-ice="lines">87</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPlugin/lib/request.js.html">src/plugins/BIMServerLoaderPlugin/lib/request.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">676 byte</td>
+      <td style="display: none;" data-ice="lines">24</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverapipromise.js.html#errorLines=12,29,36,47,5,6,64,7,8,9">src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverapipromise.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">9 %</span><span data-ice="coverageCount" class="coverage-count">1/11</span></td>
+      <td style="display: none;" data-ice="size">1601 byte</td>
+      <td style="display: none;" data-ice="lines">89</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:05 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverapiwebsocket.js.html#errorLines=10,11,12,13,14,140,146,15,16,17,20,43,57,62,7,72,8,80,89,9,95">src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverapiwebsocket.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">4 %</span><span data-ice="coverageCount" class="coverage-count">1/22</span></td>
+      <td style="display: none;" data-ice="size">4128 byte</td>
+      <td style="display: none;" data-ice="lines">147</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:05 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js.html#errorLines=101,104,125,141,151,157,174,19,191,197,201,205,23,24,243,25,252,259,263,267,273,279,297,310,326,339,352,364,375,384,39,399,409,42,423,432,448,45,460,475,489,501,51,520,528,54,542,557,596,646,69,72,734,743,749,753,757,76,761,765,79,793,806,81,847,86,89,895,907,92,95,98">src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></td>
+      <td class="coverage"><span data-ice="coverage">1 %</span><span data-ice="coverageCount" class="coverage-count">1/73</span></td>
+      <td style="display: none;" data-ice="size">26809 byte</td>
+      <td style="display: none;" data-ice="lines">960</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:05 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/geometry.js.html">src/plugins/BIMServerLoaderPluginV2/BIMServerClient/geometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">1420 byte</td>
+      <td style="display: none;" data-ice="lines">83</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/ifc2x3tc1.js.html">src/plugins/BIMServerLoaderPluginV2/BIMServerClient/ifc2x3tc1.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">379691 byte</td>
+      <td style="display: none;" data-ice="lines">18800</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/ifc4.js.html">src/plugins/BIMServerLoaderPluginV2/BIMServerClient/ifc4.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">567320 byte</td>
+      <td style="display: none;" data-ice="lines">21037</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/model.js.html#errorLines=10,11,117,12,121,133,14,144,148,15,155,16,18,19,20,23,24,25,26,27,29,30,33,37,421,454,498,521,529,539,632,641,665,674,7,764,8,82,86,9,92,99">src/plugins/BIMServerLoaderPluginV2/BIMServerClient/model.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">2 %</span><span data-ice="coverageCount" class="coverage-count">1/43</span></td>
+      <td style="display: none;" data-ice="size">24607 byte</td>
+      <td style="display: none;" data-ice="lines">857</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/translations_en.js.html">src/plugins/BIMServerLoaderPluginV2/BIMServerClient/translations_en.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">4490 byte</td>
+      <td style="display: none;" data-ice="lines">78</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:05 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js.html#errorLines=167">src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">90 %</span><span data-ice="coverageCount" class="coverage-count">9/10</span></td>
+      <td style="display: none;" data-ice="size">18249 byte</td>
+      <td style="display: none;" data-ice="lines">420</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:05 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/lib/BIMServerPerformanceGeometryLoader.js.html">src/plugins/BIMServerLoaderPluginV2/lib/BIMServerPerformanceGeometryLoader.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">22394 byte</td>
+      <td style="display: none;" data-ice="lines">591</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/lib/DataInputStreamReader.js.html#errorLines=10,101,107,11,14,23,27,36,45,51,57,63,69,75,8,85,9,91">src/plugins/BIMServerLoaderPluginV2/lib/DataInputStreamReader.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">5 %</span><span data-ice="coverageCount" class="coverage-count">1/19</span></td>
+      <td style="display: none;" data-ice="size">3006 byte</td>
+      <td style="display: none;" data-ice="lines">117</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js.html#errorLines=111,121,131,141,151,157,163,173,179,18,19,2,20,21,24,28,37,45,5,53,59,6,65,71,77,83,97">src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></td>
+      <td class="coverage"><span data-ice="coverage">3 %</span><span data-ice="coverageCount" class="coverage-count">1/28</span></td>
+      <td style="display: none;" data-ice="size">4500 byte</td>
+      <td style="display: none;" data-ice="lines">187</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/lib/EventHandler.js.html#errorLines=12,27,8">src/plugins/BIMServerLoaderPluginV2/lib/EventHandler.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">25 %</span><span data-ice="coverageCount" class="coverage-count">1/4</span></td>
+      <td style="display: none;" data-ice="size">776 byte</td>
+      <td style="display: none;" data-ice="lines">36</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:50:59 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js.html#errorLines=10,11,12,14,15,18,28,43,49,6,65,7,74,76,77,83,84,9">src/plugins/BIMServerLoaderPluginV2/lib/Executor.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></td>
+      <td class="coverage"><span data-ice="coverage">5 %</span><span data-ice="coverageCount" class="coverage-count">1/19</span></td>
+      <td style="display: none;" data-ice="size">2379 byte</td>
+      <td style="display: none;" data-ice="lines">87</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:50:59 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/lib/MetaDataReader.js.html#errorLines=28,64">src/plugins/BIMServerLoaderPluginV2/lib/MetaDataReader.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">2/4</span></td>
+      <td style="display: none;" data-ice="size">7280 byte</td>
+      <td style="display: none;" data-ice="lines">232</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/lib/Notifier.js.html">src/plugins/BIMServerLoaderPluginV2/lib/Notifier.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">714 byte</td>
+      <td style="display: none;" data-ice="lines">34</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:50:59 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/lib/StringView.js.html#errorLines=330,350,393,397,408,425,431,448,467,488,510,523,574,592,629">src/plugins/BIMServerLoaderPluginV2/lib/StringView.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">6 %</span><span data-ice="coverageCount" class="coverage-count">1/16</span></td>
+      <td style="display: none;" data-ice="size">24632 byte</td>
+      <td style="display: none;" data-ice="lines">693</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:50:59 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/lib/defaultMaterials.js.html">src/plugins/BIMServerLoaderPluginV2/lib/defaultMaterials.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">2205 byte</td>
+      <td style="display: none;" data-ice="lines">44</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/lib/loadBIMServerMetaModel.js.html#errorLines=120">src/plugins/BIMServerLoaderPluginV2/lib/loadBIMServerMetaModel.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">1/2</span></td>
+      <td style="display: none;" data-ice="size">11293 byte</td>
+      <td style="display: none;" data-ice="lines">312</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:51:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/lib/preloadQuery.js.html">src/plugins/BIMServerLoaderPluginV2/lib/preloadQuery.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">2246 byte</td>
+      <td style="display: none;" data-ice="lines">87</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:50:59 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/BIMServerLoaderPluginV2/lib/request.js.html">src/plugins/BIMServerLoaderPluginV2/lib/request.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">676 byte</td>
+      <td style="display: none;" data-ice="lines">24</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 07:50:59 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js.html#errorLines=105,11,111,112,113,115,116,117,118,119,133,138,143,148,153,158,170,37,42,46,47,49,50,52,53,54,55,57,58,59,61,64,67,72,77,82,87,9,93,99">src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></td>
+      <td class="coverage"><span data-ice="coverage">29 %</span><span data-ice="coverageCount" class="coverage-count">17/57</span></td>
+      <td style="display: none;" data-ice="size">15774 byte</td>
+      <td style="display: none;" data-ice="lines">514</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js.html#errorLines=32,33,34,35,36,37,38,39,4,5,6,93,98">src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></td>
+      <td class="coverage"><span data-ice="coverage">38 %</span><span data-ice="coverageCount" class="coverage-count">8/21</span></td>
+      <td style="display: none;" data-ice="size">8218 byte</td>
+      <td style="display: none;" data-ice="lines">241</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js.html#errorLines=154,156,158,204">src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">73 %</span><span data-ice="coverageCount" class="coverage-count">11/15</span></td>
+      <td style="display: none;" data-ice="size">12541 byte</td>
+      <td style="display: none;" data-ice="lines">299</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js.html#errorLines=10,117,69">src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></td>
+      <td class="coverage"><span data-ice="coverage">57 %</span><span data-ice="coverageCount" class="coverage-count">4/7</span></td>
+      <td style="display: none;" data-ice="size">3900 byte</td>
+      <td style="display: none;" data-ice="lines">121</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js.html#errorLines=223,245">src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">83 %</span><span data-ice="coverageCount" class="coverage-count">10/12</span></td>
+      <td style="display: none;" data-ice="size">22156 byte</td>
+      <td style="display: none;" data-ice="lines">491</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/GLTFLoaderPlugin/GLTFPerformanceLoader.js.html#errorLines=11,15,35,54,56,74">src/plugins/GLTFLoaderPlugin/GLTFPerformanceLoader.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">14 %</span><span data-ice="coverageCount" class="coverage-count">1/7</span></td>
+      <td style="display: none;" data-ice="size">21431 byte</td>
+      <td style="display: none;" data-ice="lines">595</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/GLTFLoaderPlugin/GLTFQualityLoader.js.html#errorLines=18,22,46,70,85">src/plugins/GLTFLoaderPlugin/GLTFQualityLoader.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">16 %</span><span data-ice="coverageCount" class="coverage-count">1/6</span></td>
+      <td style="display: none;" data-ice="size">32365 byte</td>
+      <td style="display: none;" data-ice="lines">922</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/NavCubePlugin/CubeTextureCanvas.js.html">src/plugins/NavCubePlugin/CubeTextureCanvas.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">11489 byte</td>
+      <td style="display: none;" data-ice="lines">264</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/NavCubePlugin/NavCubePlugin.js.html#errorLines=104,110,124,129,133,157,159,166,200,219,220,233,236,477,486,528,551,574,597,636,637,638,639,640">src/plugins/NavCubePlugin/NavCubePlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">35 %</span><span data-ice="coverageCount" class="coverage-count">13/37</span></td>
+      <td style="display: none;" data-ice="size">27640 byte</td>
+      <td style="display: none;" data-ice="lines">653</td>
+      <td style="display: none;" data-ice="updated">2019-10-04 10:57:54 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/OBJLoaderPlugin/OBJLoader.js.html#errorLines=493,510,521,670,740,76,86">src/plugins/OBJLoaderPlugin/OBJLoader.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">30 %</span><span data-ice="coverageCount" class="coverage-count">3/10</span></td>
+      <td style="display: none;" data-ice="size">25055 byte</td>
+      <td style="display: none;" data-ice="lines">770</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js.html">src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">5/5</span></td>
+      <td style="display: none;" data-ice="size">5980 byte</td>
+      <td style="display: none;" data-ice="lines">145</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/STLLoaderPlugin/STLLoader.js.html#errorLines=13,37,60">src/plugins/STLLoaderPlugin/STLLoader.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">25 %</span><span data-ice="coverageCount" class="coverage-count">1/4</span></td>
+      <td style="display: none;" data-ice="size">10109 byte</td>
+      <td style="display: none;" data-ice="lines">286</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js.html">src/plugins/STLLoaderPlugin/STLLoaderPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">7192 byte</td>
+      <td style="display: none;" data-ice="lines">150</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/SectionPlanesPlugin/Control.js.html#errorLines=1066,1137,1245,1250,1274,14,15,37,39,40,41,42,43,44,56,859,897,900,903">src/plugins/SectionPlanesPlugin/Control.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">36 %</span><span data-ice="coverageCount" class="coverage-count">11/30</span></td>
+      <td style="display: none;" data-ice="size">51637 byte</td>
+      <td style="display: none;" data-ice="lines">1280</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/SectionPlanesPlugin/Overview.js.html#errorLines=113,115,117,121,132,34,36,37,38,39,40,42,48,54,81,94">src/plugins/SectionPlanesPlugin/Overview.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">38 %</span><span data-ice="coverageCount" class="coverage-count">10/26</span></td>
+      <td style="display: none;" data-ice="size">9338 byte</td>
+      <td style="display: none;" data-ice="lines">254</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/SectionPlanesPlugin/Plane.js.html#errorLines=105,106,111,112,34">src/plugins/SectionPlanesPlugin/Plane.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">64 %</span><span data-ice="coverageCount" class="coverage-count">9/14</span></td>
+      <td style="display: none;" data-ice="size">5109 byte</td>
+      <td style="display: none;" data-ice="lines">169</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js.html#errorLines=110,111,112,113,126,166,238,315,383,7,8">src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">54 %</span><span data-ice="coverageCount" class="coverage-count">13/24</span></td>
+      <td style="display: none;" data-ice="size">13643 byte</td>
+      <td style="display: none;" data-ice="lines">393</td>
+      <td style="display: none;" data-ice="updated">2019-10-04 08:57:43 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js.html#errorLines=61,63">src/plugins/SkyboxesPlugin/SkyboxesPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">80 %</span><span data-ice="coverageCount" class="coverage-count">8/10</span></td>
+      <td style="display: none;" data-ice="size">4136 byte</td>
+      <td style="display: none;" data-ice="lines">170</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/StoreyViewsPlugin/IFCStoreyPlanObjectStates.js.html">src/plugins/StoreyViewsPlugin/IFCStoreyPlanObjectStates.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">1678 byte</td>
+      <td style="display: none;" data-ice="lines">76</td>
+      <td style="display: none;" data-ice="updated">2019-10-04 21:16:34 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/StoreyViewsPlugin/Storey.js.html">src/plugins/StoreyViewsPlugin/Storey.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">6/6</span></td>
+      <td style="display: none;" data-ice="size">1412 byte</td>
+      <td style="display: none;" data-ice="lines">53</td>
+      <td style="display: none;" data-ice="updated">2019-10-04 21:16:34 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/StoreyViewsPlugin/StoreyMap.js.html">src/plugins/StoreyViewsPlugin/StoreyMap.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">7/7</span></td>
+      <td style="display: none;" data-ice="size">1209 byte</td>
+      <td style="display: none;" data-ice="lines">56</td>
+      <td style="display: none;" data-ice="updated">2019-10-04 21:16:34 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js.html#errorLines=10,11,13,269,270,294,299,343,369,612">src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">60 %</span><span data-ice="coverageCount" class="coverage-count">15/25</span></td>
+      <td style="display: none;" data-ice="size">30653 byte</td>
+      <td style="display: none;" data-ice="lines">811</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 08:06:15 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js.html#errorLines=8">src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></td>
+      <td class="coverage"><span data-ice="coverage">75 %</span><span data-ice="coverageCount" class="coverage-count">3/4</span></td>
+      <td style="display: none;" data-ice="size">2602 byte</td>
+      <td style="display: none;" data-ice="lines">77</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js.html#errorLines=14,16,342,364,389,417,555,569,578,631,669,8">src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">12/24</span></td>
+      <td style="display: none;" data-ice="size">38747 byte</td>
+      <td style="display: none;" data-ice="lines">898</td>
+      <td style="display: none;" data-ice="updated">2019-09-02 13:03:14 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/XKTLoaderPlugin/lib/pako.js.html">src/plugins/XKTLoaderPlugin/lib/pako.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">288911 byte</td>
+      <td style="display: none;" data-ice="lines">6817</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/XML3DLoaderPlugin/XML3DLoader.js.html#errorLines=1004,101,110,1109,1230,1241,1249,14,17,24,33,34,35,51,52,53,56,856,887,895,907,919,991">src/plugins/XML3DLoaderPlugin/XML3DLoader.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">14 %</span><span data-ice="coverageCount" class="coverage-count">4/27</span></td>
+      <td style="display: none;" data-ice="size">45338 byte</td>
+      <td style="display: none;" data-ice="lines">1256</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js.html#errorLines=92">src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">83 %</span><span data-ice="coverageCount" class="coverage-count">5/6</span></td>
+      <td style="display: none;" data-ice="size">6638 byte</td>
+      <td style="display: none;" data-ice="lines">151</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/lib/html/Dot.js.html#errorLines=10,38,4,46,50,54,58,6,66,7,70,9">src/plugins/lib/html/Dot.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">7 %</span><span data-ice="coverageCount" class="coverage-count">1/13</span></td>
+      <td style="display: none;" data-ice="size">1998 byte</td>
+      <td style="display: none;" data-ice="lines">76</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/lib/html/Label.js.html#errorLines=11,4,41,49,57,6,65,69,7,73,77,8,81,89,9">src/plugins/lib/html/Label.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">6 %</span><span data-ice="coverageCount" class="coverage-count">1/16</span></td>
+      <td style="display: none;" data-ice="size">2595 byte</td>
+      <td style="display: none;" data-ice="lines">95</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/plugins/lib/html/Wire.js.html#errorLines=13,38,39,4,40,41,46,6,63,71,75,79,8,88">src/plugins/lib/html/Wire.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">6 %</span><span data-ice="coverageCount" class="coverage-count">1/15</span></td>
+      <td style="display: none;" data-ice="size">2909 byte</td>
+      <td style="display: none;" data-ice="lines">93</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/Plugin.js.html">src/viewer/Plugin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">12/12</span></td>
+      <td style="display: none;" data-ice="size">2636 byte</td>
+      <td style="display: none;" data-ice="lines">111</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/Viewer.js.html">src/viewer/Viewer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">23/23</span></td>
+      <td style="display: none;" data-ice="size">11470 byte</td>
+      <td style="display: none;" data-ice="lines">327</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 20:37:50 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/metadata/IFCObjectDefaults.js.html">src/viewer/metadata/IFCObjectDefaults.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">4583 byte</td>
+      <td style="display: none;" data-ice="lines">195</td>
+      <td style="display: none;" data-ice="updated">2019-10-04 00:19:43 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/metadata/MetaModel.js.html#errorLines=66">src/viewer/metadata/MetaModel.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></td>
+      <td class="coverage"><span data-ice="coverage">87 %</span><span data-ice="coverageCount" class="coverage-count">7/8</span></td>
+      <td style="display: none;" data-ice="size">2820 byte</td>
+      <td style="display: none;" data-ice="lines">101</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/metadata/MetaObject.js.html#errorLines=19">src/viewer/metadata/MetaObject.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></td>
+      <td class="coverage"><span data-ice="coverage">92 %</span><span data-ice="coverageCount" class="coverage-count">12/13</span></td>
+      <td style="display: none;" data-ice="size">5001 byte</td>
+      <td style="display: none;" data-ice="lines">182</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/metadata/MetaScene.js.html">src/viewer/metadata/MetaScene.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">16/16</span></td>
+      <td style="display: none;" data-ice="size">8837 byte</td>
+      <td style="display: none;" data-ice="lines">270</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/Component.js.html#errorLines=128,155,156,159,189,190,191,192,193,194,195,196,202,426,701,726,753">src/viewer/scene/Component.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></td>
+      <td class="coverage"><span data-ice="coverage">60 %</span><span data-ice="coverageCount" class="coverage-count">26/43</span></td>
+      <td style="display: none;" data-ice="size">27849 byte</td>
+      <td style="display: none;" data-ice="lines">882</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/Entity.js.html">src/viewer/scene/Entity.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">34/34</span></td>
+      <td style="display: none;" data-ice="size">9344 byte</td>
+      <td style="display: none;" data-ice="lines">409</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/PerformanceModel.js.html#errorLines=13,146,147,148,15,152,153,155,158,159,160,161,164,165,167,17,176,18,19,20,22,70,72,73,74,75,804,829,852,875,898,923,947,972,996">src/viewer/scene/PerformanceModel/PerformanceModel.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></td>
+      <td class="coverage"><span data-ice="coverage">72 %</span><span data-ice="coverageCount" class="coverage-count">90/125</span></td>
+      <td style="display: none;" data-ice="size">51290 byte</td>
+      <td style="display: none;" data-ice="lines">1447</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 14:00:31 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/PerformanceMesh.js.html#errorLines=11,3,74,75,77">src/viewer/scene/PerformanceModel/lib/PerformanceMesh.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">83 %</span><span data-ice="coverageCount" class="coverage-count">25/30</span></td>
+      <td style="display: none;" data-ice="size">4430 byte</td>
+      <td style="display: none;" data-ice="lines">199</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/PerformanceNode.js.html#errorLines=143,15,3,46,47,49,506,527">src/viewer/scene/PerformanceModel/lib/PerformanceNode.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">81 %</span><span data-ice="coverageCount" class="coverage-count">35/43</span></td>
+      <td style="display: none;" data-ice="size">16454 byte</td>
+      <td style="display: none;" data-ice="lines">552</td>
+      <td style="display: none;" data-ice="updated">2019-09-02 15:28:46 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingBuffer.js.html#errorLines=12,13,14,16,17,18,19,20,21,22,23,24,26,27,28,29,30,31,32,36,4,5,6">src/viewer/scene/PerformanceModel/lib/batching/batchingBuffer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">11 %</span><span data-ice="coverageCount" class="coverage-count">3/26</span></td>
+      <td style="display: none;" data-ice="size">1590 byte</td>
+      <td style="display: none;" data-ice="lines">51</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 11:56:44 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingDrawRenderer.js.html#errorLines=118,184,22,23,25,42,46,50,61,65,7">src/viewer/scene/PerformanceModel/lib/batching/batchingDrawRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">8 %</span><span data-ice="coverageCount" class="coverage-count">1/12</span></td>
+      <td style="display: none;" data-ice="size">9121 byte</td>
+      <td style="display: none;" data-ice="lines">241</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingDrawShaderSource.js.html#errorLines=12,149">src/viewer/scene/PerformanceModel/lib/batching/batchingDrawShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
+      <td style="display: none;" data-ice="size">6892 byte</td>
+      <td style="display: none;" data-ice="lines">186</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 19:26:35 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingEdgesRenderer.js.html#errorLines=122,151,22,23,25,42,46,50,61,65,7">src/viewer/scene/PerformanceModel/lib/batching/batchingEdgesRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">8 %</span><span data-ice="coverageCount" class="coverage-count">1/12</span></td>
+      <td style="display: none;" data-ice="size">6860 byte</td>
+      <td style="display: none;" data-ice="lines">186</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingEdgesShaderSource.js.html#errorLines=12,80">src/viewer/scene/PerformanceModel/lib/batching/batchingEdgesShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
+      <td style="display: none;" data-ice="size">4158 byte</td>
+      <td style="display: none;" data-ice="lines">117</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingFillRenderer.js.html#errorLines=120,150,21,22,24,41,45,49,60,64,7">src/viewer/scene/PerformanceModel/lib/batching/batchingFillRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">8 %</span><span data-ice="coverageCount" class="coverage-count">1/12</span></td>
+      <td style="display: none;" data-ice="size">6747 byte</td>
+      <td style="display: none;" data-ice="lines">185</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingFillShaderSource.js.html#errorLines=11,71">src/viewer/scene/PerformanceModel/lib/batching/batchingFillShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
+      <td style="display: none;" data-ice="size">4024 byte</td>
+      <td style="display: none;" data-ice="lines">108</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingLayer.js.html#errorLines=100,1004,101,102,1021,1039,18,19,20,21,22,23,24,25,39,40,411,440,454,468,482,496,510,517,523,537,572,594,616,625,634,643,654,663,672,681,692,701,710,719,72,730,739,748,757,768,777,786,797,802,809,812,816,820,824,828,832,86,860,87,88,89,90,91,92,928,93,957,97,98">src/viewer/scene/PerformanceModel/lib/batching/batchingLayer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">6 %</span><span data-ice="coverageCount" class="coverage-count">5/75</span></td>
+      <td style="display: none;" data-ice="size">38322 byte</td>
+      <td style="display: none;" data-ice="lines">1042</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 12:13:19 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingOcclusionRenderer.js.html#errorLines=121,21,23,40,44,48,59,6,63,93">src/viewer/scene/PerformanceModel/lib/batching/batchingOcclusionRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">9 %</span><span data-ice="coverageCount" class="coverage-count">1/11</span></td>
+      <td style="display: none;" data-ice="size">5414 byte</td>
+      <td style="display: none;" data-ice="lines">154</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingOcclusionShaderSource.js.html#errorLines=11,45,5,6,7">src/viewer/scene/PerformanceModel/lib/batching/batchingOcclusionShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">16 %</span><span data-ice="coverageCount" class="coverage-count">1/6</span></td>
+      <td style="display: none;" data-ice="size">3092 byte</td>
+      <td style="display: none;" data-ice="lines">78</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingPickDepthRenderer.js.html#errorLines=103,133,21,23,40,44,48,59,6,63">src/viewer/scene/PerformanceModel/lib/batching/batchingPickDepthRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">9 %</span><span data-ice="coverageCount" class="coverage-count">1/11</span></td>
+      <td style="display: none;" data-ice="size">6015 byte</td>
+      <td style="display: none;" data-ice="lines">167</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 18:57:35 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingPickDepthShaderSource.js.html#errorLines=11,5,51,6,7">src/viewer/scene/PerformanceModel/lib/batching/batchingPickDepthShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">16 %</span><span data-ice="coverageCount" class="coverage-count">1/6</span></td>
+      <td style="display: none;" data-ice="size">3794 byte</td>
+      <td style="display: none;" data-ice="lines">95</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 18:57:35 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingPickMeshRenderer.js.html#errorLines=126,21,23,40,44,48,59,6,63,97">src/viewer/scene/PerformanceModel/lib/batching/batchingPickMeshRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">9 %</span><span data-ice="coverageCount" class="coverage-count">1/11</span></td>
+      <td style="display: none;" data-ice="size">5767 byte</td>
+      <td style="display: none;" data-ice="lines">162</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 16:20:20 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingPickMeshShaderSource.js.html#errorLines=11,5,55,6,7">src/viewer/scene/PerformanceModel/lib/batching/batchingPickMeshShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">16 %</span><span data-ice="coverageCount" class="coverage-count">1/6</span></td>
+      <td style="display: none;" data-ice="size">3368 byte</td>
+      <td style="display: none;" data-ice="lines">89</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 16:20:20 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingPickNormalsRenderer.js.html#errorLines=106,135,21,23,40,44,48,59,6,63">src/viewer/scene/PerformanceModel/lib/batching/batchingPickNormalsRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">9 %</span><span data-ice="coverageCount" class="coverage-count">1/11</span></td>
+      <td style="display: none;" data-ice="size">6098 byte</td>
+      <td style="display: none;" data-ice="lines">169</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 18:43:16 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/batching/batchingPickNormalsShaderSource.js.html#errorLines=11,5,56,6,7">src/viewer/scene/PerformanceModel/lib/batching/batchingPickNormalsShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">16 %</span><span data-ice="coverageCount" class="coverage-count">1/6</span></td>
+      <td style="display: none;" data-ice="size">3705 byte</td>
+      <td style="display: none;" data-ice="lines">90</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 18:30:11 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingDrawRenderer.js.html#errorLines=163,21,22,24,247,41,45,49,60,64,7">src/viewer/scene/PerformanceModel/lib/instancing/instancingDrawRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">8 %</span><span data-ice="coverageCount" class="coverage-count">1/12</span></td>
+      <td style="display: none;" data-ice="size">11767 byte</td>
+      <td style="display: none;" data-ice="lines">305</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingDrawShaderSource.js.html#errorLines=15,160">src/viewer/scene/PerformanceModel/lib/instancing/instancingDrawShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
+      <td style="display: none;" data-ice="size">7597 byte</td>
+      <td style="display: none;" data-ice="lines">197</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 14:30:40 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingEdgesRenderer.js.html#errorLines=156,189,22,24,41,45,49,60,64,8">src/viewer/scene/PerformanceModel/lib/instancing/instancingEdgesRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">9 %</span><span data-ice="coverageCount" class="coverage-count">1/11</span></td>
+      <td style="display: none;" data-ice="size">8243 byte</td>
+      <td style="display: none;" data-ice="lines">225</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingEdgesShaderSource.js.html#errorLines=15,72">src/viewer/scene/PerformanceModel/lib/instancing/instancingEdgesShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
+      <td style="display: none;" data-ice="size">4336 byte</td>
+      <td style="display: none;" data-ice="lines">109</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingFillRenderer.js.html#errorLines=150,184,21,22,24,41,45,49,60,64,7">src/viewer/scene/PerformanceModel/lib/instancing/instancingFillRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">8 %</span><span data-ice="coverageCount" class="coverage-count">1/12</span></td>
+      <td style="display: none;" data-ice="size">8035 byte</td>
+      <td style="display: none;" data-ice="lines">220</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingFillShaderSource.js.html#errorLines=15,81">src/viewer/scene/PerformanceModel/lib/instancing/instancingFillShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
+      <td style="display: none;" data-ice="size">4268 byte</td>
+      <td style="display: none;" data-ice="lines">118</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingLayer.js.html#errorLines=1001,1019,133,136,137,138,139,140,141,142,143,149,150,151,152,155,156,157,160,161,162,164,166,168,20,21,22,23,24,25,26,27,324,370,399,413,427,44,441,45,455,469,476,482,496,547,562,577,586,595,604,615,624,633,642,653,662,671,680,691,700,709,718,729,738,747,758,763,770,773,777,781,785,789,793,821,913,948,984">src/viewer/scene/PerformanceModel/lib/instancing/instancingLayer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">4 %</span><span data-ice="coverageCount" class="coverage-count">4/83</span></td>
+      <td style="display: none;" data-ice="size">38189 byte</td>
+      <td style="display: none;" data-ice="lines">1022</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 12:10:14 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingOcclusionRenderer.js.html#errorLines=134,174,20,22,39,43,47,58,6,62">src/viewer/scene/PerformanceModel/lib/instancing/instancingOcclusionRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">9 %</span><span data-ice="coverageCount" class="coverage-count">1/11</span></td>
+      <td style="display: none;" data-ice="size">7199 byte</td>
+      <td style="display: none;" data-ice="lines">210</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingOcclusionShaderSource.js.html#errorLines=13,53">src/viewer/scene/PerformanceModel/lib/instancing/instancingOcclusionShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
+      <td style="display: none;" data-ice="size">3556 byte</td>
+      <td style="display: none;" data-ice="lines">87</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingPickDepthRenderer.js.html#errorLines=134,176,20,22,39,43,47,58,6,62">src/viewer/scene/PerformanceModel/lib/instancing/instancingPickDepthRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">9 %</span><span data-ice="coverageCount" class="coverage-count">1/11</span></td>
+      <td style="display: none;" data-ice="size">7396 byte</td>
+      <td style="display: none;" data-ice="lines">209</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 18:57:35 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingPickDepthShaderSource.js.html#errorLines=13,53">src/viewer/scene/PerformanceModel/lib/instancing/instancingPickDepthShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
+      <td style="display: none;" data-ice="size">4052 byte</td>
+      <td style="display: none;" data-ice="lines">97</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 18:50:07 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingPickMeshRenderer.js.html#errorLines=130,171,20,22,39,43,47,58,6,62">src/viewer/scene/PerformanceModel/lib/instancing/instancingPickMeshRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">9 %</span><span data-ice="coverageCount" class="coverage-count">1/11</span></td>
+      <td style="display: none;" data-ice="size">7384 byte</td>
+      <td style="display: none;" data-ice="lines">209</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 16:20:20 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingPickMeshShaderSource.js.html#errorLines=13,65">src/viewer/scene/PerformanceModel/lib/instancing/instancingPickMeshShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
+      <td style="display: none;" data-ice="size">3669 byte</td>
+      <td style="display: none;" data-ice="lines">99</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 16:20:20 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingPickNormalsRenderer.js.html#errorLines=143,188,20,22,39,43,47,58,6,62">src/viewer/scene/PerformanceModel/lib/instancing/instancingPickNormalsRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">9 %</span><span data-ice="coverageCount" class="coverage-count">1/11</span></td>
+      <td style="display: none;" data-ice="size">8351 byte</td>
+      <td style="display: none;" data-ice="lines">221</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 18:50:07 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/instancing/instancingPickNormalsShaderSource.js.html#errorLines=13,66">src/viewer/scene/PerformanceModel/lib/instancing/instancingPickNormalsShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
+      <td style="display: none;" data-ice="size">4307 byte</td>
+      <td style="display: none;" data-ice="lines">100</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 18:30:11 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/renderFlags.js.html">src/viewer/scene/PerformanceModel/lib/renderFlags.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">592 byte</td>
+      <td style="display: none;" data-ice="lines">19</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/PerformanceModel/lib/renderPasses.js.html">src/viewer/scene/PerformanceModel/lib/renderPasses.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">262 byte</td>
+      <td style="display: none;" data-ice="lines">15</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/camera/Camera.js.html#errorLines=10,11,12,13,14,15,16,17,18,19,20,228,235,236,237,238,239,241,242,243,245,246,247,281,542,649,681,852,9">src/viewer/scene/camera/Camera.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></td>
+      <td class="coverage"><span data-ice="coverage">59 %</span><span data-ice="coverageCount" class="coverage-count">42/71</span></td>
+      <td style="display: none;" data-ice="size">27619 byte</td>
+      <td style="display: none;" data-ice="lines">898</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 13:55:10 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/camera/CameraControl.js.html#errorLines=1879,188,1915,216,242,286,288,338,364,397,42,424,445,473,495,513,523">src/viewer/scene/camera/CameraControl.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></td>
+      <td class="coverage"><span data-ice="coverage">63 %</span><span data-ice="coverageCount" class="coverage-count">29/46</span></td>
+      <td style="display: none;" data-ice="size">73091 byte</td>
+      <td style="display: none;" data-ice="lines">1921</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 22:18:29 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/camera/CameraFlightAnimation.js.html#errorLines=10,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,179,314,315,317,360,454,503,508,513,568,594,6,620,644,7,8,9">src/viewer/scene/camera/CameraFlightAnimation.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></td>
+      <td class="coverage"><span data-ice="coverage">30 %</span><span data-ice="coverageCount" class="coverage-count">15/50</span></td>
+      <td style="display: none;" data-ice="size">22719 byte</td>
+      <td style="display: none;" data-ice="lines">660</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 20:54:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/camera/CameraPath.js.html#errorLines=36,38,39,40,5">src/viewer/scene/camera/CameraPath.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></td>
+      <td class="coverage"><span data-ice="coverage">73 %</span><span data-ice="coverageCount" class="coverage-count">14/19</span></td>
+      <td style="display: none;" data-ice="size">6253 byte</td>
+      <td style="display: none;" data-ice="lines">193</td>
+      <td style="display: none;" data-ice="updated">2019-10-02 15:02:22 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/camera/CameraPathAnimation.js.html#errorLines=103,104,105,106,107,108,109,110,114,117,161,172,318">src/viewer/scene/camera/CameraPathAnimation.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></td>
+      <td class="coverage"><span data-ice="coverage">51 %</span><span data-ice="coverageCount" class="coverage-count">14/27</span></td>
+      <td style="display: none;" data-ice="size">10019 byte</td>
+      <td style="display: none;" data-ice="lines">328</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 19:42:42 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/camera/CustomProjection.js.html#errorLines=25">src/viewer/scene/camera/CustomProjection.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></td>
+      <td class="coverage"><span data-ice="coverage">85 %</span><span data-ice="coverageCount" class="coverage-count">6/7</span></td>
+      <td style="display: none;" data-ice="size">1806 byte</td>
+      <td style="display: none;" data-ice="lines">74</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/camera/Frustum.js.html#errorLines=29,35,36,37,38,50">src/viewer/scene/camera/Frustum.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></td>
+      <td class="coverage"><span data-ice="coverage">73 %</span><span data-ice="coverageCount" class="coverage-count">17/23</span></td>
+      <td style="display: none;" data-ice="size">7258 byte</td>
+      <td style="display: none;" data-ice="lines">267</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/camera/Ortho.js.html#errorLines=101,205,31,41,44">src/viewer/scene/camera/Ortho.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></td>
+      <td class="coverage"><span data-ice="coverage">66 %</span><span data-ice="coverageCount" class="coverage-count">10/15</span></td>
+      <td style="display: none;" data-ice="size">5590 byte</td>
+      <td style="display: none;" data-ice="lines">211</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/camera/Perspective.js.html#errorLines=115,29,35,36,39,47">src/viewer/scene/camera/Perspective.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></td>
+      <td class="coverage"><span data-ice="coverage">68 %</span><span data-ice="coverageCount" class="coverage-count">13/19</span></td>
+      <td style="display: none;" data-ice="size">6475 byte</td>
+      <td style="display: none;" data-ice="lines">232</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/canvas/Canvas.js.html#errorLines=172,245,283,344,447,9">src/viewer/scene/canvas/Canvas.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></td>
+      <td class="coverage"><span data-ice="coverage">75 %</span><span data-ice="coverageCount" class="coverage-count">18/24</span></td>
+      <td style="display: none;" data-ice="size">14257 byte</td>
+      <td style="display: none;" data-ice="lines">458</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:36:50 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/canvas/Spinner.js.html#errorLines=179,180,181,278,3,311">src/viewer/scene/canvas/Spinner.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></td>
+      <td class="coverage"><span data-ice="coverage">57 %</span><span data-ice="coverageCount" class="coverage-count">8/14</span></td>
+      <td style="display: none;" data-ice="size">10337 byte</td>
+      <td style="display: none;" data-ice="lines">318</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/core.js.html#errorLines=10,11,12,13,15,16,177,18,196,204,228,7,8,9">src/viewer/scene/core.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">12 %</span><span data-ice="coverageCount" class="coverage-count">2/16</span></td>
+      <td style="display: none;" data-ice="size">9074 byte</td>
+      <td style="display: none;" data-ice="lines">270</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/geometry/Geometry.js.html#errorLines=22,27">src/viewer/scene/geometry/Geometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">60 %</span><span data-ice="coverageCount" class="coverage-count">3/5</span></td>
+      <td style="display: none;" data-ice="size">901 byte</td>
+      <td style="display: none;" data-ice="lines">33</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/geometry/ReadableGeometry.js.html#errorLines=10,11,110,12,129,13,133,134,135,139,141,142,145,146,236,262,285,292,299,306,317,332,347,353,359,363,411,417,459,465,503,509,542,622,631">src/viewer/scene/geometry/ReadableGeometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">28 %</span><span data-ice="coverageCount" class="coverage-count">14/49</span></td>
+      <td style="display: none;" data-ice="size">23812 byte</td>
+      <td style="display: none;" data-ice="lines">676</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/geometry/VBOGeometry.js.html#errorLines=10,102,103,104,11,12,13,214,222,243,88">src/viewer/scene/geometry/VBOGeometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">45 %</span><span data-ice="coverageCount" class="coverage-count">9/20</span></td>
+      <td style="display: none;" data-ice="size">11420 byte</td>
+      <td style="display: none;" data-ice="lines">313</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/geometry/builders/buildBoxGeometry.js.html">src/viewer/scene/geometry/builders/buildBoxGeometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">6300 byte</td>
+      <td style="display: none;" data-ice="lines">243</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/geometry/builders/buildCylinderGeometry.js.html">src/viewer/scene/geometry/builders/buildCylinderGeometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">7996 byte</td>
+      <td style="display: none;" data-ice="lines">276</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/geometry/builders/buildPlaneGeometry.js.html">src/viewer/scene/geometry/builders/buildPlaneGeometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">4904 byte</td>
+      <td style="display: none;" data-ice="lines">173</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/geometry/builders/buildSphereGeometry.js.html">src/viewer/scene/geometry/builders/buildSphereGeometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">4606 byte</td>
+      <td style="display: none;" data-ice="lines">166</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/geometry/builders/buildTorusGeometry.js.html">src/viewer/scene/geometry/builders/buildTorusGeometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">5131 byte</td>
+      <td style="display: none;" data-ice="lines">177</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/geometry/builders/buildVectorTextGeometry.js.html#errorLines=3">src/viewer/scene/geometry/builders/buildVectorTextGeometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">1/2</span></td>
+      <td style="display: none;" data-ice="size">34591 byte</td>
+      <td style="display: none;" data-ice="lines">1725</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/geometry/loaders/load3DSGeometry.js.html">src/viewer/scene/geometry/loaders/load3DSGeometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">3375 byte</td>
+      <td style="display: none;" data-ice="lines">108</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/geometry/loaders/loadOBJGeometry.js.html">src/viewer/scene/geometry/loaders/loadOBJGeometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">4638 byte</td>
+      <td style="display: none;" data-ice="lines">134</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/input/Input.js.html#errorLines=104,1413,1447,904,907,95">src/viewer/scene/input/Input.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></td>
+      <td class="coverage"><span data-ice="coverage">94 %</span><span data-ice="coverageCount" class="coverage-count">108/114</span></td>
+      <td style="display: none;" data-ice="size">39921 byte</td>
+      <td style="display: none;" data-ice="lines">1472</td>
+      <td style="display: none;" data-ice="updated">2019-09-02 13:03:14 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/libs/canvas2image.js.html">src/viewer/scene/libs/canvas2image.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">7290 byte</td>
+      <td style="display: none;" data-ice="lines">197</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/libs/k3d.js.html#errorLines=1000,1014,15,162,21,33,34,35,36,39,40,41,414,438,44,448,461,519,52,530,541,563,585,6,60,603,621,638,647,66,667,687,700,715,72,729,740,767,78,813,820,825,836,846,866,896,923,932,941,946,970,975,986">src/viewer/scene/libs/k3d.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">1 %</span><span data-ice="coverageCount" class="coverage-count">1/54</span></td>
+      <td style="display: none;" data-ice="size">33057 byte</td>
+      <td style="display: none;" data-ice="lines">1031</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/lights/AmbientLight.js.html#errorLines=113">src/viewer/scene/lights/AmbientLight.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></td>
+      <td class="coverage"><span data-ice="coverage">88 %</span><span data-ice="coverageCount" class="coverage-count">8/9</span></td>
+      <td style="display: none;" data-ice="size">5352 byte</td>
+      <td style="display: none;" data-ice="lines">177</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/lights/CubeTexture.js.html#errorLines=104,20,24,59,6,70,71,78,82,91">src/viewer/scene/lights/CubeTexture.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></td>
+      <td class="coverage"><span data-ice="coverage">28 %</span><span data-ice="coverageCount" class="coverage-count">4/14</span></td>
+      <td style="display: none;" data-ice="size">5218 byte</td>
+      <td style="display: none;" data-ice="lines">160</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/lights/DirLight.js.html#errorLines=128,129,130,131,132,134">src/viewer/scene/lights/DirLight.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></td>
+      <td class="coverage"><span data-ice="coverage">66 %</span><span data-ice="coverageCount" class="coverage-count">12/18</span></td>
+      <td style="display: none;" data-ice="size">9651 byte</td>
+      <td style="display: none;" data-ice="lines">298</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/lights/Light.js.html#errorLines=24">src/viewer/scene/lights/Light.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></td>
+      <td class="coverage"><span data-ice="coverage">75 %</span><span data-ice="coverageCount" class="coverage-count">3/4</span></td>
+      <td style="display: none;" data-ice="size">458 byte</td>
+      <td style="display: none;" data-ice="lines">29</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/lights/LightMap.js.html#errorLines=75">src/viewer/scene/lights/LightMap.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></td>
+      <td class="coverage"><span data-ice="coverage">75 %</span><span data-ice="coverageCount" class="coverage-count">3/4</span></td>
+      <td style="display: none;" data-ice="size">2786 byte</td>
+      <td style="display: none;" data-ice="lines">81</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/lights/PointLight.js.html#errorLines=132,133,134,135,136,138">src/viewer/scene/lights/PointLight.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></td>
+      <td class="coverage"><span data-ice="coverage">75 %</span><span data-ice="coverageCount" class="coverage-count">18/24</span></td>
+      <td style="display: none;" data-ice="size">12218 byte</td>
+      <td style="display: none;" data-ice="lines">378</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/lights/ReflectionMap.js.html">src/viewer/scene/lights/ReflectionMap.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">2808 byte</td>
+      <td style="display: none;" data-ice="lines">83</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/lights/Shadow.js.html#errorLines=110,139,143,66,75,77">src/viewer/scene/lights/Shadow.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">3/9</span></td>
+      <td style="display: none;" data-ice="size">3725 byte</td>
+      <td style="display: none;" data-ice="lines">149</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/marker/Marker.js.html#errorLines=132,133,134,135,136,137,139,140,144,145,149,150,159,178,5,6">src/viewer/scene/marker/Marker.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></td>
+      <td class="coverage"><span data-ice="coverage">42 %</span><span data-ice="coverageCount" class="coverage-count">12/28</span></td>
+      <td style="display: none;" data-ice="size">13085 byte</td>
+      <td style="display: none;" data-ice="lines">358</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/materials/EdgeMaterial.js.html#errorLines=168,175,4">src/viewer/scene/materials/EdgeMaterial.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></td>
+      <td class="coverage"><span data-ice="coverage">81 %</span><span data-ice="coverageCount" class="coverage-count">13/16</span></td>
+      <td style="display: none;" data-ice="size">9941 byte</td>
+      <td style="display: none;" data-ice="lines">333</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/materials/EmphasisMaterial.js.html#errorLines=234,246,4">src/viewer/scene/materials/EmphasisMaterial.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></td>
+      <td class="coverage"><span data-ice="coverage">88 %</span><span data-ice="coverageCount" class="coverage-count">23/26</span></td>
+      <td style="display: none;" data-ice="size">16437 byte</td>
+      <td style="display: none;" data-ice="lines">576</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/materials/Fresnel.js.html#errorLines=88">src/viewer/scene/materials/Fresnel.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></td>
+      <td class="coverage"><span data-ice="coverage">93 %</span><span data-ice="coverageCount" class="coverage-count">14/15</span></td>
+      <td style="display: none;" data-ice="size">5854 byte</td>
+      <td style="display: none;" data-ice="lines">226</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/materials/LambertMaterial.js.html#errorLines=101,369">src/viewer/scene/materials/LambertMaterial.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></td>
+      <td class="coverage"><span data-ice="coverage">90 %</span><span data-ice="coverageCount" class="coverage-count">20/22</span></td>
+      <td style="display: none;" data-ice="size">12500 byte</td>
+      <td style="display: none;" data-ice="lines">381</td>
+      <td style="display: none;" data-ice="updated">2019-10-01 14:09:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/materials/Material.js.html#errorLines=19,28,33">src/viewer/scene/materials/Material.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></td>
+      <td class="coverage"><span data-ice="coverage">25 %</span><span data-ice="coverageCount" class="coverage-count">1/4</span></td>
+      <td style="display: none;" data-ice="size">1470 byte</td>
+      <td style="display: none;" data-ice="lines">39</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/materials/MetallicMaterial.js.html#errorLines=259,284,287,291,294,297,300,303,306,319,5,6">src/viewer/scene/materials/MetallicMaterial.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></td>
+      <td class="coverage"><span data-ice="coverage">75 %</span><span data-ice="coverageCount" class="coverage-count">36/48</span></td>
+      <td style="display: none;" data-ice="size">32215 byte</td>
+      <td style="display: none;" data-ice="lines">824</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/materials/PhongMaterial.js.html#errorLines=138,167,170,173,176,179,182,185,188,191,194,197,200,203,214,5,6">src/viewer/scene/materials/PhongMaterial.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></td>
+      <td class="coverage"><span data-ice="coverage">71 %</span><span data-ice="coverageCount" class="coverage-count">43/60</span></td>
+      <td style="display: none;" data-ice="size">30532 byte</td>
+      <td style="display: none;" data-ice="lines">864</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/materials/SpecularMaterial.js.html#errorLines=251,276,279,282,285,288,291,294,297,311,5,6,672">src/viewer/scene/materials/SpecularMaterial.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></td>
+      <td class="coverage"><span data-ice="coverage">72 %</span><span data-ice="coverageCount" class="coverage-count">35/48</span></td>
+      <td style="display: none;" data-ice="size">31250 byte</td>
+      <td style="display: none;" data-ice="lines">810</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/materials/Texture.js.html#errorLines=115,129,130,134,135,136,138,157,172,182,192,202,21,212,216,225,234,25,7">src/viewer/scene/materials/Texture.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></td>
+      <td class="coverage"><span data-ice="coverage">51 %</span><span data-ice="coverageCount" class="coverage-count">20/39</span></td>
+      <td style="display: none;" data-ice="size">18375 byte</td>
+      <td style="display: none;" data-ice="lines">525</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/math/buildEdgeIndices.js.html">src/viewer/scene/math/buildEdgeIndices.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">6156 byte</td>
+      <td style="display: none;" data-ice="lines">161</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/math/geometryCompressionUtils.js.html#errorLines=68,75">src/viewer/scene/math/geometryCompressionUtils.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">87 %</span><span data-ice="coverageCount" class="coverage-count">14/16</span></td>
+      <td style="display: none;" data-ice="size">10035 byte</td>
+      <td style="display: none;" data-ice="lines">331</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/math/math.js.html#errorLines=3,4,5">src/viewer/scene/math/math.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">25 %</span><span data-ice="coverageCount" class="coverage-count">1/4</span></td>
+      <td style="display: none;" data-ice="size">136403 byte</td>
+      <td style="display: none;" data-ice="lines">5079</td>
+      <td style="display: none;" data-ice="updated">2019-10-05 17:25:15 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mementos/CameraMemento.js.html">src/viewer/scene/mementos/CameraMemento.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">8/8</span></td>
+      <td style="display: none;" data-ice="size">6039 byte</td>
+      <td style="display: none;" data-ice="lines">195</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mementos/ObjectsMemento.js.html#errorLines=136,4">src/viewer/scene/mementos/ObjectsMemento.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></td>
+      <td class="coverage"><span data-ice="coverage">87 %</span><span data-ice="coverageCount" class="coverage-count">14/16</span></td>
+      <td style="display: none;" data-ice="size">8799 byte</td>
+      <td style="display: none;" data-ice="lines">248</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 17:59:16 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/Mesh.js.html#errorLines=1742,19,20,21,214,22,23,235,236,237,238,239,24,240,241,243,244,245,246,247,248,25,250,252,253,257,258,259,260,262,263,265,266,267,27,28,280,285,30,350,388,393,398,410,423,431,440,464,490,511,532,670,830,849,860">src/viewer/scene/mesh/Mesh.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></td>
+      <td class="coverage"><span data-ice="coverage">63 %</span><span data-ice="coverageCount" class="coverage-count">96/151</span></td>
+      <td style="display: none;" data-ice="size">66174 byte</td>
+      <td style="display: none;" data-ice="lines">1986</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/draw/DrawRenderer.js.html#errorLines=11,25,27,52,580,63,67,851">src/viewer/scene/mesh/draw/DrawRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">11 %</span><span data-ice="coverageCount" class="coverage-count">1/9</span></td>
+      <td style="display: none;" data-ice="size">46697 byte</td>
+      <td style="display: none;" data-ice="lines">968</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/draw/DrawShaderSource.js.html#errorLines=14,20,242,306,36,515,57,65,78">src/viewer/scene/mesh/draw/DrawShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">10 %</span><span data-ice="coverageCount" class="coverage-count">1/10</span></td>
+      <td style="display: none;" data-ice="size">66827 byte</td>
+      <td style="display: none;" data-ice="lines">1521</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/emphasis/EmphasisEdgesRenderer.js.html#errorLines=10,142,172,24,26,44,55,59">src/viewer/scene/mesh/emphasis/EmphasisEdgesRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">11 %</span><span data-ice="coverageCount" class="coverage-count">1/9</span></td>
+      <td style="display: none;" data-ice="size">7521 byte</td>
+      <td style="display: none;" data-ice="lines">215</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/emphasis/EmphasisEdgesShaderSource.js.html#errorLines=10,11,15,81,9">src/viewer/scene/mesh/emphasis/EmphasisEdgesShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">16 %</span><span data-ice="coverageCount" class="coverage-count">1/6</span></td>
+      <td style="display: none;" data-ice="size">4710 byte</td>
+      <td style="display: none;" data-ice="lines">127</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/emphasis/EmphasisFillRenderer.js.html#errorLines=10,130,188,24,26,45,56,60">src/viewer/scene/mesh/emphasis/EmphasisFillRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">11 %</span><span data-ice="coverageCount" class="coverage-count">1/9</span></td>
+      <td style="display: none;" data-ice="size">9867 byte</td>
+      <td style="display: none;" data-ice="lines">255</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/emphasis/EmphasisFillShaderSource.js.html#errorLines=10,11,15,170,178,9">src/viewer/scene/mesh/emphasis/EmphasisFillShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">14 %</span><span data-ice="coverageCount" class="coverage-count">1/7</span></td>
+      <td style="display: none;" data-ice="size">9243 byte</td>
+      <td style="display: none;" data-ice="lines">231</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/occlusion/OcclusionRenderer.js.html#errorLines=127,155,22,24,45,55,59">src/viewer/scene/mesh/occlusion/OcclusionRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">12 %</span><span data-ice="coverageCount" class="coverage-count">1/8</span></td>
+      <td style="display: none;" data-ice="size">6453 byte</td>
+      <td style="display: none;" data-ice="lines">189</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/occlusion/OcclusionShaderSource.js.html#errorLines=10,11,15,73,9">src/viewer/scene/mesh/occlusion/OcclusionShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">16 %</span><span data-ice="coverageCount" class="coverage-count">1/6</span></td>
+      <td style="display: none;" data-ice="size">3844 byte</td>
+      <td style="display: none;" data-ice="lines">105</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/pick/PickMeshRenderer.js.html#errorLines=129,158,22,24,45,55,59">src/viewer/scene/mesh/pick/PickMeshRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">12 %</span><span data-ice="coverageCount" class="coverage-count">1/8</span></td>
+      <td style="display: none;" data-ice="size">6642 byte</td>
+      <td style="display: none;" data-ice="lines">192</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/pick/PickMeshShaderSource.js.html#errorLines=10,11,15,74,9">src/viewer/scene/mesh/pick/PickMeshShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">16 %</span><span data-ice="coverageCount" class="coverage-count">1/6</span></td>
+      <td style="display: none;" data-ice="size">3909 byte</td>
+      <td style="display: none;" data-ice="lines">107</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/pick/PickTriangleRenderer.js.html#errorLines=135,20,22,43,53,57">src/viewer/scene/mesh/pick/PickTriangleRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">14 %</span><span data-ice="coverageCount" class="coverage-count">1/7</span></td>
+      <td style="display: none;" data-ice="size">5784 byte</td>
+      <td style="display: none;" data-ice="lines">165</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/pick/PickTriangleShaderSource.js.html#errorLines=10,11,15,52,9">src/viewer/scene/mesh/pick/PickTriangleShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">16 %</span><span data-ice="coverageCount" class="coverage-count">1/6</span></td>
+      <td style="display: none;" data-ice="size">2998 byte</td>
+      <td style="display: none;" data-ice="lines">85</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/shadow/ShadowRenderer.js.html#errorLines=159,190,20,22,43,53,58">src/viewer/scene/mesh/shadow/ShadowRenderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">12 %</span><span data-ice="coverageCount" class="coverage-count">1/8</span></td>
+      <td style="display: none;" data-ice="size">8172 byte</td>
+      <td style="display: none;" data-ice="lines">228</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/mesh/shadow/ShadowShaderSource.js.html#errorLines=10,11,116,15,74,9">src/viewer/scene/mesh/shadow/ShadowShaderSource.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">14 %</span><span data-ice="coverageCount" class="coverage-count">1/7</span></td>
+      <td style="display: none;" data-ice="size">4677 byte</td>
+      <td style="display: none;" data-ice="lines">128</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/metriqs/Metriqs.js.html#errorLines=8,89,90,91">src/viewer/scene/metriqs/Metriqs.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></td>
+      <td class="coverage"><span data-ice="coverage">73 %</span><span data-ice="coverageCount" class="coverage-count">11/15</span></td>
+      <td style="display: none;" data-ice="size">7813 byte</td>
+      <td style="display: none;" data-ice="lines">259</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/nodes/Node.js.html#errorLines=10,12,13,15,183,184,186,187,191,192,193,194,196,197,199,200,213,218,327,360,393,426,456,480,5,504,530,556,6,658,682,7,711,716,723,735,744,753,8,9">src/viewer/scene/nodes/Node.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></td>
+      <td class="coverage"><span data-ice="coverage">60 %</span><span data-ice="coverageCount" class="coverage-count">62/102</span></td>
+      <td style="display: none;" data-ice="size">39947 byte</td>
+      <td style="display: none;" data-ice="lines">1242</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/paths/CubicBezierCurve.js.html#errorLines=142,183,47,69,93">src/viewer/scene/paths/CubicBezierCurve.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></td>
+      <td class="coverage"><span data-ice="coverage">73 %</span><span data-ice="coverageCount" class="coverage-count">14/19</span></td>
+      <td style="display: none;" data-ice="size">5745 byte</td>
+      <td style="display: none;" data-ice="lines">194</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/paths/Curve.js.html#errorLines=111,119,132,136,143,33,89">src/viewer/scene/paths/Curve.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></td>
+      <td class="coverage"><span data-ice="coverage">53 %</span><span data-ice="coverageCount" class="coverage-count">8/15</span></td>
+      <td style="display: none;" data-ice="size">5293 byte</td>
+      <td style="display: none;" data-ice="lines">182</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/paths/Path.js.html#errorLines=195,212,23,24,25,26,27,28">src/viewer/scene/paths/Path.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></td>
+      <td class="coverage"><span data-ice="coverage">57 %</span><span data-ice="coverageCount" class="coverage-count">11/19</span></td>
+      <td style="display: none;" data-ice="size">7341 byte</td>
+      <td style="display: none;" data-ice="lines">238</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/paths/QuadraticBezierCurve.js.html#errorLines=113,151,44,66,88">src/viewer/scene/paths/QuadraticBezierCurve.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></td>
+      <td class="coverage"><span data-ice="coverage">70 %</span><span data-ice="coverageCount" class="coverage-count">12/17</span></td>
+      <td style="display: none;" data-ice="size">4912 byte</td>
+      <td style="display: none;" data-ice="lines">160</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/paths/SplineCurve.js.html#errorLines=125,41,66">src/viewer/scene/paths/SplineCurve.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></td>
+      <td class="coverage"><span data-ice="coverage">72 %</span><span data-ice="coverageCount" class="coverage-count">8/11</span></td>
+      <td style="display: none;" data-ice="size">4423 byte</td>
+      <td style="display: none;" data-ice="lines">132</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/scene/Scene.js.html#errorLines=1051,1059,1070,1169,1201,1233,1260,1494,1514,1568,1573,2030,21,444,445,446,447,448,450,451,453,521,525,566,720,726,764,778,814,839,846,852,858,864,870,876,882,888,893,898,903,908,918,927,936,945,959">src/viewer/scene/scene/Scene.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></td>
+      <td class="coverage"><span data-ice="coverage">59 %</span><span data-ice="coverageCount" class="coverage-count">69/116</span></td>
+      <td style="display: none;" data-ice="size">71379 byte</td>
+      <td style="display: none;" data-ice="lines">2088</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 14:29:44 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/sectionPlane/SectionPlane.js.html#errorLines=73">src/viewer/scene/sectionPlane/SectionPlane.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></td>
+      <td class="coverage"><span data-ice="coverage">90 %</span><span data-ice="coverageCount" class="coverage-count">10/11</span></td>
+      <td style="display: none;" data-ice="size">5340 byte</td>
+      <td style="display: none;" data-ice="lines">186</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/skybox/Skybox.js.html#errorLines=26,81">src/viewer/scene/skybox/Skybox.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></td>
+      <td class="coverage"><span data-ice="coverage">75 %</span><span data-ice="coverageCount" class="coverage-count">6/8</span></td>
+      <td style="display: none;" data-ice="size">4431 byte</td>
+      <td style="display: none;" data-ice="lines">118</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/stats.js.html">src/viewer/scene/stats.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">1291 byte</td>
+      <td style="display: none;" data-ice="lines">44</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/utils.js.html#errorLines=399">src/viewer/scene/utils.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">96 %</span><span data-ice="coverageCount" class="coverage-count">26/27</span></td>
+      <td style="display: none;" data-ice="size">11285 byte</td>
+      <td style="display: none;" data-ice="lines">453</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/utils/Map.js.html#errorLines=38,4,5,6">src/viewer/scene/utils/Map.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">2/6</span></td>
+      <td style="display: none;" data-ice="size">1081 byte</td>
+      <td style="display: none;" data-ice="lines">45</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/utils/Queue.js.html#errorLines=10,11,12,13,16,20,43,49,7,9">src/viewer/scene/utils/Queue.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">9 %</span><span data-ice="coverageCount" class="coverage-count">1/11</span></td>
+      <td style="display: none;" data-ice="size">1220 byte</td>
+      <td style="display: none;" data-ice="lines">55</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/viewport/Viewport.js.html#errorLines=151,154,199,62,78">src/viewer/scene/viewport/Viewport.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></td>
+      <td class="coverage"><span data-ice="coverage">58 %</span><span data-ice="coverageCount" class="coverage-count">7/12</span></td>
+      <td style="display: none;" data-ice="size">5838 byte</td>
+      <td style="display: none;" data-ice="lines">211</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/ArrayBuf.js.html#errorLines=10,104,11,111,12,17,18,51,52,53,54,55,56,57,58,63,65,79,8,97">src/viewer/scene/webgl/ArrayBuf.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">4 %</span><span data-ice="coverageCount" class="coverage-count">1/21</span></td>
+      <td style="display: none;" data-ice="size">3263 byte</td>
+      <td style="display: none;" data-ice="lines">121</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/Attribute.js.html#errorLines=10,13,8,9">src/viewer/scene/webgl/Attribute.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">20 %</span><span data-ice="coverageCount" class="coverage-count">1/5</span></td>
+      <td style="display: none;" data-ice="size">604 byte</td>
+      <td style="display: none;" data-ice="lines">23</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/Drawable.js.html">src/viewer/scene/webgl/Drawable.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">26/26</span></td>
+      <td style="display: none;" data-ice="size">7839 byte</td>
+      <td style="display: none;" data-ice="lines">288</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/FrameContext.js.html#errorLines=7">src/viewer/scene/webgl/FrameContext.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">94 %</span><span data-ice="coverageCount" class="coverage-count">18/19</span></td>
+      <td style="display: none;" data-ice="size">4682 byte</td>
+      <td style="display: none;" data-ice="lines">157</td>
+      <td style="display: none;" data-ice="updated">2019-10-03 14:00:22 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/OcclusionTester.js.html#errorLines=137,143,15,150,17,174,18,19,20,204,21,213,217,218,219,22,228,23,231,24,243,25,259,26,27,278,28,29,30,32,34,35,36,37,38,39,41,6,7,8">src/viewer/scene/webgl/OcclusionTester.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></td>
+      <td class="coverage"><span data-ice="coverage">18 %</span><span data-ice="coverageCount" class="coverage-count">9/49</span></td>
+      <td style="display: none;" data-ice="size">15053 byte</td>
+      <td style="display: none;" data-ice="lines">409</td>
+      <td style="display: none;" data-ice="updated">2019-10-06 12:59:38 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/PickResult.js.html#errorLines=116,141,166,191,216,241,266,290,37,38,39,40,41,42,43,44,45,46,68,92">src/viewer/scene/webgl/PickResult.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></td>
+      <td class="coverage"><span data-ice="coverage">56 %</span><span data-ice="coverageCount" class="coverage-count">26/46</span></td>
+      <td style="display: none;" data-ice="size">7643 byte</td>
+      <td style="display: none;" data-ice="lines">316</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/Pickable.js.html">src/viewer/scene/webgl/Pickable.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">7/7</span></td>
+      <td style="display: none;" data-ice="size">1902 byte</td>
+      <td style="display: none;" data-ice="lines">58</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/Program.js.html#errorLines=121,128,135,142,154,31,32,33,37,38,39,40,41,42,43,44,45,46,47,48,6,72,8">src/viewer/scene/webgl/Program.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">4 %</span><span data-ice="coverageCount" class="coverage-count">1/24</span></td>
+      <td style="display: none;" data-ice="size">5465 byte</td>
+      <td style="display: none;" data-ice="lines">169</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/RenderBuffer.js.html#errorLines=10,11,12,129,13,137,14,146,152,17,173,21,28,38,7,9">src/viewer/scene/webgl/RenderBuffer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">5 %</span><span data-ice="coverageCount" class="coverage-count">1/17</span></td>
+      <td style="display: none;" data-ice="size">5503 byte</td>
+      <td style="display: none;" data-ice="lines">185</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/RenderFlags.js.html">src/viewer/scene/webgl/RenderFlags.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">19/19</span></td>
+      <td style="display: none;" data-ice="size">4708 byte</td>
+      <td style="display: none;" data-ice="lines">133</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/RenderState.js.html#errorLines=16,27,3">src/viewer/scene/webgl/RenderState.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">3/6</span></td>
+      <td style="display: none;" data-ice="size">994 byte</td>
+      <td style="display: none;" data-ice="lines">39</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/Renderer.js.html#errorLines=11">src/viewer/scene/webgl/Renderer.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">1/2</span></td>
+      <td style="display: none;" data-ice="size">37016 byte</td>
+      <td style="display: none;" data-ice="lines">1036</td>
+      <td style="display: none;" data-ice="updated">2019-10-01 16:13:10 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/Sampler.js.html#errorLines=7">src/viewer/scene/webgl/Sampler.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">1/2</span></td>
+      <td style="display: none;" data-ice="size">377 byte</td>
+      <td style="display: none;" data-ice="lines">17</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/Shader.js.html#errorLines=10,11,14,44,7,9">src/viewer/scene/webgl/Shader.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">14 %</span><span data-ice="coverageCount" class="coverage-count">1/7</span></td>
+      <td style="display: none;" data-ice="size">1248 byte</td>
+      <td style="display: none;" data-ice="lines">48</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/Texture2D.js.html#errorLines=116,120,145,15,17,182,195,206,33,4,47,51,66,67,68,69,71,74">src/viewer/scene/webgl/Texture2D.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">5 %</span><span data-ice="coverageCount" class="coverage-count">1/19</span></td>
+      <td style="display: none;" data-ice="size">6656 byte</td>
+      <td style="display: none;" data-ice="lines">216</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webgl/webglEnums.js.html">src/viewer/scene/webgl/webglEnums.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">1784 byte</td>
+      <td style="display: none;" data-ice="lines">60</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/viewer/scene/webglInfo.js.html#errorLines=10">src/viewer/scene/webglInfo.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">50 %</span><span data-ice="coverageCount" class="coverage-count">1/2</span></td>
+      <td style="display: none;" data-ice="size">2030 byte</td>
+      <td style="display: none;" data-ice="lines">46</td>
+      <td style="display: none;" data-ice="updated">2019-09-06 00:15:53 (UTC)</td>
+    </tr>
+</tbody>
+</table>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

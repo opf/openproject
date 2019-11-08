@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/plugins/NavCubePlugin/NavCubePlugin.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/plugins/NavCubePlugin/NavCubePlugin.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {Plugin} from &quot;././../../viewer/Plugin.js&quot;;
+import {math} from &quot;../../viewer/scene/math/math.js&quot;;
+import {Scene} from &quot;../../viewer/scene/scene/Scene.js&quot;;
+import {DirLight} from &quot;./../../viewer/scene/lights/DirLight.js&quot;;
+import {Mesh} from &quot;./../../viewer/scene/mesh/Mesh.js&quot;;
+import {ReadableGeometry} from &quot;../../viewer/scene/geometry/ReadableGeometry.js&quot;;
+import {PhongMaterial} from &quot;../../viewer/scene/materials/PhongMaterial.js&quot;;
+import {Texture} from &quot;../../viewer/scene/materials/Texture.js&quot;;
+import {buildCylinderGeometry} from &quot;../../viewer/scene/geometry/builders/buildCylinderGeometry.js&quot;;
+import {CubeTextureCanvas} from &quot;./CubeTextureCanvas.js&quot;;
+
+/**
+ * {@link Viewer} plugin that lets us look at the entire {@link Scene} from along a chosen axis or diagonal.
+ *
+ *  [&lt;img src=&quot;https://user-images.githubusercontent.com/83100/55674490-c93c2e00-58b5-11e9-8a28-eb08876947c0.gif&quot;&gt;](https://xeokit.github.io/xeokit-sdk/examples/#gizmos_NavCubePlugin)
+ *
+ * [[Run this example](https://xeokit.github.io/xeokit-sdk/examples/#gizmos_NavCubePlugin)]
+ *
+ * ## Overview
+ *
+ * * Rotating the NavCube causes the Viewer&apos;s {@link Camera} to orbit its current
+ * point-of-interest. Conversely, orbiting the Camera causes the NavCube to rotate accordingly.
+ * * The faces of the NavCube are aligned with the Viewer&apos;s {@link Scene}&apos;s World-space coordinate axis. Clicking on a face moves
+ * the Camera to look at the entire Scene along the corresponding axis. Clicking on an edge or a corner looks at
+ * the entire Scene along a diagonal.
+ * * The NavCube can be configured to either jump or fly the Camera to each new position. We can configure how tightly the
+ * NavCube fits the Scene to view, and when flying, we can configure how fast it flies. See below for a usage example.
+ *
+ * ## Usage
+ *
+ * In the example below, we&apos;ll create a Viewer and add a NavCubePlugin, which will create a NavCube gizmo in the canvas
+ * with the given ID. Then we&apos;ll use the {@link GLTFLoaderPlugin} to load a model into the Viewer&apos;s Scene. We can then
+ * use the NavCube to look at the model along each axis or diagonal.
+ *
+ * ````JavaScript
+ * import {Viewer} from &quot;../src/viewer/Viewer.js&quot;;
+ * import {GLTFLoaderPlugin} from &quot;../src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js&quot;;
+ * import {NavCubePlugin} from &quot;../src/plugins/NavCubePlugin/NavCubePlugin.js&quot;;
+ *
+ * const viewer = new Viewer({
+ *     canvasId: &quot;myCanvas&quot;
+ * });
+ *
+ * viewer.camera.eye = [-3.93, 2.85, 27.01];
+ * viewer.camera.look = [4.40, 3.72, 8.89];
+ * viewer.camera.up = [-0.01, 0.99, 0.03];
+ *
+ * const navCube = new NavCubePlugin(viewer, {
+ *
+ *     canvasID: &quot;myNavCubeCanvas&quot;,
+ *
+ *     visible: true,         // Initially visible (default)
+ *
+ *     cameraFly: true,       // Fly camera to each selected axis/diagonal
+ *     cameraFitFOV: 45,      // How much field-of-view the scene takes once camera has fitted it to view
+ *     cameraFlyDuration: 0.5,// How long (in seconds) camera takes to fly to each new axis/diagonal
+ *
+ *     fitVisible: false      // Fit whole scene, including invisible objects (default)
+ * });
+ *
+ * const gltfLoader = new GLTFLoaderPlugin(viewer);
+ *
+ * const model = gltfLoader.load({
+ *     id: &quot;myModel&quot;,
+ *     src: &quot;./models/gltf/duplex/scene.gltf&quot;,
+ *     metaModelSrc: &quot;./metaModels/duplex/metaModel.json&quot;, // Sets visual states of object in model
+ *     edges: true
+ * });
+ * ````
+ */
+class NavCubePlugin extends Plugin {
+
+    /**
+     * @constructor
+     * @param {Viewer} viewer The Viewer.
+     * @param {Object} cfg NavCubePlugin configuration.
+     * @param {String} [cfg.id=&quot;NavCube&quot;] Optional ID for this plugin, so that we can find it within {@link Viewer#plugins}.
+     * @param {String} [cfg.canvasId] ID of an existing HTML canvas to display the NavCube - either this or canvasElement is mandatory. When both values are given, the element reference is always preferred to the ID.
+     * @param {HTMLCanvasElement} [cfg.canvasElement] Reference of an existing HTML canvas to display the NavCube - either this or canvasId is mandatory. When both values are given, the element reference is always preferred to the ID.
+     * @param {Boolean} [cfg.visible=true] Initial visibility.
+     * @param {String} [cfg.cameraFly=true] Whether the {@link Camera} flies or jumps to each selected axis or diagonal.
+     * @param {String} [cfg.cameraFitFOV=45] How much of the field-of-view, in degrees, that the 3D scene should fill the {@link Canvas} when the {@link Camera} moves to an axis or diagonal.
+     * @param {String} [cfg.cameraFlyDuration=0.5] When flying the {@link Camera} to each new axis or diagonal, how long, in seconds, that the Camera takes to get there.
+     * @param {String} [cfg.color=&quot;lightgrey] Custom uniform color for the faces of the NavCube.
+     * @param {String} [cfg.frontColor=&quot;#55FF55&quot;] Custom color for the front face of the NavCube. Overrides ````color````.
+     * @param {String} [cfg.backColor=&quot;#55FF55&quot;] Custom color for the back face of the NavCube. Overrides ````color````.
+     * @param {String} [cfg.leftColor=&quot;#FF5555&quot;] Custom color for the left face of the NavCube. Overrides ````color````.
+     * @param {String} [cfg.rightColor=&quot;#FF5555&quot;] Custom color for the right face of the NavCube. Overrides ````color````.
+     * @param {String} [cfg.topColor=&quot;#5555FF&quot;] Custom color for the top face of the NavCube. Overrides ````color````.
+     * @param {String} [cfg.bottomColor=&quot;#5555FF&quot;] Custom color for the bottom face of the NavCube. Overrides ````color````.
+     * @param {String} [cfg.hoverColor=&quot;rgba(0,0,0,0.4)&quot;] Custom color for highlighting regions on the NavCube as we hover the pointer over them.
+     * @param {Boolean} [cfg.fitVisible=false] Sets whether the axis, corner and edge-aligned views will fit the
+     * view to the entire {@link Scene} or just to visible object-{@link Entity}s. Entitys are visible objects when {@link Entity#isObject} and {@link Entity#visible} are both ````true````.
+     */
+    constructor(viewer, cfg = {}) {
+
+        super(&quot;NavCube&quot;, viewer, cfg);
+
+        viewer.navCube = this;
+
+        var visible = true;
+
+        try {
+            this._navCubeScene = new Scene({
+                canvasId: cfg.canvasId,
+                canvasElement: cfg.canvasElement,
+                transparent: true
+            });
+
+            this._navCubeCanvas = this._navCubeScene.canvas.canvas;
+        } catch (error) {
+            this.error(error);
+            return;
+        }
+
+        const navCubeScene = this._navCubeScene;
+
+        navCubeScene.clearLights();
+
+        new DirLight(navCubeScene, {dir: [0.4, -0.4, 0.8], color: [0.8, 1.0, 1.0], intensity: 1.0, space: &quot;view&quot;});
+        new DirLight(navCubeScene, {dir: [-0.8, -0.3, -0.4], color: [0.8, 0.8, 0.8], intensity: 1.0, space: &quot;view&quot;});
+        new DirLight(navCubeScene, {dir: [0.8, -0.6, -0.8], color: [1.0, 1.0, 1.0], intensity: 1.0, space: &quot;view&quot;});
+
+        this._navCubeCamera = navCubeScene.camera;
+        this._navCubeCamera.ortho.scale = 7.0;
+        this._navCubeCamera.ortho.near = 0.1;
+        this._navCubeCamera.ortho.far = 2000;
+
+        this._zUp = Boolean(viewer.camera.zUp);
+
+        var self = this;
+
+        this._synchCamera = (function () {
+            var matrix = math.rotationMat4c(-90 * math.DEGTORAD, 1, 0, 0);
+            var eyeLookVec = math.vec3();
+            var eyeLookVecCube = math.vec3();
+            var upCube = math.vec3();
+            return function () {
+                var eye = viewer.camera.eye;
+                var look = viewer.camera.look;
+                var up = viewer.camera.up;
+                eyeLookVec = math.mulVec3Scalar(math.normalizeVec3(math.subVec3(eye, look, eyeLookVec)), 5);
+                if (self._zUp) { // +Z up
+                    math.transformVec3(matrix, eyeLookVec, eyeLookVecCube);
+                    math.transformVec3(matrix, up, upCube);
+                    self._navCubeCamera.look = [0, 0, 0];
+                    self._navCubeCamera.eye = math.transformVec3(matrix, eyeLookVec, eyeLookVecCube);
+                    self._navCubeCamera.up = math.transformPoint3(matrix, up, upCube);
+                } else { // +Y up
+                    self._navCubeCamera.look = [0, 0, 0];
+                    self._navCubeCamera.eye = eyeLookVec;
+                    self._navCubeCamera.up = up;
+                }
+            };
+        }());
+
+        this._cubeTextureCanvas = new CubeTextureCanvas(viewer, cfg);
+
+        this._cubeSampler = new Texture(navCubeScene, {
+            image: this._cubeTextureCanvas.getImage(),
+            flipY: true,
+            wrapS: &quot;clampToEdge&quot;,
+            wrapT: &quot;clampToEdge&quot;
+        });
+
+        this._cubeMesh = new Mesh(navCubeScene, {
+            geometry: new ReadableGeometry(navCubeScene, {
+                primitive: &quot;triangles&quot;,
+                normals: [
+                    0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0,
+                    0, 1, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, -1,
+                    0, 0, -1, 0, 0, -1, 0, 0, -1
+                ],
+                positions: [
+                    1, 1, 1, -1, 1, 1, -1, -1, 1, 1, -1, 1, 1, 1, 1, 1, -1, 1, 1, -1, -1, 1, 1, -1, 1, 1, 1, 1, 1, -1, -1,
+                    1, -1, -1, 1, 1, -1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1, -1, -1, -1, 1, -1, -1, 1, -1, 1, -1, -1,
+                    1, 1, -1, -1, -1, -1, -1, -1, 1, -1, 1, 1, -1
+                ],
+                uv: [
+                    0.5, 0.6666, 0.25, 0.6666, 0.25, 0.3333, 0.5, 0.3333, 0.5, 0.6666, 0.5, 0.3333, 0.75, 0.3333, 0.75, 0.6666,
+                    0.5, 0.6666, 0.5, 1, 0.25, 1, 0.25, 0.6666, 0.25, 0.6666, 0.0, 0.6666, 0.0, 0.3333, 0.25, 0.3333,
+                    0.25, 0, 0.50, 0, 0.50, 0.3333, 0.25, 0.3333, 0.75, 0.3333, 1.0, 0.3333, 1.0, 0.6666, 0.75, 0.6666
+                ],
+                indices: [
+                    0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15, 16, 17, 18, 16,
+                    18, 19, 20, 21, 22, 20, 22, 23
+                ]
+            }),
+            material: new PhongMaterial(navCubeScene, {
+                diffuse: [0.4, 0.4, 0.4],
+                specular: [0.4, 0.4, 0.4],
+                emissive: [.6, .6, .6],
+                diffuseMap: this._cubeSampler,
+                emissiveMap: this._cubeSampler
+            }),
+            visible: !!visible,
+            edges: true
+        });
+
+        this._shadow = new Mesh(navCubeScene, {
+            geometry: new ReadableGeometry(navCubeScene, buildCylinderGeometry({
+                center: [0, 0, 0],
+                radiusTop: 0.001,
+                radiusBottom: 1.4,
+                height: 0.01,
+                radialSegments: 20,
+                heightSegments: 1,
+                openEnded: true
+            })),
+            material: new PhongMaterial(navCubeScene, {
+                diffuse: [0.0, 0.0, 0.0], specular: [0, 0, 0], emissive: [0.0, 0.0, 0.0], alpha: 0.5
+            }),
+            position: [0, -1.5, 0],
+            visible: !!visible,
+            pickable: false,
+            backfaces: false
+        });
+
+        this._onCameraMatrix = viewer.camera.on(&quot;matrix&quot;, this._synchCamera);
+        this._onCameraWorldAxis = viewer.camera.on(&quot;worldAxis&quot;, () =&gt; {
+            if (viewer.camera.zUp) {
+                this._zUp = true;
+                this._cubeTextureCanvas.setZUp();
+                this._repaint();
+                this._synchCamera();
+            } else if (viewer.camera.yUp) {
+                this._zUp = false;
+                this._cubeTextureCanvas.setYUp();
+                this._repaint();
+                this._synchCamera();
+            }
+        });
+        this._onCameraFOV = viewer.camera.perspective.on(&quot;fov&quot;, (fov) =&gt; {
+            this._navCubeCamera.perspective.fov = fov;
+        });
+        this._onCameraProjection = viewer.camera.on(&quot;projection&quot;, (projection) =&gt; {
+            this._navCubeCamera.projection = projection;
+        });
+
+        var lastAreaId = -1;
+
+        function actionMove(posX, posY) {
+            var yawInc = (posX - lastX) * -sensitivity;
+            var pitchInc = (posY - lastY) * -sensitivity;
+            yaw -= yawInc;
+            pitch -= pitchInc;
+            if (minPitch !== undefined &amp;&amp; pitch &lt; minPitch) {
+                pitch = minPitch;
+            }
+            if (maxPitch !== undefined &amp;&amp; pitch &gt; maxPitch) {
+                pitch = maxPitch;
+            }
+            viewer.camera.orbitYaw(yawInc);
+            viewer.camera.orbitPitch(-pitchInc);
+            lastX = posX;
+            lastY = posY;
+        }
+
+        function getCoordsWithinElement(event) {
+            var coords = [0, 0];
+            if (!event) {
+                event = window.event;
+                coords[0] = event.x;
+                coords[1] = event.y;
+            } else {
+                var element = event.target;
+                var totalOffsetLeft = 0;
+                var totalOffsetTop = 0;
+                while (element.offsetParent) {
+                    totalOffsetLeft += element.offsetLeft;
+                    totalOffsetTop += element.offsetTop;
+                    element = element.offsetParent;
+                }
+                coords[0] = event.pageX - totalOffsetLeft;
+                coords[1] = event.pageY - totalOffsetTop;
+            }
+            return coords;
+        }
+
+        {
+            var downX = null;
+            var downY = null;
+            var down = false;
+            var over = false;
+
+            var yaw = 0;
+            var pitch = 0;
+            var minPitch = null;
+            var maxPitch = null;
+            var sensitivity = 0.5;
+
+            var lastX;
+            var lastY;
+            var dragging = false;
+
+            self._navCubeCanvas.addEventListener(&quot;mouseenter&quot;, self._onMouseEnter = function (e) {
+                over = true;
+            });
+
+
+            self._navCubeCanvas.addEventListener(&quot;mouseleave&quot;, self._onMouseLeave = function (e) {
+                over = false;
+            });
+
+            self._navCubeCanvas.addEventListener(&quot;mousedown&quot;, self._onMouseDown = function (e) {
+                downX = e.x;
+                downY = e.y;
+                lastX = e.clientX;
+                lastY = e.clientY;
+                var canvasPos = getCoordsWithinElement(e);
+                var hit = navCubeScene.pick({
+                    canvasPos: canvasPos
+                });
+                if (hit) {
+                    down = true;
+
+                } else {
+                    down = false;
+                }
+            });
+
+            document.addEventListener(&quot;mouseup&quot;, self._onMouseUp = function (e) {
+                if (e.which !== 1) {// Left button
+                    return;
+                }
+                down = false;
+                if (downX === null) {
+                    return;
+                }
+                var canvasPos = getCoordsWithinElement(e);
+                var hit = navCubeScene.pick({
+                    canvasPos: canvasPos,
+                    pickSurface: true
+                });
+                if (hit) {
+                    if (hit.uv) {
+                        var areaId = self._cubeTextureCanvas.getArea(hit.uv);
+                        if (areaId &gt;= 0) {
+                            document.body.style.cursor = &quot;pointer&quot;;
+                            if (lastAreaId &gt;= 0) {
+                                self._cubeTextureCanvas.setAreaHighlighted(lastAreaId, false);
+                                self._repaint();
+                                lastAreaId = -1;
+                            }
+                            if (areaId &gt;= 0) {
+                                self._cubeTextureCanvas.setAreaHighlighted(areaId, true);
+                                lastAreaId = areaId;
+                                self._repaint();
+                                if (e.x &lt; (downX - 3) || e.x &gt; (downX + 3) || e.y &lt; (downY - 3) || e.y &gt; (downY + 3)) {
+                                    return;
+                                }
+                                var dir = self._cubeTextureCanvas.getAreaDir(areaId);
+                                if (dir) {
+                                    var up = self._cubeTextureCanvas.getAreaUp(areaId);
+                                    flyTo(dir, up, function () {
+                                        if (lastAreaId &gt;= 0) {
+                                            self._cubeTextureCanvas.setAreaHighlighted(lastAreaId, false);
+                                            self._repaint();
+                                            lastAreaId = -1;
+                                        }
+                                        var hit = navCubeScene.pick({
+                                            canvasPos: canvasPos,
+                                            pickSurface: true
+                                        });
+                                        if (hit) {
+                                            if (hit.uv) {
+                                                var areaId = self._cubeTextureCanvas.getArea(hit.uv);
+                                                if (areaId !== undefined) {
+                                                    document.body.style.cursor = &quot;pointer&quot;;
+                                                    if (lastAreaId &gt;= 0) {
+                                                        self._cubeTextureCanvas.setAreaHighlighted(lastAreaId, false);
+                                                        self._repaint();
+                                                        lastAreaId = -1;
+                                                    }
+                                                    if (areaId &gt;= 0) {
+                                                        self._cubeTextureCanvas.setAreaHighlighted(areaId, true);
+                                                        lastAreaId = areaId;
+                                                        self._repaint();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            document.addEventListener(&quot;mousemove&quot;, self._onMouseMove = function (e) {
+                if (lastAreaId &gt;= 0) {
+                    self._cubeTextureCanvas.setAreaHighlighted(lastAreaId, false);
+                    self._repaint();
+                    lastAreaId = -1;
+                }
+                if (e.buttons === 1 &amp;&amp; !down) {
+                    return;
+                }
+                if (down) {
+                    var posX = e.clientX;
+                    var posY = e.clientY;
+                    document.body.style.cursor = &quot;move&quot;;
+                    actionMove(posX, posY);
+                    return;
+                }
+                if (!over) {
+                    return;
+                }
+                var canvasPos = getCoordsWithinElement(e);
+                var hit = navCubeScene.pick({
+                    canvasPos: canvasPos,
+                    pickSurface: true
+                });
+                if (hit) {
+                    if (hit.uv) {
+                        document.body.style.cursor = &quot;pointer&quot;;
+                        var areaId = self._cubeTextureCanvas.getArea(hit.uv);
+                        if (areaId === lastAreaId) {
+                            return;
+                        }
+                        if (lastAreaId &gt;= 0) {
+                            self._cubeTextureCanvas.setAreaHighlighted(lastAreaId, false);
+                        }
+                        if (areaId &gt;= 0) {
+                            self._cubeTextureCanvas.setAreaHighlighted(areaId, true);
+                            self._repaint();
+                            lastAreaId = areaId;
+                        }
+                    }
+                } else {
+                    document.body.style.cursor = &quot;default&quot;;
+                    if (lastAreaId &gt;= 0) {
+                        self._cubeTextureCanvas.setAreaHighlighted(lastAreaId, false);
+                        self._repaint();
+                        lastAreaId = -1;
+                    }
+                }
+            });
+
+            var flyTo = (function () {
+                var center = math.vec3();
+                return function (dir, up, ok) {
+                    var aabb = self._fitVisible ? viewer.scene.getAABB(viewer.scene.visibleObjectIds) : viewer.scene.aabb;
+                    var diag = math.getAABB3Diag(aabb);
+                    math.getAABB3Center(aabb, center);
+                    var dist = Math.abs(diag / Math.tan(55.0 / 2));
+                    viewer.cameraControl.pivotPos = center;
+                    if (self._cameraFly) {
+                        viewer.cameraFlight.flyTo({
+                            look: center,
+                            eye: [center[0] - (dist * dir[0]), center[1] - (dist * dir[1]), center[2] - (dist * dir[2])],
+                            up: up || [0, 1, 0],
+                            orthoScale: diag * 1.3,
+                            fitFOV: self._cameraFitFOV,
+                            duration: self._cameraFlyDuration
+                        }, ok);
+                    } else {
+                        viewer.cameraFlight.jumpTo({
+                            look: center,
+                            eye: [center[0] - (dist * dir[0]), center[1] - (dist * dir[1]), center[2] - (dist * dir[2])],
+                            up: up || [0, 1, 0],
+                            orthoScale: diag * 1.3,
+                            fitFOV: self._cameraFitFOV
+                        }, ok);
+                    }
+                };
+            })();
+        }
+
+        this.setVisible(cfg.visible);
+        this.setCameraFitFOV(cfg.cameraFitFOV);
+        this.setCameraFly(cfg.cameraFly);
+        this.setCameraFlyDuration(cfg.cameraFlyDuration);
+    }
+
+    send(name, value) {
+        switch (name) {
+            case &quot;language&quot;:
+                this._cubeTextureCanvas.clear();
+                this._repaint(); // CubeTextureCanvas gets language from Viewer
+                break;
+        }
+    }
+
+    _repaint() {
+        const image = this._cubeTextureCanvas.getImage();
+        this._cubeMesh.material.diffuseMap.image = image;
+        this._cubeMesh.material.emissiveMap.image = image;
+    }
+
+    /**
+     * Sets if the NavCube is visible.
+     *
+     * @param {Boolean} visible Whether or not the NavCube is visible.
+     */
+    setVisible(visible = true) {
+        if (!this._navCubeCanvas) {
+            return;
+        }
+        this._cubeMesh.visible = visible;
+        this._shadow.visible = visible;
+        this._navCubeCanvas.style.visibility = visible ? &quot;visible&quot; : &quot;hidden&quot;;
+    }
+
+    /**
+     * Gets if the NavCube is visible.
+     *
+     * @return {Boolean} True when the NavCube is visible.
+     */
+    getVisible() {
+        if (!this._navCubeCanvas) {
+            return false;
+        }
+        return this._cubeMesh.visible;
+    }
+
+
+    /**
+     * Sets whether the axis, corner and edge-aligned views will fit the
+     * view to the entire {@link Scene} or just to visible object-{@link Entity}s.
+     *
+     * Entitys are visible objects when {@link Entity#isObject} and {@link Entity#visible} are both ````true````.
+     *
+     * @param {Boolean} fitVisible Set ````true```` to fit only visible object-Entitys.
+     */
+    setFitVisible(fitVisible =false) {
+        this._fitVisible = fitVisible;
+    }
+
+    /**
+     * Gets whether the axis, corner and edge-aligned views will fit the
+     * view to the entire {@link Scene} or just to visible object-{@link Entity}s.
+     *
+     * Entitys are visible objects when {@link Entity#isObject} and {@link Entity#visible} are both ````true````.
+     *
+     * @return {Boolean} True when fitting only visible object-Entitys.
+     */
+    getFitVisible() {
+        return this._fitVisible;
+    }
+
+    /**
+     * Sets whether the {@link Camera} flies or jumps to each selected axis or diagonal.
+     *
+     * Default is ````true````, to fly.
+     *
+     * @param {Boolean} cameraFly Set ````true```` to fly, else ````false```` to jump.
+     */
+    setCameraFly(cameraFly = true) {
+        this._cameraFly = cameraFly;
+    }
+
+    /**
+     * Gets whether the {@link Camera} flies or jumps to each selected axis or diagonal.
+     *
+     * Default is ````true````, to fly.
+     *
+     * @returns {Boolean} Returns ````true```` to fly, else ````false```` to jump.
+     */
+    getCameraFly() {
+        return this._cameraFly;
+    }
+
+    /**
+     * Sets how much of the field-of-view, in degrees, that the {@link Scene} should
+     * fill the canvas when flying or jumping the {@link Camera} to each selected axis or diagonal.
+     *
+     * Default value is ````45````.
+     *
+     * @param {Number} cameraFitFOV New FOV value.
+     */
+    setCameraFitFOV(cameraFitFOV = 45) {
+        this._cameraFitFOV = cameraFitFOV;
+    }
+
+    /**
+     * Gets how much of the field-of-view, in degrees, that the {@link Scene} should
+     * fill the canvas when flying or jumping the {@link Camera} to each selected axis or diagonal.
+     *
+     * Default value is ````45````.
+     *
+     * @returns {Number} Current FOV value.
+     */
+    getCameraFitFOV() {
+        return this._cameraFitFOV;
+    }
+
+    /**
+     * When flying the {@link Camera} to each new axis or diagonal, sets how long, in seconds, that the Camera takes to get there.
+     *
+     * Default is ````0.5````.
+     *
+     * @param {Boolean} cameraFlyDuration Camera flight duration in seconds.
+     */
+    setCameraFlyDuration(cameraFlyDuration = 0.5) {
+        this._cameraFlyDuration = cameraFlyDuration;
+    }
+
+    /**
+     * When flying the {@link Camera} to each new axis or diagonal, gets how long, in seconds, that the Camera takes to get there.
+     *
+     * Default is ````0.5````.
+     *
+     * @returns {Boolean} Camera flight duration in seconds.
+     */
+    getCameraFlyDuration() {
+        return this._cameraFlyDuration;
+    }
+
+    /**
+     * Destroys this NavCubePlugin.
+     *
+     * Does not destroy the canvas the NavCubePlugin was configured with.
+     */
+    destroy() {
+
+        if (this._navCubeCanvas) {
+
+            this.viewer.camera.off(this._onCameraMatrix);
+            this.viewer.camera.off(this._onCameraWorldAxis);
+            this.viewer.camera.perspective.off(this._onCameraFOV);
+            this.viewer.camera.off(this._onCameraProjection);
+
+            this._navCubeCanvas.removeEventListener(&quot;mouseenter&quot;, this._onMouseEnter);
+            this._navCubeCanvas.removeEventListener(&quot;mouseleave&quot;, this._onMouseLeave);
+            this._navCubeCanvas.removeEventListener(&quot;mousedown&quot;, this._onMouseDown);
+
+            document.removeEventListener(&quot;mousemove&quot;, this._onMouseMove);
+            document.removeEventListener(&quot;mouseup&quot;, this._onMouseUp);
+
+            this._navCubeCanvas = null;
+            this._cubeTextureCanvas.destroy();
+            this._cubeTextureCanvas = null;
+
+            this._onMouseEnter = null;
+            this._onMouseLeave = null;
+            this._onMouseDown = null;
+            this._onMouseMove = null;
+            this._onMouseUp = null;
+        }
+
+        this._navCubeScene.destroy();
+        this._navCubeScene = null;
+        this._cubeMesh = null;
+        this._shadow = null;
+
+        super.destroy();
+    }
+}
+
+export {NavCubePlugin};
+
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

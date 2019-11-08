@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/plugins/AnnotationsPlugin/AnnotationsPlugin.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/plugins/AnnotationsPlugin/AnnotationsPlugin.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {Plugin} from &quot;../../viewer/Plugin.js&quot;;
+import {Annotation} from &quot;./Annotation.js&quot;;
+import {utils} from &quot;../../viewer/scene/utils.js&quot;;
+import {math} from &quot;../../viewer/scene/math/math.js&quot;;
+
+const tempVec3a = math.vec3();
+const tempVec3b = math.vec3();
+const tempVec3c = math.vec3();
+
+/**
+ * {@link Viewer} plugin that creates {@link Annotation}s.
+ *
+ * [&lt;img src=&quot;https://user-images.githubusercontent.com/83100/58403089-26589280-8062-11e9-8652-aed61a4e8c64.gif&quot;&gt;](https://xeokit.github.io/xeokit-sdk/examples/#annotations_clickFlyToPosition)
+ *
+ * * [[Example 1: Create annotations with mouse](https://xeokit.github.io/xeokit-sdk/examples/#annotations_createWithMouse)]
+ * * [[Example 2: Click annotations to toggle labels](https://xeokit.github.io/xeokit-sdk/examples/#annotations_clickShowLabels)]
+ * * [[Example 3: Hover annotations to show labels](https://xeokit.github.io/xeokit-sdk/examples/#annotations_hoverShowLabels)]
+ * * [[Example 4: Click annotations to fly to viewpoint](https://xeokit.github.io/xeokit-sdk/examples/#annotations_clickFlyToPosition)]
+ * * [[Example 5: Create Annotations with externally-created elements](https://xeokit.github.io/xeokit-sdk/examples/#annotations_externalElements)]
+ *
+ * ## Overview
+ *
+ * * An {@link Annotation} is a 3D position with a label attached.
+ * * Annotations render themselves with HTML elements that float over the canvas; customize the appearance of
+ * individual Annotations using HTML template; configure default appearance by setting templates on the AnnotationsPlugin.
+ * * Dynamically insert data values into each Annotation&apos;s HTML templates; configure default values on the AnnotationsPlugin.
+ * * Optionally configure Annotation with externally-created DOM elements for markers and labels; these override templates and data values.
+ * * Optionally configure Annotations to hide themselves whenever occluded by {@link Entity}s.
+ * * Optionally configure each Annotation with a position we can jump or fly the {@link Camera} to.
+ *
+ * ## Example 1: Loading a model and creating an annotation
+ *
+ * In the example below, we&apos;ll use a {@link GLTFLoaderPlugin} to load a model, and an AnnotationsPlugin
+ * to create an {@link Annotation} on it.
+ *
+ * We&apos;ll configure the AnnotationsPlugin with default HTML templates for each Annotation&apos;s position (its &quot;marker&quot;) and
+ * label, along with some default data values to insert into them.
+ *
+ * When we create our Annotation, we&apos;ll give it some specific data values to insert into the templates, overriding some of
+ * the defaults we configured on the plugin. Note the correspondence between the placeholders in the templates
+ * and the keys in the values map.
+ *
+ * We&apos;ll also configure the Annotation to hide itself whenever it&apos;s position is occluded by any {@link Entity}s (this is default behavior). The
+ * {@link Scene} periodically occlusion-tests all Annotations on every 20th &quot;tick&quot; (which represents a rendered frame). We
+ * can adjust that frequency via property {@link Scene#ticksPerOcclusionTest}.
+ *
+ * Finally, we&apos;ll query the Annotation&apos;s position occlusion/visibility status, and subscribe to change events on those properties.
+ *
+ * [[Run example](https://xeokit.github.io/xeokit-sdk/examples/#annotations_clickShowLabels)]
+ *
+ * ````JavaScript
+ * import {Viewer} from &quot;../src/viewer/Viewer.js&quot;;
+ * import {GLTFLoaderPlugin} from &quot;../src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js&quot;;
+ * import {AnnotationsPlugin} from &quot;../src/plugins/AnnotationsPlugin/AnnotationsPlugin.js&quot;;
+ *
+ * const viewer = new Viewer({
+ *     canvasId: &quot;myCanvas&quot;,
+ *     transparent: true
+ * });
+ *
+ * viewer.scene.camera.eye = [-2.37, 18.97, -26.12];
+ * viewer.scene.camera.look = [10.97, 5.82, -11.22];
+ * viewer.scene.camera.up = [0.36, 0.83, 0.40];
+ *
+ * const gltfLoader = new GLTFLoaderPlugin(viewer);
+ *
+ * const annotations = new AnnotationsPlugin(viewer, {
+ *
+ *      // Default HTML template for marker position
+ *      markerHTML: &quot;&lt;div class=&apos;annotation-marker&apos; style=&apos;background-color: {{markerBGColor}};&apos;&gt;{{glyph}}&lt;/div&gt;&quot;,
+ *
+ *      // Default HTML template for label
+ *      labelHTML: &quot;&lt;div class=&apos;annotation-label&apos; style=&apos;background-color: {{labelBGColor}};&apos;&gt;&quot; +
+ *      &quot;&lt;div class=&apos;annotation-title&apos;&gt;{{title}}&lt;/div&gt;&lt;div class=&apos;annotation-desc&apos;&gt;{{description}}&lt;/div&gt;&lt;/div&gt;&quot;,
+ *
+ *      // Default values to insert into the marker and label templates
+ *      values: {
+ *          markerBGColor: &quot;red&quot;,
+ *          labelBGColor: &quot;red&quot;,
+ *          glyph: &quot;X&quot;,
+ *          title: &quot;Untitled&quot;,
+ *          description: &quot;No description&quot;
+ *      }
+ * });
+ *
+ * const model = gltfLoader.load({
+ *      src: &quot;./models/gltf/duplex/scene.gltf&quot;
+ * });
+ *
+ * model.on(&quot;loaded&quot;, () =&gt; {
+ *
+ *      const entity = viewer.scene.meshes[&quot;&quot;];
+ *
+ *      // Create an annotation
+ *      const myAnnotation1 = annotations.createAnnotation({
+ *
+ *          id: &quot;myAnnotation&quot;,
+ *
+ *          entity: viewer.scene.objects[&quot;2O2Fr$t4X7Zf8NOew3FLOH&quot;], // Optional, associate with an Entity
+ *
+ *          worldPos: [0, 0, 0],        // 3D World-space position
+ *
+ *          occludable: true,           // Optional, default, makes Annotation invisible when occluded by Entities
+ *          markerShown: true,          // Optional, default is true, makes position visible (when not occluded)
+ *          labelShown: true            // Optional, default is false, makes label visible (when not occluded)
+ *
+ *          values: {                   // Optional, overrides AnnotationPlugin&apos;s defaults
+ *              glyph: &quot;A&quot;,
+ *              title: &quot;My Annotation&quot;,
+ *              description: &quot;This is my annotation.&quot;
+ *          }
+ *      });
+ *
+ *      // Listen for change of the Annotation&apos;s 3D World-space position
+ *
+ *      myAnnotation1.on(&quot;worldPos&quot;, function(worldPos) {
+ *          //...
+ *      });
+ *
+ *      // Listen for change of the Annotation&apos;s 3D View-space position, which happens
+ *      // when either worldPos was updated or the Camera was moved
+ *
+ *      myAnnotation1.on(&quot;viewPos&quot;, function(viewPos) {
+ *          //...
+ *      });
+ *
+ *      // Listen for change of the Annotation&apos;s 2D Canvas-space position, which happens
+ *      // when worldPos or viewPos was updated, or Camera&apos;s projection was updated
+ *
+ *      myAnnotation1.on(&quot;canvasPos&quot;, function(canvasPos) {
+ *          //...
+ *      });
+ *
+ *      // Listen for change of Annotation visibility. The Annotation becomes invisible when it falls outside the canvas,
+ *      // or its position is occluded by some Entity. Note that, when not occluded, the position is only
+ *      // shown when Annotation#markerShown is true, and the label is only shown when Annotation#labelShown is true.
+ *
+ *      myAnnotation1.on(&quot;visible&quot;, function(visible) { // Marker visibility has changed
+ *          if (visible) {
+ *              this.log(&quot;Annotation is visible&quot;);
+ *          } else {
+ *              this.log(&quot;Annotation is invisible&quot;);
+ *          }
+ *      });
+ *
+ *      // Listen for destruction of the Annotation
+ *
+ *      myAnnotation1.on(&quot;destroyed&quot;, () =&gt; {
+ *          //...
+ *      });
+ * });
+ * ````
+ *
+ * Let&apos;s query our {@link Annotation}&apos;s current position in the World, View and Canvas coordinate systems:
+ *
+ * ````javascript
+ * const worldPos  = myAnnotation.worldPos;  // [x,y,z]
+ * const viewPos   = myAnnotation.viewPos;   // [x,y,z]
+ * const canvasPos = myAnnotation.canvasPos; // [x,y]
+ * ````
+ *
+ * We can query it&apos;s current visibility, which is ````false```` when its position is occluded by some {@link Entity}:
+ *
+ * ````
+ * const visible = myAnnotation1.visible;
+ * ````
+ *
+ * To listen for change events on our Annotation&apos;s position and visibility:
+ *
+ * ````javascript
+ * // World-space position changes when we assign a new value to Annotation#worldPos
+ * myAnnotation1.on(&quot;worldPos&quot;, (worldPos) =&gt; {
+ *     //...
+ * });
+ *
+ * // View-space position changes when either worldPos was updated or the Camera was moved
+ * myAnnotation1.on(&quot;viewPos&quot;, (viewPos) =&gt; {
+ *     //...
+ * });
+ *
+ * // Canvas-space position changes when worldPos or viewPos was updated, or Camera&apos;s projection was updated
+ * myAnnotation1.on(&quot;canvasPos&quot;, (canvasPos) =&gt; {
+ *     //...
+ * });
+ *
+ * // Annotation is invisible when its position falls off the canvas or is occluded by some Entity
+ * myAnnotation1.on(&quot;visible&quot;, (visible) =&gt; {
+ *     //...
+ * });
+ * ````
+ *
+ * Finally, let&apos;s dynamically update the values for a couple of placeholders in our Annotation&apos;s label:
+ *
+ * ```` javascript
+ * myAnnotation1.setValues({
+ *      title: &quot;Here&apos;s a new title&quot;,
+ *      description: &quot;Here&apos;s a new description&quot;
+ * });
+ * ````
+ *
+ *
+ * ## Example 2: Creating an Annotation with a unique appearance
+ *
+ * Now let&apos;s create a second {@link Annotation}, this time with its own custom HTML label template, which includes
+ * an image. In the Annotation&apos;s values, we&apos;ll also provide a new title and description, custom colors for the marker
+ * and label, plus a URL for the image in the label template. To render its marker, the Annotation will fall back
+ * on the AnnotationPlugin&apos;s default marker template.
+ *
+ * ````javascript
+ * const myAnnotation2 = annotations.createAnnotation({
+ *
+ *      id: &quot;myAnnotation2&quot;,
+ *
+ *      worldPos: [-0.163, 1.810, 7.977],
+ *
+ *      occludable: true,
+ *      markerShown: true,
+ *      labelShown: true,
+ *
+ *      // Custom label template is the same as the Annotation&apos;s, with the addition of an image element
+ *      labelHTML: &quot;&lt;div class=&apos;annotation-label&apos; style=&apos;background-color: {{labelBGColor}};&apos;&gt;\
+ *          &lt;div class=&apos;annotation-title&apos;&gt;{{title}}&lt;/div&gt;\
+ *          &lt;div class=&apos;annotation-desc&apos;&gt;{{description}}&lt;/div&gt;\
+ *          &lt;br&gt;&lt;img alt=&apos;myImage&apos; width=&apos;150px&apos; height=&apos;100px&apos; src=&apos;{{imageSrc}}&apos;&gt;\
+ *          &lt;/div&gt;&quot;,
+ *
+ *      // Custom template values override all the AnnotationPlugin&apos;s defaults, and includes an additional value
+ *      // for the image element&apos;s URL
+ *      values: {
+ *          glyph: &quot;A3&quot;,
+ *          title: &quot;The West wall&quot;,
+ *          description: &quot;Annotations can contain&lt;br&gt;custom HTML like this&lt;br&gt;image:&quot;,
+ *          markerBGColor: &quot;green&quot;,
+ *          labelBGColor: &quot;green&quot;,
+ *          imageSrc: &quot;https://xeokit.io/img/docs/BIMServerLoaderPlugin/schependomlaan.png&quot;
+ *      }
+ * });
+ * ````
+ *
+ * ## Example 3: Creating an Annotation with a camera position
+ *
+ * We can optionally configure each {@link Annotation} with a position to fly or jump the {@link Camera} to.
+ *
+ * Let&apos;s create another Annotation, this time providing it with ````eye````, ````look```` and ````up```` properties
+ * indicating a viewpoint on whatever it&apos;s annotating:
+ *
+ * ````javascript
+ * const myAnnotation3 = annotations.createAnnotation({
+ *
+ *      id: &quot;myAnnotation3&quot;,
+ *
+ *      worldPos: [-0.163, 3.810, 7.977],
+ *
+ *      eye: [0,0,-10],
+ *      look: [-0.163, 3.810, 7.977],
+ *      up: [0,1,0];
+ *
+ *      occludable: true,
+ *      markerShown: true,
+ *      labelShown: true,
+ *
+ *      labelHTML: &quot;&lt;div class=&apos;annotation-label&apos; style=&apos;background-color: {{labelBGColor}};&apos;&gt;\
+ *          &lt;div class=&apos;annotation-title&apos;&gt;{{title}}&lt;/div&gt;\
+ *          &lt;div class=&apos;annotation-desc&apos;&gt;{{description}}&lt;/div&gt;\
+ *          &lt;br&gt;&lt;img alt=&apos;myImage&apos; width=&apos;150px&apos; height=&apos;100px&apos; src=&apos;{{imageSrc}}&apos;&gt;\
+ *          &lt;/div&gt;&quot;,
+ *
+ *      values: {
+ *          glyph: &quot;A3&quot;,
+ *          title: &quot;The West wall&quot;,
+ *          description: &quot;Annotations can contain&lt;br&gt;custom HTML like this&lt;br&gt;image:&quot;,
+ *          markerBGColor: &quot;green&quot;,
+ *          labelBGColor: &quot;green&quot;,
+ *          imageSrc: &quot;https://xeokit.io/img/docs/BIMServerLoaderPlugin/schependomlaan.png&quot;
+ *      }
+ * });
+ * ````
+ *
+ * Now we can fly the {@link Camera} to the Annotation&apos;s viewpoint, like this:
+ *
+ * ````javascript
+ * viewer.cameraFlight.flyTo(myAnnotation3);
+ * ````
+ *
+ * Or jump the Camera, like this:
+ *
+ * ````javascript
+ * viewer.cameraFlight.jumpTo(myAnnotation3);
+ * ````
+ *
+ * ## Example 4: Creating an Annotation using externally-created DOM elements
+ *
+ * Now let&apos;s create another {@link Annotation}, this time providing it with pre-existing DOM elements for its marker
+ * and label. Note that AnnotationsPlugin will ignore any ````markerHTML````, ````labelHTML````
+ * or ````values```` properties when provide  ````markerElementId```` or ````labelElementId````.
+ *
+ * ````javascript
+ * const myAnnotation2 = annotations.createAnnotation({
+ *
+ *      id: &quot;myAnnotation2&quot;,
+ *
+ *      worldPos: [-0.163, 1.810, 7.977],
+ *
+ *      occludable: true,
+ *      markerShown: true,
+ *      labelShown: true,
+ *
+ *      markerElementId: &quot;myMarkerElement&quot;,
+ *      labelElementId: &quot;myLabelElement&quot;
+ * });
+ * ````
+ *
+ * ## Example 5: Creating annotations by clicking on objects
+ *
+ * AnnotationsPlugin makes it easy to create {@link Annotation}s on the surfaces of {@link Entity}s as we click on them.
+ *
+ * The {@link AnnotationsPlugin#createAnnotation} method can accept a {@link PickResult} returned
+ * by {@link Scene#pick}, from which it initializes the {@link Annotation}&apos;s {@link Annotation#worldPos} and
+ * {@link Annotation#entity}. Note that this only works when {@link Scene#pick} was configured to perform a 3D
+ * surface-intersection pick (see {@link Scene#pick} for more info).
+ *
+ * Let&apos;s now extend our example to create an Annotation wherever we click on the surface of of our model:
+ *
+ * [[Run example](https://xeokit.github.io/xeokit-sdk/examples/#annotations_createWithMouse)]
+ *
+ * ````javascript
+ * var i = 1; // Used to create unique Annotation IDs
+ *
+ * viewer.scene.input.on(&quot;mouseclicked&quot;, (coords) =&gt; {
+ *
+ *     var pickRecord = viewer.scene.pick({
+ *         canvasPos: coords,
+ *         pickSurface: true  // &lt;&lt;------ This causes picking to find the intersection point on the entity
+ *     });
+ *
+ *     if (pickRecord) {
+ *
+ *         const annotation = annotations.createAnnotation({
+ *              id: &quot;myAnnotationOnClick&quot; + i,
+ *              pickRecord: pickRecord,
+ *              occludable: true,           // Optional, default is true
+ *              markerShown: true,          // Optional, default is true
+ *              labelShown: true,           // Optional, default is true
+ *              values: {                   // HTML template values
+ *                  glyph: &quot;A&quot; + i,
+ *                  title: &quot;My annotation &quot; + i,
+ *                  description: &quot;My description &quot; + i
+ *              },
+           });
+ *
+ *         i++;
+ *      }
+ * });
+ * ````
+ */
+class AnnotationsPlugin extends Plugin {
+
+    /**
+     * @constructor
+     * @param {Viewer} viewer The Viewer.
+     * @param {Object} cfg  Plugin configuration.
+     * @param {String} [cfg.id=&quot;Annotations&quot;] Optional ID for this plugin, so that we can find it within {@link Viewer#plugins}.
+     * @param {String} [cfg.markerHTML] HTML text template for Annotation markers. Defaults to ````&lt;div&gt;&lt;/div&gt;````. Ignored on {@link Annotation}s configured with a ````markerElementId````.
+     * @param {String} [cfg.labelHTML] HTML text template for Annotation labels. Defaults to ````&lt;div&gt;&lt;/div&gt;````.  Ignored on {@link Annotation}s configured with a ````labelElementId````.
+     * @param {HTMLElement} [cfg.container] Container DOM element for markers and labels. Defaults to ````document.body````.
+     * @param  {{String:(String|Number)}} [cfg.values={}] Map of default values to insert into the HTML templates for the marker and label.
+     */
+    constructor(viewer, cfg) {
+
+        super(&quot;Annotations&quot;, viewer);
+
+        this._labelHTML = cfg.labelHTML || &quot;&lt;div&gt;&lt;/div&gt;&quot;;
+        this._markerHTML = cfg.markerHTML || &quot;&lt;div&gt;&lt;/div&gt;&quot;;
+        this._container = cfg.container || document.body;
+        this._values = cfg.values || {};
+
+        /**
+         * The {@link Annotation}s created by {@link AnnotationsPlugin#createAnnotation}, each mapped to its {@link Annotation#id}.
+         * @type {{String:Annotation}}
+         */
+        this.annotations = {};
+    }
+
+    /**
+     * @private
+     */
+    send(name, value) {
+        switch (name) {
+            case &quot;clearAnnotations&quot;:
+                this.clear();
+                break;
+        }
+    }
+
+    /**
+     * Creates an {@link Annotation}.
+     *
+     * The Annotation is then registered by {@link Annotation#id} in {@link AnnotationsPlugin#annotations}.
+     *
+     * @param {Object} params Annotation configuration.
+     * @param {String} params.id Unique ID to assign to {@link Annotation#id}. The Annotation will be registered by this in {@link AnnotationsPlugin#annotations} and {@link Scene.components}. Must be unique among all components in the {@link Viewer}.
+     * @param {String} [params.markerElementId] ID of pre-existing DOM element to render the marker. This overrides ````markerHTML```` and does not support ````values```` (data is baked into the label DOM element).
+     * @param {String} [params.labelElementId] ID of pre-existing DOM element to render the label. This overrides ````labelHTML```` and does not support ````values```` (data is baked into the label DOM element).
+     * @param {String} [params.markerHTML] HTML text template for the Annotation marker. Defaults to the marker HTML given to the AnnotationsPlugin constructor. Ignored if you provide ````markerElementId````.
+     * @param {String} [params.labelHTML] HTML text template for the Annotation label. Defaults to the label HTML given to the AnnotationsPlugin constructor. Ignored if you provide ````labelElementId````.
+     * @param {Number[]} [params.worldPos=[0,0,0]] World-space position of the Annotation marker, assigned to {@link Annotation#worldPos}.
+     * @param {Entity} [params.entity] Optional {@link Entity} to associate the Annotation with. Causes {@link Annotation#visible} to be ````false```` whenever {@link Entity#visible} is also ````false````.
+     * @param {PickResult} [params.pickResult] Sets the Annotation&apos;s World-space position and direction vector from the given {@link PickResult}&apos;s {@link PickResult#worldPos} and {@link PickResult#worldNormal}, and the Annotation&apos;s Entity from {@link PickResult#entity}. Causes ````worldPos```` and ````entity```` parameters to be ignored, if they are also given.
+     * @param {Boolean} [params.occludable=false] Indicates whether or not the {@link Annotation} marker and label are hidden whenever the marker occluded by {@link Entity}s in the {@link Scene}. The
+     * {@link Scene} periodically occlusion-tests all Annotations on every 20th &quot;tick&quot; (which represents a rendered frame). We can adjust that frequency via property {@link Scene#ticksPerOcclusionTest}.
+     * @param  {{String:(String|Number)}} [params.values={}] Map of values to insert into the HTML templates for the marker and label. These will be inserted in addition to any values given to the AnnotationsPlugin constructor.
+     * @param {Boolean} [params.markerShown=true] Whether to initially show the {@link Annotation} marker.
+     * @param {Boolean} [params.labelShown=false] Whether to initially show the {@link Annotation} label.
+     * @param {Number[]} [params.eye] Optional World-space position for {@link Camera#eye}, used when this Annotation is associated with a {@link Camera} position.
+     * @param {Number[]} [params.look] Optional World-space position for {@link Camera#look}, used when this Annotation is associated with a {@link Camera} position.
+     * @param {Number[]} [params.up] Optional World-space position for {@link Camera#up}, used when this Annotation is associated with a {@link Camera} position.
+     * @param {String} [params.projection] Optional projection type for {@link Camera#projection}, used when this Annotation is associated with a {@link Camera} position.
+     * @returns {Annotation} The new {@link Annotation}.
+     */
+    createAnnotation(params) {
+        if (this.viewer.scene.components[params.id]) {
+            this.error(&quot;Viewer component with this ID already exists: &quot; + params.id);
+            delete params.id;
+        }
+        var worldPos;
+        var entity;
+        params.pickResult = params.pickResult || params.pickRecord;
+        if (params.pickResult) {
+            const pickResult = params.pickResult;
+            if (!pickResult.worldPos || !pickResult.worldNormal) {
+                this.error(&quot;Param &apos;pickResult&apos; does not have both worldPos and worldNormal&quot;);
+            } else {
+                const normalizedWorldNormal = math.normalizeVec3(pickResult.worldNormal, tempVec3a);
+                const offsetVec = math.mulVec3Scalar(normalizedWorldNormal, 0.2, tempVec3b);
+                const offsetWorldPos = math.addVec3(pickResult.worldPos, offsetVec, tempVec3c);
+                worldPos = offsetWorldPos;
+                entity = pickResult.entity;
+            }
+        } else {
+            worldPos = params.worldPos;
+            entity = params.entity;
+        }
+
+        var markerElement = null;
+        if (params.markerElementId) {
+            markerElement = document.getElementById(params.markerElementId);
+            if (!markerElement) {
+                this.error(&quot;Can&apos;t find DOM element for &apos;markerElementId&apos; value &apos;&quot; + params.markerElementId + &quot;&apos; - defaulting to internally-generated empty DIV&quot;);
+            }
+        }
+
+        var labelElement = null;
+        if (params.labelElementId) {
+            labelElement = document.getElementById(params.labelElementId);
+            if (!labelElement) {
+                this.error(&quot;Can&apos;t find DOM element for &apos;labelElementId&apos; value &apos;&quot; + params.labelElementId + &quot;&apos; - defaulting to internally-generated empty DIV&quot;);
+            }
+        }
+
+        const annotation = new Annotation(this.viewer.scene, {
+            id: params.id,
+            plugin: this,
+            entity: entity,
+            worldPos: worldPos,
+            container: this._container,
+            markerElement: markerElement,
+            labelElement: labelElement,
+            markerHTML: params.markerHTML || this._markerHTML,
+            labelHTML: params.labelHTML || this._labelHTML,
+            occludable: params.occludable,
+            values: utils.apply(params.values, utils.apply(this._values, {})),
+            markerShown: params.markerShown,
+            labelShown: params.labelShown,
+            eye: params.eye,
+            look: params.look,
+            up: params.up,
+            projection: params.projection
+        });
+        this.annotations[annotation.id] = annotation;
+        annotation.on(&quot;destroyed&quot;, () =&gt; {
+            delete this.annotations[annotation.id];
+        });
+        return annotation;
+    }
+
+    /**
+     * Destroys an {@link Annotation}.
+     *
+     * @param {String} id ID of Annotation to destroy.
+     */
+    destroyAnnotation(id) {
+        var annotation = this.annotations[id];
+        if (!annotation) {
+            this.log(&quot;Annotation not found: &quot; + id);
+            return;
+        }
+        annotation.destroy();
+    }
+
+    /**
+     * Destroys all {@link Annotation}s.
+     */
+    clear() {
+        const ids = Object.keys(this.annotations);
+        for (var i = 0, len = ids.length; i &lt; len; i++) {
+            this.destroyAnnotation(ids[i]);
+        }
+    }
+
+    /**
+     * Destroys this AnnotationsPlugin.
+     *
+     * Destroys all {@link Annotation}s first.
+     */
+    destroy() {
+        this.clear();
+        super.destroy();
+    }
+}
+
+export {AnnotationsPlugin}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

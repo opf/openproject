@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/plugins/GLTFLoaderPlugin/GLTFQualityLoader.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/plugins/GLTFLoaderPlugin/GLTFQualityLoader.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {Mesh} from &quot;../../viewer/scene/mesh/Mesh.js&quot;;
+import {ReadableGeometry} from &quot;../../viewer/scene/geometry/ReadableGeometry.js&quot;;
+import {VBOGeometry} from &quot;../../viewer/scene/geometry/VBOGeometry.js&quot;;
+import {PhongMaterial} from &quot;../../viewer/scene/materials/PhongMaterial.js&quot;;
+import {MetallicMaterial} from &quot;../../viewer/scene/materials/MetallicMaterial.js&quot;;
+import {SpecularMaterial} from &quot;../../viewer/scene/materials/SpecularMaterial.js&quot;;
+import {Texture} from &quot;../../viewer/scene/materials/Texture.js&quot;;
+import {Node} from &quot;../../viewer/scene/nodes/Node.js&quot;;
+import {math} from &quot;../../viewer/scene/math/math.js&quot;;
+import {utils} from &quot;../../viewer/scene/utils.js&quot;;
+import {core} from &quot;../../viewer/scene/core.js&quot;;
+
+/**
+ * @private
+ */
+class GLTFQualityLoader {
+
+    constructor(cfg) { // TODO: Loading options fallbacks on loader, eg. handleGLTFNode etc
+        cfg = cfg || {};
+    }
+
+    load(plugin, modelNode, src, options, ok, error) {
+        options = options || {};
+        var spinner = modelNode.scene.canvas.spinner;
+        spinner.processes++;
+        loadGLTF(plugin, modelNode, src, options, function () {
+                spinner.processes--;
+                core.scheduleTask(function () {
+                    modelNode.scene.fire(&quot;modelLoaded&quot;, modelNode.id); // FIXME: Assumes listeners know order of these two events
+                    modelNode.fire(&quot;loaded&quot;, true, true);
+                });
+                if (ok) {
+                    ok();
+                }
+            },
+            function (msg) {
+                spinner.processes--;
+                modelNode.error(msg);
+                if (error) {
+                    error(msg);
+                }
+                modelNode.fire(&quot;error&quot;, msg);
+            });
+    }
+
+    parse(plugin, modelNode, gltf, options, ok, error) {
+        options = options || {};
+        var spinner = modelNode.scene.canvas.spinner;
+        spinner.processes++;
+        parseGLTF(plugin, gltf, &quot;&quot;, options, plugin, modelNode, function () {
+                spinner.processes--;
+                modelNode.scene.fire(&quot;modelLoaded&quot;, modelNode.id); // FIXME: Assumes listeners know order of these two events
+                modelNode.fire(&quot;loaded&quot;, true, true);
+                if (ok) {
+                    ok();
+                }
+            },
+            function (msg) {
+                spinner.processes--;
+                modelNode.error(msg);
+                modelNode.fire(&quot;error&quot;, msg);
+                if (error) {
+                    error(msg);
+                }
+            });
+    }
+}
+
+
+var loadGLTF = (function () {
+    return function (plugin, modelNode, src, options, ok, error) {
+        plugin.dataSource.getGLTF(src, function (json) { // OK
+                options.basePath = getBasePath(src);
+                parseGLTF(plugin, json, src, options, modelNode, ok, error);
+            },
+            error);
+    };
+
+    function getBasePath(src) {
+        var i = src.lastIndexOf(&quot;/&quot;);
+        return (i !== 0) ? src.substring(0, i + 1) : &quot;&quot;;
+    }
+})();
+
+var parseGLTF = (function () {
+
+    const WEBGL_COMPONENT_TYPES = {
+        5120: Int8Array,
+        5121: Uint8Array,
+        5122: Int16Array,
+        5123: Uint16Array,
+        5125: Uint32Array,
+        5126: Float32Array
+    };
+
+    const WEBGL_TYPE_SIZES = {
+        &apos;SCALAR&apos;: 1,
+        &apos;VEC2&apos;: 2,
+        &apos;VEC3&apos;: 3,
+        &apos;VEC4&apos;: 4,
+        &apos;MAT2&apos;: 4,
+        &apos;MAT3&apos;: 9,
+        &apos;MAT4&apos;: 16
+    };
+
+    return function (plugin, json, src, options, modelNode, ok) {
+        modelNode.clear();
+        var ctx = {
+            src: src,
+            loadBuffer: options.loadBuffer,
+            basePath: options.basePath,
+            prioritizeGLTFNode: options.prioritizeGLTFNode,
+            handleGLTFNode: options.handleGLTFNode,
+            ignoreMaterials: !!options.ignoreMaterials,
+            edgeThreshold: options.edgeThreshold,
+            readableGeometry: !!options.readableGeometry,
+            json: json,
+            scene: modelNode.scene,
+            plugin: plugin,
+            modelNode: modelNode,
+            modelNodeProps: {
+                visible: modelNode.visible,
+                culled: modelNode.culled,
+                xrayed: modelNode.xrayed,
+                highlighted: modelNode.highlighted,
+                selected: modelNode.selected,
+                outlined: modelNode.outlined,
+                clippable: modelNode.clippable,
+                pickable: modelNode.pickable,
+                collidable: modelNode.collidable,
+                castsShadow: modelNode.castsShadow,
+                receivesShadow: modelNode.receivesShadow,
+                colorize: modelNode.colorize,
+                opacity: modelNode.opacity,
+                edges: modelNode.edges
+            }
+        };
+
+        modelNode.scene.loading++; // Disables (re)compilation
+
+        loadBuffers(ctx, function () {
+
+            loadBufferViews(ctx);
+            loadAccessors(ctx);
+            loadTextures(ctx);
+            loadMaterials(ctx);
+            loadMeshes(ctx);
+            loadDefaultScene(ctx);
+
+            modelNode.scene.loading--; // Re-enables (re)compilation
+
+            ok();
+        });
+    };
+
+    function loadBuffers(ctx, ok) {
+        var buffers = ctx.json.buffers;
+        if (buffers) {
+            var numToLoad = buffers.length;
+            for (var i = 0, len = buffers.length; i &lt; len; i++) {
+                loadBuffer(ctx, buffers[i], function () {
+                    if (--numToLoad === 0) {
+                        ok();
+                    }
+                }, function (msg) {
+                    ctx.plugin.error(msg);
+                    if (--numToLoad === 0) {
+                        ok();
+                    }
+                });
+            }
+        } else {
+            ok();
+        }
+    }
+
+    function loadBuffer(ctx, bufferInfo, ok, err) {
+        var uri = bufferInfo.uri;
+        if (uri) {
+            ctx.plugin.dataSource.getArrayBuffer(ctx.src, uri, function (data) {
+                    bufferInfo._buffer = data;
+                    ok();
+                },
+                err);
+        } else {
+            err(&apos;gltf/handleBuffer missing uri in &apos; + JSON.stringify(bufferInfo));
+        }
+    }
+
+    function loadBufferViews(ctx) {
+        var bufferViewsInfo = ctx.json.bufferViews;
+        if (bufferViewsInfo) {
+            for (var i = 0, len = bufferViewsInfo.length; i &lt; len; i++) {
+                loadBufferView(ctx, bufferViewsInfo[i]);
+            }
+        }
+    }
+
+    function loadBufferView(ctx, bufferViewInfo) {
+
+        var buffer = ctx.json.buffers[bufferViewInfo.buffer];
+
+        bufferViewInfo._typedArray = null;
+
+        var byteLength = bufferViewInfo.byteLength || 0;
+        var byteOffset = bufferViewInfo.byteOffset || 0;
+
+        bufferViewInfo._buffer = buffer._buffer.slice(byteOffset, byteOffset + byteLength);
+    }
+
+    function loadAccessors(ctx) {
+        var accessorsInfo = ctx.json.accessors;
+        if (accessorsInfo) {
+            for (var i = 0, len = accessorsInfo.length; i &lt; len; i++) {
+                loadAccessor(ctx, accessorsInfo[i]);
+            }
+        }
+    }
+
+    function loadAccessor(ctx, accessorInfo) {
+        var bufferViewInfo = ctx.json.bufferViews[accessorInfo.bufferView];
+        var itemSize = WEBGL_TYPE_SIZES[accessorInfo.type];
+        var TypedArray = WEBGL_COMPONENT_TYPES[accessorInfo.componentType];
+
+        // For VEC3: itemSize is 3, elementBytes is 4, itemBytes is 12.
+        var elementBytes = TypedArray.BYTES_PER_ELEMENT;
+        var itemBytes = elementBytes * itemSize;
+
+        // The buffer is not interleaved if the stride is the item size in bytes.
+        if (accessorInfo.byteStride &amp;&amp; accessorInfo.byteStride !== itemBytes) {
+
+        } else {
+            accessorInfo._typedArray = new TypedArray(bufferViewInfo._buffer, accessorInfo.byteOffset || 0, accessorInfo.count * itemSize);
+            accessorInfo._itemSize = itemSize;
+        }
+    }
+
+
+    function loadTextures(ctx) {
+        var texturesInfo = ctx.json.textures;
+        if (texturesInfo) {
+            for (var i = 0, len = texturesInfo.length; i &lt; len; i++) {
+                loadTexture(ctx, texturesInfo[i]);
+            }
+        }
+    }
+
+    function loadTexture(ctx, textureInfo) {
+        textureInfo._texture = new Texture(ctx.modelNode, {
+            src: ctx.json.images[textureInfo.source].uri ? ctx.basePath + ctx.json.images[textureInfo.source].uri : undefined,
+            flipY: !!textureInfo.flipY,
+            encoding: &quot;sRGB&quot;
+        });
+    }
+
+    function loadMaterials(ctx) {
+        var materialsInfo = ctx.json.materials;
+        if (materialsInfo) {
+            var materialInfo;
+            var material;
+            for (var i = 0, len = materialsInfo.length; i &lt; len; i++) {
+                materialInfo = materialsInfo[i];
+                material = loadMaterial(ctx, materialInfo);
+                materialInfo._material = material;
+            }
+        }
+    }
+
+    function loadMaterial(ctx, materialInfo) {
+
+        var json = ctx.json;
+        var cfg = {};
+        var textureInfo;
+
+        // Common attributes
+
+        var normalTexture = materialInfo.normalTexture;
+        if (normalTexture) {
+            textureInfo = json.textures[normalTexture.index];
+            if (textureInfo) {
+                cfg.normalMap = textureInfo._texture;
+                //cfg.normalMap.encoding = &quot;linear&quot;;
+            }
+        }
+
+        var occlusionTexture = materialInfo.occlusionTexture;
+        if (occlusionTexture) {
+            textureInfo = json.textures[occlusionTexture.index];
+            if (textureInfo) {
+                cfg.occlusionMap = textureInfo._texture;
+            }
+        }
+
+        var emissiveTexture = materialInfo.emissiveTexture;
+        if (emissiveTexture) {
+            textureInfo = json.textures[emissiveTexture.index];
+            if (textureInfo) {
+                cfg.emissiveMap = textureInfo._texture;
+                //cfg.emissiveMap.encoding = &quot;sRGB&quot;;
+            }
+        }
+
+        var emissiveFactor = materialInfo.emissiveFactor;
+        if (emissiveFactor) {
+            cfg.emissive = emissiveFactor;
+        }
+
+        cfg.backfaces = !!materialInfo.doubleSided;
+
+        var alphaMode = materialInfo.alphaMode;
+        switch (alphaMode) {
+            case &quot;NORMAL_OPAQUE&quot;:
+                cfg.alphaMode = &quot;opaque&quot;;
+                break;
+            case &quot;MASK&quot;:
+                cfg.alphaMode = &quot;mask&quot;;
+                break;
+            case &quot;BLEND&quot;:
+                cfg.alphaMode = &quot;blend&quot;;
+                break;
+            default:
+        }
+
+        var alphaCutoff = materialInfo.alphaCutoff;
+        if (alphaCutoff !== undefined) {
+            cfg.alphaCutoff = alphaCutoff;
+        }
+
+        var extensions = materialInfo.extensions;
+        if (extensions) {
+
+            // Specular PBR material
+
+            var specularPBR = extensions[&quot;KHR_materials_pbrSpecularGlossiness&quot;];
+            if (specularPBR) {
+
+                var diffuseFactor = specularPBR.diffuseFactor;
+                if (diffuseFactor !== null &amp;&amp; diffuseFactor !== undefined) {
+                    cfg.diffuse = diffuseFactor.slice(0, 3);
+                    cfg.alpha = diffuseFactor[3];
+                }
+
+                var diffuseTexture = specularPBR.diffuseTexture;
+                if (diffuseTexture) {
+                    textureInfo = json.textures[diffuseTexture.index];
+                    if (textureInfo) {
+                        cfg.diffuseMap = textureInfo._texture;
+                        //cfg.diffuseMap.encoding = &quot;sRGB&quot;;
+                    }
+                }
+
+                var specularFactor = specularPBR.specularFactor;
+                if (specularFactor !== null &amp;&amp; specularFactor !== undefined) {
+                    cfg.specular = specularFactor.slice(0, 3);
+                }
+
+                var glossinessFactor = specularPBR.glossinessFactor;
+                if (glossinessFactor !== null &amp;&amp; glossinessFactor !== undefined) {
+                    cfg.glossiness = glossinessFactor;
+                }
+
+                var specularGlossinessTexture = specularPBR.specularGlossinessTexture;
+                if (specularGlossinessTexture) {
+                    textureInfo = json.textures[specularGlossinessTexture.index];
+                    if (textureInfo) {
+                        cfg.specularGlossinessMap = textureInfo._texture;
+                        //cfg.specularGlossinessMap.encoding = &quot;linear&quot;;
+                    }
+                }
+
+                return new SpecularMaterial(ctx.modelNode, cfg);
+            }
+
+            // Common Phong, Blinn, Lambert or Constant materials
+
+            var common = extensions[&quot;KHR_materials_common&quot;];
+            if (common) {
+
+                var technique = common.technique;
+                var values = common.values || {};
+
+                var blinn = technique === &quot;BLINN&quot;;
+                var phong = technique === &quot;PHONG&quot;;
+                var lambert = technique === &quot;LAMBERT&quot;;
+                var constant = technique === &quot;CONSTANT&quot;;
+
+                var shininess = values.shininess;
+                if ((blinn || phong) &amp;&amp; shininess !== null &amp;&amp; shininess !== undefined) {
+                    cfg.shininess = shininess;
+                } else {
+                    cfg.shininess = 0;
+                }
+                var texture;
+                var diffuse = values.diffuse;
+                if (diffuse &amp;&amp; (blinn || phong || lambert)) {
+                    if (utils.isString(diffuse)) {
+                        texture = ctx.textures[diffuse];
+                        if (texture) {
+                            cfg.diffuseMap = texture;
+                            //  cfg.diffuseMap.encoding = &quot;sRGB&quot;;
+                        }
+                    } else {
+                        cfg.diffuse = diffuse.slice(0, 3);
+                    }
+                } else {
+                    cfg.diffuse = [0, 0, 0];
+                }
+
+                var specular = values.specular;
+                if (specular &amp;&amp; (blinn || phong)) {
+                    if (utils.isString(specular)) {
+                        texture = ctx.textures[specular];
+                        if (texture) {
+                            cfg.specularMap = texture;
+                        }
+                    } else {
+                        cfg.specular = specular.slice(0, 3);
+                    }
+                } else {
+                    cfg.specular = [0, 0, 0];
+                }
+
+                var emission = values.emission;
+                if (emission) {
+                    if (utils.isString(emission)) {
+                        texture = ctx.textures[emission];
+                        if (texture) {
+                            cfg.emissiveMap = texture;
+                        }
+                    } else {
+                        cfg.emissive = emission.slice(0, 3);
+                    }
+                } else {
+                    cfg.emissive = [0, 0, 0];
+                }
+
+                var transparency = values.transparency;
+                if (transparency !== null &amp;&amp; transparency !== undefined) {
+                    cfg.alpha = transparency;
+                } else {
+                    cfg.alpha = 1.0;
+                }
+
+                var transparent = values.transparent;
+                if (transparent !== null &amp;&amp; transparent !== undefined) {
+                    //cfg.transparent = transparent;
+                } else {
+                    //cfg.transparent = 1.0;
+                }
+
+                return new PhongMaterial(ctx.scene, cfg);
+            }
+        }
+
+        // Metallic PBR naterial
+
+        var metallicPBR = materialInfo.pbrMetallicRoughness;
+        if (metallicPBR) {
+
+            var baseColorFactor = metallicPBR.baseColorFactor;
+            if (baseColorFactor) {
+                cfg.baseColor = baseColorFactor.slice(0, 3);
+                cfg.alpha = baseColorFactor[3];
+            }
+
+            var baseColorTexture = metallicPBR.baseColorTexture;
+            if (baseColorTexture) {
+                textureInfo = json.textures[baseColorTexture.index];
+                if (textureInfo) {
+                    cfg.baseColorMap = textureInfo._texture;
+                    //cfg.baseColorMap.encoding = &quot;sRGB&quot;;
+                }
+            }
+
+            var metallicFactor = metallicPBR.metallicFactor;
+            if (metallicFactor !== null &amp;&amp; metallicFactor !== undefined) {
+                cfg.metallic = metallicFactor;
+            }
+
+            var roughnessFactor = metallicPBR.roughnessFactor;
+            if (roughnessFactor !== null &amp;&amp; roughnessFactor !== undefined) {
+                cfg.roughness = roughnessFactor;
+            }
+
+            var metallicRoughnessTexture = metallicPBR.metallicRoughnessTexture;
+            if (metallicRoughnessTexture) {
+                textureInfo = json.textures[metallicRoughnessTexture.index];
+                if (textureInfo) {
+                    cfg.metallicRoughnessMap = textureInfo._texture;
+                    // cfg.metallicRoughnessMap.encoding = &quot;linear&quot;;
+                }
+            }
+
+            return new MetallicMaterial(ctx.scene, cfg);
+        }
+
+        // Default material
+
+        return new PhongMaterial(ctx.scene, cfg);
+    }
+
+    // Extract diffuse/baseColor and alpha into RGBA Mesh &apos;colorize&apos; property
+    function loadMaterialColorize(ctx, materialInfo) {
+
+        var json = ctx.json;
+        var colorize = new Float32Array([1, 1, 1, 1]);
+
+        var extensions = materialInfo.extensions;
+        if (extensions) {
+
+            // Specular PBR material
+
+            var specularPBR = extensions[&quot;KHR_materials_pbrSpecularGlossiness&quot;];
+            if (specularPBR) {
+                var diffuseFactor = specularPBR.diffuseFactor;
+                if (diffuseFactor !== null &amp;&amp; diffuseFactor !== undefined) {
+                    colorize.set(diffuseFactor);
+                }
+            }
+
+            // Common Phong, Blinn, Lambert or Constant materials
+
+            var common = extensions[&quot;KHR_materials_common&quot;];
+            if (common) {
+
+                var technique = common.technique;
+                var values = common.values || {};
+
+                var blinn = technique === &quot;BLINN&quot;;
+                var phong = technique === &quot;PHONG&quot;;
+                var lambert = technique === &quot;LAMBERT&quot;;
+                var constant = technique === &quot;CONSTANT&quot;;
+
+                var diffuse = values.diffuse;
+                if (diffuse &amp;&amp; (blinn || phong || lambert)) {
+                    if (!utils.isString(diffuse)) {
+                        colorize.set(diffuse);
+                    }
+                }
+
+                var transparency = values.transparency;
+                if (transparency !== null &amp;&amp; transparency !== undefined) {
+                    colorize[3] = transparency;
+                }
+
+                var transparent = values.transparent;
+                if (transparent !== null &amp;&amp; transparent !== undefined) {
+                    colorize[3] = transparent;
+                }
+            }
+        }
+
+        // Metallic PBR naterial
+
+        var metallicPBR = materialInfo.pbrMetallicRoughness;
+        if (metallicPBR) {
+            var baseColorFactor = metallicPBR.baseColorFactor;
+            if (baseColorFactor) {
+                colorize.set(baseColorFactor);
+            }
+        }
+
+        return colorize;
+    }
+
+    function loadMeshes(ctx) {
+        var meshes = ctx.json.meshes;
+        if (meshes) {
+            for (var i = 0, len = meshes.length; i &lt; len; i++) {
+                loadMesh(ctx, meshes[i]);
+            }
+        }
+    }
+
+    function loadMesh(ctx, meshInfo) {
+        var json = ctx.json;
+        var mesh = [];
+        var primitivesInfo = meshInfo.primitives;
+        var materialIndex;
+        var materialInfo;
+        var accessorInfo;
+        var attributes;
+
+        if (primitivesInfo) {
+
+            var primitiveInfo;
+            var indicesIndex;
+            var positionsIndex;
+            var normalsIndex;
+            var uv0Index;
+            var geometryCfg;
+            var meshCfg;
+            var geometry;
+
+            for (var i = 0, len = primitivesInfo.length; i &lt; len; i++) {
+
+                geometryCfg = {
+                    primitive: &quot;triangles&quot;,
+                    compressGeometry: true,
+                    edgeThreshold: ctx.edgeThreshold
+                };
+
+                primitiveInfo = primitivesInfo[i];
+                indicesIndex = primitiveInfo.indices;
+
+                if (indicesIndex !== null &amp;&amp; indicesIndex !== undefined) {
+                    accessorInfo = json.accessors[indicesIndex];
+                    geometryCfg.indices = accessorInfo._typedArray;
+                }
+
+                attributes = primitiveInfo.attributes;
+                if (!attributes) {
+                    continue;
+                }
+
+                positionsIndex = attributes.POSITION;
+
+                if (positionsIndex !== null &amp;&amp; positionsIndex !== undefined) {
+                    accessorInfo = json.accessors[positionsIndex];
+                    geometryCfg.positions = accessorInfo._typedArray;
+                }
+
+                normalsIndex = attributes.NORMAL;
+
+                if (normalsIndex !== null &amp;&amp; normalsIndex !== undefined) {
+                    accessorInfo = json.accessors[normalsIndex];
+                    geometryCfg.normals = accessorInfo._typedArray;
+                }
+
+                uv0Index = attributes.TEXCOORD_0;
+
+                if (uv0Index !== null &amp;&amp; uv0Index !== undefined) {
+                    accessorInfo = json.accessors[uv0Index];
+                    geometryCfg.uv = accessorInfo._typedArray;
+                }
+
+                meshCfg = {};
+
+                if (ctx.readableGeometry) {
+                    geometry = new ReadableGeometry(ctx.modelNode, geometryCfg);
+                } else {
+                    geometry = new VBOGeometry(ctx.modelNode, geometryCfg);
+                }
+
+                meshCfg.geometry = geometry;
+
+                materialIndex = primitiveInfo.material;
+                if (materialIndex !== null &amp;&amp; materialIndex !== undefined) {
+                    materialInfo = json.materials[materialIndex];
+                    if (materialInfo) {
+                        meshCfg.material = materialInfo._material;
+                    }
+                }
+
+                mesh.push(meshCfg);
+            }
+        }
+        meshInfo._mesh = mesh;
+    }
+
+    function loadDefaultScene(ctx) {
+        var json = ctx.json;
+        var scene = json.scene || 0;
+        var defaultSceneInfo = json.scenes[scene];
+        if (!defaultSceneInfo) {
+            error(ctx, &quot;glTF has no default scene&quot;);
+            return;
+        }
+        loadScene(ctx, defaultSceneInfo);
+    }
+
+    function loadScene(ctx, sceneInfo) {
+        var nodes = sceneInfo.nodes;
+        if (!nodes) {
+            return;
+        }
+        var json = ctx.json;
+        var glTFNode;
+        for (var i = 0, len = nodes.length; i &lt; len; i++) {
+            glTFNode = json.nodes[nodes[i]];
+            if (!glTFNode) {
+                error(ctx, &quot;Node not found: &quot; + i);
+                continue;
+            }
+            loadNode(ctx, glTFNode, null, null);
+        }
+    }
+
+    function loadNode(ctx, glTFNode, matrix, parent) {
+
+        parent = parent || ctx.modelNode;
+
+        var createEntity;
+
+        if (ctx.prioritizeGLTFNode) {
+            const priority = ctx.prioritizeGLTFNode(ctx.modelNode.id, glTFNode);
+            if (priority === undefined || priority === null) {
+                return;
+            }
+        }
+
+        if (ctx.handleGLTFNode) {
+            var actions = {};
+            if (!ctx.handleGLTFNode(ctx.modelNode.id, glTFNode, actions)) {
+                return;
+            }
+            if (actions.createEntity) {
+                createEntity = actions.createEntity;
+            }
+        }
+
+        const json = ctx.json;
+        const modelNode = ctx.modelNode;
+        const hasChildNodes = glTFNode.children &amp;&amp; glTFNode.children.length &gt; 0;
+
+        var localMatrix;
+
+        if (glTFNode.matrix) {
+            localMatrix = glTFNode.matrix;
+            if (matrix) {
+                matrix = math.mulMat4(matrix, localMatrix, math.mat4());
+            } else {
+                matrix = localMatrix;
+            }
+        }
+
+        if (glTFNode.translation) {
+            localMatrix = math.translationMat4v(glTFNode.translation);
+            if (matrix) {
+                matrix = math.mulMat4(matrix, localMatrix, localMatrix);
+            } else {
+                matrix = localMatrix;
+            }
+        }
+
+        if (glTFNode.rotation) {
+            localMatrix = math.quaternionToMat4(glTFNode.rotation);
+            if (matrix) {
+                matrix = math.mulMat4(matrix, localMatrix, localMatrix);
+            } else {
+                matrix = localMatrix;
+            }
+        }
+
+        if (glTFNode.scale) {
+            localMatrix = math.scalingMat4v(glTFNode.scale);
+            if (matrix) {
+                matrix = math.mulMat4(matrix, localMatrix, localMatrix);
+            } else {
+                matrix = localMatrix;
+            }
+        }
+
+        if (glTFNode.mesh !== undefined) {
+
+            var meshInfo = json.meshes[glTFNode.mesh];
+
+            if (meshInfo) {
+
+                var meshesInfo = meshInfo._mesh;
+                var meshesInfoMesh;
+                var mesh;
+                var numMeshes = meshesInfo.length;
+
+                if (!createEntity &amp;&amp; numMeshes &gt; 0 &amp;&amp; !hasChildNodes) {
+
+                    // Case 1: Not creating object, node has meshes, node has no child nodes
+
+                    for (var i = 0, len = numMeshes; i &lt; len; i++) {
+                        meshesInfoMesh = meshesInfo[i];
+                        let meshCfg = {
+                            geometry: meshesInfoMesh.geometry,
+                            matrix: matrix
+                        };
+                        utils.apply(ctx.modelNodeProps, meshCfg);
+                        meshCfg.material = meshesInfoMesh.material;
+                        mesh = new Mesh(modelNode, meshCfg);
+                        parent.addChild(mesh, false); // Don&apos;t automatically inherit properties
+                    }
+                    return;
+                }
+
+                if (createEntity &amp;&amp; numMeshes === 1 &amp;&amp; !hasChildNodes) {
+
+                    // Case 2: Creating object, node has one mesh, node has no child nodes
+
+                    meshesInfoMesh = meshesInfo[0];
+                    let meshCfg = {
+                        geometry: meshesInfoMesh.geometry,
+                        matrix: matrix
+                    };
+                    utils.apply(ctx.modelNodeProps, meshCfg);
+                    meshCfg.material = meshesInfoMesh.material;
+                    utils.apply(createEntity, meshCfg);
+                    mesh = new Mesh(modelNode, meshCfg);
+                    parent.addChild(mesh, false); // Don&apos;t automatically inherit properties
+                    return;
+                }
+
+                if (createEntity &amp;&amp; numMeshes &gt; 0 &amp;&amp; !hasChildNodes) {
+
+                    // Case 3: Creating object, node has meshes, node has no child nodes
+
+                    let nodeCfg = {
+                        matrix: matrix
+                    };
+                    utils.apply(ctx.modelNodeProps, nodeCfg);
+                    utils.apply(createEntity, nodeCfg);
+                    let childNode = new Node(modelNode, nodeCfg);
+                    parent.addChild(childNode, false);
+                    for (let i = 0, len = numMeshes; i &lt; len; i++) {
+                        meshesInfoMesh = meshesInfo[i];
+                        let meshCfg = {
+                            geometry: meshesInfoMesh.geometry
+                        };
+                        utils.apply(ctx.modelNodeProps, meshCfg);
+                        meshCfg.material = meshesInfoMesh.material;
+                        utils.apply(createEntity, meshCfg);
+                        meshCfg.id = null; // Avoid ID clash with parent Node
+                        mesh = new Mesh(modelNode, meshCfg);
+                        childNode.addChild(mesh, false);
+                    }
+                    return;
+                }
+
+                if (!createEntity &amp;&amp; numMeshes &gt; 0 &amp;&amp; hasChildNodes) {
+
+                    // Case 4: Not creating object, node has meshes, node has child nodes
+
+                    let nodeCfg = {
+                        matrix: matrix
+                    };
+                    utils.apply(ctx.modelNodeProps, nodeCfg);
+                    let childNode = new Node(modelNode, nodeCfg);
+                    parent.addChild(childNode, false);
+                    for (let i = 0, len = numMeshes; i &lt; len; i++) {
+                        meshesInfoMesh = meshesInfo[i];
+                        let meshCfg = {
+                            geometry: meshesInfoMesh.geometry
+                        };
+                        utils.apply(nodeCfg, meshCfg);
+                        meshCfg.id = null; // Avoid ID clash with parent Node
+                        meshCfg.matrix = null; // Node has matrix
+                        meshCfg.material = meshesInfoMesh.material;
+                        mesh = new Mesh(modelNode, meshCfg);
+                        childNode.addChild(mesh, false);
+                    }
+                    matrix = null;
+                    parent = childNode;
+                }
+
+                if (createEntity &amp;&amp; numMeshes === 0 &amp;&amp; hasChildNodes) {
+
+                    // Case 5: Creating explicit object, node has meshes OR node has child nodes
+
+                    let nodeCfg = {
+                        matrix: matrix
+                    };
+                    utils.apply(ctx.modelNodeProps, nodeCfg);
+                    utils.apply(createEntity, nodeCfg);
+                    createEntity.matrix = matrix;
+                    let childNode = new Node(modelNode, nodeCfg);
+                    parent.addChild(childNode, false); // Don&apos;t automatically inherit properties
+                    matrix = null;
+                    parent = childNode;
+                }
+
+                if (createEntity &amp;&amp; numMeshes &gt; 0 || hasChildNodes) {
+
+                    // Case 6: Creating explicit object, node has meshes OR node has child nodes
+
+                    let nodeCfg = {
+                        matrix: matrix
+                    };
+                    utils.apply(ctx.modelNodeProps, nodeCfg);
+                    if (createEntity) {
+                        utils.apply(createEntity, nodeCfg);
+                    }
+                    let childNode = new Node(modelNode, nodeCfg);
+                    parent.addChild(childNode, false); // Don&apos;t automatically inherit properties
+                    for (let i = 0, len = numMeshes; i &lt; len; i++) {
+                        meshesInfoMesh = meshesInfo[i];
+                        let meshCfg = {
+                            geometry: meshesInfoMesh.geometry
+                        };
+                        utils.apply(ctx.modelProps, meshCfg);
+                        meshCfg.material = meshesInfoMesh.material;
+                        if (createEntity) {
+                            utils.apply(createEntity, meshCfg);
+                        }
+                        meshCfg.id = null; // Avoid ID clash with parent Node
+                        mesh = new Mesh(modelNode, meshCfg);
+                        childNode.addChild(mesh, false); // Don&apos;t automatically inherit properties
+                    }
+                    matrix = null;
+                    parent = childNode;
+                }
+            }
+        }
+
+        if (glTFNode.children) {
+            var children = glTFNode.children;
+            var childNodeInfo;
+            var childNodeIdx;
+            for (let i = 0, len = children.length; i &lt; len; i++) {
+                childNodeIdx = children[i];
+                childNodeInfo = json.nodes[childNodeIdx];
+                if (!childNodeInfo) {
+                    error(ctx, &quot;Node not found: &quot; + i);
+                    continue;
+                }
+                loadNode(ctx, childNodeInfo, matrix, parent);
+            }
+        }
+    }
+
+    function error(ctx, msg) {
+        ctx.plugin.error(msg);
+    }
+})();
+
+export {GLTFQualityLoader}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SectionPlanesPlugin</title>
+    <link href="./css/styles.css" type="text/css" rel="stylesheet"/>
+
+    <style>
+
+        #myCanvas {
+            width: 100%;
+            height: 100%;
+            background: lightBlue;
+        }
+
+        #mySectionPlanesOverviewCanvas {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            bottom: 70px;
+            right: 10px;
+            z-index: 200000;
+        }
+
+        #screenshots {
+            margin-top: 20px;
+            overflow-y: scroll;
+            height: 600px;
+            pointer-events: all;
+        }
+
+        #info {
+            position: absolute;
+            top: 0;
+            z-index: 200000;
+            float: right;
+            right: 0;
+            padding: 10px;
+            height: auto;
+            text-align: left;
+            pointer-events: none;
+            background: RGBA(0, 0, 0, 0.4);
+            max-width: 500px;
+            color: white;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<canvas id="mySectionPlanesOverviewCanvas"></canvas>
+
+<div id="info">
+    <h1>Capturing PNG Screenshots</h1>
+    <p>Demonstrates taking a canvas snapshot after creating SectionPlanes with a SectionPlanesPlugin. Note how the
+        SectionPlanesPlugin's SectionPlane editing gizmo is not included in the snapshot.</p>
+    <br>
+    <ul>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a>
+            - Loads model from file system
+        </li>
+        <li>
+            <a target="_other"
+               href="./../docs/class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a>
+            - Creates section planes
+        </li>
+        <li>
+            <a target="_other" href="https://github.com/xeokit/xeokit-sdk/wiki/Section-Planes">User Guide</a>
+        </li>
+    </ul>
+    <div id="screenshots"></div>
+</div>
+
+</body>
+
+<script type="module">
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Import the modules we need for this example
+    //------------------------------------------------------------------------------------------------------------------
+
+    import {Viewer} from "../src/viewer/Viewer.js";
+    import {XKTLoaderPlugin} from "../src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+    import {SectionPlanesPlugin} from "../src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js";
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a Viewer
+    //------------------------------------------------------------------------------------------------------------------
+
+    const viewer = new Viewer({
+        canvasId: "myCanvas",
+        transparent: true
+    });
+
+    viewer.camera.eye = [-5.02, 2.22, 15.09];
+    viewer.camera.look = [4.97, 2.79, 9.89];
+    viewer.camera.up = [-0.05, 0.99, 0.02];
+    viewer.camera.project.fov = 45;
+
+    viewer.camera.zoom(5);
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a XKTModelsPlugin - we'll use this to load the model geometry
+    //------------------------------------------------------------------------------------------------------------------
+
+    const xktLoader = new XKTLoaderPlugin(viewer);
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Add a SectionPlanesPlugin - we'll use this to create cross-section planes
+    //------------------------------------------------------------------------------------------------------------------
+
+    const sectionPlanes = new SectionPlanesPlugin(viewer, {
+        overviewCanvasId: "mySectionPlanesOverviewCanvas",
+        overviewVisible: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Load the .xkt model and IFC metadata
+    //------------------------------------------------------------------------------------------------------------------
+
+    const model = xktLoader.load({
+        id: "myModel",
+        src: "./models/xkt/duplex/duplex.xkt",
+        metaModelSrc: "./metaModels/duplex/metaModel.json", // Creates a MetaObject instances in scene.metaScene.metaObjects
+        edges: true
+    });
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Create a couple of SectionPlanes.
+    // Show the editing gizmo for one of our SectionPlanes. That will not appear in the screenshot.
+    //------------------------------------------------------------------------------------------------------------------
+
+    sectionPlanes.createSectionPlane({
+        id: "mySectionPlane",
+        pos: [1.04, 1.95, 9.74],
+        dir: [1.0, 0.0, 0.0]
+    });
+
+    sectionPlanes.createSectionPlane({
+        id: "mySectionPlane2",
+        pos: [2.30, 4.46, 14.93],
+        dir: [0.0, -0.09, -0.79]
+    });
+
+    sectionPlanes.showControl("mySectionPlane2");
+
+    //------------------------------------------------------------------------------------------------------------------
+    // When model loaded, start capturing PNG screenshots
+    //------------------------------------------------------------------------------------------------------------------
+
+    model.on("loaded", function () {
+
+        const screenshotsDiv = document.getElementById("screenshots");
+        var numScreenshots = 0;
+
+        setInterval(() => {
+
+            if (numScreenshots++ > 5) {
+                return;
+            }
+
+            viewer.camera.orbitYaw(10);
+
+            const canvas = viewer.scene.canvas;
+            const canvasElement = canvas.canvas;
+            const aspect = canvasElement.height / canvasElement.width;
+            const width = 200;
+            const height = Math.floor(width * aspect);
+
+            const imageData = viewer.getSnapshot({
+                format: "png",
+                width: width,
+                height: height
+            });
+
+            const img = document.createElement("img");
+
+            img.src = imageData;
+            img.style.border = "1px solid #000000";
+            img.style.background = "lightblue";
+
+            screenshotsDiv.appendChild(img);
+
+        }, 1000);
+    });
+
+
+    window.viewer = viewer;
+</script>
+
+</html>

@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../../">
+  <title data-ice="title">src/viewer/scene/camera/CameraFlightAnimation.js | xeokit-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:type" content="website"><meta property="og:url" content="http://xeokit.io"><meta property="og:site_name" content="xeokit-sdk"><meta property="og:title" content="xeokit-sdk"><meta property="og:image" content="./images/logo.jpg"><meta property="og:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="og:author" content="http://xeolabs.com"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="xeokit-sdk"><meta property="twitter:description" content="SDK for developing custom 3D viewers on xeogl"><meta property="twitter:image" content="./images/logo.jpg"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.jpg" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/xeokit/xeokit-sdk"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-anglemeasurementsplugin">plugins/AngleMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurement.js~AngleMeasurement.html">AngleMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsControl.js~AngleMeasurementsControl.html">AngleMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AngleMeasurementsPlugin/AngleMeasurementsPlugin.js~AngleMeasurementsPlugin.html">AngleMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-annotationsplugin">plugins/AnnotationsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/Annotation.js~Annotation.html">Annotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AnnotationsPlugin/AnnotationsPlugin.js~AnnotationsPlugin.html">AnnotationsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-axisgizmoplugin">plugins/AxisGizmoPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/AxisGizmoPlugin/AxisGizmoPlugin.js~AxisGizmoPlugin.html">AxisGizmoPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bcfviewpointsplugin">plugins/BCFViewpointsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BCFViewpointsPlugin/BCFViewpointsPlugin.js~BCFViewpointsPlugin.html">BCFViewpointsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin">plugins/BIMServerLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-bimserverclient">plugins/BIMServerLoaderPlugin/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderplugin-lib">plugins/BIMServerLoaderPlugin/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPlugin/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2">plugins/BIMServerLoaderPluginV2</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerLoaderPlugin.js~BIMServerLoaderPlugin.html">BIMServerLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-bimserverclient">plugins/BIMServerLoaderPluginV2/BIMServerClient</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/BIMServerClient/bimserverclient.js~BimServerClient.html">BimServerClient</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-bimserverloaderpluginv2-lib">plugins/BIMServerLoaderPluginV2/lib</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Datainputstream.js~Datainputstream.html">Datainputstream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/BIMServerLoaderPluginV2/lib/Executor.js~Executor.html">Executor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-distancemeasurementsplugin">plugins/DistanceMeasurementsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurement.js~DistanceMeasurement.html">DistanceMeasurement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsControl.js~DistanceMeasurementsControl.html">DistanceMeasurementsControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/DistanceMeasurementsPlugin/DistanceMeasurementsPlugin.js~DistanceMeasurementsPlugin.html">DistanceMeasurementsPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-gltfloaderplugin">plugins/GLTFLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFDefaultDataSource.js~GLTFDefaultDataSource.html">GLTFDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/GLTFLoaderPlugin/GLTFLoaderPlugin.js~GLTFLoaderPlugin.html">GLTFLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-navcubeplugin">plugins/NavCubePlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html">NavCubePlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-objloaderplugin">plugins/OBJLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/OBJLoaderPlugin/OBJLoaderPlugin.js~OBJLoaderPlugin.html">OBJLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-stlloaderplugin">plugins/STLLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/STLLoaderPlugin/STLLoaderPlugin.js~STLLoaderPlugin.html">STLLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-sectionplanesplugin">plugins/SectionPlanesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SectionPlanesPlugin/SectionPlanesPlugin.js~SectionPlanesPlugin.html">SectionPlanesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-skyboxesplugin">plugins/SkyboxesPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/SkyboxesPlugin/SkyboxesPlugin.js~SkyboxesPlugin.html">SkyboxesPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-storeyviewsplugin">plugins/StoreyViewsPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/Storey.js~Storey.html">Storey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyMap.js~StoreyMap.html">StoreyMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/StoreyViewsPlugin/StoreyViewsPlugin.js~StoreyViewsPlugin.html">StoreyViewsPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCStoreyPlanObjectStates">IFCStoreyPlanObjectStates</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xktloaderplugin">plugins/XKTLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTDefaultDataSource.js~XKTDefaultDataSource.html">XKTDefaultDataSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js~XKTLoaderPlugin.html">XKTLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-xml3dloaderplugin">plugins/XML3DLoaderPlugin</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/plugins/XML3DLoaderPlugin/XML3DLoaderPlugin.js~XML3DLoaderPlugin.html">XML3DLoaderPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer">viewer</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Plugin.js~Plugin.html">Plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/Viewer.js~Viewer.html">Viewer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-metadata">viewer/metadata</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaModel.js~MetaModel.html">MetaModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaObject.js~MetaObject.html">MetaObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/metadata/MetaScene.js~MetaScene.html">MetaScene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IFCObjectDefaults">IFCObjectDefaults</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene">viewer/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/viewer/scene/Entity.js~Entity.html">Entity</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-performancemodel">viewer/scene/PerformanceModel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/PerformanceModel/PerformanceModel.js~PerformanceModel.html">PerformanceModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-camera">viewer/scene/camera</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraControl.js~CameraControl.html">CameraControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraFlightAnimation.js~CameraFlightAnimation.html">CameraFlightAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPath.js~CameraPath.html">CameraPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CameraPathAnimation.js~CameraPathAnimation.html">CameraPathAnimation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/CustomProjection.js~CustomProjection.html">CustomProjection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Frustum.js~Frustum.html">Frustum</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Ortho.js~Ortho.html">Ortho</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/camera/Perspective.js~Perspective.html">Perspective</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-canvas">viewer/scene/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Canvas.js~Canvas.html">Canvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/canvas/Spinner.js~Spinner.html">Spinner</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry">viewer/scene/geometry</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/Geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/ReadableGeometry.js~ReadableGeometry.html">ReadableGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/geometry/VBOGeometry.js~VBOGeometry.html">VBOGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-builders">viewer/scene/geometry/builders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildBoxGeometry">buildBoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCylinderGeometry">buildCylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildPlaneGeometry">buildPlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildSphereGeometry">buildSphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildTorusGeometry">buildTorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildVectorTextGeometry">buildVectorTextGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-geometry-loaders">viewer/scene/geometry/loaders</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-load3DSGeometry">load3DSGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-loadOBJGeometry">loadOBJGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-input">viewer/scene/input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/input/Input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-lights">viewer/scene/lights</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/AmbientLight.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/CubeTexture.js~CubeTexture.html">CubeTexture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/DirLight.js~DirLight.html">DirLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/LightMap.js~LightMap.html">LightMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/PointLight.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/ReflectionMap.js~ReflectionMap.html">ReflectionMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/lights/Shadow.js~Shadow.html">Shadow</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-marker">viewer/scene/marker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/marker/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-materials">viewer/scene/materials</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EdgeMaterial.js~EdgeMaterial.html">EdgeMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/EmphasisMaterial.js~EmphasisMaterial.html">EmphasisMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Fresnel.js~Fresnel.html">Fresnel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/LambertMaterial.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/MetallicMaterial.js~MetallicMaterial.html">MetallicMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/PhongMaterial.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/SpecularMaterial.js~SpecularMaterial.html">SpecularMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/materials/Texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mementos">viewer/scene/mementos</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/CameraMemento.js~CameraMemento.html">CameraMemento</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mementos/ObjectsMemento.js~ObjectsMemento.html">ObjectsMemento</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-mesh">viewer/scene/mesh</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/mesh/Mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-metriqs">viewer/scene/metriqs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/metriqs/Metriqs.js~Metrics.html">Metrics</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-nodes">viewer/scene/nodes</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/nodes/Node.js~Node.html">Node</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-paths">viewer/scene/paths</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/CubicBezierCurve.js~CubicBezierCurve.html">CubicBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Curve.js~Curve.html">Curve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/Path.js~Path.html">Path</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/QuadraticBezierCurve.js~QuadraticBezierCurve.html">QuadraticBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/paths/SplineCurve.js~SplineCurve.html">SplineCurve</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-scene">viewer/scene/scene</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/scene/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-sectionplane">viewer/scene/sectionPlane</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/sectionPlane/SectionPlane.js~SectionPlane.html">SectionPlane</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-skybox">viewer/scene/skybox</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/skybox/Skybox.js~Skybox.html">Skybox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-viewport">viewer/scene/viewport</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/viewport/Viewport.js~Viewport.html">Viewport</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#viewer-scene-webgl">viewer/scene/webgl</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/OcclusionTester.js~OcclusionTester.html">OcclusionTester</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/viewer/scene/webgl/PickResult.js~PickResult.html">PickResult</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/viewer/scene/camera/CameraFlightAnimation.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {math} from &apos;../math/math.js&apos;;
+import {utils} from &apos;../utils.js&apos;;
+import {core} from &apos;../core.js&apos;;
+import {Component} from &apos;../Component.js&apos;;
+
+const tempVec3 = math.vec3();
+const newLook = math.vec3();
+const newEye = math.vec3();
+const newUp = math.vec3();
+const newLookEyeVec = math.vec3();
+
+/**
+ * @desc Jumps or flies the {@link Scene}&apos;s {@link Camera} to a given target.
+ *
+ * * Located at {@link Viewer#cameraFlight}
+ * * Can fly or jump to its target.
+ * * While flying, can be stopped, or redirected to a different target.
+ * * Can also smoothly transition between ortho and perspective projections.
+ *
+ *
+ * A CameraFlightAnimation&apos;s target can be:
+ *
+ * * specific ````eye````, ````look```` and ````up```` positions,
+ * * an axis-aligned World-space bounding box (AABB), or
+ * * an instance or ID of any {@link Component} subtype that provides a World-space AABB.
+ *
+ * A target can also contain a ````projection```` type to transition into. For example, if your {@link Camera#projection} is
+ * currently ````&quot;perspective&quot;```` and you supply {@link CameraFlightAnimation#flyTo} with a ````projection```` property
+ * equal to &quot;ortho&quot;, then CameraFlightAnimation will smoothly transition the Camera into an orthographic projection.
+ *
+ * Configure {@link CameraFlightAnimation#fit} and {@link CameraFlightAnimation#fitFOV} to make it stop at the point
+ * where the target occupies a certain amount of the field-of-view.
+ *
+ * ## Flying to an Entity
+ *
+ * Flying to an {@link Entity}:
+ *
+ * ````Javascript
+ * var entity = new Mesh(viewer.scene);
+ *
+ * // Fly to the Entity&apos;s World-space AABB
+ * viewer.cameraFlight.flyTo(entity);
+ * ````
+ * ## Flying to a Position
+ *
+ * Flying the CameraFlightAnimation from the previous example to specified eye, look and up positions:
+ *
+ * ````Javascript
+ * viewer.cameraFlight.flyTo({
+ *    eye: [-5,-5,-5],
+ *    look: [0,0,0]
+ *    up: [0,1,0],
+ *    duration: 1 // Default, seconds
+ * },() =&gt; {
+ *      // Done
+ * });
+ * ````
+ *
+ * ## Flying to an AABB
+ *
+ * Flying the CameraFlightAnimation from the previous two examples explicitly to the {@link Boundary3D&quot;}}Boundary3D&apos;s{{/crossLink}}
+ * axis-aligned bounding box:
+ *
+ * ````Javascript
+ * viewer.cameraFlight.flyTo(entity.aabb);
+ * ````
+ *
+ * ## Transitioning Between Projections
+ *
+ * CameraFlightAnimation also allows us to smoothly transition between Camera projections. We can do that by itself, or
+ * in addition to flying the Camera to a target.
+ *
+ * Let&apos;s transition the Camera to orthographic projection:
+ *
+ * [[Run example](http://xeokit.github.io/xeokit-sdk/examples/#camera_CameraFlightAnimation_projection)]
+ *
+ * ````Javascript
+ * viewer.cameraFlight.flyTo({ projection: &quot;ortho&quot;, () =&gt; {
+ *      // Done
+ * });
+ * ````
+ *
+ * Now let&apos;s transition the Camera back to perspective projection:
+ *
+ * ````Javascript
+ * viewer.cameraFlight.flyTo({ projection: &quot;perspective&quot;}, () =&gt; {
+ *      // Done
+ * });
+ * ````
+ *
+ * Fly Camera to a position, while transitioning to orthographic projection:
+ *
+ * ````Javascript
+ * viewer.cameraFlight.flyTo({
+ *     eye: [-100,20,2],
+ *     look: [0,0,-40],
+ *     up: [0,1,0],
+ *     projection: &quot;ortho&quot;, () =&gt; {
+ *        // Done
+ * });
+ * ````
+ */
+class CameraFlightAnimation extends Component {
+
+    /**
+     * @private
+     */
+    get type() {
+        return &quot;CameraFlightAnimation&quot;;
+    }
+
+    /**
+     @constructor
+     @private
+     */
+    constructor(owner, cfg = {}) {
+
+        super(owner, cfg);
+
+        this._look1 = math.vec3();
+        this._eye1 = math.vec3();
+        this._up1 = math.vec3();
+        this._look2 = math.vec3();
+        this._eye2 = math.vec3();
+        this._up2 = math.vec3();
+        this._orthoScale1 = 1;
+        this._orthoScale2 = 1;
+        this._flying = false;
+        this._flyEyeLookUp = false;
+        this._flyingEye = false;
+        this._flyingLook = false;
+        this._callback = null;
+        this._callbackScope = null;
+        this._time1 = null;
+        this._time2 = null;
+        this.easing = cfg.easing !== false;
+
+        this.duration = cfg.duration;
+        this.fit = cfg.fit;
+        this.fitFOV = cfg.fitFOV;
+        this.trail = cfg.trail;
+    }
+
+    /**
+     * Flies the {@link Camera} to a target.
+     *
+     *  * When the target is a boundary, the {@link Camera} will fly towards the target and stop when the target fills most of the canvas.
+     *  * When the target is an explicit {@link Camera} position, given as ````eye````, ````look```` and ````up````, then CameraFlightAnimation will interpolate the {@link Camera} to that target and stop there.
+     *
+     * @param {Object|Component} [params=Scene] Either a parameters object or a {@link Component} subtype that has
+     * an AABB. Defaults to the {@link Scene}, which causes the {@link Camera} to fit the Scene in view.
+     * @param {Number} [params.arc=0] Factor in range ````[0..1]```` indicating how much the {@link Camera#eye} position
+     * will swing away from its {@link Camera#look} position as it flies to the target.
+     * @param {Number|String|Component} [params.component] ID or instance of a component to fly to. Defaults to the entire {@link Scene}.
+     * @param {Number[]} [params.aabb] World-space axis-aligned bounding box (AABB) target to fly to.
+     * @param {Number[]} [params.eye] Position to fly the eye position to.
+     * @param {Number[]} [params.look] Position to fly the look position to.
+     * @param {Number[]} [params.up] Position to fly the up vector to.
+     * @param {String} [params.projection] Projection type to transition into as we fly. Can be any of the values of {@link Camera.projection}.
+     * @param {Boolean} [params.fit=true] Whether to fit the target to the view volume. Overrides {@link CameraFlightAnimation#fit}.
+     * @param {Number} [params.fitFOV] How much of field-of-view, in degrees, that a target {@link Entity} or its AABB should
+     * fill the canvas on arrival. Overrides {@link CameraFlightAnimation#fitFOV}.
+     * @param {Number} [params.duration] Flight duration in seconds.  Overrides {@link CameraFlightAnimation#duration}.
+     * @param {Number} [params.orthoScale] Animate the Camera&apos;s orthographic scale to this target value. See {@link Ortho#scale}.
+     * @param {Function} [callback] Callback fired on arrival.
+     * @param {Object} [scope] Optional scope for callback.
+     */
+    flyTo(params, callback, scope) {
+
+        params = params || this.scene;
+
+        if (this._flying) {
+            this.stop();
+        }
+
+        this._flying = false;
+        this._flyingEye = false;
+        this._flyingLook = false;
+        this._flyingEyeLookUp = false;
+
+        this._callback = callback;
+        this._callbackScope = scope;
+
+        const camera = this.scene.camera;
+        const flyToProjection = (!!params.projection) &amp;&amp; (params.projection !== camera.projection);
+
+        this._eye1[0] = camera.eye[0];
+        this._eye1[1] = camera.eye[1];
+        this._eye1[2] = camera.eye[2];
+
+        this._look1[0] = camera.look[0];
+        this._look1[1] = camera.look[1];
+        this._look1[2] = camera.look[2];
+
+        this._up1[0] = camera.up[0];
+        this._up1[1] = camera.up[1];
+        this._up1[2] = camera.up[2];
+
+        this._orthoScale1 = camera.ortho.scale;
+        this._orthoScale2 = params.orthoScale || this._orthoScale1;
+
+        let aabb;
+        let eye;
+        let look;
+        let up;
+        let componentId;
+
+        if (params.aabb) {
+            aabb = params.aabb;
+
+        } else if (params.length === 6) {
+            aabb = params;
+
+        } else if ((params.eye &amp;&amp; params.look) || params.up) {
+            eye = params.eye;
+            look = params.look;
+            up = params.up;
+
+        } else if (params.eye) {
+            eye = params.eye;
+
+        } else if (params.look) {
+            look = params.look;
+
+        } else { // Argument must be an instance or ID of a Component (subtype)
+
+            let component = params;
+
+            if (utils.isNumeric(component) || utils.isString(component)) {
+
+                componentId = component;
+                component = this.scene.components[componentId];
+
+                if (!component) {
+                    this.error(&quot;Component not found: &quot; + utils.inQuotes(componentId));
+                    if (callback) {
+                        if (scope) {
+                            callback.call(scope);
+                        } else {
+                            callback();
+                        }
+                    }
+                    return;
+                }
+            }
+            if (!flyToProjection) {
+                aabb = component.aabb || this.scene.aabb;
+            }
+        }
+
+        const poi = params.poi;
+
+        if (aabb) {
+
+            if (aabb[3] &lt; aabb[0] || aabb[4] &lt; aabb[1] || aabb[5] &lt; aabb[2]) { // Don&apos;t fly to an inverted boundary
+                return;
+            }
+
+            if (aabb[3] === aabb[0] &amp;&amp; aabb[4] === aabb[1] &amp;&amp; aabb[5] === aabb[2]) { // Don&apos;t fly to an empty boundary
+                return;
+            }
+
+            aabb = aabb.slice();
+            const aabbCenter = math.getAABB3Center(aabb);
+
+            this._look2 = poi || aabbCenter;
+
+            const eyeLookVec = math.subVec3(this._eye1, this._look1, tempVec3);
+            const eyeLookVecNorm = math.normalizeVec3(eyeLookVec);
+            const diag = poi ? math.getAABB3DiagPoint(aabb, poi) : math.getAABB3Diag(aabb);
+            const fitFOV = params.fitFOV || this._fitFOV;
+            const sca = Math.abs(diag / Math.tan(fitFOV * math.DEGTORAD));
+
+            this._orthoScale2 = diag * 1.1;
+
+            this._eye2[0] = this._look2[0] + (eyeLookVecNorm[0] * sca);
+            this._eye2[1] = this._look2[1] + (eyeLookVecNorm[1] * sca);
+            this._eye2[2] = this._look2[2] + (eyeLookVecNorm[2] * sca);
+
+            this._up2[0] = this._up1[0];
+            this._up2[1] = this._up1[1];
+            this._up2[2] = this._up1[2];
+
+            this._flyingEyeLookUp = true;
+
+        } else if (eye || look || up) {
+
+            this._flyingEyeLookUp = !!eye &amp;&amp; !!look &amp;&amp; !!up;
+            this._flyingEye = !!eye &amp;&amp; !look;
+            this._flyingLook = !!look &amp;&amp; !eye;
+
+            if (eye) {
+                this._eye2[0] = eye[0];
+                this._eye2[1] = eye[1];
+                this._eye2[2] = eye[2];
+            }
+
+            if (look) {
+                this._look2[0] = look[0];
+                this._look2[1] = look[1];
+                this._look2[2] = look[2];
+            }
+
+            if (up) {
+                this._up2[0] = up[0];
+                this._up2[1] = up[1];
+                this._up2[2] = up[2];
+            }
+        }
+
+        if (flyToProjection) {
+
+            if (params.projection === &quot;ortho&quot; &amp;&amp; camera.projection !== &quot;ortho&quot;) {
+                this._projection2 = &quot;ortho&quot;;
+                this._projMatrix1 = camera.projMatrix.slice();
+                camera.ortho.scale = this._orthoScale2;
+                this._projMatrix2 = camera.ortho.matrix.slice();
+                camera.projection = &quot;customProjection&quot;;
+            }
+
+            if (params.projection === &quot;perspective&quot; &amp;&amp; camera.projection !== &quot;perspective&quot;) {
+                this._projection2 = &quot;perspective&quot;;
+                this._projMatrix1 = camera.projMatrix.slice();
+                this._projMatrix2 = camera.perspective.matrix.slice();
+                camera.projection = &quot;customProjection&quot;;
+            }
+        }
+
+        this.fire(&quot;started&quot;, params, true);
+
+        this._time1 = Date.now();
+        this._time2 = this._time1 + (params.duration ? params.duration * 1000 : this._duration);
+
+        this._flying = true; // False as soon as we stop
+
+        core.scheduleTask(this._update, this);
+    }
+
+    /**
+     * Jumps the {@link Scene}&apos;s {@link Camera} to the given target.
+     *
+     * * When the target is a boundary, this CameraFlightAnimation will position the {@link Camera} at where the target fills most of the canvas.
+     * * When the target is an explicit {@link Camera} position, given as ````eye````, ````look```` and ````up```` vectors, then this CameraFlightAnimation will jump the {@link Camera} to that target.
+     *
+     * @param {*|Component} params  Either a parameters object or a {@link Component} subtype that has a World-space AABB.
+     * @param {Number} [params.arc=0]  Factor in range [0..1] indicating how much the {@link Camera#eye} will swing away from its {@link Camera#look} as it flies to the target.
+     * @param {Number|String|Component} [params.component] ID or instance of a component to fly to.
+     * @param {Number[]} [params.aabb]  World-space axis-aligned bounding box (AABB) target to fly to.
+     * @param {Number[]} [params.eye] Position to fly the eye position to.
+     * @param {Number[]} [params.look]  Position to fly the look position to.
+     * @param {Number[]} [params.up] Position to fly the up vector to.
+     * @param {String} [params.projection] Projection type to transition into. Can be any of the values of {@link Camera.projection}.
+     * @param {Number} [params.fitFOV] How much of field-of-view, in degrees, that a target {@link Entity} or its AABB should fill the canvas on arrival. Overrides {@link CameraFlightAnimation#fitFOV}.
+     * @param {Boolean} [params.fit] Whether to fit the target to the view volume. Overrides {@link CameraFlightAnimation#fit}.
+     */
+    jumpTo(params) {
+        this._jumpTo(params);
+    }
+
+    _jumpTo(params) {
+
+        if (this._flying) {
+            this.stop();
+        }
+
+        const camera = this.scene.camera;
+
+        var aabb;
+        var componentId;
+        var newEye;
+        var newLook;
+        var newUp;
+
+        if (params.aabb) { // Boundary3D
+            aabb = params.aabb;
+
+        } else if (params.length === 6) { // AABB
+            aabb = params;
+
+        } else if (params.eye || params.look || params.up) { // Camera pose
+            newEye = params.eye;
+            newLook = params.look;
+            newUp = params.up;
+
+        } else { // Argument must be an instance or ID of a Component (subtype)
+
+            let component = params;
+
+            if (utils.isNumeric(component) || utils.isString(component)) {
+                componentId = component;
+                component = this.scene.components[componentId];
+                if (!component) {
+                    this.error(&quot;Component not found: &quot; + utils.inQuotes(componentId));
+                    return;
+                }
+            }
+            aabb = component.aabb || this.scene.aabb;
+        }
+
+        const poi = params.poi;
+
+        if (aabb) {
+
+            if (aabb[3] &lt;= aabb[0] || aabb[4] &lt;= aabb[1] || aabb[5] &lt;= aabb[2]) { // Don&apos;t fly to an empty boundary
+                return;
+            }
+
+            var diag = poi ? math.getAABB3DiagPoint(aabb, poi) : math.getAABB3Diag(aabb);
+
+            newLook = poi || math.getAABB3Center(aabb, newLook);
+
+            if (this._trail) {
+                math.subVec3(camera.look, newLook, newLookEyeVec);
+            } else {
+                math.subVec3(camera.eye, camera.look, newLookEyeVec);
+            }
+
+            math.normalizeVec3(newLookEyeVec);
+            let dist;
+            const fit = (params.fit !== undefined) ? params.fit : this._fit;
+
+            if (fit) {
+                dist = Math.abs((diag) / Math.tan((params.fitFOV || this._fitFOV) * math.DEGTORAD));
+
+            } else {
+                dist = math.lenVec3(math.subVec3(camera.eye, camera.look, tempVec3));
+            }
+
+            math.mulVec3Scalar(newLookEyeVec, dist);
+
+            camera.eye = math.addVec3(newLook, newLookEyeVec, tempVec3);
+            camera.look = newLook;
+
+            this.scene.camera.ortho.scale = diag * 1.1;
+
+        } else if (newEye || newLook || newUp) {
+
+            if (newEye) {
+                camera.eye = newEye;
+            }
+            if (newLook) {
+                camera.look = newLook;
+            }
+            if (newUp) {
+                camera.up = newUp;
+            }
+        }
+
+        if (params.projection) {
+            camera.projection = params.projection;
+        }
+    }
+
+    _update() {
+        if (!this._flying) {
+            return;
+        }
+        const time = Date.now();
+        let t = (time - this._time1) / (this._time2 - this._time1);
+        const stopping = (t &gt;= 1);
+
+        if (t &gt; 1) {
+            t = 1;
+        }
+
+        const tFlight = this.easing ? CameraFlightAnimation._ease(t, 0, 1, 1) : t;
+        const camera = this.scene.camera;
+
+        if (this._flyingEye || this._flyingLook) {
+
+            if (this._flyingEye) {
+                math.subVec3(camera.eye, camera.look, newLookEyeVec);
+                camera.eye = math.lerpVec3(tFlight, 0, 1, this._eye1, this._eye2, newEye);
+                camera.look = math.subVec3(newEye, newLookEyeVec, newLook);
+            } else if (this._flyingLook) {
+                camera.look = math.lerpVec3(tFlight, 0, 1, this._look1, this._look2, newLook);
+                //    camera.eye = math.addVec3(newLook, newLookEyeVec, newEye);
+                camera.up = math.lerpVec3(tFlight, 0, 1, this._up1, this._up2, newUp);
+            }
+
+        } else if (this._flyingEyeLookUp) {
+
+            camera.eye = math.lerpVec3(tFlight, 0, 1, this._eye1, this._eye2, newEye);
+            camera.look = math.lerpVec3(tFlight, 0, 1, this._look1, this._look2, newLook);
+            camera.up = math.lerpVec3(tFlight, 0, 1, this._up1, this._up2, newUp);
+        }
+
+        if (this._projection2) {
+            const tProj = (this._projection2 === &quot;ortho&quot;) ? CameraFlightAnimation._easeOutExpo(t, 0, 1, 1) : CameraFlightAnimation._easeInCubic(t, 0, 1, 1);
+            camera.customProjection.matrix = math.lerpMat4(tProj, 0, 1, this._projMatrix1, this._projMatrix2);
+
+        } else {
+            camera.ortho.scale = this._orthoScale1 + (t * (this._orthoScale2 - this._orthoScale1));
+        }
+
+        if (stopping) {
+            this.stop();
+            return;
+        }
+        core.scheduleTask(this._update, this); // Keep flying
+    }
+
+    static _ease(t, b, c, d) { // Quadratic easing out - decelerating to zero velocity http://gizma.com/easing
+        t /= d;
+        return -c * t * (t - 2) + b;
+    }
+
+    static _easeInCubic(t, b, c, d) {
+        t /= d;
+        return c * t * t * t + b;
+    }
+
+    static _easeOutExpo(t, b, c, d) {
+        return c * (-Math.pow(2, -10 * t / d) + 1) + b;
+    }
+
+    /**
+     * Stops an earlier flyTo, fires arrival callback.
+     */
+    stop() {
+        if (!this._flying) {
+            return;
+        }
+        this._flying = false;
+        this._time1 = null;
+        this._time2 = null;
+        if (this._projection2) {
+            this.scene.camera.projection = this._projection2;
+        }
+        const callback = this._callback;
+        if (callback) {
+            this._callback = null;
+            if (this._callbackScope) {
+                callback.call(this._callbackScope);
+            } else {
+                callback();
+            }
+        }
+        this.fire(&quot;stopped&quot;, true, true);
+    }
+
+    /**
+     * Cancels an earlier flyTo without calling the arrival callback.
+     */
+    cancel() {
+        if (!this._flying) {
+            return;
+        }
+        this._flying = false;
+        this._time1 = null;
+        this._time2 = null;
+        if (this._callback) {
+            this._callback = null;
+        }
+        this.fire(&quot;canceled&quot;, true, true);
+    }
+
+    /**
+     * Sets the flight duration, in seconds, when calling {@link CameraFlightAnimation#flyTo}.
+     *
+     * Stops any flight currently in progress.
+     *
+     * default value is ````0.5````.
+     *
+     * @param {Number} value New duration value.
+     */
+    set duration(value) {
+        this._duration = value ? (value * 1000.0) : 500;
+        this.stop();
+    }
+
+    /**
+     * Gets the flight duration, in seconds, when calling {@link CameraFlightAnimation#flyTo}.
+     *
+     * default value is ````0.5````.
+     *
+     * @returns {Number} New duration value.
+     */
+    get duration() {
+        return this._duration / 1000.0;
+    }
+
+    /**
+     * Sets if, when CameraFlightAnimation is flying to a boundary, it will always adjust the distance between the
+     * {@link Camera#eye} and {@link Camera#look} so as to ensure that the target boundary is always filling the view volume.
+     *
+     * When false, the eye will remain at its current distance from the look position.
+     *
+     * Default value is ````true````.
+     *
+     * @param {Boolean} value Set ````true```` to activate this behaviour.
+     */
+    set fit(value) {
+        this._fit = value !== false;
+    }
+
+    /**
+     * Gets if, when CameraFlightAnimation is flying to a boundary, it will always adjust the distance between the
+     * {@link Camera#eye} and {@link Camera#look} so as to ensure that the target boundary is always filling the view volume.
+     *
+     * When false, the eye will remain at its current distance from the look position.
+     *
+     * Default value is ````true````.
+     *
+     * @returns {Boolean} value Set ````true```` to activate this behaviour.
+     */
+    get fit() {
+        return this._fit;
+    }
+
+    /**
+     * Sets how much of the perspective field-of-view, in degrees, that a target {@link Entity#aabb} should
+     * fill the canvas when calling {@link CameraFlightAnimation#flyTo} or {@link CameraFlightAnimation#jumpTo}.
+     *
+     * Default value is ````45````.
+     *
+     * @param {Number} value New FOV value.
+     */
+    set fitFOV(value) {
+        this._fitFOV = value || 45;
+    }
+
+    /**
+     * Gets how much of the perspective field-of-view, in degrees, that a target {@link Entity#aabb} should
+     * fill the canvas when calling {@link CameraFlightAnimation#flyTo} or {@link CameraFlightAnimation#jumpTo}.
+     *
+     * Default value is ````45````.
+     *
+     * @returns {Number} Current FOV value.
+     */
+    get fitFOV() {
+        return this._fitFOV;
+    }
+
+    /**
+     * Sets if this CameraFlightAnimation to point the {@link Camera}
+     * in the direction that it is travelling when flying to a target after calling {@link CameraFlightAnimation#flyTo}.
+     *
+     * Default value is ````true````.
+     *
+     * @param {Boolean} value Set ````true```` to activate trailing behaviour.
+     */
+    set trail(value) {
+        this._trail = !!value;
+    }
+
+    /**
+     * Gets if this CameraFlightAnimation points the {@link Camera}
+     * in the direction that it is travelling when flying to a target after calling {@link CameraFlightAnimation#flyTo}.
+     *
+     * Default value is ````true````.
+     *
+     * @returns {Boolean} True if trailing behaviour is active.
+     */
+    get trail() {
+        return this._trail;
+    }
+}
+
+export {CameraFlightAnimation};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
