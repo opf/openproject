@@ -113,10 +113,10 @@ export class ConfigurationService {
   }
 
   private userPreference(pref:string) {
-    return this.configuration.userPreferences[pref];
+    return _.get(this.configuration, ['userPreferences', pref]);
   }
 
   private systemPreference(pref:string) {
-    return this.configuration[pref];
+    return _.get(this.configuration, pref);
   }
 }
