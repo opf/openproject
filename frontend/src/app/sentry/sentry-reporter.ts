@@ -148,7 +148,7 @@ export class SentryReporter implements ErrorReporter {
     scope.setTag('locale', I18n.locale);
     scope.setTag('domain', window.location.hostname);
     scope.setTag('url_path', window.location.pathname);
-    scope.setTag('url_query', window.location.search);
+    scope.setExtra('url_query', window.location.search);
 
     /** Execute callbacks */
     this.contextCallbacks.forEach(cb => cb(scope));
