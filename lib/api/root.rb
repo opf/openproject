@@ -28,18 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API
-# This is the place for all API wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
-
 module API
   class Root < ::API::RootAPI
-    #content_type 'hal+json', 'application/hal+json; charset=utf-8'
-    #content_type :json,      'application/json; charset=utf-8'
+    content_type 'hal+json', 'application/hal+json; charset=utf-8'
     format 'hal+json'
     formatter 'hal+json', API::Formatter.new
+    default_format 'hal+json'
 
     parser :json, API::V3::Parser.new
+
+    error_representer ::API::V3::Errors::ErrorRepresenter
 
     version 'v3', using: :path do
       mount API::V3::Root

@@ -39,8 +39,7 @@ module API
     include OpenProject::Authentication::Scope
     extend API::Utilities::GrapeHelper
 
-    content_type 'hal+json', 'application/hal+json; charset=utf-8'
-    content_type :json,      'application/json; charset=utf-8'
+    content_type :json, 'application/json; charset=utf-8'
 
     use OpenProject::Authentication::Manager
 
@@ -192,6 +191,20 @@ module API
 
         { 'WWW-Authenticate' => header }
       end
+    end
+
+    def self.error_representer(klass = nil)
+      if klass
+        @error_representer = klass
+
+        # Have the representer class available in the instances
+        # via a helper.
+        helpers do
+          define_method(:error_representer, -> { klass })
+        end
+      end
+
+      @error_representer
     end
 
     ##

@@ -28,23 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API
-# This is the place for all API wide configuration, helper methods, exceptions
-# rescuing, mounting of different API versions etc.
-
 module Bcf::API
-  class Root < ::API::RootAPI
-    format :json
-    formatter :json, API::Formatter.new
+  module ErrorFormatter
+    module Json
+      extend Grape::ErrorFormatter::Base
 
-    default_format :json
-
-    error_representer ::Bcf::API::V2_1::Errors::ErrorRepresenter
-    error_formatter :json, ::Bcf::API::ErrorFormatter::Json
-
-    version '2.1', using: :path do
-      # /projects
-      mount ::Bcf::API::V2_1::ProjectsAPI
+      class << self
+        def call(message, _backtrace, _options = {}, env = nil, _original_exception = nil)
+          present(message, env)
+        end
+      end
     end
   end
 end

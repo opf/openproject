@@ -33,7 +33,7 @@ module Bcf::API::V2_1
     resources :projects do
       route_param :id, regexp: /\A(\d+)\z/ do
         after_validation do
-          @project = Project.find(params[:id])
+          @project = Project.visible(current_user).find(params[:id])
         end
 
         get do

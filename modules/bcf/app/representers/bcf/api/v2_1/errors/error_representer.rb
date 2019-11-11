@@ -28,23 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API
-# This is the place for all API wide configuration, helper methods, exceptions
-# rescuing, mounting of different API versions etc.
+module Bcf::API::V2_1::Errors
+  class ErrorRepresenter < Roar::Decorator
+    include Representable::JSON
 
-module Bcf::API
-  class Root < ::API::RootAPI
-    format :json
-    formatter :json, API::Formatter.new
-
-    default_format :json
-
-    error_representer ::Bcf::API::V2_1::Errors::ErrorRepresenter
-    error_formatter :json, ::Bcf::API::ErrorFormatter::Json
-
-    version '2.1', using: :path do
-      # /projects
-      mount ::Bcf::API::V2_1::ProjectsAPI
-    end
+    property :message,
+             getter: ->(*) { message },
+             render_nil: true
   end
 end

@@ -67,9 +67,8 @@ module API
       def default_error_response(headers, log)
         lambda { |e|
           original_exception = $!
-          representer = ::API::V3::Errors::ErrorRepresenter.new e
+          representer = error_representer.new e
           resp_headers = instance_exec &headers
-          env['api.format'] = 'hal+json'
 
           if log == true
             OpenProject.logger.error original_exception, reference: :APIv3

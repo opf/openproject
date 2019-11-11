@@ -32,13 +32,23 @@ require 'rack/test'
 describe 'BCF 2.1 projects resource', type: :request do
   include Rack::Test::Methods
 
+  let(:member_user) do
+    FactoryBot.create(:user,
+                      member_in_project: project)
+  end
+  let(:non_member_user) do
+    FactoryBot.create(:user)
+  end
+
   let(:project) { FactoryBot.create(:project) }
   subject(:response) { last_response }
 
   describe 'GET /api/bcf/2.1/projects/:project_id' do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}" }
+    let(:current_user) { member_user }
 
     before do
+      login_as(current_user)
       get path
     end
 
@@ -60,6 +70,29 @@ describe 'BCF 2.1 projects resource', type: :request do
     it 'is has a json content type header' do
       expect(subject.headers['Content-Type'])
         .to eql 'application/json; charset=utf-8'
+    end
+
+    context 'lacking permissions' do
+      let(:current_user) { non_member_user }
+
+      it 'responds 404 NOT FOUND' do
+        expect(subject.status)
+          .to eql 404
+      end
+
+      it 'states a NOT FOUND message' do
+        expected = {
+          message: 'The requested resource could not be found.'
+        }
+
+        expect(subject.body)
+          .to be_json_eql(expected.to_json)
+      end
+
+      it 'is has a json content type header' do
+        expect(subject.headers['Content-Type'])
+          .to eql 'application/json; charset=utf-8'
+      end
     end
   end
 end
