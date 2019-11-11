@@ -54,8 +54,15 @@ import {registerRequestForConfirmation} from "core-app/globals/global-listeners/
     // Jump to the element given by location.hash, if present
     const hash = window.location.hash;
     if (hash && hash.startsWith('#')) {
-      const el = document.querySelector(hash);
-      el && el.scrollIntoView();
+      try {
+        const el = document.querySelector(hash);
+        el && el.scrollIntoView();
+      } catch (e) {
+        // This is very likely an invalid selector such as a Google Analytics tag.
+        // We can safely ignore this and just not scroll in this case.
+        // Still log the error so one can confirm the reason there is no scrolling.
+        console.log("Could not scroll to given location hash: " + hash + " ( " + e.message + ")");
+      }
     }
 
     // Global submitting hook,
