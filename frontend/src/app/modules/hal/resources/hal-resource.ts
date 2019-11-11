@@ -116,6 +116,18 @@ export class HalResource {
   }
 
   /**
+   * Override toString to ensure the resource can
+   * be printed nicely on console and in errors
+   */
+  public toString() {
+    if (this.$href) {
+      return `[HalResource href=${this.$href}]`;
+    } else {
+      return `[HalResource id=${this.id}]`;
+    }
+  }
+
+  /**
    * Returns the ID and ensures it's a string, null.
    * Returns a string when:
    *  - The embedded ID is actually set
