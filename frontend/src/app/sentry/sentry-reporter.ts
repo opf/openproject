@@ -107,9 +107,13 @@ export class SentryReporter implements ErrorReporter {
     });
   }
 
-  public captureException(err:Error) {
-    if (!this.client) {
+  public captureException(err:Error|string) {
+    if (!this.client || !err) {
       return this.handleOfflineMessage('captureException', Array.from(arguments));
+    }
+
+    if (typeof err === 'string') {
+      return this.captureMessage(err, 'error');
     }
 
     this.client.withScope((scope:Scope) => {
