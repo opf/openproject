@@ -126,7 +126,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
         console.error(`Failed to save CKEditor content: ${e}.`);
         let error = this.I18n.t(
           'js.editor.error_saving_failed',
-          {error: e || this.I18n.t('js.errors.internal')}
+          {error: e || this.I18n.t('js.error.internal')}
         );
 
         if (notificationOnError) {
