@@ -55,7 +55,7 @@ To configure further project information, see the [advanced settings](./project-
 
 ### View all projects
 
-To view all your projects where you are a  member, click on the **View all projects** link on the Select a project drop-down menu.
+To view all your projects where you are a member, click on the **View all projects** link on the Select a project drop-down menu.
 
 ![view all proejcts](1569490429831.png)
 
