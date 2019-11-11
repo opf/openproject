@@ -272,11 +272,14 @@ class ApplicationController < ActionController::Base
   def require_login
     unless User.current.logged?
 
-      # Ensure we reset the session to terminate any old session objects
-      reset_session
-
       respond_to do |format|
-        format.any(:html, :atom) { redirect_to main_app.signin_path(back_url: login_back_url) }
+        format.any(:html, :atom) do
+          # Ensure we reset the session to terminate any old session objects
+          # but ONLY for html requests to avoid double-resetting sessions
+          reset_session
+
+          redirect_to main_app.signin_path(back_url: login_back_url)
+        end
 
         auth_header = OpenProject::Authentication::WWWAuthenticate.response_header(request_headers: request.headers)
 
