@@ -27,7 +27,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 module OAuth
   ##
   # Base controller for doorkeeper to skip the login check

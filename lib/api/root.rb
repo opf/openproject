@@ -38,6 +38,7 @@ module API
     parser :json, API::V3::Parser.new
 
     error_representer ::API::V3::Errors::ErrorRepresenter
+    authentication_scope OpenProject::Authentication::Scope::API_V3
 
     version 'v3', using: :path do
       mount API::V3::Root

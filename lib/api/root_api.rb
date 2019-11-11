@@ -66,9 +66,9 @@ module API
       end
 
       def authenticate
-        warden.authenticate! scope: API_V3
+        warden.authenticate! scope: authentication_scope
 
-        User.current = warden.user scope: API_V3
+        User.current = warden.user scope: authentication_scope
 
         if Setting.login_required? and not logged_in?
           raise ::API::Errors::Unauthenticated
@@ -187,7 +187,7 @@ module API
     def self.auth_headers
       lambda do
         header = OpenProject::Authentication::WWWAuthenticate
-                   .response_header(scope: API_V3, request_headers: env)
+                   .response_header(scope: authentication_scope, request_headers: env)
 
         { 'WWW-Authenticate' => header }
       end
@@ -207,13 +207,27 @@ module API
       @error_representer
     end
 
+    def self.authentication_scope(sym = nil)
+      if sym
+        @authentication_scope = sym
+
+        # Have the representer class available in the instances
+        # via a helper.
+        helpers do
+          define_method(:authentication_scope, -> { sym })
+        end
+      end
+
+      @authentication_scope
+    end
+
     ##
     # Return JSON error response on authentication failure.
     OpenProject::Authentication.handle_failure(scope: API_V3) do |warden, _opts|
       e = grape_error_for warden.env, self
       error_message = I18n.t('api_v3.errors.code_401_wrong_credentials')
       api_error = ::API::Errors::Unauthenticated.new error_message
-      representer = ::API::V3::Errors::ErrorRepresenter.new api_error
+      representer = error_representer.new api_error
 
       e.error_response status: 401, message: representer.to_json, headers: warden.headers, log: false
     end

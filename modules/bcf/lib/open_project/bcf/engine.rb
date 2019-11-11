@@ -145,6 +145,19 @@ module OpenProject::Bcf
       Mime::Type.register "application/octet-stream", :bcfzip unless Mime::Type.lookup_by_extension(:bcfzip)
     end
 
+    initializer 'bcf.add_api_scope' do
+      Doorkeeper.configuration.scopes.add(:bcf_v2_1)
+
+      module OpenProject::Authentication::Scope
+        BCF_V2_1 = :bcf_v2_1
+      end
+
+      OpenProject::Authentication.update_strategies(OpenProject::Authentication::Scope::BCF_V2_1,
+                                                    store: false) do |_strategies|
+        %i[oauth session]
+      end
+    end
+
     config.to_prepare do
       ::WorkPackage::Exporter
         .register_for_list(:bcf, OpenProject::Bcf::BcfXml::Exporter)
