@@ -35,7 +35,7 @@ module OpenProject::Webhooks
       end
 
       def resources
-        %i(work_package)
+        %i(work_package time_entry)
       end
     end
   end
