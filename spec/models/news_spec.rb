@@ -114,6 +114,8 @@ describe News, type: :model do
       project.members.reload
 
       FactoryBot.create(:news, project: project)
+
+      perform_enqueued_jobs
       expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
   end

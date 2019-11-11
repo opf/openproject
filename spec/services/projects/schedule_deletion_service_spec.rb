@@ -34,7 +34,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
 
     allow(contract)
       .to receive(:new)
-      .with(project, user)
+      .with(project, user, options: { changed_by_system: [] })
       .and_return(contract_instance)
 
     contract
@@ -89,16 +89,9 @@ describe ::Projects::ScheduleDeletionService, type: :model do
         .to receive(:call)
         .and_return(archive_result)
 
-      job = double 'job'
-
       expect(::Projects::DeleteProjectJob)
-        .to receive(:new)
+        .to receive(:perform_later)
         .with(user_id: user.id, project_id: project.id)
-        .and_return(job)
-
-      expect(Delayed::Job)
-        .to receive(:enqueue)
-        .with(job, anything)
 
       expect(subject).to be_success
     end

@@ -77,7 +77,7 @@ module API
           def build_and_attach(metadata, file)
             uploaded_file = OpenProject::Files.build_uploaded_file file[:tempfile],
                                                                    file[:type],
-                                                                   file_name: metadata.file_name
+                                                                   file_name: metadata.file_name.to_s
 
             service = AddAttachmentService.new(container, author: current_user)
 

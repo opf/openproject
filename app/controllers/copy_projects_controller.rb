@@ -81,21 +81,23 @@ class CopyProjectsController < ApplicationController
   end
 
   def enqueue_copy_job
-    copy_project_job = CopyProjectJob.new(user_id: User.current.id,
-                                          source_project_id: @project.id,
-                                          target_project_params: target_project_params,
-                                          associations_to_copy: params[:only],
-                                          send_mails: params[:notifications] == '1')
-
-    Delayed::Job.enqueue copy_project_job, priority: ::ApplicationJob.priority_number(:low)
+    CopyProjectJob.perform_later(user_id: User.current.id,
+                                 source_project_id: @project.id,
+                                 target_project_params: target_project_params,
+                                 associations_to_copy: params[:only],
+                                 send_mails: params[:notifications] == '1')
   end
 
+  ##
+  # Returns the target project params for
+  # the project to be copied. Stringifies id keys of custom field values
+  # due to serialization
   def target_project_params
     @copy_project
       .attributes
       .compact
       .with_indifferent_access
-      .merge(custom_field_values: @copy_project.custom_value_attributes)
+      .merge(custom_field_values: @copy_project.custom_value_attributes.transform_keys(&:to_s))
   end
 
   def copy_started_notice

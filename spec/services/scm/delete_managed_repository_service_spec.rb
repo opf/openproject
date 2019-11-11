@@ -78,6 +78,7 @@ describe Scm::DeleteManagedRepositoryService do
       repo.configure(:managed, nil)
 
       repo.save!
+      perform_enqueued_jobs
       repo
     }
 
@@ -104,6 +105,7 @@ describe Scm::DeleteManagedRepositoryService do
 
       it 'does not delete anything but the repository itself' do
         expect(service.call).to be true
+
         path = Pathname.new(repository.root_url)
         expect(path).to eq(repo_path)
 
@@ -136,8 +138,9 @@ describe Scm::DeleteManagedRepositoryService do
       end
 
       it 'calls the callback' do
-        expect(Scm::DeleteRemoteRepositoryJob)
-          .to receive(:new).and_call_original
+        expect(::Scm::DeleteRemoteRepositoryJob)
+          .to receive(:perform_now)
+          .and_call_original
 
         expect(service.call).to be true
         expect(WebMock)
@@ -154,8 +157,10 @@ describe Scm::DeleteManagedRepositoryService do
       end
 
       it 'calls the callback' do
-        expect(Scm::DeleteRemoteRepositoryJob)
-          .to receive(:new).and_call_original
+        expect(::Scm::DeleteRemoteRepositoryJob)
+          .to receive(:perform_now)
+          .and_call_original
+
 
         expect(service.call).to be false
 

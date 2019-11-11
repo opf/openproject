@@ -68,7 +68,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-activemodel-mocks
-  revision: 6136a778f8b21f4f45f6b4ad5c2e2533e6d4ddc6
+  revision: 0338d50039cad672bbe695fff5591da1ba849308
   specs:
     rspec-activemodel-mocks (1.1.0)
       activemodel (>= 3.0)
@@ -593,7 +593,7 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.2.3)
+    loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -611,7 +611,7 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minisyntax (0.2.5)
-    minitest (5.12.2)
+    minitest (5.13.0)
     mixlib-shellout (2.1.0)
     msgpack (1.3.1)
     multi_json (1.13.1)
@@ -783,19 +783,19 @@ GEM
       representable (~> 3.0.0)
     rotp (3.3.1)
     rouge (3.1.1)
-    rspec (3.8.0)
-      rspec-core (~> 3.8.0)
-      rspec-expectations (~> 3.8.0)
-      rspec-mocks (~> 3.8.0)
-    rspec-core (3.8.0)
-      rspec-support (~> 3.8.0)
-    rspec-expectations (3.8.2)
+    rspec (3.9.0)
+      rspec-core (~> 3.9.0)
+      rspec-expectations (~> 3.9.0)
+      rspec-mocks (~> 3.9.0)
+    rspec-core (3.9.0)
+      rspec-support (~> 3.9.0)
+    rspec-expectations (3.9.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.8.0)
-    rspec-mocks (3.8.0)
+      rspec-support (~> 3.9.0)
+    rspec-mocks (3.9.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.8.0)
-    rspec-rails (4.0.0.beta2)
+      rspec-support (~> 3.9.0)
+    rspec-rails (4.0.0.beta3)
       actionpack (>= 4.2)
       activesupport (>= 4.2)
       railties (>= 4.2)
@@ -805,7 +805,7 @@ GEM
       rspec-support (~> 3.8)
     rspec-retry (0.6.1)
       rspec-core (> 3.3)
-    rspec-support (3.8.0)
+    rspec-support (3.9.0)
     rubocop (0.74.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -938,7 +938,7 @@ GEM
     will_paginate (3.1.8)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.2.0)
+    zeitwerk (2.2.1)
 
 PLATFORMS
   ruby
@@ -1068,10 +1068,10 @@ DEPENDENCIES
   rinku (~> 2.0.4)
   roar (~> 1.1.0)
   rouge (~> 3.1.1)
-  rspec (~> 3.8.0)
+  rspec (~> 3.9.0)
   rspec-activemodel-mocks (~> 1.1.0)!
   rspec-example_disabler!
-  rspec-rails (~> 4.0.0beta2)
+  rspec-rails (~> 4.0.0beta3)
   rspec-retry (~> 0.6.1)
   rubocop
   ruby-duration (~> 3.2.0)

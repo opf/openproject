@@ -79,6 +79,11 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
 
       my_page.add_widget(1, 2, :column, "Work packages table")
 
+      # Actually there are two success messages displayed currently. One for the grid getting updated and one
+      # for the query assigned to the new widget being created. A user will not notice it but the automated
+      # browser can get confused. Therefore we wait.
+      sleep(1)
+
       my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
 
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')

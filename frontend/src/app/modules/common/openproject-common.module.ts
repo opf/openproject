@@ -63,7 +63,7 @@ import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-hea
 import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
-import {UIRouterModule} from "@uirouter/angular";
+import {StateService, UIRouterModule} from "@uirouter/angular";
 import {PortalModule} from "@angular/cdk/portal";
 import {CommonModule} from "@angular/common";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
@@ -77,6 +77,7 @@ import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 import {EnterpriseBannerComponent} from "core-components/enterprise-banner/enterprise-banner.component";
+import {EnterpriseBannerBootstrapComponent} from "core-components/enterprise-banner/enterprise-banner-bootstrap.component";
 import {DynamicModule} from "ng-dynamic-component";
 import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplete/version-autocompleter.component";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
@@ -93,9 +94,28 @@ import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section
 import {IconTriggeredContextMenuComponent} from "core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {NgOptionHighlightModule} from "@ng-select/ng-option-highlight";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {CurrentUserService} from "core-components/user/current-user.service";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
+    // Ensure error reporter is run
+    const currentProject = injector.get(CurrentProjectService);
+    const currentUser = injector.get(CurrentUserService);
+    const routerState = injector.get(StateService);
+
+    window.ErrorReporter.addContext((scope) => {
+      if (currentUser.isLoggedIn) {
+        scope.setUser({ name: currentUser.name, id: currentUser.userId, email: currentUser.mail });
+      }
+
+      if (currentProject.inProjectContext) {
+        scope.setTag('project', currentProject.identifier!);
+      }
+
+      scope.setExtra('router state', routerState.current.name);
+    });
+
     const hookService = injector.get(HookService);
     hookService.register('openProjectAngularBootstrap', () => {
       return [
@@ -247,6 +267,7 @@ export function bootstrapModule(injector:Injector) {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
+    EnterpriseBannerBootstrapComponent,
 
     // Autocompleter
     CreateAutocompleterComponent,
@@ -281,6 +302,9 @@ export function bootstrapModule(injector:Injector) {
     RemoteFieldUpdaterComponent,
     AttributeHelpTextComponent,
     ShowSectionDropdownComponent,
+
+    // Enterprise Edition
+    EnterpriseBannerBootstrapComponent,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },

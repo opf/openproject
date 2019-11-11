@@ -31,19 +31,17 @@
 class WorkPackagesController < ApplicationController
   include QueriesHelper
   include PaginationHelper
-  include OpenProject::ClientPreferenceExtractor
   include Concerns::Layout
 
   accept_key_auth :index, :show
 
-  before_action :authorize_on_work_package, only: :show
+  before_action :authorize_on_work_package,
+                :project, only: :show
   before_action :find_optional_project,
                 :protect_from_unauthorized_export, only: :index
 
-  before_action :load_and_validate_query, only: :index, unless: ->() { request.format.html? }
-  before_action :load_work_packages, only: :index, if: ->() { request.format.atom? }
-
-  before_action :set_gon_settings
+  before_action :load_and_validate_query, only: :index, unless: -> { request.format.html? }
+  before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
 
   def show
     respond_to do |format|
@@ -83,11 +81,6 @@ class WorkPackagesController < ApplicationController
   end
 
   protected
-
-  def set_gon_settings
-    gon.settings = client_preferences
-    gon.settings[:enabled_modules] = project ? project.enabled_modules.collect(&:name) : []
-  end
 
   def export_list(mime_type)
     exporter = WorkPackage::Exporter.for_list(mime_type)
@@ -145,7 +138,7 @@ class WorkPackagesController < ApplicationController
 
   def protect_from_unauthorized_export
     if supported_export_formats.include?(params[:format]) &&
-      !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
+       !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
 
       deny_access
       false
@@ -164,7 +157,6 @@ class WorkPackagesController < ApplicationController
       request.format = 'html'
       return render_400(message: @query.errors.full_messages.join(". "))
     end
-
   rescue ActiveRecord::RecordNotFound
     render_404
   end

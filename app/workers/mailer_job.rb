@@ -28,7 +28,7 @@
 #++
 
 ##
-# We use this extra job instead of just calling
+# This job gets called when internally using
 #
 # ```
 # UserMailer.some_mail("some param").deliver_later
@@ -39,55 +39,33 @@
 # We want it to run in an `ApplicationJob` because of the shared setup required
 # such as reloading the mailer configuration and resetting the request store.
 #
-# Hence instead of the line above you would deliver an email later like this:
+# This class is automatically used whenever you call
 #
-# ```
-# Delayed::Job.enqueue MailUserJob.new(:some_mail, "some param")
-# # or like this:
-# MailUserJob.some_mail "some_param"
-# ```
-class MailUserJob < ApplicationJob
-  attr_reader :mail
+# UserMailer.method(*args).deliver_later
+class MailerJob < ApplicationJob
+  queue_as { ActionMailer::Base.deliver_later_queue_name }
 
-  def initialize(mail, *args)
-    @mail = mail
-    @serialized_params = args.map { |arg| serialize_param arg }
-  end
+  rescue_from StandardError, with: :handle_exception_with_mailer_class
 
-  def perform
-    UserMailer.send(mail, *params).deliver_now
-  end
-
-  def params
-    @params ||= @serialized_params.map do |type, param, model_name|
-      if type == :model
-        deserialize_model param, model_name
-      else
-        param
-      end
-    end
-  end
-
-  def self.method_missing(method, *args, &block)
-    UserMailer.send method unless UserMailer.respond_to? method # fail with NoMethodError
-
-    job = MailUserJob.new method, *args
-
-    Delayed::Job.enqueue job,
-                         priority: ::ApplicationJob.priority_number(:notification)
+  def perform(mailer, mail_method, delivery_method, *args)
+    mailer.constantize.public_send(mail_method, *args).send(delivery_method)
   end
 
   private
 
-  def serialize_param(param)
-    if param.is_a? ActiveRecord::Base
-      [:model, param.id, param.class.name]
-    else
-      [:plain, param]
+  # "Deserialize" the mailer class name by hand in case another argument
+  # (like a Global ID reference) raised DeserializationError.
+  def mailer_class
+    if mailer = Array(@serialized_arguments).first || Array(arguments).first
+      mailer.constantize
     end
   end
 
-  def deserialize_model(id, model_name)
-    model_name.constantize.find_by(id: id)
+  def handle_exception_with_mailer_class(exception)
+    if klass = mailer_class
+      klass.handle_exception exception
+    else
+      raise exception
+    end
   end
 end

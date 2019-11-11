@@ -7,6 +7,10 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 (window as any).global = window;
 
 
+/** Load sentry integration as soon as possible */
+import {SentryReporter} from "core-app/sentry/sentry-reporter";
+window.ErrorReporter = new SentryReporter();
+
 require('./app/init-vendors');
 require('./app/init-globals');
 
@@ -15,8 +19,9 @@ if (environment.production) {
   enableProdMode();
 }
 
+
 jQuery(function () {
-// Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
+  // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
   platformBrowserDynamic()
     .bootstrapModule(OpenProjectModule)
     .then(platformRef => {

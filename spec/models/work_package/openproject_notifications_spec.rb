@@ -45,19 +45,24 @@ describe WorkPackage, type: :model do
 
     let(:journal_ids) { [] }
 
-    before do
+    let!(:subscription) do
       OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-        journal_ids << payload[:journal_id]
+        journal_ids << payload[:journal].id
       end
+    end
+
+    after do
+      OpenProject::Notifications.unsubscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY, subscription)
     end
 
     context 'after creation' do
       before do
         work_package
+        perform_enqueued_jobs
       end
 
       it "are triggered" do
-        expect(journal_ids).to include (work_package.journals.last.id)
+        expect(journal_ids).to include(work_package.journals.last.id)
       end
     end
 
@@ -68,10 +73,12 @@ describe WorkPackage, type: :model do
         journal_ids.clear
 
         work_package.update subject: 'the wind of change'
+
+        perform_enqueued_jobs
       end
 
       it "are triggered" do
-        expect(journal_ids).to include (work_package.journals.last.id)
+        expect(journal_ids).to include(work_package.journals.last.id)
       end
     end
   end

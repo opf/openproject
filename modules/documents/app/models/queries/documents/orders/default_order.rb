@@ -32,6 +32,6 @@ class Queries::Documents::Orders::DefaultOrder < Queries::BaseOrder
   self.model = Document
 
   def self.key
-    /id|created_on/
+    /\A(id|created_on)\z/
   end
 end

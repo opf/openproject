@@ -36,7 +36,9 @@
 # creation and deletion of repositories BOTH on the database and filesystem.
 # Until then, a synchronous process is more failsafe.
 class Scm::CreateRemoteRepositoryJob < Scm::RemoteRepositoryJob
-  def perform
+  def perform(repository)
+    super(repository)
+
     response = send_request(repository_request.merge(action: :create))
     repository.root_url = response['path']
     repository.url = response['url']

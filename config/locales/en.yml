@@ -1007,7 +1007,7 @@ en:
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
       project_filters:
-        description_html: "Upgrade to %{link} to filter and sort on custom fields"
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
 
   enumeration_activities: "Activities (time tracking)"
   enumeration_work_package_priorities: "Work package priorities"

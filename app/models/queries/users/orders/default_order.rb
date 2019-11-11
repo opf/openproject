@@ -31,6 +31,6 @@ class Queries::Users::Orders::DefaultOrder < Queries::BaseOrder
   self.model = User
 
   def self.key
-    /id|lastname|firstname|mail|login/
+    /\A(id|lastname|firstname|mail|login)\z/
   end
 end

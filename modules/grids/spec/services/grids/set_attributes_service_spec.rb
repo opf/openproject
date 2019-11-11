@@ -37,7 +37,7 @@ describe Grids::SetAttributesService, type: :model do
 
     allow(contract)
       .to receive(:new)
-      .with(grid, user)
+      .with(grid, user, options: { changed_by_system: [] })
       .and_return(contract_instance)
 
     contract

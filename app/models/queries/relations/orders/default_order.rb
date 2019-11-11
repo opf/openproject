@@ -34,7 +34,7 @@ module Queries
         self.model = Relation
 
         def self.key
-          /id|from|to|involved|type/
+          /\A(id|from|to|involved|type)\z/
         end
       end
     end

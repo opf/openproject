@@ -35,9 +35,10 @@ module BaseServices
 
     attr_reader :user
 
-    def initialize(user:, contract_class: nil)
+    def initialize(user:, contract_class: nil, contract_options: {})
       @user = user
       self.contract_class = contract_class || default_contract_class
+      self.contract_options = contract_options
     end
 
     def call(params = nil)
@@ -63,7 +64,7 @@ module BaseServices
     end
 
     def validate_contract(call)
-      success, errors = validate(model, user)
+      success, errors = validate(model, user, options: contract_options)
 
       unless success
         call.success = false

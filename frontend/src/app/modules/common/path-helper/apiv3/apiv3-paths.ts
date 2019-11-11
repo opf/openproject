@@ -145,7 +145,7 @@ export class ApiV3Paths {
   public principals(projectId:string|number, term:string|null) {
     let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     // Only real and activated users:
-    filters.add('status', '!', ['0', '3']);
+    filters.add('status', '!', ['3']);
     // that are members of that project:
     filters.add('member', '=', [projectId.toString()]);
     // That are users:

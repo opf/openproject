@@ -92,7 +92,7 @@ module WorkPackage::Parent
                 :do_halt
 
   def parent=(work_package)
-    id = work_package && work_package.id
+    id = work_package&.id
 
     self.parent_id = id
 
@@ -113,6 +113,9 @@ module WorkPackage::Parent
 
   def reload(*args)
     @parent_object = nil
+    # The is_leaf resetting stems fro typed_dag_defaults.rb where it was impossible to add
+    # another #reload method without interfering with the virtual attribute handling defined here.
+    reset_is_leaf
 
     super
   end
@@ -129,13 +132,11 @@ module WorkPackage::Parent
   def parent_id
     return @parent_id if @parent_id_set
 
-    @parent_id || parent && parent.id
+    @parent_id || parent&.id
   end
 
   def update_parent_relation
-    if parent_relation
-      parent_relation.destroy
-    end
+    parent_relation&.destroy
 
     if parent_object
       create_parent_relation from: parent_object

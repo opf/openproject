@@ -36,6 +36,7 @@ module OpenProject
     # Returns the newly created hook
     def self.register_hook(name, &callback)
       raise "A hook named '#{name}' is already registered!" if find(name)
+
       Rails.logger.warn "hook registered"
       hook = Hook.new(name, &callback)
       @@registered_hooks << hook
@@ -47,11 +48,12 @@ module OpenProject
     def self.unregister_hook(name)
       hook = find(name)
       raise "A hook named '#{name}' was not registered!" unless find(name)
+
       @@registered_hooks.delete hook
     end
 
     def self.find(name)
-      @@registered_hooks.find {|h| h.name == name}
+      @@registered_hooks.find { |h| h.name == name }
     end
   end
 end

@@ -100,7 +100,8 @@ module ::Query::Sums
 
   def crunch(num)
     return num if num.nil? or num.integer?
-    Float(format '%.2f', num.to_f)
+
+    Float(format('%.2f', num.to_f))
   end
 
   def group_for_issue(issue = @current_issue)
@@ -121,7 +122,7 @@ module ::Query::Sums
 
   def all_total_sums
     query.available_columns.select { |column|
-      column.summable? && Setting.work_package_list_summable_columns.include?(column.name.to_s)
+      should_be_summed_up?(column)
     }.inject({}) { |result, column|
       sum = total_sum_of(column)
       result[column] = sum unless sum.nil?

@@ -351,11 +351,6 @@ class WorkPackage < ActiveRecord::Base
     write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
   end
 
-  # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
-  def available_custom_fields
-    WorkPackage::AvailableCustomFields.for(project, type)
-  end
-
   # aliasing subject to name
   # using :alias is not possible as AR will add the subject method later
   def name
@@ -624,6 +619,11 @@ class WorkPackage < ActiveRecord::Base
     sub_query = [following_from_hierarchy, following_from_self].map(&:to_sql).join(" UNION ")
 
     where("id IN (SELECT common_id FROM (#{sub_query}) following_relations)")
+  end
+
+  # Overrides Redmine::Acts::Customizable::ClassMethods#available_custom_fields
+  def self.available_custom_fields(work_package)
+    WorkPackage::AvailableCustomFields.for(work_package.project, work_package.type)
   end
 
   protected

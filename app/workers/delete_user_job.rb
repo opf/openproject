@@ -28,17 +28,9 @@
 #++
 
 class DeleteUserJob < ApplicationJob
-  def initialize(user_id)
-    @user_id = user_id
-  end
+  queue_with_priority :low
 
-  def perform
+  def perform(user)
     user.destroy
-  end
-
-  private
-
-  def user
-    @user ||= User.find @user_id
   end
 end

@@ -207,6 +207,7 @@ describe UsersController, type: :controller do
       end
 
       it 'sends another activation email' do
+        perform_enqueued_jobs
         mail = ActionMailer::Base.deliveries.first.body.parts.first.body.to_s
         token = Token::Invitation.find_by user_id: invited_user.id
 
@@ -425,6 +426,7 @@ describe UsersController, type: :controller do
       end
 
       it 'should send an email to the correct user in the correct language' do
+        perform_enqueued_jobs
         mail = ActionMailer::Base.deliveries.last
         refute_nil mail
         assert_equal [registered_user.mail], mail.to

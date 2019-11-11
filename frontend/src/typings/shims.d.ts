@@ -16,6 +16,8 @@
 /// <reference path="../../node_modules/@types/es6-shim/index.d.ts" />
 /// <reference path="../../node_modules/@types/dragula/index.d.ts" />
 
+import {ErrorReporter} from "core-app/sentry/sentry-reporter";
+
 declare module 'dom-autoscroller';
 
 import {Injector} from '@angular/core';
@@ -50,6 +52,7 @@ declare global {
     appBasePath:string;
     ng2Injector:Injector;
     OpenProject:OpenProject;
+    ErrorReporter:ErrorReporter;
   }
 
   interface JQuery {
