@@ -6,7 +6,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 @Injectable()
 export class HalAwareErrorHandler extends ErrorHandler {
   private text = {
-    internal_error: this.I18n.t('js.errors.internal')
+    internal_error: this.I18n.t('js.error.internal')
   };
 
   constructor(private readonly I18n:I18nService) {
