@@ -76,6 +76,10 @@ export class SentryReporter implements ErrorReporter {
         Sentry.init({
           dsn: sentryElement.dataset.dsn!,
           debug: !environment.production,
+          ignoreErrors: [
+            // Transition movements,
+            'The transition has been superseded by a different transition'
+          ],
         });
 
         this.sentryLoaded(Sentry);
