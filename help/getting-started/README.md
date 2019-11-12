@@ -21,6 +21,7 @@ Here you will learn about the **first steps with OpenProject**. If you need more
 ## 5 steps to get started
 
 Watch a short 3 minute video to get started with OpenProject in 5 easy steps:
+
 1. Create a project
 2. Add team members
 3. Create work packages

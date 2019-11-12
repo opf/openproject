@@ -1,5 +1,5 @@
 ---
-title: Invite team members
+title: Invite members
 description: Invite new team members to a project
 robots: index, follow
 keywords: invite members
