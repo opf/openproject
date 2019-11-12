@@ -893,7 +893,7 @@ class DeletedUser < User
   end
 
   def self.first
-    super || create(type: to_s, status: STATUSES[:active])
+    super || create(type: to_s, status: STATUSES[:locked])
   end
 
   # Overrides a few properties
