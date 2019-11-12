@@ -351,7 +351,10 @@ class AccountController < ApplicationController
 
       redirect_to direct_login_provider_url(ps)
     elsif Setting.login_required?
-      error = user.active? || flash[:error]
+      # I'm not sure why it is considered an error if we don't have the anonymous user here.
+      # Before the line read `user.active? || flash[:error]` but since a recent
+      # change the anonymous user is active too which breaks this.
+      error = !user.anonymous? || flash[:error]
       instructions = error ? :after_error : :after_registration
 
       render :exit, locals: { instructions: instructions }
