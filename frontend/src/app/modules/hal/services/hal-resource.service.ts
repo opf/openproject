@@ -36,6 +36,8 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
 import {initializeHalProperties} from 'core-app/modules/hal/helpers/hal-resource-builder';
 import {URLParamsEncoder} from 'core-app/modules/hal/services/url-params-encoder';
+import {ErrorReporter} from "core-app/sentry/sentry-reporter";
+import {ErrorResource} from "core-app/modules/hal/resources/error-resource";
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
@@ -97,7 +99,9 @@ export class HalResourceService {
         map((response:any) => this.createHalResource(response)),
         catchError((error:HttpErrorResponse) => {
           console.error(`Failed to ${method} ${href}: ${error.name}`);
-          return throwError(this.createHalResource(error.error));
+          const resource = this.createHalResource<ErrorResource>(error.error);
+          resource.httpError = error;
+          return throwError(resource);
         })
       ) as any;
   }

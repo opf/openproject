@@ -19,4 +19,10 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<%= render(:partial => "meeting_contents/show", :locals => {:content => @content, :content_type => @content_type, :title => "#{l(:"label_#{@content_type}")}: #{link_to @meeting, @meeting}"}) %>
+<%= render partial: "meeting_contents/show",
+           locals: {
+             content: @content,
+             journaled_version: @journaled_version,
+             content_type: @content_type,
+             title: "#{l(:"label_#{@content_type}")}: #{link_to @meeting, @meeting}"
+           } %>

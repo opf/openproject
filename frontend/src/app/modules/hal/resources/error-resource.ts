@@ -28,6 +28,7 @@
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
+import {HttpErrorResponse} from "@angular/common/http";
 
 export const v3ErrorIdentifierQueryInvalid = 'urn:openproject-org:api:v3:errors:InvalidQuery';
 export const v3ErrorIdentifierMultipleErrors = 'urn:openproject-org:api:v3:errors:MultipleErrors';
@@ -38,7 +39,18 @@ export class ErrorResource extends HalResource {
   public details:any;
   public errorIdentifier:string;
 
+  /** We may get a reference to the underlying http error */
+  public httpError?:HttpErrorResponse;
+
   public isValidationError:boolean = false;
+
+  /**
+   * Override toString to ensure the resource can
+   * be printed nicely on console and in errors
+   */
+  public toString() {
+    return `[ErrorResource ${this.message}]`;
+  }
 
   public get errorMessages():string[] {
     if (this.isMultiErrorMessage()) {

@@ -54,7 +54,10 @@ See doc/COPYRIGHT.md for more details.
   <% end -%>
 </div>
 
-<% resource = ::API::V3::MeetingContents::MeetingContentRepresenter.new(content, current_user: current_user, embed_links: true) %>
-<%= list_attachments(resource) %>
+<%# We cannot render attachments for journaled content %>
+<% unless local_assigns[:journaled_version] %>
+  <% resource = ::API::V3::MeetingContents::MeetingContentRepresenter.new(content, current_user: current_user, embed_links: true) %>
+  <%= list_attachments(resource) %>
+<% end %>
 
 <%= render :partial => 'shared/meeting_header' %>
