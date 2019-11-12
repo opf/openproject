@@ -685,7 +685,7 @@ class User < Principal
         u.login = ''
         u.firstname = ''
         u.mail = ''
-        u.status = 0
+        u.status = User::STATUSES[:active]
       end).save
       raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
     end
