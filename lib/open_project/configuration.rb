@@ -161,6 +161,8 @@ module OpenProject
 
       # Log errors to sentry instance
       'sentry_dsn' => nil,
+      # Allow error reporting for frontend errors
+      'sentry_report_js' => false,
       'sentry_host' => 'https://sentry.openproject.com'
     }
 
