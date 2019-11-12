@@ -57,7 +57,7 @@ module Queries
       end
 
       def ==(other)
-        other.attributes_hash == attributes_hash
+        other.try(:attributes_hash) == attributes_hash
       end
 
       protected
