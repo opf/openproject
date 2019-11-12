@@ -1,3 +1,5 @@
+require 'rest-client'
+
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
@@ -27,15 +29,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WebhookJob < ApplicationJob
-  attr_reader :webhook_id, :event_name
-
-  def perform(webhook_id, event_name)
-    @webhook_id = webhook_id
-    @event_name = event_name
+class TimeEntryWebhookJob < RepresentedWebhookJob
+  def payload_key
+    :time_entry
   end
 
-  def webhook
-    @webhook ||= Webhooks::Webhook.find(webhook_id)
+  def payload_representer
+    User.system.run_given do |user|
+      ::API::V3::TimeEntries::TimeEntryRepresenter
+        .create(resource, current_user: user, embed_links: true)
+    end
   end
 end
