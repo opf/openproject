@@ -41,12 +41,12 @@ module IFCModels
 
     ##
     # Check availability of the pipeline
-    def available?
+    def self.available?
       available_commands.length == PIPELINE_COMMANDS.length
     end
 
-    def available_commands
-      @available ||= begin
+    def self.available_commands
+      @@available ||= begin
         PIPELINE_COMMANDS.select do |command|
           _, status = Open3.capture2e('which', command)
           status.exitstatus == 0
@@ -153,8 +153,8 @@ module IFCModels
     end
 
     def validate!
-      unless available?
-        missing = PIPELINE_COMMANDS - available_commands
+      unless self.class.available?
+        missing = PIPELINE_COMMANDS - self.class.available_commands
         raise I18n.t('ifc_models.conversion.missing_commands', names: missing.join(", "))
       end
 

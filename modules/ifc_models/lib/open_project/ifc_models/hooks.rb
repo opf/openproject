@@ -34,7 +34,7 @@ module OpenProject::IFCModels::Hooks
 
     def admin_information_checklist(*)
       [
-        [:'extraction.available.ifc_convert', ::OpenProject::IFCModels::Converter.available?]
+        [:'extraction.available.ifc_convert', ::IFCModels::ViewConverterService.available?]
       ]
     end
   end
