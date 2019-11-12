@@ -29,18 +29,12 @@
 #++
 
 module Bcf::API::V2_1
-  class ProjectsAPI < ::API::OpenProjectAPI
-    resources :projects do
-      route_param :id, regexp: /\A(\d+)\z/ do
-        after_validation do
-          @project = Project.visible(current_user).find(params[:id])
-        end
+  class Projects::SingleRepresenter < Roar::Decorator
+    include Representable::JSON
 
-        get do
-          Bcf::API::V2_1::Projects::SingleRepresenter
-            .new(@project)
-        end
-      end
-    end
+    property :id,
+             as: :project_id
+
+    property :name
   end
 end
