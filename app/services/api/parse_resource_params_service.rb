@@ -27,31 +27,54 @@
 #++
 
 module API
-  module V3
-    class ParseResourceParamsService < ::API::ParseResourceParamsService
-      private
+  class ParseResourceParamsService
+    attr_accessor :model,
+                  :representer,
+                  :current_user
 
-      def deduce_representer(model)
-        "API::V3::#{model.to_s.pluralize}::#{model}Representer".constantize
-      end
+    def initialize(user, model: nil, representer: nil)
+      self.current_user = user
+      self.model = model
 
-      def parsing_representer
-        representer
-          .create(struct, current_user: current_user)
-      end
+      self.representer = if !representer && model
+                           deduce_representer(model)
+                         elsif representer
+                           representer
+                         else
+                           raise 'Representer not defined'
+                         end
+    end
 
-      def parse_attributes(request_body)
-        super
-          .except(:available_custom_fields)
-      end
+    def call(request_body)
+      parsed = if request_body
+                 parse_attributes(request_body)
+               else
+                 {}
+               end
 
-      def struct
-        if model&.respond_to?(:available_custom_fields)
-          OpenStruct.new available_custom_fields: model.available_custom_fields(model.new)
-        else
-          super
-        end
-      end
+      ServiceResult.new(success: true,
+                        result: parsed)
+    end
+
+    private
+
+    def deduce_representer(model)
+      raise NotImplementedError
+    end
+
+    def parsing_representer
+      representer
+        .new(struct, current_user: current_user)
+    end
+
+    def parse_attributes(request_body)
+      parsing_representer
+        .from_hash(request_body)
+        .to_h
+    end
+
+    def struct
+      OpenStruct.new
     end
   end
 end

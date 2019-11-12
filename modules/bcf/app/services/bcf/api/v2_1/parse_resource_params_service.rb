@@ -26,30 +26,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    class ParseResourceParamsService < ::API::ParseResourceParamsService
-      private
+module Bcf
+  module API
+    module V2_1
+      class ParseResourceParamsService < ::API::ParseResourceParamsService
+        private
 
-      def deduce_representer(model)
-        "API::V3::#{model.to_s.pluralize}::#{model}Representer".constantize
-      end
+        def deduce_representer(model)
+          "Bcf::API::V2_1::#{model.to_s.pluralize}::SingleRepresenter".constantize
+        end
 
-      def parsing_representer
-        representer
-          .create(struct, current_user: current_user)
-      end
-
-      def parse_attributes(request_body)
-        super
-          .except(:available_custom_fields)
-      end
-
-      def struct
-        if model&.respond_to?(:available_custom_fields)
-          OpenStruct.new available_custom_fields: model.available_custom_fields(model.new)
-        else
-          super
+        def parsing_representer
+          representer
+            .new(struct)
         end
       end
     end
