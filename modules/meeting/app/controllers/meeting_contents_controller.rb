@@ -42,7 +42,9 @@ class MeetingContentsController < ApplicationController
                   tab: @content_type.sub(/^meeting_/, '')
       return
     end
+
     # go to an old version if a version id is given
+    @journaled_version = true
     @content = @content.at_version params[:id] unless params[:id].blank?
     render 'meeting_contents/show'
   end
