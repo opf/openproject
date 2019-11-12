@@ -31,9 +31,26 @@
 module Bcf::API::V2_1
   class ProjectsAPI < ::API::OpenProjectAPI
     resources :projects do
+      helpers do
+        def visible_projects
+          Project
+            .visible(current_user)
+            .has_module(:bcf)
+        end
+      end
+
+      get do
+        visible_projects
+          .map do |project|
+          Bcf::API::V2_1::Projects::SingleRepresenter
+            .new(project)
+        end
+      end
+
       route_param :id, regexp: /\A(\d+)\z/ do
         after_validation do
-          @project = Project.visible(current_user).find(params[:id])
+          @project = visible_projects
+                     .find(params[:id])
         end
 
         get do

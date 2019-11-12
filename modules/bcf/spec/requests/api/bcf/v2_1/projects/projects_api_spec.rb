@@ -40,7 +40,7 @@ describe 'BCF 2.1 projects resource', type: :request do
     FactoryBot.create(:user)
   end
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { FactoryBot.create(:project, enabled_module_names: [:bcf]) }
   subject(:response) { last_response }
 
   describe 'GET /api/bcf/2.1/projects/:project_id' do
@@ -93,6 +93,45 @@ describe 'BCF 2.1 projects resource', type: :request do
         expect(subject.headers['Content-Type'])
           .to eql 'application/json; charset=utf-8'
       end
+    end
+  end
+
+  describe 'GET /api/bcf/2.1/projects' do
+    let(:path) { "/api/bcf/2.1/projects" }
+    let(:current_user) { member_user }
+    let!(:invisible_project) { FactoryBot.create(:project, enabled_module_names: [:bcf]) }
+    let!(:non_bcf_project) do
+      FactoryBot.create(:project, enabled_module_names: [:work_packages]).tap do |p|
+        FactoryBot.create(:member,
+                          project: p,
+                          user: member_user,
+                          roles: member_user.members.first.roles)
+      end
+    end
+
+    before do
+      login_as(current_user)
+      get path
+    end
+
+    it 'responds 200 OK' do
+      expect(subject.status)
+        .to eql 200
+    end
+
+    it 'returns an array of visible projects having bim enabled' do
+      expected = {
+        project_id: project.id,
+        name: project.name
+      }
+
+      expect(subject.body)
+        .to be_json_eql([expected].to_json)
+    end
+
+    it 'is has a json content type header' do
+      expect(subject.headers['Content-Type'])
+        .to eql 'application/json; charset=utf-8'
     end
   end
 end
