@@ -502,10 +502,9 @@ class AccountController < ApplicationController
   def register_user_according_to_setting(user, opts = {}, &block)
     return register_automatically(user, opts, &block) if user.invited?
 
-    case Setting.self_registration
-    when '1'
+    if Setting::SelfRegistration.by_email?
       register_by_email_activation(user, opts, &block)
-    when '3'
+    elsif Setting::SelfRegistration.automatic?
       register_automatically(user, opts, &block)
     else
       register_manually_by_administrator(user, opts, &block)
