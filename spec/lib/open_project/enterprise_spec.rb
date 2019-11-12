@@ -32,13 +32,13 @@ require 'open_project/passwords'
 describe OpenProject::Enterprise do
   describe "#user_limit_reached?" do
     let(:user_limit) { 2 }
-    let(:builtin_user_count) { 3 }
+    let(:builtin_user_count) { 2 }
 
     before do
-      # create 3 built-in users
+      # create 3 built-in users, only 2 of which are active
       User.system
       User.anonymous
-      DeletedUser.first
+      DeletedUser.first # locked, not active
 
       allow(OpenProject::Enterprise).to receive(:user_limit).and_return(user_limit)
     end
