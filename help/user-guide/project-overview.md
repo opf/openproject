@@ -2,7 +2,6 @@
 nav:
   title: Project overview
   priority: 900
-title: Project overview
 description: Learn how to configure a project overview page
 robots: index, follow
 keywords: project overview page

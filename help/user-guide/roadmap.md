@@ -1,5 +1,7 @@
 ---
-title: Product roadmap and release planning
+nav:
+  title: Product roadmap and release planning
+  priority: 880
 description: Find out about the Product Roadmap and Release planning in OpenProject
 robots: index, follow
 keywords: roadmap, release planning
