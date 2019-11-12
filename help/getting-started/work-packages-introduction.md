@@ -20,7 +20,7 @@ For further documentation, please visit our [user guide for work packages](./use
 
 ## What is a work package?
 
-A work package in OpenProject can basically be everything which you need to keep track off within your projects. It can be e.g. a tasks, a feature, a bug, a risk, a milestone or a project phase. This different kinds of work packages are called work package types.
+A work package in OpenProject can basically be everything you need to keep track off within your projects. It can be e.g. a task, a feature, a bug, a risk, a milestone or a project phase. This different kinds of work packages are called work package types.
 
 ## Create a new work package
 

@@ -9,18 +9,18 @@ keywords: my page
 
 The My Page is your personal dashboard with important overarching project information, such as work package reports, news, spent time, or a calendar. It can be configured to your specific needs.
 
-| Feature                                                      | Documentation for                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------ |
-| [My Page introduction](#my-page-introduction)                | What is the My Page and what can I do with it?         |
-| [Configure the My Page](#configure-the-my-page)              | How to configure the My Page?                          |
-| [Add widgets](#add-widgets)                                  | How to add widgets to the My Page?                     |
-| [Change position of the widgets](#change-position-of-the-widgets) | How to change the position of a widget on the My Page? |
-| [Change the size of a widget](#change-the-size-of-a-widget)  | How to change the size of a widget?                    |
-| [Remove a widget](#remove-widget)                            | How to delete a widget on the My Page?                 |
+| Feature                                                      | Documentation for                                  |
+| ------------------------------------------------------------ | -------------------------------------------------- |
+| [My Page introduction](#my-page-introduction)                | What is My Page and what can I do with it?         |
+| [Configure the My Page](#configure-the-my-page)              | How to configure My Page?                          |
+| [Add widgets](#add-widgets)                                  | How to add widgets to My Page?                     |
+| [Change position of the widgets](#change-position-of-the-widgets) | How to change the position of a widget on My Page? |
+| [Change the size of a widget](#change-the-size-of-a-widget)  | How to change the size of a widget?                |
+| [Remove a widget](#remove-widget)                            | How to delete a widget on My Page?                 |
 
 ## My Page introduction
 
-The My Page is your personal dashboard where you can display important information of your projects. This personal dashboard contains information from all your projects. The **My page** can be configured according to your preferences. You can include project information, for example the latest news, work packages assigned to you or reported work packages.
+My Page is your personal dashboard where you can display important information of your projects. This personal dashboard contains information from all your projects. **My page** can be configured according to your preferences. You can include project information, for example the latest news, work packages assigned to you or reported work packages.
 
 You can open your **My page** by clicking on your user avatar in the upper right corner and then selecting **My page** from the dropdown menu.
 
@@ -36,15 +36,15 @@ As a default, you will see two lists of all **work packages assigned to you** an
 
 ### Add widgets
 
-In order to **add a widget to the My Page**, press the **+** icon on the top right corner of the page.
+In order to **add a widget to My Page**, press the **+** icon on the top right corner of the page.
 
 The dashboard shows the places where it is possible to add more widgets by displaying **+** icons.
 
-Press a plus icon to add a widget to the My Page at the according place.
+Press a plus icon to add a widget to My Page at the according place.
 
 ![my-page-add-widget](my-page-add-widget.png)
 
-Once you have chosen the place where to add the new widget on the My Page, you can choose from a number of different widgets that can be included on your dashboard.
+Once you have chosen the place where to add the new widget on My Page, you can choose from a number of different widgets that can be included on your dashboard.
 
 ![my page new widgets](1572883929593.png)
 

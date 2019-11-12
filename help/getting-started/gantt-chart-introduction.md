@@ -22,7 +22,7 @@ To find out more about the functionalities for Gantt charts, please visit our [u
 
 With Gantt charts in OpenProject you can create and manage a project plan and share the information with your team. You can schedule your tasks and visualize the required steps to complete your project. As a project manager you are directly informed about delays in your project and can act accordingly.
 
-The dynamic  Gantt chart in OpenProject displays the phases and milestones in your project as well as relationships between them. Each element in the timeline has a start date and a due date so you are always informed about the current status.
+The dynamic Gantt chart in OpenProject displays the phases and milestones in your project as well as relationships between them. Each element in the timeline has both a start as well as a due date so you are always informed about the current status.
 
 ## Activate the Gantt chart view
 
@@ -46,7 +46,7 @@ You can create new work packages directly in the list by clicking on the **creat
 
 Click in the Gantt chart to add an element in the project plan.
 
-You can change the duration or move the element in the project plan with drag and drop.
+You can change the duration or move the element in the project plan via drag and drop.
 
 ![create-projectplan](create-projectplan-1571743591204.gif)
 
@@ -54,8 +54,8 @@ You can change the duration or move the element in the project plan with drag an
 
 You can edit a project plan by clicking directly in the list and change work package attributes, e.g. Status, Priority or Assignee.
 
-To change the start and end date or the duration of a work package, click directly in the Gantt chart and change it with drag and drop.
-All changes will also be tracked in the work packges [Activity](/user-guide/#activity).
+To change the start and end date or the duration of a work package, click directly in the Gantt chart and change it via drag and drop.
+All changes will also be tracked in the work packages [Activity](/user-guide/#activity).
 
 ![edit-projectplan](edit-projectplan.gif)
 

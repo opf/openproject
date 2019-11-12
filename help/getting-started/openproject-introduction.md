@@ -16,7 +16,7 @@ Welcome to OpenProject! We are glad to have you here. In this section we will co
 | [About OpenProject](#about-openproject)                      | What is OpenProject?                                         |
 | [First steps to get started](#first-steps-to-get-started)    | The first steps to get started with OpenProject.             |
 | [The entire Project Management Life-Cycle](#the-entire-project-management-life-cycle) | Find out more how OpenProject supports the different project phases. |
-| [OpenProject products](#openproject-products)                | What is the differences between the Community, Cloud and Enterprise Edition? |
+| [OpenProject products](#openproject-products)                | What is the difference between the Community, Cloud and Enterprise Edition? |
 
 ## About OpenProject
 
@@ -50,7 +50,7 @@ The following sections provide links to the documentation for each project phase
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Project concept and initiation](#project-concept-and-initiation) | Collect ideas and specify project scope and deliverables:  set up a project, document initial ideas, project description, invite members. |
 | [Project definition and planning](#project-definition-and-planning) | Create a project overview with detailed information, set up a project plan, create your roadmap. |
-| [Project launch or execution](#project-launch-or-execution)  | Manage all project activities, such as tasks, deliverables, risks, features, bugs, change requests. Use agile boards with your teams. Document meetings, share news. |
+| [Project launch or execution](#project-launch-or-execution)  | Manage all project activities, such as tasks, deliverables, risks, features, bugs, change requests. Use agile boards with your teams, document meetings, share news. |
 | [Project performance and control](#project-performance-and-control) | Create and manage project budgets, track and evaluate time and costs. Have custom reports for accurate, current insight into project performance and allocated resources. |
 | [Project close](#project-close)                              | Document project achievements, lessons learned, best practices and easily summarize the main results of a project. Archive projects for later reference and lessons learned. |
 
@@ -95,7 +95,7 @@ Create and manage project budgets, track and evaluate time and costs. Have custo
 
 | Features                | Documentation for                                            |
 | ----------------------- | ------------------------------------------------------------ |
-| Dashboard               | Visualize your progress within a project or project overarching (coming soon) |
+| Dashboard               | Visualize your progress within a project or project overarching (coming soon). |
 | Budgets                 | Create and manage budgets in your project.                   |
 | Time tracking           | Track time for any work within your project.                 |
 | Track unit costs        | Track unit costs for your project.                           |
@@ -119,7 +119,7 @@ OpenProject can be used in three different Editions, either on-premise or as sof
 ![openproject versions](1569586019132.png)
 
 * [Community Edition](https://www.openproject.org/download-and-installation/): self-installed on-premise.
-* [Cloud Edition](https://www.openproject.org/hosting/): we host it, inkl. premium features and support.
-* [Enterprise Edition](https://www.openproject.org/enterprise-edition/): self-hosted version, inkl. premium features and support.
+* [Cloud Edition](https://www.openproject.org/hosting/): we host it, incl. premium features and support.
+* [Enterprise Edition](https://www.openproject.org/enterprise-edition/): self-hosted version, incl. premium features and support.
 
 To compare the features side by side, please visit our [Feature Comparison](https://www.openproject.org/pricing/#features) page.
