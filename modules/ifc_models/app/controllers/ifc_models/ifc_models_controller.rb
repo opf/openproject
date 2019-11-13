@@ -42,7 +42,7 @@ module ::IFCModels
     def index
       @ifc_models = @project
         .ifc_models
-        .order('updated_at DESC')
+        .order('created_at ASC')
         .includes(:uploader, :project)
     end
 

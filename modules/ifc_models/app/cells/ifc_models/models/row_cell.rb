@@ -6,8 +6,12 @@ module IFCModels
       include ::Redmine::I18n
 
       def title
-        link_to model.title,
-                ifc_models_project_ifc_model_path(model.project, model)
+        if still_processing?
+          model.title
+        else
+          link_to model.title,
+                  ifc_models_project_ifc_model_path(model.project, model)
+        end
       end
 
       def updated_at
@@ -20,11 +24,15 @@ module IFCModels
       end
 
       def processing
-        if model.xkt_attachment.present?
-          I18n.t('ifc_models.processing_state.completed')
-        else
+        if still_processing?
           I18n.t('ifc_models.processing_state.in_progress')
+        else
+          I18n.t('ifc_models.processing_state.completed')
         end
+      end
+
+      def still_processing?
+        model.xkt_attachment.nil? || model.metadata_attachment.nil?
       end
 
       ###
