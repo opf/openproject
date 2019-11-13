@@ -70,6 +70,12 @@ export class SentryReporter implements ErrorReporter {
   private client:any;
 
   constructor() {
+    const unsupportedBrowser = document.body.classList.contains('-unsupported-browser');
+    if (unsupportedBrowser) {
+      console.warn("Browser is not supported, skipping sentry reporting completely.")
+      return;
+    }
+
     const sentryElement = document.querySelector('meta[name=openproject_sentry]') as HTMLElement|null;
     if (sentryElement) {
       import('@sentry/browser').then((Sentry) => {
@@ -79,7 +85,7 @@ export class SentryReporter implements ErrorReporter {
           ignoreErrors: [
             // Transition movements,
             'The transition has been superseded by a different transition'
-          ],
+          ]
         });
 
         this.sentryLoaded(Sentry);
