@@ -1011,7 +1011,7 @@ ru:
         add_groups: "Добавить новую группу атрибутов"
         rename_groups: "Переименовать группу атрибутов"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Фильтрация и сортировка по настраиваемым полям - это функция корпоративной версии."
   enumeration_activities: "Деятельность (отслеживание времени)"
   enumeration_work_package_priorities: "Приоритеты пакета работ"
   enumeration_system_activity: "Активность системы"
