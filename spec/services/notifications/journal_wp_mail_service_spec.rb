@@ -341,7 +341,7 @@ describe 'initialization' do
 
     OpenProject::Notifications.send(
       OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
-      journal: double('journal', initial?: true)
+      journal: double('journal', initial?: true, journable: double('WorkPackage'))
     )
   end
 end
