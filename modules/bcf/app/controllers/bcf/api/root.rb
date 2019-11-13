@@ -39,7 +39,7 @@ module Bcf::API
 
     default_format :json
 
-    error_representer ::Bcf::API::V2_1::Errors::ErrorRepresenter
+    error_representer ::Bcf::API::V2_1::Errors::ErrorRepresenter, :json
     error_formatter :json, ::Bcf::API::ErrorFormatter::Json
 
     authentication_scope OpenProject::Authentication::Scope::BCF_V2_1

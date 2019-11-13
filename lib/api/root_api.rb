@@ -193,43 +193,20 @@ module API
       end
     end
 
-    def self.error_representer(klass = nil)
-      if klass
-        @error_representer = klass
-
-        # Have the representer class available in the instances
-        # via a helper.
-        helpers do
-          define_method(:error_representer, -> { klass })
-        end
+    def self.error_representer(klass, content_type)
+      # Have the vars available in the instances via helpers.
+      helpers do
+        define_method(:error_representer, -> { klass })
+        define_method(:error_content_type, -> { content_type })
       end
-
-      @error_representer
     end
 
-    def self.authentication_scope(sym = nil)
-      if sym
-        @authentication_scope = sym
-
-        # Have the representer class available in the instances
-        # via a helper.
-        helpers do
-          define_method(:authentication_scope, -> { sym })
-        end
+    def self.authentication_scope(sym)
+      # Have the scope available in the instances
+      # via a helper.
+      helpers do
+        define_method(:authentication_scope, -> { sym })
       end
-
-      @authentication_scope
-    end
-
-    ##
-    # Return JSON error response on authentication failure.
-    OpenProject::Authentication.handle_failure(scope: API_V3) do |warden, _opts|
-      e = grape_error_for warden.env, self
-      error_message = I18n.t('api_v3.errors.code_401_wrong_credentials')
-      api_error = ::API::Errors::Unauthenticated.new error_message
-      representer = error_representer.new api_error
-
-      e.error_response status: 401, message: representer.to_json, headers: warden.headers, log: false
     end
 
     error_response ActiveRecord::RecordNotFound, ::API::Errors::NotFound, log: false
