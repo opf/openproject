@@ -30,9 +30,13 @@ module API
   module V3
     module Utilities
       module Endpoints
-        class Update < API::Utilities::Endpoints::Update
-          include V3Deductions
-          include V3PresentSingle
+        module V3PresentSingle
+          def present_success(current_user, call)
+            render_representer
+              .create(call.result,
+                      current_user: current_user,
+                      embed_links: true)
+          end
         end
       end
     end

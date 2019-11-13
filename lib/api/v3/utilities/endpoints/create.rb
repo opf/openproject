@@ -30,21 +30,9 @@ module API
   module V3
     module Utilities
       module Endpoints
-        class Create < Modify
-          def default_instance_generator(_model)
-            ->(_params) do
-            end
-          end
-
-          def success_status
-            :created
-          end
-
-          private
-
-          def update_or_create
-            "Create"
-          end
+        class Create < API::Utilities::Endpoints::Create
+          include V3Deductions
+          include V3PresentSingle
         end
       end
     end

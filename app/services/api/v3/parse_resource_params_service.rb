@@ -32,7 +32,7 @@ module API
       private
 
       def deduce_representer(model)
-        "API::V3::#{model.to_s.pluralize}::#{model}Representer".constantize
+        "API::V3::#{model.to_s.pluralize}::#{model}PayloadRepresenter".constantize
       end
 
       def parsing_representer

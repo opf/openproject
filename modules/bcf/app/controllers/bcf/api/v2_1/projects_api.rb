@@ -58,22 +58,7 @@ module Bcf::API::V2_1
             .new(@project)
         end
 
-        put do
-          parse_call = Bcf::API::V2_1::ParseResourceParamsService
-                       .new(current_user, model: Project)
-                       .call(request_body)
-
-          update_call = ::Projects::UpdateService
-                         .new(user: current_user, model: @project)
-                         .call(parse_call.result)
-
-          if update_call.success?
-            Bcf::API::V2_1::Projects::SingleRepresenter
-              .new(update_call.result)
-          else
-            fail ::API::Errors::ErrorBase.create_and_merge_errors(update_call.errors)
-          end
-        end
+        put &::Bcf::API::V2_1::Endpoints::Update.new(model: Project).mount
       end
     end
   end

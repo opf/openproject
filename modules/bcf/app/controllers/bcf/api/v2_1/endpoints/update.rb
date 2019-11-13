@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,15 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Utilities
-      module Endpoints
-        class Update < API::Utilities::Endpoints::Update
-          include V3Deductions
-          include V3PresentSingle
-        end
-      end
+module Bcf::API::V2_1::Endpoints
+  class Update < API::Utilities::Endpoints::Update
+    def present_success(current_user, call)
+      render_representer
+        .new(call.result)
     end
+
+    private
+
+    def deduce_parse_service
+      Bcf::API::V2_1::ParseResourceParamsService
+    end
+
+    def deduce_in_and_out_representer
+      "::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
+    end
+
+    alias_method :deduce_parse_representer, :deduce_in_and_out_representer
+    alias_method :deduce_render_representer, :deduce_in_and_out_representer
   end
 end
