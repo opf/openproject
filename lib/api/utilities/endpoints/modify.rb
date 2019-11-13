@@ -38,7 +38,7 @@ module API
 
         private
 
-        def present_success(current_user, call)
+        def present_success(_current_user, _call)
           raise NotImplementedError
         end
 
@@ -78,10 +78,6 @@ module API
         def deduce_process_service
           "::#{deduce_backend_namespace}::#{update_or_create}Service".constantize
         end
-
-        #def deduce_render_representer
-        #  "::API::V3::#{deduce_api_namespace}::#{api_name}Representer".constantize
-        #end
 
         def deduce_process_contract
           nil

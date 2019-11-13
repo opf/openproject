@@ -30,7 +30,7 @@
 
 module Bcf::API::V2_1::Endpoints
   class Update < API::Utilities::Endpoints::Update
-    def present_success(current_user, call)
+    def present_success(_current_user, call)
       render_representer
         .new(call.result)
     end

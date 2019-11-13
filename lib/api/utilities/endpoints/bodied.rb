@@ -141,7 +141,6 @@ module API
 
         def deduce_parse_representer
           raise NotImplementedError
-          #"::API::V3::#{deduce_api_namespace}::#{api_name}PayloadRepresenter".constantize
         end
 
         def deduce_parse_service

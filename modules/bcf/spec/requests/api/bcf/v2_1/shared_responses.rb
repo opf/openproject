@@ -105,4 +105,3 @@ shared_examples_for 'bcf api unprocessable response' do
       .to eql 'application/json; charset=utf-8'
   end
 end
-

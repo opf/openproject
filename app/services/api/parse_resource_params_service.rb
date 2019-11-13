@@ -58,7 +58,7 @@ module API
 
     private
 
-    def deduce_representer(model)
+    def deduce_representer(_model)
       raise NotImplementedError
     end
 

@@ -63,8 +63,10 @@ describe 'authorization for BCF api', type: :feature, js: true do
 
     expect(page).to have_selector('.flash.notice', text: 'Successful creation.')
 
-    expect(page).to have_selector('.attributes-key-value--key', text: 'Client ID')
-    expect(page).to have_selector('.attributes-key-value--value', text: "urn:ietf:wg:oauth:2.0:oob\nhttps://localhost/my/callback")
+    expect(page).to have_selector('.attributes-key-value--key',
+                                  text: 'Client ID')
+    expect(page).to have_selector('.attributes-key-value--value',
+                                  text: "urn:ietf:wg:oauth:2.0:oob\nhttps://localhost/my/callback")
 
     # Should print secret on initial visit
     expect(page).to have_selector('.attributes-key-value--key', text: 'Client secret')

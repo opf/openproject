@@ -33,16 +33,6 @@ module API
         class Index < API::Utilities::Endpoints::Index
           include ::API::Utilities::PageSizeHelper
 
-          def initialize(model:,
-                         api_name: model.name.demodulize,
-                         scope: nil,
-                         render_representer: nil)
-            self.model = model_class(model)
-            self.scope = scope
-            self.api_name = api_name
-            self.render_representer = render_representer || deduce_render_representer
-          end
-
           def mount
             index = self
 
