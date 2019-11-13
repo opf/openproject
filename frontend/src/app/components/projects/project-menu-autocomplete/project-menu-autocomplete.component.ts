@@ -97,7 +97,11 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
   }
 
   public close() {
-    (this.input as any).projectMenuAutocomplete('destroy');
+    try {
+      (this.input as any).projectMenuAutocomplete('destroy');
+    } catch(e) {
+      console.warn("Failed to destroy autocomplete: %O", e);
+    }
     this.$element.find('.project-search-results').css('visibility', 'hidden');
   }
 
