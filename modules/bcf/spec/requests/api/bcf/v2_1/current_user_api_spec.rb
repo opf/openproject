@@ -27,34 +27,33 @@
 #++
 
 require 'spec_helper'
+require 'rack/test'
 
-describe Bcf::API::V2_1::Projects::SingleRepresenter, 'rendering' do
-  let(:project) { FactoryBot.build_stubbed(:project) }
+require_relative './shared_responses'
 
-  let(:instance) { described_class.new(project) }
+describe 'BCF 2.1 current-user resource', type: :request, content_type: :json do
+  include Rack::Test::Methods
 
-  subject { instance.to_json }
-
-  shared_examples_for 'attribute' do
-    it 'reflects the project' do
-      expect(subject)
-        .to be_json_eql(value.to_json)
-        .at_path(path)
-    end
+  let(:current_user) do
+    FactoryBot.create(:user)
   end
 
-  describe 'attributes' do
-    context 'project_id' do
-      it_behaves_like 'attribute' do
-        let(:value) { project.id }
-        let(:path) { 'project_id' }
-      end
+  subject(:response) { last_response }
+
+  describe 'GET /api/bcf/2.1/current-user' do
+    let(:path) { "/api/bcf/2.1/current-user" }
+
+    before do
+      login_as(current_user)
+      get path
     end
 
-    context 'name' do
-      it_behaves_like 'attribute' do
-        let(:value) { project.name }
-        let(:path) { 'name' }
+    it_behaves_like 'bcf api successful response' do
+      let(:expected_body) do
+        {
+          id: current_user.mail,
+          name: current_user.name
+        }
       end
     end
   end

@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,36 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-describe Bcf::API::V2_1::Projects::SingleRepresenter, 'rendering' do
-  let(:project) { FactoryBot.build_stubbed(:project) }
-
-  let(:instance) { described_class.new(project) }
-
-  subject { instance.to_json }
-
-  shared_examples_for 'attribute' do
-    it 'reflects the project' do
-      expect(subject)
-        .to be_json_eql(value.to_json)
-        .at_path(path)
-    end
-  end
-
-  describe 'attributes' do
-    context 'project_id' do
-      it_behaves_like 'attribute' do
-        let(:value) { project.id }
-        let(:path) { 'project_id' }
-      end
-    end
-
-    context 'name' do
-      it_behaves_like 'attribute' do
-        let(:value) { project.name }
-        let(:path) { 'name' }
-      end
+module Bcf::API::V2_1
+  class CurrentUserAPI < ::API::OpenProjectAPI
+    resources :'current-user' do
+      get &::Bcf::API::V2_1::Endpoints::Show.new(model: User,
+                                                 instance_generator: ->(*) { current_user }).mount
     end
   end
 end

@@ -28,32 +28,26 @@
 
 require 'spec_helper'
 
-describe Bcf::API::V2_1::Projects::SingleRepresenter, 'rendering' do
-  let(:project) { FactoryBot.build_stubbed(:project) }
+require_relative '../shared_examples'
 
-  let(:instance) { described_class.new(project) }
+describe Bcf::API::V2_1::Users::SingleRepresenter, 'rendering' do
+  let(:user) { FactoryBot.build_stubbed(:user) }
+
+  let(:instance) { described_class.new(user) }
 
   subject { instance.to_json }
 
-  shared_examples_for 'attribute' do
-    it 'reflects the project' do
-      expect(subject)
-        .to be_json_eql(value.to_json)
-        .at_path(path)
-    end
-  end
-
   describe 'attributes' do
-    context 'project_id' do
+    context 'id' do
       it_behaves_like 'attribute' do
-        let(:value) { project.id }
-        let(:path) { 'project_id' }
+        let(:value) { user.mail }
+        let(:path) { 'id' }
       end
     end
 
     context 'name' do
       it_behaves_like 'attribute' do
-        let(:value) { project.name }
+        let(:value) { user.name }
         let(:path) { 'name' }
       end
     end

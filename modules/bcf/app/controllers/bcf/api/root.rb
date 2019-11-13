@@ -45,6 +45,8 @@ module Bcf::API
     authentication_scope OpenProject::Authentication::Scope::BCF_V2_1
 
     version '2.1', using: :path do
+      # /current-user
+      mount ::Bcf::API::V2_1::CurrentUserAPI
       # /projects
       mount ::Bcf::API::V2_1::ProjectsAPI
     end
