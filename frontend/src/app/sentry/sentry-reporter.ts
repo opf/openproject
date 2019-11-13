@@ -28,8 +28,8 @@
 
 import {Scope} from "@sentry/hub";
 import {Severity} from "@sentry/types";
+import {Event as SentryEvent} from "@sentry/types";
 import {environment} from "../../environments/environment";
-import {debugLog} from "core-app/helpers/debug_output";
 
 export type ScopeCallback = (scope:Scope) => void;
 
@@ -70,12 +70,6 @@ export class SentryReporter implements ErrorReporter {
   private client:any;
 
   constructor() {
-    const unsupportedBrowser = document.body.classList.contains('-unsupported-browser');
-    if (unsupportedBrowser) {
-      console.warn("Browser is not supported, skipping sentry reporting completely.")
-      return;
-    }
-
     const sentryElement = document.querySelector('meta[name=openproject_sentry]') as HTMLElement|null;
     if (sentryElement) {
       import('@sentry/browser').then((Sentry) => {
@@ -87,7 +81,8 @@ export class SentryReporter implements ErrorReporter {
             'The transition has been superseded by a different transition',
             // Uncaught error resource promises
             'Uncaught (in promise): [ErrorResource'
-          ]
+          ],
+          beforeSend: (event) => this.filterEvent(event)
         });
 
         this.sentryLoaded(Sentry);
@@ -168,5 +163,21 @@ export class SentryReporter implements ErrorReporter {
 
     /** Execute callbacks */
     this.contextCallbacks.forEach(cb => cb(scope));
+  }
+
+  /**
+   * Filters the event content's or removes
+   * it from being sent.
+   *
+   * @param event
+   */
+  private filterEvent(event:SentryEvent):SentryEvent|null {
+    const unsupportedBrowser = document.body.classList.contains('-unsupported-browser');
+    if (unsupportedBrowser) {
+      console.warn("Browser is not supported, skipping sentry reporting completely.")
+      return null;
+    }
+
+    return event;
   }
 }
