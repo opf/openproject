@@ -198,7 +198,7 @@ describe 'Omniauth authentication', type: :feature do
   context 'registration by email',
           with_settings: {
             self_registration?: true,
-            self_registration: '1'
+            self_registration: Setting::SelfRegistration.by_email.to_s
           } do
 
     shared_examples 'registration with registration by email' do

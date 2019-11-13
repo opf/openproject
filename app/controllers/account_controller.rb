@@ -351,7 +351,10 @@ class AccountController < ApplicationController
 
       redirect_to direct_login_provider_url(ps)
     elsif Setting.login_required?
-      error = user.active? || flash[:error]
+      # I'm not sure why it is considered an error if we don't have the anonymous user here.
+      # Before the line read `user.active? || flash[:error]` but since a recent
+      # change the anonymous user is active too which breaks this.
+      error = !user.anonymous? || flash[:error]
       instructions = error ? :after_error : :after_registration
 
       render :exit, locals: { instructions: instructions }
@@ -499,10 +502,9 @@ class AccountController < ApplicationController
   def register_user_according_to_setting(user, opts = {}, &block)
     return register_automatically(user, opts, &block) if user.invited?
 
-    case Setting.self_registration
-    when '1'
+    if Setting::SelfRegistration.by_email?
       register_by_email_activation(user, opts, &block)
-    when '3'
+    elsif Setting::SelfRegistration.automatic?
       register_automatically(user, opts, &block)
     else
       register_manually_by_administrator(user, opts, &block)

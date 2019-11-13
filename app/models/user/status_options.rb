@@ -33,9 +33,9 @@ class User
 
     def symbolic_user_counts
       {
-        blocked: User.blocked.count,
+        blocked: User.not_builtin.blocked.count, # not_builtin to skip DeletedUser
         all: User.not_builtin.count,
-        active: User.active.not_blocked.count
+        active: User.not_builtin.active.not_blocked.count # not_builtin to skip Anonymous and System users
       }
     end
   end
