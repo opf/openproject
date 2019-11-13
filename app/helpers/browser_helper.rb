@@ -14,6 +14,9 @@ module BrowserHelper
       # Older versions behind last ESR FF
       return true if browser.firefox? && version < 60
 
+      # Chrome versions older than a year
+      return true if browser.chrome? && version < 65
+
       # Older version of safari
       return true if browser.safari? && version < 12
 
