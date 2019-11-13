@@ -32,8 +32,14 @@ require 'open_project/passwords'
 describe OpenProject::Enterprise do
   describe "#user_limit_reached?" do
     let(:user_limit) { 2 }
+    let(:builtin_user_count) { 2 }
 
     before do
+      # create 3 built-in users, only 2 of which are active
+      User.system
+      User.anonymous
+      DeletedUser.first # locked, not active
+
       allow(OpenProject::Enterprise).to receive(:user_limit).and_return(user_limit)
     end
 
@@ -41,7 +47,7 @@ describe OpenProject::Enterprise do
       before do
         FactoryBot.create :user
 
-        expect(User.active.count).to eq 1
+        expect(User.active.count).to eq 1 + builtin_user_count # created user + built-in ones
       end
 
       it "is false" do
@@ -56,7 +62,7 @@ describe OpenProject::Enterprise do
         before do
           FactoryBot.create_list :user, num_active_users
 
-          expect(User.active.count).to eq num_active_users
+          expect(User.active.count).to eq num_active_users + builtin_user_count
         end
 
         it "is true" do

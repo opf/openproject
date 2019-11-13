@@ -36,10 +36,10 @@ See docs/COPYRIGHT.rdoc for more details.
       <legend class="form--fieldset-legend"><%= I18n.t(:general, scope: [:settings]) %></legend>
       <div class="form--field"><%= setting_check_box :login_required %></div>
 
-      <div class="form--field"><%= setting_select :self_registration, [[t(:label_disabled), "0"],
-                                                [t(:label_registration_activation_by_email), "1"],
-                                                [t(:label_registration_manual_activation), "2"],
-                                                [t(:label_registration_automatic_activation), "3"]],
+      <div class="form--field"><%= setting_select :self_registration, [[t(:label_disabled), Setting::SelfRegistration.disabled.to_s],
+                                                [t(:label_registration_activation_by_email), Setting::SelfRegistration.by_email.to_s],
+                                                [t(:label_registration_manual_activation), Setting::SelfRegistration.manual.to_s],
+                                                [t(:label_registration_automatic_activation), Setting::SelfRegistration.automatic.to_s]],
                                                 container_class: '-middle' %>
       </div>
 

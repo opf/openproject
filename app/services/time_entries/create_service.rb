@@ -28,4 +28,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class TimeEntries::CreateService < ::BaseServices::Create; end
+class TimeEntries::CreateService < ::BaseServices::Create
+
+  def after_perform(call)
+    OpenProject::Notifications.send(
+      OpenProject::Events::NEW_TIME_ENTRY_CREATED,
+      time_entry: call.result
+    )
+
+    call
+  end
+end

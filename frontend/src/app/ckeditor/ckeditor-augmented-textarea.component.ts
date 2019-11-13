@@ -127,7 +127,7 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
         this.wrappedTextArea.val(this.ckEditorInstance.getRawData());
       } catch (e) {
         console.error(`Failed to save CKEditor body to textarea: ${e}.`);
-        this.Notifications.addError(e || this.I18n.t('js.errors.internal'));
+        this.Notifications.addError(e || this.I18n.t('js.error.internal'));
 
         // Avoid submission of the form
         return false;

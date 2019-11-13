@@ -685,7 +685,7 @@ class User < Principal
         u.login = ''
         u.firstname = ''
         u.mail = ''
-        u.status = 0
+        u.status = User::STATUSES[:active]
       end).save
       raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
     end
@@ -893,7 +893,7 @@ class DeletedUser < User
   end
 
   def self.first
-    super || create(type: to_s, status: STATUSES[:active])
+    super || create(type: to_s, status: STATUSES[:locked])
   end
 
   # Overrides a few properties

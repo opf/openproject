@@ -76,6 +76,10 @@ export class SentryReporter implements ErrorReporter {
         Sentry.init({
           dsn: sentryElement.dataset.dsn!,
           debug: !environment.production,
+          ignoreErrors: [
+            // Transition movements,
+            'The transition has been superseded by a different transition'
+          ],
         });
 
         this.sentryLoaded(Sentry);
@@ -107,9 +111,13 @@ export class SentryReporter implements ErrorReporter {
     });
   }
 
-  public captureException(err:Error) {
-    if (!this.client) {
+  public captureException(err:Error|string) {
+    if (!this.client || !err) {
       return this.handleOfflineMessage('captureException', Array.from(arguments));
+    }
+
+    if (typeof err === 'string') {
+      return this.captureMessage(err, 'error');
     }
 
     this.client.withScope((scope:Scope) => {
@@ -148,7 +156,7 @@ export class SentryReporter implements ErrorReporter {
     scope.setTag('locale', I18n.locale);
     scope.setTag('domain', window.location.hostname);
     scope.setTag('url_path', window.location.pathname);
-    scope.setTag('url_query', window.location.search);
+    scope.setExtra('url_query', window.location.search);
 
     /** Execute callbacks */
     this.contextCallbacks.forEach(cb => cb(scope));
