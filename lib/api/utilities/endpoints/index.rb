@@ -43,34 +43,7 @@ module API
         end
 
         def mount
-          index = self
-
-          -> do
-            query = index.parse(params)
-
-            self_path = api_v3_paths.send(index.self_path)
-            base_scope = index.scope ? instance_exec(&index.scope) : index.model
-
-            index.render(query, params, self_path, base_scope)
-          end
-        end
-
-        def parse(params)
-          ParamsToQueryService
-            .new(model, User.current)
-            .call(params)
-        end
-
-        def render(query, params, self_path, base_scope)
-          if query.valid?
-            render_success(query, params, self_path, base_scope)
-          else
-            render_error(query)
-          end
-        end
-
-        def self_path
-          api_name.underscore.pluralize
+          raise NotImplementedError
         end
 
         attr_accessor :model,
@@ -80,45 +53,11 @@ module API
 
         private
 
-        def render_success(query, params, self_path, base_scope)
-          results = merge_scopes(base_scope, query.results)
-
-          if paginated_representer?
-            render_paginated_success(results, params, self_path)
-          else
-            render_unpaginated_success(results, self_path)
-          end
-        end
-
-        def render_paginated_success(results, params, self_path)
-          render_representer
-            .new(results,
-                 self_path,
-                 page: to_i_or_nil(params[:offset]),
-                 per_page: resolve_page_size(params[:pageSize]),
-                 current_user: User.current)
-        end
-
-        def render_unpaginated_success(results, self_path)
-          render_representer
-            .new(results,
-                 self_path,
-                 current_user: User.current)
-        end
-
-        def paginated_representer?
-          render_representer.ancestors.include?(::API::Decorators::OffsetPaginatedCollection)
-        end
-
-        def render_error(query)
-          raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
-        end
-
         def deduce_render_representer
-          "::API::V3::#{deduce_namespace}::#{api_name}CollectionRepresenter".constantize
+          raise NotImplementedError
         end
 
-        def deduce_namespace
+        def deduce_api_namespace
           api_name.pluralize
         end
 
@@ -127,22 +66,6 @@ module API
             scope
           else
             scope.model
-          end
-        end
-
-        def with_based_scope(other_scope)
-          if scope
-            merge_scopes(scope, other_scope)
-          else
-            other_scope
-          end
-        end
-
-        def merge_scopes(scope_a, scope_b)
-          if scope_a.is_a? Class
-            scope_b
-          else
-            scope_a.merge(scope_b)
           end
         end
       end

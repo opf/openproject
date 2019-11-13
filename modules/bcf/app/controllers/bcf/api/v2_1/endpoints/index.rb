@@ -28,30 +28,30 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bcf::API::V2_1
-  class ProjectsAPI < ::API::OpenProjectAPI
-    resources :projects do
-      helpers do
-        def visible_projects
-          Project
-            .visible(current_user)
-            .has_module(:bcf)
-        end
+module Bcf::API::V2_1::Endpoints
+  class Index < API::Utilities::Endpoints::Index
+    def mount
+      index = self
+
+      -> do
+        collection = index.scope ? instance_exec(&index.scope) : index.model
+
+        index.render(collection)
       end
+    end
 
-      get &::Bcf::API::V2_1::Endpoints::Index.new(model: Project,
-                                                  scope: -> { visible_projects })
-                                             .mount
-
-      route_param :id, regexp: /\A(\d+)\z/ do
-        after_validation do
-          @project = visible_projects
-                     .find(params[:id])
-        end
-
-        get &::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
-        put &::Bcf::API::V2_1::Endpoints::Update.new(model: Project).mount
+    def render(collection)
+      collection
+        .map do |instance|
+        render_representer
+          .new(instance)
       end
+    end
+
+    private
+
+    def deduce_render_representer
+      "::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
     end
   end
 end
