@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,29 +26,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API
-# This is the place for all API wide configuration, helper methods, exceptions
-# rescuing, mounting of different API versions etc.
+require 'spec_helper'
+require 'rack/test'
 
-module Bcf::API
-  class Root < ::API::RootAPI
-    format :json
-    formatter :json, API::Formatter.new
+require_relative './shared_responses'
 
-    default_format :json
+describe 'BCF 2.1 auth resource', type: :request, content_type: :json do
+  include Rack::Test::Methods
 
-    error_representer ::Bcf::API::V2_1::Errors::ErrorRepresenter, :json
-    error_formatter :json, ::Bcf::API::ErrorFormatter::Json
+  let(:current_user) do
+    FactoryBot.create(:user)
+  end
 
-    authentication_scope OpenProject::Authentication::Scope::BCF_V2_1
+  subject(:response) { last_response }
 
-    version '2.1', using: :path do
-      # /auth
-      mount ::Bcf::API::V2_1::AuthAPI
-      # /current-user
-      mount ::Bcf::API::V2_1::CurrentUserAPI
-      # /projects
-      mount ::Bcf::API::V2_1::ProjectsAPI
+  describe 'GET /api/bcf/2.1/auth' do
+    let(:path) { "/api/bcf/2.1/auth" }
+
+    before do
+      login_as(current_user)
+      get path
+    end
+
+    it_behaves_like 'bcf api successful response' do
+      let(:expected_body) do
+        {
+          "oauth2_auth_url": "http://localhost:3000/oauth/authorize",
+          "oauth2_token_url": "http://localhost:3000/oauth/token",
+          "http_basic_supported": false,
+          "supported_oauth2_flows": %w(authorization_code_grant client_credentials)
+        }
+      end
     end
   end
 end

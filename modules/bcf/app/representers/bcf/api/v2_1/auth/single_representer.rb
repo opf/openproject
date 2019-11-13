@@ -28,29 +28,29 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API
-# This is the place for all API wide configuration, helper methods, exceptions
-# rescuing, mounting of different API versions etc.
+module Bcf::API::V2_1
+  class Auth::SingleRepresenter < Roar::Decorator
+    include Representable::JSON
+    include OpenProject::StaticRouting::UrlHelpers
 
-module Bcf::API
-  class Root < ::API::RootAPI
-    format :json
-    formatter :json, API::Formatter.new
+    property :oauth2_auth_url,
+             getter: ->(decorator:, **) {
+               "#{decorator.root_url}oauth/authorize"
+             }
 
-    default_format :json
+    property :oauth2_token_url,
+             getter: ->(decorator:, **) {
+               "#{decorator.root_url}oauth/token"
+             }
 
-    error_representer ::Bcf::API::V2_1::Errors::ErrorRepresenter, :json
-    error_formatter :json, ::Bcf::API::ErrorFormatter::Json
+    property :supported_oauth2_flows,
+             getter: ->(*) {
+               %w(authorization_code_grant client_credentials)
+             }
 
-    authentication_scope OpenProject::Authentication::Scope::BCF_V2_1
-
-    version '2.1', using: :path do
-      # /auth
-      mount ::Bcf::API::V2_1::AuthAPI
-      # /current-user
-      mount ::Bcf::API::V2_1::CurrentUserAPI
-      # /projects
-      mount ::Bcf::API::V2_1::ProjectsAPI
-    end
+    property :http_basic_supported,
+             getter: ->(*) {
+               false
+             }
   end
 end
