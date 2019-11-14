@@ -298,6 +298,15 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         end
       end
 
+      context 'for a local json file' do
+        it_behaves_like 'for a local file' do
+          let(:mock_file) { FileHelpers.mock_uploaded_file ({ name: 'foobar.json',
+                                                              content_type: "application/json",
+                                                              content: '{"id": "12342"}' }) }
+          let(:content_disposition) { "attachment; filename=foobar.json" }
+        end
+      end
+
       context 'for a remote file' do
         let(:external_url) { 'http://some_service.org/blubs.gif' }
         let(:mock_file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
