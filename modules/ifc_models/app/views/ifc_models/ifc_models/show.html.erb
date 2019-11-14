@@ -54,9 +54,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 
+<% if @ifc_model.converted? %>
 <div class="ifc-model-viewer-container">
   <ifc-viewer-entry data-ifc-model-id="<%= @ifc_model.id %>"
                     data-xkt-file-url="<%= attachment_content_url(@ifc_model.xkt_attachment) %>"
                     data-metadata-file-url="<%= attachment_content_url(@ifc_model.metadata_attachment) %>"></ifc-viewer-entry>
 </div>
-
+<% end %>

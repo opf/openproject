@@ -47,7 +47,7 @@ module ::IFCModels
     end
 
     def new
-      @ifc_model = @project.ifc_models.build(ifc_model_params)
+      @ifc_model = @project.ifc_models.build
     end
 
     def edit; end
@@ -55,17 +55,27 @@ module ::IFCModels
     def show; end
 
     def create
-      @ifc_model = @project.ifc_models.build(uploader: User.current)
+      combined_params = permitted_model_params
+        .to_h
+        .reverse_merge(project: @project)
 
-      if add_attachment && @ifc_model.save
+      call = ::IFCModels::CreateService
+        .new(user: current_user)
+        .call(combined_params)
+
+      @ifc_model = call.result
+
+      if call.success?
+        flash[:notice] = t(:notice_successful_create)
         redirect_to action: :show, id: @ifc_model.id
       else
+        @errors = call.errors
         render action: :new
       end
     end
 
     def update
-      if @ifc_model.update(ifc_model_params)
+      if @ifc_model.update(permitted_params)
         redirect_to action: :show, id: @ifc_model.id
       else
         render action: :edit
@@ -79,18 +89,10 @@ module ::IFCModels
 
     private
 
-    def add_attachment
-      if (file = ifc_model_params['ifc_attachment']) && file && file.size.positive?
-        @ifc_model.ifc_attachment = file
-        @ifc_model.title = file.original_filename
-      else
-        flash[:error] = t('ifc_models.could_not_save_file')
-        false
-      end
-    end
-
-    def ifc_model_params
-      params.fetch(:ifc_models_ifc_model, {}).permit('title', 'ifc_attachment')
+    def permitted_model_params
+      params
+        .fetch(:ifc_models_ifc_model, {})
+        .permit('title', 'ifc_attachment')
     end
 
     def find_ifc_model_object

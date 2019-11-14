@@ -33,6 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: IFCModels::IFCModel.model_name.human %>
 
 <%= labelled_tabular_form_for @ifc_model, url: ifc_models_project_ifc_model_path(@project, @ifc_model), method: 'PATCH' do |f| -%>
+  <%= error_messages_for_contract @ifc_model, @errors %>
   <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>
