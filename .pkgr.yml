@@ -20,6 +20,9 @@ targets:
   centos-7:
    dependencies:
       - epel-release
+  centos-8:
+    dependencies:
+      - epel-release
   sles-12:
     build_dependencies:
       - sqlite3-devel
