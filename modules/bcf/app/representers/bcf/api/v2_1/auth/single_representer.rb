@@ -29,8 +29,7 @@
 #++
 
 module Bcf::API::V2_1
-  class Auth::SingleRepresenter < Roar::Decorator
-    include Representable::JSON
+  class Auth::SingleRepresenter < BaseRepresenter
     include OpenProject::StaticRouting::UrlHelpers
 
     property :oauth2_auth_url,

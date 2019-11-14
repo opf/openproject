@@ -29,31 +29,51 @@
 #++
 
 module Bcf::API::V2_1
-  class ProjectsAPI < ::API::OpenProjectAPI
-    resources :projects do
-      helpers do
-        def visible_projects
-          Project
-            .visible(current_user)
-            .has_module(:bcf)
-        end
-      end
+  class Topics::SingleRepresenter < BaseRepresenter
+    include API::V3::Utilities::PathHelper
 
-      get &::Bcf::API::V2_1::Endpoints::Index.new(model: Project,
-                                                  scope: -> { visible_projects })
-                                             .mount
+    property :uuid,
+             as: :guid
 
-      route_param :id, regexp: /\A(\d+)\z/ do
-        after_validation do
-          @project = visible_projects
-                     .find(params[:id])
-        end
+    property :type_text,
+             as: :topic_type
 
-        get &::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
-        put &::Bcf::API::V2_1::Endpoints::Update.new(model: Project).mount
+    property :status_text,
+             as: :topic_status
 
-        mount Bcf::API::V2_1::TopicsAPI
-      end
-    end
+    property :reference_links,
+             getter: ->(decorator:, **) {
+               [decorator.api_v3_paths.work_package(work_package.id)]
+             }
+
+    property :title
+
+    property :index_text,
+             as: :index
+
+    property :labels
+
+    property :creation_date_text,
+             as: :creation_date
+
+    property :creation_author_text,
+             as: :creation_author
+
+    property :modified_date_text,
+             as: :modified_date
+
+    property :modified_author_text,
+             as: :modified_author
+
+    property :assignee_text,
+             as: :assigned_to
+
+    property :stage_text,
+             as: :stage
+
+    property :description
+
+    property :due_date_text,
+             as: :due_date
   end
 end
