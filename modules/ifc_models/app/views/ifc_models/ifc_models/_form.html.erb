@@ -32,7 +32,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'ifc_model' %>
 
+<% unless @ifc_model.new_record?  %>
 <div class="form--field -required">
-  <%= f.text_field :title, required: true, container_class: '-wide' unless @ifc_model.new_record? %>
-  <%= f.file_field :ifc_attachment if @ifc_model.new_record? %>
+  <%= f.text_field :title, required: true, container_class: '-wide' %>
+</div>
+<% end %>
+<div class="form--field">
+  <%= f.file_field :ifc_attachment %>
+</div>
+<div class="form--field">
+  <%= f.check_box 'is_default' %>
 </div>

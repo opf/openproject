@@ -30,8 +30,10 @@
 
 module IFCModels
   class SetAttributesService < ::BaseServices::SetAttributes
-    def set_default_attributes(_params)
+    def set_default_attributes(params)
       model.uploader = user
+      model.is_default = params[:is_default]
+      model.title = params[:title]
     end
   end
 end

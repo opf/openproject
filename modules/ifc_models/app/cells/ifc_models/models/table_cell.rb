@@ -2,7 +2,7 @@ module IFCModels
   module Models
     class TableCell < ::TableCell
       include ::IconsHelper
-      columns :title, :created_at, :updated_at, :uploader, :processing
+      columns :title, :is_default, :created_at, :updated_at, :uploader, :processing
 
       def initial_sort
         [:created_at, :asc]
@@ -27,6 +27,7 @@ module IFCModels
       def headers
         [
           ['title', caption: IFCModel.human_attribute_name(:title)],
+          ['is_default', caption: IFCModel.human_attribute_name(:is_default)],
           ['created_at', caption: IFCModel.human_attribute_name(:created_at)],
           ['updated_at', caption: IFCModel.human_attribute_name(:updated_at)],
           ['uploader', caption: IFCModel.human_attribute_name(:uploader)],

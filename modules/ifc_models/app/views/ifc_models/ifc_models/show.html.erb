@@ -41,14 +41,14 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if authorize_for('ifc_models/ifc_models', :edit) %>
     <li class="toolbar-item">
       <%= link_to(edit_ifc_models_project_ifc_model_path(@project, @ifc_model), class: 'button', accesskey: accesskey(:edit)) do %>
-        <%= op_icon('button--icon icon-edit') %> <%= l(:button_rename) %>
+        <%= op_icon('button--icon icon-edit') %> <%= t(:button_edit) %>
       <% end %>
     </li>
   <% end %>
   <% if authorize_for('ifc_models/ifc_models', :destroy) %>
     <li class="toolbar-item">
-      <%= link_to(ifc_models_project_ifc_model_path(@project,  @ifc_model), class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) do %>
-        <%= op_icon('button--icon icon-delete') %> <%= l(:button_delete) %>
+      <%= link_to(ifc_models_project_ifc_model_path(@project,  @ifc_model), class: 'button', data: { confirm: t(:text_are_you_sure) }, method: :delete) do %>
+        <%= op_icon('button--icon icon-delete') %> <%= t(:button_delete) %>
       <% end %>
     </li>
   <% end %>

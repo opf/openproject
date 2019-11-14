@@ -109,7 +109,7 @@ export class XeokitViewer {
         data: createData(metaModel)
       });
       new InspireTreeDOM(treeView, {
-        target: document.getElementById("xeokit-tree-panel-12")
+        target: document.getElementById(`xeokit-tree-panel-${ifcModelId}`)
       });
       // Initialize the tree view once loaded
       treeView.on('model.loaded', function () {

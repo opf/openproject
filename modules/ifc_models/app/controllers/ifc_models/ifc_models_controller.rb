@@ -66,8 +66,8 @@ module ::IFCModels
       @ifc_model = call.result
 
       if call.success?
-        flash[:notice] = t(:notice_successful_create)
-        redirect_to action: :show, id: @ifc_model.id
+        flash[:notice] = t('ifc_models.flash_messages.upload_successful')
+        redirect_to action: :index
       else
         @errors = call.errors
         render action: :new
@@ -75,9 +75,21 @@ module ::IFCModels
     end
 
     def update
-      if @ifc_model.update(permitted_params)
-        redirect_to action: :show, id: @ifc_model.id
+      combined_params = permitted_model_params
+                          .to_h
+                          .reverse_merge(project: @project)
+
+      call = ::IFCModels::UpdateService
+               .new(user: current_user, model: @ifc_model)
+               .call(combined_params)
+
+      @ifc_model = call.result
+
+      if call.success?
+        flash[:notice] = t(:notice_successful_update)
+        redirect_to action: :index
       else
+        @errors = call.errors
         render action: :edit
       end
     end
@@ -92,7 +104,7 @@ module ::IFCModels
     def permitted_model_params
       params
         .fetch(:ifc_models_ifc_model, {})
-        .permit('title', 'ifc_attachment')
+        .permit('title', 'ifc_attachment', 'is_default')
     end
 
     def find_ifc_model_object

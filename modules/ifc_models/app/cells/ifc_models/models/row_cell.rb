@@ -14,6 +14,12 @@ module IFCModels
         end
       end
 
+      def is_default
+        if model.is_default?
+          op_icon 'icon icon-checkmark'
+        end
+      end
+
       def updated_at
         format_date(model.updated_at)
       end

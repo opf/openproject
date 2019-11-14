@@ -35,6 +35,7 @@ module IFCModels
     attribute :title
     attribute :project
     attribute :uploader
+    attribute :is_default
 
     def self.model
       ::IFCModels::IFCModel

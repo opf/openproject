@@ -9,6 +9,8 @@ en:
       label: 'Processing?'
       in_progress: 'In progress'
       completed: 'Completed'
+    flash_messages:
+      upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
     conversion:
       missing_commands: "The following IFC converter commands are missing on this system: %{names}"
   project_module_ifc_models: "IFC models"
