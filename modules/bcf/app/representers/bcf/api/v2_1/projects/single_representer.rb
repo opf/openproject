@@ -29,9 +29,7 @@
 #++
 
 module Bcf::API::V2_1
-  class Projects::SingleRepresenter < Roar::Decorator
-    include Representable::JSON
-
+  class Projects::SingleRepresenter < BaseRepresenter
     property :id,
              as: :project_id
 
