@@ -1,8 +1,8 @@
 //------------------------------------------------------------------------------------------------------------------
 // Import the modules we need for this example
 //------------------------------------------------------------------------------------------------------------------
-import {Viewer} from "../../../../vendor/xeokit-sdk/src/viewer/Viewer.js";
-import {XKTLoaderPlugin} from "../../../../vendor/xeokit-sdk/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
+import {Viewer} from "@xeokit/xeokit-sdk/src/viewer/Viewer.js";
+import {XKTLoaderPlugin} from "@xeokit/xeokit-sdk/src/plugins/XKTLoaderPlugin/XKTLoaderPlugin.js";
 import InspireTree from "inspire-tree";
 import InspireTreeDOM from "inspire-tree-dom";
 // import {NavCubePlugin} from "../src/plugins/NavCubePlugin/NavCubePlugin.js";
