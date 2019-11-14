@@ -39,6 +39,14 @@ module IFCModels
       end
     end
 
+    def after_perform(call)
+      if call.success?
+        IFCConversionJob.perform_later(call.result)
+      end
+
+      call
+    end
+
     def instance(_params)
       ::IFCModels::IFCModel.new
     end
