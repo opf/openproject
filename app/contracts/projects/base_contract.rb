@@ -92,7 +92,9 @@ module Projects
     end
 
     def validate_user_allowed_to_manage
-      errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
+      with_unchanged_id do
+        errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
+      end
     end
 
     def validate_status_code_included
@@ -101,6 +103,15 @@ module Projects
 
     def manage_permission
       raise NotImplementedError
+    end
+
+    def with_unchanged_id
+      project_id = model.id
+      model.id = model.id_was
+
+      yield
+    ensure
+      model.id = project_id
     end
   end
 end

@@ -58,8 +58,7 @@ module OpenProject
       end
 
       def self.host
-        host = Setting.host_name
-        host.gsub(/\/.*$/, '') if host # remove path in case it got into the host
+        Setting.host_name&.gsub(/\/.*$/, '') # remove path in case it got into the host
       end
     end
 
@@ -82,7 +81,7 @@ module OpenProject
       return nil unless path.present?
 
       # Remove relative URL root
-      if relative_url = OpenProject::Configuration.rails_relative_url_root
+      if (relative_url = OpenProject::Configuration.rails_relative_url_root)
         path = path.gsub relative_url, ''
       end
 

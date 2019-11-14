@@ -49,7 +49,7 @@ module API
         end
       end
 
-      def error_response(rescued_error, error = nil, rescue_subclasses: nil, headers: ->() { {} }, log: true)
+      def error_response(rescued_error, error = nil, rescue_subclasses: nil, headers: -> { {} }, log: true)
         error_response_lambda = default_error_response(headers, log)
 
         response =
@@ -67,9 +67,9 @@ module API
       def default_error_response(headers, log)
         lambda { |e|
           original_exception = $!
-          representer = ::API::V3::Errors::ErrorRepresenter.new e
+          representer = error_representer.new e
           resp_headers = instance_exec &headers
-          env['api.format'] = 'hal+json'
+          env['api.format'] = error_content_type
 
           if log == true
             OpenProject.logger.error original_exception, reference: :APIv3

@@ -44,6 +44,26 @@ See docs/COPYRIGHT.rdoc for more details.
       <code><%= ::Doorkeeper.configuration.native_redirect_uri %></code>
     </span>
   </div>
+
+  <% if Doorkeeper.configuration.scopes.all.length > 1 %>
+    <div class="form--field">
+      <label class="form--label">Scopes:</label>
+      <% Doorkeeper.configuration.scopes.each do |scope| %>
+        <div class="form--field-container -vertical">
+          <label class="form--label-with-check-box">
+            <div class="form--check-box-container">
+              <%= styled_check_box_tag 'application[scopes][]', scope, f.object.scopes.include?(scope) %>
+            </div>
+            <%= scope %>
+          </label>
+        </div>
+      <% end %>
+      <span class="form--field-instructions">
+        <%= t('oauth.application.instructions.scopes') %>
+      </span>
+    </div>
+  <% end %>
+
   <div class="form--field">
     <%= f.check_box :confidential %>
     <span class="form--field-instructions">

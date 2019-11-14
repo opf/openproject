@@ -30,18 +30,8 @@ module API
   module V3
     module Utilities
       module Endpoints
-        class Index
+        class Index < API::Utilities::Endpoints::Index
           include ::API::Utilities::PageSizeHelper
-
-          def initialize(model:,
-                         api_name: model.name.demodulize,
-                         scope: nil,
-                         render_representer: nil)
-            self.model = model_class(model)
-            self.scope = scope
-            self.api_name = api_name
-            self.render_representer = render_representer || deduce_render_representer
-          end
 
           def mount
             index = self
@@ -116,10 +106,10 @@ module API
           end
 
           def deduce_render_representer
-            "::API::V3::#{deduce_namespace}::#{api_name}CollectionRepresenter".constantize
+            "::API::V3::#{deduce_api_namespace}::#{api_name}CollectionRepresenter".constantize
           end
 
-          def deduce_namespace
+          def deduce_api_namespace
             api_name.pluralize
           end
 
@@ -128,14 +118,6 @@ module API
               scope
             else
               scope.model
-            end
-          end
-
-          def with_based_scope(other_scope)
-            if scope
-              merge_scopes(scope, other_scope)
-            else
-              other_scope
             end
           end
 
