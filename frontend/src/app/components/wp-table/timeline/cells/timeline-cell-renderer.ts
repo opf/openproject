@@ -466,7 +466,11 @@ export class TimelineCellRenderer {
       return false;
     }
 
-    const renderPass = this.workPackageTimeline.workPackageTable.lastRenderPass! as HierarchyRenderPass;
-    return !!renderPass.parentsWithVisibleChildren[wp.id!];
+    const renderPass = this.workPackageTimeline.workPackageTable.lastRenderPass as HierarchyRenderPass|null;
+    if (renderPass) {
+      return !!renderPass.parentsWithVisibleChildren[wp.id!];
+    }
+
+    return false;
   }
 }
