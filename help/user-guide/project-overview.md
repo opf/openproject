@@ -9,23 +9,23 @@ keywords: project overview page
 
 # Project overview
 
-The **Project overview** page is a dashboard with important project information. You can display relevant information for the team, such as Members, News, Project description, Work package reports, or a project status. 
+The **Project overview** page is a dashboard with important project information. You can display relevant information for your team, such as members, news, project description, work package reports, or a project status. 
 
 | Feature                                                      | Documentation for                                       |
 | ------------------------------------------------------------ | ------------------------------------------------------- |
 | [What is the project overview?](#what-is-the-project-overview?) | What can I do with the project overview page?           |
-| [Add a widget to the project overview](#add-a-widget-to-the-project-overview) | How to add a new widget to the project overview?        |
+| [Add a widget to the project overview](#add-a-widget-to-the-project-overview) | How can I add a new widget to the project overview?     |
 | [Available project overview widgets](#available-project-overview-widgets) | What kind of widgets can I add to the project overview? |
-| [Re-size and re-order widgets](#re-size-and-re-order-widgets) | How to re-order or re-size the widgets?                 |
-| [Remove widget](#remove-widget-from-project-overview-page)   | How to remove widget from project overview page?        |
+| [Re-size and re-order widgets](#re-size-and-re-order-widgets) | How can I re-order or re-size the widgets?              |
+| [Remove widget](#remove-widget-from-project-overview-page)   | How can I remove widget from project overview page?     |
 
 ## What is the project overview?
 
-The project overview is a single dashboard page where all important project information can be displayed to have it centrally available for the project team.
+The project overview is a single dashboard page where all important project information can be displayed. The idea is to have it centrally available for the whole project team.
 
-You can add project information as widgets to the dashboard and order and re-size the widgets to your need.
+You can add project information as widgets to the dashboard and not only order but also re-size the widgets according to your needs.
 
-Also, you can add text widgets, to add custom texts, links and other information to your overview page.
+Furthermore, you can add text widgets, custom texts, links and other information to your overview page.
 
 ![project overview](image-20191112132919003.png)
 
@@ -35,7 +35,7 @@ Also, you can add text widgets, to add custom texts, links and other information
 
 1. Choose the place where to add the new widget.
 
-To add a widget to the project overview, click on the **+ button** on the top right of the page. Select the place where to add the widget, by clicking on a plus that appear on the page.
+To add a widget to the project overview, click on the **+ button** on the top right of the page. Select the place where to add the widget, by clicking on a plus that appears on the top right corner of the page.
 
 ![Overview-add-widget](Overview-add-widget-1573564870548.png)
 
@@ -53,7 +53,7 @@ You can add various widgets to your project overview.
 
 ### Calendar widget
 
-The calendar widget displays your current work packages in a calendar. It shows work package that are being worked on at the current date.
+The calendar widget displays your current work packages in a calendar. It shows work packages that are being worked on at the current date.
 
 ![calendar](image-20191112142555628.png)
 
@@ -67,13 +67,13 @@ You can also add files to be displayed or attached to your project overview.
 
 ### Project members widget
 
-You can add a widget which displays all project members and their corresponding role(s) for this project at the project overview page.
+You can add a widget which displays all project members and their corresponding role for this project at the project overview page.
 
 ![project members](image-20191112134827557.png)
 
 With the green button you can [add members to your project](/getting-started/invite-members/).
 
-The View all members button brings you to the list of members in the project.
+The View all members button brings you to the list of project members.
 
 ### News widget
 
@@ -105,7 +105,7 @@ Add your project status as a widget to display at one sight whether your project
 
 First, select your project status from the drop-down. You can choose between:
 
-ON TRACK (green
+ON TRACK (green)
 
 OFF TRACK (red)
 
@@ -135,11 +135,11 @@ The subprojects widget lists all subproject of the respective project on the ove
 
 The widget only links the first subproject hierarchy and not the children of a subproject.
 
-To edit to project hierarchy, go to the [project settings](./project-admin-guide/).
+To edit the project hierarchy, go to the [project settings](./project-admin-guide/).
 
 ### Work package graph widgets (Premium feature)
 
-The work package graph widgets display information about the work packages within a project. They can be displayed in different graph views, such as a bar graph or a pie chart.
+The work package graph widgets displays information about the work packages within a project. They can be displayed in different graph views, such as a bar graph or a pie chart.
 
 ![work package graph widget](image-20191112150530814.png)
 
@@ -161,7 +161,7 @@ Next, select the **Chart type** how the work package information shall be displa
 
 **Filter** the work packages for your chart.
 
-Click on the Filter tab in order to configure the work packages which shall be displayed, e.g. only work package with priority high.
+Click on the Filter tab in order to configure the work packages which shall be displayed, e.g. only work packages with high priority.
 
 ![filter work package graph widget](image-20191112151535247.png)
 
