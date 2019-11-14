@@ -42,4 +42,5 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 
+<%= render partial: 'conversion_availability', locals: { converter: @converter } %>
 <%= cell ::IFCModels::Models::TableCell, @ifc_models %>

@@ -1,0 +1,9 @@
+<% unless converter.available? %>
+  <div class="notification-box -error">
+    <div class="notification-box--content">
+      <%= t('ifc_models.conversion.unavailable') %>
+      <br/>
+      <%= t('ifc_models.conversion.missing_commands', names: converter.missing_commands.join(", ")) %>
+    </div>
+  </div>
+<% end %>

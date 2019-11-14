@@ -46,6 +46,10 @@ module IFCModels
       end
     end
 
+    def missing_commands
+      PIPELINE_COMMANDS - available_commands
+    end
+
     def call(ifc_model)
       validate!
 

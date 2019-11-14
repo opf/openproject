@@ -10,6 +10,7 @@ en:
       in_progress: 'In progress'
       completed: 'Completed'
     conversion:
+      unavailable: "IFC conversion pipeline is not available."
       missing_commands: "The following IFC converter commands are missing on this system: %{names}"
   project_module_ifc_models: "IFC models"
   permission_view_ifc_models: "View IFC models"

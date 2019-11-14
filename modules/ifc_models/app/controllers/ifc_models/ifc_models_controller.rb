@@ -40,6 +40,7 @@ module ::IFCModels
     menu_item :ifc_models
 
     def index
+      @converter = ViewConverterService.new
       @ifc_models = @project
         .ifc_models
         .order('updated_at DESC')
