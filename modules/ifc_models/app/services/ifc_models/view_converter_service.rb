@@ -29,15 +29,7 @@ require 'open3'
 
 module IFCModels
   class ViewConverterService
-    attr_reader :ifc_model, :errors
-
     PIPELINE_COMMANDS ||= %w[IfcConvert COLLADA2GLTF gltf2xkt xeokit-metadata].freeze
-
-
-    def initialize(ifc_model)
-      @errors = ActiveModel::Errors.new(self)
-      @ifc_model = ifc_model
-    end
 
     ##
     # Check availability of the pipeline
@@ -54,11 +46,11 @@ module IFCModels
       end
     end
 
-    def call
+    def call(ifc_model)
       validate!
 
       Dir.mktmpdir do |dir|
-        perform_conversion!(dir)
+        perform_conversion!(dir, ifc_model)
         if ifc_model.save
           ServiceResult.new(success: true, result: ifc_model)
         else
@@ -70,7 +62,7 @@ module IFCModels
       ServiceResult.new(success: false).tap { |r| r.errors.add(:base, e.message) }
     end
 
-    def perform_conversion!(dir)
+    def perform_conversion!(dir, ifc_model)
       # Step 1: IfcConvert
       Rails.logger.debug { "Converting #{ifc_model.inspect} to DAE"}
       ifc_file = ifc_model.ifc_attachment.diskfile.path

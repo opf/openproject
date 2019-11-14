@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe IFCModels::ViewConverterService do
   let(:model) { FactoryBot.build :ifc_model }
-  subject { described_class.new(model) }
+  subject { described_class.new }
 
   shared_context 'available pipeline commands' do |available|
     before do
@@ -50,7 +50,7 @@ describe IFCModels::ViewConverterService do
 
       it 'returns an error' do
         expect(subject).not_to be_available
-        result = subject.call
+        result = subject.call(model)
         expect(result.errors[:base].first).to include 'The following IFC converter commands are missing'
       end
     end
@@ -68,7 +68,7 @@ describe IFCModels::ViewConverterService do
           .to(receive(:save))
           .and_return(true)
 
-        expect(subject.call).to be_success
+        expect(subject.call(model)).to be_success
       end
 
       it 'calls the conversion and returns error' do
@@ -79,7 +79,7 @@ describe IFCModels::ViewConverterService do
           .to(receive(:save))
           .and_return(false)
 
-        expect(subject.call).not_to be_success
+        expect(subject.call(model)).not_to be_success
       end
     end
   end
