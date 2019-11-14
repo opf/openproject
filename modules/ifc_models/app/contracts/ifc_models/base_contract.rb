@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,53 +26,37 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module BaseServices
-  class Write < BaseContracted
-    protected
+module IFCModels
+  class BaseContract < ::ModelContract
+    delegate :project,
+             :new_record?,
+             to: :model
 
-    def persist(service_result)
-      service_result = super(service_result)
+    attribute :title
+    attribute :project
+    attribute :uploader
 
-      unless service_result.result.save
-        service_result.errors = service_result.result.errors
-        service_result.success = false
+    def self.model
+      ::IFCModels::IFCModel
+    end
+
+    def validate
+      user_allowed_to_manage
+      user_is_uploader
+
+      super
+    end
+
+    def user_allowed_to_manage
+      if model.project && !user.allowed_to?(:manage_ifc_models, model.project)
+        errors.add :base, :error_unauthorized
       end
-
-      service_result
     end
 
-    # Validations are already handled in the SetAttributesService
-    # and thus we do not have to validate again.
-    def validate_contract(service_result)
-      service_result
-    end
-
-    def before_perform(params)
-      set_attributes(params)
-    end
-
-    def set_attributes(params)
-      attributes_service_class
-        .new(user: user,
-             model: instance(params),
-             contract_class: contract_class)
-        .call(params)
-    end
-
-    def attributes_service_class
-      "#{namespace}::SetAttributesService".constantize
-    end
-
-    def instance(_params)
-      raise NotImplementedError
-    end
-
-    def default_contract_class
-      raise NotImplementedError
-    end
-
-    def instance_class
-      namespace.singularize.constantize
+    def user_is_uploader
+      unless model.uploader == user
+        errors.add :base, :error_unauthorized
+      end
     end
   end
 end

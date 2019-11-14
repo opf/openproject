@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,56 +23,40 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
-#++
+# See docs/COPYRIGHT.rdoc for more details.
+#+
 
-module BaseServices
-  class Write < BaseContracted
+module IFCModels
+  class CreateService < ::BaseServices::Create
+
     protected
 
-    def persist(service_result)
-      service_result = super(service_result)
-
-      unless service_result.result.save
-        service_result.errors = service_result.result.errors
-        service_result.success = false
-      end
-
-      service_result
-    end
-
-    # Validations are already handled in the SetAttributesService
-    # and thus we do not have to validate again.
-    def validate_contract(service_result)
-      service_result
-    end
-
     def before_perform(params)
-      set_attributes(params)
-    end
+      ifc_attachment = params.delete('ifc_attachment')
 
-    def set_attributes(params)
-      attributes_service_class
-        .new(user: user,
-             model: instance(params),
-             contract_class: contract_class)
-        .call(params)
-    end
-
-    def attributes_service_class
-      "#{namespace}::SetAttributesService".constantize
+      super(params).tap do |result|
+        result.success = replace_attachment(result, ifc_attachment)
+      end
     end
 
     def instance(_params)
-      raise NotImplementedError
+      ::IFCModels::IFCModel.new
     end
 
-    def default_contract_class
-      raise NotImplementedError
-    end
+    ##
+    # Replace the IFC attachment file after saving
+    def replace_attachment(result, file)
+      return unless result.success?
 
-    def instance_class
-      namespace.singularize.constantize
+      model = result.result
+      if file && file.size.positive?
+        model.ifc_attachment = file
+        model.title = file.original_filename
+        model.save
+      else
+        result.errors.add(:ifc_attachment, t('ifc_models.could_not_save_file'))
+        false
+      end
     end
   end
 end

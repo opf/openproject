@@ -22,6 +22,10 @@ module IFCModels
       end
     end
 
+    def converted?
+      xkt_attachment && metadata_attachment
+    end
+
     private
 
     ##

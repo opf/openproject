@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: t('ifc_models.label_new_ifc_model') %>
 
 <%= labelled_tabular_form_for @ifc_model, url: ifc_models_project_ifc_models_path(@project), html: { multipart: true } do |f| -%>
+  <%= error_messages_for_contract @ifc_model, @errors %>
   <%= render :partial => 'form', locals: { f: f } %>
   <%= styled_button_tag l(:button_create), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>
