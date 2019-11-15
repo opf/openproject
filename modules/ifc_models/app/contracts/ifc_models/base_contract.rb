@@ -33,6 +33,7 @@ module IFCModels
              to: :model
 
     attribute :title
+    attribute :is_default
     attribute :project
     attribute :uploader
     attribute :is_default
