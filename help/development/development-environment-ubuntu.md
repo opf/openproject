@@ -68,6 +68,7 @@ This might take a while depending on whether ruby is built from source. After it
 
 ```bash
 rbenv global 2.6.5
+rbenv rehash
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
@@ -75,6 +76,8 @@ You also need to install [bundler](https://github.com/bundler/bundler/), the rub
 ```bash
 gem install bundler
 ```
+
+If you get `Command 'gem' not found...` here, ensure you followed the instructions `rbenv init` command to ensure it is loaded in your shell.
 
 ## Setup PostgreSQL database
 
