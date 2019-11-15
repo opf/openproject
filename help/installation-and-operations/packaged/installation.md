@@ -1,10 +1,10 @@
 ---
-sidebar_navigation: false
-  title: Installation Guide
+sidebar_navigation:
+  title: Installation
   priority: 200
 ---
 
-# Packaged Installation Guide
+# Installation of OpenProject with DEB/RPM packages
 
 The packaged installation of OpenProject is the recommended way to install and maintain OpenProject using DEB or RPM packages.
 
@@ -52,20 +52,20 @@ The first step of the installation is to add the OpenProject package source to t
 
 Import the PGP key used to sign our packages:
 
-```bash
+```
 wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
 ```
 
 Add the OpenProject package source:
 
-```bash
+```
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
   https://dl.packager.io/srv/opf/openproject/stable/10/installer/ubuntu/18.04.repo
 ```
 
 Download the OpenProject package:
 
-```bash
+```
 sudo apt-get update
 sudo apt-get install openproject
 ```
@@ -76,20 +76,20 @@ Then finish the installation by reading the [*Initial configuration*][initial-co
 
 Import the PGP key used to sign our packages:
 
-```bash
+```
 wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
 ```
 
 Add the OpenProject package source:
 
-```bash
+```
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
   https://dl.packager.io/srv/opf/openproject/stable/10/installer/ubuntu/16.04.repo
 ```
 
 Download the OpenProject package:
 
-```bash
+```
 sudo apt-get update
 sudo apt-get install openproject
 ```
@@ -100,20 +100,20 @@ Then finish the installation by reading the [*Initial configuration*][initial-co
 
 Import the PGP key used to sign our packages:
 
-```bash
+```
 wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
 ```
 
 Add the OpenProject package source:
 
-```bash
+```
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
   https://dl.packager.io/srv/opf/openproject/stable/10/installer/debian/10.repo
 ```
 
 Download the OpenProject package:
 
-```bash
+```
 sudo apt-get update
 sudo apt-get install openproject
 ```
@@ -124,20 +124,20 @@ Then finish the installation by reading the [*Initial configuration*][initial-co
 
 Import the PGP key used to sign our packages:
 
-```bash
+```
 wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
 ```
 
 Add the OpenProject package source:
 
-```bash
+```
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
   https://dl.packager.io/srv/opf/openproject/stable/10/installer/debian/9.repo
 ```
 
 Download the OpenProject package:
 
-```bash
+```
 sudo apt-get update
 sudo apt-get install openproject
 ```
@@ -155,7 +155,7 @@ sudo wget -O /etc/yum.repos.d/openproject.repo \
 
 Download the OpenProject package:
 
-```bash
+```
 sudo yum install openproject
 ```
 
@@ -172,12 +172,12 @@ wget -O /etc/zypp/repos.d/openproject.repo \
 
 Download the OpenProject package:
 
-```bash
+```
 sudo zypper install openproject
 ```
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-[initial-config]: ./configuration
+[initial-config]: ../configuration
 
 

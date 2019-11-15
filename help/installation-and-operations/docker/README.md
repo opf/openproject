@@ -1,10 +1,9 @@
 ---
 sidebar_navigation:
   title: Docker installation
-  priority: 200
+  priority: 300
 ---
 
 # Docker installation
 
 TODO
-

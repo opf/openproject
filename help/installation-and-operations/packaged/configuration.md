@@ -1,6 +1,12 @@
+---
+sidebar_navigation:
+  title: Initial configuration
+  priority: 100
+---
+
 # Initial configuration of your packaged installation
 
-After you have successfully installed the OpenProject package ([see the installation guide](./installation)), you can now perform the initial configuration of OpenProject, using the wizard that ships with the OpenProject package.
+After you have successfully installed the OpenProject package ([see the installation guide](../installation)), you can now perform the initial configuration of OpenProject, using the wizard that ships with the OpenProject package.
 
 ## Prerequisites
 
@@ -10,9 +16,9 @@ After you have successfully installed the OpenProject package ([see the installa
 
 ## Step 0: start the wizard
 
-To start the configuration wizard, please run the following command  with `sudo`, or as root.
+To start the configuration wizard, please run the following command  with `sudo`, or as root:
 
-```bash
+```
 sudo openproject configure
 ```
 
@@ -32,21 +38,21 @@ The first dialog in the wizard allows you to choose an option for the PostgreSQL
 
 The dialog allows you to choose from three options:
 
-1. Install a new PostgreSQL server and database locally (default)
+### Install a new PostgreSQL server and database locally (default)
 
-  Choose this option if you want OpenProject to set up and configure a local database server manually. This is the best choice if you are unfamiliar with adminstering databases, or do not have a separate PostgreSQL database server installed that you want to connect to.
+Choose this option if you want OpenProject to set up and configure a local database server manually. This is the best choice if you are unfamiliar with adminstering databases, or do not have a separate PostgreSQL database server installed that you want to connect to.
 
-2. Use an existing PostgreSQL database
+### Use an existing PostgreSQL database
 
-  Choose this option if you have a PostgreSQL database server installed either on the same host as the OpenProject package is being installed on, or on another server you can connect to from this machine.
+Choose this option if you have a PostgreSQL database server installed either on the same host as the OpenProject package is being installed on, or on another server you can connect to from this machine.
 
-  The wizard will show you multiple additional steps in this case to enter the hostname, username & password as well as the database name for the PostgreSQL database.
+The wizard will show you multiple additional steps in this case to enter the hostname, username & password as well as the database name for the PostgreSQL database.
 
-3. Skip (not recommended)
+### Skip (not recommended)
 
-  The wizard will not try to connect to any database. You will have to specify a database manually thorugh the `DATABASE_URL` environment variable. If you choose skip and did not set a `DATABASE_URL`, the configuration process will fail.
+The wizard will not try to connect to any database. You will have to specify a database manually thorugh the `DATABASE_URL` environment variable. If you choose skip and did not set a `DATABASE_URL`, the configuration process will fail.
 
-  You can set this `DATABASE_URL` parameter yourself to a PostgreSQL database URL.
+You can set this `DATABASE_URL` parameter yourself to a PostgreSQL database URL.
 
 ```
 sudo openproject config:set DATABASE_URL="postgresql://[user[:password]@][host][:port][/dbname][?param1=value1&...]
@@ -62,17 +68,17 @@ This wizard step allows you to auto-install an Apache2 web server to function as
 
 The available options are:
 
-1. **Install Apache2 web server** (default)
+### **Install Apache2 web server** (default)
 
-  We recommend that you let OpenProject install and configure the outer web server, in which case we will install an Apache2 web server with a VirtualHost listening to the domain name you specify, optionally providing SSL/TLS termination.
+We recommend that you let OpenProject install and configure the outer web server, in which case we will install an Apache2 web server with a VirtualHost listening to the domain name you specify, optionally providing SSL/TLS termination.
   
-2. **Skip** (not recommended)
+### **Skip** (not recommended)
 
-  The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listeing at `localhost:6000` by proxying.
+The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listeing at `localhost:6000` by proxying.
 
-  Only choose this option if you have a local Apache2 installed that the OpenProject package may not control, or need to use a different web server such as Nginx. Please note that not all functionality (especially regarding Repositories) are supported on Nginx. 
+Only choose this option if you have a local Apache2 installed that the OpenProject package may not control, or need to use a different web server such as Nginx. Please note that not all functionality (especially regarding Repositories) are supported on Nginx. 
 
-  When installing with an existing Apache2, you can use our [installation wizard templates](https://github.com/pkgr/addon-apache2/tree/master/conf) for guidance on how to set up the integration. [For a minimal nginx config, please see this gist](https://gist.github.com/seLain/375d16ccd4542e3727e97a7478187d3a) as as starting point.
+When installing with an existing Apache2, you can use our [installation wizard templates](https://github.com/pkgr/addon-apache2/tree/master/conf) for guidance on how to set up the integration. [For a minimal nginx config, please see this gist](https://gist.github.com/seLain/375d16ccd4542e3727e97a7478187d3a) as as starting point.
 
 In case you select to auto-install Apache2, multiple dialogs will request the parameters for setting it up.
 
@@ -116,19 +122,19 @@ OpenProject requires a setup for sending outgoing emails for notifications, such
 
 The wizard supports the following options:
 
-1. **Sendmail** (default)
+### **Sendmail** (default)
 
-  Uses a local sendmail installation or sets up a local-only postfix MTA in case you do not have sendmail.
+Uses a local sendmail installation or sets up a local-only postfix MTA in case you do not have sendmail.
 
-  Easiest setup as it does not require an SMTP configuration, but your Mails may not be delivered consistently depending on your mail accounts or firewall setup.
+Easiest setup as it does not require an SMTP configuration, but your Mails may not be delivered consistently depending on your mail accounts or firewall setup.
 
-2. **SMTP** (recommended for production systems)
+### **SMTP** (recommended for production systems)
 
-  Allows you to connect to a SMTP host through authentication types `NONE`,  `PLAIN,` `LOGIN`, or `CRAM-MD5`. Use this if you have a dedicated mail account to use for delivering OpenProject mail, or when sendmail does not work due to your local firewall / mail relay setup.
+Allows you to connect to a SMTP host through authentication types `NONE`,  `PLAIN,` `LOGIN`, or `CRAM-MD5`. Use this if you have a dedicated mail account to use for delivering OpenProject mail, or when sendmail does not work due to your local firewall / mail relay setup.
 
-3. **Skip** (not recommended)
+### **Skip** (not recommended)
 
-  Does not set up mail configuration. You can configure the mail setup in OpenProject by visiting `openproject.example.com/settings?tab=notifications` in your installation. For more information, [visit our help page on this topic](https://www.openproject.org/help/system-settings/email-notification-settings/).
+Does not set up mail configuration. You can configure the mail setup in OpenProject by visiting `openproject.example.com/settings?tab=notifications` in your installation. For more information, [visit our help page on this topic](https://www.openproject.org/help/system-settings/email-notification-settings/).
 
 ## Step 5: Administrator email
 
@@ -136,11 +142,13 @@ The wizard will ask you for an administrative email address so that it can creat
 
 ![05-admin](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/05-admin.png?raw=true)
 
-### Step 6: Memcached server
+## Step 6: Memcached server
 
-  OpenProject heavily relies on caching, which is why the wizard suggests you to install a local memcached server the OpenProject instances can connect to. You should always set this to `install` unless you have a reason to configure another caching mechanism - for example when configuring multiple shared instances of OpenProject.
+OpenProject heavily relies on caching, which is why the wizard suggests you to install a local memcached server the OpenProject instances can connect to. You should always set this to `install` unless you have a reason to configure another caching mechanism - for example when configuring multiple shared instances of OpenProject.
 
 ![06-cache](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/06-cache.png?raw=true)
+
+## Result
 
 With this last step confirmed, the OpenProject wizard will complete, and apply all the configuration options that you have just selected. This might take a few minutes depending on your machine and internet connection, as OpenProject might need to install additional packages (such as the web server, database) depending on your selections.
 
@@ -150,6 +158,9 @@ When this process completes, it will have started the internal application and w
 
 You should be able to reach the OpenProject instance by visiting your installation at `http://<openproject.example.com>/<server prefix>`.
 
-You can then log in using the default user/password combination **admin/admin**. You will be asked to change this password immediately after the first login.
+You can then log in using the default user/password combination:
 
+* username = `admin`
+* password = `admin`
 
+You will be asked to change this password immediately after the first login.

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
-  title: Packaged installation
-  priority: 300
+  title: Packages
+  priority: 400
 ---
 
 # Packaged installation (DEB/RPM)
