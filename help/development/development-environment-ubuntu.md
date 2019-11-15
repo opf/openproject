@@ -208,8 +208,8 @@ test:
 Now, run the following tasks to migrate and seed the dev database, and prepare the test setup for running tests locally.
 
 ```bash
-RAILS_ENV=development bin/rails db:create db:migrate
-RAILS_ENV=development bin/rails db:seed db:test:prepare
+RAILS_ENV=development bin/rails db:migrate
+RAILS_ENV=development bin/rails db:seed
 ```
 
 
