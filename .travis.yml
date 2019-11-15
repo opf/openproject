@@ -77,7 +77,7 @@ jobs:
       name: 'Prepare cache'
       script:
         # Run the dangerfile
-        - bundle exec danger --fail-on-errors=true || travis_terminate 1;
+        - bash script/ci/dangerfile.sh
         # Set up caching
         - bash script/ci/db_setup.sh
         - bash script/ci/cache_prepare.sh
