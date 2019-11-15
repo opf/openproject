@@ -63,3 +63,7 @@ cs:
   project_module_bcf: "BCF"
   permission_view_linked_issues: "View BCF issues"
   permission_manage_bcf: "Import and manage BCF issues"
+  oauth:
+    scopes:
+      bcf_v2_1: "Full access to the BCF v2.1 API"
+      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."

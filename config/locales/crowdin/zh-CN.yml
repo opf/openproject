@@ -2549,6 +2549,7 @@ zh-CN:
         redirect_uri_html: >
           授权的用户可以重定向到的允许 URL。每行一个条目。<br/>如果您注册的是桌面应用程序，请使用以下 URL。
         confidential: "检查在客户端密钥可以保密的地方是否使用应用程序。原生移动应用和单页应用被假定为非机密。"
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "在客户端使用此应用程序时要冒充的可选用户 ID。留空可以仅允许公开访问"
         register_intro: "如果您正在为 OpenProject 开发 OAuth API 客户端应用程序，则可以使用此表单注册，供所有用户使用。"
         default_scopes: ""
@@ -2563,8 +2564,8 @@ zh-CN:
       wants_to_access_html: >
         此应用程序请求访问您的 OpenProject 帐户。<br/> <strong>它请求了以下权限：</strong>
     scopes:
-      api_v3: "完全 API 访问"
-      api_v3_text: "应用程序将获得完整的 OpenProject API 读写访问权限，可以代表您执行操作。"
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "批准日期"
       scopes: "权限"
