@@ -139,6 +139,7 @@ Currently, this is v12.13.0 Install and activate it with:
 ```bash
 nodenv install 12.13.0
 nodenv global 12.13.0
+nodenv rehash 
 ```
 
 ## Verify your installation
@@ -153,7 +154,7 @@ bundler --version
 Bundler version 2.0.2
 
 npm --version
-12.13.0
+6.12.0
 ```
 
 # Install OpenProject
