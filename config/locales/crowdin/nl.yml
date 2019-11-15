@@ -2575,6 +2575,7 @@ nl:
         redirect_uri_html: >
           De toegestane URLs waar toegestane gebruikers kunnen worden doorgestuurd naar. Eén item per regel. <br/> Als u een desktop-applicatie registreert, gebruik dan de volgende URL.
         confidential: "Controleer of de toepassing zal worden gebruikt waar het cliëntgeheim vertrouwelijk kan worden gehouden. Native mobiele apps en Single Page Apps worden verondersteld niet-vertrouwelijk."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "Optionele gebruikersID om te impersoneren wanneer klanten deze applicatie gebruiken. Laat leeg om alleen openbare toegang toe te staan"
         register_intro: "Als u een OAuth API client applicatie voor OpenProject ontwikkelt, kunt u het registreren met dit formulier voor alle gebruikers om te gebruiken."
         default_scopes: ""
@@ -2589,8 +2590,8 @@ nl:
       wants_to_access_html: >
         Deze applicatie vraagt toegang tot uw OpenProject account. <br/> <strong>heeft de volgende machtigingen aangevraagd:</strong>
     scopes:
-      api_v3: "Volledige API toegang"
-      api_v3_text: "Toepassing zal volledige lees en schrijf toegang krijgen tot de OpenProject API om acties namens u uit te voeren."
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "Goedgekeurd op"
       scopes: "Machtigingen"

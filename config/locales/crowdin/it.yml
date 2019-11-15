@@ -2576,6 +2576,7 @@ it:
         redirect_uri_html: >
           Gli URL consentiti a cui possono essere reindirizzati gli utenti autorizzati. Una voce per riga. <br/> Se stai registrando un'applicazione desktop, usa il seguente URL.
         confidential: "Controlla se l'applicazione verrà utilizzata dove il segreto del client può essere tenuto confidenziale. Applicazioni mobili native e app a pagina singola sono considerate non riservate."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "ID utente opzionale da impersonare quando i client usano questa applicazione. Lascia vuoto per consentire solo l'accesso pubblico"
         register_intro: "Se stai sviluppando un'applicazione client OAuth API per OpenProject è possibile registrarla utilizzando questo modulo per consentirne l'uso a tutti gli utenti."
         default_scopes: ""
@@ -2590,8 +2591,8 @@ it:
       wants_to_access_html: >
         Questa applicazione richiede l'accesso al tuo account OpenProject. <br/> <strong>Ha richiesto i seguenti permessi:</strong>
     scopes:
-      api_v3: "Accesso Completo API"
-      api_v3_text: "L'applicazione riceverà l'accesso completo alla lettura e scrittura delle API OpenProject per eseguire azioni a tuo nome."
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "Approvato il"
       scopes: "Permessi"

@@ -2551,6 +2551,7 @@ ko:
         redirect_uri_html: >
           허용된 URL 인증 사용자로 리디렉션될 수 있습니다. 라인별로 하나의 항목이 있습니다. <br/> 데스크톱 애플리케이션을 등록하려면 다음 URL을 사용하세요.
         confidential: "클라이언트 비밀번호를 기밀로 유지할 수 있는 위치에서 애플리케이션이 사용되는지 여부를 확인합니다. 네이티브 모바일 앱과 싱글 페이지 앱은 기밀로 간주되지 않습니다."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "클라이언트가 이 애플리케이션을 사용할 때 가장하기 위한 선택적 사용자 ID입니다. 공용 액세스만 허용하려면 비워두세요."
         register_intro: "OpenProject용 OAuth API 클라이언트 애플리케이션을 개발할 경우 이 양식을 사용하여 모든 사용자가 사용할 수 있도록 등록할 수 있습니다."
         default_scopes: ""
@@ -2565,8 +2566,8 @@ ko:
       wants_to_access_html: >
         이 애플리케이션은 사용자의 OpenProject 계정에 대한 액세스 권한을 요청합니다. <br/> <strong>다음과 같은 사용 권한을 요청했습니다:</strong>
     scopes:
-      api_v3: "전체 API 액세스"
-      api_v3_text: "애플리케이션은 사용자를 대신하여 작업을 수행하기 위해 OpenProject API에 대한 전체 읽기 및 쓰기 액세스 권한을 받습니다."
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "승인:"
       scopes: "권한"

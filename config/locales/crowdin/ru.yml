@@ -2619,6 +2619,7 @@ ru:
         redirect_uri_html: >
           Разрешенные URL-адреса могут быть перенаправлены на. Одна запись на строку. <br/> Если вы регистрируете приложение на рабочем столе, используйте следующий URL.
         confidential: "Убедитесь в конфиденциальной сохранности секретов клиента при использовании приложения. Оригинальные мобильные приложения и одностраничные приложения не считаются конфиденциальными."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "Необязательный ID пользователя для замещения в момент использования этого приложения клиентами. Оставьте пустым, чтобы разрешить только публичный доступ"
         register_intro: "Если вы разрабатываете клиентское приложение OAuth API для OpenProject, вы можете зарегистрировать его, используя эту форму для всех пользователей."
         default_scopes: ""
@@ -2633,8 +2634,8 @@ ru:
       wants_to_access_html: >
         Это приложение запрашивает доступ к вашей учетной записи OpenProject. <br/> <strong>Оно запросило следующие разрешения:</strong>
     scopes:
-      api_v3: "Полный доступ к API"
-      api_v3_text: "Приложение будет получать полный доступ к чтению и записи OpenProject API для выполнения действий от вашего имени."
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "Ознакомлен с"
       scopes: "Разрешения"
