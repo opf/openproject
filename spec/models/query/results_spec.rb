@@ -604,6 +604,38 @@ describe ::Query::Results, type: :model, with_mail: false do
       end
     end
 
+    context 'sorting by priority, grouping by project' do
+      let(:prio_low) { FactoryBot.create :issue_priority, position: 1 }
+      let(:prio_high) { FactoryBot.create :issue_priority, position: 0 }
+      let(:group_by) { 'project' }
+
+      before do
+        allow(User).to receive(:current).and_return(user_1)
+
+        work_package1.priority = prio_low
+        work_package2.priority = prio_high
+
+        work_package1.save(validate: false)
+        work_package2.save(validate: false)
+      end
+
+      it 'properly selects project_id (Regression #31667)' do
+        query.sort_criteria = [['priority', 'asc']]
+
+        expect(query_results.sorted_work_packages)
+          .to match [work_package1, work_package2]
+
+        query.sort_criteria = [['priority', 'desc']]
+
+        expect(query_results.sorted_work_packages)
+          .to match [work_package2, work_package1]
+
+        group_count = query_results.work_package_count_by_group
+
+        expect(group_count).to eq({ project_1 => 2 })
+      end
+    end
+
     context 'sorting by author and responsible, grouping by assigned_to' do
       let(:group_by) { 'assigned_to' }
       let(:sort_by) { [['author', 'asc'], ['responsible', 'desc']] }
