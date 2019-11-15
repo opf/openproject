@@ -561,7 +561,7 @@ GEM
     jquery-tablesorter (1.27.0)
       railties (~> 6.0.0, >= 3.2)
     json (2.2.0)
-    json-jwt (1.10.0)
+    json-jwt (1.11.0)
       activesupport (>= 4.2)
       aes_key_wrap
       bindata
