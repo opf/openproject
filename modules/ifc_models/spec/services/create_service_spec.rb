@@ -23,6 +23,7 @@ describe IFCModels::CreateService do
 
         model = subject.result
         expect(model.ifc_attachment).to be_present
+        expect(model.is_default).to be_truthy
         expect(::IFCModels::IFCConversionJob)
           .to have_been_enqueued
           .with(model)

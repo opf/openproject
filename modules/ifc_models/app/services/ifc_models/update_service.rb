@@ -28,18 +28,18 @@
 
 module IFCModels
   class UpdateService < ::BaseServices::Update
-
     protected
 
-    def before_perform(params)
-      ifc_attachment = params.delete('ifc_attachment')
+    attr_accessor :ifc_attachment
 
-      super(params).tap do |result|
-        result.success = replace_attachment(result, ifc_attachment)
-      end
+    def before_perform(params)
+      self.ifc_attachment = params.delete('ifc_attachment')
+      super(params)
     end
 
     def after_perform(call)
+      call.success = replace_attachment(call)
+
       if @ifc_attachment_replaced && call.success?
         IFCConversionJob.perform_later(call.result)
       end
@@ -49,14 +49,13 @@ module IFCModels
 
     ##
     # Replace the IFC attachment file after saving
-    def replace_attachment(result, file)
+    def replace_attachment(result)
       return unless result.success?
 
       model = result.result
-
       # Uploading an IFC file is optional
-      if file && file.size.positive?
-        model.ifc_attachment = file
+      if ifc_attachment && ifc_attachment.size.positive?
+        model.ifc_attachment = ifc_attachment
         @ifc_attachment_replaced = true
       end
 
