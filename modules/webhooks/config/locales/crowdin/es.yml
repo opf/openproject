@@ -16,6 +16,9 @@ es:
   webhooks:
     singular: Webhook
     plural: Webhooks
+    resources:
+      time_entry:
+        name: "Time entry"
     outgoing:
       no_results_table: Aún no se han definido webhooks.
       label_add_new: Agregar nuevo webhook
