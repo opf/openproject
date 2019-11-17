@@ -979,7 +979,7 @@ tr:
         add_groups: "Yeni öznitelik grubu ekleyin"
         rename_groups: "Öznitelik grubunun adını değiştirin"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Özel alanlara filtre uygulama ve sıralama, kurumsal sürüm özelliğidir."
   enumeration_activities: "Etkinlikler (zaman izleme)"
   enumeration_work_package_priorities: "İş paketi öncelikleri"
   enumeration_system_activity: "Sistem Etkinliği"
