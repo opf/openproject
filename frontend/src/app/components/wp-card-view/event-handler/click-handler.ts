@@ -3,12 +3,15 @@ import {CardEventHandler} from "core-components/wp-card-view/event-handler/card-
 import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
-
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
+import {StateService} from "@uirouter/core";
+import {DeviceService} from "core-app/modules/common/browser/device.service";
 
 export class CardClickHandler implements CardEventHandler {
 
   // Injections
+  public deviceService:DeviceService = this.injector.get(DeviceService);
+  public $state:StateService = this.injector.get(StateService);
   public wpTableSelection:WorkPackageViewSelectionService = this.injector.get(WorkPackageViewSelectionService);
   public wpTableFocus:WorkPackageViewFocusService = this.injector.get(WorkPackageViewFocusService);
   public wpCardView:WorkPackageCardViewService = this.injector.get(WorkPackageCardViewService);
@@ -67,7 +70,15 @@ export class CardClickHandler implements CardEventHandler {
     // not matter what other card are (de-)selected below.
     // Thus save that card for the details view button.
     this.wpTableFocus.updateFocus(wpId);
+
+    // open work package on mobile after first click
+    if (this.deviceService.isMobile) {
+      this.$state.go(
+        'work-packages.show',
+        {workPackageId: wpId}
+      );
+    }
+
     return false;
   }
 }
-
