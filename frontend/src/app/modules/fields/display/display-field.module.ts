@@ -118,7 +118,7 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
     return this.valueString;
   }
 
-  public render(element:HTMLElement, displayText:string):void {
+  public render(element:HTMLElement, displayText:string, options:any = {}):void {
     element.textContent = displayText;
   }
 
