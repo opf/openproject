@@ -1,8 +1,10 @@
 ---
-title: Agile Boards
-description: How to get started with Boards for Scrum and Agile Project Management.
+nav:
+  title: Agile Boards
+  priority: 870
+description: How to get started with agile Boards for Kanban, Scrum and Agile Project Management.
 robots: index, follow
-keywords: agile boards
+keywords: agile boards, Kanban, Scrum, agile project management
 ---
 
 # Boards for Agile Project Management (Premium feature)

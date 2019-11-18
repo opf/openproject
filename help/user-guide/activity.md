@@ -1,5 +1,3 @@
-
-
 ---
 nav:
   title: Activity

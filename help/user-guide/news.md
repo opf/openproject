@@ -1,7 +1,7 @@
 ---
-
-
-title: News
+nav:
+  title: News
+  priority: 840
 description: Communicate project news to your team members
 robots: index, follow
 keywords: news

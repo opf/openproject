@@ -1,5 +1,7 @@
 ---
-title: Calendar
+nav:
+  title: Calendar
+  priority: 850
 description: Create a calendar in OpenProject.
 robots: index, follow
 keywords: calendar

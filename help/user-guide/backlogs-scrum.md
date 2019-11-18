@@ -1,8 +1,10 @@
 ---
-title: Backlogs (scrum)
+nav:
+  title: Backlogs (Scrum)
+  priority: 870
 description: Support your Scrum methodology with Backlogs
 robots: index, follow
-keywords: backlogs scrum
+keywords: backlogs, scrum
 ---
 
 # Backlogs (Scrum)

@@ -27,6 +27,8 @@ You can add project information as widgets to the dashboard and order and re-siz
 
 Also, you can add text widgets, to add custom texts, links and other information to your overview page.
 
+Open the project overview by navigating to **Overview** in the project menu on the left.
+
 ![project overview](image-20191112132919003.png)
 
 
