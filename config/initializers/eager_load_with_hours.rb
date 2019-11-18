@@ -39,7 +39,9 @@ module OpenProject::Patches
   module ActiveRecordJoinPartPatch
     def instantiate(row, aliases)
       if base_klass == WorkPackage && row.has_key?('hours')
-        aliases_with_hours = aliases + [['hours', 'hours']]
+        aliases_with_hours = aliases + [
+          ActiveRecord::Associations::JoinDependency::Aliases::Column.new('hours', 'hours')
+        ]
 
         super(row, aliases_with_hours)
       else
