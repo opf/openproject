@@ -29,9 +29,7 @@
 #++
 
 module Bcf::API::V2_1
-  class Users::SingleRepresenter < Roar::Decorator
-    include Representable::JSON
-
+  class Users::SingleRepresenter < BaseRepresenter
     property :mail,
              as: :id
 

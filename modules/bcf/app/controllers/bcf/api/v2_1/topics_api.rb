@@ -29,30 +29,33 @@
 #++
 
 module Bcf::API::V2_1
-  class ProjectsAPI < ::API::OpenProjectAPI
-    resources :projects do
+  class TopicsAPI < ::API::OpenProjectAPI
+    resources :topics do
       helpers do
-        def visible_projects
-          Project
-            .visible(current_user)
-            .has_module(:bcf)
+        def topics
+          Bcf::Issue.of_project(@project)
         end
       end
 
-      get &::Bcf::API::V2_1::Endpoints::Index.new(model: Project,
-                                                  scope: -> { visible_projects })
-                                             .mount
+      after_validation do
+        authorize :view_linked_issues, context: @project
+      end
 
-      route_param :id, regexp: /\A(\d+)\z/ do
+      get &::Bcf::API::V2_1::Endpoints::Index
+             .new(model: Bcf::Issue,
+                  api_name: 'Topics',
+                  scope: -> { topics })
+             .mount
+
+      route_param :uuid, regexp: /\A[a-f0-9\-]+\z/ do
         after_validation do
-          @project = visible_projects
-                     .find(params[:id])
+          @issue = topics.find_by_uuid!(params[:uuid])
         end
 
-        get &::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
-        put &::Bcf::API::V2_1::Endpoints::Update.new(model: Project).mount
-
-        mount Bcf::API::V2_1::TopicsAPI
+        get &::Bcf::API::V2_1::Endpoints::Show
+              .new(model: Bcf::Issue,
+                   api_name: 'Topics')
+              .mount
       end
     end
   end

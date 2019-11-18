@@ -29,9 +29,7 @@
 #++
 
 module Bcf::API::V2_1::Errors
-  class ErrorRepresenter < Roar::Decorator
-    include Representable::JSON
-
+  class ErrorRepresenter < BaseRepresenter
     property :message,
              getter: ->(*) { message },
              render_nil: true

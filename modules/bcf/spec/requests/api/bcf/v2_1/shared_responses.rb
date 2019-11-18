@@ -32,7 +32,7 @@ shared_examples_for 'bcf api successful response' do
       .to eql 200
   end
 
-  it 'returns the project' do
+  it 'returns the resource' do
     expect(subject.body)
       .to be_json_eql(expected_body.to_json)
   end
