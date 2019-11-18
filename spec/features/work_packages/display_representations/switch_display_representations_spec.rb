@@ -112,6 +112,26 @@ describe 'Work package timeline navigation',
     end
   end
 
+  context 'switching to mobile card view' do
+    it 'can switch the representation automatically on mobile after a refresh' do
+      # Change browser size to mobile
+      page.driver.browser.manage.window.resize_to(679,1080)
+      # Expect the representation to switch to card on mobile
+      page.driver.browser.navigate.refresh
+      expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp_1.id}']")
+      expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp_2.id}']")
+    end
+    it 'can switch back and keep the original query' do
+      # Change browser size to desktop view and refesh page
+      page.driver.browser.manage.window.resize_to(680,1080)
+      page.driver.browser.navigate.refresh
+      # Expect WP to be disaplyed as list again (query has not changed)
+      wp_table.expect_work_package_listed wp_1, wp_2
+      expect(page).to have_selector("#{wp_table.row_selector(wp_1)}")
+      expect(page).to have_selector("#{wp_table.row_selector(wp_2)}")
+    end
+  end
+
   context 'when reordering an unsaved query' do
     it 'retains that order' do
       wp_table.expect_work_package_order wp_1, wp_2
