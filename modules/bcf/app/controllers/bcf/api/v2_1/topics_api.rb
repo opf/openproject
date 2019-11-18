@@ -41,19 +41,21 @@ module Bcf::API::V2_1
         authorize :view_linked_issues, context: @project
       end
 
-      get &::Bcf::API::V2_1::Endpoints::Index.new(model: Bcf::Issue,
-                                                  api_name: 'Topics',
-                                                  scope: -> { topics })
-                                             .mount
+      get &::Bcf::API::V2_1::Endpoints::Index
+             .new(model: Bcf::Issue,
+                  api_name: 'Topics',
+                  scope: -> { topics })
+             .mount
 
       route_param :uuid, regexp: /\A[a-f0-9\-]+\z/ do
         after_validation do
-          @issue = topics.find_by_uuid(params[:uuid])
+          @issue = topics.find_by_uuid!(params[:uuid])
         end
 
         get &::Bcf::API::V2_1::Endpoints::Show
-          .new(model: Bcf::Issue, api_name: 'Topics')
-          .mount
+              .new(model: Bcf::Issue,
+                   api_name: 'Topics')
+              .mount
       end
     end
   end

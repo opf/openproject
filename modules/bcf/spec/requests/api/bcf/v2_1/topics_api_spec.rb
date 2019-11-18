@@ -31,7 +31,7 @@ require 'rack/test'
 
 require_relative './shared_responses'
 
-describe 'BCF 2.1 topics resource', type: :request, content_type: :json do
+describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_mail: false do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -99,6 +99,62 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json do
 
     context 'lacking permission to see project' do
       let(:current_user) { non_member_user }
+
+      it_behaves_like 'bcf api not found response'
+    end
+
+    context 'lacking permission to see linked issues' do
+      let(:current_user) { only_member_user }
+
+      it_behaves_like 'bcf api not allowed response'
+    end
+  end
+
+  describe 'GET /api/bcf/2.1/projects/:project_id/topics/:uuid' do
+    let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}" }
+    let(:current_user) { view_only_user }
+
+    before do
+      login_as(current_user)
+      bcf_issue
+      get path
+    end
+
+    it_behaves_like 'bcf api successful response' do
+      let(:expected_body) do
+        {
+          "assigned_to": "andy@example.com",
+          "creation_author": "mike@example.com",
+          "creation_date": "2015-06-21T12:00:00Z",
+          "description": "This is a topic with all information present.",
+          "due_date": nil,
+          guid: bcf_issue.uuid,
+          "index": "0",
+          "labels": [
+            "Structural",
+            "IT Development"
+          ],
+          "modified_author": "michelle@example.com",
+          "modified_date": "2015-06-21T14:22:47Z",
+          "reference_links": [
+            api_v3_paths.work_package(work_package.id)
+          ],
+          "stage": "Construction start",
+          "title": "Maximum Content",
+          "topic_status": "Open",
+          "topic_type": "Structural"
+        }
+      end
+    end
+
+    context 'lacking permission to see project' do
+      let(:current_user) { non_member_user }
+
+      it_behaves_like 'bcf api not found response'
+    end
+
+    context 'invalid uuid' do
+      let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/0" }
 
       it_behaves_like 'bcf api not found response'
     end
