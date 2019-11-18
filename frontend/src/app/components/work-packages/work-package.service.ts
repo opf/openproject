@@ -56,7 +56,10 @@ export class WorkPackageService {
       'ids[]': ids
     };
     const promise = this.http
-      .delete(this.PathHelper.workPackagesBulkDeletePath(), {params: params})
+      .delete(
+        this.PathHelper.workPackagesBulkDeletePath(),
+        {params: params, withCredentials: true}
+      )
       .toPromise();
 
     if (defaultHandling) {
