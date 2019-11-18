@@ -1,3 +1,9 @@
+---
+sidebar_navigation:
+  title: System requirements
+  priority: 1000
+---
+
 # System requirements
 
 __Note__: The configurations described below are what we use and test against.
