@@ -1,5 +1,7 @@
 ---
-title: Edit work packages
+sidebar_navigation:
+  title: Edit Work packages
+  priority: 868
 description: How to edit work packages in OpenProject?
 robots: index, follow
 keywords: edit work packages

@@ -1,11 +1,22 @@
 ---
-title: Work packages table configuration
+sidebar_navigation:
+  title: Configure work package table
+  priority: 867
 description: How to configure the work package table in OpenProject?
 robots: index, follow
 keywords: work packages table configuration
 ---
 
 # Work package table configuration
+
+| Feature                                                      | Documentation for                                            |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Add or remove columns](#add-or-remove-columns-in-the-work-package-table) | How to add or remove columns in the work package table?      |
+| [Filter work packages](#filter-work-packages)                | How to filter in the work package list?                      |
+| [Sort the work package list](#sort-the-work-package-list)    | How to sort within the work package list?                    |
+| [Display settings](#how-to-switch-from-flat-list-to-hierarchy-mode?) | How to switch from flat list to hierarchy mode in the work pacakge list? |
+| [Attribute highlighting (Premium Feature)](#attribute-highlighting-(premium-feature)) | How to highlight certain attributes in the work package list? |
+| [Save work package views](#save-work-package-views)          | How to save a new work package view?                         |
 
 You can configure the work package table view in OpenProject to display the information that you need in the list.
 
@@ -17,13 +28,6 @@ To open the work package table configuration, open the **Settings** icon with th
 
 ![configure-work-package-table](configure-work-package-table.png)
 
-| Feature                                                      | Documentation for                                            |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Add or remove columns](#add-or-remove-columns-in-the-work-package-table) | How to add or remove columns in the work package table?      |
-| [Filter work packages](#filter-work-packages)                | How to filter in the work package list?                      |
-| [Sort the work package list](#sort-the-work-package-list)    | How to sort within the work package list?                    |
-| [Display settings](#how-to-switch-from-flat-list-to-hierarchy-mode?) | How to switch from flat list to hierarchy mode in the work pacakge list? |
-| [Attribute highlighting (Enterprise Feature)](#attribute-highlighting-(Enterprise-Feature)) | How to highlight certain attributes in the work package list? |
 
 ## Add or remove columns in the work package table
 
@@ -109,7 +113,7 @@ To switch between the different criteria, open the [work packag table configurat
 
 ![display-settings](1566397517070.png)
 
-## Attribute highlighting (Enterprise Feature)
+## Attribute highlighting (Premium Feature)
 
 You can highlight attributes in the work package list to emphasize the importance of certain attributes and have important topics at one sight.
 
@@ -131,3 +135,40 @@ The following attributes can be highlighted as a complete row:
 ![highlight-priority](1566399038768.png)
 
 You can configure the colors for attribute highlighting in the [system administration](./system-admin-guide/#status-colors).
+
+## Save work package views
+
+When you have configured your work package table, you can save the views to access them again and share them with your team.
+
+1. Press the **Settings icon** with the three dots on the top right of the work packages list.
+2. Choose **Save as...**
+
+![Work-packages-save-view](Work-packages-save-view.png)
+
+3. Enter a **Name** for your Saved view (according to the criteria you have chosen in your work package table configuration).
+
+   In this example, the list was filtered for Work packages assigned to me which have a High Priority.
+
+   **Public views:** Check the Public checkbox if you want to have this work package view accessible also for other users from this project.
+
+   **Favored:** Check this Favored checkbox if you want to have this work package as a menu item in your Favorite views.
+
+   Press the bluse **Save** button to save your view.
+
+![Enter-name for saved view](image-20191118172425655.png)
+
+The view will then be saved in the work packages menu in your **Favorite views**:
+
+![Work-packages-favorite-views](Work-packages-favorite-views.png)
+
+If you check the Public visibilty, the view will be saved under your Public views in the work package menu:
+
+![Work-packages-public-views](Work-packages-public-views.png)
+
+### Change saved work package views
+
+If you make changes to a saved view, e.g. change a filter criteria, you have to save the new view once again. In order to apply the change to the actual saved view, click on the disk icon which appears next to the titel of the saved view:
+
+![Work-package-change-saved-views](Work-package-change-saved-views.png)
+
+If you want to save a completely new work package view, again click on the Settings and select **Save as...** as described above to [Save work package views](#save-work-package-views).

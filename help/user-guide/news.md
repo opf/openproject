@@ -1,7 +1,7 @@
 ---
-nav:
+sidebar_navigation:
   title: News
-  priority: 840
+  priority: 830
 description: Communicate project news to your team members
 robots: index, follow
 keywords: news

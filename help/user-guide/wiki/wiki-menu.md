@@ -1,7 +1,7 @@
 ---
-
-
-title: Wiki project menu
+sidebar_navigation:
+  title: Wiki project menu
+  priority: 798
 description: Create a project menu item for a wiki page.
 robots: index, follow
 keywords: wiki menu
