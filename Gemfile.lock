@@ -626,7 +626,7 @@ GEM
     newrelic_rpm (6.6.0.358)
     nio4r (2.5.1)
     no_proxy_fix (0.1.2)
-    nokogiri (1.10.4)
+    nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     nokogumbo (2.0.1)
       nokogiri (~> 1.8, >= 1.8.4)
@@ -1007,7 +1007,7 @@ DEPENDENCIES
   my_page!
   net-ldap (~> 0.16.0)
   newrelic_rpm
-  nokogiri (~> 1.10.4)
+  nokogiri (~> 1.10.5)
   oj (~> 3.9.1)
   okcomputer (~> 1.17.3)
   omniauth!
