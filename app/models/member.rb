@@ -241,7 +241,7 @@ class Member < ActiveRecord::Base
   #       Accordingly it has to be changed there too should this bit change at all.
   def unwatch_from_permission_change
     if principal
-      Watcher.prune(user: principal, project_id: project.id)
+      Watcher.prune(user: principal, project_id: project_id)
     end
   end
 
