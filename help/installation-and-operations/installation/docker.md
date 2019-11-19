@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Installation guide
+  title: Docker
   priority: 300
 ---
 

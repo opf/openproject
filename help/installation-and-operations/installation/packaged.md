@@ -1,12 +1,184 @@
 ---
 sidebar_navigation:
-  title: Initial configuration
-  priority: 100
+  title: Packages
+  priority: 400
 ---
 
-# Initial configuration of your packaged installation
+# Install OpenProject with DEB/RPM packages
 
-After you have successfully installed the OpenProject package ([see the installation guide](../installation)), you can now perform the initial configuration of OpenProject, using the wizard that ships with the OpenProject package.
+The packaged installation of OpenProject is the recommended way to install and maintain OpenProject using DEB or RPM packages.
+
+The package will:
+
+- guide you through all the required steps
+
+- install all the required libraries and dependencies
+
+- install a local PostgreSQL database or allow you to connect to an existing PostgreSQL database
+
+- allow you to install and configure an outer Apache web server (recommended)
+
+- setup SSL/TLS encryption for the Apache server (optional)
+
+- configure repositories (Git/SVN) (optional)
+
+- configure email settings
+
+The package is available for the following Linux distributions:
+
+| Distribution (**64 bits only**) |
+| ------------------------------- |
+| CentOS/RHEL 7.x                 |
+| Debian 9 Stretch                |
+| Debian 10 Stretch               |
+| Suse Linux Enterprise Server 12 |
+| Ubuntu 16.04 Xenial Xerus       |
+| Ubuntu 18.04 Bionic Beaver      |
+
+Please ensure that you are running on a 64bit system before proceeding with the installation. You can check by running the `uname -i` command on the target server and verifying that it outputs `x86_64`:
+
+```bash
+$ uname -i
+x86_64
+```
+
+Also, please note that the packaged installation works best when running on a dedicated server or virtual machine, as we cannot ensure that the components installed and configured by the OpenProject installer will work on systems that have been already customized.
+
+## Ubuntu 18.04
+
+Import the PGP key used to sign our packages:
+
+```bash
+wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
+```
+
+Add the OpenProject package source:
+
+```bash
+sudo wget -O /etc/apt/sources.list.d/openproject.list \
+  https://dl.packager.io/srv/opf/openproject/stable/10/installer/ubuntu/18.04.repo
+```
+
+Download the OpenProject package:
+
+```bash
+sudo apt-get update
+sudo apt-get install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+## Ubuntu 16.04
+
+Import the PGP key used to sign our packages:
+
+```bash
+wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
+```
+
+Add the OpenProject package source:
+
+```bash
+sudo wget -O /etc/apt/sources.list.d/openproject.list \
+  https://dl.packager.io/srv/opf/openproject/stable/10/installer/ubuntu/16.04.repo
+```
+
+Download the OpenProject package:
+
+```bash
+sudo apt-get update
+sudo apt-get install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+## Debian 10
+
+Import the PGP key used to sign our packages:
+
+```bash
+wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
+```
+
+Add the OpenProject package source:
+
+```bash
+sudo wget -O /etc/apt/sources.list.d/openproject.list \
+  https://dl.packager.io/srv/opf/openproject/stable/10/installer/debian/10.repo
+```
+
+Download the OpenProject package:
+
+```bash
+sudo apt-get update
+sudo apt-get install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+## Debian 9
+
+Import the PGP key used to sign our packages:
+
+```bash
+wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
+```
+
+Add the OpenProject package source:
+
+```bash
+sudo wget -O /etc/apt/sources.list.d/openproject.list \
+  https://dl.packager.io/srv/opf/openproject/stable/10/installer/debian/9.repo
+```
+
+Download the OpenProject package:
+
+```bash
+sudo apt-get update
+sudo apt-get install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+## CentOS 7 / RHEL 7
+
+Add the OpenProject package source:
+
+```bash
+sudo wget -O /etc/yum.repos.d/openproject.repo \
+  https://dl.packager.io/srv/opf/openproject/stable/10/installer/el/7.repo
+```
+
+Download the OpenProject package:
+
+```bash
+sudo yum install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+## SLES 12
+
+Add the OpenProject package source:
+
+```bash
+wget -O /etc/zypp/repos.d/openproject.repo \
+  https://dl.packager.io/srv/opf/openproject/stable/10/installer/sles/12.repo
+```
+
+Download the OpenProject package:
+
+```bash
+sudo zypper install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+[initial-config]: #initial-configuration
+
+# Initial Configuration
+
+After you have successfully installed the OpenProject package, you can now perform the initial configuration of OpenProject, using the wizard that ships with the OpenProject package.
 
 ## Prerequisites
 
