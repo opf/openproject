@@ -11,6 +11,8 @@ module Bcf
 
     validates :work_package, presence: true
 
+    # TODO: remove xml extraction as properties are either stored
+    # in specific columns of the bcf_issues table or in the referenced work package
     class << self
       def with_markup
         select '*',
@@ -121,10 +123,6 @@ module Bcf
       define_method name do
         from_attributes_or_doc name
       end
-    end
-
-    def labels
-      from_attributes_or_doc :labels, multiple: true
     end
 
     def markup_doc

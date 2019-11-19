@@ -33,13 +33,13 @@ module Bcf::Issues
     private
 
     def before_perform(params)
-      wp_call = Bcf::WorkPackages::CreateService
+      wp_call = WorkPackages::CreateService
                 .new(user: user)
                 .call(params)
 
       issue_params = {
         work_package: wp_call.result
-      }
+      }.merge(params.slice(:stage, :labels, :index))
 
       super(issue_params)
     end

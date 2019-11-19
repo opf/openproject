@@ -52,7 +52,17 @@ module Bcf::API::V2_1
                   api_name: 'Topics',
                   params_modifier: ->(attributes) {
                     attributes[:project_id] = @project.id
+
+                    wp_attributes = Bcf::Issues::TransformAttributesService
+                                    .new
+                                    .call(attributes)
+                                    .result
+
                     attributes
+                      .slice(:stage,
+                             :index,
+                             :labels)
+                      .merge(wp_attributes)
                   })
              .mount
 

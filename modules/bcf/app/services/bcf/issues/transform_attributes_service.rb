@@ -28,13 +28,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Bcf::WorkPackages
-  class SetAttributesService < ::WorkPackages::SetAttributesService
-    private
-
-    def set_attributes(attributes)
-      super(work_package_attributes(attributes))
+module Bcf::Issues
+  class TransformAttributesService
+    def call(attributes)
+      ServiceResult.new success: true,
+                        result: work_package_attributes(attributes)
     end
+
+    private
 
     def author(project, attributes)
       find_user_in_project(project, attributes[:author]) || User.system
@@ -68,10 +69,6 @@ module Bcf::WorkPackages
                           errors: issue.errors,
                           result: issue
       end
-    end
-
-    def start_date(attributes)
-      extractor.creation_date.to_date unless is_update
     end
 
     ##

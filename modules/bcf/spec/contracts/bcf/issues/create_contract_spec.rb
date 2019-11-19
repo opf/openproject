@@ -33,15 +33,12 @@ describe Bcf::Issues::CreateContract do
   it_behaves_like 'issues contract' do
     let(:issue) do
       Bcf::Issue.new(uuid: issue_uuid,
-                     work_package: issue_work_package)
+                     work_package: issue_work_package,
+                     stage: issue_stage,
+                     index: issue_index,
+                     labels: issue_labels)
     end
     let(:permissions) { [:manage_bcf] }
-    let!(:allowed_to) do
-      allow(current_user)
-        .to receive(:allowed_to?) do |permission, project|
-        permissions.include?(permission) && project == project
-      end
-    end
 
     subject(:contract) { described_class.new(issue, current_user) }
   end

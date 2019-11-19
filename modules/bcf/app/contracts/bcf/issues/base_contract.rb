@@ -32,6 +32,9 @@ module Bcf::Issues
   class BaseContract < ::ModelContract
     attribute :uuid
     attribute :work_package
+    attribute :stage
+    attribute :labels
+    attribute :index
 
     def validate
       validate_user_allowed_to_manage

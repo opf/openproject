@@ -33,7 +33,24 @@ require_relative '../shared_examples'
 describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
-  let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package, type: FactoryBot.build_stubbed(:type)) }
+  let(:assignee) { FactoryBot.build_stubbed(:user) }
+  let(:creator) { FactoryBot.build_stubbed(:user) }
+  let(:modifier) { FactoryBot.build_stubbed(:user) }
+  let(:first_journal) { FactoryBot.build_stubbed(:journal, version: 1, user: creator) }
+  let(:last_journal) { FactoryBot.build_stubbed(:journal, version: 2, user: modifier) }
+  let(:journals) { [first_journal, last_journal] }
+  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:status) { FactoryBot.build_stubbed(:status) }
+  let(:work_package) do
+    FactoryBot.build_stubbed(:stubbed_work_package,
+                             assigned_to: assignee,
+                             status: status,
+                             type: type).tap do |wp|
+      allow(wp)
+        .to receive(:journals)
+        .and_return(journals)
+    end
+  end
   let(:issue) { FactoryBot.build_stubbed(:bcf_issue, work_package: work_package) }
 
   let(:instance) { described_class.new(issue) }
@@ -50,14 +67,14 @@ describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
 
     context 'topic_type' do
       it_behaves_like 'attribute' do
-        let(:value) { issue.type_text }
+        let(:value) { type.name }
         let(:path) { 'topic_type' }
       end
     end
 
     context 'topic_status' do
       it_behaves_like 'attribute' do
-        let(:value) { issue.status_text }
+        let(:value) { status.name }
         let(:path) { 'topic_status' }
       end
     end
@@ -71,14 +88,14 @@ describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
 
     context 'title' do
       it_behaves_like 'attribute' do
-        let(:value) { issue.title }
+        let(:value) { work_package.subject }
         let(:path) { 'title' }
       end
     end
 
     context 'index' do
       it_behaves_like 'attribute' do
-        let(:value) { issue.index_text }
+        let(:value) { issue.index }
         let(:path) { 'index' }
       end
     end
@@ -92,35 +109,35 @@ describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
 
     context 'creation_date' do
       it_behaves_like 'attribute' do
-        let(:value) { issue.creation_date_text }
+        let(:value) { work_package.created_at.iso8601 }
         let(:path) { 'creation_date' }
       end
     end
 
     context 'creation_author' do
       it_behaves_like 'attribute' do
-        let(:value) { issue.creation_author_text }
+        let(:value) { work_package.author.mail }
         let(:path) { 'creation_author' }
       end
     end
 
     context 'modified_date' do
       it_behaves_like 'attribute' do
-        let(:value) { issue.modified_date_text }
+        let(:value) { work_package.updated_at.iso8601 }
         let(:path) { 'modified_date' }
       end
     end
 
     context 'modified_author' do
       it_behaves_like 'attribute' do
-        let(:value) { issue.modified_author_text }
+        let(:value) { modifier.mail }
         let(:path) { 'modified_author' }
       end
     end
 
     context 'description' do
       it_behaves_like 'attribute' do
-        let(:value) { issue.description }
+        let(:value) { work_package.description }
         let(:path) { 'description' }
       end
     end
@@ -134,14 +151,14 @@ describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
 
     context 'assigned_to' do
       it_behaves_like 'attribute' do
-        let(:value) { issue.assignee_text }
+        let(:value) { work_package.assigned_to.mail }
         let(:path) { 'assigned_to' }
       end
     end
 
     context 'stage' do
       it_behaves_like 'attribute' do
-        let(:value) { issue.stage_text }
+        let(:value) { issue.stage }
         let(:path) { 'stage' }
       end
     end

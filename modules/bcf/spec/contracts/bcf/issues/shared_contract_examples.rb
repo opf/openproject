@@ -51,6 +51,9 @@ shared_examples_for 'issues contract' do
 
     id
   end
+  let(:issue_stage) { 'some stage' }
+  let(:issue_labels) { %w(some labels) }
+  let(:issue_index) { 8 }
 
   before do
     allow(issue)
@@ -94,5 +97,23 @@ shared_examples_for 'issues contract' do
     it 'is invalid' do
       expect_valid(false, base: %i(error_unauthorized))
     end
+  end
+
+  context 'if the stage is nil' do
+    let(:issue_stage) { nil }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'if labels is nil' do
+    let(:issue_labels) { nil }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'if index is nil' do
+    let(:issue_index) { nil }
+
+    it_behaves_like 'is valid'
   end
 end
