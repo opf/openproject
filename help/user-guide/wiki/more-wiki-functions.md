@@ -10,7 +10,7 @@ keywords: wiki settings
 
 # More wiki functions
 
-In the wiki you have more fuctions to edit or configure your wiki page, e.g. to export pages, rename pages, change parent page, view the table of contents and more.
+In the wiki you have more functions to edit or configure your wiki page, e.g. to export pages, rename pages, change parent page, view the table of contents and more.
 
 | Feature                                           | Documentation for                                            |
 | ------------------------------------------------- | ------------------------------------------------------------ |
@@ -38,7 +38,7 @@ Select the item **Lock** in the drop down menu.
 
 The page is now locked and cannot be edited by any other user. 
 
-To unlock a wiki page and make it possible to edit it again for users, select the **Unlock** item under the **More** button on top of a wiki page.
+To unlock a wiki page and make it possible for users to edit it again, select the **Unlock** item under the **More** button on top of a wiki page.
 
 ![unlock-wiki](unlock-wiki.png)
 

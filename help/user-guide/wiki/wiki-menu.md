@@ -9,7 +9,7 @@ keywords: wiki menu
 
 # Wiki project menu
 
-You can add a wiki page directly to the project menu as a separate menu item to have the pages easily accessiblefor all team members.
+You can add a wiki page directly to the project menu as a separate menu item to have the pages easily accessible for all team members.
 
 Wiki menu items are marked with the wiki icon to clearly identify the pages in the project menu.
 
@@ -25,7 +25,7 @@ To add a wiki page as a menu item to the project menu, select the **More** funct
 
 (1) You can give the menu item in the project menu a different name than the wiki page itself by changing the **Name of menu item** in the list.
 
-(2) You can set different **visibilty** options:
+(2) You can set different **visibility** options:
 
 - **Do not show this wikipage in the project navigation** will NOT display a separate menu item in the project navigation. The wiki page is just displayed within the wiki module itself.
 - **Show as menu item in project navigation** will add a separate menu item to the project navigation.
