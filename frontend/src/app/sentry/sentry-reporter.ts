@@ -78,7 +78,9 @@ export class SentryReporter implements ErrorReporter {
           debug: !environment.production,
           ignoreErrors: [
             // Transition movements,
-            'The transition has been superseded by a different transition'
+            'The transition has been superseded by a different transition',
+            // Uncaught promise rejections
+            'Uncaught (in promise)'
           ],
         });
 
