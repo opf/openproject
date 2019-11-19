@@ -29,31 +29,12 @@
 #++
 
 module Bcf::API::V2_1
-  class ProjectsAPI < ::API::OpenProjectAPI
-    resources :projects do
-      helpers do
-        def visible_projects
-          Project
-            .visible(current_user)
-            .has_module(:bcf)
-        end
-      end
+  module ProjectExtensions
+    class API < ::API::OpenProjectAPI
 
-      get &::Bcf::API::V2_1::Endpoints::Index.new(model: Project,
-                                                  scope: -> { visible_projects })
-                                             .mount
-
-      route_param :id, regexp: /\A(\d+)\z/ do
-        after_validation do
-          @project = visible_projects
-                     .find(params[:id])
-        end
-
-        get &::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
-        put &::Bcf::API::V2_1::Endpoints::Update.new(model: Project).mount
-
-        mount Bcf::API::V2_1::TopicsAPI
-        mount Bcf::API::V2_1::ProjectExtensions::API
+      get :extensions do
+        mapper = Definitions.new(project: @project, user: current_user)
+        Representer.new(mapper)
       end
     end
   end
