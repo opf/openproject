@@ -46,8 +46,13 @@ export class PreviewTriggerService {
       e.preventDefault();
       e.stopPropagation();
       const el = jQuery(e.target);
+      const href = el.attr('href');
 
-      this.previewModal = this.opModalService.show(WpPreviewModal, this.injector, { workPackageLink: el.attr("href") });
+      if (!href) {
+        return;
+      }
+
+      this.previewModal = this.opModalService.show(WpPreviewModal, this.injector, { workPackageLink: href });
       this.modalElement = this.previewModal.elementRef.nativeElement;
       jQuery(this.modalElement).position({
         my: 'left top',
