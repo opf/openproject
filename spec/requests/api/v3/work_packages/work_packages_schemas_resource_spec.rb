@@ -209,7 +209,8 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
                        'visibility': 'default',
                        'required': false,
                        'hasDefault': false,
-                       'writable': false }
+                       'writable': false,
+                       'options': {} }
           expect(subject.body).to be_json_eql(expected.to_json).at_path('estimatedTime')
         end
       end
