@@ -27,9 +27,9 @@
 #++
 
 shared_examples_for 'bcf api successful response' do
-  it 'responds 200 OK' do
+  it 'has a successful status' do
     expect(subject.status)
-      .to eql 200
+      .to eql(defined?(expected_status) ? expected_status : 200)
   end
 
   it 'returns the resource' do

@@ -156,9 +156,7 @@ module OpenProject::Bcf::BcfXml
                                                                 .merge(send_notifications: false)
                                                                 .symbolize_keys)
 
-      if call.success?
-        force_overwrite(call.result)
-      end
+      force_overwrite(call.result) if call.success?
 
       call
     end

@@ -38,12 +38,17 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
   let(:view_only_user) do
     FactoryBot.create(:user,
                       member_in_project: project,
-                      member_with_permissions: [:view_linked_issues])
+                      member_with_permissions: %i[view_linked_issues view_work_packages])
   end
   let(:only_member_user) do
     FactoryBot.create(:user,
                       member_in_project: project,
                       member_with_permissions: [])
+  end
+  let(:edit_member_user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: %i[manage_bcf add_work_packages view_linked_issues])
   end
   let(:non_member_user) do
     FactoryBot.create(:user)
@@ -51,7 +56,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
   let(:project) do
     FactoryBot.create(:project,
-                      enabled_module_names: [:bcf])
+                      enabled_module_names: %i[bcf work_package_tracking])
   end
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:bcf_issue) { FactoryBot.create(:bcf_issue, work_package: work_package) }
@@ -163,6 +168,62 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       let(:current_user) { only_member_user }
 
       it_behaves_like 'bcf api not allowed response'
+    end
+  end
+
+  describe 'POST /api/bcf/2.1/projects/:project_id/topics' do
+    let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics" }
+    let(:current_user) { edit_member_user }
+    let(:type) do
+      FactoryBot.create(:type).tap do |t|
+        project.types << t
+      end
+    end
+    let(:status) do
+      FactoryBot.create(:status)
+    end
+    let!(:default_status) do
+      FactoryBot.create(:default_status)
+    end
+    let!(:priority) do
+      FactoryBot.create(:priority)
+    end
+    let!(:default_priority) do
+      FactoryBot.create(:default_priority)
+    end
+    let(:params) do
+      {
+        topic_type: type.name,
+        topic_status: status.name,
+        title: 'BCF topic 101',
+        labels: [],
+        assigned_to: view_only_user
+      }
+    end
+
+    before do
+      login_as(current_user)
+      post path, params.to_json
+    end
+
+    it_behaves_like 'bcf api successful response' do
+      let(:expected_status) { 201 }
+      let(:expected_body) do
+        issue = Bcf::Issue.last
+        work_package = WorkPackage.last
+
+        {
+          guid: issue.uuid,
+          topic_type: type.name,
+          topic_status: status.name,
+          title: 'BCF topic 101',
+          labels: [],
+          reference_links: [
+            api_v3_paths.work_package(work_package.id)
+          ],
+          assigned_to: view_only_user.name
+        }
+      end
     end
   end
 end

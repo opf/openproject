@@ -56,11 +56,11 @@
     @path = path + ' > *'
   end
 
-  should_message = -> (actual) do
+  should_message = ->(actual) do
     ['expected:', expected.to_s, 'got:', actual.to_s].join("\n")
   end
 
-  should_not_message = -> (actual) do
+  should_not_message = ->(actual) do
     ['expected:', actual.to_s, 'not to be equivalent to:', expected.to_s].join("\n")
   end
 

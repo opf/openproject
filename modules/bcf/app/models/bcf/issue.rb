@@ -9,6 +9,8 @@ module Bcf
 
     after_update :invalidate_markup_cache
 
+    validates :work_package, presence: true
+
     class << self
       def with_markup
         select '*',

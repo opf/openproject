@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,16 +25,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Bcf::API::V2_1::Endpoints
-  class Update < API::Utilities::Endpoints::Update
-    include ModifyMixin
+module Bcf::Issues
+  class CreateService < ::BaseServices::Create
+    private
 
-    def present_success(_current_user, call)
-      render_representer
-        .new(call.result)
+    def before_perform(params)
+      wp_call = Bcf::WorkPackages::CreateService
+                .new(user: user)
+                .call(params)
+
+      issue_params = {
+        work_package: wp_call.result
+      }
+
+      super(issue_params)
     end
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,44 +26,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bcf::API::V2_1
-  class TopicsAPI < ::API::OpenProjectAPI
-    resources :topics do
-      helpers do
-        def topics
-          Bcf::Issue.of_project(@project)
-        end
-      end
+require 'spec_helper'
+require_relative './shared_contract_examples'
 
-      after_validation do
-        authorize :view_linked_issues, context: @project
-      end
-
-      get &::Bcf::API::V2_1::Endpoints::Index
-             .new(model: Bcf::Issue,
-                  api_name: 'Topics',
-                  scope: -> { topics })
-             .mount
-
-      post &::Bcf::API::V2_1::Endpoints::Create
-             .new(model: Bcf::Issue,
-                  api_name: 'Topics',
-                  params_modifier: ->(attributes) {
-                    attributes[:project_id] = @project.id
-                    attributes
-                  })
-             .mount
-
-      route_param :uuid, regexp: /\A[a-f0-9\-]+\z/ do
-        after_validation do
-          @issue = topics.find_by_uuid!(params[:uuid])
-        end
-
-        get &::Bcf::API::V2_1::Endpoints::Show
-              .new(model: Bcf::Issue,
-                   api_name: 'Topics')
-              .mount
+describe Bcf::Issues::CreateContract do
+  it_behaves_like 'issues contract' do
+    let(:issue) do
+      Bcf::Issue.new(uuid: issue_uuid,
+                     work_package: issue_work_package)
+    end
+    let(:permissions) { [:manage_bcf] }
+    let!(:allowed_to) do
+      allow(current_user)
+        .to receive(:allowed_to?) do |permission, project|
+        permissions.include?(permission) && project == project
       end
     end
+
+    subject(:contract) { described_class.new(issue, current_user) }
   end
 end

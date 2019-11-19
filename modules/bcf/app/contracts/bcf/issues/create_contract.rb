@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,16 +23,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Bcf::API::V2_1::Endpoints
-  class Update < API::Utilities::Endpoints::Update
-    include ModifyMixin
+module Bcf::Issues
+  class CreateContract < BaseContract
+    private
 
-    def present_success(_current_user, call)
-      render_representer
-        .new(call.result)
+    def validate_user_allowed_to_manage
+      unless model.project && user.allowed_to?(:manage_bcf, model.project)
+        errors.add :base, :error_unauthorized
+      end
     end
   end
 end

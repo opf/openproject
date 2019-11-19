@@ -28,44 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bcf::API::V2_1
-  class TopicsAPI < ::API::OpenProjectAPI
-    resources :topics do
-      helpers do
-        def topics
-          Bcf::Issue.of_project(@project)
-        end
-      end
+module Bcf::API::V2_1::Endpoints
+  module ModifyMixin
+    private
 
-      after_validation do
-        authorize :view_linked_issues, context: @project
-      end
-
-      get &::Bcf::API::V2_1::Endpoints::Index
-             .new(model: Bcf::Issue,
-                  api_name: 'Topics',
-                  scope: -> { topics })
-             .mount
-
-      post &::Bcf::API::V2_1::Endpoints::Create
-             .new(model: Bcf::Issue,
-                  api_name: 'Topics',
-                  params_modifier: ->(attributes) {
-                    attributes[:project_id] = @project.id
-                    attributes
-                  })
-             .mount
-
-      route_param :uuid, regexp: /\A[a-f0-9\-]+\z/ do
-        after_validation do
-          @issue = topics.find_by_uuid!(params[:uuid])
-        end
-
-        get &::Bcf::API::V2_1::Endpoints::Show
-              .new(model: Bcf::Issue,
-                   api_name: 'Topics')
-              .mount
-      end
+    def deduce_parse_service
+      Bcf::API::V2_1::ParseResourceParamsService
     end
+
+    def deduce_in_and_out_representer
+      "::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
+    end
+
+    alias_method :deduce_parse_representer, :deduce_in_and_out_representer
+    alias_method :deduce_render_representer, :deduce_in_and_out_representer
   end
 end

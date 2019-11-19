@@ -28,44 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bcf::API::V2_1
-  class TopicsAPI < ::API::OpenProjectAPI
-    resources :topics do
-      helpers do
-        def topics
-          Bcf::Issue.of_project(@project)
-        end
-      end
+module Bcf::API::V2_1::Endpoints
+  class Create < API::Utilities::Endpoints::Create
+    include ModifyMixin
 
-      after_validation do
-        authorize :view_linked_issues, context: @project
-      end
+    def present_success(_current_user, call)
+      render_representer
+        .new(call.result)
+    end
 
-      get &::Bcf::API::V2_1::Endpoints::Index
-             .new(model: Bcf::Issue,
-                  api_name: 'Topics',
-                  scope: -> { topics })
-             .mount
+    private
 
-      post &::Bcf::API::V2_1::Endpoints::Create
-             .new(model: Bcf::Issue,
-                  api_name: 'Topics',
-                  params_modifier: ->(attributes) {
-                    attributes[:project_id] = @project.id
-                    attributes
-                  })
-             .mount
-
-      route_param :uuid, regexp: /\A[a-f0-9\-]+\z/ do
-        after_validation do
-          @issue = topics.find_by_uuid!(params[:uuid])
-        end
-
-        get &::Bcf::API::V2_1::Endpoints::Show
-              .new(model: Bcf::Issue,
-                   api_name: 'Topics')
-              .mount
-      end
+    def deduce_process_service
+      "::Bcf::#{deduce_backend_namespace}::#{update_or_create}Service".constantize
     end
   end
 end
