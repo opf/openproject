@@ -131,4 +131,18 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
       it_behaves_like 'bcf api not found response'
     end
   end
+
+  describe 'GET /api/bcf/2.1/projects/:project_id/topics/:uuid/viewpoints/:uuid/bitmaps' do
+    let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints/#{viewpoint.uuid}/bitmaps" }
+    let(:current_user) { view_only_user }
+
+    before do
+      login_as(current_user)
+      get path
+    end
+
+    it_behaves_like 'bcf api not implemented response' do
+      let(:expected_message) { 'Bitmaps are not yet implemented.' }
+    end
+  end
 end

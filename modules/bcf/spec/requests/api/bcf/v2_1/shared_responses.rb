@@ -105,3 +105,16 @@ shared_examples_for 'bcf api unprocessable response' do
       .to eql 'application/json; charset=utf-8'
   end
 end
+
+shared_examples_for 'bcf api not implemented response' do
+  it 'responds 501 not implemented', :aggregate_failures do
+    expect(subject.status).to eql 501
+
+    expected = {
+      message: expected_message
+    }
+
+    expect(subject.body).to be_json_eql(expected.to_json)
+    expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8'
+  end
+end
