@@ -16,9 +16,6 @@ ru:
   webhooks:
     singular: Вебхук
     plural: Вебхуки
-    resources:
-      time_entry:
-        name: "Time entry"
     outgoing:
       no_results_table: Вебхуки еще не определены.
       label_add_new: Добавить новый вебхук
