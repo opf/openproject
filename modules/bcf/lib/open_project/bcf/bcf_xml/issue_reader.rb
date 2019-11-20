@@ -26,7 +26,6 @@ module OpenProject::Bcf::BcfXml
     def extract!
       @doc = extractor.doc
 
-      treat_empty_titles
       treat_unknown_types
       treat_unknown_statuses
       treat_unknown_priorities
@@ -50,15 +49,6 @@ module OpenProject::Bcf::BcfXml
     end
 
     private
-
-    ##
-    # BCF issues might have empty titles. OP needs one.
-    def treat_empty_titles
-      title_node = @doc.xpath('/Markup/Topic/Title').first
-      return if title_node&.content&.present?
-
-      title_node.content = "(Imported BCF issue contained no title)"
-    end
 
     ##
     # Handle unknown types during import
@@ -152,9 +142,7 @@ module OpenProject::Bcf::BcfXml
     end
 
     def create_work_package
-      call = WorkPackages::CreateService.new(user: user).call(work_package_attributes
-                                                                .merge(send_notifications: false)
-                                                                .symbolize_keys)
+      call = WorkPackages::CreateService.new(user: user).call(work_package_attributes)
 
       force_overwrite(call.result) if call.success?
 
@@ -165,62 +153,43 @@ module OpenProject::Bcf::BcfXml
       find_user_in_project(extractor.author) || User.system
     end
 
-    def assignee
-      find_user_in_project(extractor.assignee)
-    end
-
-    def type
-      type_name = extractor.type
-      type = ::Type.find_by(name: type_name)
-
-      return type if type.present?
-
-      return ::Type.default&.first if import_options[:unknown_types_action] == 'default'
-
-      if import_options[:unknown_types_action] == 'chose' &&
-         import_options[:unknown_types_chose_ids].any?
-        return ::Type.find_by(id: import_options[:unknown_types_chose_ids].first)
-      else
-        ServiceResult.new success: false,
-                          errors: issue.errors,
-                          result: issue
-      end
-    end
-
-    def start_date
-      extractor.creation_date.to_date unless is_update
-    end
-
     def update_work_package
       if import_is_newer?
         WorkPackages::UpdateService
           .new(user: user, model: issue.work_package)
-          .call(work_package_attributes.merge(send_notifications: false).symbolize_keys)
+          .call(work_package_attributes)
       else
         import_is_outdated(issue)
       end
     end
 
-    ##
-    # Get mapped and raw attributes from MarkupExtractor
-    # and return all values that are non-nil
+    ###
+    ## Get mapped and raw attributes from MarkupExtractor
+    ## and return all values that are non-nil
     def work_package_attributes
-      {
-        # Fixed attributes we know
-        project: project,
-        type: type,
+      attributes = ::Bcf::Issues::TransformAttributesService
+                   .new
+                   .call(extractor_attributes)
+                   .result
+                   .merge(send_notifications: false, import_options: import_options)
+                   .symbolize_keys
 
-        # Native attributes from the extractor
-        subject: extractor.title,
+      attributes[:start_date] = extractor.creation_date.to_date unless is_update
+
+      attributes
+    end
+
+    def extractor_attributes
+      {
+        project_id: project.id,
+        type: extractor.type,
+        title: extractor.title,
         description: extractor.description,
         due_date: extractor.due_date,
-        start_date: start_date,
-
-        # Mapped attributes
-        assigned_to: assignee,
-        status_id: statuses.fetch(extractor.status, statuses[:default]),
-        priority_id: priorities.fetch(extractor.priority, priorities[:default])
-      }.compact
+        assignee: extractor.assignee,
+        status: extractor.status,
+        priority: extractor.priority
+      }
     end
 
     ##
@@ -398,20 +367,8 @@ module OpenProject::Bcf::BcfXml
 
     def update_journal_attributes(bcf_comment, comment_data)
       bcf_comment.journal.update(notes: comment_data[:comment],
-                                            created_at: comment_data[:modified_date])
+                                 created_at: comment_data[:modified_date])
       bcf_comment.journal.save
-    end
-
-    ##
-    # Keep a hash map of current status ids for faster lookup
-    def statuses
-      @statuses ||= Hash[Status.pluck(:name, :id)].merge(default: Status.default.id)
-    end
-
-    ##
-    # Keep a hash map of current status ids for faster lookup
-    def priorities
-      @priorities ||= Hash[IssuePriority.pluck(:name, :id)].merge(default: IssuePriority.default.try(:id))
     end
 
     def import_is_outdated(issue)

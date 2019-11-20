@@ -44,6 +44,7 @@ describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   let(:work_package) do
     FactoryBot.build_stubbed(:stubbed_work_package,
                              assigned_to: assignee,
+                             due_date: Date.today,
                              status: status,
                              type: type).tap do |wp|
       allow(wp)
@@ -144,7 +145,7 @@ describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
 
     context 'due_date' do
       it_behaves_like 'attribute' do
-        let(:value) { issue.due_date_text }
+        let(:value) { work_package.due_date.iso8601 }
         let(:path) { 'due_date' }
       end
     end

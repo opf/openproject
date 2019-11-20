@@ -37,6 +37,12 @@ module Bcf::Issues
 
     private
 
+    ##
+    # BCF issues might have empty titles. OP needs one.
+    def title(attributes)
+      attributes[:title] || '(Imported BCF issue contained no title)'
+    end
+
     def author(project, attributes)
       find_user_in_project(project, attributes[:author]) || User.system
     end
@@ -83,7 +89,7 @@ module Bcf::Issues
         type: type(attributes),
 
         # Native attributes from the extractor
-        subject: attributes[:title],
+        subject: title(attributes),
         description: attributes[:description],
         due_date: attributes[:due_date],
         start_date: attributes[:start_date],

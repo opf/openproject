@@ -202,6 +202,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
         labels: labels,
         stage: stage,
         index: index,
+        due_date: Date.today.iso8601,
         assigned_to: view_only_user.mail,
         description: description
       }
@@ -229,7 +230,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
             api_v3_paths.work_package(work_package.id)
           ],
           assigned_to: view_only_user.mail,
-          due_date: nil,
+          due_date: Date.today.iso8601,
           stage: stage,
           creation_author: edit_member_user.mail,
           creation_date: work_package.created_at.iso8601,

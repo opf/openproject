@@ -65,30 +65,26 @@ module Bcf::API::V2_1
 
     property :labels
 
-    property :creation_date_text,
-             as: :creation_date,
+    property :creation_date,
              getter: ->(decorator:, **) {
                decorator
                  .formatted_date_time(:created_at)
              }
 
-    property :creation_author_text,
-             as: :creation_author,
+    property :creation_author,
              getter: ->(*) {
                work_package
                  .author
                  .mail
              }
 
-    property :modified_date_text,
-             as: :modified_date,
+    property :modified_date,
              getter: ->(decorator:, **) {
                decorator
                  .formatted_date_time(:updated_at)
              }
 
-    property :modified_author_text,
-             as: :modified_author,
+    property :modified_author,
              getter: ->(*) {
                work_package
                  .journals
@@ -112,8 +108,19 @@ module Bcf::API::V2_1
                work_package.description
              }
 
-    property :due_date_text,
-             as: :due_date
+    property :due_date,
+             getter: ->(decorator:, **) {
+               decorator.datetime_formatter.format_date(work_package.due_date, allow_nil: true)
+             },
+             setter: ->(fragment:, decorator:, **) {
+               date = decorator
+                        .datetime_formatter
+                        .parse_date(fragment,
+                                    due_date,
+                                    allow_nil: true)
+
+               self.due_date = date
+             }
 
     def datetime_formatter
       ::API::V3::Utilities::DateTimeFormatter
