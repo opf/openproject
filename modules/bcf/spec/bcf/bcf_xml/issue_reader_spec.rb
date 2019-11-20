@@ -88,15 +88,13 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
   end
   let(:entry_stream) { StringIO.new(markup) }
   let(:import_options) { OpenProject::Bcf::BcfXml::Importer::DEFAULT_IMPORT_OPTIONS }
-  let(:aggregations) { OpenProject::Bcf::BcfXml::Aggregations.new([], project) }
 
   subject do
     described_class.new(project,
                         nil,
                         entry,
                         current_user: bcf_manager,
-                        import_options: import_options,
-                        aggregations: aggregations)
+                        import_options: import_options)
   end
 
   before do
@@ -134,12 +132,6 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
       end
 
       context 'with no import options provided' do
-        let(:aggregations) do
-          Struct
-            .new(:unknown_statuses, :unknown_types, :unknown_priorities)
-            .new([nil], [nil], [nil])
-        end
-
         let(:bcf_issue) { subject.extract! }
 
         it 'sets a status' do

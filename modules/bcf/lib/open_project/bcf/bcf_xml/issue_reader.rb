@@ -6,10 +6,10 @@ require_relative 'file_entry'
 
 module OpenProject::Bcf::BcfXml
   class IssueReader
-    attr_reader :zip, :entry, :issue, :extractor, :project, :user, :import_options, :aggregations
+    attr_reader :zip, :entry, :issue, :extractor, :project, :user, :import_options
     attr_accessor :wp_last_updated_at, :is_update
 
-    def initialize(project, zip, entry, current_user:, import_options:, aggregations:)
+    def initialize(project, zip, entry, current_user:, import_options:)
       @zip = zip
       @entry = entry
       @project = project
@@ -17,22 +17,13 @@ module OpenProject::Bcf::BcfXml
       @issue = find_or_initialize_issue
       @extractor = MarkupExtractor.new(entry)
       @import_options = import_options
-      @aggregations = aggregations
-      @doc = nil
       @wp_last_updated_at = nil
       @is_update = false
     end
 
     def extract!
-      @doc = extractor.doc
+      markup = extractor.doc.to_xml(indent: 2)
 
-      treat_unknown_types
-      treat_unknown_statuses
-      treat_unknown_priorities
-
-      extractor.doc = @doc
-
-      markup = @doc.to_xml(indent: 2)
       issue.markup = markup
       extractor.markup = markup
 
@@ -49,73 +40,6 @@ module OpenProject::Bcf::BcfXml
     end
 
     private
-
-    ##
-    # Handle unknown types during import
-    def treat_unknown_types
-      if aggregations.unknown_types.present?
-        if import_options[:unknown_types_action] == 'use_default'
-          replace_type_with(::Type.default.first&.name)
-        elsif import_options[:unknown_types_action] == 'chose' && import_options[:unknown_types_chose_ids].any?
-          replace_type_with(::Type.find_by(id: import_options[:unknown_types_chose_ids].first)&.name)
-        else
-          raise StandardError.new 'Unknown topic type found in import. Use an existing type name.'
-        end
-      end
-    end
-
-    def replace_type_with(new_type_name)
-      raise StandardError.new "New type name can't be blank." unless new_type_name.present?
-
-      @doc.xpath('/Markup/Topic').first.set_attribute('TopicType', new_type_name)
-    end
-
-    ##
-    # Handle unknown statuses during import
-    def treat_unknown_statuses
-      if aggregations.unknown_statuses.present?
-        if import_options[:unknown_statuses_action] == 'use_default'
-          replace_status_with(::Status.default&.name)
-        elsif import_options[:unknown_statuses_action] == 'chose' && import_options[:unknown_statuses_chose_ids].any?
-          replace_status_with(::Status.find_by(id: import_options[:unknown_statuses_chose_ids].first)&.name)
-        else
-          raise StandardError.new 'Unknown topic status found in import. Use an existing status name.'
-        end
-      end
-    end
-
-    def replace_status_with(new_status_name)
-      raise StandardError.new "New status name can't be blank." unless new_status_name.present?
-
-      @doc.xpath('/Markup/Topic').first.set_attribute('TopicStatus', new_status_name)
-    end
-
-    ##
-    # Handle unknown priorities during import
-    def treat_unknown_priorities
-      if aggregations.unknown_priorities.present?
-        if import_options[:unknown_priorities_action] == 'use_default'
-          # NOP The 'use_default' case gets already covered by OP.
-        elsif import_options[:unknown_priorities_action] == 'chose' && import_options[:unknown_priorities_chose_ids].any?
-          replace_priorities_with(::IssuePriority.find_by(id: import_options[:unknown_priorities_chose_ids].first)&.name)
-        else
-          raise StandardError.new 'Unknown topic priority found in import. Use an existing priority name.'
-        end
-      end
-    end
-
-    def replace_priorities_with(new_priority_name)
-      raise StandardError.new "New priority name can't be blank." unless new_priority_name.present?
-
-      priority_node = @doc.xpath('/Markup/Topic/Priority').first
-      if priority_node
-        priority_node.content = new_priority_name
-      else
-        # Valid BCF XML Topics must have a Title node. So we can add the Priority node just behind it and thus,
-        # maintain the schema's sequence compliance.
-        @doc.at('/Markup/Topic/Title').after("<Priority>#{new_priority_name}</Priority>")
-      end
-    end
 
     def synchronize_with_work_package
       self.is_update = issue.work_package.present?
@@ -180,16 +104,15 @@ module OpenProject::Bcf::BcfXml
     end
 
     def extractor_attributes
-      {
-        project_id: project.id,
-        type: extractor.type,
-        title: extractor.title,
-        description: extractor.description,
-        due_date: extractor.due_date,
-        assignee: extractor.assignee,
-        status: extractor.status,
-        priority: extractor.priority
+      attributes = {
+        project_id: project.id
       }
+
+      %i(type title description due_date assignee status priority).each do |key|
+        attributes[key] = extractor.send(key)
+      end
+
+      attributes
     end
 
     ##

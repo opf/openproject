@@ -65,7 +65,9 @@ module Bcf::Issues
 
       import_options = attributes[:import_options]
 
-      return ::Type.default&.first if !import_options || import_options[:unknown_types_action] == 'default'
+      return unless import_options
+
+      return ::Type.default&.first if import_options[:unknown_types_action] == 'default'
 
       if import_options[:unknown_types_action] == 'chose' &&
          import_options[:unknown_types_chose_ids].any?
@@ -74,6 +76,45 @@ module Bcf::Issues
         ServiceResult.new success: false,
                           errors: issue.errors,
                           result: issue
+      end
+    end
+
+    ##
+    # Handle unknown statuses during import
+    def status(attributes)
+      status_name = attributes[:status]
+      status = ::Status.find_by(name: status_name)
+
+      return status if status.present?
+
+      import_options = attributes[:import_options]
+
+      return unless import_options
+
+      if import_options[:unknown_statuses_action] == 'use_default'
+        ::Status.default
+      elsif import_options[:unknown_statuses_action] == 'chose' &&
+            import_options[:unknown_statuses_chose_ids].any?
+        ::Status.find_by(id: import_options[:unknown_statuses_chose_ids].first)
+      end
+    end
+
+    ##
+    # Handle unknown priorities during import
+    def priority(attributes)
+      priority_name = attributes[:priority]
+      priority = ::IssuePriority.find_by(name: priority_name)
+
+      return priority if priority.present?
+
+      import_options = attributes[:import_options]
+
+      return unless import_options
+
+      if import_options[:unknown_priorities_action] == 'use_default'
+        # NOP The 'use_default' case gets already covered by OP.
+      elsif import_options[:unknown_priorities_action] == 'chose' && import_options[:unknown_priorities_chose_ids].any?
+        ::IssuePriority.find_by(id: import_options[:unknown_priorities_chose_ids].first)
       end
     end
 
@@ -96,21 +137,9 @@ module Bcf::Issues
 
         # Mapped attributes
         assigned_to: assignee(project, attributes),
-        status_id: statuses.fetch(attributes[:status], statuses[:default]),
-        priority_id: priorities.fetch(attributes[:priority], priorities[:default])
+        status: status(attributes),
+        priority: priority(attributes)
       }.compact
-    end
-
-    ##
-    # Keep a hash map of current status ids for faster lookup
-    def statuses
-      @statuses ||= Hash[Status.pluck(:name, :id)].merge(default: Status.default.id)
-    end
-
-    ##
-    # Keep a hash map of current status ids for faster lookup
-    def priorities
-      @priorities ||= Hash[IssuePriority.pluck(:name, :id)].merge(default: IssuePriority.default.try(:id))
     end
   end
 end
