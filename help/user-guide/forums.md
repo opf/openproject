@@ -1,13 +1,13 @@
 ---
 sidebar_navigation:
-  title: Forum
+  title: Forums
   priority: 820
 description: Create and manage a forum in OpenProject
 robots: index, follow
 keywords: forum
 ---
 
-# Forum
+# Forums
 
 In the forum in OpenProject you can discuss topics in a project with the team: post questions, comment on it and document answers.
 
