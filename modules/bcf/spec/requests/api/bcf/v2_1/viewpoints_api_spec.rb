@@ -104,36 +104,21 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
     end
   end
 
-  describe 'GET /api/bcf/2.1/projects/:project_id/topics/:uuid/viewpoints/:uuid/selection' do
-    let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints/#{viewpoint.uuid}/selection" }
-    let(:current_user) { view_only_user }
+  %w[selection coloring visibility].each do |section|
+    describe "GET /api/bcf/2.1/projects/:project_id/topics/:uuid/viewpoints/:uuid/#{section}" do
+      let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints/#{viewpoint.uuid}/#{section}" }
+      let(:current_user) { view_only_user }
 
-    before do
-      login_as(current_user)
-      bcf_issue
-      get path
-    end
-
-    it_behaves_like 'bcf api successful response' do
-      let(:expected_body) do
-        { selection: viewpoint_json.dig('components', 'selection') }
+      before do
+        login_as(current_user)
+        bcf_issue
+        get path
       end
-    end
-  end
 
-  describe 'GET /api/bcf/2.1/projects/:project_id/topics/:uuid/viewpoints/:uuid/coloring' do
-    let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints/#{viewpoint.uuid}/coloring" }
-    let(:current_user) { view_only_user }
-
-    before do
-      login_as(current_user)
-      bcf_issue
-      get path
-    end
-
-    it_behaves_like 'bcf api successful response' do
-      let(:expected_body) do
-        { coloring: viewpoint_json.dig('components', 'coloring') }
+      it_behaves_like 'bcf api successful response' do
+        let(:expected_body) do
+          { section => viewpoint_json.dig('components', section) }
+        end
       end
     end
   end

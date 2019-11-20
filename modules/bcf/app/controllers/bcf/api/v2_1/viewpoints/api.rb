@@ -56,6 +56,10 @@ module Bcf::API::V2_1
             SlicedRepresenter.new(@viewpoint, slice: %w[components coloring])
           end
 
+          get :visibility do
+            SlicedRepresenter.new(@viewpoint, slice: %w[components visibility])
+          end
+
           get :bitmaps do
             raise NotImplementedError, 'Bitmaps are not yet implemented.'
           end

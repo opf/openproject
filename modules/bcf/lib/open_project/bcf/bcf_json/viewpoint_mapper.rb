@@ -40,6 +40,7 @@ module OpenProject::Bcf
         %i[
           remove_keys
           transform_keys
+          set_uuid
           transform_perspective_camera
           transform_orthogonal_camera
           transform_lines
@@ -53,6 +54,10 @@ module OpenProject::Bcf
       def remove_keys(hash)
         hash.delete 'xmlns:xsi'
         hash.delete 'xmlns:xsd'
+      end
+
+      def set_uuid(hash)
+        hash['guid'] = resource.uuid
       end
 
       def transform_keys(hash)
