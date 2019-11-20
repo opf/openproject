@@ -40,7 +40,7 @@ module Bcf::API::V2_1
 
         route_param :viewpoint_uuid, regexp: /\A[a-f0-9\-]+\z/ do
           after_validation do
-            @viewpoint = @issue.viewpoints.find_by_uuid!(params[:viewpoint_uuid])
+            @viewpoint = @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid])
           end
 
           get &::Bcf::API::V2_1::Endpoints::Show
@@ -49,7 +49,11 @@ module Bcf::API::V2_1
             .mount
 
           get :selection do
-            SelectionRepresenter.new(@viewpoint)
+            SlicedRepresenter.new(@viewpoint, slice: %w[components selection])
+          end
+
+          get :coloring do
+            SlicedRepresenter.new(@viewpoint, slice: %w[components coloring])
           end
 
           get :bitmaps do

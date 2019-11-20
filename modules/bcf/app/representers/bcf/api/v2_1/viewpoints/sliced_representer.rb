@@ -30,9 +30,19 @@
 
 module Bcf::API::V2_1
   module Viewpoints
-    class SelectionRepresenter < SingleRepresenter
+    class SlicedRepresenter < SingleRepresenter
+      attr_reader :slice, :key
+
+      def initialize(represented, slice:, key:nil)
+        super(represented)
+        @key = key || slice.last
+        @slice = slice
+      end
+
       def to_hash
-        { selection: super.dig('components', 'selection') }
+        {
+          key => super.dig(*slice)
+        }
       end
     end
   end
