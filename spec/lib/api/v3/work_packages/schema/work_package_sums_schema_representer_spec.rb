@@ -65,7 +65,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
       it 'is represented' do
         expected = { 'type': 'Duration',
                      'name': 'Estimated time',
-                     'visibility': 'default',
                      'required': false,
                      'hasDefault': false,
                      'writable': false,
@@ -91,7 +90,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
       it 'is represented' do
         expected = { 'type': 'Integer',
                      'name': custom_field.name,
-                     'visibility': 'default',
                      'required': false,
                      'hasDefault': false,
                      'writable': false,

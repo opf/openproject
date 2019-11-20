@@ -40,7 +40,6 @@ module API
                                          writable: true,
                                          has_default: false,
                                          required: true,
-                                         visibility: false,
                                          values_callback: ->(*) {
                                            represented.custom_field.custom_options
                                          },
