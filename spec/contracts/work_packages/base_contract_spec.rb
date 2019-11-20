@@ -174,12 +174,25 @@ describe WorkPackages::BaseContract do
         before do
           allow(work_package)
             .to receive(:status_id_change)
-            .and_return [1,2]
+            .and_return [1, 2]
         end
 
         it 'is writable' do
           expect(contract.writable?(:status)).to be_truthy
         end
+      end
+    end
+
+    context 'is an inexistent status' do
+      before do
+        work_package.status = Status::InexistentStatus.new
+      end
+
+      it 'is invalid' do
+        contract.validate
+
+        expect(subject.errors.symbols_for(:status))
+          .to match_array [:does_not_exist]
       end
     end
   end
@@ -521,6 +534,34 @@ describe WorkPackages::BaseContract do
         end
       end
     end
+
+    context 'inexistent type' do
+      before do
+        work_package.type = Type::InexistentType.new
+
+        contract.validate
+      end
+
+      it 'is invalid' do
+        expect(contract.errors.symbols_for(:type))
+          .to match_array [:does_not_exist]
+      end
+    end
+  end
+
+  context 'assigned_to' do
+    context 'inexistent user' do
+      before do
+        work_package.assigned_to = User::InexistentUser.new
+
+        contract.validate
+      end
+
+      it 'is invalid' do
+        expect(contract.errors.symbols_for(:assigned_to))
+          .to match_array [:does_not_exist]
+      end
+    end
   end
 
   describe 'category' do
@@ -628,6 +669,19 @@ describe WorkPackages::BaseContract do
       it 'is valid' do
         expect(contract.errors.symbols_for(:priority_id))
           .to be_empty
+      end
+    end
+
+    context 'inexistent priority' do
+      before do
+        work_package.priority = Priority::InexistentPriority.new
+
+        contract.validate
+      end
+
+      it 'is invalid' do
+        expect(contract.errors.symbols_for(:priority))
+          .to match_array [:does_not_exist]
       end
     end
   end

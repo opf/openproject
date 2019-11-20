@@ -90,6 +90,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
             "guid": bcf_issue.uuid,
             "index": bcf_issue.index,
             "labels": bcf_issue.labels,
+            "priority": work_package.priority.name,
             "modified_author": current_user.mail,
             "modified_date": work_package.updated_at.iso8601,
             "reference_links": [
@@ -138,6 +139,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
           "guid": bcf_issue.uuid,
           "index": bcf_issue.index,
           "labels": bcf_issue.labels,
+          "priority": work_package.priority.name,
           "modified_author": current_user.mail,
           "modified_date": work_package.updated_at.iso8601,
           "reference_links": [
@@ -294,7 +296,67 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
       it_behaves_like 'bcf api unprocessable response' do
         let(:message) do
-          "Title can't be blank"
+          "Title can't be blank."
+        end
+      end
+    end
+
+    context 'with an inexistent status' do
+      let(:params) do
+        {
+          title: 'Some title',
+          topic_status: 'Some non existing status'
+        }
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) do
+          "Status does not exist."
+        end
+      end
+    end
+
+    context 'with an inexistent priority' do
+      let(:params) do
+        {
+          title: 'Some title',
+          priority: 'Some non existing priority'
+        }
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) do
+          "Priority does not exist."
+        end
+      end
+    end
+
+    context 'with an inexistent type' do
+      let(:params) do
+        {
+          title: 'Some title',
+          topic_type: 'Some non existing type'
+        }
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) do
+          "Type does not exist."
+        end
+      end
+    end
+
+    context 'with an inexistent assigned_to' do
+      let(:params) do
+        {
+          title: 'Some title',
+          assigned_to: 'Some non existing assignee'
+        }
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) do
+          "Assignee does not exist."
         end
       end
     end

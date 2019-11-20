@@ -52,7 +52,13 @@ module Bcf::Issues
     end
 
     def assignee(project, attributes)
-      find_user_in_project(project, attributes[:assignee])
+      assignee = find_user_in_project(project, attributes[:assignee])
+
+      return assignee if assignee.present?
+
+      if attributes[:assignee]
+        User::InexistentUser.new
+      end
     end
 
     ##
@@ -67,16 +73,7 @@ module Bcf::Issues
 
       return type if type.present?
 
-      import_options = attributes[:import_options]
-
-      return unless import_options
-
-      if import_options[:unknown_types_action] == 'default'
-        ::Type.default&.first
-      elsif import_options[:unknown_types_action] == 'chose' &&
-            import_options[:unknown_types_chose_ids].any?
-        ::Type.find_by(id: import_options[:unknown_types_chose_ids].first)
-      end
+      missing_type(type_name, attributes[:import_options] || {})
     end
 
     ##
@@ -87,16 +84,7 @@ module Bcf::Issues
 
       return status if status.present?
 
-      import_options = attributes[:import_options]
-
-      return unless import_options
-
-      if import_options[:unknown_statuses_action] == 'use_default'
-        ::Status.default
-      elsif import_options[:unknown_statuses_action] == 'chose' &&
-            import_options[:unknown_statuses_chose_ids].any?
-        ::Status.find_by(id: import_options[:unknown_statuses_chose_ids].first)
-      end
+      missing_status(status_name, attributes[:import_options] || {})
     end
 
     ##
@@ -107,16 +95,7 @@ module Bcf::Issues
 
       return priority if priority.present?
 
-      import_options = attributes[:import_options]
-
-      return unless import_options
-
-      if import_options[:unknown_priorities_action] == 'use_default'
-        # NOP The 'use_default' case gets already covered by OP.
-      elsif import_options[:unknown_priorities_action] == 'chose' &&
-            import_options[:unknown_priorities_chose_ids].any?
-        ::IssuePriority.find_by(id: import_options[:unknown_priorities_chose_ids].first)
-      end
+      missing_priority(priority_name, attributes[:import_options] || {})
     end
 
     ##
@@ -141,6 +120,39 @@ module Bcf::Issues
         status: status(attributes),
         priority: priority(attributes)
       }.compact
+    end
+
+    def missing_status(status_name, import_options)
+      if import_options[:unknown_statuses_action] == 'use_default'
+        ::Status.default
+      elsif import_options[:unknown_statuses_action] == 'chose' &&
+            import_options[:unknown_statuses_chose_ids].any?
+        ::Status.find_by(id: import_options[:unknown_statuses_chose_ids].first)
+      elsif status_name
+        Status::InexistentStatus.new
+      end
+    end
+
+    def missing_priority(priority_name, import_options)
+      if import_options[:unknown_priorities_action] == 'use_default'
+        # NOP The 'use_default' case gets already covered by OP.
+      elsif import_options[:unknown_priorities_action] == 'chose' &&
+            import_options[:unknown_priorities_chose_ids].any?
+        ::IssuePriority.find_by(id: import_options[:unknown_priorities_chose_ids].first)
+      elsif priority_name
+        Priority::InexistentPriority.new
+      end
+    end
+
+    def missing_type(type_name, import_options)
+      if import_options[:unknown_types_action] == 'default'
+        ::Type.default&.first
+      elsif import_options[:unknown_types_action] == 'chose' &&
+            import_options[:unknown_types_chose_ids].any?
+        ::Type.find_by(id: import_options[:unknown_types_chose_ids].first)
+      elsif type_name
+        Type::InexistentType.new
+      end
     end
   end
 end
