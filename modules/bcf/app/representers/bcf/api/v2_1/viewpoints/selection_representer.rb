@@ -30,17 +30,9 @@
 
 module Bcf::API::V2_1
   module Viewpoints
-    class SingleRepresenter
-      attr_reader :represented
-
-      def initialize(represented)
-        @represented = represented
-      end
-
+    class SelectionRepresenter < SingleRepresenter
       def to_hash
-        # Uses mapper to avoid saving JSON for now.
-        # We will likely want a migration to move away from XML and render viewpoint JSON directly
-        ::OpenProject::Bcf::BcfJson::ViewpointMapper.new(represented).result
+        { selection: super.dig('components', 'selection') }
       end
     end
   end

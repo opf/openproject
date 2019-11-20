@@ -29,39 +29,43 @@
 #++
 
 module Bcf::API::V2_1
-  class ViewpointsAPI < ::API::OpenProjectAPI
-    resources :viewpoints do
-      get &::Bcf::API::V2_1::Endpoints::Index
-             .new(model: Bcf::Viewpoint,
-                  api_name: 'Viewpoints',
-                  scope: -> { @issue.viewpoints })
-             .mount
+  module Viewpoints
+    class API < ::API::OpenProjectAPI
+      resources :viewpoints do
+        get &::Bcf::API::V2_1::Endpoints::Index
+          .new(model: Bcf::Viewpoint,
+               api_name: 'Viewpoints',
+               scope: -> { @issue.viewpoints })
+          .mount
 
-      route_param :viewpoint_uuid, regexp: /\A[a-f0-9\-]+\z/ do
-        after_validation do
-          @viewpoint = @issue.viewpoints.find_by_uuid!(params[:viewpoint_uuid])
-        end
-
-        get &::Bcf::API::V2_1::Endpoints::Show
-              .new(model: Bcf::Viewpoint,
-                   api_name: 'Viewpoints')
-              .mount
-
-        namespace :snapshot do
-          helpers ::API::Helpers::AttachmentRenderer
-
-          get do
-            if snapshot = @viewpoint.snapshot
-              respond_with_attachment snapshot
-            else
-              raise ActiveRecord::RecordNotFound
-            end
+        route_param :viewpoint_uuid, regexp: /\A[a-f0-9\-]+\z/ do
+          after_validation do
+            @viewpoint = @issue.viewpoints.find_by_uuid!(params[:viewpoint_uuid])
           end
-        end
 
-        namespace :bitmaps do
-          get do
+          get &::Bcf::API::V2_1::Endpoints::Show
+            .new(model: Bcf::Viewpoint,
+                 api_name: 'Viewpoints')
+            .mount
+
+          get :selection do
+            SelectionRepresenter.new(@viewpoint)
+          end
+
+          get :bitmaps do
             raise NotImplementedError, 'Bitmaps are not yet implemented.'
+          end
+
+          namespace :snapshot do
+            helpers ::API::Helpers::AttachmentRenderer
+
+            get do
+              if snapshot = @viewpoint.snapshot
+                respond_with_attachment snapshot
+              else
+                raise ActiveRecord::RecordNotFound
+              end
+            end
           end
         end
       end

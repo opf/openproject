@@ -57,7 +57,7 @@ module Bcf::API::V2_1
                    api_name: 'Topics')
               .mount
 
-        mount Bcf::API::V2_1::ViewpointsAPI
+        mount Bcf::API::V2_1::Viewpoints::API
       end
     end
   end
