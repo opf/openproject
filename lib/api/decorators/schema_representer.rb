@@ -62,7 +62,6 @@ module API
                    attribute_group: nil,
                    min_length: nil,
                    max_length: nil,
-                   regular_expression: nil,
                    options: {},
                    show_if: true)
           getter = ->(*) do
@@ -75,7 +74,6 @@ module API
                                    attribute_group,
                                    min_length,
                                    max_length,
-                                   regular_expression,
                                    options)
           end
 
@@ -288,7 +286,6 @@ module API
                                  attribute_group,
                                  min_length,
                                  max_length,
-                                 regular_expression,
                                  options)
         name = call_or_translate(name_source)
         schema = ::API::Decorators::PropertySchemaRepresenter
@@ -301,7 +298,6 @@ module API
                       attribute_group: call_or_use(attribute_group))
         schema.min_length = min_length
         schema.max_length = max_length
-        schema.regular_expression = regular_expression
         schema.options = options
 
         schema

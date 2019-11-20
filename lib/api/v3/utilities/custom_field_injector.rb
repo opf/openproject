@@ -188,7 +188,6 @@ module API
                         writable: writable,
                         min_length: cf_min_length(custom_field),
                         max_length: cf_max_length(custom_field),
-                        regular_expression: cf_regexp(custom_field),
                         options: cf_options(custom_field)
         end
 
@@ -318,12 +317,9 @@ module API
           custom_field.max_length if custom_field.max_length.positive?
         end
 
-        def cf_regexp(custom_field)
-          custom_field.regexp unless custom_field.regexp.blank?
-        end
-
         def cf_options(custom_field)
           {
+            regular_expression: custom_field.regexp || '',
             rtl: ("true" if custom_field.content_right_to_left)
           }
         end
