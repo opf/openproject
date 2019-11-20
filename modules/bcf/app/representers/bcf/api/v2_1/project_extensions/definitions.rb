@@ -34,31 +34,28 @@ module Bcf::API::V2_1
       def initialize(project:, user:)
         @project = project
         @user = user
-        @allowed_service = ::Authorization::UserAllowedService.new(user)
       end
 
       def topic_type
-        OpenProject::Cache.fetch(project, :topic_type) do
-          project.types.pluck(:name)
-        end
+        project.types.pluck(:name)
       end
 
-      # TODO: This returns all statuses regardless of workflow
       def topic_status
-        OpenProject::Cache.fetch(Status.all.cache_key) do
-          Status.all.pluck(:name)
-        end
+        Type
+          .statuses(project.types.pluck(:id))
+          .or(Status.where_default)
+          .pluck(:name)
       end
 
       def priority
-        OpenProject::Cache.fetch(IssuePriority.all.cache_key) do
+        OpenProject::Cache.fetch(IssuePriority.all.cache_key, 'names') do
           IssuePriority.all.pluck(:name)
         end
       end
 
       def user_id_type
         if allowed?(:view_members)
-          project.users.pluck(:mail)
+          project.possible_assignees.pluck(:mail)
         else
           []
         end
@@ -88,26 +85,22 @@ module Bcf::API::V2_1
 
       def topic_actions
         if allowed?(:manage_bcf)
-          %w[update updateRelatedTopics updateFiles createComment createViewpoint]
+          %w[update updateRelatedTopics updateFiles createViewpoint]
         else
           []
         end
       end
 
       def comment_actions
-        if allowed?(:manage_bcf)
-          %w[update]
-        else
-          []
-        end
+        []
       end
 
       private
 
-      attr_reader :project, :user, :allowed_service
+      attr_reader :project, :user
 
       def allowed?(permission)
-        allowed_service.call(permission, project).result
+        user.allowed_to?(permission, project)
       end
     end
   end

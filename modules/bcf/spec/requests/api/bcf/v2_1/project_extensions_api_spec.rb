@@ -35,8 +35,9 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
   include Rack::Test::Methods
   shared_let(:type_task) { FactoryBot.create :type_task }
   shared_let(:status) { FactoryBot.create :default_status }
+  shared_let(:priority) { FactoryBot.create :default_priority }
   shared_let(:project) { FactoryBot.create(:project, enabled_module_names: [:bcf], types: [type_task]) }
-  subject(:response) { JSON.parse(last_response.body) }
+  subject(:response) { last_response }
 
   let(:path) { "/api/bcf/2.1/projects/#{project.id}/extensions" }
 
@@ -52,15 +53,21 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
       get path
     end
 
-    it 'outputs read-only data', :aggregate_failures do
-      expect(response['topic_type']).to include type_task.name
-      expect(response['topic_status']).to include status.name
-
-      expect(response['user_id_type']).to be_empty
-
-      expect(response['project_actions']).to be_empty
-      expect(response['topic_actions']).to be_empty
-      expect(response['comment_actions']).to be_empty
+    it_behaves_like 'bcf api successful response' do
+      let(:expected_body) do
+        {
+          topic_type: [type_task.name],
+          topic_status: [status.name],
+          priority: [priority.name],
+          snippet_type: [],
+          stage: [],
+          topic_label: [],
+          user_id_type: [],
+          project_actions: [],
+          topic_actions: [],
+          comment_actions: []
+        }
+      end
     end
   end
 
@@ -83,17 +90,27 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
       get path
     end
 
-    it 'outputs all actions' do
-      expect(response['topic_type']).to include type_task.name
-      expect(response['topic_status']).to include status.name
+    it_behaves_like 'bcf api successful response expectation' do
+      let(:expectations) do
+        ->(body) {
+          hash = JSON.parse(body)
 
-      expect(response['user_id_type']).to include(current_user.mail)
-      expect(response['user_id_type']).to include(other_user.mail)
+          expect(hash.keys).to match_array %w[
+            topic_type topic_status user_id_type project_actions topic_actions comment_actions
+            stage snippet_type priority topic_label
+          ]
 
-      expect(response['project_actions']).to eq %w[update createTopic]
+          expect(hash['topic_type']).to include type_task.name
+          expect(hash['topic_status']).to include status.name
 
-      expect(response['topic_actions']).to eq %w[update updateRelatedTopics updateFiles createComment createViewpoint]
-      expect(response['comment_actions']).to eq %w[update]
+          expect(hash['user_id_type']).to include(other_user.mail, current_user.mail)
+
+          expect(hash['project_actions']).to eq %w[update createTopic]
+
+          expect(hash['topic_actions']).to eq %w[update updateRelatedTopics updateFiles createViewpoint]
+          expect(hash['comment_actions']).to eq []
+        }
+      end
     end
   end
 end
