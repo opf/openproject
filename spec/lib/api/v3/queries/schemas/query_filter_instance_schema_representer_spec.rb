@@ -105,8 +105,6 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
           let(:writable) { false }
           let(:has_default) { true }
         end
-
-        it_behaves_like 'has no visibility property'
       end
 
       describe 'filter' do
@@ -118,8 +116,6 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
           let(:required) { true }
           let(:writable) { true }
         end
-
-        it_behaves_like 'has no visibility property'
 
         it_behaves_like 'does not link to allowed values'
 
@@ -149,8 +145,6 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
           let(:required) { true }
           let(:writable) { true }
         end
-
-        it_behaves_like 'has no visibility property'
 
         it_behaves_like 'does not link to allowed values'
 

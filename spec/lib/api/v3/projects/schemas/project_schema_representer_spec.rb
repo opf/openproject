@@ -100,8 +100,6 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'name' do
@@ -118,8 +116,6 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:min_length) { 1 }
         let(:max_length) { 255 }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'identifier' do
@@ -136,8 +132,6 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:min_length) { 1 }
         let(:max_length) { 100 }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'description' do
@@ -149,8 +143,6 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:required) { false }
         let(:writable) { true }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'public' do
@@ -162,8 +154,6 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:required) { true }
         let(:writable) { true }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'active' do
@@ -175,8 +165,6 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:required) { true }
         let(:writable) { true }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'statusExplanation' do
@@ -222,8 +210,6 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'updatedAt' do
@@ -235,8 +221,6 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'int custom field' do
