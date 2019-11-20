@@ -37,15 +37,27 @@ module Bcf::API::V2_1
                   scope: -> { @issue.viewpoints })
              .mount
 
-      route_param :uuid, regexp: /\A[a-f0-9\-]+\z/ do
+      route_param :viewpoint_uuid, regexp: /\A[a-f0-9\-]+\z/ do
         after_validation do
-          @viewpoint = @issue.viewpoints.find_by_uuid!(params[:uuid])
+          @viewpoint = @issue.viewpoints.find_by_uuid!(params[:viewpoint_uuid])
         end
 
         get &::Bcf::API::V2_1::Endpoints::Show
               .new(model: Bcf::Viewpoint,
                    api_name: 'Viewpoints')
               .mount
+
+        namespace :snapshot do
+          helpers ::API::Helpers::AttachmentRenderer
+
+          get do
+            if snapshot = @viewpoint.snapshot
+              respond_with_attachment snapshot
+            else
+              raise ActiveRecord::RecordNotFound
+            end
+          end
+        end
       end
     end
   end

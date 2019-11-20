@@ -103,4 +103,32 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
       it_behaves_like 'bcf api not found response'
     end
   end
+
+  describe 'GET /api/bcf/2.1/projects/:project_id/topics/:uuid/viewpoints/:uuid/snapshot' do
+    let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints/#{viewpoint.uuid}/snapshot" }
+    let(:current_user) { view_only_user }
+
+    context 'when snapshot present' do
+      before do
+        login_as(current_user)
+        bcf_issue
+        get path
+      end
+
+      it 'responds with the attachment' do
+        expect(subject.status).to eq 200
+        expect(subject.headers['Content-Type']).to eq 'image/jpeg'
+      end
+    end
+
+    context 'when snapshot not present' do
+      before do
+        login_as(current_user)
+        viewpoint.snapshot.destroy
+        get path
+      end
+
+      it_behaves_like 'bcf api not found response'
+    end
+  end
 end

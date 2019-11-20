@@ -156,8 +156,14 @@ FactoryBot.define do
       MARKUP
     end
 
-    after(:create) do |viewpoint|
-      create(:bcf_viewpoint_attachment, container: viewpoint)
+    transient do
+      snapshot { nil }
+    end
+
+    after(:create) do |viewpoint, evaluator|
+      unless evaluator.snapshot == false
+        create(:bcf_viewpoint_attachment, container: viewpoint)
+      end
     end
   end
 end
