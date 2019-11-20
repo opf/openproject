@@ -12,39 +12,51 @@ Assuming you have a backup of all the OpenProject files at hand (see the [Backin
 
 As a reference, we will assume you have the following dumps on your server, located in `/var/db/openproject/backup`:
 
-```
--rw-r----- 1 openproject openproject  117 Apr  8 09:55 attachments-20150408095521.tar.gz
--rw-r----- 1 openproject openproject  667 Apr  8 09:55 conf-20150408095521.tar.gz
--rw-r----- 1 openproject openproject 8298 Apr  8 09:55 postgres-dump-20150408095521.sql.gz
--rw-r----- 1 openproject openproject  116 Apr  8 09:55 svn-repositories-20150408095521.tar.gz
+```bash
+root@ip-10-0-0-228:/home/admin# ls -al /var/db/openproject/backup/
+total 1680
+drwxr-xr-x 2 openproject openproject    4096 Nov 19 21:00 .
+drwxr-xr-x 6 openproject openproject    4096 Nov 19 21:00 ..
+-rw-r----- 1 openproject openproject 1361994 Nov 19 21:00 attachments-20191119210038.tar.gz
+-rw-r----- 1 openproject openproject    1060 Nov 19 21:00 conf-20191119210038.tar.gz
+-rw-r----- 1 openproject openproject     126 Nov 19 21:00 git-repositories-20191119210038.tar.gz
+-rw-r----- 1 openproject openproject  332170 Nov 19 21:00 postgresql-dump-20191119210038.pgdump
+-rw-r----- 1 openproject openproject     112 Nov 19 21:00 svn-repositories-20191119210038.tar.gz
 ```
 
 ### Stop the processes
 
 First, it is a good idea to stop the OpenProject instance:
 
-```
+```bash
 sudo service openproject stop
 ```
 
 ### Restoring assets
 
+Go into the backup directory:
+
+```bash
+cd /var/db/openproject/backup
+```
+
 Untar the attachments to their destination:
 
-```
-tar xzf /var/db/openproject/backup/attachments-20150408095521.tar.gz -C /var/db/openproject/files/
+```bash
+tar xzf attachments-20191119210038.tar.gz -C /var/db/openproject/files
 ```
 
-Untar the configuration to its destination:
+Untar the configuration files to their destination:
 
-```
-tar xzf /var/db/openproject/backup/conf-20150408095521.tar.gz -C /etc/openproject/
+```bash
+tar xzf conf-20191119210038.tar.gz -C /etc/openproject/conf.d/
 ```
 
 Untar the repositories to their destination:
 
-```
-tar xzf /var/db/openproject/backup/svn-repositories-20150408095521.tar.gz -C /var/db/openproject/repositories
+```bash
+tar xzf git-repositories-20191119210038.tar.gz -C /var/db/openproject/git
+tar xzf svn-repositories-20191119210038.tar.gz -C /var/db/openproject/svn
 ```
 
 ### Restoring the database
@@ -55,15 +67,24 @@ installation. This setting can be seen by running:
 
 First, get the necessary details about your database:
 
-```
+```bash
 openproject config:get DATABASE_URL
-#=> e.g.: postgres://dbusername:dppassword@dbhost:dbport/dbname
+#=> e.g.: postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<dbname>
 ```
 
-Then, to restore the PostgreSQL dump please use the `psql` command utilities:
+Then, to restore the PostgreSQL dump please use the `pg_restore` command utility:
 
 ```
-zcat /var/db/openproject/backup/postgres-dump-20150408095521.sql.gz | psql -h <dbhost> -u <dbusername> -W <dbname>
+pg_restore -h <dbhost> -p <dbport> -U <dbusername> -d <dbname> postgresql-dump-20191119210038.pgdump
+```
+
+Example:
+
+```bash
+$ openproject config:get DATABASE_URL
+postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject
+
+$ pg_restore -h 127.0.0.1 -p 45432 -U openproject -d openproject postgresql-dump-20191119210038.pgdump
 ```
 
 ### Restart the OpenProject processes

@@ -76,7 +76,7 @@ After creating a meeting, you can set up a **meeting agenda**.
 3. All changes made to the agenda are tracked. You can click the **History** button to get an overview of all the changes including the persons who made the changes.
 4. Click the **Send for review** button to quickly notify participants about the meeting and send them a link to the meeting.
 5. Press the **Send iCalendar** button to send a calendar entry to the participants. The users can then quickly add the meeting to their calendar by accepting the invitation / importing the iCal file attached to the email notification.
-6. At the beginning of the meeting, **Close** the agenda to prevent any additional changes and provide the same basis for all meeting participants. After closing the agenda, the meeting minutes are displayed to capture the results of the meeting.
+6. At the beginning of the meeting, **Close** the agenda to prevent any other changes and provide the same basis for all meeting participants. After closing the agenda, the meeting minutes are displayed to capture the results of the meeting.
 7. ![meeting-agenda](meeting-agenda.png)
 
 ## Create or edit meeting minutes
@@ -99,7 +99,7 @@ You will be directed to the meeting view, where you can
 
 ## Copy a meeting (recurring meetings)
 
-If you have recurring meetings, for example a Jour Fixe, and want to simplify the process of creating meetings and agendas, you can **copy an existing meeting**. To do that select the respective meeting and open the detailed meeting view.
+If you have recurring meetings, such as a Jour Fixe, and want to simplify the process of creating meetings and agendas, you can **copy an existing meeting**. To do that select the meeting and open the detailed meeting view.
 
 Select **Copy** in the top right side.
 
@@ -108,7 +108,8 @@ Select **Copy** in the top right side.
 You can now edit the copied meeting and add the new details. Click the **Save** button to secure your changes.
 
 <div class="alert alert-info" role="alert">
-**Note**: all of the settings will be copied, except for the minutes, participants and meeting history. So if you want to keep the minutes as well, you have to copy it separately.
+**Note**: all the settings will be copied, except for the minutes, participants and meeting history. So if you want to keep the minutes as well, you have to copy it separately.
+
 
 </div>
 

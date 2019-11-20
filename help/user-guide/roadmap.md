@@ -11,7 +11,7 @@ keywords: roadmap, release planning
 
 Plan and manage your product roadmap in OpenProject. Visualize, and communicate your product roadmap. Share your product roadmap with your stakeholders, get feedback about your ideas and break it down into a detailed release plan.
 
-In the roadmap, you can see at one sight all work packages and their status listed by versions.
+In the roadmap, you can see all work packages and their status listed by versions at a glance.
 
 For each version, the related work package can be assessed from the list displayed in the roadmap view. Subjects which are crossed out represent closed work packages.
 

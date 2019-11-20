@@ -29,7 +29,7 @@ Other input fields can be saved with **Enter**.
 
 ![edit-work-package](edit-work-package-1566546727784.png)
 
-The green message on top of the work packaage indicates a successful update.
+The green message on top of the work package indicates a successful update.
 
 ![successful-update](1566546959027.png)
 
@@ -46,7 +46,7 @@ To update the status of a work package, click on the current status in the work 
 
 ![update-status](1566375642243.png)
 
-Please note, the status may differ from work package type. They can be configued in the [system administration](./system-admin-guide).
+Please note, the status may differ from work package type. They can be configured in the [system administration](./system-admin-guide).
 
 ### How to add comments to a work package?
 

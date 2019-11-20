@@ -14,7 +14,7 @@ keywords: work packages table configuration
 | [Add or remove columns](#add-or-remove-columns-in-the-work-package-table) | How to add or remove columns in the work package table?      |
 | [Filter work packages](#filter-work-packages)                | How to filter in the work package list?                      |
 | [Sort the work package list](#sort-the-work-package-list)    | How to sort within the work package list?                    |
-| [Display settings](#how-to-switch-from-flat-list-to-hierarchy-mode?) | How to switch from flat list to hierarchy mode in the work pacakge list? |
+| [Display settings](#how-to-switch-from-flat-list-to-hierarchy-mode?) | How to switch from flat list to hierarchy mode in the work package list? |
 | [Attribute highlighting (Premium Feature)](#attribute-highlighting-(premium-feature)) | How to highlight certain attributes in the work package list? |
 | [Save work package views](#save-work-package-views)          | How to save a new work package view?                         |
 
@@ -103,19 +103,19 @@ The same filter applied in the hierarchy mode.
 
 You have three different options to display results in the work package list.
 
-* **A flast list** (default), which contains all work packages in a list no matter how their parent-child-relation is.
+* **A flat list** (default), which contains all work packages in a list no matter how their parent-child-relation is.
 * A **Hierarchy**, which will display the filtered results within the parent-child-relation.
 * **Group by** will group the list according to a defined attribute.
 
 You have to choose either option when displaying work packages in the list.
 
-To switch between the different criteria, open the [work packag table configuration](#work-package-table-configuration) and open the tab **Display settings**. Choose how to display the work packages in the list and click the blue **Apply** button.
+To switch between the different criteria, open the [work package table configuration](#work-package-table-configuration) and open the tab **Display settings**. Choose how to display the work packages in the list and click the blue **Apply** button.
 
 ![display-settings](1566397517070.png)
 
 ## Attribute highlighting (Premium Feature)
 
-You can highlight attributes in the work package list to emphasize the importance of certain attributes and have important topics at one sight.
+You can highlight attributes in the work package list to emphasize the importance of certain attributes and have important topics at a glance.
 
 The following attributes can be highlighted in the list:
 
@@ -153,7 +153,7 @@ When you have configured your work package table, you can save the views to acce
 
    **Favored:** Check this Favored checkbox if you want to have this work package as a menu item in your Favorite views.
 
-   Press the bluse **Save** button to save your view.
+   Press the blue **Save** button to save your view.
 
 ![Enter-name for saved view](image-20191118172425655.png)
 
@@ -161,13 +161,13 @@ The view will then be saved in the work packages menu in your **Favorite views**
 
 ![Work-packages-favorite-views](Work-packages-favorite-views.png)
 
-If you check the Public visibilty, the view will be saved under your Public views in the work package menu:
+If you check the Public visibility, the view will be saved under your Public views in the work package menu:
 
 ![Work-packages-public-views](Work-packages-public-views.png)
 
 ### Change saved work package views
 
-If you make changes to a saved view, e.g. change a filter criteria, you have to save the new view once again. In order to apply the change to the actual saved view, click on the disk icon which appears next to the titel of the saved view:
+If you make changes to a saved view, e.g. change a filter criteria, you have to save the new view once again. In order to apply the change to the actual saved view, click on the disk icon which appears next to the title of the saved view:
 
 ![Work-package-change-saved-views](Work-package-change-saved-views.png)
 

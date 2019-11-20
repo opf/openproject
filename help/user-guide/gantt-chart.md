@@ -81,7 +81,7 @@ To export the data from your Gantt chart there are several possibilities:
 
 * [Export via the work package view](./edit-work-package/#export-work-packages)
 * [Print (e.g. to PDF)](#how-to-print-a-gantt-chart)
-* [Synchronize data from OpenProject to Excel](#synchronize-data-from-OpenProject-to-Excel) <-> MSProject
+* [Synchronize data from OpenProject to Excel](#synchronize-data-from-OpenProject-to-Excel) <-> MS Project
 
 ### How to print a Gantt chart?
 
@@ -107,7 +107,7 @@ For other browsers, please simply follow the browser's printing instruction to o
 
 ## Synchronize data from OpenProject to Excel
 
-You can synchronize your work packages data from OpenProject to Excel (and even convert from or to MSProject). You need to download an OpenProject plugin.
+You can synchronize your work packages data from OpenProject to Excel (and even convert from or to MS Project). You need to download an OpenProject plugin.
 
 Follow our [Step by step guide how to synchronize your Excel Sheet with OpenProject](https://www.openproject.org/synchronize-excel-openproject/).
 

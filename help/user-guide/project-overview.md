@@ -103,7 +103,7 @@ New custom fields for projects can be created in the [system administration](/sy
 
 ### Project status widget
 
-Add your project status as a widget to display at one sight whether your project is on track, off track or at risk.
+Add your project status as a widget to display at a glance whether your project is on track, off track or at risk.
 
 First, select your project status from the drop-down. You can choose between:
 
