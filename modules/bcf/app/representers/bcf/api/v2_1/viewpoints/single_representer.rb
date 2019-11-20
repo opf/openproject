@@ -29,36 +29,17 @@
 #++
 
 module Bcf::API::V2_1
-  class TopicsAPI < ::API::OpenProjectAPI
-    resources :topics do
-      helpers do
-        def topics
-          Bcf::Issue.of_project(@project)
-        end
-      end
+  class Viewpoints::SingleRepresenter
+    attr_reader :represented
 
-      after_validation do
-        authorize :view_linked_issues, context: @project
-      end
+    def initialize(represented)
+      @represented = represented
+    end
 
-      get &::Bcf::API::V2_1::Endpoints::Index
-             .new(model: Bcf::Issue,
-                  api_name: 'Topics',
-                  scope: -> { topics })
-             .mount
-
-      route_param :uuid, regexp: /\A[a-f0-9\-]+\z/ do
-        after_validation do
-          @issue = topics.find_by_uuid!(params[:uuid])
-        end
-
-        get &::Bcf::API::V2_1::Endpoints::Show
-              .new(model: Bcf::Issue,
-                   api_name: 'Topics')
-              .mount
-
-        mount Bcf::API::V2_1::ViewpointsAPI
-      end
+    def to_hash
+      # Uses mapper to avoid saving JSON for now.
+      # We will likely want a migration to move away from XML and render viewpoint JSON directly
+      ::OpenProject::Bcf::BcfJson::ViewpointMapper.new(represented).result
     end
   end
 end
