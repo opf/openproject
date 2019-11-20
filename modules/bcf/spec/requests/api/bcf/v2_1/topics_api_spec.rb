@@ -360,5 +360,21 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
         end
       end
     end
+
+    context 'with two inexistent related resources' do
+      let(:params) do
+        {
+          title: 'Some title',
+          assigned_to: 'Some non existing assignee',
+          topic_type: 'Some non existing type'
+        }
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) do
+          "Multiple field constraints have been violated. Type does not exist. Assignee does not exist."
+        end
+      end
+    end
   end
 end
