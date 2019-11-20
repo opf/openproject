@@ -28,23 +28,33 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bcf::API::V2_1::Endpoints
-  class Create < API::Utilities::Endpoints::Create
-    include ModifyMixin
+module Bcf::API::V2_1::Errors
+  class ErrorMapper
+    extend ActiveModel::Naming
+    extend ActiveModel::Translation
 
-    def present_success(_current_user, call)
-      render_representer
-        .new(call.result)
+    def read_attribute_for_validation(_attr)
+      nil
     end
 
-    def postprocess_errors(call)
-      Bcf::API::V2_1::Errors::ErrorMapper.map(super)
+    def self.lookup_ancestors
+      [::Bcf::Issue]
     end
 
-    private
+    def self.map(original_errors)
+      mapped_errors = ActiveModel::Errors.new(new)
 
-    def deduce_process_service
-      "::Bcf::#{deduce_backend_namespace}::#{update_or_create}Service".constantize
+      original_errors.send(:error_symbols).each do |key, errors|
+        errors.map(&:first).each do |error|
+          mapped_errors.add(error_key_mapper(key), error)
+        end
+      end
+
+      mapped_errors
+    end
+
+    def self.error_key_mapper(key)
+      { subject: :title }[key] || key
     end
   end
 end

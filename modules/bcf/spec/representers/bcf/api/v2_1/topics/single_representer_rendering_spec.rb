@@ -41,11 +41,13 @@ describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   let(:journals) { [first_journal, last_journal] }
   let(:type) { FactoryBot.build_stubbed(:type) }
   let(:status) { FactoryBot.build_stubbed(:status) }
+  let(:priority) { FactoryBot.build_stubbed(:priority) }
   let(:work_package) do
     FactoryBot.build_stubbed(:stubbed_work_package,
                              assigned_to: assignee,
                              due_date: Date.today,
                              status: status,
+                             priority: priority,
                              type: type).tap do |wp|
       allow(wp)
         .to receive(:journals)
@@ -77,6 +79,13 @@ describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
       it_behaves_like 'attribute' do
         let(:value) { status.name }
         let(:path) { 'topic_status' }
+      end
+    end
+
+    context 'priority' do
+      it_behaves_like 'attribute' do
+        let(:value) { priority.name }
+        let(:path) { 'priority' }
       end
     end
 

@@ -37,11 +37,15 @@ module Bcf::Issues
                 .new(user: user)
                 .call(params)
 
-      issue_params = {
-        work_package: wp_call.result
-      }.merge(params.slice(:stage, :labels, :index))
+      if wp_call.success?
+        issue_params = {
+          work_package: wp_call.result
+        }.merge(params.slice(:stage, :labels, :index))
 
-      super(issue_params)
+        super(issue_params)
+      else
+        wp_call
+      end
     end
   end
 end

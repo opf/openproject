@@ -86,7 +86,7 @@ shared_examples_for 'bcf api not allowed response' do
 end
 
 shared_examples_for 'bcf api unprocessable response' do
-  it 'responds 403 NOT ALLOWED' do
+  it 'responds 422' do
     expect(subject.status)
       .to eql 422
   end

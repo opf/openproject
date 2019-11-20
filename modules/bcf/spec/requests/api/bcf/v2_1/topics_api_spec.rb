@@ -184,6 +184,12 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
     let!(:default_status) do
       FactoryBot.create(:default_status)
     end
+    let!(:default_type) do
+      FactoryBot.create(:type, is_default: true)
+    end
+    let!(:standard_type) do
+      FactoryBot.create(:type_standard)
+    end
     let!(:priority) do
       FactoryBot.create(:priority)
     end
@@ -198,6 +204,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       {
         topic_type: type.name,
         topic_status: status.name,
+        priority: priority.name,
         title: 'BCF topic 101',
         labels: labels,
         stage: stage,
@@ -223,6 +230,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
           guid: issue&.uuid,
           topic_type: type.name,
           topic_status: status.name,
+          priority: priority.name,
           title: 'BCF topic 101',
           labels: labels,
           index: index,
@@ -237,8 +245,57 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
           modified_author: edit_member_user.mail,
           modified_date: work_package.updated_at.iso8601,
           description: description
-
         }
+      end
+    end
+
+    context 'with minimal parameters' do
+      let(:params) do
+        {
+          title: 'BCF topic 101'
+        }
+      end
+
+      it_behaves_like 'bcf api successful response' do
+        let(:expected_status) { 201 }
+        let(:expected_body) do
+          issue = Bcf::Issue.last
+          work_package = WorkPackage.last
+
+          {
+            guid: issue&.uuid,
+            topic_type: standard_type.name,
+            topic_status: default_status.name,
+            priority: default_priority.name,
+            title: 'BCF topic 101',
+            labels: [],
+            index: nil,
+            reference_links: [
+              api_v3_paths.work_package(work_package.id)
+            ],
+            assigned_to: nil,
+            due_date: nil,
+            stage: nil,
+            creation_author: edit_member_user.mail,
+            creation_date: work_package.created_at.iso8601,
+            modified_author: edit_member_user.mail,
+            modified_date: work_package.updated_at.iso8601,
+            description: nil
+          }
+        end
+      end
+    end
+
+    context 'without a title' do
+      let(:params) do
+        {
+        }
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) do
+          "Title can't be blank"
+        end
       end
     end
   end

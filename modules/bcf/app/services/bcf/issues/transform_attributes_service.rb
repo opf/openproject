@@ -40,7 +40,11 @@ module Bcf::Issues
     ##
     # BCF issues might have empty titles. OP needs one.
     def title(attributes)
-      attributes[:title] || '(Imported BCF issue contained no title)'
+      if attributes[:title]
+        attributes[:title]
+      elsif attributes[:import_options]
+        '(Imported BCF issue contained no title)'
+      end
     end
 
     def author(project, attributes)
@@ -67,15 +71,11 @@ module Bcf::Issues
 
       return unless import_options
 
-      return ::Type.default&.first if import_options[:unknown_types_action] == 'default'
-
-      if import_options[:unknown_types_action] == 'chose' &&
-         import_options[:unknown_types_chose_ids].any?
+      if import_options[:unknown_types_action] == 'default'
+        ::Type.default&.first
+      elsif import_options[:unknown_types_action] == 'chose' &&
+            import_options[:unknown_types_chose_ids].any?
         ::Type.find_by(id: import_options[:unknown_types_chose_ids].first)
-      else
-        ServiceResult.new success: false,
-                          errors: issue.errors,
-                          result: issue
       end
     end
 
@@ -113,7 +113,8 @@ module Bcf::Issues
 
       if import_options[:unknown_priorities_action] == 'use_default'
         # NOP The 'use_default' case gets already covered by OP.
-      elsif import_options[:unknown_priorities_action] == 'chose' && import_options[:unknown_priorities_chose_ids].any?
+      elsif import_options[:unknown_priorities_action] == 'chose' &&
+            import_options[:unknown_priorities_chose_ids].any?
         ::IssuePriority.find_by(id: import_options[:unknown_priorities_chose_ids].first)
       end
     end

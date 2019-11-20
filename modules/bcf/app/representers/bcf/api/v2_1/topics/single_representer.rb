@@ -51,6 +51,14 @@ module Bcf::API::V2_1
                 .name
              }
 
+    property :priority,
+             as: :priority,
+             getter: ->(*) {
+               work_package
+                 .priority
+                 .name
+             }
+
     property :reference_links,
              getter: ->(decorator:, **) {
                [decorator.api_v3_paths.work_package(work_package.id)]
