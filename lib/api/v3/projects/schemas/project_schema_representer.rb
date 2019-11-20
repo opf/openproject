@@ -43,14 +43,18 @@ module API
           schema :name,
                  type: 'String',
                  visibility: false,
-                 min_length: 1,
-                 max_length: 255
+                 options: {
+                   min_length: 1,
+                   max_length: 255
+                 }
 
           schema :identifier,
                  type: 'String',
                  visibility: false,
-                 min_length: 1,
-                 max_length: 100
+                 options: {
+                   min_length: 1,
+                   max_length: 100
+                 }
 
           schema :description,
                  type: 'Formattable',

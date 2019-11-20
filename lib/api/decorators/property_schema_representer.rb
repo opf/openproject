@@ -59,8 +59,6 @@ module API
                     :writable,
                     :visibility,
                     :attribute_group,
-                    :min_length,
-                    :max_length,
                     :options
 
       property :type, exec_context: :decorator
@@ -70,8 +68,6 @@ module API
       property :writable, exec_context: :decorator
       property :visibility, exec_context: :decorator
       property :attribute_group, exec_context: :decorator
-      property :min_length, exec_context: :decorator
-      property :max_length, exec_context: :decorator
       property :options, exec_context: :decorator
 
       private

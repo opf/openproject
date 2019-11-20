@@ -60,8 +60,6 @@ module API
                    writable: default_writable_property(property),
                    visibility: nil,
                    attribute_group: nil,
-                   min_length: nil,
-                   max_length: nil,
                    options: {},
                    show_if: true)
           getter = ->(*) do
@@ -72,8 +70,6 @@ module API
                                    writable,
                                    visibility,
                                    attribute_group,
-                                   min_length,
-                                   max_length,
                                    options)
           end
 
@@ -284,8 +280,6 @@ module API
                                  writable,
                                  visibility,
                                  attribute_group,
-                                 min_length,
-                                 max_length,
                                  options)
         name = call_or_translate(name_source)
         schema = ::API::Decorators::PropertySchemaRepresenter
@@ -296,8 +290,6 @@ module API
                       writable: call_or_use(writable),
                       visibility: call_or_use(visibility),
                       attribute_group: call_or_use(attribute_group))
-        schema.min_length = min_length
-        schema.max_length = max_length
         schema.options = options
 
         schema

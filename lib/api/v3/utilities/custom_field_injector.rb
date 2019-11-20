@@ -186,8 +186,6 @@ module API
                         required: custom_field.is_required,
                         has_default: custom_field.default_value.present?,
                         writable: writable,
-                        min_length: cf_min_length(custom_field),
-                        max_length: cf_max_length(custom_field),
                         options: cf_options(custom_field)
         end
 
@@ -309,19 +307,14 @@ module API
           }
         end
 
-        def cf_min_length(custom_field)
-          custom_field.min_length if custom_field.min_length.positive?
-        end
-
-        def cf_max_length(custom_field)
-          custom_field.max_length if custom_field.max_length.positive?
-        end
-
         def cf_options(custom_field)
-          {
-            regular_expression: custom_field.regexp || '',
-            rtl: ("true" if custom_field.content_right_to_left)
-          }
+          options = Hash.new
+          options[:min_length] = custom_field.min_length if custom_field.min_length.positive?
+          options[:max_length] = custom_field.max_length if custom_field.max_length.positive?
+          options[:regular_expression] = custom_field.regexp unless custom_field.regexp.blank?
+          options[:rtl] = "true" if custom_field.content_right_to_left
+
+          options
         end
 
         def list_schemas_values_callback(custom_field)

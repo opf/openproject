@@ -112,8 +112,10 @@ module API
 
           schema :subject,
                  type: 'String',
-                 min_length: 1,
-                 max_length: 255
+                 options: {
+                   min_length: 1,
+                   max_length: 255
+                 }
 
           schema :description,
                  type: 'Formattable',

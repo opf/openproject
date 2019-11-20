@@ -50,8 +50,10 @@ module API
 
           schema :name,
                  type: 'String',
-                 min_length: 1,
-                 max_length: 60,
+                 options: {
+                   min_length: 1,
+                   max_length: 60,
+                 },
                  visibility: false
 
           schema :description,
