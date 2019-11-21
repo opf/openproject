@@ -33,7 +33,6 @@ import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
   selector: 'ifc-viewer',
   template: `
   <canvas [id]="'xeokit-model-canvas-' + ifcModelId" class="xeokit-model-canvas"></canvas>
-  <div [id]="'xeokit-tree-panel-' + ifcModelId" class="treePanel" class="xeokit-tree-panel"></div>
 `,
   styleUrls: [
     '../../../../node_modules/inspire-tree-dom/dist/inspire-tree-light.css'

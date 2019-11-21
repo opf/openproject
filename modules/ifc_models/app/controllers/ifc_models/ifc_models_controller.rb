@@ -32,8 +32,10 @@ module ::IFCModels
   class IFCModelsController < BaseController
     include IFCModelsHelper
 
-    before_action :find_project_by_project_id, only: %i[index new create show edit update destroy]
-    before_action :find_ifc_model_object, except: %i[index new create]
+    before_action :find_project_by_project_id, only: %i[index new create show show_defaults edit update destroy]
+    before_action :find_ifc_model_object, except: %i[index new create show_defaults]
+    before_action :find_all_ifc_models, only: %i[show show_defaults]
+    before_action :provision_gon, only: %i[show_defaults]
 
     before_action :authorize
 
@@ -53,6 +55,14 @@ module ::IFCModels
     def edit; end
 
     def show; end
+
+    def show_defaults
+      if @ifc_models.empty?
+        redirect_to "index"
+      end
+
+      @default_ifc_models = @project.ifc_models.defaults
+    end
 
     def create
       combined_params = permitted_model_params
@@ -100,6 +110,24 @@ module ::IFCModels
     end
 
     private
+
+    def find_all_ifc_models
+      @ifc_models = @project
+                      .ifc_models
+                      .order('created_at ASC')
+    end
+
+    def provision_gon
+      gon.ifc_models = {
+        models: @ifc_models.map do |ifc_model|
+          {
+            id: ifc_model.id,
+            name: ifc_model.title,
+            load: ifc_model.is_default
+          }
+        end
+      }
+    end
 
     def permitted_model_params
       params

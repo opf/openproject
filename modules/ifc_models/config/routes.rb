@@ -37,7 +37,11 @@ OpenProject::Application.routes.draw do
   # get '/projects/:project_id/ifc_models', to: 'ifc_models/ifc_models#index'
   scope '', as: 'ifc_models' do
     scope 'projects/:project_id', as: 'project' do
-      resources :ifc_models, controller: 'ifc_models/ifc_models'
+      resources :ifc_models, controller: 'ifc_models/ifc_models' do
+        collection do
+          get 'show_defaults'
+        end
+      end
     end
   end
 end

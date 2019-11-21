@@ -45,7 +45,7 @@ module OpenProject::IFCModels
 
       project_module :ifc_models do
         permission :view_ifc_models,
-                   { 'ifc_models/ifc_models': %i[index show] }
+                   { 'ifc_models/ifc_models': %i[index show show_defaults] }
         permission :manage_ifc_models,
                    { 'ifc_models/ifc_models': %i[index show destroy edit update create new] },
                    dependencies: %i[view_ifc_models]
@@ -57,10 +57,16 @@ module OpenProject::IFCModels
     initializer 'ifc_models.menu' do
       ::Redmine::MenuManager.map(:project_menu) do |menu|
         menu.push(:ifc_models,
-                  { controller: '/ifc_models/ifc_models', action: 'index' },
+                  { controller: '/ifc_models/ifc_models', action: 'show_defaults' },
                   caption: :'ifc_models.label_ifc_models',
                   param: :project_id,
                   icon: 'icon2 icon-ifc')
+
+        menu.push :ifc_viewer_panels,
+                  { controller: '/ifc_models/ifc_models', action: 'show_defaults' },
+                  param: :project_id,
+                  parent: :ifc_models,
+                  partial: '/ifc_models/ifc_models/panels'
       end
     end
 

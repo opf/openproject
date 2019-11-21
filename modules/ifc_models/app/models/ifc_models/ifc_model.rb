@@ -5,6 +5,8 @@ module IFCModels
     belongs_to :project
     belongs_to :uploader, class_name: 'User', foreign_key: 'uploader_id'
 
+    scope :defaults, -> { where(is_default: true) }
+
     %i(ifc xkt metadata).each do |name|
       define_method "#{name}_attachment" do
         get_attached_type(name)
@@ -23,7 +25,7 @@ module IFCModels
     end
 
     def converted?
-      xkt_attachment && metadata_attachment
+      xkt_attachment.present? && metadata_attachment.present?
     end
 
     private

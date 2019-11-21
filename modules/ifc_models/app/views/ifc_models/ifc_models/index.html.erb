@@ -29,12 +29,23 @@ See docs/COPYRIGHT.rdoc for more details.
 <% html_title(t('ifc_models.label_ifc_models')) -%>
 
 <%= toolbar title: t('ifc_models.label_ifc_models') do %>
+  <% if @ifc_models.any? %>
+  <li class="toolbar-item">
+    <%= link_to show_defaults_ifc_models_project_ifc_models_path,
+                { class: 'button -alt-highlight',
+                  aria: { label: t(:label_new_ifc_model) },
+                  title: t(:label_new_ifc_model) } do %>
+      <%= op_icon('button--icon icon-eye') %>
+      <span class="button--text"><%= t('ifc_models.label_show_defaults') %></span>
+    <% end %>
+  </li>
+  <% end %>
   <% if User.current.allowed_to?(:manage_ifc_models, @project) %>
     <li class="toolbar-item">
       <%= link_to new_ifc_models_project_ifc_model_path,
-                  { class: 'button -alt-highlight',
-                    aria: { label: t(:label_project_new) },
-                    title: t(:label_project_new) } do %>
+                  { class: 'button -highlight',
+                    aria: { label: t(:label_new_ifc_model) },
+                    title: t(:label_new_ifc_model) } do %>
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= ::IFCModels::IFCModel.model_name.human %></span>
       <% end %>

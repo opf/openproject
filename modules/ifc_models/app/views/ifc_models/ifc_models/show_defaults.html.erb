@@ -1,0 +1,75 @@
+<%#-- copyright
+OpenProject Documents Plugin
+
+Former OpenProject Core functionality extracted into a plugin.
+
+Copyright (C) 2009-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title t('ifc_models.label_default_ifc_models')  -%>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "ifc_models/ifc_models", media: 'all' %>
+<% end %>
+
+
+<%= toolbar title: t('ifc_models.label_default_ifc_models') do %>
+  <li class="toolbar-item">
+    <%= link_to(ifc_models_project_ifc_models_path(@project), class: 'button', accesskey: accesskey(:edit)) do %>
+      <%= op_icon('button--icon icon-edit') %> <%= t('ifc_models.label_manage_models') %>
+    <% end %>
+  </li>
+<% end %>
+
+
+<% content_for :header_tags do %>
+  <%= include_gon(nonce: content_security_policy_script_nonce) %>
+<% end %>
+
+<% if @default_ifc_models.empty? %>
+  <div class="notification-box -error">
+    <div class="notification-box--content">
+      <p><%= t('ifc_models.no_defaults_warning.title') %></p>
+      <ul>
+        <li><%= t('ifc_models.no_defaults_warning.check_1') %></li>
+        <li><%= t('ifc_models.no_defaults_warning.check_2') %></li>
+      </ul>
+      <%= link_to(ifc_models_project_ifc_models_path(@project), class: 'button', accesskey: accesskey(:edit)) do %>
+        <%= op_icon('button--icon icon-edit') %> <%= t('ifc_models.label_edit_defaults') %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% if @default_ifc_models.map(&:converted?).uniq == [true] %>
+<div class="ifc-model-viewer-container">
+  <% @ifc_model = @default_ifc_models.first %>
+  <ifc-viewer-entry data-ifc-model-id="<%= @ifc_model.id %>"
+                    data-xkt-file-url="<%= attachment_content_url(@ifc_model.xkt_attachment) %>"
+                    data-metadata-file-url="<%= attachment_content_url(@ifc_model.metadata_attachment) %>"></ifc-viewer-entry>
+</div>
+<% end %>
