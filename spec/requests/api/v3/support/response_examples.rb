@@ -150,7 +150,7 @@ shared_examples_for 'format error' do |message|
                   message
 end
 
-shared_examples_for 'read-only violation' do |attribute, model|
+shared_examples_for 'read-only violation' do |attribute, model, attribute_message = nil|
   describe 'details' do
     subject { JSON.parse(last_response.body)['_embedded']['details'] }
 
@@ -160,7 +160,7 @@ shared_examples_for 'read-only violation' do |attribute, model|
   it_behaves_like 'error response',
                   422,
                   'PropertyIsReadOnly',
-                  "#{model.human_attribute_name(attribute)} #{I18n.t('activerecord.errors.messages.error_readonly')}"
+                  "#{attribute_message || model.human_attribute_name(attribute)} #{I18n.t('activerecord.errors.messages.error_readonly')}"
 end
 
 shared_examples_for 'multiple errors' do |code, _message|
