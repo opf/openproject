@@ -34,9 +34,7 @@ describe Bcf::Issues::CreateContract do
     let(:issue) do
       Bcf::Issue.new(uuid: issue_uuid,
                      work_package: issue_work_package,
-                     stage: issue_stage,
-                     index: issue_index,
-                     labels: issue_labels)
+                     index: issue_index)
     end
     let(:permissions) { [:manage_bcf] }
 

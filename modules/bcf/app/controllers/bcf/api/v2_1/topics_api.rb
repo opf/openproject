@@ -51,10 +51,8 @@ module Bcf::API::V2_1
              .new(model: Bcf::Issue,
                   api_name: 'Topics',
                   params_modifier: ->(attributes) {
-                    attributes[:project_id] = @project.id
-
                     wp_attributes = Bcf::Issues::TransformAttributesService
-                                    .new
+                                    .new(@project)
                                     .call(attributes)
                                     .result
 
@@ -63,6 +61,7 @@ module Bcf::API::V2_1
                              :index,
                              :labels)
                       .merge(wp_attributes)
+                      .merge(project: @project)
                   })
              .mount
 
@@ -76,10 +75,28 @@ module Bcf::API::V2_1
                    api_name: 'Topics')
               .mount
 
+        put &::Bcf::API::V2_1::Endpoints::Update
+               .new(model: Bcf::Issue,
+                    api_name: 'Topics',
+                    params_modifier: ->(attributes) {
+                      # TODO: avoid code duplication with create
+                      wp_attributes = Bcf::Issues::TransformAttributesService
+                                        .new(@project)
+                                        .call(attributes)
+                                        .result
+
+                      attributes
+                        .slice(:stage,
+                               :index,
+                               :labels)
+                        .merge(wp_attributes)
+                    })
+               .mount
+
         delete &::Bcf::API::V2_1::Endpoints::Delete
-              .new(model: Bcf::Issue,
-                   api_name: 'Topics')
-              .mount
+                  .new(model: Bcf::Issue,
+                       api_name: 'Topics')
+                  .mount
 
         mount Bcf::API::V2_1::Viewpoints::API
       end

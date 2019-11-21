@@ -53,7 +53,12 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
   let(:edit_work_package_member_user) do
     FactoryBot.create(:user,
                       member_in_project: project,
-                      member_with_permissions: %i[add_work_packages delete_work_packages])
+                      member_with_permissions: %i[manage_bcf
+                                                  add_work_packages
+                                                  view_linked_issues
+                                                  edit_work_packages
+                                                  view_work_packages
+                                                  delete_work_packages])
   end
   let(:non_member_user) do
     FactoryBot.create(:user)
@@ -443,6 +448,81 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
         let(:message) do
           "Stage was attempted to be written but is not writable."
         end
+      end
+    end
+  end
+
+  describe 'PUT /api/bcf/2.1/projects/:project_id/topics/:guid' do
+    let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}" }
+    let(:current_user) { edit_member_user }
+    let!(:type) do
+      FactoryBot.create(:type).tap do |t|
+        project.types << t
+      end
+    end
+    let(:status) do
+      FactoryBot.create(:status)
+    end
+    let!(:default_status) do
+      FactoryBot.create(:default_status)
+    end
+    let!(:default_type) do
+      FactoryBot.create(:type, is_default: true)
+    end
+    let!(:standard_type) do
+      FactoryBot.create(:type_standard, name: 'Standard type')
+    end
+    let!(:priority) do
+      FactoryBot.create(:priority)
+    end
+    let!(:default_priority) do
+      FactoryBot.create(:default_priority)
+    end
+    let(:description) { 'some description' }
+    let(:index) { 5 }
+    let(:params) do
+      {
+        topic_type: type.name,
+        topic_status: status.name,
+        priority: priority.name,
+        title: 'BCF topic 101',
+        index: index,
+        due_date: Date.today.iso8601,
+        assigned_to: view_only_user.mail,
+        description: description
+      }
+    end
+
+    before do
+      login_as(current_user)
+      put path, params.to_json
+    end
+
+    it_behaves_like 'bcf api successful response' do
+      let(:expected_body) do
+        issue = Bcf::Issue.last
+        work_package = WorkPackage.last
+
+        {
+          guid: issue&.uuid,
+          topic_type: type.name,
+          topic_status: status.name,
+          priority: priority.name,
+          title: 'BCF topic 101',
+          labels: [],
+          index: index,
+          reference_links: [
+            api_v3_paths.work_package(work_package&.id)
+          ],
+          assigned_to: view_only_user.mail,
+          due_date: Date.today.iso8601,
+          stage: nil,
+          creation_author: work_package.author.mail,
+          creation_date: work_package&.created_at&.iso8601,
+          modified_author: edit_member_user.mail,
+          modified_date: work_package&.updated_at&.iso8601,
+          description: description
+        }
       end
     end
   end

@@ -30,12 +30,18 @@
 
 module Bcf::Issues
   class TransformAttributesService
+    def initialize(project)
+      self.project = project
+    end
+
     def call(attributes)
       ServiceResult.new success: true,
                         result: work_package_attributes(attributes)
     end
 
     private
+
+    attr_accessor :project
 
     ##
     # BCF issues might have empty titles. OP needs one.
@@ -51,8 +57,8 @@ module Bcf::Issues
       find_user_in_project(project, attributes[:author]) || User.system
     end
 
-    def assignee(project, attributes)
-      assignee = find_user_in_project(project, attributes[:assignee])
+    def assignee(attributes)
+      assignee = find_user(attributes[:assignee])
 
       return assignee if assignee.present?
 
@@ -61,11 +67,11 @@ module Bcf::Issues
 
     ##
     # Try to find the given user by mail in the project
-    def find_user_in_project(project, mail)
+    def find_user(mail)
       project.users.find_by(mail: mail)
     end
 
-    def type(project, attributes)
+    def type(attributes)
       type_name = attributes[:type]
       type = project.types.find_by(name: type_name)
 
@@ -100,12 +106,8 @@ module Bcf::Issues
     # Get mapped and raw attributes from MarkupExtractor
     # and return all values that are non-nil
     def work_package_attributes(attributes)
-      project = Project.find(attributes[:project_id])
-
       {
-        # Fixed attributes we know
-        project: project,
-        type: type(project, attributes),
+        type: type(attributes),
 
         # Native attributes from the extractor
         subject: title(attributes),
@@ -114,7 +116,7 @@ module Bcf::Issues
         start_date: attributes[:start_date],
 
         # Mapped attributes
-        assigned_to: assignee(project, attributes),
+        assigned_to: assignee(attributes),
         status: status(attributes),
         priority: priority(attributes)
       }.compact

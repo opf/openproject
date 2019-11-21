@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,20 +29,20 @@
 #++
 
 module Bcf::Issues
-  class BaseContract < ::ModelContract
-    attribute :index
-
-    def validate
-      validate_user_allowed_to_manage
-
-      super
-    end
-
+  class UpdateService < ::BaseServices::Update
     private
 
-    def validate_user_allowed_to_manage
-      unless model.project && user.allowed_to?(:manage_bcf, model.project)
-        errors.add :base, :error_unauthorized
+    def before_perform(params)
+      wp_call = ::WorkPackages::UpdateService
+                .new(model: model.work_package, user: user)
+                .call(params)
+
+      if wp_call.success?
+        issue_params = params.slice(:stage, :labels, :index)
+
+        super(issue_params)
+      else
+        wp_call
       end
     end
   end

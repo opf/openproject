@@ -50,7 +50,10 @@ module Bcf::API::V2_1
         end
 
         get &::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
-        put &::Bcf::API::V2_1::Endpoints::Update.new(model: Project).mount
+        put &::Bcf::API::V2_1::Endpoints::Update
+               .new(model: Project,
+                    process_service: ::Projects::UpdateService)
+               .mount
 
         mount Bcf::API::V2_1::TopicsAPI
         mount Bcf::API::V2_1::ProjectExtensions::API

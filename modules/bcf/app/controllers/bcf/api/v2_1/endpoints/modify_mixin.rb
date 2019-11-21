@@ -36,6 +36,10 @@ module Bcf::API::V2_1::Endpoints
       Bcf::API::V2_1::ParseResourceParamsService
     end
 
+    def deduce_process_service
+      "::Bcf::#{deduce_backend_namespace}::#{update_or_create}Service".constantize
+    end
+
     def deduce_in_and_out_representer
       "::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
     end

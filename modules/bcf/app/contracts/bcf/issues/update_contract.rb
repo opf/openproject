@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -29,21 +27,6 @@
 #++
 
 module Bcf::Issues
-  class BaseContract < ::ModelContract
-    attribute :index
-
-    def validate
-      validate_user_allowed_to_manage
-
-      super
-    end
-
-    private
-
-    def validate_user_allowed_to_manage
-      unless model.project && user.allowed_to?(:manage_bcf, model.project)
-        errors.add :base, :error_unauthorized
-      end
-    end
+  class UpdateContract < BaseContract
   end
 end

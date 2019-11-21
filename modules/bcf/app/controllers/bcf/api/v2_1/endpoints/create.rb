@@ -40,11 +40,5 @@ module Bcf::API::V2_1::Endpoints
     def postprocess_errors(call)
       Bcf::API::V2_1::Errors::ErrorMapper.map(super)
     end
-
-    private
-
-    def deduce_process_service
-      "::Bcf::#{deduce_backend_namespace}::#{update_or_create}Service".constantize
-    end
   end
 end
