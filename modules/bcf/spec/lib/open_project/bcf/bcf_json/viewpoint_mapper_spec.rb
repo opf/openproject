@@ -30,12 +30,12 @@ require 'spec_helper'
 require_relative './viewpoint_mapper_shared_examples.rb'
 
 describe OpenProject::Bcf::BcfJson::ViewpointMapper do
-  let(:instance) { described_class.new viewpoint }
+  let(:instance) { described_class.new xml_viewpoint.uuid, xml_viewpoint.viewpoint }
   subject { instance.result }
 
   describe 'with minimal example' do
-    let_it_be(:viewpoint) do
-      FactoryBot.build_stubbed :bcf_viewpoint, viewpoint_name: 'minimal.bcfv'
+    let_it_be(:xml_viewpoint) do
+      FactoryBot.build_stubbed :xml_viewpoint, viewpoint_name: 'minimal.bcfv'
     end
 
     it_behaves_like 'viewpoint keys'
@@ -45,8 +45,8 @@ describe OpenProject::Bcf::BcfJson::ViewpointMapper do
   end
 
   describe 'with full viewpoint' do
-    let_it_be(:viewpoint) do
-      FactoryBot.build_stubbed :bcf_viewpoint, viewpoint_name: 'full_viewpoint.bcfv'
+    let_it_be(:xml_viewpoint) do
+      FactoryBot.build_stubbed :xml_viewpoint, viewpoint_name: 'full_viewpoint.bcfv'
     end
 
     it_behaves_like 'viewpoint keys'
@@ -61,8 +61,8 @@ describe OpenProject::Bcf::BcfJson::ViewpointMapper do
   end
 
   describe 'with real-world neuhaus_sc_1 example' do
-    let_it_be(:viewpoint) do
-      FactoryBot.build_stubbed :bcf_viewpoint, viewpoint_name: 'neubau_sc_1.bcfv'
+    let_it_be(:xml_viewpoint) do
+      FactoryBot.build_stubbed :xml_viewpoint, viewpoint_name: 'neubau_sc_1.bcfv'
     end
 
     it_behaves_like 'viewpoint keys'

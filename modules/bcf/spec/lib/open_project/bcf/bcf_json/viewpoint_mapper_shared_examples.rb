@@ -37,7 +37,7 @@ shared_examples 'viewpoint keys' do
 
   it 'always has the guid set to the viewpoint' do
     expect(subject.keys).to include 'guid'
-    expect(subject['guid']).to eq(viewpoint.uuid)
+    expect(subject['guid']).to eq(xml_viewpoint.uuid)
   end
 
   it 'always has the perspective_camera OR orthogonal camera set' do
@@ -149,13 +149,13 @@ end
 
 shared_examples 'matches the JSON counterpart' do
   it 'matches the JSON viewpoint counterpart' do
-    path = OpenProject::Bcf::Engine.root.join("spec/fixtures/viewpoints/#{viewpoint.viewpoint_name}.json")
+    path = OpenProject::Bcf::Engine.root.join("spec/fixtures/viewpoints/#{xml_viewpoint.viewpoint_name}.json")
     raise "Expected #{path} to be readable for JSON comparsion" unless path.readable?
 
     json = path.read
 
     # Replace the static GUID with the one from this viewpoint
-    json.gsub! '{{UUID}}', viewpoint.uuid
+    json.gsub! '{{UUID}}', xml_viewpoint.uuid
 
     expect(subject.to_json).to be_json_eql(json)
   end
