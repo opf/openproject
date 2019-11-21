@@ -116,7 +116,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     return {
       resource: this.resource,
       macros: 'none' as 'none',
-      previewContext: this.previewContext
+      previewContext: this.previewContext,
+      options: { rtl: this.schema.options && this.schema.options.rtl }
     };
   }
 

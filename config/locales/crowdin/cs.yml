@@ -30,33 +30,33 @@ cs:
     custom_styles:
       custom_colors: "Vlastní barvy"
       customize: "Přizpůsobte si svou OpenProject instalaci vlastním logem. Poznámka: Logo bude veřejně přístupné."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
-      manage_colors: "Edit color select options"
+      enterprise_notice: "Jako zvláštní 'Děkujeme!' za jejich finanční příspěvky na vývoj OpenProjektu, je tato malá funkce dostupná pouze pro podporu Enterprise Edition."
+      manage_colors: "Upravit možnosti výběru barvy"
       instructions:
-        alternative_color: "Strong accent color, typically used for most the important button on a screen."
+        alternative_color: "Silný odstín, obvykle používaný pro nejdůležitější tlačítko na obrazovce."
         content_link_color: "Barva písma většiny odkazů."
         primary_color: "Hlavní barva."
-        primary_color_dark: "Typically a darker version of the main color used for hover effects."
+        primary_color_dark: "Obvykle tmavší verze hlavní barvy použité pro efekt vznášení."
         header_bg_color: "Barva pozadí záhlaví."
         header_item_bg_hover_color: "Barva pozadí klikacích položek záhlaví při najetí myší."
         header_item_font_color: "Barva pozadí klikacích položek záhlaví."
-        header_item_font_hover_color: "Font color of clickable header items when hovered with the mouse."
-        header_border_bottom_color: "Thin line under the header. Leave this field empty if you don't want any line."
-        main_menu_bg_color: "Left side menu's background color."
+        header_item_font_hover_color: "Barva pozadí klikacích položek záhlaví při najetí myší."
+        header_border_bottom_color: "Tenký řádek pod záhlavím. Ponechte toto pole prázdné, pokud nechcete žádný řádek."
+        main_menu_bg_color: "Barva pozadí levého menu."
     enterprise:
-      upgrade_to_ee: "Upgrade to Enterprise Edition"
-      add_token: "Upload an Enterprise Edition support token"
-      replace_token: "Replace your current support token"
-      order: "Order Enterprise Edition"
-      paste: "Paste your Enterprise Edition support token"
-      required_for_feature: "This feature is only available with an active Enterprise Edition support token."
-      enterprise_link: "For more information, click here."
+      upgrade_to_ee: "Upgradovat na Enterprise Edition"
+      add_token: "Nahrát podpůrný token Enterprise Edition"
+      replace_token: "Nahradit aktuální podpůrný token"
+      order: "Objednávka Enterprise edice"
+      paste: "Vložte svůj podpůrný token Enterprise Edition"
+      required_for_feature: "Tato funkce je dostupná pouze s aktivním podpůrným tokenem pro Enterprise Edition."
+      enterprise_link: "Pro více informací klikněte zde."
   announcements:
     show_until: Ukázat až do
     is_active: aktuálně zobrazené
     is_inactive: v současné době nejsou zobrazeny
   attribute_help_texts:
-    text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
+    text_overview: 'V tomto zobrazení můžete vytvořit vlastní nápovědné texty pro zobrazení atributů. Pokud je definováno, mohou být tyto texty zobrazeny klepnutím na ikonu nápovědy vedle jejího atributu.'
     label_plural: 'Texty nápovědy atributu'
     show_preview: 'Náhled textu'
     add_new: 'Přidat text nápovědy'
@@ -66,16 +66,16 @@ cs:
       no_results_content_title: Nyní neexistují žádné ověřovací režimy.
       no_results_content_text: Vytvořit nový režim ověřování
   ldap_auth_sources:
-    connection_encryption: 'Connection encryption'
+    connection_encryption: 'Šifrování připojení'
     tls_mode:
       plain: 'žádný'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Plain unencrypted connection, no TLS negotiation."
-      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
-      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      simple_tls: 'jednoduché_tls'
+      start_tls: 'začátek_tls'
+      plain_description: "Prosté nešifrované připojení, žádné jednání TLS."
+      simple_tls_description: "Implicitní TLS šifrování, ale bez ověření certifikátu. Používejte s opatrností a implicitní důvěru k LDAP připojení."
+      start_tls_description: "Explicitní TLS šifrování s úplnou validací. Použijte pro LDAP nad TLS/SSL."
       section_more_info_link_html: >
-        This section concerns the connection security of this LDAP authentication source. For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
+        Tato sekce se týká zabezpečení připojení tohoto LDAP autentifikačního zdroje. Pro více informací navštivte <a href="%{link}">síť:LDAP dokumentaci</a>.
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -89,7 +89,7 @@ cs:
       name: 'Akce'
       add: 'Přidat akci'
       assigned_to:
-        executing_user_value: '(Assign to executing user)'
+        executing_user_value: '(Přiřaďte k vykonání uživatele)'
     conditions: 'Podmínky'
     plural: 'Vlastní akce'
     new: 'Nová vlastní akce'
@@ -100,11 +100,11 @@ cs:
       description: 'Vlastní akce zjednodušuje každodenní práci tím, že kombinuje několik kroků do jednoho tlačítka.'
   custom_fields:
     text_add_new_custom_field: >
-      To add new custom fields to a project you first need to create them before you can add them to this project.
+      Chcete-li přidat nová vlastní pole do projektu, musíte je nejprve vytvořit, než je budete moci přidat do tohoto projektu.
     is_enabled_globally: 'Globálně povoleno'
     enabled_in_project: 'Povoleno v projektu'
-    contained_in_type: 'Contained in type'
-    confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    contained_in_type: 'Obsahuje typ'
+    confirm_destroy_option: "Smazáním možnosti smažete všechny výskyty (např. v pracovních balíčcích). Opravdu ji chcete odstranit?"
     tab:
       no_results_title_text: V současné době nejsou žádná vlastní pole.
       no_results_content_text: Vytvořit nové vlastní pole
@@ -1115,14 +1115,14 @@ cs:
       community: "OpenProject komunita"
       upsale:
         become_hero: "Staň se hrdinou!"
-        title: "Upgrade to Enterprise Edition"
+        title: "Upgradovat na Enterprise Edition"
         description: "What are the benefits?"
         more_info: "Více informací"
         additional_features: "Additional powerful premium features"
         professional_support: "Professional support from the OpenProject experts"
         you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
+      upgrade_enterprise_edition: "Upgradovat na Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Uživatelské příručky"
       faq: "FAQ - často kladené dotazy"

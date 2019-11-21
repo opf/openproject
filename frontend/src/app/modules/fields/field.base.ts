@@ -36,6 +36,7 @@ export interface IFieldSchema {
   required?:boolean;
   hasDefault:boolean;
   name?:string;
+  options?:any;
 }
 
 export class Field {
@@ -67,6 +68,10 @@ export class Field {
 
   public get hasDefault():boolean {
     return this.schema.hasDefault;
+  }
+
+  public get options():boolean {
+    return this.schema.options;
   }
 
   public isEmpty():boolean {

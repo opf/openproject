@@ -53,6 +53,7 @@ module Bcf::API::V2_1
         put &::Bcf::API::V2_1::Endpoints::Update.new(model: Project).mount
 
         mount Bcf::API::V2_1::TopicsAPI
+        mount Bcf::API::V2_1::ProjectExtensions::API
       end
     end
   end

@@ -46,7 +46,6 @@ module API
                                    writable: true,
                                    has_default: false,
                                    required: true,
-                                   visibility: false,
                                    href_callback: ->(*) {
                                      href_callback
                                    },

@@ -86,13 +86,6 @@ shared_examples_for 'indicates length requirements' do
   end
 end
 
-shared_examples_for 'has no visibility property' do
-  it 'has no path' do
-    is_expected
-      .not_to have_json_path("#{path}/visibility")
-  end
-end
-
 shared_examples_for 'links to allowed values directly' do
   it 'has the expected number of links' do
     is_expected.to have_json_size(hrefs.size).at_path("#{path}/_links/allowedValues")

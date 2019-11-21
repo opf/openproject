@@ -276,18 +276,19 @@ describe MailHandler, type: :model do
         end
 
         it 'rejects if unknown_user=accept and permission check is present' do
-
           expected =
             'MailHandler: work_package could not be created by Anonymous due to ' \
-          '#["may not be accessed.", "Type is not writable.", "Project is not writable.", ' \
-          '"Subject is not writable.", "Description is not writable."]'
+          '#["may not be accessed.", "Type was attempted to be written but is not writable.", ' \
+          '"Project was attempted to be written but is not writable.", ' \
+          '"Subject was attempted to be written but is not writable.", ' \
+          '"Description was attempted to be written but is not writable."]'
 
           expect(Rails.logger)
-            .to(receive(:error))
+            .to receive(:error)
             .with(expected)
 
           result = submit_email 'ticket_by_unknown_user.eml',
-                                issue: {project: project.identifier},
+                                issue: { project: project.identifier },
                                 unknown_user: 'accept'
 
           expect(result).to eq false
@@ -295,7 +296,7 @@ describe MailHandler, type: :model do
 
         it 'accepts if unknown_user=accept and no_permission_check' do
           work_package = submit_email 'ticket_by_unknown_user.eml',
-                                      issue: {project: project.identifier},
+                                      issue: { project: project.identifier },
                                       unknown_user: 'accept',
                                       no_permission_check: 1
 

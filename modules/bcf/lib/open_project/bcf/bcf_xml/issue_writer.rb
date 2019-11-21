@@ -250,7 +250,7 @@ module OpenProject::Bcf::BcfXml
     def find_or_initialize_issue
       ::Bcf::Issue.find_or_initialize_by(work_package: work_package)
     end
-    
+
     def to_bcf_datetime(date_time)
       date_time.utc.iso8601
     end

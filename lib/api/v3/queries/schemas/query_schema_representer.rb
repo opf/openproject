@@ -61,34 +61,28 @@ module API
           end
 
           schema :id,
-                 type: 'Integer',
-                 visibility: false
+                 type: 'Integer'
 
           schema :name,
                  type: 'String',
                  writable: true,
                  min_length: 1,
-                 max_length: 255,
-                 visibility: false
+                 max_length: 255
 
           schema :created_at,
-                 type: 'DateTime',
-                 visibility: false
+                 type: 'DateTime'
 
           schema :updated_at,
-                 type: 'DateTime',
-                 visibility: false
+                 type: 'DateTime'
 
           schema :user,
                  type: 'User',
-                 has_default: true,
-                 visibility: false
+                 has_default: true
 
           schema_with_allowed_link :project,
                                    type: 'Project',
                                    required: false,
                                    writable: true,
-                                   visibility: false,
                                    href_callback: ->(*) {
                                      api_v3_paths.query_available_projects
                                    }
@@ -100,85 +94,73 @@ module API
                                             represented.project,
                                             global: represented.project.nil?)
                  end,
-                 has_default: true,
-                 visibility: false
+                 has_default: true
 
           schema :sums,
                  type: 'Boolean',
                  required: false,
                  writable: true,
-                 has_default: true,
-                 visibility: false
+                 has_default: true
 
           schema :timeline_visible,
                  type: 'Boolean',
                  required: false,
                  writable: true,
-                 has_default: true,
-                 visibility: false
+                 has_default: true
 
           schema :timeline_zoom_level,
                  type: 'String',
                  required: false,
                  writable: true,
-                 has_default: true,
-                 visibility: false
+                 has_default: true
 
           schema :timeline_labels,
                  type: 'QueryTimelineLabels',
                  required: false,
                  writable: true,
-                 has_default: true,
-                 visibility: false
+                 has_default: true
 
           schema :highlighting_mode,
                  type: 'String',
                  required: false,
                  writable: true,
-                 has_default: true,
-                 visibility: false
+                 has_default: true
 
           schema :display_representation,
                  type: 'String',
                  required: false,
                  writable: true,
-                 has_default: true,
-                 visibility: false
+                 has_default: true
 
           schema :show_hierarchies,
                  type: 'Boolean',
                  required: false,
                  writable: true,
-                 has_default: true,
-                 visibility: false
+                 has_default: true
 
           schema :starred,
                  type: 'Boolean',
                  required: false,
                  writable: false,
-                 has_default: true,
-                 visibility: false
+                 has_default: true
 
           schema :hidden,
                  type: 'Boolean',
                  required: true,
                  writable: true,
-                 has_default: true,
-                 visibility: false
+                 has_default: true
 
           schema :ordered_work_packages,
                  type: 'QueryOrder',
                  required: false,
                  writable: true,
-                 has_default: true,
-                 visibility: false
+                 has_default: true
 
           schema_with_allowed_collection :columns,
                                          type: '[]QueryColumn',
                                          required: false,
                                          writable: true,
                                          has_default: true,
-                                         visibility: false,
                                          values_callback: -> { represented.available_columns },
                                          value_representer: ->(column) {
                                            Columns::QueryColumnsFactory.representer(column)
@@ -204,7 +186,6 @@ module API
                                          type: '[]QueryGroupBy',
                                          required: false,
                                          writable: true,
-                                         visibility: false,
                                          values_callback: -> { represented.groupable_columns },
                                          value_representer: GroupBys::QueryGroupByRepresenter,
                                          link_factory: ->(column) {
@@ -221,7 +202,6 @@ module API
                                          required: false,
                                          writable: true,
                                          has_default: true,
-                                         visibility: false,
                                          values_callback: -> { represented.available_highlighting_columns },
                                          value_representer: ->(column) {
                                            Columns::QueryColumnsFactory.representer(column)
@@ -241,7 +221,6 @@ module API
                                          required: false,
                                          writable: true,
                                          has_default: true,
-                                         visibility: false,
                                          values_callback: -> do
                                            values = represented.sortable_columns.map do |column|
                                              [SortBys::SortByDecorator.new(column, 'asc'),
@@ -263,8 +242,7 @@ module API
           schema :results,
                  type: 'WorkPackageCollection',
                  required: false,
-                 writable: false,
-                 visibility: false
+                 writable: false
 
           property :filters_schemas,
                    embedded: true,

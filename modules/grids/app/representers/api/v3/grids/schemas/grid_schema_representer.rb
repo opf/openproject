@@ -41,38 +41,30 @@ module API
           end
 
           schema :id,
-                 type: 'Integer',
-                 visibility: false
+                 type: 'Integer'
 
           schema :created_at,
-                 type: 'DateTime',
-                 visibility: false
+                 type: 'DateTime'
 
           schema :updated_at,
-                 type: 'DateTime',
-                 visibility: false
+                 type: 'DateTime'
 
           schema :row_count,
-                 type: 'Integer',
-                 visibility: false
+                 type: 'Integer'
 
           schema :column_count,
-                 type: 'Integer',
-                 visibility: false
+                 type: 'Integer'
 
           schema :name,
-                 type: 'String',
-                 visibility: false
+                 type: 'String'
 
           schema :options,
-                 type: 'JSON',
-                 visibility: false
+                 type: 'JSON'
 
           schema_with_allowed_collection :scope,
                                          type: 'Href',
                                          required: true,
                                          has_default: false,
-                                         visibility: false,
                                          value_representer: false,
                                          link_factory: ->(path) {
                                            {
@@ -84,7 +76,6 @@ module API
                                          type: '[]GridWidget',
                                          required: true,
                                          has_default: false,
-                                         visibility: false,
                                          values_callback: -> do
                                            represented.assignable_widgets.map do |identifier|
                                              OpenStruct.new(identifier: identifier, grid: represented.model, options: {})
