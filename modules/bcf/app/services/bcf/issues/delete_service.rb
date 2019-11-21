@@ -28,53 +28,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module BaseServices
-  class Write < BaseContracted
+module Bcf::Issues
+  class DeleteService < ::BaseServices::Delete
     private
 
-    def persist(service_result)
-      service_result = super(service_result)
-
-      unless service_result.result.save
-        service_result.errors = service_result.result.errors
-        service_result.success = false
-      end
-
-      service_result
-    end
-
-    # Validations are already handled in the SetAttributesService
-    # and thus we do not have to validate again.
-    def validate_contract(service_result)
-      service_result
-    end
-
     def before_perform(params)
-      set_attributes(params)
-    end
+      associated_wp = WorkPackage.find(model.work_package_id)
+      wp_call = WorkPackages::DeleteService
+                  .new(user: user,
+                       model: associated_wp.reload)
+                  .call(params)
 
-    def set_attributes(params)
-      attributes_service_class
-        .new(user: user,
-             model: instance(params),
-             contract_class: contract_class)
-        .call(params)
-    end
-
-    def attributes_service_class
-      "#{namespace}::SetAttributesService".constantize
-    end
-
-    def instance(_params)
-      raise NotImplementedError
-    end
-
-    def default_contract_class
-      raise NotImplementedError
-    end
-
-    def instance_class
-      namespace.singularize.constantize
+      if wp_call.success?
+        super(params)
+      else
+        wp_call
+      end
     end
   end
 end

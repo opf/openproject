@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,33 +23,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module BaseServices
-  class Delete < BaseContracted
-    attr_accessor :model
+module Bcf::Issues
+  class DeleteContract < ::DeleteContract
+    delete_permission :manage_bcf
 
-    def initialize(user:, model:, contract_class: nil, contract_options: {})
-      self.model = model
-      super(user: user, contract_class: contract_class, contract_options: contract_options)
-    end
-
-    def persist(service_result)
-      service_result = super(service_result)
-
-      unless service_result.result.destroy
-        service_result.errors = service_result.result.errors
-        service_result.success = false
-      end
-
-      service_result
-    end
-
-    protected
-
-    def default_contract_class
-      "#{namespace}::DeleteContract".constantize
-    end
   end
 end

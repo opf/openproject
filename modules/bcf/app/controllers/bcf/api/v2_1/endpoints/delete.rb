@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,56 +25,30 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module BaseServices
-  class Write < BaseContracted
+module Bcf::API::V2_1::Endpoints
+  class Delete < API::Utilities::Endpoints::Delete
+    include ModifyMixin
+
+    def render_success(call)
+      render_representer
+        .new(call.result)
+    end
+
+    def success_status
+      200
+    end
+
     private
 
-    def persist(service_result)
-      service_result = super(service_result)
-
-      unless service_result.result.save
-        service_result.errors = service_result.result.errors
-        service_result.success = false
-      end
-
-      service_result
+    def render_representer
+      "::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
     end
 
-    # Validations are already handled in the SetAttributesService
-    # and thus we do not have to validate again.
-    def validate_contract(service_result)
-      service_result
-    end
-
-    def before_perform(params)
-      set_attributes(params)
-    end
-
-    def set_attributes(params)
-      attributes_service_class
-        .new(user: user,
-             model: instance(params),
-             contract_class: contract_class)
-        .call(params)
-    end
-
-    def attributes_service_class
-      "#{namespace}::SetAttributesService".constantize
-    end
-
-    def instance(_params)
-      raise NotImplementedError
-    end
-
-    def default_contract_class
-      raise NotImplementedError
-    end
-
-    def instance_class
-      namespace.singularize.constantize
+    def deduce_process_service
+      "::Bcf::#{deduce_backend_namespace}::DeleteService".constantize
     end
   end
 end

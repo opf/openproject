@@ -75,6 +75,11 @@ module Bcf::API::V2_1
               .new(model: Bcf::Issue,
                    api_name: 'Topics')
               .mount
+
+        delete &::Bcf::API::V2_1::Endpoints::Delete
+              .new(model: Bcf::Issue,
+                   api_name: 'Topics')
+              .mount
       end
     end
   end
