@@ -93,9 +93,9 @@ module OpenProject::Bcf::BcfXml
     def work_package_attributes
       attributes = ::Bcf::Issues::TransformAttributesService
                    .new
-                   .call(extractor_attributes)
+                   .call(extractor_attributes.merge(import_options: import_options))
                    .result
-                   .merge(send_notifications: false, import_options: import_options)
+                   .merge(send_notifications: false)
                    .symbolize_keys
 
       attributes[:start_date] = extractor.creation_date.to_date unless is_update

@@ -56,9 +56,7 @@ module Bcf::Issues
 
       return assignee if assignee.present?
 
-      if attributes[:assignee]
-        User::InexistentUser.new
-      end
+      missing_assignee(attributes[:assignee], attributes[:import_options] || {})
     end
 
     ##
@@ -67,13 +65,13 @@ module Bcf::Issues
       project.users.find_by(mail: mail)
     end
 
-    def type(attributes)
+    def type(project, attributes)
       type_name = attributes[:type]
-      type = ::Type.find_by(name: type_name)
+      type = project.types.find_by(name: type_name)
 
       return type if type.present?
 
-      missing_type(type_name, attributes[:import_options] || {})
+      missing_type(project, type_name, attributes[:import_options] || {})
     end
 
     ##
@@ -107,7 +105,7 @@ module Bcf::Issues
       {
         # Fixed attributes we know
         project: project,
-        type: type(attributes),
+        type: type(project, attributes),
 
         # Native attributes from the extractor
         subject: title(attributes),
@@ -144,14 +142,20 @@ module Bcf::Issues
       end
     end
 
-    def missing_type(type_name, import_options)
-      if import_options[:unknown_types_action] == 'default'
-        ::Type.default&.first
+    def missing_type(project, type_name, import_options)
+      if import_options[:unknown_types_action] == 'use_default'
+        project.types.default&.first
       elsif import_options[:unknown_types_action] == 'chose' &&
             import_options[:unknown_types_chose_ids].any?
-        ::Type.find_by(id: import_options[:unknown_types_chose_ids].first)
+        project.types.find_by(id: import_options[:unknown_types_chose_ids].first)
       elsif type_name
         Type::InexistentType.new
+      end
+    end
+
+    def missing_assignee(assignee_name, import_options)
+      if import_options[:invalid_people_action] != 'anonymize' && assignee_name
+        User::InexistentUser.new
       end
     end
   end
