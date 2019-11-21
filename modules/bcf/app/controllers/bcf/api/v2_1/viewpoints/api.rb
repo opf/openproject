@@ -32,32 +32,52 @@ module Bcf::API::V2_1
   module Viewpoints
     class API < ::API::OpenProjectAPI
       resources :viewpoints do
-        get &::Bcf::API::V2_1::Endpoints::Index
-          .new(model: Bcf::Viewpoint,
-               api_name: 'Viewpoints',
-               scope: -> { @issue.viewpoints })
-          .mount
+        get do
+          @issue.viewpoints
+            .select(:json_viewpoint)
+            .map(&:json_viewpoint)
+        end
 
         route_param :viewpoint_uuid, regexp: /\A[a-f0-9\-]+\z/ do
-          after_validation do
-            @viewpoint = @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid])
+
+          helpers do
+
+            ##
+            # Extract raw json from database
+            # in an optional subpath
+            def find_json!(uuid, slice: nil)
+              query = @issue.viewpoints
+                .where(uuid: uuid)
+
+              query =
+                if slice
+                  query.select("json_viewpoint #> '{#{slice.join(',')}}' as json_viewpoint")
+                else
+                  query.select(:json_viewpoint)
+                end
+
+              row = query.first
+              raise ActiveRecord::RecordNotFound unless row
+
+              # If we access row.json, Rails is going to cast the json to ruby hash for us
+              row.raw_json_viewpoint
+            end
           end
 
-          get &::Bcf::API::V2_1::Endpoints::Show
-            .new(model: Bcf::Viewpoint,
-                 api_name: 'Viewpoints')
-            .mount
+          get do
+            find_json!(params[:viewpoint_uuid])
+          end
 
           get :selection do
-            SlicedRepresenter.new(@viewpoint, slice: %w[components selection])
+            find_json!(params[:viewpoint_uuid], slice: %w[components selection])
           end
 
           get :coloring do
-            SlicedRepresenter.new(@viewpoint, slice: %w[components coloring])
+            find_json!(params[:viewpoint_uuid], slice: %w[components coloring])
           end
 
           get :visibility do
-            SlicedRepresenter.new(@viewpoint, slice: %w[components visibility])
+            find_json!(params[:viewpoint_uuid], slice: %w[components visibility])
           end
 
           get :bitmaps do
@@ -68,7 +88,8 @@ module Bcf::API::V2_1
             helpers ::API::Helpers::AttachmentRenderer
 
             get do
-              if snapshot = @viewpoint.snapshot
+              viewpoint = @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid])
+              if snapshot = viewpoint.snapshot
                 respond_with_attachment snapshot
               else
                 raise ActiveRecord::RecordNotFound

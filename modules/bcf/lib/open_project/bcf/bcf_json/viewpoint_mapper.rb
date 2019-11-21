@@ -3,10 +3,11 @@ module OpenProject::Bcf
     class ViewpointMapper
       ROOT_NODE ||= 'VisualizationInfo'.freeze
 
-      attr_reader :resource
+      attr_reader :uuid, :xml
 
-      def initialize(viewpoint)
-        @resource = viewpoint
+      def initialize(uuid, xml)
+        @uuid = uuid
+        @xml = xml
       end
 
       def result
@@ -24,7 +25,7 @@ module OpenProject::Bcf
       def viewpoint_hash
         @viewpoint_hash ||= begin
           # Load from XML using activesupport
-          hash = Hash.from_xml(resource.viewpoint)
+          hash = Hash.from_xml(xml)
           hash = hash[ROOT_NODE] if hash.key?(ROOT_NODE)
 
           # Perform destructive transformations
@@ -57,7 +58,7 @@ module OpenProject::Bcf
       end
 
       def set_uuid(hash)
-        hash['guid'] = resource.uuid
+        hash['guid'] = uuid
       end
 
       def transform_keys(hash)
@@ -111,6 +112,9 @@ module OpenProject::Bcf
         selections = hash.dig('components', 'selection', 'component')
         return unless selections
 
+        # Ensure selections are an array
+        selections = Array.wrap(selections)
+
         # Skip any components that have no guid
         selections.select! { |item| item['ifc_guid'] }
 
@@ -124,7 +128,7 @@ module OpenProject::Bcf
         return unless colors
 
         # avoid Array(colors) since that deconstructs the array
-        colors = [colors] unless colors.is_a?(Array)
+        colors = Array.wrap(colors)
 
         hash['components']['coloring'] = colors.map do |entry|
           # Prepend hash for hex color
