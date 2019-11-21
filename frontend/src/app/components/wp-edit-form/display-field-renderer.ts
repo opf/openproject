@@ -61,7 +61,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
 
     const field = this.getField(resource, fieldSchema, schemaName, change);
-    field.render(span, this.getText(field, fieldSchema, placeholder));
+    field.render(span, this.getText(field, fieldSchema, placeholder), fieldSchema.options);
 
     const title = field.title;
     if (title) {

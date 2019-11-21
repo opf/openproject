@@ -480,6 +480,7 @@ class PermittedParams
           :default_value,
           :possible_values,
           :multi_value,
+          :content_right_to_left,
           { custom_options_attributes: %i(id value default_value position) },
           type_ids: []
         ],
