@@ -33,31 +33,6 @@ describe ::Bcf::Issue, type: :model do
   let(:work_package) { FactoryBot.create :work_package, type: type }
   let(:issue) { FactoryBot.create :bcf_issue, work_package: work_package }
 
-  shared_examples_for 'provides attributes' do
-    it "provides attributes" do
-      expect(subject.title).to be_eql 'Maximum Content'
-      expect(subject.description).to be_eql 'This is a topic with all information present.'
-      expect(subject.priority_text).to be_eql 'High'
-      expect(subject.status_text).to be_eql 'Open'
-      expect(subject.type_text).to be_eql 'Structural'
-      expect(subject.assignee_text).to be_eql 'andy@example.com'
-      expect(subject.index_text).to be_eql '0'
-      expect(subject.labels).to contain_exactly 'Structural', 'IT Development'
-      expect(subject.due_date_text).to be_nil
-      expect(subject.creation_date_text).to eql "2015-06-21T12:00:00Z"
-      expect(subject.creation_author_text).to eql "mike@example.com"
-      expect(subject.modified_date_text).to eql "2015-06-21T14:22:47Z"
-      expect(subject.modified_author_text).to eql "michelle@example.com"
-      expect(subject.stage_text).to eql "Construction start"
-    end
-  end
-
-  context '#self.with_markup' do
-    subject { ::Bcf::Issue.with_markup.find_by id: issue.id }
-
-    it_behaves_like 'provides attributes'
-  end
-
   context '#markup_doc' do
     subject { issue }
 
@@ -76,8 +51,6 @@ describe ::Bcf::Issue, type: :model do
       subject.save
       expect(subject.markup_doc).to_not be_eql(first_fetched_doc)
     end
-
-    it_behaves_like 'provides attributes'
   end
 
   describe '.of_project' do

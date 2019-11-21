@@ -119,7 +119,7 @@ describe 'BCF 2.1 projects resource', type: :request, content_type: :json do
       end
 
       it_behaves_like 'bcf api unprocessable response' do
-        let(:message) { 'You must not write a read-only attribute.' }
+        let(:message) { 'ID was attempted to be written but is not writable.' }
       end
     end
   end

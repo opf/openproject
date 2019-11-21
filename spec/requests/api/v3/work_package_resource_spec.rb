@@ -856,13 +856,13 @@ describe 'API v3 Work package resource',
             context 'created_at' do
               let(:params) { valid_params.merge(createdAt: tomorrow) }
 
-              it_behaves_like 'read-only violation', 'createdAt'
+              it_behaves_like 'read-only violation', 'createdAt', WorkPackage, 'Created on'
             end
 
             context 'updated_at' do
               let(:params) { valid_params.merge(updatedAt: tomorrow) }
 
-              it_behaves_like 'read-only violation', 'updatedAt'
+              it_behaves_like 'read-only violation', 'updatedAt', WorkPackage, 'Updated on'
             end
           end
         end

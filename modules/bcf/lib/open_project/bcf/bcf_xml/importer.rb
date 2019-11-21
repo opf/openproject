@@ -155,8 +155,7 @@ module OpenProject::Bcf::BcfXml
                                   zip,
                                   entry,
                                   current_user: current_user,
-                                  import_options: import_options,
-                                  aggregations: aggregations).extract!
+                                  import_options: import_options).extract!
 
           if issue.errors.blank?
             issue.save

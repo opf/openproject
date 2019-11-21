@@ -31,7 +31,9 @@
 module Bcf::API::V2_1::Errors
   class ErrorRepresenter < BaseRepresenter
     property :message,
-             getter: ->(*) { message },
+             getter: ->(*) {
+               [message].concat(Array(errors).map(&:message)).compact.join(' ')
+             },
              render_nil: true
   end
 end

@@ -30,22 +30,11 @@
 
 module Bcf::API::V2_1::Endpoints
   class Update < API::Utilities::Endpoints::Update
+    include ModifyMixin
+
     def present_success(_current_user, call)
       render_representer
         .new(call.result)
     end
-
-    private
-
-    def deduce_parse_service
-      Bcf::API::V2_1::ParseResourceParamsService
-    end
-
-    def deduce_in_and_out_representer
-      "::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
-    end
-
-    alias_method :deduce_parse_representer, :deduce_in_and_out_representer
-    alias_method :deduce_render_representer, :deduce_in_and_out_representer
   end
 end

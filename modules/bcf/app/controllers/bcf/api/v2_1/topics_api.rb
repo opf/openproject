@@ -47,6 +47,25 @@ module Bcf::API::V2_1
                   scope: -> { topics })
              .mount
 
+      post &::Bcf::API::V2_1::Endpoints::Create
+             .new(model: Bcf::Issue,
+                  api_name: 'Topics',
+                  params_modifier: ->(attributes) {
+                    attributes[:project_id] = @project.id
+
+                    wp_attributes = Bcf::Issues::TransformAttributesService
+                                    .new
+                                    .call(attributes)
+                                    .result
+
+                    attributes
+                      .slice(:stage,
+                             :index,
+                             :labels)
+                      .merge(wp_attributes)
+                  })
+             .mount
+
       route_param :uuid, regexp: /\A[a-f0-9\-]+\z/ do
         after_validation do
           @issue = topics.find_by_uuid!(params[:uuid])

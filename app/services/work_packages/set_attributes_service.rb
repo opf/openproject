@@ -177,7 +177,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def reassign_status(available_statuses)
-    return if available_statuses.include? work_package.status
+    return if available_statuses.include?(work_package.status) || work_package.status.is_a?(Status::InexistentStatus)
 
     new_status = available_statuses.detect(&:is_default) || available_statuses.first
     work_package.status = new_status if new_status.present?

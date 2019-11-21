@@ -236,14 +236,7 @@ describe 'API v3 Version resource', content_type: :json do
         }.to_json
       end
 
-      it 'returns 422' do
-        expect(last_response.status)
-          .to eql(422)
-
-        expect(last_response.body)
-          .to be_json_eql("You must not write a read-only attribute.".to_json)
-          .at_path('message')
-      end
+      it_behaves_like 'read-only violation', 'project', Version
     end
 
     context 'if lacking the manage permissions' do

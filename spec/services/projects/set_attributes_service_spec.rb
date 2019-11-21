@@ -69,11 +69,11 @@ describe Projects::SetAttributesService, type: :model do
     before do
       allow(project)
         .to receive(:valid?)
-              .and_return(project_valid)
+        .and_return(project_valid)
 
       expect(contract_instance)
         .to receive(:validate)
-              .and_return(contract_valid)
+        .and_return(contract_valid)
     end
 
     subject { instance.call(call_attributes) }

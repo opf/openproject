@@ -103,7 +103,9 @@ module WorkPackages
                       message: :greater_than_or_equal_to_start_date,
                       allow_blank: true },
               unless: Proc.new { |wp| wp.start_date.blank? }
+
     validate :validate_enabled_type
+    validate :validate_type_exists
 
     validate :validate_milestone_constraint
     validate :validate_parent_not_milestone
@@ -112,12 +114,16 @@ module WorkPackages
     validate :validate_parent_in_same_project
     validate :validate_parent_not_subtask
 
+    validate :validate_status_exists
     validate :validate_status_transition
 
     validate :validate_active_priority
+    validate :validate_priority_exists
 
     validate :validate_category
     validate :validate_estimated_hours
+
+    validate :validate_assigned_to_exists
 
     def initialize(work_package, user, options: {})
       super
@@ -149,9 +155,17 @@ module WorkPackages
 
     def validate_enabled_type
       # Checks that the issue can not be added/moved to a disabled type
-      if model.project && (model.type_id_changed? || model.project_id_changed?)
+      if type_context_changed?
         errors.add :type_id, :inclusion unless model.project.types.include?(model.type)
       end
+    end
+
+    def validate_assigned_to_exists
+      errors.add :assigned_to, :does_not_exist if model.assigned_to&.is_a?(User::InexistentUser)
+    end
+
+    def validate_type_exists
+      errors.add :type, :does_not_exist if type_inexistent?
     end
 
     def validate_milestone_constraint
@@ -186,6 +200,10 @@ module WorkPackages
       end
     end
 
+    def validate_status_exists
+      errors.add :status, :does_not_exist if model.status&.is_a?(Status::InexistentStatus)
+    end
+
     def validate_status_transition
       if status_changed? && status_exists? && !(model.type_id_changed? || status_transition_exists?)
         errors.add :status_id, :status_transition_invalid
@@ -196,6 +214,10 @@ module WorkPackages
       if model.priority && !model.priority.active? && model.priority_id_changed?
         errors.add :priority_id, :only_active_priorities_allowed
       end
+    end
+
+    def validate_priority_exists
+      errors.add :priority, :does_not_exist if model.priority&.is_a?(Priority::InexistentPriority)
     end
 
     def validate_category
@@ -286,6 +308,14 @@ module WorkPackages
       else
         query
       end
+    end
+
+    def type_context_changed?
+      model.project && !type_inexistent? && (model.type_id_changed? || model.project_id_changed?)
+    end
+
+    def type_inexistent?
+      model.type.is_a?(Type::InexistentType)
     end
   end
 end

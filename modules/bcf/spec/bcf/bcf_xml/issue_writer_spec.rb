@@ -84,16 +84,16 @@ describe ::OpenProject::Bcf::BcfXml::IssueWriter do
   end
   let(:bcf_issue) do
     FactoryBot.create(:bcf_issue_with_comment,
+                      work_package: work_package,
                       markup: markup)
   end
   let(:priority) { FactoryBot.create :priority_low }
   let(:current_user) { FactoryBot.create(:user) }
   let(:due_date) { DateTime.now }
-  let(:type) { FactoryBot.create :type, name: 'Issue'}
+  let(:type) { FactoryBot.create :type, name: 'Issue' }
   let(:work_package) do
     FactoryBot.create(:work_package,
                       project_id: project.id,
-                      bcf_issue: bcf_issue,
                       priority: priority,
                       author: current_user,
                       assigned_to: current_user,
@@ -104,7 +104,7 @@ describe ::OpenProject::Bcf::BcfXml::IssueWriter do
   before do
     allow(User).to receive(:current).and_return current_user
 
-    work_package.bcf_issue.comments.first.journal.update_attribute('journable_id', work_package.id)
+    bcf_issue.comments.first.journal.update_attribute('journable_id', work_package.id)
     FactoryBot.create(:work_package_journal, notes: "Some note created in OP.", journable_id: work_package.id)
     work_package.reload
   end
