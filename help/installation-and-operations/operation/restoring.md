@@ -1,14 +1,14 @@
 ---
 sidebar_navigation:
   title: Restoring
-  priority: 500
+  priority: 8
 ---
 
 # Restoring an OpenProject backup
 
-## Packaged installation (DEB/RPM)
+## Package-based installation (DEB/RPM)
 
-Assuming you have a backup of all the OpenProject files at hand (see the [Backing up](../backing-up) guide), here is how you would restore your OpenProject installation from that backup.
+Assuming you have a backup of all the OpenProject files at hand (see the [Backing up](./backing-up) guide), here is how you would restore your OpenProject installation from that backup.
 
 As a reference, we will assume you have the following dumps on your server, located in `/var/db/openproject/backup`:
 
@@ -74,7 +74,7 @@ openproject config:get DATABASE_URL
 
 Then, to restore the PostgreSQL dump please use the `pg_restore` command utility:
 
-```
+```bash
 pg_restore -h <dbhost> -p <dbport> -U <dbusername> -d <dbname> postgresql-dump-20191119210038.pgdump
 ```
 
@@ -91,6 +91,22 @@ $ pg_restore -h 127.0.0.1 -p 45432 -U openproject -d openproject postgresql-dump
 
 Finally, restart all your processes as follows:
 
-```
+```bash
 sudo service openproject restart
+```
+
+## Docker-based installation
+
+Assuming you have a backup as per the procedure described in the [Backing up](./backing-up) guide, if at any point you want to restore from a backup, just put your backup back in `/var/lib/openproject` on your local host, and re-launch the docker container with the recommended options.
+
+For instance, assuming your backup was stored on S3:
+
+```bash
+aws s3 cp --recursive s3://my-backup-bucket/openproject-backups/ /var/lib/openproject/
+
+docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
+  -v /var/lib/openproject/pgdata:/var/lib/postgresql/9.6/main \
+  -v /var/lib/openproject/logs:/var/log/supervisor \
+  -v /var/lib/openproject/static:/var/db/openproject \
+  openproject/community:10
 ```

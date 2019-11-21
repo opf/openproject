@@ -190,7 +190,7 @@ After you have successfully installed the OpenProject package, you can now perfo
 
 To start the configuration wizard, please run the following command  with `sudo`, or as root:
 
-```
+```bash
 sudo openproject configure
 ```
 
@@ -226,7 +226,7 @@ The wizard will not try to connect to any database. You will have to specify a d
 
 You can set this `DATABASE_URL` parameter yourself to a PostgreSQL database URL.
 
-```
+```bash
 sudo openproject config:set DATABASE_URL="postgresql://[user[:password]@][host][:port][/dbname][?param1=value1&...]
 ```
 
@@ -244,15 +244,7 @@ The available options are:
 
 We recommend that you let OpenProject install and configure the outer web server, in which case we will install an Apache2 web server with a VirtualHost listening to the domain name you specify, optionally providing SSL/TLS termination.
   
-### **Skip** (not recommended)
-
-The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listeing at `localhost:6000` by proxying.
-
-Only choose this option if you have a local Apache2 installed that the OpenProject package may not control, or need to use a different web server such as Nginx. Please note that not all functionality (especially regarding Repositories) are supported on Nginx. 
-
-When installing with an existing Apache2, you can use our [installation wizard templates](https://github.com/pkgr/addon-apache2/tree/master/conf) for guidance on how to set up the integration. [For a minimal nginx config, please see this gist](https://gist.github.com/seLain/375d16ccd4542e3727e97a7478187d3a) as as starting point.
-
-In case you select to auto-install Apache2, multiple dialogs will request the parameters for setting it up.
+In case you select to auto-install Apache2, multiple dialogs will request the parameters for setting it up:
 
 **Domain name**
 
@@ -277,6 +269,15 @@ In that case, you will be shown three additional dialogs to enter the certificat
 3. The path to the Certificate Authority bundle for the certificate (optional, leave empty unless needed)
 
 ![02d-ssl](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/02d-ssl.png?raw=true)
+
+
+### **Skip** (not recommended)
+
+The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listeing at `localhost:6000` by proxying.
+
+Only choose this option if you have a local Apache2 installed that the OpenProject package may not control, or need to use a different web server such as Nginx. Please note that not all functionality (especially regarding Repositories) are supported on Nginx. 
+
+When installing with an existing Apache2, you can use our [installation wizard templates](https://github.com/pkgr/addon-apache2/tree/master/conf) for guidance on how to set up the integration. [For a minimal nginx config, please see this gist](https://gist.github.com/seLain/375d16ccd4542e3727e97a7478187d3a) as as starting point.
 
 ## Step 3: SVN/Git integration server
 

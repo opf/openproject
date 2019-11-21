@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Backing up
-  priority: 600
+  priority: 9
 ---
 
 # Backing up your OpenProject installation
@@ -15,13 +15,13 @@ In general the following parts of your OpenProject installation should be backed
 - Data stored in the database
 - Configuration files
 - Uploaded files (attachments)
-- Repositories (typically subversion) if applicable
+- Repositories (subversion, git) if applicable
 
-## Packaged installation (DEB/RPM)
+## Package-based installation (DEB/RPM)
 
-The DEB/RPM packages provide a backup tool which can be used to take a snaphsot
+The DEB/RPM packages provide a backup tool which can be used to take a snapshot
 of the current OpenProject installation. This tool will create a backup of
-all parts mentioned above. The backup tool is used by executing the following
+all parts mentioned above. The backup tool is invoked by executing the following
 command:
 
 ```bash
@@ -49,3 +49,26 @@ drwxr-xr-x 6 openproject openproject    4096 Nov 19 21:00 ..
 ```
 
 You should then copy those dump files to a secure location, for instance an S3 bucket or some sort of backup server.
+
+## Docker-based installation
+
+TODO: review
+
+If you've followed the steps described in the [installation guide for Docker](../installation/docker),
+then you just need to make a backup of the exported volumes, at your
+convenience. As a reminder, here is the recommended way to launch OpenProject
+with Docker:
+
+```bash
+sudo mkdir -p /var/lib/openproject/{pgdata,logs,static}
+
+docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
+  -v /var/lib/openproject/pgdata:/var/lib/postgresql/9.6/main \
+  -v /var/lib/openproject/logs:/var/log/supervisor \
+  -v /var/lib/openproject/static:/var/db/openproject \
+  openproject/community:10
+```
+
+If you're using the same local directories than the above command, then you
+just need to backup your local `/var/lib/openproject` folder (for instance to
+S3 or FTP).
