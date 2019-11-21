@@ -187,13 +187,6 @@ group :test do
   gem 'rack-test', '~> 1.1.0'
   gem 'shoulda-context', '~> 1.2'
 
-  # Require factory_bot for usage with openproject plugins testing
-  # FactoryBot needs to be available when loading app otherwise factory
-  # definitions from core are not available in the plugin thus specs break
-  gem 'factory_bot', '~> 4.8'
-  # require factory_bot_rails for convenience in core development
-  gem 'factory_bot_rails', '~> 4.8', require: false
-
   # Test prof provides factories from code
   # and other niceties
   gem 'test-prof', '~> 0.10.0'
@@ -250,6 +243,11 @@ end
 
 group :development, :test do
   gem 'thin', '~> 1.7.2'
+
+  # Require factory_bot for usage with openproject plugins testing
+  gem 'factory_bot', '~> 4.8'
+  # require factory_bot_rails for convenience in core development
+  gem 'factory_bot_rails', '~> 4.8'
 
   # Tracing and profiling gems
   gem 'flamegraph', require: false

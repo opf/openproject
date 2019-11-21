@@ -111,6 +111,9 @@ module OpenProject::Bcf
         selections = hash.dig('components', 'selection', 'component')
         return unless selections
 
+        # Skip any components that have no guid
+        selections.select! { |item| item['ifc_guid'] }
+
         hash['components']['selection'] = selections
       end
 
@@ -126,6 +129,9 @@ module OpenProject::Bcf
         hash['components']['coloring'] = colors.map do |entry|
           # Prepend hash for hex color
           entry['color'] = "##{entry['color']}"
+
+          # Fix items name
+          entry['components'] = entry.delete('component')
           entry
         end
       end
