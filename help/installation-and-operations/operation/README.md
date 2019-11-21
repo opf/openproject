@@ -14,6 +14,7 @@ sidebar_navigation:
 | [Monitoring & Logs](./monitoring) | How to monitor your OpenProject installation (logs, health checks) |
 | [Process control](./control) | How to start/stop/restart, execute processes in your OpenProject installation |
 | [FAQ](./faq) | Frequently asked questions |
+
 <!--
 | [Troubleshooting](./troubleshooting) | How to troubleshoot your OpenProject installation |
 | [Scaling up/down](./scaling) | How to scale your OpenProject installation |
