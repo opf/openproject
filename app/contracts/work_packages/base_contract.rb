@@ -155,7 +155,7 @@ module WorkPackages
 
     def validate_enabled_type
       # Checks that the issue can not be added/moved to a disabled type
-      if model.project && !type_inexistent? && (model.type_id_changed? || model.project_id_changed?)
+      if type_context_changed?
         errors.add :type_id, :inclusion unless model.project.types.include?(model.type)
       end
     end
@@ -308,6 +308,10 @@ module WorkPackages
       else
         query
       end
+    end
+
+    def type_context_changed?
+      model.project && !type_inexistent? && (model.type_id_changed? || model.project_id_changed?)
     end
 
     def type_inexistent?
