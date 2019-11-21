@@ -277,21 +277,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
         }.with_indifferent_access
       end
 
-      it 'responds with 422 and mentions the error' do
-        expect(subject.status).to eq 422
-
-        expect(subject.body)
-          .to be_json_eql('Error'.to_json)
-          .at_path('_type')
-
-        expect(subject.body)
-          .to be_json_eql("You must not write a read-only attribute.".to_json)
-          .at_path('message')
-
-        expect(subject.body)
-          .to be_json_eql("scope".to_json)
-          .at_path('_embedded/details/attribute')
-      end
+      it_behaves_like 'read-only violation', 'scope', Grids::Grid
     end
 
     context 'with the page not existing' do

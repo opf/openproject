@@ -51,8 +51,8 @@ shared_examples_for 'issues contract' do
 
     id
   end
-  let(:issue_stage) { 'some stage' }
-  let(:issue_labels) { %w(some labels) }
+  let(:issue_stage) { nil }
+  let(:issue_labels) { [] }
   let(:issue_index) { 8 }
 
   before do
@@ -105,10 +105,20 @@ shared_examples_for 'issues contract' do
     it_behaves_like 'is valid'
   end
 
-  context 'if labels is nil' do
-    let(:issue_labels) { nil }
+  context 'if the stage is written' do
+    let(:issue_stage) { 'some stage' }
 
-    it_behaves_like 'is valid'
+    it 'is invalid' do
+      expect_valid(false, stage: %i(error_readonly))
+    end
+  end
+
+  context 'if labels is written' do
+    let(:issue_labels) { %w(some labels) }
+
+    it 'is invalid' do
+      expect_valid(false, labels: %i(error_readonly))
+    end
   end
 
   context 'if index is nil' do

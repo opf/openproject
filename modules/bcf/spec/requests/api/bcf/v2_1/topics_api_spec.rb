@@ -199,8 +199,8 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       FactoryBot.create(:default_priority)
     end
     let(:description) { 'some description' }
-    let(:stage) { 'current stage' }
-    let(:labels) { %w(some labels) }
+    let(:stage) { nil }
+    let(:labels) { [] }
     let(:index) { 5 }
     let(:params) do
       {
@@ -237,15 +237,15 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
           labels: labels,
           index: index,
           reference_links: [
-            api_v3_paths.work_package(work_package.id)
+            api_v3_paths.work_package(work_package&.id)
           ],
           assigned_to: view_only_user.mail,
           due_date: Date.today.iso8601,
           stage: stage,
           creation_author: edit_member_user.mail,
-          creation_date: work_package.created_at.iso8601,
+          creation_date: work_package&.created_at&.iso8601,
           modified_author: edit_member_user.mail,
-          modified_date: work_package.updated_at.iso8601,
+          modified_date: work_package&.updated_at&.iso8601,
           description: description
         }
       end
@@ -273,15 +273,15 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
             labels: [],
             index: nil,
             reference_links: [
-              api_v3_paths.work_package(work_package.id)
+              api_v3_paths.work_package(work_package&.id)
             ],
             assigned_to: nil,
             due_date: nil,
             stage: nil,
             creation_author: edit_member_user.mail,
-            creation_date: work_package.created_at.iso8601,
+            creation_date: work_package&.created_at&.iso8601,
             modified_author: edit_member_user.mail,
-            modified_date: work_package.updated_at.iso8601,
+            modified_date: work_package&.updated_at&.iso8601,
             description: nil
           }
         end
@@ -373,6 +373,36 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       it_behaves_like 'bcf api unprocessable response' do
         let(:message) do
           "Multiple field constraints have been violated. Type does not exist. Assignee does not exist."
+        end
+      end
+    end
+
+    context 'with a label' do
+      let(:params) do
+        {
+          title: 'Some title',
+          labels: ['some label']
+        }
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) do
+          "Labels was attempted to be written but is not writable."
+        end
+      end
+    end
+
+    context 'with a stage' do
+      let(:params) do
+        {
+          title: 'Some title',
+          stage: 'some stage'
+        }
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) do
+          "Stage was attempted to be written but is not writable."
         end
       end
     end
