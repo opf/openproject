@@ -58,7 +58,6 @@ module API
                    required: true,
                    has_default: false,
                    writable: default_writable_property(property),
-                   visibility: nil,
                    attribute_group: nil,
                    min_length: nil,
                    max_length: nil,
@@ -71,7 +70,6 @@ module API
                                    required,
                                    has_default,
                                    writable,
-                                   visibility,
                                    attribute_group,
                                    min_length,
                                    max_length,
@@ -96,7 +94,6 @@ module API
                                      required: true,
                                      has_default: false,
                                      writable: default_writable_property(property),
-                                     visibility: nil,
                                      attribute_group: nil,
                                      show_if: true)
           getter = ->(*) do
@@ -105,7 +102,6 @@ module API
                                                      required,
                                                      has_default,
                                                      writable,
-                                                     visibility,
                                                      attribute_group,
                                                      href_callback)
           end
@@ -131,7 +127,6 @@ module API
                                            required: true,
                                            has_default: false,
                                            writable: default_writable_property(property),
-                                           visibility: nil,
                                            attribute_group: nil,
                                            show_if: true)
 
@@ -144,7 +139,6 @@ module API
                                                   required,
                                                   has_default,
                                                   writable,
-                                                  visibility,
                                                   attribute_group,
                                                   values_callback,
                                                   nil)
@@ -169,7 +163,6 @@ module API
                                                   required: true,
                                                   has_default: false,
                                                   writable: default_writable_property(property),
-                                                  visibility: nil,
                                                   attribute_group: nil,
                                                   show_if: true)
           getter = ->(*) do
@@ -181,7 +174,6 @@ module API
                                                   required,
                                                   has_default,
                                                   writable,
-                                                  visibility,
                                                   attribute_group,
                                                   values_callback,
                                                   ->(*) {
@@ -284,7 +276,6 @@ module API
                                  required,
                                  has_default,
                                  writable,
-                                 visibility,
                                  attribute_group,
                                  min_length,
                                  max_length,
@@ -297,7 +288,6 @@ module API
                       required: call_or_use(required),
                       has_default: call_or_use(has_default),
                       writable: call_or_use(writable),
-                      visibility: call_or_use(visibility),
                       attribute_group: call_or_use(attribute_group))
         schema.min_length = min_length
         schema.max_length = max_length
@@ -312,7 +302,6 @@ module API
                                                    required,
                                                    has_default,
                                                    writable,
-                                                   visibility,
                                                    attribute_group,
                                                    href_callback)
         representer = ::API::Decorators::AllowedValuesByLinkRepresenter
@@ -321,7 +310,6 @@ module API
                            required: call_or_use(required),
                            has_default: call_or_use(has_default),
                            writable: call_or_use(writable),
-                           visibility: call_or_use(visibility),
                            attribute_group: call_or_use(attribute_group))
 
         if form_embedded
@@ -339,7 +327,6 @@ module API
                                                 required,
                                                 has_default,
                                                 writable,
-                                                visibility,
                                                 attribute_group,
                                                 values_callback,
                                                 allowed_values_getter)
@@ -358,7 +345,6 @@ module API
                        required: call_or_use(required),
                        has_default: call_or_use(has_default),
                        writable: call_or_use(writable),
-                       visibility: call_or_use(visibility),
                        attribute_group: call_or_use(attribute_group) }
 
         attributes[:allowed_values_getter] = allowed_values_getter if allowed_values_getter

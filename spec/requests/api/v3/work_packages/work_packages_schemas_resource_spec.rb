@@ -206,7 +206,6 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
         it 'should return the schema for estimated_hours' do
           expected = { 'type': 'Duration',
                        'name': 'Estimated time',
-                       'visibility': 'default',
                        'required': false,
                        'hasDefault': false,
                        'writable': false,

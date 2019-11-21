@@ -96,8 +96,6 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'createdAt' do
@@ -109,8 +107,6 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'project' do

@@ -34,8 +34,6 @@ shared_examples_for 'filter dependency' do
     let(:has_default) { false }
   end
 
-  it_behaves_like 'has no visibility property'
-
   it_behaves_like 'does not link to allowed values'
 
   context 'when embedding' do
@@ -53,8 +51,6 @@ shared_examples_for 'filter dependency with allowed link' do
     let(:has_default) { false }
   end
 
-  it_behaves_like 'has no visibility property'
-
   it_behaves_like 'does not link to allowed values'
 
   context 'when embedding' do
@@ -71,8 +67,6 @@ shared_examples_for 'filter dependency with allowed value link collection' do
     let(:writable) { true }
     let(:has_default) { false }
   end
-
-  it_behaves_like 'has no visibility property'
 
   it_behaves_like 'does not link to allowed values'
 
