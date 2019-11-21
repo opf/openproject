@@ -2576,7 +2576,6 @@ tr:
         redirect_uri_html: >
           İzin verilen URL'ler yetkili kullanıcılar adresine yönlendirilebilir. Her satıra bir giriş. <br/> Bir masaüstü uygulamasına kaydoluyorsanız, aşağıdaki URL'yi kullanın.
         confidential: "Uygulamanın, müşteri sırrının gizli tutulabileceği yerlerde kullanılıp kullanılmayacağını kontrol edin. Yerel mobil uygulamalar ve Tek Sayfa Uygulamaları gizli değildir."
-        scopes: "Uygulamanın erişmesine izin vermek istediğiniz kapsamları kontrol edin. Kapsam işaretli değilse, api_v3 olduğu kabul edilir."
         client_credential_user_id: "İstemciler bu uygulamayı kullandıklarında kimliğe bürünmek için isteğe bağlı kullanıcı kimliği. Yalnızca genel erişime izin vermek için boş bırakın"
         register_intro: "OpenProject için bir OAuth API istemci uygulaması geliştiriyorsanız, tüm kullanıcıların kullanması için bu formu kullanarak kayıt olabilirsiniz."
         default_scopes: ""
@@ -2591,8 +2590,8 @@ tr:
       wants_to_access_html: >
         Bu uygulama OpenProject hesabınıza erişim istiyor. <br/> <strong> Aşağıdaki izinleri istedi: </strong>
     scopes:
-      api_v3: "Tam API v3 erişimi"
-      api_v3_text: "Uygulama, sizin adınıza işlem yapmak için OpenProject API v3'e tam okuma ve yazma erişimi alacaktır."
+      api_v3: "Tam API erişimi"
+      api_v3_text: "Uygulama, sizin adınıza işlem yapmak için OpenProject API'sine tam okuma ve yazma erişimi alır."
     grants:
       created_date: "Tarihinde onaylandı"
       scopes: "İzinler"
