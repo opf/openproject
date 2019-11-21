@@ -98,8 +98,6 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'createdAt' do
@@ -111,8 +109,6 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'updatedAt' do
@@ -124,8 +120,6 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'name' do
@@ -142,8 +136,6 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
         let(:min_length) { 1 }
         let(:max_length) { 60 }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'description' do
@@ -155,8 +147,6 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
         let(:required) { false }
         let(:writable) { true }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'int custom field' do
@@ -179,8 +169,6 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
         let(:required) { false }
         let(:writable) { true }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'endDate' do
@@ -192,8 +180,6 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
         let(:required) { false }
         let(:writable) { true }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'definingProject' do

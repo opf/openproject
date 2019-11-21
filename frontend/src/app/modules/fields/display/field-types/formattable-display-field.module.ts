@@ -35,9 +35,14 @@ export class FormattableDisplayField extends DisplayField {
 
   private readonly appRef = this.$injector.get(ApplicationRef);
 
-  public render(element:HTMLElement, displayText:string):void {
+  public render(element:HTMLElement, displayText:string, options:any = {}):void {
     let div = document.createElement('div');
+
     div.classList.add('read-value--html', 'wiki', 'highlight', '-multiline');
+    if (options.rtl) {
+      div.classList.add('-rtl');
+    }
+
     div.innerHTML = displayText;
 
     element.innerHTML = '';

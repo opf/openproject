@@ -46,7 +46,6 @@ module API
                      required: true,
                      has_default: false,
                      writable: true,
-                     visibility: nil,
                      attribute_group: nil,
                      current_user: nil,
                      allowed_values_getter: nil)
@@ -59,7 +58,6 @@ module API
               required: required,
               has_default: has_default,
               writable: writable,
-              visibility: visibility,
               attribute_group: attribute_group,
               current_user: current_user)
       end

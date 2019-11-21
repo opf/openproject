@@ -41,8 +41,7 @@ module API
                  type: 'String',
                  writable: false,
                  has_default: true,
-                 required: true,
-                 visibility: false
+                 required: true
 
           def self.filter_representer
             ::API::V3::Queries::Filters::QueryFilterRepresenter
@@ -61,7 +60,6 @@ module API
                                          type: 'QueryFilter',
                                          required: true,
                                          writable: true,
-                                         visibility: false,
                                          values_callback: -> {
                                            [filter]
                                          },
@@ -86,7 +84,6 @@ module API
                                          writable: true,
                                          has_default: false,
                                          required: true,
-                                         visibility: false,
                                          values_callback: -> {
                                            filter.available_operators
                                          },

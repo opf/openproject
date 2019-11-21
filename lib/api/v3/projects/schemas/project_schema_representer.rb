@@ -37,45 +37,37 @@ module API
           custom_field_injector type: :schema_representer
 
           schema :id,
-                 type: 'Integer',
-                 visibility: false
+                 type: 'Integer'
 
           schema :name,
                  type: 'String',
-                 visibility: false,
                  min_length: 1,
                  max_length: 255
 
           schema :identifier,
                  type: 'String',
-                 visibility: false,
                  min_length: 1,
                  max_length: 100
 
           schema :description,
                  type: 'Formattable',
-                 visibility: false,
                  required: false
 
           schema :public,
-                 type: 'Boolean',
-                 visibility: false
+                 type: 'Boolean'
 
           schema :active,
-                 type: 'Boolean',
-                 visibility: false
+                 type: 'Boolean'
 
           schema :status,
                  type: 'ProjectStatus',
                  name_source: ->(*) { I18n.t('activerecord.attributes.project/status.code') },
-                 visibility: false,
                  required: false,
                  writable: ->(*) { represented.writable?(:status) }
 
           schema :status_explanation,
                  type: 'Formattable',
                  name_source: ->(*) { I18n.t('activerecord.attributes.project/status.explanation') },
-                 visibility: false,
                  required: false,
                  writable: ->(*) { represented.writable?(:status) }
 
@@ -93,12 +85,10 @@ module API
                                    }
 
           schema :created_at,
-                 type: 'DateTime',
-                 visibility: false
+                 type: 'DateTime'
 
           schema :updated_at,
-                 type: 'DateTime',
-                 visibility: false
+                 type: 'DateTime'
 
           def self.represented_class
             ::Project

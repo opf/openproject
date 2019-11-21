@@ -43,7 +43,7 @@ cs:
     button_close: "Zavřít"
     button_change_project: "Change project"
     button_check_all: "Zaškrtnout vše"
-    button_configure-form: "Configure form"
+    button_configure-form: "Nastavení formuláře"
     button_confirm: "Potvrdit"
     button_continue: "Pokračovat"
     button_copy: "Kopírovat"
@@ -54,13 +54,13 @@ cs:
     button_duplicate: "Kopie"
     button_edit: "Upravit"
     button_filter: "Filtr"
-    button_advanced_filter: "Advanced filter"
+    button_advanced_filter: "Pokročilý filtr"
     button_list_view: "Zobrazit jako seznam"
     button_show_view: "Celá obrazovka"
     button_log_time: "Čas protokolu"
     button_more: "Více"
-    button_open_details: "Open details view"
-    button_close_details: "Close details view"
+    button_open_details: "Otevřít zobrazení podrobností"
+    button_close_details: "Zavřít zobrazení podrobností"
     button_open_fullscreen: "Otevřít celoobrazovkový pohled"
     button_show_cards: "Show card view"
     button_show_list: "Show list view"
@@ -106,16 +106,16 @@ cs:
     description_selected_columns: "Vybrané sloupce"
     description_subwork_package: "Potomek pracovního balíčku #%{id}"
     editor:
-      preview: 'Toggle preview mode'
-      source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      preview: 'Přepnout režim náhledu'
+      source_code: 'Přepnout zdrojový mód Markdown'
+      error_saving_failed: 'Uložení dokumentu se nezdařilo s následující chybou: %{error}'
       error_initialization_failed: 'Nepodařilo se inicializovat CKEditor!'
       mode:
         manual: 'Přepněte do Markdown zdroje'
-        wysiwyg: 'Switch to WYSIWYG editor'
+        wysiwyg: 'Přepnout na WYSIWYG Editor'
       macro:
         child_pages:
-          button: 'Links to child pages'
+          button: 'Odkazy na podřízené stránky'
           include_parent: 'Include parent'
           text: '[Placeholder] Links to child pages of'
           page: 'Stránka wiki'
@@ -419,7 +419,7 @@ cs:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-        upgrade_to_ee: "Upgrade to Enterprise Edition"
+        upgrade_to_ee: "Upgradovat na Enterprise Edition"
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "Více informací"
         nevermind: "Nevermind"
