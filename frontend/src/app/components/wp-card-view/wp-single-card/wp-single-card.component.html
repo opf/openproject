@@ -5,7 +5,7 @@
        [ngClass]="cardHighlightingClass(workPackage)">
   </div>
 
-  <div class="wp-card--inline-buttons">
+  <div class="wp-card--inline-buttons hidden-for-mobile">
     <a class="wp-card--inline-cancel-button -no-decoration"
        *ngIf="workPackage.isNew || showRemoveButton"
        [ngClass]="{ '-show': workPackage.isNew }"
