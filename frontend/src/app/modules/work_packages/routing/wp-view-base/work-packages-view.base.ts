@@ -55,6 +55,7 @@ import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work
 import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {DeviceService} from "core-app/modules/common/browser/device.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
@@ -83,6 +84,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
   readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService = this.injector.get(WorkPackageViewDisplayRepresentationService);
   readonly halEvents:HalEventsService = this.injector.get(HalEventsService);
+  readonly deviceService:DeviceService = this.injector.get(DeviceService);
 
 
   constructor(protected injector:Injector) {

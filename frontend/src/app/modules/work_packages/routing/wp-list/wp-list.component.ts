@@ -123,7 +123,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       this.currentQuery = query;
 
       // Update the visible representation
-      if (this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation) {
+      if (this.deviceService.isMobile || this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation) {
         this.showListView = false;
       } else {
         this.showListView = true;
