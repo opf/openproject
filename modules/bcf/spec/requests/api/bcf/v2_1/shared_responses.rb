@@ -75,7 +75,7 @@ shared_examples_for 'bcf api unprocessable response' do
 
   it 'responds 422 UNPROCESSABLE ENTITY', :aggregate_failures do
     expect(subject.status).to eq 422
-    expect(subject.body).to be_json_eql(expect_403.to_json)
+    expect(subject.body).to be_json_eql(expect_422.to_json)
     expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8'
   end
 end

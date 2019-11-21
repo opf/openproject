@@ -40,10 +40,12 @@ module Bcf::API::V2_1
         project.types.pluck(:name)
       end
 
+      ##
+      # We only return the default status for now
+      # since that can always be set to a new issue
       def topic_status
-        Type
-          .statuses(project.types.pluck(:id))
-          .or(Status.where_default)
+        Status
+          .where_default
           .pluck(:name)
       end
 

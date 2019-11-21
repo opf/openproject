@@ -45,12 +45,12 @@ describe Bcf::API::V2_1::ProjectExtensions::Definitions, 'rendering' do
   end
 
   describe '#topic_status' do
-    let!(:status) { FactoryBot.create :default_status  }
+    let!(:default_status) { FactoryBot.create :default_status  }
+    let!(:status) { FactoryBot.create :status  }
     subject  { instance.topic_status }
 
-    it 'returns statuses for the available types' do
-      expect(Type).to receive(:statuses).with([type_task.id]).and_call_original
-      expect(subject).to eq [status.name]
+    it 'returns default status only' do
+      expect(subject).to eq [default_status.name]
     end
   end
 
