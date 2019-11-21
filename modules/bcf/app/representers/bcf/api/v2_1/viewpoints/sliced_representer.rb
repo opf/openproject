@@ -33,7 +33,7 @@ module Bcf::API::V2_1
     class SlicedRepresenter < SingleRepresenter
       attr_reader :slice, :key
 
-      def initialize(represented, slice:, key:nil)
+      def initialize(represented, slice:, key: nil)
         super(represented)
         @key = key || slice.last
         @slice = slice
