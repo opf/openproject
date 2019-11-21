@@ -27,81 +27,55 @@
 #++
 
 shared_examples_for 'bcf api successful response' do
-  it 'responds 200 OK' do
-    expect(subject.status)
-      .to eql 200
+  it 'responds correctly with the expected body', :aggregate_failures do
+    expect(subject.status).to eq 200
+    expect(subject.body).to be_json_eql(expected_body.to_json)
+    expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8'
   end
+end
 
-  it 'returns the resource' do
-    expect(subject.body)
-      .to be_json_eql(expected_body.to_json)
-  end
+shared_examples_for 'bcf api successful response expectation' do
+  it 'responds correctly with the expected body', :aggregate_failures do
+    expect(subject.status).to eq 200
 
-  it 'is has a json content type header' do
-    expect(subject.headers['Content-Type'])
-      .to eql 'application/json; charset=utf-8'
+    instance_exec(subject.body, &expectations)
+
+    expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8'
   end
 end
 
 shared_examples_for 'bcf api not found response' do
-  it 'responds 404 NOT FOUND' do
-    expect(subject.status)
-      .to eql 404
+  let(:expect_404) do
+    { message: 'The requested resource could not be found.' }
   end
 
-  it 'states a NOT FOUND message' do
-    expected = {
-      message: 'The requested resource could not be found.'
-    }
-
-    expect(subject.body)
-      .to be_json_eql(expected.to_json)
-  end
-
-  it 'is has a json content type header' do
-    expect(subject.headers['Content-Type'])
-      .to eql 'application/json; charset=utf-8'
+  it 'responds 404 NOT FOUND', :aggregate_failures do
+    expect(subject.status).to eq 404
+    expect(subject.body).to be_json_eql(expect_404.to_json)
+    expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8'
   end
 end
 
 shared_examples_for 'bcf api not allowed response' do
-  it 'responds 403 NOT ALLOWED' do
-    expect(subject.status)
-      .to eql 403
+  let(:expect_403) do
+    { message: 'You are not authorized to access this resource.' }
   end
 
-  it 'states a NOT ALLOWED message' do
-    expected = {
-      message: 'You are not authorized to access this resource.'
-    }
-
-    expect(subject.body)
-      .to be_json_eql(expected.to_json)
-  end
-
-  it 'is has a json content type header' do
-    expect(subject.headers['Content-Type'])
-      .to eql 'application/json; charset=utf-8'
+  it 'responds 403 NOT ALLOWED', :aggregate_failures do
+    expect(subject.status).to eq 403
+    expect(subject.body).to be_json_eql(expect_403.to_json)
+    expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8'
   end
 end
 
 shared_examples_for 'bcf api unprocessable response' do
-  it 'responds 403 NOT ALLOWED' do
-    expect(subject.status)
-      .to eql 422
+  let(:expect_422) do
+    { message: message }
   end
 
-  it 'states a reason message' do
-    expected = {
-      message: message
-    }
-
-    expect(subject.body)
-      .to be_json_eql(expected.to_json)
-  end
-
-  it 'is has a json content type header' do
-    expect(subject.headers['Content-Type'])
-      .to eql 'application/json; charset=utf-8'
+  it 'responds 422 UNPROCESSABLE ENTITY', :aggregate_failures do
+    expect(subject.status).to eq 422
+    expect(subject.body).to be_json_eql(expect_422.to_json)
+    expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8'
   end
 end
