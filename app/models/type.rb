@@ -52,7 +52,7 @@ class ::Type < ActiveRecord::Base
                           association_foreign_key: 'custom_field_id'
 
   belongs_to :color,
-             class_name:  'Color',
+             class_name: 'Color',
              foreign_key: 'color_id'
 
   acts_as_list

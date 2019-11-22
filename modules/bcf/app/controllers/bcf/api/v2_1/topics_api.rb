@@ -35,6 +35,35 @@ module Bcf::API::V2_1
         def topics
           Bcf::Issue.of_project(@project)
         end
+
+        def transform_attributes(attributes)
+          wp_attributes = Bcf::Issues::TransformAttributesService
+                            .new(@project)
+                            .call(attributes)
+                            .result
+
+          attributes
+            .slice(:stage,
+                   :index,
+                   :labels)
+            .merge(wp_attributes)
+        end
+
+        # In a put request, every non required and non provided
+        # parameter needs to be nilled. As we cannot nil type, status and priority
+        # as they are required for a work package we use the default values.
+        def default_put_params
+          {
+            index: nil,
+            assigned_to: nil,
+            description: nil,
+            due_date: nil,
+            subject: nil,
+            type: @project.types.default.first,
+            status: Status.default,
+            priority: IssuePriority.default
+          }
+        end
       end
 
       after_validation do
@@ -51,16 +80,7 @@ module Bcf::API::V2_1
              .new(model: Bcf::Issue,
                   api_name: 'Topics',
                   params_modifier: ->(attributes) {
-                    wp_attributes = Bcf::Issues::TransformAttributesService
-                                    .new(@project)
-                                    .call(attributes)
-                                    .result
-
-                    attributes
-                      .slice(:stage,
-                             :index,
-                             :labels)
-                      .merge(wp_attributes)
+                    transform_attributes(attributes)
                       .merge(project: @project)
                   })
              .mount
@@ -79,17 +99,8 @@ module Bcf::API::V2_1
                .new(model: Bcf::Issue,
                     api_name: 'Topics',
                     params_modifier: ->(attributes) {
-                      # TODO: avoid code duplication with create
-                      wp_attributes = Bcf::Issues::TransformAttributesService
-                                        .new(@project)
-                                        .call(attributes)
-                                        .result
-
-                      attributes
-                        .slice(:stage,
-                               :index,
-                               :labels)
-                        .merge(wp_attributes)
+                      transform_attributes(attributes)
+                        .reverse_merge(default_put_params)
                     })
                .mount
 

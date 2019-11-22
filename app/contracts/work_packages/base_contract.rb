@@ -201,7 +201,7 @@ module WorkPackages
     end
 
     def validate_status_exists
-      errors.add :status, :does_not_exist if model.status&.is_a?(Status::InexistentStatus)
+      errors.add :status, :does_not_exist unless status_exists?
     end
 
     def validate_status_transition
@@ -282,7 +282,7 @@ module WorkPackages
     end
 
     def status_exists?
-      model.status_id && model.status
+      model.status_id && model.status && !model.status.is_a?(Status::InexistentStatus)
     end
 
     def status_transition_exists?

@@ -34,7 +34,9 @@ module Bcf::Issues
 
     def before_perform(params)
       wp_call = ::WorkPackages::UpdateService
-                .new(model: model.work_package, user: user)
+                .new(model: model.work_package,
+                     user: user,
+                     contract_class: Bcf::WorkPackages::UpdateContract)
                 .call(params)
 
       if wp_call.success?

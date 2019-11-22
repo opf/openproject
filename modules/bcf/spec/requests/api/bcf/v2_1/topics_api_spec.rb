@@ -72,6 +72,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
   let(:work_package) do
     FactoryBot.create(:work_package,
                       assigned_to: assignee,
+                      due_date: Date.today,
                       project: project)
   end
   let(:bcf_issue) { FactoryBot.create(:bcf_issue, work_package: work_package) }
@@ -96,7 +97,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
             "creation_author": work_package.author.mail,
             "creation_date": work_package.created_at.iso8601,
             "description": work_package.description,
-            "due_date": nil,
+            "due_date": work_package.due_date.iso8601,
             "guid": bcf_issue.uuid,
             "index": bcf_issue.index,
             "labels": bcf_issue.labels,
@@ -145,7 +146,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
           "creation_author": work_package.author.mail,
           "creation_date": work_package.created_at.iso8601,
           "description": work_package.description,
-          "due_date": nil,
+          "due_date": work_package.due_date.iso8601,
           "guid": bcf_issue.uuid,
           "index": bcf_issue.index,
           "labels": bcf_issue.labels,
@@ -467,10 +468,9 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       FactoryBot.create(:default_status)
     end
     let!(:default_type) do
-      FactoryBot.create(:type, is_default: true)
-    end
-    let!(:standard_type) do
-      FactoryBot.create(:type_standard, name: 'Standard type')
+      FactoryBot.create(:type, is_default: true).tap do |t|
+        project.types << t
+      end
     end
     let!(:priority) do
       FactoryBot.create(:priority)
@@ -523,6 +523,56 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
           modified_date: work_package&.updated_at&.iso8601,
           description: description
         }
+      end
+    end
+
+    context 'with only the minimally required property (title)' do
+      let(:new_title) { 'New title' }
+      let(:params) do
+        {
+          title: new_title
+        }
+      end
+
+      it_behaves_like 'bcf api successful response' do
+        let(:expected_body) do
+          reloaded_work_package = WorkPackage.find(work_package.id)
+
+          {
+            guid: bcf_issue&.uuid,
+            topic_type: default_type.name,
+            topic_status: default_status.name,
+            priority: default_priority.name,
+            title: new_title,
+            labels: [],
+            index: nil,
+            reference_links: [
+              api_v3_paths.work_package(work_package&.id)
+            ],
+            assigned_to: nil,
+            due_date: nil,
+            stage: nil,
+            creation_author: work_package.author.mail,
+            creation_date: work_package&.created_at&.iso8601,
+            modified_author: edit_member_user.mail,
+            modified_date: reloaded_work_package&.updated_at&.iso8601,
+            description: nil
+          }
+        end
+      end
+    end
+
+    context 'with the title set to null' do
+      let(:params) do
+        {
+          title: nil
+        }
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) do
+          "Title can't be blank."
+        end
       end
     end
   end

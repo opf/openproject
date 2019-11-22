@@ -77,7 +77,7 @@ module Bcf::Issues
 
       return type if type.present?
 
-      missing_type(project, type_name, attributes[:import_options] || {})
+      missing_type(type_name, attributes[:import_options] || {})
     end
 
     ##
@@ -144,7 +144,7 @@ module Bcf::Issues
       end
     end
 
-    def missing_type(project, type_name, import_options)
+    def missing_type(type_name, import_options)
       if import_options[:unknown_types_action] == 'use_default'
         project.types.default&.first
       elsif import_options[:unknown_types_action] == 'chose' &&
