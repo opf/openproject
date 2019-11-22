@@ -30,7 +30,7 @@
 module API
   module Errors
     class InternalError < ErrorBase
-      identifier 'urn:openproject-org:api:v3:errors:InternalServerError'
+      identifier 'InternalServerError'
       code 500
 
       def initialize(error_message = nil)

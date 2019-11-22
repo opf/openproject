@@ -30,7 +30,7 @@
 module API
   module Errors
     class InvalidRenderContext < ErrorBase
-      identifier 'urn:openproject-org:api:v3:errors:InvalidRenderContext'
+      identifier 'InvalidRenderContext'
       code 400
     end
   end

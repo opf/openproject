@@ -30,7 +30,7 @@
 module API
   module Errors
     class InvalidResourceLink < ErrorBase
-      identifier 'urn:openproject-org:api:v3:errors:ResourceTypeMismatch'
+      identifier 'ResourceTypeMismatch'
       code 422
 
       def initialize(property_name, expected_link, actual_link)

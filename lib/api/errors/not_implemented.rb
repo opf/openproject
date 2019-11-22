@@ -31,7 +31,7 @@
 module API
   module Errors
     class NotImplemented < ErrorBase
-      identifier 'urn:openproject-org:api:v3:errors:NotImplemented'.freeze
+      identifier 'NotImplemented'.freeze
       code 501
 
       def initialize(error_message = 'Not yet implemented'.freeze)
