@@ -447,7 +447,7 @@ fi:
         could_not_be_copied: "kopioiminen ei onnistunut (täysimääräisesti)."
         does_not_exist: "ei ole olemassa."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "ei voi olla tyhjä."
         even: "täytyy olla parillinen."
         exclusion: "on jo varattu."
@@ -2529,7 +2529,6 @@ fi:
         estimated_hours: "Arvioitu tuntia ei voi asettaa vanhemman toimia paketti."
         invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
         start_date: "Start date cannot be set on parent work packages."
-      writing_read_only_attributes: "You must not write a read-only attribute."
     resources:
       schema: 'Schema'
   doorkeeper:

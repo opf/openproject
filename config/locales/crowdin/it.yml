@@ -446,7 +446,7 @@ it:
         could_not_be_copied: "non possono essere copiati (integralmente)."
         does_not_exist: "non esiste."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "non può essere vuoto."
         even: "deve essere pari."
         exclusion: "è riservato."
@@ -2528,7 +2528,6 @@ it:
         estimated_hours: "Le ore stimate non può essere impostate sulla macro-attività principale."
         invalid_user_assigned_to_work_package: "All'utente scelto non è consentito di essere '%{property}' per questa macro-attività."
         start_date: "La data di inizio non può essere impostata sulla macro-attività principale."
-      writing_read_only_attributes: "Non puoi scrivere un attributo di sola lettura."
     resources:
       schema: 'Schema'
   doorkeeper:

@@ -447,7 +447,7 @@
         could_not_be_copied: "could not be (fully) copied."
         does_not_exist: "does not exist."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "can't be empty."
         even: "must be even."
         exclusion: "is reserved."
@@ -2529,7 +2529,6 @@
         estimated_hours: "Anslåtte timer kan ikke angis på overordnede arbeidspakker."
         invalid_user_assigned_to_work_package: "Valgt bruker har ikke de nødvendige rettighetene til å være '%{property}' for denne arbeidspakken."
         start_date: "Startdato kan ikke angis på overordnede arbeidspakker."
-      writing_read_only_attributes: "Du kan ikke skrive til et skrivebeskyttet attributt."
     resources:
       schema: 'Skjema'
   doorkeeper:

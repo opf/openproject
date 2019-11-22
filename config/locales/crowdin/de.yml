@@ -445,7 +445,7 @@ de:
         could_not_be_copied: "konnten nicht (vollständig) kopiert werden."
         does_not_exist: "existiert nicht."
         error_unauthorized: "kann nicht zugegriffen werden."
-        error_readonly: "ist nicht beschreibbar."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "muss ausgefüllt werden."
         even: "muss gerade sein."
         exclusion: "ist nicht verfügbar."
@@ -2526,7 +2526,6 @@ de:
         estimated_hours: "Der geschätzte Aufwand kann für Eltern-Arbeitspakete nicht gesetzt werden."
         invalid_user_assigned_to_work_package: "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
         start_date: "Das Startdatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
-      writing_read_only_attributes: "Nur-lesende Eigenschaften dürfen nicht geschrieben werden."
     resources:
       schema: 'Schema'
   doorkeeper:

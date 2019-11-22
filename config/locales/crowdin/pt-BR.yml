@@ -446,7 +446,7 @@ pt-BR:
         could_not_be_copied: "não pode ser copiado (totalmente)."
         does_not_exist: "não existe."
         error_unauthorized: "não pode ser acessado."
-        error_readonly: "não é gravável."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "não pode ser vazio."
         even: "deve ser par."
         exclusion: "está reservado."
@@ -2527,7 +2527,6 @@ pt-BR:
         estimated_hours: "Número estimado de horas não pode ser definido em pacotes de trabalho pai."
         invalid_user_assigned_to_work_package: "O usuário selecionado não tem permissão de '%{property}' neste pacote de trabalho."
         start_date: "Data de início não pode ser definida no pacote de trabalho pai."
-      writing_read_only_attributes: "Você não pode escrever um atributo somente leitura."
     resources:
       schema: 'Esquema'
   doorkeeper:

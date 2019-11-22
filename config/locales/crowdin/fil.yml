@@ -447,7 +447,7 @@ fil:
         could_not_be_copied: "dapat hindi masyado kinopya ang lahat."
         does_not_exist: "hindi umiiral."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "hindi pwedeng blanko."
         even: "dapat ay kapareho."
         exclusion: "ay nakareserba."
@@ -2527,7 +2527,6 @@ fil:
         estimated_hours: "Itinayang mga oras ay hindi mai-set sa mga package ng gawain ng magulang."
         invalid_user_assigned_to_work_package: "Ang piniling gumagamit ay hindi pinahihintulan sa '%{property}' na para sa package ng gawain ng magulang."
         start_date: "Sinimulang petsa ay hindi mai-set sa mga pakete ng gawain ng magulang."
-      writing_read_only_attributes: "Ikaw ay hindi pwedeng sumulat ng isang katangiang basa-lang."
     resources:
       schema: 'Iskema'
   doorkeeper:

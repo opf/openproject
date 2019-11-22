@@ -448,7 +448,7 @@ hr:
         could_not_be_copied: "ne može biti (u potpunosti) kopirano."
         does_not_exist: "ne postoji."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "ne može biti prazan unos."
         even: "mora biti izjednačeno."
         exclusion: "je rezerviran."
@@ -2552,7 +2552,6 @@ hr:
         estimated_hours: "Predviđeni sati ne mogu biti postavljeni na nadređeni radni paket."
         invalid_user_assigned_to_work_package: "Izabranom korisniku nije dopušteno da bude '%{property}' za ovaj radni paket."
         start_date: "Datum početka ne može biti postavljen na nadređenim radnim paketima."
-      writing_read_only_attributes: "Nije dopušteno zapisivanje kod atributa kod kojeg je dopušteno samo čitanje."
     resources:
       schema: 'Shema'
   doorkeeper:

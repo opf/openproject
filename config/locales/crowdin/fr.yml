@@ -446,7 +446,7 @@ fr:
         could_not_be_copied: "n'a pas pu être copié (entièrement)."
         does_not_exist: "n'existe pas."
         error_unauthorized: "est interdit d'accès."
-        error_readonly: "est en lecture seule."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "ne peut pas être vide."
         even: "doit être pair."
         exclusion: "est réservé."
@@ -2527,7 +2527,6 @@ fr:
         estimated_hours: "Les heures estimées ne peuvent être définies sur les lots de travaux parents."
         invalid_user_assigned_to_work_package: "L’utilisateur choisi n'est pas autorisé à être « %{property} » pour ce lot de travaux."
         start_date: "La date de début ne peut pas être définie dans les lots de travaux parents."
-      writing_read_only_attributes: "Vous ne devez pas écrire un attribut en lecture seule."
     resources:
       schema: 'Schéma'
   doorkeeper:

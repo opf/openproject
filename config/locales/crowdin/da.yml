@@ -447,7 +447,7 @@ da:
         could_not_be_copied: "kunne ikke (fuldt ud) kopieres."
         does_not_exist: "findes ikke."
         error_unauthorized: "kan muligvis ikke tilgås."
-        error_readonly: "er ikke skrivebar."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "må ikke være tomt."
         even: "skal være lige."
         exclusion: "er reserveret."
@@ -2527,7 +2527,6 @@ da:
         estimated_hours: "Det skønnede timetal kan ikke angives på overordnede arbejdspakker."
         invalid_user_assigned_to_work_package: "Den valgte bruger er ikke tilladt at være '%{property}' for denne arbejdspakke."
         start_date: "Startdato kan ikke angives for overordnede arbejdspakker."
-      writing_read_only_attributes: "Du må ikke skrive til en skrivebeskyttet attribut."
     resources:
       schema: 'Skema'
   doorkeeper:

@@ -447,7 +447,7 @@ ca:
         could_not_be_copied: "no pot ser (completament) copiat."
         does_not_exist: "no existeix."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "no pot estar buit."
         even: "ha de ser parell."
         exclusion: "està reservat."
@@ -2527,7 +2527,6 @@ ca:
         estimated_hours: "Les hores estimades no es poden definir per paquets de treball del pare."
         invalid_user_assigned_to_work_package: "L'usuari escollit no pot ser \"%{property}\" per a aquest paquet de treball."
         start_date: "La data d'inici no es pot definir per paquets de treball del pare."
-      writing_read_only_attributes: "No s'ha d'escriure en un atribut de només de lectura."
     resources:
       schema: 'Esquema'
   doorkeeper:

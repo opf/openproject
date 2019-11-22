@@ -449,7 +449,7 @@ pl:
         could_not_be_copied: "nie można skopiować (w całości)."
         does_not_exist: "nie istnieje."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "nie może być puste."
         even: "musi być takie samo."
         exclusion: "jest już zajęte."
@@ -2572,7 +2572,6 @@ pl:
         estimated_hours: "Nie można ustawić szacunku godzinowego dla źródłowych pakietów roboczych."
         invalid_user_assigned_to_work_package: "Wybrany użytkownik nie może być „%{property}” dla tego pakietu roboczego."
         start_date: "Daty rozpoczęcia nie można ustawić na nadrzędnych pakietach roboczych."
-      writing_read_only_attributes: "Nie możesz zapisać atrybutu tylko do odczytu."
     resources:
       schema: 'Schemat'
   doorkeeper:

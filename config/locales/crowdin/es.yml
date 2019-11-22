@@ -447,7 +447,7 @@ es:
         could_not_be_copied: "No pueden ser copiados (totalmente)."
         does_not_exist: "no existe."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "No puede estar vacío."
         even: "debe ser incluido."
         exclusion: "está reservado."
@@ -2528,7 +2528,6 @@ es:
         estimated_hours: "Las horas estimadas no pueden ser establecidas en paquetes de trabajo padres."
         invalid_user_assigned_to_work_package: "El usuario elegido no tiene permiso para ser '%{property}' para este paquete de trabajo."
         start_date: "La fecha de inicio no puede ser establecida en paquetes de trabajo padres."
-      writing_read_only_attributes: "No debería escribir un atributo de solo lectura."
     resources:
       schema: 'Esquema'
   doorkeeper:

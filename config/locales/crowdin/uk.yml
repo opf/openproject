@@ -449,7 +449,7 @@ uk:
         could_not_be_copied: "неможливо (повністю) скопіювати."
         does_not_exist: "не існує."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "не може бути порожнім."
         even: "має бути рівним."
         exclusion: "зарезервовано."
@@ -2574,7 +2574,6 @@ uk:
         estimated_hours: "Очікувані години не можна встановити на базових робочих пакетах."
         invalid_user_assigned_to_work_package: "Вибраному користувачеві не дозволяється %{property} для цього робочого пакету."
         start_date: "Дата початку не може бути встановлена на базових робочих пакетах."
-      writing_read_only_attributes: "Ви не повинні писати атрибут лише для читання."
     resources:
       schema: 'Схема'
   doorkeeper:

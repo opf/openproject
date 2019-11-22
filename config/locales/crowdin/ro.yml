@@ -448,7 +448,7 @@ ro:
         could_not_be_copied: "nu poate fi (complet) copiat(ă)."
         does_not_exist: "nu există."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "nu poate fi gol."
         even: "trebuie să fie par."
         exclusion: "este rezervat."
@@ -2551,7 +2551,6 @@ ro:
         estimated_hours: "Efortul estimat nu poate fi setat pe pachetele de lucru părinte."
         invalid_user_assigned_to_work_package: "Utilizatorul selectat nu poate fi '%{property}' pentru acest pachet de lucru."
         start_date: "Nu se poate seta data start pe pachetele de lucru părinte."
-      writing_read_only_attributes: "Nu puteți scrie într-un câmp restricționat."
     resources:
       schema: 'Schemă'
   doorkeeper:

@@ -445,7 +445,7 @@ ko:
         could_not_be_copied: "은(는) (완전히) 복제될 수 없습니다."
         does_not_exist: "존재하지 않음"
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "비워둘 수 없습니다."
         even: "에 짝수를 입력해 주세요"
         exclusion: "예약됨"
@@ -2503,7 +2503,6 @@ ko:
         estimated_hours: "예상 시간은 부모 작업 패키지에서 설정할 수 없습니다."
         invalid_user_assigned_to_work_package: "선택한 사용자는 이 작업 패키지에 대해 '%{property}' 허가되지 않았습니다."
         start_date: "시작 날짜는 부모 작업 패키지에서 설정할 수 없습니다."
-      writing_read_only_attributes: "읽기 전용 특성은 변경할 수 없습니다."
     resources:
       schema: '스키마'
   doorkeeper:

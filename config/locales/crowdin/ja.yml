@@ -444,7 +444,7 @@ ja:
         could_not_be_copied: "（完全に）コピーできませんでした。"
         does_not_exist: "は存在しません。"
         error_unauthorized: "アクセスできません。"
-        error_readonly: "書込みできません。"
+        error_readonly: "was attempted to be written but is not writable."
         empty: "は空にすることができません。"
         even: "は偶数にしてください。"
         exclusion: "は予約されています。"
@@ -2504,7 +2504,6 @@ ja:
         estimated_hours: "推定時間は、親ワークパッケージに設定できません。"
         invalid_user_assigned_to_work_package: "選択されたユーザーは、この作業項目の'%{property}' にすることはできません。"
         start_date: "開始日は、親ワークパッケージに設定できません。"
-      writing_read_only_attributes: "読み取り専用の属性を書き込みできません。"
     resources:
       schema: 'スキーマ'
   doorkeeper:

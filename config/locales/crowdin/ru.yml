@@ -449,7 +449,7 @@ ru:
         could_not_be_copied: "не может быть скопировано (полностью)."
         does_not_exist: "не существует."
         error_unauthorized: "не может быть получен доступ."
-        error_readonly: "не доступно для записи."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "не может быть пустым."
         even: "должно быть чётным."
         exclusion: "зарезервировано."
@@ -2571,7 +2571,6 @@ ru:
         estimated_hours: "Предполагаемое количество часов не может быть задано для родительских пакетов."
         invalid_user_assigned_to_work_package: "Выбранный пользователь не может быть «%{property}» для этого пакета работ."
         start_date: "Дата начала не может быть задана на родительских  пакетах работ."
-      writing_read_only_attributes: "Вы не должны перезаписывать атрибут являющийся только для чтения."
     resources:
       schema: 'Схема'
   doorkeeper:
@@ -2619,7 +2618,7 @@ ru:
         redirect_uri_html: >
           Разрешенные URL-адреса могут быть перенаправлены на. Одна запись на строку. <br/> Если вы регистрируете приложение на рабочем столе, используйте следующий URL.
         confidential: "Убедитесь в конфиденциальной сохранности секретов клиента при использовании приложения. Оригинальные мобильные приложения и одностраничные приложения не считаются конфиденциальными."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
+        scopes: "Проверьте области, к которым приложение должно предоставить доступ. Если область действия не установлена, предполагается использование api_v3."
         client_credential_user_id: "Необязательный ID пользователя для замещения в момент использования этого приложения клиентами. Оставьте пустым, чтобы разрешить только публичный доступ"
         register_intro: "Если вы разрабатываете клиентское приложение OAuth API для OpenProject, вы можете зарегистрировать его, используя эту форму для всех пользователей."
         default_scopes: ""
@@ -2634,8 +2633,8 @@ ru:
       wants_to_access_html: >
         Это приложение запрашивает доступ к вашей учетной записи OpenProject. <br/> <strong>Оно запросило следующие разрешения:</strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Полный доступ к API v3"
+      api_v3_text: "Приложение получит полный доступ к OpenProject API v3 для выполнения действий от вашего имени."
     grants:
       created_date: "Ознакомлен с"
       scopes: "Разрешения"

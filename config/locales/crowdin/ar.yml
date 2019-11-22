@@ -451,7 +451,7 @@ ar:
         could_not_be_copied: "لا يمكن أن ينسخ بشكل كامل."
         does_not_exist: "غير موجود."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "لا يمكن أن تكون فارغة."
         even: "يجب أن يكون زوجي."
         exclusion: "محجوز."
@@ -2619,7 +2619,6 @@ ar:
         estimated_hours: "لا يمكن تعيين الساعات المقدرة على حزم العمل."
         invalid_user_assigned_to_work_package: "غير مسموح للمستخدم الذي تم اختياره أن يكون '%{property}' لمجموعة العمل هذه."
         start_date: "الوقت لإتمام المشروع لا يمكن تعيينه في حزم العمل الحالية."
-      writing_read_only_attributes: "لا يجب أن تكتب على سمة للقراءة فقط."
     resources:
       schema: 'مخطّط'
   doorkeeper:

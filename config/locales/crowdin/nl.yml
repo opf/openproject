@@ -447,7 +447,7 @@ nl:
         could_not_be_copied: "kon niet (volledig) worden gekopieerd."
         does_not_exist: "bestaat niet."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "mag niet leeg zijn."
         even: "moet gelijk zijn."
         exclusion: "is gereserveerd."
@@ -2527,7 +2527,6 @@ nl:
         estimated_hours: "Geschatte uren uren kunnen niet op ouderwerkpaketten worden gezet."
         invalid_user_assigned_to_work_package: "De gekozen gebruiker kan geen '%{property}' zijn voor dit werkpakket."
         start_date: "De startdatum kan niet worden ingesteld op bovenliggende werkpakketten."
-      writing_read_only_attributes: "U mag geen read-only attribuut schrijven."
     resources:
       schema: 'Schema'
   doorkeeper:

@@ -446,7 +446,7 @@ zh-TW:
         could_not_be_copied: "無法 (完全) 複製"
         does_not_exist: "不存在"
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "不可為空"
         even: "必須是偶數"
         exclusion: "已保留"
@@ -2505,7 +2505,6 @@ zh-TW:
         estimated_hours: "無法在所屬工作包上設置估計小時數。"
         invalid_user_assigned_to_work_package: "所指定的使用者不允許成為工作項目的 '%{property}' 。"
         start_date: "無法在所屬工作包上設置開始日期。"
-      writing_read_only_attributes: "You must not write a read-only attribute.\n您不可寫入唯讀的屬性。"
     resources:
       schema: '架構'
   doorkeeper:

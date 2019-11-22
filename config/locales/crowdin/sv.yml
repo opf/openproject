@@ -447,7 +447,7 @@ sv:
         could_not_be_copied: "kunde inte (fullständigt) kopieras."
         does_not_exist: "finns inte."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "kan inte vara tomt."
         even: "måste vara jämn."
         exclusion: "är reserverat."
@@ -2526,7 +2526,6 @@ sv:
         estimated_hours: "Beräknade timmar kan inte anges för överordnade arbetspaket."
         invalid_user_assigned_to_work_package: "Den valda användaren tillåts inte att vara \"%{property}\" för detta arbetspaket."
         start_date: "Startdatum kan inte anges för överordnade arbetspaket."
-      writing_read_only_attributes: "Du får inte skriva till ett skrivskyddat attribut."
     resources:
       schema: 'Schema'
   doorkeeper:

@@ -449,7 +449,7 @@ cs:
         could_not_be_copied: "nelze (celé) zkopírovat."
         does_not_exist: "neexistuje."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "nemůže být prázdné."
         even: "musí být sudé."
         exclusion: "vyhrazeno."
@@ -2573,7 +2573,6 @@ cs:
         estimated_hours: "Estimated hours cannot be set on parent work packages."
         invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
         start_date: "Start date cannot be set on parent work packages."
-      writing_read_only_attributes: "You must not write a read-only attribute."
     resources:
       schema: 'Schema'
   doorkeeper:

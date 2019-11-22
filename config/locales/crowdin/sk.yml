@@ -449,7 +449,7 @@ sk:
         could_not_be_copied: "Nepodarilo sa (úplne) skopírovať."
         does_not_exist: "neexistuje."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "nemôže byť prázdny."
         even: "musí byť párne."
         exclusion: "patrí medzi vyhradené výrazy."
@@ -2575,7 +2575,6 @@ sk:
         estimated_hours: "Odhad hodín nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky."
         invalid_user_assigned_to_work_package: "Zvolený používateľ nemôže byť \"%{property}\" v prípade tohto pracovného balíčka."
         start_date: "Dátum \"Od\" nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky."
-      writing_read_only_attributes: "Nie je možné meniť atribút, ktorý je určený len na čítanie."
     resources:
       schema: 'Schéma'
   doorkeeper:

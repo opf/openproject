@@ -445,7 +445,7 @@ zh-CN:
         could_not_be_copied: "不能 (完全) 复制。"
         does_not_exist: "不存在。"
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "不能为空。"
         even: "必须是偶数。"
         exclusion: "是保留关键字。"
@@ -2501,7 +2501,6 @@ zh-CN:
         estimated_hours: "不能在父工作包中设置预估的小时数。"
         invalid_user_assigned_to_work_package: "所选的用户不允许为此工作包的 '%{property}'。"
         start_date: "不能在父工作包中设置开始日期。"
-      writing_read_only_attributes: "你不能写入只读属性。"
     resources:
       schema: '方案'
   doorkeeper:

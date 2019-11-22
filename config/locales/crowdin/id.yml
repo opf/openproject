@@ -445,7 +445,7 @@ id:
         could_not_be_copied: "sebagian tidak dapat dicopy."
         does_not_exist: "tidak ditemukan."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "harus di isi."
         even: "harus imbang."
         exclusion: "telah dipesan."
@@ -2503,7 +2503,6 @@ id:
         estimated_hours: "Estimated hours cannot be set on parent work packages."
         invalid_user_assigned_to_work_package: "Pilihan pengguna tidak diperbolehkan untuk menjadi '%{property}' untuk paket pekerjaan ini."
         start_date: "Start date cannot be set on parent work packages."
-      writing_read_only_attributes: "Anda tidak harus menulis hanya-baca atribut."
     resources:
       schema: 'Schema'
   doorkeeper:

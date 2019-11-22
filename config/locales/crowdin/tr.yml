@@ -447,7 +447,7 @@ tr:
         could_not_be_copied: "(tamamen) kopyalanamadı."
         does_not_exist: "mevcut değil."
         error_unauthorized: "erişilemez."
-        error_readonly: "yazılabilir değil."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "boş olamaz."
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
@@ -2528,7 +2528,6 @@ tr:
         estimated_hours: "Tahmini saatler, ebeveyn çalışma paketlerinde ayarlanamaz."
         invalid_user_assigned_to_work_package: "Seçilen kullanıcının bu çalışma paketi için ' %{property} ' olması için izin verilmiyor."
         start_date: "Başlangıç ​​tarihi, üst çalışma paketlerinde ayarlanamaz."
-      writing_read_only_attributes: "Salt okunur bir nitelik yazmamalısınız."
     resources:
       schema: 'Şema'
   doorkeeper:

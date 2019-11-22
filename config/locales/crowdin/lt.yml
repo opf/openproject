@@ -448,7 +448,7 @@ lt:
         could_not_be_copied: "negalima (pilnai) nukopijuoti."
         does_not_exist: "neegzistuoja."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "negali būti tuščia."
         even: "turi būti lyginis."
         exclusion: "yra rezervuotas."
@@ -2571,7 +2571,6 @@ lt:
         estimated_hours: "Tikėtinos valandos negali būti nustatomos tėviniams darbų paketams."
         invalid_user_assigned_to_work_package: "Pasirinktas vartotojas negali būti '%{property}' šiam darbų paketui."
         start_date: "Pradžios data negali būti nustatyta tėviniams darbų paketams."
-      writing_read_only_attributes: "Jūs neturėtumėte įrašyti atributą „tik skaitomas“."
     resources:
       schema: 'Schema'
   doorkeeper:

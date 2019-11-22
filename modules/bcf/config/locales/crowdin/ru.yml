@@ -65,5 +65,5 @@ ru:
   permission_manage_bcf: "Импорт и управление проблемами BCF"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "Полный доступ к BCF v2.1 API"
+      bcf_v2_1_text: "Приложение получит полный доступ на чтение и запись к OpenProject BCF API v2.1 для выполнения действий от вашего имени."
