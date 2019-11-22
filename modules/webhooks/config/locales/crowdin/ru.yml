@@ -18,7 +18,7 @@ ru:
     plural: Вебхуки
     resources:
       time_entry:
-        name: "Time entry"
+        name: "Время поступления"
     outgoing:
       no_results_table: Вебхуки еще не определены.
       label_add_new: Добавить новый вебхук

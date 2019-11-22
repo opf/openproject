@@ -30,9 +30,9 @@ hu:
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'Projekt állapot'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
+          on_track: 'Terv szerint'
+          off_track: 'Kisiklott'
+          at_risk: 'Veszélyben'
           not_set: 'Not set'
         subprojects:
           title: 'Alprojektek'
