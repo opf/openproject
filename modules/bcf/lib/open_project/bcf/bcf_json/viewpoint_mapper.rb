@@ -46,6 +46,7 @@ module OpenProject::Bcf
           transform_orthogonal_camera
           transform_lines
           transform_clipping_planes
+          transform_bitmaps
           transform_selections
           transform_coloring
           transform_visibility
@@ -105,6 +106,31 @@ module OpenProject::Bcf
           plane.deep_transform_values!(&:to_f)
         end
       end
+
+      def transform_bitmaps(hash)
+        return unless hash.key?('bitmaps')
+
+        # Bitmaps can be multiple items within the root bitmaps node
+        # this is different from the other entries
+        # https://github.com/buildingSMART/BCF-XML/pull/44/files
+        bitmaps = Array.wrap(hash['bitmaps'])
+
+        hash['bitmaps'] = bitmaps.map! do |bitmap|
+          bitmap['bitmap_type'] = bitmap.delete('bitmap').downcase
+          bitmap['bitmap_data'] = bitmap.delete('reference')
+          bitmap['height'] = bitmap['height'].to_f
+
+          %w[location normal up].each do |key|
+            next unless bitmap.key?(key)
+
+            # Transform all coordinates to floats
+            bitmap[key].transform_values!(&:to_f)
+          end
+
+          bitmap
+        end
+      end
+
 
       ##
       # Move selections up the tree from the nested XML node

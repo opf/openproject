@@ -53,6 +53,7 @@ describe OpenProject::Bcf::BcfJson::ViewpointMapper do
     it_behaves_like 'has camera', 'perspective_camera'
     it_behaves_like 'has lines'
     it_behaves_like 'has clipping planes'
+    it_behaves_like 'has bitmaps'
     it_behaves_like 'has components selection'
     it_behaves_like 'has components coloring'
     it_behaves_like 'has components visibility'

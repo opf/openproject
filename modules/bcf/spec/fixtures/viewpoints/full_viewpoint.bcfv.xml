@@ -110,4 +110,44 @@
       </Direction>
     </ClippingPlane>
   </ClippingPlanes>
+  <Bitmaps>
+    <Bitmap>PNG</Bitmap>
+    <Reference>3f6ac03e-de8e-4c5e-b3f0-c7bf5f87fe51/bitmaps-d1514fd3-290b-4830-b1fa-5bb780ce9e94-0.png</Reference>
+    <Location>
+      <X>10.064999999983305</X>
+      <Y>-10.40177106506878</Y>
+      <Z>7.011243681990698</Z>
+    </Location>
+    <Normal>
+      <X>-0.9999999999999999</X>
+      <Y>1.253656364893038E-16</Y>
+      <Z>0.0</Z>
+    </Normal>
+    <Up>
+      <X>-5.43903050550883E-34</X>
+      <Y>-4.338533794284917E-18</Y>
+      <Z>1.0</Z>
+    </Up>
+    <Height>1666.1814563907683</Height>
+  </Bitmaps>
+  <Bitmaps>
+    <Bitmap>JPG</Bitmap>
+    <Reference>3f6ac03e-de8e-4c5e-b3f0-c7bf5f87fe51/bitmaps-e6f5a36a-c60b-4fcc-815f-a1dd939ebc87.jpg</Reference>
+    <Location>
+      <X>1</X>
+      <Y>2</Y>
+      <Z>3</Z>
+    </Location>
+    <Normal>
+      <X>-3</X>
+      <Y>1.253656364893038E-16</Y>
+      <Z>0.0</Z>
+    </Normal>
+    <Up>
+      <X>30.1234</X>
+      <Y>-9000</Y>
+      <Z>1.0</Z>
+    </Up>
+    <Height>10</Height>
+  </Bitmaps>
 </VisualizationInfo>

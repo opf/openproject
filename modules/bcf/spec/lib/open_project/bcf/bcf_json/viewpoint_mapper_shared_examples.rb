@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 shared_examples 'viewpoint keys' do
-  let(:expected) { %w[guid components orthogonal_camera perspective_camera lines clipping_planes] }
+  let(:expected) { %w[guid components orthogonal_camera perspective_camera lines clipping_planes bitmaps] }
 
   it 'has only allowed keys' do
     expect(subject.keys - expected).to be_empty
@@ -90,6 +90,25 @@ shared_examples 'has clipping planes' do
       expect(plane['location'].values).to all(be_kind_of(Float))
       expect(plane['direction'].keys).to contain_exactly 'x', 'y', 'z'
       expect(plane['direction'].values).to all(be_kind_of(Float))
+    end
+  end
+end
+
+shared_examples 'has bitmaps' do
+  it 'has a bitmaps entry' do
+    bitmaps = subject['bitmaps']
+    expect(bitmaps).to be_kind_of(Array)
+
+    bitmaps.each do |bitmap|
+      expect(bitmap).to be_kind_of(Hash)
+      expect(bitmap.keys).to contain_exactly 'bitmap_type', 'bitmap_data', 'location', 'normal', 'up', 'height'
+      expect(bitmap['location'].keys).to contain_exactly 'x', 'y', 'z'
+      expect(bitmap['location'].values).to all(be_kind_of(Float))
+      expect(bitmap['normal'].keys).to contain_exactly 'x', 'y', 'z'
+      expect(bitmap['normal'].values).to all(be_kind_of(Float))
+      expect(bitmap['up'].keys).to contain_exactly 'x', 'y', 'z'
+      expect(bitmap['up'].values).to all(be_kind_of(Float))
+      expect(bitmap['height']).to be_kind_of(Float)
     end
   end
 end
