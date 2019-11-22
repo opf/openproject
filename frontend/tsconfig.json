@@ -25,7 +25,8 @@
     "skipLibCheck": true,
     "baseUrl": "./src/",
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "src/types"
     ],
     "lib": [
       "es2017",
@@ -34,7 +35,8 @@
     "paths": {
       "@ng-select/ng-select": ["../node_modules/@ng-select/ng-select/"],
       "core-app/*": ["./app/*"],
-      "core-components/*": ["./app/components/*"]
+      "core-components/*": ["./app/components/*"],
+      "/node_modules/@xeokit/xeokit-sdk": ["../node_modules/@xeokit/xeokit-sdk"]
     }
   },
   "compileOnSave": false

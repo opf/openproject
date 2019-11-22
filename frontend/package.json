@@ -63,6 +63,7 @@
     "@uirouter/angular": "^4.0.0",
     "@uirouter/core": "^5.0.23",
     "@xeokit/xeokit-sdk": "^0.5.1",
+    "@xeokit/xeokit-viewer": "^1.2.1",
     "URIjs": "^1.14.1",
     "amdefine": "^1.0.0",
     "angular-dragula": "^1.2.8",
