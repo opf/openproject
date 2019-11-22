@@ -35,8 +35,7 @@
     "paths": {
       "@ng-select/ng-select": ["../node_modules/@ng-select/ng-select/"],
       "core-app/*": ["./app/*"],
-      "core-components/*": ["./app/components/*"],
-      "/node_modules/@xeokit/xeokit-sdk": ["../node_modules/@xeokit/xeokit-sdk"]
+      "core-components/*": ["./app/components/*"]
     }
   },
   "compileOnSave": false

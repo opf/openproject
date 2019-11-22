@@ -26,14 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+/// <reference path="xeokit.d.ts" />
+
 import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
 
 import {XeokitServer} from "./xeokit-server";
-import {ViewerUI} from "@xeokit/xeokit-viewer/src/ViewerUI";
-
-import InspireTree from "inspire-tree";
-import InspireTreeDOM from "inspire-tree-dom";
 
 @Component({
   selector: 'ifc-viewer',
@@ -51,7 +49,6 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   @Input() public metadataFileUrl:string;
 
   ngOnInit():void {
-    // @ts-ignore "declare module" for some weird reason not working.
     import('@xeokit/xeokit-viewer/src/ViewerUI').then((XeokitViewerModule:any) => {
       let server = new XeokitServer();
       // let viewer = new XeokitViewerModule.XeokitViewer(this.ifcModelId, this.xktFileUrl, this.metadataFileUrl);
