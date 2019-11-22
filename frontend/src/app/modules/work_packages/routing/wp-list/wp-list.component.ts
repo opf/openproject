@@ -39,6 +39,7 @@ import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routin
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-scroll";
 
 @Component({
   selector: 'wp-list',
@@ -130,6 +131,9 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       }
 
       this.cdRef.detectChanges();
+
+      // Scroll header on mobile in and out when user scrolls the container
+      scrollHeaderOnMobile(jQuery('.work-packages--card-view-container'));
     });
   }
 

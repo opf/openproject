@@ -30,6 +30,7 @@ import {performAnchorHijacking} from "./global-listeners/link-hijacking";
 import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
 import {refreshOnFormChanges} from 'core-app/globals/global-listeners/refresh-on-form-changes';
 import {registerRequestForConfirmation} from "core-app/globals/global-listeners/request-for-confirmation";
+import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-scroll";
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -94,6 +95,9 @@ import {registerRequestForConfirmation} from "core-app/globals/global-listeners/
     // Allow forms with [request-for-confirmation]
     // to show the password confirmation dialog
     registerRequestForConfirmation($);
+
+    // Register scroll handler on mobile header
+    scrollHeaderOnMobile(jQuery('#content-wrapper'));
   });
 
 }(jQuery));
