@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<VisualizationInfo Guid="08a379aa-43d0-5160-3d92-1d16a24ed182">
+<VisualizationInfo Guid="{{UUID}}">
   <Components>
     <Selection>
       <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc$"/>

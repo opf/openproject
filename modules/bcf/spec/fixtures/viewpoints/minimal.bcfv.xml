@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<VisualizationInfo Guid="08a379aa-43d0-5160-3d92-1d16a24ed182">
+<VisualizationInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Guid="{{UUID}}">
   <OrthogonalCamera>
     <CameraViewPoint>
       <X>12.3456789</X>
@@ -7,8 +7,8 @@
       <Z>-1234.1234</Z>
     </CameraViewPoint>
     <CameraDirection>
-      <X>-1.0</X>
-      <Y>-2.0</Y>
+      <X>-1</X>
+      <Y>-2</Y>
       <Z>-3</Z>
     </CameraDirection>
     <CameraUpVector>

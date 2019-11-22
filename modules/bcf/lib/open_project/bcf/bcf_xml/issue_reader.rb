@@ -193,7 +193,7 @@ module OpenProject::Bcf::BcfXml
           uuid: vp[:uuid],
 
           # Save the viewpoint as json
-          viewpoint: viewpoint_as_json(vp[:uuid], vp[:viewpoint]),
+          json_viewpoint: viewpoint_as_json(vp[:uuid], read_entry(vp[:viewpoint])),
           viewpoint_name: vp[:viewpoint],
 
           # Save the snapshot as file attachment
@@ -238,9 +238,9 @@ module OpenProject::Bcf::BcfXml
     ##
     # Map the xml viewpoint as json
     def viewpoint_as_json(uuid, xml)
-      ::OpenProject::Bcf::BcfJson::ViewpointMapper
+      ::OpenProject::Bcf::BcfJson::ViewpointReader
         .new(uuid, xml)
-        .to_json
+        .result
     end
 
     def new_comment(comment_data)

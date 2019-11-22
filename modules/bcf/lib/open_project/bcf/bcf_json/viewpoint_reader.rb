@@ -1,6 +1,6 @@
 module OpenProject::Bcf
   module BcfJson
-    class ViewpointMapper
+    class ViewpointReader
       ROOT_NODE ||= 'VisualizationInfo'.freeze
 
       attr_reader :uuid, :xml

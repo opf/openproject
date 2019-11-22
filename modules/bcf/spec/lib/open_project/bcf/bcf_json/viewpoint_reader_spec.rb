@@ -27,9 +27,9 @@
 #++
 
 require 'spec_helper'
-require_relative './viewpoint_mapper_shared_examples.rb'
+require_relative './viewpoint_reader_shared_examples.rb'
 
-describe OpenProject::Bcf::BcfJson::ViewpointMapper do
+describe OpenProject::Bcf::BcfJson::ViewpointReader do
   let(:instance) { described_class.new xml_viewpoint.uuid, xml_viewpoint.viewpoint }
   subject { instance.result }
 

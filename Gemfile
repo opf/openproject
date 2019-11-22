@@ -204,6 +204,9 @@ group :test do
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.6.1'
 
+  # XML comparison tests
+  gem 'compare-xml', '~> 0.66', require: false
+
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5

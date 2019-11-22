@@ -8,7 +8,7 @@ class MigrateXmlViewpointToJson < ActiveRecord::Migration[6.0]
     # Convert viewpoints
     ::Bcf::Viewpoint.reset_column_information
     ::Bcf::Viewpoint.find_each do |resource|
-      mapper = ::OpenProject::Bcf::BcfJson::ViewpointMapper
+      mapper = ::OpenProject::Bcf::BcfJson::ViewpointReader
         .new(resource.uuid, resource.viewpoint)
 
       resource.update_column(:json_viewpoint, mapper.result)

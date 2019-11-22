@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Created with the iabi.BCF library, V1.1.0 at 22.05.2017 09:51. Visit http://iabi.eu to find out more.-->
-<VisualizationInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Guid="8dc86298-9737-40b4-a448-98a9e953293a">
+<VisualizationInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Guid="{{UUID}}">
   <Components>
     <ViewSetupHints SpacesVisible="true" SpaceBoundariesVisible="true" OpeningsVisible="true" />
     <Selection>
@@ -120,13 +120,13 @@
     </Location>
     <Normal>
       <X>-0.9999999999999999</X>
-      <Y>1.253656364893038E-16</Y>
-      <Z>0.0</Z>
+      <Y>1.253656364893038e-16</Y>
+      <Z>0</Z>
     </Normal>
     <Up>
-      <X>-5.43903050550883E-34</X>
-      <Y>-4.338533794284917E-18</Y>
-      <Z>1.0</Z>
+      <X>-5.43903050550883e-34</X>
+      <Y>-4.338533794284917e-18</Y>
+      <Z>1</Z>
     </Up>
     <Height>1666.1814563907683</Height>
   </Bitmaps>
@@ -140,13 +140,13 @@
     </Location>
     <Normal>
       <X>-3</X>
-      <Y>1.253656364893038E-16</Y>
-      <Z>0.0</Z>
+      <Y>1.253656364893038e-16</Y>
+      <Z>0</Z>
     </Normal>
     <Up>
       <X>30.1234</X>
       <Y>-9000</Y>
-      <Z>1.0</Z>
+      <Z>1</Z>
     </Up>
     <Height>10</Height>
   </Bitmaps>

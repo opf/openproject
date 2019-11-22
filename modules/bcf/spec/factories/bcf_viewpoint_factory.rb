@@ -38,10 +38,10 @@ FactoryBot.define do
     new_uuid = SecureRandom.uuid
     uuid { new_uuid }
     viewpoint_name { "full_viewpoint.bcfv" }
-    viewpoint do
-      file = OpenProject::Bcf::Engine.root.join("spec/fixtures/viewpoints/#{viewpoint_name}.xml")
+    json_viewpoint do
+      file = OpenProject::Bcf::Engine.root.join("spec/fixtures/viewpoints/#{viewpoint_name}.json")
       if file.readable?
-        file.read
+        JSON.parse(file.read)
       else
         warn "Viewpoint name #{viewpoint_name} doesnt map to a viewpoint fixture"
       end
