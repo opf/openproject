@@ -66,7 +66,8 @@ module OpenProject::Bcf::BcfXml
     end
 
     def create_work_package
-      call = WorkPackages::CreateService.new(user: user).call(work_package_attributes)
+      attributes = work_package_attributes.merge(project: project)
+      call = WorkPackages::CreateService.new(user: user).call(attributes)
 
       force_overwrite(call.result) if call.success?
 
@@ -105,7 +106,7 @@ module OpenProject::Bcf::BcfXml
 
     def extractor_attributes
       %i(type title description due_date assignee status priority).map do |key|
-        [attributes[key], extractor.send(key)]
+        [key, extractor.send(key)]
       end.to_h
     end
 
