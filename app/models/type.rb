@@ -113,21 +113,9 @@ class ::Type < ActiveRecord::Base
     object.types.include?(self)
   end
 
-  def valid_transition?(status_id_a, status_id_b, roles)
-    transition_exists?(status_id_a, status_id_b, roles.map(&:id))
-  end
-
   private
 
   def check_integrity
     raise "Can't delete type" if WorkPackage.where(type_id: id).any?
-  end
-
-  def transition_exists?(status_id_a, status_id_b, role_ids)
-    workflows
-      .where(old_status_id: status_id_a,
-             new_status_id: status_id_b,
-             role_id: role_ids)
-      .any?
   end
 end

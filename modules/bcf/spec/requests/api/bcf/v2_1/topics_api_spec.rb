@@ -48,13 +48,17 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
   let(:edit_member_user) do
     FactoryBot.create(:user,
                       member_in_project: project,
-                      member_with_permissions: %i[manage_bcf add_work_packages view_linked_issues delete_work_packages])
+                      member_with_permissions: %i[manage_bcf
+                                                  add_work_packages
+                                                  view_linked_issues
+                                                  view_work_packages
+                                                  edit_work_packages
+                                                  delete_work_packages])
   end
   let(:edit_work_package_member_user) do
     FactoryBot.create(:user,
                       member_in_project: project,
-                      member_with_permissions: %i[manage_bcf
-                                                  add_work_packages
+                      member_with_permissions: %i[add_work_packages
                                                   view_linked_issues
                                                   edit_work_packages
                                                   view_work_packages
