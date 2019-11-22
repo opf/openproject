@@ -145,11 +145,13 @@ module Bcf::Issues
     end
 
     def missing_type(type_name, import_options)
+      types = project.types
+
       if import_options[:unknown_types_action] == 'use_default'
-        project.types.default&.first
+        types.default&.first
       elsif import_options[:unknown_types_action] == 'chose' &&
             import_options[:unknown_types_chose_ids].any?
-        project.types.find_by(id: import_options[:unknown_types_chose_ids].first)
+        types.find_by(id: import_options[:unknown_types_chose_ids].first)
       elsif type_name
         Type::InexistentType.new
       end

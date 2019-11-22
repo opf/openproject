@@ -40,7 +40,7 @@ module Bcf::Issues
       if wp_call.success?
         issue_params = {
           work_package: wp_call.result
-        }.merge(params.slice(:stage, :labels, :index))
+        }.merge(params.slice(*Bcf::Issue::SETTABLE_ATTRIBUTES))
 
         super(issue_params)
       else

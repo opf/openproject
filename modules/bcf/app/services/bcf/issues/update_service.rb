@@ -40,7 +40,7 @@ module Bcf::Issues
                 .call(params)
 
       if wp_call.success?
-        issue_params = params.slice(:stage, :labels, :index)
+        issue_params = params.slice(*Bcf::Issue::SETTABLE_ATTRIBUTES)
 
         super(issue_params)
       else

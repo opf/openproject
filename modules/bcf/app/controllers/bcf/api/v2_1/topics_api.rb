@@ -43,9 +43,7 @@ module Bcf::API::V2_1
                             .result
 
           attributes
-            .slice(:stage,
-                   :index,
-                   :labels)
+            .slice(*Bcf::Issue::SETTABLE_ATTRIBUTES)
             .merge(wp_attributes)
         end
 

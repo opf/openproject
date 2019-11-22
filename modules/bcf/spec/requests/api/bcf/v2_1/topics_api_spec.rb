@@ -217,122 +217,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
     end
   end
 
-  describe 'POST /api/bcf/2.1/projects/:project_id/topics' do
-    let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics" }
-    let(:current_user) { edit_member_user }
-    let(:type) do
-      FactoryBot.create(:type).tap do |t|
-        project.types << t
-      end
-    end
-    let(:status) do
-      FactoryBot.create(:status)
-    end
-    let!(:default_status) do
-      FactoryBot.create(:default_status)
-    end
-    let!(:default_type) do
-      FactoryBot.create(:type, is_default: true)
-    end
-    let!(:standard_type) do
-      FactoryBot.create(:type_standard)
-    end
-    let!(:priority) do
-      FactoryBot.create(:priority)
-    end
-    let!(:default_priority) do
-      FactoryBot.create(:default_priority)
-    end
-    let(:description) { 'some description' }
-    let(:stage) { nil }
-    let(:labels) { [] }
-    let(:index) { 5 }
-    let(:params) do
-      {
-        topic_type: type.name,
-        topic_status: status.name,
-        priority: priority.name,
-        title: 'BCF topic 101',
-        labels: labels,
-        stage: stage,
-        index: index,
-        due_date: Date.today.iso8601,
-        assigned_to: view_only_user.mail,
-        description: description
-      }
-    end
-
-    before do
-      login_as(current_user)
-      post path, params.to_json
-    end
-
-    it_behaves_like 'bcf api successful response' do
-      let(:expected_status) { 201 }
-      let(:expected_body) do
-        issue = Bcf::Issue.last
-        work_package = WorkPackage.last
-
-        {
-          guid: issue&.uuid,
-          topic_type: type.name,
-          topic_status: status.name,
-          priority: priority.name,
-          title: 'BCF topic 101',
-          labels: labels,
-          index: index,
-          reference_links: [
-            api_v3_paths.work_package(work_package&.id)
-          ],
-          assigned_to: view_only_user.mail,
-          due_date: Date.today.iso8601,
-          stage: stage,
-          creation_author: edit_member_user.mail,
-          creation_date: work_package&.created_at&.iso8601,
-          modified_author: edit_member_user.mail,
-          modified_date: work_package&.updated_at&.iso8601,
-          description: description
-        }
-      end
-    end
-
-    context 'with minimal parameters' do
-      let(:params) do
-        {
-          title: 'BCF topic 101'
-        }
-      end
-
-      it_behaves_like 'bcf api successful response' do
-        let(:expected_status) { 201 }
-        let(:expected_body) do
-          issue = Bcf::Issue.last
-          work_package = WorkPackage.last
-
-          {
-            guid: issue&.uuid,
-            topic_type: standard_type.name,
-            topic_status: default_status.name,
-            priority: default_priority.name,
-            title: 'BCF topic 101',
-            labels: [],
-            index: nil,
-            reference_links: [
-              api_v3_paths.work_package(work_package&.id)
-            ],
-            assigned_to: nil,
-            due_date: nil,
-            stage: nil,
-            creation_author: edit_member_user.mail,
-            creation_date: work_package&.created_at&.iso8601,
-            modified_author: edit_member_user.mail,
-            modified_date: work_package&.updated_at&.iso8601,
-            description: nil
-          }
-        end
-      end
-    end
-
+  shared_examples_for 'topics api write invalid parameters errors' do
     context 'without a title' do
       let(:params) do
         {
@@ -451,6 +336,168 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
         end
       end
     end
+
+    context 'with reference links' do
+      let(:params) do
+        {
+          title: 'Some title',
+          reference_links: [
+            "/some/relative/links"
+          ]
+        }
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) do
+          "Reference links was attempted to be written but is not writable."
+        end
+      end
+    end
+
+    context 'with bim_snippet' do
+      let(:params) do
+        {
+          title: 'Some title',
+          bim_snippet: {
+            snippet_type: "clash",
+            is_external: true,
+            reference: "https://example.com/bcf/1.0/ADFE23AA11BCFF444122BB",
+            reference_schema: "https://example.com/bcf/1.0/clash.xsd"
+          }
+        }
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) do
+          "Bim snippet was attempted to be written but is not writable."
+        end
+      end
+    end
+  end
+
+  describe 'POST /api/bcf/2.1/projects/:project_id/topics' do
+    let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics" }
+    let(:current_user) { edit_member_user }
+    let(:type) do
+      FactoryBot.create(:type).tap do |t|
+        project.types << t
+      end
+    end
+    let(:status) do
+      FactoryBot.create(:status)
+    end
+    let!(:default_status) do
+      FactoryBot.create(:default_status)
+    end
+    let!(:default_type) do
+      FactoryBot.create(:type, is_default: true)
+    end
+    let!(:standard_type) do
+      FactoryBot.create(:type_standard)
+    end
+    let!(:priority) do
+      FactoryBot.create(:priority)
+    end
+    let!(:default_priority) do
+      FactoryBot.create(:default_priority)
+    end
+    let(:description) { 'some description' }
+    let(:stage) { nil }
+    let(:labels) { [] }
+    let(:index) { 5 }
+    let(:params) do
+      {
+        topic_type: type.name,
+        topic_status: status.name,
+        priority: priority.name,
+        title: 'BCF topic 101',
+        labels: labels,
+        stage: stage,
+        index: index,
+        due_date: Date.today.iso8601,
+        assigned_to: view_only_user.mail,
+        description: description
+      }
+    end
+
+    before do
+      login_as(current_user)
+      post path, params.to_json
+    end
+
+    it_behaves_like 'bcf api successful response' do
+      let(:expected_status) { 201 }
+      let(:expected_body) do
+        issue = Bcf::Issue.last
+        work_package = WorkPackage.last
+
+        {
+          guid: issue&.uuid,
+          topic_type: type.name,
+          topic_status: status.name,
+          priority: priority.name,
+          title: 'BCF topic 101',
+          labels: labels,
+          index: index,
+          reference_links: [
+            api_v3_paths.work_package(work_package&.id)
+          ],
+          assigned_to: view_only_user.mail,
+          due_date: Date.today.iso8601,
+          stage: stage,
+          creation_author: edit_member_user.mail,
+          creation_date: work_package&.created_at&.iso8601,
+          modified_author: edit_member_user.mail,
+          modified_date: work_package&.updated_at&.iso8601,
+          description: description
+        }
+      end
+    end
+
+    context 'with minimal parameters' do
+      let(:params) do
+        {
+          title: 'BCF topic 101'
+        }
+      end
+
+      it_behaves_like 'bcf api successful response' do
+        let(:expected_status) { 201 }
+        let(:expected_body) do
+          issue = Bcf::Issue.last
+          work_package = WorkPackage.last
+
+          {
+            guid: issue&.uuid,
+            topic_type: standard_type.name,
+            topic_status: default_status.name,
+            priority: default_priority.name,
+            title: 'BCF topic 101',
+            labels: [],
+            index: nil,
+            reference_links: [
+              api_v3_paths.work_package(work_package&.id)
+            ],
+            assigned_to: nil,
+            due_date: nil,
+            stage: nil,
+            creation_author: edit_member_user.mail,
+            creation_date: work_package&.created_at&.iso8601,
+            modified_author: edit_member_user.mail,
+            modified_date: work_package&.updated_at&.iso8601,
+            description: nil
+          }
+        end
+      end
+    end
+
+    it_behaves_like 'topics api write invalid parameters errors'
+
+    context 'if not allowed to add topics' do
+      let(:current_user) { view_only_user }
+
+      it_behaves_like 'bcf api not allowed response'
+    end
   end
 
   describe 'PUT /api/bcf/2.1/projects/:project_id/topics/:guid' do
@@ -562,18 +609,12 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       end
     end
 
-    context 'with the title set to null' do
-      let(:params) do
-        {
-          title: nil
-        }
-      end
+    it_behaves_like 'topics api write invalid parameters errors'
 
-      it_behaves_like 'bcf api unprocessable response' do
-        let(:message) do
-          "Title can't be blank."
-        end
-      end
+    context 'if not allowed to alter topics' do
+      let(:current_user) { view_only_user }
+
+      it_behaves_like 'bcf api not allowed response'
     end
   end
 end

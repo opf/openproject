@@ -1,6 +1,9 @@
 module Bcf
   class Issue < ActiveRecord::Base
     include InitializeWithUuid
+    include Concerns::VirtualAttribute
+
+    SETTABLE_ATTRIBUTES = %i[stage labels index reference_links bim_snippet].freeze
 
     belongs_to :work_package
     has_one :project, through: :work_package
@@ -10,6 +13,17 @@ module Bcf
     after_update :invalidate_markup_cache
 
     validates :work_package, presence: true
+
+    # The virtual attributes are defined so that an API client can attempt to set them.
+    # However, currently such information is not persisted. But adding them fits better into the code
+    # and might later on be replaced by an actual storing..
+    virtual_attribute :reference_links do
+      []
+    end
+
+    virtual_attribute :bim_snippet do
+      {}
+    end
 
     class << self
       def of_project(project)
