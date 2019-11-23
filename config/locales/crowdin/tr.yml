@@ -447,7 +447,7 @@ tr:
         could_not_be_copied: "(tamamen) kopyalanamadı."
         does_not_exist: "mevcut değil."
         error_unauthorized: "erişilemez."
-        error_readonly: "was attempted to be written but is not writable."
+        error_readonly: "yazılmaya çalışıldı fakat yazılabilir değil."
         empty: "boş olamaz."
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
