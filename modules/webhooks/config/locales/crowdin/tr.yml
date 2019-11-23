@@ -18,7 +18,7 @@ tr:
     plural: Web Kancaları
     resources:
       time_entry:
-        name: "Time entry"
+        name: "Zaman girişi"
     outgoing:
       no_results_table: Henüz bir web kancası tanımlanmadı.
       label_add_new: Yeni web kancası ekle
