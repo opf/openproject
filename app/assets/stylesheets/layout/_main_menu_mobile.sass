@@ -30,11 +30,11 @@
 
   .main-menu
     position: fixed
-    z-index: 11
+    z-index: 12
     border-bottom: 1px solid $main-menu-border-color
-    width: 100vw !important
     border: none
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
+    min-width: 75vw
 
   .hidden-navigation .main-menu
     display: none
@@ -45,5 +45,23 @@
   .main-menu--resizer
     display: none
 
-  #wrapper:not(.hidden-navigation) #main-menu-toggle i:before
-    @include icon-mixin-close
+  .content-overlay
+    display: block
+    // Background color transition simulates a fade-in effect
+    background: #fff
+    transition: background .3s
+
+  #wrapper:not(.hidden-navigation)
+    #main-menu-toggle i:before
+      @include icon-mixin-close
+
+    .content-overlay
+      position: fixed
+      height: 100%
+      background: #000
+      top: 55px
+      left: 0
+      bottom: 0
+      right: 0
+      opacity: .4
+      z-index: 11
