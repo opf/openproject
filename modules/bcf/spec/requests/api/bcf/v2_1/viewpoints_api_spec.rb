@@ -54,7 +54,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
   shared_let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_viewpoint, work_package: work_package) }
 
   let(:viewpoint) { bcf_issue.viewpoints.first }
-  let(:viewpoint_json) { ::OpenProject::Bcf::BcfJson::ViewpointReader.new(viewpoint).result }
+  let(:viewpoint_json) { viewpoint.json_viewpoint }
   subject(:response) { last_response }
 
   describe 'GET /api/bcf/2.1/projects/:project_id/topics/:topic/viewpoints' do
