@@ -35,8 +35,8 @@ export function scrollHeaderOnMobile(elem:JQuery) {
   let prevScrollPos = elem.scrollTop();
 
   elem.on('scroll', (event) => {
-    // Only on mobile screen sizes
-    if (!deviceService.isMobile) {
+    // Only on mobile screen sizes and if sidebar is not opened
+    if (!deviceService.isMobile || !(jQuery('#main').hasClass('hidden-navigation'))) {
       return;
     }
 
