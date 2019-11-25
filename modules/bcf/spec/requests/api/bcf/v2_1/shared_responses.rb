@@ -31,7 +31,7 @@ shared_examples_for 'bcf api successful response' do
     expect(subject.status)
       .to eql(defined?(expected_status) ? expected_status : 200)
     expect(subject.body).to be_json_eql(expected_body.to_json)
-    expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8'
+    expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8' unless defined?(no_content)
   end
 end
 

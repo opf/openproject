@@ -189,28 +189,9 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
     end
 
     it_behaves_like 'bcf api successful response' do
-      let(:expected_body) do
-        {
-          "assigned_to": assignee.mail,
-          "creation_author": work_package.author.mail,
-          "creation_date": work_package.created_at.iso8601,
-          "description": work_package.description,
-          "due_date": nil,
-          "guid": bcf_issue.uuid,
-          "index": bcf_issue.index,
-          "labels": bcf_issue.labels,
-          "priority": work_package.priority.name,
-          "modified_author": current_user.mail,
-          "modified_date": work_package.updated_at.iso8601,
-          "reference_links": [
-            api_v3_paths.work_package(work_package.id)
-          ],
-          "stage": bcf_issue.stage,
-          "title": work_package.subject,
-          "topic_status": work_package.status.name,
-          "topic_type": work_package.type.name
-        }
-      end
+      let(:expected_status) { 204 }
+      let(:expected_body) { nil }
+      let(:no_content) { true }
     end
 
     it 'deletes the Bcf Issue as well as the belonging Work Package' do

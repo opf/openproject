@@ -37,10 +37,6 @@ module Bcf::API::V2_1::Endpoints
         .new(call.result)
     end
 
-    def success_status
-      200
-    end
-
     private
 
     def render_representer

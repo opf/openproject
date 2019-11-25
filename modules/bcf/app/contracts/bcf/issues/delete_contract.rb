@@ -29,6 +29,5 @@
 module Bcf::Issues
   class DeleteContract < ::DeleteContract
     delete_permission :manage_bcf
-
   end
 end
