@@ -135,8 +135,7 @@ module OpenProject::Bcf
       ##
       # Move selections up the tree from the nested XML node
       def transform_selections(hash)
-        selections = hash.dig('components', 'selection', 'component')
-        return unless selections
+        return unless (selections = hash.dig('components', 'selection', 'component'))
 
         # Ensure selections are an array
         selections = Array.wrap(selections)
@@ -150,8 +149,7 @@ module OpenProject::Bcf
       ##
       # Move coloring up the tree from the nested XML node
       def transform_coloring(hash)
-        colors = hash.dig('components', 'coloring', 'color')
-        return unless colors
+        return unless (colors = hash.dig('components', 'coloring', 'color'))
 
         # avoid Array(colors) since that deconstructs the array
         colors = Array.wrap(colors)
@@ -167,8 +165,7 @@ module OpenProject::Bcf
       end
 
       def transform_visibility(hash)
-        visibility = hash.dig('components', 'visibility')
-        return unless visibility
+        return unless (visibility = hash.dig('components', 'visibility'))
 
         visibility['default_visibility'] = visibility['default_visibility'] == 'true'
 
@@ -178,7 +175,7 @@ module OpenProject::Bcf
 
         # Move view_setup_hints
         view_setup_hints = hash.dig('components', 'view_setup_hints')
-        visibility['view_setup_hints'] = view_setup_hints.transform_values { |val| val == 'true' }
+        visibility['view_setup_hints'] = view_setup_hints.transform_values { |val| val == 'true' } if view_setup_hints
 
         # Remove the old node
         hash['components'].delete('view_setup_hints')

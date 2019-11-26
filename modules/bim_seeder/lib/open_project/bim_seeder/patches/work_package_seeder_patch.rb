@@ -7,7 +7,6 @@ module OpenProject::BimSeeder::Patches::WorkPackageSeederPatch
     def create_or_update_work_package(attributes)
       uuid = attributes[:bcf_issue_uuid]
       if uuid
-        puts "Would do something with #{attributes[:bcf_issue_id]}"
 
         start_date = calculate_start_date(attributes[:start])
         due_date = calculate_due_date(start_date, attributes[:duration])
