@@ -1,5 +1,7 @@
 ---
-title: Create and edit a wiki page
+sidebar_navigation:
+  title: Create and edit wiki
+  priority: 799
 description: Create a new wiki page in OpenProject
 robots: index, follow
 keywords: create wiki
@@ -7,7 +9,7 @@ keywords: create wiki
 
 # Create and edit a wiki page
 
-In OpenProject you can create and edit wiki pages together with your team to document inportant project information.
+In OpenProject you can create and edit wiki pages together with your team to document important project information.
 
 | Feature                                                      | Documentation for                             |
 | ------------------------------------------------------------ | --------------------------------------------- |
@@ -22,7 +24,7 @@ To create a new wiki page in a project, navigate to the wiki module in your proj
 
 ![create-wiki-page](1568198706474.png)
 
-<div class="notice">
+<div class="alert alert-info" role="alert">
 **Note**: If you do not see the wiki module in your project menu, you first have to [activate the module in your project settings](./project-admin-guide/#modules).
 
 </div>
@@ -33,11 +35,11 @@ The editor window will open, allowing you to enter title and content of the new 
 
 (2) Enter your wiki content. You can use the editor bar to format your texts.  [Learn here how to format texts in wiki](#wiki) with the editor toolbar.
 
-(3) Insert files. Also, files can be inserted directly via drag and drop or copy and paste to the text input field, or via the image button in the editor toolbar.
+(3) Files can be inserted directly via drag and drop or copy and paste into the text input field, or via the image button in the editor toolbar.
 
 (4) Choose a parent wiki page.
 
-(5) Comment what changes you have made to a wiki page.
+(5) Comment which changes you have made to a wiki page.
 
 (6) Save (or cancel) your changes to the page.
 

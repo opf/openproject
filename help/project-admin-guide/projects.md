@@ -67,7 +67,7 @@ OpenProject, for example, uses the projects to structured the different modules/
 
 ![project-structure](../getting-started/1566214944644.png)
 
-<div class="notice">
+<div class="alert alert-info" role="alert">
 **Note**: You have to be a [member](./invite-members/#add-new-members) of a project in order to see the project and to work in a project.
 </div>
 
@@ -81,7 +81,7 @@ You can specify further advanced settings for your project. Navigate to your pro
 
 - You see the default project **Identifier**. The identifier will be shown in the URL. 
 
-<div class="notice">
+<div class="alert alert-info" role="alert">
 **Note**: The Identifier cannot be changed later after creating the project.
 
 </div>

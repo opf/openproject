@@ -1,7 +1,7 @@
 ---
-
-
-title: News
+sidebar_navigation:
+  title: News
+  priority: 830
 description: Communicate project news to your team members
 robots: index, follow
 keywords: news
@@ -72,7 +72,7 @@ Clicking on the title of a news will bring you to the news details in the corres
 
 ## Latest news section on the project overview page
 
-You can also inlude your latest news from a project on the Project overview page.
+You can also include your latest news from a project on the Project overview page.
 
 Find out how to [configure your Project overview](#project-overview) page.
 

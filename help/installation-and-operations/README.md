@@ -1,27 +1,17 @@
 # Installation and Operation Guides
 
-This section concerns the installation, upgrading, backup, and other operation guides for the OpenProject Community and Enterprise editions.
+This section concerns the installation and operation of OpenProject (Community and Enterprise editions).
 
+## Overview
 
+| Main Topics | Description |
+| ----------- | :---------- |
+| [System requirements](system-requirements) | Learn the minimum configuration required to run OpenProject |
+| [Installation](installation/) | How to install OpenProject |
+| [Operation & Maintenance](operation/) | Guides on how to configure, backup, upgrade, and monitor your OpenProject installation |
+| [Advanced configuration](configuration/) | Guides on how to perform advanced configuration of your OpenProject installation |
+| [Other](misc/) | Guides on infrequent operations such as MySQL to PostgreSQL migration |
 
-## Installing OpenProject
+For production environments and when using a [supported distribution](system-requirements), we recommend using the [packaged installation](installation/packaged/). This will install OpenProject as a system dependency using your distribution's package manager, and provide updates in the same fashion that all other system packages do.
 
-OpenProject provides three different means of installation on Linux and Unix distributions.
-
-1. [The packaged installation](packaged/installation)
-2. [The docker-based installation](docker/installation)
-3. [The manual installation](docker/installation)
-
-
-
-For production environments and when using a [supported distribution](system-requirements), we recommend using the [packaged installation](packaged/installation). This will install OpenProject as a system dependency using your distribution's package manager, and provide updates in the same fashion that all other system packages do.
-
-
-
-## Upgrading, Backup and Maintenance
-
-For upgrading, backup and migration guides, please select the installation method you have chosen for installing OpenProject on your server:
-
-- [The packaged installation](packaged)
-- [The docker-based installation](docker)
-- [The manual installation](docker)
+A [manual installation](installation/manual) option is also documented, but due to the large number of components involved and the rapid evolution of OpenProject, we cannot ensure that the procedure is either up-to-date or that it will correctly work on your machine. This mean if installation is NOT recommended.

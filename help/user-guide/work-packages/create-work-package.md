@@ -1,5 +1,7 @@
 ---
-title: Create work packages
+sidebar_navigation:
+  title: Create work packages
+  priority: 869
 description: How to create work packages in OpenProject?
 robots: index, follow
 keywords: create work packages
@@ -48,7 +50,7 @@ In order to enter detailed information to the work package from the start, you c
 
 ![select-work-package-type](1566303633018.png)
 
-The new work package form will open in the split screen view. Enter all information, such as descsription, assignee, status, priority, due date and more.
+The new work package form will open in the split screen view. Enter all information, such as description, assignee, status, priority, due date and more.
 
 Click the green **Save** button.
 

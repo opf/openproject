@@ -112,7 +112,6 @@ This code of conduct is adapted from the [Contributor Covenant](http://contribut
 # Additional resources
 
 
-* [Quick Start for Developers](quick-start)
 * [Development environment for Ubuntu 16.04.](development-environment-ubuntu.md)
 * [Development environment for Mac OS X](development-environment-osx.md)
 

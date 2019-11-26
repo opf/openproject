@@ -16,11 +16,11 @@ For further documentation, please visit our [user guide for work packages](./use
 | [What is a work package?](#what-is-a-work-package?)          | Find out what is a work package in OpenProject.           |
 | [Create a new work package](#create-a-new-work-package)      | How to create a new work package in  a project?           |
 | [Open and edit a work package](#open-and-edit-a-work-package) | How to open and make changes to an existing work package? |
-| [Activity of work packages](#activity-of-work-packages)      | f                                                         |
+| [Activity of work packages](#activity-of-work-packages)      | See all changes in a work package.                        |
 
 ## What is a work package?
 
-A work package in OpenProject can basically be everything which you need to keep track off within your projects. It can be e.g. a tasks, a feature, a bug, a risk, a milestone or a project phase. This different kinds of work packages are called work package types.
+A work package in OpenProject can basically be everything you need to keep track off within your projects. It can be e.g. a task, a feature, a bug, a risk, a milestone or a project phase. This different kinds of work packages are called work package types.
 
 ## Create a new work package
 
