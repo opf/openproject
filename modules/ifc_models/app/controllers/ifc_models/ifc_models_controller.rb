@@ -126,8 +126,8 @@ module ::IFCModels
             load: ifc_model.is_default
           }
         end,
-        xkt_attachment_ids: Hash[@ifc_models.map { |ifc_model| [@ifc_model.id, @ifc_model.xkt_attachment.id] }],
-        metadata_attachment_ids: Hash[@ifc_models.map { |ifc_model| [@ifc_model.id, @ifc_model.metadata_attachment.id] }]
+        xkt_attachment_ids: Hash[@ifc_models.map { |ifc_model| [ifc_model.id, ifc_model.xkt_attachment.id] }],
+        metadata_attachment_ids: Hash[@ifc_models.map { |ifc_model| [ifc_model.id, ifc_model.metadata_attachment.id] }]
       }
     end
 

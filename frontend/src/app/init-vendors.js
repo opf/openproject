@@ -84,3 +84,9 @@ require('expose-loader?URI!URIjs');
 require('URIjs/src/URITemplate');
 
 require("expose-loader?I18n!../vendor/i18n");
+
+// Adding InspireTree temporarily here
+require("expose-loader?InspireTree!../../node_modules/inspire-tree/dist/inspire-tree.min.js");
+require("expose-loader?InspireTreeDOM!../../node_modules/inspire-tree-dom/dist/inspire-tree-dom.min.js");
+
+

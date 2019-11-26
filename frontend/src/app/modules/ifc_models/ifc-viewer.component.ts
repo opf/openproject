@@ -36,12 +36,23 @@ import {XeokitServer} from "./xeokit-server";
 @Component({
   selector: 'ifc-viewer',
   template: `
-  <canvas [id]="'xeokit-model-canvas-' + ifcModelId" class="xeokit-model-canvas"></canvas>
+<div id="myWrapper">
+
+    <nav id="myExplorer" class="active"></nav>
+    <div id="myContent">
+        <div id="myToolbar"></div>
+        <canvas id="myCanvas"></canvas>
+<!--        <canvas [id]="'xeokit-model-canvas-' + ifcModelId" class="xeokit-model-canvas"></canvas>-->
+    </div>
+</div>
+
+<canvas id="myNavCubeCanvas"></canvas>
+<canvas id="mySectionPlanesOverviewCanvas"></canvas>
 `,
-  styleUrls: [
-    '../../../../node_modules/inspire-tree-dom/dist/inspire-tree-light.css'
+  styles: [
+    // '../../../../node_modules/inspire-tree-dom/dist/inspire-tree-light.css'
   ],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 export class IFCViewerComponent implements OnInit, OnDestroy {
   @Input() public ifcModelId:string;
@@ -49,9 +60,15 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   @Input() public metadataFileUrl:string;
 
   ngOnInit():void {
-    import('@xeokit/xeokit-viewer/src/ViewerUI').then((XeokitViewerModule:any) => {
+    import('@xeokit/xeokit-viewer/dist/main').then((XeokitViewerModule:any) => {
       let server = new XeokitServer();
-      // let viewer = new XeokitViewerModule.XeokitViewer(this.ifcModelId, this.xktFileUrl, this.metadataFileUrl);
+      let viewerUI = new XeokitViewerModule.ViewerUI(server, {
+        canvasElement: document.getElementById("myCanvas"), // WebGL canvas
+        explorerElement: document.getElementById("myExplorer"), // Left panel
+        toolbarElement: document.getElementById("myToolbar"), // Toolbar
+        navCubeCanvasElement: document.getElementById("myNavCubeCanvas"),
+        sectionPlanesOverviewCanvasElement: document.getElementById("mySectionPlanesOverviewCanvas")
+      });
     });
   }
 

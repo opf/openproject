@@ -36,7 +36,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= stylesheet_link_tag "ifc_models/ifc_models", media: 'all' %>
 <% end %>
 
-
 <%= toolbar title: t('ifc_models.label_default_ifc_models') do %>
   <li class="toolbar-item">
     <%= link_to(ifc_models_project_ifc_models_path(@project), class: 'button', accesskey: accesskey(:edit)) do %>
@@ -45,8 +44,10 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
 <% end %>
 
-
 <% content_for :header_tags do %>
+  <%#= javascript_include_tag "/frontend/node_modules/inspire-tree/dist/inspire-tree.min.js.gz" %>
+  <%#= javascript_include_tag "/frontend/node_modules/inspire-tree-dom/dist/inspire-tree-dom.min.js.gz" %>
+  <%#= stylesheet_link_tag "/frontend/node_modules/inspire-tree-dom/dist/inspire-tree-dark.min.css.gz" %>
   <%= include_gon(nonce: content_security_policy_script_nonce) %>
 <% end %>
 
