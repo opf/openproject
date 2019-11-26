@@ -104,7 +104,7 @@ export class MainMenuToggleService {
       this.closeMenu();
     }
 
-    this.addRemoveClassHidden();
+    this.toggleClassHidden();
     this.setToggleTitle();
     // Set focus on first visible main menu item.
     // This needs to be called after AngularJS has rendered the menu, which happens some when after(!) we leave this
@@ -138,7 +138,7 @@ export class MainMenuToggleService {
     this.titleData.next(this.toggleTitle);
   }
 
-  private addRemoveClassHidden():void {
+  private toggleClassHidden():void {
     this.hideElements.toggleClass('hidden-navigation', !this.showNavigation);
   }
 
@@ -169,7 +169,7 @@ export class MainMenuToggleService {
     this.ensureContentVisibility();
 
     this.global.showNavigation = this.showNavigation;
-    this.addRemoveClassHidden();
+    this.toggleClassHidden();
     this.htmlNode.style.setProperty("--main-menu-width", this.elementWidth + 'px');
   }
 
@@ -180,14 +180,13 @@ export class MainMenuToggleService {
       let originalEvent = event.originalEvent as FocusEvent;
       // Check that main menu is not closed and that the `focusout` event is not a click on an element
       // that tries to close the menu anyways.
-      if (!that.showNavigation || document.getElementById('main-menu-toggle') ===  originalEvent.relatedTarget) {
+      if (!that.showNavigation || document.getElementById('main-menu-toggle') === originalEvent.relatedTarget) {
         return;
       }
       else {
         // There might be a time gap between `focusout` and the focussing of the activeElement, thus we need a timeout.
         setTimeout(function() {
-          if (!jQuery.contains(document.getElementById('main-menu')!, document.activeElement!) &&
-              (document.getElementById('main-menu-toggle') !== document.activeElement)) {
+          if (!jQuery.contains(document.getElementById('main-menu')!, originalEvent.relatedTarget as Element)) {
             // activeElement is outside of main menu.
             that.closeMenu();
           }
