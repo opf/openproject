@@ -15,19 +15,26 @@ provide any official support for them.
 ### Hardware
 
 * __Memory:__ 4096 MB
-* __Free disc space:__ 2 GB
+* __Free disk space:__ 2 GB
 
 ### Operating system
 
-| Distribution (64 bits only)     | Identifier   | init system |
-| :------------------------------ | :----------- | :---------- |
-| CentOS/RHEL 7.x                 | centos-7     | systemd     |
-| Debian 9 Stretch                | debian-9     | systemd     |
-| Suse Linux Enterprise Server 12 | sles-12      | sysvinit    |
-| Ubuntu 16.04 Xenial Xerus       | ubuntu-16.04 | upstart     |
-| Ubuntu 18.04 Bionic Beaver      | ubuntu-18.04 | systemd     |
+The [package-based installation](../installation/packaged) requires one of the following Linux distributions:
 
-### Dependencies
+| Distribution (**64 bits only**) |
+| ------------------------------- |
+| CentOS/RHEL 7.x                 |
+| Debian 9 Stretch                |
+| Debian 10 Stretch               |
+| Suse Linux Enterprise Server 12 |
+| Ubuntu 16.04 Xenial Xerus       |
+| Ubuntu 18.04 Bionic Beaver      |
+
+The [docker-based installation](../installation/docker) requires a system with Docker installed. Please see the [official Docker page](https://docs.docker.com/install/) for the list of supported systems.
+
+### Overview of dependencies
+
+Both the package and docker based installations will install and setup the following dependencies that are required by OpenProject to run:
 
 * __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version = 2.6.x
 * __Webserver:__ [Apache](http://httpd.apache.org/)
@@ -44,4 +51,4 @@ for some older browsers (e.g. IE 11).
 * [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (At least ESR version 60)
 * [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge)
 * [Google Chrome](https://www.google.com/chrome/browser/desktop/)
-* Apple Safari
+* [Apple Safari](https://www.apple.com/safari/)

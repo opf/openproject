@@ -1,69 +1,82 @@
 ---
 sidebar_navigation:
-  title: Upgrade Guide
-  priority: 100
+  title: Upgrading
+  priority: 7
 ---
 
-# Upgrading your packaged installation
+# Upgrading your OpenProject installation
 
-<div class="alert alert-info" role="alert">
+In the rest of this guide, we assume that you have taken the necessary steps to [backup](./backing-up) your OpenProject installation before upgrading.
 
-Note: this guide only applies if you've installed OpenProject using our DEB/RPM
-packages. [Please see the index](../) for guides on other installation methods.
-
-</div>
+## Package-based installation (DEB/RPM)
 
 Upgrading OpenProject is as easy as installing a newer OpenProject package and
 running the `openproject configure` command.
 
-## Backup
+<div class="alert alert-info" role="alert">
+Please note that the package-based installation uses different release channels for each MAJOR version of OpenProject. This means that if you want to switch from (e.g.) 9.x to 10.x, you will need to perform the steps described in the [installation section](../installation/packaged) to update your package sources to point to the newer release channel. The rest of this section is only applicable if you want to upgrade a (e.g.) 10.x version to a 10.y vesion.
+</div>
 
-We try to ensure your upgrade path is as smooth as possible. This means that the below update + configure step should be the only change needed to get up to date with our packaged installation.
-
-In the event of an error during the migrations, you will still want to have a recent backup you can restore to before reaching out to us. This is especially important for MySQL installations, since it does not support transactional migrations with changes to the table schema and you will have to rollback these changes manually. For PostgreSQL, if the Rails migrations fail, all previous changes will be rolled back for you to try again, or to install the older packages.
-
-To perform a backup, run the following command
+### Debian / Ubuntu
 
 ```bash
-sudo openproject run backup
+sudo apt-get update
+sudo apt-get install --only-upgrade openproject
+sudo openproject configure
 ```
 
-This will store the current database dump, attachments and config to `/var/db/openproject/backup`. For more information on the backup and restore mechanisms, [check our detailed backup guide](https://www.openproject.org/operations/backup/backup-guide-packaged-installation/).
+### CentOS / RHEL
 
-## Debian / Ubuntu
+```bash
+sudo yum update
+sudo yum install openproject
+sudo openproject configure
+```
 
-    sudo apt-get update
-    sudo apt-get install --only-upgrade openproject
-    sudo openproject configure
+### SuSE
 
-## CentOS / RHEL
-
-    sudo yum update
-    sudo yum install openproject
-    sudo openproject configure
-
-## SuSE
-
-    sudo zypper update openproject
-    sudo openproject configure
+```bash
+sudo zypper update openproject
+sudo openproject configure
+```
 
 
-## Re-configuring the application
+<div class="alert alert-info" role="alert">
 
 Using `openproject configure`, the wizard will display new steps that weren't available yet or had not been configured in previous installations.
+
 If you want to perform changes to your configuration or are unsure what steps are available, you can safely run `openproject reconfigure` to walk through the entire configuration process again.
 
 Note that this still takes previous values into consideration. Values that should not change from your previous configurations can be skipped by pressing `<Return>`. This also applies for steps with passwords, which are shown as empty even though they may have a value. Skipping those steps equals to re-use the existing value.
 
+</div>
 
-# Upgrading between major releases (DEB/RPM packages)
+## Docker-based installation
 
-Since OpenProject 9.0.0 is a major upgrade, you will need to perform some basic manual steps to upgrade your package.
+Upgrading a Docker container is easy. First, pull the latest version of the image:
 
-First, please check that the package repository is correct.
-Compare your local package repository with the one printed on your matching distribution on [our Download and Installation page](https://www.openproject.org/download-and-installation/)
+```bash
+docker pull openproject/community:VERSION
+# e.g. docker pull openproject/community:10
+```
 
-## Upgrade notes for OpenProject 9.0
+Then stop and remove your existing container (we assume that you are running with the recommended production setup here):
+
+```bash
+docker stop openproject
+docker rm openproject
+```
+
+Finally, re-launch the container in the same way you launched it previously.
+This time, it will use the new image:
+
+```
+docker run -d ... openproject/community:VERSION
+```
+
+# Upgrade notes
+
+**TODO: review**
 
 These following points are some known issues around the update to 9.0.
 

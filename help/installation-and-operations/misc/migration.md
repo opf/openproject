@@ -1,5 +1,7 @@
 # Migrating your packaged OpenProject installation to another environment
 
+TODO: review
+
 **Note:** this guide only applies if you've installed OpenProject using our DEB/RPM packages.
 
 Migrating your OpenProject packaged installation to another host or environment is trivial and may be combined with, e.g., minor or major package upgrades due to our migration system.

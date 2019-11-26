@@ -1,111 +1,13 @@
-## Managing your OpenProject installation
-
-The openproject package comes with a command line tool to help manage the
-application. To see all possible command options of this tool you can run:
-
-    admin@openproject-demo:~# sudo openproject
-    Usage:
-      openproject run COMMAND [options]
-      openproject scale PROCESS=NUM
-      openproject logs [--tail|-n NUMBER]
-      openproject config:get VAR
-      openproject config:set VAR=VALUE
-      openproject config:unset VAR
-      openproject reconfigure
-      openproject restart [PROCESS]
-
-In the rest of this section we'll go over some of the most important commands.
-
-#### Run commands like rake tasks or rails console
-
-The openproject command line tool supports running rake tasks and known scripts
-like the rails console:
-
-    # Get the current version of OpenProject
-    sudo openproject run bundle exec rake version
-    # Or spawn an interactive console
-    sudo openproject run console
-    # or a rake task
-    sudo openproject run rake db:migrate
-    # or check the version of ruby used by openproject
-    sudo openproject run ruby -v
-
-#### Show logs
-
-The command line tool can also be used to see the log information. The most
-typically use case is to show/follow all current log entries. This can be
-accomplished using the the `–tail` flag. See example below:
-
-    sudo openproject logs --tail
-
-Note:
-
-* On distributions that are based on systemd, all the logs are sent to journald, so you can also display them via `journalctl`.
-* On older distributions that use either sysvinit or upstart, all the logs are stored in `/var/log/openproject/`.
-
-#### Scaling the number of web workers
-
-Depending on your free RAM on your system, we recommend you raise the default number of workers. The default from 9.0.3 onwards is four worker processes. Each worker will take roughly 300-400MB RAM.
-
-We recommend at least four workers. Please check your current worker count with
-
-```bash
-    sudo openproject config:get OPENPROJECT_WEB_WORKERS
-```
-
-If it returns nothing, the default worker count of `4` applies. To increase or decrease the worker count, call
-
-```bash
-    sudo openproject config:set OPENPROJECT_WEB_WORKERS=number
-```
-
-Where `number` is a positive number between 1 and `round(AVAILABLE_RAM * 1.5)`.
-
-After changing these values, call `sudo openproject configure` to apply it to the web server.
-
-#### Reconfigure the application
-
-At any point in time, you can reconfigure the whole application by re-running the installer with the following command:
-
-    sudo openproject reconfigure
-
-The command above will bring up the installation wizard again. Please be aware that it will start the configuration/installation process from scratch. You can choose to modify existing entries, or just leave them as they are if you want to reuse them (note that passwords will appear as "blank" entries in their
-respective input fields, but you don't need to enter them again if don't want to modify them).
-
-#### Upgrading the application
-
-As openproject is a system package, it will be automatically updated when you install your package updates.
-
-After you have just updated your OpenProject version, you should run `openproject configure` (see section below), which would automatically reuse your previous configuration, and only asks for your input if new configuration options are available.
-
-For a complete guide on upgrading your OpenProject packaged installation, [please see this guide](upgrading).
-
-#### Inspect the existing configuration
-
-You can list all of the environment variables accessible to the application by running:
-
-    sudo openproject config
-    # this will return something like:
-    DATABASE_URL=mysql2://openproject:9ScapYA1MN7JQrPR7Wkmp7y99K6mRHGU@127.0.0.1:3306/openproject
-    SECRET_TOKEN=c5aa99a90f9650404a885cf5ec7c28f7fe1379550bb811cb0b39058f9407eaa216b9b2b22d27f58fb15ac21adb3bd16494ebe89e39ec225ef4627db048a12530
-    ADMIN_EMAIL=mail@example.com
-    EMAIL_DELIVERY_METHOD=smtp
-    SMTP_DOMAIN=example.com
-    SMTP_HOST=smtp.example.com
-    SMTP_PASSWORD=mail
-    SMTP_PORT=25
-    SMTP_URL=smtp://mail:mail@smtp.example.com:25/example.com
-    SMTP_USERNAME=mail
-    SMTP_ENABLE_STARTTLS_AUTO=true
-    SMTP_AUTHENTICATION=plain
-    WEB_CONCURRENCY=4
-    WEB_TIMEOUT=15
-    RAILS_CACHE_STORE=memcache
-    SESSION_STORE=cache_store
-
+---
+sidebar_navigation:
+  title: FAQ
+  priority: 4
+---
 
 
 # Frequently asked questions - FAQ
+
+TODO: review
 
 ## How can I install an OpenProject plugin?
 
@@ -113,8 +15,6 @@ Our [official installation page][install-page] has instructions on how to custom
 Please note that customization is not yet supported for Docker-based installations.
 
 [install-page]: https://www.openproject.org/download-and-installation/
-
-
 
 ## How to migrate from Bitnami to the official OpenProject installation packages?
 

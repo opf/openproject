@@ -1,5 +1,7 @@
 # Migrating your packaged OpenProject database to PostgreSQL
 
+TODO: review
+
 **Note:** this guide only applies if you've installed OpenProject using our DEB/RPM packages.
 
 This guide will migrate your packaged MySQL installation to a PostgreSQL installation using [pgloader](https://github.com/dimitri/pgloader). 
