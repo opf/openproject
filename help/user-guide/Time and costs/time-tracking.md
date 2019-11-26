@@ -1,6 +1,4 @@
 ---
-
-
 sidebar_navigation:
   title: Time tracking
   priority: 799
@@ -22,9 +20,8 @@ Users can book their time or units spent on an activity within a project directl
 | ------------------------------------------------------------ | ------------------------------------------------------- |
 | [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work packages?                       |
 | [Logging time via commit message](#logging-time-via-a-commit message) | How to log time via a commit message to a work package? |
-| Edit logged time                                             | How to edit logged time on a work package?              |
-|                                                              |                                                         |
-|                                                              |                                                         |
+| [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package?              |
+| [Delete time entries](#delte-time-entires)                   | how to delete time entries logged to a work package?    |
 
 ## Logging time in the work package view
 
@@ -76,4 +73,8 @@ In the list of time entries, click on the **Delete** icon next to a time entry t
 
 
 ![Time-logging-delete](Time-logging-delete.png)
+
+## Track labor costs
+
+In order to track labor costs, you need to [define an hourly rate](/cost-tracking/#hourly-rate) in your user profile first.
 

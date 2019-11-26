@@ -15,18 +15,14 @@ Create budgets, log time and costs on specific work packages and  create time an
 
 ## Overview
 
-| Popular Topics | Description |
-| -------------- | :---------- |
-|                |             |
-|                |             |
-|                |             |
-|                |             |
-|                |             |
-|                |             |
-|                |             |
-|                |             |
-|                |             |
+| Popular Topics                        | Description                                 |
+| ------------------------------------- | :------------------------------------------ |
+| [Time tracking](/time-tracking)       | How to log time to work packages?           |
+| [Cost tracking](/cost-tracking)       | How to track unit costs spent in a project? |
+| [Time and cost reporting](/reporting) | How to create time and cost reports?        |
 
 ## Time tracking, budgets and cost report video tutorial
+
+Watch this short video to get a fist overview about time and cost reporting and budgets in OpenProject.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/CU0pcDQvZuM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
