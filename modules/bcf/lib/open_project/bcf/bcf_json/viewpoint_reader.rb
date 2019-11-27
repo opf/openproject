@@ -29,8 +29,8 @@ module OpenProject::Bcf
           hash = hash[ROOT_NODE] if hash.key?(ROOT_NODE)
 
           # Perform destructive transformations
-          transformations.each do |m|
-            send(m, hash)
+          transformations.each do |method_name|
+            send(method_name, hash)
           end
 
           hash
