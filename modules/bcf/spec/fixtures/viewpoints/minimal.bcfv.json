@@ -1,0 +1,21 @@
+{
+  "guid": "{{UUID}}",
+  "orthogonal_camera": {
+    "camera_view_point": {
+      "x": 12.3456789,
+      "y": 1.2345,
+      "z": -1234.1234
+    },
+    "camera_direction": {
+      "x": -1.0,
+      "y": -2.0,
+      "z": -3.0
+    },
+    "camera_up_vector": {
+      "x": 0.223629,
+      "y": 0.209889,
+      "z": 0.951807
+    },
+    "field_of_view": 180.0
+  }
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VisualizationInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Guid="{{UUID}}">
+  <OrthogonalCamera>
+    <CameraViewPoint>
+      <X>12.3456789</X>
+      <Y>1.2345</Y>
+      <Z>-1234.1234</Z>
+    </CameraViewPoint>
+    <CameraDirection>
+      <X>-1</X>
+      <Y>-2</Y>
+      <Z>-3</Z>
+    </CameraDirection>
+    <CameraUpVector>
+      <X>0.223629</X>
+      <Y>0.209889</Y>
+      <Z>0.951807</Z>
+    </CameraUpVector>
+    <FieldOfView>180</FieldOfView>
+  </OrthogonalCamera>
+</VisualizationInfo>

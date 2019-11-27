@@ -30,7 +30,7 @@
 module API
   module Errors
     class UnsupportedMediaType < ErrorBase
-      identifier 'urn:openproject-org:api:v3:errors:TypeNotSupported'
+      identifier 'TypeNotSupported'
       code 415
 
       def initialize(message)
