@@ -1,5 +1,7 @@
 ---
-title: Wiki
+sidebar_navigation:
+  title: Wiki
+  priority: 800
 description: Create and manage a wiki in OpenProject.
 robots: index, follow
 keywords: wiki
@@ -13,7 +15,7 @@ In a project wiki you can collaboratively create and document information with y
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [General wiki information](#general-wiki-information)        | How to format a wiki page.                                   |
 | [Image handling](#image-handling)                            | How in insert images in the wiki.                            |
-| [Macros](#macros)                                            | How to add additional information to a wiki page, e.g. work package create button or work package list. |
+| [Macros](#macros)                                            | How to add more information to a wiki page, e.g. work package create button or work package list. |
 | [Links to OpenProject resources](#links-to-openproject-resources) | How to link to OpenProject resources, e.g. work packages, members or projects. |
 
 ## General wiki information
@@ -40,7 +42,7 @@ Create hyperlinks by pressing the toolbar (optionally with some selected text), 
 
 ### Widgets and Newlines
 
-CKEditor usese widgets to display block elements such as images, tables, and other elements that are not inline. You can select most widgets by pressing on it - The only exception to that is the table widget, it has a little select knob at the top left to select the entire table.
+CKEditor uses widgets to display block elements such as images, tables, and other elements that are not inline. You can select most widgets by pressing on it - The only exception to that is the table widget, it has a little select knob at the top left to select the entire table.
 
 When you have a widget selected, you can remove or cut it. You can create a newline below it by selecting the widget and pressing ENTER or ↓ (ARROW DOWN), or a newline above it by pressing SHIFT+enter or ↑ (ARROW UP). This is especially needed when the widget is the first or last element on the page to insert a line below or above it.
 
@@ -120,7 +122,7 @@ As with the textile formatting syntax, you can link to other resources within Op
     commit by hash: commit:f30e13e4
     To a source file in the repository: source:"some/file"
 
-To avoid processing these items, preceed them with a bang ! character such as !#12 will prevent linking to a work package with ID 12.
+To avoid processing these items, precede them with a bang ! character such as !#12 will prevent linking to a work package with ID 12.
 
 ### Autocompletion for work packages and users
 

@@ -21,13 +21,13 @@ In order to open an existing project, click on the **Select a project** button o
 
 You can also start typing in a project name to filter for the project's title.
 
-![1569490281450](1569490281450.png)
+![open project](1572877683380.png)
 
 
 
 Project and subproject are displayed according to their hierarchy in the drop-down menu.
 
-![project hierarchy](1569490194969.png)
+![project hierarchy](1572877762016.png)
 
 Also, you will see your newest projects on the application landing page in the **Projects** section. Here you can simply click on one of the newest visible projects to open it.
 
@@ -55,7 +55,7 @@ To configure further project information, see the [advanced settings](./project-
 
 ### View all projects
 
-To view all your projects where you are a  member, click on the **View all projects** link on the Select a project drop-down menu.
+To view all your projects where you are a member, click on the **View all projects** link on the Select a project drop-down menu.
 
 ![view all proejcts](1569490429831.png)
 

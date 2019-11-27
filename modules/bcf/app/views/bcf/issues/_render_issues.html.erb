@@ -6,11 +6,10 @@
       <% highlighting_class << ' -failed' if issue.errors.present?  %>
       <div class="<%= highlighting_class %>">
         <p>
-          <strong><%= issue.title %></strong>
-          <br/>
           <% if issue.work_package %>
             <%= link_to_work_package(issue.work_package) %>
-            <br/>
+          <% else %>
+            <%= issue.imported_title %>
           <% end %>
         </p>
         <% if issue.errors.present? %>

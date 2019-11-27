@@ -1,8 +1,10 @@
 ---
-title: Create work packages
-description: How to create work packages in OpenProject?
+sidebar_navigation:
+  title: Edit Work packages
+  priority: 868
+description: How to edit work packages in OpenProject?
 robots: index, follow
-keywords: create work packages
+keywords: edit work packages
 ---
 
 # Edit work packages
@@ -27,13 +29,13 @@ Other input fields can be saved with **Enter**.
 
 ![edit-work-package](edit-work-package-1566546727784.png)
 
-The green message on top of the work packaage indicates a successful update.
+The green message on top of the work package indicates a successful update.
 
 ![successful-update](1566546959027.png)
 
 All changes of a work package are documented in the work package [Activity](#activity).
 
-<div class="notice">
+<div class="alert alert-info" role="alert">
 **Note**: There is no possibility to undo changes to work packages (Ctrl+Z).
 </div>
 
@@ -44,7 +46,7 @@ To update the status of a work package, click on the current status in the work 
 
 ![update-status](1566375642243.png)
 
-Please note, the status may differ from work package type. They can be configued in the [system administration](./system-admin-guide).
+Please note, the status may differ from work package type. They can be configured in the [system administration](./system-admin-guide).
 
 ### How to add comments to a work package?
 

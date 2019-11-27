@@ -1,5 +1,7 @@
 ---
-title: Product roadmap and release planning
+sidebar_navigation:
+  title: Roadmap
+  priority: 880
 description: Find out about the Product Roadmap and Release planning in OpenProject
 robots: index, follow
 keywords: roadmap, release planning
@@ -9,7 +11,7 @@ keywords: roadmap, release planning
 
 Plan and manage your product roadmap in OpenProject. Visualize, and communicate your product roadmap. Share your product roadmap with your stakeholders, get feedback about your ideas and break it down into a detailed release plan.
 
-In the roadmap, you can see at one sight all work packages and their status listed by versions.
+In the roadmap, you can see all work packages and their status listed by versions at a glance.
 
 For each version, the related work package can be assessed from the list displayed in the roadmap view. Subjects which are crossed out represent closed work packages.
 
@@ -25,7 +27,6 @@ The chart displays all work packages listed by a certain attribute. Select the d
 
 ![roadmap-workpackage-details](1567423371954.png)
 
-Note that a roadmap is only displayed when at least one [version ](https://www.openproject.org/help/manage-backlog-versions/)exists in a project.
-<div class="notice">
-**Note**: A roadmap is only displayed in the project menu when at least one [version](./project-admin-guide/#versions) exists in a project.
+<div class="alert alert-info" role="alert">
+Note: A roadmap is only displayed in the project menu when at least one [version](./project-admin-guide/#versions) exists in a project.
 </div>

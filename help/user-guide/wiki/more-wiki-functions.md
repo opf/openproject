@@ -1,4 +1,7 @@
 ---
+sidebar_navigation:
+  title: More wiki functions
+  priority: 797
 title: More Wiki functions
 description: Wiki settings in OpenProject.
 robots: index, follow
@@ -7,7 +10,7 @@ keywords: wiki settings
 
 # More wiki functions
 
-In the wiki you have more fuctions to edit or configure your wiki page, e.g. to export pages, rename pages, change parent page, view the table of contents and more.
+In the wiki you have more functions to edit or configure your wiki page, e.g. to export pages, rename pages, change parent page, view the table of contents and more.
 
 | Feature                                           | Documentation for                                            |
 | ------------------------------------------------- | ------------------------------------------------------------ |
@@ -35,7 +38,7 @@ Select the item **Lock** in the drop down menu.
 
 The page is now locked and cannot be edited by any other user. 
 
-To unlock a wiki page and make it possible to edit it again for users, select the **Unlock** item under the **More** button on top of a wiki page.
+To unlock a wiki page and make it possible for users to edit it again, select the **Unlock** item under the **More** button on top of a wiki page.
 
 ![unlock-wiki](unlock-wiki.png)
 
@@ -63,7 +66,7 @@ First, you will get an overview on author and date of the latest updates. Potent
 
 ![view-differences-wiki](1568213985327.png)
 
-<div class="notice">
+<div class="alert alert-info" role="alert">
 **Note**: The more distance between two versions, the more difficult it becomes to compare them, since only the selected versions are compared (ignoring the changes that were made in the meantime). The most comprehensible information is thus provided by comparing two consecutive versions.
 
 </div>

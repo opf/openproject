@@ -30,7 +30,7 @@
 module API
   module Errors
     class Validation < ErrorBase
-      identifier 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'
+      identifier 'PropertyConstraintViolation'
       code 422
 
       def initialize(property, full_message)

@@ -113,6 +113,12 @@ FactoryBot.define do
     labels { ['Structural', 'IT Development', 'Huge'] }
     sequence(:index) { |n| n }
 
+    factory :bcf_issue_with_viewpoint do
+      after(:create) do |issue|
+        create(:bcf_viewpoint, issue: issue)
+      end
+    end
+
     factory :bcf_issue_with_comment do
       after(:create) do |issue|
         viewpoint = create(:bcf_viewpoint, issue: issue)

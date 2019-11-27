@@ -120,6 +120,9 @@ MESSAGE
 
       Role.non_member
       Role.anonymous
+
+      User.system.save!
+
       admin.save!
       anonymous_user.save!
       user_with_permission.save!
@@ -227,6 +230,8 @@ MESSAGE
       # to mess with our expected users
       model_instance
       User.destroy_all
+
+      User.system.save!
 
       Role.non_member
       Role.anonymous

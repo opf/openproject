@@ -34,9 +34,28 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for :auth_source %>
 
+<% if @auth_source.new_record? %>
+  <div class="notification-box -info">
+    <a title="close" class="notification-box--close icon-context icon-close"></a>
+    <div class="notification-box--content">
+      <%= t('ldap_auth_sources.technical_warning_html') %>
+    </div>
+  </div>
+<% end %>
+
 <section class="form--section">
-  <div class="form--field -required"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
-  <div class="form--field -required"><%= f.text_field 'host', required: true, container_class: '-middle' %></div>
+  <div class="form--field -required">
+    <%= f.text_field 'name', required: true, container_class: '-middle' %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.name') %>
+    </span>
+  </div>
+  <div class="form--field -required">
+    <%= f.text_field 'host', required: true, container_class: '-middle' %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.host') %>
+    </span>
+  </div>
   <div class="form--field -required"><%= f.text_field 'port', required: true, size: 6, container_class: '-xslim' %></div>
 
   <fieldset class="form--fieldset">
@@ -74,25 +93,93 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
   </fieldset>
   <fieldset class="form--fieldset">
-    <legend class="form--fieldset-legend"><%= t(:label_details) %></legend>
-    <div class="form--field"><%= f.text_field 'account', container_class: '-middle'  %></div>
+    <legend class="form--fieldset-legend"><%= t('ldap_auth_sources.system_account') %></legend>
+    <p><%= t 'ldap_auth_sources.system_account_legend' %></p>
+
+    <div class="form--field">
+      <%= f.text_field 'account', container_class: '-middle'  %>
+      <span class="form--field-instructions">
+        <%= t('ldap_auth_sources.attribute_texts.system_user_dn_html') %>
+      </span>
+    </div>
     <div class="form--field">
       <%= f.password_field 'account_password',
                            label: AuthSource.human_attribute_name(:password),
                            placeholder: ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('●'*15)),
                            autocomplete: 'off',
                            container_class: '-middle' %>
+      <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.system_user_password') %>
+    </span>
     </div>
-    <div class="form--field"><%= f.text_field 'base_dn', size: 60, container_class: '-wide' %></div>
-    <div class="form--field"><%= f.check_box 'onthefly_register', label: AuthSource.human_attribute_name(:onthefly) %></div>
   </fieldset>
 </section>
 
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%=t(:label_attribute_plural)%></legend>
-  <div class="form--field -required"><%= f.text_field 'attr_login', label: AuthSource.human_attribute_name(:login), required: true, size: 20, container_class: '-middle'  %></div>
-  <div class="form--field"><%= f.text_field 'attr_firstname', label: AuthSource.human_attribute_name(:firstname), size: 20, container_class: '-middle'  %></div>
-  <div class="form--field"><%= f.text_field 'attr_lastname', label: AuthSource.human_attribute_name(:lastname), size: 20, container_class: '-middle'  %></div>
-  <div class="form--field"><%= f.text_field 'attr_mail', label: AuthSource.human_attribute_name(:mail), size: 20, container_class: '-middle'  %></div>
-  <div class="form--field"><%= f.text_field 'attr_admin', label: AuthSource.human_attribute_name(:admin), size: 20, container_class: '-middle'  %></div>
+  <legend class="form--fieldset-legend"><%=t('ldap_auth_sources.ldap_details')%></legend>
+  <div class="form--field">
+    <%= f.text_field 'base_dn', size: 60, container_class: '-wide' %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.base_dn') %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.check_box 'onthefly_register', label: AuthSource.human_attribute_name(:onthefly) %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.onthefly_register') %>
+    </span>
+  </div>
+</fieldset>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%=t('ldap_auth_sources.user_settings')%></legend>
+  <p><%= t 'ldap_auth_sources.user_settings_legend' %></p>
+
+  <div class="form--field -required">
+    <%= f.text_field 'attr_login',
+                     label: AuthSource.human_attribute_name(:login),
+                     required: true,
+                     size: 20,
+                     placeholder: 'uid',
+                     container_class: '-middle'  %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.login_map') %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.text_field 'attr_firstname',
+                     label: AuthSource.human_attribute_name(:firstname),
+                     size: 20,
+                     placeholder: 'givenName',
+                     container_class: '-middle'  %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.generic_map', attribute: AuthSource.human_attribute_name(:firstname)) %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.text_field 'attr_lastname',
+                     label: AuthSource.human_attribute_name(:lastname),
+                     size: 20,
+                     placeholder: 'sn',
+                     container_class: '-middle'  %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.generic_map', attribute: AuthSource.human_attribute_name(:lastname)) %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.text_field 'attr_mail',
+                     label: AuthSource.human_attribute_name(:mail),
+                     size: 20,
+                     placeholder: 'mail',
+                     container_class: '-middle'  %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.generic_map', attribute: AuthSource.human_attribute_name(:mail)) %>
+    </span>
+  </div>
+  <div class="form--field">
+    <%= f.text_field 'attr_admin', label: AuthSource.human_attribute_name(:admin), size: 20, container_class: '-middle'  %>
+    <span class="form--field-instructions">
+      <%= t('ldap_auth_sources.attribute_texts.admin_map_html') %>
+    </span>
+  </div>
 </fieldset>

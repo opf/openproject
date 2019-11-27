@@ -103,10 +103,12 @@ describe 'Upload attachment to work package', js: true do
           expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
         end
 
+        sleep 2
+
         # Besides testing caption functionality this also slows down clicking on the submit button
         # so that the image is properly embedded
         caption = page.find('figure.image figcaption')
-        caption.click
+        caption.click(x: 10, y: 10)
         sleep 0.2
         caption.base.send_keys('Some image caption')
 

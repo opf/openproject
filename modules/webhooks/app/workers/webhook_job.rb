@@ -28,7 +28,14 @@
 #++
 
 class WebhookJob < ApplicationJob
-  def perform
+  attr_reader :webhook_id, :event_name
 
+  def perform(webhook_id, event_name)
+    @webhook_id = webhook_id
+    @event_name = event_name
+  end
+
+  def webhook
+    @webhook ||= Webhooks::Webhook.find(webhook_id)
   end
 end

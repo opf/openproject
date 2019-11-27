@@ -30,7 +30,7 @@
 module API
   module Errors
     class MultipleErrors < ErrorBase
-      identifier 'urn:openproject-org:api:v3:errors:MultipleErrors'
+      identifier 'MultipleErrors'
       code 422
 
       def self.create_if_many(errors)

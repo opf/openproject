@@ -66,9 +66,9 @@ module Bcf::API::V2_1
                   })
              .mount
 
-      route_param :uuid, regexp: /\A[a-f0-9\-]+\z/ do
+      route_param :topic_uuid, regexp: /\A[a-f0-9\-]+\z/ do
         after_validation do
-          @issue = topics.find_by_uuid!(params[:uuid])
+          @issue = topics.find_by_uuid!(params[:topic_uuid])
         end
 
         get &::Bcf::API::V2_1::Endpoints::Show
@@ -80,6 +80,8 @@ module Bcf::API::V2_1
               .new(model: Bcf::Issue,
                    api_name: 'Topics')
               .mount
+
+        mount Bcf::API::V2_1::Viewpoints::API
       end
     end
   end

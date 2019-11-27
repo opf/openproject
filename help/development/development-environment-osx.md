@@ -3,7 +3,7 @@
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
 This guide assumes that you have a Mac OS Xinstallation installation with administrative rights. 
-OpenProject will be installed with a PostgreSQL database. This guide will work analogous with a MySQL installation, though. 
+OpenProject will be installed with a PostgreSQL database.
 
 **Please note**: This guide is NOT suitable for a production setup, but only for developing with it!
 
@@ -13,9 +13,10 @@ If you find any bugs or you have any recommendations for improving this tutorial
 
 We'll use [homebrew](https://brew.sh/) to install most of our requirements. Please install that first using the guide on their homepage.
 
-## Install Ruby 2.6.
+## Install Ruby
 
-Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby 2.6.1.
+Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "2.6"
+
 **Install rbenv and ruby-build**
 
 rbenv is a ruby version manager that lets you quickly switch between ruby versions.
@@ -38,19 +39,19 @@ and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-[dev@ubuntu]# rbenv install 2.6.1
+rbenv install 2.6.5
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-[dev@ubuntu]# rbenv global 2.6.1
+rbenv global 2.6.5
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
 
 ```bash
-[dev@ubuntu]# gem install bundler
+gem install bundler
 ```
 
 ## Setup PostgreSQL database
@@ -95,11 +96,11 @@ $ nodenv init
 **Install latest LTS node version**
 
 You can find the latest LTS version here: https://nodejs.org/en/download/
-Currently, this is v10.15.3. Install and activate it with:
+Currently, this is v12.13.0. Install and activate it with:
 
 ```bash
-[dev@ubuntu]# nodenv install 10.15.3
-[dev@ubuntu]# nodenv global 10.15.3
+nodenv install 12.13.0
+nodenv global 12.13.0
 ```
 
 ## Verify your installation
@@ -108,28 +109,28 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 $ ruby --version
-ruby 2.6.1p33 (2019-01-30 revision 66950) [x86_64-darwin16]
+ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-darwin16]
 
 $ bundler --version
-Bundler version 2.0.1
+Bundler version 2.0.2
 
 $ npm --version
-6.7.0
+12.13.0
 ```
 
 # Install OpenProject
 
 ```bash
 # Download the repository
-[dev@ubuntu]# git clone https://github.com/opf/openproject.git
-[dev@ubuntu]# cd openproject
+git clone https://github.com/opf/openproject.git
+cd openproject
 
 # Install gem dependencies
 # If you get errors here, you're likely missing a development dependency for your distribution
-[dev@ubuntu]# bundle install
+bundle install
 
 # Install node_modules
-[dev@ubuntu]# npm install
+npm install
 ```
 
 Note that we have checked out the `dev` branch of the OpenProject repository. Development in OpenProject happens in the `dev` branch (there is no `master` branch).
@@ -140,7 +141,7 @@ So, if you want to develop a feature, create a feature branch from a current `de
 Create and configure the database configuration file in `config/database.yml` (relative to the openproject-directory.
 
 ```bash
-[dev@debian]# vim config/database.yml
+vim config/database.yml
 ```
 
 Now edit the `config/database.yml` file and insert your database credentials.
@@ -163,15 +164,15 @@ test:
   database: openproject_test
 ```
 
-**NOTE:** If you want to use MySQL instead and have a database installed, simply use the MySQL section of the exemplary `database.yml.example` configuration file.
+
 
 ## Finish the Installation of OpenProject
 
 Now, run the following tasks to migrate and seed the dev database, and prepare the test setup for running tests locally.
 
 ```bash
-[dev@ubuntu]# export RAILS_ENV=development
-[dev@ubuntu]# ./bin/rake db:migrate db:seed db:test:prepare
+RAILS_ENV=development bin/rails db:create db:migrate
+RAILS_ENV=development bin/rails db:seed db:test:prepare
 ```
 
 
@@ -181,8 +182,8 @@ You can run all required workers of OpenProject through `foreman`, which combine
 however most developers end up running the tasks in separate shells for better understanding of the log output, since foreman will combine all of them.
 
 ```bash
-[dev@ubuntu]# gem install foreman
-[dev@ubuntu]# foreman start -f Procfile.dev
+gem install foreman
+foreman start -f Procfile.dev
 ```
 The application will be available at `http://127.0.0.1:5000`. To customize bind address and port copy the `.env.sample` provided in the root of this
 project as `.env` and [configure values][foreman-env] as required.
@@ -206,19 +207,23 @@ To run OpenProject manually, you need to run the rails server and the webpack fr
 **Rails web server**
 
 ```bash
-[dev@ubuntu]# RAILS_ENV=development ./bin/rails server
+RAILS_ENV=development bin/rails server
 ```
 
 This will start the development server on port `3000` by default.
 
-**Webpack bundling**
+**Angular frontend**
+
+To run the frontend server, please run
 
 ```bash
-[dev@ubuntu]# RAILS_ENV=development npm run webpack-watch
+RAILS_ENV=development npm run serve
 ```
 
 This will watch for any changes within the `frontend/` and compile the application javascript bundle on demand. You will need to watch this tab for the compilation output,
-should you be working on the TypeScript / angular.js frontend part.
+should you be working on the TypeScript / Angular frontend part.
+
+You can then access the application either through `localhost:3000` (Rails server) or through the frontend proxied `http://localhost:4200`, which will provide hot reloading for changed frontend code.
 
 
 ## Start Coding
@@ -228,11 +233,7 @@ Also, take a look at the `doc` directory in our sources, especially the [how to 
 
 ## Troubleshooting
 
-The OpenProject logfile can be found here:
-
-```
-/home/openproject/openproject/log/development.log
-```
+The OpenProject logfile can be found in `log/development.log`.
 
 If an error occurs, it should be logged there (as well as in the output to STDOUT/STDERR of the rails server process).
 

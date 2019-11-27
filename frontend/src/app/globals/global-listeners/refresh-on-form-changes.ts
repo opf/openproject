@@ -27,17 +27,18 @@
 // ++
 
 export function refreshOnFormChanges() {
-  document
-    .querySelectorAll('.augment--refresh-on-form-changes')
-    .forEach((element:HTMLFormElement) => {
-      const form = jQuery(element);
-      const url = form.data('refreshUrl');
-      const inputId = form.data('inputSelector');
+  const matches = document.querySelectorAll('.augment--refresh-on-form-changes');
 
-      form
-        .find(inputId)
-        .on('change', () => {
-          window.location.href = url + '?' + form.serialize();
-        });
-    });
+  for (let i = 0; i < matches.length; i++) {
+    let element = matches[i];
+    const form = jQuery(element);
+    const url = form.data('refreshUrl');
+    const inputId = form.data('inputSelector');
+
+    form
+      .find(inputId)
+      .on('change', () => {
+        window.location.href = url + '?' + form.serialize();
+      });
+  }
 }

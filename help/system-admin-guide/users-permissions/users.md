@@ -7,13 +7,13 @@ keywords: manage users
 
 # Manage Users
 
-XX
+The users list provides an overview of all users in OpenProject. You can create new users, make changes to existing user accounts of delete users from the users list.
 
-| Feature                                                      | Documentation for |
-| ------------------------------------------------------------ | ----------------- |
-| [Project concept and initiation](Project concept and initiation) |                   |
-|                                                              |                   |
-|                                                              |                   |
-|                                                              |                   |
-|                                                              |                   |
+| Feature                                      | Documentation for |
+| -------------------------------------------- | ----------------- |
+| [User list](User list)                       | Viewing users in  |
+| [Filter users](Filter users)                 |                   |
+| [Invite new users](Invite new users)         |                   |
+| [Manage user settings](Manage user settings) |                   |
+| [Delete users](Delete users)                 |                   |
 

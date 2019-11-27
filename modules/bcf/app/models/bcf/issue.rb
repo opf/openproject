@@ -19,6 +19,10 @@ module Bcf
       end
     end
 
+    def imported_title
+      markup_doc.xpath('//Topic/Title').text
+    end
+
     def markup_doc
       @markup_doc ||= Nokogiri::XML markup, nil, 'UTF-8'
     end

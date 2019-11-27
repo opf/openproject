@@ -304,7 +304,10 @@ module API
                                  represented.project_id.to_s
                                end
 
-            filters = static_filters << { member: { operator: '=', values: [project_id_value.to_s] } }
+            # Careful to not alter the static_filters object here.
+            # It is made available in the closure (which is class level) and would thus
+            # keep the appended filters between requests.
+            filters = static_filters + [{ member: { operator: '=', values: [project_id_value.to_s] } }]
 
             api_v3_paths.path_for(:principals, filters: filters, page_size: 0)
           }
