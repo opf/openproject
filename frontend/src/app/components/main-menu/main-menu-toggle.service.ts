@@ -98,7 +98,7 @@ export class MainMenuToggleService {
         // On mobile the main menu shall close whenever you click outside the menu.
         this.setupAutocloseMainMenu();
       } else { // desktop version
-        this.saveWidth(this.defaultWidth);
+        this.saveWidth(parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string));
       }
     } else { // sidebar is expanded -> close menu
       this.closeMenu();
@@ -115,11 +115,7 @@ export class MainMenuToggleService {
   }
 
   public closeMenu():void {
-    if (this.deviceService.isMobile) {
-      this.saveWidth(0);
-    } else {
-      this.setWidth(0);
-    }
+    this.setWidth(0);
     this.hideElements.addClass('hidden-navigation');
   }
 
