@@ -38,10 +38,12 @@ module API
 
         def initialize(model:,
                        instance_generator: default_instance_generator(model),
-                       process_service: nil)
+                       process_service: nil,
+                       api_name: model.name.demodulize)
           self.model = model
           self.instance_generator = instance_generator
           self.process_service = process_service || deduce_process_service
+          self.api_name = api_name
         end
 
         def mount
@@ -67,6 +69,7 @@ module API
         def render(call)
           if success?(call)
             yield
+            present_success(call)
           else
             present_error(call)
           end
@@ -78,7 +81,8 @@ module API
 
         attr_accessor :model,
                       :instance_generator,
-                      :process_service
+                      :process_service,
+                      :api_name
 
         private
 
@@ -86,20 +90,28 @@ module API
           fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
         end
 
+        def present_success(call)
+          # Handle success cases by subclasses
+        end
+
         def success?(call)
           call.success?
         end
 
         def deduce_process_service
-          "::#{deduce_namespace}::DeleteService".constantize
+          "::#{deduce_backend_namespace}::DeleteService".constantize
         end
 
-        def deduce_namespace
+        def deduce_backend_namespace
           demodulized_name.pluralize
         end
 
         def demodulized_name
           model.name.demodulize
+        end
+
+        def deduce_api_namespace
+          api_name.pluralize
         end
       end
     end
