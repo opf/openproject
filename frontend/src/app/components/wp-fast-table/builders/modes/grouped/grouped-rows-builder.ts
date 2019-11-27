@@ -49,7 +49,8 @@ export class GroupedRowsBuilder extends RowsBuilder {
   }
 
   public get colspan() {
-    return this.wpTableColumns.columnCount + 1;
+    // Columns + manual sorting column + settings column
+    return this.wpTableColumns.columnCount + 2;
   }
 
   public buildRows() {

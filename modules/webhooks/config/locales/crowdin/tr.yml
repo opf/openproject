@@ -16,6 +16,9 @@ tr:
   webhooks:
     singular: Webhook
     plural: Web Kancaları
+    resources:
+      time_entry:
+        name: "Zaman girişi"
     outgoing:
       no_results_table: Henüz bir web kancası tanımlanmadı.
       label_add_new: Yeni web kancası ekle

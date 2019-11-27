@@ -34,6 +34,7 @@ This will store the current database dump, attachments and config to `/var/db/op
 
 ## SuSE
 
+    sudo zypper refresh
     sudo zypper update openproject
     sudo openproject configure
 

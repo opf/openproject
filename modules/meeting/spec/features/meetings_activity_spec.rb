@@ -1,13 +1,12 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,15 +26,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WebhookJob < ApplicationJob
-  attr_reader :webhook_id, :event_name
+require 'spec_helper'
 
-  def perform(webhook_id, event_name)
-    @webhook_id = webhook_id
-    @event_name = event_name
+describe 'Meetings', type: :feature, js: true do
+  let(:project) { FactoryBot.create :project, enabled_module_names: %w[meetings activity] }
+  let(:user) { FactoryBot.create(:admin) }
+
+  let!(:meeting) { FactoryBot.create :meeting, project: project, title: 'Awesome meeting!' }
+  let!(:agenda) { FactoryBot.create :meeting_agenda, meeting: meeting, text: 'foo' }
+  let!(:minutes) { FactoryBot.create :meeting_minutes, meeting: meeting, text: 'minutes' }
+
+  before do
+    login_as(user)
   end
 
-  def webhook
-    @webhook ||= Webhooks::Webhook.find(webhook_id)
+  describe 'project activity' do
+    it 'can show the meeting in the project activity' do
+      visit project_activity_index_path(project)
+
+      check 'Meetings'
+      click_on 'Apply'
+
+      expect(page).to have_selector('li.meeting', text: 'Awesome meeting!')
+      expect(page).to have_selector('.meeting-agenda', text: 'Agenda: Awesome meeting!')
+    end
   end
 end

@@ -40,7 +40,8 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
       partial: 'projects'
     },
     {
-      partial: 'new_features'
+      partial: 'new_features',
+      if: Proc.new { OpenProject::Configuration.show_community_links? }
     },
     {
       partial: 'users',

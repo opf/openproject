@@ -69,7 +69,7 @@ class SystemUser < User
       User.current = self
 
       begin
-        yield
+        yield self
       ensure
         remove_privileges
         User.current = old_user

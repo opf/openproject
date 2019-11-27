@@ -27,6 +27,7 @@ div.wiki
     .task-list-item
       display: flex
       flex-wrap: wrap
+      white-space: pre-wrap
 
       input
         height: 25px
@@ -36,6 +37,7 @@ div.wiki
       // by making nested lists 100% row width
       ul.task-list
         flex-basis: 100%
+        white-space: nowrap
 
   // remove indentation of top-level task-list
   > ul.task-list

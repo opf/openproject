@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,53 +27,59 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries
-  module Filters
-    module Serializable
-      include ActiveModel::Serialization
-      extend ActiveSupport::Concern
+class Setting
+  ##
+  # Shorthand to common setting aliases to avoid checking values
+  module SelfRegistration
+    VALUES = {
+      disabled: 0,
+      activation_by_email: 1,
+      manual_activation: 2,
+      automatic_activation: 3
+    }.freeze
 
-      class_methods do
-        # (de-)serialization
-        def from_hash(filter_hash)
-          filter_hash.keys.map do |field|
-            begin
-              create!(name, filter_hash[field])
-            rescue ::Queries::Filters::InvalidError
-              Rails.logger.error "Failed to constantize field filter #{field} from hash."
-              ::Queries::NotExistingFilter.create!(field)
-            end
-          end
-        end
-      end
+    def self.values
+      VALUES
+    end
 
-      def to_hash
-        { name => attributes_hash }
-      end
+    def self.value(key:)
+      VALUES[key]
+    end
 
-      def attributes
-        { name: name, operator: operator, values: values }
-      end
+    def self.key(value:)
+      VALUES.find { |k, v| v == value || v.to_s == value.to_s }&.first
+    end
 
-      def ==(other)
-        other.try(:attributes_hash) == attributes_hash
-      end
+    def self.disabled
+      value key: :disabled
+    end
 
-      protected
+    def self.disabled?
+      key(value: Setting.self_registration) == :disabled
+    end
 
-      def attributes_hash
-        self.class.filter_params.inject({}) do |params, param_field|
-          params.merge(param_field => send(param_field))
-        end
-      end
+    def self.by_email
+      value key: :activation_by_email
+    end
 
-      private
+    def self.by_email?
+      key(value: Setting.self_registration) == :activation_by_email
+    end
 
-      def stringify_values
-        unless values.nil?
-          values.map!(&:to_s)
-        end
-      end
+    def self.manual
+      value key: :manual_activation
+    end
+
+    def self.manual?
+      key(value: Setting.self_registration) == :manual_activation
+    end
+
+    def self.automatic
+      value key: :automatic_activation
+    end
+
+    def self.automatic?
+      key(value: Setting.self_registration) == :automatic_activation
     end
   end
 end

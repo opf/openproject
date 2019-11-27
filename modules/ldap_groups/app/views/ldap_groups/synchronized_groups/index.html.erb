@@ -12,6 +12,13 @@
   </li>
 <% end %>
 
+<div class="notification-box -info">
+  <div class="notification-box--content">
+    <strong><%= t('note') %></strong>
+    <%= t('ldap_groups.synchronized_groups.help_text_html') %>
+  </div>
+</div>
+
 
 <section class="admin--edit-section">
   <%= styled_form_tag(update_settings_ldap_groups_synchronized_groups_path,
@@ -41,7 +48,7 @@
                                     placeholder: 'ou=people,dc=example,dc=com' %>
         </div>
         <div class="form--field-instructions">
-          <%= I18n.t('ldap_groups.settings.group_key_text') %>
+          <%= I18n.t('ldap_groups.settings.group_base_text') %>
         </div>
       </div>
     </fieldset>
