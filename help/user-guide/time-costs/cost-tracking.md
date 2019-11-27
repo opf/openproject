@@ -13,7 +13,7 @@ You can log unit costs on a work package within a project to keep track on certa
 
 <div class="alert alert-info" role="alert">
 **Note**: When using the cost tracking functionality, the **Cost reports** module needs to be activated in the [project menu](/project-admin-guide/activate-modules).
-
+</div>
 
 | Feature                                                      | Documentation for                                   |
 | ------------------------------------------------------------ | --------------------------------------------------- |

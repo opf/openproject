@@ -13,7 +13,7 @@ You can easily report spent time and costs in OpenProject and filter, group and 
 
 <div class="alert alert-info" role="alert">
 **Note**: If you want to use the reporting functionality,, the **Cost reports module** needs to be activated in the project settings.
-
+</div>
 
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
