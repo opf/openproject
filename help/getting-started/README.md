@@ -2,7 +2,7 @@
 
 Welcome to the OpenProject **Getting Started guide**.
 
-Here you will l [openproject-introduction.md](openproject-introduction.md) earn about the **first steps with OpenProject**. If you need more detailed explanations of all features, please visit the respective section in our [user guide](../user-guide/).
+Here you will l [openproject-introduction.md](openproject-introduction) earn about the **first steps with OpenProject**. If you need more detailed explanations of all features, please visit the respective section in our [user guide](../user-guide/).
 
 ## Overview
 
