@@ -132,7 +132,6 @@ It is probably best to use READMEs of already released plugins as a template.
 3. Create a news article about the newly released plugin and its features.
 4. Twitter with a link to the news article.
 5. If the plugin is referenced in our feature tour, add a download link to the plugin in the feature tour
-6. Add the newly released plugin to the list of [released plugins](https://www.openproject.org/download/install-plugins/openproject-plugins/).
 
 
 # Frontend plugins [WIP]

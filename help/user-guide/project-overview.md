@@ -87,7 +87,7 @@ Display the latest project news in the news widget on the project overview page.
 
 The project description widgets adds the project description to your project overview. 
 
-The description can be added or changed in the [project settings](./project-admin-guide/project-settings/description).
+The description can be added or changed in the [project settings](../../project-admin-guide/project-settings/description).
 
 ![project description widget](image-20191112143652698.png)
 
@@ -95,11 +95,11 @@ The description can be added or changed in the [project settings](./project-admi
 
 The project details widget displays all custom fields for projects, e.g. project owner, project due date, project number, or any other custom field for this project.
 
-The custom fields can be adapted in the [project settings](./project-admin-guide/project-settings/custom-fields).
+The custom fields can be adapted in the [project settings](../../project-admin-guide/project-settings/custom-fields).
 
 ![project details widget](image-20191112144557906.png)
 
-New custom fields for projects can be created in the [system administration](/system-admin-guide/).
+New custom fields for projects can be created in the [system administration](../../system-admin-guide/).
 
 ### Project status widget
 
@@ -127,7 +127,7 @@ The spent time widget lists the **spent time in this project for the last 7 days
 
 ![spent time widget](image-20191112145040462.png)
 
-Time entries link to the respective work package and can be edited or deleted. To have a detailed view on all spent time and costs, go to the [Cost reporting](/cost-reporting/) module.
+Time entries link to the respective work package and can be edited or deleted. To have a detailed view on all spent time and costs, go to the [Cost reporting](#TODO) module.
 
 ### Subprojects
 
@@ -137,7 +137,7 @@ The subprojects widget lists all subproject of the respective project on the ove
 
 The widget only links the first subproject hierarchy and not the children of a subproject.
 
-To edit the project hierarchy, go to the [project settings](./project-admin-guide/).
+To edit the project hierarchy, go to the [project settings](../../project-admin-guide/).
 
 ### Work package graph widgets (Premium feature)
 

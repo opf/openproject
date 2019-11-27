@@ -68,7 +68,7 @@ You can configure the view of a work package widget to have the information incl
 
 On a work package widget, click the three dots and select **Configure view...**
 
-You can configure the work package table (e.g. filter, group, highlight, sort) according to the [filter, sorting and grouping criteria for work packages](./user-guide/work-packages/#work-package-table-configuration). 
+You can configure the work package table (e.g. filter, group, highlight, sort) according to the [filter, sorting and grouping criteria for work packages](../../user-guide/work-packages/#work-package-table-configuration). 
 
 ![configure-view-widget](configure-view-widget.gif)
 

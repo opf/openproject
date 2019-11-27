@@ -8,7 +8,7 @@ sidebar_navigation:
 
 ## Package-based installation
 
-Simply run `sudo openproject reconfigure`, and when the database wizard is displayed, select the **Use an existing PostgreSQL database** option and fill in the required details ([cf the initial configuration section](../installation/packaged/#step-1-postgresql-database-configuration))
+Simply run `sudo openproject reconfigure`, and when the database wizard is displayed, select the **Use an existing PostgreSQL database** option and fill in the required details ([cf the initial configuration section](../../installation/packaged/#step-1-postgresql-database-configuration))
 
 ## Docker-based installation
 

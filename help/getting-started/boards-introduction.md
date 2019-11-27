@@ -9,12 +9,12 @@ keywords: invite members
 
 In this document you will get a first introduction to the Boards in OpenProject, i.e. how to use a Kanban board to manage your tasks in an agile way.
 
-To find out more about the functionalities of Boards, please visit our [user guide for Gantt charts](/user-guide/boards).
+To find out more about the functionalities of Boards, please visit our [user guide for Gantt charts](../../user-guide/boards).
 
 | Feature                                                    | Documentation for                          |
 | ---------------------------------------------------------- | ------------------------------------------ |
 | [What is a Board?](#what-is-a-board?)                      | Find out what is a Board in OpenProject.   |
-| [Manage your work in a Board](manage-your-work-in-a-board) | How to manage your work in an agile Board? |
+| [Manage your work in a Board](#manage-your-work-in-a-board) | How to manage your work in an agile Board? |
 
 ## What is a Board?
 

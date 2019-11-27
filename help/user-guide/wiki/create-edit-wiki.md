@@ -25,7 +25,8 @@ To create a new wiki page in a project, navigate to the wiki module in your proj
 ![create-wiki-page](1568198706474.png)
 
 <div class="alert alert-info" role="alert">
-**Note**: If you do not see the wiki module in your project menu, you first have to [activate the module in your project settings](./project-admin-guide/#modules).
+
+**Note**: If you do not see the wiki module in your project menu, you first have to [activate the module in your project settings](../../../project-admin-guide).
 
 </div>
 
@@ -85,5 +86,5 @@ If you want to keep updated about any changes to a wiki page, you can make use o
 
 ![watch-wiki](watch-wiki.png)
 
-With this function being activated, you will receive an e-mail notification (according to [your email preferences](./getting-started/#email-notifications)) after every page update, including a link to the respective changes.
+With this function being activated, you will receive an e-mail notification (according to [your email preferences](../../../getting-started/#email-notifications)) after every page update, including a link to the respective changes.
 

@@ -14,7 +14,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Select a project](#select-a-project)                        | Open a project which you want to work at.                    |
-| [Create a new project](./getting-started/#create-project)    | Find out how to create a new project in OpenProject.         |
+| [Create a new project](../../getting-started/#create-project)    | Find out how to create a new project in OpenProject.         |
 | [Project structure](#project-structure)                      | Find out how to set up a project structure.                  |
 | [Project settings](#project-settings)                        | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
 | [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent parent (subproject of). |
@@ -68,14 +68,16 @@ OpenProject, for example, uses the projects to structured the different modules/
 ![project-structure](../getting-started/1566214944644.png)
 
 <div class="alert alert-info" role="alert">
-**Note**: You have to be a [member](./invite-members/#add-new-members) of a project in order to see the project and to work in a project.
+
+**Note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
+
 </div>
 
 ## Project Settings
 
 You can specify further advanced settings for your project. Navigate to your project settings by [selecting a project](#select-a-project), and click **Project settings** in the project menu on the bottom and select the tab **Information**.
 
-- You can define whether the project should have a parent by selecting **Subproject of**. This way, you can [change the project hierarchy](change-the-project-hierarchy).
+- You can define whether the project should have a parent by selecting **Subproject of**. This way, you can [change the project hierarchy](#change-the-project-hierarchy).
 
 - Enter a detailed description for your project.
 
@@ -167,7 +169,7 @@ Often you need to see more than one project in your lists and want to create pro
 
 Click on the **Modules** icon with the dots in the header navigation. These are the project overarching modules in OpenProject.![overarching-modules](overarching-modules.png) 
 
-Select Work packages from the drop down menu. Now, you will see all work packages in the projects where you have the required [permissions](.system-admin-guide/#permissions).
+Select Work packages from the drop down menu. Now, you will see all work packages in the projects where you have the required [permissions](../../system-admin-guide/#permissions).
 
 You can group by project by clicking in the header of the work package list next to project and select Group by.
 

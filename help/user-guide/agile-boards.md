@@ -14,7 +14,7 @@ Boards support agile project management methodologies, such as Scrum or Kanban.
 Boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed,  Features to be developed, Risks to be monitored, Ideas to be spread,  anything!
 
 <div class="alert alert-info" role="alert">
-**Note**: OpenProject Boards is a Premium Feature and can only be used with the [Cloud Edition]( ./cloud-edition-guide/#cloud) or OpenProject [Enterprise Edition](./enterprise-edition-guide/#enterprise). And upgrade from the free Community Edition to the Cloud or Enterprise Edition is easily possible.
+**Note**: OpenProject Boards is a Premium Feature and can only be used with the [Cloud Edition]( ../../cloud-edition-guide/) or OpenProject [Enterprise Edition](../../enterprise-edition-guide/). And upgrade from the free Community Edition to the Cloud or Enterprise Edition is easily possible.
 </div>
 
 | Feature                                                      | Documentation for                                            |

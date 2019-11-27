@@ -34,5 +34,5 @@ You can filter for different activities, e.g. for Work packages, News, or Wiki i
 ### How far back can I trace the project activities?
 
 The retrospective for the project activities is not limited. You can  therefore trace all the project activities back to the beginning of the  project.
-You can [configure in the admin settings](./admin-guide/)  how many days are shown on each activity page. Due to performance  reasons, the days displayed should be set at a low level (e.g. 7 days).
+You can [configure in the admin settings](../../system-admin-guide/)  how many days are shown on each activity page. Due to performance  reasons, the days displayed should be set at a low level (e.g. 7 days).
 

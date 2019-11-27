@@ -19,18 +19,18 @@ keywords: manage members
 
 ## Add members
 
-Find out how to [add existing members](./getting-started/#add-existing-members) to join a project or [invite new team members](./getting-started/#invite-new-members).
+Find out how to [add existing members](../../getting-started/#add-existing-members) to join a project or [invite new team members](./getting-started/#invite-new-members).
 
 ## Remove members
 
-To remove members from a project, [select the project](./project-admin-guide/#select-a-project) where you want to remove the members. In the project menu on the left, select the **Members** menu item. In the members list, click on the **bin** **icon** at the very right in a line of the member name.
+To remove members from a project, [select the project](../../project-admin-guide/#select-a-project) where you want to remove the members. In the project menu on the left, select the **Members** menu item. In the members list, click on the **bin** **icon** at the very right in a line of the member name.
 
-![remove-members](../../../../../../Birthe Lindenthal/Documents/GitHub/openproject/help/getting-started/1566225631212.png)
+![remove-members](1566225631212.png)
 
 ## Roles and permissions
 
-Members will have different roles with different permissions in a project. To find out how to [configure roles and permissions](./system-admin-guide/#roles-permissions).
+Members will have different roles with different permissions in a project. To find out how to [configure roles and permissions](../../system-admin-guide/#roles-permissions).
 
 ## Groups
 
-Members can be added to groups. Find out how to [create and manage groups](./system-admin-guide/#groups) in OpenProject.
+Members can be added to groups. Find out how to [create and manage groups](../../system-admin-guide/#groups) in OpenProject.

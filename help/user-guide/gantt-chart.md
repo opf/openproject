@@ -18,7 +18,7 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Relations in the Gantt chart](#relations-in-the-gantt-chart) | Create and display relations in the Gantt chart.             |
 | [Gantt chart configuration](#gantt-chart-cconfiguration)     | How to configure the view of your Gantt chart, e.g. add labels? |
 | [Synchronize data from OpenProject to Excel](#synchronize-data-from-openproject-to-excel) | How to synchronize data from OpenProject to Excel?           |
-| [Gantt chart views](gantt-chart-views)                       | How to zoom in and out and activate the Zen mode?            |
+| [Gantt chart views](#gantt-chart-views)                       | How to zoom in and out and activate the Zen mode?            |
 
 ## Activate the Gantt chart
 
@@ -79,7 +79,7 @@ Click the **Apply** button to save your changes.
 
 To export the data from your Gantt chart there are several possibilities:
 
-* [Export via the work package view](./edit-work-package/#export-work-packages)
+* [Export via the work package view](../edit-work-package/#export-work-packages)
 * [Print (e.g. to PDF)](#how-to-print-a-gantt-chart)
 * [Synchronize data from OpenProject to Excel](#synchronize-data-from-OpenProject-to-Excel) <-> MS Project
 

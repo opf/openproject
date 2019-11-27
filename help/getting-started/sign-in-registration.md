@@ -11,7 +11,7 @@ Here you will get an overview how to sign in and register to an existing OpenPro
 
 <div class="alert alert-info" role="alert">
 
-**Note**: If you do not have an OpenProject installation yet, please visit our site: [create an OpenProject trial installation](./cloud-edition-guide/#create-an-openproject-trial-installation).
+**Note**: If you do not have an OpenProject installation yet, please visit our site: [create an OpenProject trial installation](../../cloud-edition-guide/#create-an-openproject-trial-installation).
 
 </div>
 

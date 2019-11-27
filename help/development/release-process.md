@@ -20,7 +20,7 @@ You can find the release notes for major stable releases [here](https://www.open
 ### Stable release
 
 * The OpenProject Foundation releases four Stable Releases per year.
-* The Release plan is tracked via the [project timeline](https://community.openproject.com/projects/openproject/timelines/36).
+* The Release plan is tracked via the [OpenProject community](https://community.openproject.com/projects/openproject/).
 
 ### Hotfix release
 

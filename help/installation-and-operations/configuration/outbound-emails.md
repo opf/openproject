@@ -29,7 +29,7 @@ to see what values should be used.
 
 ## Package-based installation (DEB/RPM)
 
-If you installed OpenProject with the package-based installation, simply run `sudo openproject reconfigure`, and when the email wizard is displayed, select the **SMTP** option and fill in the required details ([cf the initial configuration section](../installation/packaged/#step-4-outgoing-email-configuration))
+If you installed OpenProject with the package-based installation, simply run `sudo openproject reconfigure`, and when the email wizard is displayed, select the **SMTP** option and fill in the required details ([cf the initial configuration section](../../installation/packaged/#step-4-outgoing-email-configuration))
 
 ## Docker installation
 

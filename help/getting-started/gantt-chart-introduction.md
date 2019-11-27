@@ -9,7 +9,7 @@ keywords: gantt charts
 
 In this document you will get a first introduction to the Gantt charts in OpenProject, i.e. to create and manage a project plan.
 
-To find out more about the functionalities for Gantt charts, please visit our [user guide for Gantt charts](./user-guide/#gantt-chart).
+To find out more about the functionalities for Gantt charts, please visit our [user guide for Gantt charts](../../user-guide/#gantt-chart).
 
 | Feature                                                    | Documentation for                                    |
 | ---------------------------------------------------------- | ---------------------------------------------------- |
@@ -55,7 +55,7 @@ You can change the duration or move the element in the project plan via drag and
 You can edit a project plan by clicking directly in the list and change work package attributes, e.g. Status, Priority or Assignee.
 
 To change the start and end date or the duration of a work package, click directly in the Gantt chart and change it via drag and drop.
-All changes will also be tracked in the work packages [Activity](/user-guide/#activity).
+All changes will also be tracked in the work packages [Activity](../../user-guide/activity).
 
 ![edit-projectplan](edit-projectplan.gif)
 

@@ -54,7 +54,7 @@ You should then copy those dump files to a secure location, for instance an S3 b
 
 TODO: review
 
-If you've followed the steps described in the [installation guide for Docker](../installation/docker),
+If you've followed the steps described in the [installation guide for Docker](../../installation/docker),
 then you just need to make a backup of the exported volumes, at your
 convenience. As a reminder, here is the recommended way to launch OpenProject
 with Docker:

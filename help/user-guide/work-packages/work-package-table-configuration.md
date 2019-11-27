@@ -62,7 +62,7 @@ To add a filter criteria, click the **+ Add filter:** button in the grey filter 
 ![add-filter](add-filter.png)
 
 You can add as many filter criteria as needed. 
-Also, you can filter by [custom fields](./system-admin-guide/#custom-fields) if you set this in the custom field configuration.
+Also, you can filter by [custom fields](../../../system-admin-guide/) if you set this in the custom field configuration.
 
 If you want to search by subject of a work package, type in the **Filter by text** the expression you want to filter for.
 
@@ -134,7 +134,7 @@ The following attributes can be highlighted as a complete row:
 
 ![highlight-priority](1566399038768.png)
 
-You can configure the colors for attribute highlighting in the [system administration](./system-admin-guide/#status-colors).
+You can configure the colors for attribute highlighting in the [system administration](../../../system-admin-guide/#status-colors).
 
 ## Save work package views
 

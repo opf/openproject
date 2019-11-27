@@ -9,7 +9,7 @@ keywords: introduction work packages
 
 In this document you will get a first introduction to work packages. You will find out how to create and update work packages in a project.
 
-For further documentation, please visit our [user guide for work packages](./user-guide/#work-packages).
+For further documentation, please visit our [user guide for work packages](../../user-guide/work-packages).
 
 | Feature                                                      | Documentation for                                         |
 | ------------------------------------------------------------ | --------------------------------------------------------- |

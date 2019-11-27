@@ -21,9 +21,9 @@ The calendar shows all of the project’s work packages in calendar form.
 
 ## Calendar overview
 
-To display the calendar in a project, the module **Calendar** needs to be activated in the [project settings](./project-admin-guide/#activate-modules).
+To display the calendar in a project, the module **Calendar** needs to be activated in the [project settings](../../project-admin-guide/#activate-modules).
 
-When you open the calendar, all work packages within the current project are displayed on the calendar, displaying the title of the work package. The colors represent the different [work package types](./system-admin-guide/#work-package-types).
+When you open the calendar, all work packages within the current project are displayed on the calendar, displaying the title of the work package. The colors represent the different [work package types](../../system-admin-guide/#work-package-types).
 
 The current month is automatically selected. You can change the  date range between month or week and navigate through the views with the arrows on the left. The **today** button brings you back to the current date.
 
@@ -79,7 +79,7 @@ The calendar automatically displays the start and end dates of work  packages in
 
 ### Where can I embed / activate the calendar?
 
-To use the calendar in a project, you need to [activate the “Calendar” module in the project settings](./project-admin-guide/#activate-modules). Afterwards you can access the calendar in the project menu, as well as add it in the [project overview](#project-overview). You can also enable the calendar in your [“My page” view](#my-page).
+To use the calendar in a project, you need to [activate the “Calendar” module in the project settings](../../project-admin-guide/#activate-modules). Afterwards you can access the calendar in the project menu, as well as add it in the [project overview](#project-overview). You can also enable the calendar in your [“My page” view](#my-page).
 
 ### Is there an option to export or sync the calendar?
 

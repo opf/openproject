@@ -68,7 +68,7 @@ Here you can choose between multiple languages.
 
 ![select a language](1572882728878.png)
 
-OpenProject is translated to more than 30 languages. If you do not see your preferred language in the My account settings, the language needs to be activated by your system administrator in the [system's settings](system-admin-guide/activate-languages).
+OpenProject is translated to more than 30 languages. If you do not see your preferred language in the My account settings, the language needs to be activated by your system administrator in the [system's settings](../../system-admin-guide/).
 
 Press the blue **Save** button will save your changes.
 
@@ -179,7 +179,7 @@ Note: The optimum size to upload a new profile picture is 128 by 128 pixel. Larg
 
 You can delete your own account in **My account**.
 
-If you cannot see the entry **Delete account** in the **My account** side menu, make sure the option “Users allowed to delete their account” is [activated in the administration](/system-admin-guide/users-and-permissions).
+If you cannot see the entry **Delete account** in the **My account** side menu, make sure the option “Users allowed to delete their account” is [activated in the administration](../../system-admin-guide/users-and-permissions).
 
 To delete your account, select **Delete account** from the side menu and enter your login to confirm the deletion.
 

@@ -12,7 +12,9 @@ keywords: time tracking, logging time
 Users can book their time or units spent on an activity within a project directly on work packages,  which gives a clear indication of how much effort the project activities require. You can either log time in the work package view or via a  commit message.
 
 <div class="alert alert-info" role="alert">
-**Note**: When using the time tracking functionality, the **Time tracking module** needs to be activated in the [project menu](/project-admin-guide/activate-modules).
+
+**Note**: When using the time tracking functionality, the **Time tracking module** needs to be activated in the [project menu](../../../project-admin-guide).
+
 </div>
 
 
