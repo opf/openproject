@@ -37,6 +37,38 @@ describe 'adding a new budget', type: :feature, js: true do
     expect(page).to have_content "Subject"
   end
 
+  describe 'with multiple cost types' do
+    let!(:cost_type_1) do
+      FactoryBot.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+    end
+
+    let!(:cost_type_2) do
+      FactoryBot.create :cost_type, name: 'Foobar', unit: 'bar', unit_plural: 'bars'
+    end
+
+
+    it 'can switch between them' do
+      visit projects_cost_objects_path(project)
+
+      click_on("Add budget")
+      expect(page).to have_content "New budget"
+
+      fill_in 'Subject', with: 'My subject'
+      fill_in 'cost_object_new_material_budget_item_attributes_0_units', with: 15
+
+      # change cost type
+      select 'Foobar', from: 'cost_object_new_material_budget_item_attributes_0_cost_type_id'
+
+      click_on "Create"
+
+      expect(page).to have_content "Successful creation"
+      expect(page).to have_content "My subject"
+
+      expect(page).to have_selector('.material_budget_items td.units', text: '15.00')
+      expect(page).to have_selector('.material_budget_items td', text: 'Foobar')
+    end
+  end
+
   it 'create the budget' do
     visit new_projects_cost_object_path(project)
 
