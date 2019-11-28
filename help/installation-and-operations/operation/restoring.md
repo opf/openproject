@@ -8,7 +8,7 @@ sidebar_navigation:
 
 ## Package-based installation (DEB/RPM)
 
-Assuming you have a backup of all the OpenProject files at hand (see the [Backing up](./backing-up) guide), here is how you would restore your OpenProject installation from that backup.
+Assuming you have a backup of all the OpenProject files at hand (see the [Backing up](../backing-up) guide), here is how you would restore your OpenProject installation from that backup.
 
 As a reference, we will assume you have the following dumps on your server, located in `/var/db/openproject/backup`:
 
@@ -97,7 +97,7 @@ sudo service openproject restart
 
 ## Docker-based installation
 
-Assuming you have a backup as per the procedure described in the [Backing up](./backing-up) guide, if at any point you want to restore from a backup, just put your backup back in `/var/lib/openproject` on your local host, and re-launch the docker container with the recommended options.
+Assuming you have a backup as per the procedure described in the [Backing up](../backing-up) guide, if at any point you want to restore from a backup, just put your backup back in `/var/lib/openproject` on your local host, and re-launch the docker container with the recommended options.
 
 For instance, assuming your backup was stored on S3:
 

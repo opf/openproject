@@ -55,7 +55,7 @@ Then, you are asked to create your OpenProject Account.
 
 If you are using the OpenProject Cloud Edition, you can sign in to your installation directly from the OpenProject website.
 
-Please follow the [instructions in our Cloud Edition guide](./cloud-edition-guide/#sign-in).
+Please follow the [instructions in our Cloud Edition guide](../../cloud-edition-guide/#sign-in).
 
 ## Create a new account
 

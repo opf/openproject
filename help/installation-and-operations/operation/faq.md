@@ -104,7 +104,7 @@ Ruby support on Windows is notoriously difficult, however you might be able to r
 
 ## How to backup and restore my OpenProject installation?
 
-Please refer to the [backup documentation](backing-up) for the packaged installation.
+Please refer to the [backup documentation](../backing-up) for the packaged installation.
 
 
 

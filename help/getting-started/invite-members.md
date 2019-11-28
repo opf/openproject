@@ -45,7 +45,7 @@ Type in the name of the team member which you want to add. You can also choose s
 
 ## Invite new members
 
-You can also invite new members who have not yet an OpenProject account. [Select the project](./project-admin-guide/#select-a-project) where you want to add members. In the project menu on the left, select the **Members** menu item.
+You can also invite new members who have not yet an OpenProject account. [Select the project](../../project-admin-guide/#select-a-project) where you want to add members. In the project menu on the left, select the **Members** menu item.
 
 Type in the email address of the new member. If OpenProject does not find an existing user, the **Invite** information will automatically be put before the email address. Assign a role to this new member and click the blue **Add** button.
 

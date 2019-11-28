@@ -373,7 +373,7 @@ This will start the worker job every minute.
 
 ## Follow-Ups
 
-Your OpenProject installation is ready to run. Please refer to the [Operation guides](../../operation) or the [Advanced configuration guides](../../advanced-configuration) for more details on how to operate and configure OpenProject.
+Your OpenProject installation is ready to run. Please refer to the [Operation guides](../../operation) or the [Advanced configuration guides](../../configuration) for more details on how to operate and configure OpenProject.
 
 ## Plug-In installation (Optional)
 
