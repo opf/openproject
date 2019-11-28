@@ -1,18 +1,19 @@
-# Configure Work Packages
+---
+title: Configure Work Package Types
+description: Configure Work Package Types in OpenProject
+robots: index, follow
+keywords: work package types
+---
 
-Here you will find out how to configure Work Packages in the System Administration.
+# Configure Work Package Types
 
-## Overview
+XX
 
-| Popular Topics                  | Description |
-| ------------------------------- | :---------- |
-| Settings                        |             |
-| Types                           |             |
-| Status                          |             |
-| Workflows                       |             |
-| Custom actions                  |             |
-| Attribute help texts            |             |
-| Custom fields for work packages |             |
-|                                 |             |
-|                                 |             |
+| Feature                                                      | Documentation for |
+| ------------------------------------------------------------ | ----------------- |
+| TODO |                   |
+|                                                              |                   |
+|                                                              |                   |
+|                                                              |                   |
+|                                                              |                   |
 
