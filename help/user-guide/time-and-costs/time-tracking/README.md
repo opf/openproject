@@ -78,5 +78,5 @@ In the list of time entries, click on the **Delete** icon next to a time entry t
 
 ## Track labor costs
 
-In order to track labor costs, you need to [define an hourly rate](/cost-tracking/#hourly-rate) in your user profile first.
+In order to track labor costs, you need to [define an hourly rate](../cost-tracking/#hourly-rate) in your user profile first.
 

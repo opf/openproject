@@ -17,9 +17,9 @@ Create budgets, log time and costs on specific work packages and  create time an
 
 | Popular Topics                        | Description                                 |
 | ------------------------------------- | :------------------------------------------ |
-| [Time tracking](/time-tracking)       | How to log time to work packages?           |
-| [Cost tracking](/cost-tracking)       | How to track unit costs spent in a project? |
-| [Time and cost reporting](/reporting) | How to create time and cost reports?        |
+| [Time tracking](time-tracking)       | How to log time to work packages?           |
+| [Cost tracking](cost-tracking)       | How to track unit costs spent in a project? |
+| [Time and cost reporting](reporting) | How to create time and cost reports?        |
 
 ## Time tracking, budgets and cost report video tutorial
 

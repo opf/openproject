@@ -26,7 +26,7 @@ The dynamic Gantt chart in OpenProject displays the phases and milestones in you
 
 ## Activate the Gantt chart view
 
-To open the Gantt chart view in OpenProject, the [work packages module needs to be activated](/project-admin-guide/#activate-and-deactivate-modules) in the project settings.
+To open the Gantt chart view in OpenProject, the [work packages module needs to be activated](../../project-admin-guide/#activate-and-deactivate-modules) in the project settings.
 
 Within your project menu, navigate to the work packages module. Select the **Gantt chart view** in the work package list with the button on the top right.
 

@@ -79,7 +79,7 @@ Click the **Apply** button to save your changes.
 
 To export the data from your Gantt chart there are several possibilities:
 
-* [Export via the work package view](../edit-work-package/#export-work-packages)
+* [Export via the work package view](../work-packages/edit-work-package/#export-work-packages)
 * [Print (e.g. to PDF)](#how-to-print-a-gantt-chart)
 * [Synchronize data from OpenProject to Excel](#synchronize-data-from-OpenProject-to-Excel) <-> MS Project
 

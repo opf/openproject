@@ -95,7 +95,7 @@ The description can be added or changed in the [project settings](../../project-
 
 The project details widget displays all custom fields for projects, e.g. project owner, project due date, project number, or any other custom field for this project.
 
-The custom fields can be adapted in the [project settings](../../project-admin-guide/project-settings/custom-fields).
+The custom fields can be adapted in the [project settings](../../project-admin-guide).
 
 ![project details widget](image-20191112144557906.png)
 

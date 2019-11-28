@@ -6,19 +6,16 @@ sidebar_navigation:
 
 # Install OpenProject with Docker
 
-[Docker][docker] is a way to distribute self-contained applications easily. We
+[Docker](https://www.docker.com/) is a way to distribute self-contained applications easily. We
 provide a Docker image for the Community Edition that you can very easily
 install and upgrade on your servers. However, contrary to the manual or
 package-based installation, your machine needs to have the Docker Engine
 installed first, which usually requires a recent operating system. Please see
-the [Docker Engine installation page][docker-install] if you don't have Docker
+the [Docker Engine installation page](https://docs.docker.com/install) if you don't have Docker
 installed.
 
 Also, please note that the Docker image is quite new and might not support all
 the options that the package-based or manual installation provides.
-
-[docker]: https://www.docker.com/
-[docker-install]: https://docs.docker.com/install/
 
 ## Quick Start
 
@@ -94,7 +91,7 @@ docker rm openproject
 OpenProject is usually configured through a YAML file, but with the Docker
 image you need to pass all configuration through environment variables. You can
 overwrite any of the values usually found in the standard YAML file by using
-[environment variables](list_of_env_variables).
+[environment variables](#TODO).
 
 Environment variables can be either passed directly on the command-line to the
 Docker Engine, or via an environment file:
@@ -105,10 +102,7 @@ docker run -d -e KEY1=VALUE1 -e KEY2=VALUE2 ...
 docker run -d --env-file path/to/file ...
 ```
 
-For more advanced configuration, please have a look at the [Advanced configuration](advanced_configuration) section.
-
-[list_of_env_variables]: ../configuration/env-variables
-[advanced_configuration]: ../configuration
+For more advanced configuration, please have a look at the [Advanced configuration](../../configuration) section.
 
 ## Launching a specific process instead of the all-in-one installation
 

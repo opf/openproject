@@ -19,7 +19,7 @@ keywords: manage members
 
 ## Add members
 
-Find out how to [add existing members](../../getting-started/#add-existing-members) to join a project or [invite new team members](./getting-started/#invite-new-members).
+Find out how to [add existing members](../../getting-started/#add-existing-members) to join a project or [invite new team members](../../getting-started/#invite-new-members).
 
 ## Remove members
 

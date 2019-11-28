@@ -25,7 +25,7 @@ Then, you will assign work packages to a budgets. If you logg time or costs to t
 
 ## Create a project budget
 
-In order to create a budget in your project, the **Budgets module** needs to be activated in the [project settings](/project-admin-guide/activate-modules).
+In order to create a budget in your project, the **Budgets module** needs to be activated in the [project settings](../../project-admin-guide).
 
 To create your first budget in OpenProject, click the green **+ Budget** button on the top right of the page.
 

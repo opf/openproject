@@ -27,11 +27,11 @@ Your projects can be available publicly or internally. OpenProject does not limi
 
 ## Select a project
 
-Find out [how to open an existing project](./getting-started/#open-an-existing-project) in OpenProject.
+Find out [how to open an existing project](../../getting-started/#open-an-existing-project) in OpenProject.
 
 ## Create a new project
 
-Find out how to [create a new project](./getting-started/#create-project) in OpenProject.
+Find out how to [create a new project](../../getting-started/#create-project) in OpenProject.
 
 ## Create subproject
 
@@ -65,7 +65,7 @@ Or, a project can be to separate products or customers.
 
 OpenProject, for example, uses the projects to structured the different modules/plugin development:
 
-![project-structure](../getting-started/1566214944644.png)
+![project-structure](1566214944644.png)
 
 <div class="alert alert-info" role="alert">
 

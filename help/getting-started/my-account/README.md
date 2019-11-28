@@ -179,7 +179,7 @@ Note: The optimum size to upload a new profile picture is 128 by 128 pixel. Larg
 
 You can delete your own account in **My account**.
 
-If you cannot see the entry **Delete account** in the **My account** side menu, make sure the option “Users allowed to delete their account” is [activated in the administration](../../system-admin-guide/users-and-permissions).
+If you cannot see the entry **Delete account** in the **My account** side menu, make sure the option “Users allowed to delete their account” is [activated in the administration](../../system-admin-guide/users-permissions).
 
 To delete your account, select **Delete account** from the side menu and enter your login to confirm the deletion.
 

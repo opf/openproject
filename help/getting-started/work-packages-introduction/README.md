@@ -70,5 +70,5 @@ You can also insert a comment at the end of the Activity list.
 
 ![activity-work-packages](activity-work-packages.png)
 
-To find out more about the work package functionalities, please visit our detailed [user guide for work packages](./user-guide/#work-packages).
+To find out more about the work package functionalities, please visit our detailed [user guide for work packages](../../user-guide/work-packages).
 
