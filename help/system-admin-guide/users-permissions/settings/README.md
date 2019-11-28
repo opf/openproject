@@ -16,9 +16,9 @@ User settings are accessibly by administrators from the OpenProject administrati
 
 | Feature                                    | Documentation for          |
 | ------------------------------------------ | -------------------------- |
-| [Default preferences](Default preferences) | User default preferences.  |
-| [User deletion](User deletion)             | Who can delete users.      |
-| [User consent](User consent)               | User privacy and security. |
+| [Default preferences](#default-preferences) | User default preferences.  |
+| [User deletion](#user-deletion)             | Who can delete users.      |
+| [User consent](#user-consent)               | User privacy and security. |
 |                                            |                            |
 |                                            |                            |
 

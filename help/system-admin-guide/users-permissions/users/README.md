@@ -11,9 +11,9 @@ The users list provides an overview of all users in OpenProject. You can create 
 
 | Feature                                      | Documentation for |
 | -------------------------------------------- | ----------------- |
-| [User list](User list)                       | Viewing users in  |
-| [Filter users](Filter users)                 |                   |
-| [Invite new users](Invite new users)         |                   |
-| [Manage user settings](Manage user settings) |                   |
-| [Delete users](Delete users)                 |                   |
+| [User list](#user-list)                       | Viewing users in  |
+| [Filter users](#filter-users)                 |                   |
+| [Invite new users](#invite-new-users)         |                   |
+| [Manage user settings](#manage-user-settings) |                   |
+| [Delete users](#delete-users)                 |                   |
 

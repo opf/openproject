@@ -87,7 +87,7 @@ Display the latest project news in the news widget on the project overview page.
 
 The project description widgets adds the project description to your project overview. 
 
-The description can be added or changed in the [project settings](../../project-admin-guide/project-settings/description).
+The description can be added or changed in the [project settings](../../project-admin-guide).
 
 ![project description widget](image-20191112143652698.png)
 
