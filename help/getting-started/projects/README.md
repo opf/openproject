@@ -69,4 +69,4 @@ You will see a list with all your projects and its details.
 
 ### Advanced Project Settings
 
-Optionally, you can find out how to configure further [advanced settings](./project-admin-guide/#project-settings) for your projects, e.g. description, project hierarchy or setting it to public.
+Optionally, you can find out how to configure further [advanced settings](../../project-admin-guide/#project-settings) for your projects, e.g. description, project hierarchy or setting it to public.

@@ -16,7 +16,7 @@ Dir.glob('**/*.md').each do |source_file|
 end
 
 FileUtils.mkdir_p('unused-images')
-Dir.glob('**/*.{png,jpg}').each do |image_file|
+Dir.glob('**/*.{png,jpg,gif}').each do |image_file|
   image_filename = File.basename(image_file)
   contained = `rg -l '#{image_filename}'`.lines.map(&:chomp)
 

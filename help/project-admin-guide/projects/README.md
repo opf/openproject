@@ -92,13 +92,13 @@ You can specify further advanced settings for your project. Navigate to your pro
 
 - Click the blue **Create** button in order to save your new project. Or click the blue **Save** button to save your changes.
 
-![Project-settings](../getting-started/1566216639296.png)
+![Project-settings](1566216639296.png)
 
 ### Change the project hierarchy
 
 To change the project's hierarchy, navigate to the project's [advanced settings](#project-settings) and click the tab **Information** and change the **Subproject of** field.
 
-![change-subproject](../getting-started/1566217261607.png)
+![change-subproject](1566217261607.png)
 
 
 
@@ -111,21 +111,21 @@ If you want to set a project to public, you can do so by selecting the option in
 
 You can copy an existing project by navigating to the [Project settings](#project-settings) and click **Copy project** from the upper right of the project settings (next to the green +Subproject button)
 
-![copy-project](../getting-started/1566218515422.png)
+![copy-project](1566218515422.png)
 
 Give the new project a name. Select which modules and settings you want to copy and whether or not you want to notify users via email during copying. 
 
 Then click the blue **Copy** button.
 
-![copy-project-settings](../getting-started/1566218442642.png)
+![copy-project-settings](1566218442642.png)
 
 ### Archive a project
 
-In order to archive a project, navigate to the project settings, and click the **Archive project** button. ![archive-project](../getting-started/1566218906617.png)
+In order to archive a project, navigate to the project settings, and click the **Archive project** button. ![archive-project](1566218906617.png)
 
 Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you expand the filter and select the Archived projects.
 
-![archived-projects](../getting-started/1566219072615.png)
+![archived-projects](1566219072615.png)
 
 ### Delete a project
 
@@ -151,7 +151,7 @@ With the **three dots** icon at the right in the list you can open further featu
 
 ## Create a project template
 
-You can create a project template in OpenProject by [creating a new project](./getting-started/#create-a-project) and configure your project to your needs. Name the project so you can identify it as a template, e.g. Project template.
+You can create a project template in OpenProject by [creating a new project](../../getting-started/#create-a-project) and configure your project to your needs. Name the project so you can identify it as a template, e.g. Project template.
 
 Set up everything that you want to have available for next projects.
 
