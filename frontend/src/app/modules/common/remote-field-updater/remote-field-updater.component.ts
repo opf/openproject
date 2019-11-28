@@ -86,7 +86,8 @@ export class RemoteFieldUpdaterComponent implements OnInit {
         {
           params: params,
           headers: headers,
-          responseType: (this.htmlMode ? 'text' : 'json') as any
+          responseType: (this.htmlMode ? 'text' : 'json') as any,
+          withCredentials: true
         }
       );
   }

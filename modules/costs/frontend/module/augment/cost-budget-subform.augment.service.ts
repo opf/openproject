@@ -80,7 +80,13 @@ export class CostBudgetSubformAugmentService {
     let request = this.buildRefreshRequest(row, row_identifier);
 
     this.http
-      .post(el.attr('update-url')!, request, { headers: { 'Accept': 'application/json' } })
+      .post(
+        el.attr('update-url')!,
+        request,
+        {
+          headers: { 'Accept': 'application/json' },
+          withCredentials: true
+        })
       .subscribe(
         (data:any) => {
           _.each(data, (val:string, selector:string) => {
