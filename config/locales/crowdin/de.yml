@@ -66,7 +66,39 @@ de:
       no_results_content_title: Derzeit gibt es keine Authentifizierungsmodi.
       no_results_content_text: Erstellen Sie einen neuen Authentifizierungsmodus
   ldap_auth_sources:
+    technical_warning_html: |
+      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      <br/>
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+    attribute_texts:
+      name: Arbitrary name of the LDAP connection
+      host: LDAP host name or IP address
+      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
+      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
+      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      system_user_dn_html: |
+        Enter the DN of the system user used for read-only access.
+        <br/>
+        Example: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Enter the bind password of the system user
+      base_dn: |
+        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
+        OpenProject will filter for provided usernames in this subtree only.
+        Example: ou=users,dc=example,dc=com
+      onthefly_register: |
+        If you check this box, OpenProject will automatically create new users from their LDAP entries
+        when they first authenticate with OpenProject.
+        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Verbindungsverschlüsselung'
+    system_account: 'System account'
+    system_account_legend: |
+      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
+      Please specify the bind credentials for that system user in the following section.
+    ldap_details: 'LDAP details'
+    user_settings: 'Attribute mapping'
+    user_settings_legend: |
+      The following fields are related to how users are created in OpenProject from LDAP entries and
+      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'keine'
       simple_tls: 'simple_tls'
@@ -766,7 +798,7 @@ de:
     checkbox_label: Ich habe die obigen Angaben zur Kenntnis genommen und erkläre mich einverstanden.
     failure_message: Einwilligung fehlgeschlagen, kann nicht fortfahren.
     title: Nutzer-Einwilligung
-    decline_warning_message: Sie haben die Einwilligung abgelehnt und wurden deshalb abgelehnt.
+    decline_warning_message: Sie haben die Einwilligung abgelehnt und wurden deshalb abgemeldet.
     user_has_consented: Der Benutzer hat seine Einwilligung zu dem Statement dieser Instanz zu der angegebenen Zeit gegeben.
     not_yet_consented: Der Benutzer hat seine Einwilligung noch nicht gegeben und wird beim nächsten Login dazu befragt.
     contact_mail_instructions: Definieren Sie die E-Mail-Adresse, über die Benutzer einen Daten-Controller erreichen können, um Anfragen zu Datenänderung oder -löschung einzureichen.
