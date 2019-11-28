@@ -189,7 +189,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
   public classes() {
     let classes = 'wp-cards-container ';
     classes += '-' + this.orientation;
-    classes += this.shrinkOnMobile ? ' -mobile-cards':'';
+    classes += this.shrinkOnMobile ? ' -shrink' : '';
 
     return classes;
   }

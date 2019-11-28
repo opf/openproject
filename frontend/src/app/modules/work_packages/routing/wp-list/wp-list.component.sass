@@ -10,3 +10,8 @@
   overflow: auto
   padding-bottom: 5px
   @include styled-scroll-bar
+
+  @media screen and (max-width: 659px)
+    // Ensure the WP cards span the complete width on mobile
+    // --> Move scrollbar out of visible area
+    min-width: calc(100vw + 10px)

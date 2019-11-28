@@ -62,7 +62,7 @@ export class WorkPackageSingleCardComponent {
     classes += wp.isNew ? ' -new' : '';
     classes += ' wp-card-' + wp.id;
     classes += ' -' + this.orientation;
-    classes += this.shrinkOnMobile ? ' -mobile-cards' : '';
+    classes += this.shrinkOnMobile ? ' -shrink' : '';
     return classes;
   }
 
