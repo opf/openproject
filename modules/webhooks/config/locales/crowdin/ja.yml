@@ -16,6 +16,9 @@ ja:
   webhooks:
     singular: Webhook
     plural: Webhooks
+    resources:
+      time_entry:
+        name: "Time entry"
     outgoing:
       no_results_table: Webhookが定義されていません。
       label_add_new: 新しいWebhookを追加

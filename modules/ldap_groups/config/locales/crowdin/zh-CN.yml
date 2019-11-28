@@ -21,6 +21,12 @@ zh-CN:
         confirmation: "如果您继续，将移除同步组 %{name} 和通过该组同步的全部 %{users_count} 个用户。"
         info: "注意：OpenProject 组本身以及在 LDAP 同步之外添加的成员将不会被移除。"
         verification: "输入组名称 %{name} 以验证删除。"
+      help_text_html: |
+        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
+        <br/>
+        Groups are synchronized hourly through a cron job.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please see our documentation on this topic</a>.
       no_results: '未找到同步的组。'
       no_members: '此组尚无同步成员。'
       plural: '同步的 LDAP 组'

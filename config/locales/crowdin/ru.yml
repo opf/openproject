@@ -66,7 +66,39 @@ ru:
       no_results_content_title: На данный момент способы аутентификации отсутствуют.
       no_results_content_text: Создать новый способ аутентификации
   ldap_auth_sources:
+    technical_warning_html: |
+      Эта LDAP форма требует технических знаний вашей LDAP / Active Directory.
+      <br/>
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Пожалуйста, посетите нашу документацию для подробных инструкций</a>.
+    attribute_texts:
+      name: Произвольное имя подключения LDAP
+      host: Имя хоста или IP-адрес
+      login_map: Ключ атрибута в LDAP, который используется для идентификации уникального входа пользователя. Обычно это будет `uid` или `samAccountName`.
+      generic_map: Ключ атрибута в LDAP, сопоставленный с атрибутом OpenProject `%{attribute}
+      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      system_user_dn_html: |
+        Enter the DN of the system user used for read-only access.
+        <br/>
+        Example: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Enter the bind password of the system user
+      base_dn: |
+        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
+        OpenProject will filter for provided usernames in this subtree only.
+        Example: ou=users,dc=example,dc=com
+      onthefly_register: |
+        If you check this box, OpenProject will automatically create new users from their LDAP entries
+        when they first authenticate with OpenProject.
+        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Шифрование подключения'
+    system_account: 'Системный аккаунт'
+    system_account_legend: |
+      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
+      Please specify the bind credentials for that system user in the following section.
+    ldap_details: 'Подробности LDAP'
+    user_settings: 'Сопоставление атрибутов'
+    user_settings_legend: |
+      The following fields are related to how users are created in OpenProject from LDAP entries and
+      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'Ничего'
       simple_tls: 'simple_tls'
