@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {Observable} from "rxjs";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
@@ -14,7 +14,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
   templateUrl: './boards-menu.component.html'
 })
 
-export class BoardsMenuComponent {
+export class BoardsMenuComponent implements OnInit {
   trackById = AngularTrackingHelpers.compareByAttribute('id');
 
   currentProjectIdentifier = this.currentProject.identifier;
@@ -33,12 +33,22 @@ export class BoardsMenuComponent {
               private readonly boardCache:BoardCacheService,
               private readonly currentProject:CurrentProjectService,
               private readonly mainMenuService:MainMenuNavigationService) {
+  }
 
+  ngOnInit() {
     // When activating the work packages submenu,
     // either initially or through click on the toggle, load the results
     this.mainMenuService
       .onActivate('board_view')
-      .subscribe(() => this.boardService.loadAllBoards());
+      .subscribe(() => {
+        this.focusBackArrow();
+        this.boardService.loadAllBoards()
+      });
+  }
+
+  private focusBackArrow() {
+    let buttonArrowLeft = jQuery('*[data-name="board_view"] .main-menu--arrow-left-to-project');
+    buttonArrowLeft.focus();
   }
 }
 DynamicBootstrapper.register({selector: 'boards-menu', cls: BoardsMenuComponent});
