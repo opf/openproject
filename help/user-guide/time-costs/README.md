@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Time and costs
   priority: 800
-description: Create and manage a wiki in OpenProject.
+description: Time tracking and cost reporting in OpenProject.
 robots: index, follow
 keywords: wiki
 ---
