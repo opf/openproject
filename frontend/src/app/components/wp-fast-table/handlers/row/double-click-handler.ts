@@ -9,6 +9,8 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import {displayClassName} from "core-components/wp-edit-form/display-field-renderer";
+import {activeFieldClassName} from "core-app/modules/fields/edit/edit-form/edit-form";
 
 export class RowDoubleClickHandler implements TableEventHandler {
 
@@ -44,7 +46,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
 
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
-    if (target.parents(`.${tdClassName}`).length) {
+    if (target.hasClass(`${displayClassName}`) || target.hasClass(`${activeFieldClassName}`)) {
       debugLog('Skipping click on inner cell');
       return true;
     }
