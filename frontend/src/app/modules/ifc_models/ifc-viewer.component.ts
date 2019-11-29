@@ -28,7 +28,7 @@
 
 /// <reference path="xeokit.d.ts" />
 
-import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
 
 import {XeokitServer} from "./xeokit-server";
@@ -37,16 +37,13 @@ import {GonService} from "core-app/modules/common/gon/gon.service";
 @Component({
   selector: 'ifc-viewer',
   template: `
-<div id="myWrapper">
-    <div id="myContent" class="ifc-model-viewer-container">
-        <div id="myToolbar"></div>
-        <canvas id="myCanvas" class="xeokit-model-canvas"></canvas>
-<!--        <canvas [id]="'xeokit-model-canvas-' + ifcModelId" class="xeokit-model-canvas"></canvas>-->
-    </div>
+<div class="ifc-model-viewer-container">
+    <div class="xeokit-toolbar-container"></div>
+    <canvas class="xeokit-model-canvas"></canvas>
 </div>
 
-<canvas id="myNavCubeCanvas"></canvas>
-<canvas id="mySectionPlanesOverviewCanvas"></canvas>
+<canvas class="xeokit-nav-cube-canvas"></canvas>
+<canvas class="xeokit-section-planes-overview-canvas"></canvas>
 `
 })
 export class IFCViewerComponent implements OnInit, OnDestroy {
@@ -54,18 +51,21 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   @Input() public xktFileUrl:string;
   @Input() public metadataFileUrl:string;
 
-  constructor(private Gon:GonService) {
+  constructor(private Gon:GonService,
+              private elementRef:ElementRef) {
   }
 
   ngOnInit():void {
+    const element = jQuery(this.elementRef.nativeElement as HTMLElement);
+
     import('@xeokit/xeokit-viewer/dist/main').then((XeokitViewerModule:any) => {
       let server = new XeokitServer();
       let viewerUI = new XeokitViewerModule.ViewerUI(server, {
-        canvasElement: document.getElementById("myCanvas"), // WebGL canvas
+        canvasElement: element.find(".xeokit-model-canvas")[0], // WebGL canvas
         explorerElement: jQuery(".xeokit-tree-panel")[0], // Left panel
-        toolbarElement: document.getElementById("myToolbar"), // Toolbar
-        navCubeCanvasElement: document.getElementById("myNavCubeCanvas"),
-        sectionPlanesOverviewCanvasElement: document.getElementById("mySectionPlanesOverviewCanvas")
+        toolbarElement: element.find(".xeokit-toolbar-container")[0], // Toolbar
+        navCubeCanvasElement: element.find(".xeokit-nav-cube-canvas")[0],
+        sectionPlanesOverviewCanvasElement: element.find(".xeokit-section-planes-overview-canvas")[0]
       });
 
       viewerUI.on("queryPicked", (event:any) => {

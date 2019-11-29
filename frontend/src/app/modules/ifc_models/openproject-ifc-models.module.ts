@@ -28,21 +28,17 @@
 
 import {NgModule} from "@angular/core";
 import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer.component";
-import {IFCViewerEntryComponent} from "core-app/modules/ifc_models/ifc-viewer-entry.component";
 
 @NgModule({
   providers: [
   ],
   declarations: [
-    IFCViewerEntryComponent,
     IFCViewerComponent
   ],
   exports: [
-    IFCViewerEntryComponent,
     IFCViewerComponent
   ],
   entryComponents: [
-    IFCViewerEntryComponent,
     IFCViewerComponent
   ]
 })
