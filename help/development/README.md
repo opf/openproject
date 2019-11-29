@@ -112,8 +112,8 @@ This code of conduct is adapted from the [Contributor Covenant](http://contribut
 # Additional resources
 
 
-* [Development environment for Ubuntu 16.04.](development-environment-ubuntu.md)
-* [Development environment for Mac OS X](development-environment-osx.md)
+* [Development environment for Ubuntu 16.04.](development-environment-ubuntu)
+* [Development environment for Mac OS X](development-environment-osx)
 
 * [Developing Plugins](create-openproject-plugin)
 * [Running Tests](running-tests)
