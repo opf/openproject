@@ -20,7 +20,7 @@ it:
         location: "Luogo"
         duration: "Durata"
         participants: "Partecipanti"
-        participants_attended: "Invitati"
+        participants_attended: "Presenti"
         participants_invited: "Invitati"
         start_time: "Tempo"
         start_time_hour: "Ora di inizio"

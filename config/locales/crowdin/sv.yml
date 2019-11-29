@@ -115,7 +115,7 @@ sv:
     index:
       no_results_title_text: För närvarande finns det inga färger.
       no_results_content_text: Skapa en ny färg
-    label_no_color: 'No color'
+    label_no_color: 'Ingen färg'
   custom_actions:
     actions:
       name: 'Åtgärder'

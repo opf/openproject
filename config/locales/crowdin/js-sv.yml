@@ -274,7 +274,7 @@ sv:
     label_menu_expand: "expandera"
     label_more_than_ago: "mer än dagar sedan"
     label_next: "Nästa"
-    label_no_color: "No color"
+    label_no_color: "Ingen färg"
     label_no_data: "Ingen data att visa"
     label_no_due_date: "inget slutdatum"
     label_no_start_date: "inget startdatum"
