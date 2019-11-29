@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "ifc_models/ifc_models", media: 'all' %>
+  <%= include_gon(nonce: content_security_policy_script_nonce) %>
 <% end %>
 
 <%= toolbar title: t('ifc_models.label_default_ifc_models') do %>
@@ -42,10 +43,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= op_icon('button--icon icon-edit') %> <%= t('ifc_models.label_manage_models') %>
     <% end %>
   </li>
-<% end %>
-
-<% content_for :header_tags do %>
-  <%= include_gon(nonce: content_security_policy_script_nonce) %>
 <% end %>
 
 <% if @default_ifc_models.empty? %>
@@ -65,9 +62,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if @default_ifc_models.map(&:converted?).uniq == [true] %>
 <div class="ifc-model-viewer-container">
-  <% @ifc_model = @default_ifc_models.first %>
-  <ifc-viewer-entry data-ifc-model-id="<%= @ifc_model.id %>"
-                    data-xkt-file-url="<%= attachment_content_url(@ifc_model.xkt_attachment) %>"
-                    data-metadata-file-url="<%= attachment_content_url(@ifc_model.metadata_attachment) %>"></ifc-viewer-entry>
+  <ifc-viewer-entry></ifc-viewer-entry>
 </div>
 <% end %>

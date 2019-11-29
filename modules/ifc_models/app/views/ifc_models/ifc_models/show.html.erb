@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "ifc_models/ifc_models", media: 'all' %>
+  <%= include_gon(nonce: content_security_policy_script_nonce) %>
 <% end %>
 
 
@@ -56,8 +57,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if @ifc_model.converted? %>
 <div class="ifc-model-viewer-container">
-  <ifc-viewer-entry data-ifc-model-id="<%= @ifc_model.id %>"
-                    data-xkt-file-url="<%= attachment_content_url(@ifc_model.xkt_attachment) %>"
-                    data-metadata-file-url="<%= attachment_content_url(@ifc_model.metadata_attachment) %>"></ifc-viewer-entry>
+  <ifc-viewer-entry></ifc-viewer-entry>
 </div>
 <% end %>

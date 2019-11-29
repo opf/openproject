@@ -33,9 +33,10 @@ module ::IFCModels
     include IFCModelsHelper
 
     before_action :find_project_by_project_id, only: %i[index new create show show_defaults edit update destroy]
-    before_action :find_ifc_model_object, except: %i[index new create show_defaults]
+    before_action :find_ifc_model_object, except: %i[index new create]
     before_action :find_all_ifc_models, only: %i[show show_defaults]
-    before_action :provision_gon, only: %i[show_defaults]
+    before_action :provision_gon_defaults, only: %i[show_defaults]
+
 
     before_action :authorize
 
@@ -54,7 +55,9 @@ module ::IFCModels
 
     def edit; end
 
-    def show; end
+    def show
+      provision_gon([@ifc_model])
+    end
 
     def show_defaults
       if @ifc_models.empty?
@@ -117,14 +120,19 @@ module ::IFCModels
                       .order('created_at ASC')
     end
 
-    def provision_gon
+    def provision_gon_defaults
+      provision_gon(@ifc_models.select { |model| model.is_default })
+    end
+
+    def provision_gon(models_to_load = [])
+      models_to_load = Hash[models_to_load.map { |ifc_model| [ifc_model.id, true] }]
       gon.ifc_models = {
         projects: [{ id: @project.identifier, name: @project.name }],
         models: @ifc_models.map do |ifc_model|
           model = {}
           model[:id] = ifc_model.id
           model[:name] = ifc_model.title
-          model[:default] = ifc_model.is_default
+          model[:default] = (!!models_to_load[ifc_model.id])
 
           model
         end,

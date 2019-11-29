@@ -2,11 +2,13 @@
 
 // The IFC viewer shall fill the viewport to the bottom.
 // This is different to how we style #content else where.
-.controller-ifc_models\/ifc_models.action-show_defaults
-  #content
-    display: flex
-    flex-direction: column
-    height: 100%
+.controller-ifc_models\/ifc_models
+  &.action-show,
+  &.action-show_defaults
+    #content
+      display: flex
+      flex-direction: column
+      height: 100%
 
 .xeokit-tree-panel
   color: white
@@ -15,24 +17,6 @@
   ul.components
     padding: 20px 0
     border-bottom: 1px solid #47748b
-
-  //ul
-  //  p
-  //    color: #fff
-  //    padding: 10px
-  //
-  //  li
-  //    a
-  //      padding: 0
-  //      font-size: 1.1em
-  //      display: block
-  //    &:hover
-  //      color: #7386D5
-  //      background: #fff
-  //
-  //  &.active > a, a[aria-expanded="true"]
-  //    color: #fff
-  //    background: #6d7fcc
 
   label
     color: white
@@ -62,9 +46,19 @@
   height: 60px
 
   // Use our own icon font instead of including Xeokit's FontAwesome
+  button[class^="fa-"],
+  button[class*=" fa-"]
+    &::before
+      font-family: "openproject-icon-font" !important
   .fa-home::before
-    font-family: "openproject-icon-font" !important
     @include icon-mixin-home
+  .fa-info-circle::before
+    @include icon-mixin-info2
+  .fa-cut::before
+    @include icon-mixin-cut
+  .fa-cube::before
+    @include icon-mixin-modules
+
 
 #myNavCubeCanvas
   position: absolute
