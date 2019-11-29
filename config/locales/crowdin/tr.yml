@@ -67,38 +67,38 @@ tr:
       no_results_content_text: Yeni bir doğrulama modu oluştur
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      Bu LDAP formu, LDAP / Active Directory kurulumunuz hakkında teknik bilgi gerektirir.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Lütfen ayrıntılı talimatlar için belgelerimizi ziyaret edin </a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      name: LDAP bağlantısının keyfi adı
+      host: LDAP ana bilgisayar adı veya IP adresi
+      login_map: LDAP’deki benzersiz kullanıcı girişini tanımlamak için kullanılan özellik anahtarı. Genelde bu, 'uid' veya 'samAccountName' olacaktır.
+      generic_map: LDAP'de, OpenProject `%{attribute}` niteliğiyle eşlenen özellik anahtarı
+      admin_map_html: "İsteğe bağlı: LDAP'daki, <strong> varsa </strong> OpenProject kullanıcısına bir yönetici işaretleyen özellik anahtarı. Şüphe duyduğunuzda boş bırakın."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Salt okunur erişim için kullanılan sistem kullanıcısının DN'sini girin.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        Örnek: uid = openproject, ou = sistem, dc = örnek, dc = com
+      system_user_password: Sistem kullanıcısının cilt şifresini girin
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        LDAP'da, OpenProject'in kullanıcıları ve grupları aramasını istediğiniz alt ağacın Temel DN'sini girin.
+        OpenProject yalnızca bu alt ağaçta belirtilen kullanıcı adlarını filtreleyecektir.
+        Örnek: ou = kullanıcılar, dc = örnek, dc = com
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Bu kutuyu işaretlerseniz, OpenProject otomatik olarak LDAP girişlerinden yeni kullanıcılar oluşturur
+        OpenProject ile ilk kimlik doğrulaması yaptıklarında.
+        Yalnızca OpenProject’deki mevcut hesapların LDAP üzerinden kimlik doğrulaması yapmasına izin vermek için işaretlenmemiş bırakın!
     connection_encryption: 'Bağlantı şifreleme'
-    system_account: 'System account'
+    system_account: 'Sistem hesabı'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+      OpenProject, LDAP ağacınızdaki kullanıcıları ve grupları aramak için bir sistem hesabı üzerinden salt okunur erişim gerektirir.
+      Lütfen aşağıdaki bölümde bu sistem kullanıcısı için bağlama bilgilerini belirtin.
+    ldap_details: 'LDAP ayrıntıları'
+    user_settings: 'Öznitelik eşlemesi'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      Aşağıdaki alanlar LDAP girişlerinden kullanıcıların OpenProject'te nasıl oluşturulduğuyla ilgilidir ve
+      OpenProject kullanıcısının niteliklerini tanımlamak için hangi LDAP niteliklerinin kullanıldığı (özellik eşlemesi).
     tls_mode:
       plain: 'hiçbiri'
       simple_tls: 'basit_tls'
