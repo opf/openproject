@@ -55,6 +55,8 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
   @Input() public cardsRemovable:boolean = false;
   /** Whether a notification box shall be shown when there are no WP to display */
   @Input() public showEmptyResultsBox:boolean = false;
+  /** Whether on special mobile version of the cards shall be shown */
+  @Input() public shrinkOnMobile:boolean = false;
 
   /** Container reference */
   @ViewChild('container', { static: true }) public container:ElementRef;
@@ -184,6 +186,13 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
     await this.cardDragDrop.onCardSaved(wp);
   }
 
+  public classes() {
+    let classes = 'wp-cards-container ';
+    classes += '-' + this.orientation;
+    classes += this.shrinkOnMobile ? ' -shrink' : '';
+
+    return classes;
+  }
   /**
    * Listen to newly created work packages to detect whether the WP is the one we created,
    * and properly reset inline create in this case

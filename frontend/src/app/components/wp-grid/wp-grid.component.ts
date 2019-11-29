@@ -48,7 +48,8 @@ import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
                   [orientation]="gridOrientation"
                   (onMoved)="switchToManualSorting()"
                   [showEmptyResultsBox]="true"
-                  [showInfoButton]="true">
+                  [showInfoButton]="true"
+                  [shrinkOnMobile]="true">
     </wp-card-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
