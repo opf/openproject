@@ -18,10 +18,8 @@ class XeokitServer {
    * @param done
    * @param error
    */
-  getProjects(_done, _error) {
-    const url = this._dataDir + "/projects/index.json";
-    console.log("Loading database manifest: " + url);
-    utils.loadJSON(url, done, error);
+  getProjects(done, _error) {
+    done(window.gon.ifc_models.projects);
   }
 
   /**
@@ -30,8 +28,8 @@ class XeokitServer {
    * @param done
    * @param error
    */
-  getProject(_projectId, _done, _error) {
-    window.gon.ifc_models.models;
+  getProject(_projectId, done, _error) {
+    done({ models: window.gon.ifc_models.models });
   }
 
   /**

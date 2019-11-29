@@ -119,12 +119,14 @@ module ::IFCModels
 
     def provision_gon
       gon.ifc_models = {
+        projects: [{ id: @project.identifier, name: @project.name }],
         models: @ifc_models.map do |ifc_model|
-          {
-            id: ifc_model.id,
-            name: ifc_model.title,
-            load: ifc_model.is_default
-          }
+          model = {}
+          model[:id] = ifc_model.id
+          model[:name] = ifc_model.title
+          model[:default] = ifc_model.is_default
+
+          model
         end,
         xkt_attachment_ids: Hash[@ifc_models.map { |ifc_model| [ifc_model.id, ifc_model.xkt_attachment.id] }],
         metadata_attachment_ids: Hash[@ifc_models.map { |ifc_model| [ifc_model.id, ifc_model.metadata_attachment.id] }]

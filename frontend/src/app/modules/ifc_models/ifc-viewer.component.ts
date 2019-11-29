@@ -32,48 +32,52 @@ import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/c
 import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
 
 import {XeokitServer} from "./xeokit-server";
+import {GonService} from "core-app/modules/common/gon/gon.service";
 
 @Component({
   selector: 'ifc-viewer',
   template: `
 <div id="myWrapper">
-
-    <nav id="myExplorer" class="active"></nav>
-    <div id="myContent">
+    <div id="myContent" class="ifc-model-viewer-container">
         <div id="myToolbar"></div>
-        <canvas id="myCanvas"></canvas>
+        <canvas id="myCanvas" class="xeokit-model-canvas"></canvas>
 <!--        <canvas [id]="'xeokit-model-canvas-' + ifcModelId" class="xeokit-model-canvas"></canvas>-->
     </div>
 </div>
 
 <canvas id="myNavCubeCanvas"></canvas>
 <canvas id="mySectionPlanesOverviewCanvas"></canvas>
-`,
-  styles: [
-    // '../../../../node_modules/inspire-tree-dom/dist/inspire-tree-light.css'
-  ],
-  // encapsulation: ViewEncapsulation.None
+`
 })
 export class IFCViewerComponent implements OnInit, OnDestroy {
   @Input() public ifcModelId:string;
   @Input() public xktFileUrl:string;
   @Input() public metadataFileUrl:string;
 
+  constructor(private Gon:GonService) {
+  }
+
   ngOnInit():void {
     import('@xeokit/xeokit-viewer/dist/main').then((XeokitViewerModule:any) => {
       let server = new XeokitServer();
       let viewerUI = new XeokitViewerModule.ViewerUI(server, {
         canvasElement: document.getElementById("myCanvas"), // WebGL canvas
-        explorerElement: document.getElementById("myExplorer"), // Left panel
+        explorerElement: jQuery(".xeokit-tree-panel")[0], // Left panel
         toolbarElement: document.getElementById("myToolbar"), // Toolbar
         navCubeCanvasElement: document.getElementById("myNavCubeCanvas"),
         sectionPlanesOverviewCanvasElement: document.getElementById("mySectionPlanesOverviewCanvas")
       });
+
+      viewerUI.on("queryPicked", (event:any) => {
+        const entity = event.entity; // Entity
+        const metaObject = event.metaObject; // MetaObject
+      });
+      viewerUI.loadProject(this.Gon.get('ifc_models', 'projects') as any [0]["id"]);
     });
   }
 
-  ngOnDestroy():void {
-  }
+  // tslint:disable-next-line:no-empty
+  ngOnDestroy():void {}
 }
 DynamicBootstrapper.register({
   selector: 'ifc-viewer', cls: IFCViewerComponent

@@ -1,30 +1,236 @@
+@import "fonts/openproject_icon_definitions"
+
+// The IFC viewer shall fill the viewport to the bottom.
+// This is different to how we style #content else where.
+.controller-ifc_models\/ifc_models.action-show_defaults
+  #content
+    display: flex
+    flex-direction: column
+    height: 100%
+
 .xeokit-tree-panel
-  padding-top: 25px
-  pointer-events: all
-  height: 100%
-  overflow-y: scroll
-  position: absolute
-  background-color: rgba(0, 0, 0, 0.1)
-  color: black
-  top: 0
-  z-index: 200000
-  float: left
-  left: 0
-  font-family: 'Roboto', sans-serif
-  font-size: 15px
-  user-select: none
-  -ms-user-select: none
-  -moz-user-select: none
-  -webkit-user-select: none
-  width: 350px
+  color: white
+  min-width: 320px
+
+  ul.components
+    padding: 20px 0
+    border-bottom: 1px solid #47748b
+
+  //ul
+  //  p
+  //    color: #fff
+  //    padding: 10px
+  //
+  //  li
+  //    a
+  //      padding: 0
+  //      font-size: 1.1em
+  //      display: block
+  //    &:hover
+  //      color: #7386D5
+  //      background: #fff
+  //
+  //  &.active > a, a[aria-expanded="true"]
+  //    color: #fff
+  //    background: #6d7fcc
+
+  label
+    color: white
 
 .xeokit-model-canvas
   width: 100%
   height: 100%
+  background: #ebebeb
 
 .ifc-model-viewer-container
+  flex-grow: 1
   position: relative
   width: 100%
-  height: 70vH
+  height: 100%
   border-top: 1px solid gray
   border-bottom: 1px solid gray
+
+#myWrapper
+  height: 100%
+
+#myToolbar
+  position: fixed
+  width: 100%
+  align-items: center
+  justify-content: center
+  padding: 6px
+  height: 60px
+
+  // Use our own icon font instead of including Xeokit's FontAwesome
+  .fa-home::before
+    font-family: "openproject-icon-font" !important
+    @include icon-mixin-home
+
+#myNavCubeCanvas
+  position: absolute
+  width: 200px
+  height: 200px
+  bottom: 0
+  right: 0
+  z-index: 200000
+
+#mySectionPlanesOverviewCanvas
+  position: absolute
+  width: 250px
+  height: 250px
+  top: 300px
+  right: 50px
+  z-index: 200000
+
+/*  Tabs    */
+.xeokit-toolbar
+  display: flex
+  flex-wrap: wrap
+  justify-content: flex-start
+
+.xeokit-btn-group
+  position: relative
+  display: inline-flex
+  vertical-align: middle
+  margin-right: .7rem !important
+
+.xeokit-btn
+  position: relative
+  flex: 1 1 auto
+  color: #007bff
+  background-color: transparent
+  text-align: center
+  vertical-align: middle
+  border: 1px solid #007bff
+  padding: .375rem .75rem
+  border-radius: .25rem
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+  -webkit-appearance: button
+  overflow: visible
+  margin: 0
+  box-sizing: border-box
+  align-items: flex-start
+
+  &.disabled
+    opacity: .55
+
+  &.active
+    color: #fff
+    background-color: #007bff
+    border-color: #007bff
+
+.xeokit-tabs
+  line-height: 1.5
+  margin-bottom: 1.5em
+  padding: 0
+
+  &::before
+    display: table
+    content: ''
+    clear: both
+
+  &::after
+    display: table
+    content: ''
+    clear: both
+
+  .xeokit-tab
+    display: inline
+
+    &.active
+      .xeokit-tab-button
+        border-bottom: 2px solid white
+
+      .xeokit-tab-content
+        display: block
+
+  .xeokit-tab-button
+    background-color: transparent
+    color: #ffffff
+    display: inline-block
+    font-weight: bold
+    padding: 0.75em 5px
+    text-decoration: none
+    &:hover
+      color: #477dca
+      border-bottom: 2px solid white
+  
+    &:focus
+      outline: none
+
+  .xeokit-tab-content
+    display: none
+    padding: 1.5em 10px
+    width: 100%
+    height: 100%
+    float: left
+
+  .xeokit-btn-group
+    flex-wrap: wrap
+    justify-content: flex-start
+    margin-bottom: 10px
+
+  .xeokit-btn
+    position: relative
+    flex: 1 1 auto
+    color: #ffffff
+    background-color: transparent
+    text-align: center
+    vertical-align: middle
+    border: 1px solid #ffffff
+    padding: .375rem .75rem
+    border-radius: .25rem
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+    -webkit-appearance: button
+    overflow: visible
+    margin: 0
+    box-sizing: border-box
+    align-items: flex-start
+
+    &.disabled
+      opacity: .55
+
+  &.active
+    .xeokit-tab-button
+      background-color: transparent
+      border: 1px solid #dcdcdc
+      border-bottom-color: #7386D5
+      margin-bottom: -1px
+
+.xeokit-objectsTab
+  ul
+    list-style: none
+    padding-left: 1.75em
+    li
+      border-bottom-left-radius: 0.75em
+      border-top-left-radius: 0.75em
+      margin: 2px 0
+      position: relative
+      a
+        background-color: #eee
+        border-radius: 50%
+        color: #000
+        display: inline-block
+        height: 1.5em
+        left: -1.5em
+        position: absolute
+        text-align: center
+        text-decoration: none
+        width: 1.5em
+        &:active
+          top: 1px
+    
+      a.plus
+        background-color: #ded
+    
+      a.minus
+        background-color: #eee
+    
+      span
+        display: inline-block
+
+  .top-right
+    font-size: small
+    position: fixed
+    right: 1em
+    top: 1em
