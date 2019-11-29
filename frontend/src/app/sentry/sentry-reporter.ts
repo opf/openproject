@@ -116,7 +116,8 @@ export class SentryReporter implements ErrorReporter {
 
   public captureException(err:Error|string) {
     if (!this.client || !err) {
-      return this.handleOfflineMessage('captureException', Array.from(arguments));
+      this.handleOfflineMessage('captureException', Array.from(arguments));
+      throw err;
     }
 
     if (typeof err === 'string') {
