@@ -132,8 +132,10 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
       this.cdRef.detectChanges();
 
-      // Scroll header on mobile in and out when user scrolls the container
-      scrollHeaderOnMobile(jQuery('.work-packages--card-view-container'));
+      // Register scroll handler on mobile header
+      if (this.deviceService.isMobile) {
+        scrollHeaderOnMobile(jQuery('.work-packages--card-view-container'));
+      }
     });
   }
 

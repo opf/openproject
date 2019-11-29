@@ -27,27 +27,31 @@
 // ++
 
 
-import {DeviceService} from "core-app/modules/common/browser/device.service";
-
+// Scroll header on mobile in and out when user scrolls the container
 export function scrollHeaderOnMobile(elem:JQuery) {
-  const deviceService:DeviceService = new DeviceService();
-  const headerHeight = '55px';
-  let prevScrollPos = elem.scrollTop();
+  const headerHeight = 55;
+  let prevScrollPos = elem.scrollTop()!;
 
-  elem.on('scroll', (event) => {
-    // Only on mobile screen sizes and if sidebar is not opened or search bar is opened
-    if (!deviceService.isMobile ||
-        !(jQuery('#main').hasClass('hidden-navigation')) ||
-        jQuery('#top-menu').hasClass('-global-search-expanded')) {
+  elem.on('scroll', function() {
+    // Condition needed for safari browser to avoid negative positions
+    let currentScrollPos = elem.scrollTop()! < 0 ? 0 : elem.scrollTop()!;
+    // Only if sidebar is not opened or search bar is opened
+    if (!(jQuery('#main').hasClass('hidden-navigation')) ||
+        jQuery('#top-menu').hasClass('-global-search-expanded') ||
+        Math.abs(currentScrollPos - prevScrollPos) <= headerHeight) { // to avoid flickering at the end of the page
       return;
     }
 
-    let currentScrollPos = elem.scrollTop();
-    if ((prevScrollPos && currentScrollPos && prevScrollPos >= currentScrollPos) || currentScrollPos === 0) {
-      jQuery('#top-menu').css({'margin-top':'0', transition:'margin-top .4s'});
-    } else {
-      jQuery('#top-menu').css({'margin-top':'-' + headerHeight, transition:'margin-top .4s'});
+    let marginTop:number = -headerHeight;
+    if (prevScrollPos !== undefined && currentScrollPos !== undefined && (prevScrollPos > currentScrollPos)) {
+      marginTop = 0;
     }
+    toggleTopMenu(marginTop);
     prevScrollPos = currentScrollPos;
   });
+}
+
+// Slide top menu in or out of viewport
+function toggleTopMenu(marginTop:number) {
+  jQuery('#top-menu').css({'margin-top': marginTop + 'px', transition:'margin-top .4s'});
 }

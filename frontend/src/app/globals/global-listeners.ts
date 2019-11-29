@@ -30,6 +30,7 @@ import {performAnchorHijacking} from "./global-listeners/link-hijacking";
 import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
 import {refreshOnFormChanges} from 'core-app/globals/global-listeners/refresh-on-form-changes';
 import {registerRequestForConfirmation} from "core-app/globals/global-listeners/request-for-confirmation";
+import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-scroll";
 
 /**
@@ -96,8 +97,11 @@ import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-s
     // to show the password confirmation dialog
     registerRequestForConfirmation($);
 
+    const deviceService:DeviceService = new DeviceService();
     // Register scroll handler on mobile header
-    scrollHeaderOnMobile(jQuery('#content-wrapper'));
+    if (deviceService.isMobile) {
+      scrollHeaderOnMobile(jQuery('#content-wrapper'));
+    }
   });
 
 }(jQuery));
