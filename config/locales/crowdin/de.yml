@@ -798,7 +798,7 @@ de:
     checkbox_label: Ich habe die obigen Angaben zur Kenntnis genommen und erkläre mich einverstanden.
     failure_message: Einwilligung fehlgeschlagen, kann nicht fortfahren.
     title: Nutzer-Einwilligung
-    decline_warning_message: Sie haben die Einwilligung abgelehnt und wurden deshalb abgemeldet.
+    decline_warning_message: Sie haben die Einwilligung abgelehnt und wurden deshalb abgelehnt.
     user_has_consented: Der Benutzer hat seine Einwilligung zu dem Statement dieser Instanz zu der angegebenen Zeit gegeben.
     not_yet_consented: Der Benutzer hat seine Einwilligung noch nicht gegeben und wird beim nächsten Login dazu befragt.
     contact_mail_instructions: Definieren Sie die E-Mail-Adresse, über die Benutzer einen Daten-Controller erreichen können, um Anfragen zu Datenänderung oder -löschung einzureichen.
