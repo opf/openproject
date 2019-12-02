@@ -99,7 +99,7 @@ module IFCModels
     # @param target_dir {String} Path to the temporary output folder
     def convert_to_collada(ifc_filepath, target_dir)
       convert!(ifc_filepath, target_dir, 'dae') do |target_file|
-        Open3.capture2e('IfcConvert', '--use-element-guids', ifc_filepath, target_file)
+        Open3.capture2e('IfcConvert', '--use-element-guids', '--no-progress', '--verbose', ifc_filepath, target_file)
       end
     end
 
