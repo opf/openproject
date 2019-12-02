@@ -51,7 +51,7 @@ Also, you can click the green button **+ Project** directly on the system's home
 
 Now, you can get started working in your project.
 
-To configure further project information, see the [advanced settings](../../project-admin-guide/#project-settings) section in the project admin guide.
+To configure further project information, see the [advanced settings](#TODO) section in the project admin guide.
 
 ### View all projects
 
@@ -69,4 +69,4 @@ You will see a list with all your projects and its details.
 
 ### Advanced Project Settings
 
-Optionally, you can find out how to configure further [advanced settings](../../project-admin-guide/#project-settings) for your projects, e.g. description, project hierarchy or setting it to public.
+Optionally, you can find out how to configure further [advanced settings](#TODO) for your projects, e.g. description, project hierarchy or setting it to public.

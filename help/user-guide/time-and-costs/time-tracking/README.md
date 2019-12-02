@@ -13,7 +13,7 @@ Users can book their time or units spent on an activity within a project directl
 
 <div class="alert alert-info" role="alert">
 
-**Note**: When using the time tracking functionality, the **Time tracking module** needs to be activated in the [project menu](../../../project-admin-guide).
+**Note**: When using the time tracking functionality, the **Time tracking module** needs to be activated in the [project menu](../../projects).
 
 </div>
 

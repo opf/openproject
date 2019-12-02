@@ -12,7 +12,9 @@ keywords: cost tracking
 You can log unit costs on a work package within a project to keep track on certain units spent in a project, e.g. travel costs or machines.
 
 <div class="alert alert-info" role="alert">
-**Note**: When using the cost tracking functionality, the **Cost reports** module needs to be activated in the [project menu](../../../project-admin-guide/).
+
+**Note**: When using the cost tracking functionality, the **Cost reports** module needs to be activated in the [project menu](../../projects/).
+
 </div>
 
 | Feature                                                      | Documentation for                                   |
