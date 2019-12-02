@@ -37,13 +37,13 @@ import {GonService} from "core-app/modules/common/gon/gon.service";
 @Component({
   selector: 'ifc-viewer',
   template: `
-<div class="ifc-model-viewer-container">
-    <div class="xeokit-toolbar-container"></div>
-    <canvas class="xeokit-model-canvas"></canvas>
+<div class="ifc-model-viewer--container">
+    <div class="ifc-model-viewer--toolbar-container"></div>
+    <canvas class="ifc-model-viewer--model-canvas"></canvas>
 </div>
 
-<canvas class="xeokit-nav-cube-canvas"></canvas>
-<canvas class="xeokit-section-planes-overview-canvas"></canvas>
+<canvas class="ifc-model-viewer--nav-cube-canvas"></canvas>
+<canvas class="ifc-model-viewer--section-planes-overview-canvas"></canvas>
 `
 })
 export class IFCViewerComponent implements OnInit, OnDestroy {
@@ -61,11 +61,11 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
     import('@xeokit/xeokit-viewer/dist/main').then((XeokitViewerModule:any) => {
       let server = new XeokitServer();
       let viewerUI = new XeokitViewerModule.ViewerUI(server, {
-        canvasElement: element.find(".xeokit-model-canvas")[0], // WebGL canvas
-        explorerElement: jQuery(".xeokit-tree-panel")[0], // Left panel
-        toolbarElement: element.find(".xeokit-toolbar-container")[0], // Toolbar
-        navCubeCanvasElement: element.find(".xeokit-nav-cube-canvas")[0],
-        sectionPlanesOverviewCanvasElement: element.find(".xeokit-section-planes-overview-canvas")[0]
+        canvasElement: element.find(".ifc-model-viewer--model-canvas")[0], // WebGL canvas
+        explorerElement: jQuery(".ifc-model-viewer--tree-panel")[0], // Left panel
+        toolbarElement: element.find(".ifc-model-viewer--toolbar-container")[0], // Toolbar
+        navCubeCanvasElement: element.find(".ifc-model-viewer--nav-cube-canvas")[0],
+        sectionPlanesOverviewCanvasElement: element.find(".ifc-model-viewer--section-planes-overview-canvas")[0]
       });
 
       viewerUI.on("queryPicked", (event:any) => {
