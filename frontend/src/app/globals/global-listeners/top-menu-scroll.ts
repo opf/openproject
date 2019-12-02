@@ -42,16 +42,12 @@ export function scrollHeaderOnMobile(elem:JQuery) {
       return;
     }
 
-    let marginTop:number = -headerHeight;
     if (prevScrollPos !== undefined && currentScrollPos !== undefined && (prevScrollPos > currentScrollPos)) {
-      marginTop = 0;
+      // Slide top menu in or out of viewport and change viewport height
+      jQuery('#wrapper').removeClass('-header-scrolled');
+    } else {
+      jQuery('#wrapper').addClass('-header-scrolled');
     }
-    toggleTopMenu(marginTop);
     prevScrollPos = currentScrollPos;
   });
-}
-
-// Slide top menu in or out of viewport
-function toggleTopMenu(marginTop:number) {
-  jQuery('#top-menu').css({'margin-top': marginTop + 'px', transition:'margin-top .4s'});
 }

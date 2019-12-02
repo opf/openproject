@@ -36,6 +36,14 @@
   #main-menu ~ #content-wrapper
     padding: 15px
 
+  #content-wrapper
+    transition: height .4s
+
+    // Slide header in and out on scroll (see also: _top_menu_mobile.sass)
+    .-header-scrolled &
+      height: 100vh
+      transition: height .4s
+
   #main
     grid-template-columns: auto
 
