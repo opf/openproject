@@ -6,46 +6,56 @@
   label
     @include varprop(color, main-menu-font-color)
 
-// -------------------------- XEOKIT specific --------------------------
+// -------------------------- XEOKIT specific rules for TABS --------------------------
 .xeokit-tabs
+  display: flex
+
   .xeokit-tab
-    display: inline
+    flex: 1 1 auto
 
-    &.active
-      .xeokit-tab-button
-        border-bottom: 2px solid white
-
-      .xeokit-tab-content
-        display: block
-
+  // As the button and the content are in the same container,
+  // we have to position the content absolutely.
+  // Otherwise we could not show the buttons next to each other.
   .xeokit-tab-content
     display: none
-    padding: 1.5em 10px
+    position: absolute
+    left: 0
+    padding: 1.5em 15px
     width: 100%
-    height: 100%
-    float: left
+
+    .active &
+      display: block
+
+    // Override inline style of xeokit
+    .xeokit-models,
+    .xeokit-objects,
+    .xeokit-classes
+      overflow: hidden !important
+
+      .xeokit-btn-group
+        margin-bottom: 10px
+
+        .xeokit-btn
+          @include varprop(color, main-menu-font-color)
+          background-color: transparent
+          border: 1px solid
+          @include varprop(border-color, main-menu-font-color)
 
   .xeokit-tab-button
-    background-color: transparent
-    color: #ffffff
     display: inline-block
+    @include varprop(color, main-menu-font-color)
     font-weight: bold
-    padding: 0.75em 5px !important
-    text-decoration: none
+    padding: 0 5px !important
+
+    .active &
+      border-bottom: 2px solid
+      @include varprop(border-color, main-menu-font-color)
 
     &:hover
       border-bottom: 2px solid white
 
     &:focus
       outline: none
-
-  .xeokit-btn-group
-    margin-bottom: 10px
-
-    .xeokit-btn
-      color: #ffffff
-      background-color: transparent
-      border: 1px solid #ffffff
 
 .xeokit-objectsTab
   ul
