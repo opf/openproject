@@ -216,6 +216,6 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def assignable_statuses
-    instantiate_contract(work_package, user).assignable_statuses.or(Status.where_default.order_by_position)
+    instantiate_contract(work_package, user).assignable_statuses(true)
   end
 end

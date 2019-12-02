@@ -144,7 +144,7 @@ module WorkPackages
       ret
     end
 
-    def assignable_statuses
+    def assignable_statuses(include_default = false)
       # Do not allow skipping statuses without intermediately saving the work package.
       # We therefore take the original status of the work_package, while preserving all
       # other changes to it (e.g. type, assignee, etc.)
@@ -154,7 +154,11 @@ module WorkPackages
                  model.status
                end
 
-      new_statuses_allowed_from(status)
+      statuses = new_statuses_allowed_from(status)
+
+      statuses = statuses.or(Status.where_default) if include_default
+
+      statuses.order_by_position
     end
 
     def assignable_types
@@ -365,7 +369,7 @@ module WorkPackages
 
       statuses = statuses.where(is_closed: false) if model.blocked?
 
-      statuses.order_by_position
+      statuses
     end
 
     def closed_version_and_status?(status = model.status)

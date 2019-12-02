@@ -78,11 +78,11 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
                         member_with_permissions: [:view_project, :edit_project, :manage_bcf, :view_members])
     end
 
-    let(:other_user) {
+    let(:other_user) do
       FactoryBot.create(:user,
                         member_in_project: project,
                         member_with_permissions: [:view_project])
-    }
+    end
 
     before do
       other_user

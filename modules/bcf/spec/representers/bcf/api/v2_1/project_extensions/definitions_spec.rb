@@ -37,7 +37,7 @@ describe Bcf::API::V2_1::ProjectExtensions::Definitions, 'rendering' do
   let(:instance) { described_class.new(project: project, user: user) }
 
   describe '#topic_type' do
-    subject  { instance.topic_type }
+    subject { instance.topic_type }
 
     it 'returns the project type names' do
       expect(subject).to eq ['My BCF type']
@@ -45,9 +45,9 @@ describe Bcf::API::V2_1::ProjectExtensions::Definitions, 'rendering' do
   end
 
   describe '#topic_status' do
-    let!(:default_status) { FactoryBot.create :default_status  }
-    let!(:status) { FactoryBot.create :status  }
-    subject  { instance.topic_status }
+    let!(:default_status) { FactoryBot.create :default_status }
+    let!(:status) { FactoryBot.create :status }
+    subject { instance.topic_status }
 
     it 'returns default status only' do
       expect(subject).to eq [default_status.name]
@@ -55,8 +55,8 @@ describe Bcf::API::V2_1::ProjectExtensions::Definitions, 'rendering' do
   end
 
   describe '#priority' do
-    let!(:priority) { FactoryBot.create :default_priority  }
-    subject  { instance.priority }
+    let!(:priority) { FactoryBot.create :default_priority }
+    subject { instance.priority }
 
     it 'returns statuses for the available types' do
       expect(subject).to eq [priority.name]
@@ -69,7 +69,7 @@ describe Bcf::API::V2_1::ProjectExtensions::Definitions, 'rendering' do
                         member_in_project: project,
                         member_with_permissions: [:view_work_packages])
     end
-    subject  { instance.user_id_type }
+    subject { instance.user_id_type }
 
     before do
       allow(user)
@@ -95,7 +95,7 @@ describe Bcf::API::V2_1::ProjectExtensions::Definitions, 'rendering' do
   end
 
   describe '#project_actions' do
-    subject  { instance.project_actions }
+    subject { instance.project_actions }
 
     it 'includes nothing if not permitted' do
       allow(user).to receive(:allowed_to?).and_return false
@@ -118,7 +118,7 @@ describe Bcf::API::V2_1::ProjectExtensions::Definitions, 'rendering' do
   end
 
   describe '#topic_actions' do
-    subject  { instance.topic_actions }
+    subject { instance.topic_actions }
 
     it 'includes nothing if not permitted' do
       allow(user).to receive(:allowed_to?).and_return false

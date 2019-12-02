@@ -79,6 +79,19 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
                       due_date: Date.today,
                       project: project)
   end
+  let(:other_status) do
+    FactoryBot.create(:status).tap do |s|
+      member = current_user.members.detect { |m| m.project_id == work_package.project_id }
+
+      if member
+        FactoryBot.create(:workflow,
+                          old_status: work_package.status,
+                          new_status: s,
+                          type: work_package.type,
+                          role: member.roles.first)
+      end
+    end
+  end
   let(:bcf_issue) { FactoryBot.create(:bcf_issue, work_package: work_package) }
 
   subject(:response) { last_response }
@@ -90,6 +103,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
     before do
       login_as(current_user)
       bcf_issue
+      other_status
       get path
     end
 
@@ -114,7 +128,11 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
             "stage": bcf_issue.stage,
             "title": work_package.subject,
             "topic_status": work_package.status.name,
-            "topic_type": work_package.type.name
+            "topic_type": work_package.type.name,
+            "authorization": {
+              "topic_status": [],
+              "topic_actions": []
+            }
           }
         ]
       end
@@ -131,6 +149,41 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
       it_behaves_like 'bcf api not allowed response'
     end
+
+    context 'having edit permission' do
+      let(:current_user) { edit_member_user }
+
+      it_behaves_like 'bcf api successful response' do
+        let(:expected_body) do
+          [
+            {
+              "assigned_to": assignee.mail,
+              "creation_author": work_package.author.mail,
+              "creation_date": work_package.created_at.iso8601,
+              "description": work_package.description,
+              "due_date": work_package.due_date.iso8601,
+              "guid": bcf_issue.uuid,
+              "index": bcf_issue.index,
+              "labels": bcf_issue.labels,
+              "priority": work_package.priority.name,
+              "modified_author": current_user.mail,
+              "modified_date": work_package.updated_at.iso8601,
+              "reference_links": [
+                api_v3_paths.work_package(work_package.id)
+              ],
+              "stage": bcf_issue.stage,
+              "title": work_package.subject,
+              "topic_status": work_package.status.name,
+              "topic_type": work_package.type.name,
+              "authorization": {
+                "topic_status": [work_package.status.name, other_status.name],
+                "topic_actions": %w[update updateRelatedTopics updateFiles createViewpoint]
+              }
+            }
+          ]
+        end
+      end
+    end
   end
 
   describe 'GET /api/bcf/2.1/projects/:project_id/topics/:uuid' do
@@ -140,6 +193,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
     before do
       login_as(current_user)
       bcf_issue
+      other_status
       get path
     end
 
@@ -163,7 +217,11 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
           "stage": bcf_issue.stage,
           "title": work_package.subject,
           "topic_status": work_package.status.name,
-          "topic_type": work_package.type.name
+          "topic_type": work_package.type.name,
+          "authorization": {
+            "topic_status": [],
+            "topic_actions": []
+          }
         }
       end
     end
@@ -184,6 +242,39 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       let(:current_user) { only_member_user }
 
       it_behaves_like 'bcf api not allowed response'
+    end
+
+    context 'having edit permission' do
+      let(:current_user) { edit_member_user }
+
+      it_behaves_like 'bcf api successful response' do
+        let(:expected_body) do
+          {
+            "assigned_to": assignee.mail,
+            "creation_author": work_package.author.mail,
+            "creation_date": work_package.created_at.iso8601,
+            "description": work_package.description,
+            "due_date": work_package.due_date.iso8601,
+            "guid": bcf_issue.uuid,
+            "index": bcf_issue.index,
+            "labels": bcf_issue.labels,
+            "priority": work_package.priority.name,
+            "modified_author": current_user.mail,
+            "modified_date": work_package.updated_at.iso8601,
+            "reference_links": [
+              api_v3_paths.work_package(work_package.id)
+            ],
+            "stage": bcf_issue.stage,
+            "title": work_package.subject,
+            "topic_status": work_package.status.name,
+            "topic_type": work_package.type.name,
+            "authorization": {
+              "topic_status": [work_package.status.name, other_status.name],
+              "topic_actions": %w[update updateRelatedTopics updateFiles createViewpoint]
+            }
+          }
+        end
+      end
     end
   end
 
@@ -393,6 +484,19 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
     let!(:default_status) do
       FactoryBot.create(:default_status)
     end
+    let(:other_status) do
+      FactoryBot.create(:status).tap do |s|
+        member = current_user.members.detect { |m| m.project_id == project.id }
+
+        if member
+          FactoryBot.create(:workflow,
+                            old_status: status,
+                            new_status: s,
+                            type: type,
+                            role: member.roles.first)
+        end
+      end
+    end
     let!(:default_type) do
       FactoryBot.create(:type, is_default: true)
     end
@@ -426,6 +530,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
     before do
       login_as(current_user)
+      other_status
       post path, params.to_json
     end
 
@@ -453,7 +558,11 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
           creation_date: work_package&.created_at&.iso8601,
           modified_author: edit_member_user.mail,
           modified_date: work_package&.updated_at&.iso8601,
-          description: description
+          description: description,
+          "authorization": {
+            "topic_status": [other_status.name, status.name],
+            "topic_actions": %w[update updateRelatedTopics updateFiles createViewpoint]
+          }
         }
       end
     end
@@ -489,7 +598,11 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
             creation_date: work_package&.created_at&.iso8601,
             modified_author: edit_member_user.mail,
             modified_date: work_package&.updated_at&.iso8601,
-            description: nil
+            description: nil,
+            "authorization": {
+              "topic_status": [default_status.name],
+              "topic_actions": %w[update updateRelatedTopics updateFiles createViewpoint]
+            }
           }
         end
       end
@@ -514,6 +627,19 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
     end
     let(:status) do
       FactoryBot.create(:status)
+    end
+    let(:other_status) do
+      FactoryBot.create(:status).tap do |s|
+        member = current_user.members.detect { |m| m.project_id == project.id }
+
+        if member
+          FactoryBot.create(:workflow,
+                            old_status: status,
+                            new_status: s,
+                            type: type,
+                            role: member.roles.first)
+        end
+      end
     end
     let!(:default_status) do
       FactoryBot.create(:default_status)
@@ -546,6 +672,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
     before do
       login_as(current_user)
+      other_status
       put path, params.to_json
     end
 
@@ -572,7 +699,11 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
           creation_date: work_package&.created_at&.iso8601,
           modified_author: edit_member_user.mail,
           modified_date: work_package&.updated_at&.iso8601,
-          description: description
+          description: description,
+          "authorization": {
+            "topic_status": [other_status.name, status.name],
+            "topic_actions": %w[update updateRelatedTopics updateFiles createViewpoint]
+          }
         }
       end
     end
@@ -607,7 +738,11 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
             creation_date: work_package&.created_at&.iso8601,
             modified_author: edit_member_user.mail,
             modified_date: reloaded_work_package&.updated_at&.iso8601,
-            description: nil
+            description: nil,
+            "authorization": {
+              "topic_status": [default_status.name],
+              "topic_actions": %w[update updateRelatedTopics updateFiles createViewpoint]
+            }
           }
         end
       end

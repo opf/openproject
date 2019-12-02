@@ -37,26 +37,23 @@ module Bcf::API::V2_1
       end
 
       def topic_type
-        project.types.pluck(:name)
+        contract.assignable_types.pluck(:name)
       end
 
       ##
       # We only return the default status for now
       # since that can always be set to a new issue
       def topic_status
-        Status
-          .where_default
-          .pluck(:name)
+        contract.assignable_statuses(true).pluck(:name)
       end
 
       def priority
-        OpenProject::Cache.fetch(IssuePriority.all.cache_key, 'names') do
-          IssuePriority.all.pluck(:name)
-        end
+        contract.assignable_priorities.pluck(:name)
       end
 
       def user_id_type
         if allowed?(:view_members)
+          # TODO: Move possible_assignees handling into wp base contract
           project.possible_assignees.pluck(:mail)
         else
           []
@@ -101,10 +98,16 @@ module Bcf::API::V2_1
 
       attr_reader :project, :user
 
+      def contract
+        @contract ||= begin
+          work_package = WorkPackage.new project: project
+          WorkPackages::CreateContract.new(work_package, user)
+        end
+      end
+
       def allowed?(permission)
         user.allowed_to?(permission, project)
       end
     end
   end
 end
-

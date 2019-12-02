@@ -29,12 +29,27 @@
 #++
 
 module Bcf::API::V2_1
-  module ProjectExtensions
-    class API < ::API::OpenProjectAPI
-      get :extensions do
-        mapper = Definitions.new(project: @project, user: current_user)
-        Representer.new(mapper)
-      end
+  class Topics::AuthorizationRepresenter < BaseRepresenter
+    property :topic_actions,
+             getter: ->(decorator:, **) {
+               if decorator.manage_bcf_allowed?
+                 %w[update updateRelatedTopics updateFiles createViewpoint]
+               else
+                 []
+               end
+             }
+
+    property :topic_status,
+             getter: ->(decorator:, **) {
+               if decorator.manage_bcf_allowed?
+                 assignable_statuses.pluck(:name)
+               else
+                 []
+               end
+             }
+
+    def manage_bcf_allowed?
+      User.current.allowed_to?(:manage_bcf, represented.model.project)
     end
   end
 end

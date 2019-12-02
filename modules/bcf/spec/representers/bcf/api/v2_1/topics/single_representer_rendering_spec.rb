@@ -54,9 +54,35 @@ describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
         .and_return(journals)
     end
   end
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:issue) { FactoryBot.build_stubbed(:bcf_issue, work_package: work_package) }
+  let(:manage_bcf_allowed) { true }
+  let(:statuses) do
+    [
+      FactoryBot.build_stubbed(:status),
+      FactoryBot.build_stubbed(:status)
+    ]
+  end
 
   let(:instance) { described_class.new(issue) }
+
+  before do
+    login_as(current_user)
+
+    allow(current_user)
+      .to receive(:allowed_to?)
+      .with(:manage_bcf, issue.project)
+      .and_return(manage_bcf_allowed)
+
+    contract = double('contract',
+                      model: issue,
+                      assignable_statuses: statuses)
+
+    allow(WorkPackages::UpdateContract)
+      .to receive(:new)
+      .with(work_package, current_user)
+      .and_return(contract)
+  end
 
   subject { instance.to_json }
 
@@ -170,6 +196,38 @@ describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
       it_behaves_like 'attribute' do
         let(:value) { issue.stage }
         let(:path) { 'stage' }
+      end
+    end
+  end
+
+  describe 'authorization' do
+    context 'if the user has manage_bcf permission' do
+      it 'lists the actions' do
+        expect(subject)
+          .to be_json_eql(%w[update updateRelatedTopics updateFiles createViewpoint].to_json)
+          .at_path('authorization/topic_actions')
+      end
+
+      it 'lists the allowed statuses' do
+        expect(subject)
+          .to be_json_eql(statuses.map(&:name).to_json)
+          .at_path('authorization/topic_status')
+      end
+    end
+
+    context 'if the user lacks manage_bcf permission' do
+      let(:manage_bcf_allowed) { false }
+
+      it 'signals lack of available actions' do
+        expect(subject)
+          .to be_json_eql([])
+          .at_path('authorization/topic_actions')
+      end
+
+      it 'lists no allowed status' do
+        expect(subject)
+          .to be_json_eql([].to_json)
+          .at_path('authorization/topic_status')
       end
     end
   end

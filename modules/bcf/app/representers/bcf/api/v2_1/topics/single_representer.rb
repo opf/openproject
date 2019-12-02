@@ -134,6 +134,13 @@ module Bcf::API::V2_1
     property :bim_snippet,
              skip_render: true
 
+    property :authorization,
+             getter: ->(*) {
+               contract = WorkPackages::UpdateContract.new(work_package, User.current)
+
+               Topics::AuthorizationRepresenter.new(contract)
+             }
+
     def datetime_formatter
       ::API::V3::Utilities::DateTimeFormatter
     end
