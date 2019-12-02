@@ -30,15 +30,76 @@
 
 module Bcf::API::V2_1
   class ProjectExtensions::Representer < BaseRepresenter
-    property :topic_type
-    property :topic_status
-    property :topic_label
-    property :snippet_type
-    property :priority
-    property :user_id_type
-    property :stage
-    property :project_actions
-    property :topic_actions
-    property :comment_actions
+    property :topic_type,
+             getter: ->(decorator:, **) {
+               decorator.with_check do
+                 assignable_types.pluck(:name)
+               end
+             }
+
+    # TODO: Labels do not yet exist
+    property :topic_label,
+             getter: ->(*) {
+               []
+             }
+
+    # TODO: Snippet types do not exist
+    property :snippet_type,
+             getter: ->(*) {
+               []
+             }
+
+    property :priority,
+             getter: ->(decorator:, **) {
+               decorator.with_check do
+                 assignable_priorities.pluck(:name)
+               end
+             }
+
+    property :user_id_type,
+             getter: ->(decorator:, **) {
+               decorator.with_check(%i[manage_bcf view_members]) do
+                 # TODO: Move possible_assignees handling into wp base contract
+                 model.project.possible_assignees.pluck(:mail)
+               end
+             }
+
+    # TODO: Stage do not yet exist
+    property :stage,
+             getter: ->(*) {
+               []
+             }
+
+    property :project_actions,
+             getter: ->(decorator:, **) {
+               [].tap do |actions|
+                 actions << 'update' if decorator.allowed?(:edit_project)
+                 actions << 'createTopic' if decorator.allowed?(:manage_bcf)
+               end
+             }
+
+    property :comment_actions,
+             getter: ->(*) {
+               []
+             }
+
+    def to_hash(*)
+      topic_authorization = Bcf::API::V2_1::Topics::AuthorizationRepresenter
+                            .new(represented)
+
+      super.merge(topic_authorization.to_hash)
+    end
+
+    def with_check(permissions = :manage_bcf)
+      if Array(permissions).all? { |permission| allowed?(permission) }
+        yield
+      else
+        []
+      end
+    end
+
+    def allowed?(permission)
+      represented.user.allowed_to?(permission, represented.model.project)
+    end
   end
 end

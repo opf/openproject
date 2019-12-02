@@ -42,14 +42,14 @@ module Bcf::API::V2_1
     property :topic_status,
              getter: ->(decorator:, **) {
                if decorator.manage_bcf_allowed?
-                 assignable_statuses.pluck(:name)
+                 assignable_statuses(model.new_record?).pluck(:name)
                else
                  []
                end
              }
 
     def manage_bcf_allowed?
-      User.current.allowed_to?(:manage_bcf, represented.model.project)
+      represented.user.allowed_to?(:manage_bcf, represented.model.project)
     end
   end
 end

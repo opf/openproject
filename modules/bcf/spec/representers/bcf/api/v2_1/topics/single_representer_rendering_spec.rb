@@ -76,6 +76,7 @@ describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
 
     contract = double('contract',
                       model: issue,
+                      user: current_user,
                       assignable_statuses: statuses)
 
     allow(WorkPackages::UpdateContract)

@@ -37,26 +37,34 @@ module Bcf::API::V2_1
       end
 
       def topic_type
-        contract.assignable_types.pluck(:name)
+        with_manage_bcf do
+          contract.assignable_types.pluck(:name)
+        end
       end
 
       ##
       # We only return the default status for now
       # since that can always be set to a new issue
       def topic_status
-        contract.assignable_statuses(true).pluck(:name)
+        with_manage_bcf do
+          contract.assignable_statuses(true).pluck(:name)
+        end
       end
 
       def priority
-        contract.assignable_priorities.pluck(:name)
+        with_manage_bcf do
+          contract.assignable_priorities.pluck(:name)
+        end
       end
 
       def user_id_type
-        if allowed?(:view_members)
-          # TODO: Move possible_assignees handling into wp base contract
-          project.possible_assignees.pluck(:mail)
-        else
-          []
+        with_manage_bcf do
+          if allowed?(:view_members)
+            # TODO: Move possible_assignees handling into wp base contract
+            project.possible_assignees.pluck(:mail)
+          else
+            []
+          end
         end
       end
 
@@ -83,10 +91,8 @@ module Bcf::API::V2_1
       end
 
       def topic_actions
-        if allowed?(:manage_bcf)
+        with_manage_bcf do
           %w[update updateRelatedTopics updateFiles createViewpoint]
-        else
-          []
         end
       end
 
@@ -94,14 +100,22 @@ module Bcf::API::V2_1
         []
       end
 
-      private
-
-      attr_reader :project, :user
-
       def contract
         @contract ||= begin
           work_package = WorkPackage.new project: project
           WorkPackages::CreateContract.new(work_package, user)
+        end
+      end
+
+      private
+
+      attr_reader :user, :project
+
+      def with_manage_bcf
+        if allowed?(:manage_bcf)
+          yield
+        else
+          []
         end
       end
 

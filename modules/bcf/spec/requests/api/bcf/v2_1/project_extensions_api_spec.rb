@@ -56,9 +56,9 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
     it_behaves_like 'bcf api successful response' do
       let(:expected_body) do
         {
-          topic_type: [type_task.name],
-          topic_status: [status.name],
-          priority: [priority.name],
+          topic_type: [],
+          topic_status: [],
+          priority: [],
           snippet_type: [],
           stage: [],
           topic_label: [],
