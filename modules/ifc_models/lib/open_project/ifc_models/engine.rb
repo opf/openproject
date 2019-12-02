@@ -75,5 +75,6 @@ module OpenProject::IFCModels
     end
 
     patches %i[Project]
+    patch_with_namespace :BasicData, :SettingSeeder
   end
 end
