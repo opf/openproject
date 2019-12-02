@@ -9,7 +9,7 @@ keywords: time tracking, logging time
 
 # Time tracking
 
-Users can book their time or units spent on an activity within a project directly on work packages,  which gives a clear indication of how much effort the project activities require. You can either log time in the work package view or via a  commit message.
+Users can book their time or units spent on an activity within a project directly on work packages,  which gives a clear indication of how much effort the project activities require. You can either log time in the work package view or via a commit message.
 
 <div class="alert alert-info" role="alert">
 
@@ -27,7 +27,7 @@ Users can book their time or units spent on an activity within a project directl
 
 ## Logging time in the work package view
 
-In order to log spent hours for a certain activity, open the details of the corresponding work package. Select **Log time** from the **More functions** dropdown menu, the icon with the three dots in the top right of the work packages details.
+In order to log spent hours for a certain activity, open the details of the corresponding work package. Select **Log time** from the **More functions** drop down menu, the icon with the three dots in the top right of the work packages details.
 
 ![Time-tracking_log-time](Time-tracking_log-time.png)
 
@@ -37,7 +37,7 @@ You will be directed to the detailed view to log time where you can edit the fol
 2. The date, for which the time will be logged.
 3. The actually logged time (in hours).
 4. The comment field, where you can note a more detailed description of the activities that you log time for.
-5. The **Activity** dropdown menu offers a choice of activity  categories, such as coordination or development. The range of categories can vary from project to project and can be edited by a project  administrator or a role with respective permissions.
+5. The **Activity** drop down menu offers a choice of activity  categories, such as coordination or development. The range of categories can vary from project to project and can be edited by a project  administrator or a role with respective permissions.
 6. Don’t forget to **Save** your logged time.
 
 ![Time-tracking_log-time-details](Time-tracking_log-time-details.png)
@@ -58,7 +58,7 @@ To edit logged time, click in the amount of the **Spent time** in the work packa
 
 ![Edit-logged-time](Edit-logged-time.png)
 
-This will bring you to the time tracking report where you will see all time entries to this respective work package.
+This will bring you to the time tracking report where you will see all time entries to this work package.
 
 Click on the **Edit** icon next to a time entry in the list.
 
@@ -70,7 +70,7 @@ The same detailed view to log your time entries will appear where you are now ab
 
 To delete a time entry, also click on the **Spent time** in the details of a work package (just as to edit a work package).
 
-In the list of time entries, click on the **Delete** icon next to a time entry to delete the logged time.
+In the list of time entries, click on the **Delete** icon next to a time entry to drop the logged time.
 
 
 

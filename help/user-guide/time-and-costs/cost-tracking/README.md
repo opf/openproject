@@ -24,7 +24,7 @@ You can log unit costs on a work package within a project to keep track on certa
 
 ## Logging costs to a work package
 
-To track unit costs to a work package select the **Log unit costs** option from the **More functions** dropdown menu.
+To track unit costs to a work package select the **Log unit costs** option from the **More functions** drop down menu.
 
 ![Cost-tracking_log-costs](Cost-tracking_log-costs.png)
 
@@ -32,10 +32,10 @@ A new form is opened, where you can log unit costs. You can edit the following i
 
 1. **Work package ID**. By default, the work package ID of the work package where you selected *Log unit costs* option is shown. You can change this number, in which case the unit costs will be logged for the respective work package.
 2. The **date**, for which the unit costs are logged.
-3. You can select a **user** (project member) from the dropdown menu for whom you log the unit costs.
+3. You can select a **user** (project member) from the drop down menu for whom you log the unit costs.
 4. The **cost type** field offers a range of pre-defined cost types which can be configured in the Administration. The  units and respective costs per unit category are defined for every cost type separately. Please note that you need certain privileges to be able to  create new cost types and define costs for specific units.
 5. You can enter the number of **units** to be logged.
-6. The **costs** for the entered units will be automatically calculated  after you have entered the number of units. You can manually change the  sum of the calculated costs, if for example a discount is offered or a special agreement was reached. To adapt the sum manually click on the **pen icon** to the left of the sum.
+6. The **costs** for the entered units will be automatically calculated  after you have entered the number of units. You can manually change the sum of the calculated costs, if e.g. a discount is offered or a special agreement was reached. To adapt the sum manually click on the **pen icon** to the left of the sum.
 7. In the **comment** field you can enter more details to describe the logged costs.
 8. Do not forget to **Save** your time log.
 9. ![Cost-tracking-log-costs-details](Cost-tracking-log-costs-details.png)
@@ -101,7 +101,7 @@ To enter a new hourly rate, click on the **Update** icon next to the rate histor
 ![Update-hourly-rate](Update-hourly-rate-1574778595938.png)
 
 1. Enter a date from which the rate is **Valid from**.
-2. Enter the (hourly) **Rate**. The currency can only be adapted in the system's Administration settings.
+2. Enter the (hourly) **Rate**. The currency can only be changed in the system's Administration settings.
 3. You can delete an hourly rate.
 4. You can **add a rate** for a different time period.
 5. Save your changes.
