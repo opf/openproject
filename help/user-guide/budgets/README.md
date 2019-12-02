@@ -26,18 +26,18 @@ Then, you will assign work packages to a budgets. If you log time or costs to th
 
 ## Create a project budget
 
-In order to create a budget in your project, the **Budgets module** needs to be activated in the [project settings](../../project-admin-guide).
+In order to create a budget in your project, please activate the **Budgets module** in the [project settings](../projects/).
 
 To create your first budget in OpenProject, click the green **+ Budget** button on the top right of the page.
 
 ![Budgets_create-new](Budgets_create-new.png)
 
-In the detailed view that will open you can enter the details for your project budget. As well as add planned unit costs and planned labor costs.
+In the detailed view you can enter the details for your project budget, add planned unit costs and planned labor costs.
 
 1. Enter a **subject** for your budget so you can identify it easily.
 2. Enter a detailed **description** to add further information to your budget, e.g. budget owner, status and more.
-3. Upload additional **files** to your budgets with drag and drop or by clicking on the field and choosing a file from the explorer.
-4. Enter a **fixed date**: this date will be taken for the budget to calculate the planned costs based on the [configured hourly rate](../time-and-costs/cost-tracking#define-hourly-rate-for-labor-costs) in the user's profile or the [cost types](../../system-admin-guide). The rates can be configured for different date ranges, therefore, you need to set a fixed date for a budget for which the costs will be calculated.
+3. Upload more **files** to your budgets with drag and drop or by clicking on the field and choosing a file from the explorer.
+4. Enter a **fixed date**: this date is the basis for the budget to calculate the planned costs based on the [configured hourly rate](../time-and-costs/cost-tracking#define-hourly-rate-for-labor-costs) in the user's profile or the [cost types](../../system-admin-guide). The rates can be configured for different date ranges, therefore, you need to set a fixed date for a budget for which the costs will be calculated.
 
 ![Budgets-details](Budgets-details.png)
 
@@ -56,7 +56,7 @@ You can add planned unit costs to a budget in your project. These [unit costs fi
 8. The **planned costs** for this cost type will be calculated automatically based on the configuration of the cost per unit for this cost type. The cost rate will be taken from the fixed date you have configured for your budget.
    You can click the **edit icon** (small pen) if you want to manually overwrite the calculated costs for this cost type.
 
-9. Click the **delete** icon if you want to delete the planned unit costs.
+9. Click the **delete** icon if you want to drop the planned unit costs.
 
 10. The **+ icon** will add a new unit cost type for this budget.
 
@@ -96,7 +96,7 @@ You can view the details of a budget and make changes to your budget by selectin
 
 Click on the subject to open the details view of the budget.
 
-You will get and overview of planned as well as spent costs and the available costs for your variable rate budget. Also, the total progress of the budget (ratio spent) is displayed. Also, the fixed rate is displayed from which the costs for labor and unit costs are being calculated.
+You will get and overview of planned as well as spent costs and the available costs for your variable rate budget. Also, the total progress of the budget (ratio spent) is displayed. Furthermore the fixed rate is shown from which the costs for labor and unit costs are being calculated.
 
 1. **Update** the budget and make changes to e.g. planned unit costs or planned labor costs.
 2. **Copy** the budget to use it to create a new budget based on the configurations for this budget.

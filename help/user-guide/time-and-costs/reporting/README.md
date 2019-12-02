@@ -53,7 +53,7 @@ To add grouping criteria to the columns or rows of the report, select the drop-d
 
 The grouping criteria will then be added to the Column or Row of the report. 
 
-Click the blue **Apply button** in order to display your changes.
+Click the blue **Apply button** to display your changes.
 
 ![Time-costs-reports-columns-rows](Time-costs-reports-columns-rows.png)
 

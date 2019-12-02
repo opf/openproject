@@ -23,7 +23,7 @@ Find out how to [add existing members](../../getting-started/#add-existing-membe
 
 ## Remove members
 
-To remove members from a project, [select the project](../../project-admin-guide/#select-a-project) where you want to remove the members. In the project menu on the left, select the **Members** menu item. In the members list, click on the **bin** **icon** at the very right in a line of the member name.
+To remove members from a project, [select the project](../projects/#select-a-project) where you want to remove the members. In the project menu on the left, select the **Members** menu item. In the members list, click on the **bin** **icon** at the very right in a line of the member name.
 
 ![remove-members](1566225631212.png)
 

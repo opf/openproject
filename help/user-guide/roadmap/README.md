@@ -29,6 +29,6 @@ The chart displays all work packages listed by a certain attribute. Select the d
 
 <div class="alert alert-info" role="alert">
 
-Note: A roadmap is only displayed in the project menu when at least one [version](../../project-admin-guide/#versions) exists in a project.
+Note: A roadmap is only displayed in the project menu when at least one [version](../projects/) exists in a project.
 
 </div>
