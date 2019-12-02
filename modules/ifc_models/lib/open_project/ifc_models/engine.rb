@@ -52,7 +52,11 @@ module OpenProject::IFCModels
       end
     end
 
-    assets %w(ifc_models/ifc_models.css)
+    assets %w(
+      ifc_viewer/generic.css
+      ifc_viewer/tabs.css
+      ifc_viewer/toolbar.css
+    )
 
     initializer 'ifc_models.menu' do
       ::Redmine::MenuManager.map(:project_menu) do |menu|

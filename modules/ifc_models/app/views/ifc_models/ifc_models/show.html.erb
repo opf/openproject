@@ -33,7 +33,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title h(@ifc_model.title) -%>
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag "ifc_models/ifc_models", media: 'all' %>
+  <%= stylesheet_link_tag "ifc_viewer/generic", media: 'all' %>
+  <%= stylesheet_link_tag "ifc_viewer/tabs", media: 'all' %>
+  <%= stylesheet_link_tag "ifc_viewer/toolbar", media: 'all' %>
   <%= include_gon(nonce: content_security_policy_script_nonce) %>
 <% end %>
 

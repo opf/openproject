@@ -1,0 +1,31 @@
+@import "fonts/openproject_icon_definitions"
+
+// -------------------------- GENERIC --------------------------
+.ifc-model-viewer--toolbar-container
+  position: fixed
+  width: 100%
+  align-items: center
+  justify-content: center
+  padding: 6px
+  height: 60px
+
+  // Use our own icon font instead of including Xeokit's FontAwesome
+  button[class^="fa-"],
+  button[class*=" fa-"]
+    &::before
+      font-family: "openproject-icon-font" !important
+  .fa-home::before
+    @include icon-mixin-home
+  .fa-info-circle::before
+    @include icon-mixin-info2
+  .fa-cut::before
+    @include icon-mixin-cut
+  .fa-cube::before
+    @include icon-mixin-modules
+
+
+// -------------------------- XEOKIT specific --------------------------
+.xeokit-toolbar
+  display: flex
+  flex-wrap: wrap
+  justify-content: flex-start

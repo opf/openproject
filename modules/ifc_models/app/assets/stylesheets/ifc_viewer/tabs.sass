@@ -1,15 +1,4 @@
-@import "fonts/openproject_icon_definitions"
-
-// The IFC viewer shall fill the viewport to the bottom.
-// This is different to how we style #content else where.
-.controller-ifc_models\/ifc_models
-  &.action-show,
-  &.action-show_defaults
-    #content
-      display: flex
-      flex-direction: column
-      height: 100%
-
+// -------------------------- GENERIC --------------------------
 .ifc-model-viewer--tree-panel
   color: white
   min-width: 320px
@@ -21,95 +10,7 @@
   label
     color: white
 
-.ifc-model-viewer--model-canvas
-  width: 100%
-  height: 100%
-  background: #ebebeb
-
-.ifc-model-viewer--container
-  flex-grow: 1
-  position: relative
-  width: 100%
-  height: 100%
-  border-top: 1px solid gray
-  border-bottom: 1px solid gray
-
-.ifc-model-viewer--toolbar-container
-  position: fixed
-  width: 100%
-  align-items: center
-  justify-content: center
-  padding: 6px
-  height: 60px
-
-  // Use our own icon font instead of including Xeokit's FontAwesome
-  button[class^="fa-"],
-  button[class*=" fa-"]
-    &::before
-      font-family: "openproject-icon-font" !important
-  .fa-home::before
-    @include icon-mixin-home
-  .fa-info-circle::before
-    @include icon-mixin-info2
-  .fa-cut::before
-    @include icon-mixin-cut
-  .fa-cube::before
-    @include icon-mixin-modules
-
-
-.ifc-model-viewer--nav-cube-canvas
-  position: absolute
-  width: 200px
-  height: 200px
-  bottom: 0
-  right: 0
-  z-index: 200000
-
-.ifc-model-viewer--section-planes-overview-canvas
-  position: absolute
-  width: 250px
-  height: 250px
-  top: 300px
-  right: 50px
-  z-index: 200000
-
-/*  Tabs    */
-.xeokit-toolbar
-  display: flex
-  flex-wrap: wrap
-  justify-content: flex-start
-
-.xeokit-btn-group
-  position: relative
-  display: inline-flex
-  vertical-align: middle
-  margin-right: .7rem !important
-
-.xeokit-btn
-  position: relative
-  flex: 1 1 auto
-  color: #007bff
-  background-color: transparent
-  text-align: center
-  vertical-align: middle
-  border: 1px solid #007bff
-  padding: .375rem .75rem
-  border-radius: .25rem
-  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
-  -webkit-appearance: button
-  overflow: visible
-  margin: 0
-  box-sizing: border-box
-  align-items: flex-start
-
-  &.disabled
-    opacity: .55
-
-  &.active
-    color: #fff
-    background-color: #007bff
-    border-color: #007bff
-
+// -------------------------- XEOKIT specific --------------------------
 .xeokit-tabs
   line-height: 1.5
   margin-bottom: 1.5em
@@ -145,7 +46,7 @@
     &:hover
       color: #477dca
       border-bottom: 2px solid white
-  
+
     &:focus
       outline: none
 
@@ -210,13 +111,13 @@
         width: 1.5em
         &:active
           top: 1px
-    
+
       a.plus
         background-color: #ded
-    
+
       a.minus
         background-color: #eee
-    
+
       span
         display: inline-block
 

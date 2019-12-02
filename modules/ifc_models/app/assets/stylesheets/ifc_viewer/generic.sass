@@ -1,0 +1,74 @@
+// -------------------------- GENERIC --------------------------
+
+// The IFC viewer shall fill the viewport to the bottom.
+// This is different to how we style #content else where.
+.controller-ifc_models\/ifc_models
+  &.action-show,
+  &.action-show_defaults
+    #content
+      display: flex
+      flex-direction: column
+      height: 100%
+
+.ifc-model-viewer--container
+  flex-grow: 1
+  position: relative
+  width: 100%
+  height: 100%
+  border-top: 1px solid gray
+  border-bottom: 1px solid gray
+
+  .ifc-model-viewer--model-canvas
+    width: 100%
+    height: 100%
+    background: #ebebeb
+
+
+  .ifc-model-viewer--nav-cube-canvas
+    position: absolute
+    width: 200px
+    height: 200px
+    bottom: 0
+    right: 0
+    z-index: 200000
+
+  .ifc-model-viewer--section-planes-overview-canvas
+    position: absolute
+    width: 250px
+    height: 250px
+    top: 300px
+    right: 50px
+    z-index: 200000
+
+
+// -------------------------- BUTTONS --------------------------
+.xeokit-btn-group
+  position: relative
+  display: inline-flex
+  vertical-align: middle
+  margin-right: .7rem !important
+
+.xeokit-btn
+  position: relative
+  flex: 1 1 auto
+  color: #007bff
+  background-color: transparent
+  text-align: center
+  vertical-align: middle
+  border: 1px solid #007bff
+  padding: .375rem .75rem
+  border-radius: .25rem
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+  -webkit-appearance: button
+  overflow: visible
+  margin: 0
+  box-sizing: border-box
+  align-items: flex-start
+
+  &.disabled
+    opacity: .55
+
+  &.active
+    color: #fff
+    background-color: #007bff
+    border-color: #007bff
