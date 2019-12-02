@@ -54,8 +54,6 @@ module OpenProject::IFCModels
 
     assets %w(
       ifc_viewer/generic.css
-      ifc_viewer/tabs.css
-      ifc_viewer/toolbar.css
     )
 
     initializer 'ifc_models.menu' do

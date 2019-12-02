@@ -1,31 +1,13 @@
 // -------------------------- GENERIC --------------------------
 .ifc-model-viewer--tree-panel
-  color: white
-  min-width: 320px
-
-  ul.components
-    padding: 20px 0
-    border-bottom: 1px solid #47748b
+  padding: 0 15px
+  @include varprop(color, main-menu-font-color)
 
   label
-    color: white
+    @include varprop(color, main-menu-font-color)
 
 // -------------------------- XEOKIT specific --------------------------
 .xeokit-tabs
-  line-height: 1.5
-  margin-bottom: 1.5em
-  padding: 0
-
-  &::before
-    display: table
-    content: ''
-    clear: both
-
-  &::after
-    display: table
-    content: ''
-    clear: both
-
   .xeokit-tab
     display: inline
 
@@ -36,20 +18,6 @@
       .xeokit-tab-content
         display: block
 
-  .xeokit-tab-button
-    background-color: transparent
-    color: #ffffff
-    display: inline-block
-    font-weight: bold
-    padding: 0.75em 5px
-    text-decoration: none
-    &:hover
-      color: #477dca
-      border-bottom: 2px solid white
-
-    &:focus
-      outline: none
-
   .xeokit-tab-content
     display: none
     padding: 1.5em 10px
@@ -57,37 +25,27 @@
     height: 100%
     float: left
 
+  .xeokit-tab-button
+    background-color: transparent
+    color: #ffffff
+    display: inline-block
+    font-weight: bold
+    padding: 0.75em 5px !important
+    text-decoration: none
+
+    &:hover
+      border-bottom: 2px solid white
+
+    &:focus
+      outline: none
+
   .xeokit-btn-group
-    flex-wrap: wrap
-    justify-content: flex-start
     margin-bottom: 10px
 
-  .xeokit-btn
-    position: relative
-    flex: 1 1 auto
-    color: #ffffff
-    background-color: transparent
-    text-align: center
-    vertical-align: middle
-    border: 1px solid #ffffff
-    padding: .375rem .75rem
-    border-radius: .25rem
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
-    -webkit-appearance: button
-    overflow: visible
-    margin: 0
-    box-sizing: border-box
-    align-items: flex-start
-
-    &.disabled
-      opacity: .55
-
-  &.active
-    .xeokit-tab-button
+    .xeokit-btn
+      color: #ffffff
       background-color: transparent
-      border: 1px solid #dcdcdc
-      border-bottom-color: #7386D5
-      margin-bottom: -1px
+      border: 1px solid #ffffff
 
 .xeokit-objectsTab
   ul
