@@ -2,12 +2,9 @@
 
 // -------------------------- GENERIC --------------------------
 .ifc-model-viewer--toolbar-container
-  position: fixed
+  position: absolute
   width: 100%
-  align-items: center
-  justify-content: center
   padding: 6px
-  height: 60px
 
   // Use our own icon font instead of including Xeokit's FontAwesome
   button[class^="fa-"],
@@ -16,16 +13,22 @@
       font-family: "openproject-icon-font" !important
   .fa-home::before
     @include icon-mixin-home
+  .fa-crop::before
+    @include icon-mixin-zoom-auto
+  .fa-male::before
+    @include icon-mixin-user
   .fa-info-circle::before
     @include icon-mixin-info2
   .fa-cut::before
     @include icon-mixin-cut
   .fa-cube::before
     @include icon-mixin-modules
+  .fa-eraser::before
+    @include icon-mixin-rubber
 
 
 // -------------------------- XEOKIT specific --------------------------
 .xeokit-toolbar
   display: flex
   flex-wrap: wrap
-  justify-content: flex-start
+  justify-content: flex-end

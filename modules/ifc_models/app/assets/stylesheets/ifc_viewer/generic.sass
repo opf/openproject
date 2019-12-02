@@ -1,4 +1,6 @@
 // -------------------------- GENERIC --------------------------
+@import "openproject/variables"
+@import "openproject/mixins"
 
 // The IFC viewer shall fill the viewport to the bottom.
 // This is different to how we style #content else where.
@@ -15,14 +17,13 @@
   position: relative
   width: 100%
   height: 100%
-  border-top: 1px solid gray
-  border-bottom: 1px solid gray
+  border-top: 1px solid $gray-dark
+  border-bottom: 1px solid $gray-dark
 
   .ifc-model-viewer--model-canvas
     width: 100%
     height: 100%
-    background: #ebebeb
-
+    background: $gray-lighter
 
   .ifc-model-viewer--nav-cube-canvas
     position: absolute
@@ -30,7 +31,7 @@
     height: 200px
     bottom: 0
     right: 0
-    z-index: 200000
+    z-index: 2000
 
   .ifc-model-viewer--section-planes-overview-canvas
     position: absolute
@@ -38,37 +39,25 @@
     height: 250px
     top: 300px
     right: 50px
-    z-index: 200000
+    z-index: 2000
 
 
 // -------------------------- BUTTONS --------------------------
 .xeokit-btn-group
-  position: relative
-  display: inline-flex
   vertical-align: middle
-  margin-right: .7rem !important
+  margin-right: .5rem
 
 .xeokit-btn
-  position: relative
-  flex: 1 1 auto
-  color: #007bff
-  background-color: transparent
-  text-align: center
+  background-color: $button--background-color
   vertical-align: middle
-  border: 1px solid #007bff
   padding: .375rem .75rem
   border-radius: .25rem
-  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
-  -webkit-appearance: button
-  overflow: visible
-  margin: 0
-  box-sizing: border-box
-  align-items: flex-start
+  @include default-transition
 
   &.disabled
     opacity: .55
 
   &.active
-    color: #fff
-    background-color: #007bff
-    border-color: #007bff
+    @include varprop(color, font-color-on-primary)
+    @include varprop(background-color, primary-color)
+    @include varprop(border-color, primary-color)
