@@ -212,21 +212,25 @@ describe WorkPackages::BaseContract do
 
         allow(Status)
           .to receive(:find_by)
-                .with(id: work_package.status_id)
-                .and_return(work_package.status)
+          .with(id: work_package.status_id)
+          .and_return(work_package.status)
 
         # Breaking abstraction here to avoid mocking hell.
         # We might want to extract the assignable_... into separate
         # objects.
         allow(contract)
           .to receive(:new_statuses_allowed_from)
-                .with(work_package.status)
-                .and_return(new_statuses_scope)
+          .with(work_package.status)
+          .and_return(new_statuses_scope)
+
+        allow(new_statuses_scope)
+          .to receive(:order_by_position)
+          .and_return(new_statuses_scope)
 
         allow(new_statuses_scope)
           .to receive(:exists?)
-                .with(new_status.id)
-                .and_return(valid_transition_result)
+          .with(new_status.id)
+          .and_return(valid_transition_result)
 
         status_change
 
