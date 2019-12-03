@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -42,7 +43,6 @@ describe WorkPackages::UpdateContract do
     FactoryBot.build_stubbed(:work_package,
                              project: project,
                              type: type).tap do |wp|
-
       wp_scope = double('wp scope')
 
       allow(WorkPackage)

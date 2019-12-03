@@ -109,8 +109,8 @@ FactoryBot.define do
     </Markup>
       MARKUP
     end
-    stage { 'Construction stop' }
-    labels { ['Structural', 'IT Development', 'Huge'] }
+    stage { nil }
+    labels { [] }
     sequence(:index) { |n| n }
 
     factory :bcf_issue_with_viewpoint do

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,22 +25,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# The contract is not actually used for validations but rather to display the unimbedded schema
-# as the writable attributes differ depending on whether the user has the necessary permissions.
-# As we do not know the context of the schema, other than when it is embedded inside a form, we have to allow
-# both possible permissions.
-module API
-  module V3
-    module WorkPackages
-      module Schema
-        class TypedSchemaContract < ::WorkPackages::BaseContract
-          default_attribute_permission %i[edit_work_packages add_work_packages]
-          attribute_permission :project_id, :move_work_packages
-        end
-      end
+# The contract allows for setting the default status ignoring status transitions.
+# It is required so that put requests can set the status to the default status if the status property
+# is omitted.
+module Bcf::WorkPackages
+  class UpdateContract < ::WorkPackages::UpdateContract
+    def self.model
+      ::WorkPackage
+    end
+
+    private
+
+    def validate_status_transition
+      super if status_changed? && !model.status.is_default?
     end
   end
 end

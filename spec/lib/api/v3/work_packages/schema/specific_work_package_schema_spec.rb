@@ -98,51 +98,6 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
   end
 
-  describe '#assignable_statuses_for' do
-    let(:status_result) { double('status result') }
-
-    before do
-      allow(work_package).to receive(:persisted?).and_return(false)
-      allow(work_package).to receive(:status_id_changed?).and_return(false)
-    end
-
-    it 'calls through to the work package' do
-      expect(work_package).to receive(:new_statuses_allowed_to).with(current_user)
-        .and_return(status_result)
-      expect(subject.assignable_values(:status, current_user)).to eql(status_result)
-    end
-
-    context 'changed work package' do
-      let(:work_package) do
-        double('original work package',
-               id: double,
-               clone: cloned_wp,
-               status: double('wrong status'),
-               persisted?: true).as_null_object
-      end
-      let(:cloned_wp) do
-        double('cloned work package',
-               new_statuses_allowed_to: status_result)
-      end
-      let(:stored_status) do
-        double('good status')
-      end
-
-      before do
-        allow(work_package).to receive(:persisted?).and_return(true)
-        allow(work_package).to receive(:status_id_changed?).and_return(true)
-        allow(Status).to receive(:find_by)
-          .with(id: work_package.status_id_was).and_return(stored_status)
-      end
-
-      it 'calls through to the cloned work package' do
-        expect(cloned_wp).to receive(:status=).with(stored_status)
-        expect(cloned_wp).to receive(:new_statuses_allowed_to).with(current_user)
-        expect(subject.assignable_values(:status, current_user)).to eql(status_result)
-      end
-    end
-  end
-
   describe '#available_custom_fields' do
     it 'delegates to work_package' do
       expect(work_package)

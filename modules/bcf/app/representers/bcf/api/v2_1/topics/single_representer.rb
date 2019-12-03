@@ -130,6 +130,17 @@ module Bcf::API::V2_1
                self.due_date = date
              }
 
+    # Required only so that we can register a user wanting to set the snippets. We do not support setting it though.
+    property :bim_snippet,
+             skip_render: true
+
+    property :authorization,
+             getter: ->(*) {
+               contract = WorkPackages::UpdateContract.new(work_package, User.current)
+
+               Topics::AuthorizationRepresenter.new(contract)
+             }
+
     def datetime_formatter
       ::API::V3::Utilities::DateTimeFormatter
     end

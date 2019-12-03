@@ -66,7 +66,8 @@ module OpenProject::Bcf::BcfXml
     end
 
     def create_work_package
-      call = WorkPackages::CreateService.new(user: user).call(work_package_attributes)
+      attributes = work_package_attributes.merge(project: project)
+      call = WorkPackages::CreateService.new(user: user).call(attributes)
 
       force_overwrite(call.result) if call.success?
 
@@ -92,7 +93,7 @@ module OpenProject::Bcf::BcfXml
     ## and return all values that are non-nil
     def work_package_attributes
       attributes = ::Bcf::Issues::TransformAttributesService
-                   .new
+                   .new(project)
                    .call(extractor_attributes.merge(import_options: import_options))
                    .result
                    .merge(send_notifications: false)
@@ -104,15 +105,9 @@ module OpenProject::Bcf::BcfXml
     end
 
     def extractor_attributes
-      attributes = {
-        project_id: project.id
-      }
-
-      %i(type title description due_date assignee status priority).each do |key|
-        attributes[key] = extractor.send(key)
-      end
-
-      attributes
+      %i(type title description due_date assignee status priority).map do |key|
+        [key, extractor.send(key)]
+      end.to_h
     end
 
     ##

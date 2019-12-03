@@ -30,14 +30,20 @@
 
 module Bcf::Issues
   class BaseContract < ::ModelContract
-    attribute :uuid
-    attribute :work_package
     attribute :index
 
     def validate
       validate_user_allowed_to_manage
 
       super
+    end
+
+    private
+
+    def validate_user_allowed_to_manage
+      unless model.project && user.allowed_to?(:manage_bcf, model.project)
+        errors.add :base, :error_unauthorized
+      end
     end
   end
 end

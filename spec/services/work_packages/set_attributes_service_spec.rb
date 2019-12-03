@@ -48,13 +48,15 @@ describe WorkPackages::SetAttributesService, type: :model do
   let(:new_work_package) do
     WorkPackage.new
   end
+  let(:statuses) { [] }
   let(:contract_class) { WorkPackages::UpdateContract }
   let(:mock_contract) do
     double(contract_class,
            new: mock_contract_instance)
   end
   let(:mock_contract_instance) do
-    mock = mock_model(contract_class)
+    mock = mock_model(contract_class,
+                      assignable_statuses: statuses)
     allow(mock)
       .to receive(:validate)
       .and_return contract_valid
@@ -140,10 +142,6 @@ describe WorkPackages::SetAttributesService, type: :model do
       let(:new_statuses) { [other_status, default_status] }
 
       before do
-        allow(work_package)
-          .to receive(:new_statuses_allowed_to)
-          .with(user, true)
-          .and_return(new_statuses)
         allow(Status)
           .to receive(:default)
           .and_return(default_status)
@@ -450,10 +448,6 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
 
       before do
-        allow(work_package)
-          .to receive(:new_statuses_allowed_to)
-          .with(user, true)
-          .and_return(new_statuses)
         allow(new_project)
           .to receive(:shared_versions)
           .and_return(new_versions)

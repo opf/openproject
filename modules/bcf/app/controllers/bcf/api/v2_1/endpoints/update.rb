@@ -36,5 +36,9 @@ module Bcf::API::V2_1::Endpoints
       render_representer
         .new(call.result)
     end
+
+    def postprocess_errors(call)
+      Bcf::API::V2_1::Errors::ErrorMapper.map(super)
+    end
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,18 +26,29 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# The contract is not actually used for validations but rather to display the unimbedded schema
-# as the writable attributes differ depending on whether the user has the necessary permissions.
-# As we do not know the context of the schema, other than when it is embedded inside a form, we have to allow
-# both possible permissions.
-module API
-  module V3
-    module WorkPackages
-      module Schema
-        class TypedSchemaContract < ::WorkPackages::BaseContract
-          default_attribute_permission %i[edit_work_packages add_work_packages]
-          attribute_permission :project_id, :move_work_packages
-        end
+require 'spec_helper'
+require_relative './shared_contract_examples'
+
+describe Bcf::Issues::UpdateContract do
+  it_behaves_like 'issues contract' do
+    let(:issue) do
+      FactoryBot.build_stubbed(:bcf_issue,
+                               work_package: issue_work_package).tap do |i|
+        # in order to actually have something changed
+        i.index = issue_index
+      end
+    end
+    let(:permissions) { [:manage_bcf] }
+
+    subject(:contract) { described_class.new(issue, current_user) }
+
+    context 'if work_package is altered' do
+      before do
+        issue.work_package = FactoryBot.build_stubbed(:stubbed_work_package)
+      end
+
+      it 'is invalid' do
+        expect_valid(false, work_package_id: %i(error_readonly))
       end
     end
   end

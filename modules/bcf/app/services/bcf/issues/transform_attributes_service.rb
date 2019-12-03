@@ -30,12 +30,18 @@
 
 module Bcf::Issues
   class TransformAttributesService
+    def initialize(project)
+      self.project = project
+    end
+
     def call(attributes)
       ServiceResult.new success: true,
                         result: work_package_attributes(attributes)
     end
 
     private
+
+    attr_accessor :project
 
     ##
     # BCF issues might have empty titles. OP needs one.
@@ -51,8 +57,8 @@ module Bcf::Issues
       find_user_in_project(project, attributes[:author]) || User.system
     end
 
-    def assignee(project, attributes)
-      assignee = find_user_in_project(project, attributes[:assignee])
+    def assignee(attributes)
+      assignee = find_user(attributes[:assignee])
 
       return assignee if assignee.present?
 
@@ -61,17 +67,17 @@ module Bcf::Issues
 
     ##
     # Try to find the given user by mail in the project
-    def find_user_in_project(project, mail)
+    def find_user(mail)
       project.users.find_by(mail: mail)
     end
 
-    def type(project, attributes)
+    def type(attributes)
       type_name = attributes[:type]
       type = project.types.find_by(name: type_name)
 
       return type if type.present?
 
-      missing_type(project, type_name, attributes[:import_options] || {})
+      missing_type(type_name, attributes[:import_options] || {})
     end
 
     ##
@@ -100,12 +106,8 @@ module Bcf::Issues
     # Get mapped and raw attributes from MarkupExtractor
     # and return all values that are non-nil
     def work_package_attributes(attributes)
-      project = Project.find(attributes[:project_id])
-
       {
-        # Fixed attributes we know
-        project: project,
-        type: type(project, attributes),
+        type: type(attributes),
 
         # Native attributes from the extractor
         subject: title(attributes),
@@ -114,7 +116,7 @@ module Bcf::Issues
         start_date: attributes[:start_date],
 
         # Mapped attributes
-        assigned_to: assignee(project, attributes),
+        assigned_to: assignee(attributes),
         status: status(attributes),
         priority: priority(attributes)
       }.compact
@@ -142,12 +144,14 @@ module Bcf::Issues
       end
     end
 
-    def missing_type(project, type_name, import_options)
+    def missing_type(type_name, import_options)
+      types = project.types
+
       if import_options[:unknown_types_action] == 'use_default'
-        project.types.default&.first
+        types.default&.first
       elsif import_options[:unknown_types_action] == 'chose' &&
             import_options[:unknown_types_chose_ids].any?
-        project.types.find_by(id: import_options[:unknown_types_chose_ids].first)
+        types.find_by(id: import_options[:unknown_types_chose_ids].first)
       elsif type_name
         Type::InexistentType.new
       end

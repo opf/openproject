@@ -45,7 +45,7 @@ describe WorkPackages::BaseContract, type: :model do
   let(:role) { FactoryBot.build(:role) }
   let(:user) { FactoryBot.build(:admin) }
   let(:issue_priority) { FactoryBot.build(:priority) }
-  let(:status) { FactoryBot.build(:status, name: 'status 1', is_default: true) }
+  let(:status) { FactoryBot.build_stubbed(:status, name: 'status 1', is_default: true) }
 
   let(:project) do
     p = FactoryBot.build(:project, members: [FactoryBot.build(:member,
