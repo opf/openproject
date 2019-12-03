@@ -28,10 +28,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Bcf::Issues
-  class BaseContract < ::ModelContract
+module Bcf::Viewpoints
+  class CreateContract < ::ModelContract
     include Bcf::Concerns::ManageBcfGuarded
 
-    attribute :index
+    attribute :uuid
+    attribute :issue
+    attribute :json_viewpoint do
+      validate_json_viewpoint_present
+    end
+
+    def validate_json_viewpoint_present
+      unless model.json_viewpoint.present?
+        errors.add(:json_viewpoint, :blank)
+      end
+    end
   end
 end

@@ -46,6 +46,12 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
                       member_with_permissions: [:view_linked_issues])
   end
 
+  shared_let(:create_user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: %i[view_linked_issues manage_bcf])
+  end
+
   shared_let(:non_member_user) do
     FactoryBot.create(:user)
   end
@@ -162,6 +168,47 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
 
     it_behaves_like 'bcf api not implemented response' do
       let(:expected_message) { 'Bitmaps are not yet implemented.' }
+    end
+  end
+
+  describe 'POST /api/bcf/2.1/projects/:project_id/topics/:topic/viewpoints' do
+    let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints" }
+    let(:current_user) { create_user }
+    let(:params) do
+      FactoryBot.attributes_for(:bcf_viewpoint)[:json_viewpoint]
+    end
+
+    before do
+      login_as(current_user)
+      post path, params.to_json
+    end
+
+    it_behaves_like 'bcf api successful response' do
+      let(:expected_body) do
+        new_viewpoint = Bcf::Viewpoint.last
+
+        viewpoint_json
+          .merge(guid: new_viewpoint.uuid)
+      end
+
+      let(:expected_status) { 201 }
+    end
+
+    it 'creates the viewpoint' do
+      expect(Bcf::Viewpoint.count)
+        .to eql 2
+    end
+
+    context 'lacking permission to see project' do
+      let(:current_user) { non_member_user }
+
+      it_behaves_like 'bcf api not found response'
+    end
+
+    context 'lacking manage_bcf permission' do
+      let(:current_user) { view_only_user }
+
+      it_behaves_like 'bcf api not allowed response'
     end
   end
 end
