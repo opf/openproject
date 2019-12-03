@@ -13,6 +13,14 @@
   .xeokit-tab
     flex: 1 1 auto
 
+  .active
+    .xeokit-tab-content
+      display: block
+
+    .xeokit-tab-button
+      border-bottom: 2px solid
+      @include varprop(border-color, main-menu-font-color)
+
   // As the button and the content are in the same container,
   // we have to position the content absolutely.
   // Otherwise we could not show the buttons next to each other.
@@ -23,33 +31,26 @@
     padding: 1.5em 15px
     width: 100%
 
-    .active &
-      display: block
-
     // Override inline style of xeokit
     .xeokit-models,
     .xeokit-objects,
     .xeokit-classes
       overflow: hidden !important
 
-      .xeokit-btn-group
-        margin-bottom: 10px
+    .xeokit-btn-group
+      margin-bottom: 10px
 
-        .xeokit-btn
-          @include varprop(color, main-menu-font-color)
-          background-color: transparent
-          border: 1px solid
-          @include varprop(border-color, main-menu-font-color)
+      .xeokit-btn
+        @include varprop(color, main-menu-font-color)
+        background-color: transparent
+        border: 1px solid
+        @include varprop(border-color, main-menu-font-color)
 
   .xeokit-tab-button
     display: inline-block
     @include varprop(color, main-menu-font-color)
     font-weight: bold
     padding: 0 5px !important
-
-    .active &
-      border-bottom: 2px solid
-      @include varprop(border-color, main-menu-font-color)
 
     &:hover
       border-bottom: 2px solid white
