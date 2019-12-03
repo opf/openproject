@@ -61,37 +61,35 @@
 .xeokit-objectsTab
   ul
     list-style: none
-    padding-left: 1.75em
+    padding-left: 20px
     li
-      border-bottom-left-radius: 0.75em
-      border-top-left-radius: 0.75em
-      margin: 2px 0
-      position: relative
+      line-height: 30px
       a
-        background-color: #eee
-        border-radius: 50%
-        color: #000
         display: inline-block
-        height: 1.5em
-        left: -1.5em
-        position: absolute
-        text-align: center
-        text-decoration: none
-        width: 1.5em
-        &:active
-          top: 1px
+        line-height: 30px
+        height: 30px
+        width: 20px
+        // Workaround to hide the actual text of the link and show our icons instead
+        @include varprop(color, main-menu-bg-color)
 
-      a.plus
-        background-color: #ded
+        &:hover,
+        &:focus,
+        li:hover &
+          @include varprop(background-color, main-menu-bg-color)
+          @include varprop(color, main-menu-bg-color)
 
-      a.minus
-        background-color: #eee
+        &:before
+          font-family: "openproject-icon-font" !important
+          @include varprop(color, main-menu-font-color)
+          font-size: 0.7rem
 
-      span
-        display: inline-block
+        &.plus:before
+          @include icon-mixin-arrow-down1
+        &.minus:before
+          @include icon-mixin-arrow-up1
 
-  .top-right
-    font-size: small
-    position: fixed
-    right: 1em
-    top: 1em
+      input
+        margin-right: 5px
+
+  .tree-panel > ul
+    padding-left: 0
