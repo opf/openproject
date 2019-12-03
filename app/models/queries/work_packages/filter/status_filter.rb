@@ -42,7 +42,7 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
   end
 
   def available?
-    Status.exists?
+    all_statuses.any?
   end
 
   def type
@@ -70,7 +70,11 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
   private
 
   def all_statuses
-    @all_statuses ||= Status.all
+    key = 'Queries::WorkPackages::Filter::StatusFilter/all_statuses'
+
+    RequestStore.fetch(key) do
+      Status.all.to_a
+    end
   end
 
   def operator_strategy

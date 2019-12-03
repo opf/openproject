@@ -108,6 +108,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
   end
 
   before do
+    RequestStore.clear!
     login_as user
   end
 
