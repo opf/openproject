@@ -80,7 +80,7 @@ ru:
         Enter the DN of the system user used for read-only access.
         <br/>
         Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+      system_user_password: Введите пароль пользователя системы
       base_dn: |
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
         OpenProject will filter for provided usernames in this subtree only.
@@ -97,8 +97,8 @@ ru:
     ldap_details: 'Подробности LDAP'
     user_settings: 'Сопоставление атрибутов'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      Следующие поля связаны с тем, как пользователи создаются в OpenProject из LDAP записей, и
+      какие атрибуты LDAP используются для определения атрибутов пользователя OpenProject (сопоставление атрибутов).
     tls_mode:
       plain: 'Ничего'
       simple_tls: 'simple_tls'
