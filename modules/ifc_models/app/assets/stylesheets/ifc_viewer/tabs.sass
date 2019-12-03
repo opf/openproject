@@ -5,6 +5,7 @@
 
   label
     @include varprop(color, main-menu-font-color)
+    @include text-shortener
 
 // -------------------------- XEOKIT specific rules for TABS --------------------------
 .xeokit-tabs
@@ -74,6 +75,7 @@
 
         &:hover,
         &:focus,
+        &:active,
         li:hover &
           @include varprop(background-color, main-menu-bg-color)
           @include varprop(color, main-menu-bg-color)
