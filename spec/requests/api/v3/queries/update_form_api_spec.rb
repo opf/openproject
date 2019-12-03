@@ -309,6 +309,11 @@ describe "POST /api/v3/queries/form", type: :request do
   describe 'with all parameters given' do
     let(:status) { FactoryBot.create :status }
 
+    let(:additional_setup) do
+      status
+      RequestStore.clear!
+    end
+
     let(:parameters) do
       {
         name: "Some Query",
