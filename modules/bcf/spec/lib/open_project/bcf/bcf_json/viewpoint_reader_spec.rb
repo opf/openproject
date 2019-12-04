@@ -72,4 +72,16 @@ describe OpenProject::Bcf::BcfJson::ViewpointReader do
 
     it_behaves_like 'matches the JSON counterpart'
   end
+
+  describe 'with empty XML nodes' do
+    let_it_be(:xml_viewpoint) do
+      FactoryBot.build_stubbed :xml_viewpoint, viewpoint_name: 'empty_nodes.bcfv'
+    end
+
+    it 'ignores empty nodes' do
+      expect(subject['lines']).to be_nil
+      expect(subject['clipping_planes']).to be_nil
+      expect(subject.dig('components', 'coloring')).to be_nil
+    end
+  end
 end

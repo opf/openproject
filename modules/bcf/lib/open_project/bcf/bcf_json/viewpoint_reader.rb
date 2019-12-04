@@ -80,7 +80,7 @@ module OpenProject::Bcf
       end
 
       def transform_camera(hash, key)
-        return unless hash.key?(key)
+        return unless hash[key]
 
         hash[key].transform_values! do |v|
           if v.is_a?(Hash)
@@ -92,7 +92,7 @@ module OpenProject::Bcf
       end
 
       def transform_lines(hash)
-        return unless hash.key?('lines')
+        return unless hash['lines']
 
         hash['lines'] = hash['lines']['line'].map! do |line|
           line.deep_transform_values!(&:to_f)
@@ -100,7 +100,7 @@ module OpenProject::Bcf
       end
 
       def transform_clipping_planes(hash)
-        return unless hash.key?('clipping_planes')
+        return unless hash['clipping_planes']
 
         hash['clipping_planes'] = hash['clipping_planes']['clipping_plane'].map! do |plane|
           plane.deep_transform_values!(&:to_f)
@@ -108,7 +108,7 @@ module OpenProject::Bcf
       end
 
       def transform_bitmaps(hash)
-        return unless hash.key?('bitmaps')
+        return unless hash['bitmaps']
 
         # Bitmaps can be multiple items within the root bitmaps node
         # this is different from the other entries
@@ -130,7 +130,6 @@ module OpenProject::Bcf
           bitmap
         end
       end
-
 
       ##
       # Move selections up the tree from the nested XML node
