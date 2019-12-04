@@ -35,8 +35,6 @@ module ::IFCModels
     before_action :find_project_by_project_id, only: %i[index new create show show_defaults edit update destroy]
     before_action :find_ifc_model_object, except: %i[index new create]
     before_action :find_all_ifc_models, only: %i[show show_defaults]
-    before_action :provision_gon_defaults, only: %i[show_defaults]
-
 
     before_action :authorize
 
@@ -121,15 +119,13 @@ module ::IFCModels
                       .order('created_at ASC')
     end
 
-    def provision_gon_defaults
-      provision_gon(@ifc_models.select { |model| model.is_default })
-    end
-
     def provision_gon(models_to_load = [])
-      models_to_load = Hash[models_to_load.map { |ifc_model| [ifc_model.id, true] }]
+      all_converted_models = converted_ifc_models(@ifc_models)
+      converted_models_to_load = converted_ifc_models(models_to_load)
+
+      models_to_load = Hash[converted_models_to_load.map { |ifc_model| [ifc_model.id, true] }]
       gon.ifc_models = {
-        projects: [{ id: @project.identifier, name: @project.name }],
-        models: @ifc_models.map do |ifc_model|
+        models: all_converted_models.map do |ifc_model|
           model = {}
           model[:id] = ifc_model.id
           model[:name] = ifc_model.title
@@ -137,8 +133,14 @@ module ::IFCModels
 
           model
         end,
-        xkt_attachment_ids: Hash[@ifc_models.map { |ifc_model| [ifc_model.id, ifc_model.xkt_attachment.id] }],
-        metadata_attachment_ids: Hash[@ifc_models.map { |ifc_model| [ifc_model.id, ifc_model.metadata_attachment.id] }]
+        projects: [{ id: @project.identifier, name: @project.name }],
+        xkt_attachment_ids: Hash[all_converted_models.map { |ifc_model| [ifc_model.id, ifc_model.xkt_attachment.id] }],
+        metadata_attachment_ids: Hash[
+          all_converted_models.map do |ifc_model|
+            [ifc_model.id,
+             ifc_model.metadata_attachment.id]
+          end
+        ]
       }
     end
 
@@ -150,6 +152,10 @@ module ::IFCModels
 
     def find_ifc_model_object
       @ifc_model = IFCModels::IFCModel.find_by(id: params[:id])
+    end
+
+    def converted_ifc_models(ifc_models)
+      ifc_models.select { |ifc_model| ifc_model.xkt_attachment.present? && ifc_model.metadata_attachment.present? }
     end
   end
 end
