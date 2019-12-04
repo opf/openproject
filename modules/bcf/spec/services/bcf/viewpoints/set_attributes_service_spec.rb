@@ -67,6 +67,10 @@ describe Bcf::Viewpoints::SetAttributesService, type: :model do
       let(:call_attributes) do
         attributes = FactoryBot.attributes_for(:bcf_viewpoint)
         attributes[:json_viewpoint].delete('guid')
+        attributes[:json_viewpoint]["snapshot"] = {
+          "snapshot_type" => "png",
+          "snapshot_data" => "SGVsbG8gV29ybGQh"
+        }
         attributes
       end
 
@@ -91,9 +95,26 @@ describe Bcf::Viewpoints::SetAttributesService, type: :model do
 
         expected_attributes = FactoryBot.attributes_for(:bcf_viewpoint)
         expected_attributes[:json_viewpoint]['guid'] = viewpoint.uuid
+        expected_attributes[:json_viewpoint]["snapshot"] = {
+          "snapshot_type" => "png",
+          "snapshot_data" => "SGVsbG8gV29ybGQh"
+        }
 
         expect(viewpoint.attributes.slice(*viewpoint.changed).symbolize_keys)
           .to eql expected_attributes
+      end
+
+      it 'sets the snapshot attachment based on the data in the json_viewpoint' do
+        subject
+
+        expect(viewpoint.attachments.size)
+          .to eql 1
+
+        expect(viewpoint.attachments.first.file.read)
+          .to eql call_attributes[:json_viewpoint]['snapshot']['snapshot_data']
+
+        expect(viewpoint.attachments.first.file.filename)
+          .to eql 'snapshot.png'
       end
 
       it 'does not persist the viewpoint' do

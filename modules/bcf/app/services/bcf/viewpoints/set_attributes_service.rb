@@ -30,8 +30,49 @@
 
 module Bcf::Viewpoints
   class SetAttributesService < ::BaseServices::SetAttributes
+    def set_attributes(params)
+      super
+
+      set_snapshot
+    end
+
     def set_default_attributes(_params)
       model.json_viewpoint['guid'] = model.uuid
+    end
+
+    def set_snapshot
+      # This might break once the service is also used
+      # to update existing viewpoints as the snapshot method will
+      # delete any existing snapshot right away while the expectation
+      # on a SetAttributesService is to not perform persisted changes.
+      file = OpenProject::Files
+        .create_uploaded_file(name: "snapshot.#{snapshot_extension}",
+                              content_type: snapshot_content_type,
+                              content: snapshot_binary_contents,
+                              binary: true)
+
+      model.snapshot = file
+    end
+
+    def snapshot_content_type
+      extension = model.json_viewpoint['snapshot']['snapshot_type']
+
+      case extension
+      when 'png'
+        'image/png'
+      when 'jpg'
+        'image/jpeg'
+      else
+        raise 'Unsupported content type'
+      end
+    end
+
+    def snapshot_extension
+      model.json_viewpoint['snapshot']['snapshot_type']
+    end
+
+    def snapshot_binary_contents
+      Base64.decode64 model.json_viewpoint['snapshot']['snapshot_data']
     end
   end
 end

@@ -175,7 +175,15 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints" }
     let(:current_user) { create_user }
     let(:params) do
-      FactoryBot.attributes_for(:bcf_viewpoint)[:json_viewpoint]
+      FactoryBot
+        .attributes_for(:bcf_viewpoint)[:json_viewpoint]
+        .merge(
+          "snapshot" =>
+            {
+              "snapshot_type" => "png",
+              "snapshot_data" => "SGVsbG8gV29ybGQh"
+            }
+        )
     end
 
     before do
@@ -187,16 +195,19 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
       let(:expected_body) do
         new_viewpoint = Bcf::Viewpoint.last
 
-        viewpoint_json
+        params
           .merge(guid: new_viewpoint.uuid)
       end
 
       let(:expected_status) { 201 }
     end
 
-    it 'creates the viewpoint' do
+    it 'creates the viewpoint with an attachment for the snapshot' do
       expect(Bcf::Viewpoint.count)
         .to eql 2
+
+      expect(Bcf::Viewpoint.last.attachments.count)
+        .to eql 1
     end
 
     context 'lacking permission to see project' do
