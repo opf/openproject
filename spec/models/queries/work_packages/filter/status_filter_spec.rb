@@ -39,8 +39,8 @@ describe Queries::WorkPackages::Filter::StatusFilter, type: :model do
     describe '#available?' do
       it 'is true if any status exists' do
         allow(Status)
-          .to receive(:exists?)
-          .and_return true
+          .to receive(:all)
+          .and_return [status]
 
         expect(instance).to be_available
       end
