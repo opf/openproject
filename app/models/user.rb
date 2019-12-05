@@ -217,6 +217,7 @@ class User < Principal
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
     user = find_by_login(login)
+    user ||= find_by_mail(login)
     user = if user
              try_authentication_for_existing_user(user, password, session)
            else
