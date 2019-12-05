@@ -1,7 +1,7 @@
 module Bcf
   class Issue < ActiveRecord::Base
     include InitializeWithUuid
-    include Concerns::VirtualAttribute
+    include ::Concerns::VirtualAttribute
 
     SETTABLE_ATTRIBUTES = %i[stage labels index reference_links bim_snippet].freeze
 
