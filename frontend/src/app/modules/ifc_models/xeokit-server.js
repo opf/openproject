@@ -1,4 +1,4 @@
-import {utils} from "@xeokit/xeokit-viewer/node_modules/@xeokit/xeokit-sdk/src/viewer/scene/utils"
+import {utils} from "@xeokit/xeokit-sdk/src/viewer/scene/utils"
 /**
  * Default server client which loads content via HTTP from the file system.
  */
