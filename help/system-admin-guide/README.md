@@ -8,7 +8,7 @@ Here you will learn how to configure your OpenProject.
 
 | Popular Topics                                | Description                                         |
 | --------------------------------------------- | :-------------------------------------------------- |
-| [Users and permissions](../users-permissions) | How to manage users and permissions in OpenProject? |
+| [Users and permissions](./users-permissions) | How to manage users and permissions in OpenProject? |
 |                                               |                                                     |
 |                                               |                                                     |
 |                                               |                                                     |
