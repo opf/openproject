@@ -18,7 +18,7 @@ Welcome to the OpenProject **Cloud edition guide**.
 
 | Popular Topics                                    | Description                                                  |
 | ------------------------------------------------- | :----------------------------------------------------------- |
-| [Create a free trial](/create-trial-installation) | Learn more how to create a free trial for the cloud instance. |
+| [Create a free trial](./create-trial-installation) | Learn more how to create a free trial for the cloud instance. |
 |                                                   |                                                              |
 |                                                   |                                                              |
 |                                                   |                                                              |
