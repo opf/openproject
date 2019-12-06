@@ -41,7 +41,7 @@ module Bcf::Viewpoints
     end
 
     def set_snapshot
-      return unless snapshot_data_complete?
+      return unless snapshot_data_complete? && snapshot_content_type
 
       file = OpenProject::Files
         .create_uploaded_file(name: "snapshot.#{snapshot_extension}",
