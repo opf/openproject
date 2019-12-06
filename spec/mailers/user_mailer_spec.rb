@@ -143,6 +143,19 @@ describe UserMailer, type: :mailer do
     end
   end
 
+  describe '#work_package_watcher_removed' do
+    let(:watcher_remover) { user }
+    before do
+      UserMailer.work_package_watcher_removed(work_package, recipient, watcher_remover).deliver_now
+    end
+
+    it_behaves_like 'mail is sent'
+
+    it 'contains the WP subject in the mail subject' do
+      expect(ActionMailer::Base.deliveries.first.subject).to include(work_package.subject)
+    end
+  end
+
   describe :wiki_content_added do
     let(:wiki_content) { FactoryBot.create(:wiki_content) }
 

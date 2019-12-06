@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,18 +27,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-OpenProject::Notifications.subscribe('journal_created') do |payload|
-  Notifications::JournalNotificationService.call(payload[:journal], payload[:send_notification])
-end
+class DeliverWatcherRemovedNotificationJob < DeliverWatcherNotificationJob
+  # As watcher is already destroyed we need to pass a hash
+  def perform(watcher_attributes, recipient_id, watcher_remover_id)
+    @watcher = Watcher.new(watcher_attributes)
 
-OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-  Notifications::JournalWPMailService.call(payload[:journal], payload[:send_mail])
-end
+    super(watcher.id, recipient_id, watcher_remover_id)
+  end
 
-OpenProject::Notifications.subscribe('watcher_added') do |payload|
-  WatcherAddedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_setter])
-end
+  def render_mail(recipient:, sender:)
+    return unless watcher
 
-OpenProject::Notifications.subscribe('watcher_removed') do |payload|
-  WatcherRemovedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_remover])
+    UserMailer.work_package_watcher_removed(watcher.watchable, recipient, sender)
+  end
 end
