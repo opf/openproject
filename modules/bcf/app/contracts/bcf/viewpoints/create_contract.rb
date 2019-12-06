@@ -32,7 +32,8 @@ module Bcf::Viewpoints
   class CreateContract < ::ModelContract
     include Bcf::Concerns::ManageBcfGuarded
 
-    WHITELISTED_PROPERTIES = %w(index
+    WHITELISTED_PROPERTIES = %w(guid
+                                index
                                 snapshot
                                 orthogonal_camera
                                 perspective_camera
@@ -97,6 +98,7 @@ module Bcf::Viewpoints
       validate_clipping_planes
       validate_bitmaps
       validate_components
+      validate_guid
     end
 
     def validate_json_viewpoint_present
@@ -104,24 +106,24 @@ module Bcf::Viewpoints
     end
 
     def validate_json_viewpoint_hash
-      errors.add(:base, :no_json) if viewpoint.present? && !viewpoint.is_a?(Hash)
+      errors.add(:json_viewpoint, :no_json) if viewpoint.present? && !viewpoint.is_a?(Hash)
     end
 
     def validate_properties
-      errors.add(:base, :unsupported_key) if viewpoint.present? && (viewpoint.keys - WHITELISTED_PROPERTIES).any?
+      errors.add(:json_viewpoint, :unsupported_key) if viewpoint.present? && (viewpoint.keys - WHITELISTED_PROPERTIES).any?
     end
 
     def validate_snapshot
       return unless (sjson = viewpoint['snapshot'])
 
-      errors.add(:base, :snapshot_type_unsupported) unless %w(jpg png).include? sjson['snapshot_type']
-      errors.add(:base, :snapshot_data_blank) unless sjson['snapshot_data'].present?
+      errors.add(:json_viewpoint, :snapshot_type_unsupported) unless %w(jpg png).include? sjson['snapshot_type']
+      errors.add(:json_viewpoint, :snapshot_data_blank) unless sjson['snapshot_data'].present?
     end
 
     def validate_index
       return unless (ijson = viewpoint['index'])
 
-      errors.add(:base, :index_not_integer) unless ijson.is_a? Integer
+      errors.add(:json_viewpoint, :index_not_integer) unless ijson.is_a? Integer
     end
 
     def validate_orthogonal_camera
@@ -130,7 +132,7 @@ module Bcf::Viewpoints
       if ocjson.keys != ORTHOGONAL_CAMERA_PROPERTIES ||
          ocjson.except('view_to_world_scale').any? { |_, direction| invalid_direction?(direction) } ||
          !ocjson['view_to_world_scale'].is_a?(Float)
-        errors.add(:base, :invalid_orthogonal_camera)
+        errors.add(:json_viewpoint, :invalid_orthogonal_camera)
       end
     end
 
@@ -140,7 +142,7 @@ module Bcf::Viewpoints
       if pcjson.keys != PERSPECTIVE_CAMERA_PROPERTIES ||
          pcjson.except('field_of_view').any? { |_, direction| invalid_direction?(direction) } ||
          !pcjson['field_of_view'].is_a?(Float)
-        errors.add(:base, :invalid_perspective_camera)
+        errors.add(:json_viewpoint, :invalid_perspective_camera)
       end
     end
 
@@ -149,7 +151,7 @@ module Bcf::Viewpoints
 
       if !ljson.is_a?(Array) ||
          ljson.any? { |line| invalid_line?(line) }
-        errors.add(:base, :invalid_lines)
+        errors.add(:json_viewpoint, :invalid_lines)
       end
     end
 
@@ -158,12 +160,12 @@ module Bcf::Viewpoints
 
       if !cpjson.is_a?(Array) ||
          cpjson.any? { |cp| invalid_clipping_plane?(cp) }
-        errors.add(:base, :invalid_clipping_planes)
+        errors.add(:json_viewpoint, :invalid_clipping_planes)
       end
     end
 
     def validate_bitmaps
-      errors.add(:base, :bitmaps_not_writable) if viewpoint['bitmaps']
+      errors.add(:json_viewpoint, :bitmaps_not_writable) if viewpoint['bitmaps']
     end
 
     def validate_components
@@ -171,8 +173,14 @@ module Bcf::Viewpoints
 
       if !cjson.is_a?(Hash) ||
          invalid_components_properties?(cjson)
-        errors.add(:base, :invalid_components)
+        errors.add(:json_viewpoint, :invalid_components)
       end
+    end
+
+    def validate_guid
+      return unless (json_guid = viewpoint['guid'])
+
+      errors.add(:json_viewpoint, :mismatching_guid) if json_guid != model.uuid
     end
 
     def invalid_components_properties?(json)

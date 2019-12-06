@@ -187,7 +187,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
               "snapshot_type" => "png",
               "snapshot_data" => "SGVsbG8gV29ybGQh"
             }
-        )
+        ).except('bitmaps', 'guid')
     end
 
     before do
@@ -224,6 +224,57 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
       let(:current_user) { view_only_user }
 
       it_behaves_like 'bcf api not allowed response'
+    end
+
+    context 'providing an invalid viewpoint json by having an invalid snapshot type' do
+      let(:params) do
+        FactoryBot
+          .attributes_for(:bcf_viewpoint)[:json_viewpoint]
+          .merge(
+            "snapshot" =>
+              {
+                "snapshot_type" => "tiff",
+                "snapshot_data" => "SGVsbG8gV29ybGQh"
+              }
+          ).except('bitmaps')
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) { I18n.t('activerecord.errors.models.bcf/viewpoint.snapshot_type_unsupported') }
+      end
+    end
+
+    context 'providing an invalid viewpoint json by not having snapshot_data' do
+      let(:params) do
+        FactoryBot
+          .attributes_for(:bcf_viewpoint)[:json_viewpoint]
+          .merge(
+            "snapshot" =>
+              {
+                "snapshot_type" => "jpg"
+              }
+          ).except('bitmaps')
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) { I18n.t('activerecord.errors.models.bcf/viewpoint.snapshot_data_blank') }
+      end
+    end
+
+    context 'providing an invalid viewpoint json by writing bitmaps and having a string for the integer' do
+      let(:params) do
+        FactoryBot
+          .attributes_for(:bcf_viewpoint)[:json_viewpoint]
+          .merge('index' => 'some invalid index')
+      end
+
+      it_behaves_like 'bcf api unprocessable response' do
+        let(:message) do
+          [I18n.t('api_v3.errors.multiple_errors'),
+           I18n.t('activerecord.errors.models.bcf/viewpoint.index_not_integer'),
+           I18n.t('activerecord.errors.models.bcf/viewpoint.bitmaps_not_writable')].join(" ")
+        end
+      end
     end
   end
 end

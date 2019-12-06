@@ -112,13 +112,13 @@ describe Bcf::Viewpoints::CreateContract do
   end
 
   context 'json_viewpoint' do
-    context 'with somethin different that a hash' do
+    context 'with something different that a hash' do
       let(:viewpoint_json_viewpoint) do
         'some non hash'
       end
 
       it 'is invalid' do
-        expect_valid(false, base: %i(no_json))
+        expect_valid(false, json_viewpoint: %i(no_json))
       end
     end
 
@@ -130,7 +130,7 @@ describe Bcf::Viewpoints::CreateContract do
       end
 
       it 'is invalid' do
-        expect_valid(false, base: %i(unsupported_key))
+        expect_valid(false, json_viewpoint: %i(unsupported_key))
       end
     end
 
@@ -157,7 +157,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(snapshot_type_unsupported))
+          expect_valid(false, json_viewpoint: %i(snapshot_type_unsupported))
         end
       end
 
@@ -171,7 +171,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(snapshot_type_unsupported))
+          expect_valid(false, json_viewpoint: %i(snapshot_type_unsupported))
         end
       end
 
@@ -185,7 +185,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(snapshot_data_blank))
+          expect_valid(false, json_viewpoint: %i(snapshot_data_blank))
         end
       end
 
@@ -209,7 +209,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(index_not_integer))
+          expect_valid(false, json_viewpoint: %i(index_not_integer))
         end
       end
     end
@@ -252,7 +252,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_orthogonal_camera))
+          expect_valid(false, json_viewpoint: %i(invalid_orthogonal_camera))
         end
       end
 
@@ -263,7 +263,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_orthogonal_camera))
+          expect_valid(false, json_viewpoint: %i(invalid_orthogonal_camera))
         end
       end
 
@@ -274,7 +274,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_orthogonal_camera))
+          expect_valid(false, json_viewpoint: %i(invalid_orthogonal_camera))
         end
       end
 
@@ -285,7 +285,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_orthogonal_camera))
+          expect_valid(false, json_viewpoint: %i(invalid_orthogonal_camera))
         end
       end
 
@@ -296,7 +296,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_orthogonal_camera))
+          expect_valid(false, json_viewpoint: %i(invalid_orthogonal_camera))
         end
       end
     end
@@ -339,7 +339,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_perspective_camera))
+          expect_valid(false, json_viewpoint: %i(invalid_perspective_camera))
         end
       end
 
@@ -350,7 +350,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_perspective_camera))
+          expect_valid(false, json_viewpoint: %i(invalid_perspective_camera))
         end
       end
 
@@ -361,7 +361,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_perspective_camera))
+          expect_valid(false, json_viewpoint: %i(invalid_perspective_camera))
         end
       end
 
@@ -372,7 +372,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_perspective_camera))
+          expect_valid(false, json_viewpoint: %i(invalid_perspective_camera))
         end
       end
 
@@ -383,7 +383,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_perspective_camera))
+          expect_valid(false, json_viewpoint: %i(invalid_perspective_camera))
         end
       end
     end
@@ -434,7 +434,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_lines))
+          expect_valid(false, json_viewpoint: %i(invalid_lines))
         end
       end
 
@@ -446,7 +446,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_lines))
+          expect_valid(false, json_viewpoint: %i(invalid_lines))
         end
       end
 
@@ -457,7 +457,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_lines))
+          expect_valid(false, json_viewpoint: %i(invalid_lines))
         end
       end
 
@@ -468,7 +468,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_lines))
+          expect_valid(false, json_viewpoint: %i(invalid_lines))
         end
       end
 
@@ -479,7 +479,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_lines))
+          expect_valid(false, json_viewpoint: %i(invalid_lines))
         end
       end
     end
@@ -530,7 +530,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_clipping_planes))
+          expect_valid(false, json_viewpoint: %i(invalid_clipping_planes))
         end
       end
 
@@ -542,7 +542,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_clipping_planes))
+          expect_valid(false, json_viewpoint: %i(invalid_clipping_planes))
         end
       end
 
@@ -553,7 +553,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_clipping_planes))
+          expect_valid(false, json_viewpoint: %i(invalid_clipping_planes))
         end
       end
 
@@ -564,7 +564,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_clipping_planes))
+          expect_valid(false, json_viewpoint: %i(invalid_clipping_planes))
         end
       end
 
@@ -575,7 +575,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_clipping_planes))
+          expect_valid(false, json_viewpoint: %i(invalid_clipping_planes))
         end
       end
     end
@@ -590,7 +590,7 @@ describe Bcf::Viewpoints::CreateContract do
       end
 
       it 'is invalid' do
-        expect_valid(false, base: %i(bitmaps_not_writable))
+        expect_valid(false, json_viewpoint: %i(bitmaps_not_writable))
       end
     end
 
@@ -666,7 +666,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -678,7 +678,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -689,7 +689,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -718,7 +718,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -729,7 +729,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -740,7 +740,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -751,7 +751,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -762,7 +762,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -773,7 +773,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -784,7 +784,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -795,7 +795,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -806,7 +806,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -817,7 +817,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -828,7 +828,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -839,7 +839,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -868,7 +868,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -879,7 +879,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -890,7 +890,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -901,7 +901,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -912,7 +912,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -932,7 +932,7 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
         end
       end
 
@@ -943,7 +943,31 @@ describe Bcf::Viewpoints::CreateContract do
         end
 
         it 'is invalid' do
-          expect_valid(false, base: %i(invalid_components))
+          expect_valid(false, json_viewpoint: %i(invalid_components))
+        end
+      end
+    end
+
+    describe 'guid' do
+      context 'with the same value the model has' do
+        let(:viewpoint_json_viewpoint) do
+          {
+            'guid' => viewpoint_uuid
+          }
+        end
+
+        it_behaves_like 'is valid'
+      end
+
+      context 'with a different value than the model has' do
+        let(:viewpoint_json_viewpoint) do
+          {
+            'guid' => viewpoint_uuid + 'something'
+          }
+        end
+
+        it 'is invalid' do
+          expect_valid(false, json_viewpoint: %i(mismatching_guid))
         end
       end
     end

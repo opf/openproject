@@ -123,6 +123,25 @@ describe Bcf::Viewpoints::SetAttributesService, type: :model do
 
         subject
       end
+
+      context 'with an unsupported snapshot type' do
+        let(:call_attributes) do
+          attributes = FactoryBot.attributes_for(:bcf_viewpoint)
+          attributes[:json_viewpoint].delete('guid')
+          attributes[:json_viewpoint]["snapshot"] = {
+            "snapshot_type" => "tif",
+            "snapshot_data" => "SGVsbG8gV29ybGQh"
+          }
+          attributes
+        end
+
+        it 'sets no snapshot attachment' do
+          subject
+
+          expect(viewpoint.attachments.size)
+            .to eql 0
+        end
+      end
     end
   end
 end

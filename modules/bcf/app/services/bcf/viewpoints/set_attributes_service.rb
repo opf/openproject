@@ -41,29 +41,38 @@ module Bcf::Viewpoints
     end
 
     def set_snapshot
-      # This might break once the service is also used
-      # to update existing viewpoints as the snapshot method will
-      # delete any existing snapshot right away while the expectation
-      # on a SetAttributesService is to not perform persisted changes.
+      return unless snapshot_data_complete?
+
       file = OpenProject::Files
         .create_uploaded_file(name: "snapshot.#{snapshot_extension}",
                               content_type: snapshot_content_type,
                               content: snapshot_binary_contents,
                               binary: true)
 
+      # This might break once the service is also used
+      # to update existing viewpoints as the snapshot method will
+      # delete any existing snapshot right away while the expectation
+      # on a SetAttributesService is to not perform persisted changes.
       model.snapshot = file
     end
 
-    def snapshot_content_type
-      extension = model.json_viewpoint['snapshot']['snapshot_type']
+    def snapshot_data_complete?
+      model.json_viewpoint['snapshot'] &&
+        model.json_viewpoint['snapshot']['snapshot_type'] &&
+        model.json_viewpoint['snapshot']['snapshot_data']
+    end
 
-      case extension
+    def snapshot_content_type
+      # Return nil when the extension is not within the specified set
+      # which will lead to the snapshot not being created.
+      # The contract will catch the error.
+      return unless model.json_viewpoint['snapshot']
+
+      case model.json_viewpoint['snapshot']['snapshot_type']
       when 'png'
         'image/png'
       when 'jpg'
         'image/jpeg'
-      else
-        raise 'Unsupported content type'
       end
     end
 
