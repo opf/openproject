@@ -99,8 +99,10 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
     this.hasQueryProps = !!this.$state.params.query_props;
 
-    // Load query initially
-    this.loadCurrentQuery();
+    // Load query initially unless it already was loaded
+    if (!this.querySpace.initialized.hasValue()) {
+      this.loadCurrentQuery();
+    }
 
     // Load query on URL transitions
     this.updateQueryOnParamsChanges();

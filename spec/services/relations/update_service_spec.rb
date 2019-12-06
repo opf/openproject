@@ -40,12 +40,12 @@ describe Relations::UpdateService do
   let(:delay) { 3 }
 
   let(:work_package1) do
-    FactoryBot.build_stubbed(:work_package,
+    FactoryBot.build_stubbed(:stubbed_work_package,
                              due_date: work_package1_due_date,
                              start_date: work_package1_start_date)
   end
   let(:work_package2) do
-    FactoryBot.build_stubbed(:work_package,
+    FactoryBot.build_stubbed(:stubbed_work_package,
                              due_date: work_package2_due_date,
                              start_date: work_package2_start_date)
   end

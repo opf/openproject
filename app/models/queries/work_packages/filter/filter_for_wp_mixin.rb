@@ -52,7 +52,11 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def available?
-    visible_scope.exists?
+    key = 'Queries::WorkPackages::Filter::FilterForWpMixin/available'
+
+    RequestStore.fetch(key) do
+      visible_scope.exists?
+    end
   end
 
   def ar_object_filter?
