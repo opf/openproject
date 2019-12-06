@@ -246,8 +246,7 @@ describe Bcf::Viewpoints::CreateContract do
 
       context 'with an additional property' do
         let(:viewpoint_json_viewpoint) do
-          valid_json['orthogonal_camera']
-            .merge!("superfluous_property" => 123)
+          valid_json['orthogonal_camera']['superfluous_property'] = 123
           valid_json
         end
 
@@ -333,8 +332,7 @@ describe Bcf::Viewpoints::CreateContract do
 
       context 'with an additional property' do
         let(:viewpoint_json_viewpoint) do
-          valid_json['perspective_camera']
-            .merge!("superfluous_property" => 123)
+          valid_json['perspective_camera']['superfluous_property'] = 123
           valid_json
         end
 
@@ -440,8 +438,7 @@ describe Bcf::Viewpoints::CreateContract do
 
       context 'with an additional property for one line' do
         let(:viewpoint_json_viewpoint) do
-          valid_json['lines'][1]
-            .merge!("superfluous_property" => 123)
+          valid_json['lines'][1]['superfluous_property'] = 123
           valid_json
         end
 
@@ -536,8 +533,7 @@ describe Bcf::Viewpoints::CreateContract do
 
       context 'with an additional property for one line' do
         let(:viewpoint_json_viewpoint) do
-          valid_json['clipping_planes'][1]
-            .merge!("superfluous_property" => 123)
+          valid_json['clipping_planes'][1]['superfluous_property'] = 123
           valid_json
         end
 
@@ -672,8 +668,7 @@ describe Bcf::Viewpoints::CreateContract do
 
       context 'with an additional property' do
         let(:viewpoint_json_viewpoint) do
-          valid_json['components']
-            .merge!("superfluous_property" => 123)
+          valid_json['components']['superfluous_property'] = 123
           valid_json
         end
 
