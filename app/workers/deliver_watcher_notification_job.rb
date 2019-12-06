@@ -29,21 +29,26 @@
 
 class DeliverWatcherNotificationJob < DeliverNotificationJob
 
-  def perform(watcher_id, recipient_id, watcher_setter_id)
-    @watcher_id = watcher_id
+  def perform(watchable_id, recipient_id, watcher_setter_id, is_watching)
+    @watchable_id = watchable_id
+    @is_watching = is_watching
 
     super(recipient_id, watcher_setter_id)
   end
 
   def render_mail(recipient:, sender:)
-    return nil unless watcher
+    return nil unless watchable
 
-    UserMailer.work_package_watcher_added(watcher.watchable, recipient, sender)
+    if @is_watching
+      UserMailer.work_package_watcher_added(watchable, recipient, sender)
+    else
+      UserMailer.work_package_watcher_removed(watchable, recipient, sender)
+    end
   end
 
   private
 
-  def watcher
-    @watcher ||= Watcher.find_by(id: @watcher_id)
+  def watchable
+    @watchable ||= WorkPackage.find_by(id: @watchable_id)
   end
 end

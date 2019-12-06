@@ -36,6 +36,6 @@ OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAG
   Notifications::JournalWPMailService.call(payload[:journal], payload[:send_mail])
 end
 
-OpenProject::Notifications.subscribe('watcher_added') do |payload|
-  WatcherNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_setter])
+OpenProject::Notifications.subscribe('watcher_toggled') do |payload|
+  WatcherNotificationMailer.handle_watcher_toggle(payload[:watchable], payload[:user], payload[:watcher_setter], payload[:is_watching])
 end
