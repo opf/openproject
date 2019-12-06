@@ -42,7 +42,11 @@
     // Slide header in and out on scroll (see also: _top_menu_mobile.sass)
     .-header-scrolled &
       height: 100vh
-      transition: height .4s
+
+  body.-browser-safari
+    #content-wrapper
+      // Needed for smooth scrolling on Safari mobile
+      transition: height 0s
 
   #main
     grid-template-columns: auto
