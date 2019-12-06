@@ -51,7 +51,7 @@ module OpenProject::TextFormatting
       def default_autolink_options
         {
           enabled: true,
-          classes: 'rinku-autolink',
+          classes: 'rinku-autolink'
         }
       end
     end
