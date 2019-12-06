@@ -7,7 +7,7 @@
         (click)="performAction($event)"
         [ngClass]="{ '-active': isActive }">
   <op-icon icon-classes="{{ iconClass }} button--icon"></op-icon>
-  <span class="button--text">
+  <span class="button--text hidden-for-mobile">
     {{ buttonText }}
     <span class="badge -secondary" *ngIf="initialized" [textContent]="filterCount"></span>
   </span>

@@ -31,14 +31,19 @@
     .toolbar-container
       margin-top: 10px
 
+      .toolbar
+        flex-wrap: nowrap
+
       .title-container
         margin-right: 10px
 
       .toolbar-items
         display: flex
-        flex-wrap: wrap
+        flex-wrap: nowrap
         justify-content: flex-end
-        width: calc(100% + 10px)
+
+        .op-icon--wrapper
+          margin: 0
 
         > li
           .button
