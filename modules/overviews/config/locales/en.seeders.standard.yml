@@ -66,7 +66,7 @@ en:
                       5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules](%{base_url}/projects/demo-project/settings/modules).
                       6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks](%{base_url}/projects/demo-project/work_packages/details/##wp.id:"Edit a work package"/overview?query_id=##query.id:"Tasks").
 
-                      Here you will find our [User Guides](https://www.openproject.org/help/).
+                      Here you will find our [User Guides](https://docs.openproject.org/user-guide/).
                       Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
                 - identifier: 'project_status'
                   start_row: 2
@@ -132,7 +132,7 @@ en:
                       6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs](%{base_url}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template](%{base_url}/projects/your-scrum-project/wiki/) based on your needs.
                       7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules](%{base_url}/projects/your-scrum-project/settings/modules).
 
-                      Here you will find our [User Guides](https://www.openproject.org/help/).
+                      Here you will find our [User Guides](https://docs.openproject.org/user-guide/).
                       Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
                 - identifier: 'project_status'
                   start_row: 2

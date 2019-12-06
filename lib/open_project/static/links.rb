@@ -79,7 +79,7 @@ module OpenProject
               label: 'homescreen.links.upgrade_enterprise_edition'
             },
             user_guides: {
-              href: 'https://www.openproject.org/help/',
+              href: 'https://docs.openproject.org/user-guide/',
               label: 'homescreen.links.user_guides'
             },
             upgrade_guides: {
@@ -147,7 +147,7 @@ module OpenProject
               label: :label_api_documentation
             },
             text_formatting: {
-              href: 'https://www.openproject.org/help/wiki/',
+              href: 'https://docs.openproject.org/user-guide/wiki/',
               label: :setting_text_formatting
             },
             oauth_authorization_code_flow: {

@@ -331,4 +331,4 @@ run:
 ## Questions, Comments, and Feedback
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate forum.
 
-Also, please take a look at the Frequently [Asked Questions](https://www.openproject.org/help/faq/).
+Also, please take a look at the Frequently [Asked Questions](https://docs.openproject.org/installation-and-operations/operation/faq/).

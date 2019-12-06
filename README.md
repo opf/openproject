@@ -10,9 +10,9 @@ OpenProject is a web-based project management software. Its key features are:
 * [Agile and Scrum](https://www.openproject.org/collaboration-software-features/#agile-scrum)
 * [Time tracking, cost reporting and budgeting](https://www.openproject.org/collaboration-software-features/#time-tracking)
 * [Bug tracking](https://www.openproject.org/collaboration-software-features/#bug-tracking)
-* [Wikis](https://www.openproject.org/help/wiki/)
-* [Forums](https://www.openproject.org/help/user-guides/forum/)
-* [Meeting agendas and meeting minutes](https://www.openproject.org/help/meetings/)
+* [Wikis](https://docs.openproject.org/user-guide/wiki/)
+* [Forums](https://docs.openproject.org/user-guide/forum/)
+* [Meeting agendas and meeting minutes](https://docs.openproject.org/user-guide/meetings/)
 
 More information and screenshots can be found on our [website](https://www.openproject.org).
 
