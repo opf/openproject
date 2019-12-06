@@ -111,7 +111,7 @@ describe Bcf::Viewpoints::SetAttributesService, type: :model do
           .to eql 1
 
         expect(viewpoint.attachments.first.file.read)
-          .to eql call_attributes[:json_viewpoint]['snapshot']['snapshot_data']
+          .to eql 'Hello World!'
 
         expect(viewpoint.attachments.first.file.filename)
           .to eql 'snapshot.png'

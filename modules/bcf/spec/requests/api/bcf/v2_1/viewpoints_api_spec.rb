@@ -56,7 +56,11 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
     FactoryBot.create(:user)
   end
 
-  shared_let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  shared_let(:work_package) do
+    User.execute_as create_user do
+      FactoryBot.create(:work_package, project: project)
+    end
+  end
   shared_let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_viewpoint, work_package: work_package) }
 
   let(:viewpoint) { bcf_issue.viewpoints.first }
