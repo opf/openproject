@@ -71,8 +71,8 @@ pt-BR:
       <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
+      name: Nome arbitrário da conexão LDAP
+      host: Nome do hospedeiro LDAP ou endereço IP
       login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
       generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
       admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
@@ -90,12 +90,12 @@ pt-BR:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Criptografia de Conexão'
-    system_account: 'System account'
+    system_account: 'Conta do sistema'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+    ldap_details: 'Detalhes do LDAP'
+    user_settings: 'Mapeamento de atributo'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
@@ -1010,7 +1010,7 @@ pt-BR:
         add_groups: "Adicionar novos grupos de atributos"
         rename_groups: "Renomear grupos de atributos"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Filtrar e ordenar em campos personalizados é um recurso da edição empresarial."
   enumeration_activities: "Atividades (controle de tempo)"
   enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
   enumeration_system_activity: "Atividade do Sistema"
@@ -2621,7 +2621,7 @@ pt-BR:
       wants_to_access_html: >
         Esta aplicação solicita acesso à sua conta OpenProject. <br/> <strong>Ela solicitou as seguintes permissões:</strong>
     scopes:
-      api_v3: "Full API v3 access"
+      api_v3: "Acesso completo a API v3"
       api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "Aprovado em"
