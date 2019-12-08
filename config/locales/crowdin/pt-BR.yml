@@ -1010,7 +1010,7 @@ pt-BR:
         add_groups: "Adicionar novos grupos de atributos"
         rename_groups: "Renomear grupos de atributos"
       project_filters:
-        description_html: "Filtrar e ordenar em campos personalizados é um recurso da edição empresarial."
+        description_html: "Filtragem e triagem em campos personalizados é um recurso de edição empresarial."
   enumeration_activities: "Atividades (controle de tempo)"
   enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
   enumeration_system_activity: "Atividade do Sistema"
