@@ -113,6 +113,23 @@ $scrollbar-size: 10px
     &::-webkit-scrollbar-thumb
       visibility: visible
 
+@mixin no-visible-scroll-bar
+  // Firefox specific styles
+  scrollbar-color: transparent transparent
+  scrollbar-width: none
+
+  // Other browser styles
+  &::-webkit-scrollbar
+    height: 0
+    width: 0
+
+  &::-webkit-scrollbar-track
+    background: transparent
+
+  &::-webkit-scrollbar-thumb
+    background: transparent
+    visibility: hidden
+
 @mixin two-column-layout
   column-count: 2
   column-gap: 3rem

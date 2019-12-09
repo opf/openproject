@@ -3,13 +3,11 @@
   padding: 0 15px
   @include varprop(color, main-menu-font-color)
 
-  label
-    @include varprop(color, main-menu-font-color)
-    @include text-shortener
-
 // -------------------------- XEOKIT specific rules for TABS --------------------------
 .xeokit-tabs
   display: flex
+  overflow: auto
+  @include no-visible-scroll-bar
 
   .xeokit-tab
     flex: 1 1 auto
@@ -21,6 +19,10 @@
     .xeokit-tab-btn
       border-bottom: 2px solid
       @include varprop(border-color, main-menu-font-color)
+
+  .xeokit-form-check
+    @include varprop(color, main-menu-font-color)
+    @include text-shortener
 
   // As the button and the content are in the same container,
   // we have to position the content absolutely.
@@ -63,7 +65,7 @@
 .xeokit-objectsTab
   ul
     list-style: none
-    padding-left: 20px
+    padding-left: 30px
     li
       line-height: 30px
       a
@@ -96,3 +98,13 @@
 
   .tree-panel > ul
     padding-left: 0
+
+.xeokit-storeysTab
+  .xeokit-storeys > div
+    font-weight: bold
+    margin-bottom: 10px
+    border-bottom: 1px solid white
+    @include text-shortener
+
+  a
+    @include text-shortener
