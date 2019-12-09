@@ -153,7 +153,7 @@ en:
                       ![new project](##attachment:"new_project.jpg")
 
                       **Find out more:**
-                      * https://www.openproject.org/help/administration/manage-projects/
+                      * https://docs.openproject.org/system-admin-guide/manage-projects/
                     status: :default_status_in_progress
                     type: :default_type_task
                     start: 0
@@ -175,7 +175,7 @@ en:
                       ![project overview](##attachment:"project_overview.jpg")
 
                       **Find out more:**
-                      * https://www.openproject.org/help/project-setup/
+                      * https://docs.openproject.org/user-guide/project-overview/
                     status: :default_status_in_progress
                     type: :default_type_task
                     start: 0
@@ -217,7 +217,7 @@ en:
                       ![project members](##attachment:"project_members.jpg")
 
                       **Find out more:**
-                      * https://www.openproject.org/help/add-project-members/
+                      * https://docs.openproject.org/user-guide/members/
                     status: :default_status_new
                     type: :default_type_task
                     start: 1
@@ -240,7 +240,7 @@ en:
                       ![create work package](##attachment:"create_work_package.jpg")
 
                       **Find out more**:
-                      * https://www.openproject.org/help/work-packages/create-new-work-package/
+                      * https://docs.openproject.org/user-guide/work-packages/create-work-package/
                     status: :default_status_in_progress
                     type: :default_type_task
                     start: 1
@@ -263,7 +263,7 @@ en:
                       ![gantt chart](##attachment:"gantt_chart.jpg")
 
                       **Find out more:**
-                      * https://www.openproject.org/help/timelines/integrated-timeline-work-package-page/
+                      * https://docs.openproject.org/user-guide/gantt-chart/
                     status: :default_status_new
                     type: :default_type_task
                     start: 2
@@ -288,7 +288,7 @@ en:
                       ![edit work package](##attachment:"edit_work_package.jpg")
 
                       **Find out more**:
-                      * https://www.openproject.org/help/work-packages/
+                      * https://docs.openproject.org/user-guide/work-packages/
                     status: :default_status_new
                     type: :default_type_task
                     start: 3
@@ -377,7 +377,7 @@ en:
                   *   view as Mardown.
 
                   **More information:**
-                  https://www.openproject.org/help/wiki/
+                  https://docs.openproject.org/user-guide/wiki/
                 children:
                   - title: Project documentation
                     content: |
