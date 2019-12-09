@@ -38,10 +38,14 @@
 
   #content-wrapper
     transition: height .4s
+    // Viewport height (without browser bar) minus header height
+    height: calc((var(--vh, 1vh) * 100) - #{$header-height})
 
     // Slide header in and out on scroll (see also: _top_menu_mobile.sass)
     .-header-scrolled &
+      // Fallback for browsers that don´t support custom properties
       height: 100vh
+      height: calc(var(--vh, 1vh) * 100)
 
   body.-browser-safari
     #content-wrapper

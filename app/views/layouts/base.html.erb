@@ -213,6 +213,10 @@ See docs/COPYRIGHT.rdoc for more details.
       document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
     }
 
+    // Workaround to prevent fixed mobile browser bars from overlapping the content
+    // Set inner window height as viewport height
+    document.documentElement.style.setProperty('--vh', `${ window.innerHeight * 0.01 }px`);
+
     wrapper.show();
 
     // Wrapper for page-specific JS from deprecated inline functions
