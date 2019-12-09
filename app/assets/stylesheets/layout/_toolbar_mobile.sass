@@ -37,6 +37,11 @@
       .title-container
         margin-right: 10px
 
+        .toolbar--editable-toolbar
+          &:focus
+            position: absolute
+            width: calc(100vw - 30px)
+
       .toolbar-items
         display: flex
         flex-wrap: nowrap
