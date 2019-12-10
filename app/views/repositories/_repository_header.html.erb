@@ -35,7 +35,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l('repositories.named_repository',
                      vendor_name: @repository.class.vendor_name) do %>
   <% if @instructions && @instructions.available? %>
-  <li class="toolbar-item toolbar-input-group">
+  <li class="toolbar-item toolbar-input-group hidden-for-mobile">
     <div class="toolbar-input-group--affix -prepend">
       <span><%= @instructions.checkout_command %></span>
     </div>

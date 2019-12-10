@@ -53,10 +53,6 @@ module OpenProject::Boards
 
     patch_with_namespace :BasicData, :SettingSeeder
 
-    initializer 'boards.precompile_assets' do
-      Rails.application.config.assets.precompile += %w(boards/board_header_mobile.css)
-    end
-
     config.to_prepare do
       OpenProject::Boards::GridRegistration.register!
     end

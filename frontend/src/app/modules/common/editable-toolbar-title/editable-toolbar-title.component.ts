@@ -115,7 +115,12 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   }
 
   public onFocus(event:FocusEvent) {
+    this.toggleToolbarButtonVisibility(true);
     this.selectInputOnInitalFocus(event.target as HTMLInputElement);
+  }
+
+  public onBlur() {
+    this.toggleToolbarButtonVisibility(false);
   }
 
   public selectInputOnInitalFocus(input:HTMLInputElement) {
@@ -205,5 +210,9 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
       const el = this.inputField.nativeElement;
       el.classList.remove('-error');
     }
+  }
+
+  private toggleToolbarButtonVisibility(hidden:boolean) {
+    jQuery('.toolbar-items').toggleClass('hidden-for-mobile', hidden);
   }
 }

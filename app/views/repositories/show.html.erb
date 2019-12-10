@@ -51,14 +51,14 @@ See docs/COPYRIGHT.rdoc for more details.
                id: 'revision_selector',
                class: 'form -vertical'
               ) do %>
-    <li class="toolbar-item toolbar-input-group">
+    <li class="toolbar-item toolbar-input-group hidden-for-mobile">
       <div>
         <%= label_tag 'rev', I18n.t('repositories.go_to_revision') %>
       </div>
       <%= text_field_tag :rev, @rev, id: 'revision-identifier-input', placeholder: l(:label_revision) %>
     </li>
     <% if !@repository.branches.nil? && @repository.branches.length > 0 %>
-    <li class="toolbar-item toolbar-input-group">
+    <li class="toolbar-item toolbar-input-group hidden-for-mobile">
       <div>
         <%= label_tag 'branch', I18n.t(:label_branch) %>
       </div>
@@ -66,7 +66,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </li>
     <% end %>
     <% if !@repository.tags.nil? && @repository.tags.length > 0 %>
-    <li class="toolbar-item toolbar-input-group">
+    <li class="toolbar-item toolbar-input-group hidden-for-mobile">
       <div>
         <%= label_tag 'tag', I18n.t(:label_tag) %>
       </div>
