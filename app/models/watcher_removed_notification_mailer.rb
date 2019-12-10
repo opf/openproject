@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -33,8 +34,8 @@ class WatcherRemovedNotificationMailer < WatcherNotificationMailer
 
     def perform_notification_job(watcher, watcher_changer)
       # As watcher is already destroyed we need to pass a hash
-      DeliverWatcherRemovedNotificationJob.
-        perform_later(watcher.attributes, watcher.user.id, watcher_changer.id)
+      DeliverWatcherRemovedNotificationJob
+        .perform_later(watcher.attributes, watcher.user.id, watcher_changer.id)
     end
   end
 end

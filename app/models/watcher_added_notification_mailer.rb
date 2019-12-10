@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -32,8 +33,8 @@ class WatcherAddedNotificationMailer < WatcherNotificationMailer
     private
 
     def perform_notification_job(watcher, watcher_changer)
-      DeliverWatcherAddedNotificationJob.
-        perform_later(watcher.id, watcher.user.id, watcher_changer.id)
+      DeliverWatcherAddedNotificationJob
+        .perform_later(watcher.id, watcher.user.id, watcher_changer.id)
     end
   end
 end

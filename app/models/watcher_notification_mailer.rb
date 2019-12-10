@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -41,7 +42,7 @@ class WatcherNotificationMailer
 
     private
 
-    def perform_notification_job(watcher, watcher_changer)
+    def perform_notification_job(_watcher, _watcher_changer)
       raise NotImplementedError, 'Subclass has to implement #notification_job'
     end
 

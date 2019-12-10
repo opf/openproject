@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -34,7 +35,7 @@ class DeliverWatcherNotificationJob < DeliverNotificationJob
     super(recipient_id, watcher_changer_id)
   end
 
-  def render_mail(recipient:, sender:)
+  def render_mail(recipient:, sender:) # rubocop:disable UnusedMethodArgument
     raise NotImplementedError, 'Subclass has to implement #render_mail'
   end
 
