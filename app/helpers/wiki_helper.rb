@@ -42,13 +42,21 @@ module WikiHelper
   end
 
   def breadcrumb_for_page(page, action = nil)
+    related_pages = page.ancestors.reverse
+
     if action
-      related_pages = page.ancestors.reverse + [page]
-      breadcrumb_paths(*(related_pages.map { |parent| link_to h(parent.breadcrumb_title), id: parent.title, project_id: parent.project, action: 'show' } + [action]))
-    else
-      related_pages = page.ancestors.reverse
-      breadcrumb_paths(*(related_pages.map { |parent| link_to h(parent.breadcrumb_title), id: parent.title, project_id: parent.project, action: 'show' } + [h(page.breadcrumb_title)]))
+      related_pages += [page]
     end
+
+    paths = related_pages.map { |parent| link_to h(parent.breadcrumb_title), project_wiki_path(parent, parent.project) }
+
+    paths += if action
+               [action]
+             else
+               [h(page.breadcrumb_title)]
+             end
+
+    breadcrumb_paths(*paths)
   end
 
   def nl2br(content)
