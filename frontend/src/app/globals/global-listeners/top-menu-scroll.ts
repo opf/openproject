@@ -32,6 +32,14 @@ export function scrollHeaderOnMobile(elem:JQuery) {
   const headerHeight = 55;
   let prevScrollPos = elem.scrollTop()!;
 
+  // Mobile browsers are sometimes stupid and lay their toolbars over the content.
+  // Then the viewPort definition (vh and vw) won't work correctly and we have to set the height depending on the available window height.
+  // See: https://nicolas-hoizey.com/2015/02/viewport-height-is-taller-than-the-visible-part-of-the-document-in-some-mobile-browsers.html
+  // And: https://medium.com/@susiekim9/how-to-compensate-for-the-ios-viewport-unit-bug-46e78d54af0d
+  // Unfortunately this alone is not enough, we have to remove a little bit more (25) to respect all spacings.
+  let availableSpace = window.innerHeight - 25;
+  jQuery('#content-wrapper').height(availableSpace - headerHeight);
+
   elem.on('scroll', function() {
     // Condition needed for safari browser to avoid negative positions
     let currentScrollPos = elem.scrollTop()! < 0 ? 0 : elem.scrollTop()!;
@@ -42,11 +50,14 @@ export function scrollHeaderOnMobile(elem:JQuery) {
       return;
     }
 
+    let availableSpace = window.innerHeight - 25;
     if (prevScrollPos !== undefined && currentScrollPos !== undefined && (prevScrollPos > currentScrollPos)) {
       // Slide top menu in or out of viewport and change viewport height
       jQuery('#wrapper').removeClass('-header-scrolled');
+      jQuery('#content-wrapper').height(availableSpace - headerHeight);
     } else {
       jQuery('#wrapper').addClass('-header-scrolled');
+      jQuery('#content-wrapper').height(availableSpace);
     }
     prevScrollPos = currentScrollPos;
   });
