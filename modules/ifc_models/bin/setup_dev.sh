@@ -59,7 +59,7 @@ popd
 
 echo "-- Downloading and building xeokit-metadata --"
 
-wget --quiet https://github.com/bimspot/xeokit-metadata/files/3932144/xeokit-metadata-linux-x64.tar.gz
+wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/0.0.4/xeokit-metadata-linux-x64.tar.gz
 tar -zxvf xeokit-metadata-linux-x64.tar.gz
 chmod +x xeokit-metadata-linux-x64/xeokit-metadata
 cp -r xeokit-metadata-linux-x64/ /usr/lib/xeokit-metadata
