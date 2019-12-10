@@ -2686,9 +2686,9 @@
       "integrity": "sha512-3UM/9PEYcbhu9F0h/bg0Dc4a+hBqiF3tb370GmTssp6cWgUbkuZCijly6OuVVs6/O68l6S/886NTMV0OKpa4SQ=="
     },
     "@xeokit/xeokit-viewer": {
-      "version": "1.3.5",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-viewer/-/xeokit-viewer-1.3.5.tgz",
-      "integrity": "sha512-/IVeyhOYnIt0xr1Ak+etd+Xy6IKmnWP4JD00MkVFcjgazzyi2DABA2SJy1crMst7LPwY20sHS3O17d8WDM8IWg==",
+      "version": "1.3.6",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-viewer/-/xeokit-viewer-1.3.6.tgz",
+      "integrity": "sha512-O7zTH+kjb84q95wmptxLBXStlVM/SLIVdHxpgs4veYpg2hTM1F7489Pi6x1fSH4HTz6aVi8cBXvEVI2Hm2JQAQ==",
       "requires": {
         "@xeokit/xeokit-sdk": "^0.5.7"
       }
