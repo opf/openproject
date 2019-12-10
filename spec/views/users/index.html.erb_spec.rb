@@ -33,6 +33,8 @@ describe 'users/index', type: :view do
   let!(:user) { FactoryBot.create :user, firstname: "Scarlet", lastname: "Scallywag" }
 
   before do
+    User.system # create system user which is active but should not count towards limit
+
     assign(:users, [admin, user])
     assign(:status, "all")
     assign(:groups, Group.all)
