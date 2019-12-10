@@ -31,7 +31,6 @@ module OpenProject
   module Static
     module Links
       class << self
-
         def help_link_overridden?
           OpenProject::Configuration.force_help_link.present?
         end
@@ -143,7 +142,7 @@ module OpenProject
               label: :label_add_edit_translations
             },
             api_docs: {
-              href: 'https://www.openproject.org/api',
+              href: 'https://docs.openproject.org/api',
               label: :label_api_documentation
             },
             text_formatting: {
