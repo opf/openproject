@@ -71,7 +71,9 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
       viewerUI.on("queryPicked", (event:any) => {
         const entity = event.entity; // Entity
         const metaObject = event.metaObject; // MetaObject
+        alert(`Query result:\n\nObject ID = ${entity.id}\nIFC type = "${metaObject.type}"`);
       });
+      
       viewerUI.loadProject(this.Gon.get('ifc_models', 'projects') as any [0]["id"]);
     });
   }
