@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     </li>
   <% end %>
   <% if authorize_for(:cost_objects, :copy) %>
-    <li class="toolbar-item">
+    <li class="toolbar-item hidden-for-mobile">
       <%= link_to({ controller: 'cost_objects', action: 'copy', id: @cost_object }, class: 'button') do %>
         <%= op_icon('button--icon icon-copy') %>
         <span class="button--text"><%= l(:button_copy) %></span>

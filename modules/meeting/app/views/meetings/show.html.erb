@@ -24,7 +24,7 @@ See doc/COPYRIGHT.md for more details.
             link_to: link_to(@meeting),
             html: { class: 'meeting--main-toolbar' } do %>
   <% unless User.current.anonymous? %>
-    <li class="toolbar-item">
+    <li class="toolbar-item hidden-for-mobile">
       <div class="button">
         <%= watcher_link @meeting, User.current %>
       </div>
@@ -39,7 +39,7 @@ See doc/COPYRIGHT.md for more details.
     </li>
   <% end %>
   <% if authorize_for(:meetings, :copy) %>
-    <li class="toolbar-item">
+    <li class="toolbar-item hidden-for-mobile">
       <%= link_to({:controller => '/meetings', :action => 'copy', :id => @meeting}, class: 'button') do %>
         <%= op_icon('button--icon icon-copy') %>
         <span class="button--text"><%= l(:button_copy) %></span>
