@@ -30,7 +30,6 @@
 
 module OpenProject::TextFormatting
   module Helpers
-
     ##
     # Rewrite relative URLs to their absolute paths
     # when only_path is false.

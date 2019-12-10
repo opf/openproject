@@ -72,7 +72,6 @@ module OpenProject::TextFormatting
                                                   data: { macro_name: macro_class.identifier }
       end
 
-
       def macro_placeholder(macro_class)
         ApplicationController.helpers.content_tag :macro,
                                                   I18n.t('macros.placeholder', macro_name: macro_class.identifier),
