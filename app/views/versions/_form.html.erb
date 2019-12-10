@@ -28,12 +28,12 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%
-  # locals: f, project
+  # locals: f, project, errors
   version = f.object
   contract = version_contract(version)
 %>
 
-<%= error_messages_for 'version' %>
+<%= error_messages_for_contract version, errors %>
 <%= back_url_hidden_field_tag %>
 
 <div class="form--field -required">
@@ -51,10 +51,10 @@ See docs/COPYRIGHT.rdoc for more details.
 </div>
 
 <div class="form--field">
-  <%= f.text_field :wiki_page_title,
-                   label: :label_wiki_page,
-                   disabled: project.wiki.nil?,
-                   container_class: '-wide' %>
+  <%= f.select :wiki_page_title,
+               wiki_page_options_for_select(contract.assignable_wiki_pages.includes(:parent), placeholder: false, ids: false),
+               { label: :label_wiki_page, include_blank: true },
+               { container_class: "-wide", disabled: contract.assignable_wiki_pages.none? } %>
 </div>
 
 <div class="form--field">
@@ -68,12 +68,12 @@ See docs/COPYRIGHT.rdoc for more details.
 <div class="form--field">
   <%= f.select :sharing,
                contract.assignable_sharings.map { |v| [format_version_sharing(v), v] },
-               container_class: '-slim' %>
+               container_class: '-middle' %>
 </div>
 
-<% if @project.enabled_modules.map(&:name).include?("backlogs") %>
+<% if project.enabled_modules.map(&:name).include?("backlogs") %>
 
-  <%= version_settings_fields(version, @project) %>
+  <%= version_settings_fields(version, project) %>
 
 <% end %>
 

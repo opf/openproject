@@ -28,21 +28,17 @@
 #++
 
 module WikiHelper
-  def wiki_page_options_for_select(pages, parent = nil, level = 0)
-    pages = pages.group_by(&:parent) unless pages.is_a?(Hash)
-    s = []
-    if level.zero?
-      s << ["-- #{t('label_no_parent_page')} --", '']
-    end
-    if pages.has_key?(parent)
-      pages[parent].each do |page|
-        indent = (level > 0) ? ('&nbsp;' * level * 2 + '&#187; ') : ''
+  def wiki_page_options_for_select(pages,
+                                   ids: true,
+                                   placeholder: true)
+    s = if placeholder
+          ["-- #{t('label_no_parent_page')} --", '']
+        else
+          []
+        end
 
-        s << [(indent + h(page.title)).html_safe, page.id]
-        s += wiki_page_options_for_select(pages, page, level + 1)
-      end
-    end
-    s
+    s + wiki_page_options_for_select_of_level(pages.group_by(&:parent),
+                                              ids: ids)
   end
 
   def breadcrumb_for_page(page, action = nil)
@@ -57,5 +53,26 @@ module WikiHelper
 
   def nl2br(content)
     content.gsub(/(?:\n\r?|\r\n?)/, '<br />').html_safe
+  end
+
+  private
+
+  def wiki_page_options_for_select_of_level(pages,
+                                            parent: nil,
+                                            level: 0,
+                                            ids: true)
+    return [] unless pages[parent]
+
+    pages[parent].inject([]) do |s, page|
+      s << wiki_page_option(page, level, ids)
+      s += wiki_page_options_for_select_of_level(pages, parent: page, level: level + 1, ids: ids)
+      s
+    end
+  end
+
+  def wiki_page_option(page, level, ids)
+    indent = level.positive? ? ('&nbsp;' * level * 2 + '&#187; ') : ''
+    id = ids ? page.id : page.title
+    [(indent + h(page.title)).html_safe, id]
   end
 end
