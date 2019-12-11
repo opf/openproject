@@ -58,7 +58,11 @@ export class FilterStringValueComponent implements OnDestroy {
   }
 
   public set value(val) {
-    this.filter.values[0] = val || '';
+    if (val.length) {
+      this.filter.values[0] = val;
+    } else {
+      this.filter.values.length = 0;
+    }
     this.filterChanged.emit(this.filter);
   }
 }
