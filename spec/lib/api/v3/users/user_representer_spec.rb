@@ -51,6 +51,7 @@ describe ::API::V3::Users::UserRepresenter do
         is_expected.not_to have_json_path('admin')
         is_expected.not_to have_json_path('updatedAt')
         is_expected.not_to have_json_path('createdAt')
+        is_expected.not_to have_json_path('status')
       end
     end
 
@@ -65,6 +66,7 @@ describe ::API::V3::Users::UserRepresenter do
         is_expected.to have_json_path('lastName')
         is_expected.to have_json_path('updatedAt')
         is_expected.to have_json_path('createdAt')
+        is_expected.to have_json_path('status')
 
         is_expected.not_to have_json_path('admin')
       end
@@ -79,6 +81,7 @@ describe ::API::V3::Users::UserRepresenter do
         is_expected.to have_json_path('firstName')
         is_expected.to have_json_path('lastName')
         is_expected.to have_json_path('name')
+        is_expected.to have_json_path('status')
       end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do
@@ -113,6 +116,9 @@ describe ::API::V3::Users::UserRepresenter do
     end
 
     describe 'status' do
+      # as only admin or self can see the status
+      let(:current_user) { user }
+
       it 'contains the name of the account status' do
         is_expected.to be_json_eql('active'.to_json).at_path('status')
       end
