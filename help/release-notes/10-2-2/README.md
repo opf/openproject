@@ -5,6 +5,9 @@ sidebar_navigation:
 release_version: 10.2.2
 release_date: 2019-12-11
 ---
+
+# OpenProject 10.2.2
+
 We released [OpenProject 10.2.2](https://community.openproject.com/versions/1405).
 The release contains several bug fixes and we recommend updating to the newest version.
 
