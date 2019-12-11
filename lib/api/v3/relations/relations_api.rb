@@ -50,19 +50,17 @@ module API
           end
 
           route_param :id, type: Integer, desc: 'Relation ID' do
-            get do
-              representer.new(
-                Relation.find_by_id!(params[:id]),
-                current_user: current_user,
-                embed_links: true
-              )
+            after_validation do
+              @relation = Relation.visible.find(params[:id])
             end
+
+            get &::API::V3::Utilities::Endpoints::Show.new(model: Relation).mount
 
             patch do
               rep = parse_representer.new Relation.new, current_user: current_user
               relation = rep.from_json request.body.read
               attributes = filter_attributes relation
-              service = ::Relations::UpdateService.new relation: Relation.find_by_id!(params[:id]),
+              service = ::Relations::UpdateService.new relation: @relation,
                                                        user: current_user
               call = service.call attributes: attributes,
                                   send_notifications: (params[:notify] != 'false')

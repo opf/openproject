@@ -32,6 +32,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:user) { FactoryBot.create :admin }
+  let(:current_user) { user }
 
   let!(:from) { FactoryBot.create :work_package }
   let!(:to) { FactoryBot.create :work_package }
@@ -65,7 +66,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
   end
 
   before do
-    login_as user
+    login_as current_user
   end
 
   describe "creating a relation" do
@@ -444,6 +445,60 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       expect(last_response.body)
         .to be_json_eql(relation.id.to_json)
         .at_path('_embedded/elements/0/id')
+    end
+  end
+
+  describe 'GET /api/v3/relations/:id' do
+    let(:path) do
+      api_v3_paths.relation(relation.id)
+    end
+
+    let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+
+    let(:current_user) do
+      FactoryBot.create(:user).tap do |user|
+        FactoryBot.create(:member,
+                          project: to.project,
+                          user: user,
+                          roles: [role])
+        FactoryBot.create(:member,
+                          project: from.project,
+                          user: user,
+                          roles: [role])
+      end
+    end
+
+    before do
+      get path
+    end
+
+    context 'for a relation with visible work packages' do
+      it 'returns 200' do
+        expect(last_response.status).to eql 200
+      end
+
+      it 'returns the relation' do
+        expect(last_response.body)
+          .to be_json_eql API::V3::Relations::RelationRepresenter.new(relation, current_user: current_user, embed_links: true).to_json
+      end
+    end
+
+    context 'for a relation with an invisible work package' do
+      let(:invisible_relation) do
+        invisible_wp = FactoryBot.create(:work_package)
+
+        FactoryBot.create :relation,
+                          from: from,
+                          to: invisible_wp
+      end
+
+      let(:path) do
+        api_v3_paths.relation(invisible_relation.id)
+      end
+
+      it 'returns 404 NOT FOUND' do
+        expect(last_response.status).to eql 404
+      end
     end
   end
 end
