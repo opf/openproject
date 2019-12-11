@@ -50,7 +50,7 @@ describe Relations::UpdateService do
                              start_date: work_package2_start_date)
   end
   let(:instance) do
-    described_class.new(user: user, relation: relation)
+    described_class.new(user: user, model: relation)
   end
   let(:relation) do
     relation = FactoryBot.build_stubbed(:relation)

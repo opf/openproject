@@ -36,21 +36,21 @@ describe 'API v3 Relation resource', type: :request do
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:current_user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:permissions) { [] }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
 
   let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       type: project.types.first)
+                      project: project,
+                      type: project.types.first)
   end
   let(:visible_work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       type: project.types.first)
+                      project: project,
+                      type: project.types.first)
   end
   let(:invisible_work_package) do
     # will be inside another project
@@ -58,13 +58,13 @@ describe 'API v3 Relation resource', type: :request do
   end
   let(:visible_relation) do
     FactoryBot.create(:relation,
-                       from: work_package,
-                       to: visible_work_package)
+                      from: work_package,
+                      to: visible_work_package)
   end
   let(:invisible_relation) do
     FactoryBot.create(:relation,
-                       from: work_package,
-                       to: invisible_work_package)
+                      from: work_package,
+                      to: invisible_work_package)
   end
 
   before do
