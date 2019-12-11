@@ -1965,6 +1965,7 @@ cs:
       title: Změnit identifikátor projektu
     archive:
       are_you_sure: "Opravdu chcete archivovat projekt '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Aktivita"
   project_module_forums: "Diskuse"
   project_module_calendar: "Kalendář"

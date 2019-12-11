@@ -1923,6 +1923,7 @@ fr:
       title: Modifier l'identifiant du projet
     archive:
       are_you_sure: "Êtes-vous sûr de vouloir archiver le projet '%{name}%' ?"
+      archived: "Archived"
   project_module_activity: "Activité"
   project_module_forums: "Forums"
   project_module_calendar: "Calendrier"

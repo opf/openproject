@@ -1901,6 +1901,7 @@ ja:
       title: プロジェクトの識別子を変更
     archive:
       are_you_sure: "プロジェクト '%{name}' をアーカイブしてもよろしいですか？"
+      archived: "Archived"
   project_module_activity: "活動"
   project_module_forums: "フォーラム"
   project_module_calendar: "カレンダー"

@@ -1921,6 +1921,7 @@ hu:
       title: Módosítsa a projekt azonosítóját
     archive:
       are_you_sure: "Biztosan szeretnéd arhiválni a projektet '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Tevékenység"
   project_module_forums: "Fórumok"
   project_module_calendar: "Naptár"

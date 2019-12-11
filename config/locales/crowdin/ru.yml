@@ -1965,6 +1965,7 @@ ru:
       title: Измените идентификатор проекта
     archive:
       are_you_sure: "Уверены, что хотите архивизировать проект %{name}%?"
+      archived: "Archived"
   project_module_activity: "Деятельность"
   project_module_forums: "Форумы"
   project_module_calendar: "Календарь"

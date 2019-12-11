@@ -1944,6 +1944,7 @@ ro:
       title: Modificare identificator proiect
     archive:
       are_you_sure: "Sunteţi sigur că doriţi să arhivaţi proiectul '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Activitate"
   project_module_forums: "Forumuri"
   project_module_calendar: "Calendar"

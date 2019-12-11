@@ -80,7 +80,7 @@ pt-BR:
         Enter the DN of the system user used for read-only access.
         <br/>
         Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+      system_user_password: Digite a senha de vinculação do usuário do sistema
       base_dn: |
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
         OpenProject will filter for provided usernames in this subtree only.
@@ -1923,6 +1923,7 @@ pt-BR:
       title: Alterar o identificador do projeto
     archive:
       are_you_sure: "Tem certeza de que deseja arquivar o projeto '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Atividade"
   project_module_forums: "Fóruns"
   project_module_calendar: "Calendário"
@@ -2622,7 +2623,7 @@ pt-BR:
         Esta aplicação solicita acesso à sua conta OpenProject. <br/> <strong>Ela solicitou as seguintes permissões:</strong>
     scopes:
       api_v3: "Acesso completo a API v3"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3_text: "A aplicação receberá acesso total de leitura e escrita a API v3 do OpenProject para executar ações em seu nome."
     grants:
       created_date: "Aprovado em"
       scopes: "Permissões"

@@ -1924,6 +1924,7 @@ sv:
       title: Ändra projektets identifierare
     archive:
       are_you_sure: "Är du säker på att du vill arkivera projektet '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Aktivitet"
   project_module_forums: "Forum"
   project_module_calendar: "Kalender"

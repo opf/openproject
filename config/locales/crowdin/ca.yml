@@ -1924,6 +1924,7 @@ ca:
       title: Canviar l'identificador del projecte
     archive:
       are_you_sure: "Esteu segur que voleu arxivar el projecte \"%{name}\"?"
+      archived: "Archived"
   project_module_activity: "Activitat"
   project_module_forums: "Fòrums"
   project_module_calendar: "Calendari"

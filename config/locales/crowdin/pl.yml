@@ -1965,6 +1965,7 @@ pl:
       title: Zmień identyfikator projektu
     archive:
       are_you_sure: "Jesteś pewien, że chcesz zarchiwizować projekt '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Działanie"
   project_module_forums: "Fora"
   project_module_calendar: "Kalendarz"

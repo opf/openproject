@@ -1966,6 +1966,7 @@ uk:
       title: Змініть ідентифікатор проекту
     archive:
       are_you_sure: "Дійсно архівувати проект %{name} ?"
+      archived: "Archived"
   project_module_activity: "Активність"
   project_module_forums: "Форуми"
   project_module_calendar: "Календар"

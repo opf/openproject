@@ -1945,6 +1945,7 @@ hr:
       title: Promjeni identifikator projekta
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Aktivnost"
   project_module_forums: "Forumi"
   project_module_calendar: "Kalendar"

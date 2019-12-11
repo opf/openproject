@@ -1965,6 +1965,7 @@ lt:
       title: Pakeisti projekto identifikatorių
     archive:
       are_you_sure: "Ar Jūs tikrai norite suarchyvuoti projektą '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Veikla"
   project_module_forums: "Forumai"
   project_module_calendar: "Kalendorius"

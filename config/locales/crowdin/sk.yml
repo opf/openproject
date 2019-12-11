@@ -1965,6 +1965,7 @@ sk:
       title: Zmeniť identifikátor projektu
     archive:
       are_you_sure: "Naozaj chcete archivovať projekt \"%{name}\"?"
+      archived: "Archived"
   project_module_activity: "Činnosť"
   project_module_forums: "Diskusie"
   project_module_calendar: "Kalendár"

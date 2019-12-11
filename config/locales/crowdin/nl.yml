@@ -1923,6 +1923,7 @@ nl:
       title: Wijzig het identificatienummer van het project
     archive:
       are_you_sure: "Weet u zeker dat u dit project '%{name}' wilt archiveren?"
+      archived: "Archived"
   project_module_activity: "Activiteit"
   project_module_forums: "Fora"
   project_module_calendar: "Kalender"

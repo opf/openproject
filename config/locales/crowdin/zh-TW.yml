@@ -1902,6 +1902,7 @@ zh-TW:
       title: 修改專案的識別
     archive:
       are_you_sure: "是否確定要 archive 專案 '%{name}'？"
+      archived: "Archived"
   project_module_activity: "活動"
   project_module_forums: "論壇"
   project_module_calendar: "行事曆"
