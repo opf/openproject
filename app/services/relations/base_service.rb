@@ -40,33 +40,33 @@ class Relations::BaseService
 
   private
 
-  def update_relation(relation, attributes)
-    relation.attributes = relation.attributes.merge attributes
+  def update_relation(model, attributes)
+    model.attributes = model.attributes.merge attributes
 
-    success, errors = validate_and_save(relation, user)
-    success, errors = retry_with_inverse_for_relates(relation, errors) unless success
+    success, errors = validate_and_save(model, user)
+    success, errors = retry_with_inverse_for_relates(model, errors) unless success
 
-    result = ServiceResult.new success: success, errors: errors, result: relation
+    result = ServiceResult.new success: success, errors: errors, result: model
 
-    if success && relation.follows?
-      reschedule_result = reschedule(relation)
+    if success && model.follows?
+      reschedule_result = reschedule(model)
       result.merge!(reschedule_result)
     end
 
     result
   end
 
-  def set_defaults(relation)
-    if Relation::TYPE_FOLLOWS == relation.relation_type
-      relation.delay ||= 0
+  def set_defaults(model)
+    if Relation::TYPE_FOLLOWS == model.relation_type
+      model.delay ||= 0
     else
-      relation.delay = nil
+      model.delay = nil
     end
   end
 
-  def reschedule(relation)
+  def reschedule(model)
     schedule_result = WorkPackages::SetScheduleService
-                      .new(user: user, work_package: relation.to)
+                      .new(user: user, work_package: model.to)
                       .call
 
     # The to-work_package will not be altered by the schedule service so
@@ -80,12 +80,12 @@ class Relations::BaseService
     schedule_result
   end
 
-  def retry_with_inverse_for_relates(relation, errors)
+  def retry_with_inverse_for_relates(model, errors)
     if errors.symbols_for(:base).include?(:"typed_dag.circular_dependency") &&
-       relation.canonical_type == Relation::TYPE_RELATES
-      relation.from, relation.to = relation.to, relation.from
+       model.canonical_type == Relation::TYPE_RELATES
+      model.from, model.to = model.to, model.from
 
-      validate_and_save(relation, user)
+      validate_and_save(model, user)
     else
       [false, errors]
     end

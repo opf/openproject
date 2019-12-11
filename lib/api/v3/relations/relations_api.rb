@@ -36,8 +36,6 @@ module API
   module V3
     module Relations
       class RelationsAPI < ::API::OpenProjectAPI
-        helpers ::API::V3::Relations::RelationsHelper
-
         resources :relations do
           get do
             scope = Relation
@@ -55,32 +53,8 @@ module API
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: Relation).mount
-
-            patch do
-              rep = parse_representer.new Relation.new, current_user: current_user
-              relation = rep.from_json request.body.read
-              attributes = filter_attributes relation
-              service = ::Relations::UpdateService.new relation: @relation,
-                                                       user: current_user
-              call = service.call attributes: attributes,
-                                  send_notifications: (params[:notify] != 'false')
-
-              if call.success?
-                representer.new call.result, current_user: current_user, embed_links: true
-              else
-                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-              end
-            end
-
-            delete do
-              project_id = project_id_for_relation params[:id]
-              project = Project.find project_id
-
-              authorize :manage_work_package_relations, context: project
-
-              Relation.destroy params[:id]
-              status 204
-            end
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: Relation).mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: Relation).mount
           end
         end
       end

@@ -369,15 +369,45 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
   end
 
   describe "deleting a relation" do
-    before do
-      relation
+    let(:path) do
+      api_v3_paths.relation(relation.id)
+    end
 
-      delete api_v3_paths.relation(relation.id)
+    let(:permissions) { %i[view_work_packages manage_work_package_relations] }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
+
+    let(:current_user) do
+      FactoryBot.create(:user).tap do |user|
+        FactoryBot.create(:member,
+                          project: to.project,
+                          user: user,
+                          roles: [role])
+        FactoryBot.create(:member,
+                          project: from.project,
+                          user: user,
+                          roles: [role])
+      end
+    end
+
+    before do
+      delete path
     end
 
     it "should return 204 and destroy the relation" do
       expect(last_response.status).to eq 204
-      expect(Relation.exists?(relation.id)).to eq false
+      expect(Relation.exists?(relation.id)).to be_falsey
+    end
+
+    context 'lacking the permission' do
+      let(:permissions) { %i[view_work_packages] }
+
+      it 'returns 403' do
+        expect(last_response.status).to eq 403
+      end
+
+      it 'leaves the relation' do
+        expect(Relation.exists?(relation.id)).to be_truthy
+      end
     end
   end
 
