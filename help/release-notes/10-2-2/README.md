@@ -9,7 +9,7 @@ release_date: 2019-12-11
 # OpenProject 10.2.2
 
 We released [OpenProject 10.2.2](https://community.openproject.com/versions/1405).
-The release contains several bug fixes and we recommend updating to the newest version.
+The release contains several bug fixes and fixes server security issues. We thus urge everybody to upgrade to the newest version as soon as possible.
 
 <!--more-->
 #### Bug fixes and changes
@@ -26,6 +26,8 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Unverified CSRF request in create budget form \[[#31739](https://community.openproject.com/wp/31739)\]
 - Fixed: Selected long cf values are reduced to ... in ng-select \[[#31765](https://community.openproject.com/wp/31765)\]
 - Fixed: Webhook is failing/crashing due to NameError \[[#31809](https://community.openproject.com/wp/31809)\]
+- Fixed: API v3 /relations/:id does not check permissions \[[#31853](https://community.openproject.com/wp/31853)\]
+- Fixed: Tabnabbing on wiki pages \[[#31817](https://community.openproject.com/wp/31817)\]
 
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
