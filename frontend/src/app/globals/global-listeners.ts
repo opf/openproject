@@ -100,7 +100,7 @@ import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-s
     const deviceService:DeviceService = new DeviceService();
     // Register scroll handler on mobile header
     if (deviceService.isMobile) {
-      scrollHeaderOnMobile(jQuery('#content-wrapper'));
+      scrollHeaderOnMobile();
     }
   });
 
