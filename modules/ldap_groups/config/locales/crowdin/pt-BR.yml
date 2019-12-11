@@ -21,6 +21,12 @@ pt-BR:
         confirmation: "Se você continuar, o grupo sincronizado %{name} e todos os %{users_count} usuários sincronizados por meio dele serão removidos."
         info: "Nota: O próprio grupo OpenProject e membros adicionados fora desta sincronização LDAP não serão removidos."
         verification: "Digite o nome do grupo %{name} para verificar a exclusão."
+      help_text_html: |
+        Este módulo permite que você configure uma sincronização entre os grupos LDAP e OpenProject.
+        Depende dos grupos LDAP que precisam usar o atributo <em>groupOfNames / memberOf</em> para trabalhar com o OpenProject.
+        <br/>
+        Os grupos são sincronizados de hora em hora através de um cron job.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Por favor veja nossa documentação sobre este tópico</a>.
       no_results: 'Nenhum grupo sincronizado encontrado.'
       no_members: 'Este grupo ainda não tem membros sincronizados.'
       plural: 'Grupos LDAP sincronizados'

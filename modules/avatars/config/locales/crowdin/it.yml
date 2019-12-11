@@ -1,7 +1,7 @@
 #English strings go here
 it:
   label_avatar: "Avatar"
-  label_avatar_plural: "Avatar"
+  label_avatar_plural: "Avatars"
   label_current_avatar: "Avatar attuale"
   label_choose_avatar: "Scegli Avatar da file"
   message_avatar_uploaded: "Avatar cambiato correttamente."

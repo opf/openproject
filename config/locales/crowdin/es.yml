@@ -66,7 +66,36 @@ es:
       no_results_content_title: Actualmente no hay modos de autenticación.
       no_results_content_text: Crear un nuevo modo de autenticación
   ldap_auth_sources:
+    technical_warning_html: |
+      Este formulario LDAP requiere conocimientos técnicos de su configuración de LDAP / activiar directorio <br/>
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Visite nuestra documentación para obtener instrucciones detalladas.
+    attribute_texts:
+      name: Nombre arbitrario de la conexión LDAP
+      host: Nombre del anfitrion LDAP o dirección IP
+      login_map: La clave de atributo en LDAP que se utiliza para identificar el inicio de sesión único del usuario. Por lo general, esto será `uid` o`samAccountName`.
+      generic_map: La clave de atributo en LDAP que está asignada al proyecto abierto `%{attribute}` atributo
+      admin_map_html: "Opcional: la clave de atributo en LDAP que <strong> si esta presente </strong> marca al usuario del proyecto abierto como administrador. Deje en blanco cuando tenga dudas."
+      system_user_dn_html: |
+        Ingrese el DN del usuario del sistema utilizado para acceso de solo lectura.
+        <br/>
+        Ejemplo: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Ingrese la contraseña de enlace del usuario del sistema
+      base_dn: |
+        Ingrese el DN base del subárbol en LDAP que desea que el proyecto abierto busque para usuarios y grupos.
+        El proyecto abierto filtrará los nombres de usuario proporcionados solo en este subárbol.
+        Ejemplo ou=users,dc=example,dc=com
+      onthefly_register: |
+        Si marca esta casilla, el proyecto abierto creará automáticamente nuevos usuarios a partir de sus entradas LDAP cuando se autentican por primera vez con el proyecto abierto.
+        ¡Deje esto sin marcar para permitir que solo las cuentas existentes en el proyecto abierto se autentiquen a través de LDAP!
     connection_encryption: 'Cifrado de conexión'
+    system_account: 'Cuenta del sistema'
+    system_account_legend: |
+      El proyecto abierto requiere acceso de solo lectura a través de una cuenta del sistema para buscar usuarios y grupos en su árbol LDAP.
+      Especifique las credenciales de enlace para ese usuario del sistema en la siguiente sección.
+    ldap_details: 'LDAP detalles'
+    user_settings: 'Mapeo de atributos'
+    user_settings_legend: |
+      Los siguientes campos están relacionados con cómo se crean los usuarios en el proyecto abierto a partir de entradas LDAP y qué atributos LDAP se utilizan para definir los atributos de un usuario del proyecto abierto (asignación de atributos).
     tls_mode:
       plain: 'ninguno'
       simple_tls: 'simple_tls'
@@ -446,8 +475,8 @@ es:
         confirmation: "no coincide con %{attribute}."
         could_not_be_copied: "No pueden ser copiados (totalmente)."
         does_not_exist: "no existe."
-        error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_unauthorized: "no se puede acceder."
+        error_readonly: "no se puede escribir."
         empty: "No puede estar vacío."
         even: "debe ser incluido."
         exclusion: "está reservado."
@@ -979,7 +1008,7 @@ es:
         add_groups: "Añadir nuevos grupos de atributos"
         rename_groups: "Cambiar nombre de grupos de atributos"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Filtrar y ordenar en campos personalizados es una característica de edición empresarial."
   enumeration_activities: "Actividades (tiempo de seguimiento)"
   enumeration_work_package_priorities: "Prioridades del paquete de trabajo"
   enumeration_system_activity: "Actividad del sistema"

@@ -187,8 +187,8 @@ hu:
           three: "Harmadik rendezési feltétel"
       upsale_for_more: "A fejlettebb szűrők esetén nézze meg a"
       upsale_link: 'Vállalati kiadás.'
-    general_text_no: "no"
-    general_text_yes: "yes"
+    general_text_no: "nem"
+    general_text_yes: "igen"
     general_text_No: "Nem"
     general_text_Yes: "Igen"
     hal:
@@ -323,7 +323,7 @@ hu:
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Figyelem"
     label_work_package: "Feladatcsoport"
-    label_work_package_plural: "Work packages"
+    label_work_package_plural: "Munkacsomagok"
     label_watch: "Megfigyelés"
     label_watch_work_package: "Megfigyelő munkacsomag"
     label_watcher_added_successfully: "Megfigyelő sikeresen hozzáadva!"
@@ -568,7 +568,7 @@ hu:
         out: "Kicsinyítés"
         auto: "Automatikus nagyítás"
         days: "Nap"
-        weeks: "Weeks"
+        weeks: "Hetek"
         months: "Hónap"
         quarters: "Negyedek"
         years: "Évek"
@@ -728,7 +728,7 @@ hu:
         choose_display_mode: 'Feladatcsoportok megjelenése'
         modal_title: 'Feladatcsoport táblázat beállítás'
         embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
-        default: "default"
+        default: "alapértelmezett"
         display_settings: 'Megjelenítési beállítások'
         default_mode: "Sima lista"
         hierarchy_mode: "Hierarchia"

@@ -66,7 +66,39 @@ nl:
       no_results_content_title: Er zijn momenteel geen verificatie methodes.
       no_results_content_text: Maak een nieuwe authenticatie methode
   ldap_auth_sources:
+    technical_warning_html: |
+      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      <br/>
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+    attribute_texts:
+      name: Arbitrary name of the LDAP connection
+      host: LDAP hostnaam of IP-adres
+      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
+      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
+      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      system_user_dn_html: |
+        Enter the DN of the system user used for read-only access.
+        <br/>
+        Example: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Enter the bind password of the system user
+      base_dn: |
+        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
+        OpenProject will filter for provided usernames in this subtree only.
+        Example: ou=users,dc=example,dc=com
+      onthefly_register: |
+        If you check this box, OpenProject will automatically create new users from their LDAP entries
+        when they first authenticate with OpenProject.
+        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Verbinding encryptie'
+    system_account: 'System account'
+    system_account_legend: |
+      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
+      Please specify the bind credentials for that system user in the following section.
+    ldap_details: 'LDAP details'
+    user_settings: 'Attribute mapping'
+    user_settings_legend: |
+      The following fields are related to how users are created in OpenProject from LDAP entries and
+      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'geen'
       simple_tls: 'eenvoudige_tls'
@@ -291,7 +323,7 @@ nl:
         account: "Account"
         attr_firstname: "Voornaam"
         attr_lastname: "Achternaam"
-        attr_login: "Username attribute"
+        attr_login: "Gebruikersnaam attribuut"
         attr_mail: "Emailadres"
         base_dn: "Base DN"
         host: "Host"
@@ -381,7 +413,7 @@ nl:
       user:
         admin: "Beheerder"
         auth_source: "Verificatiemodus"
-        current_password: "Current password"
+        current_password: "Huidig wachtwoord"
         force_password_change: "Afdwingen van wachtwoordwijziging bij volgende login"
         language: "Taal"
         last_login_on: "Laatste log-in"
@@ -677,7 +709,7 @@ nl:
     #kept for backwards compatibility
     issue: "Werkpakket"
     lastname: "Achternaam"
-    login: "Username"
+    login: "Gebruikersnaam"
     mail: "E-mail"
     name: "Naam"
     password: "Wachtwoord"
@@ -1422,7 +1454,7 @@ nl:
   label_overview: "Overzicht"
   label_page_title: "Pagina titel"
   label_part_of: "onderdeel van"
-  label_password_lost: "Forgot your password?"
+  label_password_lost: "Wachtwoord vergeten?"
   label_password_rule_lowercase: "Kleine letters"
   label_password_rule_numeric: "Numerieke tekens"
   label_password_rule_special: "Speciale tekens"
@@ -1467,7 +1499,7 @@ nl:
   label_query_plural: "Aangepaste query 's"
   label_query_menu_item: "Query menu-item"
   label_read: "Lees..."
-  label_register: "Create a new account"
+  label_register: "Een nieuw account aanmaken"
   label_register_with_developer: "Registreer als ontwikkelaar"
   label_registered_on: "Geregistreerd op"
   label_registration_activation_by_email: "account activeren via e-mail"
@@ -1753,7 +1785,7 @@ nl:
   notice_failed_to_save_members: "Lid/leden opslaan mislukt: %{errors}."
   notice_file_not_found: "De pagina die u probeerde te benaderen bestaat niet of is verwijderd."
   notice_forced_logout: "U bent automatisch uitgelogd na %{ttl_time} minuten van inactiviteit."
-  notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
+  notice_internal_server_error: "Er is een fout opgetreden op de pagina die u probeerde te gebruiken. Als u problemen blijft ervaren, neem dan contact op met uw %{app_title} beheerder voor hulp."
   notice_work_package_done_ratios_updated: "Werkpakket ratio's bijgewerkt."
   notice_locking_conflict: "Informatie is in de tussentijd door ten minste één andere gebruiker bijgewerkt."
   notice_locking_conflict_additional_information: "De update kwam van %{users}."
@@ -1774,7 +1806,7 @@ nl:
   notice_successful_create: "Aanmaak geslaagd."
   notice_successful_delete: "Verwijdering geslaagd."
   notice_successful_update: "Succesvolle wijziging."
-  notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
+  notice_to_many_principals_to_display: "Er zijn te veel resultaten. Beperk het zoekbereik door een naam in te geven van een nieuw lid (of groep)."
   notice_unable_delete_time_entry: "Niet in staat om tijdlog te verwijderen."
   notice_user_missing_authentication_method: Gebruiker dient nog een wachtwoord te kiezen of een andere manier om in te loggen te bepalen.
   notice_user_invitation_resent: Een nieuwe uitnodiging is verstuurd naar %{email}.
@@ -2221,7 +2253,7 @@ nl:
   text_notice_too_many_values_are_inperformant: "Opmerking: Meer dan 100 items per pagina weergeven kan de laadtijd van de pagina verhogen."
   text_notice_security_badge_displayed_html: >
     Opmerking: indien ingeschakeld zal dit een badge weergeven met uw installatiestatus in de <a href="%{information_panel_path}">%{information_panel_label}</a> administratie paneel, en op de homepage. Deze wordt alleen getoond aan beheerders. <br/> De badge zal uw huidige OpenProject versie controleren tegen de officiële OpenProject-database om u te waarschuwen voor updates of bekende kwetsbaarheden. Voor meer informatie over wat de controle biedt, welke gegevens nodig zijn om beschikbare updates te verstrekken en hoe deze controle kan worden uitgeschakeld, bezoek <a href="%{more_info_url}">de configuratiedocumentatie</a>.
-  text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
+  text_own_membership_delete_confirmation: "U staat op het punt om enkele of alle van uw machtigingen te verwijderen en kan dit project daarna mogelijk niet meer bewerken.\nWeet u zeker dat u wilt doorgaan?"
   text_plugin_assets_writable: "Plugin directory schrijfbaar"
   text_powered_by: "Powered by %{link}"
   text_project_identifier_info: "Alleen kleine letters (a-z), cijfers, streepjes en underscores (_) zijn toegestaan, moet beginnen met een kleine letter."

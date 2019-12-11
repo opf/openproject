@@ -66,7 +66,39 @@ it:
       no_results_content_title: Al momento non vi è alcuna modalità di autenticazione.
       no_results_content_text: Crea una nuova modalità di autenticazione
   ldap_auth_sources:
+    technical_warning_html: |
+      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      <br/>
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+    attribute_texts:
+      name: Arbitrary name of the LDAP connection
+      host: Nome host LDAP o indirizzo IP
+      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
+      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
+      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      system_user_dn_html: |
+        Enter the DN of the system user used for read-only access.
+        <br/>
+        Example: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Enter the bind password of the system user
+      base_dn: |
+        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
+        OpenProject will filter for provided usernames in this subtree only.
+        Example: ou=users,dc=example,dc=com
+      onthefly_register: |
+        If you check this box, OpenProject will automatically create new users from their LDAP entries
+        when they first authenticate with OpenProject.
+        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Crittografia connessione'
+    system_account: 'Account di sistema'
+    system_account_legend: |
+      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
+      Please specify the bind credentials for that system user in the following section.
+    ldap_details: 'Dettagli LDAP'
+    user_settings: 'Mappatura attributi'
+    user_settings_legend: |
+      The following fields are related to how users are created in OpenProject from LDAP entries and
+      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'nessuno'
       simple_tls: 'simple_tls'
@@ -445,8 +477,8 @@ it:
         confirmation: "non coincide con %{attribute}."
         could_not_be_copied: "non possono essere copiati (integralmente)."
         does_not_exist: "non esiste."
-        error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_unauthorized: "potrebbe non essere accessibile."
+        error_readonly: "non è scrivibile."
         empty: "non può essere vuoto."
         even: "deve essere pari."
         exclusion: "è riservato."
@@ -2419,7 +2451,7 @@ it:
     Invia un'altra email di invito con un token nuovo nel caso in cui quello vecchio sia scaduto o l'utente non abbia ricevuto la prima email. Può anche consentire agli utenti attivi di scegliere un nuovo metodo di autenticazione. Se utilizzato da utenti attivi, il loro stato verrà modificato in "invitato".
   tooltip:
     setting_email_login: >
-      Se attivato, un utente non potrà selezionare il login per la registrazione. Invece servirà il suo indirizzo di posta per l'accesso. Un amministratore può ancora modificare il login separatamente.
+      Se attivato, un utente non potrà selezionare un login durante la registrazione. Utilizzerà il suo indirizzo di posta per l'accesso. Un amministratore potrà modificare il login separatamente.
   queries:
     apply_filter: Applica il filtro preconfigurato
   top_menu:

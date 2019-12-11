@@ -21,6 +21,12 @@ tr:
         confirmation: "Devam ederseniz, %{name}} ile senkronize edilmiş grup ve içinden senkronize olan tüm %{users_count} kullanıcısı kaldırılacak."
         info: "Not: OpenProject grubunun kendisi ve bu LDAP senkronizasyonunun dışına eklenen üyeler kaldırılmaz."
         verification: "Silme işlemini doğrulamak için grubun adını %{name} girin."
+      help_text_html: |
+        Bu modül, LDAP ve OpenProject grupları arasında bir senkronizasyon ayarlamanıza izin verir.
+        Bu, LDAP gruplarının OpenProject ile çalışmak için ayarlanmış <em> groupOfNames / memberOf </em> özelliğini kullanması gerektiğine bağlıdır.
+        <br/>
+        Gruplar bir cron işi aracılığıyla saatlik olarak senkronize edilir.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Lütfen bu konudaki belgelere bakın </a>.
       no_results: 'Senkronize edilmiş grup bulunamadı.'
       no_members: 'Bu grubun henüz senkronize edilmiş üyesi yok.'
       plural: 'Senkronize LDAP grupları'

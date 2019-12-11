@@ -45,8 +45,11 @@
 
   // Always render custom options as inline
   // when only one line
-  .custom-option:not(.-multiple-lines)
-    display: inline
+  .custom-option
+    @include text-shortener
+    white-space: normal
+    &:not(.-multiple-lines)
+      display: inline
 
   &.split-time-field
     white-space: nowrap

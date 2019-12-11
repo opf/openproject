@@ -85,14 +85,14 @@ it:
       copied_successful: "Copia negli appunti completata con successo!"
     chart:
       type: 'Tipo di grafico'
-      axis_criteria: 'Criteri di Asse'
+      axis_criteria: 'Criteri dell''asse'
       modal_title: 'Configurazione grafico macro-attività'
       types:
         line: 'Linea'
         horizontal_bar: 'Barra Orizzontale'
         bar: 'Barra'
         pie: 'Torta'
-        doughnut: 'Anelli'
+        doughnut: 'Ciambella'
         radar: 'Radar'
         polar_area: 'Area polare'
       tabs:
@@ -491,7 +491,7 @@ it:
       save: "Salva la relazione"
       abort: "Interrompi"
     relations_autocomplete:
-      placeholder: "Ricerca..."
+      placeholder: "Digita per cercare"
       parent_placeholder: "Scegli un nuovo genitore o premi il tasto Esc per annullare."
     repositories:
       select_tag: 'Selezionare tag'

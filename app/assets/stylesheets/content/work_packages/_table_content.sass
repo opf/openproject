@@ -122,8 +122,11 @@ html:not(.-browser-mobile)
 
 .wp-table--cell-container
   @extend .ellipsis
+  display: inline-block
+  vertical-align: middle
   .wp-table--cell-td.-editing &
     display: block
+    width: initial !important
 
   .inline-edit--display-field
     display: initial

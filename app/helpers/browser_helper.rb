@@ -5,18 +5,23 @@ module BrowserHelper
   #
   # Uses the +browser+ gem.
   def unsupported_browser?
-    # Any version of IE
-    return true if browser.ie?
+    RequestStore.fetch(:unsupported_browser) do
+      # Any version of IE
+      return true if browser.ie?
 
-    version = browser.version.to_i
+      version = browser.version.to_i
 
-    # Older versions behind last ESR FF
-    return true if browser.firefox? && version < 60
+      # Older versions behind last ESR FF
+      return true if browser.firefox? && version < 60
 
-    # Older version of safari
-    return true if browser.safari? && version < 12
+      # Chrome versions older than a year
+      return true if browser.chrome? && version < 65
 
-    false
+      # Older version of safari
+      return true if browser.safari? && version < 12
+
+      false
+    end
   end
 
   ##
@@ -31,6 +36,7 @@ module BrowserHelper
 
       classes << '-browser-mobile' if browser.device.mobile?
       classes << '-browser-windows' if browser.platform.windows?
+      classes << '-unsupported-browser' if unsupported_browser?
     end
   end
 end

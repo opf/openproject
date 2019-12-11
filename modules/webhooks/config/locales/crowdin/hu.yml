@@ -4,18 +4,21 @@ hu:
       webhooks/webhook:
         url: 'Payload URL'
         secret: 'Signature secret'
-        events: 'Events'
+        events: 'Események'
         projects: 'Engedélyezett projektek'
       webhooks/log:
-        event_name: 'Event name'
+        event_name: 'Esemény neve'
         url: 'Payload URL'
-        response_code: 'Response code'
-        response_body: 'Response'
+        response_code: 'Válasz kód'
+        response_body: 'Válasz'
     models:
       webhooks/outgoing_webhook: "Outgoing webhook"
   webhooks:
     singular: Webhook
     plural: Webhooks
+    resources:
+      time_entry:
+        name: "Time entry"
     outgoing:
       no_results_table: No webhooks have been defined yet.
       label_add_new: Add new webhook
@@ -23,7 +26,7 @@ hu:
       label_event_resources: Event resources
       events:
         created: "Létrehoz"
-        updated: "Updated"
+        updated: "Frissítve"
       status:
         enabled: 'Webhook is enabled'
         disabled: 'Webhook is disabled'
@@ -31,8 +34,8 @@ hu:
         disabled_text: 'Click the edit button to activate the webhook.'
       deliveries:
         no_results_table: No deliveries have been made for this webhook.
-        title: 'Recent deliveries'
-        time: 'Delivery time'
+        title: 'Utóbbi kézbesítések'
+        time: 'Kézbesítési idő'
       form:
         introduction: >
           Send a POST request to the payload URL below for any event in the project your subscribe. Payload will correspond to the APIv3 representation of the object being modified.
@@ -43,14 +46,14 @@ hu:
           description: >
             When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
         events:
-          title: 'Enabled events'
+          title: 'Engedélyezett események'
         project_ids:
           title: 'Engedélyezett projektek'
           description: 'Select for which projects this webhook should be executed for.'
-          all: 'All projects'
-          selected: 'Selected projects only'
+          all: 'Minden projekt'
+          selected: 'Csak a kiválasztott projektek'
         selected_project_ids:
-          title: 'Selected projects'
+          title: 'Kiválasztott projektek'
         secret:
           description: >
             If set, this secret value is used by OpenProject to sign the webhook payload.

@@ -21,6 +21,12 @@ ko:
         confirmation: "계속하는 경우, 동기화된 그룹 %{name} 및 이를 통해 동기화된 %{users_count}명의 사용자 모두가 제거됩니다."
         info: "참고: OpenProject 그룹 자체 그리고 이 LDAP 동기화 이외에서 추가된 멤버는 제거되지 않습니다."
         verification: "삭제를 확인하려면 프로젝트 이름 %{name}(을)를 입력하십시오."
+      help_text_html: |
+        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
+        <br/>
+        Groups are synchronized hourly through a cron job.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please see our documentation on this topic</a>.
       no_results: '동기화된 그룹이 없습니다.'
       no_members: '이 그룹에는 아직 동기화된 멤버가 없습니다.'
       plural: '동기화된 LDAP 그룹'

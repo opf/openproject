@@ -66,7 +66,39 @@ tr:
       no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
       no_results_content_text: Yeni bir doğrulama modu oluştur
   ldap_auth_sources:
+    technical_warning_html: |
+      Bu LDAP formu, LDAP / Active Directory kurulumunuz hakkında teknik bilgi gerektirir.
+      <br/>
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Lütfen ayrıntılı talimatlar için belgelerimizi ziyaret edin </a>.
+    attribute_texts:
+      name: LDAP bağlantısının keyfi adı
+      host: LDAP ana bilgisayar adı veya IP adresi
+      login_map: LDAP’deki benzersiz kullanıcı girişini tanımlamak için kullanılan özellik anahtarı. Genelde bu, 'uid' veya 'samAccountName' olacaktır.
+      generic_map: LDAP'de, OpenProject `%{attribute}` niteliğiyle eşlenen özellik anahtarı
+      admin_map_html: "İsteğe bağlı: LDAP'daki, <strong> varsa </strong> OpenProject kullanıcısına bir yönetici işaretleyen özellik anahtarı. Şüphe duyduğunuzda boş bırakın."
+      system_user_dn_html: |
+        Salt okunur erişim için kullanılan sistem kullanıcısının DN'sini girin.
+        <br/>
+        Örnek: uid = openproject, ou = sistem, dc = örnek, dc = com
+      system_user_password: Sistem kullanıcısının cilt şifresini girin
+      base_dn: |
+        LDAP'da, OpenProject'in kullanıcıları ve grupları aramasını istediğiniz alt ağacın Temel DN'sini girin.
+        OpenProject yalnızca bu alt ağaçta belirtilen kullanıcı adlarını filtreleyecektir.
+        Örnek: ou = kullanıcılar, dc = örnek, dc = com
+      onthefly_register: |
+        Bu kutuyu işaretlerseniz, OpenProject otomatik olarak LDAP girişlerinden yeni kullanıcılar oluşturur
+        OpenProject ile ilk kimlik doğrulaması yaptıklarında.
+        Yalnızca OpenProject’deki mevcut hesapların LDAP üzerinden kimlik doğrulaması yapmasına izin vermek için işaretlenmemiş bırakın!
     connection_encryption: 'Bağlantı şifreleme'
+    system_account: 'Sistem hesabı'
+    system_account_legend: |
+      OpenProject, LDAP ağacınızdaki kullanıcıları ve grupları aramak için bir sistem hesabı üzerinden salt okunur erişim gerektirir.
+      Lütfen aşağıdaki bölümde bu sistem kullanıcısı için bağlama bilgilerini belirtin.
+    ldap_details: 'LDAP ayrıntıları'
+    user_settings: 'Öznitelik eşlemesi'
+    user_settings_legend: |
+      Aşağıdaki alanlar LDAP girişlerinden kullanıcıların OpenProject'te nasıl oluşturulduğuyla ilgilidir ve
+      OpenProject kullanıcısının niteliklerini tanımlamak için hangi LDAP niteliklerinin kullanıldığı (özellik eşlemesi).
     tls_mode:
       plain: 'hiçbiri'
       simple_tls: 'basit_tls'
@@ -979,7 +1011,7 @@ tr:
         add_groups: "Yeni öznitelik grubu ekleyin"
         rename_groups: "Öznitelik grubunun adını değiştirin"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Özel alanlara filtre uygulama ve sıralama, kurumsal sürüm özelliğidir."
   enumeration_activities: "Etkinlikler (zaman izleme)"
   enumeration_work_package_priorities: "İş paketi öncelikleri"
   enumeration_system_activity: "Sistem Etkinliği"

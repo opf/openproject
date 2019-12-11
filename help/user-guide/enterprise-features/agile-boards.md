@@ -84,7 +84,7 @@ To remove lists, click on the three dots next to a list's title, and select **De
 
 ## Add cards to a list
 
-You can add cards to a list. Cards represent a [work package](https://www.openproject.org/help/work-packages/) in OpenProject. They can be any kind of work within a project, e.g. a Task, a Bug, a Feature, a Risk, anything.
+You can add cards to a list. Cards represent a [work package](https://docs.openproject.org/user-guide/work-packages/) in OpenProject. They can be any kind of work within a project, e.g. a Task, a Bug, a Feature, a Risk, anything.
 
 ![OpenProject-Boards_cards](OpenProject-Boards_cards-1568639967764.png) 
 
