@@ -52,6 +52,7 @@ describe ::API::V3::Users::UserRepresenter do
         is_expected.not_to have_json_path('updatedAt')
         is_expected.not_to have_json_path('createdAt')
         is_expected.not_to have_json_path('status')
+        is_expected.not_to have_json_path('email')
       end
     end
 
@@ -67,6 +68,7 @@ describe ::API::V3::Users::UserRepresenter do
         is_expected.to have_json_path('updatedAt')
         is_expected.to have_json_path('createdAt')
         is_expected.to have_json_path('status')
+        is_expected.to have_json_path('email')
 
         is_expected.not_to have_json_path('admin')
       end
@@ -82,6 +84,8 @@ describe ::API::V3::Users::UserRepresenter do
         is_expected.to have_json_path('lastName')
         is_expected.to have_json_path('name')
         is_expected.to have_json_path('status')
+        is_expected.to have_json_path('email')
+        is_expected.to have_json_path('admin')
       end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do
@@ -98,19 +102,36 @@ describe ::API::V3::Users::UserRepresenter do
     describe 'email' do
       let(:user) { FactoryBot.build_stubbed(:user, status: 1, preference: preference) }
 
+      shared_examples_for 'shows the users E-Mail address' do
+        it do
+          is_expected.to be_json_eql(user.mail.to_json).at_path('email')
+        end
+      end
+
       context 'user shows his E-Mail address' do
         let(:preference) { FactoryBot.build(:user_preference, hide_mail: false) }
 
-        it 'shows the users E-Mail address' do
-          is_expected.to be_json_eql(user.mail.to_json).at_path('email')
-        end
+        it_behaves_like 'shows the users E-Mail address'
       end
 
       context 'user hides his E-Mail address' do
         let(:preference) { FactoryBot.build(:user_preference, hide_mail: true) }
 
         it 'does not render the users E-Mail address' do
-          is_expected.to be_json_eql(nil.to_json).at_path('email')
+          is_expected
+            .not_to have_json_path('email')
+        end
+
+        context 'if an admin inquires' do
+          let(:current_user) { FactoryBot.build_stubbed(:admin) }
+
+          it_behaves_like 'shows the users E-Mail address'
+        end
+
+        context 'if the user inquires himself' do
+          let(:current_user) { user }
+
+          it_behaves_like 'shows the users E-Mail address'
         end
       end
     end

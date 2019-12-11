@@ -136,8 +136,7 @@ module API
 
         property :mail,
                  as: :email,
-                 render_nil: true,
-                 getter: ->(*) { pref.hide_mail ? nil : mail }
+                 cache_if: -> { !represented.pref.hide_mail || current_user_is_admin_or_self }
 
         property :avatar,
                  exec_context: :decorator,
