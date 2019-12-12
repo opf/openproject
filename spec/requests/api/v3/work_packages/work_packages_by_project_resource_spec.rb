@@ -137,17 +137,17 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
         let(:work_packages) do
           [
             FactoryBot.create(:work_package,
-                               project: project,
-                               priority: priority1,
-                               estimated_hours: 1),
+                              project: project,
+                              priority: priority1,
+                              estimated_hours: 1),
             FactoryBot.create(:work_package,
-                               project: project,
-                               priority: priority2,
-                               estimated_hours: 2),
+                              project: project,
+                              priority: priority2,
+                              estimated_hours: 2),
             FactoryBot.create(:work_package,
-                               project: project,
-                               priority: priority1,
-                               estimated_hours: 3)
+                              project: project,
+                              priority: priority1,
+                              estimated_hours: 3)
           ]
         end
         let(:expected_group1) do
