@@ -133,11 +133,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       }
 
       this.cdRef.detectChanges();
-
-      // Register scroll handler on mobile header
-      if (this.deviceService.isMobile) {
-        scrollHeaderOnMobile(jQuery('.work-packages--card-view-container'));
-      }
     });
   }
 
