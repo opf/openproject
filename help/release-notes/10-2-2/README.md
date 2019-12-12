@@ -32,6 +32,8 @@ The release contains several bug fixes and fixes server security issues. We thus
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-Special thanks for reporting and finding bugs go to
+In this release, we would especially like to thank Bartosz Nowicki for responsibly disclosing a severe data leakage \([#31853](https://community.openproject.com/wp/31853)\). Behaviour like this helps improving the security for everybody, so thanks a lot Bartosz. And Thanh Nguyen Nguyen of [Fortiguard Labs](https://fortiguard.com/) has once again responsibly disclosed a security issue to us ([#31817](https://community.openproject.com/wp/31817)). Thank you, Nguyen.  
+
+We'd also like to thanks users for reporting bugs:
 
 Ihor Lavryk, Adam Vanko
