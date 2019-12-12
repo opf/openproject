@@ -29,8 +29,8 @@
 
 require 'spec_helper'
 
-shared_examples "DeliverWatcherNotificationJob" do |mailer_method_name|
-  let(:mailer_method_name) { mailer_method_name }
+shared_examples "DeliverWatcherNotificationJob" do |action|
+  let(:action) { action }
   let(:project) { FactoryBot.create(:project) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:watcher_changer) { FactoryBot.create(:user) }
@@ -44,14 +44,15 @@ shared_examples "DeliverWatcherNotificationJob" do |mailer_method_name|
 
   before do
     # make sure no actual calls make it into the UserMailer
-    allow(UserMailer).to receive(mailer_method_name)
+    allow(UserMailer).to receive(:work_package_watcher_changed)
       .and_return(double('mail', deliver_now: nil))
   end
 
   it 'sends a mail' do
-    expect(UserMailer).to receive(mailer_method_name).with(work_package,
-                                                           watcher_user,
-                                                           watcher_changer)
+    expect(UserMailer).to receive(:work_package_watcher_changed).with(work_package,
+                                                                      watcher_user,
+                                                                      watcher_changer,
+                                                                      action)
     subject
   end
 
@@ -60,7 +61,7 @@ shared_examples "DeliverWatcherNotificationJob" do |mailer_method_name|
       before do
         mail = double('mail')
         allow(mail).to receive(:deliver_now).and_raise(SocketError)
-        expect(UserMailer).to receive(mailer_method_name).and_return(mail)
+        expect(UserMailer).to receive(:work_package_watcher_changed).and_return(mail)
       end
 
       it 'raises the error' do
@@ -71,13 +72,13 @@ shared_examples "DeliverWatcherNotificationJob" do |mailer_method_name|
 end
 
 describe DeliverWatcherRemovedNotificationJob, type: :model do
-  include_examples "DeliverWatcherNotificationJob", :work_package_watcher_removed do
+  include_examples "DeliverWatcherNotificationJob", 'removed' do
     let(:watcher_parameter) { watcher.attributes }
   end
 end
 
 describe DeliverWatcherAddedNotificationJob, type: :model do
-  include_examples "DeliverWatcherNotificationJob", :work_package_watcher_added do
+  include_examples "DeliverWatcherNotificationJob", 'added' do
     let(:watcher_parameter) { watcher }
   end
 end

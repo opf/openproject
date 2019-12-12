@@ -74,25 +74,11 @@ class UserMailer < BaseMailer
     end
   end
 
-  def work_package_watcher_added(work_package, user, watcher_setter)
+  def work_package_watcher_changed(work_package, user, watcher_changer, action)
     User.execute_as user do
       @issue = work_package
-      @watcher_setter = watcher_setter
-
-      set_work_package_headers(work_package)
-      message_id work_package, user
-      references work_package, user
-
-      with_locale_for(user) do
-        mail to: user.mail, subject: subject_for_work_package(work_package)
-      end
-    end
-  end
-
-  def work_package_watcher_removed(work_package, user, watcher_remover)
-    User.execute_as user do
-      @issue = work_package
-      @watcher_remover = watcher_remover
+      @watcher_changer = watcher_changer
+      @action = action
 
       set_work_package_headers(work_package)
       message_id work_package, user

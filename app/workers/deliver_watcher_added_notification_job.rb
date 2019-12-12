@@ -32,6 +32,6 @@ class DeliverWatcherAddedNotificationJob < DeliverWatcherNotificationJob
   def render_mail(recipient:, sender:)
     return unless watcher
 
-    UserMailer.work_package_watcher_added(watcher.watchable, recipient, sender)
+    UserMailer.work_package_watcher_changed(watcher.watchable, recipient, sender, 'added')
   end
 end
