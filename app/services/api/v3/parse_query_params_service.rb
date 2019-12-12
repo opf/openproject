@@ -30,50 +30,60 @@ module API
   module V3
     class ParseQueryParamsService
       def call(params)
-        parsed_params = {}
-        skip_empty = []
+        json_parsed = json_parsed_params(params)
+        return json_parsed unless json_parsed.success?
 
-        parsed_params[:group_by] = group_by_from_params(params, skip_empty)
+        parsed = parsed_params(params)
 
-        error_result = with_service_error_on_json_parse_error do
-          parsed_params[:filters] = filters_from_params(params)
+        result = without_empty(parsed.merge(json_parsed.result), determine_allowed_empty(params))
 
-          parsed_params[:sort_by] = sort_by_from_params(params)
-
-          parsed_params[:timeline_labels] = timeline_labels_from_params(params)
-        end
-        return error_result if error_result
-
-        parsed_params[:columns] = columns_from_params(params)
-
-        parsed_params[:display_sums] = boolearize(params[:showSums])
-
-        parsed_params[:timeline_visible] = boolearize(params[:timelineVisible])
-
-        parsed_params[:timeline_zoom_level] = params[:timelineZoomLevel]
-
-        parsed_params[:highlighting_mode] = params[:highlightingMode]
-
-        parsed_params[:highlighted_attributes] = highlighted_attributes_from_params(params)
-
-        parsed_params[:display_representation] = params[:displayRepresentation]
-
-        parsed_params[:show_hierarchies] = boolearize(params[:showHierarchies])
-
-        allow_empty = params.keys + skip_empty
-        ServiceResult.new(success: true, result: without_empty(parsed_params, allow_empty))
+        ServiceResult.new(success: true, result: result)
       end
 
-      def group_by_from_params(params, skip_empty)
+      private
+
+      def json_parsed_params(params)
+        parsed = {
+          filters: filters_from_params(params),
+          sort_by: sort_by_from_params(params),
+          timeline_labels: timeline_labels_from_params(params)
+        }
+
+        ServiceResult.new success: true, result: parsed
+      rescue ::JSON::ParserError => error
+        result = ServiceResult.new success: false
+        result.errors.add(:base, error.message)
+        result
+      end
+
+      def parsed_params(params)
+        {
+          group_by: group_by_from_params(params),
+          columns: columns_from_params(params),
+          display_sums: boolearize(params[:showSums]),
+          timeline_visible: boolearize(params[:timelineVisible]),
+          timeline_zoom_level: params[:timelineZoomLevel],
+          highlighting_mode: params[:highlightingMode],
+          highlighted_attributes: highlighted_attributes_from_params(params),
+          display_representation: params[:displayRepresentation],
+          show_hierarchies: boolearize(params[:showHierarchies])
+        }
+      end
+
+      def determine_allowed_empty(params)
+        allow_empty = params.keys
+        allow_empty << :group_by if group_by_empty?(params)
+
+        allow_empty
+      end
+
+      # Group will be set to nil if parameter exists but set to empty string ('')
+      def group_by_from_params(params)
         return nil unless params_exist?(params, %i(group_by groupBy g))
 
         attribute = params[:group_by] || params[:groupBy] || params[:g]
         if attribute.present?
           convert_attribute attribute
-        else
-          # Group by explicitly set to empty
-          skip_empty << :group_by
-          nil
         end
       end
 
@@ -159,7 +169,6 @@ module API
       #   * assigned => assigned_to
       #   * customField1 => cf_1
       #
-      # @param query [Query] Query for which to get the correct field names.
       # @param field_names [Array] Field names as read from the params.
       # @return [Array] Returns a list of fixed field names. The list may contain nil values
       #                 for fields which could not be found.
@@ -192,16 +201,6 @@ module API
                                                                refer_to_ids: append_id)
       end
 
-      def with_service_error_on_json_parse_error
-        yield
-
-        nil
-      rescue ::JSON::ParserError => error
-        result = ServiceResult.new
-        result.errors.add(:base, error.message)
-        return result
-      end
-
       def params_exist?(params, symbols)
         unsafe_params(params).detect { |k, _| symbols.include? k.to_sym }
       end
@@ -219,6 +218,10 @@ module API
       def without_empty(hash, exceptions)
         exceptions = exceptions.map(&:to_sym)
         hash.select { |k, v| v.present? || v == false || exceptions.include?(k) }
+      end
+
+      def group_by_empty?(params)
+        params_exist?(params, %i(group_by groupBy g)) && !(params[:group_by] || params[:groupBy] || params[:g]).present?
       end
     end
   end
