@@ -32,7 +32,7 @@ class WatcherNotificationMailer
     def handle_watcher_toggle(watchable, user, watcher_setter, is_watching)
       # We only handle this watcher setting if associated user wants to be notified
       # about it.
-      return unless notify_about_watcher_added?(user, watcher_setter, watchable)
+      return unless notify_about_watchable_events?(user, watcher_setter, watchable)
 
       unless other_jobs_queued?(watchable)
         DeliverWatcherNotificationJob.perform_later(watchable.id, user.id, watcher_setter.id, is_watching)
@@ -49,7 +49,7 @@ class WatcherNotificationMailer
                          "%NotificationJob%journal_id: #{work_package.journals.last.id}%").exists?
     end
 
-    def notify_about_watcher_added?(user, watcher_setter, watchable)
+    def notify_about_watchable_events?(user, watcher_setter, watchable)
       return false if notify_about_self_watching?(user, watcher_setter)
 
       case user.mail_notification
