@@ -37,5 +37,8 @@ OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAG
 end
 
 OpenProject::Notifications.subscribe('watcher_toggled') do |payload|
-  WatcherNotificationMailer.handle_watcher_toggle(payload[:watchable], payload[:user], payload[:watcher_setter], payload[:is_watching])
+  WatcherNotificationMailer.handle_watcher_toggle(payload[:watchable],
+                                                  payload[:user],
+                                                  payload[:watcher_setter],
+                                                  payload[:is_watching])
 end
