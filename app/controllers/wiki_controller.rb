@@ -249,11 +249,13 @@ class WikiController < ApplicationController
 
   def edit_parent_page
     return render_403 unless editable?
+
     @parent_pages = @wiki.pages.includes(:parent) - @page.self_and_descendants
   end
 
   def update_parent_page
     return render_403 unless editable?
+
     @page.parent_id = params[:wiki_page][:parent_id]
     if @page.save
       flash[:notice] = l(:notice_successful_update)

@@ -90,12 +90,12 @@ hu:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Kapcsolat titkosítása'
-    system_account: 'System account'
+    system_account: 'Rendszer fiók'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
     ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+    user_settings: 'Attribútum-leképezés'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
@@ -771,7 +771,7 @@ hu:
   button_remove: Eltávolítás
   button_rename: "Átnevezés"
   button_replace: "Csere"
-  button_revoke: "Revoke"
+  button_revoke: "Visszavonás"
   button_reply: "Válasz"
   button_reset: "Visszaállít, reset"
   button_rollback: "Visszaállitás erre a verzióra"
@@ -1079,7 +1079,7 @@ hu:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF with descriptions"
+      pdf_with_descriptions: "PDF leírásokkal"
       pdf_with_descriptions_and_attachments: "PDF leírásokkal és mellékletekkel"
       pdf_with_attachments: "PDF mellékletekkel"
   extraction:
@@ -1096,8 +1096,8 @@ hu:
   general_first_day_of_week: "7"
   general_lang_name: "Magyar"
   general_pdf_encoding: "ISO-8859-1"
-  general_text_no: "no"
-  general_text_yes: "yes"
+  general_text_no: "nem"
+  general_text_yes: "igen"
   general_text_No: "Nem"
   general_text_Yes: "Igen"
   general_text_true: "true"
@@ -1340,7 +1340,7 @@ hu:
   label_history: "Előzmény"
   label_hierarchy_leaf: "Hierarchia szint"
   label_home: "Home"
-  label_subject_or_id: "Subject or ID"
+  label_subject_or_id: "Tárgy, vagy azonosító"
   label_impressum: "Jogi nyilatkozat"
   label_in: "in"
   label_in_less_than: "kevesebb, mint"
@@ -1621,7 +1621,7 @@ hu:
   label_view_diff: "A különbségek megtekintése"
   label_view_revisions: "A változtatások megtekintése"
   label_watched_work_packages: "Megfigyelt munkacsomagok"
-  label_what_is_this: "What is this?"
+  label_what_is_this: "Mi ez?"
   label_week: "Hét"
   label_wiki_content_added: "Wiki oldal hozzáadva"
   label_wiki_content_updated: "Wiki oldal frissítve"
@@ -1647,7 +1647,7 @@ hu:
   label_work_package_category_plural: "Munkacsomag kategóriák"
   label_work_package_hierarchy: "Feladatcsoport hierarchia"
   label_work_package_new: "Új munkacsomag"
-  label_work_package_note_added: "Work package note added"
+  label_work_package_note_added: "A feladatcsoport jegyzet hozzáadva"
   label_work_package_edit: "Munkacsomag %{name} szerkesztése"
   label_work_package_plural: "Munkacsomagok"
   label_work_package_priority_updated: "A munkacsomag fontossága frissítve"
@@ -1921,6 +1921,7 @@ hu:
       title: Módosítsa a projekt azonosítóját
     archive:
       are_you_sure: "Biztosan szeretnéd arhiválni a projektet '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Tevékenység"
   project_module_forums: "Fórumok"
   project_module_calendar: "Naptár"
@@ -2175,7 +2176,7 @@ hu:
   status_active: "aktív"
   status_archived: "archivált"
   status_invited: meghívott
-  status_locked: locked
+  status_locked: zárolt
   status_registered: regisztrált
   #Used in array.to_sentence.
   support:
@@ -2291,8 +2292,8 @@ hu:
     pm: "Délután"
   timeframe:
     show: "Mutasd az időkeretet"
-    end: "to"
-    start: "from"
+    end: "eddig"
+    start: "ettől"
   timelines:
     admin_menu:
       color: "Szín"
@@ -2338,8 +2339,8 @@ hu:
         alphabet: "ábécé"
         explicit_order: "Megbizás kifejezése"
         project_sortation: "Projektek rendezése"
-        date: "date"
-        default: "default"
+        date: "dátum"
+        default: "alapértelmezett"
       column:
         assigned_to: "Megbízott"
         type: "Típus"
@@ -2380,16 +2381,16 @@ hu:
       status: "Állapot megjelenítése"
       project_time_filter: "Egy bizonyos típusú egy bizonyos időn belüli  projektek a munka csomagokkal"
       project_time_filter_timeframe: "Időkeret"
-      project_time_filter_historical_from: "from"
-      project_time_filter_historical_to: "to"
+      project_time_filter_historical_from: "ettől"
+      project_time_filter_historical_to: "eddig"
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} ból most"
       project_filters: "Projekt szűrés"
       project_responsible: "Projektek megjelenítése a felelősökkel"
       project_status: "Projekt állapotának megjelenítése"
       timeframe: "Mutasd az időkeretet"
-      timeframe_end: "to"
-      timeframe_start: "from"
+      timeframe_end: "eddig"
+      timeframe_start: "ettől"
       timeline: "Általános beállítások"
       zoom: "Zoom tényező"
     history: "Előzmény"
@@ -2437,7 +2438,7 @@ hu:
       in: "Nagyítás"
       out: "Kicsinyítés"
       days: "Nap"
-      weeks: "Weeks"
+      weeks: "Hetek"
       months: "Hónap"
       quarters: "Negyedek"
       years: "Évek"
@@ -2491,7 +2492,7 @@ hu:
     unlock: "A zárolás feloldása"
     unlock_and_reset_failed_logins: "Zárolás felodása és alaphelyzetbe állitása sikertelen bejelentkezéskor"
   version_status_closed: "lezárt"
-  version_status_locked: "locked"
+  version_status_locked: "zárolt"
   version_status_open: "nyitott"
   note: Szöveg
   note_password_login_disabled: "Bejelentkezési jelszót a %{configuration} letiltotta."

@@ -6,15 +6,17 @@ Here you will learn how to configure your OpenProject.
 
 ## Overview
 
-| Popular Topics | Description |
-| -------------- | :---------- |
-| I              |             |
-|                |             |
-|                |             |
-|                |             |
-|                |             |
-|                |             |
-|                |             |
-|                |             |
-|                |             |
+| Popular Topics                                | Description                                         |
+| --------------------------------------------- | :-------------------------------------------------- |
+| [Users and permissions](./users-permissions) | How to manage users and permissions in OpenProject? |
+|                                               |                                                     |
+|                                               |                                                     |
+|                                               |                                                     |
+|                                               |                                                     |
+|                                               |                                                     |
+|                                               |                                                     |
+|                                               |                                                     |
+|                                               |                                                     |
+
+## Coming soon!
 

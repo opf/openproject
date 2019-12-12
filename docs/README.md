@@ -24,7 +24,7 @@ The guides for [manual](./operations/upgrading/manual/upgrading.md), [packaged](
 
 ## User Guides
 
-Please see our [User Guide pages](https://www.openproject.org/help/user-guides/) for detailed documentation on the functionality of OpenProject.
+Please see our [User Guide pages](https://docs.openproject.org/user-guide/) for detailed documentation on the functionality of OpenProject.
 
 
 ## Development

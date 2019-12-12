@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= breadcrumb_toolbar(@user.new_record? ? l(:label_user_new) : @user.name) do %>
   <% unless @user.new_record? %>
     <% if current_user.admin? || current_user.id == @user.id %>
-      <li class="toolbar-item">
+      <li class="toolbar-item hidden-for-mobile">
         <%= form_for(@user, html: { class: 'toolbar-item'},
                             url: { action: :resend_invitation },
                             method: :post) do |_form| %>
@@ -47,7 +47,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <% end %>
     </li>
     <% unless current_user.id == @user.id %>
-      <%= form_for @user, html: { class: 'toolbar-item' }, :url => {:action => :change_status},
+      <%= form_for @user, html: { class: 'toolbar-item hidden-for-mobile' }, :url => {:action => :change_status},
                 :method => :post do %>
         <li>
           <%= change_user_status_buttons(@user) %>

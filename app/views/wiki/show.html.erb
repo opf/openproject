@@ -56,22 +56,29 @@ See docs/COPYRIGHT.rdoc for more details.
     <% end %>
     <% if @content.version == @page.content.version %>
       <li class="toolbar-item">
-        <%= link_to_if_authorized(l(:button_edit), {action: 'edit', id: @page}, class: 'button icon-edit', accesskey: accesskey(:edit)) %>
+        <%= link_to_if_authorized({ action: 'edit', id: @page },
+                                  { aria: { label: t(:button_edit) },
+                                    title: t(:button_edit),
+                                    class: 'button' }) do %>
+          <%= op_icon('button--icon icon-edit') %>
+          <span class="button--text"><%= l(:button_edit) %></span>
+        <% end %>
       </li>
     <% end %>
     <% if Setting.notified_events.include?("wiki_content_added") or Setting.notified_events.include?("wiki_content_updated") %>
-      <li class="toolbar-item">
+      <li class="toolbar-item hidden-for-mobile">
         <%= watcher_link(@page, User.current) %>
       </li>
     <% end %>
     <% if @content.version != @page.content.version %>
-      <li class="toolbar-item">
+      <li class="toolbar-item  hidden-for-mobile">
         <%= link_to(l(:label_history), {action: 'history', id: @page}, class: 'button icon-wiki') %>
       </li>
     <% end %>
   <% end %>
   <li class="toolbar-item drop-down">
     <a href="#" aria-haspopup="true" title="<%= t(:label_more) %>" class="button">
+      <%= op_icon('button--icon icon-show-more hidden-for-desktop') %>
       <span class="button--text"><%= t(:label_more) %></span>
       <%= op_icon('button--dropdown-indicator') %>
     </a>

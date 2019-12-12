@@ -92,8 +92,8 @@ ru:
     connection_encryption: 'Шифрование подключения'
     system_account: 'Системный аккаунт'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
+      OpenProject требует доступа только для чтения через системную учетную запись для поиска пользователей и групп в вашем LDAP дереве.
+      Пожалуйста, укажите учётные данные для этого пользователя системы в следующем разделе.
     ldap_details: 'Подробности LDAP'
     user_settings: 'Сопоставление атрибутов'
     user_settings_legend: |
@@ -1965,6 +1965,7 @@ ru:
       title: Измените идентификатор проекта
     archive:
       are_you_sure: "Уверены, что хотите архивизировать проект %{name}%?"
+      archived: "Archived"
   project_module_activity: "Деятельность"
   project_module_forums: "Форумы"
   project_module_calendar: "Календарь"

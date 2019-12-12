@@ -82,14 +82,7 @@ class VersionsController < ApplicationController
            .new(user: current_user)
            .call(attributes)
 
-    @version = call.result
-
-    if call.success?
-      flash[:notice] = l(:notice_successful_create)
-      redirect_back_or_version_settings
-    else
-      render action: 'new'
-    end
+    render_cu(call, :notice_successful_create, 'new')
   end
 
   def edit; end
@@ -103,12 +96,7 @@ class VersionsController < ApplicationController
                 model: @version)
            .call(attributes)
 
-    if call.success?
-      flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_version_settings
-    else
-      render action: 'edit'
-    end
+    render_cu(call, :notice_successful_update, 'edit')
   end
 
   def close_completed
@@ -152,6 +140,19 @@ class VersionsController < ApplicationController
       ids.is_a?(Array) ? ids.map(&:to_s) : ids.split('/')
     else
       (default_types || selectable_types).map { |t| t.id.to_s }
+    end
+  end
+
+  def render_cu(call, success_message, failure_action)
+    @version = call.result
+
+    if call.success?
+      flash[:notice] = t(success_message)
+      redirect_back_or_version_settings
+    else
+      @errors = call.errors
+
+      render action: failure_action
     end
   end
 end

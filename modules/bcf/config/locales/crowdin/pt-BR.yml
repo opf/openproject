@@ -63,5 +63,5 @@ pt-BR:
   permission_manage_bcf: "Importar e gerenciar problemas do BCF"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "Acesso total à API BCF v2.1"
+      bcf_v2_1_text: "A aplicação receberá acesso total de leitura e escrita a BCF API v2.1 do OpenProject para executar ações em seu nome."

@@ -18,7 +18,7 @@ es:
     plural: Webhooks
     resources:
       time_entry:
-        name: "Time entry"
+        name: "Entrada de tiempo"
     outgoing:
       no_results_table: Aún no se han definido webhooks.
       label_add_new: Agregar nuevo webhook

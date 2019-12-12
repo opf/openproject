@@ -2008,6 +2008,7 @@ ar:
       title: تغيير معرف المشروع
     archive:
       are_you_sure: "هل أنت متأكد من أنك تريد أرشفة المشروع '%{name}'؟"
+      archived: "Archived"
   project_module_activity: "النشاط"
   project_module_forums: "منتديات"
   project_module_calendar: "التقويم"

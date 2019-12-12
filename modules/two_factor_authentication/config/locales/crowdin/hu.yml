@@ -26,28 +26,28 @@ hu:
     error_is_enforced_not_active: 'Configuration error: Two-factor authentication has been enforced, but no active strategies exist.'
     error_invalid_backup_code: 'Invalid 2FA backup code'
     channel_unavailable: "The delivery channel %{channel} is unavailable."
-    no_valid_phone_number: "No valid phone number exists."
+    no_valid_phone_number: "Nincs érvényes telefonszám."
     label_pwd_confirmation: "Jelszó"
-    notice_pwd_confirmation: "You need to confirm your password upon making changes to these settings."
-    label_device_type: "Device type"
-    label_default_device: "Default 2FA device"
+    notice_pwd_confirmation: "Meg kell erősítened a jelszavaddal, hogy módosíthasd ezeket a beállításokat."
+    label_device_type: "Eszköz típus"
+    label_default_device: "Alapértelmezett 2FA eszköz"
     label_device: "2FA eszköz"
-    label_devices: "2FA devices"
-    label_one_time_password: 'One-time password'
-    label_2fa_enabled: 'Two-factor authentication is active'
-    label_2fa_disabled: 'Two-factor authentication not active'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
-    text_enter_2fa: 'Please enter the one-time password from your device.'
-    text_2fa_enabled: 'Upon every login, you will be requested to enter a OTP token from your default 2FA device.'
-    text_2fa_disabled: 'To enable two-factor authentication, use the button above to register a new 2FA device. If you already have a device, you need to make it a default.'
+    label_devices: "2FA eszközök"
+    label_one_time_password: 'Egyszeri jelszó'
+    label_2fa_enabled: 'Kétlépcsős azonosítás aktív'
+    label_2fa_disabled: 'Kétlépcsős azonosítás kikapcsolva'
+    text_otp_delivery_message_sms: "A %{app_title} egyszeri jelszavad: %{token}"
+    text_otp_delivery_message_voice: "A %{app_title} egyszeri jelszavad: %{pause} %{token}. %{pause} Megismétlem: %{pause} %{token}"
+    text_enter_2fa: 'Kérlek írd be a készülékeden megjelenő egyszeri jelszót!'
+    text_2fa_enabled: 'Minden egyes belépésnél szükséged lesz az alapértelmezett 2FA eszközödről beírt OTP tokenre.'
+    text_2fa_disabled: 'A kétlépcsős beléptetés engedélyezéséhez és egy új 2FA eszköz regisztrációjához nyomd meg a fenti gombot. Amennyiben már rendelkezel ilyen eszközzel, alapértelmezettnek kell beállítanod.'
     login:
-      enter_backup_code_title: Enter backup code
+      enter_backup_code_title: Írd be a tartalék kódot
       enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
       other_device: 'Use another device or backup code'
     settings:
-      title: '2FA settings'
-      current_configuration: 'Current configuration'
+      title: '2FA beállítások'
+      current_configuration: 'Jelenlegi konfiguráció'
       label_active_strategies: 'Active 2FA strategies'
       label_enforced: 'Enforce 2FA'
       label_remember: 'Remember 2FA login'
@@ -64,11 +64,11 @@ hu:
       self_edit_path: 'To add or modify your own 2FA devices, please go to %{self_edit_link}'
       self_edit_link_name: 'Two-factor authentication on your account page'
       self_edit_forbidden: 'You may not edit your own 2FA devices on this path. Go to My Account > Two factor authentication instead.'
-      no_devices_for_user: 'No 2FA device has been registered for this user.'
-      all_devices_deleted: 'All 2FA devices of this user have been deleted'
+      no_devices_for_user: 'Nincs regisztrált 2FA eszköze a felhasználónak.'
+      all_devices_deleted: 'A felhasználó összes 2FA eszköze törölve lett'
       delete_all_are_you_sure: 'Are you sure you want to delete all 2FA devices for this user?'
-      button_delete_all_devices: 'Delete registered 2FA devices'
-      button_register_mobile_phone_for_user: 'Register mobile phone'
+      button_delete_all_devices: '2FA eszköz regisztrációjának törlése'
+      button_register_mobile_phone_for_user: 'Mobiltelefon regisztrálása'
       text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from his default 2FA device.'
       text_2fa_disabled: "The user did not set up a 2FA device through his 'My account page'"
     upsale:
@@ -155,7 +155,7 @@ hu:
       cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Cell phone"
-  field_otp: "One-time password"
+  field_otp: "Egyszeri jelszó"
   notice_account_otp_invalid: "Invalid one-time password."
   notice_account_otp_expired: "The one-time password you entered expired."
   notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"

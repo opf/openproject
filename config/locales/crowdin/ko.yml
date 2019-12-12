@@ -1902,6 +1902,7 @@ ko:
       title: 프로젝트의 식별자 변경
     archive:
       are_you_sure: "프로젝트 '%{name}'을(를) 보관하시겠습니까?"
+      archived: "Archived"
   project_module_activity: "활동"
   project_module_forums: "포럼"
   project_module_calendar: "달력"

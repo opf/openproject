@@ -1924,6 +1924,7 @@ tr:
       title: Projenin tanımlayıcısını değiştirme
     archive:
       are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
+      archived: "Arşivlenen"
   project_module_activity: "Etkinlik"
   project_module_forums: "Forumlar"
   project_module_calendar: "Takvim"

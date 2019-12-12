@@ -1901,6 +1901,7 @@ zh-CN:
       title: 更改项目的标识符
     archive:
       are_you_sure: "是否确定想要存档项目 '%{name}'？"
+      archived: "Archived"
   project_module_activity: "活动"
   project_module_forums: "论坛"
   project_module_calendar: "日历"

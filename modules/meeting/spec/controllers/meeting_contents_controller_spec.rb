@@ -26,9 +26,15 @@ describe MeetingContentsController do
   shared_let(:author) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
   shared_let(:watcher1) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
   shared_let(:watcher2) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  shared_let(:meeting) { FactoryBot.create(:meeting, author: author, project: project) }
+  shared_let(:meeting) do
+    User.execute_as author do
+      FactoryBot.create(:meeting, author: author, project: project)
+    end
+  end
   shared_let(:meeting_agenda) do
-    FactoryBot.create(:meeting_agenda, meeting: meeting)
+    User.execute_as author do
+      FactoryBot.create(:meeting_agenda, meeting: meeting)
+    end
   end
 
   before(:each) do
@@ -43,7 +49,7 @@ describe MeetingContentsController do
   end
 
   shared_examples_for 'delivered by mail' do
-    before { put action,  params: { meeting_id: meeting.id } }
+    before { put action, params: { meeting_id: meeting.id } }
 
     it { expect(ActionMailer::Base.deliveries.count).to eql(mail_count) }
   end
