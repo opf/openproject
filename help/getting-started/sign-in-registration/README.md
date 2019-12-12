@@ -21,6 +21,7 @@ Here you will get an overview how to sign in and register to an existing OpenPro
 | [Sign in with Google](#sign-in-with-google)                  | Find out how to sign in with a Google account.               |
 | [Sign in from the OpenProject website](#sign-in-from-the-openproject-website) | Sign in to an existing OpenProject Cloud Edition from the website. |
 | [Create a new account](#create-a-new-account)                | Create a new account for OpenProject.                        |
+| [Choose your language](#choose-your-language)                | How to select your language in OpenProject?                  |
 | [Reset your password](#reset-your-password)                  | If you forgot your password find out how to reset it.        |
 
 ## Sign in with an existing account
@@ -77,6 +78,18 @@ Please confirm the Privacy policy and terms of service and click the blue **Crea
 ![create-new-account](1566204790146.png)
 
 Make sure to remember your password in order to sign-in again at a later point.
+
+## Choose your language
+
+After the creation of your account you are logged into the system. You will then be asked to set your language in the system. Please choose your preferred language from the drop-down list.
+
+<div class="alert alert-info" role="alert">
+**Note**: OpenProject is available in more than 30 languages. If you do not find your preferred language, it first needs to be activated in the system's administration. Please talk to your system administrator so set up the language.
+</div>
+
+![select language](20191202171349241.png)
+
+If you have already logged in before, you can [set your language in your user profile](../my-account/#profile-settings:-change-your-language,-time-zone-or-display-of-comments).
 
 ## Reset your password
 
