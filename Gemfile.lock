@@ -580,6 +580,9 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.7.0)
       launchy (~> 2.2)
+    listen (3.2.1)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     livingstyleguide (2.1.0)
       minisyntax (>= 0.2.5)
       redcarpet
@@ -754,6 +757,9 @@ GEM
     rainbow (3.0.0)
     raindrops (0.19.0)
     rake (13.0.1)
+    rb-fsevent (0.10.3)
+    rb-inotify (0.10.0)
+      ffi (~> 1.0)
     rbtree3 (0.5.0)
     rdoc (6.1.1)
     recaptcha (5.1.0)
@@ -1003,6 +1009,7 @@ DEPENDENCIES
   ladle
   launchy (~> 2.4.3)
   letter_opener
+  listen (~> 3.2.1)
   livingstyleguide (~> 2.1.0)
   lograge (~> 0.10.0)
   meta-tags (~> 2.11.0)
