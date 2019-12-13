@@ -1921,7 +1921,7 @@ es:
       title: Cambiar el identificador de proyecto
     archive:
       are_you_sure: "¿Está seguro que desea archivar el proyecto '%{name}'?"
-      archived: "Archived"
+      archived: "Archivado"
   project_module_activity: "Actividad"
   project_module_forums: "Foros"
   project_module_calendar: "Calendario"

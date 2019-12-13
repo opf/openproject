@@ -78,13 +78,17 @@ export class PreviewTriggerService {
     });
   }
 
-  private isMouseOverPreview(mev:JQuery.MouseLeaveEvent) {
+  private isMouseOverPreview(e:JQuery.MouseLeaveEvent) {
+    if (!this.modalElement) {
+      return false;
+    }
+
     const previewElement = jQuery(this.modalElement.children[0]);
     if (previewElement && previewElement.offset()) {
-      let horizontalHover = mev.pageX >= Math.floor(previewElement.offset()!.left) &&
-                            mev.pageX < previewElement.offset()!.left + previewElement.width()!;
-      let verticalHover = mev.pageY >= Math.floor(previewElement.offset()!.top) &&
-                          mev.pageY < previewElement.offset()!.top + previewElement.height()!;
+      let horizontalHover = e.pageX >= Math.floor(previewElement.offset()!.left) &&
+                            e.pageX < previewElement.offset()!.left + previewElement.width()!;
+      let verticalHover = e.pageY >= Math.floor(previewElement.offset()!.top) &&
+                          e.pageY < previewElement.offset()!.top + previewElement.height()!;
       return horizontalHover && verticalHover;
     }
     return false;
