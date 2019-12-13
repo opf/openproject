@@ -115,7 +115,9 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
     if (this.ngSelectInstance) {
       setTimeout(() => {
         const component = (this.ngSelectInstance) as any;
-        component.dropdownPanel._updatePosition();
+        if (component && component.dropdownPanel) {
+          component.dropdownPanel._updatePosition();
+        }
       }, 25);
     }
   }
