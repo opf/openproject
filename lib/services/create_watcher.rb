@@ -41,9 +41,8 @@ class Services::CreateWatcher
       @work_package.watchers << @watcher
       success.(created: true)
       OpenProject::Notifications.send('watcher_toggled',
-                                      watchable: @work_package,
-                                      user: @user,
-                                      watcher_setter: User.current,
+                                      watcher: @watcher,
+                                      watcher_toggler: User.current,
                                       is_watching: true)
     else
       failure.(@watcher)

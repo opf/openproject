@@ -38,12 +38,7 @@ class DeliverWatcherNotificationJob < DeliverNotificationJob
 
   def render_mail(recipient:, sender:)
     return nil unless watchable
-
-    if @is_watching
-      UserMailer.work_package_watcher_added(watchable, recipient, sender)
-    else
-      UserMailer.work_package_watcher_removed(watchable, recipient, sender)
-    end
+    UserMailer.work_package_watcher_toggled(watchable, recipient, sender, @is_watching)
   end
 
   private

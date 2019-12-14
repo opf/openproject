@@ -74,10 +74,12 @@ class UserMailer < BaseMailer
     end
   end
 
-  def work_package_watcher_toggled(work_package, user, watcher_setter)
+  def work_package_watcher_toggled(work_package, user, watcher_setter, is_watching)
     User.execute_as user do
       @issue = work_package
       @watcher_setter = watcher_setter
+      @watchable_text_key = is_watching ? 'text_work_package_watcher_added'
+                                        : 'text_work_package_watcher_removed'
 
       set_work_package_headers(work_package)
       message_id work_package, user
@@ -88,10 +90,6 @@ class UserMailer < BaseMailer
       end
     end
   end
-
-  alias_method :work_package_watcher_added, :work_package_watcher_toggled
-  alias_method :work_package_watcher_removed, :work_package_watcher_toggled
-  private :work_package_watcher_toggled
 
   def password_lost(token)
     return unless token.user # token's can have no user

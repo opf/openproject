@@ -29,13 +29,13 @@
 
 class WatcherNotificationMailer
   class << self
-    def handle_watcher_toggle(watchable, user, watcher_setter, is_watching)
+    def handle_watcher_toggle(watcher, watcher_toggler, is_watching)
       # We only handle this watcher setting if associated user wants to be notified
       # about it.
-      return unless notify_about_watchable_events?(user, watcher_setter, watchable)
+      return unless notify_about_watchable_events?(watcher, watcher_toggler)
 
-      unless other_jobs_queued?(watchable)
-        DeliverWatcherNotificationJob.perform_later(watchable.id, user.id, watcher_setter.id, is_watching)
+      unless other_jobs_queued?(watcher.watchable)
+        DeliverWatcherNotificationJob.perform_later(watcher.watchable.id, watcher.user.id, watcher_toggler.id, is_watching)
       end
     end
 
@@ -49,25 +49,25 @@ class WatcherNotificationMailer
                          "%NotificationJob%journal_id: #{work_package.journals.last.id}%").exists?
     end
 
-    def notify_about_watchable_events?(user, watcher_setter, watchable)
-      return false if notify_about_self_watching?(user, watcher_setter)
+    def notify_about_watchable_events?(watcher, watcher_toggler)
+      return false if notify_about_self_watching?(watcher, watcher_toggler)
 
-      case user.mail_notification
+      case watcher.user.mail_notification
       when 'only_my_events'
         true
       when 'selected'
-        watching_selected_includes_project?(user, watchable)
+        watching_selected_includes_project?(watcher)
       else
-        user.notify_about?(watchable)
+        watcher.user.notify_about?(watcher.watchable)
       end
     end
 
-    def notify_about_self_watching?(user, watcher_setter)
-      user == watcher_setter && !user.pref.self_notified?
+    def notify_about_self_watching?(watcher, watcher_toggler)
+      watcher.user == watcher_toggler && !watcher.user.pref.self_notified?
     end
 
-    def watching_selected_includes_project?(user, watchable)
-      user.notified_projects_ids.include?(watchable.project_id)
+    def watching_selected_includes_project?(watcher)
+      watcher.user.notified_projects_ids.include?(watcher.watchable.project_id)
     end
   end
 end

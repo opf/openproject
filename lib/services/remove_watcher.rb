@@ -33,13 +33,13 @@ class Services::RemoveWatcher
   end
 
   def run(success: -> {}, failure: -> {})
-    if @work_package.watcher_users.include?(@user)
+    watcher = @work_package.watchers.find_by(user_id: @user.id)
+    if watcher.present?
       @work_package.watcher_users.delete(@user)
       success.call
       OpenProject::Notifications.send('watcher_toggled',
-                                      watchable: @work_package,
-                                      user: @user,
-                                      watcher_setter: User.current,
+                                      watcher: watcher,
+                                      watcher_toggler: User.current,
                                       is_watching: false)
     else
       failure.call
