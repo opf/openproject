@@ -1,0 +1,59 @@
+el:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
+      widgets:
+        custom_text:
+          title: 'Custom text'
+        documents:
+          title: 'Έγγραφα'
+          no_results: 'Δεν υπάρχουν έγγραφα.'
+        members:
+          title: 'Members'
+          no_results: 'No visible members.'
+          view_all_members: 'View all members'
+          add: 'Μέλος'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'Νέα'
+          at: 'στο'
+          no_results: 'Τίποτα νέο για αναφορά.'
+        project_description:
+          title: 'Project description'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Project details'
+          no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: 'Κατάσταση έργου'
+          on_track: 'On track'
+          off_track: 'Off track'
+          at_risk: 'At risk'
+          not_set: 'Not set'
+        subprojects:
+          title: 'Υποέργα'
+          no_results: 'No subprojects.'
+        time_entries_list:
+          title: 'Χρόνος που πέρασε (τις τελευταίες 7 ημέρες)'
+          no_results: 'Δεν υπάρχουν καταχωρήσεις χρόνου για τις τελευταίες 7 ημέρες.'
+        work_packages_accountable:
+          title: "Πακέτα εργασίας για τα οποία είμαι υπεύθυνος"
+        work_packages_assigned:
+          title: 'Πακέτα εργασίας που έχουν ανατεθεί σε μένα'
+        work_packages_created:
+          title: 'Εργασίες που δημιούργησα'
+        work_packages_watched:
+          title: 'Εργασίες που παρακολουθώ'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'Calendar'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'
