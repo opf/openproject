@@ -130,10 +130,11 @@ describe UserMailer, type: :mailer do
     it_behaves_like 'does only send mails to author if permitted'
   end
 
-  describe '#work_package_watcher_added' do
+  describe '#work_package_watcher_toggled' do
     let(:watcher_setter) { user }
+    let(:is_watching) { true }
     before do
-      UserMailer.work_package_watcher_added(work_package, recipient, watcher_setter).deliver_now
+      UserMailer.work_package_watcher_toggled(work_package, recipient, watcher_setter, is_watching).deliver_now
     end
 
     it_behaves_like 'mail is sent'
