@@ -88,7 +88,7 @@ class UserMailer < BaseMailer
       end
     end
   end
-  
+
   alias_method :work_package_watcher_added, :work_package_watcher_toggled
   alias_method :work_package_watcher_removed, :work_package_watcher_toggled
   private :work_package_watcher_toggled
