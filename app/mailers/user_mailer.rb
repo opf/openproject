@@ -78,9 +78,11 @@ class UserMailer < BaseMailer
     User.execute_as user do
       @issue = work_package
       @watcher_setter = watcher_setter
-      @watchable_text_key = is_watching ? 'text_work_package_watcher_added'
-                                        : 'text_work_package_watcher_removed'
-
+      @watchable_text_key = if is_watching
+                              'text_work_package_watcher_added'
+                            else
+                              'text_work_package_watcher_removed'
+                            end
       set_work_package_headers(work_package)
       message_id work_package, user
       references work_package, user
