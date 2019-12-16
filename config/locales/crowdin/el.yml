@@ -743,7 +743,7 @@ el:
   button_change_password: "Αλλαγή κωδικού πρόσβασης"
   button_check_all: "Επιλογή όλων"
   button_clear: "Εκκαθάριση"
-  button_click_to_reveal: "Click to reveal"
+  button_click_to_reveal: "Κάντε κλικ για να εμφανίσετε"
   button_close: 'Κλείσιμο'
   button_collapse_all: "Σύμπτυξη όλων"
   button_configure: "Ρύθμιση παραμέτρων"
@@ -813,7 +813,7 @@ el:
     failed: "Cannot copy project %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
     succeeded: "Created project %{target_project_name}"
-    errors: "Error"
+    errors: "Σφάλμα"
     project_custom_fields: 'Custom fields on project'
     text:
       failed: "Could not copy project \"%{source_project_name}\" to project \"%{target_project_name}\"."
