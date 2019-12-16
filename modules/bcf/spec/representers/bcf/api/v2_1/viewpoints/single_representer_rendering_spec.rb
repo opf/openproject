@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,40 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bcf::API::V2_1::Errors
-  class ErrorMapper
-    extend ActiveModel::Naming
-    extend ActiveModel::Translation
+require 'spec_helper'
 
-    def read_attribute_for_validation(_attr)
-      nil
-    end
+require_relative '../shared_examples'
 
-    # In case the error lookups collide, we need to provide
-    # separate error mappers for every class.
-    def self.lookup_ancestors
-      [::Bcf::Issue, ::Bcf::Viewpoint]
-    end
+describe Bcf::API::V2_1::Viewpoints::SingleRepresenter, 'rendering' do
+  let(:viewpoint) { FactoryBot.build_stubbed(:bcf_viewpoint) }
+  let(:instance) { described_class.new(viewpoint) }
 
-    def self.map(original_errors)
-      mapped_errors = ActiveModel::Errors.new(new)
+  subject { instance.to_json }
 
-      original_errors.send(:error_symbols).each do |key, errors|
-        errors.map(&:first).each do |error|
-          mapped_errors.add(error_key_mapper(key), error)
-        end
-      end
-
-      mapped_errors
-    end
-
-    def self.i18n_scope
-      :activerecord
-    end
-
-    def self.error_key_mapper(key)
-      { subject: :title,
-        json_viewpoint: :base }[key] || key
-    end
+  it 'renders only the json_viewpoint attribute (as root)' do
+    expect(subject)
+      .to be_json_eql(viewpoint.read_attribute_before_type_cast('json_viewpoint'))
   end
 end

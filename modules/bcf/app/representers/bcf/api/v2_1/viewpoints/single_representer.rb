@@ -28,40 +28,26 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bcf::API::V2_1::Errors
-  class ErrorMapper
-    extend ActiveModel::Naming
-    extend ActiveModel::Translation
+module Bcf::API::V2_1
+  class Viewpoints::SingleRepresenter < BaseRepresenter
+    property :lines
 
-    def read_attribute_for_validation(_attr)
-      nil
-    end
+    property :bitmaps
 
-    # In case the error lookups collide, we need to provide
-    # separate error mappers for every class.
-    def self.lookup_ancestors
-      [::Bcf::Issue, ::Bcf::Viewpoint]
-    end
+    property :snapshot
 
-    def self.map(original_errors)
-      mapped_errors = ActiveModel::Errors.new(new)
+    property :components
 
-      original_errors.send(:error_symbols).each do |key, errors|
-        errors.map(&:first).each do |error|
-          mapped_errors.add(error_key_mapper(key), error)
-        end
-      end
+    property :index
 
-      mapped_errors
-    end
+    property :orthogonal_camera
 
-    def self.i18n_scope
-      :activerecord
-    end
+    property :perspective_camera
 
-    def self.error_key_mapper(key)
-      { subject: :title,
-        json_viewpoint: :base }[key] || key
+    property :clipping_planes
+
+    def to_json(*)
+      represented.read_attribute_before_type_cast('json_viewpoint')
     end
   end
 end
