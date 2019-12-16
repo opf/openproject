@@ -104,7 +104,9 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
 
   public onOpen(component:any) {
     setTimeout(() => {
-      component.dropdownPanel._updatePosition();
+      if (component.dropdownPanel) {
+        component.dropdownPanel._updatePosition();
+      }
     }, 25);
   }
 

@@ -33,10 +33,20 @@ module Bcf::API::V2_1
     class API < ::API::OpenProjectAPI
       resources :viewpoints do
         get do
-          @issue.viewpoints
-            .select(:json_viewpoint)
-            .map(&:json_viewpoint)
+          @issue
+            .viewpoints
+            .pluck(:json_viewpoint)
         end
+
+        post &::Bcf::API::V2_1::Endpoints::Create
+                .new(model: Bcf::Viewpoint,
+                     params_modifier: ->(attributes) {
+                       {
+                         json_viewpoint: attributes,
+                         issue: @issue
+                       }
+                     })
+                .mount
 
         route_param :viewpoint_uuid, regexp: /\A[a-f0-9\-]+\z/ do
           %i[/ selection coloring visibility].each do |key|

@@ -28,13 +28,13 @@
 
 
 // Scroll header on mobile in and out when user scrolls the container
-export function scrollHeaderOnMobile(elem:JQuery) {
+export function scrollHeaderOnMobile() {
   const headerHeight = 55;
-  let prevScrollPos = elem.scrollTop()!;
+  let prevScrollPos = window.scrollY;
 
-  elem.on('scroll', function() {
+  window.addEventListener('scroll', function() {
     // Condition needed for safari browser to avoid negative positions
-    let currentScrollPos = elem.scrollTop()! < 0 ? 0 : elem.scrollTop()!;
+    let currentScrollPos = window.scrollY < 0 ? 0 :  window.scrollY;
     // Only if sidebar is not opened or search bar is opened
     if (!(jQuery('#main').hasClass('hidden-navigation')) ||
         jQuery('#top-menu').hasClass('-global-search-expanded') ||

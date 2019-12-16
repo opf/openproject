@@ -1923,7 +1923,7 @@ pt-BR:
       title: Alterar o identificador do projeto
     archive:
       are_you_sure: "Tem certeza de que deseja arquivar o projeto '%{name}'?"
-      archived: "Archived"
+      archived: "Arquivado"
   project_module_activity: "Atividade"
   project_module_forums: "Fóruns"
   project_module_calendar: "Calendário"

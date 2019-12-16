@@ -29,24 +29,36 @@
 @include breakpoint(680px down)
   body, html
     position: relative
-    overflow: hidden
     -webkit-overflow-scrolling: touch
     height: 100%
 
-  #main-menu ~ #content-wrapper
-    padding: 15px
+  // ------------------- BEGIN CHANGED SCROLL BEHAVIOR
+  // Change scroll behavior on mobile:
+  // Let the window be the one who scrolls.
+  // Thus we make sure, that mobile browsers (like iOS Safari) hide their toolbars on scroll.
+  html
+    overflow: auto
+  body
+    overflow: visible
+
+  #wrapper,
+  #main,
+  #content-wrapper,
+  #content
+    overflow: hidden
+
+  #main
+    margin-top: $header-height
+
+    .-header-scrolled &
+      margin-top: 0
 
   #content-wrapper
-    transition: height .4s
+    height: initial
+  // ------------------- END CHANGED SCROLL BEHAVIOR
 
-    // Slide header in and out on scroll (see also: _top_menu_mobile.sass)
-    .-header-scrolled &
-      height: 100vh
-
-  body.-browser-safari
-    #content-wrapper
-      // Needed for smooth scrolling on Safari mobile
-      transition: height 0s
+  #main-menu ~ #content-wrapper
+    padding: 15px
 
   #main
     grid-template-columns: auto

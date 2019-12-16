@@ -8,6 +8,12 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 10.2.2
+
+Release date: 2019-12-11
+
+[Release Notes](10-2-2/)
+
 ## 10.2.1
 
 Release date: 2019-11-13
@@ -79,7 +85,7 @@ Release date: 2019-06-13
 
 [Release Notes](9-0-2/)
 
- 
+
 
 ## 9.0.1
 
@@ -98,7 +104,7 @@ Release date: 2019-06-07
 
 [Read more](9-0-1/)
 
-## 
+##
 
 ## 9.0.0
 

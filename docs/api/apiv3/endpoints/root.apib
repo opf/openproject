@@ -19,10 +19,10 @@ a client should be able to discover further resources in the API.
 
 ## Local Properties
 
-| Property                  | Description                                          | Type       | Condition                         | Supported operations |
-| :-----------------------: | ---------------------------------------------------- | ---------- | --------------------------------- | -------------------- |
-| instanceName              | The name of the OpenProject instance                 | String     |                                   | READ                 |
-| coreVersion               | The OpenProject core version number for the instance | String     |                                   | READ                 |
+| Property                  | Description                                          | Type       | Condition                                | Supported operations |
+| :-----------------------: | ---------------------------------------------------- | ---------- | ---------------------------------        | -------------------- |
+| instanceName              | The name of the OpenProject instance                 | String     |                                          | READ                 |
+| coreVersion               | The OpenProject core version number for the instance | String     | **Permission** requires admin privileges | READ                 |
 
 ## Root [/api/v3]
 
@@ -61,7 +61,7 @@ a client should be able to discover further resources in the API.
                     }
                 },
                 "instanceName" : "My own OpenProject",
-                "coreVersion" : "6.1.0"
+                "coreVersion" : "10.3.0"
             }
 
 ## View root [GET]

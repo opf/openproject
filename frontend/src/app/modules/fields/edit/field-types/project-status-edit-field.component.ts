@@ -76,7 +76,7 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
     // https://github.com/ng-select/ng-select/issues/1259
     setTimeout(() => {
       const component = (this.ngSelectComponent) as any;
-      if (component.dropdownPanel) {
+      if (component && component.dropdownPanel) {
         component.dropdownPanel._updatePosition();
       }
 
