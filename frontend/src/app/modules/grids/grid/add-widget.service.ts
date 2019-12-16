@@ -60,11 +60,6 @@ export class GridAddWidgetService {
 
   private select(area:GridArea) {
     return new Promise<GridWidgetResource>((resolve, reject) => {
-      if (!this.layout.schema) {
-        reject();
-        return;
-      }
-
       const modal = this.opModalService.show(AddGridWidgetModal, this.injector, { schema: this.layout.schema });
       modal.closingEvent.subscribe((modal:AddGridWidgetModal) => {
         let registered = modal.chosenWidget;
