@@ -29,6 +29,9 @@
 module API
   module V3
     class ParseQueryParamsService
+      KEYS_GROUP_BY = %i(group_by groupBy g).freeze
+      KEYS_COLUMNS = %i(columns c column_names columns[]).freeze
+
       def call(params)
         json_parsed = json_parsed_params(params)
         return json_parsed unless json_parsed.success?
@@ -79,9 +82,9 @@ module API
 
       # Group will be set to nil if parameter exists but set to empty string ('')
       def group_by_from_params(params)
-        return nil unless params_exist?(params, %i(group_by groupBy g))
+        return nil unless params_exist?(params, KEYS_GROUP_BY)
 
-        attribute = params[:group_by] || params[:groupBy] || params[:g]
+        attribute = params_value(params, KEYS_GROUP_BY)
         if attribute.present?
           convert_attribute attribute
         end
@@ -129,7 +132,7 @@ module API
       end
 
       def columns_from_params(params)
-        columns = params[:columns] || params[:c] || params[:column_names] || params[:'columns[]']
+        columns = params_value(params, KEYS_COLUMNS)
 
         return unless columns
 
@@ -205,6 +208,10 @@ module API
         unsafe_params(params).detect { |k, _| symbols.include? k.to_sym }
       end
 
+      def params_value(params, symbols)
+        params.slice(*symbols).first&.last
+      end
+
       ##
       # Access the parameters as a hash, which has been deprecated
       def unsafe_params(params)
@@ -221,7 +228,8 @@ module API
       end
 
       def group_by_empty?(params)
-        params_exist?(params, %i(group_by groupBy g)) && !(params[:group_by] || params[:groupBy] || params[:g]).present?
+        params_exist?(params, KEYS_GROUP_BY) &&
+          !params_value(params, KEYS_GROUP_BY).present?
       end
     end
   end
