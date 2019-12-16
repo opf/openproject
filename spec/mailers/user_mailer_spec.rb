@@ -53,8 +53,10 @@ describe UserMailer, type: :mailer do
   end
 
   shared_examples_for 'mail is sent' do
+    let(:letters_sent_count) { 1 }
+
     it 'actually sends a mail' do
-      expect(ActionMailer::Base.deliveries.size).to eql(1)
+      expect(ActionMailer::Base.deliveries.size).to eql(letters_sent_count)
     end
 
     it 'is sent to the recipient' do
@@ -63,6 +65,12 @@ describe UserMailer, type: :mailer do
 
     it 'is sent from the configured address' do
       expect(ActionMailer::Base.deliveries.first.from).to include('john@doe.com')
+    end
+  end
+
+  shared_examples_for 'multiple mails are sent' do |set_letters_sent_count|
+    it_behaves_like 'mail is sent' do
+      let(:letters_sent_count) { set_letters_sent_count }
     end
   end
 
@@ -130,13 +138,14 @@ describe UserMailer, type: :mailer do
     it_behaves_like 'does only send mails to author if permitted'
   end
 
-  describe '#work_package_watcher_added' do
-    let(:watcher_setter) { user }
+  describe '#work_package_watcher_changed' do
+    let(:watcher_changer) { user }
     before do
-      UserMailer.work_package_watcher_added(work_package, recipient, watcher_setter).deliver_now
+      UserMailer.work_package_watcher_changed(work_package, recipient, watcher_changer, 'added').deliver_now
+      UserMailer.work_package_watcher_changed(work_package, recipient, watcher_changer, 'removed').deliver_now
     end
 
-    it_behaves_like 'mail is sent'
+    include_examples 'multiple mails are sent', 2
 
     it 'contains the WP subject in the mail subject' do
       expect(ActionMailer::Base.deliveries.first.subject).to include(work_package.subject)

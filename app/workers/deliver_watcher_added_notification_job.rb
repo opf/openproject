@@ -28,18 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-OpenProject::Notifications.subscribe('journal_created') do |payload|
-  Notifications::JournalNotificationService.call(payload[:journal], payload[:send_notification])
-end
+class DeliverWatcherAddedNotificationJob < DeliverWatcherNotificationJob
+  def render_mail(recipient:, sender:)
+    return unless watcher
 
-OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-  Notifications::JournalWPMailService.call(payload[:journal], payload[:send_mail])
-end
-
-OpenProject::Notifications.subscribe('watcher_added') do |payload|
-  WatcherAddedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_setter])
-end
-
-OpenProject::Notifications.subscribe('watcher_removed') do |payload|
-  WatcherRemovedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_remover])
+    UserMailer.work_package_watcher_changed(watcher.watchable, recipient, sender, 'added')
+  end
 end

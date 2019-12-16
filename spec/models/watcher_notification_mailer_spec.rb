@@ -28,9 +28,11 @@
 #++
 require 'spec_helper'
 
-describe WatcherNotificationMailer do
-  def call_listener(watcher, watcher_setter)
-    described_class.handle_watcher(watcher, watcher_setter)
+shared_examples 'WatcherNotificationMailer' do |watcher_notification_job|
+  let(:watcher_notification_job) { watcher_notification_job }
+
+  def call_listener(watcher, watcher_changer)
+    described_class.handle_watcher(watcher, watcher_changer)
   end
 
   before do
@@ -47,7 +49,7 @@ describe WatcherNotificationMailer do
       work_package
     }
 
-    let(:watcher_setter) do
+    let(:watcher_changer) do
       FactoryBot.build_stubbed(:user,
                                 mail_notification: watching_setting,
                                 preference: user_pref)
@@ -81,8 +83,8 @@ describe WatcherNotificationMailer do
         let(:self_notified) { true }
 
         it 'notifies the watcher' do
-          expect(DeliverWatcherNotificationJob).to receive(:perform_later)
-          call_listener(watcher, watcher_setter)
+          expect(watcher_notification_job).to receive(:perform_later)
+          call_listener(watcher, watcher_changer)
         end
       end
 
@@ -91,30 +93,30 @@ describe WatcherNotificationMailer do
         let(:self_notified) { false }
 
         it 'notifies the watcher' do
-          expect(DeliverWatcherNotificationJob).to receive(:perform_later)
-          call_listener(watcher, watcher_setter)
+          expect(watcher_notification_job).to receive(:perform_later)
+          call_listener(watcher, watcher_changer)
         end
       end
 
       context 'but when watcher is added by theirself
                and has self_notified deactivated' do
-        let(:watching_user) { watcher_setter }
+        let(:watching_user) { watcher_changer }
         let(:self_notified) { false }
 
         it 'does not notify the watcher' do
-          expect(DeliverWatcherNotificationJob).not_to receive(:perform_later)
-          call_listener(watcher, watcher_setter)
+          expect(watcher_notification_job).not_to receive(:perform_later)
+          call_listener(watcher, watcher_changer)
         end
       end
 
       context 'but when watcher is added by theirself
                and has self_notified activated' do
-        let(:watching_user) { watcher_setter }
+        let(:watching_user) { watcher_changer }
         let(:self_notified) { true }
 
         it 'notifies the watcher' do
-          expect(DeliverWatcherNotificationJob).to receive(:perform_later)
-          call_listener(watcher, watcher_setter)
+          expect(watcher_notification_job).to receive(:perform_later)
+          call_listener(watcher, watcher_changer)
         end
       end
     end
@@ -124,18 +126,18 @@ describe WatcherNotificationMailer do
 
       context 'when added by a different user' do
         it 'does not notify the watcher' do
-          expect(DeliverWatcherNotificationJob).not_to receive(:perform_later)
-          call_listener(watcher, watcher_setter)
+          expect(watcher_notification_job).not_to receive(:perform_later)
+          call_listener(watcher, watcher_changer)
         end
       end
 
       context 'when watcher is added by theirself' do
-        let(:watching_user) { watcher_setter }
+        let(:watching_user) { watcher_changer }
         let(:self_notified) { false }
 
         it 'does not notify the watcher' do
-          expect(DeliverWatcherNotificationJob).not_to receive(:perform_later)
-          call_listener(watcher, watcher_setter)
+          expect(watcher_notification_job).not_to receive(:perform_later)
+          call_listener(watcher, watcher_changer)
         end
       end
     end
@@ -153,7 +155,7 @@ describe WatcherNotificationMailer do
     end
     it_behaves_like 'does not notify the added watcher for', 'only_owner' do
       before do
-        work_package.author = watcher_setter
+        work_package.author = watcher_changer
       end
     end
 
@@ -164,7 +166,7 @@ describe WatcherNotificationMailer do
     end
     it_behaves_like 'does not notify the added watcher for', 'only_assigned' do
       before do
-        work_package.assigned_to = watcher_setter
+        work_package.assigned_to = watcher_changer
       end
     end
 
@@ -189,4 +191,12 @@ describe WatcherNotificationMailer do
       end
     end
   end
+end
+
+describe WatcherRemovedNotificationMailer do
+  include_examples "WatcherNotificationMailer", DeliverWatcherRemovedNotificationJob
+end
+
+describe WatcherAddedNotificationMailer do
+  include_examples "WatcherNotificationMailer", DeliverWatcherAddedNotificationJob
 end
