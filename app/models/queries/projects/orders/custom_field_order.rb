@@ -53,8 +53,8 @@ class Queries::Projects::Orders::CustomFieldOrder < Queries::BaseOrder
 
   def order
     joined_statement = custom_field.order_statements.map do |statement|
-      "#{statement} #{direction}"
-    end.join(', ')
+      Arel.sql("#{statement} #{direction}")
+    end
 
     model.order(joined_statement)
   end

@@ -254,16 +254,6 @@ class ProjectsController < ApplicationController
     @query
   end
 
-  def filter_projects_by_permission(projects)
-    # Cannot simply use .visible here as it would
-    # filter out archived projects for everybody.
-    if User.current.admin?
-      projects
-    else
-      projects.visible
-    end
-  end
-
   def assign_default_create_variables
     @wp_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
@@ -280,7 +270,8 @@ class ProjectsController < ApplicationController
   end
 
   def load_projects(query)
-    filter_projects_by_permission(query.results)
+    query
+      .results
       .with_required_storage
       .with_latest_activity
       .includes(:custom_values, :enabled_modules)

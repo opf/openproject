@@ -31,11 +31,24 @@ require 'spec_helper'
 describe Queries::Projects::ProjectQuery, type: :model do
   let(:instance) { described_class.new }
   let(:base_scope) { Project.all }
+  let(:current_user) { FactoryBot.build_stubbed(:admin) }
+
+  before do
+    login_as(current_user)
+  end
 
   context 'without a filter' do
-    describe '#results' do
+    context 'as an admin' do
       it 'is the same as getting all projects' do
         expect(instance.results.to_sql).to eql base_scope.to_sql
+      end
+    end
+
+    context 'as a non admin' do
+      let(:current_user) { FactoryBot.build_stubbed(:user) }
+
+      it 'is the same as getting all visible projects' do
+        expect(instance.results.to_sql).to eql base_scope.where(id: Project.visible).to_sql
       end
     end
   end
