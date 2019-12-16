@@ -47,6 +47,7 @@ describe 'work package export', type: :feature do
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }
   let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
+  let(:settings_menu) { ::Components::WorkPackages::SettingsMenu.new }
 
   before do
     wp_1
@@ -63,9 +64,8 @@ describe 'work package export', type: :feature do
     DownloadedFile::clear_downloads
 
     work_packages_page.ensure_loaded
-    work_packages_page.open_settings!
 
-    click_on 'Export ...'
+    settings_menu.open_and_choose 'Export ...'
     click_on 'CSV'
   end
 
