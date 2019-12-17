@@ -1,13 +1,13 @@
 hu:
-  export_to_excel: "Export as Excel spreadsheet"
-  print_with_description: "Print preview with description"
+  export_to_excel: "Exportálás Excel munkalapként"
+  print_with_description: "Nyomtatási előnézet leírással"
   sentence_separator_or: "vagy"
-  different_formats: Different formats
+  different_formats: Más formátumok
   export:
     format:
       xls: "XLS"
       xls_with_descriptions: "XLS leírásokkal"
-      xls_with_relations: "XLS with relations"
+      xls_with_relations: "XLS kapcsolatokkal"
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: gyermeke
+    parent_of: szülője

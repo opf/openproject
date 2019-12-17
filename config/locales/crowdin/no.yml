@@ -1924,6 +1924,7 @@
       title: Change the project's identifier
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Aktivitet"
   project_module_forums: "Forum"
   project_module_calendar: "Kalender"
@@ -2229,7 +2230,8 @@
   text_work_package_category_destroy_question: "Noen arbeidspakker (%{count}) er knyttet til denne kategorien. Hva vil du gjøre?"
   text_work_package_category_reassign_to: "Flytt arbeidspakker til denne kategorien"
   text_work_package_updated: "Arbeidspakken %{id} ble oppdatert av %{author}."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Er du sikker på at du vil slette valgte arbeidspakke(r)?"
   text_work_packages_ref_in_commit_messages: "Referèring og retting av arbeidspakker i innsendingsmeldinger"
   text_journal_added: "%{label} %{value} lagt til"
@@ -2561,6 +2563,9 @@
         estimated_hours: "Anslåtte timer kan ikke angis på overordnede arbeidspakker."
         invalid_user_assigned_to_work_package: "Valgt bruker har ikke de nødvendige rettighetene til å være '%{property}' for denne arbeidspakken."
         start_date: "Startdato kan ikke angis på overordnede arbeidspakker."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Skjema'
   doorkeeper:

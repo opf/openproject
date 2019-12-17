@@ -25,7 +25,8 @@ See doc/COPYRIGHT.md for more details.
   <% if authorize_for(@content_type.pluralize, :history) %>
     <li class="toolbar-item">
       <%= link_to({controller: "/#{@content_type.pluralize}", action: 'history', meeting_id: @meeting }, class: 'button') do %>
-        <%= op_icon('button--icon icon-wiki') %> <%= l(:label_history) %>
+        <%= op_icon('button--icon icon-wiki') %>
+        <span class="button--text"><%= l(:button_history) %></span>
       <% end %>
     </li>
   <% end %>

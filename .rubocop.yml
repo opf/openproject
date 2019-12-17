@@ -207,9 +207,6 @@ SpecialGlobalVars:
 StringLiterals:
   Enabled: false
 
-VariableInterpolation:
-  Enabled: false
-
 TrivialAccessors:
   Enabled: false
 

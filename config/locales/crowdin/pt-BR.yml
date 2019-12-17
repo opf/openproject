@@ -71,8 +71,8 @@ pt-BR:
       <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
+      name: Nome arbitrário da conexão LDAP
+      host: Nome do hospedeiro LDAP ou endereço IP
       login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
       generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
       admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
@@ -80,7 +80,7 @@ pt-BR:
         Enter the DN of the system user used for read-only access.
         <br/>
         Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+      system_user_password: Digite a senha de vinculação do usuário do sistema
       base_dn: |
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
         OpenProject will filter for provided usernames in this subtree only.
@@ -90,12 +90,12 @@ pt-BR:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Criptografia de Conexão'
-    system_account: 'System account'
+    system_account: 'Conta do sistema'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+    ldap_details: 'Detalhes do LDAP'
+    user_settings: 'Mapeamento de atributo'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
@@ -1010,7 +1010,7 @@ pt-BR:
         add_groups: "Adicionar novos grupos de atributos"
         rename_groups: "Renomear grupos de atributos"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Filtragem e triagem em campos personalizados é um recurso de edição empresarial."
   enumeration_activities: "Atividades (controle de tempo)"
   enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
   enumeration_system_activity: "Atividade do Sistema"
@@ -1923,6 +1923,7 @@ pt-BR:
       title: Alterar o identificador do projeto
     archive:
       are_you_sure: "Tem certeza de que deseja arquivar o projeto '%{name}'?"
+      archived: "Arquivado"
   project_module_activity: "Atividade"
   project_module_forums: "Fóruns"
   project_module_calendar: "Calendário"
@@ -2228,7 +2229,8 @@ pt-BR:
   text_work_package_category_destroy_question: "Alguns pacotes de trabalho (%{count}) estão atribuídos a esta categoria. O que você quer fazer?"
   text_work_package_category_reassign_to: "Reatribuir pacotes de trabalho para esta categoria"
   text_work_package_updated: "Pacote de trabalho %{id} foi atualizado por %{author}."
-  text_work_package_watcher_added: "Você foi adicionado como um observador do pacote de trabalho %{id} por %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando e corrigindo pacotes de trabalho nas mensagens de commit"
   text_journal_added: "%{label} %{value}  adicionado"
@@ -2559,6 +2561,9 @@ pt-BR:
         estimated_hours: "Número estimado de horas não pode ser definido em pacotes de trabalho pai."
         invalid_user_assigned_to_work_package: "O usuário selecionado não tem permissão de '%{property}' neste pacote de trabalho."
         start_date: "Data de início não pode ser definida no pacote de trabalho pai."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Esquema'
   doorkeeper:
@@ -2621,8 +2626,8 @@ pt-BR:
       wants_to_access_html: >
         Esta aplicação solicita acesso à sua conta OpenProject. <br/> <strong>Ela solicitou as seguintes permissões:</strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Acesso completo a API v3"
+      api_v3_text: "A aplicação receberá acesso total de leitura e escrita a API v3 do OpenProject para executar ações em seu nome."
     grants:
       created_date: "Aprovado em"
       scopes: "Permissões"

@@ -65,3 +65,19 @@ hu:
     scopes:
       bcf_v2_1: "Full access to the BCF v2.1 API"
       bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+  activerecord:
+    errors:
+      models:
+        bcf/viewpoint:
+          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
+          index_not_integer: "index is not an integer."
+          invalid_clipping_planes: "clipping_planes is invalid."
+          invalid_components: "components is invalid."
+          invalid_lines: "lines is invalid."
+          invalid_orthogonal_camera: "orthogonal_camera is invalid."
+          invalid_perspective_camera: "perspective_camera is invalid."
+          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
+          no_json: "Is not a well structured json."
+          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
+          snapshot_data_blank: "snapshot_data needs to be provided."
+          unsupported_key: "An unsupported json property is included."

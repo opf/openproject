@@ -30,31 +30,12 @@ module API
   module V3
     module Relations
       module RelationsHelper
-        def filter_attributes(relation)
-          relation
-            .changes
-            .map { |k, v| [k, v.last] }
-            .to_h
-            .with_indifferent_access
-        end
-
         def representer
           ::API::V3::Relations::RelationRepresenter
         end
 
         def parse_representer
           ::API::V3::Relations::RelationPayloadRepresenter
-        end
-
-        def project_id_for_relation(id)
-          relations = Relation.table_name
-          work_packages = WorkPackage.table_name
-
-          Relation
-            .joins(:from)
-            .where("#{relations}.id" => id)
-            .pluck("#{work_packages}.project_id")
-            .first
         end
       end
     end

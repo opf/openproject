@@ -37,5 +37,9 @@ OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAG
 end
 
 OpenProject::Notifications.subscribe('watcher_added') do |payload|
-  WatcherNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_setter])
+  WatcherAddedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_setter])
+end
+
+OpenProject::Notifications.subscribe('watcher_removed') do |payload|
+  WatcherRemovedNotificationMailer.handle_watcher(payload[:watcher], payload[:watcher_remover])
 end

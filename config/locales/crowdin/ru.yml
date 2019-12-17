@@ -75,25 +75,24 @@ ru:
       host: Имя хоста или IP-адрес
       login_map: Ключ атрибута в LDAP, который используется для идентификации уникального входа пользователя. Обычно это будет `uid` или `samAccountName`.
       generic_map: Ключ атрибута в LDAP, сопоставленный с атрибутом OpenProject `%{attribute}
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      admin_map_html: "Необязательно: Ключ атрибута в LDAP, который <strong>при представлении</strong> помечает пользователя администратором. Оставьте пустым, если сомневаетесь."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Введите DN пользователя системы, используемого для доступа только для чтения.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
+        Пример: uid=openproject,ou=system,dc=example,dc=com
       system_user_password: Введите пароль пользователя системы
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Введите базовый DN поддерева в LDAP, в котором бы OpenProject искал пользователей и групп.
+        OpenProject будет фильтровать указанных пользователей только в этом поддереве.
+        Пример: ou=users,dc=example,dc=com
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Отмеченный флажок разрешает OpenProject при первой аутентификации создавать новых пользователей из их LDAP записей.
+        Для аутентификации существующих в OpenProject учетных записей через LDAP не отмечайте!
     connection_encryption: 'Шифрование подключения'
     system_account: 'Системный аккаунт'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
+      OpenProject требует доступа только для чтения через системную учетную запись для поиска пользователей и групп в вашем LDAP дереве.
+      Пожалуйста, укажите учётные данные для этого пользователя системы в следующем разделе.
     ldap_details: 'Подробности LDAP'
     user_settings: 'Сопоставление атрибутов'
     user_settings_legend: |
@@ -1965,6 +1964,7 @@ ru:
       title: Измените идентификатор проекта
     archive:
       are_you_sure: "Уверены, что хотите архивизировать проект %{name}%?"
+      archived: "Архивировано"
   project_module_activity: "Деятельность"
   project_module_forums: "Форумы"
   project_module_calendar: "Календарь"
@@ -2268,7 +2268,8 @@ ru:
   text_work_package_category_destroy_question: "Некоторые пакеты работ (%{count}) принадлежат для этой категории. Что вы хотите сделать?"
   text_work_package_category_reassign_to: "Переназначить пакеты работ этой категории"
   text_work_package_updated: "%{author} обновил пакет работ %{id}."
-  text_work_package_watcher_added: "Вы были добавлены как наблюдатель к пакету работ %{id}, %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
@@ -2603,6 +2604,9 @@ ru:
         estimated_hours: "Предполагаемое количество часов не может быть задано для родительских пакетов."
         invalid_user_assigned_to_work_package: "Выбранный пользователь не может быть «%{property}» для этого пакета работ."
         start_date: "Дата начала не может быть задана на родительских  пакетах работ."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Схема'
   doorkeeper:

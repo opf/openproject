@@ -63,6 +63,7 @@
        [cdkDropListData]="area"
        [cdkDropListConnectedTo]="layout.gridAreaIds">
     <div class="grid--widget-add hidden-for-mobile"
+         *ngIf="layout.schema"
          [title]="add.addText"
          (click)="add.widget(area)">
     </div>
@@ -81,6 +82,7 @@
        [id]="gap.guid"
        (mouseover)="layout.setMousedOverArea(gap)">
     <div class="grid--widget-add -gap hidden-for-mobile"
+         *ngIf="layout.schema"
          [title]="add.addText"
          (click)="add.widget(gap)">
     </div>

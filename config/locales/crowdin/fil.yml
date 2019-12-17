@@ -1924,6 +1924,7 @@ fil:
       title: Baguhin ang mga pagkakilanlan ng proyekto
     archive:
       are_you_sure: "Sigurado ka bang na gusto mong i-archive ang proyekto'%{name}'?"
+      archived: "Archived"
   project_module_activity: "Aktibidad"
   project_module_forums: "Mga forum"
   project_module_calendar: "Kalendaryo"
@@ -2227,7 +2228,8 @@ fil:
   text_work_package_category_destroy_question: "May mga ibang work package (%{count}) ay nakatakaga sa kategoryang ito. Ano gusto mong gawin?"
   text_work_package_category_reassign_to: "Magtalaga ulit ng mga work package para sa kategoryang ito"
   text_work_package_updated: "Ang work package %{id} ay naka-update na sab%{author}."
-  text_work_package_watcher_added: "Ikaw ay dinagdag bilang watcher sa Work package %{id} ng %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Sigurado ka ba na gusto mong burahin ang napiling work package?"
   text_work_packages_ref_in_commit_messages: "Pagsangguni at pagsaayos ng work package sa mga isinagawang mensahe"
   text_journal_added: "%{label}%{value} idinagdag"
@@ -2559,6 +2561,9 @@ fil:
         estimated_hours: "Itinayang mga oras ay hindi mai-set sa mga package ng gawain ng magulang."
         invalid_user_assigned_to_work_package: "Ang piniling gumagamit ay hindi pinahihintulan sa '%{property}' na para sa package ng gawain ng magulang."
         start_date: "Sinimulang petsa ay hindi mai-set sa mga pakete ng gawain ng magulang."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Iskema'
   doorkeeper:

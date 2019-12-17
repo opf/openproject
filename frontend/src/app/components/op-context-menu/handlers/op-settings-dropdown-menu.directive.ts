@@ -177,6 +177,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         // Insert columns
         linkText: this.I18n.t('js.work_packages.query.insert_columns'),
         icon: 'icon-columns',
+        class: 'hidden-for-mobile',
         onClick: () => {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,
@@ -203,6 +204,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         // Group by
         linkText: this.I18n.t('js.toolbar.settings.group_by'),
         icon: 'icon-group-by',
+        class: 'hidden-for-mobile',
         onClick: () => {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,

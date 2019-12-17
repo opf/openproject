@@ -24,7 +24,7 @@ See doc/COPYRIGHT.md for more details.
             link_to: link_to(@meeting),
             html: { class: 'meeting--main-toolbar' } do %>
   <% unless User.current.anonymous? %>
-    <li class="toolbar-item">
+    <li class="toolbar-item hidden-for-mobile">
       <div class="button">
         <%= watcher_link @meeting, User.current %>
       </div>
@@ -33,14 +33,16 @@ See doc/COPYRIGHT.md for more details.
   <% if authorize_for(:meetings, :edit) %>
     <li class="toolbar-item">
       <%= link_to({:controller => '/meetings', :action => 'edit', :id => @meeting}, class: 'button',:accesskey => accesskey(:edit)) do%>
-        <%= op_icon('button--icon icon-edit') %> <%= t(:button_edit) %>
+        <%= op_icon('button--icon icon-edit') %>
+        <span class="button--text"><%= l(:button_edit) %></span>
       <% end %>
     </li>
   <% end %>
   <% if authorize_for(:meetings, :copy) %>
-    <li class="toolbar-item">
+    <li class="toolbar-item hidden-for-mobile">
       <%= link_to({:controller => '/meetings', :action => 'copy', :id => @meeting}, class: 'button') do %>
-        <%= op_icon('button--icon icon-copy') %> <%= t(:button_copy) %>
+        <%= op_icon('button--icon icon-copy') %>
+        <span class="button--text"><%= l(:button_copy) %></span>
       <% end %>
     </li>
   <% end %>
@@ -50,7 +52,8 @@ See doc/COPYRIGHT.md for more details.
                   class: 'button',
                   method: :delete,
                   data: { confirm: t(:text_are_you_sure) }) do %>
-        <%= op_icon('button--icon icon-delete') %> <%= t(:button_delete) %>
+        <%= op_icon('button--icon icon-delete') %>
+        <span class="button--text"><%= t(:button_delete) %></span>
       <% end %>
     </li>
   <% end %>

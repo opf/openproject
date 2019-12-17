@@ -51,7 +51,7 @@ module ErrorMessageHelper
       end
     end
 
-    render_error_messages_partial(error_messages, { object: object })
+    render_error_messages_partial(error_messages, object: object)
   end
 
   def extract_objects_from_params(params)
@@ -73,7 +73,7 @@ module ErrorMessageHelper
       render partial: 'common/validation_error',
              locals: { error_messages: messages,
                        classes: options[:classes],
-                       object_name:  options[:object].class.model_name.human }
+                       object_name: options[:object].class.model_name.human }
     end
   end
 end

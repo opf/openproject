@@ -37,7 +37,7 @@ describe Queries::Projects::Filters::CustomFieldFilter, type: :model do
   let(:instance_key) { nil }
   let(:name) { field.name }
 
-  let(:list_project_custom_field) { FactoryBot.create(:list_project_custom_field) }
+  shared_let(:list_project_custom_field) { FactoryBot.create(:list_project_custom_field) }
   let(:bool_project_custom_field) { FactoryBot.build_stubbed(:bool_project_custom_field) }
   let(:int_project_custom_field) { FactoryBot.build_stubbed(:int_project_custom_field) }
   let(:float_project_custom_field) { FactoryBot.build_stubbed(:float_project_custom_field) }
@@ -61,9 +61,9 @@ describe Queries::Projects::Filters::CustomFieldFilter, type: :model do
   end
 
   before do
-    allow(ProjectCustomField).to receive(:find_by) do |args|
-      all_custom_fields.detect { |stubbed| stubbed.id == args[:id] }
-    end
+    allow(ProjectCustomField)
+      .to receive(:all)
+      .and_return(all_custom_fields)
   end
 
   describe 'invalid custom field' do

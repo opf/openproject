@@ -44,7 +44,42 @@ With the above JSON stringified and URL-encoded, this can be added to the `/api/
 https://community.openproject.com/api/v3/work_packages?filters=%5B%7B%22subjectOrId%22:%7B%22operator%22:%22**%22,%22values%22:%5B%2212%22%5D%7D%7D,%7B%22status%22:%7B%22operator%22:%22=%22,%22values%22:%5B%225%22%5D%7D%7D%5D
 ```
 
+## Compression
 
+As the above can become quite long, especially if a lot of filter values are included, the API offers to wrap all query props into a zlib compressed and base64 encoded property (`eprops`).
+The property will then not only include the filter but the complete query props set (e.g. `pageSize`, `offset` and `columns`. So `eprops` is then a JSON object that is compressed and encoded.
+
+**Example**
+
+Instead of the request
+
+```
+https://community.openproject.com/api/v3/work_packages?filters=[%7B%22subjectOrId%22:%7B%22operator%22:%22**%22,%22values%22:[%2212%22]%7D%7D,%7B%22status%22:%7B%22operator%22:%22=%22,%22values%22:[%225%22]%7D%7D]&pageSize=10&sortBy=[[%22id%22,%20%22asc%22]]
+```
+
+Which in a non URL encoded style would be
+
+```
+https://community.openproject.com/api/v3/work_packages?filters=[{"subjectOrId":{"operator":"**","values":["12"]}},{"status":{"operator":"=","values":["5"]}}]&pageSize=10&sortBy=[["id", "asc"]]
+```
+
+All of the props can be put inside a json object
+
+```
+{
+  "filters": "[{\"subjectOrId\":{\"operator\":\"**\",\"values\":[\"12\"]}},{\"status\":{\"operator\":\"=\",\"values\":[\"5\"]}}]",
+  "sortBy": "[[\"id\",\"asc\"]]",
+  "pageSize": 10
+}
+```
+
+Please note, that all objects that have to be json (e.g `filters`) will be double encoded.
+
+That json object can then be compressed and encoded and the result sent over as the combined `eprops` parameter:
+
+```
+https://community.openproject.com/api/v3/work_packages?eprops=eJxtjTELwjAUhP%2FLjSWDFVwCLt2cHBz7OsT2VSKFlLwXQUv%2Bu0lXHe%2B7%2B7gN%0As1%2BUo8Ci3wiS7k8e9RovE8EWEFaOTkMsidA0BEN4uSWxFNIT2iNhyNlUV50m%0A%2BaOdf6zTLg0wkBC1e9f3gv20L52Mpa%2Ft6h588x%2BGbQ%2F5C12YN%2BM%3D%0A
+```
 
 ## Available filters
 

@@ -52,7 +52,9 @@ module Versions
     attribute :effective_date
     attribute :status
     attribute :sharing
-    attribute :wiki_page_title
+    attribute :wiki_page_title do
+      validate_page_title_in_wiki
+    end
 
     def assignable_statuses
       Version::VERSION_STATUSES
@@ -79,6 +81,16 @@ module Versions
       end
     end
 
+    def assignable_wiki_pages
+      wiki = model.project.wiki
+
+      if wiki
+        wiki.pages
+      else
+        WikiPage.where('1=0')
+      end
+    end
+
     def assignable_custom_field_values(custom_field)
       custom_field.possible_values
     end
@@ -99,6 +111,12 @@ module Versions
 
     def validate_project_is_set
       errors.add :project_id, :blank if model.project.nil?
+    end
+
+    def validate_page_title_in_wiki
+      return unless model.wiki_page_title.present? && model.project&.wiki
+
+      errors.add :wiki_page_title, :inclusion unless model.project.wiki.find_page(model.wiki_page_title)
     end
   end
 end

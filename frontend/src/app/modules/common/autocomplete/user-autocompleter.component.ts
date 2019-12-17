@@ -52,7 +52,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
                (focus)="onFocus()"
                (change)="onModelChange($event)">
       <ng-template ng-option-tmp let-item="item" let-index="index">
-        <user-avatar *ngIf="item"
+        <user-avatar *ngIf="item && item.id"
                      [user]="item"
                      data-class-list="avatar-mini">
         </user-avatar>

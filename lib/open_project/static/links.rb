@@ -31,7 +31,6 @@ module OpenProject
   module Static
     module Links
       class << self
-
         def help_link_overridden?
           OpenProject::Configuration.force_help_link.present?
         end
@@ -79,7 +78,7 @@ module OpenProject
               label: 'homescreen.links.upgrade_enterprise_edition'
             },
             user_guides: {
-              href: 'https://www.openproject.org/help/',
+              href: 'https://docs.openproject.org/user-guide/',
               label: 'homescreen.links.user_guides'
             },
             upgrade_guides: {
@@ -143,11 +142,11 @@ module OpenProject
               label: :label_add_edit_translations
             },
             api_docs: {
-              href: 'https://www.openproject.org/api',
+              href: 'https://docs.openproject.org/api',
               label: :label_api_documentation
             },
             text_formatting: {
-              href: 'https://www.openproject.org/help/wiki/',
+              href: 'https://docs.openproject.org/user-guide/wiki/',
               label: :setting_text_formatting
             },
             oauth_authorization_code_flow: {

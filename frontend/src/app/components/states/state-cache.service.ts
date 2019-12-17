@@ -50,6 +50,13 @@ export abstract class StateCacheService<T> {
   }
 
   /**
+   * Get the current value
+   */
+  public current(id:string, fallback?:T):T|undefined {
+    return this.state(id).getValueOr(fallback);
+  }
+
+  /**
    * Update the value due to application changes.
    *
    * @param id The value's identifier.

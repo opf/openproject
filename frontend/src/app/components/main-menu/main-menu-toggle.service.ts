@@ -95,8 +95,6 @@ export class MainMenuToggleService {
     if (!this.showNavigation) { // sidebar is hidden -> show menu
       if (this.deviceService.isMobile) { // mobile version
         this.setWidth(window.innerWidth);
-        // On mobile the main menu shall close whenever you click outside the menu.
-        this.setupAutocloseMainMenu();
       } else { // desktop version
         this.saveWidth(parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string));
       }
@@ -167,28 +165,6 @@ export class MainMenuToggleService {
     this.global.showNavigation = this.showNavigation;
     this.toggleClassHidden();
     this.htmlNode.style.setProperty("--main-menu-width", this.elementWidth + 'px');
-  }
-
-  private setupAutocloseMainMenu():void {
-    let that = this;
-    jQuery('#main-menu').off('focusout.main_menu');
-    jQuery('#main-menu').on('focusout.main_menu', function (event) {
-      let originalEvent = event.originalEvent as FocusEvent;
-      // Check that main menu is not closed and that the `focusout` event is not a click on an element
-      // that tries to close the menu anyways.
-      if (!that.showNavigation || document.getElementById('main-menu-toggle') === originalEvent.relatedTarget) {
-        return;
-      }
-      else {
-        // There might be a time gap between `focusout` and the focussing of the activeElement, thus we need a timeout.
-        setTimeout(function() {
-          if (!jQuery.contains(document.getElementById('main-menu')!, originalEvent.relatedTarget as Element)) {
-            // activeElement is outside of main menu.
-            that.closeMenu();
-          }
-        }, 0);
-      }
-    });
   }
 
   private snapBack():void {

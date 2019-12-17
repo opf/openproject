@@ -15,6 +15,7 @@
          [attr.name]="selectableTitleIdentifier"
          [focus]="this.initialFocus || undefined"
          (focus)="onFocus($event)"
+         (blur)="onBlur()"
          (keydown.escape)="reset($event)"
          (keydown.enter)="save($event)"
          [attr.placeholder]="text.input_placeholder"

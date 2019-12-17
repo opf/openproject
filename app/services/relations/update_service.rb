@@ -29,17 +29,17 @@
 #++
 
 class Relations::UpdateService < Relations::BaseService
-  attr_accessor :relation
+  attr_accessor :model
 
-  def initialize(user:, relation:)
+  def initialize(user:, model:)
     super(user: user)
-    self.relation = relation
+    self.model = model
     self.contract_class = Relations::UpdateContract
   end
 
-  def call(attributes: {}, send_notifications: true)
-    in_context(send_notifications) do
-      update_relation relation, attributes
+  def call(attributes)
+    in_context(attributes[:send_notifications]) do
+      update_relation model, attributes
     end
   end
 end

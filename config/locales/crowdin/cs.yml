@@ -1965,6 +1965,7 @@ cs:
       title: Změnit identifikátor projektu
     archive:
       are_you_sure: "Opravdu chcete archivovat projekt '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Aktivita"
   project_module_forums: "Diskuse"
   project_module_calendar: "Kalendář"
@@ -2270,7 +2271,8 @@ cs:
   text_work_package_category_destroy_question: "Některé pracovní balíčky (%{count}) jsou přiřazeny k této kategorii. Co chcete udělat?"
   text_work_package_category_reassign_to: "Reassign work packages to this category"
   text_work_package_updated: "Work package %{id} has been updated by %{author}."
-  text_work_package_watcher_added: "Byli jste přidáni jako pozorovatel pro pracovní balíček %{id} uživatelem %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} přidán"
@@ -2605,6 +2607,9 @@ cs:
         estimated_hours: "Estimated hours cannot be set on parent work packages."
         invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
         start_date: "Start date cannot be set on parent work packages."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
   doorkeeper:

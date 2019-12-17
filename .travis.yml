@@ -56,7 +56,9 @@ env:
 before_install:
 
   # work around https://github.com/travis-ci/travis-ci/issues/8969
-  - travis_retry gem update --system
+  # Currently causes error but as it will probably be required later on again,
+  # I leave the code as a reminder.
+  # - travis_retry gem update --system
   # Install latest bundler
   - gem install bundler
 

@@ -236,7 +236,7 @@ describe VersionsController, type: :controller do
 
   describe '#update' do
     context 'with valid params' do
-      let(:params) {
+      let(:params) do
         {
           id: version1.id,
           version: {
@@ -244,7 +244,7 @@ describe VersionsController, type: :controller do
             effective_date: Date.today.strftime('%Y-%m-%d')
           }
         }
-      }
+      end
       before do
         login_as(user)
         patch :update, params: params
@@ -284,6 +284,7 @@ describe VersionsController, type: :controller do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template('edit') }
+      it { expect(assigns(:errors).symbols_for(:name)).to match_array([:blank]) }
     end
   end
 

@@ -36,6 +36,11 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   templateUrl: './dynamic-content.modal.html'
 })
 export class DynamicContentModal extends OpModalComponent implements OnInit, OnDestroy {
+  // override superclass
+  // Allowing outside clicks to close the modal leads to the user involuntarily closing
+  // the modal when removing error messages or clicking on labels e.g. in the registration modal.
+  public closeOnOutsideClick:boolean = false;
+
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
