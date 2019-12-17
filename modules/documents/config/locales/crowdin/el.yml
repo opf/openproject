@@ -23,21 +23,21 @@
 el:
   activerecord:
     models:
-      document: "Document"
-  default_doc_category_tech: "Technical documentation"
-  default_doc_category_user: "User documentation"
-  enumeration_doc_categories: "Document categories"
+      document: "Έγγραφο"
+  default_doc_category_tech: "Τεχνική τεκμηρίωση"
+  default_doc_category_user: "Τεκμηρίωση χρήστη"
+  enumeration_doc_categories: "Κατηγορίες εγγράφων"
   enumeration:
     document_category:
-      documentation: Documentation
+      documentation: Τεκμηρίωση
       specification: Προδιαγραφές
       other: Άλλο
   documents:
-    label_attachment_author: "Attachment author"
-  label_document_added: "Document added"
-  label_document_new: "New document"
+    label_attachment_author: "Συγγραφέας συνημμένου"
+  label_document_added: "Έγγραφο προστέθηκε"
+  label_document_new: "Νέο έγγραφο"
   label_document_plural: "Έγγραφα"
   label_documents: "Έγγραφα"
-  permission_manage_documents: "Manage documents"
-  permission_view_documents: "View documents"
+  permission_manage_documents: "Διαχείριση εγγράφων"
+  permission_view_documents: "Προβολή εγγράφων"
   project_module_documents: "Έγγραφα"

@@ -58,7 +58,7 @@ el:
     button_list_view: "Προβολή λίστας"
     button_show_view: "Πλήρης οθόνη"
     button_log_time: "Καταγραφή χρόνου"
-    button_more: "More"
+    button_more: "Περισσότερα"
     button_open_details: "Άνοιγμα λεπτομερειών"
     button_close_details: "Κλείσιμο λεπτομερειών"
     button_open_fullscreen: "Πλήρης οθόνη"
@@ -72,7 +72,7 @@ el:
     button_export-pdf: "Λήψη PDF"
     button_export-atom: "Κατεβάστε το Atom"
     calendar:
-      title: 'Calendar'
+      title: 'Ημερολόγιο'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Προσθέστε νέα κάρτα'
@@ -96,7 +96,7 @@ el:
         radar: 'Radar'
         polar_area: 'Polar area'
       tabs:
-        graph_settings: 'General'
+        graph_settings: 'Γενικά'
         dataset: 'Dataset %{number}'
       errors:
         could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
@@ -155,15 +155,15 @@ el:
       type_form:
         custom_field: 'Προσαρμοσμένο πεδίο'
         inactive: 'Ανενεργό'
-        drag_to_activate: "Drag fields from here to activate them"
+        drag_to_activate: "Σύρετε πεδία από εδώ για να τα ενεργοποιήσετε"
         add_group: "Προσθήκη ομάδας χαρακτηριστικών"
         add_table: "Προσθήκη πίνακα με σχετιζόμενες εργασίες"
         edit_query: 'Edit query'
-        new_group: 'New group'
+        new_group: 'Νέα ομάδα'
         reset_to_defaults: 'Επαναφορά στα προεπιλεγμένα'
     custom_actions:
       date:
-        specific: 'on'
+        specific: 'σε'
         current_date: 'Τρέχουσα ημερομηνία'
     error:
       internal: "Παρουσιάστηκε ένα εσωτερικό σφάλμα."
@@ -174,7 +174,7 @@ el:
       description:
         text_open_filter: "Ανοίξτε αυτό το φίλτρο με το 'ALT' και τα πλήκτρα βέλους."
         text_close_filter: "Για να επιλέξετε μια καταχώρηση, φύγετε από την εστίαση, για παράδειγμα πατώντας το πλήκτρο enter. Για να φύγετε χωρίς το φίλτρο, επιλέξτε την πρώτη (άδεια) καταχώρηση."
-      noneElement: "(none)"
+      noneElement: "(κανένα)"
       time_zone_converted:
         two_values: "%{from} - %{to} στην τοπική σας ώρα."
         only_start: "Από %{from} στην τοπική σας ώρα."
@@ -218,10 +218,10 @@ el:
     label_ago: "ημέρες πριν"
     label_all: "όλα"
     label_all_work_packages: "όλα τα πακέτα εργασίας"
-    label_and: "and"
+    label_and: "και"
     label_ascending: "Αύξουσα"
     label_author: "Συγγραφέας: %{user}"
-    label_between: "between"
+    label_between: "μεταξύ"
     label_board: "Πινακας"
     label_board_locked: "Κλειδωμένο"
     label_board_plural: "Πινακες"
@@ -235,7 +235,7 @@ el:
     label_descending: "Φθίνουσα"
     label_description: "Περιγραφή"
     label_cancel_comment: "Ακύρωση σχολίου"
-    label_closed_work_packages: "closed"
+    label_closed_work_packages: "κλειστό"
     label_collapse: "Σύμπτυξη"
     label_collapsed: "συμπτυγμένο"
     label_collapse_all: "Σύμπτυξη όλων"
@@ -256,7 +256,7 @@ el:
     label_filesize: "Μέγεθος"
     label_greater_or_equal: ">="
     label_group: 'Ομάδα'
-    label_group_by: "Group by"
+    label_group_by: "Ομαδοποίηση κατά"
     label_hide_attributes: "Εμφάνιση λιγότερων"
     label_hide_column: "Απόκρυψη στήλης"
     label_hide_project_menu: "Σύμπτυξη του μενού έργου"
@@ -272,17 +272,17 @@ el:
     label_me: "εγώ"
     label_menu_collapse: "σύμπτυξη"
     label_menu_expand: "επέκταση"
-    label_more_than_ago: "more than days ago"
-    label_next: "Next"
+    label_more_than_ago: "σε περισσότερο από ημέρες πριν"
+    label_next: "Επόμενο"
     label_no_color: "Χωρίς χρώμα"
-    label_no_data: "No data to display"
+    label_no_data: "Δεν υπάρχουν δεδομένα για εμφάνιση"
     label_no_due_date: "δεν υπάρχει ημερομηνία λήξης"
     label_no_start_date: "δεν υπάρχει ημερομηνία έναρξης"
     label_no_value: "Καμία τιμή"
-    label_none: "none"
-    label_not_contains: "doesn't contain"
-    label_not_equals: "is not"
-    label_on: "on"
+    label_none: "κανένα"
+    label_not_contains: "δεν περιέχει"
+    label_not_equals: "δεν είναι"
+    label_on: "σε"
     label_open_menu: "Άνοιγμα μενού"
     label_open_context_menu: "Άνοιγμα του μενού πλαισίου"
     label_open_work_packages: "ανοιχτό"
@@ -320,10 +320,10 @@ el:
     label_total_progress: "%{percent}% Συνολική πρόοδος"
     label_total_amount: "Σύνολο: %{amount}"
     label_updated_on: "ενημερώθηκε στις"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(αξία που προέρχεται από παιδιά)"
     label_warning: "Warning"
     label_work_package: "Εργασία"
-    label_work_package_plural: "Work packages"
+    label_work_package_plural: "Πακέτα εργασίας"
     label_watch: "Παρακολουθήστε"
     label_watch_work_package: "Παρακολούθηση πακέτου εργασίας"
     label_watcher_added_successfully: "Ο παρατηρητής προστέθηκε επιτυχώς!"
@@ -337,7 +337,7 @@ el:
     label_global_queries: "Δημόσιες προβολές"
     label_custom_queries: "Ιδιωτικές προβολές"
     label_columns: "Στήλες"
-    label_attachments: Files
+    label_attachments: Αρχεία
     label_drop_files: Σύρετε αρχεία εδώ
     label_drop_files_hint: ή κάντε κλικ για να προσθέσετε αρχεία
     label_drop_folders_hint: Δεν μπορείτε να μεταφορτώσετε φακέλους ως συνημμένο. Παρακαλώ επιλέξτε μεμονωμένα αρχεία.
@@ -362,7 +362,7 @@ el:
     onboarding:
       buttons:
         skip: 'Παράλειψη'
-        next: 'Next'
+        next: 'Επόμενο'
         got_it: 'Το κατάλαβα'
       steps:
         help_menu: 'Στο μενού <b>Βοήθεια</b> θα βρείτε έναν οδηγό χρήστη και επιπλέον βοηθητικούς πόρους. <br> Απολαύστε την δουλειά σας με το OpenProject!'
@@ -410,7 +410,7 @@ el:
       click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'
       autocompleter:
         label: 'Αυτόματη συμπλήρωση έργου'
-    text_are_you_sure: "Are you sure?"
+    text_are_you_sure: "Είστε σίγουρος/η;"
     types:
       attribute_groups:
         error_duplicate_group_name: "Το όνομα %{group} χρησιμοποιείται περισσότερες από μία φορές. Τα ονόματα ομάδων πρέπει να είναι μοναδικά."
@@ -430,7 +430,7 @@ el:
           duplicates: "γίνεται αντιγραφή"
           duplicated: "αντιγράφτηκε από"
           blocks: "μπλοκάρισμα"
-          blocked: "blocked by"
+          blocked: "αποκλεισμένο από"
           partof: "είναι μέρος του"
           includes: "συμπεριλαμβανομένου"
           requires: "απαιτώντας"
@@ -443,7 +443,7 @@ el:
       label_loading: φορτώνονται οι παρατηρητές...
       label_error_loading: Παρουσιάστηκε σφάλμα κατά τη φόρτωση των παρατηρητών
       label_search_watchers: Αναζητήστε παρατηρητές
-      label_add: Add watchers
+      label_add: Προσθήκη παρατηρητών
       label_discard: Απόρριψη της επιλογής
       typeahead_placeholder: Αναζήτηση πιθανών παρατηρητών
     relation_labels:
@@ -520,7 +520,7 @@ el:
     text_attachment_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το συνημμένο;"
     timelines:
       quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
+      gantt_chart: 'Διάγραμμα Gantt'
       labels:
         title: 'Διαμόρφωση ταμπέλας'
         bar: 'Ταμπέλες μπάρας'
@@ -544,7 +544,7 @@ el:
         report_timeout: "The timeline could not be loaded in a reasonable amount of time."
       filter:
         grouping_other: "Άλλο"
-        noneSelection: "(none)"
+        noneSelection: "(κανένα)"
       name: "Όνομα"
       outline: "Reset Outline"
       outlines:
@@ -564,8 +564,8 @@ el:
       selection_mode:
         notification: 'Κάντε κλικ σε οποιοδήποτε πακέτο εργασίας για να δημιουργήσετε τη συσχέτιση. Πατήστε το πλήκτρο escape για ακύρωση.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "Μεγέθυνση"
+        out: "Σμίκρυνση"
         auto: "Αυτόματη μεγέθυνση"
         days: "Days"
         weeks: "Weeks"
@@ -615,7 +615,7 @@ el:
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Ενεργοποίηση πολλαπλής επιλογής"
       label_disable_multi_select: "Απενεργοποίηση πολλαπλής επιλογής"
-      label_filter_add: "Add filter"
+      label_filter_add: "Προσθήκη φίλτρου"
       label_filter_by_text: "Φιλτράρισμα βάσει κειμένου"
       label_options: "Επιλογές"
       label_column_multiselect: "Συνδυασμένο αναπτυσσόμενο πεδίο: Επιλέξτε με τα πλήκτρα βέλους, επιβεβαιώστε πατώντας το πλήκτρο enter, διαγράψτε πατώντας το πλήκτρο backspace"
@@ -624,12 +624,12 @@ el:
       message_successful_show_in_fullscreen: "Πατήστε εδώ για να ανοίξετε το πακέτο εργασίας σε πλήρη οθόνη."
       message_view_spent_time: "Εμφάνιση χρόνου που δαπανήθηκε σε αυτό το πακέτο εργασίας"
       message_work_package_read_only: "Το πακέτο εργασίας είναι κλειδωμένο σε αυτή την κατάσταση. Κανένα χαρακτηριστικό εκτός από την κατάσταση δεν μπορεί να αλλαχθεί."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "Η κατάσταση του πακέτου εργασίας δεν είναι εγγράψιμη λόγω κλειστής κατάστασης και εκχωρημένης έκδοσης."
       placeholder_filter_by_text: "Θέμα, περιγραφή, σχόλια, ..."
       inline_create:
         title: 'Πατήστε εδώ για να προσθέσετε ένα καινούργιο πακέτο εργασίας σε αυτή τη λίστα'
       create:
-        title: 'New work package'
+        title: 'Νέο πακέτο εργασίας'
         header: 'Νέο %{type}'
         header_no_type: 'Καινούργιο πακέτο εργασίας (Ο τύπος δεν έχει οριστεί ακόμη)'
         header_with_parent: 'Νέο %{type} (Παιδί του %{parent_type} #%{id})'
@@ -695,7 +695,7 @@ el:
       query:
         column_names: "Στήλες"
         group_by: "Ομαδοποίηση αποτελεσμάτων κατά"
-        group: "Group by"
+        group: "Ομαδοποίηση κατά"
         group_by_disabled_by_hierarchy: "Η ομαδοποίηση είναι απενεργοποιημένη επειδή είναι ενεργή η λειτουργία ιεραρχίας."
         hierarchy_disabled_by_group_by: "Η λειτουργία ιεραρχίας είναι απενεργοποιημένη επειδή τα αποτελέσματα είναι ομαδοποιημένα κατά %{column}."
         sort_ascending: "Αύξουσα ταξινόμηση"
@@ -728,7 +728,7 @@ el:
         choose_display_mode: 'Εμφάνιση πακέτων εργασίας ως'
         modal_title: 'Διαμόρφωση του πίνακα πακέτων εργασίας'
         embedded_tab_disabled: "Αυτή η καρτέλα διαμόρφωσης δεν είναι διαθέσιμη για την ενσωματωμένη προβολή που επεξεργάζεστε."
-        default: "default"
+        default: "προεπιλογή"
         display_settings: 'Ρυθμίσεις εμφάνισης'
         default_mode: "Επίπεδη λίστα"
         hierarchy_mode: "Ιεραρχία"
@@ -766,8 +766,8 @@ el:
         attachments: Συνημμένα
       time_relative:
         days: "ημέρες"
-        weeks: "weeks"
-        months: "months"
+        weeks: "εβδομάδες"
+        months: "μήνες"
     toolbar:
       settings:
         configure_view: "Διαμόρφωση προβολής ..."
@@ -843,14 +843,14 @@ el:
         one: "ένα παιδί πακέτο εργασίας"
         other: "%{count} παιδιά πακέτα εργασίας"
       hour:
-        one: "1 h"
-        other: "%{count} h"
+        one: "1 ώρα"
+        other: "%{count} ώρες"
     zen_mode:
       button_activate: 'Ενεργοποίηση λειτουργίας zen'
       button_deactivate: 'Απενεργοποίηση λειτουργίας zen'
     global_search:
       all_projects: "Σε όλα τα έργα"
-      search: "Search"
+      search: "Αναζήτηση"
       close_search: "Κλείσιμο αναζήτησης"
       current_project: "Σε αυτό το έργο"
       current_project_and_all_descendants: "Σε αυτό το έργο + υποέργα"

@@ -75,20 +75,19 @@ ru:
       host: Имя хоста или IP-адрес
       login_map: Ключ атрибута в LDAP, который используется для идентификации уникального входа пользователя. Обычно это будет `uid` или `samAccountName`.
       generic_map: Ключ атрибута в LDAP, сопоставленный с атрибутом OpenProject `%{attribute}
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      admin_map_html: "Необязательно: Ключ атрибута в LDAP, который <strong>при представлении</strong> помечает пользователя администратором. Оставьте пустым, если сомневаетесь."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Введите DN пользователя системы, используемого для доступа только для чтения.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
+        Пример: uid=openproject,ou=system,dc=example,dc=com
       system_user_password: Введите пароль пользователя системы
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Введите базовый DN поддерева в LDAP, в котором бы OpenProject искал пользователей и групп.
+        OpenProject будет фильтровать указанных пользователей только в этом поддереве.
+        Пример: ou=users,dc=example,dc=com
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Отмеченный флажок разрешает OpenProject при первой аутентификации создавать новых пользователей из их LDAP записей.
+        Для аутентификации существующих в OpenProject учетных записей через LDAP не отмечайте!
     connection_encryption: 'Шифрование подключения'
     system_account: 'Системный аккаунт'
     system_account_legend: |
