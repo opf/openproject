@@ -479,7 +479,7 @@ tr:
         could_not_be_copied: "(tamamen) kopyalanamadı."
         does_not_exist: "mevcut değil."
         error_unauthorized: "erişilemez."
-        error_readonly: "yazılabilir değil."
+        error_readonly: "yazılmaya çalışıldı fakat yazılabilir değil."
         empty: "boş olamaz."
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
@@ -1924,6 +1924,7 @@ tr:
       title: Projenin tanımlayıcısını değiştirme
     archive:
       are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
+      archived: "Arşivlenen"
   project_module_activity: "Etkinlik"
   project_module_forums: "Forumlar"
   project_module_calendar: "Takvim"
@@ -2229,7 +2230,8 @@ tr:
   text_work_package_category_destroy_question: "Bu kategoriye bazı iş paketleri ( %{count}) atanmıştır. Ne yapmak istiyorsun?"
   text_work_package_category_reassign_to: "İş paketlerini bu kategoriye yeniden ata"
   text_work_package_updated: "%{id} iş paketi %{author} tarafından güncellendi."
-  text_work_package_watcher_added: "İş Paketi %{id} takiplerine için %{watcher_setter} tarafından eklendiniz."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
   text_work_packages_ref_in_commit_messages: "İş paketlerini taahhüt mesajlarında referans ve sabitleme"
   text_journal_added: "%{value} %{label} eklendi"
@@ -2560,7 +2562,9 @@ tr:
         estimated_hours: "Tahmini saatler, ebeveyn çalışma paketlerinde ayarlanamaz."
         invalid_user_assigned_to_work_package: "Seçilen kullanıcının bu çalışma paketi için ' %{property} ' olması için izin verilmiyor."
         start_date: "Başlangıç ​​tarihi, üst çalışma paketlerinde ayarlanamaz."
-      writing_read_only_attributes: "Salt okunur bir nitelik yazmamalısınız."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Şema'
   doorkeeper:
@@ -2608,6 +2612,7 @@ tr:
         redirect_uri_html: >
           İzin verilen URL'ler yetkili kullanıcılar adresine yönlendirilebilir. Her satıra bir giriş. <br/> Bir masaüstü uygulamasına kaydoluyorsanız, aşağıdaki URL'yi kullanın.
         confidential: "Uygulamanın, müşteri sırrının gizli tutulabileceği yerlerde kullanılıp kullanılmayacağını kontrol edin. Yerel mobil uygulamalar ve Tek Sayfa Uygulamaları gizli değildir."
+        scopes: "Uygulamanın erişmesine izin vermek istediğiniz kapsamları kontrol edin. Kapsam işaretli değilse, api_v3 olduğu kabul edilir."
         client_credential_user_id: "İstemciler bu uygulamayı kullandıklarında kimliğe bürünmek için isteğe bağlı kullanıcı kimliği. Yalnızca genel erişime izin vermek için boş bırakın"
         register_intro: "OpenProject için bir OAuth API istemci uygulaması geliştiriyorsanız, tüm kullanıcıların kullanması için bu formu kullanarak kayıt olabilirsiniz."
         default_scopes: ""
@@ -2622,8 +2627,8 @@ tr:
       wants_to_access_html: >
         Bu uygulama OpenProject hesabınıza erişim istiyor. <br/> <strong> Aşağıdaki izinleri istedi: </strong>
     scopes:
-      api_v3: "Tam API erişimi"
-      api_v3_text: "Uygulama, sizin adınıza işlem yapmak için OpenProject API'sine tam okuma ve yazma erişimi alır."
+      api_v3: "Tam API v3 erişimi"
+      api_v3_text: "Uygulama, sizin adınıza işlem yapmak için OpenProject API v3'e tam okuma ve yazma erişimi alacaktır."
     grants:
       created_date: "Tarihinde onaylandı"
       scopes: "İzinler"

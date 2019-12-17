@@ -97,12 +97,11 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
       subject = split_page.edit_field(:subject)
       subject.expect_active!
       subject.set_value 'Foobar!'
-      subject.submit_by_enter
+      split_page.save!
 
-      wp_table.expect_notification(
+      wp_table.expect_and_dismiss_notification(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
-      wp_table.dismiss_notification!
       wp = WorkPackage.last
       expect(wp.subject).to eq 'Foobar!'
       expect(wp.send("custom_field_#{custom_field.id}")).to eq %w(A)

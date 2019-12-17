@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -29,17 +30,21 @@
 
 class WatcherNotificationMailer
   class << self
-    def handle_watcher(watcher, watcher_setter)
+    def handle_watcher(watcher, watcher_changer)
       # We only handle this watcher setting if associated user wants to be notified
       # about it.
-      return unless notify_about_watcher_added?(watcher, watcher_setter)
+      return unless notify_about_watcher_changed?(watcher, watcher_changer)
 
       unless other_jobs_queued?(watcher.watchable)
-        DeliverWatcherNotificationJob.perform_later(watcher.id, watcher.user.id, watcher_setter.id)
+        perform_notification_job(watcher, watcher_changer)
       end
     end
 
     private
+
+    def perform_notification_job(_watcher, _watcher_changer)
+      raise NotImplementedError, 'Subclass has to implement #notification_job'
+    end
 
     # HACK: TODO this needs generalization as well as performance improvements
     # We need to make sure no work package created or updated job is queued to avoid sending two
@@ -49,8 +54,8 @@ class WatcherNotificationMailer
                          "%NotificationJob%journal_id: #{work_package.journals.last.id}%").exists?
     end
 
-    def notify_about_watcher_added?(watcher, watcher_setter)
-      return false if notify_about_self_watching?(watcher, watcher_setter)
+    def notify_about_watcher_changed?(watcher, watcher_changer)
+      return false if notify_about_self_watching?(watcher, watcher_changer)
 
       case watcher.user.mail_notification
       when 'only_my_events'
@@ -62,8 +67,8 @@ class WatcherNotificationMailer
       end
     end
 
-    def notify_about_self_watching?(watcher, watcher_setter)
-      watcher.user == watcher_setter && !watcher.user.pref.self_notified?
+    def notify_about_self_watching?(watcher, watcher_changer)
+      watcher.user == watcher_changer && !watcher.user.pref.self_notified?
     end
 
     def watching_selected_includes_project?(watcher)

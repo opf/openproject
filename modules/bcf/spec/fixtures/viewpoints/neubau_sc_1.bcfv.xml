@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VisualizationInfo Guid="{{UUID}}">
+  <Components>
+    <Selection>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc$"/>
+      <Component IfcGuid="2IzdhaXk1DxQeoZSeKbhcz"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyCk"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyCj"/>
+      <Component IfcGuid="2VwVShDiz0gAl$BsweUrbl"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDZ"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3A8oki64jA9ualgB0adAP_:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3A8oki64jA9ualgB0adAP_:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="30Vi1xXgzEtA72FJfoLgwc"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>0LHXUGtOLEzvvIxaK5XMvT:2</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyCe"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxBC:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>0LHXUGtOLEzvvIxaK5XMvT:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxBC:2</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDR"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBr"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxBC:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkb$"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDP"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBn"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDM"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkb_"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcN"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDK"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDJ"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcM"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcL"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcK"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbZ"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox8N:3</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbY"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox8N:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox8N:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcF"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDB"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcD"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcC"/>
+      <Component IfcGuid="13osNZG6b1HvGnEwG5IBDr"/>
+      <Component IfcGuid="3W4DSy3pb33QWyGgzgo0pw"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc8"/>
+      <Component IfcGuid="0E1Yt2xX98svHrdrMFg9cE"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc7"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFklm:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc6"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc5"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc4"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc2"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox8X:6</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="30Vi1xXgzEtA72FJfoLgxk"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox8X:5</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2OyfaLLJzADAvG7yl7qlin:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxFB:6</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc1"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxFB:5</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkc0"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox8X:4</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxFB:4</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox8X:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox8X:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxFB:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxFB:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox8X:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFkeD:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyDO:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxFB:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFklt:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="2PzCZPHLj8bQL_hp3fERU1"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyD6:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1s$t1FRQf40wjxOyV1OVTV"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke7:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3O20COa6r5ARPcw$4R2hLL:6</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3O20COa6r5ARPcw$4R2hLL:5</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3O20COa6r5ARPcw$4R2hLL:4</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3O20COa6r5ARPcw$4R2hLL:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3O20COa6r5ARPcw$4R2hLL:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3O20COa6r5ARPcw$4R2hLL:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyDu:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxFz:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxFz:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxFz:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="13osNZG6b1HvGnEwG5IBE9"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2_iFPglbn9n95QhTwCm8Uf:6</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1pc0TFRcjAywrRV3HgpmMS"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VCU:6</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2_iFPglbn9n95QhTwCm8Uf:5</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2_iFPglbn9n95QhTwCm8Uf:4</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VCU:5</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>35PsNi3Wn5T9b3JmL3M$r6:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2_iFPglbn9n95QhTwCm8Uf:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VCU:4</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>35PsNi3Wn5T9b3JmL3M$r6:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1pr3F0CEzCRfD1Ghu5snws:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2_iFPglbn9n95QhTwCm8Uf:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VCU:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>35PsNi3Wn5T9b3JmL3M$r6:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1pr3F0CEzCRfD1Ghu5snws:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2_iFPglbn9n95QhTwCm8Uf:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VCU:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VCU:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="0wh07UsgP8mf3ADo8LWq7U"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxDj:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyDN:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="2VwVShDiz0gAl$BsweUrbX"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxDj:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxDj:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="0wh07UsgP8mf3ADo8LWq6X"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyAe:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFkeD:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="3LnOhZYmz8UQwRTZK9roX$"/>
+      <Component IfcGuid="3W4DSy3pb33QWyGgzgo0mc"/>
+      <Component IfcGuid="2MXBDcWRP02P5tfnBdrHNU"/>
+      <Component IfcGuid="2MXBDcWRP02P5tfnBdrHNT"/>
+      <Component IfcGuid="3W4DSy3pb33QWyGgzgo0o9"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyDd:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox9a:3</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="3W4DSy3pb33QWyGgzgo0mW"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox9a:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox9a:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyB2:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="2MXBDcWRP02P5tfnBdrHNJ"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyDI:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFklp:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyAh:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke9:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke7:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="3bII83hyD6Yu$Mpez2jNcv"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyBH:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VDW:6</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VDW:5</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyDI:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VDW:4</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VDW:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VDW:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VDW:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFklt:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWOJ"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWOI"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWVj"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWVi"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke4:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyCf:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>00AYtzdHzFjgLXn8I7Lvlv:4</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>00AYtzdHzFjgLXn8I7Lvlv:3</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWO6"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke6:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>00AYtzdHzFjgLXn8I7Lvlv:2</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWO5"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>00AYtzdHzFjgLXn8I7Lvlv:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWO4"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke9:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyD6:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="2UWgTxbmTEourPAlYFxD8x"/>
+      <Component IfcGuid="2UWgTxbmTEourPAlYFxD8v"/>
+      <Component IfcGuid="2UWgTxbmTEourPAlYFxD8u"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke2:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1mLIVAU39AxPo7CJmxmiBM"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyBH:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1gOilIRmfEGwb7$SzUoanJ"/>
+      <Component IfcGuid="2OyfaLLJzADAvG7yl7qlqI"/>
+      <Component IfcGuid="2OyfaLLJzADAvG7yl7qlnw"/>
+      <Component IfcGuid="0e0$1G54f40AFFxJYqAOJk"/>
+      <Component IfcGuid="2OyfaLLJzADAvG7yl7qlnr"/>
+      <Component IfcGuid="2UWgTxbmTEourPAlYFxD8d"/>
+      <Component IfcGuid="0e0$1G54f40AFFxJYqAOJi"/>
+      <Component IfcGuid="2UWgTxbmTEourPAlYFxD8c"/>
+      <Component IfcGuid="2UWgTxbmTEourPAlYFxD8a"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyAe:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyBM:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWOz"/>
+      <Component IfcGuid="1nQPsl2Nv5Uvj6quEKe7LN"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke0:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFkeE:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox8E:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox8E:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotox8E:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyDd:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFkeE:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke8:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>0JiPGvmKnAA8H3WfmNhdFL:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>0JiPGvmKnAA8H3WfmNhdFL:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>0JiPGvmKnAA8H3WfmNhdFL:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWO_"/>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWQN"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxF4:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VDv:6</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3kWHShq91BWObWPxtxrv73:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxF4:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VDv:5</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3kWHShq91BWObWPxtxrv73:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxF4:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VDv:4</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VDv:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VDv:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3jjsI2yer7OAJzD6Gt8VDv:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>0zsqKw7957Bh4NNjGz39d7:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3A8oki64jA9ualgB0adARq:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3A8oki64jA9ualgB0adARq:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>0zsqKw7957Bh4NNjGz39d7:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3Jd6c6Xyv8jPZHLSAu1suB:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3Jd6c6Xyv8jPZHLSAu1suB:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxEu:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>35PsNi3Wn5T9b3JmL3M$sj:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxEu:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFklp:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>35PsNi3Wn5T9b3JmL3M$sj:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxEu:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1qQCUVUprErw_MLQ7DcWPL"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>35PsNi3Wn5T9b3JmL3M$sj:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="2OyfaLLJzADAvG7yl7qln3"/>
+      <Component IfcGuid="2OyfaLLJzADAvG7yl7qln0"/>
+      <Component IfcGuid="0mQ6Us0RbAEwcMtmD0TDm6"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyDN:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="2OyfaLLJzADAvG7yl7qlm1"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFkeB:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke1:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxFo:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxFo:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxFo:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyBN:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2tMWSC$vn3yADWpFDl11xN:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2tMWSC$vn3yADWpFDl11xN:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1pc0TFRcjAywrRV3HgppMl"/>
+      <Component IfcGuid="1pc0TFRcjAywrRV3HgppMh"/>
+      <Component IfcGuid="1pc0TFRcjAywrRV3HgppMf"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyBN:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3mve$qCz5DivbLR040VjHC:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3mve$qCz5DivbLR040VjHC:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3kWHShq91BWObWPxtxrvCF:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3kWHShq91BWObWPxtxrvCF:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjh"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjg"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkiv"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjf"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke6:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyCf:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkja"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxE$:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxE$:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>3_kzkQzI1FP9RTDZotoxE$:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke2:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke4:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFklm:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1pc0TFRcjAywrRV3HgpmMT:4</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1pc0TFRcjAywrRV3HgpmMT:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1pc0TFRcjAywrRV3HgpmMT:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyAI:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyB9:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1pc0TFRcjAywrRV3HgpmMT:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyDO:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2UWgTxbmTEourPAlYFxD8b:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke0:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkj7"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhV"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkj6"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhU"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhT"/>
+      <Component IfcGuid="0zsqKw7957Bh4NNjGz39d0"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhS"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkj3"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkj2"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhR"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhQ"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkj1"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkj0"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhP"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhO"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhM"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhL"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke1:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhK"/>
+      <Component IfcGuid="1gOilIRmfEGwb7$SzUohOS"/>
+      <Component IfcGuid="1azD0$4TTC1hgVDVWx5ITK"/>
+      <Component IfcGuid="1azD0$4TTC1hgVDVWx5ITI"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1pc0TFRcjAywrRV3Hgpp6X:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1pc0TFRcjAywrRV3Hgpp6X:1</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFkeB:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1nQPsl2Nv5Uvj6quEKe70E:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1nQPsl2Nv5Uvj6quEKe70E:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjX"/>
+      <Component IfcGuid="0LHXUGtOLEzvvIxaK5XMWV"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjW"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>33TLO5RDbAtR5xmdzghsWy:2</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjT"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>33TLO5RDbAtR5xmdzghsWy:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjS"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjR"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyAn"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyAl"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjN"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyAk"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjM"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjL"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyAi"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyD9"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjK"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyD8"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjJ"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyB9:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyAI:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkhi"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjI"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBV"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyAf"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjH"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkjG"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBR"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyAb"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyD2"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBQ"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBO"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBL"/>
+      <Component IfcGuid="2Cc$KVYf55mfjggfx$IIb9"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBK"/>
+      <Component IfcGuid="2Cc$KVYf55mfjggfx$IIb7"/>
+      <Component IfcGuid="2Cc$KVYf55mfjggfx$IIb6"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbz"/>
+      <Component IfcGuid="0LHXUGtOLEzvvIxaK5XMW8"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBG"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkby"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBF"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkch"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBE"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyDT:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBC"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcf"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbu"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbt"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyBA"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkca"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbp"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbo"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbn"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkbm"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyAh:color_rgb_0-0-0</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1azD0$4TTC1hgVDVWx5ITJ:2</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyB3"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1azD0$4TTC1hgVDVWx5ITJ:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkdD"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyB0"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcR"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcQ"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcP"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyB2:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyDu:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyBM:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkh2"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkh1"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>39_n9ZMhPAQBWcKbXoFke8:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2MXBDcWRP02P5tfnBdrHD_:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2MXBDcWRP02P5tfnBdrHD_:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDt"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcv"/>
+      <Component IfcGuid="39_n9ZMhPAQBWcKbXoFkcu"/>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDq"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>1Uhsb9oeb77OoM87lbwyDT:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDk"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>00AYtzdHzFjgLXn8I7LvYI:4</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>00AYtzdHzFjgLXn8I7LvYI:3</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>00AYtzdHzFjgLXn8I7LvYI:2</AuthoringToolId>
+      </Component>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>00AYtzdHzFjgLXn8I7LvYI:1</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="1Uhsb9oeb77OoM87lbwyDf"/>
+      <Component>
+        <OriginatingSystem>DESITE</OriginatingSystem>
+        <AuthoringToolId>2UWgTxbmTEourPAlYFxD8b:color_rgb_193-193-193</AuthoringToolId>
+      </Component>
+    </Selection>
+  </Components>
+  <PerspectiveCamera>
+    <CameraViewPoint>
+      <X>58.1038</X>
+      <Y>16.5493</Y>
+      <Z>24.7329</Z>
+    </CameraViewPoint>
+    <CameraDirection>
+      <X>1.28974</X>
+      <Y>1.2105</Y>
+      <Z>-0.569962</Z>
+    </CameraDirection>
+    <CameraUpVector>
+      <X>0.223629</X>
+      <Y>0.209889</Y>
+      <Z>0.951807</Z>
+    </CameraUpVector>
+    <FieldOfView>60</FieldOfView>
+  </PerspectiveCamera>
+</VisualizationInfo>

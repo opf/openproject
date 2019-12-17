@@ -478,7 +478,7 @@ fr:
         could_not_be_copied: "n'a pas pu être copié (entièrement)."
         does_not_exist: "n'existe pas."
         error_unauthorized: "est interdit d'accès."
-        error_readonly: "est en lecture seule."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "ne peut pas être vide."
         even: "doit être pair."
         exclusion: "est réservé."
@@ -1923,6 +1923,7 @@ fr:
       title: Modifier l'identifiant du projet
     archive:
       are_you_sure: "Êtes-vous sûr de vouloir archiver le projet '%{name}%' ?"
+      archived: "Archived"
   project_module_activity: "Activité"
   project_module_forums: "Forums"
   project_module_calendar: "Calendrier"
@@ -2228,7 +2229,8 @@ fr:
   text_work_package_category_destroy_question: "(%{count}) Lots de Travaux sont assignés à cette catégorie. Que voulez-vous faire?"
   text_work_package_category_reassign_to: "Réassigner les Lots de Travaux de cette catégorie"
   text_work_package_updated: "Le Lot de Travaux %{id} a été mis à jour par %{author}."
-  text_work_package_watcher_added: "Vous avez été ajouté comme observateur au lot de travaux %{id} par %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
   text_work_packages_ref_in_commit_messages: "Referencer et réparer les Lot(s) de Travaux dans les messages « commit »"
   text_journal_added: "%{label} %{value} ajouté"
@@ -2559,7 +2561,9 @@ fr:
         estimated_hours: "Les heures estimées ne peuvent être définies sur les lots de travaux parents."
         invalid_user_assigned_to_work_package: "L’utilisateur choisi n'est pas autorisé à être « %{property} » pour ce lot de travaux."
         start_date: "La date de début ne peut pas être définie dans les lots de travaux parents."
-      writing_read_only_attributes: "Vous ne devez pas écrire un attribut en lecture seule."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schéma'
   doorkeeper:
@@ -2607,6 +2611,7 @@ fr:
         redirect_uri_html: >
           Les URL autorisées où peuvent être redirigés les utilisateurs. Une entrée par ligne. <br/> Si vous enregistrez une application de bureau, utilisez l'URL suivante.
         confidential: "Vérifiez si l'application peut être utilisée lorsque le secret du client peut être gardé confidentiel. Les applications mobiles natives et les applications à page unique ne sont pas considérées comme confidentielles."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "ID utilisateur facultatif à emprunter lorsque les clients utilisent cette application. Laisser vide pour permettre l'accès public uniquement"
         register_intro: "Si vous développez une application client OAuth API pour OpenProject, vous pouvez l'enregistrer en utilisant ce formulaire pour qu’elle soit utilisée par tous les utilisateurs."
         default_scopes: ""
@@ -2621,8 +2626,8 @@ fr:
       wants_to_access_html: >
         Cette application demande l'accès à votre compte OpenProject. <br/> <strong>Il a demandé les autorisations suivantes:</strong>
     scopes:
-      api_v3: "Accès API complet"
-      api_v3_text: "L'application recevra un accès complet en lecture et écriture à l'API OpenProject pour effectuer des actions en votre nom."
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "Approuvée le"
       scopes: "Autorisations"

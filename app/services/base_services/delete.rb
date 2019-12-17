@@ -49,7 +49,7 @@ module BaseServices
     protected
 
     def default_contract_class
-      "#{model.class.name.demodulize.pluralize}::DeleteContract".constantize
+      "#{namespace}::DeleteContract".constantize
     end
   end
 end

@@ -73,10 +73,6 @@ module BaseServices
       raise NotImplementedError
     end
 
-    def namespace
-      self.class.name.deconstantize
-    end
-
     def instance_class
       namespace.singularize.constantize
     end

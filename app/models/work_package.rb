@@ -62,7 +62,7 @@ class WorkPackage < ActiveRecord::Base
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
   }
 
-  scope :recently_updated, ->() {
+  scope :recently_updated, -> {
     order(updated_at: :desc)
   }
 
@@ -84,7 +84,7 @@ class WorkPackage < ActiveRecord::Base
     end
   }
 
-  scope :with_status_open, ->() {
+  scope :with_status_open, -> {
     includes(:status)
       .where(statuses: { is_closed: false })
   }
@@ -283,10 +283,6 @@ class WorkPackage < ActiveRecord::Base
     status.present? && status.is_readonly?
   end
 
-  def closed_version_and_status?
-    fixed_version&.closed? && status.is_closed?
-  end
-
   # Returns true if the work_package is overdue
   def overdue?
     !due_date.nil? && (due_date < Date.today) && !closed?
@@ -296,23 +292,6 @@ class WorkPackage < ActiveRecord::Base
     type&.is_milestone?
   end
   alias_method :is_milestone?, :milestone?
-
-  # Returns an array of status that user is able to apply
-  def new_statuses_allowed_to(user, include_default = false)
-    return Status.where('1=0') if status.nil?
-
-    current_status = Status.where(id: status_id)
-
-    return current_status if closed_version_and_status?
-
-    statuses = new_statuses_allowed_by_workflow_to(user)
-               .or(current_status)
-
-    statuses = statuses.or(Status.where_default) if include_default
-    statuses = statuses.where(is_closed: false) if blocked?
-
-    statuses.order_by_position
-  end
 
   # Returns users that should be notified
   def recipients
@@ -641,15 +620,6 @@ class WorkPackage < ActiveRecord::Base
                               spent_on: Date.today)
 
     time_entries.build(attributes)
-  end
-
-  def new_statuses_allowed_by_workflow_to(user)
-    status.new_statuses_allowed_to(
-      user.roles_for_project(project),
-      type,
-      author == user,
-      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
-    )
   end
 
   ##

@@ -52,11 +52,7 @@ module API
           end
           route_param :id do
             after_validation do
-              @project = Project.find(params[:id])
-
-              authorize(:view_project, context: @project) do
-                raise API::Errors::NotFound.new
-              end
+              @project = Project.visible(current_user).find(params[:id])
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: Project).mount

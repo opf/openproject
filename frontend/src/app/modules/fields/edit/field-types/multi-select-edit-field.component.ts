@@ -42,7 +42,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
   readonly I18n:I18nService = this.injector.get(I18nService);
-  public options:any[] = [];
+  public availableOptions:any[] = [];
   public valueOptions:ValueOption[];
   public text = {
     requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
@@ -70,7 +70,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
         untilComponentDestroyed(this),
       )
       .subscribe(() => {
-        this.requestFocus = this.options.length === 0;
+        this.requestFocus = this.availableOptions.length === 0;
 
         // If we already have all values loaded, open now.
         if (!this.requestFocus) {
@@ -108,7 +108,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   public set selectedOption(val:ValueOption[]) {
     this._selectedOption = val;
     let mapper = (val:ValueOption) => {
-      let option = _.find(this.options, o => o.$href === val.$href) || this.nullOption;
+      let option = _.find(this.availableOptions, o => o.$href === val.$href) || this.nullOption;
 
       // Special case 'null' value, which angular
       // only understands in ng-options as an empty string.
@@ -166,14 +166,14 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       });
     }
 
-    this.options = availableValues || [];
-    this.valueOptions = this.options.map(el => {
+    this.availableOptions = availableValues || [];
+    this.valueOptions = this.availableOptions.map(el => {
       return { name: el.name, $href: el.$href };
     });
     this._selectedOption = this.buildSelectedOption();
     this.checkCurrentValueValidity();
 
-    if (this.options.length > 0 && this.requestFocus) {
+    if (this.availableOptions.length > 0 && this.requestFocus) {
       this.openAutocompleteSelectField();
       this.requestFocus = false;
     }
@@ -209,7 +209,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
         // (If value AND)
         // MultiSelect AND there is no value which href is not in the options hrefs
         (!_.some(this.value, (value:HalResource) => {
-          return _.some(this.options, (option) => (option.$href === value.$href))
+          return _.some(this.availableOptions, (option) => (option.$href === value.$href))
         }))
       );
     }

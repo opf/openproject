@@ -25,6 +25,7 @@ export class WorkPackageSingleCardComponent {
   @Input() public highlightingMode:CardHighlightingMode = 'inline';
   @Input() public draggable:boolean = false;
   @Input() public orientation:CardViewOrientation = 'vertical';
+  @Input() public shrinkOnMobile:boolean = false;
 
   @Output() public onRemove = new EventEmitter<WorkPackageResource>();
 
@@ -61,6 +62,7 @@ export class WorkPackageSingleCardComponent {
     classes += wp.isNew ? ' -new' : '';
     classes += ' wp-card-' + wp.id;
     classes += ' -' + this.orientation;
+    classes += this.shrinkOnMobile ? ' -shrink' : '';
     return classes;
   }
 

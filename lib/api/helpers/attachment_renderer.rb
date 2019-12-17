@@ -49,7 +49,7 @@ module API
           content_type attachment.content_type
           header['Content-Disposition'] = "#{attachment.content_disposition}; filename=#{attachment.filename}"
           env['api.format'] = :binary
-          attachment.diskfile.read
+          file attachment.diskfile
         end
       end
 

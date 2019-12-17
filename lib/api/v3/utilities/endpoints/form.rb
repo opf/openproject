@@ -30,7 +30,9 @@ module API
   module V3
     module Utilities
       module Endpoints
-        class Form < Bodied
+        class Form < API::Utilities::Endpoints::Bodied
+          include V3Deductions
+
           def success?(call)
             only_validation_errors?(api_errors(call))
           end

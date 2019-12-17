@@ -91,7 +91,7 @@ OpenProject::Application.routes.draw do
   # returned for all routes for which the v3 has also resources. Grape does
   # remove the prefix (v3) before checking whether the method is supported. I
   # don't understand why that should make sense.
-  mount API::Root => '/'
+  mount API::Root => '/api'
 
   # OAuth authorization routes
   use_doorkeeper do

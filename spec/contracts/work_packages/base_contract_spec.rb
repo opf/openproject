@@ -161,9 +161,12 @@ describe WorkPackages::BaseContract do
 
     context 'work_package has a closed version and status' do
       before do
-        allow(work_package)
-          .to receive(:closed_version_and_status?)
-          .and_return true
+        version = FactoryBot.build_stubbed(:version, status: 'closed')
+
+        work_package.fixed_version = version
+        allow(work_package.status)
+          .to receive(:is_closed?)
+          .and_return(true)
       end
 
       it 'is not writable' do
@@ -174,11 +177,101 @@ describe WorkPackages::BaseContract do
         before do
           allow(work_package)
             .to receive(:status_id_change)
-            .and_return [1,2]
+            .and_return [1, 2]
         end
 
         it 'is writable' do
           expect(contract.writable?(:status)).to be_truthy
+        end
+      end
+    end
+
+    context 'is an inexistent status' do
+      before do
+        work_package.status = Status::InexistentStatus.new
+      end
+
+      it 'is invalid' do
+        contract.validate
+
+        expect(subject.errors.symbols_for(:status))
+          .to match_array [:does_not_exist]
+      end
+    end
+
+    context 'transitions' do
+      let(:roles) { [FactoryBot.build_stubbed(:role)] }
+      let(:valid_transition_result) { true }
+      let(:new_status) { FactoryBot.build_stubbed(:status) }
+      let(:from_id) { work_package.status_id }
+      let(:to_id) { new_status.id }
+      let(:status_change) { work_package.status = new_status }
+
+      before do
+        new_statuses_scope = double('new statuses scope')
+
+        allow(Status)
+          .to receive(:find_by)
+          .with(id: work_package.status_id)
+          .and_return(work_package.status)
+
+        # Breaking abstraction here to avoid mocking hell.
+        # We might want to extract the assignable_... into separate
+        # objects.
+        allow(contract)
+          .to receive(:new_statuses_allowed_from)
+          .with(work_package.status)
+          .and_return(new_statuses_scope)
+
+        allow(new_statuses_scope)
+          .to receive(:order_by_position)
+          .and_return(new_statuses_scope)
+
+        allow(new_statuses_scope)
+          .to receive(:exists?)
+          .with(new_status.id)
+          .and_return(valid_transition_result)
+
+        status_change
+
+        contract.validate
+      end
+
+      context 'valid transition' do
+        it 'is valid' do
+          expect(subject.errors.symbols_for(:status_id))
+            .to be_empty
+        end
+      end
+
+      context 'invalid transition' do
+        let(:valid_transition_result) { false }
+
+        it 'is invalid' do
+          expect(subject.errors.symbols_for(:status_id))
+            .to match_array [:status_transition_invalid]
+        end
+      end
+
+      context 'status is nil' do
+        let(:status_change) { work_package.status = nil }
+
+        it 'is invalid' do
+          expect(subject.errors.symbols_for(:status))
+            .to match_array [:blank]
+        end
+      end
+
+      context 'invalid transition but the type changed as well' do
+        let(:valid_transition_result) { false }
+        let(:status_change) do
+          work_package.status = new_status
+          work_package.type = FactoryBot.build_stubbed(:type)
+        end
+
+        it 'is valid' do
+          expect(subject.errors.symbols_for(:status_id))
+            .to be_empty
         end
       end
     end
@@ -521,6 +614,34 @@ describe WorkPackages::BaseContract do
         end
       end
     end
+
+    context 'inexistent type' do
+      before do
+        work_package.type = Type::InexistentType.new
+
+        contract.validate
+      end
+
+      it 'is invalid' do
+        expect(contract.errors.symbols_for(:type))
+          .to match_array [:does_not_exist]
+      end
+    end
+  end
+
+  context 'assigned_to' do
+    context 'inexistent user' do
+      before do
+        work_package.assigned_to = User::InexistentUser.new
+
+        contract.validate
+      end
+
+      it 'is invalid' do
+        expect(contract.errors.symbols_for(:assigned_to))
+          .to match_array [:does_not_exist]
+      end
+    end
   end
 
   describe 'category' do
@@ -630,70 +751,222 @@ describe WorkPackages::BaseContract do
           .to be_empty
       end
     end
+
+    context 'inexistent priority' do
+      before do
+        work_package.priority = Priority::InexistentPriority.new
+
+        contract.validate
+      end
+
+      it 'is invalid' do
+        expect(contract.errors.symbols_for(:priority))
+          .to match_array [:does_not_exist]
+      end
+    end
   end
 
-  describe 'status' do
-    let(:roles) { [FactoryBot.build_stubbed(:role)] }
-    let(:valid_transition_result) { true }
-    let(:new_status) { FactoryBot.build_stubbed(:status) }
-    let(:from_id) { work_package.status_id }
-    let(:to_id) { new_status.id }
-    let(:status_change) { work_package.status = new_status }
+  describe '#assignable_statuses' do
+    let(:role) { FactoryBot.build_stubbed(:role) }
+    let(:type) { FactoryBot.build_stubbed(:type) }
+    let(:assignee_user) { FactoryBot.build_stubbed(:user) }
+    let(:author_user) { FactoryBot.build_stubbed(:user) }
+    let(:current_status) { FactoryBot.build_stubbed(:status) }
+    let(:version) { FactoryBot.build_stubbed(:version) }
+    let(:work_package) do
+      FactoryBot.build_stubbed(:work_package,
+                               assigned_to: assignee_user,
+                               author: author_user,
+                               status: current_status,
+                               fixed_version: version,
+                               type: type)
+    end
+    let!(:default_status) do
+      status = FactoryBot.build_stubbed(:status)
+
+      allow(Status)
+        .to receive(:default)
+        .and_return(status)
+
+      status
+    end
+
+    let(:roles) { [role] }
 
     before do
       allow(current_user)
-        .to receive(:roles)
-        .with(work_package.project)
-        .and_return(roles)
-
-      allow(type)
-        .to receive(:valid_transition?)
-        .with(from_id,
-              to_id,
-              roles)
-        .and_return(valid_transition_result)
-
-      status_change
-
-      contract.validate
+        .to receive(:roles_for_project)
+         .with(work_package.project)
+         .and_return(roles)
     end
 
-    context 'valid transition' do
-      it 'is valid' do
-        expect(subject.errors.symbols_for(:status_id))
-          .to be_empty
+    shared_examples_for 'new_statuses_allowed_to' do
+      let(:base_scope) do
+        from_workflows = Workflow
+                        .from_status(current_status.id, type.id, [role.id], author, assignee)
+                        .select(:new_status_id)
+
+        Status.where(id: from_workflows)
+          .or(Status.where(id: current_status.id))
+      end
+
+      it 'returns a scope that returns current_status and those available by workflow' do
+        expect(contract.assignable_statuses.to_sql)
+          .to eql base_scope.order_by_position.to_sql
+      end
+
+      it 'removes closed statuses if blocked' do
+        allow(work_package)
+          .to receive(:blocked?)
+          .and_return(true)
+
+        expected = base_scope.where(is_closed: false).order_by_position
+
+        expect(contract.assignable_statuses.to_sql)
+          .to eql expected.to_sql
+      end
+
+      context 'if the current status is closed and the version is closed as well' do
+        let(:version) { FactoryBot.build_stubbed(:version, status: 'closed') }
+        let(:current_status) { FactoryBot.build_stubbed(:status, is_closed: true) }
+
+        it 'only allows the current status' do
+          expect(contract.assignable_statuses.to_sql)
+            .to eql Status.where(id: current_status.id).to_sql
+        end
       end
     end
 
-    context 'invalid transition' do
-      let(:valid_transition_result) { false }
-
-      it 'is invalid' do
-        expect(subject.errors.symbols_for(:status_id))
-          .to match_array [:status_transition_invalid]
+    context 'with somebody else asking' do
+      it_behaves_like 'new_statuses_allowed_to' do
+        let(:author) { false }
+        let(:assignee) { false }
       end
     end
 
-    context 'status is nil' do
-      let(:status_change) { work_package.status = nil }
+    context 'with the author asking' do
+      let(:current_user) { author_user }
 
-      it 'is invalid' do
-        expect(subject.errors.symbols_for(:status))
-          .to match_array [:blank]
+      it_behaves_like 'new_statuses_allowed_to' do
+        let(:author) { true }
+        let(:assignee) { false }
       end
     end
 
-    context 'invalid transition but the type changed as well' do
-      let(:valid_transition_result) { false }
-      let(:status_change) do
+    context 'with the assignee asking' do
+      let(:current_user) { assignee_user }
+
+      it_behaves_like 'new_statuses_allowed_to' do
+        let(:author) { false }
+        let(:assignee) { true }
+      end
+    end
+
+    context 'with the assignee changing and asking as new assignee' do
+      before do
+        work_package.assigned_to = current_user
+      end
+
+      # is using the former assignee
+      it_behaves_like 'new_statuses_allowed_to' do
+        let(:author) { false }
+        let(:assignee) { false }
+      end
+    end
+
+    context 'with the status having changed' do
+      let(:new_status) { FactoryBot.build_stubbed(:status) }
+
+      before do
+        allow(work_package).to receive(:persisted?).and_return(true)
+        allow(work_package).to receive(:status_id_changed?).and_return(true)
+
+        allow(Status)
+          .to receive(:find_by)
+          .with(id: work_package.status_id_was)
+          .and_return(current_status)
+
         work_package.status = new_status
-        work_package.type = FactoryBot.build_stubbed(:type)
       end
 
-      it 'is valid' do
-        expect(subject.errors.symbols_for(:status_id))
-          .to be_empty
+      it_behaves_like 'new_statuses_allowed_to' do
+        let(:author) { false }
+        let(:assignee) { false }
       end
+    end
+  end
+
+  describe '#assignable_types' do
+    let(:scope) do
+      double('type scope').tap do |s|
+        allow(s)
+          .to receive(:includes)
+          .and_return(s)
+      end
+    end
+
+    context 'project nil' do
+      before do
+        work_package.project = nil
+      end
+
+      it 'is all types' do
+        allow(Type)
+          .to receive(:includes)
+          .and_return(scope)
+
+        expect(contract.assignable_types)
+          .to eql(scope)
+      end
+    end
+
+    context 'project defined' do
+      it 'is all types of the project' do
+        allow(work_package.project)
+          .to receive(:types)
+          .and_return(scope)
+
+        expect(contract.assignable_types)
+          .to eql(scope)
+      end
+    end
+  end
+
+  describe '#assignable_versions' do
+    let(:result) { double }
+
+    it 'calls through to the work package' do
+      expect(work_package).to receive(:assignable_versions).and_return(result)
+      expect(subject.assignable_values(:version, current_user)).to eql(result)
+    end
+  end
+
+  describe '#assignable_priorities' do
+    let(:active_priority) { FactoryBot.build(:priority, active: true) }
+    let(:inactive_priority) { FactoryBot.build(:priority, active: false) }
+
+    before do
+      active_priority.save!
+      inactive_priority.save!
+    end
+
+    it 'returns only active priorities' do
+      expect(subject.assignable_values(:priority, current_user).size).to be >= 1
+      subject.assignable_values(:priority, current_user).each do |priority|
+        expect(priority.active).to be_truthy
+      end
+    end
+  end
+
+  describe '#assignable_categories' do
+    let(:category) { double('category') }
+
+    before do
+      allow(project).to receive(:categories).and_return([category])
+    end
+
+    it 'returns all categories of the project' do
+      expect(subject.assignable_values(:category, current_user)).to match_array([category])
     end
   end
 end

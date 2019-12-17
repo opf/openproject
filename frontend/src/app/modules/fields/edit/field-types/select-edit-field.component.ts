@@ -48,7 +48,7 @@ export interface ValueOption {
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
   public selectAutocompleterRegister = this.injector.get(SelectAutocompleterRegisterService);
 
-  public options:any[];
+  public availableOptions:any[];
   public valueOptions:ValueOption[];
   public text:{ requiredPlaceholder:string, placeholder:string };
 
@@ -104,7 +104,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   public set selectedOption(val:ValueOption) {
-    let option = _.find(this.options, o => o.$href === val.$href);
+    let option = _.find(this.availableOptions, o => o.$href === val.$href);
 
     // Special case 'null' value, which angular
     // only understands in ng-options as an empty string.
@@ -116,9 +116,9 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   private setValues(availableValues:HalResource[]) {
-    this.options = this.halSorting.sort(availableValues);
+    this.availableOptions = this.halSorting.sort(availableValues);
     this.addEmptyOption();
-    this.valueOptions = this.options.map(el => {
+    this.valueOptions = this.availableOptions.map(el => {
       return {name: el.name, $href: el.$href};
     });
   }
@@ -138,13 +138,13 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   private addValue(val:HalResource) {
-    this.options.push(val);
+    this.availableOptions.push(val);
     this.valueOptions.push({name: val.name, $href: val.$href});
   }
 
   public get currentValueInvalid():boolean {
     return !!(
-      (this.value && !_.some(this.options, (option:HalResource) => (option.$href === this.value.$href)))
+      (this.value && !_.some(this.availableOptions, (option:HalResource) => (option.$href === this.value.$href)))
       ||
       (!this.value && this.schema.required)
     );
@@ -191,7 +191,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     // the option if one is returned / exists already.
     const emptyOption = this.getEmptyOption();
     if (emptyOption === undefined) {
-      this.options.unshift({
+      this.availableOptions.unshift({
         name: this.text.placeholder,
         $href: ''
       });
@@ -199,6 +199,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   private getEmptyOption():ValueOption|undefined {
-    return _.find(this.options, el => el.name === this.text.placeholder);
+    return _.find(this.availableOptions, el => el.name === this.text.placeholder);
   }
 }

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -37,25 +38,27 @@ module API
         include Roar::JSON::HAL
         include Roar::Hypermedia
 
+        ERROR_PREFIX = 'urn:openproject-org:api:v3:errors:'.freeze
+
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         property :_type, exec_context: :decorator
         property :error_identifier, exec_context: :decorator, render_nil: true
-        property :message, getter: -> (*) { message }, render_nil: true
+        property :message, getter: ->(*) { message }, render_nil: true
         property :details, embedded: true
 
         collection :errors,
                    embedded: true,
                    class: ::API::Errors::ErrorBase,
                    decorator: ::API::V3::Errors::ErrorRepresenter,
-                   if: -> (*) { !Array(errors).empty? }
+                   if: ->(*) { !Array(errors).empty? }
 
         def _type
           'Error'
         end
 
         def error_identifier
-          represented.class.identifier
+          ERROR_PREFIX + represented.class.identifier
         end
       end
     end

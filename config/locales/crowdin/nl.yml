@@ -479,7 +479,7 @@ nl:
         could_not_be_copied: "kon niet (volledig) worden gekopieerd."
         does_not_exist: "bestaat niet."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "mag niet leeg zijn."
         even: "moet gelijk zijn."
         exclusion: "is gereserveerd."
@@ -1923,6 +1923,7 @@ nl:
       title: Wijzig het identificatienummer van het project
     archive:
       are_you_sure: "Weet u zeker dat u dit project '%{name}' wilt archiveren?"
+      archived: "Archived"
   project_module_activity: "Activiteit"
   project_module_forums: "Fora"
   project_module_calendar: "Kalender"
@@ -2228,7 +2229,8 @@ nl:
   text_work_package_category_destroy_question: "Sommige werkpakketten (%{count}) worden toegewezen aan deze categorie. Wat wilt u doen?"
   text_work_package_category_reassign_to: "Werkpakketten toewijzen aan deze categorie"
   text_work_package_updated: "Werkpakket %{id} is bijgewerkt door %{author}."
-  text_work_package_watcher_added: "Je bent toegevoegd als een watcher werkpakket %{id} door %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Weet u zeker dat u geselecteerd(e) werkpakket(ten) wilt verwijderen?"
   text_work_packages_ref_in_commit_messages: "Verwijzen naar en herstellen van de werkpakketten in commit berichten"
   text_journal_added: "%{label} %{value} toegevoegd"
@@ -2559,7 +2561,9 @@ nl:
         estimated_hours: "Geschatte uren uren kunnen niet op ouderwerkpaketten worden gezet."
         invalid_user_assigned_to_work_package: "De gekozen gebruiker kan geen '%{property}' zijn voor dit werkpakket."
         start_date: "De startdatum kan niet worden ingesteld op bovenliggende werkpakketten."
-      writing_read_only_attributes: "U mag geen read-only attribuut schrijven."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
   doorkeeper:
@@ -2607,6 +2611,7 @@ nl:
         redirect_uri_html: >
           De toegestane URLs waar toegestane gebruikers kunnen worden doorgestuurd naar. Eén item per regel. <br/> Als u een desktop-applicatie registreert, gebruik dan de volgende URL.
         confidential: "Controleer of de toepassing zal worden gebruikt waar het cliëntgeheim vertrouwelijk kan worden gehouden. Native mobiele apps en Single Page Apps worden verondersteld niet-vertrouwelijk."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "Optionele gebruikersID om te impersoneren wanneer klanten deze applicatie gebruiken. Laat leeg om alleen openbare toegang toe te staan"
         register_intro: "Als u een OAuth API client applicatie voor OpenProject ontwikkelt, kunt u het registreren met dit formulier voor alle gebruikers om te gebruiken."
         default_scopes: ""
@@ -2621,8 +2626,8 @@ nl:
       wants_to_access_html: >
         Deze applicatie vraagt toegang tot uw OpenProject account. <br/> <strong>heeft de volgende machtigingen aangevraagd:</strong>
     scopes:
-      api_v3: "Volledige API toegang"
-      api_v3_text: "Toepassing zal volledige lees en schrijf toegang krijgen tot de OpenProject API om acties namens u uit te voeren."
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "Goedgekeurd op"
       scopes: "Machtigingen"

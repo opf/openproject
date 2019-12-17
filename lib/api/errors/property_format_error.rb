@@ -30,7 +30,7 @@
 module API
   module Errors
     class PropertyFormatError < ErrorBase
-      identifier 'urn:openproject-org:api:v3:errors:PropertyFormatError'
+      identifier 'PropertyFormatError'
       code 422
 
       attr_accessor :property

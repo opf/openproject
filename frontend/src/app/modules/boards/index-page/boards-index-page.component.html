@@ -1,22 +1,24 @@
-<div class="toolbar">
-  <div class="title-container">
-    <h2 [textContent]="text.boards">
-    </h2>
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2 [textContent]="text.boards">
+      </h2>
+    </div>
+    <ul class="toolbar-items"
+        *ngIf="showBoardIndexView()">
+      <li *ngIf="canAdd"
+          class="toolbar-item">
+        <a class="button -alt-highlight"
+           (click)="newBoard()">
+          <op-icon icon-classes="button--icon icon-add">
+          </op-icon>
+          <span class="button--text"
+                [textContent]="text.board">
+          </span>
+        </a>
+      </li>
+    </ul>
   </div>
-  <ul class="toolbar-items"
-      *ngIf="showBoardIndexView()">
-    <li *ngIf="canAdd"
-        class="toolbar-item">
-      <a class="button -alt-highlight"
-         (click)="newBoard()">
-        <op-icon icon-classes="icon-add icon4">
-        </op-icon>
-        <span class="button--text"
-              [textContent]="text.board">
-        </span>
-      </a>
-    </li>
-  </ul>
 </div>
 
 <div class="boards--listing-group loading-indicator--location"

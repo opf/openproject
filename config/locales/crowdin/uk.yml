@@ -481,7 +481,7 @@ uk:
         could_not_be_copied: "неможливо (повністю) скопіювати."
         does_not_exist: "не існує."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "не може бути порожнім."
         even: "має бути рівним."
         exclusion: "зарезервовано."
@@ -1966,6 +1966,7 @@ uk:
       title: Змініть ідентифікатор проекту
     archive:
       are_you_sure: "Дійсно архівувати проект %{name} ?"
+      archived: "Archived"
   project_module_activity: "Активність"
   project_module_forums: "Форуми"
   project_module_calendar: "Календар"
@@ -2271,7 +2272,8 @@ uk:
   text_work_package_category_destroy_question: "Деякі робочі пакети (%{count}) були призначені для цієї категорії. Що ви хочете зробити?"
   text_work_package_category_reassign_to: "Перепризначити робочі пакети до даної категорії"
   text_work_package_updated: "%{author} оновив робочий пакет %{id}."
-  text_work_package_watcher_added: "Ви були додані як пакет спостерігачів у робочий пакет %{id}%{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Ви впевнені у тому, що хочете видалити вибрані робочі пакети?"
   text_work_packages_ref_in_commit_messages: "Посилання та фіксація робочих пакетів у повідомленнях комітів"
   text_journal_added: "%{label} %{value} доданий"
@@ -2606,7 +2608,9 @@ uk:
         estimated_hours: "Очікувані години не можна встановити на базових робочих пакетах."
         invalid_user_assigned_to_work_package: "Вибраному користувачеві не дозволяється %{property} для цього робочого пакету."
         start_date: "Дата початку не може бути встановлена на базових робочих пакетах."
-      writing_read_only_attributes: "Ви не повинні писати атрибут лише для читання."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Схема'
   doorkeeper:
@@ -2654,6 +2658,7 @@ uk:
         redirect_uri_html: >
           Дозволені URL-адреси, дозволені користувачам, можна перенаправити. Один запис на рядок.  <br/>  Якщо ви реєструєте настільну програму, використовуйте таку URL-адресу.
         confidential: "Перевірте, чи буде використовуватися програма, якщо секрет клієнта може бути конфіденційним. Природні мобільні програми та програми з однією сторінкою вважаються неконфіденційними."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "Необов'язковий ідентифікатор користувача, який видає себе, коли клієнти використовують цю програму. Залиште пустим, щоб дозволити лише загальний доступ"
         register_intro: "Якщо ви розробляєте клієнтське додаток OAuth для OpenProject, ви можете зареєструвати його, використовуючи цю форму для всіх користувачів."
         default_scopes: ""
@@ -2669,8 +2674,8 @@ uk:
         Ця програма запитує доступ до вашого облікового запису OpenProject.   <br/> <strong> 
         Він подав запит на такі дозволи:  </strong>
     scopes:
-      api_v3: "Повний доступ до API"
-      api_v3_text: "Програма отримає повний доступ для читання та запису до API OpenProject, щоб виконувати дії від вашого імені."
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "Затверджено"
       scopes: "Дозволи"

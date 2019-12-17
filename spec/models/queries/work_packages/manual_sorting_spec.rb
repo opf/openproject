@@ -43,6 +43,10 @@ describe Query, "manual sorting ", type: :model do
     end
   end
 
+  before do
+    login_as user
+  end
+
   describe '#ordered_work_packages' do
     it 'keeps the current set of ordered work packages' do
       expect(query.ordered_work_packages).to eq []
@@ -65,7 +69,6 @@ describe Query, "manual sorting ", type: :model do
     let(:query2) { FactoryBot.create :query, user: user, project: project }
 
     before do
-      login_as user
       ::OrderedWorkPackage.create(query: query, work_package: wp_1, position: 0)
       ::OrderedWorkPackage.create(query: query, work_package: wp_2, position: 1)
 

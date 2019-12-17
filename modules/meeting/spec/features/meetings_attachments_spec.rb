@@ -31,7 +31,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
     visit "/meetings/#{meeting.id}"
 
     within "#tab-content-agenda .toolbar" do
-      click_button "Edit"
+      click_link "Edit"
     end
   end
 

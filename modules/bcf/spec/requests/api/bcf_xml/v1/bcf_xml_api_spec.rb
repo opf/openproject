@@ -60,8 +60,8 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
     OpenProject::Cache.clear
   end
 
-  describe 'GET /bcf_xml_api/v1/projects/<project>/bcf_xml' do
-    let(:path) { "/bcf_xml_api/v1/projects/#{project.identifier}/bcf_xml" }
+  describe 'GET /api/bcf_xml_api/v1/projects/<project>/bcf_xml' do
+    let(:path) { "/api/bcf_xml_api/v1/projects/#{project.identifier}/bcf_xml" }
 
     context 'without params' do
       before do
@@ -103,7 +103,7 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
         CGI.escape("[{\"subject\":{\"operator\":\"!~\",\"values\":[\"#{work_package.subject}\"]}}]")
       end
       let(:path) do
-        "/bcf_xml_api/v1/projects/#{project.identifier}/bcf_xml?filters=#{escaped_query_params}"
+        "/api/bcf_xml_api/v1/projects/#{project.identifier}/bcf_xml?filters=#{escaped_query_params}"
       end
 
       before do
@@ -118,9 +118,9 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
     end
   end
 
-  describe 'POST /bcf_xml_api/v1/projects/<project>/bcf_xml' do
+  describe 'POST /api/bcf_xml_api/v1/projects/<project>/bcf_xml' do
     let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages manage_bcf view_linked_issues) }
-    let(:path) { "/bcf_xml_api/v1/projects/#{project.identifier}/bcf_xml" }
+    let(:path) { "/api/bcf_xml_api/v1/projects/#{project.identifier}/bcf_xml" }
     let(:params) do
       {
         bcf_xml_file: bcf_xml_file
@@ -129,7 +129,7 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
 
     before do
       work_package
-      
+
       expect(project.work_packages.count).to eql(1)
       post path, params, 'CONTENT_TYPE' => 'multipart/form-data'
     end

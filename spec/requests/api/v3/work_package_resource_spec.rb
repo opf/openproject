@@ -69,12 +69,16 @@ describe 'API v3 Work package resource',
     login_as(current_user)
   end
 
-  describe '#get list' do
+  describe 'GET /api/v3/work_packages' do
     subject { last_response }
 
+    let(:path) { api_v3_paths.work_packages }
+    let(:other_work_package) { FactoryBot.create(:work_package) }
+    let(:work_packages) { [work_package, other_work_package] }
+
     before(:each) do
-      work_package.save!
-      get api_v3_paths.work_packages
+      work_packages
+      get path
     end
 
     it 'succeeds' do
@@ -82,13 +86,10 @@ describe 'API v3 Work package resource',
     end
 
     it 'returns visible work packages' do
-      FactoryBot.create(:work_package, project: project)
       expect(subject.body).to be_json_eql(1.to_json).at_path('total')
     end
 
     it 'embedds the work package schemas' do
-      FactoryBot.create(:work_package, project: project)
-
       expect(subject.body)
         .to be_json_eql(api_v3_paths.work_package_schema(project.id, work_package.type.id).to_json)
         .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
@@ -104,7 +105,6 @@ describe 'API v3 Work package resource',
       end
 
       it 'returns no work packages' do
-        FactoryBot.create(:work_package, project: project)
         expect(subject.body).to be_json_eql(0.to_json).at_path('total')
       end
 
@@ -114,9 +114,114 @@ describe 'API v3 Work package resource',
         it_behaves_like 'unauthorized access'
       end
     end
+
+    describe 'encoded query props' do
+      let(:props) do
+        eprops = {
+          filters: [{ id: { operator: '=', values: [work_package.id.to_s, other_visible_work_package.id.to_s] } }].to_json,
+          sortBy: [%w(id asc)].to_json,
+          pageSize: 1
+        }.to_json
+
+        {
+          eprops: Base64.encode64(Zlib::Deflate.deflate(eprops))
+        }.to_query
+      end
+      let(:path) { "#{api_v3_paths.work_packages}?#{props}" }
+      let(:other_visible_work_package) do
+        FactoryBot.create(:work_package,
+                          project: project)
+      end
+      let(:another_visible_work_package) do
+        FactoryBot.create(:work_package,
+                          project: project)
+      end
+
+      let(:work_packages) { [work_package, other_work_package, other_visible_work_package, another_visible_work_package] }
+
+      it 'succeeds' do
+        expect(subject.status)
+          .to eql 200
+      end
+
+      it 'returns visible and filtered work packages' do
+        expect(subject.body)
+          .to be_json_eql(2.to_json)
+          .at_path('total')
+
+        # because of the page size
+        expect(subject.body)
+          .to be_json_eql(1.to_json)
+          .at_path('count')
+
+        expect(subject.body)
+          .to be_json_eql(work_package.id.to_json)
+          .at_path('_embedded/elements/0/id')
+      end
+
+      context 'non zlibbed' do
+        let(:props) do
+          eprops = {
+            filters: [{ id: { operator: '=', values: [work_package.id.to_s, other_visible_work_package.id.to_s] } }].to_json,
+            sortBy: [%w(id asc)].to_json,
+            pageSize: 1
+          }.to_json
+
+          {
+            eprops: Base64.encode64(eprops)
+          }.to_query
+        end
+
+        it_behaves_like 'param validation error'
+      end
+
+      context 'non json encoded' do
+        let(:props) do
+          eprops = "some non json string"
+
+          {
+            eprops: Base64.encode64(Zlib::Deflate.deflate(eprops))
+          }.to_query
+        end
+
+        it_behaves_like 'param validation error'
+      end
+
+      context 'non base64 encoded' do
+        let(:props) do
+          eprops = {
+            filters: [{ id: { operator: '=', values: [work_package.id.to_s, other_visible_work_package.id.to_s] } }].to_json,
+            sortBy: [%w(id asc)].to_json,
+            pageSize: 1
+          }.to_json
+
+          {
+            eprops: Zlib::Deflate.deflate(eprops)
+          }.to_query
+        end
+
+        it_behaves_like 'param validation error'
+      end
+
+      context 'non hash' do
+        let(:props) do
+          eprops = [{
+            filters: [{ id: { operator: '=', values: [work_package.id.to_s, other_visible_work_package.id.to_s] } }].to_json,
+            sortBy: [%w(id asc)].to_json,
+            pageSize: 1
+          }].to_json
+
+          {
+            eprops: Base64.encode64(Zlib::Deflate.deflate(eprops))
+          }.to_query
+        end
+
+        it_behaves_like 'param validation error'
+      end
+    end
   end
 
-  describe '#get' do
+  describe 'GET /api/v3/work_packages/:id' do
     let(:get_path) { api_v3_paths.work_package work_package.id }
 
     context 'when acting as a user with permission to view work package' do
@@ -211,7 +316,7 @@ describe 'API v3 Work package resource',
     end
   end
 
-  describe '#patch' do
+  describe 'PATCH /api/v3/work_packages/:id' do
     let(:patch_path) { api_v3_paths.work_package work_package.id }
     let(:valid_params) do
       {
@@ -856,13 +961,13 @@ describe 'API v3 Work package resource',
             context 'created_at' do
               let(:params) { valid_params.merge(createdAt: tomorrow) }
 
-              it_behaves_like 'read-only violation', 'createdAt'
+              it_behaves_like 'read-only violation', 'createdAt', WorkPackage, 'Created on'
             end
 
             context 'updated_at' do
               let(:params) { valid_params.merge(updatedAt: tomorrow) }
 
-              it_behaves_like 'read-only violation', 'updatedAt'
+              it_behaves_like 'read-only violation', 'updatedAt', WorkPackage, 'Updated on'
             end
           end
         end
@@ -979,7 +1084,7 @@ describe 'API v3 Work package resource',
     end
   end
 
-  describe '#delete' do
+  describe 'DELETE /api/v3/work_packages/:id' do
     let(:path) { api_v3_paths.work_package work_package.id }
 
     before do
@@ -1026,7 +1131,7 @@ describe 'API v3 Work package resource',
     end
   end
 
-  describe '#post' do
+  describe 'POST /api/v3/work_packages' do
     let(:path) { api_v3_paths.work_packages }
     let(:permissions) { %i[add_work_packages view_project] }
     let(:status) { FactoryBot.build(:status, is_default: true) }

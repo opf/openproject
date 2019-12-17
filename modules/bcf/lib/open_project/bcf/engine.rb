@@ -42,14 +42,17 @@ module OpenProject::Bcf
                default: {
                }
              } do
-
       project_module :bcf do
         permission :view_linked_issues,
                    { 'bcf/issues': %i[index] },
                    dependencies: %i[view_work_packages]
         permission :manage_bcf,
                    { 'bcf/issues': %i[index upload prepare_import configure_import perform_import] },
-                   dependencies: %i[view_linked_issues view_work_packages add_work_packages edit_work_packages]
+                   dependencies: %i[view_linked_issues
+                                    view_work_packages
+                                    add_work_packages
+                                    edit_work_packages
+                                    delete_work_packages]
       end
 
       OpenProject::AccessControl.permission(:view_work_packages).actions << 'bcf/issues/redirect_to_bcf_issues_list'
@@ -144,6 +147,19 @@ module OpenProject::Bcf
     initializer 'bcf.register_mimetypes' do
       Mime::Type.register "application/octet-stream", :bcf unless Mime::Type.lookup_by_extension(:bcf)
       Mime::Type.register "application/octet-stream", :bcfzip unless Mime::Type.lookup_by_extension(:bcfzip)
+    end
+
+    initializer 'bcf.add_api_scope' do
+      Doorkeeper.configuration.scopes.add(:bcf_v2_1)
+
+      module OpenProject::Authentication::Scope
+        BCF_V2_1 = :bcf_v2_1
+      end
+
+      OpenProject::Authentication.update_strategies(OpenProject::Authentication::Scope::BCF_V2_1,
+                                                    store: false) do |_strategies|
+        %i[oauth session]
+      end
     end
 
     config.to_prepare do

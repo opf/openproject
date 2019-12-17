@@ -77,6 +77,10 @@ export class WorkPackageTable {
     this.originalRowIndex = {};
     this.originalRows = rows.map((wp:WorkPackageResource, i:number) => {
       let wpId = wp.id!;
+
+      // Ensure we get the latest version
+      wp = this.wpCacheService.current(wpId, wp)!;
+
       this.originalRowIndex[wpId] = <WorkPackageTableRow>{object: wp, workPackageId: wpId, position: i};
       return wpId;
     });

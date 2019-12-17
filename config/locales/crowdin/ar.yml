@@ -483,7 +483,7 @@ ar:
         could_not_be_copied: "لا يمكن أن ينسخ بشكل كامل."
         does_not_exist: "غير موجود."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "لا يمكن أن تكون فارغة."
         even: "يجب أن يكون زوجي."
         exclusion: "محجوز."
@@ -2008,6 +2008,7 @@ ar:
       title: تغيير معرف المشروع
     archive:
       are_you_sure: "هل أنت متأكد من أنك تريد أرشفة المشروع '%{name}'؟"
+      archived: "Archived"
   project_module_activity: "النشاط"
   project_module_forums: "منتديات"
   project_module_calendar: "التقويم"
@@ -2311,7 +2312,8 @@ ar:
   text_work_package_category_destroy_question: "يتم تعيين بعض حزم العمل (%{count}) لهذه الفئة. ماذا تريد أن تفعل؟"
   text_work_package_category_reassign_to: "إعادة تعيين مجموعات العمل لهذه الفئة"
   text_work_package_updated: "تم تحديث %{id} مجموعة العمل بواسطة %{author}."
-  text_work_package_watcher_added: "تمت إضافتك كمراقب لحزمة العمل %{id} بواسطة %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "هل أنت متأكد من أنك تريد حذف العناصر المحددة؟"
   text_work_packages_ref_in_commit_messages: "تحديد المراجع وتثبيت مجموعات العمل في رسائل commit"
   text_journal_added: "%{value} %{label} أضيف"
@@ -2651,7 +2653,9 @@ ar:
         estimated_hours: "لا يمكن تعيين الساعات المقدرة على حزم العمل."
         invalid_user_assigned_to_work_package: "غير مسموح للمستخدم الذي تم اختياره أن يكون '%{property}' لمجموعة العمل هذه."
         start_date: "الوقت لإتمام المشروع لا يمكن تعيينه في حزم العمل الحالية."
-      writing_read_only_attributes: "لا يجب أن تكتب على سمة للقراءة فقط."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'مخطّط'
   doorkeeper:
@@ -2699,6 +2703,7 @@ ar:
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
         confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
@@ -2713,8 +2718,8 @@ ar:
       wants_to_access_html: >
         This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
     scopes:
-      api_v3: "Full API access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API to perform actions on your behalf."
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "Approved on"
       scopes: "السماحيات"

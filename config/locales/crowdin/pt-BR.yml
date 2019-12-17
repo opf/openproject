@@ -478,7 +478,7 @@ pt-BR:
         could_not_be_copied: "não pode ser copiado (totalmente)."
         does_not_exist: "não existe."
         error_unauthorized: "não pode ser acessado."
-        error_readonly: "não é gravável."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "não pode ser vazio."
         even: "deve ser par."
         exclusion: "está reservado."
@@ -1923,6 +1923,7 @@ pt-BR:
       title: Alterar o identificador do projeto
     archive:
       are_you_sure: "Tem certeza de que deseja arquivar o projeto '%{name}'?"
+      archived: "Arquivado"
   project_module_activity: "Atividade"
   project_module_forums: "Fóruns"
   project_module_calendar: "Calendário"
@@ -2228,7 +2229,8 @@ pt-BR:
   text_work_package_category_destroy_question: "Alguns pacotes de trabalho (%{count}) estão atribuídos a esta categoria. O que você quer fazer?"
   text_work_package_category_reassign_to: "Reatribuir pacotes de trabalho para esta categoria"
   text_work_package_updated: "Pacote de trabalho %{id} foi atualizado por %{author}."
-  text_work_package_watcher_added: "Você foi adicionado como um observador do pacote de trabalho %{id} por %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando e corrigindo pacotes de trabalho nas mensagens de commit"
   text_journal_added: "%{label} %{value}  adicionado"
@@ -2559,7 +2561,9 @@ pt-BR:
         estimated_hours: "Número estimado de horas não pode ser definido em pacotes de trabalho pai."
         invalid_user_assigned_to_work_package: "O usuário selecionado não tem permissão de '%{property}' neste pacote de trabalho."
         start_date: "Data de início não pode ser definida no pacote de trabalho pai."
-      writing_read_only_attributes: "Você não pode escrever um atributo somente leitura."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Esquema'
   doorkeeper:
@@ -2607,6 +2611,7 @@ pt-BR:
         redirect_uri_html: >
           As URLs permitidas dos usuários autorizados podem ser redirecionadas para. Uma entrada por linha. <br/> Se você estiver registrando uma aplicação desktop, use a seguinte URL.
         confidential: "Verifique se a aplicação será usada onde o segredo do cliente pode ser mantido em sigilo. Apps móveis nativos e aplicativos de página única são considerados não confidenciais."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "ID de usuário usado como representante quando os clientes usam esta aplicação. Deixe em branco para permitir apenas o acesso público"
         register_intro: "Se você estiver desenvolvendo uma aplicação cliente da API OAuth do OpenProject, poderá registrá-la usando este formulário para ser usada por todos os usuários."
         default_scopes: ""
@@ -2621,8 +2626,8 @@ pt-BR:
       wants_to_access_html: >
         Esta aplicação solicita acesso à sua conta OpenProject. <br/> <strong>Ela solicitou as seguintes permissões:</strong>
     scopes:
-      api_v3: "Acesso completo à API"
-      api_v3_text: "A aplicação receberá acesso total de leitura e escrita à API do OpenProject para executar ações em seu nome."
+      api_v3: "Acesso completo a API v3"
+      api_v3_text: "A aplicação receberá acesso total de leitura e escrita a API v3 do OpenProject para executar ações em seu nome."
     grants:
       created_date: "Aprovado em"
       scopes: "Permissões"

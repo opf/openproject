@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Work package timeline navigation',
+describe 'Switching work package view',
          with_ee: %i[conditional_highlighting],
          js: true do
   let(:user) { FactoryBot.create(:admin) }
@@ -69,8 +69,7 @@ describe 'Work package timeline navigation',
     before do
       # Enable card representation
       display_representation.switch_to_card_layout
-      expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp_1.id}']")
-      expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp_2.id}']")
+      cards.expect_work_package_listed wp_1, wp_2
     end
 
     it 'can switch the representations and keep the configuration settings' do
@@ -107,8 +106,48 @@ describe 'Work package timeline navigation',
     it 'saves the representation in the query' do
       # After refresh the WP are still disaplyed as cards
       page.driver.browser.navigate.refresh
-      expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp_1.id}']")
-      expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp_2.id}']")
+      cards.expect_work_package_listed wp_1, wp_2
+    end
+  end
+
+  context 'switching to mobile card view' do
+    let!(:height_before) do
+      page.driver.browser.manage.window.size.height
+    end
+    let!(:width_before) do
+      page.driver.browser.manage.window.size.width
+    end
+
+    after do
+      page.driver.browser.manage.window.resize_to(width_before, height_before)
+    end
+
+    it 'can switch the representation automatically on mobile after a refresh' do
+      # Change browser size to mobile
+      page.driver.browser.manage.window.resize_to(679, 1080)
+
+      # Expect the representation to switch to card on mobile
+      page.driver.browser.navigate.refresh
+
+      # It shows the elements as cards
+      cards.expect_work_package_listed wp_1, wp_2
+
+      # A single click leads to the full view
+      cards.select_work_package(wp_1)
+      expect(page).to have_selector('.work-packages--details--subject',
+                                    text: wp_1.subject)
+      page.find('.work-packages-back-button').click
+
+      # The query is however unchanged
+      expect(page).not_to have_selector('.editable-toolbar-title--save')
+      url = URI.parse(page.current_url).query
+      expect(url).not_to match(/query_props=.+/)
+
+      # Since the query is unchanged, the WPs will be displayed as list on larger screens again
+      page.driver.browser.manage.window.resize_to(680, 1080)
+      page.driver.browser.navigate.refresh
+      wp_table.expect_work_package_listed wp_1, wp_2
+      wp_table.expect_work_package_order wp_1, wp_2
     end
   end
 

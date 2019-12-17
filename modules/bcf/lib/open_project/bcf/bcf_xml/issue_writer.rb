@@ -1,7 +1,7 @@
 ##
 # Creates or updates a BCF issue and markup from a work package
 module OpenProject::Bcf::BcfXml
-  class IssueWriter
+  class IssueWriter < BaseWriter
     attr_reader :work_package, :issue, :markup_doc, :markup_node
 
     TOPIC_SEQUENCE = [
@@ -34,11 +34,11 @@ module OpenProject::Bcf::BcfXml
       @work_package = work_package
       @issue = find_or_initialize_issue
 
-      # Read the existing markup XML or build an empty one
-      @markup_doc = build_markup_document
+      # Create markup document
+      super()
 
       # Remember root markup node for easier access
-      @markup_node = @markup_doc.at_xpath('/Markup')
+      @markup_node = markup_doc.at_xpath('/Markup')
     end
 
     def update
@@ -58,7 +58,11 @@ module OpenProject::Bcf::BcfXml
       issue.save!
     end
 
-    private
+    protected
+
+    def root_node
+      :Markup
+    end
 
     ##
     # Get the nokogiri document from the markup xml
@@ -66,16 +70,7 @@ module OpenProject::Bcf::BcfXml
       if issue.markup
         Nokogiri::XML issue.markup, &:noblanks
       else
-        build_initial_markup_xml.doc
-      end
-    end
-
-    ##
-    # Initial markup file as basic BCF compliant xml
-    def build_initial_markup_xml
-      Nokogiri::XML::Builder.new do |xml|
-        xml.comment created_by_comment
-        xml.Markup "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance", "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema"
+        super
       end
     end
 
@@ -122,12 +117,6 @@ module OpenProject::Bcf::BcfXml
       else
         node.parent = parent_node
       end
-    end
-
-    def fetch(parent_node, name)
-      node = parent_node.at(name) || Nokogiri::XML::Node.new(name, markup_doc)
-      node.parent = parent_node unless node.parent.present?
-      node
     end
 
     def topic_attributes(topic_node)
@@ -240,27 +229,9 @@ module OpenProject::Bcf::BcfXml
     end
 
     ##
-    #
-    def created_by_comment
-      " Created by #{Setting.app_title} #{OpenProject::VERSION} at #{Time.now} "
-    end
-
-    ##
     # Find existing issue or create new
     def find_or_initialize_issue
       ::Bcf::Issue.find_or_initialize_by(work_package: work_package)
-    end
-    
-    def to_bcf_datetime(date_time)
-      date_time.utc.iso8601
-    end
-
-    def to_bcf_date(date)
-      date.iso8601
-    end
-
-    def url_helpers
-      @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
     end
   end
 end

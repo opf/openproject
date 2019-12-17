@@ -173,11 +173,11 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
 
     work_package.type = available_types.detect(&:is_default) || available_types.first
 
-    reassign_status work_package.new_statuses_allowed_to(user, true)
+    reassign_status assignable_statuses
   end
 
   def reassign_status(available_statuses)
-    return if available_statuses.include? work_package.status
+    return if available_statuses.include?(work_package.status) || work_package.status.is_a?(Status::InexistentStatus)
 
     new_status = available_statuses.detect(&:is_default) || available_statuses.first
     work_package.status = new_status if new_status.present?
@@ -213,5 +213,9 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
 
   def work_package
     model
+  end
+
+  def assignable_statuses
+    instantiate_contract(work_package, user).assignable_statuses(true)
   end
 end

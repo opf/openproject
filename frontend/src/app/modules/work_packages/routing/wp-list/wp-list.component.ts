@@ -39,6 +39,7 @@ import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routin
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-scroll";
 
 @Component({
   selector: 'wp-list',
@@ -99,8 +100,10 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
     this.hasQueryProps = !!this.$state.params.query_props;
 
-    // Load query initially
-    this.loadCurrentQuery();
+    // Load query initially unless it already was loaded
+    if (!this.querySpace.initialized.hasValue()) {
+      this.loadCurrentQuery();
+    }
 
     // Load query on URL transitions
     this.updateQueryOnParamsChanges();
@@ -123,7 +126,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       this.currentQuery = query;
 
       // Update the visible representation
-      if (this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation) {
+      if (this.deviceService.isMobile || this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation) {
         this.showListView = false;
       } else {
         this.showListView = true;

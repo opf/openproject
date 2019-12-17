@@ -1,0 +1,22 @@
+version: '3'
+services:
+  database:
+    image: postgres:10
+    environment:
+      - POSTGRES_PASSWORD=p4ssw0rd
+      - POSTGRES_DB=openproject
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8080:80"
+
+  web: &openproject
+    environment:
+      - DATABASE_URL=postgres://postgres:p4ssw0rd@database/openproject
+    image: openproject/community:10
+    command: ./docker/web
+  worker:
+    <<: *openproject
+    command: ./docker/worker

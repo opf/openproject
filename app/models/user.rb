@@ -678,18 +678,21 @@ class User < Principal
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
   # one anonymous user per database.
   def self.anonymous
-    anonymous_user = AnonymousUser.first
-    if anonymous_user.nil?
-      (anonymous_user = AnonymousUser.new.tap do |u|
-        u.lastname = 'Anonymous'
-        u.login = ''
-        u.firstname = ''
-        u.mail = ''
-        u.status = User::STATUSES[:active]
-      end).save
-      raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
+    RequestStore[:anonymous_user] ||= begin
+      anonymous_user = AnonymousUser.first
+
+      if anonymous_user.nil?
+        (anonymous_user = AnonymousUser.new.tap do |u|
+          u.lastname = 'Anonymous'
+          u.login = ''
+          u.firstname = ''
+          u.mail = ''
+          u.status = User::STATUSES[:active]
+        end).save
+        raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
+      end
+      anonymous_user
     end
-    anonymous_user
   end
 
   def self.system

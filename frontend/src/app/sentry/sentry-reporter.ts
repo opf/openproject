@@ -79,8 +79,8 @@ export class SentryReporter implements ErrorReporter {
           ignoreErrors: [
             // Transition movements,
             'The transition has been superseded by a different transition',
-            // Uncaught error resource promises
-            'Uncaught (in promise): [ErrorResource'
+            // Uncaught promise rejections
+            'Uncaught (in promise)'
           ],
           beforeSend: (event) => this.filterEvent(event)
         });
@@ -116,7 +116,8 @@ export class SentryReporter implements ErrorReporter {
 
   public captureException(err:Error|string) {
     if (!this.client || !err) {
-      return this.handleOfflineMessage('captureException', Array.from(arguments));
+      this.handleOfflineMessage('captureException', Array.from(arguments));
+      throw err;
     }
 
     if (typeof err === 'string') {

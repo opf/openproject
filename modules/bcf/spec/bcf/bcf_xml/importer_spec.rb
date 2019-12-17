@@ -63,7 +63,7 @@ describe ::OpenProject::Bcf::BcfXml::Importer do
     workflow
     priority
     bcf_manager_member
-    allow(User).to receive(:current).and_return(bcf_manager)
+    login_as(bcf_manager)
   end
 
   describe '#to_listing' do

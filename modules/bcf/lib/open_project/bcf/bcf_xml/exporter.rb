@@ -131,7 +131,7 @@ module OpenProject::Bcf::BcfXml
           snapshot_file = File.join(issue_dir, vp.snapshot.filename)
 
           # Copy the files
-          dump_file vp_file, vp.viewpoint
+          dump_file vp_file, ViewpointWriter.new(vp).to_xml
           FileUtils.cp vp.snapshot.local_path, snapshot_file
 
           files << vp_file << snapshot_file

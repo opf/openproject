@@ -44,7 +44,8 @@
         possibleValues        = $('#custom_field_possible_values_attributes'),
         defaultValueFields    = $('#custom_field_default_value_attributes'),
         spanDefaultText       = $('#default_value_text'),
-        spanDefaultBool       = $('#default_value_bool');
+        spanDefaultBool       = $('#default_value_bool'),
+        textOrientationField  = $('#custom_field_text_orientation');
 
     var deactivate = function(element) {
       element.hide().find('input, textarea').not('.destroy_flag,.-cf-ignore-disabled').attr('disabled', true);
@@ -65,7 +66,7 @@
           unsearchable = function() { searchable.attr('checked', false).hide(); };
 
       // defaults (reset these fields before doing anything else)
-      $.each([spanDefaultBool, spanDefaultText, multiSelect], function(idx, element) {
+      $.each([spanDefaultBool, spanDefaultText, multiSelect, textOrientationField], function(idx, element) {
         deactivate(element);
       });
       show(defaultValueFields);
@@ -106,6 +107,11 @@
           deactivate(possibleValues);
           hide(lengthField, regexpField, defaultValueFields);
           unsearchable();
+          break;
+        case 'text':
+          show(lengthField, regexpField, searchable, textOrientationField);
+          deactivate(possibleValues);
+          activate(textOrientationField);
           break;
         default:
           show(lengthField, regexpField, searchable);

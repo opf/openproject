@@ -480,7 +480,7 @@ lt:
         could_not_be_copied: "negalima (pilnai) nukopijuoti."
         does_not_exist: "neegzistuoja."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "negali būti tuščia."
         even: "turi būti lyginis."
         exclusion: "yra rezervuotas."
@@ -1965,6 +1965,7 @@ lt:
       title: Pakeisti projekto identifikatorių
     archive:
       are_you_sure: "Ar Jūs tikrai norite suarchyvuoti projektą '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Veikla"
   project_module_forums: "Forumai"
   project_module_calendar: "Kalendorius"
@@ -2268,7 +2269,8 @@ lt:
   text_work_package_category_destroy_question: "Kai kurie darbų paketai (%{count}) yra paskirti šiai kategorijai. Ką jūs norite daryti?"
   text_work_package_category_reassign_to: "Iš naujo priskirti darbų paketus šiai kategorijai"
   text_work_package_updated: "%{author} atnaujino darbų paketą %{id}."
-  text_work_package_watcher_added: "Jūs buvote vartotojo %{watcher_setter} pridėtas kaip stebėtojas į darbų paketą %{id}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
   text_work_packages_ref_in_commit_messages: "Darbų paketų susiejimas ir taisymas pavedimų žinutėse"
   text_journal_added: "%{label} %{value} pridėtas"
@@ -2603,7 +2605,9 @@ lt:
         estimated_hours: "Tikėtinos valandos negali būti nustatomos tėviniams darbų paketams."
         invalid_user_assigned_to_work_package: "Pasirinktas vartotojas negali būti '%{property}' šiam darbų paketui."
         start_date: "Pradžios data negali būti nustatyta tėviniams darbų paketams."
-      writing_read_only_attributes: "Jūs neturėtumėte įrašyti atributą „tik skaitomas“."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
   doorkeeper:
@@ -2651,6 +2655,7 @@ lt:
         redirect_uri_html: >
           Leidžiami URL, kur gali būti peradresuojami autorizuoti naudotojai. Po vieną įrašą eilutėje. <br/> Jei jūs registruojate darbastalio aplikaciją, naudokite šį URL.
         confidential: "Patikrinkite, ar bus naudojama aplikacija, kurioje kliento paslaptis gali likti konfidenciali. Mobilios aplikacijos ir Vieno puslapio aplikacijos laikomos nekonfidencialiomis."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "Neprivalomas naudotojo ID, naudojamas kai klientai naudoja šią aplikaciją. Palikite tuščią, jei norite leisti tik viešą prieigą"
         register_intro: "Jei kuriate OAuth API kliento aplikaciją skirtą OpenProject, jūs galite registruoti ją visiems naudotojams naudojant šią formą."
         default_scopes: ""
@@ -2665,8 +2670,8 @@ lt:
       wants_to_access_html: >
         Šiai aplikacijai reikia prieigos prie jūsų OpenProject paskyros. <br/> <strong>Ji paprašė tokių teisių:</strong>
     scopes:
-      api_v3: "Pilna API prieiga"
-      api_v3_text: "Aplikacija gaus pilną skaitymo ir rašymo prieigą prie OpenProject API vykdyti veiksmus jūsų vardu."
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "Patvirtinimo data"
       scopes: "Leidimai"

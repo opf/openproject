@@ -479,7 +479,7 @@
         could_not_be_copied: "could not be (fully) copied."
         does_not_exist: "does not exist."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "can't be empty."
         even: "must be even."
         exclusion: "is reserved."
@@ -1924,6 +1924,7 @@
       title: Change the project's identifier
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Aktivitet"
   project_module_forums: "Forum"
   project_module_calendar: "Kalender"
@@ -2229,7 +2230,8 @@
   text_work_package_category_destroy_question: "Noen arbeidspakker (%{count}) er knyttet til denne kategorien. Hva vil du gjøre?"
   text_work_package_category_reassign_to: "Flytt arbeidspakker til denne kategorien"
   text_work_package_updated: "Arbeidspakken %{id} ble oppdatert av %{author}."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Er du sikker på at du vil slette valgte arbeidspakke(r)?"
   text_work_packages_ref_in_commit_messages: "Referèring og retting av arbeidspakker i innsendingsmeldinger"
   text_journal_added: "%{label} %{value} lagt til"
@@ -2561,7 +2563,9 @@
         estimated_hours: "Anslåtte timer kan ikke angis på overordnede arbeidspakker."
         invalid_user_assigned_to_work_package: "Valgt bruker har ikke de nødvendige rettighetene til å være '%{property}' for denne arbeidspakken."
         start_date: "Startdato kan ikke angis på overordnede arbeidspakker."
-      writing_read_only_attributes: "Du kan ikke skrive til et skrivebeskyttet attributt."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Skjema'
   doorkeeper:
@@ -2609,6 +2613,7 @@
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
         confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
@@ -2623,8 +2628,8 @@
       wants_to_access_html: >
         This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
     scopes:
-      api_v3: "Full API access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API to perform actions on your behalf."
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "Approved on"
       scopes: "Tilganger"

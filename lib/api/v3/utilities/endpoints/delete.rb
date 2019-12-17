@@ -30,78 +30,7 @@ module API
   module V3
     module Utilities
       module Endpoints
-        class Delete
-          def default_instance_generator(model)
-            ->(_params) do
-              instance_variable_get("@#{model.name.demodulize.underscore}")
-            end
-          end
-
-          def initialize(model:,
-                         instance_generator: default_instance_generator(model),
-                         process_service: nil)
-            self.model = model
-            self.instance_generator = instance_generator
-            self.process_service = process_service || deduce_process_service
-          end
-
-          def mount
-            delete = self
-
-            -> do
-              call = delete.process(current_user,
-                                    instance_exec(params, &delete.instance_generator))
-
-              delete.render(call) do
-                status delete.success_status
-              end
-            end
-          end
-
-          def process(current_user, instance)
-            process_service
-              .new(user: current_user,
-                   model: instance)
-              .call
-          end
-
-          def render(call)
-            if success?(call)
-              yield
-            else
-              present_error(call)
-            end
-          end
-
-          def success_status
-            204
-          end
-
-          attr_accessor :model,
-                        :instance_generator,
-                        :process_service
-
-          private
-
-          def present_error(call)
-            fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-          end
-
-          def success?(call)
-            call.success?
-          end
-
-          def deduce_process_service
-            "::#{deduce_namespace}::DeleteService".constantize
-          end
-
-          def deduce_namespace
-            demodulized_name.pluralize
-          end
-
-          def demodulized_name
-            model.name.demodulize
-          end
+        class Delete < API::Utilities::Endpoints::Delete
         end
       end
     end

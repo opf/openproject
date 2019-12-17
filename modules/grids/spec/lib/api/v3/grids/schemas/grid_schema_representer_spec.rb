@@ -94,8 +94,6 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'rowCount' do
@@ -107,8 +105,6 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
         let(:required) { true }
         let(:writable) { true }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'columnCount' do
@@ -120,8 +116,6 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
         let(:required) { true }
         let(:writable) { true }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'createdAt' do
@@ -133,8 +127,6 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'updatedAt' do
@@ -146,8 +138,6 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
         let(:required) { true }
         let(:writable) { false }
       end
-
-      it_behaves_like 'has no visibility property'
     end
 
     describe 'widgets' do

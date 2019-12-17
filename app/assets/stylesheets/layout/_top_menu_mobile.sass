@@ -34,6 +34,17 @@
     background-color: transparent
 
   #top-menu
+    position: fixed
+    right: 0
+    left: 0
+    margin-top: 0px
+    transition: margin-top .4s
+
+    // Slide header in and out on scroll (see also: _base_mobile.sass)
+    .-header-scrolled &
+      margin-top: -$header-height
+      transition: margin-top .4s
+
     #nav-login-content
       float: none
       padding: 15px 20px

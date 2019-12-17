@@ -33,6 +33,7 @@ import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handle
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {DeviceService} from "core-app/modules/common/browser/device.service";
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -54,6 +55,8 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
   @Input() public cardsRemovable:boolean = false;
   /** Whether a notification box shall be shown when there are no WP to display */
   @Input() public showEmptyResultsBox:boolean = false;
+  /** Whether on special mobile version of the cards shall be shown */
+  @Input() public shrinkOnMobile:boolean = false;
 
   /** Container reference */
   @ViewChild('container', { static: true }) public container:ElementRef;
@@ -100,7 +103,8 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
               readonly wpTableSelection:WorkPackageViewSelectionService,
               readonly wpViewOrder:WorkPackageViewOrderService,
               readonly cardView:WorkPackageCardViewService,
-              readonly cardDragDrop:WorkPackageCardDragAndDropService) {
+              readonly cardDragDrop:WorkPackageCardDragAndDropService,
+              readonly deviceService:DeviceService) {
   }
 
   ngOnInit() {
@@ -140,9 +144,12 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Register Drag & Drop
     this.cardDragDrop.init(this);
-    this.cardDragDrop.registerDragAndDrop();
+
+    // Register Drag & Drop only on desktop
+    if (!this.deviceService.isMobile) {
+      this.cardDragDrop.registerDragAndDrop();
+    }
 
     // Register event handlers for the cards
     new CardViewHandlerRegistry(this.injector).attachTo(this);
@@ -179,6 +186,13 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
     await this.cardDragDrop.onCardSaved(wp);
   }
 
+  public classes() {
+    let classes = 'wp-cards-container ';
+    classes += '-' + this.orientation;
+    classes += this.shrinkOnMobile ? ' -shrink' : '';
+
+    return classes;
+  }
   /**
    * Listen to newly created work packages to detect whether the WP is the one we created,
    * and properly reset inline create in this case

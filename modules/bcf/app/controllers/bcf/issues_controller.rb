@@ -141,9 +141,9 @@ module ::Bcf
         raise(StandardError.new(I18n.t('bcf.exceptions.file_invalid')))
       end
 
-      @issues = ::Bcf::Issue.with_markup
-                  .includes(work_package: %i[status priority assigned_to])
-                  .where(uuid: @listing.map { |e| e[:uuid] }, project: @project)
+      @issues = ::Bcf::Issue
+                .includes(work_package: %i[status priority assigned_to])
+                .where(uuid: @listing.map { |e| e[:uuid] }, project: @project)
       render 'bcf/issues/diff_on_work_packages'
     end
 

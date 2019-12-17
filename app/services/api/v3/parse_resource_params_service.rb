@@ -28,42 +28,20 @@
 
 module API
   module V3
-    class ParseResourceParamsService
-      attr_accessor :model,
-                    :representer,
-                    :current_user
-
-      def initialize(user, model: nil, representer: nil)
-        self.current_user = user
-        self.model = model
-
-        self.representer = if !representer && model
-                             "API::V3::#{model.to_s.pluralize}::#{model}Representer".constantize
-                           elsif representer
-                             representer
-                           else
-                             raise 'Representer not defined'
-                           end
-      end
-
-      def call(request_body)
-        parsed = if request_body
-                   parse_attributes(request_body)
-                 else
-                   {}
-                 end
-
-        ServiceResult.new(success: true,
-                          result: parsed)
-      end
-
+    class ParseResourceParamsService < ::API::ParseResourceParamsService
       private
 
-      def parse_attributes(request_body)
+      def deduce_representer(model)
+        "API::V3::#{model.to_s.pluralize}::#{model}PayloadRepresenter".constantize
+      end
+
+      def parsing_representer
         representer
           .create(struct, current_user: current_user)
-          .from_hash(request_body)
-          .to_h
+      end
+
+      def parse_attributes(request_body)
+        super
           .except(:available_custom_fields)
       end
 
@@ -71,7 +49,7 @@ module API
         if model&.respond_to?(:available_custom_fields)
           OpenStruct.new available_custom_fields: model.available_custom_fields(model.new)
         else
-          OpenStruct.new
+          super
         end
       end
     end

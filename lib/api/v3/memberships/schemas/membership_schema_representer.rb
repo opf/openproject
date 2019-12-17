@@ -39,17 +39,14 @@ module API
           end
 
           schema :id,
-                 type: 'Integer',
-                 visibility: false
+                 type: 'Integer'
 
           schema :created_at,
-                 type: 'DateTime',
-                 visibility: false
+                 type: 'DateTime'
 
           schema_with_allowed_link :project,
                                    has_default: false,
                                    required: true,
-                                   visibility: false,
                                    href_callback: ->(*) {
                                      allowed_projects_href
                                    }
@@ -57,7 +54,6 @@ module API
           schema_with_allowed_link :principal,
                                    has_default: false,
                                    required: true,
-                                   visibility: false,
                                    href_callback: ->(*) {
                                      allowed_principal_href
                                    }
@@ -67,7 +63,6 @@ module API
                                    name_source: :role,
                                    has_default: false,
                                    required: true,
-                                   visibility: false,
                                    href_callback: ->(*) {
                                      api_v3_paths.path_for(:roles, filters: [{ unit: { operator: '=', values: ['project'] } }])
                                    }

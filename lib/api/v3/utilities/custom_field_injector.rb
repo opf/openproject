@@ -188,7 +188,8 @@ module API
                         writable: writable,
                         min_length: cf_min_length(custom_field),
                         max_length: cf_max_length(custom_field),
-                        regular_expression: cf_regexp(custom_field)
+                        regular_expression: cf_regexp(custom_field),
+                        options: cf_options(custom_field)
         end
 
         def path_method_for(custom_field)
@@ -322,6 +323,12 @@ module API
 
         def cf_regexp(custom_field)
           custom_field.regexp unless custom_field.regexp.blank?
+        end
+
+        def cf_options(custom_field)
+          {
+            rtl: ("true" if custom_field.content_right_to_left)
+          }
         end
 
         def list_schemas_values_callback(custom_field)

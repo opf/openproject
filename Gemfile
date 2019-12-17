@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.0.2'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 6.0.0'
+gem 'rails', '~> 6.0.1'
 gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
@@ -187,13 +187,6 @@ group :test do
   gem 'rack-test', '~> 1.1.0'
   gem 'shoulda-context', '~> 1.2'
 
-  # Require factory_bot for usage with openproject plugins testing
-  # FactoryBot needs to be available when loading app otherwise factory
-  # definitions from core are not available in the plugin thus specs break
-  gem 'factory_bot', '~> 4.8'
-  # require factory_bot_rails for convenience in core development
-  gem 'factory_bot_rails', '~> 4.8', require: false
-
   # Test prof provides factories from code
   # and other niceties
   gem 'test-prof', '~> 0.10.0'
@@ -210,6 +203,9 @@ group :test do
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.6.1'
+
+  # XML comparison tests
+  gem 'compare-xml', '~> 0.66', require: false
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
 
@@ -250,6 +246,11 @@ end
 
 group :development, :test do
   gem 'thin', '~> 1.7.2'
+
+  # Require factory_bot for usage with openproject plugins testing
+  gem 'factory_bot', '~> 4.8'
+  # require factory_bot_rails for convenience in core development
+  gem 'factory_bot_rails', '~> 4.8'
 
   # Tracing and profiling gems
   gem 'flamegraph', require: false

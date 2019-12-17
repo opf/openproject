@@ -75,28 +75,6 @@ class Status < ActiveRecord::Base
     WorkPackage.use_status_for_done_ratio?
   end
 
-  # Returns an array of all statuses the given role can switch to
-  def new_statuses_allowed_to(roles, type, author = false, assignee = false)
-    self.class.new_statuses_allowed(self, roles, type, author, assignee)
-  end
-
-  def self.new_statuses_allowed(status, roles, type, author = false, assignee = false)
-    if roles.present? && type.present?
-      status_id = status.try(:id) || 0
-
-      workflows = Workflow
-                  .from_status(status_id,
-                               type.id,
-                               roles.map(&:id),
-                               author,
-                               assignee)
-
-      Status.where(id: workflows.select(:new_status_id))
-    else
-      Status.where('1 = 0')
-    end
-  end
-
   def self.order_by_position
     order(:position)
   end

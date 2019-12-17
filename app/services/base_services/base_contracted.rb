@@ -88,5 +88,9 @@ module BaseServices
     def default_contract_class
       raise NotImplementedError
     end
+
+    def namespace
+      self.class.name.deconstantize.pluralize
+    end
   end
 end

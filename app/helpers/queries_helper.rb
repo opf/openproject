@@ -38,7 +38,7 @@ module QueriesHelper
 
     ::API::V3::UpdateQueryFromV3ParamsService
       .new(@query, current_user)
-      .call(params)
+      .call(params.permit!.to_h)
 
     @query
   end

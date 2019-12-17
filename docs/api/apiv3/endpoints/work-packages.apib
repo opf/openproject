@@ -452,7 +452,7 @@ Deletes the work package, as well as:
 
 + Response 200 (application/hal+json)
 
-    [Example Schema][]
+   Returns the work package schema resource. See [Schemas](schemas) section for details.
 
 + Response 404 (application/hal+json)
 
@@ -552,7 +552,7 @@ List work package schemas.
 
 This endpoint returns a form to allow a guided modification of an existing work package.
 
-For more details and all possible responses see the general specification of [Forms](#forms).
+For more details and all possible responses see the general specification of [Forms](/api/forms).
 
 ## Work Package Edit Form [POST]
 
@@ -560,8 +560,6 @@ For more details and all possible responses see the general specification of [Fo
     + id (required, integer, `1`) ... ID of the work package being modified
 
 + Response 200 (application/hal+json)
-
-    [Example Form][]
 
 + Response 403 (application/hal+json)
 
@@ -767,14 +765,14 @@ A project link must be set when creating work packages through this route.
 This endpoint returns a form to allow a guided creation of a new work package.
 The returned form will be pre-filled with default values for every property, if available.
 
-For more details and all possible responses see the general specification of [Forms](#forms).
+For more details and all possible responses see the general specification of [Forms](/api/forms).
 A project link must be set when creating work packages through this route.
 
 ## Work Package Create Form [POST]
 
 + Response 200 (application/hal+json)
 
-    [Example Form][]
+Returns the form resource that was created. See [Forms](/api/forms) section for details.
 
 
 ## Work Packages by Project [/api/v3/projects/{id}/work_packages{?offset,pageSize,filters,sortBy,groupBy,showSums,notify}]
@@ -968,7 +966,7 @@ Note that it is only allowed to provide properties or links supporting the write
 This endpoint returns a form to allow a guided creation of a new work package.
 The returned form will be pre-filled with default values for every property, if available.
 
-For more details and all possible responses see the general specification of [Forms](#forms).
+For more details and all possible responses see the general specification of [Forms](/api/forms).
 
 ## Work Package Create Form [POST]
 
@@ -977,7 +975,7 @@ For more details and all possible responses see the general specification of [Fo
 
 + Response 200 (application/hal+json)
 
-    [Example Form][]
+    Returns the form resource that was updated. See [Forms](/api/forms) section for details.
 
 ## Relations [/api/v3/work_packages/{work_package_id}/relations]
 
@@ -1006,7 +1004,7 @@ Note that it is only allowed to provide properties or links supporting the write
 
 + Response 201 (application/hal+json)
 
-    [Relation][]
+Returns the relation resource. See [Relations](relations) for more information.
 
 + Response 400 (application/hal+json)
 
@@ -1371,11 +1369,11 @@ In case the user was already watching the work package an `HTTP 200` is returned
 
 + Response 200 (application/hal+json)
 
-    [User][]
+Returns the user resource
 
 + Response 201 (application/hal+json)
 
-    [User][]
+Returns the user resource
 
 + Response 400 (application/hal+json)
 
@@ -2007,7 +2005,7 @@ Only linked revisions from repositories are shown if the user has the view chang
 
 + Response 200 (application/hal+json)
 
-    [Activity][]
+Returns the activity resource
 
 + Response 404 (application/hal+json)
 
@@ -2043,7 +2041,7 @@ updated activity.
 
 + Response 201 (application/hal+json)
 
-    [Activity][]
+Returns the activity resource
 
 + Response 400 (application/hal+json)
 

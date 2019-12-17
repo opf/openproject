@@ -45,7 +45,6 @@
     grid-area: type
   .wp-card--subject
     grid-area: subject
-    max-width: 230px
     @include text-shortener
     white-space: normal
   .wp-card--assignee
@@ -85,3 +84,12 @@
 
   flex-basis: 200px
   object-fit: cover
+
+@media only screen and (max-width: 679px)
+  .wp-card
+    max-width: none
+
+    &.-shrink
+      border: none
+      box-shadow: none
+      padding: 15px

@@ -481,7 +481,7 @@ sk:
         could_not_be_copied: "Nepodarilo sa (úplne) skopírovať."
         does_not_exist: "neexistuje."
         error_unauthorized: "may not be accessed."
-        error_readonly: "is not writable."
+        error_readonly: "was attempted to be written but is not writable."
         empty: "nemôže byť prázdny."
         even: "musí byť párne."
         exclusion: "patrí medzi vyhradené výrazy."
@@ -1965,6 +1965,7 @@ sk:
       title: Zmeniť identifikátor projektu
     archive:
       are_you_sure: "Naozaj chcete archivovať projekt \"%{name}\"?"
+      archived: "Archived"
   project_module_activity: "Činnosť"
   project_module_forums: "Diskusie"
   project_module_calendar: "Kalendár"
@@ -2270,7 +2271,8 @@ sk:
   text_work_package_category_destroy_question: "Niektoré pracovné balíčky (%{count}) sú priradené k tejto kategórii. Čo chcete urobiť?"
   text_work_package_category_reassign_to: "Priraďte pracovné balíčky do tejto kategórie"
   text_work_package_updated: "Pracovný balíček %{id} bol aktualizovaný %{author}."
-  text_work_package_watcher_added: "Byli ste pridaný ako pozorovateľ pre pracovný balíček %{id} užívateľom %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Naozaj chcete odstrániť vybraný pracovný balíček(y)?"
   text_work_packages_ref_in_commit_messages: "Odkazovanie a oprava pracovných balíčkov v podrobnejšom vysvetľujúcom texte"
   text_journal_added: "%{label} %{value} pridaných"
@@ -2607,7 +2609,9 @@ sk:
         estimated_hours: "Odhad hodín nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky."
         invalid_user_assigned_to_work_package: "Zvolený používateľ nemôže byť \"%{property}\" v prípade tohto pracovného balíčka."
         start_date: "Dátum \"Od\" nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky."
-      writing_read_only_attributes: "Nie je možné meniť atribút, ktorý je určený len na čítanie."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schéma'
   doorkeeper:
@@ -2655,6 +2659,7 @@ sk:
         redirect_uri_html: >
           Povolené adresy URL môžu byť presmerované na oprávnených používateľov. Jeden záznam na riadok.<br/> Ak registrujete aplikáciu pre stolné počítače, použite nasledujúcu adresu URL.
         confidential: "Overte, či sa aplikácia používa tam, kde môže byť dôverné tajomstvo klienta. Natívne mobilné aplikácie a aplikácie na jednej stránke nie sú dôverné."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
         client_credential_user_id: "Voliteľný používateľ, ktorý je súčasťou používania tejto aplikácie. Nechajte prázdne, ak chcete povoliť iba verejný prístup"
         register_intro: "Ak vyvíjate klientskú aplikáciu OAuth API pre OpenProject, môžete ju zaregistrovať pomocou tohto formulára pre všetkých používateľov."
         default_scopes: ""
@@ -2669,8 +2674,8 @@ sk:
       wants_to_access_html: >
         Táto aplikácia vyžaduje prístup k vášmu účtu OpenProject. <br/> <strong>Požiadala o nasledujúce povolenia:</strong>
     scopes:
-      api_v3: "Úplný prístup API"
-      api_v3_text: "Aplikácia dostane plný prístup na čítanie a zápis do rozhrania OpenProject API na vykonanie akcií vo vašom mene."
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "Schválené"
       scopes: "Oprávnenia"
