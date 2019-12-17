@@ -26,13 +26,13 @@ The release contains several bug fixes and fixes server security issues. We thus
 - Fixed: Unverified CSRF request in create budget form \[[#31739](https://community.openproject.com/wp/31739)\]
 - Fixed: Selected long cf values are reduced to ... in ng-select \[[#31765](https://community.openproject.com/wp/31765)\]
 - Fixed: Webhook is failing/crashing due to NameError \[[#31809](https://community.openproject.com/wp/31809)\]
-- Fixed: API v3 /relations/:id does not check permissions \[[#31853](https://community.openproject.com/wp/31853)\]
+- Fixed: API v3 /relations/:id does not check permissions \[[#31855](https://community.openproject.com/wp/31855)\]
 - Fixed: Tabnabbing on wiki pages \[[#31817](https://community.openproject.com/wp/31817)\]
 
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-In this release, we would especially like to thank Bartosz Nowicki for responsibly disclosing a severe data leakage \([#31853](https://community.openproject.com/wp/31853)\). Behaviour like this helps improving the security for everybody, so thanks a lot Bartosz. And Thanh Nguyen Nguyen of [Fortiguard Labs](https://fortiguard.com/) has once again responsibly disclosed a security issue to us ([#31817](https://community.openproject.com/wp/31817)). Thank you, Nguyen.  
+In this release, we would especially like to thank Bartosz Nowicki for responsibly disclosing a severe data leakage \([#31855](https://community.openproject.com/wp/31855)\). Behaviour like this helps improving the security for everybody, so thanks a lot Bartosz. And Thanh Nguyen Nguyen of [Fortiguard Labs](https://fortiguard.com/) has once again responsibly disclosed a security issue to us ([#31817](https://community.openproject.com/wp/31817)). Thank you, Nguyen.  
 
 We'd also like to thank users for reporting bugs:
 
