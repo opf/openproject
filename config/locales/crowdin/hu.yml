@@ -2227,7 +2227,8 @@ hu:
   text_work_package_category_destroy_question: "Egyes feladatcsoportok (%{count}) ehhez a kategóriához vannak társítva. Mit akarsz csinálni?"
   text_work_package_category_reassign_to: "A feladatcsoport ismételt hozzárendelése ehhez a kategóriához"
   text_work_package_updated: "feladatcsoport %{id} jelentés %{author} által készitve."
-  text_work_package_watcher_added: "Ön hozzáadott egy megfigyelőt a Munkacsomaghoz %{id} a %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Biztosan törli a kijelölt feladatcsoportot?"
   text_work_packages_ref_in_commit_messages: "Viszonyítandó és elintézendő feladatcsoportok a véglegesítési üzenetekben"
   text_journal_added: "%{label} %{value} hozzáadva"
@@ -2559,6 +2560,9 @@ hu:
         estimated_hours: "Becsült óra nem állítható a szülő feladatcsoportokon."
         invalid_user_assigned_to_work_package: "A kiválasztott felhasználó '%{property}'-ként való beállítása nem engedélyezett ehhez a feladatcsoporthoz."
         start_date: "Kezdés dátuma nem állítható a szülő feladatcsoportokon."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Séma'
   doorkeeper:

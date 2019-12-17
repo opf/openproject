@@ -2228,7 +2228,8 @@ pt:
   text_work_package_category_destroy_question: "Algumas tarefas (%{count}) estão atribuídas a esta categoria. O que é que quer fazer?"
   text_work_package_category_reassign_to: "Reatribuir pacotes de trabalho para esta categoria"
   text_work_package_updated: "O pacote de trabalho %{id} foi atualizado por %{author}."
-  text_work_package_watcher_added: "Foi adicionado como observador para trabalhar no pacote de trabalho %{id} por %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Tem certeza que deseja apagar o(s) pacote(s) de trabalho selecionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciar e fixar pacotes de trabalho em mensagens de confirmação"
   text_journal_added: "%{label} %{value} adicionado"
@@ -2560,6 +2561,9 @@ pt:
         estimated_hours: "Número estimado de horas não pode ser definido em tarefas pai."
         invalid_user_assigned_to_work_package: "O utilizador escolhido não pode ser '%{property}' para esta tarefa."
         start_date: "Data de início não pode ser definida em tarefas do pai."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Esquema'
   doorkeeper:

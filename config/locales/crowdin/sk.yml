@@ -2271,7 +2271,8 @@ sk:
   text_work_package_category_destroy_question: "Niektoré pracovné balíčky (%{count}) sú priradené k tejto kategórii. Čo chcete urobiť?"
   text_work_package_category_reassign_to: "Priraďte pracovné balíčky do tejto kategórie"
   text_work_package_updated: "Pracovný balíček %{id} bol aktualizovaný %{author}."
-  text_work_package_watcher_added: "Byli ste pridaný ako pozorovateľ pre pracovný balíček %{id} užívateľom %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Naozaj chcete odstrániť vybraný pracovný balíček(y)?"
   text_work_packages_ref_in_commit_messages: "Odkazovanie a oprava pracovných balíčkov v podrobnejšom vysvetľujúcom texte"
   text_journal_added: "%{label} %{value} pridaných"
@@ -2608,6 +2609,9 @@ sk:
         estimated_hours: "Odhad hodín nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky."
         invalid_user_assigned_to_work_package: "Zvolený používateľ nemôže byť \"%{property}\" v prípade tohto pracovného balíčka."
         start_date: "Dátum \"Od\" nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schéma'
   doorkeeper:

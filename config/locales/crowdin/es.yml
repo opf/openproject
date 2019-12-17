@@ -2227,7 +2227,8 @@ es:
   text_work_package_category_destroy_question: "Algunos paquetes de trabajo (%{count}) están asignados a esta categoría. ¿Que desea hacer?"
   text_work_package_category_reassign_to: "Resignando paquetes de trabajo a esta categoria"
   text_work_package_updated: "Los paquetes de trabajo %{id} han sido actualizados por %{author}."
-  text_work_package_watcher_added: "Has sido añadido como un observador del Paquete de trabajo %{id} por %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando y reparando paquetes de trabajo en mensajes de commit"
   text_journal_added: "%{label} %{value} añadido"
@@ -2558,6 +2559,9 @@ es:
         estimated_hours: "Las horas estimadas no pueden ser establecidas en paquetes de trabajo padres."
         invalid_user_assigned_to_work_package: "El usuario elegido no tiene permiso para ser '%{property}' para este paquete de trabajo."
         start_date: "La fecha de inicio no puede ser establecida en paquetes de trabajo padres."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Esquema'
   doorkeeper:

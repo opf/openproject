@@ -2208,7 +2208,8 @@ zh-TW:
   text_work_package_category_destroy_question: "一些工作項目(%{count})被分配給此類別。你想要做什麼？"
   text_work_package_category_reassign_to: "重新分配工作項目到這個類別"
   text_work_package_updated: "%{author} 更新了工作項目 %{id}。"
-  text_work_package_watcher_added: "你已經被 %{watcher_setter} 以觀察者的身份加入到工作項目 %{id}"
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
   text_work_packages_ref_in_commit_messages: "在提交訊息中引用和修復工作項目"
   text_journal_added: "%{label} %{value} 已增加"
@@ -2538,6 +2539,9 @@ zh-TW:
         estimated_hours: "無法在所屬工作包上設置估計小時數。"
         invalid_user_assigned_to_work_package: "所指定的使用者不允許成為工作項目的 '%{property}' 。"
         start_date: "無法在所屬工作包上設置開始日期。"
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: '架構'
   doorkeeper:

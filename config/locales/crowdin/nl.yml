@@ -2229,7 +2229,8 @@ nl:
   text_work_package_category_destroy_question: "Sommige werkpakketten (%{count}) worden toegewezen aan deze categorie. Wat wilt u doen?"
   text_work_package_category_reassign_to: "Werkpakketten toewijzen aan deze categorie"
   text_work_package_updated: "Werkpakket %{id} is bijgewerkt door %{author}."
-  text_work_package_watcher_added: "Je bent toegevoegd als een watcher werkpakket %{id} door %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Weet u zeker dat u geselecteerd(e) werkpakket(ten) wilt verwijderen?"
   text_work_packages_ref_in_commit_messages: "Verwijzen naar en herstellen van de werkpakketten in commit berichten"
   text_journal_added: "%{label} %{value} toegevoegd"
@@ -2560,6 +2561,9 @@ nl:
         estimated_hours: "Geschatte uren uren kunnen niet op ouderwerkpaketten worden gezet."
         invalid_user_assigned_to_work_package: "De gekozen gebruiker kan geen '%{property}' zijn voor dit werkpakket."
         start_date: "De startdatum kan niet worden ingesteld op bovenliggende werkpakketten."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
   doorkeeper:

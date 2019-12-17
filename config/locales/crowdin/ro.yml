@@ -2250,7 +2250,8 @@ ro:
   text_work_package_category_destroy_question: "Există pachete de lucru (%{count}) atribuite acestei categorii. Cum doriți să procedați?"
   text_work_package_category_reassign_to: "Reditribuire pachete de lucru la această categorie"
   text_work_package_updated: "Pachetul de lucru %{id} a fost actualizat de către %{author}."
-  text_work_package_watcher_added: "Ați fost adăugat ca observator la pachetul de lucru %{id} de către %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Sunteți sigur că doriți ștergerea pachetelor de lucru selectate?"
   text_work_packages_ref_in_commit_messages: "Referențiere și rezolvare a pachetelor de lucru în mesajele de încărcare"
   text_journal_added: "%{label} %{value} adăugat"
@@ -2584,6 +2585,9 @@ ro:
         estimated_hours: "Efortul estimat nu poate fi setat pe pachetele de lucru părinte."
         invalid_user_assigned_to_work_package: "Utilizatorul selectat nu poate fi '%{property}' pentru acest pachet de lucru."
         start_date: "Nu se poate seta data start pe pachetele de lucru părinte."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schemă'
   doorkeeper:

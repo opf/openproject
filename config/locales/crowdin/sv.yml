@@ -2228,7 +2228,8 @@ sv:
   text_work_package_category_destroy_question: "Vissa arbetspaket (%{count}) har tilldelas till denna kategori. Vad vill du göra?"
   text_work_package_category_reassign_to: "Tilldela arbetspaket till denna kategori"
   text_work_package_updated: "Arbetspaketet %{id} har uppdaterats av %{author}."
-  text_work_package_watcher_added: "%{watcher_setter} har lagt till dig som en bevakare av arbetspaket %{id}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
   text_work_packages_ref_in_commit_messages: "Referenser och fixande av arbetspaket i incheckningsmeddelanden"
   text_journal_added: "%{label} %{value} lades till"
@@ -2559,6 +2560,9 @@ sv:
         estimated_hours: "Beräknade timmar kan inte anges för överordnade arbetspaket."
         invalid_user_assigned_to_work_package: "Den valda användaren tillåts inte att vara \"%{property}\" för detta arbetspaket."
         start_date: "Startdatum kan inte anges för överordnade arbetspaket."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
   doorkeeper:

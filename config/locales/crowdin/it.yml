@@ -2229,7 +2229,8 @@ it:
   text_work_package_category_destroy_question: "Alcune macro-attività (%{count}) sono assegnate a questa categoria. Cosa vuoi fare?"
   text_work_package_category_reassign_to: "Riassegna le macro-attività a questa categoria"
   text_work_package_updated: "La macro-attività %{id} è stata aggiornata da %{author}."
-  text_work_package_watcher_added: "Sei stato aggiunto come osservatore della macro-attività %{id} da %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
   text_work_packages_ref_in_commit_messages: "Macro-attivita che sono correlate e/o modificate nei messaggi di conferma"
   text_journal_added: "%{label} %{value} aggiunto"
@@ -2561,6 +2562,9 @@ it:
         estimated_hours: "Le ore stimate non può essere impostate sulla macro-attività principale."
         invalid_user_assigned_to_work_package: "All'utente scelto non è consentito di essere '%{property}' per questa macro-attività."
         start_date: "La data di inizio non può essere impostata sulla macro-attività principale."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
   doorkeeper:

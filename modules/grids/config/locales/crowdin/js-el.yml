@@ -1,42 +1,42 @@
 el:
   js:
     grid:
-      add_widget: 'Add widget'
-      remove: 'Remove widget'
+      add_widget: 'Προσθήκη widget'
+      remove: 'Αφαίρεση widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "Ορισμένα γραφικά στοιχεία, όπως το γραφικό γραφικό πακέτο εργασίας, είναι διαθέσιμα μόνο στην "
+        link: 'έκδοση για επιχειρήσεις.'
       widgets:
         custom_text:
-          title: 'Custom text'
+          title: 'Προσαρμοσμένο κείμενο'
         documents:
           title: 'Έγγραφα'
           no_results: 'Δεν υπάρχουν έγγραφα.'
         members:
-          title: 'Members'
-          no_results: 'No visible members.'
-          view_all_members: 'View all members'
+          title: 'Μέλη'
+          no_results: 'Δεν υπάρχουν ορατά μέλη.'
+          view_all_members: 'Δείτε όλα τα μέλη'
           add: 'Μέλος'
-          too_many: 'Displaying %{count} of %{total} members.'
+          too_many: 'Προβολή %{count} απο %{total} μέλη.'
         news:
           title: 'Νέα'
           at: 'στο'
           no_results: 'Τίποτα νέο για αναφορά.'
         project_description:
-          title: 'Project description'
-          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+          title: 'Περιγραφή έργου'
+          no_results: "Δεν έχει γραφτεί ακόμα περιγραφή. Κάποιος μπορεί να παρέχεται στις 'Ρυθμίσεις έργου'."
         project_details:
-          title: 'Project details'
-          no_results: 'No custom fields have been defined for projects.'
+          title: 'Λεπτομέρειες έργου'
+          no_results: 'Δεν έχουν οριστεί προσαρμοσμένα πεδία για έργα.'
         project_status:
           title: 'Κατάσταση έργου'
           on_track: 'On track'
           off_track: 'Off track'
           at_risk: 'At risk'
-          not_set: 'Not set'
+          not_set: 'Μη ορισμένο'
         subprojects:
           title: 'Υποέργα'
-          no_results: 'No subprojects.'
+          no_results: 'Δεν υπάρχουν υποπρογράμματα.'
         time_entries_list:
           title: 'Χρόνος που πέρασε (τις τελευταίες 7 ημέρες)'
           no_results: 'Δεν υπάρχουν καταχωρήσεις χρόνου για τις τελευταίες 7 ημέρες.'
@@ -49,11 +49,11 @@ el:
         work_packages_watched:
           title: 'Εργασίες που παρακολουθώ'
         work_packages_table:
-          title: 'Work packages table'
+          title: 'Πίνακας πακέτων εργασίας'
         work_packages_graph:
-          title: 'Work packages graph'
+          title: 'Γράφημα πακέτων εργασίας'
         work_packages_calendar:
-          title: 'Calendar'
+          title: 'Ημερολόγιο'
         work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
+          title: 'Επισκόπηση των πακέτων εργασίας'
+          placeholder: 'Κάντε κλικ για επεξεργασία ...'

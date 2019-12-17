@@ -2312,7 +2312,8 @@ ar:
   text_work_package_category_destroy_question: "يتم تعيين بعض حزم العمل (%{count}) لهذه الفئة. ماذا تريد أن تفعل؟"
   text_work_package_category_reassign_to: "إعادة تعيين مجموعات العمل لهذه الفئة"
   text_work_package_updated: "تم تحديث %{id} مجموعة العمل بواسطة %{author}."
-  text_work_package_watcher_added: "تمت إضافتك كمراقب لحزمة العمل %{id} بواسطة %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "هل أنت متأكد من أنك تريد حذف العناصر المحددة؟"
   text_work_packages_ref_in_commit_messages: "تحديد المراجع وتثبيت مجموعات العمل في رسائل commit"
   text_journal_added: "%{value} %{label} أضيف"
@@ -2652,6 +2653,9 @@ ar:
         estimated_hours: "لا يمكن تعيين الساعات المقدرة على حزم العمل."
         invalid_user_assigned_to_work_package: "غير مسموح للمستخدم الذي تم اختياره أن يكون '%{property}' لمجموعة العمل هذه."
         start_date: "الوقت لإتمام المشروع لا يمكن تعيينه في حزم العمل الحالية."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'مخطّط'
   doorkeeper:

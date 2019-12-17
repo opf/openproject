@@ -2269,7 +2269,8 @@ lt:
   text_work_package_category_destroy_question: "Kai kurie darbų paketai (%{count}) yra paskirti šiai kategorijai. Ką jūs norite daryti?"
   text_work_package_category_reassign_to: "Iš naujo priskirti darbų paketus šiai kategorijai"
   text_work_package_updated: "%{author} atnaujino darbų paketą %{id}."
-  text_work_package_watcher_added: "Jūs buvote vartotojo %{watcher_setter} pridėtas kaip stebėtojas į darbų paketą %{id}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
   text_work_packages_ref_in_commit_messages: "Darbų paketų susiejimas ir taisymas pavedimų žinutėse"
   text_journal_added: "%{label} %{value} pridėtas"
@@ -2604,6 +2605,9 @@ lt:
         estimated_hours: "Tikėtinos valandos negali būti nustatomos tėviniams darbų paketams."
         invalid_user_assigned_to_work_package: "Pasirinktas vartotojas negali būti '%{property}' šiam darbų paketui."
         start_date: "Pradžios data negali būti nustatyta tėviniams darbų paketams."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
   doorkeeper:

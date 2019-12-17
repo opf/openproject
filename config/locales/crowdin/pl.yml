@@ -2269,7 +2269,8 @@ pl:
   text_work_package_category_destroy_question: "Niektóre pakiety robocze (%{count}) są przypisane do tej kategorii. Co chciałbyś zrobić?"
   text_work_package_category_reassign_to: "Przypisz pakiety robocze do tej kategorii"
   text_work_package_updated: "Pakiet roboczy %{id} został zaktualizowany przez %{author}."
-  text_work_package_watcher_added: "Zostałeś dodany jako obserwator do Zespołu zadań %{id} przez %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane pakiety robocze?"
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
@@ -2605,6 +2606,9 @@ pl:
         estimated_hours: "Nie można ustawić szacunku godzinowego dla źródłowych pakietów roboczych."
         invalid_user_assigned_to_work_package: "Wybrany użytkownik nie może być „%{property}” dla tego pakietu roboczego."
         start_date: "Daty rozpoczęcia nie można ustawić na nadrzędnych pakietach roboczych."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schemat'
   doorkeeper:

@@ -2207,7 +2207,8 @@ ja:
   text_work_package_category_destroy_question: "%{count}件の作業項目がこのカテゴリに割り当てられています。よろしいですか？"
   text_work_package_category_reassign_to: "作業項目をこのカテゴリに再割り当てする"
   text_work_package_updated: "作業項目%{id}が%{author}によって更新されました。"
-  text_work_package_watcher_added: "あなたは %{watcher_setter} によって作業項目 %{id} へのウォッチャーとして追加されています。"
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "選択した作業項目を削除してもよろしいですか？"
   text_work_packages_ref_in_commit_messages: "コミットメッセージ内で作業項目の参照/修正"
   text_journal_added: "%{label}で%{value}を追加"
@@ -2537,6 +2538,9 @@ ja:
         estimated_hours: "推定時間は、親ワークパッケージに設定できません。"
         invalid_user_assigned_to_work_package: "選択されたユーザーは、この作業項目の'%{property}' にすることはできません。"
         start_date: "開始日は、親ワークパッケージに設定できません。"
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'スキーマ'
   doorkeeper:
