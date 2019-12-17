@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Work package form resource', type: :request do
+describe 'API v3 Work package form resource', type: :request, with_mail: false do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
@@ -37,7 +37,13 @@ describe 'API v3 Work package form resource', type: :request do
   shared_let(:all_allowed_permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   shared_let(:assign_permissions) { %i[view_work_packages assign_versions] }
   shared_let(:project) { FactoryBot.create(:project, public: false) }
-  shared_let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  shared_let(:work_package) do
+    # Prevent executing as potentially unsaved AnyonymousUser which would
+    # lead to the creation failing as the journal cannot be written with user_id = nil.
+    User.execute_as authorized_user do
+      FactoryBot.create(:work_package, project: project)
+    end
+  end
   shared_let(:authorized_user) do
     FactoryBot.create(:user, member_in_project: project, member_with_permissions: all_allowed_permissions)
   end
@@ -59,7 +65,7 @@ describe 'API v3 Work package form resource', type: :request do
 
     shared_context 'post request' do
       before(:each) do
-        allow(User).to receive(:current).and_return current_user
+        login_as(current_user)
         post post_path, (params ? params.to_json : nil), 'CONTENT_TYPE' => 'application/json'
       end
     end

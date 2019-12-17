@@ -1901,6 +1901,7 @@ zh-CN:
       title: 更改项目的标识符
     archive:
       are_you_sure: "是否确定想要存档项目 '%{name}'？"
+      archived: "Archived"
   project_module_activity: "活动"
   project_module_forums: "论坛"
   project_module_calendar: "日历"
@@ -2204,7 +2205,8 @@ zh-CN:
   text_work_package_category_destroy_question: "一些工作包 (%{count}) 被分配到这个类别。你想做什么？"
   text_work_package_category_reassign_to: "重新分配工作包到此类别"
   text_work_package_updated: "工作包 %{id} 已经被 %{author} 更新。"
-  text_work_package_watcher_added: "你已被 %{watcher_setter} 添加作为工作包 %{id} 的一个关注者。"
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "确实要删除所选的工作包吗?"
   text_work_packages_ref_in_commit_messages: "引用和修复工作包中提交消息"
   text_journal_added: "%{label} %{value} 已添加"
@@ -2533,6 +2535,9 @@ zh-CN:
         estimated_hours: "不能在父工作包中设置预估的小时数。"
         invalid_user_assigned_to_work_package: "所选的用户不允许为此工作包的 '%{property}'。"
         start_date: "不能在父工作包中设置开始日期。"
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: '方案'
   doorkeeper:

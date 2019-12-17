@@ -1922,6 +1922,7 @@ de:
       title: Projektkennung ändern
     archive:
       are_you_sure: "Sind Sie sicher, dass Sie das Projekt '%{name}' archivieren wollen?"
+      archived: "Archived"
   project_module_activity: "Aktivität"
   project_module_forums: "Foren"
   project_module_calendar: "Kalender"
@@ -2227,7 +2228,8 @@ de:
   text_work_package_category_destroy_question: "Einige Arbeitspakete (%{count}) sind dieser Kategorie zugeordnet. Was möchten Sie tun?"
   text_work_package_category_reassign_to: "Arbeitspakete dieser Kategorie zuordnen"
   text_work_package_updated: "Arbeitspaket %{id} wurde von %{author} aktualisiert."
-  text_work_package_watcher_added: "Sie wurden von %{watcher_setter} als Beobachter für das Arbeitspaket %{id} eingetragen."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
@@ -2558,6 +2560,9 @@ de:
         estimated_hours: "Der geschätzte Aufwand kann für Eltern-Arbeitspakete nicht gesetzt werden."
         invalid_user_assigned_to_work_package: "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
         start_date: "Das Startdatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
   doorkeeper:

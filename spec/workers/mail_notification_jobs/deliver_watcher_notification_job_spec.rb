@@ -29,28 +29,30 @@
 
 require 'spec_helper'
 
-describe DeliverWatcherNotificationJob, type: :model do
+shared_examples "DeliverWatcherNotificationJob" do |action|
+  let(:action) { action }
   let(:project) { FactoryBot.create(:project) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:watcher_setter) { FactoryBot.create(:user) }
+  let(:watcher_changer) { FactoryBot.create(:user) }
   let(:watcher_user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
   let(:work_package) { FactoryBot.build(:work_package, project: project) }
   let(:watcher) { FactoryBot.create(:watcher, watchable: work_package, user: watcher_user) }
 
-  subject { described_class.new.perform(watcher.id, watcher_user.id, watcher_setter.id) }
+  subject { described_class.new.perform(watcher_parameter, watcher_user.id, watcher_changer.id) }
 
   before do
     # make sure no actual calls make it into the UserMailer
-    allow(UserMailer).to receive(:work_package_watcher_added)
+    allow(UserMailer).to receive(:work_package_watcher_changed)
       .and_return(double('mail', deliver_now: nil))
   end
 
   it 'sends a mail' do
-    expect(UserMailer).to receive(:work_package_watcher_added).with(work_package,
-                                                                    watcher_user,
-                                                                    watcher_setter)
+    expect(UserMailer).to receive(:work_package_watcher_changed).with(work_package,
+                                                                      watcher_user,
+                                                                      watcher_changer,
+                                                                      action)
     subject
   end
 
@@ -59,12 +61,24 @@ describe DeliverWatcherNotificationJob, type: :model do
       before do
         mail = double('mail')
         allow(mail).to receive(:deliver_now).and_raise(SocketError)
-        expect(UserMailer).to receive(:work_package_watcher_added).and_return(mail)
+        expect(UserMailer).to receive(:work_package_watcher_changed).and_return(mail)
       end
 
       it 'raises the error' do
         expect { subject }.to raise_error(SocketError)
       end
     end
+  end
+end
+
+describe DeliverWatcherRemovedNotificationJob, type: :model do
+  include_examples "DeliverWatcherNotificationJob", 'removed' do
+    let(:watcher_parameter) { watcher.attributes }
+  end
+end
+
+describe DeliverWatcherAddedNotificationJob, type: :model do
+  include_examples "DeliverWatcherNotificationJob", 'added' do
+    let(:watcher_parameter) { watcher }
   end
 end

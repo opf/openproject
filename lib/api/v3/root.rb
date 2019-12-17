@@ -35,6 +35,13 @@
 module API
   module V3
     class Root < ::API::OpenProjectAPI
+      helpers ::API::V3::Utilities::EpropsConversion
+
+      # All endpoint accept query props as gzipped and base64 encoded json objects
+      before do
+        transform_eprops
+      end
+
       mount ::API::V3::Activities::ActivitiesAPI
       mount ::API::V3::Attachments::AttachmentsAPI
       mount ::API::V3::Categories::CategoriesAPI

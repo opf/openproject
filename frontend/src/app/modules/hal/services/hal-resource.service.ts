@@ -29,15 +29,15 @@
 import {Injectable, Injector} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {throwError} from 'rxjs/internal/observable/throwError';
-import {catchError, map, tap} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {HalResource, HalResourceClass} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
 import {initializeHalProperties} from 'core-app/modules/hal/helpers/hal-resource-builder';
 import {URLParamsEncoder} from 'core-app/modules/hal/services/url-params-encoder';
-import {ErrorReporter} from "core-app/sentry/sentry-reporter";
 import {ErrorResource} from "core-app/modules/hal/resources/error-resource";
+import * as Pako from 'pako';
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
@@ -148,7 +148,7 @@ export class HalResourceService {
     while (retrieved < expected) {
       params.offset = page;
 
-      const promise = this.request<CollectionResource>('get', href, params, headers).toPromise();
+      const promise = this.request<CollectionResource>('get', href, this.toEprops(params), headers).toPromise();
       const results = await promise;
 
       if (results.count === 0) {
@@ -325,5 +325,12 @@ export class HalResourceService {
     const typeConfig = this.config[type];
     const types = (typeConfig && typeConfig.attrTypes) || {};
     return types[attribute];
+  }
+
+  protected toEprops(params:{}):{} {
+    let deflated = Pako.deflate(JSON.stringify(params), { to: 'string' });
+    let compressed = btoa(deflated);
+
+    return { eprops: compressed };
   }
 }

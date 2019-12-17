@@ -26,11 +26,11 @@ module OpenProjectErrorHelper
 
   def op_logging_context
     {
-      current_user: current_user,
+      current_user: User.current,
       params: params,
       request: try(:request),
       session: try(:session),
-      env: try(:env),
+      env: try(:env)
     }
   end
 end

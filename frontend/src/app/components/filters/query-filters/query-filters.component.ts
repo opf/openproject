@@ -169,7 +169,9 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
   public onOpen() {
     setTimeout(() => {
       const component = this.ngSelectComponent as any;
-      component.dropdownPanel._updatePosition();
+      if (component && component.dropdownPanel) {
+        component.dropdownPanel._updatePosition();
+      }
     }, 25);
   }
 }

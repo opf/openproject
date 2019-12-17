@@ -1,0 +1,6 @@
+#English strings go here
+el:
+  js:
+    bcf:
+      import: 'Εισαγωγή'
+      export: 'Εξαγωγή'

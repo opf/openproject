@@ -37,8 +37,10 @@ module Bcf::API::V2_1::Errors
       nil
     end
 
+    # In case the error lookups collide, we need to provide
+    # separate error mappers for every class.
     def self.lookup_ancestors
-      [::Bcf::Issue]
+      [::Bcf::Issue, ::Bcf::Viewpoint]
     end
 
     def self.map(original_errors)
@@ -58,7 +60,8 @@ module Bcf::API::V2_1::Errors
     end
 
     def self.error_key_mapper(key)
-      { subject: :title }[key] || key
+      { subject: :title,
+        json_viewpoint: :base }[key] || key
     end
   end
 end

@@ -56,6 +56,7 @@
     "@types/lodash": "^4.14.137",
     "@types/moment-timezone": "^0.5.12",
     "@types/mousetrap": "^1.6.3",
+    "@types/pako": "^1.0.1",
     "@types/promises-a-plus": "0.0.27",
     "@types/rosie": "0.0.36",
     "@types/urijs": "^1.19.3",

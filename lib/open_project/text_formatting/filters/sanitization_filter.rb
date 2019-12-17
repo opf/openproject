@@ -35,7 +35,17 @@ module OpenProject::TextFormatting
         super.merge(whitelist: WHITELIST.merge(
           elements: WHITELIST[:elements] + ['macro'],
           # Whitelist class and data-* attributes on all macros
-          attributes: WHITELIST[:attributes].merge('macro' => ['class', :data])
+          attributes: WHITELIST[:attributes].merge('macro' => ['class', :data]),
+          transformers: WHITELIST[:transformers] + [
+            # Add rel attribute to prevent tabnabbing
+            lambda { |env|
+              name = env[:node_name]
+              node = env[:node]
+              if name == 'a'
+                node['rel'] = 'noopener noreferrer'
+              end
+            }
+          ]
         ))
       end
     end

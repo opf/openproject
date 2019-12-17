@@ -145,10 +145,21 @@ describe ::API::V3::RootRepresenter do
       end
 
       describe 'coreVersion' do
-        it 'indicates the OpenProject version number' do
-          is_expected
-            .to be_json_eql(version.to_json)
-            .at_path('coreVersion')
+        context 'for a non admin user' do
+          it 'has no coreVersion property' do
+            is_expected
+              .not_to have_json_path('coreVersion')
+          end
+        end
+
+        context 'for an admin user' do
+          let(:user) { FactoryBot.build_stubbed(:admin) }
+
+          it 'indicates the OpenProject version number' do
+            is_expected
+              .to be_json_eql(version.to_json)
+              .at_path('coreVersion')
+          end
         end
       end
 

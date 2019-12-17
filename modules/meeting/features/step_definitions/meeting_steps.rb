@@ -27,14 +27,6 @@ Given /^there is (\d+) [Mm]eetings? in project "(.+)" created by "(.+)" with:$/ 
   end
 end
 
-Given /^there is (\d+) [Mm]eetings? in project "(.+)" that start (.*) days? from now with:$/ do |count, project, time, table|
-  count.to_i.times do
-    m = FactoryBot.build(:meeting, start_time: Time.now + time.to_i.days)
-    m.project = Project.find_by_name(project)
-    send_table_to_object(m, table)
-  end
-end
-
 Given /^the [Mm]eeting "(.+)" has 1 agenda with:$/ do |meeting, table|
   m = Meeting.find_by_title(meeting)
   ma = MeetingAgenda.find_by_meeting_id(m.id) || FactoryBot.build(:meeting_agenda, meeting: m)

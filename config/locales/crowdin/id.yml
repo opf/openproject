@@ -1902,6 +1902,7 @@ id:
       title: Change the project's identifier
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
+      archived: "Archived"
   project_module_activity: "Activity"
   project_module_forums: "Forum"
   project_module_calendar: "Kalender"
@@ -2205,7 +2206,8 @@ id:
   text_work_package_category_destroy_question: "Sejumlah Paket-Penugasan (%{count}) ditujukan untuk kategori ini. Apa yang ingin Anda lakukan?"
   text_work_package_category_reassign_to: "Kembalikan Paker-Penugasan ke kategori ini"
   text_work_package_updated: "Paket-Penugasan %{id} telah dilaporkan oleh %{author}."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_setter}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Yakin akan menghapus?"
   text_work_packages_ref_in_commit_messages: "Referencing & fixing Paket-Penugasan di pesan terkirim"
   text_journal_added: "%{label} %{value} ditambahkan"
@@ -2535,6 +2537,9 @@ id:
         estimated_hours: "Estimated hours cannot be set on parent work packages."
         invalid_user_assigned_to_work_package: "Pilihan pengguna tidak diperbolehkan untuk menjadi '%{property}' untuk paket pekerjaan ini."
         start_date: "Start date cannot be set on parent work packages."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
   doorkeeper:

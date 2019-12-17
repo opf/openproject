@@ -1902,6 +1902,7 @@ ko:
       title: 프로젝트의 식별자 변경
     archive:
       are_you_sure: "프로젝트 '%{name}'을(를) 보관하시겠습니까?"
+      archived: "Archived"
   project_module_activity: "활동"
   project_module_forums: "포럼"
   project_module_calendar: "달력"
@@ -2205,7 +2206,8 @@ ko:
   text_work_package_category_destroy_question: "일부 작업 패키지(%{count}개)가 이 카테고리에 할당되어 있습니다. 어떻게 하시겠습니까?"
   text_work_package_category_reassign_to: "이 카테고리에 작업 패키지 다시 할당"
   text_work_package_updated: "작업 패키지 %{id}은(는) %{author}에 의해 업데이트되었습니다."
-  text_work_package_watcher_added: "사용자는 %{watcher_setter}에 의해 작업 패키지 %{id}의 감시자로 추가되었습니다."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
   text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
   text_work_packages_ref_in_commit_messages: "커밋 메시지의 작업 패키지 참조 또는 수정"
   text_journal_added: "%{label} %{value} 추가됨"
@@ -2535,6 +2537,9 @@ ko:
         estimated_hours: "예상 시간은 부모 작업 패키지에서 설정할 수 없습니다."
         invalid_user_assigned_to_work_package: "선택한 사용자는 이 작업 패키지에 대해 '%{property}' 허가되지 않았습니다."
         start_date: "시작 날짜는 부모 작업 패키지에서 설정할 수 없습니다."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
     resources:
       schema: '스키마'
   doorkeeper:

@@ -86,6 +86,7 @@ module API
 
       link :user do
         next unless current_user.logged?
+
         {
           href: api_v3_paths.user(current_user.id),
           title: current_user.name
@@ -94,6 +95,7 @@ module API
 
       link :userPreferences do
         next unless current_user.logged?
+
         {
           href: api_v3_paths.my_preferences
         }
@@ -109,7 +111,9 @@ module API
                getter: ->(*) { Setting.app_title }
 
       property :core_version,
-               getter: ->(*) { OpenProject::VERSION.to_semver }
+               exec_context: :decorator,
+               getter: ->(*) { OpenProject::VERSION.to_semver },
+               if: ->(*) { current_user.admin? }
 
       def _type
         'Root'

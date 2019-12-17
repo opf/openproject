@@ -1,0 +1,7 @@
+#English strings go here
+el:
+  permission_show_board_views: "Προβολή πινάκων"
+  permission_manage_board_views: "Διαχείριση πινάκων"
+  project_module_board_view: "Πινακες"
+  boards:
+    label_boards: "Πινακες"

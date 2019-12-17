@@ -139,7 +139,7 @@ In that case, you will be shown three additional dialogs to enter the certificat
 
 If you have selected to auto-install an Apache2 web server, you will be asked whether you want to install Git and Subversion repository support. In case you do not need it or when in doubt, choose **Skip** for both options.
 
-For more information, [see our help on repositories](https://www.openproject.org/help/repository/)
+For more information, [see our help on repositories](https://docs.openproject.org/user-guide/repository/)
 
 ![03-repos](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/03-repos.png?raw=true)
 

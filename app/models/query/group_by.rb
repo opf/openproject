@@ -55,7 +55,7 @@ module ::Query::Grouping
       .references(:statuses, :projects)
       .where(query.statement)
       .order(order_for_count)
-      .pluck(pluck_for_count)
+      .pluck(*pluck_for_count)
       .to_h
   end
 

@@ -41,7 +41,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
   <% if @project.copy_allowed? %>
-    <li class="toolbar-item">
+    <li class="toolbar-item hidden-for-mobile">
       <%= link_to copy_from_project_path(@project, coming_from: :settings), class: 'button copy', accesskey: accesskey(:copy) do %>
         <%= op_icon('button--icon icon-copy') %>
         <span class="button--text"><%= t(:label_copy_project) %></span>
@@ -49,7 +49,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
   <% if User.current.admin? %>
-    <li class="toolbar-item">
+    <li class="toolbar-item hidden-for-mobile">
       <%= link_to(archive_project_path(@project, status: '', name: @project.name),
                     data: { confirm: t('project.archive.are_you_sure', name: @project.name) },
                     method: :put,
