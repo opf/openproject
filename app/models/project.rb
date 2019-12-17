@@ -42,8 +42,6 @@ class Project < ActiveRecord::Base
   # reserved identifiers
   RESERVED_IDENTIFIERS = %w(new).freeze
 
-  # Specific overridden Activities
-  has_many :time_entry_activities
   has_many :members, -> {
     includes(:principal, :roles)
       .where(
@@ -125,6 +123,7 @@ class Project < ActiveRecord::Base
     order("#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC")
   }, dependent: :destroy
   has_many :time_entries, dependent: :delete_all
+  has_many :time_entry_activities_projects, dependent: :delete_all
   has_many :queries, dependent: :delete_all
   has_many :news, -> { includes(:author) }, dependent: :destroy
   has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
@@ -239,52 +238,6 @@ class Project < ActiveRecord::Base
     @all_work_package_custom_fields = nil
 
     super
-  end
-
-  # Returns the Systemwide and project specific activities
-  def activities(include_inactive = false)
-    if include_inactive
-      all_activities
-    else
-      active_activities
-    end
-  end
-
-  # Will create a new Project specific Activity or update an existing one
-  #
-  # This will raise a ActiveRecord::Rollback if the TimeEntryActivity
-  # does not successfully save.
-  def update_or_create_time_entry_activity(id, activity_hash)
-    if activity_hash.respond_to?(:has_key?) && activity_hash.has_key?('parent_id')
-      create_time_entry_activity_if_needed(activity_hash)
-    else
-      activity = project.time_entry_activities.find_by(id: id.to_i)
-      activity&.update(activity_hash)
-    end
-  end
-
-  # Create a new TimeEntryActivity if it overrides a system TimeEntryActivity
-  #
-  # This will raise a ActiveRecord::Rollback if the TimeEntryActivity
-  # does not successfully save.
-  def create_time_entry_activity_if_needed(activity)
-    if activity['parent_id']
-
-      parent_activity = TimeEntryActivity.find(activity['parent_id'])
-      activity['name'] = parent_activity.name
-      activity['position'] = parent_activity.position
-
-      if Enumeration.overridding_change?(activity, parent_activity)
-        project_activity = time_entry_activities.create(activity)
-
-        if project_activity.new_record?
-          raise ActiveRecord::Rollback, 'Overridding TimeEntryActivity was not successfully saved'
-        else
-          time_entries.where(['activity_id = ?', parent_activity.id])
-            .update_all("activity_id = #{project_activity.id}")
-        end
-      end
-    end
   end
 
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.
@@ -542,45 +495,6 @@ class Project < ActiveRecord::Base
     @actions_allowed ||= allowed_permissions
                          .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
                          .flatten
-  end
-
-  # Returns all the active Systemwide and project specific activities
-  def active_activities
-    overridden_activity_ids = time_entry_activities.map(&:parent_id)
-
-    if overridden_activity_ids.empty?
-      TimeEntryActivity.shared.active
-    else
-      system_activities_and_project_overrides
-    end
-  end
-
-  # Returns all the Systemwide and project specific activities
-  # (inactive and active)
-  def all_activities
-    overridden_activity_ids = time_entry_activities.map(&:parent_id)
-
-    if overridden_activity_ids.empty?
-      TimeEntryActivity.shared
-    else
-      system_activities_and_project_overrides(true)
-    end
-  end
-
-  # Returns the systemwide active activities merged with the project specific overrides
-  def system_activities_and_project_overrides(include_inactive = false)
-    if include_inactive
-      TimeEntryActivity
-        .shared
-        .where(['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
-        time_entry_activities
-    else
-      TimeEntryActivity
-        .shared
-        .active
-        .where(['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
-        time_entry_activities.active
-    end
   end
 
   def self.possible_principles_condition

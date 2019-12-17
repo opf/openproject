@@ -46,7 +46,9 @@ module TimeEntries
 
     attribute :project_id
     attribute :work_package_id
-    attribute :activity_id
+    attribute :activity_id do
+      validate_activity_active
+    end
     attribute :hours
     attribute :comments
     attribute :spent_on
@@ -71,6 +73,10 @@ module TimeEntries
 
     def validate_project_is_set
       errors.add :project_id, :invalid if model.project.nil?
+    end
+
+    def validate_activity_active
+      errors.add :activity_id, :inclusion if model.activity && !model.activity.active_in_project?(model.project)
     end
 
     def work_package_invisible?

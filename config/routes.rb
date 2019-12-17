@@ -196,7 +196,7 @@ OpenProject::Application.routes.draw do
       get :level_list
     end
 
-    resource :enumerations, controller: 'project_enumerations', only: %i[update destroy]
+    resource :time_entry_activities, controller: 'projects/time_entry_activities', only: %i[update]
 
     resources :versions, only: %i[new create] do
       collection do

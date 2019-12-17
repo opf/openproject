@@ -37,9 +37,9 @@ module TimelogHelper
     project ||= @project
     activities =
       if project.nil?
-        TimeEntryActivity.shared.active
+        TimeEntryActivity.all.active
       else
-        project.activities
+        TimeEntryActivity.in_project(project)
       end
 
     activities.map do |a|

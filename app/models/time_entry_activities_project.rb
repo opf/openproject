@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,44 +25,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module TimeEntries
-  class SetAttributesService < ::BaseServices::SetAttributes
-    private
-
-    def set_attributes(attributes)
-      super
-
-      ##
-      # Update project context if moving time entry
-      if no_project_or_context_changed?
-        model.project = model.work_package&.project
-      end
-    end
-
-    def set_default_attributes(*)
-      set_default_user
-      set_default_activity
-      set_default_hours
-    end
-
-    def set_default_user
-      model.user ||= user
-    end
-
-    def set_default_activity
-      model.activity ||= TimeEntryActivity.default
-    end
-
-    def set_default_hours
-      model.hours = nil if model.hours&.zero?
-    end
-
-    def no_project_or_context_changed?
-      !model.project ||
-        (model.work_package && model.work_package_id_changed? && !model.project_id_changed?)
-    end
-  end
+class TimeEntryActivitiesProject < ActiveRecord::Base
+  belongs_to :project
+  belongs_to :activity, class_name: 'TimeEntryActivity'
 end

@@ -46,7 +46,15 @@ shared_examples_for 'time entry contract' do
   end
   let(:time_entry_project) { FactoryBot.build_stubbed(:project) }
   let(:time_entry_user) { current_user }
-  let(:time_entry_activity) { FactoryBot.build_stubbed(:time_entry_activity) }
+  let(:time_entry_activity) do
+    FactoryBot.build_stubbed(:time_entry_activity).tap do |activity|
+      allow(activity)
+        .to receive(:active_in_project?)
+        .with(time_entry_project)
+        .and_return(time_entry_activity_active)
+    end
+  end
+  let(:time_entry_activity_active) { true }
   let(:time_entry_spent_on) { Date.today }
   let(:time_entry_hours) { 5 }
   let(:time_entry_comments) { "A comment" }
@@ -96,6 +104,14 @@ shared_examples_for 'time entry contract' do
 
     it 'is invalid' do
       expect_valid(false, activity_id: %i(blank))
+    end
+  end
+
+  context 'if the activity is disabled in the project' do
+    let(:time_entry_activity_active) { false }
+
+    it 'is invalid' do
+      expect_valid(false, activity_id: %i(inclusion))
     end
   end
 

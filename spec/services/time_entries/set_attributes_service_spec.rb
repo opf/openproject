@@ -190,47 +190,4 @@ describe TimeEntries::SetAttributesService, type: :model do
         .to eql(contract_errors)
     end
   end
-
-  context 'with a system activity' do
-    let!(:system_activity) { FactoryBot.build_stubbed(:time_entry_activity) }
-    let(:params) do
-      {
-        project: project,
-        activity: system_activity
-      }
-    end
-
-    context 'with no project activity existing' do
-      it 'sets the system activity' do
-        subject
-
-        expect(time_entry_instance.activity)
-          .to eql(system_activity)
-      end
-    end
-
-    context 'with a project activity existing' do
-      let!(:project_activity) { FactoryBot.build_stubbed(:time_entry_activity, parent: system_activity, project: project) }
-
-      before do
-        project_activities = [project_activity]
-
-        allow(project)
-          .to receive(:time_entry_activities)
-          .and_return(project_activities)
-
-        allow(project_activities)
-          .to receive(:find_by)
-          .with(parent_id: system_activity.id)
-          .and_return(project_activity)
-      end
-
-      it 'uses the project activity instead' do
-        subject
-
-        expect(time_entry_instance.activity)
-          .to eql(project_activity)
-      end
-    end
-  end
 end

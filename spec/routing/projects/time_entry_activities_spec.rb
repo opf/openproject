@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,28 +26,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ProjectEnumerationsController < ApplicationController
-  before_action :find_project_by_project_id
-  before_action :authorize
+require 'spec_helper'
 
-  def update
-    if permitted_params.enumerations.present?
-      Project.transaction do
-        permitted_params.enumerations.each do |id, activity|
-          @project.update_or_create_time_entry_activity(id, activity)
-        end
-      end
-      flash[:notice] = l(:notice_successful_update)
+describe 'project/time_entry_activities routes', type: :routing do
+  describe 'update' do
+    it 'links PUT /projects/:project_id/time_entry_activities' do
+      expect(put('/projects/64/time_entry_activities'))
+        .to route_to('projects/time_entry_activities#update', project_id: '64')
     end
-
-    redirect_to settings_project_path(id: @project, tab: 'activities')
-  end
-
-  def destroy
-    TimeEntryActivity.bulk_destroy(@project.time_entry_activities)
-
-    flash[:notice] = l(:notice_successful_update)
-
-    redirect_to settings_project_path(id: @project, tab: 'activities')
   end
 end

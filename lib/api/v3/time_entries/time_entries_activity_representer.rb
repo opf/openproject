@@ -65,9 +65,10 @@ module API
         end
 
         def active_projects
-          represented
-            .activated_projects
-            .visible
+          # TODO: Move into contract
+          Project
+            .allowed_to(current_user, :view_time_entries)
+            .where(id: represented.activated_projects.select(:id))
         end
       end
     end

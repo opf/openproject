@@ -316,7 +316,7 @@ class ApplicationController < ActionController::Base
     is_authorized = AuthorizationService.new({ controller: ctrl, action: action }, context: context, global: global).call
 
     unless is_authorized
-      if @project && @project.archived?
+      if @project&.archived?
         render_403 message: :notice_not_authorized_archived_project
       else
         deny_access

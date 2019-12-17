@@ -30,6 +30,18 @@
 
 class TimeEntryActivity < Enumeration
   has_many :time_entries, foreign_key: 'activity_id'
+  has_many :time_entry_activities_projects, foreign_key: 'activity_id', dependent: :delete_all
+
+  validates :parent, absence: true
+
+  def self.in_project(project)
+    scope = includes(time_entry_activities_projects: :activity)
+
+    scope
+      .where(time_entry_activities_projects: { project_id: project.id, active: true })
+      .or(scope.where.not(time_entry_activities_projects: { project_id: project.id }).where(enumerations: { active: true }))
+      .or(scope.where(time_entry_activities_projects: { project_id: nil }, enumerations: { active: true }))
+  end
 
   OptionName = :enumeration_activities
 
@@ -42,20 +54,30 @@ class TimeEntryActivity < Enumeration
   end
 
   def transfer_relations(to)
-    time_entries.update_all("activity_id = #{to.id}")
+    time_entries.update_all(activity_id: to.id)
+  end
+
+  def active_in_project?(project)
+    teap = time_entry_activities_projects.detect { |t| t.project_id == project.id }
+    !teap || teap.active?
   end
 
   def activated_projects
-    scope = Project.all
+    join_condition = <<-SQL
+      LEFT OUTER JOIN time_entry_activities_projects
+        ON projects.id = time_entry_activities_projects.project_id
+        AND time_entry_activities_projects.activity_id = #{id}
+    SQL
 
-    scope = if active?
-              scope
-                .where.not(id: children.select(:project_id))
-            else
-              scope
-                .where('1=0')
-            end
+    join_scope = Project.joins(join_condition)
 
-    scope.or(Project.where(id: children.where(active: true).select(:project_id)))
+    result_scope = join_scope.where(time_entry_activities_projects: { active: true })
+
+    if active?
+      result_scope
+        .or(join_scope.where(time_entry_activities_projects: { project_id: nil }))
+    else
+      result_scope
+    end
   end
 end
