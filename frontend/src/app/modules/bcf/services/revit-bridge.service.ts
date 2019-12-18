@@ -16,21 +16,20 @@ export class RevitBridgeService {
     return this._ready;
   }
 
-  @HostListener('window:revit.client.loaded')
-  onRevitClientLoaded() {
-    console.log('EVENT onRevitClientLoaded');
-    this.hookUpRevitListener();
-  }
-
   constructor() {
     if (window.bcfierBridge) {
       this.hookUpRevitListener();
+    } else {
+      window.addEventListener('revit.plugin.ready', () => {
+        console.log('CAPTURED EVENT "revit.plugin.ready"');
+        this.hookUpRevitListener();
+      });
     }
   }
 
   public sendMessageToRevit(messageType:string, trackingId:string, messagePayload?:any) {
     if (!this.ready) {
-      console.log('The BCFier Revit Bridge is not ready yet.');
+      console.log('The Revit bridge is not ready yet.');
       return;
     }
 
