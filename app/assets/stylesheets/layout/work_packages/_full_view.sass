@@ -26,6 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+.router--work-packages-full-view:not(.router--work-packages-full-create)
+  @include extended-content--bottom
+  @include extended-content--right
+  @include extended-content--top
+
 .work-packages--show-view
   display: flex
   flex-direction: column
@@ -199,8 +204,6 @@
 
   > .toolbar-container
     margin: 10px 0 5px 0
-    padding-right: 15px
-
 .work-packages--subject-type-row
   display: flex
   position: relative
