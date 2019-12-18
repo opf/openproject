@@ -32,6 +32,15 @@ require 'model_contract'
 
 module TimeEntries
   class BaseContract < ::ModelContract
+    include Concerns::AssignableValuesContract
+    include Concerns::AssignableCustomFieldValues
+
+    delegate :work_package,
+             :project,
+             :available_custom_fields,
+             :new_record?,
+             to: :model
+
     def self.model
       TimeEntry
     end
@@ -51,10 +60,20 @@ module TimeEntries
     end
     attribute :hours
     attribute :comments
+    attribute_alias :comments, :comment
+
     attribute :spent_on
     attribute :tyear
     attribute :tmonth
     attribute :tweek
+
+    def assignable_activities
+      if !model.project
+        TimeEntryActivity.where('1=0')
+      else
+        TimeEntryActivity::Scopes::ActiveInProject.fetch(model.project)
+      end
+    end
 
     private
 
@@ -76,7 +95,7 @@ module TimeEntries
     end
 
     def validate_activity_active
-      errors.add :activity_id, :inclusion if model.activity && !model.activity.active_in_project?(model.project)
+      errors.add :activity_id, :inclusion if model.activity_id && !assignable_activities.exists?(model.activity_id)
     end
 
     def work_package_invisible?

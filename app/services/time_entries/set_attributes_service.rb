@@ -49,7 +49,9 @@ module TimeEntries
     end
 
     def set_default_user
-      model.user ||= user
+      change_by_system do
+        model.user = user
+      end
     end
 
     def set_default_activity

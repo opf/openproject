@@ -34,15 +34,6 @@ class TimeEntryActivity < Enumeration
 
   validates :parent, absence: true
 
-  def self.in_project(project)
-    scope = includes(time_entry_activities_projects: :activity)
-
-    scope
-      .where(time_entry_activities_projects: { project_id: project.id, active: true })
-      .or(scope.where.not(time_entry_activities_projects: { project_id: project.id }).where(enumerations: { active: true }))
-      .or(scope.where(time_entry_activities_projects: { project_id: nil }, enumerations: { active: true }))
-  end
-
   OptionName = :enumeration_activities
 
   def option_name
@@ -63,21 +54,6 @@ class TimeEntryActivity < Enumeration
   end
 
   def activated_projects
-    join_condition = <<-SQL
-      LEFT OUTER JOIN time_entry_activities_projects
-        ON projects.id = time_entry_activities_projects.project_id
-        AND time_entry_activities_projects.activity_id = #{id}
-    SQL
-
-    join_scope = Project.joins(join_condition)
-
-    result_scope = join_scope.where(time_entry_activities_projects: { active: true })
-
-    if active?
-      result_scope
-        .or(join_scope.where(time_entry_activities_projects: { project_id: nil }))
-    else
-      result_scope
-    end
+    Project::Scopes::ActivatedTimeActivity.fetch(self)
   end
 end

@@ -28,30 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module TimeEntries
-      class TimeEntryCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        element_decorator ::API::V3::TimeEntries::TimeEntryRepresenter
+module TimeEntryActivity::Scopes
+  class ActiveInProject
+    def self.fetch(project)
+      scope = TimeEntryActivity.includes(time_entry_activities_projects: :activity)
 
-        link :createTimeEntry do
-          next unless current_user.allowed_to_globally?(:log_time)
-
-          {
-            href: api_v3_paths.create_time_entry_form,
-            method: :post
-          }
-        end
-
-        link :createTimeEntryImmediately do
-          next unless current_user.allowed_to_globally?(:log_time)
-
-          {
-            href: api_v3_paths.time_entries,
-            method: :post
-          }
-        end
-      end
+      scope
+        .where(time_entry_activities_projects: { project_id: project.id, active: true })
+        .or(scope.where.not(time_entry_activities_projects: { project_id: project.id }).where(enumerations: { active: true }))
+        .or(scope.where(time_entry_activities_projects: { project_id: nil }, enumerations: { active: true }))
     end
   end
 end

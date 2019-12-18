@@ -28,29 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module TimeEntries
-      class TimeEntryCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        element_decorator ::API::V3::TimeEntries::TimeEntryRepresenter
+module Project::Scopes
+  class VisibleWithActivatedTimeActivity
+    class << self
+      def fetch(activity)
+        allowed_scope
+          .where(id: activated_projects(activity).select(:id))
+      end
 
-        link :createTimeEntry do
-          next unless current_user.allowed_to_globally?(:log_time)
+      private
 
-          {
-            href: api_v3_paths.create_time_entry_form,
-            method: :post
-          }
-        end
+      def activated_projects(activity)
+        Project::Scopes::ActivatedTimeActivity.fetch(activity)
+      end
 
-        link :createTimeEntryImmediately do
-          next unless current_user.allowed_to_globally?(:log_time)
-
-          {
-            href: api_v3_paths.time_entries,
-            method: :post
-          }
-        end
+      def allowed_scope
+        Project
+          .where(id: Project.allowed_to(User.current, :view_time_entries).select(:id))
+          .or(Project.where(id: Project.allowed_to(User.current, :view_own_time_entries).select(:id)))
       end
     end
   end

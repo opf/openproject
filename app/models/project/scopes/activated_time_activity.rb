@@ -28,29 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module TimeEntries
-      class TimeEntryCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        element_decorator ::API::V3::TimeEntries::TimeEntryRepresenter
+module Project::Scopes
+  class ActivatedTimeActivity
+    def self.fetch(time_entry_activity)
+      join_condition = <<-SQL
+        LEFT OUTER JOIN time_entry_activities_projects
+          ON projects.id = time_entry_activities_projects.project_id
+          AND time_entry_activities_projects.activity_id = #{time_entry_activity.id}
+      SQL
 
-        link :createTimeEntry do
-          next unless current_user.allowed_to_globally?(:log_time)
+      join_scope = Project.joins(join_condition)
 
-          {
-            href: api_v3_paths.create_time_entry_form,
-            method: :post
-          }
-        end
+      result_scope = join_scope.where(time_entry_activities_projects: { active: true })
 
-        link :createTimeEntryImmediately do
-          next unless current_user.allowed_to_globally?(:log_time)
-
-          {
-            href: api_v3_paths.time_entries,
-            method: :post
-          }
-        end
+      if time_entry_activity.active?
+        result_scope
+          .or(join_scope.where(time_entry_activities_projects: { project_id: nil }))
+      else
+        result_scope
       end
     end
   end

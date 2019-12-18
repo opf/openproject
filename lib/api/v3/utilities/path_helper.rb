@@ -323,11 +323,14 @@ module API
             "#{root}/string_objects?value=#{val}"
           end
 
-          index :time_entry
-          show :time_entry
+          resources :time_entry
 
           def self.time_entries_activity(activity_id)
             "#{root}/time_entries/activities/#{activity_id}"
+          end
+
+          def self.time_entries_available_projects
+            "#{time_entries}/available_projects"
           end
 
           index :type

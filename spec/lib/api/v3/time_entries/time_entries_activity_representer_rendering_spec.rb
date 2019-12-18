@@ -54,15 +54,9 @@ describe ::API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering' do
       let(:project2) { FactoryBot.build_stubbed(:project) }
 
       before do
-        scope = double('scope')
-
-        allow(activity)
-          .to receive(:activated_projects)
-          .and_return(scope)
-
-        allow(scope)
-          .to receive(:allowed_to)
-          .with(user, :view_time_entries)
+        allow(::Project::Scopes::VisibleWithActivatedTimeActivity)
+          .to receive(:fetch)
+          .with(activity)
           .and_return([project1,
                        project2])
       end

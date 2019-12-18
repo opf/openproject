@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -31,25 +29,22 @@
 module API
   module V3
     module TimeEntries
-      class TimeEntryCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        element_decorator ::API::V3::TimeEntries::TimeEntryRepresenter
-
-        link :createTimeEntry do
-          next unless current_user.allowed_to_globally?(:log_time)
-
-          {
-            href: api_v3_paths.create_time_entry_form,
-            method: :post
-          }
+      class AvailableProjectsAPI < ::API::OpenProjectAPI
+        after_validation do
+          authorize_any %i[log_time edit_time_entries edit_own_time_entries],
+                        global: true
         end
 
-        link :createTimeEntryImmediately do
-          next unless current_user.allowed_to_globally?(:log_time)
-
-          {
-            href: api_v3_paths.time_entries,
-            method: :post
-          }
+        resources :available_projects do
+          get &::API::V3::Utilities::Endpoints::Index
+                 .new(model: Project,
+                      scope: -> {
+                        Project
+                          .where(id: Project.allowed_to(User.current, :log_time))
+                          .or(Project.where(id: Project.allowed_to(User.current, :edit_time_entries)))
+                          .or(Project.where(id: Project.allowed_to(User.current, :edit_own_time_entries)))
+                      })
+                 .mount
         end
       end
     end

@@ -30,6 +30,8 @@
 
 module TimeEntries
   class UpdateContract < BaseContract
+    include Concerns::UnchangedProject
+
     def validate
       unless user_allowed_to_update?
         errors.add :base, :error_unauthorized
@@ -41,18 +43,18 @@ module TimeEntries
     private
 
     ##
-    # Users may update time entries IFF
+    # Users may update time entries IF
     # they have the :edit_time_entries or
     # user == editing user and :edit_own_time_entries
     def user_allowed_to_update?
-      edit_all = user.allowed_to?(:edit_time_entries, model.project)
-      edit_own = user.allowed_to?(:edit_own_time_entries, model.project)
+      with_unchanged_project_id do
+        user_allowed_to_update_in?(model.project)
+      end && user_allowed_to_update_in?(model.project)
+    end
 
-      if model.user == user
-        edit_own || edit_all
-      else
-        edit_all
-      end
+    def user_allowed_to_update_in?(project)
+      user.allowed_to?(:edit_time_entries, project) ||
+        (model.user == user && user.allowed_to?(:edit_own_time_entries, project))
     end
   end
 end

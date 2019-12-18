@@ -39,7 +39,7 @@ module TimelogHelper
       if project.nil?
         TimeEntryActivity.all.active
       else
-        TimeEntryActivity.in_project(project)
+        TimeEntryActivity::Scopes::ActiveInProject.fetch(project)
       end
 
     activities.map do |a|

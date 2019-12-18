@@ -36,6 +36,10 @@ module API
           get &::API::V3::Utilities::Endpoints::Index.new(model: TimeEntry).mount
           post &::API::V3::Utilities::Endpoints::Create.new(model: TimeEntry).mount
 
+          mount ::API::V3::TimeEntries::CreateFormAPI
+          mount ::API::V3::TimeEntries::Schemas::TimeEntrySchemaAPI
+          mount ::API::V3::TimeEntries::AvailableProjectsAPI
+
           route_param :id, type: Integer, desc: 'Time entry ID' do
             after_validation do
               @time_entry = TimeEntry

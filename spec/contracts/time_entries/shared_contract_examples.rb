@@ -47,24 +47,42 @@ shared_examples_for 'time entry contract' do
   let(:time_entry_project) { FactoryBot.build_stubbed(:project) }
   let(:time_entry_user) { current_user }
   let(:time_entry_activity) do
-    FactoryBot.build_stubbed(:time_entry_activity).tap do |activity|
-      allow(activity)
-        .to receive(:active_in_project?)
-        .with(time_entry_project)
-        .and_return(time_entry_activity_active)
-    end
+    FactoryBot.build_stubbed(:time_entry_activity)
   end
   let(:time_entry_activity_active) { true }
   let(:time_entry_spent_on) { Date.today }
   let(:time_entry_hours) { 5 }
   let(:time_entry_comments) { "A comment" }
   let(:work_package_visible) { true }
+  let(:activities_scope) do
+    scope = double('activities')
+
+    if (time_entry_activity)
+      allow(scope)
+        .to receive(:exists?)
+        .with(time_entry_activity.id)
+        .and_return(time_entry_activity_active)
+    end
+
+    scope
+  end
 
   before do
-    allow(time_entry_work_package)
-      .to receive(:visible?)
-      .with(current_user)
-      .and_return(work_package_visible)
+    if time_entry_work_package
+      allow(time_entry_work_package)
+        .to receive(:visible?)
+        .with(current_user)
+        .and_return(work_package_visible)
+    end
+
+    allow(TimeEntryActivity::Scopes::ActiveInProject)
+      .to receive(:fetch)
+      .and_return(TimeEntryActivity.where('1=0'))
+
+    allow(TimeEntryActivity::Scopes::ActiveInProject)
+      .to receive(:fetch)
+      .with(time_entry_project)
+      .and_return(activities_scope)
   end
 
   def expect_valid(valid, symbols = {})
@@ -89,6 +107,12 @@ shared_examples_for 'time entry contract' do
     it 'is invalid' do
       expect_valid(false, work_package_id: %i(invalid))
     end
+  end
+
+  context 'when the work_package is nil' do
+    let(:time_entry_work_package) { nil }
+
+    it_behaves_like 'is valid'
   end
 
   context 'when the project is nil' do
@@ -159,5 +183,23 @@ shared_examples_for 'time entry contract' do
     let(:time_entry_comments) { nil }
 
     it_behaves_like 'is valid'
+  end
+
+  describe 'assignable_activities' do
+    context 'if no project is set' do
+      let(:time_entry_project) { nil }
+
+      it 'is empty' do
+        expect(contract.assignable_activities)
+          .to be_empty
+      end
+    end
+
+    context 'if a project is set' do
+      it 'returns all activities active in the project' do
+        expect(contract.assignable_activities)
+          .to eql activities_scope
+      end
+    end
   end
 end

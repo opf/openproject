@@ -43,10 +43,13 @@ describe TimeEntries::CreateContract do
     end
     let(:permissions) { %i(log_time) }
     let(:other_user) { FactoryBot.build_stubbed(:user) }
+    let(:changed_by_system) { %w(user_id) }
 
-    subject(:contract) { described_class.new(time_entry, current_user) }
+    subject(:contract) do
+      described_class.new(time_entry, current_user, options: { changed_by_system: changed_by_system })
+    end
 
-    context 'when user is not allowed to log time' do
+    context 'if user is not allowed to log time' do
       let(:permissions) { [] }
 
       it 'is invalid' do
@@ -54,7 +57,7 @@ describe TimeEntries::CreateContract do
       end
     end
 
-    context 'when time_entry user is not contract user' do
+    context 'if time_entry user is not contract user' do
       let(:time_entry_user) { other_user }
 
       it 'is invalid' do
@@ -62,7 +65,16 @@ describe TimeEntries::CreateContract do
       end
     end
 
-    context 'when the user is nil' do
+    context 'if time_entry user was not set by system' do
+      let(:time_entry_user) { other_user }
+      let(:changed_by_system) { %w() }
+
+      it 'is invalid' do
+        expect_valid(false, user_id: %i(invalid error_readonly))
+      end
+    end
+
+    context 'if the user is nil' do
       let(:time_entry_user) { nil }
 
       it 'is invalid' do

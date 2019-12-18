@@ -28,29 +28,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module TimeEntries
-      class TimeEntryCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        element_decorator ::API::V3::TimeEntries::TimeEntryRepresenter
+module Concerns::UnchangedProject
+  extend ActiveSupport::Concern
 
-        link :createTimeEntry do
-          next unless current_user.allowed_to_globally?(:log_time)
+  included do
+    def with_unchanged_project_id
+      if model.project_id_changed?
+        current_project_id = model.project_id
 
-          {
-            href: api_v3_paths.create_time_entry_form,
-            method: :post
-          }
-        end
+        model.project_id = model.project_id_was
 
-        link :createTimeEntryImmediately do
-          next unless current_user.allowed_to_globally?(:log_time)
+        return_value = yield
 
-          {
-            href: api_v3_paths.time_entries,
-            method: :post
-          }
-        end
+        model.project_id = current_project_id
+
+        return_value
+      else
+        yield
       end
     end
   end

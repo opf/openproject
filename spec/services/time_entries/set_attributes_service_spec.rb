@@ -61,7 +61,7 @@ describe TimeEntries::SetAttributesService, type: :model do
   let(:contract_class) do
     allow(TimeEntries::CreateContract)
       .to receive(:new)
-      .with(anything, user, options: { changed_by_system: [] })
+      .with(anything, user, options: { changed_by_system: ["user_id"] })
       .and_return(contract_instance)
 
     TimeEntries::CreateContract
@@ -94,6 +94,13 @@ describe TimeEntries::SetAttributesService, type: :model do
       .to eql user
   end
 
+  it 'notes the user to be system changed' do
+    subject
+
+    expect(instance.changed_by_system)
+      .to include('user_id')
+  end
+
   it 'assigns the default TimeEntryActivity' do
     allow(TimeEntryActivity)
       .to receive(:default)
@@ -106,10 +113,8 @@ describe TimeEntries::SetAttributesService, type: :model do
   end
 
   context 'with params' do
-    let(:user2) { FactoryBot.build_stubbed(:user) }
     let(:params) do
       {
-        user: user2,
         work_package: work_package,
         project: project,
         activity: activity,
@@ -121,7 +126,7 @@ describe TimeEntries::SetAttributesService, type: :model do
 
     let(:expected) do
       {
-        user_id: user2.id,
+        user_id: user.id,
         work_package_id: work_package.id,
         project_id: project.id,
         activity_id: activity.id,

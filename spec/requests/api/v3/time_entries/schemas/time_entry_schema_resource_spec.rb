@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,29 +26,55 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module TimeEntries
-      class TimeEntryCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        element_decorator ::API::V3::TimeEntries::TimeEntryRepresenter
+require 'spec_helper'
+require 'rack/test'
 
-        link :createTimeEntry do
-          next unless current_user.allowed_to_globally?(:log_time)
+describe 'API v3 Time entry schema resource', type: :request, content_type: :json do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-          {
-            href: api_v3_paths.create_time_entry_form,
-            method: :post
-          }
-        end
+  let(:project) { FactoryBot.create(:project) }
+  let(:current_user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: permissions)
+  end
 
-        link :createTimeEntryImmediately do
-          next unless current_user.allowed_to_globally?(:log_time)
+  let(:permissions) { [:view_time_entries] }
 
-          {
-            href: api_v3_paths.time_entries,
-            method: :post
-          }
-        end
+  let(:path) { api_v3_paths.time_entry_schema }
+
+  before do
+    login_as(current_user)
+  end
+
+  subject(:response) { last_response }
+
+  describe '#GET /time_entries/schema' do
+    before do
+      get path
+    end
+
+    it 'responds with 200 OK' do
+      expect(subject.status).to eq(200)
+    end
+
+    it 'returns a schema' do
+      expect(subject.body)
+        .to be_json_eql('Schema'.to_json)
+        .at_path '_type'
+    end
+
+    it 'does not embed' do
+      expect(subject.body)
+        .not_to have_json_path('project/_links/allowedValues')
+    end
+
+    context 'if lacking permissions' do
+      let(:permissions) { [] }
+
+      it 'responds with 403' do
+        expect(subject.status).to eq(403)
       end
     end
   end

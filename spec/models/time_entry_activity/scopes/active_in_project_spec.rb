@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -29,16 +30,18 @@
 
 require 'spec_helper'
 
-describe TimeEntryActivity, type: :model do
+describe TimeEntryActivity::Scopes::ActiveInProject, type: :model do
   let(:activity) { FactoryBot.create(:time_entry_activity) }
   let(:project) { FactoryBot.create(:project) }
   let(:other_project) { FactoryBot.create(:project) }
 
-  describe '.in_project' do
+  describe '.fetch' do
+    subject { described_class.fetch(project) }
+
     context 'without a project configuration' do
       context 'with the activity being active' do
         it 'includes the activity' do
-          expect(TimeEntryActivity.in_project(project))
+          is_expected
             .to match_array [activity]
         end
       end
@@ -49,7 +52,7 @@ describe TimeEntryActivity, type: :model do
         end
 
         it 'excludes the activity' do
-          expect(TimeEntryActivity.in_project(project))
+          is_expected
             .to be_empty
         end
       end
@@ -61,7 +64,7 @@ describe TimeEntryActivity, type: :model do
       end
 
       it 'includes the activity' do
-        expect(TimeEntryActivity.in_project(project))
+        is_expected
           .to match_array [activity]
       end
 
@@ -71,7 +74,7 @@ describe TimeEntryActivity, type: :model do
         end
 
         it 'includes the activity' do
-          expect(TimeEntryActivity.in_project(project))
+          is_expected
             .to match_array [activity]
         end
       end
@@ -83,7 +86,7 @@ describe TimeEntryActivity, type: :model do
       end
 
       it 'includes the activity' do
-        expect(TimeEntryActivity.in_project(project))
+        is_expected
           .to match_array [activity]
       end
     end
@@ -94,60 +97,8 @@ describe TimeEntryActivity, type: :model do
       end
 
       it 'excludes the activity' do
-        expect(TimeEntryActivity.in_project(project))
+        is_expected
           .to be_empty
-      end
-    end
-  end
-
-  describe '#activated_projects' do
-    before do
-      project
-      other_project
-    end
-
-    context 'without project specific overrides' do
-      context 'and being active' do
-        it 'returns all projects' do
-          expect(activity.activated_projects)
-            .to match_array [project, other_project]
-        end
-      end
-
-      context 'and not being active' do
-        before do
-          activity.update_attribute(:active, false)
-        end
-
-        it 'returns no projects' do
-          expect(activity.activated_projects)
-            .to be_empty
-        end
-      end
-    end
-
-    context 'with project specific overrides' do
-      before do
-        TimeEntryActivitiesProject.insert(activity_id: activity.id, project_id: project.id, active: true)
-        TimeEntryActivitiesProject.insert(activity_id: activity.id, project_id: other_project.id, active: false)
-      end
-
-      context 'and being active' do
-        it 'returns the project the activity is activated in' do
-          expect(activity.activated_projects)
-            .to match_array [project]
-        end
-      end
-
-      context 'and not being active' do
-        before do
-          activity.update_attribute(:active, false)
-        end
-
-        it 'returns only the projects the activity is activated in' do
-          expect(activity.activated_projects)
-            .to match_array [project]
-        end
       end
     end
   end

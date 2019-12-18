@@ -31,10 +31,10 @@ require Rails.root.join('config/constants/project_activity')
 
 module Project::Activity
   def self.included(base)
-    base.send :extend, Scopes
+    base.send :extend, ActivityScopes
   end
 
-  module Scopes
+  module ActivityScopes
     def register_latest_project_activity(on:, chain: [], attribute:)
       Constants::ProjectActivity.register(on: on,
                                           chain: chain,
