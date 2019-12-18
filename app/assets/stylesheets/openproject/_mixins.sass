@@ -134,10 +134,6 @@ $scrollbar-size: 10px
   bottom: 0
   z-index: 900
 
-@mixin extended-content--left
-  #content-wrapper
-    padding-left: 0
-
 @mixin extended-content--top
   #content-wrapper
     padding-top: 0
@@ -145,6 +141,13 @@ $scrollbar-size: 10px
 @mixin extended-content--bottom
   #content-wrapper
     padding-bottom: 0
+
+@mixin extended-content--left
+  #content-wrapper
+    padding-left: 0
+
+    .toolbar-container
+      padding-left: 20px
 
 @mixin extended-content--right
   #content-wrapper
