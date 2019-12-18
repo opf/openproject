@@ -2268,8 +2268,8 @@ ru:
   text_work_package_category_destroy_question: "Некоторые пакеты работ (%{count}) принадлежат для этой категории. Что вы хотите сделать?"
   text_work_package_category_reassign_to: "Переназначить пакеты работ этой категории"
   text_work_package_updated: "%{author} обновил пакет работ %{id}."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_added: "Вы были добавлены в качестве наблюдателя в пакет работ %{id} от %{watcher_changer}."
+  text_work_package_watcher_removed: "Вы были удалены из наблюдателей пакета работ %{id} пользователем %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
@@ -2605,8 +2605,8 @@ ru:
         invalid_user_assigned_to_work_package: "Выбранный пользователь не может быть «%{property}» для этого пакета работ."
         start_date: "Дата начала не может быть задана на родительских  пакетах работ."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "недопустимый gzip: %{message}"
+        invalid_json: "недопустимый json: %{message}"
     resources:
       schema: 'Схема'
   doorkeeper:

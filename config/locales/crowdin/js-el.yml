@@ -204,7 +204,7 @@ el:
           text_new_features: "Read about new features and product updates."
           current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
           learn_about: "Learn more about the new status widgets"
-    label_activate: "Activate"
+    label_activate: "Ενεργοποίηση"
     label_add_column_after: "Προσθήκη στήλης μετά"
     label_add_column_before: "Προσθήκη στήλης πριν"
     label_add_columns: "Προσθέστε στήλη"
@@ -246,7 +246,7 @@ el:
     label_created_on: "δημιουργήθηκε στις"
     label_edit_comment: "Επεξεργαστείτε αυτό το σχόλιο"
     label_edit_status: "Επεξεργαστείτε την κατάσταση του πακέτου εργασίας"
-    label_equals: "is"
+    label_equals: "είναι"
     label_expand: "Επέκταση"
     label_expanded: "επεκταμένη"
     label_expand_all: "Ανάπτυξη όλων"
@@ -294,14 +294,14 @@ el:
     label_quote_comment: "Παραθέστε αυτό το σχόλιο"
     label_reset: "Επαναφορά"
     label_remove_column: "Κατάργηση στήλης"
-    label_remove_columns: "Remove selected columns"
+    label_remove_columns: "Αφαιρέστε τις επιλεγμένες στήλες"
     label_remove_row: "Κατάργηση γραμμής"
     label_save_as: "Αποθήκευση ως"
     label_select_watcher: "Επιλέξτε έναν παρατηρητή..."
     label_selected_filter_list: "Επιλεγμένα φίλτρα"
     label_show_attributes: "Εμφανίστε όλα τα χαρακτηριστικά"
     label_show_in_menu: "Εμφάνιση προβολής στο μενού"
-    label_sort_by: "Sort by"
+    label_sort_by: "Ταξινόμηση κατά"
     label_sorted_by: "ταξινομημένο κατά"
     label_sort_higher: "Μετακίνηση προς τα πάνω"
     label_sort_lower: "Μετακίνηση προς τα κάτω"
@@ -309,7 +309,7 @@ el:
     label_star_query: "Αγαπημένο"
     label_press_enter_to_save: "Πατήστε enter για αποθήκευση."
     label_public_query: "Δημόσιο"
-    label_sum: "Sum"
+    label_sum: "Άθροισμα"
     label_sum_for: "Άθροισμα του"
     label_subject: "Θέμα"
     label_this_week: "αυτή την εβδομάδα"
@@ -535,7 +535,7 @@ el:
       cancel: Ακύρωση
       change: "Change in planning"
       due_date: "Ημερομηνία λήξης"
-      empty: "(empty)"
+      empty: "(άδειο)"
       error: "Παρουσιάστηκε σφάλμα."
       errors:
         not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
@@ -567,11 +567,11 @@ el:
         in: "Μεγέθυνση"
         out: "Σμίκρυνση"
         auto: "Αυτόματη μεγέθυνση"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        days: "Ημέρες"
+        weeks: "Εβδομάδες"
+        months: "Μήνες"
+        quarters: "Τρίμηνα"
+        years: "Χρόνια"
         slider: "Slider μεγέθυνσης"
         description: >
           Επιλέξτε το αρχικό επίπεδο μεγέθυνσης που θα πρέπει να εμφανίζεται όταν η αυτόματη μεγέθυνση δεν είναι διαθέσιμη.
@@ -738,7 +738,7 @@ el:
         highlighting: 'Επισημαίνοντας'
         highlighting_mode:
           description: "Επισήμανση με χρώμα"
-          none: "No highlighting"
+          none: "Χωρίς επισήμανση"
           inline: 'Χαρακτηριστικό/-α με επισήμανση'
           inline_all: 'Όλα τα χαρακτηριστικά'
           entire_row_by: 'Ολόκληρη στήλη με'

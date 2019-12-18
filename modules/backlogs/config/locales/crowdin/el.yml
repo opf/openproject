@@ -76,7 +76,7 @@ el:
     points: "Σημεία"
     positions_could_not_be_rebuilt: "Positions could not be rebuilt."
     positions_rebuilt_successfully: "Positions rebuilt successfully."
-    properties: "Properties"
+    properties: "Ιδιότητες"
     rebuild: "Ανοικοδόμηση"
     rebuild_positions: "Rebuild positions"
     remaining_hours: "Υπολειπόμενες Ώρες"
