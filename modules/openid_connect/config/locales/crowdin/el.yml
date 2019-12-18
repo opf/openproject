@@ -1,19 +1,19 @@
 el:
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    Έχετε αποσυνδεθεί. Τα περιεχόμενα οποιασδήποτε φόρμας που υποβάλλετε ενδέχεται να χαθούν. Παρακαλώ [συνδεθείτε].
   activemodel:
     attributes:
       openid_connect/provider:
         name: Όνομα
-        display_name: Display name
+        display_name: Εμφανιζόμενο όνομα
         identifier: Αναγνωριστικό
-        secret: Secret
-        scope: Scope
+        secret: Μυστικό
+        scope: Εμβέλεια
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: Πάροχοι OpenID
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: Προσθήκη νέου παρόχου OpenID
+      label_edit: Επεξεργασία παρόχου OpenID %{name}
+      no_results_table: Δεν έχουν καθοριστεί πάροχοι.
+      plural: Πάροχοι OpenID
+      singular: Πάροχος OpenID

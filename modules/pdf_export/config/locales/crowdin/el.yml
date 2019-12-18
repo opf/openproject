@@ -24,7 +24,7 @@ el:
   label_export_card_configuration_new: "New Export Card Config"
   label_export_card_configuration: "Export Card Config"
   label_export_card_configuration_plural: "Export Card Configs"
-  label_export_card_activate: "Activate"
+  label_export_card_activate: "Ενεργοποίηση"
   label_export_card_deactivate: "De-activate"
   notice_export_card_configuration_activated: "Config succesfully activated"
   notice_export_card_configuration_deactivated: "Config succesfully de-activated"
@@ -38,11 +38,11 @@ el:
   export_config_per_page: "Ανά σελίδα"
   export_config_page_size: "Page size"
   export_config_orientation: "Orientation"
-  export_config_rows: "Rows"
+  export_config_rows: "Σειρές"
   activerecord:
     attributes:
       export_card_configuration:
-        rows: "Rows"
+        rows: "Σειρές"
         per_page: "Ανά σελίδα"
         page_size: "Page size"
         orientation: "Orientation"
