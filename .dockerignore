@@ -1,6 +1,22 @@
 .git
 .bundle
 .env*
+.buildpacks
+.*.yml
+.*ignore
+*.md
+*.log
+Vagrantfile
+Guardfile
+docker-compose.*
+browserslist
+docs
+extra
+features
+help
+log/*.log
+spec
+spec_legacy
 tmp
 frontend/node_modules
 # travis
