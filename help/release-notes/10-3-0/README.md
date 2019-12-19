@@ -5,8 +5,28 @@ sidebar_navigation:
 release_version: 10.3.0
 release_date: 2019-12-17
 ---
-We released [OpenProject 10.3.0](https://community.openproject.com/versions/1401).
-The release contains several bug fixes and we recommend updating to the newest version.
+
+# OpenProject 10.3.0
+
+The new release OpenProject 10.3 adds improved mobile support to OpenProject. Additionally, you can now use custom fields with right-to-left support for languages such as Arabic.
+
+Read below to get a detailed overview of what is new in OpenProject 10.3.
+
+## Improved mobile support
+
+The work package view now displayes a tile view of your tasks when accessed on a mobile device.
+This provides a clearer structure and overview. The most important information (such as subject, assignee and status) is visible right away.
+
+![Improved mobile support](OptimizedMobileView.png)
+
+Additionally, the header menu and device menu bar are hidden to provide as much screen space as possible.
+
+## Right-to-left support for work package long text custom fields
+
+Work package custom fields of type "Long text" now optionally support text with a right-to-left orientation (such as Arabic).
+You can use those custom fields to properly display text with a right-to-left orientation.
+
+![Custom fields with right-to-left orientation](CustomFieldsRTL.png)
 
 <!--more-->
 #### Bug fixes and changes
@@ -33,9 +53,20 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Error 500 when non-admin tries to sort by project "Status" column \[[#31889](https://community.openproject.com/wp/31889)\]
 - Fixed: On mobile side menu is cut off when opening side menu \[[#31891](https://community.openproject.com/wp/31891)\]
 
-#### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+## Support
 
-Special thanks for reporting and finding bugs go to
+You can find useful information in the [OpenProject help section](https://docs.openproject.org/) or you can post your questions in the [OpenProject Forum](https://community.openproject.org/projects/openproject/boards).
 
-Marc Vollmer, Ivan Izotov, Naglis Jonaitis
+### Upgrading your installation to OpenProject 10.3.
+
+If you’re using the OpenProject Cloud Edition, you will be automatically updated to the latest version of OpenProject 10.1 in the next days. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
+
+[Please visit our upgrade guides for more information](https://www.openproject.org/operations/upgrading/).
+
+## Credits
+
+Special thanks go to all OpenProject contributors without whom this release would not have been possible:
+
+- All the developers, designers, project managers who have contributed to OpenProject.
+- Every dedicated user who has [reported bugs](https://www.openproject.org/development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
