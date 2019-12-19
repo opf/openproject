@@ -27,56 +27,42 @@
 #++
 
 require_relative './base'
+require_relative './show'
 
 module Pages::Meetings
-  class Show < Base
+  class Edit < Base
     attr_accessor :meeting
 
     def initialize(meeting)
       self.meeting = meeting
     end
 
-    def expect_no_invited
+    def expect_available_participant(user)
       expect(page)
-        .to have_content("#{Meeting.human_attribute_name(:participants_invited)}: -")
+        .to have_field("#{user} invited")
     end
 
-    def expect_no_attended
+    def expect_not_available_participant(user)
       expect(page)
-        .to have_content("#{Meeting.human_attribute_name(:participants_attended)}: -")
+        .to have_no_field("#{user} invited")
     end
 
-    def expect_invited(*users)
-      users.each do |user|
-        within(".meeting.details") do
-          expect(page)
-            .to have_link(user.name)
-        end
-      end
+    def invite(user)
+      check("#{user} invited")
     end
 
-    def expect_uninvited(*users)
-      users.each do |user|
-        within(".meeting.details") do
-          expect(page)
-            .to have_no_link(user.name)
-        end
-      end
+    def uninvite(user)
+      uncheck("#{user} invited")
     end
 
-    def expect_date_time(expected)
-      expect(page)
-        .to have_content("Time: #{expected}")
-    end
+    def click_save
+      click_button('Save')
 
-    def click_edit
-      within '.meeting--main-toolbar .toolbar-items' do
-        click_link 'Edit'
-      end
+      Pages::Meetings::Show.new(meeting)
     end
 
     def path
-      meeting_path(meeting)
+      edit_meeting_path(meeting)
     end
   end
 end
