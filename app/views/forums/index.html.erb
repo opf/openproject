@@ -27,7 +27,19 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title t(:label_forum_plural) %>
-<%= toolbar title: t(:label_forum_plural) %>
+<%= toolbar title: t(:label_forum_plural) do %>
+  <% if User.current.allowed_to?(:manage_forums, @project) %>
+    <li class="toolbar-item">
+      <%= link_to({ controller: '/forums', action: 'new', project_id: @project },
+                                { aria: { label: t(:label_forum_new) },
+                                  title: t(:label_forum_new),
+                                  class: 'button -highlight' }) do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t('activerecord.models.forum') %></span>
+      <% end %>
+    </li>
+  <% end  %>
+<% end %>
 <div class="generic-table--container">
   <div class="generic-table--results-container">
     <table class="generic-table boards">
@@ -36,6 +48,10 @@ See docs/COPYRIGHT.rdoc for more details.
         <col highlight-col>
         <col highlight-col>
         <col highlight-col>
+        <% if User.current.allowed_to?(:manage_forums, @project) %>
+          <col highlight-col>
+          <col>
+        <% end %>
       </colgroup>
       <thead>
         <tr>
@@ -75,6 +91,18 @@ See docs/COPYRIGHT.rdoc for more details.
               </div>
             </div>
           </th>
+          <% if User.current.allowed_to?(:manage_forums, @project) %>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                      <span>
+                        <%=l(:button_sort)%>
+                      </span>
+                </div>
+              </div>
+            </th>
+            <th><div class="generic-table--empty-header"></div></th>
+          <% end  %>
         </tr>
       </thead>
       <tbody>
@@ -93,6 +121,28 @@ See docs/COPYRIGHT.rdoc for more details.
                 <%= link_to_message forum.last_message, no_root: true %>
               <% end %>
             </td>
+            <% if User.current.allowed_to?(:manage_forums, @project) %>
+              <td class="small-icons">
+                <% if authorize_for 'forums', 'edit' %>
+                  <%= reorder_links 'forum', controller: '/forums',
+                                    action: 'move',
+                                    project_id: @project,
+                                    id: forum %>
+                <% end %>
+              </td>
+              <td class="buttons">
+                <%= link_to_if_authorized '',
+                                          { controller: '/forums', action: 'edit', project_id: @project, id: forum },
+                                          class: 'icon icon-edit',
+                                          title: t(:button_edit) %>
+                <%= link_to_if_authorized '',
+                                          { controller: '/forums', action: 'destroy', project_id: @project, id: forum },
+                                          data: { confirm: l(:text_are_you_sure) },
+                                          method: :delete,
+                                          class: 'icon icon-delete',
+                                          title: t(:button_delete) %>
+              </td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>

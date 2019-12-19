@@ -96,7 +96,7 @@ class ForumsController < ApplicationController
   def create
     if @forum.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to_settings_in_projects
+      redirect_to action: 'index'
     else
       render :new
     end
@@ -107,7 +107,7 @@ class ForumsController < ApplicationController
   def update
     if @forum.update(permitted_params.forum)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to_settings_in_projects
+      redirect_to action: 'index'
     else
       render :edit
     end
@@ -120,20 +120,16 @@ class ForumsController < ApplicationController
       flash.now[:error] = t('forum_could_not_be_saved')
       render action: 'edit'
     end
-    redirect_to_settings_in_projects(@forum.project_id)
+    redirect_to action: 'index'
   end
 
   def destroy
     @forum.destroy
     flash[:notice] = l(:notice_successful_delete)
-    redirect_to_settings_in_projects
+    redirect_to action: 'index'
   end
 
   private
-
-  def redirect_to_settings_in_projects(id = @project)
-    redirect_to controller: '/project_settings', action: 'show', id: id, tab: 'forums'
-  end
 
   def find_forum
     @forum = @project.forums.find(params[:id])
