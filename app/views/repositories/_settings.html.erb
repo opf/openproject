@@ -31,6 +31,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= javascript_include_tag('repository_settings') %>
 <% end %>
 
+<%= toolbar title: t(:label_repository) %>
+
 <% is_creation_form = @repository.nil? || @repository.new_record? %>
 <%= form_for :repository,
              url: { controller: '/repositories',
