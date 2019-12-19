@@ -52,6 +52,7 @@ describe 'Upload attachment to forum message', js: true do
 
   it 'can upload an image to new and existing messages via drag & drop' do
     index_page.visit!
+    click_link forum.name
 
     create_page = index_page.click_create_message
     create_page.set_subject 'A new message'

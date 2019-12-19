@@ -42,9 +42,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% if @forums.empty? %>
-  <%= no_results_box(action_url: new_project_forum_path(@project),
-                     display_action: true,
-                     custom_action_text: t('forums.no_results_content_text')) %>
+  <%= no_results_box(action_url: new_project_forum_path(@project)) %>
 <% else %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
