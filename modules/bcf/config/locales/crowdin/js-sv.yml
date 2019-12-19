@@ -1,0 +1,6 @@
+#English strings go here
+sv:
+  js:
+    bcf:
+      import: 'Import'
+      export: 'Exportera'

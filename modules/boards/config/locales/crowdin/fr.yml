@@ -1,0 +1,7 @@
+#English strings go here
+fr:
+  permission_show_board_views: "Afficher les tableaux"
+  permission_manage_board_views: "Gérer les tableaux"
+  project_module_board_view: "Tableaux"
+  boards:
+    label_boards: "Tableaux"

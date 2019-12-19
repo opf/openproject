@@ -1,0 +1,6 @@
+#English strings go here
+ja:
+  js:
+    bcf:
+      import: 'インポート'
+      export: '外部出力'

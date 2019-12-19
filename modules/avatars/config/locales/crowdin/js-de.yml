@@ -1,0 +1,15 @@
+#English strings go here
+de:
+  js:
+    label_preview: 'Vorschau'
+    button_update: 'Bearbeiten'
+    avatars:
+      label_choose_avatar: "Profilbild aus Datei auswählen"
+      uploading_avatar: "Laden Sie Ihr Profilbild hoch."
+      text_upload_instructions: |
+        Laden Sie Ihr eigenes Profilbild von 128 mal 128 Pixeln hoch. Größere Dateien werden verkleinert und zugeschnitten.
+        Eine Vorschau Ihres Profilbild wird angezeigt, sobald Sie ein Bild ausgewählt haben.
+      error_image_too_large: "Das Bild ist zu groß."
+      wrong_file_format: "Erlaubte Formate sind JPG, PNG und GIF"
+      empty_file_error: "Bitte laden Sie ein gültiges Bild hoch (JPG, PNG, GIF)"
+

@@ -1,0 +1,7 @@
+#English strings go here
+tr:
+  permission_show_board_views: "Panoları görüntülemek"
+  permission_manage_board_views: "Panoları yönet"
+  project_module_board_view: "Panolar"
+  boards:
+    label_boards: "Panolar"

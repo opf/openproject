@@ -1,0 +1,6 @@
+#English strings go here
+hu:
+  js:
+    bcf:
+      import: 'Importálás'
+      export: 'Exportálás'

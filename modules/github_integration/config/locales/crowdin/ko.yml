@@ -1,0 +1,20 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.md for more details.
+#++
+ko:
+  github_integration:
+    pull_request_opened_comment: >
+      **PR 열림:** [%{repository}](%{repository_url})에 대한 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})이(가) [%{github_user}](%{github_user_url})님에 의해 열렸습니다.
+    pull_request_closed_comment: >
+      **PR 닫힘:** [%{repository}](%{repository_url})에 대한 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})이(가) [%{github_user}](%{github_user_url})님에 의해 닫혔습니다.
+    pull_request_merged_comment: >
+      **PR 병합됨:** [%{repository}](%{repository_url})에 대한 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})이(가) [%{github_user}](%{github_user_url})님에 의해 병합되었습니다.
+    pull_request_referenced_comment: >
+      **PR에서 참조됨:** [%{github_user}](%{github_user_url})님이 [%{repository}](%{repository_url})의 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})에서 이 작업 패키지를 참조했습니다.

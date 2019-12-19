@@ -1,0 +1,45 @@
+#-- copyright
+#ReportingEngine
+#Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+#---
+el:
+  description_drill_down: "Προβολή λεπτομερειών"
+  label_click_to_edit: "Κάντε κλικ για επεξεργασία."
+  label_columns: "Στήλες"
+  label_count: "Πλήθος"
+  label_filter: "Φίλτρο"
+  label_filter_add: "Προσθήκη Φίλτρου"
+  label_filter_plural: "Φίλτρα"
+  label_greater: ">"
+  label_group_by: "Ομαδοποίηση κατά"
+  label_group_by_add: "Προσθέστε το χαρακτηριστικό Ομαδοποίηση"
+  label_inactive: "«αδρανής»"
+  label_less: "<"
+  label_no: "Όχι"
+  label_none: "(δεν υπάρχουν δεδομένα)"
+  label_progress_bar_explanation: "Δημιουργία αναφοράς..."
+  label_really_delete_question: "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτήν την αναφορά;"
+  label_report: "Αναφορά"
+  label_rows: "Σειρές"
+  label_saving: "Αποθήκευση ..."
+  label_sum: "Άθροισμα"
+  label_yes: "Ναι"
+  load_query_question: "Η αναφορά θα έχει %{size} κελιά πίνακα και μπορεί να πάρει κάποιο χρόνο για να γίνει. Θέλετε ακόμα να δοκιμάσετε την απόδοση;"
+  units: "Μονάδες"
+  validation_failure_date: "δεν είναι έγκυρη ημερομηνία"
+  validation_failure_integer: "δεν είναι έγκυρος ακέραιος αριθμός"
+  reporting:
+    group_by:
+      selected_columns: "Επιλεγμένες στήλες"
+      selected_rows: "Επιλεγμένες σειρές"

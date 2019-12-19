@@ -1,0 +1,45 @@
+#-- copyright
+#ReportingEngine
+#Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#version 3.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+#---
+es:
+  description_drill_down: "Ver detalles"
+  label_click_to_edit: "Clic para editar."
+  label_columns: "Columnas"
+  label_count: "Contador"
+  label_filter: "Filtro"
+  label_filter_add: "Añadir filtro"
+  label_filter_plural: "Filtros"
+  label_greater: ">"
+  label_group_by: "Agrupar por"
+  label_group_by_add: "Añadir atributo de agrupación"
+  label_inactive: "«inactivo»"
+  label_less: "<"
+  label_no: "No"
+  label_none: "(sin datos)"
+  label_progress_bar_explanation: "Generando informe..."
+  label_really_delete_question: "¿Está seguro que desea eliminar este informe?"
+  label_report: "Informe"
+  label_rows: "Filas"
+  label_saving: "Guardando ..."
+  label_sum: "Suma"
+  label_yes: "Sí"
+  load_query_question: "El informe tendrá %{size} celdas de tabla y puede tardar algún tiempo en generarse. ¿Desea generarlo de todas formas?"
+  units: "Unidades"
+  validation_failure_date: "no es una fecha válida"
+  validation_failure_integer: "no es un entero válido"
+  reporting:
+    group_by:
+      selected_columns: "Columnas seleccionadas"
+      selected_rows: "Filas seleccionadas"

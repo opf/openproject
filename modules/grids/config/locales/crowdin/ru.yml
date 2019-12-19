@@ -1,0 +1,14 @@
+ru:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Страница"
+        row_count: "Количество строк"
+        column_count: "Количество столбцов"
+        widgets: "Виджеты"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'перекрытие.'
+          outside: 'за пределами сетки.'
+          end_before_start: 'конечное значение должно быть больше начального.'

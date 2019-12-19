@@ -1,0 +1,46 @@
+#English strings go here
+pl:
+  js:
+    boards:
+      label_unnamed_board: 'Tablica bez nazwy'
+      label_unnamed_list: 'Lista bez nazwy'
+      label_board_type: 'Typ tablicy'
+      upsale:
+        teaser_text: 'Usprawnij swoje zwinne zarządzanie projektami dzięki temu elastycznemu widokowi Tablice. Twórz tyle tablic, ile chcesz, dla czegokolwiek, co zechcesz śledzić.'
+        upgrade_to_ee_text: 'Tablice to funkcja wersji Enterprise. Przejdź na plan płatny.'
+        upgrade: 'Zmień plan teraz'
+        personal_demo: 'Pobierz osobistą wersję demonstracyjną'
+      lists:
+        delete: 'Usuń listę'
+      version:
+        is_locked: 'Wersja jest zablokowana. Do tej wersji nie można dodać żadnych elementów.'
+        is_closed: 'Wersja jest zamknięta. Do tej wersji nie można dodać żadnych elementów.'
+        close_version: 'Zamknij wersję'
+        open_version: 'Otwórz wersję'
+        lock_version: 'Zablokuj wersję'
+        unlock_version: 'Odblokuj wersję'
+        edit_version: 'Edytuj wersję'
+        show_version: 'Pokaż wersję'
+        locked: 'Zablokowany'
+        closed: 'Zamknięte'
+      new_board: 'Nowa tablica'
+      add_list: 'Dodaj listę'
+      add_card: 'Dodaj kartę'
+      error_attribute_not_writable: "Nie można przenieść pakietu roboczego, nie można zapisać %{attribute}."
+      error_loading_the_list: "Błąd podczas ładowania listy: %{error_message}"
+      error_permission_missing: "Brakuje uprawnienia do tworzenia zapytań publicznych"
+      click_to_remove_list: "Kliknij, aby usunąć tę listę"
+      board_type:
+        free: 'Tablica podstawowa'
+        free_text: >
+          Utwórz tablicę, na której możesz dowolnie tworzyć listy i zlecać pakiety robocze. Przenoszenie pakietów roboczych pomiędzy listami nie zmienia samego pakietu roboczego.
+        action: 'Tablica działania'
+        action_by_attribute: 'Tablica działania (%{attribute})'
+        action_text: >
+          Utwórz tablicę z listami filtrowanymi według jednego atrybutu. Przeniesienie pakietów roboczych na inne listy spowoduje aktualizację ich atrybutu.
+        select_attribute: "Atrybut działania"
+      configuration_modal:
+        title: 'Skonfiguruj tę tablicę'
+        display_settings:
+          card_mode: "Wyświetlaj jako karty"
+          table_mode: "Wyświetlaj jako tabelę"

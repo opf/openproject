@@ -1,0 +1,14 @@
+it:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Pagina"
+        row_count: "Numero di righe"
+        column_count: "Numero di colonne"
+        widgets: "Widget"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'sovrapposizione.'
+          outside: 'è fuori dalla griglia.'
+          end_before_start: 'il valore finale deve essere più grande del valore iniziale.'

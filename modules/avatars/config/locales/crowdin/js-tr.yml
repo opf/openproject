@@ -1,0 +1,15 @@
+#English strings go here
+tr:
+  js:
+    label_preview: 'Ön İzleme'
+    button_update: 'Güncelle'
+    avatars:
+      label_choose_avatar: "Dosyadan Avatarı seçin"
+      uploading_avatar: "Avatarını yüklüyorum."
+      text_upload_instructions: |
+        128 x 128 piksellik kendi özel avatarınızı yükleyin. Büyük dosyalar yeniden boyutlandırılacak ve eşleşecek şekilde kırpılacaktır.
+        Bir resmi seçtikten sonra, yüklemeden önce avatarınızın bir önizlemesi gösterilir.
+      error_image_too_large: "Resim çok büyük."
+      wrong_file_format: "İzin verilen biçimler jpg, png, gif"
+      empty_file_error: "Lütfen geçerli bir resim yükle (jpg, png, gif)"
+

@@ -1,0 +1,46 @@
+#English strings go here
+it:
+  js:
+    boards:
+      label_unnamed_board: 'Scheda senza nome'
+      label_unnamed_list: 'Lista senza nome'
+      label_board_type: 'Tipo scheda'
+      upsale:
+        teaser_text: 'Migliora la gestione agile del progetto con questa vista flessibile delle schede. Crea quante schede desideri per tutto ciò di cui vuoi tenere traccia.'
+        upgrade_to_ee_text: 'Le schede sono una funzione Enterprise. Aggiorna ad un piano a pagamento.'
+        upgrade: 'Aggiorna ora'
+        personal_demo: 'Ottieni una demo personale'
+      lists:
+        delete: 'Elimina elenco'
+      version:
+        is_locked: 'Versione bloccata. Nessun elemento può essere aggiunto a questa versione.'
+        is_closed: 'Versione chiusa. Nessun elemento può essere aggiunto a questa versione.'
+        close_version: 'Chiudi versione'
+        open_version: 'Apri versione'
+        lock_version: 'Blocca versione'
+        unlock_version: 'Sblocca versione'
+        edit_version: 'Modifica versione'
+        show_version: 'Mostra versione'
+        locked: 'Chiuso'
+        closed: 'Chiuso'
+      new_board: 'Nuova board'
+      add_list: 'Aggiungi elenco'
+      add_card: 'Aggiungi carta'
+      error_attribute_not_writable: "Impossibile spostare il pacchetto di lavoro, %{attribute} non è scrivibile."
+      error_loading_the_list: "Errore nel caricamento della lista: %{error_message}"
+      error_permission_missing: "Manca l'autorizzazione per creare query pubbliche"
+      click_to_remove_list: "Clicca per rimuovere questa lista"
+      board_type:
+        free: 'Tabella base'
+        free_text: >
+          Crea una scheda in cui puoi creare liberamente liste e ordinare le tue macro-attività all'interno. Spostare le macro-attività tra le liste non cambia le macro-attività.
+        action: 'Scheda azione'
+        action_by_attribute: 'Scheda d''azione (%{attribute})'
+        action_text: >
+          Crea una scheda con elenchi filtrati su un singolo attributo. Spostare le macro-attività in altre liste aggiornerà il loro attributo.
+        select_attribute: "Attributo azione"
+      configuration_modal:
+        title: 'Configura questa scheda'
+        display_settings:
+          card_mode: "Visualizza come carte"
+          table_mode: "Mostra come tabella"

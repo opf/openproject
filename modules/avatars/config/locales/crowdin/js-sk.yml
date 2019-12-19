@@ -1,0 +1,15 @@
+#English strings go here
+sk:
+  js:
+    label_preview: 'Náhľad'
+    button_update: 'Aktualizovať'
+    avatars:
+      label_choose_avatar: "Choose Avatar from file"
+      uploading_avatar: "Uploading your avatar."
+      text_upload_instructions: |
+        Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
+        A preview of your avatar will be shown before uploading, once you selected an image.
+      error_image_too_large: "Image is too large."
+      wrong_file_format: "Allowed formats are jpg, png, gif"
+      empty_file_error: "Please upload a valid image (jpg, png, gif)"
+

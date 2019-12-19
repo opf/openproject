@@ -1,0 +1,6 @@
+#English strings go here
+ar:
+  js:
+    bcf:
+      import: 'Import'
+      export: 'تصدير'

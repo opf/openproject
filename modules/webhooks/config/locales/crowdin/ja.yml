@@ -1,0 +1,59 @@
+ja:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'ペイロード URL'
+        secret: '署名シークレット'
+        events: 'イベント'
+        projects: '有効なプロジェクト'
+      webhooks/log:
+        event_name: 'イベント名'
+        url: 'ペイロード URL'
+        response_code: 'レスポンスコード'
+        response_body: 'レスポンス'
+    models:
+      webhooks/outgoing_webhook: "発信 webhook"
+  webhooks:
+    singular: Webhook
+    plural: Webhooks
+    resources:
+      time_entry:
+        name: "Time entry"
+    outgoing:
+      no_results_table: Webhookが定義されていません。
+      label_add_new: 新しいWebhookを追加
+      label_edit: Webhookを編集
+      label_event_resources: イベントリソース
+      events:
+        created: "作成日時"
+        updated: "更新しました"
+      status:
+        enabled: 'Webhookは有効です'
+        disabled: 'Webhookは無効です'
+        enabled_text: 'Webhookは、以下に定義されているイベントのペイロードを発行します。'
+        disabled_text: '編集ボタンをクリックすると、Webhookをアクティブにします。'
+      deliveries:
+        no_results_table: このWebhookの配信は行われていません。
+        title: '最近の配信'
+        time: '配信時間'
+      form:
+        introduction: >
+          サブスクライブするプロジェクトのすべてのイベントに対して、以下のペイロードURLにPOSTリクエストを送信します。 ペイロードは、変更されるオブジェクトのAPIv3表現に対応します。
+        apiv3_doc_url: 詳しい情報は、APIドキュメントをご覧ください
+        description:
+          placeholder: 'Webhookのオプションの説明。'
+        enabled:
+          description: >
+            チェックすると、選択したイベントでWebhookがトリガーされます。 Webhookを無効にするにはチェックを外します。
+        events:
+          title: '有効なイベント'
+        project_ids:
+          title: '有効なプロジェクト'
+          description: 'このWebhookを実行するプロジェクトを選択します。'
+          all: 'すべてのプロジェクト'
+          selected: '選択したプロジェクトのみ'
+        selected_project_ids:
+          title: '選択したプロジェクト'
+        secret:
+          description: >
+            設定されている場合、OpenProjectによってこのシークレットの値がWebhookペイロードに署名するために使用されます。

@@ -1,0 +1,15 @@
+#English strings go here
+pt-BR:
+  js:
+    label_preview: 'Pré-visualizar'
+    button_update: 'Atualizar'
+    avatars:
+      label_choose_avatar: "Escolher arquivo com Imagem do Perfil"
+      uploading_avatar: "Enviando sua imagem do perfil."
+      text_upload_instructions: |
+        Carregue sua própria imagem do perfil com 128 x 128 pixels. Arquivos maiores serão redimensionados e cortados.
+        Uma visualização da sua imagem do perfil será exibida antes de carregar, uma vez que você tenha selecionado uma imagem.
+      error_image_too_large: "A imagem é muito grande."
+      wrong_file_format: "Formatos permitidos são jpg, png, gif"
+      empty_file_error: "Por favor, envie uma imagem válida (jpg, png, gif)"
+

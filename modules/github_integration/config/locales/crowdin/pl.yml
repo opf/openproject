@@ -1,0 +1,20 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.md for more details.
+#++
+pl:
+  github_integration:
+    pull_request_opened_comment: >
+      **Otwarte PR:** Żądanie Pull Request %{pr_number} [%{pr_title}](%{pr_url}) dla [%{repository}](%{repository_url}) zostało otwarte przez [%{github_user}](%{github_user_url}).
+    pull_request_closed_comment: >
+      **Zamknięte PR:** Żądanie Pull Request %{pr_number} [%{pr_title}](%{pr_url}) dla [%{repository}](%{repository_url}) zostało zamknięte przez [%{github_user}](%{github_user_url}).
+    pull_request_merged_comment: >
+      **Scalone PR:** Żądanie Pull Request %{pr_number} [%{pr_title}](%{pr_url}) dla [%{repository}](%{repository_url}) zostało scalone przez [%{github_user}](%{github_user_url}).
+    pull_request_referenced_comment: >
+      **Wskazano w PR:** [%{github_user}](%{github_user_url}) wskazał ten pakiet roboczy w żądaniu Pull Request %{pr_number} [%{pr_title}](%{pr_url}), w [%{repository}](%{repository_url}).

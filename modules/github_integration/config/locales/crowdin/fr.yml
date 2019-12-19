@@ -1,0 +1,20 @@
+#-- copyright
+#OpenProject is a project management system.
+#Copyright (C) 2014 the OpenProject Foundation (OPF)
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See doc/COPYRIGHT.md for more details.
+#++
+fr:
+  github_integration:
+    pull_request_opened_comment: >
+      **PR Ouvert :** Demande pull %{pr_number} [%{pr_title}](%{pr_url}) pour [%{repository}](%{repository_url}) ouverte par [%{github_user}](%{github_user_url}).
+    pull_request_closed_comment: >
+      **PR Fermé :** Demande pull %{pr_number} [%{pr_title}](%{pr_url}) pour [%{repository}](%{repository_url}) fermée par [%{github_user}](%{github_user_url}).
+    pull_request_merged_comment: >
+      **PR Fusionné :** Demande pull %{pr_number} [%{pr_title}](%{pr_url}) pour [%{repository}](%{repository_url}) fusionnée par [%{github_user}](%{github_user_url}).
+    pull_request_referenced_comment: >
+      **Référencé dans PR:** [%{github_user}](%{github_user_url}) a référencé ce lots de travaux dans la demande Pull %{pr_number} [%{pr_title}](%{pr_url}) dans [%{repository}](%{repository_url}).
