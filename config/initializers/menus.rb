@@ -365,4 +365,49 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_project_settings,
             last: true,
             icon: 'icon2 icon-settings2'
+
+  menu.push :settings_info,
+            { controller: '/project_settings', action: 'show' },
+            caption: :label_information_plural,
+            parent: :settings
+
+  menu.push :settings_modules,
+            { controller: '/project_settings', action: 'show', tab: :modules },
+            caption: :label_modules,
+            parent: :settings
+
+  menu.push :settings_custom_fields,
+            { controller: '/project_settings', action: 'show', tab: :custom_fields },
+            caption: :label_custom_field_plural,
+            parent: :settings
+
+  menu.push :settings_versions,
+            { controller: '/project_settings', action: 'show', tab: :versions },
+            caption: :label_version_plural,
+            parent: :settings
+
+  menu.push :settings_categories,
+            { controller: '/project_settings', action: 'show', tab: :categories },
+            caption: :label_work_package_category_plural,
+            parent: :settings
+
+  menu.push :settings_repositories,
+            { controller: '/project_settings', action: 'show', tab: :repository },
+            caption: :label_repository,
+            parent: :settings
+
+  menu.push :settings_activities,
+            { controller: '/project_settings', action: 'show', tab: :activities },
+            caption: :enumeration_activities,
+            parent: :settings
+
+  menu.push :settings_types,
+            { controller: '/project_settings', action: 'show', tab: :types },
+            caption: :label_work_package_types,
+            parent: :settings
+
+  menu.push :settings_backlogs_settings,
+            { controller: '/project_settings', action: 'show', tab: :backlogs_settings },
+            caption: :'backlogs.backlog_settings',
+            parent: :settings
 end
