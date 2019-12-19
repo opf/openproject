@@ -48,9 +48,10 @@ module API
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: TimeEntry).mount
-
             patch &::API::V3::Utilities::Endpoints::Update.new(model: TimeEntry).mount
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: TimeEntry).mount
+
+            mount ::API::V3::TimeEntries::UpdateFormAPI
           end
 
           mount ::API::V3::TimeEntries::TimeEntriesActivityAPI

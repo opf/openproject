@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,36 +23,27 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module TimeEntries
-  class UpdateContract < BaseContract
-    include Concerns::UnchangedProject
+module API
+  module V3
+    module TimeEntries
+      class UpdateFormAPI < ::API::OpenProjectAPI
+        resource :form do
+          after_validation do
+            authorize_by_with_raise(-> {
+              ::TimeEntries::UpdateContract
+                .new(@time_entry, current_user)
+                .user_allowed_to_update?
+            })
+          end
 
-    def validate
-      unless user_allowed_to_update?
-        errors.add :base, :error_unauthorized
+          post &::API::V3::Utilities::Endpoints::UpdateForm
+                  .new(model: TimeEntry)
+                  .mount
+        end
       end
-
-      super
-    end
-
-    ##
-    # Users may update time entries IF
-    # they have the :edit_time_entries or
-    # user == editing user and :edit_own_time_entries
-    def user_allowed_to_update?
-      with_unchanged_project_id do
-        user_allowed_to_update_in?(model.project)
-      end && user_allowed_to_update_in?(model.project)
-    end
-
-    private
-
-    def user_allowed_to_update_in?(project)
-      user.allowed_to?(:edit_time_entries, project) ||
-        (model.user == user && user.allowed_to?(:edit_own_time_entries, project))
     end
   end
 end
