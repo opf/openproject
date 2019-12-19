@@ -696,7 +696,7 @@ GEM
     public_suffix (4.0.1)
     puma (4.3.1)
       nio4r (~> 2.0)
-    rack (2.0.7)
+    rack (2.0.8)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-attack (6.1.0)
