@@ -125,6 +125,7 @@ en:
         For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
 
   forums:
+    no_results_content_text: Create a new forum
     show:
       no_results_title_text: There are currently no posts for the forum.
 

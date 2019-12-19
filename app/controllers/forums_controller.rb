@@ -41,12 +41,6 @@ class ForumsController < ApplicationController
 
   def index
     @forums = @project.forums
-    render_404 if @forums.empty?
-    # show the forum if there is only one
-    if @forums.size == 1
-      @forum = @forums.first
-      show
-    end
   end
 
   current_menu_item [:index, :show] do

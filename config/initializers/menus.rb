@@ -336,7 +336,6 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :forums,
             { controller: '/forums', action: 'index', id: nil },
             param: :project_id,
-            if: Proc.new { |p| p.forums.any? },
             caption: :label_forum_plural,
             icon: 'icon2 icon-ticket-note'
 
