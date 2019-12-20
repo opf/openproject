@@ -36,7 +36,7 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
   template: `
-    <a [title]="text.add_viewpoint" class="button import-bcf-button" (click)="handleClick()">
+    <a [title]="text.add_viewpoint" class="button" (click)="handleClick()">
       <op-icon icon-classes="button--icon icon-add"></op-icon>
       <span class="button--text"> {{text.viewpoint}} </span>
     </a>
@@ -59,12 +59,12 @@ export class BcfAddViewpointButtonComponent implements OnInit, OnDestroy {
     console.log("handleClick");
     const trackingId = this.revitBridgeService.newTrackingId();
 
-    this.revitBridgeService.sendMessageToRevit('createViewpoint', trackingId, '');
+    this.revitBridgeService.sendMessageToRevit('ViewpointGenerationRequest', trackingId, '');
 
     this.revitBridgeService.revitMessageReceived$
       .pipe(
         distinctUntilChanged(),
-        filter(message => message.messageType === 'viewpointCreated' && message.trackingId === trackingId),
+        filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
         untilComponentDestroyed(this)
       )
       .subscribe(message => this.saveViewpoint(message));

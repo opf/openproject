@@ -6,6 +6,7 @@ en:
       export: 'Export'
       viewpoint: 'Viewpoint'
       add_viewpoint: 'Add viewpoint'
+      show_viewpoint: 'Show viewpoint'
     ifc_models:
       models:
         default: 'Default IFC models'

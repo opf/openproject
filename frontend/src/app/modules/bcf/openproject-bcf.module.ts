@@ -38,6 +38,7 @@ import {BcfPathHelperService} from "core-app/modules/bcf/helper/bcf-path-helper.
 import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-export-button.component";
 import {BcfAddViewpointButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-add-viewpoint-button.component";
 import {RevitBridgeService} from "core-app/modules/bcf/services/revit-bridge.service";
+import {BcfShowViewpointButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-show-viewpoint-button.component";
 
 @NgModule({
   imports: [
@@ -54,13 +55,15 @@ import {RevitBridgeService} from "core-app/modules/bcf/services/revit-bridge.ser
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
     BcfExportButtonComponent,
-    BcfAddViewpointButtonComponent
+    BcfAddViewpointButtonComponent,
+    BcfShowViewpointButtonComponent
   ],
   exports: [
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
     BcfExportButtonComponent,
-    BcfAddViewpointButtonComponent
+    BcfAddViewpointButtonComponent,
+    BcfShowViewpointButtonComponent
   ],
   entryComponents: [
   ]
