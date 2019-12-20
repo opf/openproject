@@ -45,30 +45,4 @@ See docs/COPYRIGHT.rdoc for more details.
   </section>
 <% end %>
 
-<% if render_modules %>
-  <section class="form--section">
-    <%= render partial: "projects/form/modules", locals: { form: f } %>
-  </section>
-
-  <%= nonced_javascript_tag 'observeProjectModules();' %>
-<% end %>
-
-<% if ((project.module_enabled?('work_package_tracking')) && render_types) %>
-  <section class="form--section">
-    <%= render partial: 'projects/form/types',
-               locals: { f: f, project: project, withControlls: false} %>
-  </section>
-<% end %>
-
-<% if render_custom_fields %>
-  <section class="form--section">
-    <%= render partial: 'projects/form/custom_fields',
-               locals: {
-                 form: f,
-                 project: project,
-                 work_package_custom_fields: @wp_custom_fields
-                } %>
-  </section>
-<% end %>
-
 <!--[eoform:project]-->

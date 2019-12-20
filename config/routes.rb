@@ -183,6 +183,7 @@ OpenProject::Application.routes.draw do
             constraints: { coming_from: /(admin|settings)/ }
       match 'copy_from_(:coming_from)' => 'copy_projects#copy', via: :post, as: :copy,
             constraints: { coming_from: /(admin|settings)/ }
+
       put :modules
       put :custom_fields
       put :archive
