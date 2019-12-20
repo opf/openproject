@@ -290,16 +290,16 @@ el:
         self: "Η διαγραφή του λογαριασμού σας είναι μια μη αναστρέψιμη ενέργεια."
       login_consequences:
         other: "Ο λογαριασμός θα διαγραφεί από το σύστημα. Επομένως, ο χρήστης δεν θα μπορεί πλέον να συνδεθεί με τα τρέχοντα στοιχεία του. Μπορεί να επιλέξει να ξαναγίνει χρήστης της εφαρμογής με τα μέσα που παρέχει η εφαρμογή αυτή."
-        self: "Ο λογαριασμός θα διαγραφεί από το σύστημα. Επομένως, ο χρήστης δεν θα μπορεί πλέον να συνδεθεί με τα τρέχοντα στοιχεία του. Αν επιλέξετε να ξαναγίνετε χρήστης της εφαρμογής, μπορείτε να το κάνετε, χρησιμοποιώντας τα μέσα που παρέχει η εφαρμογή."
+        self: "Ο λογαριασμός σας θα διαγραφεί από το σύστημα. Επομένως, δεν θα μπορείτε πλέον να συνδεθείτε με τα τρέχοντα στοιχεία σας. Αν επιλέξετε να ξαναγίνετε χρήστης της εφαρμογής, μπορείτε να το κάνετε, χρησιμοποιώντας τα μέσα που παρέχει η εφαρμογή."
       login_verification:
         other: "Εισάγετε το %{name} της σύνδεσης για να επιβεβαιώσετε τη διαγραφή. Μόλις υποβληθεί, θα ερωτηθείτε να επιβεβαιώσετε τον κωδικό πρόσβασης σας."
         self: "Εισάγετε το %{name} της σύνδεσης σας για να επιβεβαιώσετε τη διαγραφή. Μόλις υποβληθεί, θα ερωτηθείτε να επιβεβαιώσετε τον κωδικό πρόσβασης σας."
     error_inactive_activation_by_mail: >
-      Ο λογαριασμός δεν έχει ενεργοποιηθεί ακόμη. Για να ενεργοποιήσετε τον λογαριασμός σας, κάντε κλικ στον σύνδεσμο που σας αποστάλθηκε με email.
+      Ο λογαριασμός σας δεν έχει ενεργοποιηθεί ακόμη. Για να ενεργοποιήσετε το λογαριασμό σας, κάντε κλικ στον σύνδεσμο που σας αποστάλθηκε με email.
     error_inactive_manual_activation: >
-      Ο λογαριασμός δεν έχει ενεργοποιηθεί ακόμη. Παρακαλούμε περιμένετε να ενεργοποιήσει τον λογαριασμό σας ένας διαχειριστής.
+      Ο λογαριασμός σας δεν έχει ενεργοποιηθεί ακόμη. Παρακαλούμε περιμένετε να ενεργοποιήσει τον λογαριασμό σας ένας διαχειριστής.
     error_self_registration_disabled: >
-      Η εγγραφή χρηστών είναι απενεργοποιημένα σε αυτό το σύστημα. Παρακαλούμε ζητήστε από ένα διαχειριστή να δημιουργήσει ένα λογαριασμό για εσάς.
+      Η εγγραφή χρηστών είναι απενεργοποιημένη σε αυτό το σύστημα. Παρακαλούμε ζητήστε από ένα διαχειριστή να δημιουργήσει ένα λογαριασμό για εσάς.
     login_with_auth_provider: "ή συνδεθείτε με τον υπάρχοντα λογαριασμό σας"
     signup_with_auth_provider: "ή εγγραφείτε χρησιμοποιώντας"
     auth_source_login: Παρακαλούμε συνδεθείτε ως <em>%{login}</em> για να ενεργοποιήσετε τον λογαριασμό σας.
@@ -395,7 +395,7 @@ el:
         filters: "Φίλτρα"
         timeline_labels: "Ετικέτες χρονοδιαγράμματος"
       repository:
-        url: "Σύνδεσμος URL"
+        url: "URL"
       role:
         assignable: "Τα πακέτα εργασίας μπορούν να ανατεθούν σε χρήστες και ομάδες που έχουν αυτό το ρόλο στο αντίστοιχο έργο"
       time_entry:
@@ -779,7 +779,7 @@ el:
   button_rollback: "Επαναφορά σε αυτή την έκδοση"
   button_save: "Αποθήκευση"
   button_save_back: "Αποθήκευση και επιστροφή"
-  button_show: "Προβολή"
+  button_show: "Εμφάνιση"
   button_sort: "Ταξινόμηση"
   button_submit: "Υποβολή"
   button_test: "Δοκιμή"
@@ -801,15 +801,15 @@ el:
     failure_message: Consent failed, cannot proceed.
     title: Συναίνεση χρήστη
     decline_warning_message: Έχετε αρνηθεί να συναινέσετε και αποσυνδεθήκατε.
-    user_has_consented: Ο χρήστης έχει συναινέσει στην τροποποιημένη δήλωση στη δοσμένη στιγμή.
+    user_has_consented: Ο χρήστης έχει συναινέσει στην τροποποιημένη δήλωση στο δοσμένο χρόνο.
     not_yet_consented: Ο χρήστης δεν έχει συναινέσει ακόμη, θα ζητηθεί στην επόμενη σύνδεση του.
     contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
     contact_your_administrator: Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας αν θέλετε να διαγραφεί ο λογαριασμός σας.
-    contact_this_mail_address: Παρακαλούμε επικοινωνήστε %{mail_address} αν θέλετε να διαγραφεί ο λογαριασμός σας.
+    contact_this_mail_address: Παρακαλούμε επικοινωνήστε με το %{mail_address} αν θέλετε να διαγραφεί ο λογαριασμός σας.
     text_update_consent_time: Επιλέξτε αυτό το κουτί για να αναγκάσετε τους χρήστες να συναινέσουν ξανά. Ενεργοποιήστε όταν έχετε αλλάξει τις νομικές πτυχές του παραπάνω περιεχομένου συναίνεσης.
     update_consent_last_time: "Τελευταία ενημέρωση συναίνεσης: %{update_time}"
   copy_project:
-    started: "Έναρξη αντιγραφή έργου \"%{source_project_name}\" στο \"%{target_project_name}\". Θα ενημερωθείτε με email μόλις το \"%{target_project_name}\" είναι διαθέσιμο."
+    started: "Έναρξη αντιγραφής έργου \"%{source_project_name}\" στο \"%{target_project_name}\". Θα ενημερωθείτε με email μόλις το \"%{target_project_name}\" είναι διαθέσιμο."
     failed: "Cannot copy project %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
     succeeded: "Created project %{target_project_name}"
@@ -987,13 +987,13 @@ el:
   description_enter_number: "Εισάγετε αριθμό"
   description_enter_text: "Εισάγετε κείμενο"
   description_filter: "Φίλτρο"
-  description_filter_toggle: "Εμφάνιση/απόκρυψη φίλτρου"
+  description_filter_toggle: "Εμφάνιση/Απόκρυψη φίλτρου"
   description_category_reassign: "Επιλέξτε κατηγορία"
   description_message_content: "Περιεχόμενο μηνύματος"
   description_my_project: "Είστε μέλος"
   description_notes: "Παρατηρήσεις"
   description_parent_work_package: "Πακέτα εργασίας γονείς του τρέχοντος"
-  description_project_scope: "Αναζητήστε φυσικό αντικείμενο έργου"
+  description_project_scope: "Αναζητήστε φυσικό αντικείμενο"
   description_query_sort_criteria_attribute: "Ταξινόμηση χαρακτηριστικού"
   description_query_sort_criteria_direction: "Κατεύθυνση ταξινόμησης"
   description_search: "Πεδίο αναζήτησης"
@@ -1071,9 +1071,9 @@ el:
     message: Το μήνυμα επεξεργάστηκε
     news: Νέα
     reply: Απάντησε
-    time_entry: 'Timelog edited'
+    time_entry: 'Η καταγραφή χρόνου επεξεργάστηκε'
     wiki_page: 'Η σελίδα Wiki επεξεργάστηκε'
-    work_package_closed: 'Το Πακέτο Εργασίας είναι κλειστό'
+    work_package_closed: 'Το Πακέτο Εργασίας έκλεισε'
     work_package_edit: 'Το πακέτο εργασίας επεξεργάστηκε'
     work_package_note: 'Προστέθηκε η σημείωση πακέτου εργασίας'
   export:
@@ -1125,7 +1125,7 @@ el:
       upgrade_enterprise_edition: "Αναβαθμίστε σε Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Εγχειρίδια χρηστών"
-      faq: "FAQ"
+      faq: "Συχνές Ερωτήσεις"
       glossary: "Γλωσσάριο"
       shortcuts: "Συντομεύσεις"
       blog: "OpenProject blog"
@@ -1759,9 +1759,9 @@ el:
   notice_account_activated: "Your account has been activated. You can now log in."
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_token: Invalid activation token
-  notice_account_invalid_credentials: "Invalid user or password"
-  notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
-  notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
+  notice_account_invalid_credentials: "Μη έγκυρο όνομα χρήστη ή κωδικός πρόσβασης"
+  notice_account_invalid_credentials_or_blocked: "Μη έγκυρο όνομα χρήστη ή κωδικός πρόσβασης ή ο λογαριασμός είναι μπλοκαρισμένος λόγω πολλαπλών αποτυχιών σύνδεσης. Σε αυτή την περίπτωση, θα αποκατασταθεί αυτόματα σε λίγη ώρα."
+  notice_account_lost_email_sent: "Σας έχει αποσταλεί email με οδηγίες για την επιλογή νέου κωδικού πρόσβασης."
   notice_account_new_password_forced: "Ένας νέος κωδικός πρόσβασης απαιτείται."
   notice_account_password_expired: "Your password expired after %{days} days. Please set a new one."
   notice_account_password_updated: "Password was successfully updated."
@@ -1875,18 +1875,18 @@ el:
   permission_edit_timelines: "Επεξεργασία χρονοδιαγραμμάτων"
   permission_edit_wiki_pages: "Επεξεργασία σελίδων wiki"
   permission_export_work_packages: "Εξαγωγή πακέτων εργασίας"
-  permission_export_wiki_pages: "Export wiki pages"
-  permission_list_attachments: "List attachments"
+  permission_export_wiki_pages: "Εξαγωγή σελίδων wiki"
+  permission_list_attachments: "Λίστα συνημμένων"
   permission_log_time: "Log spent time"
-  permission_manage_forums: "Manage forums"
-  permission_manage_categories: "Manage work package categories"
-  permission_manage_work_package_relations: "Manage work package relations"
-  permission_manage_members: "Manage members"
-  permission_manage_news: "Manage news"
+  permission_manage_forums: "Διαχείριση των φόρουμ"
+  permission_manage_categories: "Διαχείριση των κατηγοριών πακέτων εργασίας"
+  permission_manage_work_package_relations: "Διαχείριση των συσχετίσεων πακέτων εργασίας"
+  permission_manage_members: "Διαχείριση Μελών"
+  permission_manage_news: "Διαχείριση νέων"
   permission_manage_project_activities: "Διαχείριση δραστηριοτήτων έργου"
   permission_manage_public_queries: "Διαχείριση δημόσιων προβολών"
   permission_manage_repository: "Διαχείριση αποθετηρίου"
-  permission_manage_subtasks: "Manage subtasks"
+  permission_manage_subtasks: "Διαχείριση υποκαθηκόντων"
   permission_manage_versions: "Διαχείριση εκδόσεων"
   permission_manage_wiki: "Διαχείριση wiki"
   permission_manage_wiki_menu: "Διαχείριση μενού wiki"
@@ -1906,8 +1906,8 @@ el:
   permission_view_reportings: "Εμφάνιση αναφορών"
   permission_view_time_entries: "View spent time"
   permission_view_timelines: "Προβολή χρονοδιαγραμμάτων"
-  permission_view_wiki_edits: "View wiki history"
-  permission_view_wiki_pages: "View wiki"
+  permission_view_wiki_edits: "Προβολή ιστορικού wiki"
+  permission_view_wiki_pages: "Προβολή wiki"
   placeholders:
     default: "-"
   project:
@@ -1916,7 +1916,7 @@ el:
       info: "Deleting the project is an irreversible action."
       project_verification: "Enter the project's name %{name} to verify the deletion."
       subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
-      title: "Delete the project %{name}"
+      title: "Διαγραφή του έργου %{name}"
     identifier:
       warning_one: Members of the project will have to relocate the project's repositories.
       warning_two: Existing links to the project will no longer work.
@@ -1931,14 +1931,14 @@ el:
   project_module_news: "Νέα"
   project_module_repository: "Αποθετήριο"
   project_module_time_tracking: "Time tracking"
-  project_module_timelines: "Timelines"
+  project_module_timelines: "Χρονοδιαγράμματα"
   project_module_wiki: "Συνεργατική σελίδα Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
   #which are not attributes of an AR-Model.
   query_fields:
-    active_or_archived: "Active or archived"
+    active_or_archived: "Ενεργό ή αρχειοθετημένο"
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
@@ -2023,21 +2023,21 @@ el:
     scm_vendor: "Source control management system"
     scm_type: "Τύπος αποθετηρίου"
     scm_types:
-      local: "Link existing local repository"
-      existing: "Link existing repository"
-      managed: "Create new repository in OpenProject"
+      local: "Σύνδεση με υπάρχον τοπικό αποθετήριο"
+      existing: "Σύνδεση με υπάρχον αποθετήριο"
+      managed: "Δημιουργία νέου αποθετηρίου στο OpenProject"
     storage:
       not_available: "Disk storage consumption is not available for this repository."
       update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
     subversion:
-      existing_title: "Existing Subversion repository"
+      existing_title: "Υπάρχουσα υποέκδοση αποθετηρίου"
       existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
       existing_url: "Υπάρχον URL"
       instructions:
         managed_url: "This is the URL of the managed (local) Subversion repository."
         url: "Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.\nThe following URL schemes are supported:"
-      managed_title: "Subversion repository integrated into OpenProject"
-      managed_introduction: "Let OpenProject create and integrate a local Subversion repository automatically."
+      managed_title: "Υποέκδοση αποθετηρίου ενσωματωμένου στο OpenProject"
+      managed_introduction: "Επιτρέψτε στο OpenProject να δημιουργήσει και να ενσωματώσει ένα τοπικό αποθετήριο υποεκδόσεων αυτόματα."
       managed_url: "Managed URL"
       password: "Κωδικός Αποθετηρίου"
       username: "Όνομα χρήστη αποθετηρίου"
@@ -2048,7 +2048,7 @@ el:
     warnings:
       cannot_annotate: "Αυτό το αρχείο δεν μπορεί να σχολιαστεί."
   search_input_placeholder: "Αναζήτηση ..."
-  setting_email_delivery_method: "Email delivery method"
+  setting_email_delivery_method: "Μέθοδος αποστολής email"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Αυτόματη χρήση STARTTLS αν είναι διαθέσιμο"
   setting_smtp_ssl: "Χρήση σύνδεσης SSL"
@@ -2088,23 +2088,23 @@ el:
   setting_default_projects_public: "New projects are public by default"
   setting_diff_max_lines_displayed: "Max number of diff lines displayed"
   setting_display_subprojects_work_packages: "Display subprojects work packages on main projects by default"
-  setting_emails_footer: "Emails footer"
-  setting_emails_header: "Emails header"
+  setting_emails_footer: "Υποσέλιδο των email"
+  setting_emails_header: "Επικεφαλίδα email"
   setting_email_login: "Χρησιμοποιείστε email για είσοδο"
   setting_enabled_scm: "Ενεργοποίηση SCM"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
-  setting_host_name: "Host name"
+  setting_host_name: "Όνομα εξυπηρετητή"
   setting_invitation_expiration_days: "Το μήνυμα ενεργοποίησης λήγει μετά"
-  setting_work_package_done_ratio: "Calculate the work package done ratio with"
+  setting_work_package_done_ratio: "Υπολογίστε την αναλογία των ολοκληρωμένων πακέτων εργασίας με"
   setting_work_package_done_ratio_field: "Use the work package field"
   setting_work_package_done_ratio_status: "Use the work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the progress)"
   setting_work_package_list_default_columns: "Εμφάνιση από προεπιλογή"
-  setting_work_package_list_summable_columns: "Summable"
+  setting_work_package_list_summable_columns: "Αθροίσιμο"
   setting_work_package_properties: "Ιδιότητες πακέτου εργασίας"
-  setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
+  setting_work_package_startdate_is_adddate: "Χρήση σημερινής ημερομηνίας ως ημερομηνία έναρξης για νέα πακέτα εργασίας"
   setting_work_packages_export_limit: "Όριο εξαγωγών πακέτων εργασίας"
   setting_journal_aggregation_time_minutes: "Display journals as aggregated within"
   setting_log_requesting_user: "Log user login, name, and mail address for all requests"
@@ -2116,8 +2116,8 @@ el:
   setting_mail_handler_ignore_filenames: "Ignored mail attachments"
   setting_new_project_user_role_id: "Role given to a non-admin user who creates a project"
   setting_password_active_rules: "Ενεργές κλάσεις χαρακτήρων"
-  setting_password_count_former_banned: "Number of most recently used passwords banned for reuse"
-  setting_password_days_valid: "Number of days, after which to enforce a password change"
+  setting_password_count_former_banned: "Αριθμός των πιο προσφάτως χρησιμοποιημένων κωδικών πρόσβασης που απαγορεύτηκε η επαναχρησιμοποίηση τους"
+  setting_password_days_valid: "Αριθμός των ημερών, μετά τις οποίες θα επιβληθεί αλλαγή του κωδικού πρόσβασης"
   setting_password_min_length: "Ελάχιστο μήκος"
   setting_password_min_adhered_rules: "Ελάχιστος αριθμός των απαιτούμενων κλάσεων"
   setting_per_page_options: "Αντικείμενα ανά σελίδα επιλογών"
@@ -2144,16 +2144,16 @@ el:
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "Μορφοποίηση ώρας"
-  setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
-  setting_user_default_timezone: "Users default time zone"
-  setting_users_deletable_by_admins: "User accounts deletable by admins"
-  setting_users_deletable_by_self: "Users allowed to delete their accounts"
+  setting_accessibility_mode_for_anonymous: "Ενεργοποίηση της λειτουργίας προσβασιμότητας για ανώνυμους χρήστες"
+  setting_user_format: "Μορφοποίηση εμφάνισης χρηστών"
+  setting_user_default_timezone: "Προεπιλεγμένη ζώνη ώρας του χρήστη"
+  setting_users_deletable_by_admins: "Λογαριασμοί χρηστών που είναι μπορούν να διαγραφούν από τους διαχειριστές"
+  setting_users_deletable_by_self: "Επιτρέπεται στους χρήστες να διαγράψουν τους λογαριασμούς τους"
   setting_welcome_text: "Μπλοκ κειμένου καλωσορίσματος"
   setting_welcome_title: "Μπλοκ τίτλου καλωσορίσματος"
   setting_welcome_on_homescreen: "Εμφάνιση μπλοκ καλωσορίσματος στην αρχική σελίδα"
   setting_wiki_compression: "Συμπίεση ιστορικού wiki"
-  setting_work_package_group_assignment: "Allow assignment to groups"
+  setting_work_package_group_assignment: "Επιτρέψτε την ανάθεση σε ομάδες"
   setting_work_package_list_default_highlighting_mode: "Προεπιλεγμένη λειτουργία επισήμανσης"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   settings:
@@ -2187,13 +2187,13 @@ el:
       skip_last_comma: "ψευδές"
   text_accessibility_hint: "The accessibility mode is designed for users who are blind, motorically handicaped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode."
   text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
-  text_analyze: "Further analyze: %{subject}"
+  text_analyze: "Περαιτέρω ανάλυση: %{subject}"
   text_are_you_sure: "Είστε σίγουρος/η;"
-  text_are_you_sure_with_children: "Delete work package and all child work packages?"
+  text_are_you_sure_with_children: "Διαγραφή πακέτου εργασίας και όλων των παιδιών πακέτων;"
   text_assign_to_project: "Ανάθεση στο έργο"
   text_form_configuration: >
     You can customize which fields will be displayed in work package forms. You can freely group the fields to reflect the needs for your domain.
-  text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
+  text_form_configuration_required_attribute: "Το χαρακτηριστικό είναι μαρκαρισμένο ως υποχρεωτικό και επομένως εμφανίζεται πάντα"
   text_caracters_maximum: "μέγιστος αριθμός %{count} χαρακτήρες."
   text_caracters_minimum: "Πρέπει να περιέχει τουλάχιστον %{count} χαρακτήρες."
   text_comma_separated: "Επιτρέπονται πολλαπλές τιμές (χωρισμένες με κόμμα)."
@@ -2225,34 +2225,34 @@ el:
   text_hint_disable_with_0: "Note: Disable with 0"
   text_hours_between: "Μεταξύ σε %{min} και %{max} ώρες."
   text_work_package_added: "Το πακέτο εργασίας %{id} έχει αναφερθεί από τον(-ην) %{author}."
-  text_work_package_category_destroy_assignments: "Remove category assignments"
-  text_work_package_category_destroy_question: "Some work packages (%{count}) are assigned to this category. What do you want to do?"
+  text_work_package_category_destroy_assignments: "Αφαίρεση αναθέσεων κατηγορίας"
+  text_work_package_category_destroy_question: "Κάποια πακέτα εργασίας (%{count}) έχουν ανατεθεί σε αυτή την κατηγορία. Τι θέλετε να κάνετε;"
   text_work_package_category_reassign_to: "Reassign work packages to this category"
   text_work_package_updated: "Το πακέτο εργασίας %{id} έχει ενημερωθεί από τον(-ην) %{author}."
   text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
   text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
-  text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
+  text_work_packages_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} προστέθηκε"
   text_journal_aggregation_time_explanation: "Combine journals for display if their age difference is less than the specified timespan. This will also delay mail notifications by the same amount of time."
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
-  text_journal_changed_no_detail: "%{label} updated"
-  text_journal_changed_with_diff: "%{label} changed (%{link})"
-  text_journal_deleted: "%{label} deleted (%{old})"
-  text_journal_deleted_with_diff: "%{label} deleted (%{link})"
-  text_journal_set_to: "%{label} set to %{value}"
-  text_journal_set_with_diff: "%{label} set (%{link})"
-  text_latest_note: "The latest comment is: %{note}"
-  text_length_between: "Length between %{min} and %{max} characters."
-  text_line_separated: "Multiple values allowed (one line for each value)."
-  text_load_default_configuration: "Load the default configuration"
-  text_min_max_length_info: "0 means no restriction"
-  text_no_roles_defined: There are no roles defined.
+  text_journal_changed: "Το %{label} άλλαξε από %{old} <br/><strong>σε</strong> %{new}"
+  text_journal_changed_plain: "Το %{label} άλλαξε από %{old} \nσε %{new}"
+  text_journal_changed_no_detail: "Το %{label} ενημερώθηκε"
+  text_journal_changed_with_diff: "Το %{label} άλλαξε (%{link})"
+  text_journal_deleted: "Το %{label} διαγράφηκε (%{old})"
+  text_journal_deleted_with_diff: "Το %{label} διαγράφηκε (%{link})"
+  text_journal_set_to: "Το %{label} ορίστηκε σε %{value}"
+  text_journal_set_with_diff: "Το %{label} ορίστηκε (%{link})"
+  text_latest_note: "Το πιο πρόσφατο σχόλιο είναι: %{note}"
+  text_length_between: "Μήκος μεταξύ %{min} και %{max} χαρακτήρων."
+  text_line_separated: "Επιτρέπονται πολλαπλές τιμές (μία γραμμή για κάθε τιμή)."
+  text_load_default_configuration: "Φόρτωση προεπιλεγμένων ρυθμίσεων διαμόρφωσης"
+  text_min_max_length_info: "Το 0 σημαίνει ότι δεν υπάρχουν περιορισμοί"
+  text_no_roles_defined: Δεν έχουν οριστεί ρόλοι.
   text_no_access_tokens_configurable: "There are no access tokens which can be configured."
-  text_no_configuration_data: "Roles, types, work package statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_no_configuration_data: "Οι ρόλοι, οι τύποι, η καταστάσεις των πακέτων εργασίας και η ροή εργασίας δεν έχουν ρυθμιστεί ακόμα.\nΣυνιστάται ιδιαίτερα να φορτώσετε τις προεπιλεγμένες ρυθμίσεις. Θα είστε σε θέση να τις τροποποιήσετε μετά τη φόρτωση τους."
   text_no_notes: "Δεν υπάρχουν διαθέσιμα σχόλια για αυτό το πακέτο εργασίας."
-  text_notice_too_many_values_are_inperformant: "Note: Displaying more than 100 items per page can increase the page load time."
+  text_notice_too_many_values_are_inperformant: "Σημείωση: Η εμφάνιση περισσότερων από 100 αντικειμένων ανά σελίδα μπορεί να αυξήσει τον χρόνο φόρτωσης της σελίδας."
   text_notice_security_badge_displayed_html: >
     Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel, and on the home page. It is displayed to administrators only. <br/> The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities. For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.
   text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
@@ -2390,23 +2390,23 @@ el:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} πριν, %{end_label} %{endspan}%{endspanunit} από τώρα"
       project_filters: "Φιλτράρισμα έργων"
       project_responsible: "Show projects with accountable"
-      project_status: "Show project status"
+      project_status: "Εμφάνιση κατάστασης έργου"
       timeframe: "Εμφάνιση χρονικού πλαισίου"
       timeframe_end: "έως"
       timeframe_start: "από"
-      timeline: "General Settings"
-      zoom: "Zoom factor"
+      timeline: "Γενικές Ρυθμίσεις"
+      zoom: "Συντελεστής μεγέθυνσης"
     history: "Ιστορικό"
-    new_color: "New color"
-    new_association: "New dependency"
+    new_color: "Νέο χρώμα"
+    new_association: "Νέα εξάρτηση"
     new_work_package: "Νέο πακέτο εργασίας"
     new_reporting: "New reporting"
-    new_timeline: "New timeline report"
-    no_projects_for_reporting_available: "There are no projects to which a reporting association can be created."
+    new_timeline: "Νέα αναφορά χρονοδιαγράμματος"
+    no_projects_for_reporting_available: "Δεν υπάρχουν έργα στα οποία μπορεί να δημιουργηθεί συσχέτιση αναφοράς."
     no_right_to_view_timeline: "You do not have the necessary permission to view the linked timeline."
     no_timeline_for_id: "There is no timeline with ID %{id}."
-    notice_successful_deleted_all_elements: "Successfully deleted all elements"
-    outline: "Reset Outline"
+    notice_successful_deleted_all_elements: "Όλα τα στοιχεία διαγράφηκαν επιτυχώς"
+    outline: "Επαναφορά Περιγράμματος"
     outlines:
       aggregation: "Show aggregations only"
       level1: "Expand level 1"
@@ -2414,14 +2414,14 @@ el:
       level3: "Expand level 3"
       level4: "Expand level 4"
       level5: "Expand level 5"
-      all: "Show all"
+      all: "Εμφάνιση όλων"
     reporting_for_project:
-      show: "Status reported to project: %{title}"
-      edit_delete: "status report for project: %{title}"
-      history: "History for status for project: %{title}"
+      show: "Η κατάσταση αναφέρθηκε στο έργο: %{title}"
+      edit_delete: "αναφορά κατάστασης για το έργο: %{title}"
+      history: "Ιστορικό για τις καταστάσεις του έργου: %{title}"
     reporting:
-      delete: "Delete status: %{comment}"
-      edit: "Edit status: %{comment}"
+      delete: "Διαγραφή κατάστασης: %{comment}"
+      edit: "Επεξεργασία κατάστασης: %{comment}"
       show: "Κατάσταση: %{comment}"
     planning_element_update: "Ενημέρωση: %{title}"
     type_could_not_be_saved: "Ο τύπος δεν ήταν δυνατό να αποθηκευθεί"
@@ -2434,7 +2434,7 @@ el:
     start: "Έναρξη"
     timeline: "Αναφορά χρονοδιαγράμματος"
     timelines: "Αναφορές χρονοδιαγράμματος"
-    settings: "Timelines"
+    settings: "Χρονοδιαγράμματα"
     vertical_work_package: "Κάθετα πακέτα εργασίας"
     you_are_viewing_the_selected_timeline: "You are viewing the selected timeline report"
     zoom:
@@ -2445,7 +2445,7 @@ el:
       months: "Μήνες"
       quarters: "Τρίμηνα"
       years: "Χρόνια"
-  title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
+  title_remove_and_delete_user: Αφαίρεση του προσκεκλημένου χρήστη από το έργο και διαγραφή του/της.
   title_enterprise_upgrade: "Αναβαθμίστε για να ξεκλειδώσετε περισσότερους χρήστες."
   tooltip_user_default_timezone: >
     Προεπιλεγμένη ζώνη ώρας για νέους χρήστες. Μπορεί να αλλαχθεί στις ρυθμίσεις του χρήστη.
@@ -2490,22 +2490,21 @@ el:
       mail_notifications: "Αποστολή ειδοποιήσεων με email"
       mail_project_explanaition: "For unselected projects, you will only receive notifications about things you watch or you're involved in (e.g. work packages you're the author or assignee of)."
       mail_self_notified: "Θέλω να ειδοποιούμαι για τις δικές μου αλλαγές"
-    status_user_and_brute_force: "%{user} and %{brute_force}"
+    status_user_and_brute_force: "%{user} και %{brute_force}"
     status_change: "Αλλαγή κατάστασης"
     unlock: "Ξεκλείδωμα"
     unlock_and_reset_failed_logins: "Ξεκλειδώστε και επαναφέρετε τις αποτυχημένες συνδέσεις"
   version_status_closed: "κλειστό"
   version_status_locked: "κλειδωμένο"
   version_status_open: "ανοιχτό"
-  note: Note
+  note: Σημείωση
   note_password_login_disabled: "Password login has been disabled by %{configuration}."
-  warning: Warning
-  warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning: Προειδοποίηση
+  warning_attachments_not_saved: "%{count} αρχείο(α) δεν μπόρεσαν να αποθηκευτούν."
   warning_imminent_user_limit: >
     You invited more users than are supported by your current plan. Invited users may not be able to join your OpenProject environment. Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users in order to allow invited and registered users to join.
   warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+    Το email ενεργοποίησης έχει λήξει. Σας στείλαμε ένα καινούργιο στο %{email}. Παρακαλούμε πατήστε στον σύνδεση μέσα σε αυτό για να ενεργοποιήσετε τον λογαριασμό σας.
   warning_user_limit_reached: >
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
@@ -2542,7 +2541,7 @@ el:
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
       invalid_json: "The request could not be parsed as JSON."
-      invalid_relation: "The relation is invalid."
+      invalid_relation: "Η σχέση δεν είναι έγκυρη."
       invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
@@ -2550,7 +2549,7 @@ el:
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."
       multiple_errors: "Multiple field constraints have been violated."
-      unable_to_create_attachment: "The attachment could not be created"
+      unable_to_create_attachment: "Το συνημμένο δεν ήταν δυνατό να δημιουργηθεί"
       unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
       render:
         context_not_parsable: "The context provided is not a link to a resource."
@@ -2598,7 +2597,7 @@ el:
   unsupported_browser:
     title: "Your browser is outdated and unsupported."
     message: "You may run into errors and degraded experience on this page."
-    update_message: 'Please update your browser.'
+    update_message: 'Παρακαλούμε ενημερώστε το πρόγραμμα περιήγησης σας.'
     close_warning: "Αγνοείστε αυτή την προειδοποίηση."
   oauth:
     application:
@@ -2608,7 +2607,7 @@ el:
       new: "New OAuth application"
       default_scopes: "(Default scopes)"
       instructions:
-        name: "The name of your application. This will be displayed to other users upon authorization."
+        name: "Το όνομα τις εφαρμογής. Αυτό θα εμφανίζεται στους υπόλοιπους χρήστες μόλις γίνει η εξουσιοδότηση."
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
         confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
@@ -2621,18 +2620,18 @@ el:
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
     authorization_dialog:
       authorize: "Εξουσιοδότηση"
-      cancel: "Cancel and deny authorization."
-      prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
-      title: "Authorize %{application_name}"
+      cancel: "Ακύρωση και απόρριψη εξουσιοδότησης."
+      prompt_html: "Εξουσιοδότηση του <strong>%{application_name}</strong> για να χρησιμοποιήσετε τον λογαριασμό σας <em>%{login}</em>;"
+      title: "Εξουσιοδότηση %{application_name}"
       wants_to_access_html: >
-        This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
+        Αυτή η εφαρμογή ζητάει άδεια πρόσβασης στον OpenProject λογαριασμό σας. <br/> <strong>Έχει ζητήσει τις ακόλουθες άδειες:</strong>
     scopes:
       api_v3: "Full API v3 access"
       api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
-      created_date: "Approved on"
+      created_date: "Εγκρίθηκε στις"
       scopes: "Permissions"
-      successful_application_revocation: "Revocation of application %{application_name} successful."
+      successful_application_revocation: "Η εφαρμογή %{application_name} ανακλήθηκε επιτυχώς."
       none_given: "No OAuth applications have been granted access to your user account."
     x_active_tokens:
       one: 'one active token'
@@ -2645,6 +2644,6 @@ el:
     client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
     client_credentials_impersonation_html: >
       By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}. You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
-    authorization_error: "An authorization error has occurred."
-    revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
+    authorization_error: "Παρουσιάστηκε ένα σφάλμα εξουσιοδότησης."
+    revoke_my_application_confirmation: "Είστε βέβαιοι ότι θέλετε να αφαιρέσετε αυτή την εφαρμογή; Αυτό θα ανακαλέσει %{token_count} που είναι ενεργά για αυτή."
     my_registered_applications: "Registered OAuth applications"

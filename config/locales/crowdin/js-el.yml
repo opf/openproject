@@ -321,7 +321,7 @@ el:
     label_total_amount: "Σύνολο: %{amount}"
     label_updated_on: "ενημερώθηκε στις"
     label_value_derived_from_children: "(αξία που προέρχεται από παιδιά)"
-    label_warning: "Warning"
+    label_warning: "Προειδοποίηση"
     label_work_package: "Εργασία"
     label_work_package_plural: "Πακέτα εργασίας"
     label_watch: "Παρακολουθήστε"
@@ -515,7 +515,7 @@ el:
       activate_asc: 'ενεργοποιήστε για να εφαρμοστεί η αύξουσα ταξινόμηση'
       activate_dsc: 'ενεργοποιήστε για να εφαρμοστεί η φθίνουσα ταξινόμηση'
       activate_no: 'ενεργοποιήστε για να αφαιρέσετε την ταξινόμηση'
-    text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
+    text_work_packages_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;"
     text_query_destroy_confirmation: "Είστε σίγουροι ότι θέλετε να διαγράψετε την επιλεγμένη προβολή;"
     text_attachment_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το συνημμένο;"
     timelines:
@@ -546,7 +546,7 @@ el:
         grouping_other: "Άλλο"
         noneSelection: "(κανένα)"
       name: "Όνομα"
-      outline: "Reset Outline"
+      outline: "Επαναφορά Περιγράμματος"
       outlines:
         aggregation: "Show aggregations only"
         level1: "Expand level 1"
@@ -554,7 +554,7 @@ el:
         level3: "Expand level 3"
         level4: "Expand level 4"
         level5: "Expand level 5"
-        all: "Show all"
+        all: "Εμφάνιση όλων"
       project_status: "Κατάσταση έργου"
       really_close_dialog: "Είστε βέβαιοι ότι θέλετε να κλείσετε αυτό το παράθυρο διαλόγου και να χάσετε όλα τα δεδομένα που εισάγατε;"
       responsible: "Υπεύθυνος"
