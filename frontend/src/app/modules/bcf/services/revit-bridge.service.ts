@@ -1,5 +1,5 @@
 declare global {
-  interface Window { bcfierBridge:any; }
+  interface Window { RevitBridge:any; }
 }
 
 import {HostListener, Injectable} from '@angular/core';
@@ -17,7 +17,8 @@ export class RevitBridgeService {
   }
 
   constructor() {
-    if (window.bcfierBridge) {
+    if (window.RevitBridge) {
+      console.log("window.RevitBridge was there");
       this.hookUpRevitListener();
     } else {
       window.addEventListener('revit.plugin.ready', () => {
@@ -34,11 +35,11 @@ export class RevitBridgeService {
     }
 
     const jsonPayload = messagePayload != null ? JSON.stringify(messagePayload) : null;
-    window.bcfierBridge.sendMessageToBcfier(messageType, trackingId, jsonPayload);
+    window.RevitBridge.sendMessageToRevit(messageType, trackingId, jsonPayload);
   }
 
   private hookUpRevitListener() {
-    window.bcfierBridge.sendMessageToOpenProject = (messageString:string) => {
+    window.RevitBridge.sendMessageToOpenProject = (messageString:string) => {
       const message = JSON.parse(messageString);
       const messageType = message.messageType;
       const trackingId = message.trackingId;
