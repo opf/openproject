@@ -56,7 +56,7 @@ describe 'sticky messages', type: :feature do
 
   before do
     login_as user
-    visit project_forums_path(forum.project)
+    visit project_forum_path(forum.project, forum)
   end
 
   def expect_order_of_messages(*order)
@@ -75,7 +75,7 @@ describe 'sticky messages', type: :feature do
     check('message[sticky]')
     click_button('Save')
 
-    visit project_forums_path(forum.project)
+    visit project_forum_path(forum.project, forum)
 
     expect_order_of_messages(message2, message1, message3)
   end
