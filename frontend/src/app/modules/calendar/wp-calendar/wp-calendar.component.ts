@@ -19,6 +19,7 @@ import { EventInput, EventApi } from '@fullcalendar/core';
 import { EventSourceError } from '@fullcalendar/core/structs/event-source';
 import { take } from 'rxjs/operators';
 import { ToolbarInput } from '@fullcalendar/core/types/input-types';
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -56,7 +57,8 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
               private element:ElementRef,
               readonly i18n:I18nService,
               readonly notificationsService:NotificationsService,
-              private sanitizer:DomSanitizer) { }
+              private sanitizer:DomSanitizer,
+              private configuration:ConfigurationService) { }
 
   ngOnInit() {
     // Clear any old subscribers
@@ -185,6 +187,10 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
     } else {
       return null;
     }
+  }
+
+  public get calendarFirstDay() {
+    return this.configuration.startOfWeek();
   }
 
   private get calendarElement() {
