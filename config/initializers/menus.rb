@@ -366,48 +366,10 @@ Redmine::MenuManager.map :project_menu do |menu|
             last: true,
             icon: 'icon2 icon-settings2'
 
-  menu.push :settings_info,
-            { controller: '/project_settings', action: 'show' },
-            caption: :label_information_plural,
-            parent: :settings
-
-  menu.push :settings_modules,
-            { controller: '/project_settings/modules', action: 'show' },
-            caption: :label_modules,
-            parent: :settings
-
-  menu.push :settings_custom_fields,
-            { controller: '/project_settings/custom_fields', action: 'show' },
-            caption: :label_custom_field_plural,
-            parent: :settings
-
-  menu.push :settings_versions,
-            { controller: '/project_settings/versions', action: 'show' },
-            caption: :label_version_plural,
-            parent: :settings
-
-  menu.push :settings_categories,
-            { controller: '/project_settings/categories', action: 'show' },
-            caption: :label_work_package_category_plural,
-            parent: :settings
-
-  menu.push :settings_repositories,
-            { controller: '/project_settings/repositories', action: 'show' },
-            caption: :label_repository,
-            parent: :settings
-
-  menu.push :settings_activities,
-            { controller: '/project_settings/activities', action: 'show'},
-            caption: :enumeration_activities,
-            parent: :settings
-
-  menu.push :settings_types,
-            { controller: '/project_settings/types', action: 'show' },
-            caption: :label_work_package_types,
-            parent: :settings
-
-  menu.push :settings_backlogs_settings,
-            { controller: '/project_settings', action: 'show', tab: :backlogs_settings },
-            caption: :'backlogs.backlog_settings',
-            parent: :settings
+  ProjectSettingsHelper.project_settings_tabs.each do |node|
+    menu.push :"settings_#{node[:name]}",
+              node[:action],
+              caption: node[:label],
+              parent: :settings
+  end
 end

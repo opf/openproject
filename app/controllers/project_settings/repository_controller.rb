@@ -27,8 +27,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class ProjectSettings::RepositoriesController < ProjectSettingsController
-  menu_item :settings_repositories
+class ProjectSettings::RepositoryController < ProjectSettingsController
+  menu_item :settings_repository
 
   def show
     @repository = @project.repository || new_repository
