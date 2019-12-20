@@ -115,6 +115,7 @@ export class MainMenuToggleService {
   public closeMenu():void {
     this.setWidth(0);
     this.hideElements.addClass('hidden-navigation');
+    jQuery('.wp-query-menu--search-input').blur();
   }
 
   public closeWhenOnMobile():void {
