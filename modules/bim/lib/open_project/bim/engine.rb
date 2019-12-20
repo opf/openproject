@@ -105,10 +105,12 @@ module OpenProject::Bim
                getter: ->(*) {
                  issue = represented.bcf_issue
                  bcf = {}
+                 bcf[:uuid] = issue.uuid
                  bcf[:viewpoints] = issue.viewpoints.map do |viewpoint|
                    {
-                     id: viewpoint.snapshot.id,
-                     file_name: viewpoint.snapshot.filename
+                     uuid: viewpoint.uuid,
+                     snapshot_id: viewpoint.snapshot.id,
+                     snapshot_file_name: viewpoint.snapshot.filename
                    }
                  end
                  bcf

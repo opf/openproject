@@ -61,14 +61,18 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   describe 'with BCF issues' do
     it "contains viewpoints" do
-      is_expected.to be_json_eql([
+      is_expected.to be_json_eql(
         {
-          file_name: bcf_issue.viewpoints.first.attachments.first.filename,
-          id: bcf_issue.viewpoints.first.attachments.first.id
-        }
-      ].to_json)
-        .including('id')
-        .at_path('bcf/viewpoints/')
+          uuid: bcf_issue.uuid,
+          viewpoints: [
+            {
+              uuid: bcf_issue.viewpoints.first.uuid,
+              snapshot_file_name: bcf_issue.viewpoints.first.attachments.first.filename,
+              snapshot_id: bcf_issue.viewpoints.first.attachments.first.id
+            }
+          ]
+        }.to_json
+      ).including('snapshot_id').at_path('bcf')
     end
   end
 end

@@ -6,8 +6,8 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 
 
-export type ViewPointOriginal = { id:string, file_name:string };
-export type ViewPoint = { id:string, fileName:string, fullPath:string };
+export type ViewPointOriginal = { uuid:string, snapshot_id:string, snapshot_file_name:string };
+export type ViewPoint = { snapshotId:string, snapshotFileName:string, snapshotFullPath:string };
 
 @Component({
   selector: 'bcf-wp-single-view',
@@ -43,9 +43,9 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
   ngOnInit():void {
     this.viewpoints = this.workPackage.bcf.viewpoints.map((vp:ViewPointOriginal):ViewPoint => {
       return {
-        id:       vp.id,
-        fileName: vp.file_name,
-        fullPath: this.pathHelper.attachmentDownloadPath(vp.id, vp.file_name)
+        snapshotId: vp.snapshot_id,
+        snapshotFileName: vp.snapshot_file_name,
+        snapshotFullPath: this.pathHelper.attachmentDownloadPath(vp.snapshot_id, vp.snapshot_file_name)
       };
     });
 
@@ -91,9 +91,9 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
 
     this.galleryImages = this.viewpoints.map((vp:ViewPoint) => {
       return {
-        small:  vp.fullPath,
-        medium: vp.fullPath,
-        big:    vp.fullPath,
+        small:  vp.snapshotFullPath,
+        medium: vp.snapshotFullPath,
+        big:    vp.snapshotFullPath,
       };
     });
   }
