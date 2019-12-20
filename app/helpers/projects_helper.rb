@@ -95,6 +95,14 @@ module ProjectsHelper
     tabs.select { |tab| User.current.allowed_to?(tab[:action], @project) }
   end
 
+  def settings_project_path(project, opts = {})
+    if opts[:tab]
+      url_for controller: "project_settings/#{opts[:tab]}", action: 'show', only_path: true, id: project
+    else
+      url_for controller: "project_settings", action: 'show', only_path: true, id: project
+    end
+  end
+
   # Returns a set of options for a select field, grouped by project.
   def version_options_for_select(versions, selected = nil)
     grouped = Hash.new { |h, k| h[k] = [] }

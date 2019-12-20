@@ -49,6 +49,13 @@ OpenProject::AccessControl.map do |map|
                    {
                      projects: %i[edit update custom_fields],
                      project_settings: [:show],
+                     'project_settings/modules': [:show],
+                     'project_settings/custom_fields': [:show],
+                     'project_settings/versions': [:show],
+                     'project_settings/activities': [:show],
+                     'project_settings/categories': [:show],
+                     'project_settings/types': [:show],
+                     'project_settings/repositories': [:show],
                      members: [:paginate_users]
                    },
                    require: :member

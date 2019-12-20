@@ -372,37 +372,37 @@ Redmine::MenuManager.map :project_menu do |menu|
             parent: :settings
 
   menu.push :settings_modules,
-            { controller: '/project_settings', action: 'show', tab: :modules },
+            { controller: '/project_settings/modules', action: 'show' },
             caption: :label_modules,
             parent: :settings
 
   menu.push :settings_custom_fields,
-            { controller: '/project_settings', action: 'show', tab: :custom_fields },
+            { controller: '/project_settings/custom_fields', action: 'show' },
             caption: :label_custom_field_plural,
             parent: :settings
 
   menu.push :settings_versions,
-            { controller: '/project_settings', action: 'show', tab: :versions },
+            { controller: '/project_settings/versions', action: 'show' },
             caption: :label_version_plural,
             parent: :settings
 
   menu.push :settings_categories,
-            { controller: '/project_settings', action: 'show', tab: :categories },
+            { controller: '/project_settings/categories', action: 'show' },
             caption: :label_work_package_category_plural,
             parent: :settings
 
   menu.push :settings_repositories,
-            { controller: '/project_settings', action: 'show', tab: :repository },
+            { controller: '/project_settings/repositories', action: 'show' },
             caption: :label_repository,
             parent: :settings
 
   menu.push :settings_activities,
-            { controller: '/project_settings', action: 'show', tab: :activities },
+            { controller: '/project_settings/activities', action: 'show'},
             caption: :enumeration_activities,
             parent: :settings
 
   menu.push :settings_types,
-            { controller: '/project_settings', action: 'show', tab: :types },
+            { controller: '/project_settings/types', action: 'show' },
             caption: :label_work_package_types,
             parent: :settings
 

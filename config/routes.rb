@@ -171,7 +171,10 @@ OpenProject::Application.routes.draw do
       #   settings_project_path(@project, tab: 'members')
       #     => "/projects/1/settings/members"
       #
-      get 'settings(/:tab)', controller: 'project_settings', action: 'show', as: :settings
+      %i(modules categories versions custom_fields types activities repositories).each do |tab|
+        get "settings/#{tab}", controller: "project_settings/#{tab}", action: 'show', as: "settings_#{tab}"
+      end
+      get 'settings', controller: 'project_settings', action: 'show', as: :settings
 
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
