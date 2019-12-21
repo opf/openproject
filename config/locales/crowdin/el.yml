@@ -475,13 +475,13 @@ el:
         blank: "δεν πρέπει να είναι κενό."
         cant_link_a_work_package_with_a_descendant: "Ένα πακέτο εργασίας δεν μπορεί να συνδεθεί με ένα από τα υποκαθήκοντα του."
         circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλική εξάρτηση."
-        confirmation: "δεν ταιριάζει %{attribute}."
+        confirmation: "δεν ταιριάζει με %{attribute}."
         could_not_be_copied: "δεν ήταν δυνατή η (πλήρης) αντιγραφή."
         does_not_exist: "δεν υπάρχει."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "δεν μπορεί να είναι κενό."
-        even: "πρέπει να είναι άρτιο."
+        even: "πρέπει να είναι άρτιος."
         exclusion: "είναι δεσμευμένο."
         file_too_large: "είναι πολύ μεγάλο (το μέγιστο μέγεθος είναι %{count} Bytes)."
         greater_than: "πρέπει να είναι μεγαλύτερο από %{count}."
@@ -500,7 +500,7 @@ el:
         not_an_integer: "δεν είναι ακέραιος αριθμός."
         not_an_iso_date: "δεν είναι έγκυρη ημερομηνία. Απαιτούμενη μορφοποίηση: ΕΕΕΕ-ΜΜ-ΗΗ."
         not_same_project: "δεν ανήκει στο ίδιο έργο."
-        odd: "πρέπει να είναι μονό."
+        odd: "πρέπει να είναι μονός."
         regex_invalid: "δεν ήταν δυνατή η επικύρωση με τη συσχετιζόμενη κανονική έκφραση."
         smaller_than_or_equal_to_max_length: "πρέπει να είναι μικρότερο ή ίσο με το μέγιστο μήκος."
         taken: "έχει ήδη κατοχυρωθεί."
@@ -1140,7 +1140,7 @@ el:
     access_tokens:
       no_results:
         title: "No access tokens to display"
-        description: "Όλα έχουν απενεργοποιηθεί. Μπορούν να επανεργοποιηθούν από το μενού διαχείρισης."
+        description: "Όλα έχουν απενεργοποιηθεί. Μπορούν να επανενεργοποιηθούν από το μενού διαχείρισης."
       access_token: "Access token"
       headers:
         action: "Ενέργεια"
@@ -1150,7 +1150,7 @@ el:
   label_account: "Λογαριασμός"
   label_active: "Ενεργό"
   label_activate_user: 'Ενεργοποίηση χρήστη'
-  label_active_in_new_projects: "Ενεργοποιήστε στα καινούργια έργα"
+  label_active_in_new_projects: "Ενεργό σε καινούργια έργα"
   label_activity: "Δραστηριότητα"
   label_add_edit_translations: "Προσθέστε και επεξεργαστείτε μεταφράσεις"
   label_add_another_file: "Προσθέσετε και άλλο αρχείο"
@@ -1265,7 +1265,7 @@ el:
   label_date_from: "Από"
   label_date_from_to: "Από %{start} έως %{end}"
   label_date_range: "Εύρος ημερομηνίας"
-  label_date_to: "Προς"
+  label_date_to: "Έως"
   label_day_plural: "ημέρες"
   label_default: "Προεπιλογή"
   label_delete_user: "Διαγραφή Χρήστη"
@@ -1515,7 +1515,7 @@ el:
   label_renamed: "μετονομάστηκε"
   label_reply_plural: "Απαντήσεις"
   label_report: "Αναφορά"
-  label_report_bug: "Αναφορά Σφάλματος"
+  label_report_bug: "Αναφορά ενός σφάλματος"
   label_report_plural: "Αναφορές"
   label_reported_work_packages: "Πακέτα εργασίας που έχουν αναφερθεί"
   label_reporting: "Αποστολή αναφοράς"
@@ -1746,11 +1746,11 @@ el:
   mail_user_activation_limit_reached:
     subject: Επετεύχθη το όριο ενεργοποίησης χρηστών
     message: |
-      Ένας νέο χρήστης (%{email}) προσπάθησε να δημιουργήσει λογαριασμό σε ένα περιβάλλον OpenProject που διαχειρίζεστε εσείς (%{host}). Ο χρήστης δεν μπόρεσε να ενεργοποιήσει τον λογαριασμό του καθώς το όριο των χρηστών είχε επιτευχθεί.
+      Ένας νέο χρήστης (%{email}) προσπάθησε να δημιουργήσει λογαριασμό σε ένα περιβάλλον OpenProject που διαχειρίζεστε (%{host}). Ο χρήστης δεν μπόρεσε να ενεργοποιήσει τον λογαριασμό του καθώς το όριο των χρηστών έχει επιτευχθεί.
     steps:
       label: "Για να επιτρέψετε στο χρήστη να συνδεθεί μπορείτε είτε να: "
       a: "Αναβαθμίστε το σχέδιο πληρωμής σας ([εδώ](upgrade_url))" #here turned into a link
-      b: "Κλειδώστε ή διαγράψτε έναν υπάρχον χρήστη ([εδώ](users_url))" #here turned into a link
+      b: "Κλειδώστε ή διαγράψτε έναν υπάρχων χρήστη ([εδώ](users_url))" #here turned into a link
   more_actions: "Περισσότερες λειτουργίες"
   noscript_description: "Πρέπει να ενεργοποιήσετε την JavaScript για να χρησιμοποιήσετε το OpenProject!"
   noscript_heading: "Η JavaScript είναι απενεργοποιημένη"
@@ -1809,7 +1809,7 @@ el:
   notice_to_many_principals_to_display: "Υπάρχουν πάρα πολλά αποτελέσματα.\nΠεριορίστε την αναζήτηση πληκτρολογώντας το όνομα του νέου μέλους (ή ομάδας)."
   notice_unable_delete_time_entry: "Δεν ήταν δυνατή η διαγραφή της καταχώρησης καταγραφής χρόνου."
   notice_user_missing_authentication_method: Ο χρήστης δεν έχει επιλέξει ακόμα έναν κωδικό πρόσβασης ή άλλο τρόπο σύνδεσης.
-  notice_user_invitation_resent: Αποστάλθηκε μια πρόσκληση στο %{email}.
+  notice_user_invitation_resent: Απεστάλει μια πρόσκληση στο %{email}.
   present_access_key_value: "Το %{key_name} είναι: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "Έχετε αποσυνδεθεί."
