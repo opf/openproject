@@ -290,16 +290,16 @@ el:
         self: "Η διαγραφή του λογαριασμού σας είναι μια μη αναστρέψιμη ενέργεια."
       login_consequences:
         other: "Ο λογαριασμός θα διαγραφεί από το σύστημα. Επομένως, ο χρήστης δεν θα μπορεί πλέον να συνδεθεί με τα τρέχοντα στοιχεία του. Μπορεί να επιλέξει να ξαναγίνει χρήστης της εφαρμογής με τα μέσα που παρέχει η εφαρμογή αυτή."
-        self: "Ο λογαριασμός θα διαγραφεί από το σύστημα. Επομένως, ο χρήστης δεν θα μπορεί πλέον να συνδεθεί με τα τρέχοντα στοιχεία του. Αν επιλέξετε να ξαναγίνετε χρήστης της εφαρμογής, μπορείτε να το κάνετε, χρησιμοποιώντας τα μέσα που παρέχει η εφαρμογή."
+        self: "Ο λογαριασμός σας θα διαγραφεί από το σύστημα. Επομένως, δεν θα μπορείτε πλέον να συνδεθείτε με τα τρέχοντα στοιχεία σας. Αν επιλέξετε να ξαναγίνετε χρήστης της εφαρμογής, μπορείτε να το κάνετε, χρησιμοποιώντας τα μέσα που παρέχει η εφαρμογή."
       login_verification:
         other: "Εισάγετε το %{name} της σύνδεσης για να επιβεβαιώσετε τη διαγραφή. Μόλις υποβληθεί, θα ερωτηθείτε να επιβεβαιώσετε τον κωδικό πρόσβασης σας."
         self: "Εισάγετε το %{name} της σύνδεσης σας για να επιβεβαιώσετε τη διαγραφή. Μόλις υποβληθεί, θα ερωτηθείτε να επιβεβαιώσετε τον κωδικό πρόσβασης σας."
     error_inactive_activation_by_mail: >
-      Ο λογαριασμός δεν έχει ενεργοποιηθεί ακόμη. Για να ενεργοποιήσετε τον λογαριασμός σας, κάντε κλικ στον σύνδεσμο που σας αποστάλθηκε με email.
+      Ο λογαριασμός σας δεν έχει ενεργοποιηθεί ακόμη. Για να ενεργοποιήσετε το λογαριασμό σας, κάντε κλικ στον σύνδεσμο που σας αποστάλθηκε με email.
     error_inactive_manual_activation: >
-      Ο λογαριασμός δεν έχει ενεργοποιηθεί ακόμη. Παρακαλούμε περιμένετε να ενεργοποιήσει τον λογαριασμό σας ένας διαχειριστής.
+      Ο λογαριασμός σας δεν έχει ενεργοποιηθεί ακόμη. Παρακαλούμε περιμένετε να ενεργοποιήσει τον λογαριασμό σας ένας διαχειριστής.
     error_self_registration_disabled: >
-      Η εγγραφή χρηστών είναι απενεργοποιημένα σε αυτό το σύστημα. Παρακαλούμε ζητήστε από ένα διαχειριστή να δημιουργήσει ένα λογαριασμό για εσάς.
+      Η εγγραφή χρηστών είναι απενεργοποιημένη σε αυτό το σύστημα. Παρακαλούμε ζητήστε από ένα διαχειριστή να δημιουργήσει ένα λογαριασμό για εσάς.
     login_with_auth_provider: "ή συνδεθείτε με τον υπάρχοντα λογαριασμό σας"
     signup_with_auth_provider: "ή εγγραφείτε χρησιμοποιώντας"
     auth_source_login: Παρακαλούμε συνδεθείτε ως <em>%{login}</em> για να ενεργοποιήσετε τον λογαριασμό σας.
@@ -395,7 +395,7 @@ el:
         filters: "Φίλτρα"
         timeline_labels: "Ετικέτες χρονοδιαγράμματος"
       repository:
-        url: "Σύνδεσμος URL"
+        url: "URL"
       role:
         assignable: "Τα πακέτα εργασίας μπορούν να ανατεθούν σε χρήστες και ομάδες που έχουν αυτό το ρόλο στο αντίστοιχο έργο"
       time_entry:
@@ -475,13 +475,13 @@ el:
         blank: "δεν πρέπει να είναι κενό."
         cant_link_a_work_package_with_a_descendant: "Ένα πακέτο εργασίας δεν μπορεί να συνδεθεί με ένα από τα υποκαθήκοντα του."
         circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλική εξάρτηση."
-        confirmation: "δεν ταιριάζει %{attribute}."
+        confirmation: "δεν ταιριάζει με %{attribute}."
         could_not_be_copied: "δεν ήταν δυνατή η (πλήρης) αντιγραφή."
         does_not_exist: "δεν υπάρχει."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "δεν μπορεί να είναι κενό."
-        even: "πρέπει να είναι άρτιο."
+        even: "πρέπει να είναι άρτιος."
         exclusion: "είναι δεσμευμένο."
         file_too_large: "είναι πολύ μεγάλο (το μέγιστο μέγεθος είναι %{count} Bytes)."
         greater_than: "πρέπει να είναι μεγαλύτερο από %{count}."
@@ -500,7 +500,7 @@ el:
         not_an_integer: "δεν είναι ακέραιος αριθμός."
         not_an_iso_date: "δεν είναι έγκυρη ημερομηνία. Απαιτούμενη μορφοποίηση: ΕΕΕΕ-ΜΜ-ΗΗ."
         not_same_project: "δεν ανήκει στο ίδιο έργο."
-        odd: "πρέπει να είναι μονό."
+        odd: "πρέπει να είναι μονός."
         regex_invalid: "δεν ήταν δυνατή η επικύρωση με τη συσχετιζόμενη κανονική έκφραση."
         smaller_than_or_equal_to_max_length: "πρέπει να είναι μικρότερο ή ίσο με το μέγιστο μήκος."
         taken: "έχει ήδη κατοχυρωθεί."
@@ -779,7 +779,7 @@ el:
   button_rollback: "Επαναφορά σε αυτή την έκδοση"
   button_save: "Αποθήκευση"
   button_save_back: "Αποθήκευση και επιστροφή"
-  button_show: "Προβολή"
+  button_show: "Εμφάνιση"
   button_sort: "Ταξινόμηση"
   button_submit: "Υποβολή"
   button_test: "Δοκιμή"
@@ -801,15 +801,15 @@ el:
     failure_message: Consent failed, cannot proceed.
     title: Συναίνεση χρήστη
     decline_warning_message: Έχετε αρνηθεί να συναινέσετε και αποσυνδεθήκατε.
-    user_has_consented: Ο χρήστης έχει συναινέσει στην τροποποιημένη δήλωση στη δοσμένη στιγμή.
+    user_has_consented: Ο χρήστης έχει συναινέσει στην τροποποιημένη δήλωση στο δοσμένο χρόνο.
     not_yet_consented: Ο χρήστης δεν έχει συναινέσει ακόμη, θα ζητηθεί στην επόμενη σύνδεση του.
     contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
     contact_your_administrator: Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας αν θέλετε να διαγραφεί ο λογαριασμός σας.
-    contact_this_mail_address: Παρακαλούμε επικοινωνήστε %{mail_address} αν θέλετε να διαγραφεί ο λογαριασμός σας.
+    contact_this_mail_address: Παρακαλούμε επικοινωνήστε με το %{mail_address} αν θέλετε να διαγραφεί ο λογαριασμός σας.
     text_update_consent_time: Επιλέξτε αυτό το κουτί για να αναγκάσετε τους χρήστες να συναινέσουν ξανά. Ενεργοποιήστε όταν έχετε αλλάξει τις νομικές πτυχές του παραπάνω περιεχομένου συναίνεσης.
     update_consent_last_time: "Τελευταία ενημέρωση συναίνεσης: %{update_time}"
   copy_project:
-    started: "Έναρξη αντιγραφή έργου \"%{source_project_name}\" στο \"%{target_project_name}\". Θα ενημερωθείτε με email μόλις το \"%{target_project_name}\" είναι διαθέσιμο."
+    started: "Έναρξη αντιγραφής έργου \"%{source_project_name}\" στο \"%{target_project_name}\". Θα ενημερωθείτε με email μόλις το \"%{target_project_name}\" είναι διαθέσιμο."
     failed: "Cannot copy project %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
     succeeded: "Created project %{target_project_name}"
@@ -987,13 +987,13 @@ el:
   description_enter_number: "Εισάγετε αριθμό"
   description_enter_text: "Εισάγετε κείμενο"
   description_filter: "Φίλτρο"
-  description_filter_toggle: "Εμφάνιση/απόκρυψη φίλτρου"
+  description_filter_toggle: "Εμφάνιση/Απόκρυψη φίλτρου"
   description_category_reassign: "Επιλέξτε κατηγορία"
   description_message_content: "Περιεχόμενο μηνύματος"
   description_my_project: "Είστε μέλος"
   description_notes: "Παρατηρήσεις"
   description_parent_work_package: "Πακέτα εργασίας γονείς του τρέχοντος"
-  description_project_scope: "Αναζητήστε φυσικό αντικείμενο έργου"
+  description_project_scope: "Αναζητήστε φυσικό αντικείμενο"
   description_query_sort_criteria_attribute: "Ταξινόμηση χαρακτηριστικού"
   description_query_sort_criteria_direction: "Κατεύθυνση ταξινόμησης"
   description_search: "Πεδίο αναζήτησης"
@@ -1073,7 +1073,7 @@ el:
     reply: Απάντησε
     time_entry: 'Η καταγραφή χρόνου επεξεργάστηκε'
     wiki_page: 'Η σελίδα Wiki επεξεργάστηκε'
-    work_package_closed: 'Το Πακέτο Εργασίας είναι κλειστό'
+    work_package_closed: 'Το Πακέτο Εργασίας έκλεισε'
     work_package_edit: 'Το πακέτο εργασίας επεξεργάστηκε'
     work_package_note: 'Προστέθηκε η σημείωση πακέτου εργασίας'
   export:
@@ -1125,7 +1125,7 @@ el:
       upgrade_enterprise_edition: "Αναβαθμίστε σε Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Εγχειρίδια χρηστών"
-      faq: "FAQ"
+      faq: "Συχνές Ερωτήσεις"
       glossary: "Γλωσσάριο"
       shortcuts: "Συντομεύσεις"
       blog: "OpenProject blog"
@@ -1140,7 +1140,7 @@ el:
     access_tokens:
       no_results:
         title: "No access tokens to display"
-        description: "Όλα έχουν απενεργοποιηθεί. Μπορούν να επανεργοποιηθούν από το μενού διαχείρισης."
+        description: "Όλα έχουν απενεργοποιηθεί. Μπορούν να επανενεργοποιηθούν από το μενού διαχείρισης."
       access_token: "Access token"
       headers:
         action: "Ενέργεια"
@@ -1150,7 +1150,7 @@ el:
   label_account: "Λογαριασμός"
   label_active: "Ενεργό"
   label_activate_user: 'Ενεργοποίηση χρήστη'
-  label_active_in_new_projects: "Ενεργοποιήστε στα καινούργια έργα"
+  label_active_in_new_projects: "Ενεργό σε καινούργια έργα"
   label_activity: "Δραστηριότητα"
   label_add_edit_translations: "Προσθέστε και επεξεργαστείτε μεταφράσεις"
   label_add_another_file: "Προσθέσετε και άλλο αρχείο"
@@ -1265,7 +1265,7 @@ el:
   label_date_from: "Από"
   label_date_from_to: "Από %{start} έως %{end}"
   label_date_range: "Εύρος ημερομηνίας"
-  label_date_to: "Προς"
+  label_date_to: "Έως"
   label_day_plural: "ημέρες"
   label_default: "Προεπιλογή"
   label_delete_user: "Διαγραφή Χρήστη"
@@ -1515,7 +1515,7 @@ el:
   label_renamed: "μετονομάστηκε"
   label_reply_plural: "Απαντήσεις"
   label_report: "Αναφορά"
-  label_report_bug: "Αναφορά Σφάλματος"
+  label_report_bug: "Αναφορά ενός σφάλματος"
   label_report_plural: "Αναφορές"
   label_reported_work_packages: "Πακέτα εργασίας που έχουν αναφερθεί"
   label_reporting: "Αποστολή αναφοράς"
@@ -1746,11 +1746,11 @@ el:
   mail_user_activation_limit_reached:
     subject: Επετεύχθη το όριο ενεργοποίησης χρηστών
     message: |
-      Ένας νέο χρήστης (%{email}) προσπάθησε να δημιουργήσει λογαριασμό σε ένα περιβάλλον OpenProject που διαχειρίζεστε εσείς (%{host}). Ο χρήστης δεν μπόρεσε να ενεργοποιήσει τον λογαριασμό του καθώς το όριο των χρηστών είχε επιτευχθεί.
+      Ένας νέο χρήστης (%{email}) προσπάθησε να δημιουργήσει λογαριασμό σε ένα περιβάλλον OpenProject που διαχειρίζεστε (%{host}). Ο χρήστης δεν μπόρεσε να ενεργοποιήσει τον λογαριασμό του καθώς το όριο των χρηστών έχει επιτευχθεί.
     steps:
       label: "Για να επιτρέψετε στο χρήστη να συνδεθεί μπορείτε είτε να: "
       a: "Αναβαθμίστε το σχέδιο πληρωμής σας ([εδώ](upgrade_url))" #here turned into a link
-      b: "Κλειδώστε ή διαγράψτε έναν υπάρχον χρήστη ([εδώ](users_url))" #here turned into a link
+      b: "Κλειδώστε ή διαγράψτε έναν υπάρχων χρήστη ([εδώ](users_url))" #here turned into a link
   more_actions: "Περισσότερες λειτουργίες"
   noscript_description: "Πρέπει να ενεργοποιήσετε την JavaScript για να χρησιμοποιήσετε το OpenProject!"
   noscript_heading: "Η JavaScript είναι απενεργοποιημένη"
@@ -1809,7 +1809,7 @@ el:
   notice_to_many_principals_to_display: "Υπάρχουν πάρα πολλά αποτελέσματα.\nΠεριορίστε την αναζήτηση πληκτρολογώντας το όνομα του νέου μέλους (ή ομάδας)."
   notice_unable_delete_time_entry: "Δεν ήταν δυνατή η διαγραφή της καταχώρησης καταγραφής χρόνου."
   notice_user_missing_authentication_method: Ο χρήστης δεν έχει επιλέξει ακόμα έναν κωδικό πρόσβασης ή άλλο τρόπο σύνδεσης.
-  notice_user_invitation_resent: Αποστάλθηκε μια πρόσκληση στο %{email}.
+  notice_user_invitation_resent: Απεστάλει μια πρόσκληση στο %{email}.
   present_access_key_value: "Το %{key_name} είναι: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "Έχετε αποσυνδεθεί."
@@ -2541,7 +2541,7 @@ el:
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
       invalid_json: "The request could not be parsed as JSON."
-      invalid_relation: "The relation is invalid."
+      invalid_relation: "Η σχέση δεν είναι έγκυρη."
       invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
@@ -2620,18 +2620,18 @@ el:
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
     authorization_dialog:
       authorize: "Εξουσιοδότηση"
-      cancel: "Cancel and deny authorization."
-      prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
-      title: "Authorize %{application_name}"
+      cancel: "Ακύρωση και απόρριψη εξουσιοδότησης."
+      prompt_html: "Εξουσιοδότηση του <strong>%{application_name}</strong> για να χρησιμοποιήσετε τον λογαριασμό σας <em>%{login}</em>;"
+      title: "Εξουσιοδότηση %{application_name}"
       wants_to_access_html: >
-        This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
+        Αυτή η εφαρμογή ζητάει άδεια πρόσβασης στον OpenProject λογαριασμό σας. <br/> <strong>Έχει ζητήσει τις ακόλουθες άδειες:</strong>
     scopes:
       api_v3: "Full API v3 access"
       api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
-      created_date: "Approved on"
+      created_date: "Εγκρίθηκε στις"
       scopes: "Permissions"
-      successful_application_revocation: "Revocation of application %{application_name} successful."
+      successful_application_revocation: "Η εφαρμογή %{application_name} ανακλήθηκε επιτυχώς."
       none_given: "No OAuth applications have been granted access to your user account."
     x_active_tokens:
       one: 'one active token'
@@ -2644,6 +2644,6 @@ el:
     client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
     client_credentials_impersonation_html: >
       By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}. You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
-    authorization_error: "An authorization error has occurred."
-    revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
+    authorization_error: "Παρουσιάστηκε ένα σφάλμα εξουσιοδότησης."
+    revoke_my_application_confirmation: "Είστε βέβαιοι ότι θέλετε να αφαιρέσετε αυτή την εφαρμογή; Αυτό θα ανακαλέσει %{token_count} που είναι ενεργά για αυτή."
     my_registered_applications: "Registered OAuth applications"
