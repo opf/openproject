@@ -54,8 +54,11 @@ module OpenProject::Backlogs
              author_url: 'http://finn.de',
              bundled: true,
              settings: settings do
-      OpenProject::AccessControl.permission(:edit_project).actions << 'projects/project_done_statuses'
-      OpenProject::AccessControl.permission(:edit_project).actions << 'projects/rebuild_positions'
+      OpenProject::AccessControl.permission(:edit_project).tap do |add|
+        add.actions << 'projects/project_done_statuses'
+        add.actions << 'projects/rebuild_positions'
+        add.actions << 'backlogs_settings/show'
+      end
 
       OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
         add.actions << 'rb_stories/create'
@@ -124,7 +127,7 @@ module OpenProject::Backlogs
              :Type,
              :Project,
              :ProjectsController,
-             :ProjectsHelper,
+             :ProjectSettingsHelper,
              :User,
              :VersionsController,
              :Version]

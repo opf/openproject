@@ -27,8 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% statuses_done_for_project = @project.done_statuses.select(:id).map(&:id) %>
-
 <%= toolbar title: l('backlogs.definition_of_done') %>
 
 <%= styled_form_tag(controller: '/projects', action: "project_done_statuses", id: @project) do %>
@@ -71,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <td style="text-align:left">
               <% checkbox_id = status.name.parameterize.underscore %>
               <%= styled_label_tag checkbox_id, l('backlogs.label_is_done_status', status_name: status.name), class: 'hidden-for-sighted' %>
-              <%= (styled_check_box_tag 'statuses[][status_id]', status.id.to_s, statuses_done_for_project.include?(status.id), id: checkbox_id) %>
+              <%= (styled_check_box_tag 'statuses[][status_id]', status.id.to_s, @statuses_done_for_project.include?(status.id), id: checkbox_id) %>
             </td>
           </tr>
         <% end %>
