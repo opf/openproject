@@ -45,7 +45,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       project: project,
                       user: user,
                       spent_on: Date.today,
-                      hours: 6,
+                      hours: 3,
                       comments: 'My comment'
   end
   let!(:other_visible_time_entry) do
@@ -53,9 +53,19 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       work_package: work_package,
                       project: project,
                       user: user,
-                      spent_on: Date.today - 1.day,
-                      hours: 5,
+                      # limit the date to ensure that it is on the current calendar sheet
+                      spent_on: Date.today - [1, Date.today.wday].min.days,
+                      hours: 2,
                       comments: 'My other comment'
+  end
+  let!(:last_week_visible_time_entry) do
+    FactoryBot.create :time_entry,
+                      work_package: work_package,
+                      project: project,
+                      user: user,
+                      spent_on: Date.today - (Date.today.wday + 3).days,
+                      hours: 8,
+                      comments: 'My last week comment'
   end
   let!(:invisible_time_entry) do
     FactoryBot.create :time_entry,
@@ -84,35 +94,51 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
   it 'adds the widget and checks the displayed entries' do
     # within top-right area, add an additional widget
-    my_page.add_widget(1, 1, :within, 'Spent time \(last 7 days\)')
+    my_page.add_widget(1, 1, :within, 'Spent time')
 
     entries_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
     entries_area.expect_to_span(1, 1, 2, 2)
 
     expect(page)
-      .to have_content "Total: 11.00"
+      .to have_content "Total: 5.00"
 
     expect(page)
-      .to have_content Date.today.strftime('%m/%d/%Y')
+      .to have_content visible_time_entry.spent_on.strftime('%m/%d')
     expect(page)
-      .to have_selector('.activity', text: visible_time_entry.activity.name)
-    expect(page)
-      .to have_selector('.subject', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
-    expect(page)
-      .to have_selector('.comments', text: visible_time_entry.comments)
-    expect(page)
-      .to have_selector('.hours', text: visible_time_entry.hours)
+      .to have_selector('.fc-event .fc-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
 
     expect(page)
-      .to have_content((Date.today - 1.day).strftime('%m/%d/%Y'))
+      .to have_content(other_visible_time_entry.spent_on.strftime('%m/%d'))
     expect(page)
-      .to have_selector('.activity', text: other_visible_time_entry.activity.name)
+      .to have_selector('.fc-event .fc-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+
+    # go to last week
+    within entries_area.area do
+      find('.fc-toolbar .fc-prev-button').click
+    end
+
     expect(page)
-      .to have_selector('.subject', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+      .to have_content "Total: 8.00"
+
     expect(page)
-      .to have_selector('.comments', text: other_visible_time_entry.comments)
+      .to have_content(last_week_visible_time_entry.spent_on.strftime('%m/%d'))
     expect(page)
-      .to have_selector('.hours', text: other_visible_time_entry.hours)
+      .to have_selector('.fc-event .fc-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+
+    # go to today again
+    within entries_area.area do
+      find('.fc-toolbar .fc-today-button').click
+    end
+
+    expect(page)
+      .to have_content "Total: 5.00"
+
+    within entries_area.area do
+      find(".fc-content-skeleton td:nth-of-type(#{Date.today.wday + 1}) .fc-event-container .fc-event").hover
+    end
+
+    expect(page)
+      .to have_selector('.ui-tooltip', text: "Project: #{project.name}")
 
     entries_area.remove
 

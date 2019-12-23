@@ -149,7 +149,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     //entries
   }
 
-  private formatNumber(value:number):string {
+  protected formatNumber(value:number):string {
     return this.i18n.toNumber(value, { precision: 2 });
   }
 

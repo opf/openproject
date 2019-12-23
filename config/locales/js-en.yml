@@ -503,8 +503,11 @@ en:
         settings: "Settings"
 
     time_entry:
+      project: 'Project'
+      work_package: 'Work package'
       activity: 'Activity'
       comment: 'Comment'
+      duration: 'Duration'
       hours: 'Hours'
 
     two_factor_authentication:

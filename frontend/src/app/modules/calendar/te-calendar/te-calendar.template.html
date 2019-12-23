@@ -1,0 +1,22 @@
+<!-- position: relative added in order for the loading indicator to be positioned correctly -->
+<div class="te-calendar--container loading-indicator--location"
+     [attr.data-indicator-name]="'table'"
+     style="position: relative">
+  <full-calendar #ucCalendar
+                 [editable]="calendarEditable"
+                 [eventLimit]="calendarEventLimit"
+                 [locale]="calendarLocale"
+                 [fixedWeekCount]="calendarFixedWeekCount"
+                 [header]="calendarHeader"
+                 [defaultView]="calendarDefaultView"
+                 [firstDay]="calendarFirstDay"
+                 [contentHeight]="calendarContentHeight"
+                 [slotLabelFormat]="calendarSlotLabelFormat"
+                 [slotEventOverlap]="calendarSlotEventOverlap"
+                 [allDaySlot]="calendarAllDaySlot"
+                 [displayEventTime]="calendarDisplayEventTime"
+                 [scrollTime]="calendarScrollTime"
+                 [events]="calendarEvents"
+                 [plugins]="calendarPlugins">
+  </full-calendar>
+</div>

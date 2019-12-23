@@ -45,6 +45,7 @@
     "@fullcalendar/angular": "4.3.1",
     "@fullcalendar/core": "4.3.1",
     "@fullcalendar/daygrid": "4.3.0",
+    "@fullcalendar/timegrid": "4.3.0",
     "@ng-select/ng-option-highlight": "0.0.2",
     "@ng-select/ng-select": "^3.0.6",
     "@sentry/browser": "^5.7.1",
