@@ -103,7 +103,7 @@ class VersionsController < ApplicationController
     if request.put?
       @project.close_completed_versions
     end
-    redirect_to settings_project_path(tab: 'versions', id: @project)
+    redirect_to settings_project_path(@project, tab: 'versions')
   end
 
   def destroy
@@ -116,13 +116,13 @@ class VersionsController < ApplicationController
       flash[:error] = call.errors.full_messages
     end
 
-    redirect_to settings_project_path(tab: 'versions', id: @project)
+    redirect_to settings_project_path(@project, tab: 'versions')
   end
 
   private
 
   def redirect_back_or_version_settings
-    redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))
+    redirect_back_or_default(settings_project_path(@project, tab: 'versions'))
   end
 
   def find_project

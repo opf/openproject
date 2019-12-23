@@ -27,6 +27,7 @@
 #++
 
 class RepositorySettingsPage
+  include ApplicationHelper
   include Rails.application.routes.url_helpers
   include Capybara::DSL
 
@@ -35,7 +36,7 @@ class RepositorySettingsPage
   end
 
   def repository_settings_path
-    settings_project_path(id: @project.id, tab: 'repository')
+    settings_project_path(@project.id, tab: 'repository')
   end
 
   def visit_repository_settings

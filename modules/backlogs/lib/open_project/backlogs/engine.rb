@@ -121,16 +121,16 @@ module OpenProject::Backlogs
     # We still override version and project settings views from the core! URH
     override_core_views!
 
-    patches [:PermittedParams,
-             :WorkPackage,
-             :Status,
-             :Type,
-             :Project,
-             :ProjectsController,
-             :ProjectSettingsHelper,
-             :User,
-             :VersionsController,
-             :Version]
+    patches %i[PermittedParams
+             WorkPackage
+             Status
+             Type
+             Project
+             ProjectsController
+             ProjectSettingsHelper
+             User
+             VersionsController
+             Version]
 
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :SettingSeeder

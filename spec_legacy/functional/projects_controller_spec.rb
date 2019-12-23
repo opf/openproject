@@ -292,7 +292,7 @@ describe ProjectsController, type: :controller do
             issue_custom_field_ids: ['']
           }
         }
-    assert_redirected_to '/projects/ecookbook/settings'
+    assert_redirected_to '/projects/ecookbook/settings/generic'
     project = Project.find(1)
     assert_equal 'Test changed name', project.name
   end

@@ -31,6 +31,7 @@ require 'support/pages/page'
 module Pages
   module Projects
     class Settings < Pages::Page
+      include ApplicationHelper
       attr_accessor :project
 
       def initialize(project)

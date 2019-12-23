@@ -41,14 +41,6 @@ module ProjectsHelper
                html_options
   end
 
-  def settings_project_path(project, opts = {})
-    if opts[:tab]
-      url_for controller: "project_settings/#{opts[:tab]}", action: 'show', only_path: true, id: project
-    else
-      url_for controller: "project_settings", action: 'show', only_path: true, id: project
-    end
-  end
-
   # Returns a set of options for a select field, grouped by project.
   def version_options_for_select(versions, selected = nil)
     grouped = Hash.new { |h, k| h[k] = [] }
@@ -115,9 +107,9 @@ module ProjectsHelper
   end
 
   def project_more_menu_settings_item(project)
-    if User.current.allowed_to?({ controller: '/project_settings', action: 'show' }, project)
+    if User.current.allowed_to?({ controller: '/project_settings/generic', action: 'show' }, project)
       [t(:label_project_settings),
-       { controller: '/project_settings', action: 'show', id: project },
+       { controller: '/project_settings/generic', action: 'show', id: project },
        class: 'icon-context icon-settings',
        title: t(:label_project_settings)]
     end

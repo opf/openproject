@@ -249,10 +249,9 @@ module RepositoriesHelper
                scm_options(repository),
                class: 'form--select repositories--remote-select',
                data: {
-                 url: url_for(controller: '/project_settings',
+                 url: url_for(controller: '/project_settings/repository',
                               action: 'show',
-                              tab: 'repository',
-                              project_id: @project.id),
+                              id: @project.id),
                },
                disabled: (repository && !repository.new_record?)
               )

@@ -31,6 +31,7 @@ module API
   module V3
     module WorkPackages
       class CreateFormRepresenter < FormRepresenter
+        include ApplicationHelper
         link :self do
           {
             href: api_v3_paths.create_work_package_form,

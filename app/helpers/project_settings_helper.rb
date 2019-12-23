@@ -31,7 +31,7 @@
 module ProjectSettingsHelper
   extend self
   def project_settings_tabs
-    tabs = [
+    [
       {
         name: 'generic',
         action: { controller: '/project_settings/generic', action: 'show' },
@@ -74,5 +74,4 @@ module ProjectSettingsHelper
       }
     ]
   end
-
 end
