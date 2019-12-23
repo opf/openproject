@@ -172,11 +172,10 @@ OpenProject::Application.routes.draw do
       #     => "/projects/1/settings/members"
       #
       ProjectSettingsHelper.project_settings_tabs.each do |tab|
-        next if tab[:name] == 'info'
         get "settings/#{tab[:name]}", controller: "project_settings/#{tab[:name]}", action: 'show', as: "settings_#{tab[:name]}"
       end
 
-      get 'settings', controller: 'project_settings', action: 'show', as: :settings
+      get 'settings', controller: 'project_settings/generic', action: 'show', as: :settings
 
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'

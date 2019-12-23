@@ -27,16 +27,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class ProjectSettingsController < ApplicationController
-  before_action :find_project
-  before_action :authorize
+class ProjectSettings::GenericController < ProjectSettingsController
+  menu_item :settings_generic
 
-  def show; end
-
-  private
-  def find_project
-    @project = Project.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
+  def show
+    @altered_project = @project
+    render template: 'project_settings/generic'
   end
 end
