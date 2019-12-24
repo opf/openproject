@@ -437,7 +437,7 @@ el:
         parent_title: "Σελίδα γονέα"
         redirect_existing_links: "Ανακατεύθυνση υπαρχόντων συνδέσμων"
       planning_element_type_color:
-        hexcode: Hex code
+        hexcode: Κωδικός Hex
       work_package:
         begin_insertion: "Ξεκινήστε την εισαγωγή"
         begin_deletion: "Ξεκινήστε την διαγραφή"
@@ -516,38 +516,38 @@ el:
           only_one_allowed: "(%{name}) μόνο μια τιμή επιτρέπεται."
           empty: "(%{name}) η τιμή δεν μπορεί να είναι άδεια."
           inclusion: "(%{name}) η τιμή δεν έχει οριστεί σε μια από τις επιτρεπόμενες τιμές."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged in."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          not_logged_in: "(%{name}) η τιμή δεν μπορεί να οριστεί επειδή δεν έχετε συνδεθεί."
+          not_an_integer: "(%{name}) δεν είναι ακέραιος."
+          smaller_than_or_equal_to: "(%{name}) πρέπει να είναι μικρότερο ή ίσο με %{count}."
+          greater_than_or_equal_to: "(%{name}) πρέπει να είναι μεγαλύτερο ή ίσο με %{count}."
         doorkeeper/application:
           attributes:
             redirect_uri:
               fragment_present: 'cannot contain a fragment.'
-              invalid_uri: 'must be a valid URI.'
-              relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              invalid_uri: 'πρέπει να είναι έγκυρο URI.'
+              relative_uri: 'πρέπει να είναι απόλυτο URI.'
+              secured_uri: 'πρέπει να είναι HTTPS/SSL URI.'
               forbidden_uri: 'απαγορεύεται από τον server.'
             scopes:
-              not_match_configured: "doesn't match available scopes."
+              not_match_configured: "δεν ταιριάζει με τα διαθέσιμα φυσικά αντικείμενα."
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
           overlaps: 'επικάλυψη.'
           outside: 'είναι εκτός πλέγματος.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          end_before_start: 'η τελική τιμή πρέπει να είναι μεγαλύτερη από την αρχική τιμή.'
         parse_schema_filter_params_service:
           attributes:
             base:
-              unsupported_operator: "The operator is not supported."
+              unsupported_operator: "Ο τελεστής δεν υποστηρίζεται."
               invalid_values: "Μια τιμή δεν είναι έγκυρη."
-              id_filter_required: "An 'id' filter is required."
+              id_filter_required: "Απαιτείται ένα φίλτρο 'Ταυτότητα'."
         project:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             types:
-              in_use_by_work_packages: "still in use by work packages: %{types}"
+              in_use_by_work_packages: "χρησιμοποιείται ακόμη από τα πακέτα εργασίας: %{types}"
         query:
           attributes:
             project:
@@ -564,25 +564,25 @@ el:
             circular_dependency: "Η σχέση αυτή δημιουργεί έναν κύκλο σχέσεων."
           attributes:
             to:
-              error_not_found: "work package in `to` position not found or not visible"
-              error_readonly: "an existing relation's `to` link is immutable"
+              error_not_found: "το πακέτο εργασίας στην θέση 'σε' δεν βρέθηκε ή δεν είναι ορατό"
+              error_readonly: "ο σύνδεσμος 'σε' μιας υπάρχουσας συσχέτισης είναι αμετάβλητος"
             from:
-              error_not_found: "work package in `from` position not found or not visible"
-              error_readonly: "an existing relation's `from` link is immutable"
+              error_not_found: "το πακέτο εργασίας στην θέση 'από' δεν βρέθηκε ή δεν είναι ορατό"
+              error_readonly: "ο σύνδεσμος 'από' μιας υπάρχουσας συσχέτισης είναι αμετάβλητος"
         repository:
           not_available: "Ο προμηθευτής SCM δεν είναι διαθέσιμος"
           not_whitelisted: "δεν επιτρέπεται από την διαμόρφωση."
-          invalid_url: "is not a valid repository URL or path."
+          invalid_url: "δεν είναι ένα έγκυρο URL αποθετηρίου ή μονοπάτι."
           must_not_be_ssh: "δεν πρέπει να είναι σύνδεσμος SSH."
           no_directory: "is not a directory."
         role:
           permissions:
             dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
         work_package:
-          is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
+          is_not_a_valid_target_for_time_entries: "Το πακέτο εργασίας #%{id} δεν είναι έγκυρος στόχος για ανάθεση των καταχωρήσεων χρόνου."
           attributes:
             due_date:
-              not_start_date: "is not on start date, although this is required for milestones."
+              not_start_date: "δεν είναι στην ημερομηνία έναρξης, παρόλο που απαιτείται από τα ορόσημα."
             parent:
               cannot_be_milestone: "δεν μπορεί να είναι ορόσημο."
               cannot_be_in_another_project: "δεν μπορεί να είναι σε άλλο έργο."
@@ -758,7 +758,7 @@ el:
   button_download: "Λήψη"
   button_duplicate: "Δημιουργία αντιγράφου"
   button_edit: "Επεξεργασία"
-  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
+  button_edit_associated_wikipage: "Επεξεργασία της συσχετιζόμενης σελίδας Wiki: %{page_title}"
   button_expand_all: "Ανάπτυξη όλων"
   button_filter: "Φίλτρο"
   button_generate: "Παραγωγή"
@@ -798,26 +798,26 @@ el:
   button_delete_menu_entry: "Διαγραφή αντικειμένου μενού"
   consent:
     checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
+    failure_message: Η συναίνεση απέτυχε, δεν μπορείτε να προχωρήσετε.
     title: Συναίνεση χρήστη
     decline_warning_message: Έχετε αρνηθεί να συναινέσετε και αποσυνδεθήκατε.
     user_has_consented: Ο χρήστης έχει συναινέσει στην τροποποιημένη δήλωση στο δοσμένο χρόνο.
     not_yet_consented: Ο χρήστης δεν έχει συναινέσει ακόμη, θα ζητηθεί στην επόμενη σύνδεση του.
-    contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
+    contact_mail_instructions: Ορίστε τη διεύθυνση email που θα χρησιμοποιούν οι χρήστες για να επικοινωνήσουν με ένα χειριστή δεδομένων ώστε να εκτελέσουν αλλαγές στα δεδομένα ή να αφαιρέσουν αιτήσεις.
     contact_your_administrator: Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας αν θέλετε να διαγραφεί ο λογαριασμός σας.
     contact_this_mail_address: Παρακαλούμε επικοινωνήστε με το %{mail_address} αν θέλετε να διαγραφεί ο λογαριασμός σας.
     text_update_consent_time: Επιλέξτε αυτό το κουτί για να αναγκάσετε τους χρήστες να συναινέσουν ξανά. Ενεργοποιήστε όταν έχετε αλλάξει τις νομικές πτυχές του παραπάνω περιεχομένου συναίνεσης.
     update_consent_last_time: "Τελευταία ενημέρωση συναίνεσης: %{update_time}"
   copy_project:
     started: "Έναρξη αντιγραφής έργου \"%{source_project_name}\" στο \"%{target_project_name}\". Θα ενημερωθείτε με email μόλις το \"%{target_project_name}\" είναι διαθέσιμο."
-    failed: "Cannot copy project %{source_project_name}"
+    failed: "Δεν είναι δυνατή η αντιγραφή του έργου %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
-    succeeded: "Created project %{target_project_name}"
+    succeeded: "Δημιουργήθηκε το έργο %{target_project_name}"
     errors: "Σφάλμα"
-    project_custom_fields: 'Custom fields on project'
+    project_custom_fields: 'Προσαρμοσμένα πεδία του έργου'
     text:
-      failed: "Could not copy project \"%{source_project_name}\" to project \"%{target_project_name}\"."
-      succeeded: "Copied project \"%{source_project_name}\" to \"%{target_project_name}\"."
+      failed: "Δεν ήταν δυνατή η αντιγραφή του έργου \"%{source_project_name}\" στο έργο \"%{target_project_name}\"."
+      succeeded: "Αντιγράφηκε το έργο \"%{source_project_name}\" στο \"%{target_project_name}\"."
   create_new_page: "Σελίδα Wiki"
   date:
     abbr_day_names:
@@ -886,11 +886,11 @@ el:
         one: "περίπου 1 μήνας"
         other: "περίπου %{count} μήνες"
       about_x_years:
-        one: "about 1 year"
-        other: "about %{count} years"
+        one: "περίπου 1 χρόνος"
+        other: "περίπου %{count} χρόνια"
       almost_x_years:
-        one: "almost 1 year"
-        other: "almost %{count} years"
+        one: "σχεδόν 1 χρόνος"
+        other: "σχεδόν %{count} χρόνια"
       half_a_minute: "μισό λεπτό"
       less_than_x_minutes:
         one: "λιγότερο από ένα λεπτό"
@@ -951,7 +951,7 @@ el:
   default_status_specified: "Καθορισμένο"
   default_status_tested: "Δοκιμασμένο"
   default_status_test_failed: "Η δοκιμή απέτυχε"
-  default_status_to_be_scheduled: "To be scheduled"
+  default_status_to_be_scheduled: "Για να προγραμματιστεί"
   default_priority_low: "Χαμηλή"
   default_priority_normal: "Κανονική"
   default_priority_high: "Υψηλή"
@@ -959,7 +959,7 @@ el:
   default_role_anonymous: "Ανώνυμος"
   default_role_developer: "Προγραμματιστής"
   default_role_project_admin: "Διαχειριστής έργου"
-  default_role_non_member: "Non member"
+  default_role_non_member: "Μη μέλη"
   default_role_reader: "Αναγνώστης"
   default_role_member: "Μέλος"
   default_type: "Εργασία"
@@ -999,7 +999,7 @@ el:
   description_search: "Πεδίο αναζήτησης"
   description_select_work_package: "Επιλέξτε πακέτο εργασίας"
   description_selected_columns: "Επιλεγμένες στήλες"
-  description_sub_work_package: "Sub work package of current"
+  description_sub_work_package: "Υποπακέτα εργασίας του τρέχοντος"
   description_toc_toggle: "Εμφάνιση/Απόκρυψη πίνακα περιεχομένων"
   description_wiki_subpages_reassign: "Επιλέξτε καινούργια σελίδα γονέα"
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
@@ -1062,7 +1062,7 @@ el:
   error_menu_item_not_created: Δεν ήταν δυνατή η προσθήκη του στοιχείου στο μενού
   error_menu_item_not_saved: Δεν ήταν δυνατή η αποθήκευση του στοιχείου στο μενού
   error_wiki_root_menu_item_conflict: >
-    Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}" (%{existing_identifier}).
+    Δεν είναι δυνατή η μετονομασία από "%{old_name}" σε "%{new_name}" λόγω μιας σύγκρουσης του αντικειμένου μενού που προκύπτει με ένα υπάρχον αντικείμενο μενού "%{existing_caption}" (%{existing_identifier}).
   error_external_authentication_failed: "Παρουσιάστηκε σφάλμα κατά τον εξωτερικό έλεγχο ταυτότητας. Παρακαλώ προσπαθήστε ξανά."
   error_attribute_not_highlightable: "Δεν είναι δυνατή η επισήμανση του(-ών) χαρακτηριστικού(-ών): %{attributes}"
   events:
@@ -1227,11 +1227,11 @@ el:
   label_changeset_id: "Changeset ID"
   label_changeset_plural: "Changesets"
   label_checked: "έχει ελεγχθεί"
-  label_check_uncheck_all_in_column: "Check/Uncheck all in column"
-  label_check_uncheck_all_in_row: "Check/Uncheck all in row"
+  label_check_uncheck_all_in_column: "Επιλογή/Αποεπιλογή όλων στη στήλη"
+  label_check_uncheck_all_in_row: "Επιλογή/Αποεπιλογή όλων στη σειρά"
   label_child_element: "Child element"
-  label_chronological_order: "In chronological order"
-  label_close_versions: "Close completed versions"
+  label_chronological_order: "Κατά χρονολογική σειρά"
+  label_close_versions: "Κλείσιμο ολοκληρωμένων εκδόσεων"
   label_closed_work_packages: "κλειστό"
   label_collapse: "Σύμπτυξη"
   label_collapsed_click_to_show: "Συμπτυγμένα. Κάντε κλικ για εμφάνιση"
@@ -1247,12 +1247,12 @@ el:
   label_content: "Περιεχόμενο"
   label_copied: "αντιγράφτηκε"
   label_copy_to_clipboard: "Αντιγραφή στο πρόχειρο"
-  label_copy_same_as_target: "Same as target"
+  label_copy_same_as_target: "Ίδιο με του στόχου"
   label_copy_source: "Πηγή"
   label_copy_target: "Στόχος"
   label_copy_workflow_from: "Αντιγραφή ροής εργασίας από"
   label_copy_project: "Αντιγραφή έργου"
-  label_core_version: "Core version"
+  label_core_version: "Βασική έκδοση"
   label_current_status: "Τρέχουσα κατάσταση"
   label_current_version: "Τρέχουσα έκδοση"
   label_custom_field_add_no_type: "Προσθέστε αυτό το πεδίο σε έναν τύπο πακέτου εργασίας"
@@ -1384,7 +1384,7 @@ el:
   label_logged_as: "Συνδεδεμένος ως"
   label_login: "Σύνδεση"
   label_custom_logo: "Προσαρμοσμένο λογότυπο"
-  label_custom_favicon: "Custom favicon"
+  label_custom_favicon: "Προσαρμοσμένο favicon"
   label_custom_touch_icon: "Προσαρμοσμένο εικονίδιο αφής"
   label_logout: "Αποσύνδεση"
   label_main_menu: "Πλευρικό Μενού"
@@ -1498,7 +1498,7 @@ el:
   label_query_new: "Νέο ερώτημα"
   label_query_plural: "Custom queries"
   label_query_menu_item: "Query menu item"
-  label_read: "Read..."
+  label_read: "Ανάγνωση..."
   label_register: "Δημιουργία νέου λογαριασμού"
   label_register_with_developer: "Εγγεγραμμένος ως προγραμματιστής"
   label_registered_on: "Εγγράφηκε την"
@@ -1614,15 +1614,15 @@ el:
   label_version_new: "Νέα έκδοση"
   label_version_plural: "Εκδόσεις"
   label_version_sharing_descendants: "Με υποέργα"
-  label_version_sharing_hierarchy: "With project hierarchy"
+  label_version_sharing_hierarchy: "Με ιεραρχία έργου"
   label_version_sharing_none: "Δεν μοιράζονται"
   label_version_sharing_system: "Με όλα τα έργα"
-  label_version_sharing_tree: "With project tree"
+  label_version_sharing_tree: "Με δένδρο έργου"
   label_videos: "Βίντεο"
   label_view_all_revisions: "Προβολή όλων των αναθεωρήσεων"
   label_view_diff: "Προβολή διαφορών"
   label_view_revisions: "Προβολή αναθεωρήσεων"
-  label_watched_work_packages: "Watched work packages"
+  label_watched_work_packages: "Πακέτα εργασίας που παρακολουθούνται"
   label_what_is_this: "Τι είναι αυτό;"
   label_week: "Εβδομάδα"
   label_wiki_content_added: "Η σελίδα Wiki προστέθηκε"
@@ -1764,11 +1764,11 @@ el:
   notice_account_lost_email_sent: "Σας έχει αποσταλεί email με οδηγίες για την επιλογή νέου κωδικού πρόσβασης."
   notice_account_new_password_forced: "Ένας νέος κωδικός πρόσβασης απαιτείται."
   notice_account_password_expired: "Your password expired after %{days} days. Please set a new one."
-  notice_account_password_updated: "Password was successfully updated."
-  notice_account_pending: "Your account was created and is now pending administrator approval."
-  notice_account_register_done: "Account was successfully created. To activate your account, click on the link that was emailed to you."
+  notice_account_password_updated: "Ο κωδικός πρόσβασης ενημερώθηκε επιτυχώς."
+  notice_account_pending: "Ο λογαριασμός σας έχει δημιουργηθεί και αναμένεται η έγκριση από ένα διαχειριστή."
+  notice_account_register_done: "Ο λογαριασμός δημιουργήθηκε επιτυχώς. Για να ενεργοποιήσετε τον λογαριασμό σας, κάντε κλικ στο σύνδεσμο που σας απεστάλη με email."
   notice_account_unknown_email: "Άγνωστος χρήστης."
-  notice_account_update_failed: "Account setting could not be saved. Please have a look at your account page."
+  notice_account_update_failed: "Οι ρυθμίσεις του λογαριασμού δεν ήταν δυνατό να αποθηκευτούν. Παρακαλούμε δείτε τη σελίδα του λογαριασμού σας."
   notice_account_updated: "Ο λογαριασμός ενημερώθηκε επιτυχώς."
   notice_account_other_session_expired: "All other sessions tied to your account have been invalidated."
   notice_account_wrong_password: "Λάθος κωδικός πρόσβασης"
@@ -1779,15 +1779,15 @@ el:
   notice_auth_stage_error: "Το στάδιο ταυτοποίησης '%{stage}' απέτυχε."
   notice_can_t_change_password: "Αυτός ο λογαριασμός χρησιμοποιεί εξωτερική πηγή ταυτοποίησης. Δεν είναι δυνατόν να αλλάξετε τον κωδικό πρόσβασης."
   notice_custom_options_deleted: "Option '%{option_value}' and its %{num_deleted} occurrences were deleted."
-  notice_email_error: "An error occurred while sending mail (%{value})"
+  notice_email_error: "Παρουσιάστηκε σφάλμα κατά την αποστολή email (%{value})"
   notice_email_sent: "Στάλθηκε ένα email στο %{value}"
   notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
-  notice_failed_to_save_members: "Failed to save member(s): %{errors}."
-  notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
-  notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
-  notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
-  notice_work_package_done_ratios_updated: "Work package done ratios updated."
-  notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
+  notice_failed_to_save_members: "Δεν ήταν δυνατή η αποθήκευση των μελών: %{errors}"
+  notice_file_not_found: "Η σελίδα που ζητήσατε δεν υπάρχει ή έχει αφαιρεθεί."
+  notice_forced_logout: "Αποσυνδεθήκατε αυτόματα μετά από %{ttl_time} λεπτά αδράνειας."
+  notice_internal_server_error: "Παρουσιάστηκε ένα σφάλμα στη σελίδα που προσπαθήσατε να ανοίξετε. Αν εξακολουθείτε να αντιμετωπίζετε προβλήματα παρακαλούμε με τον %{app_title} διαχειριστή σας για βοήθεια."
+  notice_work_package_done_ratios_updated: "Η αναλογίες ολοκληρωμένων πακέτων εργασίας ενημερώθηκαν."
+  notice_locking_conflict: "Οι πληροφορίες ενημερώθηκαν από τουλάχιστον έναν ακόμα χρήστη στο εν τω μεταξύ."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
   notice_member_added: Προστέθηκε το %{name} στο έργο.
@@ -1919,10 +1919,10 @@ el:
       title: "Διαγραφή του έργου %{name}"
     identifier:
       warning_one: Members of the project will have to relocate the project's repositories.
-      warning_two: Existing links to the project will no longer work.
-      title: Change the project's identifier
+      warning_two: Οι υπάρχοντες σύνδεσμοι για το έργο δεν λειτουργούν πλέον.
+      title: Αλλαγή αναγνωριστικού του έργου
     archive:
-      are_you_sure: "Are you sure you want to archive the project '%{name}'?"
+      are_you_sure: "Είστε σίγουροι ότι θέλετε να αρχειοθετήσετε το έργο %{name};"
       archived: "Archived"
   project_module_activity: "Δραστηριότητα"
   project_module_forums: "Φόρουμ"
@@ -1950,33 +1950,33 @@ el:
     autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
     checkout:
       access:
-        readwrite: 'Read + Write'
-        read: 'Read-only'
+        readwrite: 'Ανάγνωση + Εγγραφή'
+        read: 'Μόνο για ανάγνωση'
         none: 'No checkout access, you may only view the repository through this application.'
       access_permission: 'Your permissions on this repository'
-      url: "Checkout URL"
+      url: "URL ολοκλήρωσης παραγγελίας"
       base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered."
       default_instructions:
         git: |-
-          The data contained in this repository can be downloaded to your computer with Git.
-          Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
+          Τα δεδομένα που περιέχονται σε αυτό το αποθετήριο μπορούν να ληφθούν στον υπολογιστή σας με το Git.
+          Παρακαλούμε συμβουλευτείτε την τεκμηρίωση του Git αν χρειάζεστε περισσότερες πληροφορίες για τη διαδικασία ολοκλήρωσης παραγγελίας και τους διαθέσιμους πελάτες.
         subversion: |-
-          The data contained in this repository can be downloaded to your computer with Subversion.
-          Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
-      enable_instructions_text: "Displays checkout instructions defined below on all repository-related pages."
+          Τα δεδομένα που περιέχονται σε αυτό το αποθετήριο μπορούν να ληφθούν στον υπολογιστή σας με το Subversion.
+          Παρακαλούμε συμβουλευτείτε την τεκμηρίωση του Subversion αν χρειάζεστε περισσότερες πληροφορίες για τη διαδικασία ολοκλήρωσης παραγγελίας και τους διαθέσιμους πελάτες.
+      enable_instructions_text: "Εμφανίζει τις οδηγίες ολοκλήρωσης παραγγελίας που ορίζονται παρακάτω σε όλα τις σελίδες που σχετίζονται με αποθετήρια."
       instructions: "Οδηγίες ολοκλήρωσης της παραγγελίας"
       show_instructions: "Εμφάνιση οδηγιών ολοκλήρωσης της παραγγελίας"
-      text_instructions: "This text is displayed alongside the checkout URL for guidance on how to check out the repository."
-      not_available: "Checkout instructions are not defined for this repository. Ask your administrator to enable them for this repository in the system settings."
-    create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
+      text_instructions: "Το κείμενο αυτό εμφανίζεται μαζί με το URL ολοκλήρωσης παραγγελίας για καθοδήγηση ως προς τον έλεγχο του αποθετηρίου."
+      not_available: "Οι οδηγίες ολοκλήρωσης παραγγελίας δεν έχουν οριστεί για αυτό το αποθετήριο. Ζητήστε από τον διαχειριστή σας να τις ενεργοποιήσει για αυτό το αποθετήριο στις ρυθμίσεις συστήματος."
+    create_managed_delay: "Παρακαλούμε σημειώστε: Το αποθετήριο διαχειρίζεται, δημιουργείται ασύγχρονα στο δίσκο και θα είναι διαθέσιμο σύντομα."
     create_successful: "Το αποθετήριο έχει καταχωρηθεί."
     delete_sucessful: "Το αποθετήριο έχει διαγραφεί."
     destroy:
       confirmation: "Αν συνεχίσετε, θα διαγραφεί μόνιμα το αποθετήριο που διαχειρίζεστε."
       info: "Η διαγραφή του αποθετηρίου είναι μια μη αναστρέψιμη ενέργεια."
-      info_not_managed: "Note: This will NOT delete the contents of this repository, as it is not managed by OpenProject."
+      info_not_managed: "Σημείωση: Αυτό ΔΕΝ θα διαγράψει τα περιεχόμενα αυτού του αποθετηρίου, καθώς δεν το διαχειρίζεται το OpenProject."
       managed_path_note: "The following directory will be erased: %{path}"
-      repository_verification: "Enter the project's identifier %{identifier} to verify the deletion of its repository."
+      repository_verification: "Εισάγετε το αναγνωριστικό του έργου %{identifier} για να επιβεβαιώσετε τη διαγραφή του αποθετηρίου του."
       subtitle: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το %{repository_type} από το έργο %{project_name};"
       subtitle_not_managed: "Είστε βέβαιοι ότι θέλετε να αφαιρέσετε το συνδεδεμένο %{repository_type} %{url} από το έργο %{project_name};"
       title: "Διαγραφή του %{repository_type}"
