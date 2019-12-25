@@ -67,14 +67,14 @@ ru:
       no_results_content_text: Создать новый способ аутентификации
   ldap_auth_sources:
     technical_warning_html: |
-      Эта LDAP форма требует технических знаний вашей LDAP / Active Directory.
+      Эта LDAP форма требует технических знаний по LDAP / Active Directory.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Пожалуйста, посетите нашу документацию для подробных инструкций</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Пожалуйста, ознакомьтесь с документацией для подробных инструкций</a>.
     attribute_texts:
       name: Произвольное имя подключения LDAP
-      host: Имя хоста или IP-адрес
-      login_map: Ключ атрибута в LDAP, который используется для идентификации уникального входа пользователя. Обычно это будет `uid` или `samAccountName`.
-      generic_map: Ключ атрибута в LDAP, сопоставленный с атрибутом OpenProject `%{attribute}
+      host: Имя хоста или IP-адрес LDAP
+      login_map: Ключ атрибута в LDAP, который используется для определения уникального логина пользователя. Обычно это `uid` или `samAccountName`.
+      generic_map: Ключ атрибута в LDAP, сопоставленный с атрибутом OpenProject `%{attribute}`
       admin_map_html: "Необязательно: Ключ атрибута в LDAP, который <strong>при представлении</strong> помечает пользователя администратором. Оставьте пустым, если сомневаетесь."
       system_user_dn_html: |
         Введите DN пользователя системы, используемого для доступа только для чтения.
