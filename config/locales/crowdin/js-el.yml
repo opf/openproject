@@ -533,7 +533,7 @@ el:
       button_activate: 'Εμφάνιση διαγράμματος Gantt'
       button_deactivate: 'Απόκρυψη διαγράμματος Gantt'
       cancel: Ακύρωση
-      change: "Change in planning"
+      change: "Αλλαγή στο σχεδιασμός"
       due_date: "Ημερομηνία λήξης"
       empty: "(άδειο)"
       error: "Παρουσιάστηκε σφάλμα."
