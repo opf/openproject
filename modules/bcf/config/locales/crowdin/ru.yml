@@ -72,14 +72,14 @@ ru:
       models:
         bcf/viewpoint:
           bitmaps_not_writable: "растровые карты не доступны для записи, так как они еще не реализованы."
-          index_not_integer: "индекс не целое число."
+          index_not_integer: "индекс не является целым числом."
           invalid_clipping_planes: "недопустимые вырезки планов."
           invalid_components: "недопустимые компоненты."
           invalid_lines: "недопустимые строки."
           invalid_orthogonal_camera: "недопустимая ортогональ камеры."
           invalid_perspective_camera: "недопустимый ракурс камеры."
           mismatching_guid: "Руководство json_viewpoint не совпадает с руководством модели."
-          no_json: "Плохо структурированный Json."
-          snapshot_type_unsupported: "тип snapshot_type должен быть 'png' или 'jpg'."
+          no_json: "Некорректно структурированный json."
+          snapshot_type_unsupported: "snapshot_type должен быть 'png' или 'jpg'."
           snapshot_data_blank: "snapshot_data не предоставлены."
-          unsupported_key: "Неподдерживаемое свойство json включено."
+          unsupported_key: "Обнаружено неподдерживаемое свойство json."
