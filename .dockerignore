@@ -1,12 +1,15 @@
 .git
+.dockerignore
 .bundle
 .env*
 .buildpacks
 .*.yml
+*.swp
 .*ignore
 *.md
 *.log
 Vagrantfile
+Dockerfile
 Guardfile
 docker-compose.*
 browserslist

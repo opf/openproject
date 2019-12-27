@@ -39,7 +39,7 @@ fi
 
 if [ "$(id -u)" = '0' ]; then
 	mkdir -p $APP_DATA_PATH/{files,git,svn}
-	chown -R $APP_USER:$APP_USER $APP_DATA_PATH
+	chown -R $APP_USER:$APP_USER $APP_DATA_PATH /etc/apache2/sites-enabled/
 
 	# Clean up a dangling PID file of apache
 	if [ -e "$APACHE_PIDFILE" ]; then
@@ -53,7 +53,7 @@ if [ "$(id -u)" = '0' ]; then
 	mkdir -p "$APP_PATH/log" "$APP_PATH/tmp/pids" "$APP_PATH/files"
 	chown "$APP_USER:$APP_USER" "$APP_PATH"
 	chown -R "$APP_USER:$APP_USER" "$APP_PATH/log" "$APP_PATH/tmp" "$APP_PATH/files" "$APP_PATH/public"
-	if [ "$1" = "./docker/supervisord" ]; then
+	if [ "$1" = "./docker/supervisord" ] || [ "$1" = "./docker/proxy" ]; then
 		exec "$@"
 	else
 		exec $APP_PATH/docker/gosu $APP_USER "$BASH_SOURCE" "$@"
