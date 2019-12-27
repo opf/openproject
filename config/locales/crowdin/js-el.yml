@@ -538,7 +538,7 @@ el:
       empty: "(άδειο)"
       error: "Παρουσιάστηκε σφάλμα."
       errors:
-        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
+        not_implemented: "Το χρονοδιάγραμμα δεν μπόρεσαι να επεξεργαστεί γιατί χρησιμοποιεί μια λειτουργία που δεν μπορεί να εφαρμοστεί ακόμη."
         report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
         report_epicfail: "The timeline could not be loaded due to an unexpected error."
         report_timeout: "The timeline could not be loaded in a reasonable amount of time."

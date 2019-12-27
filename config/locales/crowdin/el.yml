@@ -406,7 +406,7 @@ el:
       type:
         description: "Default text for description"
         attribute_groups: ''
-        is_in_roadmap: "Displayed in roadmap by default"
+        is_in_roadmap: "Εμφάνιση στο χάρτη πορείας από προεπιλογή"
         is_default: "Ενεργοποιημένα για καινούργια έργα από προεπιλογή"
         is_milestone: "Είναι ορόσημο"
         color: "Χρώμα"
@@ -666,7 +666,7 @@ el:
       wiki_page: "Σελίδα Wiki"
       workflow: "Ροή εργασιών"
       work_package: "Εργασία"
-      'doorkeeper/application': "OAuth application"
+      'doorkeeper/application': "OAuth εφαρμογή"
   errors:
     header_invalid_fields: "Υπήρξαν προβλήματα με τα ακόλουθα πεδία:"
     field_erroneous_label: "Αυτό το πεδίο δεν είναι έγκυρο: %{full_errors}\nΠαρακαλούμε εισάγετε μια έγκυρη τιμή."
@@ -681,7 +681,7 @@ el:
     attachments: "Συνημμένα"
     author: "Συγγραφέας"
     base: "Γενικό σφάλμα:"
-    blocks_ids: "IDs of blocked work packages"
+    blocks_ids: "Ταυτότητες μπλοκαρισμένων πακέτων εργασίας"
     category: "Κατηγορία"
     comment: "Σχόλιο"
     comments: "Σχόλιο"
@@ -1012,11 +1012,11 @@ el:
         rename_groups: "Μετονομασία ομάδων χαρακτηριστικών"
       project_filters:
         description_html: "Το φιλτράρισμα και η ταξινόμηση σε προσαρμοσμένα πεδία είναι μια λειτουργία εταιρικής έκδοσης."
-  enumeration_activities: "Activities (time tracking)"
+  enumeration_activities: "Δραστηριότητες (παρακολούθηση χρόνου)"
   enumeration_work_package_priorities: "Προτεραιότητες πακέτου εργασίας"
   enumeration_system_activity: "Δραστηριότητα συστήματος"
   enumeration_reported_project_statuses: "Αναφερόμενη κατάσταση έργου"
-  error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
+  error_auth_source_sso_failed: "Το Single Sign-On (SSO) για το χρήση '%{value}' απέτυχε"
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Δεν είναι δυνατή η διαγραφή καταχώρησης"
   error_can_not_delete_custom_field: "Δεν είναι δυνατή η διαγραφή του προσαρμοσμένου πεδίου"
@@ -1058,7 +1058,7 @@ el:
   error_unable_delete_wiki: "Δεν ήταν δυνατή η διαγραφή της σελίδας wiki."
   error_unable_update_wiki: "Δεν ήταν δυνατή η ενημέρωση της σελίδας wiki."
   error_workflow_copy_source: "Παρακαλούμε επιλέξτε μια πηγή τύπου ή ρόλου"
-  error_workflow_copy_target: "Please select target type(s) and role(s)"
+  error_workflow_copy_target: "Παρακαλούμε επιλέξτε τύπο(-ους) και ρόλο(-ους)"
   error_menu_item_not_created: Δεν ήταν δυνατή η προσθήκη του στοιχείου στο μενού
   error_menu_item_not_saved: Δεν ήταν δυνατή η αποθήκευση του στοιχείου στο μενού
   error_wiki_root_menu_item_conflict: >
@@ -1108,9 +1108,9 @@ el:
   gui_validation_error_plural: "%{count} σφάλματα"
   homescreen:
     additional:
-      projects: "Newest visible projects in this instance."
+      projects: "Νεότερα ορατά έργα σε αυτό το στιγμιότυπο της εφαρμογής."
       no_visible_projects: "Δεν υπάρχουν ορατά έργα σε αυτό το στιγμιότυπο της εφαρμογής."
-      users: "Newest registered users in this instance."
+      users: "Νεότεροι εγγεγραμμένοι χρήστες αυτού του στιγμιότυπου της εφαρμογής."
     blocks:
       community: "Κοινότητα OpenProject"
       upsale:
@@ -1139,7 +1139,7 @@ el:
   my_account:
     access_tokens:
       no_results:
-        title: "No access tokens to display"
+        title: "Δεν υπάρχουν token πρόσβασης για εμφάνιση"
         description: "Όλα έχουν απενεργοποιηθεί. Μπορούν να επανενεργοποιηθούν από το μενού διαχείρισης."
       access_token: "Token πρόσβασης"
       headers:
@@ -1389,7 +1389,7 @@ el:
   label_logout: "Αποσύνδεση"
   label_main_menu: "Πλευρικό Μενού"
   label_manage_groups: "Διαχείριση Ομάδων"
-  label_managed_repositories_vendor: "Managed %{vendor} repositories"
+  label_managed_repositories_vendor: "Αποθετήρια που διαχειρίζονται από %{vendor}"
   label_max_size: "Μέγιστο μέγεθος"
   label_me: "εγώ"
   label_member_new: "Νέο μέλος"
@@ -1811,7 +1811,7 @@ el:
   notice_user_missing_authentication_method: Ο χρήστης δεν έχει επιλέξει ακόμα έναν κωδικό πρόσβασης ή άλλο τρόπο σύνδεσης.
   notice_user_invitation_resent: Απεστάλει μια πρόσκληση στο %{email}.
   present_access_key_value: "Το %{key_name} είναι: %{value}"
-  notice_automatic_set_of_standard_type: "Set standard type automatically."
+  notice_automatic_set_of_standard_type: "Ορισμός κανονικού τύπου αυτόματα."
   notice_logged_out: "Έχετε αποσυνδεθεί."
   notice_wont_delete_auth_source: Η τρόπος ταυτοποίησης δεν μπορεί να διαγραφεί όσο υπάρχουν ακόμα χρήστες που το χρησιμοποιούν.
   notice_project_cannot_update_custom_fields: "Δεν μπορείτε να ενημερώσετε τα διαθέσιμα προσαρμοσμένα πεδία του έργου. Το έργο δεν είναι έγκυρο: %{errors}"
@@ -1850,7 +1850,7 @@ el:
   permission_add_subprojects: "Δημιουργία υποέργου"
   permission_add_work_package_watchers: "Προσθήκη παρατηρητών"
   permission_assign_versions: "Assign versions"
-  permission_browse_repository: "Read-only access to repository (browse and checkout)"
+  permission_browse_repository: "Πρόσβαση ανάγνωσης-μόνο στο αποθετήριο (περιήγηση και ολοκλήρωση παραγγελίας)"
   permission_change_wiki_parent_page: "Αλλαγή σελίδας wiki γονέα"
   permission_comment_news: "Σχολιασμός νέων"
   permission_commit_access: "Πρόσβαση ανάγνωσης/εγγραφής στο αποθετήριο (δέσμευση)"
@@ -1898,7 +1898,7 @@ el:
   permission_manage_types: "Επιλέξτε τύπους"
   permission_view_calendar: "Προβολή ημερολογίου"
   permission_view_changesets: "Προβολή αποθετήριου των αναθεωρήσεων στο OpenProject"
-  permission_view_commit_author_statistics: "View commit author statistics"
+  permission_view_commit_author_statistics: "Εμφάνιση στατιστικών συγγραφέων δέσμευσης"
   permission_view_work_package_watchers: "Προβολή λίστας παρατηρητών"
   permission_view_work_packages: "Εμφάνιση πακέτων εργασίας"
   permission_view_messages: "Προβολή μηνυμάτων"
@@ -1946,7 +1946,7 @@ el:
     name_or_identifier: "Όνομα ή αναγνωριστικό"
   repositories:
     at_identifier: 'στο %{identifier}'
-    atom_revision_feed: 'Atom revision feed'
+    atom_revision_feed: 'Τροφοδοσία αναθεώρησης Atom'
     autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
     checkout:
       access:
@@ -1993,8 +1993,8 @@ el:
       unauthorized: "Δεν έχει εξουσιοδότηση για πρόσβαση στο αποθετήριο ή τα στοιχεία σύνδεσης δεν είναι έγκυρα."
       unavailable: "Το αποθετήριο δεν είναι διαθέσιμο."
       exception_title: "Δεν είναι δυνατή η πρόσβαση στο αποθετήριο: %{message}"
-      disabled_or_unknown_type: "The selected type %{type} is disabled or no longer available for the SCM vendor %{vendor}."
-      disabled_or_unknown_vendor: "The SCM vendor %{vendor} is disabled or no longer available."
+      disabled_or_unknown_type: "Ο επιλεγμένος τύπος %{type} είναι απενεργοποιημένος ή δεν είναι πλέον διαθέσιμος για το SCM vendor %{vendor}."
+      disabled_or_unknown_vendor: "Το SCM vendor %{vendor} είναι απενεργοποιημένο ή δεν είναι πλέον διαθέσιμο."
       remote_call_failed: "Calling the managed remote failed with message '%{message}' (Code: %{code})"
       remote_invalid_response: "Received an invalid response from the managed remote."
       remote_save_failed: "Could not save the repository with the parameters retrieved from the remote."
@@ -2004,10 +2004,10 @@ el:
         path: >-
           Specify the path to your local Git repository ( e.g., %{example_path} ). You can also use remote repositories which are cloned to a local copy by using a value starting with http(s):// or file://.
         path_encoding: "Override Git path encoding (Default: UTF-8)"
-      local_title: "Link existing local Git repository"
+      local_title: "Σύνδεση με υπάρχον τοπικό αποθετήριο Git"
       local_url: "Τοπικό URL"
-      local_introduction: "If you have an existing local Git repository, you can link it with OpenProject to access it from within the application."
-      managed_introduction: "Let OpenProject create and integrate a local Git repository automatically."
+      local_introduction: "Αν έχετε ένα υπάρχον τοπικό αποθετήριο Git, μπορείτε να το συνδέσετε με το OpenProject για να αποκτήσετε πρόσβαση σε αυτό μέσα από την εφαρμογή."
+      managed_introduction: "Επιτρέψτε στο OpenProject να δημιουργήσει και να ενσωματώσει ένα τοπικό αποθετήριο Git αυτόματα."
       managed_title: "Git repository integrated into OpenProject"
       managed_url: "Managed URL"
       path: "Path to Git repository"
@@ -2017,10 +2017,10 @@ el:
     managed_remote_note: "Information on the URL and path of this repository is not available prior to its creation."
     managed_url: "Managed URL"
     settings:
-      automatic_managed_repos_disabled: "Disable automatic creation"
-      automatic_managed_repos: "Automatic creation of managed repositories"
+      automatic_managed_repos_disabled: "Απενεργοποίηση αυτόματης δημιουργίας"
+      automatic_managed_repos: "Αυτόματη δημιουργία των διαχειριζόμενων αποθετηρίων"
       automatic_managed_repos_text: "By setting a vendor here, newly created projects will automatically receive a managed repository of this vendor."
-    scm_vendor: "Source control management system"
+    scm_vendor: "Σύστημα διαχείρισης ελέγχου πηγών"
     scm_type: "Τύπος αποθετηρίου"
     scm_types:
       local: "Σύνδεση με υπάρχον τοπικό αποθετήριο"
@@ -2030,14 +2030,14 @@ el:
       not_available: "Disk storage consumption is not available for this repository."
       update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
     subversion:
-      existing_title: "Υπάρχουσα υποέκδοση αποθετηρίου"
+      existing_title: "Υπάρχον αποθετήριο Subversion"
       existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
       existing_url: "Υπάρχον URL"
       instructions:
         managed_url: "This is the URL of the managed (local) Subversion repository."
         url: "Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.\nThe following URL schemes are supported:"
-      managed_title: "Υποέκδοση αποθετηρίου ενσωματωμένου στο OpenProject"
-      managed_introduction: "Επιτρέψτε στο OpenProject να δημιουργήσει και να ενσωματώσει ένα τοπικό αποθετήριο υποεκδόσεων αυτόματα."
+      managed_title: "Ενσωματωμένο αποθετήριο Subversion στο OpenProject"
+      managed_introduction: "Επιτρέψτε στο OpenProject να δημιουργήσει και να ενσωματώσει ένα τοπικό αποθετήριο Subversion αυτόματα."
       managed_url: "Managed URL"
       password: "Κωδικός Αποθετηρίου"
       username: "Όνομα χρήστη αποθετηρίου"
@@ -2049,7 +2049,7 @@ el:
       cannot_annotate: "Αυτό το αρχείο δεν μπορεί να σχολιαστεί."
   search_input_placeholder: "Αναζήτηση ..."
   setting_email_delivery_method: "Μέθοδος αποστολής email"
-  setting_sendmail_location: "Location of the sendmail executable"
+  setting_sendmail_location: "Τοποθεσία του εκτελέσιμου sendmail"
   setting_smtp_enable_starttls_auto: "Αυτόματη χρήση STARTTLS αν είναι διαθέσιμο"
   setting_smtp_ssl: "Χρήση σύνδεσης SSL"
   setting_smtp_address: "Εξυπηρετητής SMTP"
@@ -2071,7 +2071,7 @@ el:
   setting_cache_formatted_text: "Cache formatted text"
   setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
   setting_column_options: "Customize the appearance of the work package lists"
-  setting_commit_fix_keywords: "Fixing keywords"
+  setting_commit_fix_keywords: "Επιδιόρθωση λέξεων-κλειδιά"
   setting_commit_logs_encoding: "Commit messages encoding"
   setting_commit_logtime_activity_id: "Δραστηριότητα για τον καταγεγραμμένο χρόνο"
   setting_commit_logtime_enabled: "Ενεργοποίηση καταγραφής χρόνου"
@@ -2092,9 +2092,9 @@ el:
   setting_emails_header: "Επικεφαλίδα email"
   setting_email_login: "Χρησιμοποιείστε email για είσοδο"
   setting_enabled_scm: "Ενεργοποίηση SCM"
-  setting_feeds_enabled: "Enable Feeds"
+  setting_feeds_enabled: "Ενεργοποίηση Τροφοδοσιών"
   setting_feeds_limit: "Όριο συγκατάθεσης τροφοδοσίας"
-  setting_file_max_size_displayed: "Max size of text files displayed inline"
+  setting_file_max_size_displayed: "Μέγιστο μέγεθος αρχείων κειμένου που εμφανίζονται inline"
   setting_host_name: "Όνομα εξυπηρετητή"
   setting_invitation_expiration_days: "Το μήνυμα ενεργοποίησης λήγει μετά"
   setting_work_package_done_ratio: "Υπολογίστε την αναλογία των ολοκληρωμένων πακέτων εργασίας με"
@@ -2127,22 +2127,22 @@ el:
   setting_registration_footer: "Υποσέλιδο εγγραφής"
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"
   setting_repositories_encodings: "Κωδικοποιήσεις αποθετηρίων"
-  setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
+  setting_repository_authentication_caching_enabled: "Ενεργοποίηση caching για αιτήματα αυθεντικοποίησης του λογισμικού ελέγχου εκδόσεων"
   setting_repository_storage_cache_minutes: "Μέγεθος cache του δίσκου αποθετηρίου"
   setting_repository_checkout_display: "Εμφάνιση οδηγιών ολοκλήρωσης της παραγγελίας"
   setting_repository_checkout_base_url: "Checkout base URL"
-  setting_repository_checkout_text: "Checkout instruction text"
-  setting_repository_log_display_limit: "Maximum number of revisions displayed on file log"
-  setting_repository_truncate_at: "Maximum number of files displayed in the repository browser"
-  setting_rest_api_enabled: "Enable REST web service"
-  setting_self_registration: "Self-registration"
-  setting_sequential_project_identifiers: "Generate sequential project identifiers"
-  setting_session_ttl: "Session expiry time after inactivity"
+  setting_repository_checkout_text: "Κείμενο οδηγιών ολοκλήρωσης της παραγγελίας"
+  setting_repository_log_display_limit: "Μέγιστος αριθμός αναθεωρήσεων που εμφανίζονται στη καταγραφή αρχείων"
+  setting_repository_truncate_at: "Μέγιστος αριθμός αρχείων που εμφανίζονται στον περιηγητή αποθετηρίων"
+  setting_rest_api_enabled: "Ενεργοποίηση του REST web service"
+  setting_self_registration: "Αυτο-εγγραφή"
+  setting_sequential_project_identifiers: "Δημιουργία διαδοχικών αναγνωριστικών έργου"
+  setting_session_ttl: "Χρόνος λήξης της συνεδρίας μετά από αδράνεια"
   setting_session_ttl_hint: "Value below 5 works like disabled"
   setting_session_ttl_enabled: "Η συνεδρία λήγει"
   setting_start_of_week: "Η εβδομάδα ξεκινά από"
-  setting_sys_api_enabled: "Enable repository management web service"
-  setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
+  setting_sys_api_enabled: "Ενεργοποίηση του web service διαχείρισης αποθετηρίων"
+  setting_sys_api_description: "Το web service διαχείρισης αποθετηρίων παρέχει ενσωμάτωση και αυθεντικοποίηση χρήστη για την πρόσβαση σε αποθετήρια."
   setting_time_format: "Μορφοποίηση ώρας"
   setting_accessibility_mode_for_anonymous: "Ενεργοποίηση της λειτουργίας προσβασιμότητας για ανώνυμους χρήστες"
   setting_user_format: "Μορφοποίηση εμφάνισης χρηστών"
@@ -2155,13 +2155,13 @@ el:
   setting_wiki_compression: "Συμπίεση ιστορικού wiki"
   setting_work_package_group_assignment: "Επιτρέψτε την ανάθεση σε ομάδες"
   setting_work_package_list_default_highlighting_mode: "Προεπιλεγμένη λειτουργία επισήμανσης"
-  setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_work_package_list_default_highlighted_attributes: "Προεπιλεγμένα inline χαρακτηριστικά με επισήμανση"
   settings:
     general: "Γενικά"
     other: "Άλλο"
     passwords: "Κωδικοί πρόσβασης"
     session: "Συνεδρία"
-    brute_force_prevention: "Automated user blocking"
+    brute_force_prevention: "Αυτόματο μπλοκάρισμα χρήστη"
     user:
       default_preferences: "Προεπιλεγμένες προτιμήσεις"
       deletion: "Διαγραφή"
@@ -2217,17 +2217,17 @@ el:
   text_destroy_what_to_do: "Τι θέλετε να κάνετε;"
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
-  text_enumeration_category_reassign_to: "Reassign them to this value:"
+  text_enumeration_category_reassign_to: "Επανεκχώρηση τους σε αυτή την τιμή:"
   text_enumeration_destroy_question: "%{count} αντικείμενα έχουν ανατεθεί σε αυτή την τιμή."
-  text_file_repository_writable: "Attachments directory writable"
+  text_file_repository_writable: "Εγγράψιμος κατάλογος συνημμένων"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
-  text_hint_date_format: "Enter a date in the form of YYYY-MM-DD. Other formats may be changed to an unwanted date."
-  text_hint_disable_with_0: "Note: Disable with 0"
+  text_hint_date_format: "Εισάγετε μια ημερομηνία της μορφής ΕΕΕΕ-ΜΜ-ΗΗ. Άλλες μορφοποιήσεις μπορεί να αλλαχθούν σε ανεπιθύμητες ημερομηνίες."
+  text_hint_disable_with_0: "Σημείωση: Απενεργοποίηση με 0"
   text_hours_between: "Μεταξύ σε %{min} και %{max} ώρες."
   text_work_package_added: "Το πακέτο εργασίας %{id} έχει αναφερθεί από τον(-ην) %{author}."
   text_work_package_category_destroy_assignments: "Αφαίρεση αναθέσεων κατηγορίας"
   text_work_package_category_destroy_question: "Κάποια πακέτα εργασίας (%{count}) έχουν ανατεθεί σε αυτή την κατηγορία. Τι θέλετε να κάνετε;"
-  text_work_package_category_reassign_to: "Reassign work packages to this category"
+  text_work_package_category_reassign_to: "Επανεκχώρηση πακέτων εργασίας σε αυτή την κατηγορία"
   text_work_package_updated: "Το πακέτο εργασίας %{id} έχει ενημερωθεί από τον(-ην) %{author}."
   text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
   text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
@@ -2249,19 +2249,19 @@ el:
   text_load_default_configuration: "Φόρτωση προεπιλεγμένων ρυθμίσεων διαμόρφωσης"
   text_min_max_length_info: "Το 0 σημαίνει ότι δεν υπάρχουν περιορισμοί"
   text_no_roles_defined: Δεν έχουν οριστεί ρόλοι.
-  text_no_access_tokens_configurable: "There are no access tokens which can be configured."
+  text_no_access_tokens_configurable: "Δεν υπάρχουν tokens πρόσβασης που μπορούν να διαμορφωθούν."
   text_no_configuration_data: "Οι ρόλοι, οι τύποι, η καταστάσεις των πακέτων εργασίας και η ροή εργασίας δεν έχουν ρυθμιστεί ακόμα.\nΣυνιστάται ιδιαίτερα να φορτώσετε τις προεπιλεγμένες ρυθμίσεις. Θα είστε σε θέση να τις τροποποιήσετε μετά τη φόρτωση τους."
   text_no_notes: "Δεν υπάρχουν διαθέσιμα σχόλια για αυτό το πακέτο εργασίας."
   text_notice_too_many_values_are_inperformant: "Σημείωση: Η εμφάνιση περισσότερων από 100 αντικειμένων ανά σελίδα μπορεί να αυξήσει τον χρόνο φόρτωσης της σελίδας."
   text_notice_security_badge_displayed_html: >
     Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel, and on the home page. It is displayed to administrators only. <br/> The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities. For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.
-  text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
-  text_plugin_assets_writable: "Plugin assets directory writable"
+  text_own_membership_delete_confirmation: "Πρόκειται να αφαιρέσετε μερικά ή όλα τα δικαιώματα και ενδέχεται να μην μπορείτε να επεξεργαστείτε πλέον το έργο μετά από αυτό.\nΕίστε βέβαιοι ότι θέλετε να συνεχίσετε;"
+  text_plugin_assets_writable: "Εγγράψιμος κατάλογος plugin assets"
   text_powered_by: "Powered by %{link}"
-  text_project_identifier_info: "Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter."
-  text_reassign: "Reassign to work package:"
+  text_project_identifier_info: "Επιτρέπονται μόνο πεζά γράμματα (α-ω), αριθμοί, παύλες και κάτω παύλες, πρέπει να αρχίζουν με πεζό γράμμα."
+  text_reassign: "Επανεκχώριση στο πακέτα εργασίας:"
   text_regexp_info: "π.χ. ^[A-Z0-9]+$"
-  text_regexp_multiline: 'The regex is applied in a multi-line mode. e.g., ^---\s+'
+  text_regexp_multiline: 'Το regex εφαρμόστηκε σε μια λειτουργία πολλαπλών γραμμών. π.χ., ^---\s+'
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
   text_select_mail_notifications: "Select actions for which email notifications should be sent."
   text_status_changed_by_changeset: "Applied in changeset %{value}."
@@ -2269,7 +2269,7 @@ el:
   text_time_logged_by_changeset: "Applied in changeset %{value}."
   text_tip_work_package_begin_day: "work package beginning this day"
   text_tip_work_package_begin_end_day: "work package beginning and ending this day"
-  text_tip_work_package_end_day: "work package ending this day"
+  text_tip_work_package_end_day: "πακέτο εργασίας που λήγει αυτή την ημέρα"
   text_type_no_workflow: "Δεν έχει οριστεί ροή εργασίας για αυτό τον τύπο"
   text_unallowed_characters: "Μη επιτρεπόμενοι χαρακτήρες"
   text_user_invited: Ο χρήστης έχει προσκληθεί και εκκρεμεί η εγγραφή του.
@@ -2279,8 +2279,8 @@ el:
   text_wiki_destroy_confirmation: "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το wiki και όλο το περιεχόμενο του;"
   text_wiki_page_destroy_children: "Διαγράψτε όλες τις σελίδες παιδιών και όλων των απογόνων τους"
   text_wiki_page_destroy_question: "Η σελίδα έχει %{descendants} σελίδες(-α) παιδιά και απογόνους. Τι θέλετε να κάνετε;"
-  text_wiki_page_nullify_children: "Keep child pages as root pages"
-  text_wiki_page_reassign_children: "Reassign child pages to this parent page"
+  text_wiki_page_nullify_children: "Διατηρήστε τις σελίδες τέκνων ως σελίδες root"
+  text_wiki_page_reassign_children: "Επανεκχώριση των σελίδων-παιδιών στη σελίδα γονέα"
   text_workflow_edit: "Επιλέξτε ένα ρόλο και έναν τύπο για να επεξεργαστείτε τη ροή εργασίας"
   text_zoom_in: "Μεγέθυνση"
   text_zoom_out: "Σμίκρυνση"
@@ -2323,7 +2323,7 @@ el:
     enable_type_in_project: 'Ενεργοποίηση τύπου "%{type}"'
     end: "Λήξη"
     errors:
-      not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
+      not_implemented: "Το χρονοδιάγραμμα δεν μπόρεσαι να επεξεργαστεί γιατί χρησιμοποιεί μια λειτουργία που δεν μπορεί να εφαρμοστεί ακόμη."
       report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
       report_epicfail: "The timeline could not be loaded due to an unexpected error."
       report_timeout: "The timeline could not be loaded in a reasonable amount of time."
@@ -2510,18 +2510,18 @@ el:
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
   menu_item: "Menu item"
-  menu_item_setting: "Visibility"
-  wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
-  wiki_menu_item_setting: "Visibility"
+  menu_item_setting: "Ορατότητα"
+  wiki_menu_item_for: "Αντικείμενο μενού για την σελίδα wiki \"%{title}\""
+  wiki_menu_item_setting: "Ορατότητα"
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
-  wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
+  wiki_menu_item_delete_not_permitted: Το αντικείμενο μενού wiki της μοναδικής σελίδας wiki δεν μπορεί να διαγραφεί.
   query_menu_item_for: "Αντικείμενο μενού για την αναζήτηση \"%{title}\""
   work_package:
     updated_automatically_by_child_changes: |
       _Updated automatically by changing values within child work package %{child}_
     destroy:
-      info: "Deleting the work package is an irreversible action."
+      info: "Η διαγραφή του πακέτου εργασίας είναι μια μη αναστρέψιμη ενέργεια."
       title: "Διαγραφή του πακέτου εργασίας"
   nothing_to_preview: "Δεν υπάρχει κάτι για προεπισκόπηση"
   api_v3:
@@ -2529,38 +2529,38 @@ el:
       lock_version: "Κλείδωμα Έκδοσης"
     errors:
       code_400: "Bad request: %{message}"
-      code_401: "You need to be authenticated to access this resource."
+      code_401: "Πρέπει να αυθεντικοποιήσετε τον λογαριασμό σας για να αποκτήσετε πρόσβαση σε αυτό τον πόρο."
       code_401_wrong_credentials: "You did not provide the correct credentials."
-      code_403: "You are not authorized to access this resource."
-      code_404: "The requested resource could not be found."
-      code_409: "Could not update the resource because of conflicting modifications."
-      code_500: "An internal error has occured."
+      code_403: "Δεν έχετε εξουσιοδότηση πρόσβασης σε αυτή τη σελίδα."
+      code_404: "Ο ζητούμενος πόρος δεν βρέθηκε."
+      code_409: "Δεν ήταν δυνατή η ενημέρωση του πόρου λόγω αντιφατικών τροποποιήσεων."
+      code_500: "Παρουσιάστηκε ένα εσωτερικό σφάλμα."
       expected:
-        date: "YYYY-MM-DD (ISO 8601 date only)"
-        duration: "ISO 8601 duration"
+        date: "ΕΕΕΕ-ΜΜ-ΗΗ (ISO 8601 ημερομηνία μόνο)"
+        duration: "ISO 8601 διάρκεια"
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
-      invalid_json: "The request could not be parsed as JSON."
+      invalid_json: "Το αίτημα δεν μπόρεσε να γίνει parse σε JSON."
       invalid_relation: "Η σχέση δεν είναι έγκυρη."
       invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
-      invalid_user_status_transition: "The current user account status does not allow this operation."
+      invalid_user_status_transition: "Η τρέχουσα κατάσταση λογαριασμού χρήστη δεν επιτρέπει αυτή τη λειτουργία."
       missing_content_type: "δεν έχει καθοριστεί"
       missing_request_body: "There was no request body."
-      missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
+      missing_or_malformed_parameter: "Η παράμετρος αναζήτησης '%{parameter}' λείπει ή δεν δημιουργήθηκε σωστά."
       multipart_body_error: "The request body did not contain the expected multipart parts."
       multiple_errors: "Παραβιάστηκαν πολλαπλοί περιορισμοί πεδίων."
       unable_to_create_attachment: "Το συνημμένο δεν ήταν δυνατό να δημιουργηθεί"
       unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
       render:
         context_not_parsable: "The context provided is not a link to a resource."
-        unsupported_context: "The resource given is not supported as context."
-        context_object_not_found: "Cannot find the resource given as the context."
+        unsupported_context: "Ο πόρος που δόθηκε δεν υποστηρίζεται ως πλαίσιο αναφοράς."
+        context_object_not_found: "Δεν ήταν δυνατή η εύρεση του πόρου που δόθηκε ως πλαίσιο αναφοράς."
       validation:
         done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
-        due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Estimated hours cannot be set on parent work packages."
-        invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
-        start_date: "Start date cannot be set on parent work packages."
+        due_date: "Η ημερομηνία λήξης δεν μπορεί να οριστεί σε πακέτα εργασίας-γονείς."
+        estimated_hours: "Οι εκτιμώμενες ώρες δεν μπορούν να οριστούν σε πακέτα εργασίας-γονείς."
+        invalid_user_assigned_to_work_package: "Ο επιλεγμένος χρήστης δεν επιτρέπεται να είναι '%{property}' για αυτό το πακέτο εργασίας."
+        start_date: "Η ημερομηνία έναρξης δεν μπορεί να οριστεί σε πακέτα εργασίας-γονείς."
       eprops:
         invalid_gzip: "is invalid gzip: %{message}"
         invalid_json: "is invalid json: %{message}"
@@ -2572,7 +2572,7 @@ el:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
+        invalid_request: 'Λείπει μία υποχρεωτική παράμετρος από το αίτημα, περιλαμβάνει μια μη υποστηριζόμενη τιμή παραμέτρου ή είναι παραμορφωμένη με κάποιο άλλο τρόπο.'
         invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
@@ -2591,9 +2591,9 @@ el:
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
         unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
         invalid_token:
-          revoked: "The access token was revoked"
-          expired: "The access token expired"
-          unknown: "The access token is invalid"
+          revoked: "Το token πρόσβασης ανακλήθηκε"
+          expired: "Το token πρόσβασης έληξε"
+          unknown: "Το token πρόσβασης δεν είναι έγκυρο"
   unsupported_browser:
     title: "Your browser is outdated and unsupported."
     message: "Μπορεί να συναντήσετε σφάλματα και υποβαθμισμένη εμπειρία χρήστη σε αυτή τη σελίδα."
@@ -2601,7 +2601,7 @@ el:
     close_warning: "Αγνοείστε αυτή την προειδοποίηση."
   oauth:
     application:
-      singular: "OAuth application"
+      singular: "OAuth εφαρμογή"
       plural: "OAuth applications"
       named: "OAuth application '%{name}'"
       new: "New OAuth application"
