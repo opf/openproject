@@ -46,7 +46,7 @@ el:
     enterprise:
       upgrade_to_ee: "Αναβαθμίστε σε Enterprise Edition"
       add_token: "Ανεβάστε ενα Enterprise Edition τεκμήριο υποστήριξης"
-      replace_token: "Αντικαταστήστε το τρέχον τεκμήριο υποστήριξης"
+      replace_token: "Αντικαταστήστε το τρέχον token υποστήριξης"
       order: "Παραγγείλετε Enterprise Edition"
       paste: "Επικολλήστε ενα Enterprise Edition τεκμήριο υποστήριξης"
       required_for_feature: "Αυτή η λειτουργία διατίθεται μόνο με ενεργό τεκμήριο υποστήριξης Enterprise Edition."
@@ -56,7 +56,7 @@ el:
     is_active: εμφανίζεται αυτή τη στιγμή
     is_inactive: δεν εμφανίζεται αυτή τη στιγμή
   attribute_help_texts:
-    text_overview: 'Σε αυτήν την προβολή, μπορείτε να δημιουργήσετε προσαρμοσμένα κείμενα βοήθειας για προβολή ιδιοτήτων. Όταν οριστεί, αυτά τα κείμενα μπορούν να προβληθούν κάνοντας κλικ στο παρακάτω εικονίδιο.'
+    text_overview: 'Σε αυτήν την προβολή, μπορείτε να δημιουργήσετε προσαρμοσμένα κείμενα βοήθειας για προβολή χαρακτηριστικών. Όταν οριστεί, αυτά τα κείμενα μπορούν να προβληθούν κάνοντας κλικ στο παρακάτω εικονίδιο.'
     label_plural: 'Κείμενα βοήθειας χαρακτηριστικών'
     show_preview: 'Προεπισκόπηση κειμένου'
     add_new: 'Προσθήκη βοηθητικού κειμένου'
@@ -125,7 +125,7 @@ el:
     conditions: 'Προϋποθέσεις'
     plural: 'Προσαρμοσμένες ενέργειες'
     new: 'Νέα προσαμοσμένη ενέργεια'
-    edit: 'Επεξεργασία προσαρμοσμένης ενέργειας %{name}'
+    edit: 'Επεξεργασία της προσαρμοσμένης ενέργειας %{name}'
     execute: 'Εκτέλεση %{name}'
     upsale:
       title: 'Οι προσαρμοσμένες ενέργειες είναι μια λειτουργίαν της Enterprise Edition'
@@ -133,10 +133,10 @@ el:
   custom_fields:
     text_add_new_custom_field: >
       Για να προσθέσετε νέα προσαρμοσμένα πεδία σε ένα έργο, πρέπει πρώτα να τα δημιουργήσετε για να τα προσθέσετε σε αυτό το έργο.
-    is_enabled_globally: 'Είναι επιτρεπτό σε όλο το σύστημα'
-    enabled_in_project: 'Ενεργοποιημένο στο project'
+    is_enabled_globally: 'Είναι ενεργοποιημένο σε όλο το σύστημα'
+    enabled_in_project: 'Ενεργοποιημένο στο έργο'
     contained_in_type: 'Περιέχονται στον τύπο'
-    confirm_destroy_option: "Η διαγραφή μιας επιλογής θα διαγράψει όλα τα περιστατικά της (π.χ. σε πακέτα εργασίας). Είσαι σίγουρος οτι θέλεις να το διαγράψεις;"
+    confirm_destroy_option: "Η διαγραφή μιας επιλογής θα διαγράψει όλα τα περιστατικά της (π.χ. σε πακέτα εργασίας). Είστε βέβαιοι ότι θέλετε να το διαγράψετε;"
     tab:
       no_results_title_text: Προς το παρόν δεν υπάρχουν προσαρμοσμένα πεδία.
       no_results_content_text: Δημιουργία νέου προσαρμοσμένου πεδίου
@@ -146,19 +146,19 @@ el:
     time_entries: "Αυτή η προβολή εγγραφών χρόνου αντικαθίσταται από την ενότητα \"Αναφορές κόστους\". Αυτή η προβολή υποστηρίζει τώρα μόνο την εξαγωγή πληροφοριών χρόνου σε csv. Για διαλογικό φιλτράρισμα, ενεργοποιήστε την ενότητα \"Αναφορές κόστους\" στις ρυθμίσεις του έργου."
   global_search:
     overwritten_tabs:
-      wiki_pages: "Συνεργατική σελίδα Wiki"
-      messages: "Forum"
+      wiki_pages: "Wiki"
+      messages: "Φόρουμ"
   groups:
     index:
       no_results_title_text: Προς το παρόν δεν υπάρχουν ομάδες.
-      no_results_content_text: Δημιουργία Νέας Ομάδας
+      no_results_content_text: Δημιουργία νέας ομάδας
     users:
       no_results_title_text: Αυτή τη στιγμή δεν υπάρχουν χρήστες που να αποτελούν μέρος αυτής της ομάδας.
     memberships:
       no_results_title_text: Αυτή τη στιγμή δεν υπάρχουν έργα που να αποτελούν μέρος αυτής της ομάδας.
   incoming_mails:
     ignore_filenames: >
-      Καθορίστε μια λίστα με τα ονόματα που πρέπει να αγνοήσετε όταν επεξεργάζεστε συνημμένα για εισερχόμενα μηνύματα (π.χ. υπογραφές ή εικονίδια). Καταχωρίστε ένα όνομα αρχείου ανά γραμμή.
+      Καθορίστε μια λίστα με τα ονόματα που πρέπει να αγνοήσετε όταν επεξεργάζεστε συνημμένα για εισερχόμενα email (π.χ. υπογραφές ή εικονίδια). Εισάγετε ένα όνομα αρχείου ανά γραμμή.
   projects:
     delete:
       scheduled: "Η διαγραφή έχει προγραμματιστεί και εκτελείται στο παρασκήνιο. Θα ενημερωθείτε για το αποτέλεσμα."
@@ -172,7 +172,7 @@ el:
       no_results_content_text: Δημιουργία νέου έργου
     settings:
       activities:
-        no_results_title_text: Προς το παρόν δεν υπάρχουν δραστηριότητες.
+        no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμες δραστηριότητες.
       forums:
         no_results_title_text: There are currently no forums for the project.
         no_results_content_text: Δημιουργία νέου forum
@@ -192,14 +192,14 @@ el:
       no_results_content_text: Προσθέστε ένα μέλος στο έργο
   my:
     access_token:
-      failed_to_reset_token: "Αποτυχία επαναφοράς του αναγνωριστικού πρόσβασης: %{error}"
-      notice_reset_token: "Δημιουργήθηκε ένα νέο διακριτικό %{type}. Το αναγνωριστικό πρόσβασής σας είναι:"
-      token_value_warning: "Σημείωση: Αυτή είναι η μοναδική φορά που θα δείτε αυτό το διακριτικό, φροντίστε να το αντιγράψετε τώρα."
+      failed_to_reset_token: "Αποτυχία επαναφοράς του token πρόσβασης: %{error}"
+      notice_reset_token: "Δημιουργήθηκε ένα νέο token %{type}. Το token πρόσβασής σας είναι:"
+      token_value_warning: "Σημείωση: Αυτή είναι η μοναδική φορά που θα δείτε αυτό το token, φροντίστε να το αντιγράψετε τώρα."
       no_results_title_text: Δεν υπάρχουν προς το παρόν διαθέσιμα αναγνωριστικά πρόσβασης.
   news:
     index:
       no_results_title_text: Δεν υπάρχουν προς το παρόν ειδήσεις για αναφορά.
-      no_results_content_text: Προσθέστε ένα στοιχείο ειδήσεων
+      no_results_content_text: Προσθέστε ένα στοιχείο νέων
   users:
     memberships:
       no_results_title_text: Αυτός ο χρήστης δεν είναι επί του παρόντος μέλος κάποιου έργου.
@@ -223,7 +223,7 @@ el:
         Κάντε κλικ για να αντιστοιχίσετε ή να αλλάξετε το χρώμα αυτής της κατάστασης.
         Εμφανίζεται στο κουμπί κατάστασης και μπορεί να χρησιμοποιηθεί για την επισήμανση πακέτων εργασίας στον πίνακα.
     index:
-      no_results_title_text: Προς το παρόν δεν υπάρχουν ρυθμίσεις για το πακέτο εργασιών.
+      no_results_title_text: Προς το παρόν δεν υπάρχουν καταστάσεις για το πακέτο εργασίας.
       no_results_content_text: Προσθέσετε μια νέα κατάσταση
   types:
     index:
@@ -242,7 +242,7 @@ el:
         in Gantt charts. It is therefore recommended to use a strong color.
   versions:
     overview:
-      no_results_title_text: Προς το παρόν δεν έχουν ανατεθεί πακέτα εργασιών σε αυτήν την έκδοση.
+      no_results_title_text: Προς το παρόν δεν έχουν ανατεθεί πακέτα εργασίας σε αυτήν την έκδοση.
   wiki:
     no_results_title_text: Δεν υπάρχουν επί του παρόντος σελίδες wiki.
     index:
@@ -257,12 +257,12 @@ el:
     bulk:
       could_not_be_saved: "Δεν ήταν δυνατή η αποθήκευση των ακόλουθων πακέτων εργασίας:"
     move:
-      no_common_statuses_exists: "Δεν υπάρχει κατάσταση διαθέσιμη για όλα τα επιλεγμένα πακέτα εργασίας. Η κατάσταση τους δεν μπορεί να αλλάξει."
-      unsupported_for_multiple_projects: 'Η μαζική κίνηση / αντιγραφή δεν υποστηρίζεται για πακέτα εργασίας από πολλά έργα'
+      no_common_statuses_exists: "Δεν υπάρχει διαθέσιμη κατάσταση για όλα τα επιλεγμένα πακέτα εργασίας. Η κατάσταση τους δεν μπορεί να αλλάξει."
+      unsupported_for_multiple_projects: 'Η μαζική μετακίνηση/αντιγραφή δεν υποστηρίζεται για πακέτα εργασίας από πολλά έργα'
     summary:
       reports:
         category:
-          no_results_title_text: Προς το παρόν δεν υπάρχουν κατηγορίες.
+          no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμες κατηγορίες.
         assigned_to:
           no_results_title_text: Αυτή τη στιγμή δεν υπάρχουν μέλη που να αποτελούν μέρος αυτού του έργου.
         responsible:
@@ -270,7 +270,7 @@ el:
         author:
           no_results_title_text: Αυτή τη στιγμή δεν υπάρχουν μέλη που να αποτελούν μέρος αυτού του έργου.
         priority:
-          no_results_title_text: Προς το παρόν δεν υπάρχουν προτεραιότητες.
+          no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμες προτεραιότητες.
         type:
           no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμοι τύποι.
         version:
@@ -376,13 +376,13 @@ el:
         identifier: "Αναγνωριστικό"
         latest_activity_at: "Τελευταία δραστηριότητα στις"
         parent: "Υποέργο του"
-        queries: "Ερωτήματα"
+        queries: "Αναζητήσεις"
         types: "Τύποι"
         versions: "Εκδόσεις"
         work_packages: "Εργασίες"
       project/status:
         code: 'Κατάσταση'
-        explanation: 'Status description'
+        explanation: 'Περιγραφή κατάστασης'
         codes:
           on_track: 'On track'
           at_risk: 'At risk'
@@ -645,7 +645,7 @@ el:
     models:
       attachment: "Aρχείο"
       attribute_help_text: "Κείμενο βοήθειας χαρακτηριστικών"
-      forum: "Forum"
+      forum: "Φόρουμ"
       comment: "Σχόλιο"
       custom_action: "Προσαρμοσμένη ενέργεια"
       custom_field: "Προσαρμοσμένο πεδίο"
@@ -662,7 +662,7 @@ el:
       type: "Τύπος"
       user: "Χρήστης"
       version: "Έκδοση"
-      wiki: "Συνεργατική σελίδα Wiki"
+      wiki: "Wiki"
       wiki_page: "Σελίδα Wiki"
       workflow: "Ροή εργασιών"
       work_package: "Εργασία"
@@ -1049,7 +1049,7 @@ el:
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
   error_no_default_work_package_status: "Δεν έχει οριστεί η προεπιλογή κατάστασης πακέτων εργασίας. Παρακαλώ ελέγξτε τις ρυθμίσεις σας (Μεταβείτε στην \"Διαχείριση -> Κατάσταση Πακέτων Εργασίας\")."
   error_no_type_in_project: "Δεν υπάρχει τύπος που σχετίζεται με αυτό το έργο. Παρακαλώ ελέγξτε τις Ρυθμίσεις του Έργου."
-  error_omniauth_registration_timed_out: "Η εγγραφή μέσω ενός εξωτερικού παρόχου ταυτοποίησης έληξε. Παρακαλούμε προσπαθήστε ξανά."
+  error_omniauth_registration_timed_out: "Η εγγραφή μέσω ενός εξωτερικού παρόχου αυθεντικοποίησης έληξε. Παρακαλούμε προσπαθήστε ξανά."
   error_scm_command_failed: "Παρουσιάστηκε σφάλμα κατά την προσπάθεια πρόσβασης στο αποθετήριο: %{value}"
   error_scm_not_found: "Η εγγραφή ή η αναθεώρηση δεν βρέθηκε στο αποθετήριο."
   error_unable_delete_status: "Η κατάσταση του πακέτου εργασίας δεν ήταν δυνατό να διαγραφεί καθώς χρησιμοποιείται σε τουλάχιστον ένα πακέτο εργασίας."
@@ -1059,11 +1059,11 @@ el:
   error_unable_update_wiki: "Δεν ήταν δυνατή η ενημέρωση της σελίδας wiki."
   error_workflow_copy_source: "Παρακαλούμε επιλέξτε μια πηγή τύπου ή ρόλου"
   error_workflow_copy_target: "Παρακαλούμε επιλέξτε τύπο(-ους) και ρόλο(-ους)"
-  error_menu_item_not_created: Δεν ήταν δυνατή η προσθήκη του στοιχείου στο μενού
-  error_menu_item_not_saved: Δεν ήταν δυνατή η αποθήκευση του στοιχείου στο μενού
+  error_menu_item_not_created: Δεν ήταν δυνατή η προσθήκη του αντικειμένου μενού
+  error_menu_item_not_saved: Δεν ήταν δυνατή η αποθήκευση του αντικειμένου μενού
   error_wiki_root_menu_item_conflict: >
     Δεν είναι δυνατή η μετονομασία από "%{old_name}" σε "%{new_name}" λόγω μιας σύγκρουσης του αντικειμένου μενού που προκύπτει με ένα υπάρχον αντικείμενο μενού "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Παρουσιάστηκε σφάλμα κατά τον εξωτερικό έλεγχο ταυτότητας. Παρακαλώ προσπαθήστε ξανά."
+  error_external_authentication_failed: "Παρουσιάστηκε σφάλμα κατά τον εξωτερικό έλεγχο ταυτότητας. Παρακαλούμε προσπαθήστε ξανά."
   error_attribute_not_highlightable: "Δεν είναι δυνατή η επισήμανση του(-ών) χαρακτηριστικού(-ών): %{attributes}"
   events:
     project: 'Το έργο επεξεργάστηκε'
@@ -1375,7 +1375,7 @@ el:
   label_last_week: "προηγούμενη εβδομάδα"
   label_latest_revision: "Τελευταία αναθεώρηση"
   label_latest_revision_plural: "Τελευταίες αναθεωρήσεις"
-  label_ldap_authentication: "Πιστοποίηση LDAP"
+  label_ldap_authentication: "Ταυτοποίηση LDAP"
   label_less_or_equal: "<="
   label_less_than_ago: "σε λιγότερο από ημέρες πριν"
   label_list: "Προβολή λίστας"
@@ -1495,7 +1495,7 @@ el:
   label_project_show_details: "Εμφάνιση λεπτομερειών έργου"
   label_project_hide_details: "Απόκρυψη λεπτομερειών έργου"
   label_public_projects: "Δημόσια έργα"
-  label_query_new: "Νέο ερώτημα"
+  label_query_new: "Νέα αναζήτηση"
   label_query_plural: "Προσαρμοσμένες αναζητήσεις"
   label_query_menu_item: "Αντικείμενο μενού αναζήτησης"
   label_read: "Ανάγνωση..."
@@ -1535,7 +1535,7 @@ el:
   label_roadmap_due_in: "Προθεσμία σε %{value}"
   label_roadmap_no_work_packages: "Δεν υπάρχουν πακέτα εργασίας για αυτή την έκδοση"
   label_roadmap_overdue: "%{value} αργοπορημένο"
-  label_role_and_permissions: "Ρόλοι και άδειες"
+  label_role_and_permissions: "Ρόλοι και δικαιώματα"
   label_role_new: "Νέος ρόλος"
   label_role_plural: "Ρόλοι"
   label_role_search: "Ανάθεση ρόλων σε νέα μέλη"
@@ -1680,7 +1680,7 @@ el:
   label_keyboard_function: "Συνάρτηση"
   label_keyboard_shortcut: "Συντόμευση"
   label_keyboard_accesskey: "Κλειδί πρόσβασης"
-  label_keyboard_shortcut_help_heading: "Διαθέσιμες συντομεύσεις πληκτρολογίου"
+  label_keyboard_shortcut_help_heading: "Διαθέσιμες Συντομεύσεις Πληκτρολογίου"
   label_keyboard_shortcut_within_project: "Συντομεύσεις που σχετίζονται με έργα:"
   label_keyboard_shortcut_global_shortcuts: "Καθολικές συντομεύσεις:"
   label_keyboard_shortcut_some_pages_only: "Ειδικές συντομεύσεις:"
@@ -1932,7 +1932,7 @@ el:
   project_module_repository: "Αποθετήριο"
   project_module_time_tracking: "Παρακολούθηση χρόνου"
   project_module_timelines: "Χρονοδιαγράμματα"
-  project_module_wiki: "Συνεργατική σελίδα Wiki"
+  project_module_wiki: "Wiki"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),

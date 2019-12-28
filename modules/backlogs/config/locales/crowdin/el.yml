@@ -146,7 +146,7 @@ el:
   label_version_setting: "Εκδόσεις"
   label_version: 'Έκδοση'
   label_webcal: "Webcal Feed"
-  label_wiki: "Συνεργατική σελίδα Wiki"
+  label_wiki: "Wiki"
   permission_view_master_backlog: "View master backlog"
   permission_view_taskboards: "View taskboards"
   permission_update_sprints: "Update sprints"
