@@ -68,11 +68,11 @@ Available arguments that change how the work packages are handled:
 
 ### POP3
 
-The rake task `redmine:email:receive_pop3` fetches emails via IMAP and parses them.
+The rake task `redmine:email:receive_pop3` fetches emails via POP3 and parses them.
 **Packaged installation**
 
 ```bash
-openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test_user' password='password' port=993 ssl=true allow_override=type,project project=test_project
+openproject run bundle exec rake redmine:email:receive_pop3 host='pop.gmail.com' username='test_user' password='password' port=995 ssl=true allow_override=type,project project=test_project
 ```
 
 **Manual installation**
