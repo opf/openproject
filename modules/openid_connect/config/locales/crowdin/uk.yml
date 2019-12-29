@@ -1,19 +1,19 @@
 uk:
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    Ви вийшли з системи. Вміст будь-якої форми, яку ви надішлете, може бути втрачено. Спробуйте, [увійти].
   activemodel:
     attributes:
       openid_connect/provider:
         name: Ім’я
-        display_name: Display name
+        display_name: Відображуване ім'я
         identifier: Ідентифікатор
-        secret: Secret
-        scope: Scope
+        secret: Таємний код
+        scope: Область використання
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: Постачальники OpenID
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: Додати нового постачальника OpenID
+      label_edit: Редагувати OpenID провайдера %{name}
+      no_results_table: Ще не додано жодного постачальника.
+      plural: Постачальники OpenID
+      singular: OpenID постачальник

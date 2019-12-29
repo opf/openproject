@@ -1,13 +1,13 @@
 uk:
-  export_to_excel: "Export as Excel spreadsheet"
-  print_with_description: "Print preview with description"
+  export_to_excel: "Експортувати як таблицю Excel"
+  print_with_description: "Друкувати попередній перегляд з описом"
   sentence_separator_or: "або"
-  different_formats: Different formats
+  different_formats: Різні формати
   export:
     format:
       xls: "XLS"
-      xls_with_descriptions: "XLS with descriptions"
-      xls_with_relations: "XLS with relations"
+      xls_with_descriptions: "XLS з описами"
+      xls_with_relations: "XLS зі звязками"
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: дочірній до
+    parent_of: батьківський для
