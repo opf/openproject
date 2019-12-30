@@ -29,21 +29,21 @@
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
-        single: "Select \"%{name}\""
-      remove: "Remove %{name}"
-      active: "Active %{label} %{name}"
+        multi: "Legg til \"%{name}\""
+        single: "Velg \"%{name}\""
+      remove: "Fjern %{name}"
+      active: "Aktiv %{label} %{name}"
     close_popup_title: "Lukk sprettoppvindu"
-    close_filter_title: "Close filter"
-    close_form_title: "Close form"
+    close_filter_title: "Lukk filter"
+    close_form_title: "Lukk skjema"
     button_add_watcher: "Legg til overvåker"
     button_back: "Tilbake"
-    button_back_to_list_view: "Back to list view"
+    button_back_to_list_view: "Tilbake til listevisning"
     button_cancel: "Avbryt"
     button_close: "Lukk"
     button_change_project: "Change project"
     button_check_all: "Velg alle"
-    button_configure-form: "Configure form"
+    button_configure-form: "Konfigurer skjema"
     button_confirm: "Bekreft"
     button_continue: "Fortsette"
     button_copy: "Kopier"
@@ -54,7 +54,7 @@
     button_duplicate: "Kopier"
     button_edit: "Rediger"
     button_filter: "Filter"
-    button_advanced_filter: "Advanced filter"
+    button_advanced_filter: "Avansert filter"
     button_list_view: "Listevisning"
     button_show_view: "Fullskjermvisning"
     button_log_time: "Logg tid"
@@ -128,8 +128,8 @@
           language: 'Formatting language'
           language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
         dropdown:
-          macros: 'Macros'
-          chose_macro: 'Chose macro'
+          macros: 'Makroer'
+          chose_macro: 'Lukk makro'
         toc: 'Table of contents'
         toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
         wiki_page_include:
@@ -142,7 +142,7 @@
             You can include the wiki page of another project by separating them with a colon like the following example.
         work_package_button:
           button: 'Insert create work package button'
-          type: 'Work package type'
+          type: 'Arbeidspakke type'
           button_style: 'Use button style'
           button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
           without_type: 'Create work package'
