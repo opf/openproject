@@ -28,7 +28,7 @@ el:
     plugins:
       no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμα πρόσθετα.
     custom_styles:
-      custom_colors: "Προσαρμογή Χρωμάτων"
+      custom_colors: "Προσαρμοσμένα χρώματα"
       customize: "Προσαρμόστε την εγκατάσταση του OpenProject με το δικό σας λογότυπο. Σημείωση: Το λογότυπο αυτό θα είναι δημόσια προσβάσιμο."
       enterprise_notice: "Σαν ένα ειδικό \"Σας ευχαριστώ!\" για την οικονομική τους συμβολή στην ανάπτυξη του OpenProject, αυτό το μικροσκοπικό χαρακτηριστικό είναι διαθέσιμο μόνο για τους συνδρομητές υποστήριξης Enterprise εκδοχής."
       manage_colors: "Επεξεργαστείτε τις επιλογές επιλογής χρώματος"
@@ -42,14 +42,14 @@ el:
         header_item_font_color: "Χρώμα γραμματοσειράς στοιχείων κεφαλίδας με δυνατότητα κλικ."
         header_item_font_hover_color: "Χρώμα γραμματοσειράς στοιχείων κεφαλίδας με δυνατότητα κλικ, όταν ο δείκτης βρίσκεται πάνω."
         header_border_bottom_color: "Λεπτή γραμμή κάτω από την κεφαλίδα. Αφήστε αυτό το πεδίο κενό αν δεν θέλετε καμία γραμμή."
-        main_menu_bg_color: "Χρώμα φόντου του αριστερού μενού."
+        main_menu_bg_color: "Χρώμα φόντου του μενού της αριστερής πλευράς."
     enterprise:
-      upgrade_to_ee: "Αναβαθμίστε σε Enterprise Edition"
-      add_token: "Ανεβάστε ενα Enterprise Edition τεκμήριο υποστήριξης"
+      upgrade_to_ee: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
+      add_token: "Ανεβάστε ενα token υποστήριξης έκδοσης για επιχειρήσεις"
       replace_token: "Αντικαταστήστε το τρέχον token υποστήριξης"
-      order: "Παραγγείλετε Enterprise Edition"
-      paste: "Επικολλήστε ενα Enterprise Edition τεκμήριο υποστήριξης"
-      required_for_feature: "Αυτή η λειτουργία διατίθεται μόνο με ενεργό τεκμήριο υποστήριξης Enterprise Edition."
+      order: "Παραγγείλετε Έκδοση για Επιχειρήσεις"
+      paste: "Επικολλήστε ενα token υποστήριξης έκδοσης για επιχειρήσεις"
+      required_for_feature: "Αυτή η λειτουργία διατίθεται μόνο με ενεργό token υποστήριξης έκδοσης για επιχειρήσεις."
       enterprise_link: "Για περισσότερες πληροφορίες, πατήστε εδω."
   announcements:
     show_until: Εμφάνιση μέχρι
@@ -60,11 +60,11 @@ el:
     label_plural: 'Κείμενα βοήθειας χαρακτηριστικών'
     show_preview: 'Προεπισκόπηση κειμένου'
     add_new: 'Προσθήκη βοηθητικού κειμένου'
-    edit: "Επεξεργασία βιηθητικού κειμένου για %{attribute_caption}"
+    edit: "Επεξεργασία βοηθητικού κειμένου για %{attribute_caption}"
   auth_sources:
     index:
-      no_results_content_title: Αυτήν τη στιγμή δεν υπάρχουν λειτουργίες ελέγχου ταυτότητας.
-      no_results_content_text: Δημιουργήστε μια νέα λειτουργία ελέγχου ταυτότητας
+      no_results_content_title: Αυτήν τη στιγμή δεν υπάρχουν λειτουργίες ταυτοποίησης.
+      no_results_content_text: Δημιουργήστε μια νέα λειτουργία ταυτοποίησης
   ldap_auth_sources:
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -119,7 +119,7 @@ el:
   custom_actions:
     actions:
       name: 'Ενέργειες'
-      add: 'Προσθήκη λειτουργίας'
+      add: 'Προσθήκη ενέργειας'
       assigned_to:
         executing_user_value: '(Αναθέστε στον εκτελεστή χρήστη)'
     conditions: 'Προϋποθέσεις'
@@ -128,7 +128,7 @@ el:
     edit: 'Επεξεργασία της προσαρμοσμένης ενέργειας %{name}'
     execute: 'Εκτέλεση %{name}'
     upsale:
-      title: 'Οι προσαρμοσμένες ενέργειες είναι μια λειτουργίαν της Enterprise Edition'
+      title: 'Οι προσαρμοσμένες ενέργειες είναι μια λειτουργία της Έκδοσης για Επιχειρήσεις'
       description: 'Οι προσαρμοσμένες ενέργειες εξομαλύνουν την καθημερινή εργασία συνδυάζοντας ένα σύνολο μεμονωμένων βημάτων σε ένα κουμπί.'
   custom_fields:
     text_add_new_custom_field: >
@@ -198,11 +198,11 @@ el:
       no_results_title_text: Δεν υπάρχουν προς το παρόν διαθέσιμα αναγνωριστικά πρόσβασης.
   news:
     index:
-      no_results_title_text: Δεν υπάρχουν προς το παρόν ειδήσεις για αναφορά.
+      no_results_title_text: Δεν υπάρχουν προς το παρόν νέα για αναφορά.
       no_results_content_text: Προσθέστε ένα στοιχείο νέων
   users:
     memberships:
-      no_results_title_text: Αυτός ο χρήστης δεν είναι επί του παρόντος μέλος κάποιου έργου.
+      no_results_title_text: Αυτός ο χρήστης δεν είναι προς το παρόν μέλος κάποιου έργου.
   prioritiies:
     edit:
       priority_color_text: |
@@ -244,7 +244,7 @@ el:
     overview:
       no_results_title_text: Προς το παρόν δεν έχουν ανατεθεί πακέτα εργασίας σε αυτήν την έκδοση.
   wiki:
-    no_results_title_text: Δεν υπάρχουν επί του παρόντος σελίδες wiki.
+    no_results_title_text: Προς το παρόν δεν υπάρχουν σελίδες wiki.
     index:
       no_results_content_text: Προσθέστε μια νέα σελίδα wiki
   work_flows:
@@ -451,8 +451,8 @@ el:
         parent_work_package: "Γονέας"
         priority: "Προτεραιότητα"
         progress: "Πρόοδος (%)"
-        spent_hours: "Δαπανημένος χρόνος"
-        spent_time: "Δαπανημένος χρόνος"
+        spent_hours: "Χρόνος που δαπανήθηκε"
+        spent_time: "Χρόνος που δαπανήθηκε"
         subproject: "Υποέργο"
         time_entries: "Καταγραφή χρόνου"
         type: "Τύπος"
@@ -463,7 +463,7 @@ el:
         owner: "Ιδιοκτήτης"
         redirect_uri: "Σύνδεσμος Ανακατεύθυνσης (URI)"
         client_credentials_user_id: "Διαπιστευτήρια Πελάτη Ταυτότητα Χρήστη"
-        scopes: "Φυσικά αντικείμενα έργου"
+        scopes: "Φυσικά αντικείμενα"
         confidential: "Εμπιστευτικό"
     errors:
       messages:
@@ -496,7 +496,7 @@ el:
         not_a_date: "δεν είναι έγκυρη ημερομηνία."
         not_a_datetime: "δεν είναι έγκυρη ημερομηνία και ώρα."
         not_a_number: "δεν είναι αριθμός."
-        not_allowed: "δεν είναι έγκυρο επειδή λείπουν άδειες."
+        not_allowed: "δεν είναι έγκυρο επειδή λείπουν δικαιώματα."
         not_an_integer: "δεν είναι ακέραιος αριθμός."
         not_an_iso_date: "δεν είναι έγκυρη ημερομηνία. Απαιτούμενη μορφοποίηση: ΕΕΕΕ-ΜΜ-ΗΗ."
         not_same_project: "δεν ανήκει στο ίδιο έργο."
@@ -1036,7 +1036,7 @@ el:
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Η επιλεγμένη τιμή δεν είναι έγκυρη."
   error_invalid_group_by: "Δεν μπορούν να ομαδοποιηθούν κατά: %{value}"
-  error_invalid_query_column: "Μη έγκυρη στήλη ερωτήματος: %{value}"
+  error_invalid_query_column: "Μη έγκυρη στήλη αναζήτησης: %{value}"
   error_invalid_sort_criterion: "Δεν είναι δυνατή η ταξινόμηση κατά στήλη: %{value}"
   error_journal_attribute_not_present: "Το ημερολόγιο δεν περιέχει το χαρακτηριστικό %{attribute}."
   error_pdf_export_too_many_columns: "Επιλέχθηκαν πάρα πολλές στήλες για εξαγωγή σε PDF. Παρακαλούμε μειώστε τον αριθμό των στηλών."
@@ -1049,7 +1049,7 @@ el:
   error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
   error_no_default_work_package_status: "Δεν έχει οριστεί η προεπιλογή κατάστασης πακέτων εργασίας. Παρακαλώ ελέγξτε τις ρυθμίσεις σας (Μεταβείτε στην \"Διαχείριση -> Κατάσταση Πακέτων Εργασίας\")."
   error_no_type_in_project: "Δεν υπάρχει τύπος που σχετίζεται με αυτό το έργο. Παρακαλώ ελέγξτε τις Ρυθμίσεις του Έργου."
-  error_omniauth_registration_timed_out: "Η εγγραφή μέσω ενός εξωτερικού παρόχου αυθεντικοποίησης έληξε. Παρακαλούμε προσπαθήστε ξανά."
+  error_omniauth_registration_timed_out: "Η εγγραφή μέσω ενός εξωτερικού παρόχου ταυτοποίησης έληξε. Παρακαλούμε προσπαθήστε ξανά."
   error_scm_command_failed: "Παρουσιάστηκε σφάλμα κατά την προσπάθεια πρόσβασης στο αποθετήριο: %{value}"
   error_scm_not_found: "Η εγγραφή ή η αναθεώρηση δεν βρέθηκε στο αποθετήριο."
   error_unable_delete_status: "Η κατάσταση του πακέτου εργασίας δεν ήταν δυνατό να διαγραφεί καθώς χρησιμοποιείται σε τουλάχιστον ένα πακέτο εργασίας."
@@ -1063,7 +1063,7 @@ el:
   error_menu_item_not_saved: Δεν ήταν δυνατή η αποθήκευση του αντικειμένου μενού
   error_wiki_root_menu_item_conflict: >
     Δεν είναι δυνατή η μετονομασία από "%{old_name}" σε "%{new_name}" λόγω μιας σύγκρουσης του αντικειμένου μενού που προκύπτει με ένα υπάρχον αντικείμενο μενού "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Παρουσιάστηκε σφάλμα κατά τον εξωτερικό έλεγχο ταυτότητας. Παρακαλούμε προσπαθήστε ξανά."
+  error_external_authentication_failed: "Παρουσιάστηκε σφάλμα κατά την εξωτερική ταυτοποίηση. Παρακαλούμε προσπαθήστε ξανά."
   error_attribute_not_highlightable: "Δεν είναι δυνατή η επισήμανση του(-ών) χαρακτηριστικού(-ών): %{attributes}"
   events:
     project: 'Το έργο επεξεργάστηκε'
@@ -1115,14 +1115,14 @@ el:
       community: "Κοινότητα OpenProject"
       upsale:
         become_hero: "Γίνετε ήρωας!"
-        title: "Αναβαθμίστε σε Enterprise Edition"
+        title: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
         description: "Ποιά είναι τα οφέλη;"
         more_info: "Περισσότερες πληροφορίες"
         additional_features: "Επιπλέον ισχυρές premium λειτουργίες"
         professional_support: "Επαγγελματική υποστήριξη από τους ειδικούς του OpenProject"
         you_contribute: "Και οι προγραμματιστές πρέπει να πληρώσουν τους λογαριασμούς τους. Με την Έκδοση για Επιχειρήσεις μπορείτε να συνεισφέρετε ουσιαστικά σε αυτή προσπάθεια της Open-Source κοινότητας."
     links:
-      upgrade_enterprise_edition: "Αναβαθμίστε σε Enterprise Edition"
+      upgrade_enterprise_edition: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Εγχειρίδια χρηστών"
       faq: "Συχνές Ερωτήσεις"
@@ -1553,7 +1553,7 @@ el:
   label_sort_highest: "Μετακίνηση στην κορυφή"
   label_sort_lower: "Μετακίνηση προς τα κάτω"
   label_sort_lowest: "Μετακίνηση στο τέλος"
-  label_spent_time: "Δαπανημένος χρόνος"
+  label_spent_time: "Χρόνος που δαπανήθηκε"
   label_start_to_end: "από την αρχή μέχρι το τέλος"
   label_start_to_start: "από την αρχή μέχρι την αρχή"
   label_statistics: "Στατιστικά"
@@ -1578,7 +1578,7 @@ el:
   label_this_month: "αυτό το μήνα"
   label_this_week: "αυτή την εβδομάδα"
   label_this_year: "αυτό το έτος"
-  label_time_entry_plural: "Δαπανημένος χρόνος"
+  label_time_entry_plural: "Χρόνος που δαπανήθηκε"
   label_time_sheet_menu: "Πρόγραμμα"
   label_time_tracking: "Παρακολούθηση χρόνου"
   label_today: "σήμερα"
@@ -2403,8 +2403,8 @@ el:
     new_reporting: "New reporting"
     new_timeline: "Νέα αναφορά χρονοδιαγράμματος"
     no_projects_for_reporting_available: "Δεν υπάρχουν έργα στα οποία μπορεί να δημιουργηθεί συσχέτιση αναφοράς."
-    no_right_to_view_timeline: "You do not have the necessary permission to view the linked timeline."
-    no_timeline_for_id: "There is no timeline with ID %{id}."
+    no_right_to_view_timeline: "Δεν έχετε τα απαραίτητα δικαιώματα για να προβάλετε το συνδεδεμένο χρονοδιάγραμμα."
+    no_timeline_for_id: "Δεν υπάρχει χρονοδιάγραμμα με ταυτότητα %{id}."
     notice_successful_deleted_all_elements: "Όλα τα στοιχεία διαγράφηκαν επιτυχώς"
     outline: "Επαναφορά Περιγράμματος"
     outlines:
@@ -2509,7 +2509,7 @@ el:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
-  menu_item: "Menu item"
+  menu_item: "Αντικείμενο μενού"
   menu_item_setting: "Ορατότητα"
   wiki_menu_item_for: "Αντικείμενο μενού για την σελίδα wiki \"%{title}\""
   wiki_menu_item_setting: "Ορατότητα"
@@ -2519,7 +2519,7 @@ el:
   query_menu_item_for: "Αντικείμενο μενού για την αναζήτηση \"%{title}\""
   work_package:
     updated_automatically_by_child_changes: |
-      _Updated automatically by changing values within child work package %{child}_
+      _Ενημερώθηκε αυτόματα με την αλλαγή των τιμών μέσα στα πακέτα εργασίας-παιδιά %{child}_
     destroy:
       info: "Η διαγραφή του πακέτου εργασίας είναι μια μη αναστρέψιμη ενέργεια."
       title: "Διαγραφή του πακέτου εργασίας"
@@ -2530,7 +2530,7 @@ el:
     errors:
       code_400: "Bad request: %{message}"
       code_401: "Πρέπει να αυθεντικοποιήσετε τον λογαριασμό σας για να αποκτήσετε πρόσβαση σε αυτό τον πόρο."
-      code_401_wrong_credentials: "You did not provide the correct credentials."
+      code_401_wrong_credentials: "Δεν παρείχατε τα σωστά στοιχεία σύνδεσης."
       code_403: "Δεν έχετε εξουσιοδότηση πρόσβασης σε αυτή τη σελίδα."
       code_404: "Ο ζητούμενος πόρος δεν βρέθηκε."
       code_409: "Δεν ήταν δυνατή η ενημέρωση του πόρου λόγω αντιφατικών τροποποιήσεων."
@@ -2538,16 +2538,16 @@ el:
       expected:
         date: "ΕΕΕΕ-ΜΜ-ΗΗ (ISO 8601 ημερομηνία μόνο)"
         duration: "ISO 8601 διάρκεια"
-      invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
-      invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
+      invalid_content_type: "Αναμενόταν το CONTENT-TYPE να είναι '%{content_type}' αλλά δώθηκε '%{actual}'."
+      invalid_format: "Μη έγκυρη μορφοποίηση για την ιδιότητα '%{property}': Αναμενόταν μορφοποίηση με τη μορφή '%{expected_format}', αλλά δώθηκε '%{actual}'."
       invalid_json: "Το αίτημα δεν μπόρεσε να γίνει parse σε JSON."
       invalid_relation: "Η σχέση δεν είναι έγκυρη."
-      invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
+      invalid_resource: "Για την ιδιότητα '%{property}' αναμενόταν ένας σύνδεσμος της μορφής '%{expected}', αλλά δώθηκε '%{actual}'."
       invalid_user_status_transition: "Η τρέχουσα κατάσταση λογαριασμού χρήστη δεν επιτρέπει αυτή τη λειτουργία."
       missing_content_type: "δεν έχει καθοριστεί"
-      missing_request_body: "There was no request body."
+      missing_request_body: "Δεν υπάρχει σώμα αιτήματος."
       missing_or_malformed_parameter: "Η παράμετρος αναζήτησης '%{parameter}' λείπει ή δεν δημιουργήθηκε σωστά."
-      multipart_body_error: "The request body did not contain the expected multipart parts."
+      multipart_body_error: "Το σώμα αιτήματος δεν περιέχει τα αναμενόμενα multipart κομμάτια."
       multiple_errors: "Παραβιάστηκαν πολλαπλοί περιορισμοί πεδίων."
       unable_to_create_attachment: "Το συνημμένο δεν ήταν δυνατό να δημιουργηθεί"
       unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
@@ -2565,7 +2565,7 @@ el:
         invalid_gzip: "is invalid gzip: %{message}"
         invalid_json: "is invalid json: %{message}"
     resources:
-      schema: 'Schema'
+      schema: 'Σχήμα'
   doorkeeper:
     pre_authorization:
       status: 'Πριν την εξουσιοδότηση'
@@ -2632,7 +2632,7 @@ el:
       created_date: "Εγκρίθηκε στις"
       scopes: "Δικαιώματα"
       successful_application_revocation: "Η εφαρμογή %{application_name} ανακλήθηκε επιτυχώς."
-      none_given: "No OAuth applications have been granted access to your user account."
+      none_given: "Δεν υπάρχουν OAuth εφαρμογές που να έχουν πρόσβαση στο λογαριασμό σας."
     x_active_tokens:
       one: 'ένα ενεργό token'
       other: '%{count} ενεργά token'
@@ -2643,7 +2643,7 @@ el:
     client_credentials_impersonation_set_to: "Client credentials user set to"
     client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
     client_credentials_impersonation_html: >
-      By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}. You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
+      Από προεπιλογή, το OpenProject παρέχει ταυτοποίηση OAuth 2.0 μέσω %{authorization_code_flow_link}. Μπορείτε προαιρετικά να ενεργοποιήσετε %{client_credentials_flow_link}, αλλά πρέπει να ορίσετε ένα χρήστη, εκ μέρους του οποίου θα εκτελεστούν τα αιτήματα.
     authorization_error: "Παρουσιάστηκε ένα σφάλμα εξουσιοδότησης."
     revoke_my_application_confirmation: "Είστε βέβαιοι ότι θέλετε να αφαιρέσετε αυτή την εφαρμογή; Αυτό θα ανακαλέσει %{token_count} που είναι ενεργά για αυτή."
-    my_registered_applications: "Registered OAuth applications"
+    my_registered_applications: "Καταγεγραμμένες εφαρμογές OAuth"
