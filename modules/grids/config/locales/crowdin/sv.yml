@@ -9,6 +9,6 @@ sv:
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
+          overlaps: 'överlappar.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'

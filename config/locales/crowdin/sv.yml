@@ -162,11 +162,11 @@ sv:
   projects:
     delete:
       scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
-      schedule_failed: "Project cannot be deleted: %{errors}"
-      failed: "Deletion of project %{name} has failed"
-      failed_text: "The request to delete project %{name} has failed. The project was left archived."
-      completed: "Deletion of project %{name} completed"
-      completed_text: "The request to delete project '%{name}' has been completed."
+      schedule_failed: "Projektet kan inte tas bort: %{errors}"
+      failed: "Borttagning av projekt %{name} misslyckades"
+      failed_text: "Begäran om att ta bort projekt %{name} misslyckades. Projektet lämnades arkiverat."
+      completed: "Borttagning av projekt %{name} slutfört"
+      completed_text: "Begäran om att ta bort projekt '%{name}' har slutförts."
     index:
       no_results_title_text: Det finns för närvarande inga projekt
       no_results_content_text: Skapa ett nytt projekt
@@ -318,7 +318,7 @@ sv:
         filesize: "Filstorlek"
       attribute_help_text:
         attribute_name: 'Attributet'
-        help_text: 'Help text'
+        help_text: 'Hjälptext'
       auth_source:
         account: "Konto"
         attr_firstname: "Förnamnsattribut"
@@ -429,7 +429,7 @@ sv:
         auto_hide_popups: "Dölj automatiskt meddelanden om åtgärder som lyckats"
         warn_on_leaving_unsaved: "Varna mig när jag lämnar ett arbetspaket med osparade ändringar"
       version:
-        effective_date: "Finish date"
+        effective_date: "Slutdatum"
         sharing: "Delas"
       wiki_content:
         text: "Text"
@@ -490,7 +490,7 @@ sv:
         greater_than_start_date: "måste vara senare än startdatumet."
         inclusion: "inte är inställd på ett av de tillåtna värdena."
         invalid: "är ogiltig."
-        invalid_url: 'is not a valid URL.'
+        invalid_url: 'är inte ett giltigt URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "måste vara mindre än eller lika med %{count}."
         not_a_date: "är inte är ett giltigt datum."
@@ -524,16 +524,16 @@ sv:
           attributes:
             redirect_uri:
               fragment_present: 'cannot contain a fragment.'
-              invalid_uri: 'must be a valid URI.'
+              invalid_uri: 'måste vara en giltig URI.'
               relative_uri: 'must be an absolute URI.'
               secured_uri: 'must be an HTTPS/SSL URI.'
-              forbidden_uri: 'is forbidden by the server.'
+              forbidden_uri: 'är förbjudet av servern.'
             scopes:
               not_match_configured: "doesn't match available scopes."
         enterprise_token:
           unreadable: "kan inte läsas. Är du säker på att det är en support-nyckel?"
         grids/grid:
-          overlaps: 'overlap.'
+          overlaps: 'överlappar.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
         parse_schema_filter_params_service:
@@ -695,7 +695,7 @@ sv:
     default_columns: "Standardkolumnerna"
     description: "Beskrivning"
     display_sums: "Visa summor"
-    due_date: "Finish date"
+    due_date: "Slutdatum"
     estimated_hours: "Beräknad tid"
     estimated_time: "Beräknad tid"
     firstname: "Förnamn"
