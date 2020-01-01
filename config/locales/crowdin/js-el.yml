@@ -38,7 +38,7 @@ el:
     close_form_title: "Κλείσιμο φόρμας"
     button_add_watcher: "Προσθήκη παρατηρητή"
     button_back: "Επιστροφή"
-    button_back_to_list_view: "Επιστροφή στη λίστα"
+    button_back_to_list_view: "Επιστροφή στη προβολή λίστας"
     button_cancel: "Ακύρωση"
     button_close: "Κλείσιμο"
     button_change_project: "Change project"
@@ -54,14 +54,14 @@ el:
     button_duplicate: "Δημιουργία αντιγράφου"
     button_edit: "Επεξεργασία"
     button_filter: "Φίλτρο"
-    button_advanced_filter: "Σύνθετα φίλτρα"
+    button_advanced_filter: "Προχωρημένο φίλτρο"
     button_list_view: "Προβολή λίστας"
-    button_show_view: "Πλήρης οθόνη"
+    button_show_view: "Προβολή πλήρης οθόνης"
     button_log_time: "Καταγραφή χρόνου"
     button_more: "Περισσότερα"
-    button_open_details: "Άνοιγμα λεπτομερειών"
-    button_close_details: "Κλείσιμο λεπτομερειών"
-    button_open_fullscreen: "Πλήρης οθόνη"
+    button_open_details: "Άνοιγμα προβολής λεπτομερειών"
+    button_close_details: "Κλείσιμο προβολής λεπτομερειών"
+    button_open_fullscreen: "Άνοιγμα προβολής πλήρης οθόνη"
     button_show_cards: "Show card view"
     button_show_list: "Show list view"
     button_quote: "Παράθεση"
@@ -81,7 +81,7 @@ el:
         entire_card_by: 'Entire card by'
       remove_from_list: 'Αφαίρεση από τη λίστα'
     clipboard:
-      browser_error: "Ο browser σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
+      browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
       copied_successful: "Επιτυχής αντιγραφή στο πρόχειρο!"
     chart:
       type: 'Chart type'
@@ -115,13 +115,13 @@ el:
         wysiwyg: 'Αλλαγή σε επεξεργαστή WYSIWYG'
       macro:
         child_pages:
-          button: 'Σύνδεσμοι στις υποσελίδες'
+          button: 'Σύνδεσμοι σε σελίδες-παιδιά'
           include_parent: 'Συμπεριλάβετε τον γονέα'
-          text: '[Placeholder] Σύνδεσμοι στις σελίδες - παιδιά του'
+          text: '[Placeholder] Σύνδεσμοι στις σελίδες-παιδιά του'
           page: 'Σελίδα Wiki'
           this_page: 'αυτή η σελίδα'
           hint: |
-            Αφήστε αυτό το πεδίο άδειο για να καταγραφούν όλες οι σελίδες παιδιά της τρέχουσας σελίδας. Αν θέλετε να κάνετε αναφορά σε διαφορετική σελίδα, δώστε τον τίτλο ή το slug του.
+            Αφήστε αυτό το πεδίο άδειο για να καταγραφούν όλες οι σελίδες-παιδιά της τρέχουσας σελίδας. Αν θέλετε να κάνετε αναφορά σε διαφορετική σελίδα, δώστε τον τίτλο ή το slug του.
         code_block:
           button: 'Εισαγωγή αποσπάσματος κώδικα'
           title: 'Εισαγωγή / επεξεργασία αποσπάσματος κώδικα'
@@ -240,7 +240,7 @@ el:
     label_collapsed: "συμπτυγμένο"
     label_collapse_all: "Σύμπτυξη όλων"
     label_comment: "Σχόλιο"
-    label_committed_at: "%{committed_revision_link} σε %{date}"
+    label_committed_at: "%{committed_revision_link} στις %{date}"
     label_committed_link: "δεσμευμένη αναθεώρηση %{revision_identifier}"
     label_contains: "περιέχει"
     label_created_on: "δημιουργήθηκε στις"
@@ -365,7 +365,7 @@ el:
         next: 'Επόμενο'
         got_it: 'Το κατάλαβα'
       steps:
-        help_menu: 'Στο μενού <b>Βοήθεια</b> θα βρείτε έναν οδηγό χρήστη και επιπλέον βοηθητικούς πόρους. <br> Απολαύστε την δουλειά σας με το OpenProject!'
+        help_menu: 'Στο μενού <b>Βοήθεια</b> θα βρείτε έναν οδηγό χρήστη και επιπλέον βοηθητικούς πόρους. <br> Απολαύστε τη δουλειά σας με το OpenProject!'
         members: 'Προσκαλέστε καινούργια <b>Μέλη</b> για να συμμετάσχουν στο έργο σας.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
         sidebar_arrow: "Με τα βέλη μπορείτε να πλοηγηθείτε πίσω στο <b>Κύριο μενού</b> του έργου."
@@ -390,18 +390,18 @@ el:
           timeline_button: 'Μπορείτε να ενεργοποιήσετε το <b>διάγραμμα Gantt</b> για να δημιουργήσετε ένα χρονοδιάγραμμα για το project σας.'
           timeline: 'Εδώ μπορείτε να επεξεργαστείτε το πλάνο του έργου σας. Να δημιουργήσετε καινούργιες φάσεις, ορόσημα και να προσθέσετε εξαρτήσεις. Όλα τα μέλη της ομάδας θα μπορούν να δουν και να ενημερώσουν το τελευταίο πλάνο οποιαδήποτε στιγμή.'
     password_confirmation:
-      field_description: 'Πρέπει να εισάγετε το password του λογαριασμού σας για να επιβεβαιώσετε αυτή την αλλαγή.'
-      title: 'Επιβεβαιώστε το password σας για να συνεχίσετε'
+      field_description: 'Πρέπει να εισάγετε τον κωδικό πρόσβασης του λογαριασμού σας για να επιβεβαιώσετε αυτή την αλλαγή.'
+      title: 'Επιβεβαιώστε τον κωδικό πρόσβασης σας για να συνεχίσετε'
     pagination:
-      no_other_page: "Είστε στην μοναδική σελίδα."
+      no_other_page: "Βρίσκεστε στη μοναδική σελίδα."
       pages:
         next: "Μεταβείτε στην επόμενη σελίδα"
-        previous: "Επιστροφή στη προηγούμενη σελίδα"
+        previous: "Επιστροφή στην προηγούμενη σελίδα"
     placeholders:
       default: '-'
       subject: 'Εισάγετε θέμα εδώ'
       selection: 'Παρακαλώ επιλέξτε'
-      relation_description: 'Πατήστε κλικ για να προσθέσετε περιγραφή για αυτή την σχέση'
+      relation_description: 'Κάντε κλικ για να προσθέσετε περιγραφή για αυτή την σχέση'
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
@@ -493,7 +493,7 @@ el:
       placeholder: "Type to search"
       parent_placeholder: "Choose new parent or press escape to cancel."
     repositories:
-      select_tag: 'Επιλογή ετικέτας'
+      select_tag: 'Επιλογή σήμανσης'
       select_branch: 'Επιλογή κλάδου'
     field_value_enter_prompt: "Εισαγωγή τιμής για το '%{field}'"
     select2:
@@ -522,14 +522,14 @@ el:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Διάγραμμα Gantt'
       labels:
-        title: 'Διαμόρφωση ταμπέλας'
-        bar: 'Ταμπέλες μπάρας'
+        title: 'Διαμόρφωση ετικέτας'
+        bar: 'Ετικέτες μπάρας'
         left: 'Αριστερά'
         right: 'Δεξιά'
         farRight: 'Πολύ δεξιά'
-        showNone: '-- Χωρίς ταμπέλα --'
+        showNone: '-- Χωρίς ετικέτας --'
         description: >
-          Επιλέξτε τα χαρακτηριστικά που θέλετε να εμφανίζονται στις αντίστοιχες θέσεις του διαγράμματος Gantt συνεχώς. Σημειώστε πως όταν τοποθετείτε το ποντίκι πάνω από ένα στοιχείο, θα εμφανίζονται οι ταμπέλες ημερομηνίας αντί για αυτά τα χαρακτηριστικά.
+          Επιλέξτε τα χαρακτηριστικά που θέλετε να εμφανίζονται στις αντίστοιχες θέσεις του διαγράμματος Gantt συνεχώς. Σημειώστε πως όταν τοποθετείτε το ποντίκι πάνω από ένα στοιχείο, θα εμφανίζονται οι ετικέτες ημερομηνίας αντί για αυτά τα χαρακτηριστικά.
       button_activate: 'Εμφάνιση διαγράμματος Gantt'
       button_deactivate: 'Απόκρυψη διαγράμματος Gantt'
       cancel: Ακύρωση

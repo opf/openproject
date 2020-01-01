@@ -534,7 +534,7 @@ sv:
       button_deactivate: 'Hide Gantt chart'
       cancel: Avbryt
       change: "Ändra i planeringen"
-      due_date: "Finish date"
+      due_date: "Slutdatum"
       empty: "(tom)"
       error: "Ett fel har inträffat."
       errors:
@@ -661,7 +661,7 @@ sv:
         createdAt: "Skapat den"
         description: "Beskrivning"
         date: "Datum"
-        dueDate: "Finish date"
+        dueDate: "Slutdatum"
         estimatedTime: "Beräknad tid"
         spentTime: "Förbrukad tid"
         category: "Kategori"
