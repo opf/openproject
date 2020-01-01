@@ -12,8 +12,8 @@ In this guide we will describe how to configure outbound emails using an externa
 
 ## Requirements
 
-You will need to have SMTP settings ready. Those can eiher be from a company
-SMTP server, a GMail account, or a public provider such as
+You will need to have SMTP settings ready. Those can either be from a company
+SMTP server, a Gmail account, or a public provider such as
 [SendGrid](https://www.sendgrid.com/).
 
 Taking SendGrid as an example, you would need to sign up on their website (they
@@ -23,7 +23,7 @@ provisioned, generate a new API key and copy it somewhere (it looks like
 could also simply use your SendGrid username and password, but this is less
 secure.
 
-You can adjust those settings for other SMTP providers, such as GMail,
+You can adjust those settings for other SMTP providers, such as Gmail,
 Mandrill, etc. Please refer to the documentation of the corresponding provider
 to see what values should be used.
 
@@ -51,5 +51,3 @@ docker run -d \
   -e SMTP_PASSWORD="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" \
   ...
 ```
-
-
