@@ -48,8 +48,8 @@ el:
       add_token: "Ανεβάστε ενα token υποστήριξης έκδοσης για επιχειρήσεις"
       replace_token: "Αντικαταστήστε το τρέχον token υποστήριξης"
       order: "Παραγγείλετε Έκδοση για Επιχειρήσεις"
-      paste: "Επικολλήστε ενα token υποστήριξης έκδοσης για επιχειρήσεις"
-      required_for_feature: "Αυτή η λειτουργία διατίθεται μόνο με ενεργό token υποστήριξης έκδοσης για επιχειρήσεις."
+      paste: "Επικολλήστε ένα token υποστήριξης Έκδοσης για Επιχειρήσεις"
+      required_for_feature: "Αυτή η λειτουργία διατίθεται μόνο με ενεργό token υποστήριξης Έκδοσης για Επιχειρήσεις."
       enterprise_link: "Για περισσότερες πληροφορίες, πατήστε εδω."
   announcements:
     show_until: Εμφάνιση μέχρι
@@ -607,7 +607,7 @@ el:
               attribute_unknown: "Το χαρακτηριστικό του πακέτου εργασίας που χρησιμοποιήθηκε δεν είναι έγκυρο."
               attribute_unknown_name: "Invalid work package attribute used: %{attribute}"
               duplicate_group: "Το όνομα της ομάδας %{group} χρησιμοποιείται περισσότερες από μία φορές. Τα ονόματα ομάδων πρέπει να είναι μοναδικά."
-              query_invalid: "Το ενσωματωμένο ερώτημα '%{group}' δεν είναι έγκυρο: %{details}"
+              query_invalid: "Η ενσωματωμένη αναζήτηση '%{group}' δεν είναι έγκυρη: %{details}"
               group_without_name: "Δεν επιτρέπονται ομάδες χωρίς όνομα."
         user:
           attributes:
@@ -803,7 +803,7 @@ el:
     decline_warning_message: Έχετε αρνηθεί να συναινέσετε και αποσυνδεθήκατε.
     user_has_consented: Ο χρήστης έχει συναινέσει στην τροποποιημένη δήλωση στο δοσμένο χρόνο.
     not_yet_consented: Ο χρήστης δεν έχει συναινέσει ακόμη, θα ζητηθεί στην επόμενη σύνδεση του.
-    contact_mail_instructions: Ορίστε τη διεύθυνση email που θα χρησιμοποιούν οι χρήστες για να επικοινωνήσουν με ένα χειριστή δεδομένων ώστε να εκτελέσουν αλλαγές στα δεδομένα ή να αφαιρέσουν αιτήσεις.
+    contact_mail_instructions: Ορίστε τη διεύθυνση email που θα χρησιμοποιούν οι χρήστες για να επικοινωνήσουν με ένα χειριστή δεδομένων ώστε να εκτελέσουν αλλαγές στα δεδομένα ή να αφαιρέσουν αιτήματα.
     contact_your_administrator: Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας αν θέλετε να διαγραφεί ο λογαριασμός σας.
     contact_this_mail_address: Παρακαλούμε επικοινωνήστε με το %{mail_address} αν θέλετε να διαγραφεί ο λογαριασμός σας.
     text_update_consent_time: Επιλέξτε αυτό το κουτί για να αναγκάσετε τους χρήστες να συναινέσουν ξανά. Ενεργοποιήστε όταν έχετε αλλάξει τις νομικές πτυχές του παραπάνω περιεχομένου συναίνεσης.
@@ -817,7 +817,7 @@ el:
     project_custom_fields: 'Προσαρμοσμένα πεδία του έργου'
     text:
       failed: "Δεν ήταν δυνατή η αντιγραφή του έργου \"%{source_project_name}\" στο έργο \"%{target_project_name}\"."
-      succeeded: "Αντιγράφηκε το έργο \"%{source_project_name}\" στο \"%{target_project_name}\"."
+      succeeded: "Αντιγράφτηκε το έργο \"%{source_project_name}\" στο \"%{target_project_name}\"."
   create_new_page: "Σελίδα Wiki"
   date:
     abbr_day_names:
@@ -1407,8 +1407,8 @@ el:
   label_missing_feeds_access_key: "Λείπει το κλειδί πρόσβασης RSS"
   label_modification: "%{count} αλλαγή"
   label_modified: "τροποποιήθηκε"
-  label_module_plural: "Πρόσθετα"
-  label_modules: "Πρόσθετα"
+  label_module_plural: "Ενότητες"
+  label_modules: "Ενότητες"
   label_month: "Μήνας"
   label_months_from: "μήνες από"
   label_more: "Περισσότερα"
@@ -1468,7 +1468,7 @@ el:
   label_personalize_page: "Προσωποποίηση αυτής της σελίδας"
   label_planning: "Σχεδιασμός"
   label_please_login: "Παρακαλούμε συνδεθείτε"
-  label_plugins: "Plugins"
+  label_plugins: "Πρόσθετα"
   label_modules_and_plugins: "Πρόσθετα και Υπηρεσίες"
   label_precedes: "προηγείται"
   label_preferences: "Προτιμήσεις"
@@ -1518,7 +1518,7 @@ el:
   label_report_bug: "Αναφορά ενός σφάλματος"
   label_report_plural: "Αναφορές"
   label_reported_work_packages: "Πακέτα εργασίας που έχουν αναφερθεί"
-  label_reporting: "Αποστολή αναφοράς"
+  label_reporting: "Αναφορά"
   label_reporting_plural: "Αναφορές"
   label_repository: "Αποθετήριο"
   label_repository_root: "Repository root"
@@ -1573,7 +1573,7 @@ el:
   label_system: "Σύστημα"
   label_system_storage: "Πληροφορίες αποθήκευσης"
   label_table_of_contents: "Πίνακας περιεχομένων"
-  label_tag: "Ετικέτα"
+  label_tag: "Σήμανση"
   label_text: "Μακροσκελές κείμενο"
   label_this_month: "αυτό το μήνα"
   label_this_week: "αυτή την εβδομάδα"
@@ -1588,7 +1588,7 @@ el:
   label_type_new: "Νέος τύπος"
   label_type_plural: "Τύποι"
   label_ui: "Διεπαφή Χρήστη"
-  label_update_work_package_done_ratios: "Ενημέρωση αναλογιών πακέτων εργασίας που έχουν γίνει"
+  label_update_work_package_done_ratios: "Ενημέρωση αναλογιών ολοκληρωμένων πακέτων εργασίας"
   label_updated_time: "Ενημερώθηκε πριν από %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Ενημερώθηκε από τον %{author} πριν από %{age}"
@@ -1686,20 +1686,20 @@ el:
   label_keyboard_shortcut_some_pages_only: "Ειδικές συντομεύσεις:"
   label_keyboard_shortcut_search_global: "Καθολική αναζήτηση"
   label_keyboard_shortcut_search_project: "Βρείτε ένα έργο"
-  label_keyboard_shortcut_go_my_page: "Πηγαίνετε στη σελίδα μου"
+  label_keyboard_shortcut_go_my_page: "Μετάβαση στη σελίδα μου"
   label_keyboard_shortcut_show_help: "Εμφάνιση αυτού του μηνύματος βοήθειας"
-  label_keyboard_shortcut_go_overview: "Πηγαίνετε στην επισκόπηση έργου"
-  label_keyboard_shortcut_go_work_package: "Πηγαίνετε στα πακέτα εργασίας του έργου"
-  label_keyboard_shortcut_go_wiki: "Πηγαίνετε στο wiki του έργου"
-  label_keyboard_shortcut_go_activity: "Πηγαίνετε στις δραστηριότητες του έργου"
-  label_keyboard_shortcut_go_calendar: "Πηγαίνετε στο ημερολόγιο του έργου"
-  label_keyboard_shortcut_go_news: "Πηγαίνετε στο νέα του έργου"
-  label_keyboard_shortcut_go_timelines: "Πηγαίνετε στο χρονοδιάγραμμα"
+  label_keyboard_shortcut_go_overview: "Μετάβαση στην επισκόπηση έργου"
+  label_keyboard_shortcut_go_work_package: "Μετάβαση στα πακέτα εργασίας του έργου"
+  label_keyboard_shortcut_go_wiki: "Μετάβαση στο wiki του έργου"
+  label_keyboard_shortcut_go_activity: "Μετάβαση στις δραστηριότητες του έργου"
+  label_keyboard_shortcut_go_calendar: "Μετάβαση στο ημερολόγιο του έργου"
+  label_keyboard_shortcut_go_news: "Μετάβαση στο νέα του έργου"
+  label_keyboard_shortcut_go_timelines: "Μετάβαση στα χρονοδιαγράμματα"
   label_keyboard_shortcut_new_work_package: "Δημιουργήστε νέο πακέτο εργασίας"
   label_keyboard_shortcut_details_package: "Εμφανίστε το πλαίσιο λεπτομερειών των πακέτων εργασίας"
   label_keyboard_shortcut_go_edit: "Πηγαίνετε στην επεξεργασία του τρέχοντος αντικειμένου (μόνο στη σελίδα λεπτομερειών)"
   label_keyboard_shortcut_open_more_menu: "Open more-menu (on detail pages only)"
-  label_keyboard_shortcut_go_preview: "Πηγαίνετε στην προεπισκόπηση της τρέχουσας επεξεργασίας (μόνο στη σελίδα επεξεργασίας)"
+  label_keyboard_shortcut_go_preview: "Μετάβαση στην προεπισκόπηση της τρέχουσας επεξεργασίας (μόνο στη σελίδα επεξεργασίας)"
   label_keyboard_shortcut_focus_previous_item: "Εστίαση στο προηγούμενο στοιχείο της λίστας (μόνο σε κάποιες λίστες)"
   label_keyboard_shortcut_focus_next_item: "Εστίαση στο επόμενο στοιχείο της λίστας (μόνο σε κάποιες λίστες)"
   auth_source:
@@ -1722,7 +1722,7 @@ el:
     create_work_package_link:
       errors:
         no_project_context: 'Calling create_work_package_link macro from outside project context.'
-        invalid_type: "Δεν βρέθηκε ο τύπος με όνομα '%{type}' στο έργο '%{project}'."
+        invalid_type: "Δεν βρέθηκε τύπος με όνομα '%{type}' στο έργο '%{project}'."
       link_name: 'Νέο πακέτο εργασίας'
       link_name_type: 'Νέο %{type_name}'
   mail:
@@ -1785,7 +1785,7 @@ el:
   notice_failed_to_save_members: "Δεν ήταν δυνατή η αποθήκευση των μελών: %{errors}"
   notice_file_not_found: "Η σελίδα που ζητήσατε δεν υπάρχει ή έχει αφαιρεθεί."
   notice_forced_logout: "Αποσυνδεθήκατε αυτόματα μετά από %{ttl_time} λεπτά αδράνειας."
-  notice_internal_server_error: "Παρουσιάστηκε ένα σφάλμα στη σελίδα που προσπαθήσατε να ανοίξετε. Αν εξακολουθείτε να αντιμετωπίζετε προβλήματα παρακαλούμε με τον %{app_title} διαχειριστή σας για βοήθεια."
+  notice_internal_server_error: "Παρουσιάστηκε ένα σφάλμα στη σελίδα που προσπαθήσατε να ανοίξετε. Αν εξακολουθείτε να αντιμετωπίζετε προβλήματα παρακαλούμε επικοινωνήστε με τον %{app_title} διαχειριστή σας για βοήθεια."
   notice_work_package_done_ratios_updated: "Η αναλογίες ολοκληρωμένων πακέτων εργασίας ενημερώθηκαν."
   notice_locking_conflict: "Οι πληροφορίες ενημερώθηκαν από τουλάχιστον έναν ακόμα χρήστη στο εν τω μεταξύ."
   notice_locking_conflict_additional_information: "Η ενημέρωση(-εις) προήλθαν από %{users}."
@@ -1868,10 +1868,10 @@ el:
   permission_edit_messages: "Επεξεργασία μηνυμάτων"
   permission_edit_own_work_package_notes: "Επεξεργασία δικών μου σημειώσεων"
   permission_edit_own_messages: "Επεξεργασία δικών μου μηνυμάτων"
-  permission_edit_own_time_entries: "Επεξεργασία των δικών μου ιστορικών χρόνου"
+  permission_edit_own_time_entries: "Επεξεργασία των δικών μου καταγραφών χρόνου"
   permission_edit_project: "Επεξεργασία του έργου"
   permission_edit_reportings: "Επεξεργασία αναφορών"
-  permission_edit_time_entries: "Επεξεργασία ιστορικών χρόνου"
+  permission_edit_time_entries: "Επεξεργασία καταγραφών χρόνου"
   permission_edit_timelines: "Επεξεργασία χρονοδιαγραμμάτων"
   permission_edit_wiki_pages: "Επεξεργασία σελίδων wiki"
   permission_export_work_packages: "Εξαγωγή πακέτων εργασίας"
@@ -2128,7 +2128,7 @@ el:
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"
   setting_repositories_encodings: "Κωδικοποιήσεις αποθετηρίων"
   setting_repository_authentication_caching_enabled: "Ενεργοποίηση caching για αιτήματα ταυτοποίησης του λογισμικού ελέγχου εκδόσεων"
-  setting_repository_storage_cache_minutes: "Μέγεθος cache του δίσκου αποθετηρίου"
+  setting_repository_storage_cache_minutes: "Μέγεθος cache του αποθετηρίου στο δίσκο"
   setting_repository_checkout_display: "Εμφάνιση οδηγιών ολοκλήρωσης της παραγγελίας"
   setting_repository_checkout_base_url: "Checkout base URL"
   setting_repository_checkout_text: "Κείμενο οδηγιών ολοκλήρωσης της παραγγελίας"
@@ -2303,7 +2303,7 @@ el:
       colors: "Χρώματα"
     associations: "Εξαρτήσεις"
     button_delete_all: "Διαγραφή όλων"
-    change: "Αλλαγή στο σχεδιασμός"
+    change: "Αλλαγή στο σχεδιασμό"
     children: "Στοιχεία-παιδιά"
     color_could_not_be_saved: "Το χρώμα δεν ήταν δυνατό να αποθηκευθεί"
     current_planning: "Τρέχων σχεδιασμός"
@@ -2323,7 +2323,7 @@ el:
     enable_type_in_project: 'Ενεργοποίηση τύπου "%{type}"'
     end: "Λήξη"
     errors:
-      not_implemented: "Το χρονοδιάγραμμα δεν μπόρεσαι να επεξεργαστεί γιατί χρησιμοποιεί μια λειτουργία που δεν μπορεί να εφαρμοστεί ακόμη."
+      not_implemented: "Το χρονοδιάγραμμα δεν μπόρεσε να επεξεργαστεί γιατί χρησιμοποιεί μια λειτουργία που δεν μπορεί να εφαρμοστεί ακόμη."
       report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
       report_epicfail: "The timeline could not be loaded due to an unexpected error."
       report_timeout: "The timeline could not be loaded in a reasonable amount of time."
@@ -2504,7 +2504,7 @@ el:
   warning_imminent_user_limit: >
     You invited more users than are supported by your current plan. Invited users may not be able to join your OpenProject environment. Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users in order to allow invited and registered users to join.
   warning_registration_token_expired: |
-    Το email ενεργοποίησης έχει λήξει. Σας στείλαμε ένα καινούργιο στο %{email}. Παρακαλούμε πατήστε στον σύνδεση μέσα σε αυτό για να ενεργοποιήσετε τον λογαριασμό σας.
+    Το email ενεργοποίησης έχει λήξει. Σας στείλαμε ένα καινούργιο στο %{email}. Παρακαλούμε πατήστε στον σύνδεσμο μέσα σε αυτό για να ενεργοποιήσετε τον λογαριασμό σας.
   warning_user_limit_reached: >
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
@@ -2538,11 +2538,11 @@ el:
       expected:
         date: "ΕΕΕΕ-ΜΜ-ΗΗ (ISO 8601 ημερομηνία μόνο)"
         duration: "ISO 8601 διάρκεια"
-      invalid_content_type: "Αναμενόταν το CONTENT-TYPE να είναι '%{content_type}' αλλά δώθηκε '%{actual}'."
-      invalid_format: "Μη έγκυρη μορφοποίηση για την ιδιότητα '%{property}': Αναμενόταν μορφοποίηση με τη μορφή '%{expected_format}', αλλά δώθηκε '%{actual}'."
+      invalid_content_type: "Αναμενόταν το CONTENT-TYPE να είναι '%{content_type}' αλλά δόθηκε '%{actual}'."
+      invalid_format: "Μη έγκυρη μορφοποίηση για την ιδιότητα '%{property}': Αναμενόταν μορφοποίηση με τη μορφή '%{expected_format}', αλλά δόθηκε '%{actual}'."
       invalid_json: "Το αίτημα δεν μπόρεσε να γίνει parse σε JSON."
       invalid_relation: "Η σχέση δεν είναι έγκυρη."
-      invalid_resource: "Για την ιδιότητα '%{property}' αναμενόταν ένας σύνδεσμος της μορφής '%{expected}', αλλά δώθηκε '%{actual}'."
+      invalid_resource: "Για την ιδιότητα '%{property}' αναμενόταν ένας σύνδεσμος της μορφής '%{expected}', αλλά δόθηκε '%{actual}'."
       invalid_user_status_transition: "Η τρέχουσα κατάσταση λογαριασμού χρήστη δεν επιτρέπει αυτή τη λειτουργία."
       missing_content_type: "δεν έχει καθοριστεί"
       missing_request_body: "Δεν υπάρχει σώμα αιτήματος."
