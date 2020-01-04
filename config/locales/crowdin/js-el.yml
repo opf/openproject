@@ -533,12 +533,12 @@ el:
       button_activate: 'Εμφάνιση διαγράμματος Gantt'
       button_deactivate: 'Απόκρυψη διαγράμματος Gantt'
       cancel: Ακύρωση
-      change: "Αλλαγή στο σχεδιασμός"
+      change: "Αλλαγή στο σχεδιασμό"
       due_date: "Ημερομηνία λήξης"
       empty: "(άδειο)"
       error: "Παρουσιάστηκε σφάλμα."
       errors:
-        not_implemented: "Το χρονοδιάγραμμα δεν μπόρεσαι να επεξεργαστεί γιατί χρησιμοποιεί μια λειτουργία που δεν μπορεί να εφαρμοστεί ακόμη."
+        not_implemented: "Το χρονοδιάγραμμα δεν μπόρεσε να επεξεργαστεί γιατί χρησιμοποιεί μια λειτουργία που δεν μπορεί να εφαρμοστεί ακόμη."
         report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
         report_epicfail: "The timeline could not be loaded due to an unexpected error."
         report_timeout: "The timeline could not be loaded in a reasonable amount of time."
