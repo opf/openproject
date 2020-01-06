@@ -107,7 +107,7 @@ describe 'Work package calendars', type: :feature, js: true do
     filters.expect_filter_count 2
 
     # navigate to the next month
-    find('.fc-left button.fc-next-button').click
+    find('.fc-next-button').click
 
     expect(page)
       .to have_no_selector '.fc-event-container', text: current_work_package.subject
@@ -133,7 +133,7 @@ describe 'Work package calendars', type: :feature, js: true do
     future_url = current_url
 
     # navigate back a month
-    find('.fc-left button.fc-prev-button').click
+    find('.fc-prev-button').click
 
     expect(page)
       .to have_selector '.fc-event-container', text: current_work_package.subject

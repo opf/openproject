@@ -2190,6 +2190,26 @@
         }
       }
     },
+    "@fullcalendar/angular": {
+      "version": "4.3.1",
+      "resolved": "https://registry.npmjs.org/@fullcalendar/angular/-/angular-4.3.1.tgz",
+      "integrity": "sha512-2RWJFpSeBJGyGzRFOJ/aP5BPBbmCwvUnVS0mc9mLGiSGW2BlNfYE6UTIhjCKwaGpy8cO0tParLLC2iG2XLHbTg==",
+      "requires": {
+        "@fullcalendar/core": "~4.3.1",
+        "fast-deep-equal": "^2.0.1",
+        "tslib": "^1.9.0"
+      }
+    },
+    "@fullcalendar/core": {
+      "version": "4.3.1",
+      "resolved": "https://registry.npmjs.org/@fullcalendar/core/-/core-4.3.1.tgz",
+      "integrity": "sha512-Eh+p/wpMkWGu26f8NpfQK9ecQMoZxX/aopv+0+4/CH+Ip0paP6iEc40JYgTz7RFl0bFqV1dvwyGyUZ4+9ZeySA=="
+    },
+    "@fullcalendar/daygrid": {
+      "version": "4.3.0",
+      "resolved": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-4.3.0.tgz",
+      "integrity": "sha512-OrGaRIGbELESOXOCXtoQVY4cOxnxmN7OrjDGbMoVITdoXWuIZ6sFNO84WcBQoRaIbkmqVM0SAU2MENwy+eEwqQ=="
+    },
     "@ng-select/ng-option-highlight": {
       "version": "0.0.2",
       "resolved": "https://registry.npmjs.org/@ng-select/ng-option-highlight/-/ng-option-highlight-0.0.2.tgz",
@@ -2364,15 +2384,6 @@
       "version": "3.0.0",
       "resolved": "https://registry.npmjs.org/@types/events/-/events-3.0.0.tgz",
       "integrity": "sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g=="
-    },
-    "@types/fullcalendar": {
-      "version": "3.5.2",
-      "resolved": "https://registry.npmjs.org/@types/fullcalendar/-/fullcalendar-3.5.2.tgz",
-      "integrity": "sha512-g1e2KAMdvzNkxodyo8F4z9asU6YR4z9v0J5WC9kf6gmdeTN2q05cY18oVKhIxrfsQ40LGP3+UhJb0gEfK74A9g==",
-      "requires": {
-        "@types/jquery": "*",
-        "moment": ">=2.14.0"
-      }
     },
     "@types/glob": {
       "version": "7.1.1",
@@ -5839,15 +5850,6 @@
         "rimraf": "2"
       }
     },
-    "fullcalendar": {
-      "version": "3.6.1",
-      "resolved": "https://registry.npmjs.org/fullcalendar/-/fullcalendar-3.6.1.tgz",
-      "integrity": "sha1-C5tiseaX1S05wRGK+eTkEeUEVZA=",
-      "requires": {
-        "jquery": "2 - 3",
-        "moment": "^2.9.0"
-      }
-    },
     "function-bind": {
       "version": "1.1.1",
       "resolved": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz",
@@ -8173,24 +8175,6 @@
       "version": "5.0.0",
       "resolved": "https://registry.npmjs.org/ng-dynamic-component/-/ng-dynamic-component-5.0.0.tgz",
       "integrity": "sha512-87ragKzHGkeuXY3OqphZwNog7na4FhzJqcpqHFxCov2MXWm+fcInqcf3xunPhjJFYpAnbjb89VZO2zElLqvosA=="
-    },
-    "ng-fullcalendar": {
-      "version": "1.7.1",
-      "resolved": "https://registry.npmjs.org/ng-fullcalendar/-/ng-fullcalendar-1.7.1.tgz",
-      "integrity": "sha512-8OMHPOt32QmNU5x2Bj8R4bCgoi//CgBX+1+O3xvDtChfwkD96pq12mgWvRb4+XqixYizJjzQX/zD6bh7d+MdJg==",
-      "requires": {
-        "@types/fullcalendar": "3.5.2",
-        "@types/jquery": "3.2.17",
-        "fullcalendar": "3.6.1",
-        "jquery": "^3.2.1"
-      },
-      "dependencies": {
-        "@types/jquery": {
-          "version": "3.2.17",
-          "resolved": "https://registry.npmjs.org/@types/jquery/-/jquery-3.2.17.tgz",
-          "integrity": "sha512-lt8i2ZqymxxN1JnWSOTPU7Xc3ze32lhASkVdsMd6/SZnb/jtBsmFEoYCBSa0tzGDSyO7ZB+4r4aihj+KTlDs5w=="
-        }
-      }
     },
     "ng2-charts": {
       "version": "2.3.0",

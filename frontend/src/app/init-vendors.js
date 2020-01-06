@@ -84,3 +84,6 @@ require('expose-loader?URI!URIjs');
 require('URIjs/src/URITemplate');
 
 require("expose-loader?I18n!../vendor/i18n");
+
+// Localization for fullcalendar
+require("@fullcalendar/core/locales-all.min");
