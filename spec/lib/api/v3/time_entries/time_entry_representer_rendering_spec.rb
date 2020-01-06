@@ -99,6 +99,11 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
       let(:title) { activity.name }
     end
 
+    it_behaves_like 'has an untitled link' do
+      let(:link) { 'schema' }
+      let(:href) { api_v3_paths.time_entry_schema }
+    end
+
     context 'custom value' do
       let(:custom_field) do
         FactoryBot.build_stubbed(:time_entry_custom_field, field_format: 'user')
@@ -142,6 +147,12 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
       end
 
       it_behaves_like 'has an untitled link' do
+        let(:link) { 'update' }
+        let(:href) { api_v3_paths.time_entry_form(time_entry.id) }
+        let(:method) { :post }
+      end
+
+      it_behaves_like 'has an untitled link' do
         let(:link) { 'delete' }
         let(:href) { api_v3_paths.time_entry(time_entry.id) }
         let(:method) { :delete }
@@ -152,6 +163,10 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
       let(:permissions) { [] }
       it_behaves_like 'has no link' do
         let(:link) { 'updateImmediately' }
+      end
+
+      it_behaves_like 'has no link' do
+        let(:link) { 'update' }
       end
 
       it_behaves_like 'has no link' do

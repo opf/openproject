@@ -48,7 +48,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
 
     allow(contract)
       .to receive(:writable?) do |attribute|
-      %w(spent_on hours project work_package activity).include?(attribute.to_s)
+      %w(spent_on hours project work_package activity comment).include?(attribute.to_s)
     end
 
     allow(contract)
@@ -110,6 +110,17 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
         let(:type) { 'Duration' }
         let(:name) { TimeEntry.human_attribute_name('hours') }
         let(:required) { true }
+        let(:writable) { true }
+      end
+    end
+
+    describe 'comment' do
+      let(:path) { 'comment' }
+
+      it_behaves_like 'has basic schema properties' do
+        let(:type) { 'Formattable' }
+        let(:name) { TimeEntry.human_attribute_name('comment') }
+        let(:required) { false }
         let(:writable) { true }
       end
     end

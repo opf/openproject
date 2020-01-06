@@ -56,6 +56,10 @@ module API
           schema :user,
                  type: 'User'
 
+          schema :comment,
+                 type: 'Formattable',
+                 required: false
+
           schema_with_allowed_link :work_package,
                                    has_default: false,
                                    required: false,

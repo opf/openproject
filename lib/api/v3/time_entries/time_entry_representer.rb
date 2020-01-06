@@ -50,12 +50,27 @@ module API
           }
         end
 
+        link :update do
+          next unless update_allowed?
+
+          {
+            href: api_v3_paths.time_entry_form(represented.id),
+            method: :post
+          }
+        end
+
         link :delete do
           next unless update_allowed?
 
           {
             href: api_v3_paths.time_entry(represented.id),
             method: :delete
+          }
+        end
+
+        link :schema do
+          {
+            href: api_v3_paths.time_entry_schema
           }
         end
 
