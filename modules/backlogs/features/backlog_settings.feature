@@ -69,9 +69,9 @@ Feature: Backlog Settings
     And the project uses the following modules:
         | backlogs |
     And I am working in project "ecookbook"
-    When I go to the settings/backlogs_settings page of the project called "ecookbook"
+    When I go to the settings/backlogs page of the project called "ecookbook"
     Then there should be a "Resolved" field
     When I check "Resolved"
-    And I press "Save" within "#tab-content-backlogs_settings"
-    When I go to the settings/backlogs_settings page of the project called "ecookbook"
+    And I press "Save"
+    When I go to the settings/backlogs page of the project called "ecookbook"
     Then the "Resolved" checkbox should be checked

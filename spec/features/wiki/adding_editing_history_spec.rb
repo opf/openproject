@@ -67,7 +67,7 @@ describe 'wiki pages', type: :feature, js: true do
       click_button 'Save'
     end
 
-    expect(page).to have_selector('#menu-sidebar .main-item-wrapper', text: 'Wiki')
+    expect(page).to have_selector('#menu-sidebar .main-item-wrapper', text: 'Wiki', visible: false)
 
     # creating by accessing the page
     visit project_wiki_path(project, 'new page')

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'version create', type: :feature do
+describe 'version create', type: :feature, js: true do
   let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,
