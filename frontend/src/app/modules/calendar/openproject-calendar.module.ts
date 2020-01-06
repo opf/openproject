@@ -30,7 +30,6 @@ import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-commo
 import {NgModule} from '@angular/core';
 import {FullCalendarModule} from '@fullcalendar/angular';
 import {WorkPackagesCalendarEntryComponent} from "core-app/modules/calendar/wp-calendar-entry/wp-calendar-entry.component";
-import {WorkPackagesEmbeddedCalendarEntryComponent} from "core-app/modules/calendar/wp-embedded-calendar/wp-embedded-calendar-entry.component";
 import {WorkPackagesCalendarController} from "core-app/modules/calendar/wp-calendar/wp-calendar.component";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
@@ -69,10 +68,8 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     // Work package calendars
     WorkPackagesCalendarEntryComponent,
     WorkPackagesCalendarController,
-    WorkPackagesEmbeddedCalendarEntryComponent,
   ],
   entryComponents: [
-    WorkPackagesEmbeddedCalendarEntryComponent,
     WorkPackagesCalendarController,
     WorkPackagesCalendarEntryComponent,
   ],
