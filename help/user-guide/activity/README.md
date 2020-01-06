@@ -15,9 +15,9 @@ The activity includes changes to work packages, repository changes, new, wiki en
 
 ## Activate Activity in a project
 
-To activate the Activity module in a project, select the Project Settings in the Project menu on the left hand side.
+To activate the Activity module in a project, select the arrow next to Project Settings in the Project menu on the left hand side.
 
-Choose the tab **Modules**.
+Then choose the sub menu entry **Modules**.
 
 Enable the **Activity** module and click the blue **Save** button.
 
