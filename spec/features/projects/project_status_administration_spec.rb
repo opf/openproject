@@ -69,7 +69,7 @@ describe 'Projects status administration', type: :feature, js: true do
       .to have_content('Successful creation.')
 
     # Check that the status has been set correctly
-    visit settings_project_path(Project.last)
+    visit settings_generic_project_path(Project.last)
 
     expect(page)
       .to have_select('Status', selected: 'On track')

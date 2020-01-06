@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe CopyProjectsController, type: :controller do
   let(:current_user) { FactoryBot.create(:admin) }
-  let(:redirect_path) { "/projects/#{project.id}/settings" }
+  let(:redirect_path) { "/projects/#{project.id}/settings/generic" }
   let(:permission) { :copy_projects }
   let(:project) { FactoryBot.create(:project_with_types, public: false) }
   let(:copy_project_params) do

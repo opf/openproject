@@ -122,15 +122,15 @@ module OpenProject::Backlogs
     override_core_views!
 
     patches %i[PermittedParams
-             WorkPackage
-             Status
-             Type
-             Project
-             ProjectsController
-             ProjectSettingsHelper
-             User
-             VersionsController
-             Version]
+               WorkPackage
+               Status
+               Type
+               Project
+               ProjectsController
+               ProjectSettingsHelper
+               User
+               VersionsController
+               Version]
 
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :SettingSeeder

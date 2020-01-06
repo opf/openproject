@@ -33,7 +33,7 @@ describe 'Deletion', type: :feature do
   let(:current_user) { FactoryBot.create :admin }
   let(:category) { FactoryBot.create :category }
   let(:categories_page) { CategoriesPage.new(category.project) }
-  let(:delete_button) { 'div#tab-content-categories a.icon-delete' }
+  let(:delete_button) { 'a.icon-delete' }
   let(:confirm_deletion_button) { 'input[type="submit"]' }
 
   before do allow(User).to receive(:current).and_return current_user end

@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'Projects', type: :feature do
-  include ApplicationHelper
   let(:current_user) { FactoryBot.create(:admin) }
 
   before do
@@ -206,7 +205,7 @@ describe 'Projects', type: :feature do
       project.custom_field_values.last.value = 'FOO'
       project.save!
 
-      visit settings_project_path(project.id)
+      visit settings_generic_project_path(project.id)
 
       expect(page).to have_content 'Required Foo'
       expect(page).to have_content 'Optional Foo'

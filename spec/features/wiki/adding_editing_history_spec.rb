@@ -57,7 +57,7 @@ describe 'wiki pages', type: :feature, js: true do
   end
 
   scenario 'adding, editing and history' do
-    visit settings_project_path(project, tab: 'modules')
+    visit settings_modules_project_path(project)
 
     expect(page).to have_no_selector('.menu-sidebar .main-item-wrapper', text: 'Wiki')
 
