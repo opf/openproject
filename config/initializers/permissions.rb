@@ -76,7 +76,7 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :manage_versions,
                    {
-                     project_settings: [:show],
+                     "project_settings/versions": [:show],
                      versions: %i[new create edit update close_completed destroy]
                    },
                    require: :member
@@ -137,7 +137,7 @@ OpenProject::AccessControl.map do |map|
 
     # WorkPackage categories
     wpt.permission :manage_categories,
-                   { project_settings: [:show],
+                   { "project_settings/categories": [:show],
                      categories: %i[new create edit update destroy] },
                    require: :member
 

@@ -364,7 +364,8 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/project_settings/generic', action: 'show' },
             caption: :label_project_settings,
             last: true,
-            icon: 'icon2 icon-settings2'
+            icon: 'icon2 icon-settings2',
+            allow_deeplink: true
 
   ProjectSettingsHelper.project_settings_tabs.each do |node|
     menu.push :"settings_#{node[:name]}",
