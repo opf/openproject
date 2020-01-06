@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,18 +23,22 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  SimpleResource
-} from 'core-app/modules/common/path-helper/apiv3/path-resources';
+import {Component} from "@angular/core";
+import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 
-export class Apiv3TimeEntryPaths extends SimpleResource {
-  constructor(basePath:string, newsId:string|number) {
-    super(basePath, newsId);
+@Component({
+  templateUrl: './work-package-edit-field.component.html'
+})
+export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditFieldComponent {
+  // Although the schema states the work packages to not be required,
+  // as time entries can also be assigned to a project, we want to only assign
+  // time entries to work packages and thus require a value.
+  // The back end will have to be changed in due time but not as long as there is still a rails based
+  // time entry view in the application.
+  protected isRequired() {
+    return true;
   }
-
-  // Static paths
-  readonly form = new SimpleResource(this.path, 'form');
 }

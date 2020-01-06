@@ -39,6 +39,7 @@ en:
           no_results: 'No subprojects.'
         time_entries_list:
           title: 'Spent time'
+          no_results: 'No time entries for the last 7 days.'
         work_packages_accountable:
           title: "Work packages I am accountable for"
         work_packages_assigned:

@@ -54,6 +54,8 @@ import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-
 import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/field/editable-attribute-field.component";
 import {ProjectStatusEditFieldComponent} from "core-app/modules/fields/edit/field-types/project-status-edit-field.component";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
+import {PlainFormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/plain-formattable-edit-field.component";
+import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/te-work-package-edit-field.component";
 
 @NgModule({
   imports: [
@@ -87,11 +89,13 @@ import {PortalCleanupService} from "core-app/modules/fields/display/display-port
     FloatEditFieldComponent,
     IntegerEditFieldComponent,
     FormattableEditFieldComponent,
+    PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
     SelectEditFieldComponent,
     TextEditFieldComponent,
     EditFieldControlsComponent,
     WorkPackageEditFieldComponent,
+    TimeEntryWorkPackageEditFieldComponent,
     EditFormComponent,
     EditableAttributeFieldComponent,
     ProjectStatusEditFieldComponent,
@@ -105,10 +109,12 @@ import {PortalCleanupService} from "core-app/modules/fields/display/display-port
     FloatEditFieldComponent,
     IntegerEditFieldComponent,
     FormattableEditFieldComponent,
+    PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
     SelectEditFieldComponent,
     TextEditFieldComponent,
     WorkPackageEditFieldComponent,
+    TimeEntryWorkPackageEditFieldComponent,
     EditableAttributeFieldComponent,
     ProjectStatusEditFieldComponent,
   ]

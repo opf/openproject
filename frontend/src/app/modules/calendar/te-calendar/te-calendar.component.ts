@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, SecurityContext, ViewChild, AfterViewInit, Output, EventEmitter} from "@angular/core";
+import {Component, ElementRef, Input, OnDestroy, OnInit, SecurityContext, ViewChild, AfterViewInit, Output, EventEmitter, Injector} from "@angular/core";
 import {FullCalendarComponent} from '@fullcalendar/angular';
 import {States} from "core-components/states.service";
 import * as moment from "moment";
@@ -17,6 +17,8 @@ import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import { TimeEntryEditService } from './edit/edit.service';
+import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -47,16 +49,22 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   public calendarAllDaySlot = false;
   public calendarDisplayEventTime = false;
   public calendarSlotEventOverlap = false;
+  public calendarEditable = false;
+
+  protected memoizedTimeEntries:{start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>>};
 
   constructor(readonly states:States,
               readonly timeEntryDm:TimeEntryDmService,
               readonly $state:StateService,
               private element:ElementRef,
               readonly i18n:I18nService,
+              readonly injector:Injector,
               readonly notificationsService:NotificationsService,
               private sanitizer:DomSanitizer,
               private configuration:ConfigurationService,
-              private timezone:TimezoneService) { }
+              private timezone:TimezoneService,
+              private timeEntryEdit:TimeEntryEditService,
+              private timeEntryCache:TimeEntryCacheService) { }
 
   ngOnInit() {
     this.initializeCalendar();
@@ -71,20 +79,41 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
     // Therefore, setting the outputs via the underlying API
     this.ucCalendar.getApi().setOption('eventRender', (event:CalendarViewEvent) => { this.addTooltip(event); });
+    this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => { this.editEvent(event); });
   }
 
-  public calendarEventsFunction(fetchInfo:{ start:Date, end:Date, timeZone:string },
+  public calendarEventsFunction(fetchInfo:{ start:Date, end:Date },
                                 successCallback:(events:EventInput[]) => void,
                                 failureCallback:(error:EventSourceError) => void ):void | PromiseLike<EventInput[]> {
 
-    this.timeEntryDm.list({ filters: this.dmFilters(fetchInfo) })
+    this.fetchTimeEntries(fetchInfo.start, fetchInfo.end)
       .then((collection) => {
         this.entries.emit(collection);
+
         successCallback(this.buildEntries(collection.elements));
       });
   }
 
-  private buildEntries(entries:TimeEntryResource[]) {
+  protected fetchTimeEntries(start:Date, end:Date) {
+    if (!this.memoizedTimeEntries ||
+        this.memoizedTimeEntries.start.getTime() !== start.getTime() ||
+        this.memoizedTimeEntries.end.getTime() !== end.getTime()) {
+      let promise = this
+        .timeEntryDm
+        .list({ filters: this.dmFilters(start, end) })
+        .then(collection => {
+          collection.elements.forEach(timeEntry => this.timeEntryCache.updateValue(timeEntry.id!, timeEntry));
+
+          return collection;
+        });
+
+      this.memoizedTimeEntries = { start: start, end: end, entries: promise };
+    }
+
+    return this.memoizedTimeEntries.entries;
+  }
+
+private buildEntries(entries:TimeEntryResource[]) {
     let calendarEntries = [];
 
     let hoursDistribution:{ [key:string]:Moment } = {};
@@ -113,19 +142,15 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     });
   }
 
-  protected dmFilters(fetchInfo:{ start:Date, end:Date, timeZone:string }):Array<[string, FilterOperator, string[]]> {
-    let startDate = moment(fetchInfo.start).format('YYYY-MM-DD');
-    let endDate = moment(fetchInfo.end).subtract(1, 'd').format('YYYY-MM-DD');
+  protected dmFilters(start:Date, end:Date):Array<[string, FilterOperator, string[]]> {
+    let startDate = moment(start).format('YYYY-MM-DD');
+    let endDate = moment(end).subtract(1, 'd').format('YYYY-MM-DD');
     return [['spentOn', '<>d', [startDate, endDate]] as [string, FilterOperator, string[]],
            ['user_id', '=', ['me']] as [string, FilterOperator, [string]]];
   }
 
   private initializeCalendar() {
     this.calendarEvents = this.calendarEventsFunction.bind(this);
-  }
-
-  public get calendarEditable() {
-    return false;
   }
 
   public get calendarEventLimit() {
@@ -150,6 +175,33 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
   private get calendarElement() {
     return jQuery(this.element.nativeElement).find('.fc-view-container');
+  }
+
+  private editEvent(event:CalendarViewEvent) {
+    let originalEntry = event.event.extendedProps.entry;
+
+    this
+      .timeEntryEdit
+      .edit(originalEntry)
+      .then(modificationAction => {
+        this.memoizedTimeEntries.entries.then(collection => {
+          let foundIndex = collection.elements.findIndex(x => x.id === originalEntry.id);
+
+          switch (modificationAction.action) {
+            case 'update':
+              collection.elements[foundIndex] = modificationAction.entry;
+              break;
+            case 'destroy':
+              collection.elements.splice(foundIndex, 1);
+              break;
+          }
+
+          this.ucCalendar.getApi().refetchEvents();
+        });
+      })
+      .catch(() => {
+        // do nothing, the user closed without changes
+      });
   }
 
   private addTooltip(event:CalendarViewEvent) {
@@ -195,7 +247,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
           </li>
           <li class="tooltip--map--item">
             <span class="tooltip--map--key">${this.i18n.t('js.time_entry.comment')}:</span>
-            <span class="tooltip--map--value">${entry.comment.html || this.i18n.t('js.placeholders.default')}</span>
+            <span class="tooltip--map--value">${entry.comment.raw || this.i18n.t('js.placeholders.default')}</span>
           </li>
         `;
   }

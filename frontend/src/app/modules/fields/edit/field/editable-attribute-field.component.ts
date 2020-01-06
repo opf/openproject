@@ -116,8 +116,8 @@ export class EditableAttributeFieldComponent implements OnInit, OnDestroy {
       .pipe(
         untilComponentDestroyed(this)
       )
-      .subscribe(workPackage => {
-        this.resource = workPackage;
+      .subscribe(resource => {
+        this.resource = resource;
         this.render();
       });
   }

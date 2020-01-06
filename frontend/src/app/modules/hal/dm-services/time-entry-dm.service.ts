@@ -29,14 +29,43 @@
 import {Injectable} from '@angular/core';
 import {AbstractDmService} from "core-app/modules/hal/dm-services/abstract-dm.service";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {PayloadDmService} from "core-app/modules/hal/dm-services/payload-dm.service";
 
 @Injectable()
 export class TimeEntryDmService extends AbstractDmService<TimeEntryResource> {
+  constructor(protected halResourceService:HalResourceService,
+              protected pathHelper:PathHelperService,
+              protected payloadDm:PayloadDmService) {
+    super(halResourceService, pathHelper);
+  }
+
   protected listUrl() {
     return this.pathHelper.api.v3.time_entries.toString();
   }
 
   protected oneUrl(id:number|string) {
     return this.pathHelper.api.v3.time_entries.id(id).toString();
+  }
+
+  public updateForm(resource:TimeEntryResource, schema:SchemaResource|null = null) {
+    let payload = this.extractPayload(resource, schema);
+
+    return this.halResourceService.post<FormResource>(this.pathHelper.api.v3.time_entries.id(resource.idFromLink).form.toString(),
+      payload).toPromise();
+  }
+
+  public extractPayload(resource:TimeEntryResource|null = null, schema:SchemaResource|null = null) {
+    if (resource && schema) {
+      return this.payloadDm.extract(resource, schema);
+    } else if (!(resource instanceof HalResource)) {
+      return resource;
+    } else {
+      return {};
+    }
   }
 }

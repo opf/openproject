@@ -30,18 +30,7 @@ import {Component} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 
 @Component({
-  template: `
-    <input type="text"
-           class="inline-edit--field"
-           [focus]="shouldFocus"
-           [attr.aria-required]="required"
-           [attr.required]="required"
-           [disabled]="inFlight"
-           [(ngModel)]="value"
-           (keydown)="handler.handleUserKeydown($event)"
-           (focusout)="handler.onFocusOut()"
-           [id]="handler.htmlId" />
-  `
+  templateUrl: './text-edit-field.component.html'
 })
 export class TextEditFieldComponent extends EditFieldComponent {
   // ToDo: Work package specific

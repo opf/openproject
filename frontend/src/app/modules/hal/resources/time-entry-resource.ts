@@ -27,6 +27,35 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 export class TimeEntryResource extends HalResource {
+
+  private schemaCacheService = this.injector.get(SchemaCacheService);
+
+  /**
+   * Get the schema of the time entry
+   * ensure that it's loaded
+   */
+  public get schema():SchemaResource {
+    const state = this.schemaCacheService.state(this as any);
+
+    if (!state.hasValue()) {
+      throw `Accessing schema of time entry ${this.id} without it being loaded.`;
+    }
+
+    return state.value!;
+  }
+
+  public get state() {
+    return this.states.timeEntries.get(this.id!) as any;
+  }
+
+  /**
+   * Exclude the schema _link from the linkable Resources.
+   */
+  public $linkableKeys():string[] {
+    return _.without(super.$linkableKeys(), 'schema');
+  }
 }

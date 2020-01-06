@@ -1,0 +1,87 @@
+<div class="op-modal--portal ngdialog-theme-openproject">
+  <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button">
+        <i
+          class="icon-close"
+          (click)="closeMe($event)"
+          [attr.title]="text.close">
+        </i>
+      </a>
+      <h3 class="icon-context icon-attention" [textContent]="text.title"></h3>
+    </div>
+
+    <div class="ngdialog-body op-modal--modal-body">
+      <edit-form
+        [resource]="entry"
+        (onSaved)="setModifiedEntry($event)">
+        <div class="attributes-map">
+
+          <div class="attributes-map--key" [textContent]="text.attributes.spentOn"></div>
+          <div class="attributes-map--value">
+            <editable-attribute-field [resource]="entry"
+                                      [fieldName]="'spentOn'">
+            </editable-attribute-field>
+          </div>
+
+          <div class="attributes-map--key" [textContent]="text.attributes.hours"></div>
+          <div class="attributes-map--value">
+            <editable-attribute-field [resource]="entry"
+                                      [fieldName]="'hours'">
+            </editable-attribute-field>
+          </div>
+
+          <div class="attributes-map--key" [textContent]="text.attributes.workPackage"></div>
+          <div class="attributes-map--value">
+            <editable-attribute-field [resource]="entry"
+                                      [fieldName]="'workPackage'">
+            </editable-attribute-field>
+          </div>
+
+          <div class="attributes-map--key" [textContent]="text.attributes.activity"></div>
+          <div class="attributes-map--value">
+            <editable-attribute-field [resource]="entry"
+                                      [fieldName]="'activity'">
+            </editable-attribute-field>
+          </div>
+
+          <div class="attributes-map--key" [textContent]="text.attributes.comment"></div>
+          <div class="attributes-map--value">
+            <editable-attribute-field [resource]="entry"
+                                      [fieldName]="'comment'">
+            </editable-attribute-field>
+          </div>
+
+          <ng-container *ngFor="let cf of customFields">
+            <div class="attributes-map--key" [textContent]="cf.label"></div>
+            <div class="attributes-map--value">
+              <editable-attribute-field [resource]="entry"
+                                        [fieldName]="cf.key">
+              </editable-attribute-field>
+            </div>
+          </ng-container>
+        </div>
+      </edit-form>
+    </div>
+
+    <div class="op-modal--modal-footer">
+      <button class="button -highlight"
+              (click)="closeMe($event)"
+              [textContent]="text.close"
+              [attr.title]="text.close">
+      </button>
+
+      <button class="button"
+              *ngIf="deleteAllowed"
+              (click)="destroy()"
+              [attr.title]="text.delete">
+        <op-icon icon-classes="button--icon icon-delete"></op-icon>
+        <span class="button--text"
+              [textContent]="text.delete"
+              aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</div>

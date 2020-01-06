@@ -40,8 +40,10 @@ import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-
 import {WorkPackageCommentFieldComponent} from "core-components/work-packages/work-package-comment/wp-comment-field.component";
 import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/field-types/select-autocompleter-register.service";
 import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplete/version-autocompleter.component";
-import {ProjectStatusDisplayField} from "core-app/modules/fields/display/field-types/project-status-display-field.module";
 import {ProjectStatusEditFieldComponent} from "core-app/modules/fields/edit/field-types/project-status-edit-field.component";
+import {PlainFormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/plain-formattable-edit-field.component";
+import {WorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/wp-autocompleter.component";
+import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/te-work-package-edit-field.component";
 
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
@@ -56,6 +58,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         'Type',
         'User',
         'Version',
+        'TimeEntriesActivity',
         'Category',
         'CustomOption',
         'Project'])
@@ -71,6 +74,11 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(ProjectStatusEditFieldComponent, 'project_status', ['ProjectStatus'])
       .addFieldType(WorkPackageCommentFieldComponent, '_comment', ['comment']);
 
+    editFieldService
+      .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
+      .addSpecificFieldType('TimeEntry', TimeEntryWorkPackageEditFieldComponent, 'workPackage', ['WorkPackage']);
+
     selectAutocompleterRegisterService.register(VersionAutocompleterComponent, 'Version');
+    selectAutocompleterRegisterService.register(WorkPackageAutocompleterComponent, 'WorkPackage');
   };
 }

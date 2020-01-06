@@ -26,16 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {EditFieldComponent} from "../edit-field.component";
-import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {NgSelectComponent} from "@ng-select/ng-select";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 import {SelectAutocompleterRegisterService} from "app/modules/fields/edit/field-types/select-autocompleter-register.service";
+import { from } from 'rxjs';
+import { tap, map, skip } from 'rxjs/operators';
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 
 export interface ValueOption {
   name:string;
@@ -47,9 +48,12 @@ export interface ValueOption {
 })
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
   public selectAutocompleterRegister = this.injector.get(SelectAutocompleterRegisterService);
+  public halNotification = this.injector.get(HalResourceNotificationService);
 
   public availableOptions:any[];
   public valueOptions:ValueOption[];
+  private valuesLoaded = false;
+
   public text:{ requiredPlaceholder:string, placeholder:string };
 
   public appendTo:any = null;
@@ -74,18 +78,10 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
       placeholder: this.I18n.t('js.placeholders.default')
     };
+  }
 
-    const loadingPromise = this.loadValues();
-    this.handler
-      .$onUserActivate
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe(() => {
-        loadingPromise.then(() => {
-          this._autocompleterComponent.openDirectly = true;
-        });
-      });
+  protected initialValueLoading() {
+    return this.loadValues().toPromise();
   }
 
   public autocompleterComponent() {
@@ -96,6 +92,21 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public ngOnInit() {
     super.ngOnInit();
     this.appendTo = this.overflowingSelector;
+
+    let loadingPromise = this.change.getForm().then(() => {
+      return this.initialValueLoading();
+    });
+
+    this.handler
+      .$onUserActivate
+      .pipe(
+        untilComponentDestroyed(this),
+      )
+      .subscribe(() => {
+        loadingPromise.then(() => {
+          this._autocompleterComponent.openDirectly = true;
+        });
+      });
   }
 
   public get selectedOption() {
@@ -118,23 +129,39 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   private setValues(availableValues:HalResource[]) {
     this.availableOptions = this.halSorting.sort(availableValues);
     this.addEmptyOption();
-    this.valueOptions = this.availableOptions.map(el => {
-      return {name: el.name, $href: el.$href};
-    });
+    this.valueOptions = this.availableOptions.map(el => this.mapAllowedValue(el));
   }
 
-  private loadValues() {
+  protected loadValues(query?:string) {
     let allowedValues = this.schema.allowedValues;
+
     if (Array.isArray(allowedValues)) {
       this.setValues(allowedValues);
-    } else if (allowedValues) {
-      return allowedValues.$load(false).then((values:CollectionResource) => {
-        this.setValues(values.elements);
-      });
+      this.valuesLoaded = true;
+    } else if (allowedValues && !this.valuesLoaded) {
+      return this.loadValuesFromBackend(query);
     } else {
       this.setValues([]);
     }
-    return Promise.resolve();
+
+    return from(Promise.resolve(this.valueOptions));
+  }
+
+  protected loadValuesFromBackend(query?:string) {
+    return from(
+      this.schema.allowedValues.$link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>
+    ).pipe(
+      tap(collection => {
+        // if it is an unpaginated collection or if we get all possible entries when fetching with a blank
+        // query, we do not need to load the values again;
+        if (collection.count === undefined || collection.total === undefined || (!query && collection.total === collection.count)) {
+          this.valuesLoaded = true;
+        }
+      }),
+      map(collection => collection.elements),
+      tap(elements => this.setValues(elements)),
+      map(() => this.valueOptions)
+    );
   }
 
   private addValue(val:HalResource) {
@@ -183,7 +210,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   private addEmptyOption() {
     // Empty options are not available for required fields
-    if (this.schema.required) {
+    if (this.isRequired()) {
       return;
     }
 
@@ -196,6 +223,20 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
         $href: ''
       });
     }
+  }
+
+  protected isRequired() {
+    return this.schema.required;
+  }
+
+  protected mapAllowedValue(value:HalResource):ValueOption {
+    return {name: value.name, $href: value.$href};
+  }
+
+  // Subclasses shall be able to override the filters with which the
+  // allowed values are reduced in the backend.
+  protected allowedValuesFilter(query?:string) {
+    return {};
   }
 
   private getEmptyOption():ValueOption|undefined {

@@ -7,6 +7,7 @@
            [required]="required"
            [clearable]="!required"
            [disabled]="disabled"
+           [typeahead]="typeahead"
            [clearOnBackspace]="false"
            [appendTo]="appendTo"
            [id]="id"
@@ -17,5 +18,8 @@
            bindLabel="name">
   <ng-template ng-tag-tmp let-search="searchTerm">
     <b [textContent]="text.add_new_action"></b>: {{search}}
+  </ng-template>
+  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+    <div [ngOptionHighlight]="search" class="ng-option-label ellipsis">{{ item.name }}</div>
   </ng-template>
 </ng-select>

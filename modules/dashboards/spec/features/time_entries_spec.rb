@@ -93,7 +93,7 @@ describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail
 
   it 'adds the widget and checks the displayed entries' do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 1, :within, 'Spent time \(last 7 days\)')
+    dashboard.add_widget(1, 1, :within, 'Spent time')
 
     spent_time_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 

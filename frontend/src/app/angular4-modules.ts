@@ -94,6 +94,7 @@ import {OpenprojectOverviewModule} from "core-app/modules/overview/openproject-o
 import {OpenprojectMyPageModule} from "core-app/modules/my-page/openproject-my-page.module";
 import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-projects.module";
 import {OpenprojectIFCModelsModule} from "core-app/modules/ifc_models/openproject-ifc-models.module";
+import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
 
 @NgModule({
   imports: [
@@ -164,6 +165,7 @@ import {OpenprojectIFCModelsModule} from "core-app/modules/ifc_models/openprojec
     OpTitleService,
     UrlParamsHelperService,
     ProjectCacheService,
+    TimeEntryCacheService,
     FormsCacheService,
     UserCacheService,
     StatusCacheService,

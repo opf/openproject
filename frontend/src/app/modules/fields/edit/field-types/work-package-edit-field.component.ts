@@ -27,16 +27,56 @@
 // ++
 
 import {Component} from "@angular/core";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
+import {SelectEditFieldComponent, ValueOption} from './select-edit-field.component';
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
+import { take } from 'rxjs/operators';
 
 @Component({
-  template: `
-    <input type="text"
-           class="inline-edit--field"
-           disabled
-           [ngModel]="value"
-           [id]="handler.htmlId" />
-  `
+  templateUrl: './work-package-edit-field.component.html'
 })
-export class WorkPackageEditFieldComponent extends EditFieldComponent {
+export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
+  /** Keep a switchmap for search term and loading state */
+  public requests = new DebouncedRequestSwitchmap<string, ValueOption>(
+    (searchTerm:string) => this.loadValues(searchTerm),
+    errorNotificationHandler(this.halNotification)
+  );
+
+  protected initialValueLoading() {
+    // Using this hack with the empty value to have the values loaded initially
+    // while avoiding loading it multiple times.
+    return new Promise<ValueOption[]>((resolve) => {
+      this.requests.output$.pipe(take(1)).subscribe(options => {
+        resolve(options);
+      });
+
+      this.requests.input$.next('');
+    });
+  }
+
+  protected allowedValuesFilter(query?:string):{} {
+    let filterParams = super.allowedValuesFilter(query);
+
+    if (query) {
+      let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+
+      filters.add('subjectOrId', '**', [query]);
+
+      filterParams = { filters: filters.toJson() };
+    }
+
+    return filterParams;
+  }
+
+  protected mapAllowedValue(value:WorkPackageResource|ValueOption):ValueOption {
+    if ((value as WorkPackageResource).id) {
+      return {
+        name: `${(value as WorkPackageResource).type.name } #${ (value as WorkPackageResource).id } ${ (value as WorkPackageResource).subject }`,
+        $href: value.$href
+      };
+    } else {
+      return value;
+    }
+  }
 }

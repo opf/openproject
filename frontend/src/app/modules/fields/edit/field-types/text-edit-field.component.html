@@ -1,0 +1,10 @@
+<input type="text"
+       class="inline-edit--field"
+       [focus]="shouldFocus"
+       [attr.aria-required]="required"
+       [attr.required]="required"
+       [disabled]="inFlight"
+       [(ngModel)]="value"
+       (keydown)="handler.handleUserKeydown($event)"
+       (focusout)="handler.onFocusOut()"
+       [id]="handler.htmlId" />

@@ -116,8 +116,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.ngSelectComponent.searchTerm = this.currentValue = this.globalSearchService.searchTerm;
     this.expanded = (this.ngSelectComponent.searchTerm.length > 0);
     jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
-
-
   }
 
   ngOnDestroy() {

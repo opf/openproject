@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,18 +23,29 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  SimpleResource
-} from 'core-app/modules/common/path-helper/apiv3/path-resources';
+import {Component} from "@angular/core";
+import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 
-export class Apiv3TimeEntryPaths extends SimpleResource {
-  constructor(basePath:string, newsId:string|number) {
-    super(basePath, newsId);
+@Component({
+  templateUrl: './text-edit-field.component.html'
+})
+export class PlainFormattableEditFieldComponent extends EditFieldComponent {
+  // only exists because the template is reused and the property is required there.
+  public shouldFocus = false;
+
+  public get value() {
+    if (!this.schema) {
+      return '';
+    }
+    const element = this.resource[this.name];
+
+    return element && element.raw || '';
   }
 
-  // Static paths
-  readonly form = new SimpleResource(this.path, 'form');
+  public set value(newValue:string) {
+    this.resource[this.name] = { raw: newValue };
+  }
 }

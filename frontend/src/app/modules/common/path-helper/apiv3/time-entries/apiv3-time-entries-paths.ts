@@ -27,16 +27,21 @@
 // ++
 
 import {
+  SimpleResource,
   SimpleResourceCollection
 } from 'core-app/modules/common/path-helper/apiv3/path-resources';
-import {Apiv3NewsPaths} from "core-app/modules/common/path-helper/apiv3/news/apiv3-news-paths";
+import {Apiv3TimeEntryPaths} from "core-app/modules/common/path-helper/apiv3/time-entries/apiv3-time-entry-paths";
 
 export class Apiv3TimeEntriesPaths extends SimpleResourceCollection {
   constructor(basePath:string) {
     super(basePath, 'time_entries');
   }
 
-  public id(gridId:string|number) {
-    return new Apiv3NewsPaths(this.path, gridId);
+  public id(timeEntryId:string|number) {
+    return new Apiv3TimeEntryPaths(this.path, timeEntryId);
+  }
+
+  public form() {
+    return new SimpleResource(this.path, 'form');
   }
 }

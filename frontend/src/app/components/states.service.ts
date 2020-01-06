@@ -14,6 +14,7 @@ import {QuerySortByResource} from "core-app/modules/hal/resources/query-sort-by-
 import {QueryGroupByResource} from "core-app/modules/hal/resources/query-group-by-resource";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {wpDisplayRepresentation} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 
 export class States extends StatesGroup {
   name = 'MainStore';
@@ -35,6 +36,9 @@ export class States extends StatesGroup {
 
   /* /api/v3/statuses */
   statuses = multiInput<StatusResource>();
+
+  /* /api/v3/projects */
+  timeEntries:MultiInputState<TimeEntryResource> = multiInput<TimeEntryResource>();
 
   /* /api/v3/versions */
   versions = multiInput<VersionResource>();
