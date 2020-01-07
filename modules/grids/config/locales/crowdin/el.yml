@@ -5,7 +5,7 @@ el:
         page: "Σελίδα"
         row_count: "Πλήθος γραμμών"
         column_count: "Πλήθοςστηλών"
-        widgets: "Widgets"
+        widgets: "Γραφικά στοιχεία"
     errors:
       models:
         grids/grid:
