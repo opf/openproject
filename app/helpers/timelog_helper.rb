@@ -51,6 +51,11 @@ module TimelogHelper
     end
   end
 
+  def user_collection_for_select_options(_options = {})
+    users = @project.possible_assignees
+    users.map { |t| [t.name, t.id] }
+  end
+
   def select_hours(data, criteria, value)
     if value.to_s.empty?
       data.select { |row| row[criteria].blank? }

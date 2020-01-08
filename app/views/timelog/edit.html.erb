@@ -39,6 +39,17 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
   </div>
 
+  
+  <% if User.current.allowed_to? :log_costs, @project %>
+    <div class="form--field">
+      <%= f.select :user_id,
+                  user_collection_for_select_options,
+                  required: true,
+                  prompt: true,
+                  container_class: '-middle' %>
+    </div>
+  <% end %>
+
   <div class="form--field -required">
     <%= f.text_field :spent_on, size: 10, required: true, container_class: '-xslim', class: '-augmented-datepicker' %>
   </div>

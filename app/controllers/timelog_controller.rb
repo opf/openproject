@@ -31,6 +31,7 @@
 class TimelogController < ApplicationController
   before_action :find_work_package, only: %i[new create]
   before_action :find_project, only: %i[new create]
+  before_action :find_user, only: %i[create update]
   before_action :find_time_entry, only: %i[show edit update destroy]
   before_action :authorize, except: [:index]
   before_action :find_optional_project, only: [:index]
@@ -103,7 +104,7 @@ class TimelogController < ApplicationController
                                      work_package_id: @issue)
 
     call = TimeEntries::CreateService
-           .new(user: current_user)
+           .new(user: @user)
            .call(combined_params)
 
     @time_entry = call.result
@@ -119,7 +120,7 @@ class TimelogController < ApplicationController
 
   def update
     service = TimeEntries::UpdateService
-              .new(user: current_user,
+              .new(user: @user,
                    model: @time_entry)
     call = service.call(attributes: permitted_params.time_entry)
     respond_for_saving call
@@ -166,6 +167,13 @@ class TimelogController < ApplicationController
     @project = Project.find(project_id_from_params) if @project.nil?
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def find_user
+    if !params[:time_entry][:user_id].blank?
+      @user = User.find_by_id(params[:time_entry][:user_id])
+    else
+      @user = User.current
   end
 
   def new_time_entry(project, work_package, attributes)
