@@ -174,6 +174,7 @@ class TimelogController < ApplicationController
       @user = User.find_by_id(params[:time_entry][:user_id])
     else
       @user = User.current
+    end
   end
 
   def new_time_entry(project, work_package, attributes)
