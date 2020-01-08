@@ -77,8 +77,8 @@ el:
     card:
       add_new: 'Προσθέστε νέα κάρτα'
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
+        inline: 'Επισήμανση inline:'
+        entire_card_by: 'Ολόκληρη κάρτα με'
       remove_from_list: 'Αφαίρεση από τη λίστα'
     clipboard:
       browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
@@ -201,7 +201,7 @@ el:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Read about new features and product updates."
+          text_new_features: "Διαβάστε για τις νέες λειτουργίες και τις ενημερώσεις προϊόντων."
           current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
           learn_about: "Learn more about the new status widgets"
     label_activate: "Ενεργοποίηση"
@@ -490,7 +490,7 @@ el:
       save: "Αποθήκευση συσχέτισης"
       abort: "Ματαίωση"
     relations_autocomplete:
-      placeholder: "Type to search"
+      placeholder: "Πληκτρολογήστε για αναζήτηση"
       parent_placeholder: "Choose new parent or press escape to cancel."
     repositories:
       select_tag: 'Επιλογή σήμανσης'
@@ -540,20 +540,20 @@ el:
       errors:
         not_implemented: "Το χρονοδιάγραμμα δεν μπόρεσε να επεξεργαστεί γιατί χρησιμοποιεί μια λειτουργία που δεν μπορεί να εφαρμοστεί ακόμη."
         report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-        report_epicfail: "The timeline could not be loaded due to an unexpected error."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
+        report_epicfail: "Το χρονοδιάγραμμα δεν ήταν δυνατό να φορτωθεί λόγω απροσδόκητου σφάλματος."
+        report_timeout: "Το χρονοδιάγραμμα δεν ήταν δυνατό να φορτωθεί μέσα σε ένα λογικό χρονικό πλαίσιο."
       filter:
         grouping_other: "Άλλο"
         noneSelection: "(κανένα)"
       name: "Όνομα"
       outline: "Επαναφορά Περιγράμματος"
       outlines:
-        aggregation: "Show aggregations only"
-        level1: "Expand level 1"
-        level2: "Expand level 2"
-        level3: "Expand level 3"
-        level4: "Expand level 4"
-        level5: "Expand level 5"
+        aggregation: "Εμφάνιση συναθροίσεων μόνο"
+        level1: "Επίπεδο επέκτασης 1"
+        level2: "Επίπεδο επέκτασης 2"
+        level3: "Επίπεδο επέκτασης 3"
+        level4: "Επίπεδο επέκτασης 4"
+        level5: "Επίπεδο επέκτασης 5"
         all: "Εμφάνιση όλων"
       project_status: "Κατάσταση έργου"
       really_close_dialog: "Είστε βέβαιοι ότι θέλετε να κλείσετε αυτό το παράθυρο διαλόγου και να χάσετε όλα τα δεδομένα που εισάγατε;"
