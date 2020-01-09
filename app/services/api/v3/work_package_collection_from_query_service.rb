@@ -32,9 +32,10 @@ module API
       include Utilities::PathHelper
       include ::API::Utilities::PageSizeHelper
 
-      def initialize(query, user)
+      def initialize(query, user, scope: nil)
         self.query = query
         self.current_user = user
+        self.scope = scope
       end
 
       def call(params = {}, valid_subset: false)
@@ -54,7 +55,13 @@ module API
       private
 
       def results_to_representer(params)
-        collection_representer(query.results.sorted_work_packages,
+        results_scope = query.results.sorted_work_packages
+
+        if scope
+          results_scope = results_scope.where(id: scope.select(:id))
+        end
+
+        collection_representer(results_scope,
                                params: params,
                                project: query.project,
                                groups: generate_groups,
@@ -62,7 +69,8 @@ module API
       end
 
       attr_accessor :query,
-                    :current_user
+                    :current_user,
+                    :scope
 
       def representer
         ::API::V3::WorkPackages::WorkPackageCollectionRepresenter

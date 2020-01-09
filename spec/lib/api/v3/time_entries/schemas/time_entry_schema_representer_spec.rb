@@ -44,6 +44,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
   let(:contract) do
     contract = double('contract',
                       new_record?: new_record,
+                      id: new_record ? nil : 5,
                       project: assigned_project)
 
     allow(contract)
@@ -171,41 +172,22 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
       context 'if embedding' do
         let(:embedded) { true }
 
-        context 'if having no project' do
+        context 'if being a new record' do
+          let(:new_record) { true }
+
           it_behaves_like 'links to allowed values via collection link' do
             let(:href) do
-              api_v3_paths.work_packages
+              api_v3_paths.time_entries_available_work_packages_on_create
             end
           end
         end
 
-        context 'if having a project' do
-          let(:assigned_project) { project }
+        context 'if being an existing record' do
+          let(:new_record) { false }
 
           it_behaves_like 'links to allowed values via collection link' do
             let(:href) do
-              api_v3_paths.path_for(:work_packages, filters: [{ project: { operator: '=', values: [project.id.to_s] } }])
-            end
-          end
-        end
-      end
-
-      describe 'project' do
-        let(:path) { 'project' }
-
-        it_behaves_like 'has basic schema properties' do
-          let(:type) { 'Project' }
-          let(:name) { TimeEntry.human_attribute_name('project') }
-          let(:required) { false }
-          let(:writable) { true }
-        end
-
-        context 'if embedding' do
-          let(:embedded) { true }
-
-          it_behaves_like 'links to allowed values via collection link' do
-            let(:href) do
-              api_v3_paths.time_entries_available_projects
+              api_v3_paths.time_entries_available_work_packages_on_edit(contract.id)
             end
           end
         end

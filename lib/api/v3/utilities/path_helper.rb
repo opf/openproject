@@ -333,6 +333,14 @@ module API
             "#{time_entries}/available_projects"
           end
 
+          def self.time_entries_available_work_packages_on_create
+            "#{time_entries}/available_work_packages"
+          end
+
+          def self.time_entries_available_work_packages_on_edit(time_entry_id)
+            "#{time_entry(time_entry_id)}/available_work_packages"
+          end
+
           index :type
           show :type
 

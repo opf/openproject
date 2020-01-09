@@ -176,7 +176,7 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
       it 'has the available values listed in the schema' do
         body = subject.body
 
-        wp_path = api_v3_paths.path_for(:work_packages, filters: [{ project: { operator: '=', values: [project.id.to_s] } }])
+        wp_path = api_v3_paths.time_entries_available_work_packages_on_create
 
         expect(body)
           .to be_json_eql(wp_path.to_json)

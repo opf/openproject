@@ -39,6 +39,7 @@ module API
           mount ::API::V3::TimeEntries::CreateFormAPI
           mount ::API::V3::TimeEntries::Schemas::TimeEntrySchemaAPI
           mount ::API::V3::TimeEntries::AvailableProjectsAPI
+          mount ::API::V3::TimeEntries::AvailableWorkPackagesOnCreateAPI
 
           route_param :id, type: Integer, desc: 'Time entry ID' do
             after_validation do
@@ -52,6 +53,7 @@ module API
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: TimeEntry).mount
 
             mount ::API::V3::TimeEntries::UpdateFormAPI
+            mount ::API::V3::TimeEntries::AvailableWorkPackagesOnEditAPI
           end
 
           mount ::API::V3::TimeEntries::TimeEntriesActivityAPI
