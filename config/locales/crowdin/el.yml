@@ -110,7 +110,7 @@ el:
         Αυτή η ενότητα αφορά την ασφάλεια σύνδεσης αυτής της πηγής ελέγχου ταυτότητας LDAP. Για περισσότερες πληροφορίες, επισκεφθείτε <a href="%{link}">the Net::LDAP documentation</a>.
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Προς το παρόν δεν υπάρχουν αναρτήσεις σε αυτό το φόρουμ.
   colors:
     index:
       no_results_title_text: Προς το παρόν δεν υπάρχουν χρώματα.
@@ -174,7 +174,7 @@ el:
       activities:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμες δραστηριότητες.
       forums:
-        no_results_title_text: There are currently no forums for the project.
+        no_results_title_text: Προς το παρόν δεν υπάρχουν φόρουμ για το έργο.
         no_results_content_text: Δημιουργία νέου forum
       categories:
         no_results_title_text: Αυτήν τη στιγμή δεν υπάρχουν κατηγορίες πακέτων εργασίας.
@@ -238,8 +238,7 @@ el:
       query_group_placeholder: "Δώστε το όνομα του πίνακα"
       reset: "Επαναφορά στα προεπιλεγμένα"
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+        Κάντε κλικ για να αναθέσετε ή να αλλάξετε το χρώμα αυτού του τύπου. Το επιλεγμένο χρώμα ξεχωρίζει τα πακέτα εργασίας στο διάγραμμα Gantt. Επομένως προτείνεται να χρησιμοποιήσετε ένα ισχυρό χρώμα.
   versions:
     overview:
       no_results_title_text: Προς το παρόν δεν έχουν ανατεθεί πακέτα εργασίας σε αυτήν την έκδοση.
@@ -404,7 +403,7 @@ el:
         spent_on: "Ημερομηνία"
         type: "Τύπος"
       type:
-        description: "Default text for description"
+        description: "Προεπιλεγμένο κείμενο για την περιγραφή"
         attribute_groups: ''
         is_in_roadmap: "Εμφάνιση στο χάρτη πορείας από προεπιλογή"
         is_default: "Ενεργοποιημένα για καινούργια έργα από προεπιλογή"
@@ -577,7 +576,7 @@ el:
           no_directory: "δεν είναι κατάλογος."
         role:
           permissions:
-            dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+            dependency_missing: "πρέπει επίσης να συμπεριληφθεί το '%{dependency}' καθώς το '%{permission}' είναι επιλεγμένο."
         work_package:
           is_not_a_valid_target_for_time_entries: "Το πακέτο εργασίας #%{id} δεν είναι έγκυρος στόχος για ανάθεση των καταχωρήσεων χρόνου."
           attributes:
@@ -605,7 +604,7 @@ el:
           attributes:
             attribute_groups:
               attribute_unknown: "Το χαρακτηριστικό του πακέτου εργασίας που χρησιμοποιήθηκε δεν είναι έγκυρο."
-              attribute_unknown_name: "Invalid work package attribute used: %{attribute}"
+              attribute_unknown_name: "Χρησιμοποιήθηκε μη έγκυρο χαρακτηριστικό πακέτου εργασίας: %{attribute}"
               duplicate_group: "Το όνομα της ομάδας %{group} χρησιμοποιείται περισσότερες από μία φορές. Τα ονόματα ομάδων πρέπει να είναι μοναδικά."
               query_invalid: "Η ενσωματωμένη αναζήτηση '%{group}' δεν είναι έγκυρη: %{details}"
               group_without_name: "Δεν επιτρέπονται ομάδες χωρίς όνομα."
@@ -629,14 +628,14 @@ el:
               error_not_found: "δεν βρέθηκε"
         member:
           principal_blank: "Παρακαλούμε επιλέξτε τουλάχιστον ένα χρήστη ή ομάδα."
-          role_blank: "need to be assigned."
+          role_blank: "πρέπει να ανατεθεί."
           attributes:
             roles:
-              ungrantable: "has an unassignable role."
+              ungrantable: "έχει ένα μη αναθέσιμο ρόλο."
             principal:
-              unassignable: "cannot be assigned to a project."
+              unassignable: "δεν μπορεί να ανατεθεί σε ένα έργο."
         version:
-          undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_work_packages_attached: "Η έκδοση δεν μπορεί να διαγραφεί επειδή είναι συνδεδεμένη με πακέτα εργασίας."
       template:
         body: "Παρακαλούμε ελέγξτε τα ακόλουθα πεδία:"
         header:
@@ -811,7 +810,7 @@ el:
   copy_project:
     started: "Έναρξη αντιγραφής έργου \"%{source_project_name}\" στο \"%{target_project_name}\". Θα ενημερωθείτε με email μόλις το \"%{target_project_name}\" είναι διαθέσιμο."
     failed: "Δεν είναι δυνατή η αντιγραφή του έργου %{source_project_name}"
-    failed_internal: "Copying failed due to an internal error."
+    failed_internal: "Η αντιγραφή απέτυχε λόγω ενός εσωτερικού σφάλματος."
     succeeded: "Δημιουργήθηκε το έργο %{target_project_name}"
     errors: "Σφάλμα"
     project_custom_fields: 'Προσαρμοσμένα πεδία του έργου'
@@ -979,7 +978,7 @@ el:
   description_choose_project: "Έργα"
   description_compare_from: "Σύγκριση από"
   description_compare_to: "Σύγκριση με"
-  description_current_position: "You are here: "
+  description_current_position: "Είστε εδώ: "
   description_date_from: "Εισαγάγετε ημερομηνία έναρξης"
   description_date_range_interval: "Διαλέξτε εύρος επιλέγοντας ημερομηνίες έναρξης και λήξης"
   description_date_range_list: "Επιλέξτε εύρος από τη λίστα"
@@ -1025,7 +1024,7 @@ el:
   error_can_not_invite_user: "Αποτυχία αποστολής πρόσκλησης στο χρήστη."
   error_can_not_remove_role: "Αυτός ο ρόλος χρησιμοποιείται και δεν μπορεί να διαγραφεί."
   error_can_not_reopen_work_package_on_closed_version: "Τα πακέτα εργασίας που έχουν ανατεθεί σε κλειστή έκδοση δεν μπορούν να ανοιχτούν ξανά"
-  error_can_not_find_all_resources: "Could not find all related resources to this request."
+  error_can_not_find_all_resources: "Δεν ήταν δυνατό να βρεθούν όλοι οι πόροι που σχετίζονται με αυτό το αίτημα."
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Παρακαλούμε επιλέξτε ένα χρήστη και ένα ρόλο."
   error_code: "Σφάλμα %{code}"
@@ -1033,7 +1032,7 @@ el:
   error_custom_option_not_found: "Η επιλογή δεν υπάρχει."
   error_enterprise_activation_user_limit: "Ο λογαριασμός σας δεν ήταν δυνατό να ενεργοποιηθεί (επετεύχθη το όριο χρηστών). Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας για να αποκτήσετε πρόσβαση."
   error_failed_to_delete_entry: 'Αποτυχία διαγραφής αυτής της καταχώρησης.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Παρουσιάστηκε σφάλμα στην προσπάθεια αλλαγής του εξαρτώμενου αντικειμένου: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Η επιλεγμένη τιμή δεν είναι έγκυρη."
   error_invalid_group_by: "Δεν μπορούν να ομαδοποιηθούν κατά: %{value}"
   error_invalid_query_column: "Μη έγκυρη στήλη αναζήτησης: %{value}"
@@ -1045,8 +1044,8 @@ el:
   error_work_package_done_ratios_not_updated: "Η αναλογίες ολοκληρωμένων πακέτων εργασίας δεν έχουν ενημερωθεί."
   error_work_package_not_found_in_project: "Το πακέτο εργασίας δεν βρέθηκε ή δεν ανοίκει σε αυτό το έργο"
   error_must_be_project_member: "πρέπει να είναι μέλος έργου"
-  error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
-  error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
+  error_migrations_are_pending: "Η εγκατάσταση OpenProject σας έχει μεταφορές βάσης δεδομένων που εκκρεμούν. Πιθανότατα δεν τρέξατε τις μεταφορές κατά τη διάρκεια της προηγούμενης αναβάθμιση. Παρακαλούμε ελέγξτε τον οδηγό αναβάθμισης για να αναβαθμίσετε την εγκατάσταση σας σωστά."
+  error_migrations_visit_upgrade_guides: "Παρακαλούμε επισκεφθείτε την τεκμηρίωση οδηγού αναβάθμισης"
   error_no_default_work_package_status: "Δεν έχει οριστεί η προεπιλογή κατάστασης πακέτων εργασίας. Παρακαλώ ελέγξτε τις ρυθμίσεις σας (Μεταβείτε στην \"Διαχείριση -> Κατάσταση Πακέτων Εργασίας\")."
   error_no_type_in_project: "Δεν υπάρχει τύπος που σχετίζεται με αυτό το έργο. Παρακαλώ ελέγξτε τις Ρυθμίσεις του Έργου."
   error_omniauth_registration_timed_out: "Η εγγραφή μέσω ενός εξωτερικού παρόχου ταυτοποίησης έληξε. Παρακαλούμε προσπαθήστε ξανά."
@@ -1123,7 +1122,7 @@ el:
         you_contribute: "Και οι προγραμματιστές πρέπει να πληρώσουν τους λογαριασμούς τους. Με την Έκδοση για Επιχειρήσεις μπορείτε να συνεισφέρετε ουσιαστικά σε αυτή προσπάθεια της Open-Source κοινότητας."
     links:
       upgrade_enterprise_edition: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
-      postgres_migration: "Migrating your installation to PostgreSQL"
+      postgres_migration: "Μεταφορά της εγκατάστασης σας σε PostgreSQL"
       user_guides: "Εγχειρίδια χρηστών"
       faq: "Συχνές Ερωτήσεις"
       glossary: "Γλωσσάριο"
@@ -1191,7 +1190,7 @@ el:
   label_authentication: "Ταυτοποίηση"
   label_available_project_work_package_categories: 'Διαθέσιμες κατηγορίες πακέτων εργασίας'
   label_available_project_work_package_types: 'Διαθέσιμοι τύποι εργασιών'
-  label_available_project_forums: 'Available forums'
+  label_available_project_forums: 'Διαθέσιμα φόρουμ'
   label_available_project_versions: 'Διαθέσιμες εκδόσεις'
   label_available_project_repositories: 'Διαθέσιμα αποθετήρια'
   label_api_documentation: "Τεκμηρίωση API"
@@ -1207,7 +1206,7 @@ el:
   label_branch: "Κλάδος"
   label_browse: "Περιήγηση"
   label_bulk_edit_selected_work_packages: "Μαζική επεξεργασία επιλεγμένων πακέτων εργασίας"
-  label_bundled: '(Bundled)'
+  label_bundled: '(Πακεταρισμένο)'
   label_calendar: "Ημερολόγιο"
   label_calendar_show: "Εμφάνιση Ημερολογίου"
   label_category: "Κατηγορία"
@@ -1393,7 +1392,7 @@ el:
   label_max_size: "Μέγιστο μέγεθος"
   label_me: "εγώ"
   label_member_new: "Νέο μέλος"
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Όλοι οι ρόλοι λόγω κατάστασης διαχειριστή)"
   label_member_plural: "Μέλη"
   label_menu_item_name: "Όνομα στοιχείου μενού"
   label_message: "Μήνυμα"
@@ -1420,7 +1419,7 @@ el:
   label_my_queries: "Οι προσαρμοσμένες αναζητήσεις μου"
   label_never: "Ποτέ"
   label_new: "Νέο"
-  label_new_features: "New features"
+  label_new_features: "Νέες λειτουργίες"
   label_new_statuses_allowed: "Επιτρέπονται νέες καταστάσεις"
   label_news_added: "Νέα προστέθηκαν"
   label_news_comment_added: "Το σχόλιο προστέθηκε σε ένα από τα νέα"
@@ -1849,7 +1848,7 @@ el:
   permission_add_project: "Δημιουργία έργου"
   permission_add_subprojects: "Δημιουργία υποέργων"
   permission_add_work_package_watchers: "Προσθήκη παρατηρητών"
-  permission_assign_versions: "Assign versions"
+  permission_assign_versions: "Ανάθεση εκδόσεων"
   permission_browse_repository: "Πρόσβαση ανάγνωσης-μόνο στο αποθετήριο (περιήγηση και ολοκλήρωση παραγγελίας)"
   permission_change_wiki_parent_page: "Αλλαγή σελίδας wiki γονέα"
   permission_comment_news: "Σχολιασμός νέων"
@@ -2529,7 +2528,7 @@ el:
     attributes:
       lock_version: "Κλείδωμα Έκδοσης"
     errors:
-      code_400: "Bad request: %{message}"
+      code_400: "Λάθος αίτημα: %{message}"
       code_401: "Πρέπει να αυθεντικοποιήσετε τον λογαριασμό σας για να αποκτήσετε πρόσβαση σε αυτό τον πόρο."
       code_401_wrong_credentials: "Δεν παρείχατε τα σωστά στοιχεία σύνδεσης."
       code_403: "Δεν έχετε εξουσιοδότηση πρόσβασης σε αυτή τη σελίδα."
@@ -2551,7 +2550,7 @@ el:
       multipart_body_error: "Το σώμα αιτήματος δεν περιέχει τα αναμενόμενα multipart κομμάτια."
       multiple_errors: "Παραβιάστηκαν πολλαπλοί περιορισμοί πεδίων."
       unable_to_create_attachment: "Το συνημμένο δεν ήταν δυνατό να δημιουργηθεί"
-      unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
+      unable_to_create_attachment_permissions: "Το συνημμένο δεν ήταν δυνατό να αποθηκευτεί λόγω έλλειψης δικαιωμάτων συστήματος αρχείων"
       render:
         context_not_parsable: "Το πλαίσιο που παρείχατε δεν είναι σύνδεσμος για έναν πόρο."
         unsupported_context: "Ο πόρος που δόθηκε δεν υποστηρίζεται ως πλαίσιο αναφοράς."
