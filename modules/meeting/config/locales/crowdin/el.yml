@@ -47,7 +47,7 @@ el:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Minutes"
   label_meeting_close: "Κλείσιμο"
-  label_meeting_open: "Open"
+  label_meeting_open: "Ανοιχτό"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
   label_meeting_date_time: "Date/Time"
   label_meeting_diff: "Diff"
