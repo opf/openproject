@@ -40,8 +40,6 @@ module TimeEntries
       if no_project_or_context_changed?
         model.project = model.work_package&.project
       end
-
-      use_project_activity(model)
     end
 
     def set_default_attributes(*)
@@ -51,7 +49,9 @@ module TimeEntries
     end
 
     def set_default_user
-      model.user ||= user
+      change_by_system do
+        model.user = user
+      end
     end
 
     def set_default_activity
@@ -60,15 +60,6 @@ module TimeEntries
 
     def set_default_hours
       model.hours = nil if model.hours&.zero?
-    end
-
-    def use_project_activity(time_entry)
-      if time_entry.activity&.shared? && time_entry.project
-        project_activity = time_entry.project.time_entry_activities.find_by(parent_id: time_entry.activity_id) ||
-                           time_entry.activity
-
-        time_entry.activity = project_activity
-      end
     end
 
     def no_project_or_context_changed?

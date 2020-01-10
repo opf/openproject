@@ -194,7 +194,7 @@ OpenProject::AccessControl.map do |map|
                     require: :loggedin
 
     time.permission :manage_project_activities,
-                    { project_enumerations: %i[update destroy] },
+                    { 'projects/time_entry_activities': %i[update] },
                     require: :member
   end
 

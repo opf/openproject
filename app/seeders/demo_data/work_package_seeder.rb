@@ -28,7 +28,7 @@
 module DemoData
   class WorkPackageSeeder < Seeder
     attr_accessor :project, :user, :statuses, :repository,
-                  :time_entry_activities, :types, :key
+                  :types, :key
 
     include ::DemoData::References
 
@@ -38,7 +38,6 @@ module DemoData
       self.user = User.admin.first
       self.statuses = Status.all
       self.repository = Repository.first
-      self.time_entry_activities = TimeEntryActivity.all
       self.types = project.types.all.reject(&:is_milestone?)
     end
 

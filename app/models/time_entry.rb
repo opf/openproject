@@ -93,12 +93,4 @@ class TimeEntry < ActiveRecord::Base
     scope = scope.where(project_id: project.hierarchy.map(&:id)) if project
     scope.includes(:project).maximum(:spent_on)
   end
-
-  def authoritativ_activity
-    if activity.shared?
-      activity
-    else
-      activity.root
-    end
-  end
 end

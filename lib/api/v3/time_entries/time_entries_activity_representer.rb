@@ -65,9 +65,7 @@ module API
         end
 
         def active_projects
-          represented
-            .activated_projects
-            .visible
+          Project::Scopes::VisibleWithActivatedTimeActivity.fetch(represented)
         end
       end
     end

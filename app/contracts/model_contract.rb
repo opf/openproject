@@ -180,7 +180,7 @@ class ModelContract < Reform::Contract
     invalid_changes = attributes_changed_by_user - writable_attributes
 
     invalid_changes.each do |attribute|
-      outside_attribute = collect_ancestor_attributes(:attribute_aliases)[attribute] || attribute
+      outside_attribute = collect_ancestor_attribute_aliases[attribute] || attribute
 
       errors.add outside_attribute, :error_readonly
     end
@@ -202,6 +202,10 @@ class ModelContract < Reform::Contract
 
   def attribute_validations
     collect_ancestor_attributes(:attribute_validations)
+  end
+
+  def collect_ancestor_attribute_aliases
+    @ancestor_attribute_aliases ||= collect_ancestor_attributes(:attribute_aliases)
   end
 
   # Traverse ancestor hierarchy to collect contract information.
@@ -238,6 +242,12 @@ class ModelContract < Reform::Contract
 
   def collect_writable_attributes
     writable = collect_ancestor_attributes(:writable_attributes)
+
+    writable.each do |attribute|
+      if collect_ancestor_attribute_aliases[attribute]
+        writable << collect_ancestor_attribute_aliases[attribute].to_s
+      end
+    end
 
     if model.respond_to?(:available_custom_fields)
       writable += model.available_custom_fields.map { |cf| "custom_field_#{cf.id}" }

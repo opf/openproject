@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,31 +25,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class ProjectEnumerationsController < ApplicationController
-  before_action :find_project_by_project_id
-  before_action :authorize
+module Project::Scopes
+  class ActivatedTimeActivity
+    def self.fetch(time_entry_activity)
+      join_condition = <<-SQL
+        LEFT OUTER JOIN time_entry_activities_projects
+          ON projects.id = time_entry_activities_projects.project_id
+          AND time_entry_activities_projects.activity_id = #{time_entry_activity.id}
+      SQL
 
-  def update
-    if permitted_params.enumerations.present?
-      Project.transaction do
-        permitted_params.enumerations.each do |id, activity|
-          @project.update_or_create_time_entry_activity(id, activity)
-        end
+      join_scope = Project.joins(join_condition)
+
+      result_scope = join_scope.where(time_entry_activities_projects: { active: true })
+
+      if time_entry_activity.active?
+        result_scope
+          .or(join_scope.where(time_entry_activities_projects: { project_id: nil }))
+      else
+        result_scope
       end
-      flash[:notice] = l(:notice_successful_update)
     end
-
-    redirect_to settings_project_path(id: @project, tab: 'activities')
-  end
-
-  def destroy
-    TimeEntryActivity.bulk_destroy(@project.time_entry_activities)
-
-    flash[:notice] = l(:notice_successful_update)
-
-    redirect_to settings_project_path(id: @project, tab: 'activities')
   end
 end

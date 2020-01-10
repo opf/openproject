@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,23 +25,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-describe 'project_enumerations routes', type: :routing do
-  describe 'update' do
-    it 'links PUT /projects/:project_id/enumerations' do
-      expect(put('/projects/64/enumerations'))
-        .to route_to('project_enumerations#update', project_id: '64')
-    end
-  end
-
-  describe 'delete' do
-    it 'links DELETE /projects/:project_id/enumerations' do
-      expect(delete('/projects/64/enumerations'))
-        .to route_to('project_enumerations#destroy', project_id: '64')
+module API
+  module V3
+    module TimeEntries
+      class FormRepresenter < ::API::Decorators::SimpleForm
+        def model
+          TimeEntry
+        end
+      end
     end
   end
 end

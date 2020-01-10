@@ -50,7 +50,7 @@ module API
       private
 
       def downcase_model_name
-        model_name.downcase
+        model_name.underscore
       end
     end
   end

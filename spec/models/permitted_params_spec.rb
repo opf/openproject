@@ -525,6 +525,23 @@ describe PermittedParams, type: :model do
     end
   end
 
+  describe '#time_entry_activities_project' do
+    let(:attribute) { :time_entry_activities_project }
+    let(:hash) do
+      [
+        { "activity_id" => "5", "active" => "0" },
+        { "activity_id" => "6", "active" => "1" }
+      ]
+    end
+    let(:allowed_params) do
+      [{ "activity_id" => "5", "active" => "0" }, { "activity_id" => "6", "active" => "1" }]
+    end
+
+    it_behaves_like 'allows params' do
+      subject { PermittedParams.new(params, user).send(attribute) }
+    end
+  end
+
   describe '#user' do
     include_context 'prepare params comparison'
 

@@ -30,12 +30,9 @@
 
 module TimeEntries
   class CreateContract < BaseContract
-    attribute :user_id do
-      errors.add :user_id, :invalid if model.user != user
-    end
-
     def validate
       user_allowed_to_add
+      validate_user_current_user
 
       super
     end
@@ -46,6 +43,10 @@ module TimeEntries
       if model.project && !user.allowed_to?(:log_time, model.project)
         errors.add :base, :error_unauthorized
       end
+    end
+
+    def validate_user_current_user
+      errors.add :user_id, :invalid if model.user != user
     end
   end
 end
