@@ -26,7 +26,7 @@ sv:
       loading: "Laddar ..."
     attachments:
       draggable_hint: |
-        Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+        Dra på editorfältet för att infoga bild eller referensbilaga. Stängda editorfält kommer att öppnas medan du fortsätter att dra.
     autocomplete_select:
       placeholder:
         multi: "Lägg till ”%{name}”"
@@ -107,9 +107,9 @@ sv:
     description_subwork_package: "Barn till arbetspaket #%{id}"
     editor:
       preview: 'Växla förhandsgranskningsläge'
-      source_code: 'Toggle Markdown source mode'
+      source_code: 'Växla markdown-källläge'
       error_saving_failed: 'Misslyckades med att spara dokumentet på grund av följande fel: %{error}'
-      error_initialization_failed: 'Failed to initialize CKEditor!'
+      error_initialization_failed: 'Det gick inte att initiera CKEditor!'
       mode:
         manual: 'Switch to Markdown source'
         wysiwyg: 'Switch to WYSIWYG editor'
@@ -157,7 +157,7 @@ sv:
         inactive: 'Inaktiv'
         drag_to_activate: "Dra fält härifrån för att aktivera dom"
         add_group: "Lägg till attributgrupp"
-        add_table: "Add table of related work packages"
+        add_table: "Lägg till tabell med relaterade arbetspaket"
         edit_query: 'Edit query'
         new_group: 'Ny grupp'
         reset_to_defaults: 'Återställ standardinställningar'
@@ -365,7 +365,7 @@ sv:
         next: 'Nästa'
         got_it: 'Got it'
       steps:
-        help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
+        help_menu: 'I menyn <b>Hjälp</b> hittar du en användarhandbok och ytterligare hjälpresurser. <br> Njut av ditt arbete med OpenProject!'
         members: 'Invite new <b>Members</b> to join your project.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
         sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
@@ -388,7 +388,7 @@ sv:
           back_button: 'With the arrow you can navigate back to the work package list.'
           create_button: 'The <b>Create</b> button will add a new work package to your project.'
           timeline_button: 'You can activate the <b>Gantt chart</b> to create a timeline for your project.'
-          timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
+          timeline: 'Här kan du redigera din projektplan. Skapa nya faser, milstolpar och lägga till beroenden. Alla teammedlemmar kan när som helst se och uppdatera den senaste planen.'
     password_confirmation:
       field_description: 'Du behöver ange ditt lösenord för att bekräfta ändringen.'
       title: 'Bekräfta ditt lösenord för att fortsätta'
@@ -399,22 +399,22 @@ sv:
         previous: "Bakåt till föregående sida"
     placeholders:
       default: '-'
-      subject: 'Enter subject here'
+      subject: 'Ange ämne här'
       selection: 'Välj'
       relation_description: 'Klicka för att ange beskrivning för denna relation'
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
-      context: 'Project context'
-      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
-      click_to_switch_context: 'Open this work package in that project.'
+      context: 'Projektsammanhang'
+      work_package_belongs_to: 'Detta arbetspaket tillhör projektet %{projectname}.'
+      click_to_switch_context: 'Öppna detta arbetspaket i det projektet.'
       autocompleter:
-        label: 'Project autocompletion'
+        label: 'Automatisk komplettering av projekt'
     text_are_you_sure: "Är du säker?"
     types:
       attribute_groups:
         error_duplicate_group_name: "Namnet %{group} används redan. Gruppnamn måste vara unika."
-        error_no_table_configured: "Please configure a table for %{group}."
+        error_no_table_configured: "Konfigurera en tabell för %{group}."
         reset_title: "Återställ formulärinställningarna"
         confirm_reset: >
           Varning: Är du säker på att du vill återställa formulärinställningarna? Detta kommer att återställa attributen till deras standardgrupper, avmarkera kryssrutorna för synlighet samt inaktivera samtliga anpassade fält.
@@ -423,18 +423,18 @@ sv:
         more_information: "Mer information"
         nevermind: "Det var inget"
         filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
+          parent: "att vara barn till"
+          precedes: "föregående"
+          follows: "följer"
+          relates: "relaterar till"
+          duplicates: "duplicerar"
           duplicated: "duplicerad genom"
-          blocks: "blocking"
+          blocks: "blockerar"
           blocked: "blockeras av"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
+          partof: "är en del av"
+          includes: "inklusive"
+          requires: "kräver"
+          required: "krävs av"
     time_entry:
       activity: 'Aktivitet'
       comment: 'Kommentar'
@@ -466,7 +466,7 @@ sv:
       hierarchy_headline: "Hierarchy"
       children_headline: "Barn"
     relation_buttons:
-      set_parent: "Set parent"
+      set_parent: "Ange förälder"
       change_parent: "Ändra överordnad"
       remove_parent: "Ta bort förälder"
       hierarchy_indent: "Indent hierarchy"
@@ -475,12 +475,12 @@ sv:
       group_by_relation_type: "Gruppera efter relationstyp"
       add_parent: "Lägga till befintlig förälder"
       add_new_child: "Skapa nytt barn"
-      create_new: "Create new"
-      add_existing: "Add existing"
+      create_new: "Skapa ny"
+      add_existing: "Lägg till befintlig"
       add_existing_child: "Lägg till befintligt barn"
       remove_child: "Ta bort barn"
       add_new_relation: "Skapa ny relation"
-      add_existing_relation: "Add existing relation"
+      add_existing_relation: "Lägg till befintlig relation"
       update_description: "Ange eller uppdatera beskrivningen av denna relation"
       toggle_description: "Visa/dölj relationsbeskrivning"
       update_relation: "Klicka för att ändra relationstypen"
@@ -516,22 +516,22 @@ sv:
       activate_dsc: 'aktivera om du vill tillämpa fallande sortering'
       activate_no: 'aktivera för att ta bort sortering'
     text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
-    text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
+    text_query_destroy_confirmation: "Är du säker på att du vill ta bort den markerade vyn?"
     text_attachment_destroy_confirmation: "Är du säker på att du vill ta bort denna bilaga?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
+      gantt_chart: 'Gantt-schema'
       labels:
         title: 'Etikettsinställning'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
-        showNone: '-- No label --'
+        bar: 'Bar etiketter'
+        left: 'Vänster'
+        right: 'Höger'
+        farRight: 'Längst till höger'
+        showNone: '-- Ingen etikett --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Välj de attribut som alltid ska visas i respektive position i Gantts-schemat. Observera att när du hovrar över ett element kommer dess datumetiketter att visas istället för dessa attribut.
+      button_activate: 'Visa Gantt-schema'
+      button_deactivate: 'Dölj Gantt-schema'
       cancel: Avbryt
       change: "Ändra i planeringen"
       due_date: "Slutdatum"
@@ -566,7 +566,7 @@ sv:
       zoom:
         in: "Zooma in"
         out: "Zooma ut"
-        auto: "Auto zoom"
+        auto: "Autozoom"
         days: "Dagar"
         weeks: "Veckor"
         months: "Månader"
@@ -574,12 +574,12 @@ sv:
         years: "År"
         slider: "Zoomreglaget"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Välj den initiala zoomnivån som ska visas när autozoom inte är tillgänglig.
     tl_toolbar:
       zooms: "Zoomnivå"
       outlines: "Hierarkinivå"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Funktionen finns endast i Enterprise Edition'
     wiki_formatting:
       strong: "Fetstil"
       italic: "Kursiv"
@@ -616,16 +616,16 @@ sv:
       label_enable_multi_select: "Aktivera multival"
       label_disable_multi_select: "Inaktivera multival"
       label_filter_add: "Lägg till filter"
-      label_filter_by_text: "Filter by text"
+      label_filter_by_text: "Filtrera på text"
       label_options: "Alternativ"
       label_column_multiselect: "Kombinerade nedrullningsbara fält: Markera med piltangenterna, bekräfta val med RETUR, ta bort med BACKSTEG"
       message_error_during_bulk_delete: Ett fel uppstod vid försök att ta bort arbetspaket.
       message_successful_bulk_delete: Arbetspaket togs bort.
       message_successful_show_in_fullscreen: "Klicka här för att öppna det här arbetspaketet i fullskärmsläge."
       message_view_spent_time: "Visa loggad tid för detta arbetspaket"
-      message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
+      message_work_package_read_only: "Arbetspaketet är låst i denna status. Inget annat attribut än status kan ändras."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      placeholder_filter_by_text: "Subject, description, comments, ..."
+      placeholder_filter_by_text: "Ämne, beskrivning, kommentarer, ..."
       inline_create:
         title: 'Klicka här för att lägga till ett nytt arbetspaket till listan'
       create:
@@ -645,7 +645,7 @@ sv:
         children_expanded: 'Hierarkinivå %{level} expanderade. Klicka för att dölja de filtrerade barnen'
       faulty_query:
         title: Arbetspaket kunde inte laddas.
-        description: Your view is erroneous and could not be processed.
+        description: Din vy är felaktig och kunde inte bearbetas.
       no_results:
         title: Inga arbetspaket att visa.
         description: Antingen finns det inga arbetspaket eller så har alla filtrerats bort.
@@ -679,9 +679,9 @@ sv:
         version: "Version"
       default_queries:
         latest_activity: "Latest activity"
-        created_by_me: "Created by me"
-        assigned_to_me: "Assigned to me"
-        recently_created: "Recently created"
+        created_by_me: "Skapad av mig"
+        assigned_to_me: "Tilldelad till mig"
+        recently_created: "Nyligen skapade"
         all_open: "Alla öppna"
         summary: "Sammanfattning"
       jump_marks:
@@ -706,8 +706,8 @@ sv:
         insert_columns: "Infoga kolumner..."
         filters: "Filter"
         display_sums: "Visa summor"
-        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
-        click_to_edit_query_name: "Click to edit title of this view."
+        confirm_edit_cancel: "Är du säker på att du vill avbryta redigering av namnet på den här vyn? Titeln kommer att återställas till föregående värde."
+        click_to_edit_query_name: "Klicka för att redigera titeln på denna vy."
         rename_query_placeholder: "Name of this view"
         star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
         public_text: >
