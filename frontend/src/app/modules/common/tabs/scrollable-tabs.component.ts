@@ -13,6 +13,7 @@ export class ScrollableTabsComponent implements AfterViewInit {
   public currentTabId:string = '';
   public tabs:{id:string, name:string}[] = [];
   public classes:string[] = ['scrollable-tabs'];
+  public partial:string = '#';
   public hideLeftButton:boolean = true;
   public hideRightButton:boolean = true;
 

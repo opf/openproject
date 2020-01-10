@@ -31,14 +31,14 @@
 module CustomFieldsHelper
   def custom_fields_tabs
     [
-      { name: 'WorkPackageCustomField', partial: 'custom_fields/tab', label: :label_work_package_plural },
-      { name: 'TimeEntryCustomField', partial: 'custom_fields/tab', label: :label_spent_time },
-      { name: 'ProjectCustomField', partial: 'custom_fields/tab', label: :label_project_plural },
-      { name: 'VersionCustomField', partial: 'custom_fields/tab', label: :label_version_plural },
-      { name: 'UserCustomField', partial: 'custom_fields/tab', label: :label_user_plural },
-      { name: 'GroupCustomField', partial: 'custom_fields/tab', label: :label_group_plural },
-      { name: 'TimeEntryActivityCustomField', partial: 'custom_fields/tab', label: TimeEntryActivity::OptionName },
-      { name: 'IssuePriorityCustomField', partial: 'custom_fields/tab', label: IssuePriority::OptionName }
+      { name: 'WorkPackageCustomField', partial: 'custom_fields/tab', label: I18n.t(:label_work_package_plural) },
+      { name: 'TimeEntryCustomField', partial: 'custom_fields/tab', label: I18n.t(:label_spent_time) },
+      { name: 'ProjectCustomField', partial: 'custom_fields/tab', label: I18n.t(:label_project_plural) },
+      { name: 'VersionCustomField', partial: 'custom_fields/tab', label: I18n.t(:label_version_plural) },
+      { name: 'UserCustomField', partial: 'custom_fields/tab', label: I18n.t(:label_user_plural) },
+      { name: 'GroupCustomField', partial: 'custom_fields/tab', label: I18n.t(:label_group_plural) },
+      { name: 'TimeEntryActivityCustomField', partial: 'custom_fields/tab', label: I18n.t(TimeEntryActivity::OptionName) },
+      { name: 'IssuePriorityCustomField', partial: 'custom_fields/tab', label: I18n.t(IssuePriority::OptionName) }
      ]
   end
 

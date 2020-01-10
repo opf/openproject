@@ -30,6 +30,8 @@
 class SettingsController < ApplicationController
   layout 'admin'
 
+  helper_method :gon
+
   before_action :require_admin
 
   current_menu_item [:index, :edit] do

@@ -26,28 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<div class="tabs">
-  <ul>
-    <% tabs.each do |tab| %>
-      <li><%=
-    position_span = you_are_here_info(tab[:name], tab != selected_tab)
-    caption = case tab[:label]
-    when Proc
-      tab[:label].call
-    else
-      t(tab[:label])
-    end
-    link_to(position_span + caption, { tab: tab[:name] },
-                                       id: "tab-#{tab[:name]}",
-                                       class: "tab-show #{(tab == selected_tab ? 'selected' : '')}",
-                                       data: { name: tab[:name] }) %></li>
-    <% end %>
-  </ul>
-  <div class="tabs-buttons" style="display:none;">
-    <button class="tab-left icon-context icon-arrow-left4"></button>
-    <button class="tab-right icon-context icon-arrow-right5"></button>
-  </div>
-</div>
+<% gon.admin_tabs = { tabs: tabs.to_json.html_safe, selected: selected_tab.to_json.html_safe } %>
+<%= nonced_javascript_tag do %>
+  <%= include_gon(need_tag: false) -%>
+<% end %>
+
+<admin-tabs></admin-tabs>
 
 <%= content_tag 'div',
                 render(partial: selected_tab[:partial], locals: { tab: selected_tab } ),

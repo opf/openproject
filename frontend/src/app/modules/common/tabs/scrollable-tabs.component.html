@@ -3,7 +3,7 @@
     <li *ngFor="let tab of tabs"
         [class.selected]="tab.id === currentTabId"
         [attr.tab-id]="tab.id">
-      <a href="#" (click)="clickTab(tab.id)" [textContent]="tab.name"></a>
+      <a [href]="partial" (click)="clickTab(tab.id)" [textContent]="tab.name"></a>
     </li>
   </ul>
   <div #scrollLeftBtn [hidden]="hideLeftButton"
