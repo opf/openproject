@@ -647,6 +647,10 @@ en:
         role:
           permissions:
             dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "more than 24 hours logged for the date."
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           attributes:

@@ -54,6 +54,7 @@ shared_examples_for 'time entry contract' do
   let(:time_entry_hours) { 5 }
   let(:time_entry_comments) { "A comment" }
   let(:work_package_visible) { true }
+  let(:time_entry_day_sum) { 5 }
   let(:activities_scope) do
     scope = double('activities')
 
@@ -77,7 +78,23 @@ shared_examples_for 'time entry contract' do
 
     allow(TimeEntryActivity::Scopes::ActiveInProject)
       .to receive(:fetch)
-      .and_return(TimeEntryActivity.where('1=0'))
+      .and_return(TimeEntryActivity.none)
+
+    of_user_and_day_scope = double('of_user_and_day_scope')
+
+    allow(TimeEntry::Scopes::OfUserAndDay)
+      .to receive(:fetch)
+      .and_return(TimeEntry.none)
+
+    allow(TimeEntry::Scopes::OfUserAndDay)
+      .to receive(:fetch)
+      .with(time_entry.user, time_entry_spent_on, excluding: time_entry)
+      .and_return(of_user_and_day_scope)
+
+    allow(of_user_and_day_scope)
+      .to receive(:sum)
+      .with(:hours)
+      .and_return(time_entry_day_sum)
 
     allow(TimeEntryActivity::Scopes::ActiveInProject)
       .to receive(:fetch)
@@ -183,6 +200,14 @@ shared_examples_for 'time entry contract' do
     let(:time_entry_comments) { nil }
 
     it_behaves_like 'is valid'
+  end
+
+  context 'if more than 24 hours are booked for a day' do
+    let(:time_entry_day_sum) { 24 - time_entry_hours + 1 }
+
+    it 'is invalid' do
+      expect_valid(false, hours: %i(day_limit))
+    end
   end
 
   describe 'assignable_activities' do

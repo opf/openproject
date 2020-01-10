@@ -58,7 +58,9 @@ module TimeEntries
     attribute :activity_id do
       validate_activity_active
     end
-    attribute :hours
+    attribute :hours do
+      validate_day_limit
+    end
     attribute :comments
     attribute_alias :comments, :comment
 
@@ -98,12 +100,26 @@ module TimeEntries
       errors.add :activity_id, :inclusion if model.activity_id && !assignable_activities.exists?(model.activity_id)
     end
 
+    def validate_day_limit
+      return unless model.spent_on && model.hours
+
+      if hours_extending_day_limit?
+        errors.add :hours, :day_limit
+      end
+    end
+
     def work_package_invisible?
       model.work_package.nil? || !model.work_package.visible?(user)
     end
 
     def work_package_not_in_project?
       model.work_package && model.project != model.work_package.project
+    end
+
+    def hours_extending_day_limit?
+      existing_sum = TimeEntry::Scopes::OfUserAndDay.fetch(model.user, model.spent_on, excluding: model).sum(:hours)
+
+      existing_sum + model.hours > 24
     end
   end
 end

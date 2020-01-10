@@ -228,13 +228,13 @@ describe Changeset, type: :model do
           '15m' => 0.25,
           '15min' => 0.25,
           '3h15' => 3.25,
-          '3h15m' => 3.25,
-          '3h15min' => 3.25,
-          '3:15' => 3.25,
-          '3.25' => 3.25,
-          '3.25h' => 3.25,
-          '3,25' => 3.25,
-          '3,25h' => 3.25
+          '2h15m' => 2.25,
+          '2h15min' => 2.25,
+          '2:15' => 2.25,
+          '2.25' => 2.25,
+          '1.25h' => 1.25,
+          '0,75' => 0.75,
+          '1,25h' => 1.25
         }.each do |syntax, expected_hours|
           c = Changeset.new repository: repository,
                             committed_on: 24.hours.ago,
