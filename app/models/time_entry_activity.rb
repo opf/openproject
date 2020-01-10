@@ -49,8 +49,16 @@ class TimeEntryActivity < Enumeration
   end
 
   def active_in_project?(project)
-    teap = time_entry_activities_projects.detect { |t| t.project_id == project.id }
-    !teap || teap.active?
+    teap = if time_entry_activities_projects.loaded?
+             time_entry_activities_projects.detect { |t| t.project_id == project.id }&.active?
+           else
+             time_entry_activities_projects
+               .where(project_id: project.id)
+               .pluck(:active)
+               .first
+           end
+
+    teap.present? && teap
   end
 
   def activated_projects
