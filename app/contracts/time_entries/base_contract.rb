@@ -69,7 +69,7 @@ module TimeEntries
 
     def assignable_activities
       if !model.project
-        TimeEntryActivity.where('1=0')
+        TimeEntryActivity.none
       else
         TimeEntryActivity::Scopes::ActiveInProject.fetch(model.project)
       end
