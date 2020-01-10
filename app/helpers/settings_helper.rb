@@ -34,12 +34,12 @@ module SettingsHelper
 
   def administration_settings_tabs
     [
-      { name: 'general', partial: 'settings/general', label: I18n.t(:label_general) },
-      { name: 'display', partial: 'settings/display', label: I18n.t(:label_display) },
-      { name: 'projects', partial: 'settings/projects', label: I18n.t(:label_project_plural) },
-      { name: 'notifications', partial: 'settings/notifications', label: I18n.t('activerecord.attributes.user.mail_notification') },
-      { name: 'mail_handler', partial: 'settings/mail_handler', label: I18n.t(:label_incoming_emails) },
-      { name: 'repositories', partial: 'settings/repositories', label: I18n.t(:label_repository_plural) }
+      { name: 'general', partial: 'settings/general', label: :label_general },
+      { name: 'display', partial: 'settings/display', label: :label_display },
+      { name: 'projects', partial: 'settings/projects', label: :label_project_plural },
+      { name: 'notifications', partial: 'settings/notifications', label: :label_mail_notification },
+      { name: 'mail_handler', partial: 'settings/mail_handler', label: :label_incoming_emails },
+      { name: 'repositories', partial: 'settings/repositories', label: :label_repository_plural }
     ]
   end
 

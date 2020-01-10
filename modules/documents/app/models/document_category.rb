@@ -30,7 +30,7 @@
 class DocumentCategory < Enumeration
   has_many :documents, foreign_key: 'category_id'
 
-  OptionName = I18n.t(:enumeration_doc_categories)
+  OptionName = :enumeration_doc_categories
 
   def option_name
     OptionName

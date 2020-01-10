@@ -35,6 +35,7 @@ import {
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {StateService} from '@uirouter/core';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
 
 
@@ -52,24 +53,26 @@ interface Tab {
 })
 
 export class AdminTabsComponent extends ScrollableTabsComponent {
-  public myTabs: Tab[] = [];
-  public currentTab: Tab;
+  public myTabs:Tab[] = [];
+  public currentTab:Tab;
 
-  public classes:string[] = ['settings--tabs', 'scrollable-tabs'];
+  public classes:string[] = ['admin--tabs', 'scrollable-tabs'];
 
   private gonData:any = this.gon.get('admin_tabs');
 
   constructor(readonly elementRef:ElementRef,
               readonly $state:StateService,
-              readonly gon:GonService) {
+              readonly gon:GonService,
+              readonly I18n:I18nService) {
     super();
     // parse tabs from backend and map them to scrollable tabs structure
     this.myTabs = jQuery.parseJSON(this.gonData.tabs);
-    this.tabs = jQuery.map(this.myTabs, (tab:any) => {
+    this.tabs = jQuery.map(this.myTabs, (tab:Tab) => {
       return {
         id: tab.name,
-        name: tab.label
-      } });
+        name: this.I18n.t('js.' + tab.label)
+      };
+    });
 
     // highlight current tab
     this.currentTab = jQuery.parseJSON(this.gonData.selected);
@@ -81,7 +84,7 @@ export class AdminTabsComponent extends ScrollableTabsComponent {
     this.currentTab = jQuery.grep(this.myTabs, thisTab => thisTab.name === tab)[0];
 
     // set correct partial for selected tab
-    this.partial = this.currentTab.partial.split('/')[0] + '?tab=' + this.currentTab.name;
+    this.partial = window.location.pathname + '?tab=' + this.currentTab.name;
 
     super.clickTab(tab);
   }
