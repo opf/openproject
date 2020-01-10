@@ -38,11 +38,11 @@ module Concerns::UnchangedProject
 
         model.project_id = model.project_id_was
 
-        return_value = yield
-
-        model.project_id = current_project_id
-
-        return_value
+        begin
+          yield
+        ensure
+          model.project_id = current_project_id
+        end
       else
         yield
       end
