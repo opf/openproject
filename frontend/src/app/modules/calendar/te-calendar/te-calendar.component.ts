@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, SecurityContext, ViewChild, AfterViewInit, Output, EventEmitter, Injector} from "@angular/core";
+import {Component, ElementRef, Input, OnDestroy, OnInit, SecurityContext, ViewChild, AfterViewInit, Output, EventEmitter, Injector, ViewEncapsulation} from "@angular/core";
 import {FullCalendarComponent} from '@fullcalendar/angular';
 import {States} from "core-components/states.service";
 import * as moment from "moment";
@@ -28,7 +28,9 @@ interface CalendarViewEvent {
 
 @Component({
   templateUrl: './te-calendar.template.html',
+  styleUrls: ['./te-calendar.component.sass'],
   selector: 'te-calendar',
+  encapsulation: ViewEncapsulation.None,
 })
 export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(FullCalendarComponent, { static: false }) ucCalendar:FullCalendarComponent;
@@ -45,8 +47,9 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   };
   public calendarSlotLabelFormat = (info:any) => 24 - info.date.hour;
   public calendarScrollTime = '24:00:00';
-  public calendarContentHeight = 618;
-  public calendarAllDaySlot = false;
+  public calendarContentHeight = 545;
+  public calendarAllDaySlot = true;
+  public calendarAllDayText = '';
   public calendarDisplayEventTime = false;
   public calendarSlotEventOverlap = false;
   public calendarEditable = false;
@@ -90,7 +93,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
       .then((collection) => {
         this.entries.emit(collection);
 
-        successCallback(this.buildEntries(collection.elements));
+        successCallback(this.buildEntries(collection.elements, fetchInfo));
       });
   }
 
@@ -113,10 +116,14 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     return this.memoizedTimeEntries.entries;
   }
 
-private buildEntries(entries:TimeEntryResource[]) {
-    let calendarEntries = [];
+  private buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
+    return this.buildTimeEntryEntries(entries)
+      .concat(this.buildSumEntries(entries, fetchInfo));
+  }
 
+  private buildTimeEntryEntries(entries:TimeEntryResource[]) {
     let hoursDistribution:{ [key:string]:Moment } = {};
+    let dateSums:{ [key:string]:number } = {};
 
     return entries.map((entry) => {
       let start:Moment;
@@ -139,7 +146,37 @@ private buildEntries(entries:TimeEntryResource[]) {
         end: end.format(),
         entry: entry
       };
+    }) as EventInput[];
+  }
+
+  private buildSumEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
+    let dateSums:{ [key:string]:number } = {};
+
+    entries.forEach((entry) => {
+      let hours = this.timezone.toHours(entry.hours);
+
+      if (dateSums[entry.spentOn]) {
+        dateSums[entry.spentOn] += hours;
+      } else {
+        dateSums[entry.spentOn] = hours;
+      }
     });
+
+    let calendarEntries:EventInput[] = [];
+
+    for (let m = moment(fetchInfo.start); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
+      let duration = dateSums[m.format('YYYY-MM-DD')] || 0;
+
+      calendarEntries.push({
+        title: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
+        allDay: true,
+        start: m.format(),
+        classNames: 'te-calendar--day-sum',
+        end: m.format()
+      });
+    }
+
+    return calendarEntries;
   }
 
   protected dmFilters(start:Date, end:Date):Array<[string, FilterOperator, string[]]> {
@@ -205,6 +242,10 @@ private buildEntries(entries:TimeEntryResource[]) {
   }
 
   private addTooltip(event:CalendarViewEvent) {
+    if (!event.event.extendedProps.entry) {
+      return;
+    }
+
     jQuery(event.el).tooltip({
       content: this.tooltipContentString(event.event.extendedProps.entry),
       items: '.fc-event',
@@ -254,5 +295,9 @@ private buildEntries(entries:TimeEntryResource[]) {
 
   private sanitizedValue(value:string) {
     return this.sanitizer.sanitize(SecurityContext.HTML, value);
+  }
+
+  protected formatNumber(value:number):string {
+    return this.i18n.toNumber(value, { precision: 2 });
   }
 }
