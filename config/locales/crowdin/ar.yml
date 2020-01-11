@@ -1078,7 +1078,6 @@ ar:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "الأنشطة (تتبع الوقت)"
   enumeration_work_package_priorities: "أولويات مجموعة العمل"
-  enumeration_system_activity: "نشاط النظام"
   enumeration_reported_project_statuses: "حالة للمشروع المبلغ عنه"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
   error_can_not_archive_project: "This project cannot be archived: %{errors}"

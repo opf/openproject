@@ -41,7 +41,7 @@ el:
     button_back_to_list_view: "Επιστροφή στη προβολή λίστας"
     button_cancel: "Ακύρωση"
     button_close: "Κλείσιμο"
-    button_change_project: "Change project"
+    button_change_project: "Αλλαγή έργου"
     button_check_all: "Επιλογή όλων"
     button_configure-form: "Διαμόρφωση φόρμας"
     button_confirm: "Επιβεβαίωση"
@@ -62,8 +62,8 @@ el:
     button_open_details: "Άνοιγμα προβολής λεπτομερειών"
     button_close_details: "Κλείσιμο προβολής λεπτομερειών"
     button_open_fullscreen: "Άνοιγμα προβολής πλήρης οθόνη"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Εμφάνιση προβολής κάρτας"
+    button_show_list: "Εμφάνιση προβολής λίστας"
     button_quote: "Παράθεση"
     button_save: "Αποθήκευση"
     button_settings: "Ρυθμίσεις"
@@ -73,7 +73,7 @@ el:
     button_export-atom: "Κατεβάστε το Atom"
     calendar:
       title: 'Ημερολόγιο'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Συνολικά υπάρχουν %{count} πακέτα εργασίας, αλλά μπορούν να εμφανιστούν μόνο %{max}.'
     card:
       add_new: 'Προσθέστε νέα κάρτα'
       highlighting:
@@ -84,22 +84,22 @@ el:
       browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
       copied_successful: "Επιτυχής αντιγραφή στο πρόχειρο!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Τύπος διαγράμματος'
+      axis_criteria: 'Κριτήρια άξονα'
+      modal_title: 'Διαμόρφωση του διαγράμματος πακέτων εργασίας'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
+        line: 'Γραμμή'
+        horizontal_bar: 'Οριζόντια μπάρα'
+        bar: 'Ραβδόγραμμα'
+        pie: 'Πίτα'
+        doughnut: 'Ντόνατ'
+        radar: 'Ραντάρ'
         polar_area: 'Polar area'
       tabs:
         graph_settings: 'Γενικά'
         dataset: 'Dataset %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'Τα δεδομένα για εμφάνιση στο διάγραμμα δεν μπόρεσαν να φορτωθούν. Μπορεί να λείπουν τα απαραίτητα δικαιώματα.'
     description_available_columns: "Διαθέσιμες στήλες"
     description_current_position: "Είστε εδώ: "
     description_select_work_package: "Επιλέξτε πακέτο εργασίας #%{id}"
@@ -356,9 +356,9 @@ el:
     label_wait: "Παρακαλώ περιμένετε για την διαμόρφωση..."
     label_upload_counter: "Ολοκληρώθηκαν %{done} από %{count} αρχεία"
     label_validation_error: "Δεν ήταν δυνατή η αποθήκευση του πακέτου εργασίας λόγω των ακόλουθων σφαλμάτων:"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "Η προβολή έχει μη αποθηκευμένες αλλαγές. Κάντε κλικ για τις αποθηκεύσετε."
     help_texts:
-      show_modal: 'Εμφανίστε το χαρακτηριστικό καταχώρισης κειμένου βοήθειας'
+      show_modal: 'Εμφανίστε το χαρακτηριστικό καταχώρησης κειμένου βοήθειας'
     onboarding:
       buttons:
         skip: 'Παράλειψη'
@@ -598,7 +598,7 @@ el:
       image: "Εικόνα"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'Μαζική αλλαγή του έργου'
         edit: 'Μαζική επεξεργασία'
         copy: 'Μαζική αντιγραφή'
         delete: 'Μαζική διαγραφή'
@@ -649,7 +649,7 @@ el:
       no_results:
         title: Δεν υπάρχουν πακέτα εργασίας για εμφάνιση.
         description: Είτε δεν έχει δημιουργηθεί κανένα ή όλα τα πακέτα εργασίας έχουν φιλτραριστεί.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Μόνο %{count} πακέτα εργασίας μπορούν να εμφανιστούν στην λειτουργία χειροκίνητης ταξινόμησης. Παρακαλούν μειώστε τα αποτελέσματα με φίλτρα.
       property_groups:
         details: "Λεπτομέρειες"
         people: "Άτομα"
@@ -746,10 +746,10 @@ el:
           priority: 'Προτεραιότητα'
           type: 'Τύπος'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Επιλέξτε τη λειτουργία ταξινόμησης για τα πακέτα εργασίας σας:'
+          automatic: 'Αυτόματα'
+          manually: 'Χειροκίνητα'
+          warning: 'Θα χάσετε την προηγούμενη ταξινόμηση όταν ενεργοποιήσετε την λειτουργία αυτόματης ταξινόμησης.'
         columns_help_text: "Χρησιμοποιήστε την παραπάνω είσοδο για να προσθέσετε ή να αφαιρέσετε στήλες στην προβολή πίνακα σας. Μπορείτε να σύρετε τις στήλες για να τις αλλάξετε σειρά."
         upsale:
           attribute_highlighting: 'Χρειάζεστε συγκεκριμένα πακέτα εργασίας για να ξεχωρίσετε από την μάζα;'
@@ -859,6 +859,6 @@ el:
         project_and_subprojects: "και όλα τα υποέργα"
         search_for: "Αναζήτηση για"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Κάρτες'
+      list: 'Πίνακας'
       timeline: 'Gantt'

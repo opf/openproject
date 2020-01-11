@@ -1,19 +1,19 @@
 sv:
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    Du har loggats ut. Innehållet i alla formulär du skickar kan försvinna. Vänligen [logga in].
   activemodel:
     attributes:
       openid_connect/provider:
         name: Namn
-        display_name: Display name
+        display_name: Visningsnamn
         identifier: Identifierare
-        secret: Secret
-        scope: Scope
+        secret: Hemlighet
+        scope: Omfattning
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: OpenID leverantörer
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: Lägg till en ny OpenID-leverantör
+      label_edit: Redigera OpenID-leverantör %{name}
+      no_results_table: Inga leverantörer har definierats ännu.
+      plural: OpenID leverantörer
+      singular: OpenID leverantör

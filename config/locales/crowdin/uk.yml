@@ -1046,7 +1046,6 @@ uk:
         description_html: "Фільтрування та сортування по власних полях доступне тільки у корпоративній версії."
   enumeration_activities: "Дії (облік часу)"
   enumeration_work_package_priorities: "Пріоритети робочого пакету"
-  enumeration_system_activity: "Системна активність"
   enumeration_reported_project_statuses: "Повідомлення про статус проекту"
   error_auth_source_sso_failed: "Єдиний вхід (SSO) для користувача %{value} не вдалося "
   error_can_not_archive_project: "This project cannot be archived: %{errors}"

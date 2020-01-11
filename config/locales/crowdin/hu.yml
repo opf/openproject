@@ -1012,7 +1012,6 @@ hu:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Tevékenységek (időkövetés)"
   enumeration_work_package_priorities: "Feladatcsoport fontosság"
-  enumeration_system_activity: "Rendszer tevékenység"
   enumeration_reported_project_statuses: "Projekt állapot beszámoló"
   error_auth_source_sso_failed: "Single Sign-On (SSO) a '%{value}' felhasználóval sikertelen"
   error_can_not_archive_project: "Ezt a projektet nem lehet archiválni: %{errors}"

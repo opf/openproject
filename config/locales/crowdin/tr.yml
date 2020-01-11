@@ -1014,7 +1014,6 @@ tr:
         description_html: "Özel alanlara filtre uygulama ve sıralama, kurumsal sürüm özelliğidir."
   enumeration_activities: "Etkinlikler (zaman izleme)"
   enumeration_work_package_priorities: "İş paketi öncelikleri"
-  enumeration_system_activity: "Sistem Etkinliği"
   enumeration_reported_project_statuses: "Bildirilen proje durumları"
   error_auth_source_sso_failed: "Çoklu oturum açma (SSO) için kullanıcı '%{value}' başarısız oldu"
   error_can_not_archive_project: "Bu proje arşivlenemiyor: %{errors}"

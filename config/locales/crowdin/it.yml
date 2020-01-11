@@ -1010,7 +1010,6 @@ it:
         description_html: "Le opzioni di filtraggio ed ordinamento dei campi personalizzati sono disponibili nella versione enterprise."
   enumeration_activities: "Attività (monitoraggio tempi)"
   enumeration_work_package_priorities: "Priorità della macro-attività"
-  enumeration_system_activity: "Attività del sistema"
   enumeration_reported_project_statuses: "Stato di progetto segnalato"
   error_auth_source_sso_failed: "Single Sign-On (SSO) per l'utente '%{value}' non riuscita"
   error_can_not_archive_project: "Questo progetto non può essere archiviato: %{errors}"

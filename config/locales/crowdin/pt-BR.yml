@@ -1013,7 +1013,6 @@ pt-BR:
         description_html: "Filtrar e ordenar em campos personalizados é um recurso da edição empresarial."
   enumeration_activities: "Atividades (controle de tempo)"
   enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
-  enumeration_system_activity: "Atividade do Sistema"
   enumeration_reported_project_statuses: "Situação relatada do projeto"
   error_auth_source_sso_failed: "Single Sign-On (SSO) para o usuário '%{value}' falhou"
   error_can_not_archive_project: "Este projeto não pode ser arquivado: %{errors}"

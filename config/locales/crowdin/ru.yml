@@ -1045,7 +1045,6 @@ ru:
         description_html: "Фильтрация и сортировка по настраиваемым полям - это функция корпоративной версии."
   enumeration_activities: "Деятельность (отслеживание времени)"
   enumeration_work_package_priorities: "Приоритеты пакета работ"
-  enumeration_system_activity: "Активность системы"
   enumeration_reported_project_statuses: "Перечень отчетов о статусах проекта"
   error_auth_source_sso_failed: "Сбой единого входа (SSO) для пользователя «%{value}»"
   error_can_not_archive_project: "Этот проект невозможно заархивировать: %{errors}"

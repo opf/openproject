@@ -1030,7 +1030,6 @@ ro:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Activități (durata de lucru)"
   enumeration_work_package_priorities: "Priorități pentru pachetele de lucru"
-  enumeration_system_activity: "Activitate sistem"
   enumeration_reported_project_statuses: "Stările proiectului raportat"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
