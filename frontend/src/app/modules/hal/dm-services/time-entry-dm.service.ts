@@ -52,6 +52,12 @@ export class TimeEntryDmService extends AbstractDmService<TimeEntryResource> {
     return this.pathHelper.api.v3.time_entries.id(id).toString();
   }
 
+  public update(resource:TimeEntryResource, schema:SchemaResource|null = null) {
+    let payload = this.extractPayload(resource, schema);
+
+    return this.halResourceService.patch<TimeEntryResource>(resource.updateImmediately.$link.href, payload).toPromise();
+  }
+
   public updateForm(resource:TimeEntryResource, schema:SchemaResource|null = null) {
     let payload = this.extractPayload(resource, schema);
 

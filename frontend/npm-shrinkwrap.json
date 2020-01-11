@@ -3355,6 +3355,11 @@
       "resolved": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-4.3.0.tgz",
       "integrity": "sha512-OrGaRIGbELESOXOCXtoQVY4cOxnxmN7OrjDGbMoVITdoXWuIZ6sFNO84WcBQoRaIbkmqVM0SAU2MENwy+eEwqQ=="
     },
+    "@fullcalendar/interaction": {
+      "version": "4.3.0",
+      "resolved": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-4.3.0.tgz",
+      "integrity": "sha512-kaKV+tdgH/oIrwTSMGYFec989L5r+KMYJ9ybwLc8G3LbMVcebo8fAlN9VizmGQAuopKfyvOw8yzJdjfmVCCRYQ=="
+    },
     "@fullcalendar/timegrid": {
       "version": "4.3.0",
       "resolved": "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-4.3.0.tgz",

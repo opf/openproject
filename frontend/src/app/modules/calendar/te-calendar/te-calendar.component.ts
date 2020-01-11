@@ -8,7 +8,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import timeGrid from '@fullcalendar/timegrid';
-import { EventInput, EventApi } from '@fullcalendar/core';
+import { EventInput, EventApi, Duration, View } from '@fullcalendar/core';
 import { EventSourceError } from '@fullcalendar/core/structs/event-source';
 import { ToolbarInput } from '@fullcalendar/core/types/input-types';
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
@@ -19,11 +19,23 @@ import {TimezoneService} from "core-components/datetime/timezone.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import { TimeEntryEditService } from './edit/edit.service';
 import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
+import interactionPlugin from '@fullcalendar/interaction';
+
 
 interface CalendarViewEvent {
   el:HTMLElement;
   event:EventApi;
   jsEvent:MouseEvent;
+}
+
+interface CalendarMoveEvent {
+  el:HTMLElement;
+  event:EventApi;
+  oldEvent:EventApi;
+  delta:Duration;
+  revert:() => void;
+  jsEvent:Event;
+  view:View;
 }
 
 @Component({
@@ -38,7 +50,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   @Input() static:boolean = false;
   @Output() entries = new EventEmitter<CollectionResource<TimeEntryResource>>();
 
-  public calendarPlugins = [timeGrid];
+  public calendarPlugins = [timeGrid, interactionPlugin];
   public calendarEvents:Function;
   public calendarHeader:ToolbarInput|boolean = {
     right: '',
@@ -83,6 +95,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     // Therefore, setting the outputs via the underlying API
     this.ucCalendar.getApi().setOption('eventRender', (event:CalendarViewEvent) => { this.addTooltip(event); });
     this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => { this.editEvent(event); });
+    this.ucCalendar.getApi().setOption('eventDrop', (event:CalendarMoveEvent) => { this.moveEvent(event); });
   }
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date },
@@ -123,7 +136,6 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
   private buildTimeEntryEntries(entries:TimeEntryResource[]) {
     let hoursDistribution:{ [key:string]:Moment } = {};
-    let dateSums:{ [key:string]:number } = {};
 
     return entries.map((entry) => {
       let start:Moment;
@@ -142,6 +154,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
       return {
         title: hours < 0.5 ? '' : this.entryName(entry),
+        startEditable: !!entry.update,
         start: start.format(),
         end: end.format(),
         entry: entry
@@ -221,24 +234,44 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
       .timeEntryEdit
       .edit(originalEntry)
       .then(modificationAction => {
-        this.memoizedTimeEntries.entries.then(collection => {
-          let foundIndex = collection.elements.findIndex(x => x.id === originalEntry.id);
-
-          switch (modificationAction.action) {
-            case 'update':
-              collection.elements[foundIndex] = modificationAction.entry;
-              break;
-            case 'destroy':
-              collection.elements.splice(foundIndex, 1);
-              break;
-          }
-
-          this.ucCalendar.getApi().refetchEvents();
-        });
+        this.updateEventSet(modificationAction.entry, modificationAction.action);
       })
       .catch(() => {
         // do nothing, the user closed without changes
       });
+  }
+
+  private moveEvent(event:CalendarMoveEvent) {
+    let entry = event.event.extendedProps.entry;
+
+    entry.spentOn = moment(event.event.start!).format('YYYY-MM-DD');
+
+    this
+      .timeEntryDm
+      .update(entry, entry.schema)
+      .then(event => {
+        this.updateEventSet(event, 'update');
+      })
+      .catch(() => {
+        event.revert();
+      });
+  }
+
+  private updateEventSet(event:TimeEntryResource, action:'update'|'destroy') {
+    this.memoizedTimeEntries.entries.then(collection => {
+      let foundIndex = collection.elements.findIndex(x => x.id === event.id);
+
+      switch (action) {
+        case 'update':
+          collection.elements[foundIndex] = event;
+          break;
+        case 'destroy':
+          collection.elements.splice(foundIndex, 1);
+          break;
+      }
+
+      this.ucCalendar.getApi().refetchEvents();
+    });
   }
 
   private addTooltip(event:CalendarViewEvent) {
