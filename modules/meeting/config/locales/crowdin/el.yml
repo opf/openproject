@@ -17,63 +17,63 @@ el:
   activerecord:
     attributes:
       meeting:
-        location: "Location"
+        location: "Τοποθεσία"
         duration: "Διάρκεια"
-        participants: "Participants"
-        participants_attended: "Attendees"
-        participants_invited: "Invitees"
-        start_time: "Time"
-        start_time_hour: "Starting time"
+        participants: "Συμμετέχοντες"
+        participants_attended: "Παρευρισκόμενοι"
+        participants_invited: "Προσκεκλημένοι"
+        start_time: "Ώρα"
+        start_time_hour: "Ώρα έναρξης"
     errors:
       messages:
-        invalid_time_format: "is not a valid time. Required format: HH:MM"
+        invalid_time_format: "δεν είναι έγκυρη ώρα. Απαιτούμενη μορφοποίηση: ΩΩ:ΛΛ"
     models:
-      meeting_agenda: "Agenda"
-      meeting_minutes: "Minutes"
-  description_attended: "attended"
+      meeting_agenda: "Ατζέντα"
+      meeting_minutes: "Πρακτικά"
+  description_attended: "παρευρέθηκε"
   description_invite: "προσκεκλημένος"
   events:
-    meeting: Meeting edited
-    meeting_agenda: Meeting agenda edited
-    meeting_agenda_closed: Meeting agenda closed
-    meeting_agenda_opened: Meeting agenda opened
-    meeting_minutes: Meeting minutes edited
-    meeting_minutes_created: Meeting minutes created
-  error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
-  label_meeting: "Meeting"
-  label_meeting_plural: "Meetings"
-  label_meeting_new: "New Meeting"
-  label_meeting_edit: "Edit Meeting"
-  label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minutes"
+    meeting: Η συνάντηση επεξεργάστηκε
+    meeting_agenda: Η ατζέντα συνάντησης επεξεργάστηκε
+    meeting_agenda_closed: Η ατζέντα συνάντησης έκλεισε
+    meeting_agenda_opened: Η ατζέντα συνάντησης άνοιξε
+    meeting_minutes: Τα πρακτικά της συνάντησης επεξεργάστηκαν
+    meeting_minutes_created: Δημιουργήθηκαν τα πρακτικά της συνάντησης
+  error_notification_with_errors: "Αποτυχία αποστολής ειδοποίησης. Οι ακόλουθοι παραλήπτες δεν ήταν δυνατό να ειδοποιηθούν: %{recipients}"
+  label_meeting: "Συνάντηση"
+  label_meeting_plural: "Συναντήσεις"
+  label_meeting_new: "Νέα Συνάντηση"
+  label_meeting_edit: "Επεξεργασία Συνάντησης"
+  label_meeting_agenda: "Ατζέντα"
+  label_meeting_minutes: "Πρακτικά"
   label_meeting_close: "Κλείσιμο"
   label_meeting_open: "Ανοιχτό"
-  label_meeting_agenda_close: "Close the agenda to begin the Minutes"
-  label_meeting_date_time: "Date/Time"
+  label_meeting_agenda_close: "Κλείστε την ατζέντα για να ξεκινήσετε τα Πρακτικά"
+  label_meeting_date_time: "Ημερομηνία/Ώρα"
   label_meeting_diff: "Diff"
-  label_notify: "Send for review"
-  label_icalendar: "Send iCalendar"
+  label_notify: "Αποστολή για αναθεώρηση"
+  label_icalendar: "Αποστολή στο iCalendar"
   label_version: "Έκδοση"
   label_time_zone: "Ζώνη Ώρας"
   label_start_date: "Ημερομηνία έναρξης"
-  notice_successful_notification: "Notification sent successfully"
-  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
-  permission_create_meetings: "Create meetings"
-  permission_edit_meetings: "Edit meetings"
-  permission_delete_meetings: "Delete meetings"
-  permission_view_meetings: "View meetings"
+  notice_successful_notification: "Η ειδοποίηση απεστάλη επιτυχώς"
+  notice_timezone_missing: Δεν έχει οριστεί ζώνη ώρας και θεωρήθηκε η %{zone}. Για να επιλέξετε την ζώνη ώρας σας, παρακαλούμε κάντε κλικ εδώ.
+  permission_create_meetings: "Δημιουργία συναντήσεων"
+  permission_edit_meetings: "Επεξεργασία συναντήσεων"
+  permission_delete_meetings: "Διαγραφή συναντήσεων"
+  permission_view_meetings: "Εμφάνιση συναντήσεων"
   permission_create_meeting_agendas: "Manage agendas"
   permission_close_meeting_agendas: "Close agendas"
   permission_send_meeting_agendas_notification: "Send review notification for agendas"
-  permission_create_meeting_minutes: "Manage minutes"
-  permission_send_meeting_minutes_notification: "Send review notification for minutes"
-  project_module_meetings: "Meetings"
-  text_duration_in_hours: "Duration in hours"
-  text_in_hours: "in hours"
+  permission_create_meeting_minutes: "Διαχείριση πρακτικών"
+  permission_send_meeting_minutes_notification: "Αποστολή ειδοποίηση αναθεώρησης για τα πρακτικά"
+  project_module_meetings: "Συναντήσεις"
+  text_duration_in_hours: "Διάρκεια σε ώρες"
+  text_in_hours: "σε ώρες"
   text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
-  text_meeting_agenda_open_are_you_sure: "Unsaved content in the minutes will be lost! Continue?"
-  text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
-  text_review_meeting_agenda: "%{author} has put the %{link} up for review."
-  text_review_meeting_minutes: "%{author} has put the %{link} up for review."
-  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_meeting_closing_are_you_sure: "Είστε βέβαιοι ότι θέλετε να κλείσετε τη συνάντηση;"
+  text_meeting_agenda_open_are_you_sure: "Το μη αποθηκευμένο περιεχόμενο στα πρακτικά θα χαθεί! Συνέχεια;"
+  text_meeting_minutes_for_meeting: 'πρακτικά για τη συνάντηση "%{meeting}"'
+  text_review_meeting_agenda: "Ο/Η %{author} έχει βάλει το %{link} για αναθεώρηση."
+  text_review_meeting_minutes: "Ο/Η %{author} έχει βάλει το %{link} για αναθεώρηση."
+  text_notificiation_invited: "Αυτό το mail περιέχει μια καταχώρηση ics για την παρακάτω συνάντηση:"
