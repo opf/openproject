@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.0.2'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 6.0.1'
+gem 'rails', '~> 6.0.2'
 gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
@@ -274,7 +274,7 @@ end
 gem 'bootsnap', '~> 1.4.5', require: false
 
 # API gems
-gem 'grape', '~> 1.2.3'
+gem 'grape', '~> 1.3.0'
 
 gem 'reform', '~> 2.2.0'
 gem 'reform-rails', '~> 0.1.7'
