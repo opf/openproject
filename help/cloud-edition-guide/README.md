@@ -16,16 +16,16 @@ Welcome to the OpenProject **Cloud edition guide**.
 
 ## Overview
 
-| Popular Topics                                    | Description                                                  |
-| ------------------------------------------------- | :----------------------------------------------------------- |
+| Popular Topics                                     | Description                                                  |
+| -------------------------------------------------- | :----------------------------------------------------------- |
 | [Create a free trial](./create-trial-installation) | Learn more how to create a free trial for the cloud instance. |
-|                                                   |                                                              |
-|                                                   |                                                              |
-|                                                   |                                                              |
-|                                                   |                                                              |
-|                                                   |                                                              |
-|                                                   |                                                              |
-|                                                   |                                                              |
-|                                                   |                                                              |
+| [Sign in](./sign-in/)                              | Sing in to your OpenProject Cloud Edition.                   |
+|                                                    |                                                              |
+|                                                    |                                                              |
+|                                                    |                                                              |
+|                                                    |                                                              |
+|                                                    |                                                              |
+|                                                    |                                                              |
+|                                                    |                                                              |
 
 
