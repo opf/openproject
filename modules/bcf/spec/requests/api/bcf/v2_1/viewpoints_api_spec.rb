@@ -114,6 +114,45 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
     end
   end
 
+  describe 'DELETE /api/bcf/2.1/projects/:project_id/topics/:uuid/viewpoints/:uuid' do
+    let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints/#{viewpoint.uuid}" }
+    let(:current_user) { create_user }
+
+    before do
+      login_as(current_user)
+      bcf_issue
+      delete path
+    end
+
+    it_behaves_like 'bcf api successful response' do
+      let(:expected_status) { 204 }
+      let(:expected_body) { nil }
+      let(:no_content) { true }
+    end
+
+    it 'deletes the viewpoint' do
+      expect(Bcf::Viewpoint.where(id: viewpoint.id)).not_to be_exist
+    end
+
+    context 'lacking permission to see project' do
+      let(:current_user) { non_member_user }
+
+      it_behaves_like 'bcf api not found response'
+    end
+
+    context 'lacking permission to delete' do
+      let(:current_user) { view_only_user }
+
+      it_behaves_like 'bcf api not allowed response'
+    end
+
+    context 'invalid uuid' do
+      let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints/#{viewpoint.uuid}1" }
+
+      it_behaves_like 'bcf api not found response'
+    end
+  end
+
   %w[selection coloring visibility].each do |section|
     describe "GET /api/bcf/2.1/projects/:project_id/topics/:uuid/viewpoints/:uuid/#{section}" do
       let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints/#{viewpoint.uuid}/#{section}" }
