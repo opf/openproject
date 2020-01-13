@@ -934,7 +934,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it_behaves_like 'action link' do
           let(:action) { 'customFields' }
           let(:permission) { :edit_project }
-          let(:href) { settings_project_path(work_package.project.identifier, tab: 'custom_fields') }
+          let(:href) { settings_custom_fields_project_path(work_package.project.identifier) }
         end
       end
 

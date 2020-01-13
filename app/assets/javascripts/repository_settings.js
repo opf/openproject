@@ -58,8 +58,7 @@ jQuery(function($){
     window.location.href = url.toString();
   });
 
-  $('#tab-content-repository')
-    .find('.attributes-group.-toggleable')
+  $("[data-switch='scm_type']")
     .each(function(_i, el) {
 
       var fs = $(el),

@@ -26,15 +26,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% if TimeEntryActivity.any? %>
-  <%= form_tag  project_time_entry_activities_path(@project),
-                method: :put,
-                class: "tabular" do %>
+<%= toolbar title: l(:label_enabled_project_modules) %>
 
-    <%= render partial: 'projects/form/activities', locals: { project: @project, withControlls: true } %>
-  <% end %>
+<%= labelled_tabular_form_for @project,
+                              url: { controller: '/projects', action: 'modules', id: @project },
+                              method: :put do |form| %>
 
-  <br/>
-<% else %>
-  <%= no_results_box custom_title: t('projects.settings.activities.no_results_title_text') %>
+  <%= render partial: "/projects/form/modules",
+             locals: { form: form } %>
+
+  <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %></p>
 <% end %>

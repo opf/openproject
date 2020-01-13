@@ -100,17 +100,13 @@ module OpenProject
     # Examples:
     #
     #   link_to_project(project)                          # => link to the specified project overview
-    #   link_to_project(project, action:'settings')     # => link to project settings
     #   link_to_project(project, {only_path: false}, class: "project") # => 3rd arg adds html options
     #   link_to_project(project, {}, class: "project") # => html options with default url (project overview)
     #
     def link_to_project(project, options = {}, html_options = nil, show_icon = false)
       project_name = project_link_name(project, show_icon)
 
-      if project.active? && options.delete(:action) == 'settings'
-        # backwards compatibility
-        link_to(project_name, settings_project_path_or_url(project, options), html_options)
-      elsif project.active?
+      if project.active?
         link_to(project_name, project_path_or_url(project, options), html_options)
       else
         project_name

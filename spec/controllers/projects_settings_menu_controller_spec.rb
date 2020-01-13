@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ProjectSettingsController, 'menu', type: :controller do
+describe ProjectSettings::ModulesController, 'menu', type: :controller do
   let(:current_user) do
     FactoryBot.build_stubbed(:user).tap do |u|
       allow(u)
@@ -58,7 +58,7 @@ describe ProjectSettingsController, 'menu', type: :controller do
       it 'renders show' do
         get 'show', params: @params
         expect(response).to be_successful
-        expect(response).to render_template 'show'
+        expect(response).to render_template 'project_settings/modules'
       end
 
       it 'renders main menu without wiki menu item' do
@@ -79,7 +79,7 @@ describe ProjectSettingsController, 'menu', type: :controller do
         it 'renders show' do
           get 'show', params: @params
           expect(response).to be_successful
-          expect(response).to render_template 'show'
+          expect(response).to render_template 'project_settings/modules'
         end
 
         it 'renders main menu with wiki menu item' do
@@ -105,7 +105,7 @@ describe ProjectSettingsController, 'menu', type: :controller do
         it 'renders show' do
           get 'show', params: @params
           expect(response).to be_successful
-          expect(response).to render_template 'show'
+          expect(response).to render_template 'project_settings/modules'
         end
 
         it 'renders main menu with wiki menu item' do
@@ -131,7 +131,7 @@ describe ProjectSettingsController, 'menu', type: :controller do
       it 'renders show' do
         get 'show', params: @params
         expect(response).to be_successful
-        expect(response).to render_template 'show'
+        expect(response).to render_template 'project_settings/modules'
       end
 
       it 'renders main menu with activity tab' do
@@ -149,7 +149,7 @@ describe ProjectSettingsController, 'menu', type: :controller do
       it 'renders show' do
         get 'show', params: @params
         expect(response).to be_successful
-        expect(response).to render_template 'show'
+        expect(response).to render_template 'project_settings/modules'
       end
 
       it 'renders main menu without activity tab' do

@@ -77,7 +77,7 @@ describe VersionsController, type: :controller do
       patch 'update', params: @params
       version.reload
 
-      expect(response).to redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: other_project
+      expect(response).to redirect_to controller: '/project_settings/versions', action: 'show', id: other_project
       expect(version.name).to eq(@oldVersionName)
     end
 
@@ -86,7 +86,7 @@ describe VersionsController, type: :controller do
       patch 'update', params: @params
       version.reload
 
-      expect(response).to redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: version.project
+      expect(response).to redirect_to controller: '/project_settings/versions', action: 'show', id: version.project
       expect(version.name).to eq(@newVersionName)
     end
   end

@@ -36,7 +36,7 @@ class Projects::TimeEntryActivitiesController < ApplicationController
     TimeEntryActivitiesProject.upsert_all(update_params, unique_by: %i[project_id activity_id])
     flash[:notice] = t(:notice_successful_update)
 
-    redirect_to settings_project_path(id: @project, tab: 'activities')
+    redirect_to settings_activities_project_path(@project)
   end
 
   private

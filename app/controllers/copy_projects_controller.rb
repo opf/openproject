@@ -77,7 +77,7 @@ class CopyProjectsController < ApplicationController
   end
 
   def origin
-    params[:coming_from] == 'admin' ? projects_path : settings_project_path(@project.id)
+    params[:coming_from] == 'admin' ? projects_path : settings_generic_project_path(@project.id)
   end
 
   def enqueue_copy_job

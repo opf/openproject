@@ -41,60 +41,6 @@ module ProjectsHelper
                html_options
   end
 
-  def project_settings_tabs
-    tabs = [
-      {
-        name: 'info',
-        action: :edit_project,
-        partial: 'projects/edit',
-        label: :label_information_plural
-      },
-      {
-        name: 'modules',
-        action: :select_project_modules,
-        partial: 'project_settings/modules',
-        label: :label_module_plural
-      },
-      {
-        name: 'custom_fields',
-        action: :edit_project,
-        partial: 'project_settings/custom_fields',
-        label: :label_custom_field_plural
-      },
-      {
-        name: 'versions',
-        action: :manage_versions,
-        partial: 'project_settings/versions',
-        label: :label_version_plural
-      },
-      {
-        name: 'categories',
-        action: :manage_categories,
-        partial: 'project_settings/categories',
-        label: :label_work_package_category_plural
-      },
-      {
-        name: 'repository',
-        action: :manage_repository,
-        partial: 'repositories/settings',
-        label: :label_repository
-      },
-      {
-        name: 'activities',
-        action: :manage_project_activities,
-        partial: 'project_settings/activities',
-        label: :enumeration_activities
-      },
-      {
-        name: 'types',
-        action: :manage_types,
-        partial: 'project_settings/types',
-        label: :label_work_package_types
-      }
-    ]
-    tabs.select { |tab| User.current.allowed_to?(tab[:action], @project) }
-  end
-
   # Returns a set of options for a select field, grouped by project.
   def version_options_for_select(versions, selected = nil)
     grouped = Hash.new { |h, k| h[k] = [] }
@@ -161,9 +107,9 @@ module ProjectsHelper
   end
 
   def project_more_menu_settings_item(project)
-    if User.current.allowed_to?({ controller: '/project_settings', action: 'show' }, project)
+    if User.current.allowed_to?({ controller: '/project_settings/generic', action: 'show' }, project)
       [t(:label_project_settings),
-       { controller: '/project_settings', action: 'show', id: project },
+       { controller: '/project_settings/generic', action: 'show', id: project },
        class: 'icon-context icon-settings',
        title: t(:label_project_settings)]
     end

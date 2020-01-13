@@ -159,7 +159,7 @@ describe ProjectsController, type: :controller do
         end
 
         it 'redirects to settings#types' do
-          expect(response).to redirect_to(settings_project_path(project.identifier, tab: 'types'))
+          expect(response).to redirect_to(controller: '/project_settings/types', id: project, action: 'show')
         end
       end
 
@@ -179,7 +179,7 @@ describe ProjectsController, type: :controller do
         end
 
         it 'redirects to settings#types' do
-          expect(response).to redirect_to(settings_project_path(project.identifier, tab: 'types'))
+          expect(response).to redirect_to(controller: '/project_settings/types', id: project, action: 'show')
         end
       end
     end
@@ -237,7 +237,7 @@ describe ProjectsController, type: :controller do
           request
         end
 
-        it { expect(response).to redirect_to(settings_project_path(project, 'custom_fields')) }
+        it { expect(response).to redirect_to(controller: '/project_settings/custom_fields', id: project, action: 'show') }
 
         it 'sets flash[:notice]' do
           expect(flash[:notice]).to eql(I18n.t(:notice_successful_update))
@@ -250,7 +250,7 @@ describe ProjectsController, type: :controller do
           request
         end
 
-        it { expect(response).to redirect_to(settings_project_path(project, 'custom_fields')) }
+        it { expect(response).to redirect_to(controller: '/project_settings/custom_fields', id: project, action: 'show') }
 
         it 'sets flash[:error]' do
           expect(flash[:error]).to include(

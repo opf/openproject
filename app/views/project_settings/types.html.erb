@@ -27,6 +27,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= toolbar title: l(:label_work_package_types) %>
+
 <% if  Type.all.any? %>
   <%= form_for @project,
                url: { controller: '/projects', action: 'types', id: @project },

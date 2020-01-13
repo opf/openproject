@@ -28,7 +28,7 @@
 #++
 
 class VersionsController < ApplicationController
-  menu_item :roadmap
+  menu_item :settings_versions
   model_object Version
   before_action :find_model_object, except: %i[index new create close_completed]
   before_action :find_project_from_association, except: %i[index new create close_completed]
@@ -103,7 +103,7 @@ class VersionsController < ApplicationController
     if request.put?
       @project.close_completed_versions
     end
-    redirect_to settings_project_path(tab: 'versions', id: @project)
+    redirect_to settings_versions_project_path(@project)
   end
 
   def destroy
@@ -116,13 +116,13 @@ class VersionsController < ApplicationController
       flash[:error] = call.errors.full_messages
     end
 
-    redirect_to settings_project_path(tab: 'versions', id: @project)
+    redirect_to settings_versions_project_path(@project)
   end
 
   private
 
   def redirect_back_or_version_settings
-    redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))
+    redirect_back_or_default(settings_versions_project_path(@project))
   end
 
   def find_project

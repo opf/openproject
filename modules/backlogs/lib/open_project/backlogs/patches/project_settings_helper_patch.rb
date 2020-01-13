@@ -33,28 +33,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'projects_helper'
+require_dependency 'project_settings_helper'
 
-module OpenProject::Backlogs::Patches::ProjectsHelperPatch
+module OpenProject::Backlogs::Patches::ProjectSettingsHelperPatch
   def self.included(base)
     base.module_eval do
       alias_method :project_settings_tabs_without_backlogs, :project_settings_tabs
 
       def project_settings_tabs
         project_settings_tabs_without_backlogs.tap do |settings|
-          if @project.module_enabled?('backlogs') &&
-             User.current.allowed_to?(:edit_project, @project)
-            settings << {
-              name: 'backlogs_settings',
-              action: :edit_work_packages,
-              partial: '/project_settings/backlogs_settings',
-              label: 'backlogs.backlog_settings'
-            }
-          end
+          settings << {
+            name: :backlogs,
+            action: { controller: '/backlogs_settings', action: 'show' },
+            label: :'backlogs.backlog_settings'
+          }
         end
       end
     end
   end
 end
 
-ProjectsHelper.send(:include, OpenProject::Backlogs::Patches::ProjectsHelperPatch)
+ProjectSettingsHelper.send(:include, OpenProject::Backlogs::Patches::ProjectSettingsHelperPatch)

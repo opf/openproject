@@ -54,8 +54,11 @@ module OpenProject::Backlogs
              author_url: 'http://finn.de',
              bundled: true,
              settings: settings do
-      OpenProject::AccessControl.permission(:edit_project).actions << 'projects/project_done_statuses'
-      OpenProject::AccessControl.permission(:edit_project).actions << 'projects/rebuild_positions'
+      OpenProject::AccessControl.permission(:edit_project).tap do |add|
+        add.actions << 'projects/project_done_statuses'
+        add.actions << 'projects/rebuild_positions'
+        add.actions << 'backlogs_settings/show'
+      end
 
       OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
         add.actions << 'rb_stories/create'
@@ -118,16 +121,16 @@ module OpenProject::Backlogs
     # We still override version and project settings views from the core! URH
     override_core_views!
 
-    patches [:PermittedParams,
-             :WorkPackage,
-             :Status,
-             :Type,
-             :Project,
-             :ProjectsController,
-             :ProjectsHelper,
-             :User,
-             :VersionsController,
-             :Version]
+    patches %i[PermittedParams
+               WorkPackage
+               Status
+               Type
+               Project
+               ProjectsController
+               ProjectSettingsHelper
+               User
+               VersionsController
+               Version]
 
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :SettingSeeder
