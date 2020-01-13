@@ -52,7 +52,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public availableOptions:any[];
   public valueOptions:ValueOption[];
-  private valuesLoaded = false;
+  protected valuesLoaded = false;
 
   public text:{ requiredPlaceholder:string, placeholder:string };
 
@@ -78,20 +78,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
       placeholder: this.I18n.t('js.placeholders.default')
     };
-  }
-
-  protected initialValueLoading() {
-    return this.loadValues().toPromise();
-  }
-
-  public autocompleterComponent() {
-    let type = this.schema.type;
-    return this.selectAutocompleterRegister.getAutocompleterOfAttribute(type) || CreateAutocompleterComponent;
-  }
-
-  public ngOnInit() {
-    super.ngOnInit();
-    this.appendTo = this.overflowingSelector;
 
     let loadingPromise = this.change.getForm().then(() => {
       return this.initialValueLoading();
@@ -107,6 +93,21 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
           this._autocompleterComponent.openDirectly = true;
         });
       });
+  }
+
+  protected initialValueLoading() {
+    this.valuesLoaded = false;
+    return this.loadValues().toPromise();
+  }
+
+  public autocompleterComponent() {
+    let type = this.schema.type;
+    return this.selectAutocompleterRegister.getAutocompleterOfAttribute(type) || CreateAutocompleterComponent;
+  }
+
+  public ngOnInit() {
+    super.ngOnInit();
+    this.appendTo = this.overflowingSelector;
   }
 
   public get selectedOption() {
@@ -158,7 +159,13 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
           this.valuesLoaded = true;
         }
       }),
-      map(collection => collection.elements),
+      map(collection => {
+        if (collection.count === undefined || collection.total === undefined || (!query && collection.total === collection.count) || !this.value)  {
+          return collection.elements;
+        } else {
+          return collection.elements.concat([this.value]);
+        }
+      }),
       tap(elements => this.setValues(elements)),
       map(() => this.valueOptions)
     );

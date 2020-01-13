@@ -505,12 +505,14 @@ en:
     time_entry:
       project: 'Project'
       work_package: 'Work package'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Activity'
       comment: 'Comment'
       duration: 'Duration'
       spent_on: 'Date'
       hours: 'Hours'
       edit: 'Edit time entry'
+      create: 'Create time entry'
 
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

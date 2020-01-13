@@ -37,6 +37,7 @@ import {TimeEntryCalendarComponent} from "core-app/modules/calendar/te-calendar/
 import {TimeEntryEditModal} from "core-app/modules/calendar/te-calendar/edit/edit.modal";
 import {TimeEntryEditService} from "core-app/modules/calendar/te-calendar/edit/edit.service";
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
+import { TimeEntryCreateModal } from './te-calendar/create/create.modal';
 
 const menuItemClass = 'calendar-menu-item';
 
@@ -80,12 +81,14 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     WorkPackagesCalendarController,
     TimeEntryCalendarComponent,
     TimeEntryEditModal,
+    TimeEntryCreateModal,
   ],
   entryComponents: [
     WorkPackagesCalendarController,
     WorkPackagesCalendarEntryComponent,
     TimeEntryCalendarComponent,
     TimeEntryEditModal,
+    TimeEntryCreateModal,
   ],
   exports: [
     WorkPackagesCalendarController,

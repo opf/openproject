@@ -53,7 +53,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       project: project,
                       activity: activity,
                       user: user,
-                      spent_on: Date.today,
+                      spent_on: Date.today.beginning_of_week,
                       hours: 3,
                       comments: 'My comment'
   end
@@ -63,8 +63,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       project: project,
                       activity: activity,
                       user: user,
-                      # limit the date to ensure that it is on the current calendar sheet
-                      spent_on: Date.today - [1, Date.today.wday].min.days,
+                      spent_on: Date.today.beginning_of_week + 3.days,
                       hours: 2,
                       comments: 'My other comment'
   end
@@ -95,7 +94,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,
-                      member_with_permissions: %i[view_time_entries edit_time_entries view_work_packages])
+                      member_with_permissions: %i[view_time_entries edit_time_entries view_work_packages log_time])
   end
   let(:my_page) do
     Pages::My::Page.new
@@ -103,6 +102,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   let(:comments_field) { ::EditField.new(page, 'comment') }
   let(:activity_field) { ::EditField.new(page, 'activity') }
   let(:hours_field) { ::EditField.new(page, 'hours') }
+  let(:spent_on_field) { ::EditField.new(page, 'spentOn') }
   let(:wp_field) { ::EditField.new(page, 'workPackage') }
   let(:cf_field) { ::EditField.new(page, "customField#{custom_field.id}") }
 
@@ -112,7 +112,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     my_page.visit!
   end
 
-  it 'adds the widget and checks the displayed entries' do
+  it 'adds the widget which then displays time entries and allows manipulating them' do
     # within top-right area, add an additional widget
     my_page.add_widget(1, 1, :within, 'Spent time')
 
@@ -157,16 +157,62 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       .to have_content "Total: 5.00"
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(#{Date.today.wday + 1}) .fc-event-container .fc-event").hover
+      find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .fc-event").hover
     end
 
     expect(page)
       .to have_selector('.ui-tooltip', text: "Project: #{project.name}")
 
-    # Editing an entry
+    # Adding a time entry
+
+    # Because of the structure of fullcalendar it is hard to pinpoint the area to click.
+    # The below will click on the wednesday, at around the 9 hours line.
+    within entries_area.area do
+      find('.fc-time-grid tr.fc-minor:nth-of-type(32) .fc-widget-content:nth-of-type(2)').click
+    end
+
+    expect(page)
+      .to have_content(I18n.t('js.time_entry.work_package_required'))
+
+    spent_on_field.expect_value((Date.today.beginning_of_week + 2.days).strftime)
+
+    wp_field.input_element.click
+    wp_field.set_value(other_work_package.subject)
+
+    expect(page)
+      .to have_no_content(I18n.t('js.time_entry.work_package_required'))
+
+    sleep(0.1)
+
+    comments_field.set_value('Comment for new entry')
+
+    activity_field.input_element.click
+    activity_field.set_value(activity.name)
+
+    hours_field.set_value('4')
+
+    sleep(0.1)
+
+    click_button I18n.t('js.label_create')
+
+    my_page.expect_and_dismiss_notification message: I18n.t(:notice_successful_create)
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(#{Date.today.wday + 1}) .fc-event-container .fc-event").click
+      expect(page)
+        .to have_selector(".fc-content-skeleton td:nth-of-type(5) .fc-event-container .fc-event",
+                          text: other_work_package.subject)
+    end
+
+    expect(page)
+      .to have_content "Total: 9.00"
+
+    expect(TimeEntry.count)
+      .to eql 5
+
+    ## Editing an entry
+
+    within entries_area.area do
+      find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .fc-event").click
     end
 
     expect(page)
@@ -206,7 +252,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     my_page.expect_and_dismiss_notification message: I18n.t(:notice_successful_update)
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(#{Date.today.wday + 1}) .fc-event-container .fc-event").hover
+      find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .fc-event").hover
     end
 
     expect(page)
@@ -216,23 +262,23 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       .to have_selector('.ui-tooltip', text: "Activity: #{other_activity.name}")
 
     expect(page)
-      .to have_content "Total: 9.00"
+      .to have_content "Total: 12.00"
 
-    # Removing the time entry
+    ## Removing the time entry
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(#{Date.today.wday + 1}) .fc-event-container .fc-event").click
+      find(".fc-content-skeleton td:nth-of-type(6) .fc-event-container .fc-event").click
     end
 
     click_button 'Delete'
 
     within entries_area.area do
       expect(page)
-       .not_to have_selector(".fc-content-skeleton td:nth-of-type(#{Date.today.wday + 1}) .fc-event-container .fc-event")
+       .not_to have_selector(".fc-content-skeleton td:nth-of-type(6) .fc-event-container .fc-event")
     end
 
     expect(page)
-      .to have_content "Total: 3.00"
+      .to have_content "Total: 10.00"
 
     expect(TimeEntry.where(id: other_visible_time_entry.id))
       .not_to be_exist

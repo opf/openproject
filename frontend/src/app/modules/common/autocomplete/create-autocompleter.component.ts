@@ -55,6 +55,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Input() public id:string = '';
   @Input() public classes:string = '';
   @Input() public typeahead?:Subject<string>;
+  @Input() public hideSelected:boolean = false;
 
   @Output() public onChange = new EventEmitter<HalResource>();
   @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();

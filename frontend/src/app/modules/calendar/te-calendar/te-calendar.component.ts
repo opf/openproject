@@ -20,12 +20,17 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import { TimeEntryEditService } from './edit/edit.service';
 import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
 import interactionPlugin from '@fullcalendar/interaction';
+import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 
 interface CalendarViewEvent {
   el:HTMLElement;
   event:EventApi;
   jsEvent:MouseEvent;
+}
+
+interface CalendarDateClickEvent {
+  date:Date;
 }
 
 interface CalendarMoveEvent {
@@ -43,6 +48,10 @@ interface CalendarMoveEvent {
   styleUrls: ['./te-calendar.component.sass'],
   selector: 'te-calendar',
   encapsulation: ViewEncapsulation.None,
+  providers: [
+    TimeEntryEditService,
+    HalResourceEditingService
+  ]
 })
 export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(FullCalendarComponent, { static: false }) ucCalendar:FullCalendarComponent;
@@ -65,6 +74,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   public calendarDisplayEventTime = false;
   public calendarSlotEventOverlap = false;
   public calendarEditable = false;
+  public calendarEventOverlap = (stillEvent:any) => stillEvent.allDay;
 
   protected memoizedTimeEntries:{start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>>};
 
@@ -96,6 +106,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     this.ucCalendar.getApi().setOption('eventRender', (event:CalendarViewEvent) => { this.addTooltip(event); });
     this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => { this.editEvent(event); });
     this.ucCalendar.getApi().setOption('eventDrop', (event:CalendarMoveEvent) => { this.moveEvent(event); });
+    this.ucCalendar.getApi().setOption('dateClick', (event:CalendarDateClickEvent) => { this.addEvent(event); });
   }
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date },
@@ -230,6 +241,10 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   private editEvent(event:CalendarViewEvent) {
     let originalEntry = event.event.extendedProps.entry;
 
+    if (!originalEntry) {
+      return;
+    }
+
     this
       .timeEntryEdit
       .edit(originalEntry)
@@ -257,7 +272,21 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
       });
   }
 
-  private updateEventSet(event:TimeEntryResource, action:'update'|'destroy') {
+  private addEvent(event:CalendarDateClickEvent) {
+    let date = moment(event.date);
+
+    this
+      .timeEntryEdit
+      .create(date)
+      .then(modificationAction => {
+        this.updateEventSet(modificationAction.entry, modificationAction.action);
+      })
+      .catch(() => {
+        // do nothing, the user closed without changes
+      });
+  }
+
+  private updateEventSet(event:TimeEntryResource, action:'update'|'destroy'|'create') {
     this.memoizedTimeEntries.entries.then(collection => {
       let foundIndex = collection.elements.findIndex(x => x.id === event.id);
 
@@ -267,6 +296,9 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
           break;
         case 'destroy':
           collection.elements.splice(foundIndex, 1);
+          break;
+        case 'create':
+          collection.elements.push(event);
           break;
       }
 

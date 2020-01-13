@@ -37,7 +37,7 @@ export class States extends StatesGroup {
   /* /api/v3/statuses */
   statuses = multiInput<StatusResource>();
 
-  /* /api/v3/projects */
+  /* /api/v3/time_entries */
   timeEntries:MultiInputState<TimeEntryResource> = multiInput<TimeEntryResource>();
 
   /* /api/v3/versions */

@@ -44,6 +44,8 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
   );
 
   protected initialValueLoading() {
+    this.valuesLoaded = false;
+
     // Using this hack with the empty value to have the values loaded initially
     // while avoiding loading it multiple times.
     return new Promise<ValueOption[]>((resolve) => {
@@ -71,8 +73,12 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
 
   protected mapAllowedValue(value:WorkPackageResource|ValueOption):ValueOption {
     if ((value as WorkPackageResource).id) {
+
+      let prefix = (value as WorkPackageResource).type ? `${(value as WorkPackageResource).type.name} ` : '';
+      let suffix = (value as WorkPackageResource).subject || value.name;
+
       return {
-        name: `${(value as WorkPackageResource).type.name } #${ (value as WorkPackageResource).id } ${ (value as WorkPackageResource).subject }`,
+        name: `${prefix}#${ (value as WorkPackageResource).id } ${suffix}`,
         $href: value.$href
       };
     } else {

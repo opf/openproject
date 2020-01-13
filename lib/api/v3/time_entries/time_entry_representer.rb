@@ -86,10 +86,6 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) do
                    datetime_formatter.format_duration_from_hours(represented.hours) if represented.hours
-                 end,
-                 setter: ->(fragment:, **) do
-                   represented.hours = datetime_formatter.parse_duration_to_hours(fragment,
-                                                                                  'hours')
                  end
 
         date_time_property :created_on,
@@ -129,6 +125,12 @@ module API
 
         def current_user_allowed_to(permission, context:)
           current_user.allowed_to?(permission, context)
+        end
+
+        def hours=(value)
+          represented.hours = datetime_formatter.parse_duration_to_hours(value,
+                                                                         'hours',
+                                                                         allow_nil: true)
         end
       end
     end
