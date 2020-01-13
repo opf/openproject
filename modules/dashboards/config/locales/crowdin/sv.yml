@@ -1,5 +1,5 @@
 sv:
   dashboards:
-    label: 'Dashboards'
-    menu_badge: 'Alpha'
-  project_module_dashboards: 'Dashboards'
+    label: 'Översikt'
+    menu_badge: 'Alfa'
+  project_module_dashboards: 'Översikt'

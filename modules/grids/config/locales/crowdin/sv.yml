@@ -2,13 +2,13 @@ sv:
   activerecord:
     attributes:
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
+        page: "Sida"
+        row_count: "Antal rader"
+        column_count: "Antal kolumner"
         widgets: "Widgets"
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'överlappar.'
+          outside: 'är utanför nätet.'
+          end_before_start: 'slutvärdet måste vara större än startvärdet.'

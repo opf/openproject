@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,23 +25,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module Project::Scopes
+  class ActivatedTimeActivity
+    def self.fetch(time_entry_activity)
+      join_condition = <<-SQL
+        LEFT OUTER JOIN time_entry_activities_projects
+          ON projects.id = time_entry_activities_projects.project_id
+          AND time_entry_activities_projects.activity_id = #{time_entry_activity.id}
+      SQL
 
-describe 'project_enumerations routes', type: :routing do
-  describe 'update' do
-    it 'links PUT /projects/:project_id/enumerations' do
-      expect(put('/projects/64/enumerations'))
-        .to route_to('project_enumerations#update', project_id: '64')
-    end
-  end
+      join_scope = Project.joins(join_condition)
 
-  describe 'delete' do
-    it 'links DELETE /projects/:project_id/enumerations' do
-      expect(delete('/projects/64/enumerations'))
-        .to route_to('project_enumerations#destroy', project_id: '64')
+      result_scope = join_scope.where(time_entry_activities_projects: { active: true })
+
+      if time_entry_activity.active?
+        result_scope
+          .or(join_scope.where(time_entry_activities_projects: { project_id: nil }))
+      else
+        result_scope
+      end
     end
   end
 end

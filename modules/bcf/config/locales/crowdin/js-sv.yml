@@ -2,5 +2,5 @@
 sv:
   js:
     bcf:
-      import: 'Import'
+      import: 'Importera'
       export: 'Exportera'

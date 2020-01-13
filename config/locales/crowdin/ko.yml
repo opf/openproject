@@ -997,7 +997,6 @@ ko:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "작업(시간 추적)"
   enumeration_work_package_priorities: "작업 패키지 우선 순위"
-  enumeration_system_activity: "시스템 작업"
   enumeration_reported_project_statuses: "보고된 프로젝트 상태"
   error_auth_source_sso_failed: "사용자 '%{value}'에 대한 Single Sign-On(SSO) 실패"
   error_can_not_archive_project: "이 프로젝트는 보관할 수 없습니다: %{errors}"

@@ -1013,7 +1013,6 @@ fr:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Activités (suivi de temps)"
   enumeration_work_package_priorities: "Priorités du Lot de Travaux"
-  enumeration_system_activity: "Activité du système"
   enumeration_reported_project_statuses: "Statuts de projet signalés"
   error_auth_source_sso_failed: "Single Sign-On (SSO) pour l’utilisateur '%{value}' a échoué"
   error_can_not_archive_project: "Ce projet ne peut être archivé : %{errors}"

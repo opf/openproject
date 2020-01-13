@@ -30,6 +30,7 @@ import {Injectable} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ConfigurationDmService} from "core-app/modules/hal/dm-services/configuration-dm.service";
 import {ConfigurationResource} from "core-app/modules/hal/resources/configuration-resource";
+import * as moment from "moment";
 
 @Injectable()
 export class ConfigurationService {
@@ -95,14 +96,8 @@ export class ConfigurationService {
   public startOfWeek()  {
     if (this.startOfWeekPresent()) {
       return this.systemPreference('startOfWeek');
-    } else if (I18n.locale === 'en') {
-      return 1;
-    } else if (I18n.locale === 'de') {
-      // This if/else statement is used because
-      // jquery regionals have different start day for German locale
-      return 0;
     } else {
-      return null;
+      return moment.localeData(I18n.locale).firstDayOfWeek();
     }
   }
 

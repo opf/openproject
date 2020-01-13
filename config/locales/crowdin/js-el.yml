@@ -38,10 +38,10 @@ el:
     close_form_title: "Κλείσιμο φόρμας"
     button_add_watcher: "Προσθήκη παρατηρητή"
     button_back: "Επιστροφή"
-    button_back_to_list_view: "Επιστροφή στη λίστα"
+    button_back_to_list_view: "Επιστροφή στη προβολή λίστας"
     button_cancel: "Ακύρωση"
     button_close: "Κλείσιμο"
-    button_change_project: "Change project"
+    button_change_project: "Αλλαγή έργου"
     button_check_all: "Επιλογή όλων"
     button_configure-form: "Διαμόρφωση φόρμας"
     button_confirm: "Επιβεβαίωση"
@@ -54,16 +54,16 @@ el:
     button_duplicate: "Δημιουργία αντιγράφου"
     button_edit: "Επεξεργασία"
     button_filter: "Φίλτρο"
-    button_advanced_filter: "Σύνθετα φίλτρα"
+    button_advanced_filter: "Προχωρημένο φίλτρο"
     button_list_view: "Προβολή λίστας"
-    button_show_view: "Πλήρης οθόνη"
+    button_show_view: "Προβολή πλήρης οθόνης"
     button_log_time: "Καταγραφή χρόνου"
     button_more: "Περισσότερα"
-    button_open_details: "Άνοιγμα λεπτομερειών"
-    button_close_details: "Κλείσιμο λεπτομερειών"
-    button_open_fullscreen: "Πλήρης οθόνη"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_open_details: "Άνοιγμα προβολής λεπτομερειών"
+    button_close_details: "Κλείσιμο προβολής λεπτομερειών"
+    button_open_fullscreen: "Άνοιγμα προβολής πλήρης οθόνη"
+    button_show_cards: "Εμφάνιση προβολής κάρτας"
+    button_show_list: "Εμφάνιση προβολής λίστας"
     button_quote: "Παράθεση"
     button_save: "Αποθήκευση"
     button_settings: "Ρυθμίσεις"
@@ -73,35 +73,35 @@ el:
     button_export-atom: "Κατεβάστε το Atom"
     calendar:
       title: 'Ημερολόγιο'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Συνολικά υπάρχουν %{count} πακέτα εργασίας, αλλά μπορούν να εμφανιστούν μόνο %{max}.'
     card:
       add_new: 'Προσθέστε νέα κάρτα'
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
+        inline: 'Επισήμανση inline:'
+        entire_card_by: 'Ολόκληρη κάρτα με'
       remove_from_list: 'Αφαίρεση από τη λίστα'
     clipboard:
-      browser_error: "Ο browser σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
+      browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
       copied_successful: "Επιτυχής αντιγραφή στο πρόχειρο!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Τύπος διαγράμματος'
+      axis_criteria: 'Κριτήρια άξονα'
+      modal_title: 'Διαμόρφωση του διαγράμματος πακέτων εργασίας'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
+        line: 'Γραμμή'
+        horizontal_bar: 'Οριζόντια μπάρα'
+        bar: 'Ραβδόγραμμα'
+        pie: 'Πίτα'
+        doughnut: 'Ντόνατ'
+        radar: 'Ραντάρ'
         polar_area: 'Polar area'
       tabs:
         graph_settings: 'Γενικά'
         dataset: 'Dataset %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'Τα δεδομένα για εμφάνιση στο διάγραμμα δεν μπόρεσαν να φορτωθούν. Μπορεί να λείπουν τα απαραίτητα δικαιώματα.'
     description_available_columns: "Διαθέσιμες στήλες"
-    description_current_position: "You are here: "
+    description_current_position: "Είστε εδώ: "
     description_select_work_package: "Επιλέξτε πακέτο εργασίας #%{id}"
     description_selected_columns: "Επιλεγμένες στήλες"
     description_subwork_package: "Παιδί του πακέτου εργασίας #%{id}"
@@ -115,13 +115,13 @@ el:
         wysiwyg: 'Αλλαγή σε επεξεργαστή WYSIWYG'
       macro:
         child_pages:
-          button: 'Σύνδεσμοι στις υποσελίδες'
+          button: 'Σύνδεσμοι σε σελίδες-παιδιά'
           include_parent: 'Συμπεριλάβετε τον γονέα'
-          text: '[Placeholder] Σύνδεσμοι στις σελίδες - παιδιά του'
+          text: '[Placeholder] Σύνδεσμοι στις σελίδες-παιδιά του'
           page: 'Σελίδα Wiki'
           this_page: 'αυτή η σελίδα'
           hint: |
-            Αφήστε αυτό το πεδίο άδειο για να καταγραφούν όλες οι σελίδες παιδιά της τρέχουσας σελίδας. Αν θέλετε να κάνετε αναφορά σε διαφορετική σελίδα, δώστε τον τίτλο ή το slug του.
+            Αφήστε αυτό το πεδίο άδειο για να καταγραφούν όλες οι σελίδες-παιδιά της τρέχουσας σελίδας. Αν θέλετε να κάνετε αναφορά σε διαφορετική σελίδα, δώστε τον τίτλο ή το slug του.
         code_block:
           button: 'Εισαγωγή αποσπάσματος κώδικα'
           title: 'Εισαγωγή / επεξεργασία αποσπάσματος κώδικα'
@@ -201,7 +201,7 @@ el:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Read about new features and product updates."
+          text_new_features: "Διαβάστε για τις νέες λειτουργίες και τις ενημερώσεις προϊόντων."
           current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
           learn_about: "Learn more about the new status widgets"
     label_activate: "Ενεργοποίηση"
@@ -240,7 +240,7 @@ el:
     label_collapsed: "συμπτυγμένο"
     label_collapse_all: "Σύμπτυξη όλων"
     label_comment: "Σχόλιο"
-    label_committed_at: "%{committed_revision_link} σε %{date}"
+    label_committed_at: "%{committed_revision_link} στις %{date}"
     label_committed_link: "δεσμευμένη αναθεώρηση %{revision_identifier}"
     label_contains: "περιέχει"
     label_created_on: "δημιουργήθηκε στις"
@@ -356,18 +356,18 @@ el:
     label_wait: "Παρακαλώ περιμένετε για την διαμόρφωση..."
     label_upload_counter: "Ολοκληρώθηκαν %{done} από %{count} αρχεία"
     label_validation_error: "Δεν ήταν δυνατή η αποθήκευση του πακέτου εργασίας λόγω των ακόλουθων σφαλμάτων:"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "Η προβολή έχει μη αποθηκευμένες αλλαγές. Κάντε κλικ για τις αποθηκεύσετε."
     help_texts:
-      show_modal: 'Εμφανίστε το χαρακτηριστικό καταχώρισης κειμένου βοήθειας'
+      show_modal: 'Εμφανίστε το χαρακτηριστικό καταχώρησης κειμένου βοήθειας'
     onboarding:
       buttons:
         skip: 'Παράλειψη'
         next: 'Επόμενο'
         got_it: 'Το κατάλαβα'
       steps:
-        help_menu: 'Στο μενού <b>Βοήθεια</b> θα βρείτε έναν οδηγό χρήστη και επιπλέον βοηθητικούς πόρους. <br> Απολαύστε την δουλειά σας με το OpenProject!'
+        help_menu: 'Στο μενού <b>Βοήθεια</b> θα βρείτε έναν οδηγό χρήστη και επιπλέον βοηθητικούς πόρους. <br> Απολαύστε τη δουλειά σας με το OpenProject!'
         members: 'Προσκαλέστε καινούργια <b>Μέλη</b> για να συμμετάσχουν στο έργο σας.'
-        project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        project_selection: 'Παρακαλούμε κάντε κλικ σε ένα από τα έργα με χρήσιμα demo δεδομένα για ξεκινήσετε. <br> Το <b>Demo έργο</b> ταιριάζει καλύτερα στη κλασική διαχείριση έργου, ενώ το <b>Scrum έργο</b> είναι καλύτερο για Agile διαχείριση έργου.'
         sidebar_arrow: "Με τα βέλη μπορείτε να πλοηγηθείτε πίσω στο <b>Κύριο μενού</b> του έργου."
         welcome: 'Κάντε μια τρίλεπτη εισαγωγική περιήγηση για να μάθετε τα πιο <b>σημαντικά χαρακτηριστικά</b>. <br> Προτείνουμε να ολοκληρώσετε τα βήματα μέχρι το τέλος. Μπορείτε να επανεκκινήσετε την περιήγηση ανά πάσα στιγμή.'
         wiki: 'Μέσα στο <b>Wiki</b> μπορείτε να καταγράψετε και να μοιραστείτε γνώση μαζί με την ομάδα σας.'
@@ -378,8 +378,8 @@ el:
           task_board: "Ο <b>Πίνακας Καθηκόντων</b> οπτικοποιεί την διαδικασία για αυτό το sprint. Προσθέστε καινούργια καθήκοντα ή εμπόδια με το εικονίδιο + δίπλα σε μια ιστορία χρήστη. Μέσω drag'n'drop μπορείτε να ενημερώσετε την κατάσταση."
         boards:
           overview: 'Manage your work within an intuitive <b>Boards</b> view.'
-          lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
-          add: 'Click the + will <b>add a new card</b> to the list within a Board.'
+          lists: 'Μπορείτε να δημιουργήσετε πολλαπλές λίστες (στήλες) μέσα σε μια προβολή Πίνακα, π.χ. να δημιουργήσετε έναν πίνακα KANBAN.'
+          add: 'Κάντε κλικ στο + για να <b>προσθέσετε μια νέα κάρτα</b> στη λίστα μέσα σε ένα Πίνακα.'
           drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
         wp:
           toggler: "Τώρα ας ρίξουμε μια ματιά στη ενότητα <b>Πακέτα εργασίας</b>, η οποία δίνει μια πιο λεπτομερή ματιά της εργασίας σας."
@@ -390,21 +390,21 @@ el:
           timeline_button: 'Μπορείτε να ενεργοποιήσετε το <b>διάγραμμα Gantt</b> για να δημιουργήσετε ένα χρονοδιάγραμμα για το project σας.'
           timeline: 'Εδώ μπορείτε να επεξεργαστείτε το πλάνο του έργου σας. Να δημιουργήσετε καινούργιες φάσεις, ορόσημα και να προσθέσετε εξαρτήσεις. Όλα τα μέλη της ομάδας θα μπορούν να δουν και να ενημερώσουν το τελευταίο πλάνο οποιαδήποτε στιγμή.'
     password_confirmation:
-      field_description: 'Πρέπει να εισάγετε το password του λογαριασμού σας για να επιβεβαιώσετε αυτή την αλλαγή.'
-      title: 'Επιβεβαιώστε το password σας για να συνεχίσετε'
+      field_description: 'Πρέπει να εισάγετε τον κωδικό πρόσβασης του λογαριασμού σας για να επιβεβαιώσετε αυτή την αλλαγή.'
+      title: 'Επιβεβαιώστε τον κωδικό πρόσβασης σας για να συνεχίσετε'
     pagination:
-      no_other_page: "Είστε στην μοναδική σελίδα."
+      no_other_page: "Βρίσκεστε στη μοναδική σελίδα."
       pages:
         next: "Μεταβείτε στην επόμενη σελίδα"
-        previous: "Επιστροφή στη προηγούμενη σελίδα"
+        previous: "Επιστροφή στην προηγούμενη σελίδα"
     placeholders:
       default: '-'
       subject: 'Εισάγετε θέμα εδώ'
       selection: 'Παρακαλώ επιλέξτε'
-      relation_description: 'Πατήστε κλικ για να προσθέσετε περιγραφή για αυτή την σχέση'
+      relation_description: 'Κάντε κλικ για να προσθέσετε περιγραφή για αυτή την σχέση'
     project:
       required_outside_context: >
-        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+        Παρακαλούμε επιλέξτε ένα έργο μέσα στο οποίο θα δημιουργήσετε το πακέτο εργασίας για να δείτε όλα τα χαρακτηριστικά. Μπορείτε να επιλέξετε μόνο έργα που έχουν τον παραπάνω τύπο ενεργό.
       context: 'Πλαίσιο έργου'
       work_package_belongs_to: 'Αυτό το πακέτο εργασίας ανήκει στο έργο %{projectname}.'
       click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'
@@ -418,7 +418,7 @@ el:
         reset_title: "Επαναφορά φόρμας διαμόρφωσης"
         confirm_reset: >
           Προειδοποίηση: Είστε σίγουροι ότι θέλετε να επαναφέρετε τη φόρμα διαμόρφωσης; Αυτό θα επαναφέρει τα χαρακτηριστικά στις προεπιλεγμένες ομάδες τους και θα απενεργοποιήσει ΌΛΑ τα προσαρμοσμένα πεδία.
-        upgrade_to_ee: "Αναβαθμίστε σε Enterprise Edition"
+        upgrade_to_ee: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
         upgrade_to_ee_text: "Wow! Αν χρειάζεστε αυτή τη λειτουργία τότε είστε σούπερ επαγγελματίας! Θα θέλατε να υποστηρίξετε εμάς τους προγραμματιστές OpenSource με το να γίνετε πελάτης της έκδοσης για επιχειρήσεις;"
         more_information: "Περισσότερες πληροφορίες"
         nevermind: "Δεν πειράζει"
@@ -490,10 +490,10 @@ el:
       save: "Αποθήκευση συσχέτισης"
       abort: "Ματαίωση"
     relations_autocomplete:
-      placeholder: "Type to search"
-      parent_placeholder: "Choose new parent or press escape to cancel."
+      placeholder: "Πληκτρολογήστε για αναζήτηση"
+      parent_placeholder: "Επιλέξτε νέο γονέα ή πατήστε escale για ακύρωση."
     repositories:
-      select_tag: 'Επιλογή ετικέτας'
+      select_tag: 'Επιλογή σήμανσης'
       select_branch: 'Επιλογή κλάδου'
     field_value_enter_prompt: "Εισαγωγή τιμής για το '%{field}'"
     select2:
@@ -522,38 +522,38 @@ el:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Διάγραμμα Gantt'
       labels:
-        title: 'Διαμόρφωση ταμπέλας'
-        bar: 'Ταμπέλες μπάρας'
+        title: 'Διαμόρφωση ετικέτας'
+        bar: 'Ετικέτες μπάρας'
         left: 'Αριστερά'
         right: 'Δεξιά'
         farRight: 'Πολύ δεξιά'
-        showNone: '-- Χωρίς ταμπέλα --'
+        showNone: '-- Χωρίς ετικέτας --'
         description: >
-          Επιλέξτε τα χαρακτηριστικά που θέλετε να εμφανίζονται στις αντίστοιχες θέσεις του διαγράμματος Gantt συνεχώς. Σημειώστε πως όταν τοποθετείτε το ποντίκι πάνω από ένα στοιχείο, θα εμφανίζονται οι ταμπέλες ημερομηνίας αντί για αυτά τα χαρακτηριστικά.
+          Επιλέξτε τα χαρακτηριστικά που θέλετε να εμφανίζονται στις αντίστοιχες θέσεις του διαγράμματος Gantt συνεχώς. Σημειώστε πως όταν τοποθετείτε το ποντίκι πάνω από ένα στοιχείο, θα εμφανίζονται οι ετικέτες ημερομηνίας αντί για αυτά τα χαρακτηριστικά.
       button_activate: 'Εμφάνιση διαγράμματος Gantt'
       button_deactivate: 'Απόκρυψη διαγράμματος Gantt'
       cancel: Ακύρωση
-      change: "Change in planning"
+      change: "Αλλαγή στο σχεδιασμό"
       due_date: "Ημερομηνία λήξης"
       empty: "(άδειο)"
       error: "Παρουσιάστηκε σφάλμα."
       errors:
-        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
+        not_implemented: "Το χρονοδιάγραμμα δεν μπόρεσε να επεξεργαστεί γιατί χρησιμοποιεί μια λειτουργία που δεν μπορεί να εφαρμοστεί ακόμη."
         report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-        report_epicfail: "The timeline could not be loaded due to an unexpected error."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
+        report_epicfail: "Το χρονοδιάγραμμα δεν ήταν δυνατό να φορτωθεί λόγω απροσδόκητου σφάλματος."
+        report_timeout: "Το χρονοδιάγραμμα δεν ήταν δυνατό να φορτωθεί μέσα σε ένα λογικό χρονικό πλαίσιο."
       filter:
         grouping_other: "Άλλο"
         noneSelection: "(κανένα)"
       name: "Όνομα"
       outline: "Επαναφορά Περιγράμματος"
       outlines:
-        aggregation: "Show aggregations only"
-        level1: "Expand level 1"
-        level2: "Expand level 2"
-        level3: "Expand level 3"
-        level4: "Expand level 4"
-        level5: "Expand level 5"
+        aggregation: "Εμφάνιση συναθροίσεων μόνο"
+        level1: "Επίπεδο επέκτασης 1"
+        level2: "Επίπεδο επέκτασης 2"
+        level3: "Επίπεδο επέκτασης 3"
+        level4: "Επίπεδο επέκτασης 4"
+        level5: "Επίπεδο επέκτασης 5"
         all: "Εμφάνιση όλων"
       project_status: "Κατάσταση έργου"
       really_close_dialog: "Είστε βέβαιοι ότι θέλετε να κλείσετε αυτό το παράθυρο διαλόγου και να χάσετε όλα τα δεδομένα που εισάγατε;"
@@ -598,7 +598,7 @@ el:
       image: "Εικόνα"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'Μαζική αλλαγή του έργου'
         edit: 'Μαζική επεξεργασία'
         copy: 'Μαζική αντιγραφή'
         delete: 'Μαζική διαγραφή'
@@ -649,7 +649,7 @@ el:
       no_results:
         title: Δεν υπάρχουν πακέτα εργασίας για εμφάνιση.
         description: Είτε δεν έχει δημιουργηθεί κανένα ή όλα τα πακέτα εργασίας έχουν φιλτραριστεί.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Μόνο %{count} πακέτα εργασίας μπορούν να εμφανιστούν στην λειτουργία χειροκίνητης ταξινόμησης. Παρακαλούν μειώστε τα αποτελέσματα με φίλτρα.
       property_groups:
         details: "Λεπτομέρειες"
         people: "Άτομα"
@@ -663,7 +663,7 @@ el:
         date: "Ημερομηνία"
         dueDate: "Ημερομηνία λήξης"
         estimatedTime: "Εκτιμώμενος χρόνος"
-        spentTime: "Δαπανημένος χρόνος"
+        spentTime: "Χρόνος που δαπανήθηκε"
         category: "Κατηγορία"
         percentageDone: "Ποσοστό ολοκλήρωσης"
         priority: "Προτεραιότητα"
@@ -746,10 +746,10 @@ el:
           priority: 'Προτεραιότητα'
           type: 'Τύπος'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Επιλέξτε τη λειτουργία ταξινόμησης για τα πακέτα εργασίας σας:'
+          automatic: 'Αυτόματα'
+          manually: 'Χειροκίνητα'
+          warning: 'Θα χάσετε την προηγούμενη ταξινόμηση όταν ενεργοποιήσετε την λειτουργία αυτόματης ταξινόμησης.'
         columns_help_text: "Χρησιμοποιήστε την παραπάνω είσοδο για να προσθέσετε ή να αφαιρέσετε στήλες στην προβολή πίνακα σας. Μπορείτε να σύρετε τις στήλες για να τις αλλάξετε σειρά."
         upsale:
           attribute_highlighting: 'Χρειάζεστε συγκεκριμένα πακέτα εργασίας για να ξεχωρίσετε από την μάζα;'
@@ -859,6 +859,6 @@ el:
         project_and_subprojects: "και όλα τα υποέργα"
         search_for: "Αναζήτηση για"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Κάρτες'
+      list: 'Πίνακας'
       timeline: 'Gantt'

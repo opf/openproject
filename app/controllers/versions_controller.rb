@@ -116,7 +116,7 @@ class VersionsController < ApplicationController
       flash[:error] = call.errors.full_messages
     end
 
-    redirect_to settings_versions_project_path(@projectsettings_versions_project_path)
+    redirect_to settings_versions_project_path(@project)
   end
 
   private

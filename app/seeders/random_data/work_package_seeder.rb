@@ -27,14 +27,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 module RandomData
   class WorkPackageSeeder
-    attr_accessor :project, :user, :statuses, :repository, :time_entry_activities, :types
+    attr_accessor :project, :user, :statuses, :repository, :types
 
     def initialize(project)
       self.project = project
       self.user = User.admin.first
       self.statuses = Status.all
       self.repository = Repository.first
-      self.time_entry_activities = TimeEntryActivity.all
       self.types = project.types.all.reject(&:is_milestone?)
     end
 

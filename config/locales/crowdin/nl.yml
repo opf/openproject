@@ -1014,7 +1014,6 @@ nl:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Activiteiten (tijdregistratie)"
   enumeration_work_package_priorities: "Werkpakket prioriteiten"
-  enumeration_system_activity: "Systeemactiviteit"
   enumeration_reported_project_statuses: "Gerapporteerde projectstatus"
   error_auth_source_sso_failed: "Single Sign-On (SSO) voor gebruiker '%{value}' is mislukt"
   error_can_not_archive_project: "This project cannot be archived: %{errors}"

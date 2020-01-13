@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,31 +25,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class ProjectEnumerationsController < ApplicationController
-  before_action :find_project_by_project_id
-  before_action :authorize
-
-  def update
-    if permitted_params.enumerations.present?
-      Project.transaction do
-        permitted_params.enumerations.each do |id, activity|
-          @project.update_or_create_time_entry_activity(id, activity)
+module API
+  module V3
+    module TimeEntries
+      class FormRepresenter < ::API::Decorators::SimpleForm
+        def model
+          TimeEntry
         end
       end
-      flash[:notice] = l(:notice_successful_update)
     end
-
-    redirect_to settings_activities_project_path(@project)
-  end
-
-  def destroy
-    TimeEntryActivity.bulk_destroy(@project.time_entry_activities)
-
-    flash[:notice] = l(:notice_successful_update)
-
-    redirect_to settings_activities_project_path(@project)
   end
 end

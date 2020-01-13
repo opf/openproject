@@ -28,8 +28,8 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= toolbar title: l(:enumeration_activities) %>
 
-<% if @project.activities(true).any? %>
-  <%= form_tag  project_enumerations_path(@project),
+<% if TimeEntryActivity.any? %>
+  <%= form_tag  project_time_entry_activities_path(@project),
                 method: :put,
                 class: "tabular" do %>
 
