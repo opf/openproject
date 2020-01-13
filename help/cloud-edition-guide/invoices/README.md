@@ -1,10 +1,10 @@
 ---
 sidebar_navigation:
-  title: Manage subscription
+  title: Invoices and billing history
   priority: 
 description: View the invoices and payment history.
 robots: index, follow
-keywords: manage subscription
+keywords: invoices, payment history
 ---
 
 # Invoices for the OpenProject Cloud Edition
@@ -22,61 +22,22 @@ For invoices via bank transfer, the money needs to be paid via bank transfer to 
 
 ![invoice](image-20200110105613725.png)
 
-## Manage your subscription
+## Payment history and download invoices
 
-If you want to make changes to your subscription, navigate to -> *Administration* -> *Billing* within your system's Administration.
+If you want to see the billing history or download older invoices of your Cloud Edition, navigate to -> *Administration* -> *Billing* within your system's Administration.
 
-Click the green **Manage button**.
+Click the green **Manage button** at the top right.
 
 ![Cloud-manage](Cloud-manage.png)
 
-You can choose between several topics:
+In the overlay window, click on the link **Billing History**.
 
-(1) Update or cancel existing subscriptions
+![Cloud-billing-history](Cloud-billing-history.png)
 
-(2) Edit Account information
+Here, you will get an overview about all your past payments for the Cloud Edition. 
 
-(3) Edit Billing Addresses
+With the **Download link** you can download the inovices.
 
-(4) Edit or add payment methods
+The **Load more link** will open more positions on the list.
 
-(5) View billing history
-
-![manage-subscription](image-20200110110903662.png)
-
-### Update existing subscriptions
-
-If you want to up- or downgrade the amount of users of an existing subscription, click on the subscription listed at the top.
-
-![Cloud-edit-subscription](Cloud-edit-subscription.png)
-
-
-
-Here you can either **Edit or Cancel the existing subscription**.
-
-### Upgrade or downgrade subscription
-
-You can upgrade an existing subscription at any time. Open the [Manage subscription menu](#manage-your-subscription). Additional users will be billed on a prorated basis, this means you will only pay the amount of additional users until the end of the current subscription period. 
-You can downgrade a subscription to the end of a current subscription period. This means the downgrade becomes active with the next payment term.
-
-Click the **Edit Subscription** link.
-
-![Cloud-edit-subscription-link](Cloud-edit-subscription-link.png)
-
-You can choose the new amount of users. Your next payment will be displayed below.
-
-Click the blue **Update your subscription now button** to save the changes.
-
-
-
-![Cloud-upgrade](Cloud-upgrade.png)
-
-
-
-### Cancel subscription
-
-To cancel your subscription, 
-
-### View billing history to download invoices
-
-If you need to **view your payment history or want to download your invoices**, 
+![Billing history overview](image-20200113135853806.png)
