@@ -54,9 +54,19 @@
   .custom-option
     @include text-shortener
     white-space: normal
+
     &:not(.-multiple-lines)
       display: inline
       white-space: nowrap
+
+      // Leave space for the badge
+      &:not(:only-child)
+        max-width: 90%
+        display: inline-block
+        vertical-align: middle
+        line-height: 32px
+        &:first-of-type
+          padding-right: 5px
 
   &.split-time-field
     white-space: nowrap

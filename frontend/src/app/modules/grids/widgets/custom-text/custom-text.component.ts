@@ -75,7 +75,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   public get inplaceEditClasses() {
-    let classes = 'inplace-editing--container inline-edit--display-field inline-edit--display-field -editable';
+    let classes = 'inplace-editing--container inline-edit--display-field -editable';
 
     if (this.textEmpty) {
       classes += ' -placeholder';
