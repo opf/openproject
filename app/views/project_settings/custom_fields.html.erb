@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: l(:label_enabled_project_custom_fields) do %>
+<%= toolbar title: l(:label_custom_field_plural) do %>
   <% if current_user.admin? %>
     <li class="toolbar-item">
       <%= link_to new_custom_field_path(type: 'WorkPackageCustomField'),
@@ -54,7 +54,9 @@ See docs/COPYRIGHT.rdoc for more details.
                   work_package_custom_fields: @wp_custom_fields
                 } %>
 
-    <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %></p>
+    <div class="generic-table--action-buttons">
+      <%= form.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+    </div>
   <% end %>
 <% else %>
   <%= no_results_box custom_title: t('projects.settings.custom_fields.no_results_title_text') %>

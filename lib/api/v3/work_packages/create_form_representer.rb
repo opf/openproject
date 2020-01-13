@@ -31,7 +31,6 @@ module API
   module V3
     module WorkPackages
       class CreateFormRepresenter < FormRepresenter
-        include ApplicationHelper
         link :self do
           {
             href: api_v3_paths.create_work_package_form,
@@ -72,8 +71,7 @@ module API
               current_user_allowed_to(:edit_project,
                                       context: represented.project))
             {
-              href: settings_project_path(represented.project.identifier,
-                                          tab: 'custom_fields'),
+              href: settings_custom_fields_project_path(represented.project.identifier),
               type: 'text/html',
               title: I18n.t('label_custom_field_plural')
             }

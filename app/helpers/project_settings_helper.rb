@@ -40,7 +40,12 @@ module ProjectSettingsHelper
       {
         name: 'modules',
         action: { controller: '/project_settings/modules', action: 'show' },
-        label: :label_module_plural
+        label: :label_enabled_project_modules
+      },
+      {
+        name: 'types',
+        action: { controller: '/project_settings/types', action: 'show' },
+        label: :label_work_package_types
       },
       {
         name: 'custom_fields',
@@ -66,11 +71,6 @@ module ProjectSettingsHelper
         name: 'activities',
         action: { controller: '/project_settings/activities', action: 'show' },
         label: :enumeration_activities
-      },
-      {
-        name: 'types',
-        action: { controller: '/project_settings/types', action: 'show' },
-        label: :label_work_package_types
       }
     ]
   end

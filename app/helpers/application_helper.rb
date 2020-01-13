@@ -527,12 +527,4 @@ module ApplicationHelper
     s += raw '<br /><em>' + rules + '</em>' unless rules.empty?
     s
   end
-
-  def settings_project_path(project, opts = {})
-    if opts[:tab]
-      url_for controller: "project_settings/#{opts[:tab]}", action: 'show', only_path: true, id: project
-    else
-      url_for controller: "project_settings/generic", action: 'show', only_path: true, id: project
-    end
-  end
 end

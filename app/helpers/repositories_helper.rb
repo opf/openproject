@@ -29,7 +29,7 @@
 
 module RepositoriesHelper
   def settings_repository_tab_path
-    settings_project_path(@project, tab: 'repository')
+    settings_repository_project_path(@project)
   end
 
   def format_revision(revision)

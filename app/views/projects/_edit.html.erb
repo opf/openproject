@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: l(:label_project_settings) do %>
+<%= toolbar title: l(:label_information_plural) do %>
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
     <li class="toolbar-item">
       <%= link_to new_project_path(parent_id: @project.id),

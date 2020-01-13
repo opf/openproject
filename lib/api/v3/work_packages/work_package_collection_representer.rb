@@ -32,7 +32,6 @@ module API
   module V3
     module WorkPackages
       class WorkPackageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        include ApplicationHelper
         element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
 
         def initialize(models,
@@ -121,7 +120,7 @@ module API
           if project.present? &&
              (current_user.try(:admin?) || current_user_allowed_to(:edit_project, context: project))
             {
-              href: settings_project_path(project.identifier, tab: 'custom_fields'),
+              href: settings_custom_fields_project_path(project.identifier),
               type: 'text/html',
               title: I18n.t('label_custom_field_plural')
             }

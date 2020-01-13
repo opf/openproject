@@ -163,14 +163,6 @@ OpenProject::Application.routes.draw do
 
   resources :projects, except: %i[show edit] do
     member do
-      # this route let's you access the project specific settings (by tab)
-      #
-      #   settings_project_path(@project)
-      #     => "/projects/1/settings"
-      #
-      #   settings_project_path(@project, tab: 'members')
-      #     => "/projects/1/settings/members"
-      #
       ProjectSettingsHelper.project_settings_tabs.each do |tab|
         get "settings/#{tab[:name]}", controller: "project_settings/#{tab[:name]}", action: 'show', as: "settings_#{tab[:name]}"
       end

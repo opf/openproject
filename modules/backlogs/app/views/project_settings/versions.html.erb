@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= toolbar title: l(:label_available_project_versions) do %>
+<%= toolbar title: l(:label_version_plural) do %>
   <% if current_user.allowed_to?(:manage_versions, @project) %>
     <li class="toolbar-item">
       <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
@@ -166,27 +166,18 @@ See doc/COPYRIGHT.rdoc for more details.
       </table>
     </div>
   </div>
-  <div class="generic-table--action-buttons">
-    <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
-                          { class: 'button -alt-highlight',
-                            aria: {label: t(:label_version_new)},
-                            title: t(:label_version_new)}) do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= l(:label_version) %></span>
-    <% end %>
-  </div>
+  <% if @project.versions.any? %>
+    <div class="generic-table--action-buttons">
+      <%= link_to l(:label_close_versions),
+                  close_completed_project_versions_path(@project),
+                  method: :put,
+                  class: 'button' %>
+    </div>
+  <% end %>
 <% else %>
   <%= no_results_box action_url: new_project_version_path(@project),
                      display_action: authorize_for('versions', 'new'),
                      custom_title: t('projects.settings.versions.no_results_title_text'),
                      custom_action_text: t('projects.settings.versions.no_results_content_text')
   %>
-<% end %>
-
-<% if @project.versions.any? %>
-  <div class="contextual">
-      <%= link_to l(:label_close_versions),
-                  close_completed_project_versions_path(@project),
-                  method: :put %>
-  </div>
 <% end %>
