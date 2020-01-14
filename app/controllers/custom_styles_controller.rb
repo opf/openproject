@@ -87,7 +87,25 @@ class CustomStylesController < ApplicationController
 
   def update_colors
     variable_params = params[:design_colors].first
+    set_colors(variable_params)
 
+    redirect_to action: :show
+  end
+
+  def update_themes
+    variable_params = OpenProject::CustomStyles::ColorThemes::THEMES.find { |theme| theme[:name] == params[:theme] }[:colors]
+    set_colors(variable_params)
+
+    redirect_to action: :show
+  end
+
+  def show_local_breadcrumb
+    true
+  end
+
+  private
+
+  def set_colors(variable_params)
     variable_params.each do |param_variable, param_hexcode|
       if design_color = DesignColor.find_by(variable: param_variable)
         if param_hexcode.blank?
@@ -102,15 +120,7 @@ class CustomStylesController < ApplicationController
         design_color.save
       end
     end
-
-    redirect_to action: :show
   end
-
-  def show_local_breadcrumb
-    true
-  end
-
-  private
 
   def require_ee_token
     unless EnterpriseToken.allows_to?(:define_custom_style)
