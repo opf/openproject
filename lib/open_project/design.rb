@@ -263,17 +263,17 @@ module OpenProject
       %w( primary-color
           primary-color-dark
           alternative-color
+          content-link-color
           header-bg-color
+          header-item-bg-hover-color
           header-item-font-color
           header-item-font-hover-color
-          header-item-bg-hover-color
           header-border-bottom-color
-          content-link-color
           main-menu-bg-color
-          main-menu-font-color
           main-menu-bg-selected-background
-          main-menu-selected-font-color
           main-menu-bg-hover-background
+          main-menu-font-color
+          main-menu-selected-font-color
           main-menu-hover-font-color
           main-menu-border-color )
     end
