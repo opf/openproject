@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Manage subscription
-  priority: 
+  priority: 996
 description: View the invoices and payment history.
 robots: index, follow
 keywords: manage subscription
