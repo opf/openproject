@@ -1,4 +1,4 @@
-require 'open_project/design'
+require 'open_project/custom_styles/design'
 
 module OpenProject::BimSeeder
   module Patches

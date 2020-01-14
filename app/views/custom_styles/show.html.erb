@@ -33,6 +33,23 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'custom_style' %>
 
+<%= form_tag update_design_themes_path, method: :post, class: "form" do %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t('admin.custom_styles.color_themes') %></legend>
+      <div class="form--field">
+        <div class="form--field-container">
+          <%= styled_select_tag 'theme',
+                                options_for_select(@themes, @current_theme),
+                                container_class: '-slim' %>
+        </div>
+      </div>
+
+      <button type="submit" class="button"><%= I18n.t(:button_save) %></button>
+    </fieldset>
+  </section>
+<% end %>
+
 <%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
   <section class="form--section">
     <fieldset class="form--fieldset">
@@ -137,23 +154,6 @@ See docs/COPYRIGHT.rdoc for more details.
   </section>
 <% end %>
 
-<%= form_tag update_design_themes_path, method: :post, class: "form" do %>
-  <section class="form--section">
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= I18n.t('admin.custom_styles.color_themes') %></legend>
-      <div class="form--field">
-        <div class="form--field-container">
-          <%= styled_select_tag 'theme',
-                                options_for_select(OpenProject::CustomStyles::ColorThemes::THEMES.map { |val| val[:name] }),
-                                container_class: '-slim' %>
-        </div>
-      </div>
-
-      <button type="submit" class="button"><%= I18n.t(:button_save) %></button>
-    </fieldset>
-  </section>
-<% end %>
-
 <%= form_tag update_design_colors_path, method: :post, class: "form" do %>
   <section class="form--section">
     <fieldset class="form--fieldset -collapsible collapsed">
@@ -181,7 +181,7 @@ See docs/COPYRIGHT.rdoc for more details.
         </div>
       <% end %>
 
-      <button type="submit" class="button"><%= I18n.t(:button_save) %></button>
+      <button type="submit" class="button -hide-when-collapsed"><%= I18n.t(:button_save) %></button>
 
     </fieldset>
   </section>

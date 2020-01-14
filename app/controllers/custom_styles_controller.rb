@@ -37,6 +37,8 @@ class CustomStylesController < ApplicationController
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new
+    @themes = OpenProject::CustomStyles::ColorThemes::THEMES.map { |val| val[:name] }
+    @current_theme = @custom_style.theme
   end
 
   def upsale; end
@@ -88,6 +90,7 @@ class CustomStylesController < ApplicationController
   def update_colors
     variable_params = params[:design_colors].first
     set_colors(variable_params)
+    set_theme(params)
 
     redirect_to action: :show
   end
@@ -95,6 +98,7 @@ class CustomStylesController < ApplicationController
   def update_themes
     variable_params = OpenProject::CustomStyles::ColorThemes::THEMES.find { |theme| theme[:name] == params[:theme] }[:colors]
     set_colors(variable_params)
+    set_theme(params)
 
     redirect_to action: :show
   end
@@ -120,6 +124,11 @@ class CustomStylesController < ApplicationController
         design_color.save
       end
     end
+  end
+
+  def set_theme(params)
+    @custom_style = CustomStyle.current
+    @custom_style.update(params.permit(:theme))
   end
 
   def require_ee_token
