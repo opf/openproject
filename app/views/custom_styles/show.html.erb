@@ -36,11 +36,11 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= form_tag update_design_themes_path, method: :post, class: "form" do %>
   <section class="form--section">
     <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= I18n.t('admin.custom_styles.color_themes') %></legend>
+      <legend class="form--fieldset-legend"><%= I18n.t('admin.custom_styles.color_theme') %></legend>
       <div class="form--field">
         <div class="form--field-container">
           <%= styled_select_tag 'theme',
-                                options_for_select(@themes, @current_theme),
+                                options_for_select(@theme_options, @current_theme),
                                 container_class: '-slim' %>
         </div>
       </div>

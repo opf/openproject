@@ -37,8 +37,8 @@ class CustomStylesController < ApplicationController
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new
-    @themes = OpenProject::CustomStyles::ColorThemes::THEMES.map { |val| val[:name] }
     @current_theme = @custom_style.theme
+    @theme_options = options_for_theme_select
   end
 
   def upsale; end
@@ -109,6 +109,13 @@ class CustomStylesController < ApplicationController
 
   private
 
+  def options_for_theme_select
+    options = OpenProject::CustomStyles::ColorThemes::THEMES.map { |val| val[:name] }
+    options << [t('admin.custom_styles.color_theme_custom'), '', disabled: true] if @current_theme.empty?
+
+    options
+  end
+
   def set_colors(variable_params)
     variable_params.each do |param_variable, param_hexcode|
       if design_color = DesignColor.find_by(variable: param_variable)
@@ -127,8 +134,10 @@ class CustomStylesController < ApplicationController
   end
 
   def set_theme(params)
+    theme = ActionController::Parameters.new(theme: params[:theme] || '').permit(:theme)
+
     @custom_style = CustomStyle.current
-    @custom_style.update(params.permit(:theme))
+    @custom_style.update(theme)
   end
 
   def require_ee_token

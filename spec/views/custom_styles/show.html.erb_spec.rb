@@ -38,6 +38,7 @@ describe 'custom_styles/show', type: :view do
   context "no custom logo yet" do
     before do
       assign(:custom_style, CustomStyle.new)
+      allow(view).to receive(:options_for_select).and_return('')
       render
     end
 
@@ -49,6 +50,7 @@ describe 'custom_styles/show', type: :view do
   context "with existing custom logo" do
     before do
       assign(:custom_style, FactoryBot.build(:custom_style_with_logo))
+      allow(view).to receive(:options_for_select).and_return('')
       render
     end
 

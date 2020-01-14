@@ -37,7 +37,8 @@ en:
     plugins:
       no_results_title_text: There are currently no plugins available.
     custom_styles:
-      color_themes: "Color themes"
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
       colors:
         alternative-color: "Alternative"
         content-link-color: "Link font"

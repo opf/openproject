@@ -48,7 +48,7 @@ module OpenProject::CustomStyles
           'main-menu-font-color'                                 => "#FFFFFF",
           'main-menu-hover-font-color'                           => "#FFFFFF",
           'main-menu-selected-font-color'                        => "#FFFFFF",
-          'main-menu-border-color'                               => "#EAEAEA",
+          'main-menu-border-color'                               => "#EAEAEA"
         }
       },
       {
@@ -69,7 +69,7 @@ module OpenProject::CustomStyles
           'main-menu-font-color'                                 => "#000000",
           'main-menu-hover-font-color'                           => "#000000",
           'main-menu-selected-font-color'                        => "#000000",
-          'main-menu-border-color'                               => "#EAEAEA",
+          'main-menu-border-color'                               => "#EAEAEA"
         }
       },
       {
@@ -90,7 +90,7 @@ module OpenProject::CustomStyles
           'main-menu-font-color'                                 => "#DFDFDF",
           'main-menu-hover-font-color'                           => "#DFDFDF",
           'main-menu-selected-font-color'                        => "#DFDFDF",
-          'main-menu-border-color'                               => "#000000",
+          'main-menu-border-color'                               => "#000000"
         }
       }
     ].freeze
