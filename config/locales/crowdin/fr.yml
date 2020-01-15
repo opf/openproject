@@ -67,38 +67,38 @@ fr:
       no_results_content_text: Créer un nouveau mode d'authentification
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      Ce formulaire LDAP nécessite une connaissance technique de votre configuration LDAP / Active Directory.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Veuillez consulter notre documentation pour des instructions détaillées</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      name: Nom arbitraire de la connexion LDAP
+      host: Nom d'hôte ou adresse IP du serveur LDAP
+      login_map: La clé d'attribut dans LDAP qui est utilisée pour identifier la connexion utilisateur unique. Habituellement, ce sera `uid` ou `samAccountName`.
+      generic_map: La clé d'attribut dans LDAP qui est mappée à l'attribut OpenProject `%{attribute}`
+      admin_map_html: "Facultatif : La clé d'attribut dans LDAP qui, <strong>si elle est présente</strong>, marque l'utilisateur OpenProject comme administrateur. Laisser vide en cas de doute."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Entrez le DN de l'utilisateur système utilisé pour l'accès en lecture seule.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        Exemple : uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Entrez le mot de passe de liaison de l'utilisateur système
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Entrez le DN de base de la sous-arborescence LDAP dans laquelle voulez qu'OpenProject recherche des utilisateurs et des groupes.
+        OpenProject filtrera les noms d'utilisateur fournis dans cette sous-arborescence seulement.
+        Exemple : ou=utilisateurs,dc=exemple,dc=com
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Si vous cochez cette case, OpenProject créera automatiquement de nouveaux utilisateurs à partir de leurs entrées LDAP
+        lorsqu'ils s'authentifieront pour la première fois avec OpenProject.
+        Laissez ceci non coché pour permettre uniquement aux comptes existants dans OpenProject de s'authentifier via LDAP!
     connection_encryption: 'Cryptage de la connexion'
-    system_account: 'System account'
+    system_account: 'Compte système'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+      OpenProject nécessite un accès en lecture seule via un compte système pour rechercher des utilisateurs et des groupes dans votre arborescence LDAP.
+      Veuillez spécifier les informations d'identification pour cet utilisateur système dans la section suivante.
+    ldap_details: 'Détails LDAP'
+    user_settings: 'Mapping des attributs'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      Les champs suivants sont liés à la façon dont les utilisateurs sont créés dans OpenProject à partir d'entrées LDAP et
+      quels attributs LDAP sont utilisés pour définir les attributs d'un utilisateur OpenProject (mapping d'attributs).
     tls_mode:
       plain: 'aucune'
       simple_tls: 'simple_tls'
@@ -478,7 +478,7 @@ fr:
         could_not_be_copied: "n'a pas pu être copié (entièrement)."
         does_not_exist: "n'existe pas."
         error_unauthorized: "est interdit d'accès."
-        error_readonly: "was attempted to be written but is not writable."
+        error_readonly: "a tenté d'être écrit mais n'est pas accessible en écriture."
         empty: "ne peut pas être vide."
         even: "doit être pair."
         exclusion: "est réservé."
@@ -1010,7 +1010,7 @@ fr:
         add_groups: "Ajouter de nouveaux groupes d’attributs"
         rename_groups: "Renommer les groupes d’attributs"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Filtrer et trier sur les champs personnalisés est une fonctionnalité de l'édition entreprise."
   enumeration_activities: "Activités (suivi de temps)"
   enumeration_work_package_priorities: "Priorités du Lot de Travaux"
   enumeration_reported_project_statuses: "Statuts de projet signalés"
@@ -1922,7 +1922,7 @@ fr:
       title: Modifier l'identifiant du projet
     archive:
       are_you_sure: "Êtes-vous sûr de vouloir archiver le projet '%{name}%' ?"
-      archived: "Archived"
+      archived: "Archivé"
   project_module_activity: "Activité"
   project_module_forums: "Forums"
   project_module_calendar: "Calendrier"
@@ -2228,8 +2228,8 @@ fr:
   text_work_package_category_destroy_question: "(%{count}) Lots de Travaux sont assignés à cette catégorie. Que voulez-vous faire?"
   text_work_package_category_reassign_to: "Réassigner les Lots de Travaux de cette catégorie"
   text_work_package_updated: "Le Lot de Travaux %{id} a été mis à jour par %{author}."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_added: "Vous avez été ajouté comme observateur au lot de travaux %{id} par %{watcher_changer}."
+  text_work_package_watcher_removed: "Vous avez été retiré des observateurs du lot de travaux %{id} par %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
   text_work_packages_ref_in_commit_messages: "Referencer et réparer les Lot(s) de Travaux dans les messages « commit »"
   text_journal_added: "%{label} %{value} ajouté"
@@ -2561,8 +2561,8 @@ fr:
         invalid_user_assigned_to_work_package: "L’utilisateur choisi n'est pas autorisé à être « %{property} » pour ce lot de travaux."
         start_date: "La date de début ne peut pas être définie dans les lots de travaux parents."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "est un gzip invalide : %{message}"
+        invalid_json: "est un json invalide : %{message}"
     resources:
       schema: 'Schéma'
   doorkeeper:
@@ -2610,7 +2610,7 @@ fr:
         redirect_uri_html: >
           Les URL autorisées où peuvent être redirigés les utilisateurs. Une entrée par ligne. <br/> Si vous enregistrez une application de bureau, utilisez l'URL suivante.
         confidential: "Vérifiez si l'application peut être utilisée lorsque le secret du client peut être gardé confidentiel. Les applications mobiles natives et les applications à page unique ne sont pas considérées comme confidentielles."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
+        scopes: "Vérifiez les portées auxquelles vous voulez que l'application accorde l'accès. Si aucune portée n'est cochée, api_v3 est supposé."
         client_credential_user_id: "ID utilisateur facultatif à emprunter lorsque les clients utilisent cette application. Laisser vide pour permettre l'accès public uniquement"
         register_intro: "Si vous développez une application client OAuth API pour OpenProject, vous pouvez l'enregistrer en utilisant ce formulaire pour qu’elle soit utilisée par tous les utilisateurs."
         default_scopes: ""
@@ -2625,8 +2625,8 @@ fr:
       wants_to_access_html: >
         Cette application demande l'accès à votre compte OpenProject. <br/> <strong>Il a demandé les autorisations suivantes:</strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Accès complet à l'API v3"
+      api_v3_text: "L'application recevra un accès complet en lecture et écriture à l'API v3 d'OpenProject pour effectuer des actions en votre nom."
     grants:
       created_date: "Approuvée le"
       scopes: "Autorisations"
