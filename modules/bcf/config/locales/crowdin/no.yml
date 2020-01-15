@@ -63,19 +63,19 @@
   permission_manage_bcf: "Import and manage BCF issues"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "Full tilgang til BCF v2.1 API"
+      bcf_v2_1_text: "Applikasjonen vil få full lese/skrive tilgang til OpenProject BCF API v2.1 på dine vegne."
   activerecord:
     errors:
       models:
         bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
-          invalid_components: "components is invalid."
-          invalid_lines: "lines is invalid."
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
+          bitmaps_not_writable: "bitmaps kan ikke skrives da det ikke er implementert enda."
+          index_not_integer: "index er ikke en integer."
+          invalid_clipping_planes: "clipping_planes er ikke gyldig."
+          invalid_components: "components er ikke gyldig."
+          invalid_lines: "lines er ikke gyldig."
+          invalid_orthogonal_camera: "orthogonal_camera er ikke gyldig."
+          invalid_perspective_camera: "perspective_camera er ikke gyldig."
           mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
           no_json: "Is not a well structured json."
           snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."

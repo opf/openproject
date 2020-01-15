@@ -69,8 +69,12 @@
             <strong [textContent]="item.date"></strong>
           </td>
           <td class="subject"
-              *ngIf="item.entry">
+              *ngIf="item.entry && item.entry.workPackage">
               {{projectName(item.entry)}} - <a [href]="workPackagePath(item.entry)" [textContent]="workPackageName(item.entry)"></a>
+          </td>
+          <td class="subject"
+              *ngIf="item.entry && !item.entry.workPackage"
+              [textContent]="projectName(item.entry)">
           </td>
           <td class="comments"
               *ngIf="item.entry"

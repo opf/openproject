@@ -2,52 +2,52 @@
 el:
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
-    issues: "Issues"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
+    label_imported_failed: 'Αποτυχημένες εισαγωγές των θεμάτων BCF'
+    label_imported_successfully: 'Επιτυχής εισαγωγή θέματων BCF'
+    issues: "Ζητήματα"
+    recommended: 'προτεινόμενο'
+    not_recommended: 'δεν συνιστάται'
     no_viewpoints: 'No viewpoints'
     new_badge: "Νέο"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "Το αρχείο BCF δεν είναι έγκυρο"
     x_bcf_issues:
-      one: 'One BCF issue'
-      other: '%{count} BCF issues'
+      one: 'Ένα BCF ζήτημα'
+      other: '%{count} BCF ζητήματα'
     bcf_xml:
-      xml_file: 'BCF XML File'
+      xml_file: 'BCF XML Αρχείο'
       import_title: 'Εισαγωγή'
       export: 'Εξαγωγή'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
+      import_update_comment: '(Ενημερώθηκε στην εισαγωγή BCF)'
+      import_failed: 'Δεν είναι δυνατή η εισαγωγή του BCF αρχείου: %{error}'
       import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      import_canceled: 'η εισαγωγή BCF-XML ακυρώθηκε.'
+      type_not_active: "Ο τύπος του ζητήματος δεν είναι ενεργοποιημένος για αυτό το έργο."
       import:
         num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
-        button_proceed: 'Proceed'
-        button_back_to_list: 'Back to list'
+        button_prepare: 'Προετοιμασία εισαγωγής'
+        button_perform_import: 'Επιβεβαιώση εισαγωγής'
+        button_proceed: 'Συνέχεια'
+        button_back_to_list: 'Επιστροφή στη λίστα'
         no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
         contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
         continue_anyways: 'Do you want to proceed and finish the import anyways?'
         description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
         invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
+        invalid_statuses_found: 'Βρέθηκαν μη έγκυρα ονόματα κατάστασης'
         invalid_priorities_found: 'Invalid priority names found'
         invalid_emails_found: 'Invalid email addresses found'
         unknown_emails_found: 'Unknown email addresses found'
-        unknown_property: 'Unknown property'
+        unknown_property: 'Άγνωστη ιδιότητα'
         non_members_found: 'Non project members found'
         import_types_as: 'Set all these types to'
         import_statuses_as: 'Set all these statuses to'
         import_priorities_as: 'Set all these priorities to'
         invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
         add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
+        no_type_provided: 'Δεν δόθηκε κανένας τύπος'
+        no_status_provided: 'Δεν δόθηκε καμία κατάσταση'
+        no_priority_provided: 'Δεν δόθηκε καμιά προτεραιότητα'
         perform_description: "Do you want to import or update the issues listed above?"
         replace_with_system_user: 'Replace them with "System" user'
         import_as_system_user: 'Import them as "System" user.'
@@ -69,15 +69,15 @@ el:
     errors:
       models:
         bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
-          invalid_components: "components is invalid."
-          invalid_lines: "lines is invalid."
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
-          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
-          no_json: "Is not a well structured json."
-          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
-          snapshot_data_blank: "snapshot_data needs to be provided."
-          unsupported_key: "An unsupported json property is included."
+          bitmaps_not_writable: "τα bitmaps δεν είναι εγγράψιμα καθώς δεν έχουν υλοποιηθεί ακόμη."
+          index_not_integer: "ο δείκτης δεν είναι ακέραιος."
+          invalid_clipping_planes: "το clipping_planes δεν είναι έγκυρο."
+          invalid_components: "τα συστατικά δεν είναι έγκυρα."
+          invalid_lines: "οι γραμμές δεν είναι έγκυρες."
+          invalid_orthogonal_camera: "η orthogonal_camera δεν είναι έγκυρη."
+          invalid_perspective_camera: "η perspective_camera δεν είναι έγκυρη."
+          mismatching_guid: "Το guid στο json_viewpoint δεν ταιριάζει με το guid του μοντέλου."
+          no_json: "Δεν είναι ένα σωστά δομημένο json."
+          snapshot_type_unsupported: "το snapshot_type πρέπει να είναι είτε 'png' ή 'jpg'."
+          snapshot_data_blank: "το snapshot_data πρέπει να παρέχεται."
+          unsupported_key: "Συμπεριλαμβάνεται μια μη υποστηριζόμενη ιδιότητα json."

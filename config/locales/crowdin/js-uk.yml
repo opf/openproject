@@ -41,7 +41,7 @@ uk:
     button_back_to_list_view: "Повернутися до списку"
     button_cancel: "Скасувати"
     button_close: "Закрити"
-    button_change_project: "Change project"
+    button_change_project: "Змінити проект"
     button_check_all: "Перевірити все"
     button_configure-form: "Налаштуйте форму"
     button_confirm: "Підтвердити"
@@ -84,16 +84,16 @@ uk:
       browser_error: "Ваш браузер не підтримує копіювання до буфера обміну. Потрібно скопіювати виділений текст вручну."
       copied_successful: "Успішно скопійовано до буфера обміну!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
+      type: 'Тип графіка'
+      axis_criteria: 'Умови осі'
       modal_title: 'Work package graph configuration'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
+        line: 'Лінія'
+        horizontal_bar: 'Горизонтальна смуга'
+        bar: 'Смуга'
+        pie: 'Кругова'
+        doughnut: 'Пончик'
+        radar: 'Радар'
         polar_area: 'Polar area'
       tabs:
         graph_settings: 'Загальні'
@@ -159,7 +159,7 @@ uk:
         drag_to_activate: "Перетягніть поля звідти, щоб активувати їх"
         add_group: "Додати групу атрибутів"
         add_table: "Додати таблицю пов'язаних пакетів робіт"
-        edit_query: 'Edit query'
+        edit_query: 'Редагувати запит'
         new_group: 'Нова група'
         reset_to_defaults: 'Скинути на типові значення'
     custom_actions:
@@ -752,9 +752,9 @@ uk:
           type: 'Тип'
         sorting_mode:
           description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          automatic: 'Автоматично'
+          manually: 'Вручну'
+          warning: 'Ви втратите попереднє сортування при активації автоматичного сортування.'
         columns_help_text: "Використовуйте вхідні дані для додавання або видалення стовпців у вигляді таблиці. Можна перетягувати стовпці, щоб змінити їх порядок."
         upsale:
           attribute_highlighting: 'Потрібні певні робочі пакети, щоб виділитися зі скупчення?'
@@ -852,10 +852,10 @@ uk:
         many: "%{count} робочий пакет дітей"
         other: "%{count} робочий пакет дітей"
       hour:
-        one: "1 h"
-        few: "%{count} h"
-        many: "%{count} h"
-        other: "%{count} h"
+        one: "1 год"
+        few: "%{count} год"
+        many: "%{count} год"
+        other: "%{count} год"
     zen_mode:
       button_activate: 'Активуйте режим дзен'
       button_deactivate: 'Деактивуйте режим дзен'
@@ -870,6 +870,6 @@ uk:
         project_and_subprojects: "і всі підпроекти"
         search_for: "Пошук по"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Картки'
+      list: 'Таблиця'
       timeline: 'Гантт'

@@ -145,10 +145,10 @@ sv:
     remember:
       active_session_notice: >
         Ditt konto har en aktiv cookie giltigt till %{expires_on}. Med denna cookie kan du under tiden logga in utan en andra faktor till ditt konto.
-      other_active_session_notice: Your account has an active remember cookie on another session.
+      other_active_session_notice: Ditt konto har en aktiv cookie för att komma ihåg en annan session.
       label: 'Kom ihåg'
-      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
-      cookie_removed: 'All remembered 2FA sessions have been removed.'
+      clear_cookie: 'Klicka här för att ta bort alla sparade 2FA sessioner.'
+      cookie_removed: 'Alla sparade 2FA sessioner har tagits bort.'
       dont_ask_again: "Skapa en cookie för att komma ihåg 2FA autentisering på den här klienten för %{days} dagar."
   field_phone: "Mobiltelefon"
   field_otp: "Engångslösenord"

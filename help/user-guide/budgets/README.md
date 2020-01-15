@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Budgets
-  priority: 790
+  priority: 780
 description: Find out how to create and manage budgets for a project in OpenProject.
 robots: index, follow
 keywords: budgets
