@@ -1,9 +1,10 @@
 ---
-title: Manage members
+sidebar_navigation:
+  title: Manage members
+  priority: 650
 description: Manage members in OpenProject.
 robots: index, follow
-keywords: manage members
-
+keywords: members
 ---
 
 # Manage members
