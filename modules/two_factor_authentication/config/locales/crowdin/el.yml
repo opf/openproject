@@ -50,7 +50,7 @@ el:
       current_configuration: 'Τρέχουσα διαμόρφωση'
       label_active_strategies: 'Ενεργές στρατηγικές 2FA'
       label_enforced: 'Επιβολή 2FA'
-      label_remember: 'Remember 2FA login'
+      label_remember: 'Απομνημόνευση σύνδεσης 2FA'
       text_configuration: |
         Σημείωση: Αυτές οι τιμές αντιπροσωπεύουν την τρέχουσα διαμόρφωση σε όλη την εφαρμογή. Δεν μπορείτε να απενεργοποιήσετε τις ρυθμίσεις που επιβάλλονται από τη διαμόρφωση ή να αλλάξετε τις τρέχουσες ενεργές στρατηγικές, γιατί απαιτούν επανεκκίνηση του διακομιστή.
       text_configuration_guide: Για περισσότερες πληροφορίες, ελέγξτε τον οδηγό διαμόρφωσης.
@@ -72,7 +72,7 @@ el:
       text_2fa_disabled: "Ο χρήστης δεν έχει ορίσει μια συσκευή 2FA μέσω του 'Σελίδα του λογαριασμού μου'"
     upsale:
       title: 'Η ταυτοποίηση δύο παραγόντων είναι λειτουργία έκδοσης επιχειρήσεων'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      description: 'Ενδυναμώστε τους μηχανισμούς εσωτερικής και εξωτερικής ταυτοποίησης με ένα δεύτερο παράγοντα.'
     backup_codes:
       none_found: Δεν υπάρχουν κωδικοί αντιγράφων ασφαλείας για αυτό τον λογαριασμό.
       singular: Κωδικός αντιγράφων ασφαλείας
@@ -101,11 +101,11 @@ el:
       registration_failed_update: 'Η εγγραφή της συσκευής 2FA απέτυχε, το token ήταν έγκυρο αλλά η συσκευή δεν μπόρεσε να ενημερωθεί.'
       confirm_send_failed: 'Η επιβεβαίωση της συσκευή 2FA σας απέτυχε.'
       button_complete_registration: 'Ολοκλήρωση εγγραφής 2FA'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
-      text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
-      text_identifier: 'You can give the device a custom identifier using this field.'
+      text_confirm_to_complete_html: "Παρακαλούμε ολοκληρώστε την καταχώρηση της συσκευής σας <strong>%{identifier}</strong> εισάγοντας τον κωδικό μιας χρήσης από την προεπιλεγμένη συσκευή σας."
+      text_confirm_to_change_default_html: "Παρακαλούμε επιβεβαιώστε την αλλαγή της προεπιλεγμένης συσκευής σας σε <strong>%{new_identifier}</strong> εισάγοντας τον κωδικό μιας χρήσης από την τρέχουσα προεπιλεγμένη συσκευή σας."
+      text_identifier: 'Μπορείτε να δώσετε στην συσκευή ένα προσαρμοσμένο αναγνωριστικό χρησιμοποιώντας αυτό το πεδίο.'
       failed_to_delete: 'Αποτυχία διαγραφής συσκευής 2FA.'
-      is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
+      is_default_cannot_delete: 'Η συσκευή έχει οριστεί ως προεπιλεγμένη και δεν μπορεί να διαγραφεί λόγω μιας ενεργής πολιτικής ασφαλείας. Ορίστε μια άλλη συσκευή ως προεπιλογή πριν τη διαγραφή.'
       not_existing: 'Δεν έχουν καταχωρηθεί συσκευές 2FA για τον λογαριασμό σας.'
       request_2fa: Παρακαλούμε εισάγετε τον κωδικό από το %{device_name} για επιβεβαιώσετε την ταυτότητα σας.
       totp:
@@ -115,28 +115,26 @@ el:
         time_based: 'Βασισμένο σε χρόνο'
         account: 'Account name / Issuer'
         setup: |
-          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
-          After opening the app, you can scan the following QR code to register the device.
+          Για να δημιουργήσετε μια ταυτοποίηση δύο παραγόντων με το Google Authenticator, κατεβάστε την εφαρμογή από το Apple App store ή to Google Play Store. Αφού ανοίξετε την εφαρμογή, μπορείτε να σαρώσετε τους ακόλουθους QR κωδικούς για να καταχωρήσετε τη συσκευή σας.
         question_cannot_scan: |
           Δεν καταφέρατε να σαρώσετε τον κωδικό χρησιμοποιώντας την εφαρμογή;
         text_cannot_scan: |
           Αν δεν μπορείτε να σαρώσετε τον κωδικό, μπορείτε να εισάγετε την καταχώρηση χειροκίνητα χρησιμοποιώντας τις ακόλουθες λεπτομέρειες:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          Καταχωρήστε μια εφαρμογή ταυτοποίησης για να τη χρησιμοποιείτε στο OpenProject με πρότυπο ταυτοποίησης κωδικού μιας χρήσης βασισμένο σε χρόνο. Συχνά παραδείγματα είναι το Google Authenticator ή Authy.
       sms:
         title: 'Χρησιμοποιείστε το κινητό τηλέφωνο σας'
         redacted_identifier: 'Κινητό τηλέφωνο (%{redacted_number})'
         request_2fa_identifier: '%{redacted_identifier}, σας στείλαμε ένα κωδικό ταυτοποίησης μέσω %{delivery_channel}'
         description: |
-          Register your mobile phone number for delivery of OpenProject one-time passwords.
+          Καταχωρήστε τον αριθμό κινητού τηλεφώνου σας για την παράδοση των κωδικών πρόσβασης μιας χρήσης το OpenProject.
     sns:
-      delivery_failed: 'SNS delivery failed:'
+      delivery_failed: 'Η αποστολή SNS απέτυχε:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      sms_delivery_failed: 'Η παράδοση του MessageBird SMS απέτυχε.'
       voice_delivery_failed: 'Η φωνητική κλήση MessageBird απέτυχε.'
     restdt:
-      delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
+      delivery_failed_with_code: 'Η παράδοση του token απέτυχε. (Κωδικός σφάλματος %{code})'
     strategies:
       totp: 'Εφαρμογή ταυτοποίησης'
       sns: 'Amazon SNS'
@@ -144,15 +142,15 @@ el:
     mobile_transmit_notification: "Ένας κωδικός μιας χρήσης στάλθηκε στο κινητό τηλέφωνο σας."
     label_two_factor_authentication: 'Ταυτοποίηση δύο παραγόντων'
     forced_registration:
-      required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
+      required_to_add_device: 'Μια ενεργή πολιτική ασφαλείας απαιτεί να ενεργοποιήσετε την ταυτοποίηση δύο παραγόντων. Παρακαλούμε χρησιμοποιείστε την ακόλουθη φόρμα για να καταχωρήσετε μια συσκευή.'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+        Ο λογαριασμός σας έχει ένα ενεργό cookie απομνημόνευσης που είναι έγκυρο μέχρι %{expires_on}. Αυτό το cookie σας επιτρέπει να συνδέεστε στο λογαριασμό σας χωρίς δεύτερο παράγοντα μέχρι εκείνη την στιγμή.
       other_active_session_notice: Ο λογαριασμός σας έχει ένα ενεργό cookie απομνημόνευσης από άλλη συνεδρία.
-      label: 'Remember'
-      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
-      cookie_removed: 'All remembered 2FA sessions have been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+      label: 'Απομνημόνευση'
+      clear_cookie: 'Κάντε κλικ εδώ για να αφαιρέσετε όλες την απομνημονευμένες συνεδρίες 2FA.'
+      cookie_removed: 'Όλες οι απομνημονευμένες συνεδρίες 2FA έχουν αφαιρεθεί.'
+      dont_ask_again: "Δημιουργήστε ένα cookie για να απομνημονευτεί η ταυτοποίηση 2FA σε αυτό την περιηγητή για %{days} ημέρες."
   field_phone: "Κινητό τηλέφωνο"
   field_otp: "Κωδικός μιάς χρήσης"
   notice_account_otp_invalid: "Μη έγκυρος κωδικός πρόσβασης μιας χρήσης."

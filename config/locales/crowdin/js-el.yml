@@ -193,8 +193,8 @@ el:
     general_text_Yes: "Ναι"
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "Κάντε κλικ εδώ για να ανανεώσετε τον πόρο και να κάνετε ενημέρωση στην τελευταία έκδοση."
+        edit_prohibited: "Η επεξεργασία του %{attribute} έχει μπλοκαριστεί για αυτό τον πόρο. Είτε αυτό το χαρακτηριστικό παράγεται από σχέσεις (π.χ. παιδιά) ή διαφορετικά δεν μπορεί να διαμορφωθεί."
         format:
           date: "%{attribute} δεν είναι έγκυρη ημερομηνία - αναμένεται ΕΕΕΕ-ΜΜ-ΗΗ."
         general: "Παρουσιάστηκε σφάλμα."
@@ -691,7 +691,7 @@ el:
         label_content: "Κάντε κλικ εδώ για να προσπεράσετε το μενού και να πάτε στο περιεχόμενο"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Κάντε κλικ για επεξεργασία..."
       query:
         column_names: "Στήλες"
         group_by: "Ομαδοποίηση αποτελεσμάτων κατά"
