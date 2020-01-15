@@ -1,9 +1,10 @@
 ---
-title: Manage users
-description: Manage users in OpenProject
+sidebar_navigation:
+  title: User settings
+  priority: 999
+description: Configure user settings in OpenProject.
 robots: index, follow
-keywords: manage users
-
+keywords: user settings
 ---
 
 # User settings
@@ -14,15 +15,11 @@ User settings are accessibly by administrators from the OpenProject administrati
 
 ![image-20191104162935680](image-20191104162935680.png)
 
-| Feature                                    | Documentation for          |
-| ------------------------------------------ | -------------------------- |
+| Feature                                     | Documentation for          |
+| ------------------------------------------- | -------------------------- |
 | [Default preferences](#default-preferences) | User default preferences.  |
 | [User deletion](#user-deletion)             | Who can delete users.      |
 | [User consent](#user-consent)               | User privacy and security. |
-|                                            |                            |
-|                                            |                            |
-
-
 
 ## Default preferences
 

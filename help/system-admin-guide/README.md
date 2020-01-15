@@ -10,9 +10,13 @@ keywords: system administration
 
 Welcome to the OpenProject **System Administration guide**.
 
-Here you will learn how to configure your OpenProject. Click on one of the categories in order to proceed with the configuration.
+In order to make changes to settings affecting your entire OpenProject environment, you need to navigate to the OpenProject administration.
 
-![System administration](image-20200115143956118.png)
+If you are an administrator on your OpenProject environment,  you can access the administration by clicking on your user Avatar in the upper right corner and selecting ->*Administration* from the dropdown menu.
+
+Click on one of the categories in order to proceed with the configuration.
+
+![Sys-admin-administration](Sys-admin-administration-1579104292770.png)
 
 ## Overview
 
