@@ -37,26 +37,32 @@ import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-t
   styleUrls: ['./ifc-base-view.component.sass']
 })
 export class IfcBaseViewComponent {
+  public queryProps:{ [key:string]:any };
+  public configuration:WorkPackageTableConfigurationObject;
 
   private filters:any[] = [];
 
-  public queryProps = {
-    'columns[]': ['id', 'project', 'subject'],
-    filters: JSON.stringify(this.filters),
-    sortBy: JSON.stringify([['updatedAt', 'desc']]),
-    showHierarchies: false
-  };
+  constructor() {
+    this.configuration = {
+      actionsColumnEnabled: false,
+      columnMenuEnabled: true,
+      contextMenuEnabled: false,
+      inlineCreateEnabled: false,
+      withFilters: true,
+      showFilterButton: false,
+    };
 
-  public configuration:WorkPackageTableConfigurationObject = {
-    actionsColumnEnabled: false,
-    columnMenuEnabled: true,
-    contextMenuEnabled: false,
-    inlineCreateEnabled: false,
-    withFilters: true,
-    showFilterButton: false,
-  };
+    this.filters.push({ status: {
+        operator: 'o',
+        values: [] }});
 
-
+    this.queryProps = {
+      'columns[]': ['id', 'subject'],
+      filters: JSON.stringify(this.filters),
+      sortBy: JSON.stringify([['updatedAt', 'desc']]),
+      showHierarchies: false
+    };
+  }
 
 }
 DynamicBootstrapper.register({
