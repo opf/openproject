@@ -1,15 +1,15 @@
 ---
 sidebar_navigation:
-  title: Work package relations
+  title: Work package relations and hierarchies
   priority: 866
 description: How to add or configure work package relations?
 robots: index, follow
 keywords: work package relations
 ---
 
-# Work package relations
+# Work package relations and hierarchies
 
-You can not only create [work package hierarchies](./work-package-hierarchies), but also define relations, for example to indicate that work packages address a similar topic or create status dependencies. To create a relationship between two work packages:
+You can not only create [work package hierarchies](#work-package-hierarchies), but also define relations, for example to indicate that work packages address a similar topic or create status dependencies. To create a relationship between two work packages:
 
 1. Select a work package, click on the **Relations** tab to open the relations tab and click the *+ Create new relations* link.
 2. Select the type of relationship from the dropdown menu.
@@ -44,3 +44,6 @@ The relations column shows the number of relations each work package has for the
 You can click on the number to display the work packages which have the relation type.
 
 ![Relations_column](Relations_column.png)        
+
+## Work package hierarchies
+
