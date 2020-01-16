@@ -996,7 +996,6 @@ ja:
         description_html: "カスタムフィールドのフィルタリングと並べ替えは、エンタープライズ版の機能です。"
   enumeration_activities: "作業分類 (時間の追跡)"
   enumeration_work_package_priorities: "作業項目の優先度"
-  enumeration_system_activity: "システム作業分類"
   enumeration_reported_project_statuses: "報告されるプロジェクト進捗状況"
   error_auth_source_sso_failed: "ユーザー '%{value}' のシングルサインオン (SSO) に失敗しました"
   error_can_not_archive_project: "このプロジェクトはアーカイブできません: %{errors}"

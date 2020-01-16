@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -92,13 +92,5 @@ class TimeEntry < ActiveRecord::Base
     scope = TimeEntry.visible(User.current)
     scope = scope.where(project_id: project.hierarchy.map(&:id)) if project
     scope.includes(:project).maximum(:spent_on)
-  end
-
-  def authoritativ_activity
-    if activity.shared?
-      activity
-    else
-      activity.root
-    end
   end
 end

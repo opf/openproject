@@ -1,6 +1,5 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, SecurityContext, ViewChild} from "@angular/core";
-import {CalendarComponent} from 'ng-fullcalendar';
-import {Options} from 'fullcalendar';
+import {Component, ElementRef, Input, OnDestroy, OnInit, SecurityContext, ViewChild, AfterViewInit} from "@angular/core";
+import {FullCalendarComponent} from '@fullcalendar/angular';
 import {States} from "core-components/states.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
@@ -8,29 +7,45 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import * as moment from "moment";
-import {Moment} from "moment";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {StateService} from "@uirouter/core";
-import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {OpTitleService} from "core-components/html/op-title.service";
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { EventInput, EventApi } from '@fullcalendar/core';
+import { EventSourceError } from '@fullcalendar/core/structs/event-source';
+import { take } from 'rxjs/operators';
+import { ToolbarInput } from '@fullcalendar/core/types/input-types';
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+
+interface CalendarViewEvent {
+  el:HTMLElement;
+  event:EventApi;
+  jsEvent:MouseEvent;
+}
 
 @Component({
   templateUrl: './wp-calendar.template.html',
   styleUrls: ['./wp-calendar.sass'],
   selector: 'wp-calendar',
 })
-export class WorkPackagesCalendarController implements OnInit, OnDestroy {
-  calendarOptions:Options;
-  @ViewChild(CalendarComponent, { static: false }) ucCalendar:CalendarComponent;
+export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild(FullCalendarComponent, { static: false }) ucCalendar:FullCalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
   static MAX_DISPLAYED = 100;
 
   public tooManyResultsText:string|null;
+
+  public calendarPlugins = [dayGridPlugin];
+  public calendarHeight:Function;
+  public calendarEvents:Function;
+  public calendarHeader:ToolbarInput|boolean;
+
+  private alreadyLoaded = false;
 
   constructor(readonly states:States,
               readonly $state:StateService,
@@ -39,36 +54,71 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
               readonly querySpace:IsolatedQuerySpace,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly titleService:OpTitleService,
-              readonly urlParamsHelper:UrlParamsHelperService,
               private element:ElementRef,
               readonly i18n:I18nService,
               readonly notificationsService:NotificationsService,
-              private sanitizer:DomSanitizer) { }
+              private sanitizer:DomSanitizer,
+              private configuration:ConfigurationService) { }
 
   ngOnInit() {
     // Clear any old subscribers
     this.querySpace.stopAllSubscriptions.next();
 
-    this.setCalendarOptions();
+    this.setupWorkPackagesListener();
+
+    this.initializeCalendar();
   }
 
   ngOnDestroy() {
     // nothing to do
   }
 
-  public onCalendarInitialized() {
-    this.setupWorkPackagesListener();
+  ngAfterViewInit() {
+    // The full-calendar component's outputs do not seem to work
+    // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
+    // Therefore, setting the outputs via the underlying API
+    this.ucCalendar.getApi().setOption('eventRender', (event:CalendarViewEvent) => { this.addTooltip(event); });
+    this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => { this.toWPFullView(event); });
   }
 
-  public updateTimeframe($event:any) {
-    let calendarView = this.calendarElement.fullCalendar('getView')!;
-    let startDate = (calendarView.start as Moment).format('YYYY-MM-DD');
-    let endDate = (calendarView.end as Moment).format('YYYY-MM-DD');
+  public calendarEventsFunction(fetchInfo:{ start:Date, end:Date, timeZone:string },
+                        successCallback:(events:EventInput[]) => void,
+                        failureCallback:(error:EventSourceError) => void ):void | PromiseLike<EventInput[]> {
+    if (this.alreadyLoaded) {
+      this.alreadyLoaded = false;
+      let events = this.updateResults(this.querySpace.results.value!);
+      successCallback(events);
+    } else {
+      this.querySpace.results.values$().pipe(
+        take(1)
+      ).subscribe((collection:WorkPackageCollectionResource) => {
+        let events = this.updateResults((collection));
+        successCallback(events);
+      });
+    }
+
+
+    this.updateTimeframe(fetchInfo);
+  }
+
+  private initializeCalendar() {
+    this.calendarEvents = this.calendarEventsFunction.bind(this);
+    this.setCalendarHeight();
+    this.setCalendarHeader();
+  }
+
+  public updateTimeframe(fetchInfo:{ start:Date, end:Date, timeZone:string }) {
     let filtersEmpty = this.wpTableFilters.isEmpty;
 
     if (filtersEmpty && this.querySpace.query.value) {
       // nothing to do
-    } else if (filtersEmpty) {
+      return;
+    }
+
+    let startDate = moment(fetchInfo.start).format('YYYY-MM-DD');
+    let endDate = moment(fetchInfo.end).format('YYYY-MM-DD');
+
+    if (filtersEmpty) {
       let queryProps = this.defaultQueryProps(startDate, endDate);
 
       if (this.$state.params.query_props) {
@@ -86,24 +136,22 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     }
   }
 
-  public addTooltip($event:any) {
-    let event = $event.detail.event;
-    let element = $event.detail.element;
-    let workPackage = event.workPackage;
-
-    jQuery(element).tooltip({
-      content: this.contentString(workPackage),
+  public addTooltip(event:CalendarViewEvent) {
+    jQuery(event.el).tooltip({
+      content: this.tooltipContentString(event.event.extendedProps.workPackage),
       items: '.fc-content',
       close: function () { jQuery(".ui-helper-hidden-accessible").remove(); },
       track: true
     });
   }
 
-  public toWPFullView($event:any) {
-    let workPackage = $event.detail.event.workPackage;
+  public toWPFullView(event:CalendarViewEvent) {
+    let workPackage = event.event.extendedProps.workPackage;
 
-    // do not display the tooltip on the wp show page
-    this.removeTooltip($event.detail.jsEvent.currentTarget);
+    if (event.el) {
+      // do not display the tooltip on the wp show page
+      this.removeTooltip(event.el);
+    }
 
     // Ensure checksum is removed to allow queries to load
     this.wpListChecksumService.clear();
@@ -117,8 +165,70 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       { inherit: false });
   }
 
+  public get calendarEditable() {
+    return false;
+  }
+
+  public get calendarEventLimit() {
+    return false;
+  }
+
+  public get calendarLocale() {
+    return this.i18n.locale;
+  }
+
+  public get calendarFixedWeekCount() {
+    return false;
+  }
+
+  public get calendarDefaultView() {
+    if (this.static) {
+      return 'dayGridWeek';
+    } else {
+      return null;
+    }
+  }
+
+  public get calendarFirstDay() {
+    return this.configuration.startOfWeek();
+  }
+
   private get calendarElement() {
-    return jQuery(this.element.nativeElement).find('ng-fullcalendar');
+    return jQuery(this.element.nativeElement).find('.fc-view-container');
+  }
+
+  private setCalendarHeight() {
+    if (this.static) {
+      this.calendarHeight = () => {
+        let heightElement = jQuery(this.element.nativeElement);
+
+        while (!heightElement.height() && heightElement.parent()) {
+          heightElement = heightElement.parent();
+        }
+
+        let topOfCalendar = jQuery(this.element.nativeElement).position().top;
+        let topOfHeightElement = heightElement.position().top;
+
+        return heightElement.height()! - (topOfCalendar - topOfHeightElement);
+      };
+    } else {
+      this.calendarHeight = () => {
+        // -12 for the bottom padding
+        return jQuery(window).height()! - this.calendarElement.offset()!.top - 12;
+      };
+    }
+  }
+
+  public setCalendarHeader() {
+    if (this.static) {
+      this.calendarHeader = false;
+    } else {
+      this.calendarHeader = {
+        right: 'dayGridMonth,dayGridWeek',
+        center: 'title',
+        left: 'prev,next today'
+      };
+    }
   }
 
   private setCalendarsDate() {
@@ -130,7 +240,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     let datesIntervalFilter = _.find(query.filters || [], {'id': 'datesInterval'}) as any;
 
     let calendarDate:any = null;
-    let calendarUnit = 'month';
+    let calendarUnit = 'dayGridMonth';
 
     if (datesIntervalFilter) {
       let lower = moment(datesIntervalFilter.values[0] as string);
@@ -140,14 +250,14 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       calendarDate = lower.add(diff / 2, 'days');
 
       if (diff === 7) {
-        calendarUnit = 'basicWeek';
+        calendarUnit = 'dayGridWeek';
       }
     }
 
     if (calendarDate) {
-      this.calendarElement.fullCalendar('changeView', calendarUnit, calendarDate);
+      this.ucCalendar.getApi().changeView(calendarUnit, calendarDate.toDate());
     } else {
-      this.calendarElement.fullCalendar('changeView', calendarUnit);
+      this.ucCalendar.getApi().changeView(calendarUnit);
     }
   }
 
@@ -155,10 +265,17 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     this.querySpace.results.values$().pipe(
       untilComponentDestroyed(this)
     ).subscribe((collection:WorkPackageCollectionResource) => {
-      this.warnOnTooManyResults(collection);
-      this.mapToCalendarEvents(collection.elements);
+      this.alreadyLoaded = true;
       this.setCalendarsDate();
+
+      this.ucCalendar.getApi().refetchEvents();
     });
+  }
+
+  private updateResults(collection:WorkPackageCollectionResource) {
+    this.warnOnTooManyResults(collection);
+
+    return this.mapToCalendarEvents(collection.elements);
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]) {
@@ -166,7 +283,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       let startDate = this.eventDate(workPackage, 'start');
       let endDate = this.eventDate(workPackage, 'due');
 
-      let exclusiveEnd = moment(endDate).add(1, 'days');
+      let exclusiveEnd = moment(endDate).add(1, 'days').format('YYYY-MM-DD');
 
       return {
         title: workPackage.subject,
@@ -178,12 +295,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       };
     });
 
-    // Instead of using two way bindings we manually trigger
-    // event rendering here. For whatever reasons, when embedded
-    // in a grid, having two way binding will lead to having constantly
-    // removed the events after showing them initially.
-    // It appears as if the two way binding is initialized twice if used.
-    this.ucCalendar.renderEvents(events);
+    return events;
   }
 
   private warnOnTooManyResults(collection:WorkPackageCollectionResource) {
@@ -200,58 +312,6 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     if (this.tooManyResultsText && !this.static) {
       this.notificationsService.addNotice(this.tooManyResultsText);
     }
-  }
-
-  private setCalendarOptions() {
-    if (this.static) {
-      this.calendarOptions = this.staticOptions;
-    } else {
-      this.calendarOptions = this.dynamicOptions;
-    }
-  }
-
-  private get dynamicOptions() {
-    return {
-      editable: false,
-      eventLimit: false,
-      locale: this.i18n.locale,
-      height: () => {
-        // -12 for the bottom padding
-        return jQuery(window).height()! - this.calendarElement.offset()!.top - 12;
-      },
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,basicWeek'
-      },
-      views: {
-        month: {
-          fixedWeekCount: false
-        }
-      }
-    };
-  }
-
-  private get staticOptions() {
-    return {
-      editable: false,
-      eventLimit: false,
-      locale: this.i18n.locale,
-      height: () => {
-        let heightElement = jQuery(this.element.nativeElement);
-
-        while (!heightElement.height() && heightElement.parent()) {
-          heightElement = heightElement.parent();
-        }
-
-        let topOfCalendar = jQuery(this.element.nativeElement).position().top;
-        let topOfHeightElement = heightElement.position().top;
-
-        return heightElement.height()! - (topOfCalendar - topOfHeightElement);
-      },
-      header: false,
-      defaultView: 'basicWeek'
-    };
   }
 
   private defaultQueryProps(startDate:string, endDate:string) {
@@ -273,7 +333,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     }
   }
 
-  private contentString(workPackage:WorkPackageResource) {
+  private tooltipContentString(workPackage:WorkPackageResource) {
     return `
         ${this.sanitizedValue(workPackage, 'type')} #${workPackage.id}: ${this.sanitizedValue(workPackage, 'subject', null)}
         <ul class="tooltip--map">
@@ -313,9 +373,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     return this.sanitizer.sanitize(SecurityContext.HTML, value);
   }
 
-  private removeTooltip(target:ElementRef) {
+  private removeTooltip(element:HTMLElement) {
     // deactivate tooltip so that it is not displayed on the wp show page
-    jQuery(target).tooltip({
+    jQuery(element).tooltip({
       close: function () { jQuery(".ui-helper-hidden-accessible").remove(); },
       disabled: true
     });

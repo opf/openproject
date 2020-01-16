@@ -94,7 +94,7 @@ uk:
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
+    ldap_details: 'Параметри LDAP'
     user_settings: 'Attribute mapping'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
@@ -325,7 +325,7 @@ uk:
         account: "Обліковий запис"
         attr_firstname: "Атрибут Ім'я"
         attr_lastname: "Атрибут Прізвище"
-        attr_login: "Username attribute"
+        attr_login: "Атрибут імені користувача"
         attr_mail: "Атрибут Email"
         base_dn: "База DN"
         host: "Хост"
@@ -717,7 +717,7 @@ uk:
     #kept for backwards compatibility
     issue: "Пакет робіт"
     lastname: "Прізвище"
-    login: "Username"
+    login: "Ім'я користувача"
     mail: "Електронна пошта"
     name: "Ім’я"
     password: "Пароль"
@@ -1043,10 +1043,9 @@ uk:
         add_groups: "Додати нові групи атрибутів"
         rename_groups: "Перейменувати групи атрибутів"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Фільтрування та сортування по власних полях доступне тільки у корпоративній версії."
   enumeration_activities: "Дії (облік часу)"
   enumeration_work_package_priorities: "Пріоритети робочого пакету"
-  enumeration_system_activity: "Системна активність"
   enumeration_reported_project_statuses: "Повідомлення про статус проекту"
   error_auth_source_sso_failed: "Єдиний вхід (SSO) для користувача %{value} не вдалося "
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
@@ -1134,7 +1133,7 @@ uk:
   general_text_yes: "так"
   general_text_No: "Ні"
   general_text_Yes: "Так"
-  general_text_true: "true"
+  general_text_true: "вірно"
   general_text_false: "хибне значення"
   gui_validation_error: "1 помилка"
   gui_validation_error_plural: "%{count} помилок"
@@ -1629,7 +1628,7 @@ uk:
   label_used_by_types: "Використовується за типами"
   label_used_in_projects: "Використовується в проектах"
   label_user: "Користувач"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Користувачі та дозволи"
   label_user_named: "User %{name}"
   label_user_activity: "Дії користувача %{value}"
   label_user_anonymous: "Анонімний режим"
@@ -1642,7 +1641,7 @@ uk:
   label_user_new: "Новий користувач"
   label_user_plural: "Користувачі"
   label_user_search: "Знайти користувача:"
-  label_user_settings: "User settings"
+  label_user_settings: "Налаштування користувача"
   label_version_new: "Нова версія"
   label_version_plural: "Версії"
   label_version_sharing_descendants: "З підпроектами"
@@ -2133,13 +2132,13 @@ uk:
   setting_display_subprojects_work_packages: "Дисплей підпроекти пакети робіт на основні проекти за замовчуванням"
   setting_emails_footer: "Листи до нижнього колонтитула"
   setting_emails_header: "Заголовок листа"
-  setting_email_login: "Use email as login"
+  setting_email_login: "Використовуйте електронну пошту як логін"
   setting_enabled_scm: "Увімкнені SCM"
   setting_feeds_enabled: "Увімкнути канали"
   setting_feeds_limit: "Обмеження вмісту каналу"
   setting_file_max_size_displayed: "Максимальний розмір текстового файлу для відображення"
   setting_host_name: "Ім'я хоста"
-  setting_invitation_expiration_days: "Activation email expires after"
+  setting_invitation_expiration_days: "Повідомлення про активацію закінчується"
   setting_work_package_done_ratio: "Розрахувати пакет робота з співвідношення"
   setting_work_package_done_ratio_field: "Використовуйте поле робочого пакету"
   setting_work_package_done_ratio_status: "Використовуйте поле робочого пакету"
@@ -2498,7 +2497,7 @@ uk:
     Надіслати ще одне запрошення з новим маркером, якщо старий минув або користувач не отримав оригінальну електронну адресу. Можна також використовувати для активних користувачів вибір нового методу аутентифікації. При використанні активних користувачів їх статус буде змінено на "запрошений".
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      Якщо увімкнено, користувач не зможе вибрати реєстраційний запис під час реєстрації. Замість цього їхня адреса електронної пошти слугуватиме логіном. Адміністратор може змінити вхід окремо.
   queries:
     apply_filter: Застосувати попередньо налаштований фільтр
   top_menu:

@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'version create', type: :feature do
+describe 'version create', type: :feature, js: true do
   let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,
@@ -48,7 +48,7 @@ describe 'version create', type: :feature do
       fill_in 'Name', with: new_version_name
       click_on 'Create'
 
-      expect(page).to have_current_path(settings_project_path(project, tab: 'versions'))
+      expect(page).to have_current_path(settings_versions_project_path(project))
       expect(page).to have_content new_version_name
     end
 

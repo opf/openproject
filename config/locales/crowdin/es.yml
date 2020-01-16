@@ -1011,7 +1011,6 @@ es:
         description_html: "Filtrar y ordenar en campos personalizados es una característica de edición empresarial."
   enumeration_activities: "Actividades (tiempo de seguimiento)"
   enumeration_work_package_priorities: "Prioridades del paquete de trabajo"
-  enumeration_system_activity: "Actividad del sistema"
   enumeration_reported_project_statuses: "Estatus del proyecto reportado"
   error_auth_source_sso_failed: "El intento de inicio de sesión único (SSO) para el usuario “%{value}” falló"
   error_can_not_archive_project: "Este proyecto no se puede archivar: %{errors}"

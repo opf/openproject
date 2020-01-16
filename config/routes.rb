@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -163,15 +163,10 @@ OpenProject::Application.routes.draw do
 
   resources :projects, except: %i[show edit] do
     member do
-      # this route let's you access the project specific settings (by tab)
-      #
-      #   settings_project_path(@project)
-      #     => "/projects/1/settings"
-      #
-      #   settings_project_path(@project, tab: 'members')
-      #     => "/projects/1/settings/members"
-      #
-      get 'settings(/:tab)', controller: 'project_settings', action: 'show', as: :settings
+      ProjectSettingsHelper.project_settings_tabs.each do |tab|
+        get "settings/#{tab[:name]}", controller: "project_settings/#{tab[:name]}", action: 'show', as: "settings_#{tab[:name]}"
+      end
+      get "settings", controller: "project_settings/generic", action: 'show', as: "project_settings"
 
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
@@ -180,6 +175,7 @@ OpenProject::Application.routes.draw do
             constraints: { coming_from: /(admin|settings)/ }
       match 'copy_from_(:coming_from)' => 'copy_projects#copy', via: :post, as: :copy,
             constraints: { coming_from: /(admin|settings)/ }
+
       put :modules
       put :custom_fields
       put :archive
@@ -196,7 +192,7 @@ OpenProject::Application.routes.draw do
       get :level_list
     end
 
-    resource :enumerations, controller: 'project_enumerations', only: %i[update destroy]
+    resource :time_entry_activities, controller: 'projects/time_entry_activities', only: %i[update]
 
     resources :versions, only: %i[new create] do
       collection do

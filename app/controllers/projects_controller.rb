@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -108,7 +108,7 @@ class ProjectsController < ApplicationController
     @errors = service_call.errors
 
     flash[:notice] = t(:notice_successful_update) if service_call.success?
-    redirect_to settings_project_path(@altered_project)
+    redirect_to settings_generic_project_path(@altered_project)
   end
 
   def update_identifier
@@ -119,7 +119,7 @@ class ProjectsController < ApplicationController
 
     if service_call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to settings_project_path(@project)
+      redirect_to settings_generic_project_path(@project)
     else
       render action: 'identifier'
     end
@@ -132,7 +132,7 @@ class ProjectsController < ApplicationController
       flash[:error] = @project.errors.full_messages
     end
 
-    redirect_to settings_project_path(@project.identifier, tab: 'types')
+    redirect_to settings_types_project_path(@project.identifier)
   end
 
   def modules
@@ -140,7 +140,7 @@ class ProjectsController < ApplicationController
     # Ensure the project is touched to update its cache key
     @project.touch
     flash[:notice] = I18n.t(:notice_successful_update)
-    redirect_to settings_project_path(@project, tab: 'modules')
+    redirect_to settings_modules_project_path(@project)
   end
 
   def custom_fields
@@ -154,7 +154,7 @@ class ProjectsController < ApplicationController
         raise ActiveRecord::Rollback
       end
     end
-    redirect_to settings_project_path(@project, tab: 'custom_fields')
+    redirect_to settings_custom_fields_project_path(@project)
   end
 
   def archive

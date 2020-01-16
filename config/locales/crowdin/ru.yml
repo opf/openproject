@@ -67,14 +67,14 @@ ru:
       no_results_content_text: Создать новый способ аутентификации
   ldap_auth_sources:
     technical_warning_html: |
-      Эта LDAP форма требует технических знаний вашей LDAP / Active Directory.
+      Эта LDAP форма требует технических знаний по LDAP / Active Directory.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Пожалуйста, посетите нашу документацию для подробных инструкций</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Пожалуйста, ознакомьтесь с документацией для подробных инструкций</a>.
     attribute_texts:
       name: Произвольное имя подключения LDAP
-      host: Имя хоста или IP-адрес
-      login_map: Ключ атрибута в LDAP, который используется для идентификации уникального входа пользователя. Обычно это будет `uid` или `samAccountName`.
-      generic_map: Ключ атрибута в LDAP, сопоставленный с атрибутом OpenProject `%{attribute}
+      host: Имя хоста или IP-адрес LDAP
+      login_map: Ключ атрибута в LDAP, который используется для определения уникального логина пользователя. Обычно это `uid` или `samAccountName`.
+      generic_map: Ключ атрибута в LDAP, сопоставленный с атрибутом OpenProject `%{attribute}`
       admin_map_html: "Необязательно: Ключ атрибута в LDAP, который <strong>при представлении</strong> помечает пользователя администратором. Оставьте пустым, если сомневаетесь."
       system_user_dn_html: |
         Введите DN пользователя системы, используемого для доступа только для чтения.
@@ -1045,7 +1045,6 @@ ru:
         description_html: "Фильтрация и сортировка по настраиваемым полям - это функция корпоративной версии."
   enumeration_activities: "Деятельность (отслеживание времени)"
   enumeration_work_package_priorities: "Приоритеты пакета работ"
-  enumeration_system_activity: "Активность системы"
   enumeration_reported_project_statuses: "Перечень отчетов о статусах проекта"
   error_auth_source_sso_failed: "Сбой единого входа (SSO) для пользователя «%{value}»"
   error_can_not_archive_project: "Этот проект невозможно заархивировать: %{errors}"
@@ -2268,8 +2267,8 @@ ru:
   text_work_package_category_destroy_question: "Некоторые пакеты работ (%{count}) принадлежат для этой категории. Что вы хотите сделать?"
   text_work_package_category_reassign_to: "Переназначить пакеты работ этой категории"
   text_work_package_updated: "%{author} обновил пакет работ %{id}."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_added: "Вы были добавлены в качестве наблюдателя в пакет работ %{id} от %{watcher_changer}."
+  text_work_package_watcher_removed: "Вы были удалены из наблюдателей пакета работ %{id} пользователем %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
@@ -2605,8 +2604,8 @@ ru:
         invalid_user_assigned_to_work_package: "Выбранный пользователь не может быть «%{property}» для этого пакета работ."
         start_date: "Дата начала не может быть задана на родительских  пакетах работ."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "недопустимый gzip: %{message}"
+        invalid_json: "недопустимый json: %{message}"
     resources:
       schema: 'Схема'
   doorkeeper:

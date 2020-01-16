@@ -2,82 +2,82 @@
 sv:
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
-    issues: "Issues"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
-    no_viewpoints: 'No viewpoints'
+    label_imported_failed: 'Misslyckad import av BCF-ämnen'
+    label_imported_successfully: 'BCF-ämnen har importerats'
+    issues: "Problem"
+    recommended: 'rekommenderad'
+    not_recommended: 'rekommenderas inte'
+    no_viewpoints: 'Inga vyer'
     new_badge: "Ny"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "BCF-fil ogiltig"
     x_bcf_issues:
-      one: 'One BCF issue'
-      other: '%{count} BCF issues'
+      one: 'Ett BCF-problem'
+      other: '%{count} BCF-ärenden'
     bcf_xml:
-      xml_file: 'BCF XML File'
-      import_title: 'Import'
+      xml_file: 'BCF XML-fil'
+      import_title: 'Importera'
       export: 'Exportera'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      import_update_comment: '(Uppdaterad i BCF-import)'
+      import_failed: 'Kan inte importera BCF-fil: %{error}'
+      import_successful: 'Importerade %{count} BCF-ärenden'
+      import_canceled: 'BCF-XML-import avbruten.'
+      type_not_active: "Ärendetypen är inte aktiverad för detta projekt."
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
-        button_proceed: 'Proceed'
-        button_back_to_list: 'Back to list'
-        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
-        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
-        unknown_emails_found: 'Unknown email addresses found'
-        unknown_property: 'Unknown property'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        num_issues_found: '%{x_bcf_issues} finns i BCF-XML-filen, deras detaljer listas nedan.'
+        button_prepare: 'Förbered import'
+        button_perform_import: 'Bekräfta import'
+        button_proceed: 'Fortsätt'
+        button_back_to_list: 'Tillbaka till listan'
+        no_permission_to_add_members: 'Du har inte tillräcklig behörighet för att lägga till dem som medlemmar i projektet.'
+        contact_project_admin: 'Kontakta din projektadministratör för att lägga till dem som medlemmar och börja importera igen.'
+        continue_anyways: 'Vill du fortsätta och avsluta importen ändå?'
+        description: "Ange en BCF-XML v2.1-fil att importera till detta projekt. Du kan undersöka dess innehåll innan du utför importen."
+        invalid_types_found: 'Ogiltiga namn på trådtyp hittades'
+        invalid_statuses_found: 'Ogiltiga statusnamn hittades'
+        invalid_priorities_found: 'Ogiltiga prioritetsnamn hittades'
+        invalid_emails_found: 'Ogiltiga e-postadresser hittade'
+        unknown_emails_found: 'Okända e-postadresser hittade'
+        unknown_property: 'Okänd egenskap'
+        non_members_found: 'Icke projektmedlemmar hittade'
+        import_types_as: 'Ställ in alla dessa typer till'
+        import_statuses_as: 'Ställ in alla dessa statusar till'
+        import_priorities_as: 'Sätt alla dessa prioriteringar till'
+        invite_as_members_with_role: 'Bjud in dem som medlemmar till projektet "%{project}" med roll'
+        add_as_members_with_role: 'Lägg till dem som medlemmar i projektet "%{project}" med roll'
+        no_type_provided: 'Ingen typ angiven'
+        no_status_provided: 'Ingen status angiven'
+        no_priority_provided: 'Ingen prioritet angiven'
+        perform_description: "Vill du importera eller uppdatera ärenden som listas ovan?"
+        replace_with_system_user: 'Ersätt dem med "System"-användare'
+        import_as_system_user: 'Importera dem som "System" användare.'
         what_to_do: "Vad vill du göra?"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        work_package_has_newer_changes: "Föråldrad! Detta ämne uppdaterades inte eftersom de senaste ändringarna på servern var nyare än \"ModifiedDate\" i det importerade ämnet. Kommentar till ämnet importerades."
   export:
     format:
       bcf: "BCF-XML"
   attributes:
     bcf_thumbnail: "BCF snapshot"
   project_module_bcf: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_view_linked_issues: "Visa BCF-problem"
+  permission_manage_bcf: "Importera och hantera BCF-problem"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "Full tillgång till BCF v2.1 API"
+      bcf_v2_1_text: "Applikationen kommer att få fullständig läs- och skrivåtkomst till OpenProject BCF API v2.1 för att utföra åtgärder åt dig."
   activerecord:
     errors:
       models:
         bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
-          invalid_components: "components is invalid."
-          invalid_lines: "lines is invalid."
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
-          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
-          no_json: "Is not a well structured json."
-          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
-          snapshot_data_blank: "snapshot_data needs to be provided."
-          unsupported_key: "An unsupported json property is included."
+          bitmaps_not_writable: "bitmaps är inte skrivbara eftersom de ännu inte har implementerats."
+          index_not_integer: "index är inte ett heltal."
+          invalid_clipping_planes: "urklipp är ogiltigt."
+          invalid_components: "komponenterna är ogiltiga."
+          invalid_lines: "rader är ogiltiga."
+          invalid_orthogonal_camera: "ortogonal_kamera är ogiltig."
+          invalid_perspective_camera: "perspektivkamera är ogiltig."
+          mismatching_guid: "Guidet i json_viewpoint matchar inte modellens guid."
+          no_json: "Är inte en välstrukturerad json."
+          snapshot_type_unsupported: "snapshot_type måste vara antingen 'png' eller 'jpg'."
+          snapshot_data_blank: "snapshot_data måste tillhandahållas."
+          unsupported_key: "En icke stödd json egendom ingår."

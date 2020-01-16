@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -42,32 +42,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <section class="form--section">
     <%= render partial: "projects/form/required_storage",
                locals: { project: project, storage: project.count_required_storage } %>
-  </section>
-<% end %>
-
-<% if render_modules %>
-  <section class="form--section">
-    <%= render partial: "projects/form/modules", locals: { form: f } %>
-  </section>
-
-  <%= nonced_javascript_tag 'observeProjectModules();' %>
-<% end %>
-
-<% if ((project.module_enabled?('work_package_tracking')) && render_types) %>
-  <section class="form--section">
-    <%= render partial: 'projects/form/types',
-               locals: { f: f, project: project, withControlls: false} %>
-  </section>
-<% end %>
-
-<% if render_custom_fields %>
-  <section class="form--section">
-    <%= render partial: 'projects/form/custom_fields',
-               locals: {
-                 form: f,
-                 project: project,
-                 work_package_custom_fields: @wp_custom_fields
-                } %>
   </section>
 <% end %>
 

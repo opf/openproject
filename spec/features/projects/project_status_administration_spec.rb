@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,7 +69,7 @@ describe 'Projects status administration', type: :feature, js: true do
       .to have_content('Successful creation.')
 
     # Check that the status has been set correctly
-    visit settings_project_path(Project.last)
+    visit settings_generic_project_path(Project.last)
 
     expect(page)
       .to have_select('Status', selected: 'On track')

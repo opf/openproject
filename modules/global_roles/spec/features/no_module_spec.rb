@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,12 +48,9 @@ describe 'Global role: No module', type: :feature, js: true do
     #   And I am already admin
     # When I go to the modules tab of the settings page for the project "test"
     #                                                     Then I should not see "Global"
-    visit settings_project_path(project, tab: 'modules')
+    visit settings_modules_project_path(project)
 
-    expect(page).to have_selector('#tab-content-modules')
-    page.within('#tab-content-modules') do
-      expect(page).to have_text 'Activity'
-      expect(page).to have_no_text 'Foo'
-    end
+    expect(page).to have_text 'Activity'
+    expect(page).to have_no_text 'Foo'
   end
 end

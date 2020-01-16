@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,67 +28,12 @@
 #++
 
 class ProjectSettingsController < ApplicationController
-  menu_item :settings
-
   before_action :find_project
   before_action :authorize
-  before_action :check_valid_tab
-  before_action :get_tab_settings
 
   def show; end
 
   private
-
-  def settings_info
-    @altered_project = @project
-  end
-
-  def settings_custom_fields
-    @wp_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
-  end
-
-  def settings_repository
-    @repository = @project.repository || new_repository
-  end
-
-  def new_repository
-    return unless params[:scm_vendor]
-
-    service = Scm::RepositoryFactoryService.new(@project, params)
-    if service.build_temporary
-      @repository = service.repository
-    else
-      logger.error("Cannot create repository for #{params[:scm_vendor]}")
-      flash[:error] = service.build_error
-      nil
-    end
-  end
-
-  def settings_types
-    @types = ::Type.all
-  end
-
-  def check_valid_tab
-    @selected_tab =
-      if params[:tab]
-        helpers.project_settings_tabs.detect { |t| t[:name] == params[:tab] }
-      else
-        helpers.project_settings_tabs.first
-      end
-
-    unless @selected_tab
-      render_404
-    end
-  end
-
-  ##
-  # Only load the needed elements for the current tab
-  def get_tab_settings
-    callback = "settings_#{@selected_tab[:name]}"
-    if respond_to?(callback, true)
-      send(callback)
-    end
-  end
 
   def find_project
     @project = Project.find(params[:id])

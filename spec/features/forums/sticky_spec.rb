@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,7 +56,7 @@ describe 'sticky messages', type: :feature do
 
   before do
     login_as user
-    visit project_forums_path(forum.project)
+    visit project_forum_path(forum.project, forum)
   end
 
   def expect_order_of_messages(*order)
@@ -75,7 +75,7 @@ describe 'sticky messages', type: :feature do
     check('message[sticky]')
     click_button('Save')
 
-    visit project_forums_path(forum.project)
+    visit project_forum_path(forum.project, forum)
 
     expect_order_of_messages(message2, message1, message3)
   end

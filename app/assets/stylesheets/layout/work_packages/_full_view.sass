@@ -1,6 +1,6 @@
 //-- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -25,6 +25,11 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
+
+.router--work-packages-full-view:not(.router--work-packages-full-create)
+  @include extended-content--bottom
+  @include extended-content--right
+  @include extended-content--top
 
 .work-packages--show-view
   display: flex
@@ -199,8 +204,6 @@
 
   > .toolbar-container
     margin: 10px 0 5px 0
-    padding-right: 15px
-
 .work-packages--subject-type-row
   display: flex
   position: relative

@@ -997,7 +997,6 @@ zh-CN:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "活动 （时间跟踪）"
   enumeration_work_package_priorities: "工作包优先级"
-  enumeration_system_activity: "系统活动"
   enumeration_reported_project_statuses: "报告的项目状态"
   error_auth_source_sso_failed: "用户 \"%{value}\" 的单次登录 (SSO) 失败"
   error_can_not_archive_project: "此项目无法存档：%{errors}"

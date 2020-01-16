@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,13 +25,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'model_contract'
 
 module TimeEntries
   class BaseContract < ::ModelContract
+    include Concerns::AssignableValuesContract
+    include Concerns::AssignableCustomFieldValues
+
+    delegate :work_package,
+             :project,
+             :available_custom_fields,
+             :new_record?,
+             to: :model
+
     def self.model
       TimeEntry
     end
@@ -46,13 +55,25 @@ module TimeEntries
 
     attribute :project_id
     attribute :work_package_id
-    attribute :activity_id
+    attribute :activity_id do
+      validate_activity_active
+    end
     attribute :hours
     attribute :comments
+    attribute_alias :comments, :comment
+
     attribute :spent_on
     attribute :tyear
     attribute :tmonth
     attribute :tweek
+
+    def assignable_activities
+      if !model.project
+        TimeEntryActivity.none
+      else
+        TimeEntryActivity::Scopes::ActiveInProject.fetch(model.project)
+      end
+    end
 
     private
 
@@ -71,6 +92,10 @@ module TimeEntries
 
     def validate_project_is_set
       errors.add :project_id, :invalid if model.project.nil?
+    end
+
+    def validate_activity_active
+      errors.add :activity_id, :inclusion if model.activity_id && !assignable_activities.exists?(model.activity_id)
     end
 
     def work_package_invisible?

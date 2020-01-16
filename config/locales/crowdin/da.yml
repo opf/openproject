@@ -1014,7 +1014,6 @@ da:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
   enumeration_activities: "Aktiviteter (styring af tid)"
   enumeration_work_package_priorities: "Prioritering af arbejdspakker"
-  enumeration_system_activity: "Systemaktivitet"
   enumeration_reported_project_statuses: "Rapporteret projektstatus"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
   error_can_not_archive_project: "Dette projekt kan ikke arkiveres: %{errors}"

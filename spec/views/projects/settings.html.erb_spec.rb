@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,13 @@
 
 require 'spec_helper'
 
-describe 'project_settings/show', type: :view do
+describe 'project_settings/generic', type: :view do
   let(:project) { FactoryBot.build_stubbed(:project) }
 
   describe 'project copy permission' do
     before do
       assign(:project, project)
-      allow(view).to receive(:render_tabs).and_return('')
+      allow(view).to receive(:labelled_tabular_form_for).and_return('')
     end
 
     context 'when project copy is allowed' do
@@ -67,7 +67,7 @@ describe 'project_settings/show', type: :view do
       assign(:project, project)
       allow(project).to receive(:copy_allowed?).and_return(true)
       allow(User).to receive(:current).and_return(admin)
-      allow(view).to receive(:render_tabs).and_return('')
+      allow(view).to receive(:labelled_tabular_form_for).and_return('')
       render
     end
 
@@ -84,7 +84,7 @@ describe 'project_settings/show', type: :view do
       assign(:project, project)
       allow(project).to receive(:copy_allowed?).and_return(true)
       allow(User).to receive(:current).and_return(non_admin)
-      allow(view).to receive(:render_tabs).and_return('')
+      allow(view).to receive(:labelled_tabular_form_for).and_return('')
       render
     end
 

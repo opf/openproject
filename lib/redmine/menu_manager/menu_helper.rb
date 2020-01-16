@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -243,11 +243,23 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def extract_node_details(node, project = nil)
-    url = node_url(node, project)
+    url = allowed_node_url(node, project)
     caption = node.caption(project)
     selected = node_or_children_selected?(node)
 
     [caption, url, selected]
+  end
+
+  def allowed_node_url(node, project)
+    user = User.current
+    if !(node_action_allowed? node, project, user) && node.allow_deeplink?
+      allowed_child = node.children.find { |child| node_action_allowed? child, project, user }
+      if allowed_child
+        node_url allowed_child, project
+      end
+    else
+      node_url node, project
+    end
   end
 
   def node_url(node, project)
@@ -290,11 +302,27 @@ module Redmine::MenuManager::MenuHelper
     end
 
     if project
-      user&.allowed_to?(node.url(project), project)
+      allowed_project_node?(node, project, user)
     else
       # outside a project, all menu items allowed
       true
     end
+  end
+
+  def allowed_project_node?(node, project, user)
+    if node_action_allowed?(node, project, user)
+      true
+    elsif node.allow_deeplink?
+      node.children.any? do |child|
+        node_action_allowed?(child, project, user)
+      end
+    else
+      false
+    end
+  end
+
+  def node_action_allowed?(node, project, user)
+    user&.allowed_to?(node.url(project), project)
   end
 
   def visible_node?(menu, node)

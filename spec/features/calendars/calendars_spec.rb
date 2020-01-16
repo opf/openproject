@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -107,7 +107,7 @@ describe 'Work package calendars', type: :feature, js: true do
     filters.expect_filter_count 2
 
     # navigate to the next month
-    find('.fc-left button.fc-next-button').click
+    find('.fc-next-button').click
 
     expect(page)
       .to have_no_selector '.fc-event-container', text: current_work_package.subject
@@ -133,7 +133,7 @@ describe 'Work package calendars', type: :feature, js: true do
     future_url = current_url
 
     # navigate back a month
-    find('.fc-left button.fc-prev-button').click
+    find('.fc-prev-button').click
 
     expect(page)
       .to have_selector '.fc-event-container', text: current_work_package.subject

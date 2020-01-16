@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -301,7 +301,8 @@ class PermittedParams
 
   def time_entry
     permitted_params = params.fetch(:time_entry, {}).permit(
-      :hours, :comments, :work_package_id, :activity_id, :spent_on)
+      :hours, :comments, :work_package_id, :activity_id, :spent_on
+    )
 
     permitted_params.merge(custom_field_values(:time_entry, required: false))
   end
@@ -377,6 +378,10 @@ class PermittedParams
     end
 
     whitelist.permit!
+  end
+
+  def time_entry_activities_project
+    params.permit(time_entry_activities_project: %i[activity_id active]).require(:time_entry_activities_project)
   end
 
   def watcher

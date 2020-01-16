@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -388,13 +388,18 @@ describe ::API::V3::Utilities::PathHelper do
   end
 
   context 'time_entry paths' do
-    it_behaves_like 'index', :time_entry
-    it_behaves_like 'show', :time_entry
+    it_behaves_like 'resource', :time_entry
 
-    describe '.time_entries_activity' do
+    describe '#time_entries_activity' do
       subject { helper.time_entries_activity 42 }
 
       it_behaves_like 'api v3 path', '/time_entries/activities/42'
+    end
+
+    describe '#time_entries_available_projects' do
+      subject { helper.time_entries_available_projects }
+
+      it_behaves_like 'api v3 path', '/time_entries/available_projects'
     end
   end
 

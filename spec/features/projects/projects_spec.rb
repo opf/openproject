@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -159,7 +159,7 @@ describe 'Projects', type: :feature do
       click_on 'Update'
 
       expect(page).to have_content 'Successful update.'
-      expect(current_path).to eq '/projects/foo-bar/settings'
+      expect(current_path).to eq '/projects/foo-bar/settings/generic'
       expect(Project.first.identifier).to eq 'foo-bar'
     end
 
@@ -205,7 +205,7 @@ describe 'Projects', type: :feature do
       project.custom_field_values.last.value = 'FOO'
       project.save!
 
-      visit settings_project_path(id: project.id, tab: 'info')
+      visit settings_generic_project_path(project.id)
 
       expect(page).to have_content 'Required Foo'
       expect(page).to have_content 'Optional Foo'

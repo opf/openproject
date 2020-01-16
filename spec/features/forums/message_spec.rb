@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,6 +51,7 @@ describe 'messages', type: :feature, js: true do
 
   scenario 'adding, checking replies, replying' do
     index_page.visit!
+    click_link forum.name
 
     create_page = index_page.click_create_message
 
@@ -68,6 +69,7 @@ describe 'messages', type: :feature, js: true do
     show_page.expect_content('There is no message here')
 
     index_page.visit!
+    click_link forum.name
     index_page.expect_listed(subject: 'The message is',
                              replies: 0)
 
@@ -86,6 +88,7 @@ describe 'messages', type: :feature, js: true do
                            content: 'But, but there should be one')
 
     index_page.visit!
+    click_link forum.name
 
     index_page.expect_listed(subject: 'The message is',
                              replies: 1,
@@ -109,6 +112,7 @@ describe 'messages', type: :feature, js: true do
     expect(page).to have_selector('blockquote', text: 'But, but there should be one')
 
     index_page.visit!
+    click_link forum.name
     index_page.expect_listed(subject: 'The message is',
                              replies: 2,
                              last_message: 'And now to something completely different')
