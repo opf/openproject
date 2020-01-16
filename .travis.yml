@@ -45,6 +45,7 @@ branches:
   only:
     - master
     - dev
+    - bim-dev
     - /^(stable|release)\/.*$/
 
 env:
