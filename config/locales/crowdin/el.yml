@@ -74,8 +74,8 @@ el:
       name: Αυθαίρετο όνομα της σύνδεσης LDAP
       host: Όνομα εξυπηρετητή LDAP ή διεύθυνση IP
       login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      generic_map: Το κλειδί χαρακτηριστικού στο LDAP είναι χαρτογραφημένο στο χαρακτηριστικό του OpenProject `%{attribute}`
+      admin_map_html: "Προαιρετικό: Το κλειδί χαρακτηριστικού στο LDAP που <strong>αν υπάρχει</strong> επισημαίνει τον χρήστη OpenProject ως διαχειριστή. Αφήστε το κενό αν αμφιβάλλετε."
       system_user_dn_html: |
         Enter the DN of the system user used for read-only access.
         <br/>
@@ -95,10 +95,9 @@ el:
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
     ldap_details: 'Λεπτομέρειες LDAP'
-    user_settings: 'Attribute mapping'
+    user_settings: 'Χαρτογράφηση χαρακτηριστικού'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      Τα ακόλουθα πεδία σχετίζονται με το πως οι χρήστες δημιουργούνται στο OpenProject από τις καταχωρήσεις LDAP και ποια χαρακτηριστικά LDAP χρησιμοποιούνται για να ορίσουν τα χαρακτηριστικά ενός χρήστη OpenProject (χαρτογράφηση χαρακτηριστικού).
     tls_mode:
       plain: 'κανένα'
       simple_tls: 'απλό_tls'
@@ -478,7 +477,7 @@ el:
         could_not_be_copied: "δεν ήταν δυνατή η (πλήρης) αντιγραφή."
         does_not_exist: "δεν υπάρχει."
         error_unauthorized: "may not be accessed."
-        error_readonly: "was attempted to be written but is not writable."
+        error_readonly: "επιχειρήθηκε να εγγραφεί αλλά δεν ήταν εγγράψιμο."
         empty: "δεν μπορεί να είναι κενό."
         even: "πρέπει να είναι άρτιος."
         exclusion: "είναι δεσμευμένο."
@@ -2229,8 +2228,8 @@ el:
   text_work_package_category_destroy_question: "Κάποια πακέτα εργασίας (%{count}) έχουν ανατεθεί σε αυτή την κατηγορία. Τι θέλετε να κάνετε;"
   text_work_package_category_reassign_to: "Επανεκχώρηση πακέτων εργασίας σε αυτή την κατηγορία"
   text_work_package_updated: "Το πακέτο εργασίας %{id} έχει ενημερωθεί από τον(-ην) %{author}."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_added: "Έχετε προστεθεί ως παρατηρητής για το Πακέτο εργασίας %{id} από τον χρήστη %{watcher_changer}."
+  text_work_package_watcher_removed: "Έχετε αφαιρεθεί από παρατηρητής για το Πακέτο εργασίας %{id} από τον χρήστη %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;"
   text_work_packages_ref_in_commit_messages: "Αναφορά και επιδιόρθωση πακέτων εργασίας σε μηνύματα δέσμευσης"
   text_journal_added: "%{label} %{value} προστέθηκε"

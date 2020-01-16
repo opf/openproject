@@ -36,4 +36,4 @@ el:
         spentUnits: "Δαπανημένες μονάδες"
     button_log_costs: "Log unit costs"
     label_hour: "ώρα"
-    label_hours: "hours"
+    label_hours: "ώρες"
