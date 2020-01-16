@@ -13,9 +13,15 @@
     </filter-container>
 
     <!-- TABLE + TIMELINE horizontal split -->
-    <wp-table [projectIdentifier]="projectIdentifier"
+    <wp-table *ngIf="!configuration.isCardView"
+              [projectIdentifier]="projectIdentifier"
               [configuration]="configuration"
               class="work-packages-split-view--tabletimeline-content"></wp-table>
+
+    <!-- GRID representation of the WP -->
+    <div class="work-packages-embedded-view--grid-view">
+      <wp-grid *ngIf="configuration.isCardView"></wp-grid>
+    </div>
 
     <!-- Footer -->
     <div class="work-packages-split-view--tabletimeline-footer hide-when-print">

@@ -62,6 +62,14 @@ $table-timeline--compact-row-height: 28px
     .generic-table--sort-header
       font-size: 12px
 
+  .work-packages-embedded-view--grid-view
+    height: 100%
+    overflow: auto
+    @include styled-scroll-bar
+    
+    .wp-cards-container.-horizontal
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+
   &.-compact-tables
     .wp-table--row
       border-bottom: none !important

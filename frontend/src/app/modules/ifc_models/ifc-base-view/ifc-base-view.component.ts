@@ -45,11 +45,12 @@ export class IfcBaseViewComponent {
   constructor() {
     this.configuration = {
       actionsColumnEnabled: false,
-      columnMenuEnabled: true,
+      columnMenuEnabled: false,
       contextMenuEnabled: false,
       inlineCreateEnabled: false,
       withFilters: true,
       showFilterButton: false,
+      isCardView: true
     };
 
     this.filters.push({ status: {
