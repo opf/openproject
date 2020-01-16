@@ -39,14 +39,18 @@ import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-exp
 import {BcfAddViewpointButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-add-viewpoint-button.component";
 import {RevitBridgeService} from "core-app/modules/bcf/services/revit-bridge.service";
 import {BcfShowViewpointButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-show-viewpoint-button.component";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {OpenProjectHeaderInterceptor} from "core-app/modules/hal/http/openproject-header-interceptor";
 
 @NgModule({
   imports: [
     OpenprojectCommonModule,
     NgxGalleryModule,
+    HttpClientModule
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: initializeBcfDisplayFields, deps: [DisplayFieldService], multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     BcfDetectorService,
     BcfPathHelperService,
     RevitBridgeService
