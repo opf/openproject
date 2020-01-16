@@ -27,18 +27,26 @@
 // ++
 
 import {NgModule} from "@angular/core";
-import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer.component";
+import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.component";
+import {IfcBaseViewComponent} from "core-app/modules/ifc_models/ifc-base-view/ifc-base-view.component";
+import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 
 @NgModule({
+  imports: [
+    OpenprojectWorkPackagesModule
+  ],
   providers: [
   ],
   declarations: [
+    IfcBaseViewComponent,
     IFCViewerComponent
   ],
   exports: [
+    IfcBaseViewComponent,
     IFCViewerComponent
   ],
   entryComponents: [
+    IfcBaseViewComponent,
     IFCViewerComponent
   ]
 })

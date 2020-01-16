@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,15 +23,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-/// <reference path="xeokit.d.ts" />
+/// <reference path="../xeokit/xeokit.d.ts" />
 
 import {Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
-import {XeokitServer} from "./xeokit-server";
+import {XeokitServer} from "../xeokit/xeokit-server";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 
 @Component({
