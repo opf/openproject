@@ -132,15 +132,6 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
       this.isResultEmpty = this.workPackages.length === 0;
       this.cdRef.detectChanges();
     });
-
-    // Update selection state
-    this.wpTableSelection.selection$()
-      .pipe(
-        untilComponentDestroyed(this)
-      )
-      .subscribe(() => {
-        this.cdRef.detectChanges();
-      });
   }
 
   ngAfterViewInit() {

@@ -64,12 +64,48 @@ module Pages
       card(work_package).click
     end
 
+    def deselect_work_package(work_package)
+      element = find("wp-single-card[data-work-package-id='#{work_package.id}']")
+
+      page.driver.browser.action.key_down(:command)
+        .click(element.native)
+        .key_up(:command)
+        .perform
+    end
+
+    def select_work_package_with_shift(work_package)
+      element = find("wp-single-card[data-work-package-id='#{work_package.id}']")
+
+      page.driver.browser.action.key_down(:shift)
+        .click(element.native)
+        .key_up(:shift)
+        .perform
+    end
+
+    def select_all_work_packages
+      find('body').send_keys [:control, 'a']
+      expect(page).to have_no_selector '#work-package-context-menu'
+    end
+
+    def deselect_all_work_packages
+      find('body').send_keys [:control, 'd']
+      expect(page).to have_no_selector '#work-package-context-menu'
+    end
+
     def card(work_package)
       page.find(".wp-card-#{work_package.id}")
     end
 
     def status_button(work_package)
       WorkPackageStatusField.new card(work_package)
+    end
+
+    def expect_work_package_selected(work_package, selected)
+      selector = "wp-single-card[data-work-package-id='#{work_package.id}']"
+      checked_selector = "wp-single-card[data-work-package-id='#{work_package.id}'] .-checked"
+
+      expect(page).to have_selector(selector)
+      expect(page).to (selected ? have_selector(checked_selector) : have_no_selector(checked_selector))
     end
   end
 end

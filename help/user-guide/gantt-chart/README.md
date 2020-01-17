@@ -1,7 +1,11 @@
-title: Gantt charts
+---
+sidebar_navigation:
+  title: Gantt charts
+  priority: 865
 description: Create project timelines with Gantt charts in OpenProject
 robots: index, follow
-keywords: gantt charts
+keywords: gantt chart, timeline, project plan
+---
 
 # Gantt charts
 
