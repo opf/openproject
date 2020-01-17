@@ -29,6 +29,8 @@
 #++
 
 class TimelogController < ApplicationController
+  helper_method :gon
+
   before_action :find_work_package, only: %i[new create]
   before_action :find_project, only: %i[new create]
   before_action :find_time_entry, only: %i[show edit update destroy]

@@ -43,7 +43,8 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= hidden_field_tag 'criterias[]', criteria, id: nil %>
   <% end %>
   <%= render partial: 'timelog/date_range' %>
-  <%= render 'timelog/time_entry_tabs' %>
+
+  <%= render_tabs time_entry_tabs %>
 
   <div class="timelog-report-selection small-6">
     <div class="grid-block">

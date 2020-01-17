@@ -47,9 +47,6 @@ en:
     close_filter_title: "Close filter"
     close_form_title: "Close form"
 
-    backlogs:
-      backlog_settings: "Backlog Settings"
-
     button_add_watcher: "Add watcher"
     button_back: "Back"
     button_back_to_list_view: "Back to list view"
@@ -267,6 +264,7 @@ en:
     label_deactivate: "Deactivate"
     label_descending: "Descending"
     label_description: "Description"
+    label_details: "Details"
     label_display: "Display"
     label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "closed"
@@ -314,7 +312,6 @@ en:
     label_menu_collapse: "collapse"
     label_menu_expand: "expand"
     label_more_than_ago: "more than days ago"
-    label_module_plural: "Modules"
     label_next: "Next"
     label_no_color: "No color"
     label_no_data: "No data to display"
@@ -339,7 +336,7 @@ en:
     label_remove_column: "Remove column"
     label_remove_columns: "Remove selected columns"
     label_remove_row: "Remove row"
-    label_repository: "Repository"
+    label_report: "Report"
     label_repository_plural: "Repositories"
     label_save_as: "Save as"
     label_select_watcher: "Select a watcher..."
@@ -372,8 +369,6 @@ en:
     label_warning: "Warning"
     label_work_package: "Work package"
     label_work_package_plural: "Work packages"
-    label_work_package_category_plural: "Work package categories"
-    label_work_package_types: "Work package types"
     label_watch: "Watch"
     label_watch_work_package: "Watch work package"
     label_watcher_added_successfully: "Watcher successfully added!"
@@ -386,7 +381,6 @@ en:
     label_starred_queries: "Favorite views"
     label_global_queries: "Public views"
     label_custom_queries: "Private views"
-    label_custom_field_plural: "Custom fields"
     label_columns: "Columns"
     label_attachments: Files
     label_drop_files: Drop files here

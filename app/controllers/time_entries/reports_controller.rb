@@ -28,6 +28,8 @@
 #++
 
 class TimeEntries::ReportsController < ApplicationController
+  helper_method :gon
+
   menu_item :issues
   before_action :find_optional_project
   before_action :load_available_criterias
