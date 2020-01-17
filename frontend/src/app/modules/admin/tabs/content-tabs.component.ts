@@ -39,57 +39,42 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
 
 
-export const adminTabsSelector = 'admin-tabs';
-
-interface Tab {
-  name:string;
-  partial:string;
-  label:string;
-}
+export const contentTabsSelector = 'content-tabs';
 
 @Component({
-  selector: adminTabsSelector,
+  selector: contentTabsSelector,
   templateUrl: '/app/modules/common/tabs/scrollable-tabs.component.html'
 })
 
-export class AdminTabsComponent extends ScrollableTabsComponent {
-  public myTabs:Tab[] = [];
-  public currentTab:Tab;
+export class ContentTabsComponent extends ScrollableTabsComponent {
+  public gonTabs:{ name:string, partial:string, label:string }[];
+  public currentTab:{ name:string, partial:string, label:string };
 
-  public classes:string[] = ['admin--tabs', 'scrollable-tabs'];
-
-  private gonData:any = this.gon.get('admin_tabs');
+  public classes:string[] = ['content--tabs', 'scrollable-tabs'];
 
   constructor(readonly elementRef:ElementRef,
               readonly $state:StateService,
               readonly gon:GonService,
               readonly I18n:I18nService) {
     super();
+
+    this.gonTabs = JSON.parse((this.gon.get('content_tabs') as any).tabs);
+    this.currentTab = JSON.parse((this.gon.get('content_tabs') as any).selected);
+
     // parse tabs from backend and map them to scrollable tabs structure
-    this.myTabs = jQuery.parseJSON(this.gonData.tabs);
-    this.tabs = jQuery.map(this.myTabs, (tab:Tab) => {
+    this.tabs = this.gonTabs.map((tab:{ name:string, partial:string, label:string }) => {
       return {
         id: tab.name,
-        name: this.I18n.t('js.' + tab.label)
+        name: this.I18n.t('js.' + tab.label),
+        partial: window.location.pathname + '?tab=' + tab.name
       };
     });
 
     // highlight current tab
-    this.currentTab = jQuery.parseJSON(this.gonData.selected);
     this.currentTabId = this.currentTab.name;
-  }
-
-  public clickTab(tab:string) {
-    // set selected tab as current
-    this.currentTab = jQuery.grep(this.myTabs, thisTab => thisTab.name === tab)[0];
-
-    // set correct partial for selected tab
-    this.partial = window.location.pathname + '?tab=' + this.currentTab.name;
-
-    super.clickTab(tab);
   }
 }
 
 DynamicBootstrapper.register({
-  selector: adminTabsSelector, cls: AdminTabsComponent
+  selector: contentTabsSelector, cls: ContentTabsComponent
 });
