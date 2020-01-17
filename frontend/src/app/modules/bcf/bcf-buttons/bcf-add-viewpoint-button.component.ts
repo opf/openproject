@@ -33,7 +33,7 @@ import {BcfPathHelperService} from "core-app/modules/bcf/helper/bcf-path-helper.
 import {RevitBridgeService} from "core-app/modules/bcf/services/revit-bridge.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {distinctUntilChanged} from "rxjs/operators";
+import {distinctUntilChanged, filter} from "rxjs/operators";
 
 @Component({
   template: `
