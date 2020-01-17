@@ -74,8 +74,8 @@ el:
       name: Αυθαίρετο όνομα της σύνδεσης LDAP
       host: Όνομα εξυπηρετητή LDAP ή διεύθυνση IP
       login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      generic_map: Το κλειδί χαρακτηριστικού στο LDAP είναι χαρτογραφημένο στο χαρακτηριστικό του OpenProject `%{attribute}`
+      admin_map_html: "Προαιρετικό: Το κλειδί χαρακτηριστικού στο LDAP που <strong>αν υπάρχει</strong> επισημαίνει τον χρήστη OpenProject ως διαχειριστή. Αφήστε το κενό αν αμφιβάλλετε."
       system_user_dn_html: |
         Enter the DN of the system user used for read-only access.
         <br/>
@@ -97,8 +97,7 @@ el:
     ldap_details: 'Λεπτομέρειες LDAP'
     user_settings: 'Attribute mapping'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      Τα ακόλουθα πεδία σχετίζονται με το πως οι χρήστες δημιουργούνται στο OpenProject από τις καταχωρήσεις LDAP και ποια χαρακτηριστικά LDAP χρησιμοποιούνται για να ορίσουν τα χαρακτηριστικά ενός χρήστη OpenProject (χαρτογράφηση χαρακτηριστικού).
     tls_mode:
       plain: 'κανένα'
       simple_tls: 'απλό_tls'
@@ -478,7 +477,7 @@ el:
         could_not_be_copied: "δεν ήταν δυνατή η (πλήρης) αντιγραφή."
         does_not_exist: "δεν υπάρχει."
         error_unauthorized: "may not be accessed."
-        error_readonly: "was attempted to be written but is not writable."
+        error_readonly: "επιχειρήθηκε να εγγραφεί αλλά δεν ήταν εγγράψιμο."
         empty: "δεν μπορεί να είναι κενό."
         even: "πρέπει να είναι άρτιος."
         exclusion: "είναι δεσμευμένο."

@@ -84,6 +84,9 @@
   td
     padding: 0 !important
 
+  .group--value
+    @include text-shortener
+
 // Shrink column of details / inline-create icons
 .wp-table--configuration-modal--trigger
   width: 60px
@@ -124,6 +127,7 @@ html:not(.-browser-mobile)
   @extend .ellipsis
   display: inline-block
   vertical-align: middle
+  width: 100%
   .wp-table--cell-td.-editing &
     display: block
     width: initial !important

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
-  title: Create OpenProject Cloud Edition trial installation
-  priority: 998S
+  title: Create trial installation
+  priority: 998
 description: Create a free OpenProject Cloud Edition trial installation.
 robots: index, follow
 keywords: trial installation
@@ -12,12 +12,6 @@ keywords: trial installation
 You can easily set up a **14 days free trial** for the OpenProject Cloud Edition.
 
 Here you can test all OpenProject functionalities thoroughly. After 14 days the trial will expire automatically, there is no further action nor cancellation required from your side. So, you have all freedom to test OpenProject unconcernedly.
-
-
-| Popular Topics                                         | Description                                                  |
-| ------------------------------------------------------ | :----------------------------------------------------------- |
-| [Create a free trial](#start-a-new-trial-installation) | Learn more how to create a free trial for the cloud instance. |
-|                                                        |                                                              |
 
 ## Start a new trial installation
 

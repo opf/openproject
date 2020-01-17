@@ -12,7 +12,7 @@ keywords: create work packages
 | Feature                                                      | Documentation for                              |
 | ------------------------------------------------------------ | ---------------------------------------------- |
 | [Create work packages?](#how-to-create-work-packages?)       | How to create a new work package in a project? |
-| [Add attachments to a work package](#how-to-add-attachments-to-a-work-package?) | How to add attachments to a work package?      |
+| [Add attachments to a work package](#add-attachments-to-work-packages) | How to add attachments to a work package?      |
 |                                                              |                                                |
 |                                                              |                                                |
 |                                                              |                                                |
@@ -56,7 +56,7 @@ Click the green **Save** button.
 
 ![create-work-package-split-screen](1566303947314.png)
 
-## How to add attachments to a work package?
+## Add attachments to work packages
 
 You can directly add images, e.g. via copy and paste to the **work package description**. You can also use the toolbar above the work package description and click the Insert image icon:
 

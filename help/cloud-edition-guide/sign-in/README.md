@@ -29,13 +29,21 @@ Click the green **Sign in button** and you will be logged into your OpenProject 
 
 ## Forgot organization name of OpenProject Cloud Edition
 
-If you forgot the organization name of your OpenProject Cloud Edition and need to find your organization, you can click the **Find your organization** link on the Sign in page of the website.
+If you forgot the URL or the organization name of your OpenProject Cloud Edition and need to find your organization, you can click the **Find your organization** link on the Sign in page of the website.
 
 ![Sign-in-find-organization](Sign-in-find-organization.png)
 
-If you forgot the URL of your OpenProject Cloud Edition and need to **find your organization**, you will then be asked to enter your e-mail address with which you signed in to OpenProject.
+You will then be asked to enter your e-mail address with which you signed in to OpenProject.
 
-If you 
+Click the Submit button to get an email with further information.
 
 ![Forgot organization](image-20191203175438315.png)
+
+You will receive an email from OpenProject with the installations you are currently member of.
+
+
+
+![E-Mail-Instances](E-Mail-Instances.png)
+
+Click the link in the email to get directed to your installation. If you are member of several OpenProject installations, they will all be listed in this email.
 

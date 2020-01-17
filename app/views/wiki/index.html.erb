@@ -40,7 +40,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% html_title t(:label_wiki_toc) %>
 
 <div class="wiki-content">
-<%= render_page_hierarchy(@pages_by_parent_id, nil, timestamp: true) %>
+  <%= render_page_hierarchy(@pages_by_parent_id, nil, timestamp: true) %>
 </div>
 
 <% unless @pages.empty? %>

@@ -32,7 +32,7 @@ module WikiHelper
                                    ids: true,
                                    placeholder: true)
     s = if placeholder
-          ["-- #{t('label_no_parent_page')} --", '']
+          [["-- #{t('label_no_parent_page')} --", '']]
         else
           []
         end

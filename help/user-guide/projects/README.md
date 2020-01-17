@@ -1,11 +1,12 @@
 ---
-title: Projects
-description: Create and set up a new project in OpenProject. 
+sidebar_navigation:
+  title: Manage projects
+  priority: 600
+description: Manage projects in OpenProject.
 robots: index, follow
 keywords: projects
 ---
-
-# Projects
+# Manage projects
 
 In OpenProject you can create multiple projects to collaborate with your team members, track issues, document and share information with stakeholders, organize things. A project is a way to structure your work in OpenProject.
 
