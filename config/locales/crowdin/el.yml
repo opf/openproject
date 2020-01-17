@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -95,7 +95,7 @@ el:
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
     ldap_details: 'Λεπτομέρειες LDAP'
-    user_settings: 'Attribute mapping'
+    user_settings: 'Χαρτογράφηση χαρακτηριστικού'
     user_settings_legend: |
       Τα ακόλουθα πεδία σχετίζονται με το πως οι χρήστες δημιουργούνται στο OpenProject από τις καταχωρήσεις LDAP και ποια χαρακτηριστικά LDAP χρησιμοποιούνται για να ορίσουν τα χαρακτηριστικά ενός χρήστη OpenProject (χαρτογράφηση χαρακτηριστικού).
     tls_mode:
@@ -2227,8 +2227,8 @@ el:
   text_work_package_category_destroy_question: "Κάποια πακέτα εργασίας (%{count}) έχουν ανατεθεί σε αυτή την κατηγορία. Τι θέλετε να κάνετε;"
   text_work_package_category_reassign_to: "Επανεκχώρηση πακέτων εργασίας σε αυτή την κατηγορία"
   text_work_package_updated: "Το πακέτο εργασίας %{id} έχει ενημερωθεί από τον(-ην) %{author}."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_added: "Έχετε προστεθεί ως παρατηρητής για το Πακέτο εργασίας %{id} από τον χρήστη %{watcher_changer}."
+  text_work_package_watcher_removed: "Έχετε αφαιρεθεί από παρατηρητής για το Πακέτο εργασίας %{id} από τον χρήστη %{watcher_changer}."
   text_work_packages_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;"
   text_work_packages_ref_in_commit_messages: "Αναφορά και επιδιόρθωση πακέτων εργασίας σε μηνύματα δέσμευσης"
   text_journal_added: "%{label} %{value} προστέθηκε"

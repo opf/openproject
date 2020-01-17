@@ -1,17 +1,11 @@
 #-- copyright
-#OpenProject Backlogs Plugin
-#Copyright (C)2013-2014 the OpenProject Foundation (OPF)
-#Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
-#Copyright (C)2010-2011 friflaj
-#Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
-#Copyright (C)2009-2010 Mark Maglana
-#Copyright (C)2009 Joe Heck, Nate Lowrie
-#This program is free software; you can redistribute it and/or modify it under
-#the terms of the GNU General Public License version 3.
-#OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
-#The copyright follows:
-#Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
-#Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
 #as published by the Free Software Foundation; either version 2
@@ -23,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See doc/COPYRIGHT.rdoc for more details.
+#See docs/COPYRIGHT.rdoc for more details.
 #++
 #---
 el:
@@ -56,7 +50,7 @@ el:
             parent_id:
               parent_child_relationship_across_projects: "δεν είναι έγκυρο επειδή το πακέτο εργασίας '%{work_package_name}' είναι ένα καθήκον backlog επομένως δεν μπορεί να έχει γονέα εκτός του τρέχοντος έργου."
   backlogs:
-    add_new_story: "New Story"
+    add_new_story: "Νέα ιστορία"
     any: "οποιoδήποτε"
     backlog_settings: "Ρυθμίσεις backlog"
     burndown_graph: "Γράφημα Burndown"
@@ -65,7 +59,7 @@ el:
     close: "Κλείσιμο"
     column_width: "Πλάτος στήλης:"
     date: "Ημέρα"
-    definition_of_done: "Definition of Done"
+    definition_of_done: "Ορισμός των Ολοκληρωμένων"
     generating_chart: "Δημιουργία γραφήματος..."
     hours: "Ώρες"
     impediment: "Εμπόδιο"
@@ -92,7 +86,7 @@ el:
   backlogs_active: "ενεργό"
   backlogs_any: "οποιoδήποτε"
   backlogs_card_specification: "Μέγεθος ετικέτας για εκτύπωση καρτών"
-  backlogs_inactive: "Project shows no activity"
+  backlogs_inactive: "Το έργο δεν φαίνεται να έχει δραστηριότητα"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Backlog προϊόντος"
   backlogs_product_backlog_is_empty: "Το backlog του προϊόντος είναι άδειο"
@@ -105,7 +99,7 @@ el:
   backlogs_story: "Ιστορία"
   backlogs_story_type: "Story types"
   backlogs_task: "Καθήκον"
-  backlogs_task_type: "Task type"
+  backlogs_task_type: "Τύπος καθήκοντος"
   backlogs_velocity_missing: "Δεν ήταν δυνατός ο υπολογισμός ταχύτητας για αυτό το έργο"
   backlogs_velocity_varies: "Η ταχύτητα διαφέρει σημαντικά σε σχέση με τα sprints"
   backlogs_wiki_template: "Πρότυπο για τη σελίδα wiki του sprint"
@@ -113,8 +107,8 @@ el:
   backlogs_empty_action_text: "Για να ξεκινήσετε με τα backlogs, δημιουργήστε μια καινούργια έκδοση και αναθέστε την σε μια στήλη backlog."
   button_edit_wiki: "Επεξεργασία σελίδας wiki"
   error_intro_plural: "Παρουσιάστηκαν τα ακόλουθα σφάλματα:"
-  error_intro_singular: "The following error was encountered:"
-  error_outro: "Please correct the above errors before submitting again."
+  error_intro_singular: "Συναντήθηκε το ακόλουθο σφάλμα:"
+  error_outro: "Παρακαλούμε διορθώστε τα παραπάνω σφάλματα πριν το ξαναυποβάλλετε."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
   event_sprint_summary: "%{project}: %{summary}"
   ideal: "ιδανικός"
@@ -122,7 +116,7 @@ el:
   label_back_to_project: "Επιστροφή στη σελίδα έργου"
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
-  label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
+  label_backlogs_unconfigured: "Δεν έχετε διαμορφώσει τα Backlogs ακόμη. Παρακαλούμε πηγαίνετε στο %{administration} > %{plugins}, έπειτα κάντε κλικ στον σύνδεσμο %{configure} για αυτό το πρόσθετο. Μόλις έχετε ορίσει τα πεδία, επιστρέψτε σε αυτή την σελίδα για να αρχίσετε να χρησιμοποιείτε το εργαλείο."
   label_blocks_ids: "Ταυτότητες μπλοκαρισμένων πακέτων εργασίας"
   label_burndown: "Burndown"
   label_column_in_backlog: "Στήλη στο backlog"
@@ -160,13 +154,13 @@ el:
   rb_label_copy_tasks_all: "Όλα"
   rb_label_copy_tasks_none: "Κανένα"
   rb_label_copy_tasks_open: "Ανοιχτό"
-  rb_label_link_to_original: "Include link to original story"
+  rb_label_link_to_original: "Συμπερίληψη συνδέσμου για την αρχική ιστορία"
   remaining_hours: "υπολειπόμενες ώρες"
   required_burn_rate_hours: "required burn rate (hours)"
   required_burn_rate_points: "required burn rate (points)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"
-  version_settings_display_label: "Column in backlog"
+  version_settings_display_label: "Στήλη στο backlog"
   version_settings_display_option_left: "αριστερά"
   version_settings_display_option_none: "κανένα"
   version_settings_display_option_right: "δεξιά"
