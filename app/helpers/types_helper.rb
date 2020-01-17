@@ -28,6 +28,14 @@
 #++
 
 module ::TypesHelper
+  def types_tabs(type)
+    [
+      { name: 'settings', partial: 'types/form/settings',path: edit_type_tab_path(id: @type.id, tab: :settings), label: 'types.edit.settings' },
+      { name: 'form_configuration', partial: 'types/form/form_configuration', path: edit_type_tab_path(id: @type.id, tab: :form_configuration), label: 'types.edit.form_configuration' },
+      { name: 'projects', partial: 'types/form/projects', path: edit_type_tab_path(id: @type.id, tab: :projects), label: 'types.edit.projects' }
+     ]
+  end
+
   def icon_for_type(type)
     return unless type
 

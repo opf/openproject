@@ -41,14 +41,21 @@ import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-t
 
 export const contentTabsSelector = 'content-tabs';
 
+interface GonTab {
+  name:string;
+  partial:string;
+  path:string;
+  label:string;
+}
+
 @Component({
   selector: contentTabsSelector,
   templateUrl: '/app/modules/common/tabs/scrollable-tabs.component.html'
 })
 
 export class ContentTabsComponent extends ScrollableTabsComponent {
-  public gonTabs:{ name:string, partial:string, label:string }[];
-  public currentTab:{ name:string, partial:string, label:string };
+  public gonTabs:GonTab[];
+  public currentTab:GonTab;
 
   public classes:string[] = ['content--tabs', 'scrollable-tabs'];
 
@@ -62,11 +69,11 @@ export class ContentTabsComponent extends ScrollableTabsComponent {
     this.currentTab = JSON.parse((this.gon.get('content_tabs') as any).selected);
 
     // parse tabs from backend and map them to scrollable tabs structure
-    this.tabs = this.gonTabs.map((tab:{ name:string, partial:string, label:string }) => {
+    this.tabs = this.gonTabs.map((tab:GonTab) => {
       return {
         id: tab.name,
         name: this.I18n.t('js.' + tab.label),
-        partial: window.location.pathname + '?tab=' + tab.name
+        path: tab.path
       };
     });
 

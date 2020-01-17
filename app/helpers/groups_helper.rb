@@ -29,9 +29,9 @@
 
 module GroupsHelper
   def group_settings_tabs
-    [{ name: 'general', partial: 'groups/general', label: :label_general },
-     { name: 'users', partial: 'groups/users', label: :label_user_plural },
-     { name: 'memberships', partial: 'groups/memberships', label: :label_project_plural }
+    [{ name: 'general', partial: 'groups/general', path: edit_group_path(@group), label: :label_general },
+     { name: 'users', partial: 'groups/users', path: edit_group_path(@group, tab: :users), label: :label_user_plural },
+     { name: 'memberships', partial: 'groups/memberships', path: edit_group_path(@group, tab: :memberships), label: :label_project_plural }
     ]
   end
 

@@ -63,6 +63,7 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
       .tabs$
       .subscribe((tabs) => {
         this.tabs = tabs;
+        this.tabs.map((tab) => tab.path = '#');
       });
   }
 

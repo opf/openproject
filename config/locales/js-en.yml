@@ -499,6 +499,10 @@ en:
           includes: "including"
           requires: "requiring"
           required: "required by"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projects"
+        settings: "Settings"
 
     time_entry:
       activity: 'Activity'

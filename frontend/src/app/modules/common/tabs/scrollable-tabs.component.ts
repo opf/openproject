@@ -3,7 +3,7 @@ import {AfterViewInit, Component, ElementRef, ViewChild} from "@angular/core";
 export interface Tab {
   id:string;
   name:string;
-  partial?:string;
+  path?:string;
 }
 
 @Component({
