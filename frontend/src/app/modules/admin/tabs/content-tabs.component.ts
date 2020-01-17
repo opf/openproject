@@ -30,7 +30,8 @@ import {
   Component,
   OnDestroy,
   Input,
-  ElementRef
+  ElementRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {GonService} from "core-app/modules/common/gon/gon.service";
@@ -50,7 +51,8 @@ interface GonTab {
 
 @Component({
   selector: contentTabsSelector,
-  templateUrl: '/app/modules/common/tabs/scrollable-tabs.component.html'
+  templateUrl: '/app/modules/common/tabs/scrollable-tabs.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ContentTabsComponent extends ScrollableTabsComponent {

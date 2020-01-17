@@ -36,8 +36,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= breadcrumb_toolbar @type.name %>
 </div>
 
-<%= render_tabs types_tabs(@type) %>
+<%= render_tabs types_tabs %>
 
 <%= error_messages_for 'type' %>
-
-<%= render partial: "types/form/#{@tab}" %>
