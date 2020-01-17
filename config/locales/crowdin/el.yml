@@ -142,7 +142,7 @@ el:
   concatenation:
     single: 'ή'
   deprecations:
-    time_entries: "Αυτή η προβολή εγγραφών χρόνου αντικαθίσταται από την ενότητα \"Αναφορές κόστους\". Αυτή η προβολή υποστηρίζει τώρα μόνο την εξαγωγή πληροφοριών χρόνου σε csv. Για διαλογικό φιλτράρισμα, ενεργοποιήστε την ενότητα \"Αναφορές κόστους\" στις ρυθμίσεις του έργου."
+    time_entries: "Αυτή η προβολή καταχωρήσεων χρόνου αντικαθίσταται από την ενότητα \"Αναφορές κόστους\". Αυτή η προβολή τώρα υποστηρίζει μόνο την εξαγωγή πληροφοριών καταχωρήσεων χρόνου σε csv. Για διαδραστικό φιλτράρισμα, ενεργοποιήστε την ενότητα \"Αναφορές κόστους\" στις ρυθμίσεις του έργου."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -174,7 +174,7 @@ el:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμες δραστηριότητες.
       forums:
         no_results_title_text: Προς το παρόν δεν υπάρχουν φόρουμ για το έργο.
-        no_results_content_text: Δημιουργία νέου forum
+        no_results_content_text: Δημιουργία νέου φόρουμ
       categories:
         no_results_title_text: Αυτήν τη στιγμή δεν υπάρχουν κατηγορίες πακέτων εργασίας.
         no_results_content_text: Δημιουργήστε μια νέα κατηγορία πακέτου εργασίας
@@ -1467,7 +1467,7 @@ el:
   label_planning: "Σχεδιασμός"
   label_please_login: "Παρακαλούμε συνδεθείτε"
   label_plugins: "Πρόσθετα"
-  label_modules_and_plugins: "Πρόσθετα και Υπηρεσίες"
+  label_modules_and_plugins: "Ενότητες και Πρόσθετα"
   label_precedes: "προηγείται"
   label_preferences: "Προτιμήσεις"
   label_preview: "Προεπισκόπηση"
@@ -1590,7 +1590,7 @@ el:
   label_updated_time: "Ενημερώθηκε πριν από %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Ενημερώθηκε από τον %{author} πριν από %{age}"
-  label_upgrade_guides: 'Οδηγίες αναβάθμισης'
+  label_upgrade_guides: 'Οδηγός αναβάθμισης'
   label_used_by: "Χρησιμοποιείται από"
   label_used_by_types: "Χρησιμοποιείται από τύπους"
   label_used_in_projects: "Χρησιμοποιείται σε έργα"
@@ -1626,7 +1626,7 @@ el:
   label_wiki_content_added: "Η σελίδα Wiki προστέθηκε"
   label_wiki_content_updated: "Η σελίδα Wiki ενημερώθηκε"
   label_wiki_toc: "Πίνακας Περιεχομένων"
-  label_wiki_toc_empty: "Ο πίνακας περιεχομένων είναι κενός, καθώς δεν υπάρχουν επικεφαλίδες."
+  label_wiki_toc_empty: "Ο Πίνακας Περιεχομένων είναι κενός, καθώς δεν υπάρχουν επικεφαλίδες."
   label_wiki_dont_show_menu_item: "Να μην εμφανίζεται αυτή η σελίδα wiki στην πλοήγηση του έργου"
   label_wiki_edit: "Επεξεργασία wiki"
   label_wiki_edit_plural: "Επεξεργασίες wiki"
@@ -1713,7 +1713,7 @@ el:
     legacy_warning:
       timeline: 'Αυτή η ξεπερασμένη μακροεντολή χρονοδιαγράμματος έχει αφαιρεθεί και δεν είναι πια διαθέσιμη. Μπορείτε να αντικαταστήσετε την λειτουργικότητα της με μια ενσωματωμένη μακροεντολή πίνακα.'
     include_wiki_page:
-      removed: 'Η συντόμευση δεν υπάρχει πια.'
+      removed: 'Η μακροεντολή δεν υπάρχει πια.'
     wiki_child_pages:
       errors:
         page_not_found: "Δεν ήταν δυνατή η εύρεση της σελίδας wiki '%{name}'."
@@ -2094,7 +2094,7 @@ el:
   setting_feeds_limit: "Όριο συγκατάθεσης τροφοδοσίας"
   setting_file_max_size_displayed: "Μέγιστο μέγεθος αρχείων κειμένου που εμφανίζονται inline"
   setting_host_name: "Όνομα εξυπηρετητή"
-  setting_invitation_expiration_days: "Το μήνυμα ενεργοποίησης λήγει μετά"
+  setting_invitation_expiration_days: "Το μήνυμα ενεργοποίησης λήγει μετά από"
   setting_work_package_done_ratio: "Υπολογίστε την αναλογία των ολοκληρωμένων πακέτων εργασίας με"
   setting_work_package_done_ratio_field: "Χρήση του πεδίου πακέτου εργασίας"
   setting_work_package_done_ratio_status: "Χρήση της κατάστασης πακέτου εργασίας"

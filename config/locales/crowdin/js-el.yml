@@ -158,7 +158,7 @@ el:
         drag_to_activate: "Σύρετε πεδία από εδώ για να τα ενεργοποιήσετε"
         add_group: "Προσθήκη ομάδας χαρακτηριστικών"
         add_table: "Προσθήκη πίνακα με σχετιζόμενες εργασίες"
-        edit_query: 'Edit query'
+        edit_query: 'Επεξεργασία αναζήτησης'
         new_group: 'Νέα ομάδα'
         reset_to_defaults: 'Επαναφορά στα προεπιλεγμένα'
     custom_actions:
@@ -469,7 +469,7 @@ el:
       set_parent: "Ορισμός γονέα"
       change_parent: "Αλλαγή γονέα"
       remove_parent: "Αφαίρεση γονέα"
-      hierarchy_indent: "Indent hierarchy"
+      hierarchy_indent: "Ιεραρχία εσοχής"
       hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Ομαδοποίηση κατά τύπο πακέτου εργασίας"
       group_by_relation_type: "Ομαδοποίηση κατά τύπο συσχέτισης"
@@ -709,7 +709,7 @@ el:
         confirm_edit_cancel: "Είστε βέβαιοι ότι θέλετε να ακυρώσετε την επεξεργασία του ονόματος αυτής της προβολής; Ο τίτλος θα επανέλθει στην προηγούμενη τιμή του."
         click_to_edit_query_name: "Κάντε κλικ για να επεξεργαστείτε τον τίτλο αυτής της προβολής."
         rename_query_placeholder: "Το όνομα αυτής της προβολής"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Σήμανση αυτής της προβολής ως αγαπημένη και προσθήκη στην πλάγια μπάρα αποθηκευμένων προβολών στα αριστερά."
         public_text: >
           Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
