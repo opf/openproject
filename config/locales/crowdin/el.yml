@@ -73,27 +73,26 @@ el:
     attribute_texts:
       name: Αυθαίρετο όνομα της σύνδεσης LDAP
       host: Όνομα εξυπηρετητή LDAP ή διεύθυνση IP
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
+      login_map: Το κλειδί χαρακτηριστικού στο LDAP που χρησιμοποιείται για να αναγνωριστεί η μοναδική σύνδεση χρήστη. Συνήθως, αυτό θα είναι το `uid` ή το `samAccountName`.
       generic_map: Το κλειδί χαρακτηριστικού στο LDAP είναι χαρτογραφημένο στο χαρακτηριστικό του OpenProject `%{attribute}`
       admin_map_html: "Προαιρετικό: Το κλειδί χαρακτηριστικού στο LDAP που <strong>αν υπάρχει</strong> επισημαίνει τον χρήστη OpenProject ως διαχειριστή. Αφήστε το κενό αν αμφιβάλλετε."
       system_user_dn_html: |
         Enter the DN of the system user used for read-only access.
         <br/>
         Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+      system_user_password: Εισάγετε τον δεσμευτικό κωδικό πρόσβασης του χρήστη συστήματος
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Εισάγετε το Base DN του υποδέντρου στο LDAP που θέλετε το OpenProject να αναζητήσει χρήστες και ομάδες.
+        Το OpenProject θα φιλτράρει τα δοθέντα ονόματα χρηστών μόνο σε αυτό το υποδέντρο.
+        Παράδειγμα: ou=users,dc=example,dc=com
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Αν επιλέξετε αυτό το κουτί, το OpenProject θα δημιουργεί αυτόματα καινούργιους χρήστες από τις καταχωρήσεις του LDAP όταν ταυτοποιούνται για πρώτη φορά στο OpenProject.
+        Αφήστε το μη επιλεγμένο για να επιτρέψετε μόνο στους υπάρχοντες λογαριασμούς στο OpenProject να ταυτοποιηθούν μέσω LDAP!
     connection_encryption: 'Κρυπτογράφηση σύνδεσης'
     system_account: 'Λογαριασμός συστήματος'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
+      Το OpenProject απαιτεί πρόσβαση ανάγνωσης-μόνο μέσω ενός λογαριασμού συστήματος για να αναζητά χρήστες και ομάδες στο LDAP δέντρο σας.
+      Παρακαλούμε προσδιορίστε τα διαπιστευτήρια δέσμευσης για αυτόν τον χρήστη συστήματος στην παρακάτω ενότητα.
     ldap_details: 'Λεπτομέρειες LDAP'
     user_settings: 'Χαρτογράφηση χαρακτηριστικού'
     user_settings_legend: |
@@ -142,7 +141,7 @@ el:
   concatenation:
     single: 'ή'
   deprecations:
-    time_entries: "Αυτή η προβολή εγγραφών χρόνου αντικαθίσταται από την ενότητα \"Αναφορές κόστους\". Αυτή η προβολή υποστηρίζει τώρα μόνο την εξαγωγή πληροφοριών χρόνου σε csv. Για διαλογικό φιλτράρισμα, ενεργοποιήστε την ενότητα \"Αναφορές κόστους\" στις ρυθμίσεις του έργου."
+    time_entries: "Αυτή η προβολή καταχωρήσεων χρόνου αντικαθίσταται από την ενότητα \"Αναφορές κόστους\". Αυτή η προβολή τώρα υποστηρίζει μόνο την εξαγωγή πληροφοριών καταχωρήσεων χρόνου σε csv. Για διαδραστικό φιλτράρισμα, ενεργοποιήστε την ενότητα \"Αναφορές κόστους\" στις ρυθμίσεις του έργου."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -174,7 +173,7 @@ el:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμες δραστηριότητες.
       forums:
         no_results_title_text: Προς το παρόν δεν υπάρχουν φόρουμ για το έργο.
-        no_results_content_text: Δημιουργία νέου forum
+        no_results_content_text: Δημιουργία νέου φόρουμ
       categories:
         no_results_title_text: Αυτήν τη στιγμή δεν υπάρχουν κατηγορίες πακέτων εργασίας.
         no_results_content_text: Δημιουργήστε μια νέα κατηγορία πακέτου εργασίας
@@ -383,7 +382,7 @@ el:
         explanation: 'Περιγραφή κατάστασης'
         codes:
           on_track: 'On track'
-          at_risk: 'At risk'
+          at_risk: 'Σε κίνδυνο'
           off_track: 'Off track'
       query:
         column_names: "Στήλες"
@@ -476,7 +475,7 @@ el:
         confirmation: "δεν ταιριάζει με %{attribute}."
         could_not_be_copied: "δεν ήταν δυνατή η (πλήρης) αντιγραφή."
         does_not_exist: "δεν υπάρχει."
-        error_unauthorized: "may not be accessed."
+        error_unauthorized: "ενδέχεται να μην έχετε πρόσβαση."
         error_readonly: "επιχειρήθηκε να εγγραφεί αλλά δεν ήταν εγγράψιμο."
         empty: "δεν μπορεί να είναι κενό."
         even: "πρέπει να είναι άρτιος."
@@ -1014,7 +1013,7 @@ el:
   enumeration_work_package_priorities: "Προτεραιότητες πακέτου εργασίας"
   enumeration_reported_project_statuses: "Αναφερόμενη κατάσταση έργου"
   error_auth_source_sso_failed: "Το Single Sign-On (SSO) για το χρήση '%{value}' απέτυχε"
-  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_can_not_archive_project: "Αυτό το έργο δεν μπορεί να αρχειοθετηθεί: %{errors}"
   error_can_not_delete_entry: "Δεν είναι δυνατή η διαγραφή καταχώρησης"
   error_can_not_delete_custom_field: "Δεν είναι δυνατή η διαγραφή του προσαρμοσμένου πεδίου"
   error_can_not_delete_type: "Αυτός ο τύπος περιέχει πακέτα εργασίας που δεν μπορούν να διαγραφούν."
@@ -1466,7 +1465,7 @@ el:
   label_planning: "Σχεδιασμός"
   label_please_login: "Παρακαλούμε συνδεθείτε"
   label_plugins: "Πρόσθετα"
-  label_modules_and_plugins: "Πρόσθετα και Υπηρεσίες"
+  label_modules_and_plugins: "Ενότητες και Πρόσθετα"
   label_precedes: "προηγείται"
   label_preferences: "Προτιμήσεις"
   label_preview: "Προεπισκόπηση"
@@ -1589,7 +1588,7 @@ el:
   label_updated_time: "Ενημερώθηκε πριν από %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Ενημερώθηκε από τον %{author} πριν από %{age}"
-  label_upgrade_guides: 'Οδηγίες αναβάθμισης'
+  label_upgrade_guides: 'Οδηγοί αναβάθμισης'
   label_used_by: "Χρησιμοποιείται από"
   label_used_by_types: "Χρησιμοποιείται από τύπους"
   label_used_in_projects: "Χρησιμοποιείται σε έργα"
@@ -1625,7 +1624,7 @@ el:
   label_wiki_content_added: "Η σελίδα Wiki προστέθηκε"
   label_wiki_content_updated: "Η σελίδα Wiki ενημερώθηκε"
   label_wiki_toc: "Πίνακας Περιεχομένων"
-  label_wiki_toc_empty: "Ο πίνακας περιεχομένων είναι κενός, καθώς δεν υπάρχουν επικεφαλίδες."
+  label_wiki_toc_empty: "Ο Πίνακας Περιεχομένων είναι κενός, καθώς δεν υπάρχουν επικεφαλίδες."
   label_wiki_dont_show_menu_item: "Να μην εμφανίζεται αυτή η σελίδα wiki στην πλοήγηση του έργου"
   label_wiki_edit: "Επεξεργασία wiki"
   label_wiki_edit_plural: "Επεξεργασίες wiki"
@@ -1712,7 +1711,7 @@ el:
     legacy_warning:
       timeline: 'Αυτή η ξεπερασμένη μακροεντολή χρονοδιαγράμματος έχει αφαιρεθεί και δεν είναι πια διαθέσιμη. Μπορείτε να αντικαταστήσετε την λειτουργικότητα της με μια ενσωματωμένη μακροεντολή πίνακα.'
     include_wiki_page:
-      removed: 'Η συντόμευση δεν υπάρχει πια.'
+      removed: 'Η μακροεντολή δεν υπάρχει πια.'
     wiki_child_pages:
       errors:
         page_not_found: "Δεν ήταν δυνατή η εύρεση της σελίδας wiki '%{name}'."
@@ -1912,7 +1911,7 @@ el:
       confirmation: "Αν συνεχίσετε, το έργο %{identifier} και όλα τα σχετικά δεδομένα θα διαγραφούν μονίμως."
       info: "Η διαγραφή του έργου είναι μια μη αναστρέψιμη ενέργεια."
       project_verification: "Εισάγετε το όνομα του έργου %{name} για να επιβεβαιώσετε τη διαγραφή."
-      subprojects_confirmation: "Το υποέργο του: %{value} θα διαγραφεί."
+      subprojects_confirmation: "Το(-α) υποέργο(-α) του: %{value} θα διαγραφεί(-ουν)."
       title: "Διαγραφή του έργου %{name}"
     identifier:
       warning_one: Τα μέλη του έργου θα πρέπει να μεταφέρουν τα αποθετήρια του έργου.
@@ -2093,7 +2092,7 @@ el:
   setting_feeds_limit: "Όριο συγκατάθεσης τροφοδοσίας"
   setting_file_max_size_displayed: "Μέγιστο μέγεθος αρχείων κειμένου που εμφανίζονται inline"
   setting_host_name: "Όνομα εξυπηρετητή"
-  setting_invitation_expiration_days: "Το μήνυμα ενεργοποίησης λήγει μετά"
+  setting_invitation_expiration_days: "Το μήνυμα ενεργοποίησης λήγει μετά από"
   setting_work_package_done_ratio: "Υπολογίστε την αναλογία των ολοκληρωμένων πακέτων εργασίας με"
   setting_work_package_done_ratio_field: "Χρήση του πεδίου πακέτου εργασίας"
   setting_work_package_done_ratio_status: "Χρήση της κατάστασης πακέτου εργασίας"
@@ -2106,7 +2105,7 @@ el:
   setting_journal_aggregation_time_minutes: "Display journals as aggregated within"
   setting_log_requesting_user: "Καταγραφή των στοιχείων εισόδου, του ονόματος και της διεύθυνσης email του χρήστη για όλα τα αιτήματα"
   setting_login_required: "Απαιτείται ταυτοποίηση"
-  setting_mail_from: "Emission email address"
+  setting_mail_from: "Διεύθυνση email μετάδοσης"
   setting_mail_handler_api_key: "Κλειδί API"
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_mail_handler_body_delimiter_regex: "Truncate emails matching this regex"
@@ -2373,7 +2372,7 @@ el:
       hide_chart: "Απόκρυψη διαγράμματος"
       noneElement: "(κανένα)"
       noneSelection: "(κανένα)"
-      outline: "Initial outline expansion"
+      outline: "Αρχική επέκταση περιγράμματος"
       parent: "Εμφάνιση υποέργων του"
       work_package_filters: "Φιλτράρισμα πακέτων εργασίας"
       work_package_responsible: "Show work packages with accountable"
@@ -2587,7 +2586,7 @@ el:
         #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
-        unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
+        unsupported_grant_type: 'Ο τύπος χορήγησης ταυτοποίησης δεν υποστηρίζεται από τον εξυπηρετητή ταυτοποίησης.'
         invalid_token:
           revoked: "Το token πρόσβασης ανακλήθηκε"
           expired: "Το token πρόσβασης έληξε"
@@ -2607,15 +2606,15 @@ el:
       instructions:
         name: "Το όνομα τις εφαρμογής. Αυτό θα εμφανίζεται στους υπόλοιπους χρήστες μόλις γίνει η εξουσιοδότηση."
         redirect_uri_html: >
-          The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
+          Τα επιτρεπόμενα URLs στα οποία ανακατευθύνονται οι ταυτοποιημένοι χρήστες. <br/> Αν εγγράφεστε από την εφαρμογή υπολογιστή, χρησιμοποιείστε το ακόλουθο URL.
         confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
         scopes: "Επιλέξτε τα φυσικά αντικείμενα στα οποία θέλετε να δώσει πρόσβαση η εφαρμογή. Αν δεν επιλεγεί κανένα φυσικό αντικείμενο, θα υποτεθεί api_v3."
-        client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
-        register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
+        client_credential_user_id: "Προαιρετική ταυτότητα χρήστη για να υποδυθεί όταν οι πελάτες χρησιμοποιούν αυτή την εφαρμογή. Αφήστε το κενό για να επιτρέψετε μόνο δημόσια πρόσβαση"
+        register_intro: "Αν αναπτύσσετε μια εφαρμογή πελάτη OAuth API για το OpenProject, μπορείτε να την καταχωρήσετε χρησιμοποιώντας αυτή τη φόρμα για να μπορούν να τη χρησιμοποιήσουν όλοι οι χρήστες."
         default_scopes: ""
     client_id: "Ταυτότητα Πελάτη"
     client_secret_notice: >
-      This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
+      Αυτή είναι η μόνη φορά που μπορούμε να εκτυπώσουμε το μυστικό πελάτη, παρακαλούμε σημειώστε το και κρατήστε το ασφαλές. Θα πρέπει να το χειρίζεστε ως κωδικό πρόσβασης και δεν μπορεί να ανακτηθεί από το OpenProject αργότερα.
     authorization_dialog:
       authorize: "Εξουσιοδότηση"
       cancel: "Ακύρωση και απόρριψη εξουσιοδότησης."

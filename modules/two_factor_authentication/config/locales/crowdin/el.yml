@@ -14,7 +14,7 @@ el:
         two_factor_authentication/device/sms:
           attributes:
             phone_number:
-              error_phone_number_format: "must be of format +XX XXXXXXXXX"
+              error_phone_number_format: "πρέπει να έχει μορφή + XX XXXXXXXXX"
     models:
       two_factor_authentication/device: "Συσκευή 2FA"
       two_factor_authentication/device/sms: "Κινητό Τηλέφωνο"
@@ -61,7 +61,7 @@ el:
       failed_to_save_settings: 'Αποτυχία ενημέρωσης των ρυθμίσεων 2FA: %{message}'
     admin:
       self_edit_path: 'Για να προσθέσετε ή να τροποποιήσετε τις δικές σας συσκευές 2FA, παρακαλούμε πηγαίνετε στο %{self_edit_link}'
-      self_edit_link_name: 'Ταυτοποίηση δύο παραγόντων στη σελίδα λογαριασμούς σας'
+      self_edit_link_name: 'Ταυτοποίηση δύο παραγόντων στη σελίδα λογαριασμού σας'
       self_edit_forbidden: 'Δεν μπορείτε να επεξεργαστείτε τις δικές σας συσκευές 2FA σε αυτό το μονοπάτι. Αντί αυτού πηγαίνετε στο Ο Λογαριασμός μου > Ταυτοποίηση δύο παραγόντων.'
       no_devices_for_user: 'Δεν έχουν καταχωρηθεί συσκευές 2FA για αυτόν τον χρήστη.'
       all_devices_deleted: 'Όλες οι συσκευές 2FA αυτού του χρήστη έχουν διαγραφεί'
@@ -69,7 +69,7 @@ el:
       button_delete_all_devices: 'Διαγραφή καταχωρημένων συσκευών 2FA'
       button_register_mobile_phone_for_user: 'Καταχώρηση κινητού τηλεφώνου'
       text_2fa_enabled: 'Κατά κάθε σύνδεση, θα ζητείται σε αυτό τον χρήστη να εισάγει ένα OPT token από την προεπιλεγμένη 2FA συσκευή του.'
-      text_2fa_disabled: "Ο χρήστης δεν έχει ορίσει μια συσκευή 2FA μέσω του 'Σελίδα του λογαριασμού μου'"
+      text_2fa_disabled: "Ο χρήστης δεν έχει ορίσει μια συσκευή 2FA μέσω της 'Σελίδας λογαριασμού μου'"
     upsale:
       title: 'Η ταυτοποίηση δύο παραγόντων είναι λειτουργία έκδοσης επιχειρήσεων'
       description: 'Ενδυναμώστε τους μηχανισμούς εσωτερικής και εξωτερικής ταυτοποίησης με ένα δεύτερο παράγοντα.'
@@ -79,13 +79,13 @@ el:
       plural: Κωδικοί αντιγράφων ασφαλείας
       your_codes: για τον %{app_name} λογαριασμό σας %{login}
       overview_description: |
-        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
-        Use the following button to generate a new set of backup codes.
+        Αν δεν μπορείτε να αποκτήσετε πρόσβαση στις δύο συσκευές σας, μπορείτε να χρησιμοποιήσετε έναν εφεδρικό κωδικό για να ανακτήσετε πάλι πρόσβαση στο λογαριασμό σας.
+        Χρησιμοποιήστε το παρακάτω κουμπί για να δημιουργήσετε μια νέα σειρά εφεδρικών κωδικών.
       generate:
-        title: Generate backup codes
+        title: Δημιουργήστε εφεδρικούς κωδικούς
         keep_safe_as_password: 'Σημαντικό! Χειριστείτε αυτούς τους κωδικούς σαν κωδικούς πρόσβασης.'
         keep_safe_warning: 'Μπορείτε είτε να τους αποθηκεύσετε στον διαχειριστή κωδικών πρόσβασης σας ή να εκτυπώσετε αυτή τη σελίδα και να την τοποθετήσετε σε ασφαλές μέρος.'
-        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
+        regenerate_warning: 'Προειδοποίηση: Εάν έχετε δημιουργήσει κωδικούς ασφαλείας πριν, θα ακυρωθούν και δεν θα λειτουργούν πλέον.'
     devices:
       add_new: 'Προσθέστε νέα συσκευή 2FA'
       register: 'Καταχώρηση συσκευής'
@@ -113,7 +113,7 @@ el:
         provisioning_uri: 'Provisioning URI'
         secret_key: 'Κρυφό κλειδί'
         time_based: 'Βασισμένο σε χρόνο'
-        account: 'Account name / Issuer'
+        account: 'Όνομα λογαριασμού / Εκδότης'
         setup: |
           Για να δημιουργήσετε μια ταυτοποίηση δύο παραγόντων με το Google Authenticator, κατεβάστε την εφαρμογή από το Apple App store ή to Google Play Store. Αφού ανοίξετε την εφαρμογή, μπορείτε να σαρώσετε τους ακόλουθους QR κωδικούς για να καταχωρήσετε τη συσκευή σας.
         question_cannot_scan: |
@@ -164,7 +164,7 @@ el:
   button_continue: 'Συνέχεια'
   button_make_default: 'Ορισμός ως προεπιλογή'
   label_unverified_phone: "Το κινητό τηλέφωνο δεν έχει επαληθευτεί ακόμη"
-  notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
+  notice_phone_number_format: "Καταχωρίστε τον αριθμό με την ακόλουθη μορφή: + XX XXXXXXXX."
   text_otp_not_receive: "Άλλες μέθοδοι επαλήθευσης"
   text_send_otp_again: "Αποστολή ξανά του κωδικού πρόσβασης μιας χρήσης μέχρι:"
   button_resend_otp_form: "Αποστολή ξανά"
