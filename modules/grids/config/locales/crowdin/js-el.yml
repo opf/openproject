@@ -32,7 +32,7 @@ el:
           title: 'Κατάσταση έργου'
           on_track: 'On track'
           off_track: 'Off track'
-          at_risk: 'At risk'
+          at_risk: 'Σε κίνδυνο'
           not_set: 'Μη ορισμένο'
         subprojects:
           title: 'Υποέργα'
