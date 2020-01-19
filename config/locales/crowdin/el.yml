@@ -77,9 +77,9 @@ el:
       generic_map: Το κλειδί χαρακτηριστικού στο LDAP είναι χαρτογραφημένο στο χαρακτηριστικό του OpenProject `%{attribute}`
       admin_map_html: "Προαιρετικό: Το κλειδί χαρακτηριστικού στο LDAP που <strong>αν υπάρχει</strong> επισημαίνει τον χρήστη OpenProject ως διαχειριστή. Αφήστε το κενό αν αμφιβάλλετε."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Εισάγετε το DN του χρήστη που χρησιμοποιείται για πρόσβαση μόνο με δικαιώματα ανάγνωσης.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
+        Παράδειγμα: uid=openproject,ou=system,dc=example,dc=com
       system_user_password: Εισάγετε τον δεσμευτικό κωδικό πρόσβασης του χρήστη συστήματος
       base_dn: |
         Εισάγετε το Base DN του υποδέντρου στο LDAP που θέλετε το OpenProject να αναζητήσει χρήστες και ομάδες.
@@ -381,9 +381,9 @@ el:
         code: 'Κατάσταση'
         explanation: 'Περιγραφή κατάστασης'
         codes:
-          on_track: 'On track'
+          on_track: 'Eντός χρονοδιαγράμματος'
           at_risk: 'Σε κίνδυνο'
-          off_track: 'Off track'
+          off_track: 'Eκτός χρονοδιαγράμματος'
       query:
         column_names: "Στήλες"
         relations_to_type_column: "Συσχετίσεις με %{type}"
@@ -541,7 +541,7 @@ el:
               id_filter_required: "Απαιτείται ένα φίλτρο 'Ταυτότητα'."
         project:
           archived_ancestor: 'Το έργο έχει έναν αρχειοθετημένο πρόγονο.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          foreign_wps_reference_version: 'Πακέτα εργασίας σε εκδόσεις αναφοράς του έργου ή των απογόνων του έργου που δεν προέρχονται απο απογόνους.'
           attributes:
             types:
               in_use_by_work_packages: "χρησιμοποιείται ακόμη από τα πακέτα εργασίας: %{types}"
