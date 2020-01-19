@@ -202,8 +202,8 @@ el:
       blocks:
         new_features:
           text_new_features: "Διαβάστε για τις νέες λειτουργίες και τις ενημερώσεις προϊόντων."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          current_new_feature_html: "Το OpenProject περιέχει μια νέα σελίδα <b> Επισκόπηση </b> για να <b>εμφανίσετε σημαντικές πληροφορίες έργου </b> και να δείξει εάν το έργο βρίσκεται εντός χρονοδιαγράμματος. </br> Μπορείτε να εισάγετε διάφορα widgets για την κατάσταση, όπως: <ul><li> κατάσταση έργου, </li><li> επισκόπηση της κατάστασης του πακέτου εργασίας, </li><li>πρόοδος εργασίας,</li> <li> εργασίες που έχουν εκχωρηθεί στους χρήστες. </li></ul>"
+          learn_about: "Μάθετε περισσότερα σχετικά με τα νέα widgets"
     label_activate: "Ενεργοποίηση"
     label_add_column_after: "Προσθήκη στήλης μετά"
     label_add_column_before: "Προσθήκη στήλης πριν"
