@@ -30,8 +30,8 @@ el:
           no_results: 'Δεν έχουν οριστεί προσαρμοσμένα πεδία για έργα.'
         project_status:
           title: 'Κατάσταση έργου'
-          on_track: 'Eντός χρονοδιαγράμματος'
-          off_track: 'Eκτός χρονοδιαγράμματος'
+          on_track: 'Eντός πορείας'
+          off_track: 'Eκτός πορείας'
           at_risk: 'Σε κίνδυνο'
           not_set: 'Μη ορισμένο'
         subprojects:

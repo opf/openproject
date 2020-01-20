@@ -381,9 +381,9 @@ el:
         code: 'Κατάσταση'
         explanation: 'Περιγραφή κατάστασης'
         codes:
-          on_track: 'Eντός χρονοδιαγράμματος'
+          on_track: 'Eντός πορείας'
           at_risk: 'Σε κίνδυνο'
-          off_track: 'Eκτός χρονοδιαγράμματος'
+          off_track: 'Eκτός πορείας'
       query:
         column_names: "Στήλες"
         relations_to_type_column: "Συσχετίσεις με %{type}"
@@ -713,7 +713,7 @@ el:
     priority: "Προτεραιότητα"
     project: "Έργο"
     public: "Δημόσιο"
-    responsible: "Accountable"
+    responsible: "Υπόλογος"
     role: "Ρόλος"
     roles: "Ρόλοι"
     start_date: "Ημερομηνία έναρξης"
@@ -1157,14 +1157,14 @@ el:
   label_add_subtask: "Προσθήκη υποκαθήκοντος"
   label_added: "προστέθηκε"
   label_added_time_by: "Προστέθηκε από τον %{author} πριν από %{age}"
-  label_additional_workflow_transitions_for_assignee: "Additional transitions allowed when the user is the assignee"
+  label_additional_workflow_transitions_for_assignee: "Επιτρέπονται επιπλέον μεταβάσεις όταν ο χρήστης είναι το άτομο που του έχει ανατεθεί"
   label_additional_workflow_transitions_for_author: "Επιτρέπονται επιπλέον μεταβάσεις όταν ο χρήστης είναι ο συγγραφέας"
   label_administration: "Διαχείριση"
   label_advanced_settings: "Προηγμένες ρυθμίσεις"
   label_age: "Ηλικία"
   label_ago: "ημέρες πριν"
   label_all: "όλα"
-  label_all_time: "all time"
+  label_all_time: "πάντα"
   label_all_words: "Όλες οι λέξεις"
   label_all_open_wps: "Όλα τα ανοιχτά"
   label_always_visible: "Προβολή πάντα"
@@ -1695,7 +1695,7 @@ el:
   label_keyboard_shortcut_new_work_package: "Δημιουργήστε νέο πακέτο εργασίας"
   label_keyboard_shortcut_details_package: "Εμφανίστε το πλαίσιο λεπτομερειών των πακέτων εργασίας"
   label_keyboard_shortcut_go_edit: "Πηγαίνετε στην επεξεργασία του τρέχοντος αντικειμένου (μόνο στη σελίδα λεπτομερειών)"
-  label_keyboard_shortcut_open_more_menu: "Open more-menu (on detail pages only)"
+  label_keyboard_shortcut_open_more_menu: "Εμφάνιση μενού-περισσότερων (στη σελίδα λεπτομερειών μόνο)"
   label_keyboard_shortcut_go_preview: "Μετάβαση στην προεπισκόπηση της τρέχουσας επεξεργασίας (μόνο στη σελίδα επεξεργασίας)"
   label_keyboard_shortcut_focus_previous_item: "Εστίαση στο προηγούμενο στοιχείο της λίστας (μόνο σε κάποιες λίστες)"
   label_keyboard_shortcut_focus_next_item: "Εστίαση στο επόμενο στοιχείο της λίστας (μόνο σε κάποιες λίστες)"
@@ -1936,9 +1936,9 @@ el:
   #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Ενεργό ή αρχειοθετημένο"
-    assigned_to_role: "Assignee's role"
-    member_of_group: "Assignee's group"
-    assignee_or_group: "Assignee or belonging group"
+    assigned_to_role: "Ρόλος ανάθεσης"
+    member_of_group: "Ομάδα ανάθεσης"
+    assignee_or_group: "Ανάθεση ή ομάδα"
     subproject_id: "Υποέργο"
     name_or_identifier: "Όνομα ή αναγνωριστικό"
   repositories:
@@ -1952,7 +1952,7 @@ el:
         none: 'Δεν υπάρχει πρόσβαση ολοκλήρωσης παραγγελίας, μπορείτε να δείτε το αποθετήριο μόνο μέσω της εφαρμογής.'
       access_permission: 'Τα δικαιώματα σας σε αυτό το αποθετήριο'
       url: "URL ολοκλήρωσης παραγγελίας"
-      base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered."
+      base_url_text: "Το βασικό URL για χρήση στη δημιουργία URL ολοκλήρωσης παραγγελίας (π.χ., https://myserver.example.org/repos/).\nΣημείωση: Το βασικό URL χρησιμοποιείται μόνο για επανεγγραφή των URL ολοκλήρωσης παραγγελίας στα διαχειριζόμενα αποθετήρια. Τα άλλα αποθετήρια δεν θα αλλαχθούν."
       default_instructions:
         git: |-
           Τα δεδομένα που περιέχονται σε αυτό το αποθετήριο μπορούν να ληφθούν στον υπολογιστή σας με το Git.
@@ -1997,7 +1997,7 @@ el:
       remote_save_failed: "Could not save the repository with the parameters retrieved from the remote."
     git:
       instructions:
-        managed_url: "This is the URL of the managed (local) Git repository."
+        managed_url: "Αυτό είναι το URL του διαχειριζόμενου (τοπικού) αποθετηρίου Git."
         path: >-
           Specify the path to your local Git repository ( e.g., %{example_path} ). You can also use remote repositories which are cloned to a local copy by using a value starting with http(s):// or file://.
         path_encoding: "Override Git path encoding (Default: UTF-8)"
@@ -2059,7 +2059,7 @@ el:
   setting_app_subtitle: "Υπότιτλος εφαρμογής"
   setting_app_title: "Τίτλος εφαρμογής"
   setting_attachment_max_size: "Μέγιστο μέγεθος συνημμένων"
-  setting_autofetch_changesets: "Autofetch repository changes"
+  setting_autofetch_changesets: "Αυτόματη ανάκτηση αλλαγών αποθετηρίου"
   setting_autologin: "Αυτόματη σύνδεση"
   setting_available_languages: "Διαθέσιμες γλώσσες"
   setting_bcc_recipients: "Blind carbon copy recipients (bcc)"
@@ -2376,8 +2376,8 @@ el:
       outline: "Αρχική επέκταση περιγράμματος"
       parent: "Εμφάνιση υποέργων του"
       work_package_filters: "Φιλτράρισμα πακέτων εργασίας"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "Show work packages with assignee"
+      work_package_responsible: "Εμφάνιση πακέτων εργασίας για τα οποία είμαι υπόλογος"
+      work_package_assignee: "Εμφάνιση πακέτων εργασίας που έχουν ανατεθεί"
       types: "Εμφάνιση τύπων"
       status: "Εμφάνιση κατάστασης"
       project_time_filter: "Έργα με πακέτο εργασίας συγκεκριμένου τύπου σε ένα συγκεκριμένο χρονικό πλαίσιο"
@@ -2387,7 +2387,7 @@ el:
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} πριν, %{end_label} %{endspan}%{endspanunit} από τώρα"
       project_filters: "Φιλτράρισμα έργων"
-      project_responsible: "Show projects with accountable"
+      project_responsible: "Εμφάνιση έργων για τα οποία είμαι υπόλογος"
       project_status: "Εμφάνιση κατάστασης έργου"
       timeframe: "Εμφάνιση χρονικού πλαισίου"
       timeframe_end: "έως"

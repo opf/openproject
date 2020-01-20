@@ -56,7 +56,7 @@ el:
             parent_id:
               parent_child_relationship_across_projects: "δεν είναι έγκυρο επειδή το πακέτο εργασίας '%{work_package_name}' είναι ένα καθήκον backlog επομένως δεν μπορεί να έχει γονέα εκτός του τρέχοντος έργου."
   backlogs:
-    add_new_story: "Νέα ιστορία"
+    add_new_story: "Νέα Ιστορία"
     any: "οποιoδήποτε"
     backlog_settings: "Ρυθμίσεις backlog"
     burndown_graph: "Γράφημα Burndown"
