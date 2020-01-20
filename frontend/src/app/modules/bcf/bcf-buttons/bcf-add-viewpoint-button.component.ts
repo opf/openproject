@@ -76,13 +76,19 @@ export class BcfAddViewpointButtonComponent implements OnInit, OnDestroy {
 
   private saveViewpoint(message:any):void {
     console.log('save viewpoint with', message);
-    var viewpointData = this.tmpViewpoint;
+    var viewpointJson = message["messagePayload"];
+
+    viewpointJson.snapshot = {
+	snapshot_type: 'png',
+        snapshot_data: viewpointJson.snapshot
+    };
+
     const headers = new HttpHeaders()
       .set("Content-Type", "application/json");
     this.httpClient
       .post(
         `/api/bcf/2.1/projects/${this.projectId()}/topics/${this.topicGuid()}/viewpoints`,
-        viewpointData,
+        viewpointJson,
         {
           headers: headers,
           withCredentials: true,
