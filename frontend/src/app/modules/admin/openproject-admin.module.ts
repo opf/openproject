@@ -33,7 +33,6 @@ import {GroupEditInPlaceComponent} from 'core-app/modules/admin/types/group-edit
 import {TypeFormAttributeGroupComponent} from 'core-app/modules/admin/types/attribute-group.component';
 import {DragulaModule} from 'ng2-dragula';
 import {TypeFormQueryGroupComponent} from "core-app/modules/admin/types/query-group.component";
-import {ContentTabsComponent} from "core-app/modules/admin/tabs/content-tabs.component";
 
 @NgModule({
   imports: [
@@ -46,12 +45,10 @@ import {ContentTabsComponent} from "core-app/modules/admin/tabs/content-tabs.com
     TypeFormAttributeGroupComponent,
     TypeFormQueryGroupComponent,
     TypeFormConfigurationComponent,
-    GroupEditInPlaceComponent,
-    ContentTabsComponent
+    GroupEditInPlaceComponent
   ],
   entryComponents: [
-    TypeFormConfigurationComponent,
-    ContentTabsComponent
+    TypeFormConfigurationComponent
   ]
 })
 export class OpenprojectAdminModule { }
