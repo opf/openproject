@@ -39,8 +39,11 @@ module TabsHelper
   end
 
   # Render tabs from the ui/extensible tabs manager
-  def render_extensible_tabs(key)
-    tabs = ::OpenProject::Ui::ExtensibleTabs.enabled_tabs(key)
+  def render_extensible_tabs(key, params = {})
+    tabs = ::OpenProject::Ui::ExtensibleTabs.enabled_tabs(key).map do |tab|
+      path = tab[:path].respond_to?(:call) ? instance_exec(params, &tab[:path]) : tab[:path]
+      tab.dup.merge path: path
+    end
     render_tabs(tabs)
   end
 end

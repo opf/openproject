@@ -40,7 +40,7 @@ module TimelogHelper
       },
       {
         name: 'report',
-        partial: 'reports/show',
+        partial: 'time_entries/reports/reports_tab',
         path: polymorphic_time_entries_report_path(@issue || @project),
         label: :label_report
       }

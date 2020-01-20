@@ -67,8 +67,8 @@ export class ContentTabsComponent extends ScrollableTabsComponent {
               readonly I18n:I18nService) {
     super();
 
-    this.gonTabs = JSON.parse((this.gon.get('content_tabs') as any).tabs);
-    this.currentTab = JSON.parse((this.gon.get('content_tabs') as any).selected);
+    this.gonTabs = JSON.parse((this.gon.get('contentTabs') as any).tabs);
+    this.currentTab = JSON.parse((this.gon.get('contentTabs') as any).selected);
 
     // parse tabs from backend and map them to scrollable tabs structure
     this.tabs = this.gonTabs.map((tab:GonTab) => {

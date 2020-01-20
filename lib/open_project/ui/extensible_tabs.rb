@@ -55,9 +55,24 @@ module OpenProject
 
         def core_user_tabs
           [
-            { name: 'general', partial: 'users/general', label: :label_general },
-            { name: 'memberships', partial: 'users/memberships', label: :label_project_plural },
-            { name: 'groups', partial: 'users/groups', label: :label_group_plural, if: ->(*) { Group.all.any? } }
+            {
+              name: 'general',
+              partial: 'users/general',
+              path: -> (params) { tab_edit_user_path(params[:user], tab: :general) },
+              label: :label_general
+            },
+            {
+              name: 'memberships',
+              partial: 'users/memberships',
+              path: -> (params) { tab_edit_user_path(params[:user], tab: :memberships) },
+              label: :label_project_plural
+            },
+            {
+              name: 'groups',
+              partial: 'users/groups',
+              path: -> (params) { tab_edit_user_path(params[:user], tab: :groups) },
+              label: :label_group_plural, if: ->(*) { Group.all.any? }
+            }
           ]
         end
       end

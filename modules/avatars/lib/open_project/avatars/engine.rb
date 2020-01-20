@@ -53,6 +53,7 @@ module OpenProject::Avatars
     add_tab_entry :user,
                   name: 'avatar',
                   partial: 'avatars/users/avatar_tab',
+                  path: -> (params) { tab_edit_user_path(params[:user], tab: :avatar) },
                   label: :label_avatar,
                   only_if: ->(*) { ::OpenProject::Avatars::AvatarManager.avatars_enabled? }
 

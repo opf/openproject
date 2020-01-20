@@ -41,6 +41,9 @@ class TimeEntries::ReportsController < ApplicationController
   menu_item :time_entries
 
   def show
+    # add to params to render correct tab
+    params[:tab] = params[:tab] || 'report'
+
     @criterias = params[:criterias] || []
     @criterias = @criterias.select { |criteria| @available_criterias.has_key? criteria }
     @criterias.uniq!

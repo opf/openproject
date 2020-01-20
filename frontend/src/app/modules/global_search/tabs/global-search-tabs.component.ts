@@ -26,11 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  Component,
-  OnDestroy,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {Subscription} from "rxjs";
@@ -40,8 +36,7 @@ export const globalSearchTabsSelector = 'global-search-tabs';
 
 @Component({
   selector: globalSearchTabsSelector,
-  templateUrl: '/app/modules/common/tabs/scrollable-tabs.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: '/app/modules/common/tabs/scrollable-tabs.component.html'
 })
 
 export class GlobalSearchTabsComponent extends ScrollableTabsComponent implements OnDestroy {

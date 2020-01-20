@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  ViewChild,
-  ChangeDetectionStrategy
-} from "@angular/core";
+import {AfterViewInit, Component, ElementRef, ViewChild} from "@angular/core";
 
 export interface Tab {
   id:string;
@@ -13,8 +7,7 @@ export interface Tab {
 }
 
 @Component({
-  templateUrl: 'scrollable-tabs.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: 'scrollable-tabs.component.html'
 })
 
 export class ScrollableTabsComponent implements AfterViewInit {
