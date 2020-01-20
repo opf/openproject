@@ -64,15 +64,9 @@ export class BcfShowViewpointButtonComponent implements OnInit, OnDestroy {
   private tmpViewpoint = {
       "perspective_camera": {
           "camera_view_point": {"x": -2.36, "y": 18.96, "z": -26.12},
-          "camera_direction": {"x": 0.55, "y": -0.54, "z": 0.62},
-          "camera_up_vector": {"x": 0.36, "y": 0.82, "z": 0.40},
+          "camera_direction": {"x": 1.00, "y": 0.00, "z": 0.00},
+          "camera_up_vector": {"x": 0.00, "y": 1.00, "z": 0.0},
           "field_of_view": 60
-      },
-      "orthogonal_camera": {
-          "camera_view_point": {"x": -2.36, "y": 18.96, "z": -26.12},
-          "camera_direction": {"x": 0.55, "y": -0.54, "z": 0.62},
-          "camera_up_vector": {"x": 0.36, "y": 0.82, "z": 0.40},
-          "view_to_world_scale": 1
       },
       "lines": [],
       "bitmaps": [],
