@@ -43,7 +43,9 @@ module Pages
         end
 
         def open_projects_tab!
-          click_on 'tab-memberships'
+          within('.content--tabs') do
+            click_on 'Projects'
+          end
         end
 
         def add_to_project!(project_name, as:)

@@ -36,6 +36,12 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= breadcrumb_toolbar @type.name %>
 </div>
 
-<%= render_tabs types_tabs %>
+<%= form_for @type,
+             url: update_type_tab_path(id: @type.id, tab: @tab),
+             builder: TabularFormBuilder,
+             lang: current_language do |f| %>
+
+  <%= render_tabs types_tabs, f %>
+<% end %>
 
 <%= error_messages_for 'type' %>

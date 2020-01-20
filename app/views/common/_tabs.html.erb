@@ -34,6 +34,6 @@ See docs/COPYRIGHT.rdoc for more details.
 <content-tabs></content-tabs>
 
 <%= content_tag 'div',
-                render(partial: selected_tab[:partial], locals: { tab: selected_tab } ),
+                render(partial: selected_tab[:partial], locals: { f: f, tab: selected_tab } ),
                 id: "tab-content-#{selected_tab[:name]}",
                 class: 'tab-content' %>
