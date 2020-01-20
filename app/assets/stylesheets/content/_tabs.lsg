@@ -3,17 +3,15 @@
 ```
 <div class="scrollable-tabs">
   <ul class="tabrow"">
-    <li selected="true"
+    <li class="selected"
         tab-id="tab_1">
-      <a href="#scrollable-tabs?tab=tab_1" textContent="Tab 1">Tab 1</a>
+      <a href="#scrollable-tabs?tab=tab_1">Tab 1</a>
     </li>
-    <li selected="false"
-        tab-id="tab_2">
-      <a href="#scrollable-tabs?tab=tab_2" textContent="Tab 2">Tab 2</a>
+    <li tab-id="tab_2">
+      <a href="#scrollable-tabs?tab=tab_2">Tab 2</a>
     </li>
-    <li selected="false"
-        tab-id="tab_3">
-      <a href="#scrollable-tabs?tab=tab_3" textContent="Tab 3">Tab 3</a>
+    <li tab-id="tab_3">
+      <a href="#scrollable-tabs?tab=tab_3">Tab 3</a>
     </li>
   </ul>
   <div hidden="true" class="scrollable-tabs--button -left">

@@ -46,7 +46,7 @@ class TimelogController < ApplicationController
   menu_item :time_entries
 
   def index
-    # add to params to render correct tab
+    # Set tab param to recognize correct selected tab
     params[:tab] = params[:tab] || 'details'
 
     sort_init 'spent_on', 'desc'

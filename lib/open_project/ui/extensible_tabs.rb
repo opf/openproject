@@ -58,19 +58,19 @@ module OpenProject
             {
               name: 'general',
               partial: 'users/general',
-              path: -> (params) { tab_edit_user_path(params[:user], tab: :general) },
+              path: ->(params) { tab_edit_user_path(params[:user], tab: :general) },
               label: :label_general
             },
             {
               name: 'memberships',
               partial: 'users/memberships',
-              path: -> (params) { tab_edit_user_path(params[:user], tab: :memberships) },
+              path: ->(params) { tab_edit_user_path(params[:user], tab: :memberships) },
               label: :label_project_plural
             },
             {
               name: 'groups',
               partial: 'users/groups',
-              path: -> (params) { tab_edit_user_path(params[:user], tab: :groups) },
+              path: ->(params) { tab_edit_user_path(params[:user], tab: :groups) },
               label: :label_group_plural, if: ->(*) { Group.all.any? }
             }
           ]

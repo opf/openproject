@@ -41,7 +41,7 @@ class TimeEntries::ReportsController < ApplicationController
   menu_item :time_entries
 
   def show
-    # add to params to render correct tab
+    # Set tab param to recognize correct selected tab
     params[:tab] = params[:tab] || 'report'
 
     @criterias = params[:criterias] || []
