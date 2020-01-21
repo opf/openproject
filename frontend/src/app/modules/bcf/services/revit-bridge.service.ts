@@ -18,9 +18,10 @@ export class RevitBridgeService {
 
   constructor() {
     if (window.RevitBridge) {
-      console.log("window.RevitBridge was there");
+      console.log("window.RevitBridge is already there, so let's hook up the Revit Listener");
       this.hookUpRevitListener();
     } else {
+      console.log('Waiting for Revit Plugin to become ready.');
       window.addEventListener('revit.plugin.ready', () => {
         console.log('CAPTURED EVENT "revit.plugin.ready"');
         this.hookUpRevitListener();
