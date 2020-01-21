@@ -70,8 +70,8 @@ import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-s
 import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
-import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
-import {ContentTabsComponent} from "core-app/modules/common/tabs/content-tabs.component";
+import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
+import {ContentTabsComponent} from "core-app/modules/common/tabs/content-tabs/content-tabs.component";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {EditableToolbarTitleComponent} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
 import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";

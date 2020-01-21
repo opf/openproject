@@ -30,13 +30,13 @@ import {Component, OnDestroy} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {Subscription} from "rxjs";
-import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
+import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
 
 export const globalSearchTabsSelector = 'global-search-tabs';
 
 @Component({
   selector: globalSearchTabsSelector,
-  templateUrl: '/app/modules/common/tabs/scrollable-tabs.component.html'
+  templateUrl: '/app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component.html'
 })
 
 export class GlobalSearchTabsComponent extends ScrollableTabsComponent implements OnDestroy {

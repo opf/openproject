@@ -37,7 +37,7 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {StateService} from '@uirouter/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
+import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
 
 
 export const contentTabsSelector = 'content-tabs';
@@ -51,7 +51,7 @@ interface GonTab {
 
 @Component({
   selector: contentTabsSelector,
-  templateUrl: '/app/modules/common/tabs/scrollable-tabs.component.html',
+  templateUrl: '/app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
