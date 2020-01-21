@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: Authentication
-  priority: 770
-description: Authentication in OpenProject.
+  title: Plugins
+  priority: 660
+description: Configure plugins in OpenProject.
 robots: index, follow
-keywords: authentication
+keywords: plugins
 ---
-# Authentication
+# Plugins
 
 Coming soon!
 

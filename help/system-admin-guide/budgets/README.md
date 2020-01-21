@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: Authentication
-  priority: 770
-description: Authentication in OpenProject.
+  title: Budget
+  priority: 680
+description: Define budgets in OpenProject.
 robots: index, follow
-keywords: authentication
+keywords: budgets
 ---
-# Authentication
+# Budgets
 
 Coming soon!
 

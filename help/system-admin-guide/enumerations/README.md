@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: Authentication
-  priority: 770
-description: Authentication in OpenProject.
+  title: Enumerations
+  priority: 790
+description: Manage enumerations in OpenProject.
 robots: index, follow
-keywords: authentication
+keywords: enumerations
 ---
-# Authentication
+# Enumerations
 
 Coming soon!
 
@@ -14,9 +14,7 @@ Coming soon!
 
 | Popular Topics | Description |
 | -------------- | :---------- |
-|                |             |
-|                |             |
-|                |             |
+| Activities     |             |
 |                |             |
 |                |             |
 |                |             |

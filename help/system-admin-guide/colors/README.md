@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: Authentication
-  priority: 770
-description: Authentication in OpenProject.
+  title: Colors
+  priority: 690
+description: Set colors in OpenProject.
 robots: index, follow
-keywords: authentication
+keywords: colors
 ---
-# Authentication
+# Colors
 
 Coming soon!
 

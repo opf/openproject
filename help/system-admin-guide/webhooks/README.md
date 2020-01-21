@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: Authentication
-  priority: 770
-description: Authentication in OpenProject.
+  title: Webhooks
+  priority: 600
+description: Configure webhooks in OpenProject.
 robots: index, follow
-keywords: authentication
+keywords: webhooks
 ---
-# Authentication
+# Webhooks
 
 Coming soon!
 
