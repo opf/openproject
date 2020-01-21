@@ -25,15 +25,3 @@ The Enterprise Edition builds on top of the free Community Edition. An upgrade i
 |                                                              |                                                              |
 
 
-
-## Activate the Enterprise Edition
-
-The OpenProject Enterprise Edition builds on top of the Community Edition.
-
-In order to upgrade your OpenProject Community Edition to the Enterprise Edition, sign into your OpenProject environment with an administrator account.
-
-Click on your user avatar in the upper right corner (1) and select Administration from the dropdown menu (2). Next, select Enterprise Edition from the side menu on the left side (3).
-
-In order to order the Enterprise Edition click on the button shown on the page (4). You can also request a trial token to test the premium features included in the Enterprise Edition.
-
-Once you purchased an Enterprise Edition token or received a trial token you can upload it by pasting the token in the designated area (5). Finally, click the Save button to activate the Enterprise Edition and unlock the premium features.
