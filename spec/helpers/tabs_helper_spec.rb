@@ -26,42 +26,44 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative '../filters'
+require 'spec_helper'
 
-module Components
-  module WorkPackages
-    module TableConfiguration
-      class Filters < ::Components::WorkPackages::Filters
-        attr_reader :modal
+describe TabsHelper, type: :helper do
+  include TabsHelper
 
-        def initialize
-          @modal = ::Components::WorkPackages::TableConfigurationModal.new
-        end
+  let(:given_tab) {
+    { name: 'avatar',
+      partial: 'avatars/users/avatar_tab',
+      path: ->(params) { tab_edit_user_path(params[:user], tab: :avatar) },
+      label: :label_avatar }
+  }
 
-        def open
-          modal.open_and_switch_to 'Filters'
-          expect_open
-        end
+  let(:expected_tab) {
+    { name: 'avatar',
+      partial: 'avatars/users/avatar_tab',
+      path: '/users/2/edit/avatar',
+      label: :label_avatar }
+  }
 
-        def save
-          modal.save
-        end
+  describe 'render_extensible_tabs' do
+    before do
+      allow_any_instance_of(TabsHelper)
+        .to receive(:render_tabs)
+        .with([ expected_tab ])
+        .and_return [ expected_tab ]
 
-        def expect_filter_count(count)
-          within(modal.selector) do
-            expect(page).to have_selector('.advanced-filters--filter', count: count)
-          end
-        end
+      allow(::OpenProject::Ui::ExtensibleTabs)
+        .to receive(:enabled_tabs)
+        .with(:user)
+        .and_return [ given_tab ]
 
-        def expect_open
-          modal.expect_open
-          expect(page).to have_selector('.tab-show.selected', text: 'FILTERS')
-        end
+      user = FactoryBot.build(:user, id: 2)
+      @tabs = render_extensible_tabs(:user, user: user)
+    end
 
-        def expect_closed
-          modal.expect_closed
-        end
-      end
+    it "should return an evaluated path" do
+      expect(response.status).to eq 200
+      expect(@tabs).to eq([ expected_tab ])
     end
   end
 end
