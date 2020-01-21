@@ -236,6 +236,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
       idOnly = true;
     }
 
+    query = encodeURIComponent(query);
+
     let href:string = this.PathHelperService.api.v3.wpBySubjectOrId(query, idOnly);
 
     this.addSuggestions();
