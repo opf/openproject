@@ -381,9 +381,9 @@ el:
         code: 'Κατάσταση'
         explanation: 'Περιγραφή κατάστασης'
         codes:
-          on_track: 'Eντός χρονοδιαγράμματος'
+          on_track: 'Eντός πορείας'
           at_risk: 'Σε κίνδυνο'
-          off_track: 'Eκτός χρονοδιαγράμματος'
+          off_track: 'Eκτός πορείας'
       query:
         column_names: "Στήλες"
         relations_to_type_column: "Συσχετίσεις με %{type}"
@@ -520,7 +520,7 @@ el:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: 'δεν μπορεί να περιέχει ένα κομμάτι.'
+              fragment_present: 'δεν μπορεί να περιέχει ένα τμήμα (fragment).'
               invalid_uri: 'πρέπει να είναι έγκυρο URI.'
               relative_uri: 'πρέπει να είναι απόλυτο URI.'
               secured_uri: 'πρέπει να είναι HTTPS/SSL URI.'
@@ -713,7 +713,7 @@ el:
     priority: "Προτεραιότητα"
     project: "Έργο"
     public: "Δημόσιο"
-    responsible: "Accountable"
+    responsible: "Υπόλογος"
     role: "Ρόλος"
     roles: "Ρόλοι"
     start_date: "Ημερομηνία έναρξης"
@@ -1156,14 +1156,14 @@ el:
   label_add_subtask: "Προσθήκη υποκαθήκοντος"
   label_added: "προστέθηκε"
   label_added_time_by: "Προστέθηκε από τον %{author} πριν από %{age}"
-  label_additional_workflow_transitions_for_assignee: "Additional transitions allowed when the user is the assignee"
+  label_additional_workflow_transitions_for_assignee: "Επιτρέπονται επιπλέον μεταβάσεις όταν ο χρήστης είναι το άτομο που του έχει ανατεθεί"
   label_additional_workflow_transitions_for_author: "Επιτρέπονται επιπλέον μεταβάσεις όταν ο χρήστης είναι ο συγγραφέας"
   label_administration: "Διαχείριση"
   label_advanced_settings: "Προηγμένες ρυθμίσεις"
   label_age: "Ηλικία"
   label_ago: "ημέρες πριν"
   label_all: "όλα"
-  label_all_time: "all time"
+  label_all_time: "πάντα"
   label_all_words: "Όλες οι λέξεις"
   label_all_open_wps: "Όλα τα ανοιχτά"
   label_always_visible: "Προβολή πάντα"
@@ -1564,7 +1564,7 @@ el:
   label_subproject: "Υποέργο"
   label_subproject_new: "Νέο υποέργο"
   label_subproject_plural: "Υποέργα"
-  label_subtask_plural: "Υποκαθήκοντα"
+  label_subtask_plural: "Υποεργασίες"
   label_summary: "Περίληψη"
   label_system: "Σύστημα"
   label_system_storage: "Πληροφορίες αποθήκευσης"
@@ -1694,7 +1694,7 @@ el:
   label_keyboard_shortcut_new_work_package: "Δημιουργήστε νέο πακέτο εργασίας"
   label_keyboard_shortcut_details_package: "Εμφανίστε το πλαίσιο λεπτομερειών των πακέτων εργασίας"
   label_keyboard_shortcut_go_edit: "Πηγαίνετε στην επεξεργασία του τρέχοντος αντικειμένου (μόνο στη σελίδα λεπτομερειών)"
-  label_keyboard_shortcut_open_more_menu: "Open more-menu (on detail pages only)"
+  label_keyboard_shortcut_open_more_menu: "Εμφάνιση μενού-περισσότερων (στη σελίδα λεπτομερειών μόνο)"
   label_keyboard_shortcut_go_preview: "Μετάβαση στην προεπισκόπηση της τρέχουσας επεξεργασίας (μόνο στη σελίδα επεξεργασίας)"
   label_keyboard_shortcut_focus_previous_item: "Εστίαση στο προηγούμενο στοιχείο της λίστας (μόνο σε κάποιες λίστες)"
   label_keyboard_shortcut_focus_next_item: "Εστίαση στο επόμενο στοιχείο της λίστας (μόνο σε κάποιες λίστες)"
@@ -1935,9 +1935,9 @@ el:
   #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Ενεργό ή αρχειοθετημένο"
-    assigned_to_role: "Assignee's role"
-    member_of_group: "Assignee's group"
-    assignee_or_group: "Assignee or belonging group"
+    assigned_to_role: "Ρόλος ανάθεσης"
+    member_of_group: "Ομάδα ανάθεσης"
+    assignee_or_group: "Ανάθεση ή ομάδα"
     subproject_id: "Υποέργο"
     name_or_identifier: "Όνομα ή αναγνωριστικό"
   repositories:
@@ -1951,7 +1951,7 @@ el:
         none: 'Δεν υπάρχει πρόσβαση ολοκλήρωσης παραγγελίας, μπορείτε να δείτε το αποθετήριο μόνο μέσω της εφαρμογής.'
       access_permission: 'Τα δικαιώματα σας σε αυτό το αποθετήριο'
       url: "URL ολοκλήρωσης παραγγελίας"
-      base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered."
+      base_url_text: "Το βασικό URL για χρήση στη δημιουργία URL ολοκλήρωσης παραγγελίας (π.χ., https://myserver.example.org/repos/).\nΣημείωση: Το βασικό URL χρησιμοποιείται μόνο για επανεγγραφή των URL ολοκλήρωσης παραγγελίας στα διαχειριζόμενα αποθετήρια. Τα άλλα αποθετήρια δεν θα αλλαχθούν."
       default_instructions:
         git: |-
           Τα δεδομένα που περιέχονται σε αυτό το αποθετήριο μπορούν να ληφθούν στον υπολογιστή σας με το Git.
@@ -1984,7 +1984,7 @@ el:
       empty_repository: "Το αποθετήριο υπάρχει, αλλά είναι άδειο. Δεν περιέχει αναθεωρήσεις ακόμα."
       exists_on_filesystem: "Ο κατάλογος του αποθετηρίου υπάρχει ήδη στο σύστημα αρχείων."
       filesystem_access_failed: "Υπήρξε σφάλμα κατά την πρόσβαση του αποθετηρίου στο σύστημα αρχείων: %{message}"
-      not_manageable: "This repository vendor cannot be managed by OpenProject."
+      not_manageable: "Ο προμηθευτής αποθετηρίου δεν είναι δυνατό να διαχειριστεί από το OpenProject."
       path_permission_failed: "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του ακόλουθου μονοπατιού: %{path}. Παρακαλούμε σιγουρευτείτε ότι το OpenProject έχει δικαιώματα εγγραφής στον φάκελο."
       unauthorized: "Δεν έχει εξουσιοδότηση για πρόσβαση στο αποθετήριο ή τα στοιχεία σύνδεσης δεν είναι έγκυρα."
       unavailable: "Το αποθετήριο δεν είναι διαθέσιμο."
@@ -1996,9 +1996,9 @@ el:
       remote_save_failed: "Could not save the repository with the parameters retrieved from the remote."
     git:
       instructions:
-        managed_url: "This is the URL of the managed (local) Git repository."
+        managed_url: "Αυτό είναι το URL του διαχειριζόμενου (τοπικού) αποθετηρίου Git."
         path: >-
-          Specify the path to your local Git repository ( e.g., %{example_path} ). You can also use remote repositories which are cloned to a local copy by using a value starting with http(s):// or file://.
+          Ορίστε το μονοπάτι του τοπικού σας αποθετηρίου Git (π.χ., %{example_path} ). Μπορείτε να χρησιμοποιείτε απομακρυσμένα αποθετήρια τα οποία έχουν κλωνοποιηθεί σε ένα τοπικό αντίγραφο χρησιμοποιώντας μια τιμή που ξεκινάει με http(s):// ή file://.
         path_encoding: "Override Git path encoding (Default: UTF-8)"
       local_title: "Σύνδεση με υπάρχον τοπικό αποθετήριο Git"
       local_url: "Τοπικό URL"
@@ -2024,7 +2024,7 @@ el:
       managed: "Δημιουργία νέου αποθετηρίου στο OpenProject"
     storage:
       not_available: "Η κατανάλωση χώρου από τον δίσκο δεν είναι δυνατή σε αυτό το αποθετήριο."
-      update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
+      update_timeout: "Διατήρηση των τελευταίων πληροφοριών απαιτούμενου χώρου δίσκου για ένα αποθετήριο για Ν λεπτά.\nΚαθώς η μέτρηση του απαιτούμενου χώρου δίσκου για ένα αποθετήριο μπορεί να κοστίζει, αυξήστε αυτή την τιμή για να μειώσετε την επίπτωση στην επίδοση."
     subversion:
       existing_title: "Υπάρχον αποθετήριο Subversion"
       existing_introduction: "Αν έχετε ένα υπάρχον αποθετήριο Subversion, μπορείτε να το συνδέσετε με το OpenProject για να αποκτήσετε πρόσβαση σε αυτό μέσα από την εφαρμογή."
@@ -2037,7 +2037,7 @@ el:
       managed_url: "Διαχειριζόμενο URL"
       password: "Κωδικός Αποθετηρίου"
       username: "Όνομα χρήστη αποθετηρίου"
-    truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
+    truncated: "Συγνώμη, έπρεπε να περικόψουμε αυτό το ευρετήριο σε %{limit} αρχεία. %{truncated} καταχωρήσεις παραλήφθηκαν από τη λίστα."
     named_repository: "%{vendor_name} αποθετήριο"
     update_settings_successful: "Οι ρυθμίσεις αποθηκεύτηκαν επιτυχώς."
     url: "URL σε αποθετήριο"
@@ -2058,14 +2058,14 @@ el:
   setting_app_subtitle: "Υπότιτλος εφαρμογής"
   setting_app_title: "Τίτλος εφαρμογής"
   setting_attachment_max_size: "Μέγιστο μέγεθος συνημμένων"
-  setting_autofetch_changesets: "Autofetch repository changes"
+  setting_autofetch_changesets: "Αυτόματη ανάκτηση αλλαγών αποθετηρίου"
   setting_autologin: "Αυτόματη σύνδεση"
   setting_available_languages: "Διαθέσιμες γλώσσες"
   setting_bcc_recipients: "Blind carbon copy recipients (bcc)"
-  setting_brute_force_block_after_failed_logins: "Block user after this number of failed login attempts"
+  setting_brute_force_block_after_failed_logins: "Αποκλεισμός χρήστη μετά από τον αριθμό από αποτυχημένες προσπάθειες σύνδεσης"
   setting_brute_force_block_minutes: "Χρόνος αποκλεισμού του χρήστη"
   setting_cache_formatted_text: "Μορφοποιημένο κείμενο cache"
-  setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
+  setting_use_wysiwyg_description: "Επιλέξτε για να ενεργοποιήσετε τον συντάκτη CKEditor5 WYSIWYG για όλους τους χρήστες από προεπιλογή. Ο CKEditor έχει περιορισμένη λειτουργικότητα για GFM Markdown."
   setting_column_options: "Προσαρμόστε την εμφάνιση των λιστών πακέτων εργασίας"
   setting_commit_fix_keywords: "Επιδιόρθωση λέξεων-κλειδιά"
   setting_commit_logs_encoding: "Κωδικοποίηση μηνυμάτων δέσμευσης"
@@ -2102,13 +2102,13 @@ el:
   setting_work_package_properties: "Ιδιότητες πακέτου εργασίας"
   setting_work_package_startdate_is_adddate: "Χρήση σημερινής ημερομηνίας ως ημερομηνία έναρξης για νέα πακέτα εργασίας"
   setting_work_packages_export_limit: "Όριο εξαγωγών πακέτων εργασίας"
-  setting_journal_aggregation_time_minutes: "Display journals as aggregated within"
+  setting_journal_aggregation_time_minutes: "Εμφάνιση ημερολογίων συναθροισμένα μέσα σε"
   setting_log_requesting_user: "Καταγραφή των στοιχείων εισόδου, του ονόματος και της διεύθυνσης email του χρήστη για όλα τα αιτήματα"
   setting_login_required: "Απαιτείται ταυτοποίηση"
   setting_mail_from: "Διεύθυνση email μετάδοσης"
   setting_mail_handler_api_key: "Κλειδί API"
-  setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
-  setting_mail_handler_body_delimiter_regex: "Truncate emails matching this regex"
+  setting_mail_handler_body_delimiters: "Περικοπή των email μετά από μια από αυτές τις γραμμές"
+  setting_mail_handler_body_delimiter_regex: "Περικοπή των email που ταιριάζουμε με αυτό το regex"
   setting_mail_handler_ignore_filenames: "Συνημμένα mail που αγνοήθηκαν"
   setting_new_project_user_role_id: "Ο ρόλος δόθηκε σε μη-διαχειριστή χρήστη ο οποίος δημιουργεί ένα έργο"
   setting_password_active_rules: "Ενεργές κλάσεις χαρακτήρων"
@@ -2121,7 +2121,7 @@ el:
   setting_protocol: "Πρωτόκολλο"
   setting_security_badge_displayed: "Εμφάνιση πληροφοριών ασφαλείας"
   setting_registration_footer: "Υποσέλιδο εγγραφής"
-  setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"
+  setting_repositories_automatic_managed_vendor: "Αυτόματος τύπος προμηθευτή αποθετηρίου"
   setting_repositories_encodings: "Κωδικοποιήσεις αποθετηρίων"
   setting_repository_authentication_caching_enabled: "Ενεργοποίηση caching για αιτήματα ταυτοποίησης του λογισμικού ελέγχου εκδόσεων"
   setting_repository_storage_cache_minutes: "Μέγεθος cache του αποθετηρίου στο δίσκο"
@@ -2375,8 +2375,8 @@ el:
       outline: "Αρχική επέκταση περιγράμματος"
       parent: "Εμφάνιση υποέργων του"
       work_package_filters: "Φιλτράρισμα πακέτων εργασίας"
-      work_package_responsible: "Show work packages with accountable"
-      work_package_assignee: "Show work packages with assignee"
+      work_package_responsible: "Εμφάνιση πακέτων εργασίας για τα οποία είμαι υπόλογος"
+      work_package_assignee: "Εμφάνιση πακέτων εργασίας που έχουν ανατεθεί"
       types: "Εμφάνιση τύπων"
       status: "Εμφάνιση κατάστασης"
       project_time_filter: "Έργα με πακέτο εργασίας συγκεκριμένου τύπου σε ένα συγκεκριμένο χρονικό πλαίσιο"
@@ -2386,7 +2386,7 @@ el:
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} πριν, %{end_label} %{endspan}%{endspanunit} από τώρα"
       project_filters: "Φιλτράρισμα έργων"
-      project_responsible: "Show projects with accountable"
+      project_responsible: "Εμφάνιση έργων για τα οποία είμαι υπόλογος"
       project_status: "Εμφάνιση κατάστασης έργου"
       timeframe: "Εμφάνιση χρονικού πλαισίου"
       timeframe_end: "έως"

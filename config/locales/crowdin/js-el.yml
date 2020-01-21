@@ -94,7 +94,7 @@ el:
         pie: 'Πίτα'
         doughnut: 'Ντόνατ'
         radar: 'Ραντάρ'
-        polar_area: 'Polar area'
+        polar_area: 'Πολική περιοχή'
       tabs:
         graph_settings: 'Γενικά'
         dataset: 'Σύνολο Δεδομένων %{number}'

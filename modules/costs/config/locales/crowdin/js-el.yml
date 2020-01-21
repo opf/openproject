@@ -23,11 +23,11 @@ el:
   js:
     work_packages:
       property_groups:
-        costs: "Costs"
+        costs: "Κόστος"
       properties:
         costObject: "Προϋπολογισμός"
         overallCosts: "Συνολικό κόστος"
         spentUnits: "Δαπανημένες μονάδες"
-    button_log_costs: "Log unit costs"
+    button_log_costs: "Καταγραφή κόστους μονάδας"
     label_hour: "ώρα"
     label_hours: "ώρες"
