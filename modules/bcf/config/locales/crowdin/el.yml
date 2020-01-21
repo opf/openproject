@@ -49,8 +49,8 @@ el:
         no_status_provided: 'Δεν δόθηκε καμία κατάσταση'
         no_priority_provided: 'Δεν δόθηκε καμιά προτεραιότητα'
         perform_description: "Θέλετε να εισάγετε ή να ενημερώσετε τα ζητήματα που παρατίθενται παραπάνω;"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        replace_with_system_user: 'Αντικατάσταση τους με τον χρήστη "Συστήματος"'
+        import_as_system_user: 'Εισαγωγή ως χρήστης "Συστήματος".'
         what_to_do: "Τι θέλετε να κάνετε;"
         work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
   export:
