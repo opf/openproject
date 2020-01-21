@@ -34,6 +34,7 @@ class TypesController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
+  helper_method :gon
 
   def index
     @types = ::Type.page(page_param).per_page(per_page_param)

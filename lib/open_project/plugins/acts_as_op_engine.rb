@@ -206,8 +206,8 @@ module OpenProject::Plugins
 
       ##
       # Add a tab entry to an extensible tab
-      def add_tab_entry(key, name:, partial:, label:, only_if: nil)
-        ::OpenProject::Ui::ExtensibleTabs.add(key, name: name, partial: partial, label: label, only_if: only_if)
+      def add_tab_entry(key, name:, partial:, path:, label:, only_if: nil)
+        ::OpenProject::Ui::ExtensibleTabs.add(key, name: name, partial: partial, path: path, label: label, only_if: only_if)
       end
 
       def add_api_path(path_name, &block)

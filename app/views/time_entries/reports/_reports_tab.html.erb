@@ -1,0 +1,140 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= styled_form_tag(polymorphic_time_entries_report_path(@issue || @project), method: :get, id: 'query_form', class: '-vertical') do %>
+  <% @criterias.each do |criteria| %>
+    <%= hidden_field_tag 'criterias[]', criteria, id: nil %>
+  <% end %>
+
+  <div class="timelog-report-selection small-6">
+    <div class="grid-block">
+
+      <div class="form--field">
+        <%= styled_label_tag :columns, "#{t(:label_details)}:" %>
+        <%= styled_select_tag 'columns', options_for_select([[l(:label_year), 'year'],
+                                                            [l(:label_month), 'month'],
+                                                            [l(:label_week), 'week'],
+                                                            [l(:label_day_plural).titleize, 'day']], @columns),
+                                             container_class: '-slim' %>
+      </div>
+
+      <div class="form--field">
+        <%= styled_label_tag :criterias, "#{t(:button_add)}:" %>
+        <% available_criterias = [[]] + (@available_criterias.keys - @criterias).collect{ |k|
+          [l_or_humanize(@available_criterias[k][:label]), k]
+          }
+        %>
+        <%= styled_select_tag('criterias[]', options_for_select(available_criterias),
+                                             id: "criterias",
+                                             disabled: (@criterias.length >= 3),
+                                             container_class: '-slim') %>
+      </div>
+    </div>
+    <div class="grid-block">
+      <%= submit_tag t(:button_apply), class: 'button -highlight' %>
+      <%= link_to t(:button_clear), {project_id: @project, issue_id: @issue, period_type: params[:period_type], period: params[:period], from: @from, to: @to, columns: @columns}, class: 'button' %>
+    </div>
+  </div>
+<% end %>
+<% unless @criterias.empty? %>
+  <div class="total-hours">
+    <p><%= t(:label_total) %>: <%= html_hours(l_hours(@total_hours)) %></p>
+  </div>
+
+  <% unless @hours.empty? %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table" id="time-report">
+          <colgroup>
+            <% @criterias.each do |criteria| %>
+              <col highlight-col>
+            <% end %>
+            <% @periods.each do |period| %>
+              <col highlight-col>
+            <% end %>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+            <tr>
+              <% @criterias.each do |criteria| %>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= l_or_humanize(@available_criterias[criteria][:label]) %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+              <% end %>
+              <% @periods.each do |period| %>
+                <th class="period">
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= period %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+              <% end %>
+              <th class="total">
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= t(:label_total) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: 'report_criteria', locals: {criterias: @criterias, hours: @hours, level: 0} %>
+            <tr class="total">
+              <td><%= t(:label_total) %></td>
+              <%= ('<td></td>' * (@criterias.size - 1)).html_safe %>
+              <% total = 0 -%>
+              <% @periods.each do |period| -%>
+                <% sum = sum_hours(select_hours(@hours, @columns, period.to_s)); total += sum -%>
+                <td class="hours"><%= html_hours("%.2f" % sum) if sum > 0 %></td>
+              <% end -%>
+              <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <%= other_formats_links do |f| %>
+      <%= f.link_to 'CSV', url: permitted_params.timelog.to_h %>
+    <% end %>
+  <% end %>
+<% end %>

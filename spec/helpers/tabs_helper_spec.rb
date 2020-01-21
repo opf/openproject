@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,33 +26,44 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module GroupsHelper
-  def group_settings_tabs
-    [
-      {
-        name: 'general',
-        partial: 'groups/general',
-        path: edit_group_path(@group),
-        label: :label_general
-      },
-      {
-        name: 'users',
-        partial: 'groups/users',
-        path: edit_group_path(@group, tab: :users),
-        label: :label_user_plural
-      },
-      {
-        name: 'memberships',
-        partial: 'groups/memberships',
-        path: edit_group_path(@group, tab: :memberships),
-        label: :label_project_plural
-      }
-    ]
-  end
+require 'spec_helper'
 
-  def set_filters_for_user_autocompleter
-    @autocompleter_filters = []
-    @autocompleter_filters.push({ selector: 'status', operator: '=', values: ['active'] })
-    @autocompleter_filters.push({ selector: 'group', operator: '!', values: [@group.id] })
+describe TabsHelper, type: :helper do
+  include TabsHelper
+
+  let(:given_tab) {
+    { name: 'avatar',
+      partial: 'avatars/users/avatar_tab',
+      path: ->(params) { tab_edit_user_path(params[:user], tab: :avatar) },
+      label: :label_avatar }
+  }
+
+  let(:expected_tab) {
+    { name: 'avatar',
+      partial: 'avatars/users/avatar_tab',
+      path: '/users/2/edit/avatar',
+      label: :label_avatar }
+  }
+
+  describe 'render_extensible_tabs' do
+    before do
+      allow_any_instance_of(TabsHelper)
+        .to receive(:render_tabs)
+        .with([ expected_tab ])
+        .and_return [ expected_tab ]
+
+      allow(::OpenProject::Ui::ExtensibleTabs)
+        .to receive(:enabled_tabs)
+        .with(:user)
+        .and_return [ given_tab ]
+
+      user = FactoryBot.build(:user, id: 2)
+      @tabs = render_extensible_tabs(:user, user: user)
+    end
+
+    it "should return an evaluated path" do
+      expect(response.status).to eq 200
+      expect(@tabs).to eq([ expected_tab ])
+    end
   end
 end

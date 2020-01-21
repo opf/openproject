@@ -37,6 +37,7 @@ module OpenProject::Documents::Patches
         super << {
           name: 'DocumentCategoryCustomField',
           partial: 'custom_fields/tab',
+          path: custom_fields_path(tab: :DocumentCategoryCustomField),
           label: DocumentCategory::OptionName
         }
       end
