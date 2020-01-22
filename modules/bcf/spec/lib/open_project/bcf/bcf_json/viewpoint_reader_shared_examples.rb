@@ -51,13 +51,13 @@ shared_examples 'has camera' do |camera_type|
   it 'has a camera object' do
     # camera xyz floats
     expect(subject.dig(camera_type)).to be_kind_of(Hash)
-    expect(subject.dig(camera_type, 'field_of_view')).to be_kind_of(Float)
+    expect(subject.dig(camera_type, 'field_of_view')).to be_kind_of(Numeric)
 
     %w[camera_view_point camera_direction camera_up_vector].each do |key|
       camera_vp = subject.dig(camera_type, key)
       expect(camera_vp).to be_kind_of(Hash)
       expect(camera_vp.keys).to contain_exactly 'x', 'y', 'z'
-      expect(camera_vp.values).to all(be_kind_of(Float))
+      expect(camera_vp.values).to all(be_kind_of(Numeric))
     end
   end
 end
@@ -71,9 +71,9 @@ shared_examples 'has lines' do
       expect(line).to be_kind_of(Hash)
       expect(line.keys).to contain_exactly 'start_point', 'end_point'
       expect(line['start_point'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(line['start_point'].values).to all(be_kind_of(Float))
+      expect(line['start_point'].values).to all(be_kind_of(Numeric))
       expect(line['end_point'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(line['end_point'].values).to all(be_kind_of(Float))
+      expect(line['end_point'].values).to all(be_kind_of(Numeric))
     end
   end
 end
@@ -87,9 +87,9 @@ shared_examples 'has clipping planes' do
       expect(plane).to be_kind_of(Hash)
       expect(plane.keys).to contain_exactly 'location', 'direction'
       expect(plane['location'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(plane['location'].values).to all(be_kind_of(Float))
+      expect(plane['location'].values).to all(be_kind_of(Numeric))
       expect(plane['direction'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(plane['direction'].values).to all(be_kind_of(Float))
+      expect(plane['direction'].values).to all(be_kind_of(Numeric))
     end
   end
 end
@@ -103,12 +103,12 @@ shared_examples 'has bitmaps' do
       expect(bitmap).to be_kind_of(Hash)
       expect(bitmap.keys).to contain_exactly 'bitmap_type', 'bitmap_data', 'location', 'normal', 'up', 'height'
       expect(bitmap['location'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(bitmap['location'].values).to all(be_kind_of(Float))
+      expect(bitmap['location'].values).to all(be_kind_of(Numeric))
       expect(bitmap['normal'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(bitmap['normal'].values).to all(be_kind_of(Float))
+      expect(bitmap['normal'].values).to all(be_kind_of(Numeric))
       expect(bitmap['up'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(bitmap['up'].values).to all(be_kind_of(Float))
-      expect(bitmap['height']).to be_kind_of(Float)
+      expect(bitmap['up'].values).to all(be_kind_of(Numeric))
+      expect(bitmap['height']).to be_kind_of(Numeric)
     end
   end
 end
