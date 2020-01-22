@@ -81,19 +81,9 @@ class AdminController < ApplicationController
       [:text_database_allows_tsv, OpenProject::Database.allows_tsv?]
     ]
 
-    # Add local directory test if we're not using fog
-    if OpenProject::Configuration.file_storage?
-      repository_writable = File.writable?(OpenProject::Configuration.attachments_storage_path)
-      @checklist << [:text_file_repository_writable, repository_writable]
-    end
-
-    if OpenProject::Database.allows_tsv?
-      @checklist += plaintext_extraction_checks
-    end
-
-    call_hook(:admin_information_checklist).each do |result|
-      @checklist += result
-    end
+    @checklist += file_storage_checks
+    @checklist += plaintext_extraction_checks
+    @checklist += admin_information_hook_checks
 
     @storage_information = OpenProject::Storage.mount_information
   end
@@ -101,9 +91,9 @@ class AdminController < ApplicationController
   def default_breadcrumb
     case params[:action]
     when 'plugins'
-      l(:label_plugins)
+      t(:label_plugins)
     when 'info'
-      l(:label_information)
+      t(:label_information)
     end
   end
 
@@ -114,13 +104,33 @@ class AdminController < ApplicationController
   private
 
   def plaintext_extraction_checks
-    [
-      [:'extraction.available.pdftotext', Plaintext::PdfHandler.available?],
-      [:'extraction.available.unrtf',     Plaintext::RtfHandler.available?],
-      [:'extraction.available.catdoc',    Plaintext::DocHandler.available?],
-      [:'extraction.available.xls2csv',   Plaintext::XlsHandler.available?],
-      [:'extraction.available.catppt',    Plaintext::PptHandler.available?],
-      [:'extraction.available.tesseract', Plaintext::ImageHandler.available?]
-    ]
+    if OpenProject::Database.allows_tsv?
+      [
+        [:'extraction.available.pdftotext', Plaintext::PdfHandler.available?],
+        [:'extraction.available.unrtf',     Plaintext::RtfHandler.available?],
+        [:'extraction.available.catdoc',    Plaintext::DocHandler.available?],
+        [:'extraction.available.xls2csv',   Plaintext::XlsHandler.available?],
+        [:'extraction.available.catppt',    Plaintext::PptHandler.available?],
+        [:'extraction.available.tesseract', Plaintext::ImageHandler.available?]
+      ]
+    else
+      []
+    end
+  end
+
+  def file_storage_checks
+    # Add local directory test if we're not using fog
+    if OpenProject::Configuration.file_storage?
+      repository_writable = File.writable?(OpenProject::Configuration.attachments_storage_path)
+      [[:text_file_repository_writable, repository_writable]]
+    else
+      []
+    end
+  end
+
+  def admin_information_hook_checks
+    call_hook(:admin_information_checklist).map do |result|
+      result
+    end.flatten(1)
   end
 end

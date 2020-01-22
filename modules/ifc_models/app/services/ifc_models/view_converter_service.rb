@@ -45,7 +45,7 @@ module IFCModels
     end
 
     def self.available_commands
-      @@available ||= begin
+      @available ||= begin
         PIPELINE_COMMANDS.select do |command|
           _, status = Open3.capture2e('which', command)
           status.exitstatus.zero?
@@ -134,12 +134,12 @@ module IFCModels
 
     ##
     # Build input filename and target filename
-    def convert!(source_file, target_dir, ext, &block)
+    def convert!(source_file, target_dir, ext)
       filename = File.basename(source_file, '.*')
       target_filename = "#{filename}.#{ext}"
       target_file = File.join(target_dir, target_filename)
 
-      out, status = block.call target_file
+      out, status = yield target_file
 
       if status.exitstatus != 0
         raise "Failed to convert #{filename} to #{ext}: #{out}"
