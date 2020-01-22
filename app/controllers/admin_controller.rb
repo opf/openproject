@@ -129,8 +129,8 @@ class AdminController < ApplicationController
   end
 
   def admin_information_hook_checks
-    call_hook(:admin_information_checklist).map do |result|
+    call_hook(:admin_information_checklist).flat_map do |result|
       result
-    end.flatten(1)
+    end
   end
 end

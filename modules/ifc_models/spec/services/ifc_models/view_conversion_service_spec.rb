@@ -4,6 +4,10 @@ describe IFCModels::ViewConverterService do
   let(:model) { FactoryBot.build :ifc_model }
   subject { described_class.new(model) }
 
+  before do
+    described_class.instance_variable_set(:@available_commands, nil)
+  end
+
   shared_context 'available pipeline commands' do |available|
     before do
       # Mock the call to Open3 to test available commands
@@ -24,6 +28,8 @@ describe IFCModels::ViewConverterService do
   end
 
   describe '#available_commands' do
+    subject { described_class }
+
     context 'with only one available command' do
       include_context 'available pipeline commands', %w[IfcConvert]
 
@@ -46,7 +52,7 @@ describe IFCModels::ViewConverterService do
       include_context 'available pipeline commands', false
 
       it 'returns an error' do
-        expect(subject).not_to be_available
+        expect(described_class).not_to be_available
         result = subject.call
         expect(result.errors[:base].first).to include 'The following IFC converter commands are missing'
       end
@@ -54,7 +60,7 @@ describe IFCModels::ViewConverterService do
 
     context 'if available' do
       before do
-        allow(subject).to receive(:available?).and_return true
+        allow(described_class).to receive(:available?).and_return true
       end
 
       it 'calls the conversion and returns save result' do

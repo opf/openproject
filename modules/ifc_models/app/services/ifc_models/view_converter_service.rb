@@ -45,7 +45,7 @@ module IFCModels
     end
 
     def self.available_commands
-      @available ||= begin
+      @available_commands ||= begin
         PIPELINE_COMMANDS.select do |command|
           _, status = Open3.capture2e('which', command)
           status.exitstatus.zero?
@@ -68,21 +68,17 @@ module IFCModels
 
     def perform_conversion!(dir)
       # Step 1: IfcConvert
-      Rails.logger.debug { "Converting #{ifc_model.inspect} to DAE" }
       ifc_file = ifc_model.ifc_attachment.diskfile.path
       collada_file = convert_to_collada(ifc_file, dir)
 
       # Step 2: Collada2GLTF
-      Rails.logger.debug { "Converting #{ifc_model.inspect} to GLTF" }
       gltf_file = convert_to_gltf(collada_file, dir)
 
       # Step 3: Convert to XKT
-      Rails.logger.debug { "Converting #{ifc_model.inspect} to XKT" }
       xkt_file = convert_to_xkt(gltf_file, dir)
       ifc_model.xkt_attachment = File.new xkt_file
 
       # Convert metadata
-      Rails.logger.debug { "Retrieving metadata of #{ifc_model.inspect}" }
       metadata_file = convert_metadata(ifc_file, dir)
       ifc_model.metadata_attachment = File.new metadata_file
     end
@@ -94,6 +90,8 @@ module IFCModels
     # @param ifc_filepath {String} Path to the IFC model file
     # @param target_dir {String} Path to the temporary output folder
     def convert_to_collada(ifc_filepath, target_dir)
+      Rails.logger.debug { "Converting #{ifc_model.inspect} to DAE" }
+
       convert!(ifc_filepath, target_dir, 'dae') do |target_file|
         Open3.capture2e('IfcConvert', '--use-element-guids', '--no-progress', '--verbose', ifc_filepath, target_file)
       end
@@ -105,6 +103,8 @@ module IFCModels
     # @param dae_filepath {String} Path to the converted DAE model file
     # @param target_dir {String} Path to the temporary output folder
     def convert_to_gltf(dae_filepath, target_dir)
+      Rails.logger.debug { "Converting #{ifc_model.inspect} to GLTF" }
+
       convert!(dae_filepath, target_dir, 'gltf') do |target_file|
         Open3.capture2e('COLLADA2GLTF', '-i', dae_filepath, '-o', target_file)
       end
@@ -116,6 +116,8 @@ module IFCModels
     # @param gltf_filepath {String} Path to the converted GLTF model file
     # @param target_dir {String} Path to the temporary output folder
     def convert_to_xkt(gltf_filepath, target_dir)
+      Rails.logger.debug { "Converting #{ifc_model.inspect} to XKT" }
+
       convert!(gltf_filepath, target_dir, 'xkt') do |target_file|
         Open3.capture2e('gltf2xkt', '-s', gltf_filepath, '-o', target_file)
       end
@@ -127,6 +129,8 @@ module IFCModels
     # @param ifc_filepath {String} Path to the converted IFC model file
     # @param target_dir {String} Path to the temporary output folder
     def convert_metadata(ifc_filepath, target_dir)
+      Rails.logger.debug { "Retrieving metadata of #{ifc_model.inspect}" }
+
       convert!(ifc_filepath, target_dir, 'json') do |target_file|
         Open3.capture2e('xeokit-metadata', ifc_filepath, target_file)
       end
