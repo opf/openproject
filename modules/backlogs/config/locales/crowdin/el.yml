@@ -32,8 +32,8 @@ el:
       work_package:
         position: "Θέση"
         remaining_hours: "Υπολειπόμενες Ώρες"
-        remaining_time: "Υπολειπόμενες Ώρες"
-        story_points: "Story Points"
+        remaining_time: "Υπολειπόμενες ώρες"
+        story_points: "Πόντοι Ιστορίας"
         backlogs_work_package_type: "Τύπος backlog"
     errors:
       models:
@@ -54,7 +54,7 @@ el:
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "πρέπει να είναι το ίδιο με την έκδοση ιστορίας του γονέα."
             parent_id:
-              parent_child_relationship_across_projects: "δεν είναι έγκυρο επειδή το πακέτο εργασίας '%{work_package_name}' είναι ένα καθήκον backlog επομένως δεν μπορεί να έχει γονέα εκτός του τρέχοντος έργου."
+              parent_child_relationship_across_projects: "δεν είναι έγκυρο επειδή το πακέτο εργασίας '%{work_package_name}' είναι μια εργασία backlog επομένως δεν μπορεί να έχει γονέα εκτός του τρέχοντος έργου."
   backlogs:
     add_new_story: "Νέα Ιστορία"
     any: "οποιoδήποτε"
@@ -73,17 +73,17 @@ el:
     work_package_is_closed: "Το πακέτο εργασίας ολοκληρώνεται, όταν"
     label_is_done_status: "Η κατάσταση %{status_name} σημαίνει ολοκληρωμένη"
     no_burndown_data: "Δεν υπάρχουν διαθέσιμα δεδομένα burndown. Είναι απαραίτητο να έχετε ορίσει ημερομηνίες έναρξης και λήξης για το sprint."
-    points: "Σημεία"
-    positions_could_not_be_rebuilt: "Οι θέσεις δεν ήταν δυνατό να ξανακτιστούν."
+    points: "Πόντοι"
+    positions_could_not_be_rebuilt: "Οι θέσεις δεν ήταν δυνατό να ανοικοδομηθούν."
     positions_rebuilt_successfully: "Οι θέσεις ξανακτίστηκαν επιτυχώς."
     properties: "Ιδιότητες"
     rebuild: "Ανοικοδόμηση"
     rebuild_positions: "Ανοικοδόμηση θέσεων"
-    remaining_hours: "Υπολειπόμενες Ώρες"
+    remaining_hours: "Υπολειπόμενες ώρες"
     remaining_hours_ideal: "Υπολοιπόμενες ώρες (ιδανικά)"
     show_burndown_chart: "Διάγραμμα Burndown"
     story: "Ιστορία"
-    story_points: "Story Points"
+    story_points: "Πόντοι Ιστορίας"
     story_points_ideal: "Πόντοι Ιστορίας (ιδανικά)"
     task: "Εργασία"
     task_color: "Χρώμα εργασίας"
