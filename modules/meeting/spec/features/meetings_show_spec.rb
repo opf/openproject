@@ -96,7 +96,7 @@ describe 'Meetings', type: :feature, js: true do
 
         it 'can not edit the minutes' do
           visit meeting_path(meeting)
-          find('#tab-minutes').click
+          click_link 'Minutes'
           expect(page).to have_no_selector('.meeting_minutes', text: 'Edit')
           expect(page).to have_selector('.meeting_minutes', text: 'There is currently nothing to display')
         end

@@ -1,9 +1,15 @@
 #-- copyright
-#OpenProject Reporting Plugin
-#Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
-#version 3.
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
 #This program is distributed in the hope that it will be useful,
 #but WITHOUT ANY WARRANTY; without even the implied warranty of
 #MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -11,14 +17,15 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
 #++
 #---
 el:
   button_save_as: "Αποθήκευση αναφοράς ως..."
   comments: "Σχόλιο"
   cost_reports_title: "Αναφορές κόστους"
-  label_cost_report: "Cost report"
-  description_drill_down: "Προβολή λεπτομερειών"
+  label_cost_report: "Αναφορά κόστους"
+  description_drill_down: "Εμφάνιση λεπτομερειών"
   description_filter_selection: "Επιλογή"
   description_multi_select: "Εμφάνιση πολλαπλής επιλογής"
   description_remove_filter: "Αφαίρεση φίλτρου"
@@ -37,7 +44,7 @@ el:
   label_is_project_with_subprojects: "είναι (περιλαμβάνει υποέργα)"
   label_work_package_attributes: "Χαρακτηριστικά πακέτου εργασίας"
   label_less: "<"
-  label_money: "Cash value"
+  label_money: "Αξία μετρητών"
   label_month_reporting: "Μήνας (Δαπανήθηκε)"
   label_new_report: "Νέα αναφορά κόστους"
   label_open: "ανοιχτό"

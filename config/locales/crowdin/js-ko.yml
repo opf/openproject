@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ ko:
         inline: '인라인 강조 표시:'
         entire_card_by: '전체 카드 기준'
       remove_from_list: '목록에서 카드 제거'
+    caption_rate_history: "요금 기록"
     clipboard:
       browser_error: "브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오."
       copied_successful: "클립보드에 성공적으로 복사됨"
@@ -171,6 +172,9 @@ ko:
       cannot_save_changes_with_message: "다음 오류로 인해 변경 사항을 저장할 수 없습니다: %{error}"
       query_saving: "보기를 저장할 수 없습니다."
       embedded_table_loading: "포함된 보기를 로드할 수 없습니다: %{message}"
+    enumeration_activities: "작업(시간 추적)"
+    enumeration_doc_categories: "문서 범주"
+    enumeration_work_package_priorities: "작업 패키지 우선 순위"
     filter:
       description:
         text_open_filter: "'ALT'와 화살표 키로 이 필터를 여세요."
@@ -192,6 +196,7 @@ ko:
     general_text_yes: "예"
     general_text_No: "아니요"
     general_text_Yes: "예"
+    global_roles: 글로벌 역할
     hal:
       error:
         update_conflict_refresh: "리소스를 새로 고치고 최신 버전으로 업데이트하려면 여기를 클릭하세요."
@@ -222,6 +227,7 @@ ko:
     label_and: "그리고"
     label_ascending: "오름차순"
     label_author: "작성자: %{user}"
+    label_avatar: "아바타"
     label_between: "사이에"
     label_board: "게시판"
     label_board_locked: "잠김"
@@ -235,6 +241,8 @@ ko:
     label_deactivate: "비활성화"
     label_descending: "내림차순"
     label_description: "설명"
+    label_details: "세부 정보"
+    label_display: "표시"
     label_cancel_comment: "코멘트 취소"
     label_closed_work_packages: "닫음"
     label_collapse: "축소"
@@ -255,22 +263,29 @@ ko:
     label_export: "내보내기"
     label_filename: "파일"
     label_filesize: "크기"
+    label_general: "일반"
     label_greater_or_equal: ">="
     label_group: '그룹'
     label_group_by: "그룹화 기준"
+    label_group_plural: "그룹"
     label_hide_attributes: "간단히 표시"
     label_hide_column: "열 숨기기"
     label_hide_project_menu: "프로젝트 메뉴 축소"
     label_in: "-"
     label_in_less_than: "보다 작음"
     label_in_more_than: "보다 큼"
+    label_incoming_emails: "들어오는 이메일"
+    label_information_plural: "정보"
     label_import: "가져오기"
     label_latest_activity: "최근 활동"
     label_last_updated_on: "마지막 업데이트 날짜"
     label_less_or_equal: "<="
     label_less_than_ago: "일 미만 전"
     label_loading: "로드 중..."
+    label_mail_notification: "이메일 알림"
     label_me: "나"
+    label_meeting_agenda: "의제"
+    label_meeting_minutes: "의사록"
     label_menu_collapse: "축소"
     label_menu_expand: "확장"
     label_more_than_ago: "일 이상 전"
@@ -291,12 +306,15 @@ ko:
     label_previous: "이전"
     label_per_page: "페이지 당:"
     label_please_wait: "잠시 기다려 주세요."
+    label_project_plural: "프로젝트"
     label_visibility_settings: "표시 여부 설정"
     label_quote_comment: "코멘트 인용"
     label_reset: "재설정"
     label_remove_column: "열 제거"
     label_remove_columns: "선택된 열 제거"
     label_remove_row: "행 제거"
+    label_report: "보고서"
+    label_repository_plural: "리포지토리"
     label_save_as: "다른 이름으로 저장"
     label_select_watcher: "주시하는 사람을 선택"
     label_selected_filter_list: "선택된 필터"
@@ -307,6 +325,7 @@ ko:
     label_sort_higher: "위로 이동"
     label_sort_lower: "아래로 이동"
     label_sorting: "정렬"
+    label_spent_time: "소비한 시간"
     label_star_query: "호감"
     label_press_enter_to_save: "저장하려면 Enter를 누르세요."
     label_public_query: "공용"
@@ -315,7 +334,9 @@ ko:
     label_subject: "제목"
     label_this_week: "이번 주"
     label_today: "오늘"
+    label_time_entry_plural: "소비한 시간"
     label_up: "위"
+    label_user_plural: "사용자"
     label_activity_show_only_comments: "코멘트가 있는 활동만 표시"
     label_activity_show_all: "모든 활동 표시"
     label_total_progress: "%{percent}% 진행"
@@ -357,6 +378,7 @@ ko:
     label_wait: "설정 중이므로 기다려 주세요..."
     label_upload_counter: "%{count} 개 파일 중 %{done} 개 파일 완료됨"
     label_validation_error: "다음 오류로 인해 작업 패키지를 저장할 수 없습니다."
+    label_version_plural: "버전"
     label_view_has_changed: "이 보기에는 저장되지 않은 변경 사항이 있습니다. 클릭하여 저장하십시오."
     help_texts:
       show_modal: '특성 도움말 텍스트 항목 표시'
@@ -436,10 +458,16 @@ ko:
           includes: "포함"
           requires: "요구"
           required: "다음에 의해 요구됨:"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "프로젝트"
+        settings: "설정"
     time_entry:
       activity: '활동'
       comment: '코멘트'
       hours: '시간'
+    two_factor_authentication:
+      label_two_factor_authentication: '2단계 인증'
     watchers:
       label_loading: 관찰자 로딩 중...
       label_error_loading: 관찰자를 로드하는 동안 오류가 발생 했습니다.

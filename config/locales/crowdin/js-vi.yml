@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ vi:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Trình duyệt không hỗ trợ copy vào clipboard. Vui lòng copy văn bản đã chọn theo cách thủ công."
       copied_successful: "Sao chép thành công vào clipboard!"
@@ -170,6 +171,9 @@ vi:
       cannot_save_changes_with_message: "Không thể lưu thay đổi của bạn do lỗi sau: %{error}"
       query_saving: "Các tiêu chí không thể được lưu."
       embedded_table_loading: "Không thể nạp được vùng nhìn nhúng: %{message}"
+    enumeration_activities: "Hoạt động (theo dõi thời gian)"
+    enumeration_doc_categories: "Document categories"
+    enumeration_work_package_priorities: "Độ ưu tiên của work package"
     filter:
       description:
         text_open_filter: "Mở bộ lọc này với 'ALT' và phím mũi tên."
@@ -191,6 +195,7 @@ vi:
     general_text_yes: "có"
     general_text_No: "Không"
     general_text_Yes: "Có"
+    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -221,6 +226,7 @@ vi:
     label_and: "and"
     label_ascending: "Tăng dần"
     label_author: "Tác giả: %{user}"
+    label_avatar: "Avatar"
     label_between: "between"
     label_board: "Board"
     label_board_locked: "Đã khóa"
@@ -234,6 +240,8 @@ vi:
     label_deactivate: "Tắt"
     label_descending: "Giảm dần"
     label_description: "Mô tả"
+    label_details: "Chi tiết"
+    label_display: "Hiển thị"
     label_cancel_comment: "Hủy bình luận"
     label_closed_work_packages: "đã đóng"
     label_collapse: "Thu gọn"
@@ -254,22 +262,29 @@ vi:
     label_export: "Xuất"
     label_filename: "Tệp"
     label_filesize: "Kích cỡ"
+    label_general: "Tổng quan"
     label_greater_or_equal: ">="
     label_group: 'Nhóm'
     label_group_by: "Nhóm theo"
+    label_group_plural: "Các Nhóm"
     label_hide_attributes: "Hiện ít hơn"
     label_hide_column: "Ẩn cột"
     label_hide_project_menu: "Thu gọn menu dự án"
     label_in: "trong"
     label_in_less_than: "ít hơn"
     label_in_more_than: "nhiều hơn"
+    label_incoming_emails: "Các thư đến"
+    label_information_plural: "Thông tin"
     label_import: "Import"
     label_latest_activity: "Hoạt động mới nhất"
     label_last_updated_on: "Cập nhật lần cuối lúc"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
     label_loading: "Loading..."
+    label_mail_notification: "Thông báo qua email"
     label_me: "me"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Minutes"
     label_menu_collapse: "thu lại"
     label_menu_expand: "mở rộng"
     label_more_than_ago: "nhiều hơn mấy ngày trước"
@@ -290,12 +305,15 @@ vi:
     label_previous: "Trước đó"
     label_per_page: "Mỗi trang:"
     label_please_wait: "Vui lòng chờ"
+    label_project_plural: "Các dự án"
     label_visibility_settings: "Cài đặt hiển thị"
     label_quote_comment: "Trích bình luận này"
     label_reset: "Reset"
     label_remove_column: "Xóa cột"
     label_remove_columns: "Loại bỏ cột được chọn"
     label_remove_row: "Xóa hàng"
+    label_report: "Báo cáo"
+    label_repository_plural: "Repositories"
     label_save_as: "Lưu thành"
     label_select_watcher: "Chọn một người theo dõi..."
     label_selected_filter_list: "Các bộ lọc đã chọn: %s"
@@ -306,6 +324,7 @@ vi:
     label_sort_higher: "Move up"
     label_sort_lower: "Dịch xuống"
     label_sorting: "Sắp xếp"
+    label_spent_time: "Thời gian"
     label_star_query: "Ưa thích"
     label_press_enter_to_save: "Nhấn enter để lưu."
     label_public_query: "Công cộng"
@@ -314,7 +333,9 @@ vi:
     label_subject: "Chủ đề"
     label_this_week: "tuần này"
     label_today: "hôm nay"
+    label_time_entry_plural: "Thời gian"
     label_up: "Lên"
+    label_user_plural: "Người dùng"
     label_activity_show_only_comments: "Hiển thị các hoạt động với các bình luận"
     label_activity_show_all: "Hiển thị các hoạt động"
     label_total_progress: "%{percent}% Tổng tiến độ"
@@ -356,6 +377,7 @@ vi:
     label_wait: "Xin vui lòng chờ cho cấu hình..."
     label_upload_counter: "%{done} %{count} tập tin hoàn thành"
     label_validation_error: "Không thể lưu các công việc do các lỗi sau đây:"
+    label_version_plural: "Các phiên bản"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Hiển thị văn bản trợ giúp'
@@ -435,10 +457,16 @@ vi:
           includes: "including"
           requires: "requiring"
           required: "required by"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Các dự án"
+        settings: "Settings"
     time_entry:
       activity: 'Hoạt động'
       comment: 'Nhận xét'
       hours: 'Giờ'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Two-factor authentication'
     watchers:
       label_loading: lấy danh sách người theo dõi...
       label_error_loading: Lỗi khi tải về danh sách người theo dõi

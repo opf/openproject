@@ -57,8 +57,8 @@ describe 'Global role: Global role assignment', type: :feature, js: true do
     it 'allows global roles management' do
       # When I go to the edit page of the user called "bob"
       visit edit_user_path user
-      # And I click on "tab-global_roles"
-      page.find('#tab-global_roles').click
+      # And I click on "Global Roles"
+      click_link 'Global Roles'
       # Then I should see "global_role1" within "#table_principal_roles"
       page.within('#table_principal_roles') do
         expect(page).to have_text 'global_role1'

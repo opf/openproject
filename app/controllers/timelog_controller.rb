@@ -29,6 +29,8 @@
 #++
 
 class TimelogController < ApplicationController
+  helper_method :gon
+
   before_action :find_work_package, only: %i[new create]
   before_action :find_project, only: %i[new create]
   before_action :find_time_entry, only: %i[show edit update destroy]
@@ -44,6 +46,9 @@ class TimelogController < ApplicationController
   menu_item :time_entries
 
   def index
+    # Set tab param to recognize correct selected tab
+    params[:tab] = params[:tab] || 'details'
+
     sort_init 'spent_on', 'desc'
     sort_update 'spent_on' => 'spent_on',
                 'user' => 'user_id',

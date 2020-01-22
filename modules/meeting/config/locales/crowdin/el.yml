@@ -1,8 +1,15 @@
 #-- copyright
-#OpenProject Meeting Plugin
-#Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
 #This program is distributed in the hope that it will be useful,
 #but WITHOUT ANY WARRANTY; without even the implied warranty of
 #MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -10,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See doc/COPYRIGHT.md for more details.
+#See docs/COPYRIGHT.rdoc for more details.
 #++
 #English strings go here for Rails i18n
 el:
@@ -50,7 +57,7 @@ el:
   label_meeting_open: "Ανοιχτό"
   label_meeting_agenda_close: "Κλείστε την ατζέντα για να ξεκινήσετε τα Πρακτικά"
   label_meeting_date_time: "Ημερομηνία/Ώρα"
-  label_meeting_diff: "Diff"
+  label_meeting_diff: "Διαφορά"
   label_notify: "Αποστολή για αναθεώρηση"
   label_icalendar: "Αποστολή στο iCalendar"
   label_version: "Έκδοση"
@@ -62,15 +69,15 @@ el:
   permission_edit_meetings: "Επεξεργασία συναντήσεων"
   permission_delete_meetings: "Διαγραφή συναντήσεων"
   permission_view_meetings: "Εμφάνιση συναντήσεων"
-  permission_create_meeting_agendas: "Manage agendas"
-  permission_close_meeting_agendas: "Close agendas"
-  permission_send_meeting_agendas_notification: "Send review notification for agendas"
+  permission_create_meeting_agendas: "Διαχείριση ατζέντας"
+  permission_close_meeting_agendas: "Κλείσιμο ατζέντας"
+  permission_send_meeting_agendas_notification: "Αποστολή ειδοποίηση αναθεώρησης για ατζέντες"
   permission_create_meeting_minutes: "Διαχείριση πρακτικών"
   permission_send_meeting_minutes_notification: "Αποστολή ειδοποίηση αναθεώρησης για τα πρακτικά"
   project_module_meetings: "Συναντήσεις"
   text_duration_in_hours: "Διάρκεια σε ώρες"
   text_in_hours: "σε ώρες"
-  text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
+  text_meeting_agenda_for_meeting: 'ατζέντα για τη συνάντηση "%{meeting}"'
   text_meeting_closing_are_you_sure: "Είστε βέβαιοι ότι θέλετε να κλείσετε τη συνάντηση;"
   text_meeting_agenda_open_are_you_sure: "Το μη αποθηκευμένο περιεχόμενο στα πρακτικά θα χαθεί! Συνέχεια;"
   text_meeting_minutes_for_meeting: 'πρακτικά για τη συνάντηση "%{meeting}"'

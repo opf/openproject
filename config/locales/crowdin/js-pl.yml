@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ pl:
         inline: 'Wyróżniaj w treści:'
         entire_card_by: 'Cała karta do'
       remove_from_list: 'Usuń kartę z listy'
+    caption_rate_history: "Historia stawek"
     clipboard:
       browser_error: "Twoja przeglądarka nie obsługuje kopiowania do schowka. Skopiuj tekst ręcznie."
       copied_successful: "Skopiowano do schowka!"
@@ -171,6 +172,9 @@ pl:
       cannot_save_changes_with_message: "Nie można zapisać zmian ze względu na następujący błąd: %{error}"
       query_saving: "Nie można zapisać widoku."
       embedded_table_loading: "Nie można załadować osadzonego widoku: %{message}"
+    enumeration_activities: "Działania"
+    enumeration_doc_categories: "Kategoria dokumentu"
+    enumeration_work_package_priorities: "Priorytety pakietów roboczych"
     filter:
       description:
         text_open_filter: "Otwórz filtr klawiszami strzałek przytrzymując klawisz 'ALT'."
@@ -192,6 +196,7 @@ pl:
     general_text_yes: "tak"
     general_text_No: "Nie"
     general_text_Yes: "Tak"
+    global_roles: Role ogólne
     hal:
       error:
         update_conflict_refresh: "Kliknij tutaj, aby odświeżyć pakiet roboczy i zaktualizować go do najnowszej wersji."
@@ -222,6 +227,7 @@ pl:
     label_and: "i"
     label_ascending: "Rosnąco"
     label_author: "Autor: %{user}"
+    label_avatar: "Awatar"
     label_between: "pomiędzy"
     label_board: "Tablica"
     label_board_locked: "Zablokowany"
@@ -235,6 +241,8 @@ pl:
     label_deactivate: "Wyłącz"
     label_descending: "Malejąco"
     label_description: "Opis"
+    label_details: "Szczegóły"
+    label_display: "Wyświetlanie"
     label_cancel_comment: "Anuluj komentarz"
     label_closed_work_packages: "Zamknięte"
     label_collapse: "Zwiń"
@@ -255,22 +263,29 @@ pl:
     label_export: "Eksportuj"
     label_filename: "Plik"
     label_filesize: "Rozmiar"
+    label_general: "Ogólne"
     label_greater_or_equal: "≥"
     label_group: 'Grupa'
     label_group_by: "Grupuj według"
+    label_group_plural: "Grupy"
     label_hide_attributes: "Pokaż mniej"
     label_hide_column: "Ukryj kolumnę"
     label_hide_project_menu: "Zwiń menu projektu"
     label_in: "w"
     label_in_less_than: "w mniej niż"
     label_in_more_than: "w ponad"
+    label_incoming_emails: "Przychodzące e-maile"
+    label_information_plural: "Informacje"
     label_import: "Importuj"
     label_latest_activity: "Ostatnia aktywność"
     label_last_updated_on: "Ostatnia aktualizacja"
     label_less_or_equal: "≤"
     label_less_than_ago: "mniej niż dni temu"
     label_loading: "Ładowanie..."
+    label_mail_notification: "Powiadomienia e-mail"
     label_me: "ja"
+    label_meeting_agenda: "Plan spotkania"
+    label_meeting_minutes: "Protokół ze spotkania"
     label_menu_collapse: "Zwiń"
     label_menu_expand: "Rozwiń"
     label_more_than_ago: "Więcej niż dni temu"
@@ -291,12 +306,15 @@ pl:
     label_previous: "Poprzedni"
     label_per_page: "Na stronie:"
     label_please_wait: "Zaczekaj"
+    label_project_plural: "Projekty"
     label_visibility_settings: "Ustawienia widoczności"
     label_quote_comment: "Cytuj komentarz"
     label_reset: "Reset"
     label_remove_column: "Usuń kolumnę"
     label_remove_columns: "Usuń zaznaczone kolumny"
     label_remove_row: "Usuń wiersz"
+    label_report: "Raport"
+    label_repository_plural: "Repozytoria"
     label_save_as: "Zapisz jako"
     label_select_watcher: "Wybierz obserwatora..."
     label_selected_filter_list: "Wybrane filtry"
@@ -307,6 +325,7 @@ pl:
     label_sort_higher: "Przenieś wyżej"
     label_sort_lower: "Przenieś niżej"
     label_sorting: "Sortowanie"
+    label_spent_time: "Czas pracy"
     label_star_query: "Dodane do ulubionych"
     label_press_enter_to_save: "Aby zapisać, naciśnij Enter."
     label_public_query: "Publiczny"
@@ -315,7 +334,9 @@ pl:
     label_subject: "Temat"
     label_this_week: "ten tydzień"
     label_today: "dzisiaj"
+    label_time_entry_plural: "Czas pracy"
     label_up: "W górę"
+    label_user_plural: "Użytkownicy"
     label_activity_show_only_comments: "Wyświetl aktywności tylko z komentarzami"
     label_activity_show_all: "Wyświetl wszystkie aktywności"
     label_total_progress: "%{percent}% Całkowitego postępu"
@@ -357,6 +378,7 @@ pl:
     label_wait: "Proszę poczekaj na zakończenie konfiguracji..."
     label_upload_counter: "%{done} z %{count} plików ukończono"
     label_validation_error: "Zadania nie mogą być zapisane z powodu błędów:"
+    label_version_plural: "Wersje"
     label_view_has_changed: "Ten widok zawiera niezapisane zmiany. Kliknij, aby je zapisać."
     help_texts:
       show_modal: 'Pokaż atrybut wpisu tekstu pomocy'
@@ -436,10 +458,16 @@ pl:
           includes: "zawierające"
           requires: "wymagające"
           required: "wymagane przez"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projekty"
+        settings: "Ustawienia"
     time_entry:
       activity: 'Działanie'
       comment: 'Komentarz'
       hours: 'Godziny'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'
     watchers:
       label_loading: ładowanie obserwatorów...
       label_error_loading: Wystąpił błąd podczas ładowania obserwatorów.

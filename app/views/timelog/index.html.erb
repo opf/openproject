@@ -42,17 +42,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= render partial: 'date_range' %>
 <% end %>
 
-<%= render 'time_entry_tabs' %>
+<%= render_tabs time_entry_tabs %>
 
-<div class="notification-box -warning">
-  <a title="close" class="notification-box--close icon-context icon-close"></a>
-  <div class="notification-box--content">
-    <%= t('deprecations.time_entries') %>
-  </div>
-</div>
-<div>
-  <%= other_formats_links do |f| %>
-    <%= f.link_to 'CSV', url: permitted_params.timelog.to_h %>
-  <% end %>
-</div>
 <% html_title l(:label_spent_time) %>

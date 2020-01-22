@@ -30,7 +30,7 @@
     "tslint": "5.18.0"
   },
   "dependencies": {
-    "@angular-devkit/build-angular": "^0.803.21",
+    "@angular-devkit/build-angular": "^0.803.23",
     "@angular/animations": "8.2.9",
     "@angular/cdk": "^8.2.2",
     "@angular/cli": "^8.3.8",
@@ -111,7 +111,7 @@
     "ng2-rx-componentdestroyed": "3.0.1",
     "ngtemplate-loader": "^2.0.1",
     "ngx-gallery": "^5.10.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "observable-array": "0.0.4",
     "reactivestates": "2.0.1",
     "reflect-metadata": "^0.1.13",

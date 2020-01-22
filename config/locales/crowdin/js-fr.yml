@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ fr:
         inline: 'Surligner la ligne :'
         entire_card_by: 'Carte complète par'
       remove_from_list: 'Supprimer la carte de la liste'
+    caption_rate_history: "Historique des tarifs"
     clipboard:
       browser_error: "Votre navigateur ne prend pas en charge la copie dans le presse-papier. Veuillez copier manuellement le texte sélectionné."
       copied_successful: "Copié avec succès vers le presse-papier !"
@@ -171,6 +172,9 @@ fr:
       cannot_save_changes_with_message: "Impossible d’enregistrer vos modifications en raison de l’erreur suivante : %{error}"
       query_saving: "La vue n'a pas pu être enregistrée."
       embedded_table_loading: "La vue intégrée n’a pas pu être chargée : %{message}"
+    enumeration_activities: "Activités (suivi de temps)"
+    enumeration_doc_categories: "Catégories de documents"
+    enumeration_work_package_priorities: "Priorités du Lot de Travaux"
     filter:
       description:
         text_open_filter: "Ouvrir ce filtre avec les touches « ALT » et fléchées."
@@ -192,6 +196,7 @@ fr:
     general_text_yes: "oui"
     general_text_No: "Non"
     general_text_Yes: "Oui"
+    global_roles: Rôles globaux
     hal:
       error:
         update_conflict_refresh: "Cliquez ici pour actualiser la resource et mettre à jour vers la version la plus récente."
@@ -222,6 +227,7 @@ fr:
     label_and: "et"
     label_ascending: "Croissant"
     label_author: "Auteur : %{user}"
+    label_avatar: "Avatar"
     label_between: "entre"
     label_board: "Tableau"
     label_board_locked: "Verrouillé"
@@ -235,6 +241,8 @@ fr:
     label_deactivate: "Désactiver"
     label_descending: "Décroissant"
     label_description: "Description"
+    label_details: "Détails"
+    label_display: "Affichage"
     label_cancel_comment: "Annuler le commentaire"
     label_closed_work_packages: "clôturé"
     label_collapse: "Regrouper"
@@ -255,22 +263,29 @@ fr:
     label_export: "Exporter"
     label_filename: "Fichier"
     label_filesize: "Taille"
+    label_general: "Général"
     label_greater_or_equal: ">="
     label_group: 'Groupe'
     label_group_by: "Grouper par"
+    label_group_plural: "Groupes"
     label_hide_attributes: "Afficher moins"
     label_hide_column: "Masquer la colonne"
     label_hide_project_menu: "Replier le menu du projet"
     label_in: "dans"
     label_in_less_than: "dans moins de"
     label_in_more_than: "dans plus de"
+    label_incoming_emails: "Courriels entrants"
+    label_information_plural: "Information"
     label_import: "Importer"
     label_latest_activity: "Dernière activité"
     label_last_updated_on: "Dernière modification le"
     label_less_or_equal: "<="
     label_less_than_ago: "il y a moins de quelques jours"
     label_loading: "Chargement…"
+    label_mail_notification: "Notifications par courriel"
     label_me: "moi"
+    label_meeting_agenda: "Ordre du jour"
+    label_meeting_minutes: "Compte-rendu"
     label_menu_collapse: "réduire"
     label_menu_expand: "développer"
     label_more_than_ago: "il y a plus de quelques jours"
@@ -291,12 +306,15 @@ fr:
     label_previous: "Précédent"
     label_per_page: "Par page:"
     label_please_wait: "Veuillez patienter"
+    label_project_plural: "Projets"
     label_visibility_settings: "Paramètres de visibilité"
     label_quote_comment: "Citer ce commentaire"
     label_reset: "Réinitialiser"
     label_remove_column: "Supprimer la colonne"
     label_remove_columns: "Enlever les colonnes sélectionnées"
     label_remove_row: "Supprimer la ligne"
+    label_report: "Rapport"
+    label_repository_plural: "Dépôts"
     label_save_as: "Enregistrer sous"
     label_select_watcher: "Sélectionner un observateur…"
     label_selected_filter_list: "Filtres sélectionnés"
@@ -307,6 +325,7 @@ fr:
     label_sort_higher: "Déplacer vers le haut"
     label_sort_lower: "Déplacer vers le bas"
     label_sorting: "Tri"
+    label_spent_time: "Temps passé"
     label_star_query: "Préféré"
     label_press_enter_to_save: "Appuyer sur \"entrée\" pour enregistrer."
     label_public_query: "Public"
@@ -315,7 +334,9 @@ fr:
     label_subject: "Sujet"
     label_this_week: "cette semaine"
     label_today: "aujourd'hui"
+    label_time_entry_plural: "Temps passé"
     label_up: "Haut"
+    label_user_plural: "Utilisateurs"
     label_activity_show_only_comments: "Afficher les activités avec les commentaires seulement"
     label_activity_show_all: "Afficher toutes les activités"
     label_total_progress: "%{percent}% de progression totale"
@@ -357,6 +378,7 @@ fr:
     label_wait: "Veuillez patienter pendant la configuration…"
     label_upload_counter: "%{done} fichiers sur %{count} finis"
     label_validation_error: "Le lot de travaux n'a pas pu être enregistré en raison des erreurs suivantes :"
+    label_version_plural: "Versions"
     label_view_has_changed: "Cette vue a des changements non sauvegardés. Cliquez pour les enregistrer."
     help_texts:
       show_modal: 'Afficher l’aide de l’attribut de saisie de texte'
@@ -436,10 +458,16 @@ fr:
           includes: "incluant"
           requires: "requérant"
           required: "requis par"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projets"
+        settings: "Paramètres"
     time_entry:
       activity: 'Activité'
       comment: 'Commentaire'
       hours: 'Heures'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Authentification à deux facteurs'
     watchers:
       label_loading: observateurs en cours de chargement…
       label_error_loading: Une erreur s'est produite lors du chargement des observateurs
