@@ -46,11 +46,7 @@ import {GonService} from "core-app/modules/common/gon/gon.service";
 <canvas class="ifc-model-viewer--section-planes-overview-canvas"></canvas>
 `
 })
-export class IFCViewerComponent implements OnInit, OnDestroy {
-  @Input() public ifcModelId:string;
-  @Input() public xktFileUrl:string;
-  @Input() public metadataFileUrl:string;
-
+export class IFCViewerComponent implements OnInit {
   constructor(private Gon:GonService,
               private elementRef:ElementRef) {
   }
@@ -77,9 +73,6 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
       viewerUI.loadProject(this.Gon.get('ifc_models', 'projects') as any [0]["id"]);
     });
   }
-
-  // tslint:disable-next-line:no-empty
-  ngOnDestroy():void {}
 }
 DynamicBootstrapper.register({
   selector: 'ifc-viewer', cls: IFCViewerComponent
