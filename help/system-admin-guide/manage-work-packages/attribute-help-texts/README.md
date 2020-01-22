@@ -40,4 +40,11 @@ When the users click on it, they see the description for this attribute.
 
 
 
- 
+ ## Edit or delete attribute help texts
+
+Navigate to -> *Administration* -> *Work packages* -> *Attribute help texts* in order to edit or remove an attribute help text.
+
+1. Click on the **name** of the attribute to edit an existing attribute help text.
+2. Click on the **delete icon** to delete an attribute help text.
+
+![Sys-admin-edit-delete-attribute-help-texts](Sys-admin-edit-delete-attribute-help-texts.png)
