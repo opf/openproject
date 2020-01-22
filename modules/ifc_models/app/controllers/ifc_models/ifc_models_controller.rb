@@ -146,7 +146,7 @@ module ::IFCModels
 
     def permitted_model_params
       params
-        .fetch(:ifc_models_ifc_model, {})
+        .require(:ifc_models_ifc_model)
         .permit('title', 'ifc_attachment', 'is_default')
     end
 
