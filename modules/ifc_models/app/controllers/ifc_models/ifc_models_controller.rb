@@ -34,17 +34,15 @@ module ::IFCModels
 
     before_action :find_project_by_project_id, only: %i[index new create show show_defaults edit update destroy]
     before_action :find_ifc_model_object, except: %i[index new create]
-    before_action :find_all_ifc_models, only: %i[show show_defaults]
+    before_action :find_all_ifc_models, only: %i[show show_defaults index]
 
     before_action :authorize
 
     menu_item :ifc_models
 
     def index
-      @ifc_models = @project
-        .ifc_models
-        .order('created_at ASC')
-        .includes(:uploader, :project)
+      @ifc_models = @ifc_models
+                    .includes(:project, :uploader)
     end
 
     def new
@@ -116,6 +114,7 @@ module ::IFCModels
     def find_all_ifc_models
       @ifc_models = @project
                       .ifc_models
+                      .includes(:attachments)
                       .order('created_at ASC')
     end
 
