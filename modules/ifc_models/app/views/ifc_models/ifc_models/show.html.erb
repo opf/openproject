@@ -32,11 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title h(@ifc_model.title) -%>
 
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag "ifc_viewer/generic", media: 'all' %>
-  <%= include_gon(nonce: content_security_policy_script_nonce) %>
-<% end %>
-
+<%= render partial: 'show_headers', locals: { all_models: @ifc_models, selected_models: [@ifc_model] } %>
 
 <%= toolbar title: @ifc_model.title do %>
   <% if authorize_for('ifc_models/ifc_models', :edit) %>
