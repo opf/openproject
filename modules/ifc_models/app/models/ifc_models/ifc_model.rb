@@ -36,7 +36,11 @@ module IFCModels
     ##
     # Delete the given named description
     def get_attached_type(key)
-      attachments.find_by_description(key.to_s)
+      if attachments.loaded?
+        attachments.detect { |a| a.description == key.to_s && !a.marked_for_destruction? }
+      else
+        attachments.find_by_description(key.to_s)
+      end
     end
 
     ##
