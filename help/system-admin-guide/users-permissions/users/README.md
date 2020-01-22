@@ -35,7 +35,7 @@ Also, you get the information when the user has been created, and when the user 
 
 If you want to **block users permanently** in the system, you can click the **Lock permanently** link next to a user.
 
-If you are using the [OpenProject Cloud Edition](././cloud-edition-guide), you will then have a new user available to add to the system within your booked plan.
+If you are using the [OpenProject Cloud Edition](../cloud-edition-guide), you will then have a new user available to add to the system within your booked plan.
 
 <div class="alert alert-info" role="alert">
 **Note**: The previous activities from this locked users will still be displayed in the system.
@@ -90,13 +90,13 @@ You will see all the Activities accross all projects from this user, as well as 
 
 ### General settings
 
-You can manage individual user settings if you click on the user name in the list. The settings will overwrite the individual user settings set in the [My Account settings](././getting-started/my-account/).
+You can manage individual user settings if you click on the user name in the list. The settings will overwrite the individual user settings set in the [My Account settings](../getting-started/my-account/).
 
 (1) Change username, first name, last name, email address or language. Activate or deactivate **Administrator** permission.
 
 (2) See user based custom fields.
 
-(3) Display last given [user consent](./settings/#user-consent).
+(3) Display last given [user consent](././settings/#user-consent).
 
 (4) Display **authentication provider**.
 
@@ -118,7 +118,7 @@ On the **Projects** tab, select the new project from the drop-down list, choose 
 
 ### Add users to groups
 
-In order to add a user to a group, at least [one group needs to be created](./groups) in the system.
+In order to add a user to a group, at least [one group needs to be created](././groups) in the system.
 
 Select or de-select the groups a user should be a member of. Click the blue **Save** button.
 

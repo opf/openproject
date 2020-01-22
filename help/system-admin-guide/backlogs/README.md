@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: Authentication
-  priority: 770
-description: Authentication in OpenProject.
+  title: Backlogs
+  priority: 670
+description: Configure backlogs in OpenProject.
 robots: index, follow
-keywords: authentication
+keywords: configure backlogs
 ---
-# Authentication
+# Backlogs
 
 Coming soon!
 

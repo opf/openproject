@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: Authentication
-  priority: 770
-description: Authentication in OpenProject.
+  title: Announcement
+  priority: 760
+description: Announcements in OpenProject.
 robots: index, follow
-keywords: authentication
+keywords: announcement
 ---
-# Authentication
+# Announcement
 
 Coming soon!
 

@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: Authentication
-  priority: 770
-description: Authentication in OpenProject.
+  title: System settings
+  priority: 780
+description: System settings in OpenProject.
 robots: index, follow
-keywords: authentication
+keywords: system settings
 ---
-# Authentication
+# System settings
 
 Coming soon!
 
@@ -14,8 +14,6 @@ Coming soon!
 
 | Popular Topics | Description |
 | -------------- | :---------- |
-|                |             |
-|                |             |
 |                |             |
 |                |             |
 |                |             |

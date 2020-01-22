@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: Authentication
-  priority: 770
-description: Authentication in OpenProject.
+  title: Information
+  priority: 500
+description: System information in OpenProject.
 robots: index, follow
-keywords: authentication
+keywords: system information
 ---
-# Authentication
+# System information
 
 Coming soon!
 
