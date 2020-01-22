@@ -5,6 +5,9 @@ module IFCModels
     belongs_to :project
     belongs_to :uploader, class_name: 'User', foreign_key: 'uploader_id'
 
+    validates :title, presence: true
+    validates :project, presence: true
+
     scope :defaults, -> { where(is_default: true) }
 
     %i(ifc xkt metadata).each do |name|

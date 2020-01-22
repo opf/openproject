@@ -35,8 +35,6 @@ module IFCModels
     attribute :title
     attribute :is_default
     attribute :project
-    attribute :uploader
-    attribute :is_default
 
     def self.model
       ::IFCModels::IFCModel
@@ -45,6 +43,8 @@ module IFCModels
     def validate
       user_allowed_to_manage
       user_is_uploader
+      ifc_attachment_existent
+      uploader_is_ifc_attachment_author
 
       super
     end
@@ -56,9 +56,17 @@ module IFCModels
     end
 
     def user_is_uploader
-      unless model.uploader == user
-        errors.add :base, :error_unauthorized
+      if model.uploader_id_changed? && model.uploader != user
+        errors.add :uploader_id, :invalid
       end
+    end
+
+    def ifc_attachment_existent
+      errors.add :base, :ifc_attachment_missing unless model.ifc_attachment
+    end
+
+    def uploader_is_ifc_attachment_author
+      errors.add :uploader_id, :invalid if model.ifc_attachment && model.uploader != model.ifc_attachment.author
     end
   end
 end
