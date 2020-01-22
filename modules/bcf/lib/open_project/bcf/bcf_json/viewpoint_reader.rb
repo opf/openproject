@@ -1,3 +1,5 @@
+require 'bigdecimal'
+
 module OpenProject::Bcf
   module BcfJson
     class ViewpointReader
@@ -84,9 +86,9 @@ module OpenProject::Bcf
 
         hash[key].transform_values! do |v|
           if v.is_a?(Hash)
-            v.transform_values!(&:to_f)
+            v.transform_values! { |val| to_numeric(val) }
           else
-            v.to_f
+            to_numeric(v)
           end
         end
       end
@@ -95,7 +97,7 @@ module OpenProject::Bcf
         return unless hash['lines']
 
         hash['lines'] = hash['lines']['line'].map! do |line|
-          line.deep_transform_values!(&:to_f)
+          line.deep_transform_values! { |val| to_numeric(val) }
         end
       end
 
@@ -103,7 +105,7 @@ module OpenProject::Bcf
         return unless hash['clipping_planes']
 
         hash['clipping_planes'] = hash['clipping_planes']['clipping_plane'].map! do |plane|
-          plane.deep_transform_values!(&:to_f)
+          plane.deep_transform_values! { |val| to_numeric(val) }
         end
       end
 
@@ -118,13 +120,13 @@ module OpenProject::Bcf
         hash['bitmaps'] = bitmaps.map! do |bitmap|
           bitmap['bitmap_type'] = bitmap.delete('bitmap').downcase
           bitmap['bitmap_data'] = bitmap.delete('reference')
-          bitmap['height'] = bitmap['height'].to_f
+          bitmap['height'] = to_numeric(bitmap['height'])
 
           %w[location normal up].each do |key|
             next unless bitmap.key?(key)
 
             # Transform all coordinates to floats
-            bitmap[key].transform_values!(&:to_f)
+            bitmap[key].transform_values! { |val| to_numeric(val) }
           end
 
           bitmap
@@ -178,6 +180,15 @@ module OpenProject::Bcf
 
         # Remove the old node
         hash['components'].delete('view_setup_hints')
+      end
+
+      def to_numeric(anything)
+        num = BigDecimal.new(anything.to_s)
+        if num.frac == 0
+          num.to_i
+        else
+          num.to_f
+        end
       end
     end
   end

@@ -103,6 +103,7 @@ module OpenProject::Costs
     add_tab_entry :user,
                   name: 'rates',
                   partial: 'users/rates',
+                  path: ->(params) { tab_edit_user_path(params[:user], tab: :rates) },
                   label: :caption_rate_history
 
     add_api_attribute on: :work_package, ar_name: :cost_object_id

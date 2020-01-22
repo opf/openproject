@@ -40,6 +40,6 @@ describe 'Work Package table configuration modal', js: true do
     expect(page).to have_focus_on('.columns-modal--content input.select2-input')
 
     # Expect active tab is columns
-    expect(page).to have_selector('.tab-show.selected', text: 'Columns')
+    expect(page).to have_selector('.tab-show.selected', text: 'COLUMNS')
   end
 end

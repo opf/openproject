@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ da:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Satshistorik"
     clipboard:
       browser_error: "Din browser understøtter ikke kopiering til Udklipsholder. Kopiér venligst den markerede tekst manuelt."
       copied_successful: "Kopieret til Udklipsholder!"
@@ -170,6 +171,9 @@ da:
       cannot_save_changes_with_message: "Kan ikke gemme dine ændringer på grund af følgende fejl: %{error}"
       query_saving: "Visningen kunne ikke gemmes."
       embedded_table_loading: "Den indlejrede visning kunne ikke indlæses: %{message}"
+    enumeration_activities: "Aktiviteter (styring af tid)"
+    enumeration_doc_categories: "Dokumentkategorier"
+    enumeration_work_package_priorities: "Prioritering af arbejdspakker"
     filter:
       description:
         text_open_filter: "Åbn dette filter med 'ALT' og pile tasterne."
@@ -191,6 +195,7 @@ da:
     general_text_yes: "ja"
     general_text_No: "Nej"
     general_text_Yes: "Ja"
+    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Klik her for at opdatere til den nyeste version."
@@ -221,6 +226,7 @@ da:
     label_and: "og"
     label_ascending: "Stigende"
     label_author: "Forfatter: %{user}"
+    label_avatar: "Avatar"
     label_between: "mellem"
     label_board: "Board"
     label_board_locked: "Låst"
@@ -234,6 +240,8 @@ da:
     label_deactivate: "Deaktivér"
     label_descending: "Faldende"
     label_description: "Beskrivelse"
+    label_details: "Detaljer"
+    label_display: "Vis"
     label_cancel_comment: "Annuller kommentar"
     label_closed_work_packages: "lukket"
     label_collapse: "Fold sammen"
@@ -254,22 +262,29 @@ da:
     label_export: "Eksportér"
     label_filename: "Fil"
     label_filesize: "Størrelse"
+    label_general: "Generelle"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
     label_group_by: "Gruppér efter"
+    label_group_plural: "Grupper"
     label_hide_attributes: "Vis mindre"
     label_hide_column: "Gem kolonne"
     label_hide_project_menu: "Collapse project menu"
     label_in: "i"
     label_in_less_than: "på mindre end"
     label_in_more_than: "på mere end"
+    label_incoming_emails: "Indkommende e-mails"
+    label_information_plural: "Information"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Senest opdateret den"
     label_less_or_equal: "<="
     label_less_than_ago: "mindre end dage siden"
     label_loading: "Henter..."
+    label_mail_notification: "E-mail-påmindelser"
     label_me: "mig"
+    label_meeting_agenda: "Dagsorden"
+    label_meeting_minutes: "Referat"
     label_menu_collapse: "Fold menu sammen"
     label_menu_expand: "Fold menu ud"
     label_more_than_ago: "mere end dage siden"
@@ -290,12 +305,15 @@ da:
     label_previous: "Foregående"
     label_per_page: "Per side:"
     label_please_wait: "Please wait"
+    label_project_plural: "Projekter"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Citér denne kommentar"
     label_reset: "Nulstil"
     label_remove_column: "Remove column"
     label_remove_columns: "Fjern valgte kolonner"
     label_remove_row: "Remove row"
+    label_report: "Rapport"
+    label_repository_plural: "Projektarkiver"
     label_save_as: "Gem som"
     label_select_watcher: "Vælg en tilsynsførende..."
     label_selected_filter_list: "Valgte filtre"
@@ -306,6 +324,7 @@ da:
     label_sort_higher: "Flyt op"
     label_sort_lower: "Flyt ned"
     label_sorting: "Sorterer"
+    label_spent_time: "Anvendt tid"
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Offentlig"
@@ -314,7 +333,9 @@ da:
     label_subject: "Emne"
     label_this_week: "denne uge"
     label_today: "i dag"
+    label_time_entry_plural: "Anvendt tid"
     label_up: "Up"
+    label_user_plural: "Brugere"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
     label_total_progress: "Samlet fremskridt: %{percent}%"
@@ -356,6 +377,7 @@ da:
     label_wait: "Vent venligst på opsætning..."
     label_upload_counter: "%{done} af %{count} filer færdige"
     label_validation_error: "Arbejdspakken kunne ikke gemmes grundet følgende fejl:"
+    label_version_plural: "Versioner"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Vis attributten til hjælpetekst'
@@ -435,10 +457,16 @@ da:
           includes: "including"
           requires: "requiring"
           required: "required by"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projekter"
+        settings: "Indstillinger"
     time_entry:
       activity: 'Aktivivtet'
       comment: 'Kommentér'
       hours: 'Timer'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Two-factor authentication'
     watchers:
       label_loading: indlæser iagttagere...
       label_error_loading: En fejl opstod under indlæsning af seere

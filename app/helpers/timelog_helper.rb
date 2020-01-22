@@ -30,6 +30,23 @@
 module TimelogHelper
   include ApplicationHelper
 
+  def time_entry_tabs
+    [
+      {
+        name: 'details',
+        partial: 'timelog/time_entry_tab',
+        path: polymorphic_time_entries_path(@issue || @project),
+        label: :label_details
+      },
+      {
+        name: 'report',
+        partial: 'time_entries/reports/reports_tab',
+        path: polymorphic_time_entries_report_path(@issue || @project),
+        label: :label_report
+      }
+    ]
+  end
+
   # Returns a collection of activities for a select field.  time_entry
   # is optional and will be used to check if the selected TimeEntryActivity
   # is active.

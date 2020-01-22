@@ -30,13 +30,13 @@ el:
           no_results: 'Δεν έχουν οριστεί προσαρμοσμένα πεδία για έργα.'
         project_status:
           title: 'Κατάσταση έργου'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
+          on_track: 'Eντός πορείας'
+          off_track: 'Eκτός πορείας'
+          at_risk: 'Σε κίνδυνο'
           not_set: 'Μη ορισμένο'
         subprojects:
           title: 'Υποέργα'
-          no_results: 'Δεν υπάρχουν υποπρογράμματα.'
+          no_results: 'Δεν υπάρχουν υποέργα.'
         time_entries_list:
           title: 'Χρόνος που δαπανήθηκε (τις τελευταίες 7 ημέρες)'
           no_results: 'Δεν υπάρχουν καταχωρήσεις χρόνου για τις τελευταίες 7 ημέρες.'

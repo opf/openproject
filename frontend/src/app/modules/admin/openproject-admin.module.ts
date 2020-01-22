@@ -45,11 +45,10 @@ import {TypeFormQueryGroupComponent} from "core-app/modules/admin/types/query-gr
     TypeFormAttributeGroupComponent,
     TypeFormQueryGroupComponent,
     TypeFormConfigurationComponent,
-    GroupEditInPlaceComponent,
+    GroupEditInPlaceComponent
   ],
   entryComponents: [
     TypeFormConfigurationComponent
   ]
 })
 export class OpenprojectAdminModule { }
-

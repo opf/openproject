@@ -38,6 +38,8 @@ class MeetingContentsController < ApplicationController
   helper :watchers
   helper :meetings
 
+  helper_method :gon
+
   before_action :find_meeting, :find_content
   before_action :authorize
 

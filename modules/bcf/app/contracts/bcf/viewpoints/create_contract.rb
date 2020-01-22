@@ -131,7 +131,7 @@ module Bcf::Viewpoints
 
       if ocjson.keys != ORTHOGONAL_CAMERA_PROPERTIES ||
          ocjson.except('view_to_world_scale').any? { |_, direction| invalid_direction?(direction) } ||
-         !ocjson['view_to_world_scale'].is_a?(Float)
+         !ocjson['view_to_world_scale'].is_a?(Numeric)
         errors.add(:json_viewpoint, :invalid_orthogonal_camera)
       end
     end
@@ -141,7 +141,7 @@ module Bcf::Viewpoints
 
       if pcjson.keys != PERSPECTIVE_CAMERA_PROPERTIES ||
          pcjson.except('field_of_view').any? { |_, direction| invalid_direction?(direction) } ||
-         !pcjson['field_of_view'].is_a?(Float)
+         !pcjson['field_of_view'].is_a?(Numeric)
         errors.add(:json_viewpoint, :invalid_perspective_camera)
       end
     end
@@ -246,7 +246,7 @@ module Bcf::Viewpoints
     def invalid_direction?(direction)
       !direction.is_a?(Hash) ||
         direction.keys != WHITELISTED_DIMENSIONS ||
-        direction.values.any? { |v| !v.is_a? Float }
+        direction.values.any? { |v| !v.is_a? Numeric }
     end
     alias_method :invalid_point?, :invalid_direction?
 

@@ -31,6 +31,8 @@ class GroupsController < ApplicationController
   include GroupsHelper
   layout 'admin'
 
+  helper_method :gon
+
   before_action :require_admin
   before_action :find_group, only: [:destroy,
                                     :show, :create_memberships, :destroy_membership,

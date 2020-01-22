@@ -60,7 +60,7 @@ Feature: Close and open meeting agendas
             | close_meeting_agendas |
        When I am already logged in as "alice"
         And I go to the show page of the meeting called "Bobs Meeting"
-        And I follow "Minutes" within ".tabs"
+        And I follow "Minutes" within ".scrollable-tabs"
        Then I should not see "Edit" within ".meeting_minutes"
         And I should see "Close the agenda to begin the Minutes" within ".meeting_minutes"
 

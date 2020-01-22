@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ fil:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Ang iyong browser ay hindi suporta ang pagkokopya sa clipboard. Mangayaring kopyahin ng manu-mano ang napiling teksto."
       copied_successful: "Matagumpay na kinopya sa clipboard!"
@@ -171,6 +172,9 @@ fil:
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
+    enumeration_activities: "Mga aktibidad (time tracking)"
+    enumeration_doc_categories: "Mga kategorya ng dokumento"
+    enumeration_work_package_priorities: "Ang mga prioridad ng work package"
     filter:
       description:
         text_open_filter: "Buksan ang filter na ito sa 'ALT' at ang mga arrow key."
@@ -192,6 +196,7 @@ fil:
     general_text_yes: "oo"
     general_text_No: "Hindi"
     general_text_Yes: "Oo"
+    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -222,6 +227,7 @@ fil:
     label_and: "at"
     label_ascending: "Pataas"
     label_author: "May-Akda: %{user}"
+    label_avatar: "Avatar"
     label_between: "sa pagitan ng"
     label_board: "Board"
     label_board_locked: "Naka-lock"
@@ -235,6 +241,8 @@ fil:
     label_deactivate: "I-deactivate"
     label_descending: "Pababa"
     label_description: "Deskripsyon"
+    label_details: "Mga detalye"
+    label_display: "Ipakita"
     label_cancel_comment: "Ikansela ang komento"
     label_closed_work_packages: "isinara"
     label_collapse: "Bumagsak"
@@ -255,22 +263,29 @@ fil:
     label_export: "I-export"
     label_filename: "File"
     label_filesize: "Sukat"
+    label_general: "Pangkalahatan"
     label_greater_or_equal: ">=="
     label_group: 'Grupo'
     label_group_by: "Pangkat sa"
+    label_group_plural: "Mga grupo"
     label_hide_attributes: "Magpakita ng mas kaunti"
     label_hide_column: "Itago ang mga hanay"
     label_hide_project_menu: "Collapse project menu"
     label_in: "sa"
     label_in_less_than: "mas mababa kaysa"
     label_in_more_than: "mahigit sa"
+    label_incoming_emails: "Papasok na mga email"
+    label_information_plural: "Impormasyon"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Huking naka-update sa"
     label_less_or_equal: "<="
     label_less_than_ago: "mas mababa kaysa sa mga araw na lumipas"
     label_loading: "Naglo-load..."
+    label_mail_notification: "Mga abiso ng emailba"
     label_me: "ako"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Minutes"
     label_menu_collapse: "bumagsak"
     label_menu_expand: "palawakin"
     label_more_than_ago: "mahigit sa araw nakalipas"
@@ -291,12 +306,15 @@ fil:
     label_previous: "Nakaraan"
     label_per_page: "Bawat pahina:"
     label_please_wait: "Pakiusap maghantay"
+    label_project_plural: "Mga proyekto"
     label_visibility_settings: "Ang mga setting ng katanyagan"
     label_quote_comment: "I-quote ang komentong ito"
     label_reset: "I-reset"
     label_remove_column: "Remove column"
     label_remove_columns: "Tanggalin ang mga napiling hanay"
     label_remove_row: "Remove row"
+    label_report: "Ulat"
+    label_repository_plural: "Mga repositoryo"
     label_save_as: "I-save bilang"
     label_select_watcher: "Pumili ng manunuod..."
     label_selected_filter_list: "Napiling mga filter"
@@ -307,6 +325,7 @@ fil:
     label_sort_higher: "Lumipat pataas"
     label_sort_lower: "Ilipat sa ibaba"
     label_sorting: "Pag-aayos"
+    label_spent_time: "Nauubos na oras"
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Publiko"
@@ -315,7 +334,9 @@ fil:
     label_subject: "Paksa"
     label_this_week: "ngayong semana"
     label_today: "ngayon"
+    label_time_entry_plural: "Nauubos na oras"
     label_up: "Up"
+    label_user_plural: "Mga gumagamit"
     label_activity_show_only_comments: "Magpakita ng mga aktibidad sa komento lamang"
     label_activity_show_all: "Ipakita lahat ang mga aktibidad"
     label_total_progress: "%{percent}% Kabuang progreso"
@@ -357,6 +378,7 @@ fil:
     label_wait: "Mangyaring maghintay para sa kompigurasyon..."
     label_upload_counter: "%{done} ng %{count} mga file ay natapos"
     label_validation_error: "Ang work package ay hindo maaring o-save dahil sa mga sumusunod na mali:"
+    label_version_plural: "Mga bersyon"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Magpakita ng katangian tekstong tulong entry'
@@ -436,10 +458,16 @@ fil:
           includes: "including"
           requires: "requiring"
           required: "required by"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Mga proyekto"
+        settings: "Mga setting"
     time_entry:
       activity: 'Aktibidad'
       comment: 'Komento'
       hours: 'Mga oras'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Ang dalwang-Dahilan sa authentication'
     watchers:
       label_loading: naglo-load ang mga manunuod...
       label_error_loading: Isang mali ang naganap habang naglo-load ng mga manunuod

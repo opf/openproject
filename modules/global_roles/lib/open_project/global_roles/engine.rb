@@ -49,6 +49,7 @@ module OpenProject::GlobalRoles
     add_tab_entry :user,
                   name: 'global_roles',
                   partial: 'users/global_roles',
+                  path: ->(params) { tab_edit_user_path(params[:user], tab: :global_roles) },
                   label: :global_roles
 
     initializer 'patch helper' do

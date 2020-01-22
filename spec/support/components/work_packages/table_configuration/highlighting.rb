@@ -83,7 +83,7 @@ module Components
         ::Components::WorkPackages::SettingsMenu.new.open_and_choose 'Configure view'
 
         retry_block do
-          find(".tab-show", text: 'Highlighting', wait: 10).click
+          find(".tab-show", text: 'HIGHLIGHTING', wait: 10).click
         end
       end
 
