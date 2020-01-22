@@ -46,8 +46,8 @@ module ErrorMessageHelper
     error_messages = errors.full_messages
 
     errors.details.each do |attribute, details|
-      details.map { |d| d[:error] }.flatten.each do |message|
-        object.errors.add(attribute, message)
+      details.each do |error|
+        object.errors.add(attribute, error[:error], **error.except(:error))
       end
     end
 
