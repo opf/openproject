@@ -52,7 +52,7 @@ module ::IFCModels
     def edit; end
 
     def show
-      provision_gon([@ifc_model])
+      provision_gon_for_ifc_model(@ifc_models, [@ifc_model])
     end
 
     def show_defaults
@@ -61,7 +61,7 @@ module ::IFCModels
       end
 
       @default_ifc_models = @project.ifc_models.defaults
-      provision_gon(@default_ifc_models)
+      provision_gon_for_ifc_model(@ifc_models, @default_ifc_models)
     end
 
     def create
@@ -118,31 +118,6 @@ module ::IFCModels
                       .order('created_at ASC')
     end
 
-    def provision_gon(models_to_load = [])
-      all_converted_models = converted_ifc_models(@ifc_models)
-      converted_models_to_load = converted_ifc_models(models_to_load)
-
-      models_to_load = Hash[converted_models_to_load.map { |ifc_model| [ifc_model.id, true] }]
-      gon.ifc_models = {
-        models: all_converted_models.map do |ifc_model|
-          model = {}
-          model[:id] = ifc_model.id
-          model[:name] = ifc_model.title
-          model[:default] = (!!models_to_load[ifc_model.id])
-
-          model
-        end,
-        projects: [{ id: @project.identifier, name: @project.name }],
-        xkt_attachment_ids: Hash[all_converted_models.map { |ifc_model| [ifc_model.id, ifc_model.xkt_attachment.id] }],
-        metadata_attachment_ids: Hash[
-          all_converted_models.map do |ifc_model|
-            [ifc_model.id,
-             ifc_model.metadata_attachment.id]
-          end
-        ]
-      }
-    end
-
     def permitted_model_params
       params
         .require(:ifc_models_ifc_model)
@@ -151,10 +126,6 @@ module ::IFCModels
 
     def find_ifc_model_object
       @ifc_model = IFCModels::IFCModel.find_by(id: params[:id])
-    end
-
-    def converted_ifc_models(ifc_models)
-      ifc_models.select { |ifc_model| ifc_model.xkt_attachment.present? && ifc_model.metadata_attachment.present? }
     end
   end
 end

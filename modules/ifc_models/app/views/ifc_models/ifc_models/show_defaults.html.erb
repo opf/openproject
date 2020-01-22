@@ -58,10 +58,24 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
     </div>
   </div>
-<% end %>
+<% else %>
+  <% unconverted = @default_ifc_models.reject(&:converted?) %>
 
-<% if @default_ifc_models.map(&:converted?).uniq == [true] %>
-<div class="ifc-viewer--container">
-  <ifc-viewer></ifc-viewer>
-</div>
+  <% if unconverted.any? %>
+    <div class="notification-box -info">
+      <a href="#" title="close" class="notification-box--close icon-context icon-close"></a>
+      <div class="notification-box--content">
+        <p><%= t('ifc_models.processing_notice.processing_default') %></p>
+        <ul>
+          <% unconverted.each do |model| %>
+            <li><%= model.title %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="ifc-viewer--container">
+    <ifc-viewer></ifc-viewer>
+  </div>
 <% end %>

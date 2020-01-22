@@ -16,6 +16,8 @@ en:
       label: 'Processing?'
       in_progress: 'In progress'
       completed: 'Completed'
+    processing_notice:
+      processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
     flash_messages:
       upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
     conversion:
