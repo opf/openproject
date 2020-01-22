@@ -19,9 +19,9 @@ describe ::IFCModels::IFCModel, type: :model do
   describe 'ifc_attachment=' do
     subject { FactoryBot.create :ifc_model_converted }
     let(:ifc_attachment) { subject.ifc_attachment }
-    let(:new_attachment) {
+    let(:new_attachment) do
       FileHelpers.mock_uploaded_file name: "model.ifc", content_type: 'application/binary', binary: true
-    }
+    end
 
     it 'replaces the previous attachment' do
       expect(ifc_attachment).to be_present

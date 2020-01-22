@@ -33,7 +33,6 @@ module IFCModels
 
     PIPELINE_COMMANDS ||= %w[IfcConvert COLLADA2GLTF gltf2xkt xeokit-metadata].freeze
 
-
     def initialize(ifc_model)
       @errors = ActiveModel::Errors.new(self)
       @ifc_model = ifc_model
@@ -49,7 +48,7 @@ module IFCModels
       @@available ||= begin
         PIPELINE_COMMANDS.select do |command|
           _, status = Open3.capture2e('which', command)
-          status.exitstatus == 0
+          status.exitstatus.zero?
         end
       end
     end
@@ -59,11 +58,8 @@ module IFCModels
 
       Dir.mktmpdir do |dir|
         perform_conversion!(dir)
-        if ifc_model.save
-          ServiceResult.new(success: true, result: ifc_model)
-        else
-          ServiceResult.new(success: false, errors: ifc_model.errors)
-        end
+
+        ServiceResult.new(success: ifc_model.save, result: ifc_model)
       end
     rescue StandardError => e
       OpenProject.logger.error("Failed to convert IFC to XKT", exception: e)
@@ -72,21 +68,21 @@ module IFCModels
 
     def perform_conversion!(dir)
       # Step 1: IfcConvert
-      Rails.logger.debug { "Converting #{ifc_model.inspect} to DAE"}
+      Rails.logger.debug { "Converting #{ifc_model.inspect} to DAE" }
       ifc_file = ifc_model.ifc_attachment.diskfile.path
       collada_file = convert_to_collada(ifc_file, dir)
 
       # Step 2: Collada2GLTF
-      Rails.logger.debug { "Converting #{ifc_model.inspect} to GLTF"}
+      Rails.logger.debug { "Converting #{ifc_model.inspect} to GLTF" }
       gltf_file = convert_to_gltf(collada_file, dir)
 
       # Step 3: Convert to XKT
-      Rails.logger.debug { "Converting #{ifc_model.inspect} to XKT"}
+      Rails.logger.debug { "Converting #{ifc_model.inspect} to XKT" }
       xkt_file = convert_to_xkt(gltf_file, dir)
       ifc_model.xkt_attachment = File.new xkt_file
 
       # Convert metadata
-      Rails.logger.debug { "Retrieving metadata of #{ifc_model.inspect}"}
+      Rails.logger.debug { "Retrieving metadata of #{ifc_model.inspect}" }
       metadata_file = convert_metadata(ifc_file, dir)
       ifc_model.metadata_attachment = File.new metadata_file
     end

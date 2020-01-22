@@ -42,7 +42,7 @@ module IFCModels
       end
     end
 
-    def set_default_attributes(params)
+    def set_default_attributes(_params)
       set_title
     end
 

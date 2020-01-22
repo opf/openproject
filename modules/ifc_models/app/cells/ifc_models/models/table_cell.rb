@@ -2,10 +2,10 @@ module IFCModels
   module Models
     class TableCell < ::TableCell
       include ::IconsHelper
-      columns :title, :is_default, :created_at, :updated_at, :uploader, :processing
+      columns :title, :default?, :created_at, :updated_at, :uploader, :processing
 
       def initial_sort
-        [:created_at, :asc]
+        %i[created_at asc]
       end
 
       def sortable?
@@ -31,7 +31,7 @@ module IFCModels
           ['created_at', caption: IFCModel.human_attribute_name(:created_at)],
           ['updated_at', caption: IFCModel.human_attribute_name(:updated_at)],
           ['uploader', caption: IFCModel.human_attribute_name(:uploader)],
-          ['processing', caption: I18n.t('ifc_models.processing_state.label')],
+          ['processing', caption: I18n.t('ifc_models.processing_state.label')]
         ]
       end
     end

@@ -30,17 +30,17 @@ FactoryBot.define do
   factory :ifc_model, class: ::IFCModels::IFCModel do
     title { 'My IFC model' }
     uploader factory: :user
-    ifc_attachment {
+    ifc_attachment do
       FileHelpers.mock_uploaded_file name: "model.ifc", content_type: 'application/binary', binary: true
-    }
+    end
 
     factory :ifc_model_converted do
-      xkt_attachment {
+      xkt_attachment do
         FileHelpers.mock_uploaded_file name: "model.xkt", content_type: 'application/binary', binary: true
-      }
-      metadata_attachment {
+      end
+      metadata_attachment do
         FileHelpers.mock_uploaded_file name: "model.json", content_type: 'application/json', binary: true
-      }
+      end
     end
   end
 end

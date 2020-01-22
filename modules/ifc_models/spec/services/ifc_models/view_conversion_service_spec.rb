@@ -11,13 +11,11 @@ describe IFCModels::ViewConverterService do
         .to(receive(:capture2e))
         .with('which', any_args)
         .and_wrap_original do |_, *args|
-
-        matches =
-           if available.is_a?(Array)
-             available.include?(args[1])
-           else
-             available
-           end
+        matches = if available.is_a?(Array)
+                    available.include?(args[1])
+                  else
+                    available
+                  end
 
         result = OpenStruct.new(exitstatus: matches ? 0 : 1)
         ["irrelevant output", result]
@@ -44,7 +42,6 @@ describe IFCModels::ViewConverterService do
   end
 
   describe '#call' do
-
     context 'if not available?' do
       include_context 'available pipeline commands', false
 

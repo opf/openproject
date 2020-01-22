@@ -14,7 +14,7 @@ module IFCModels
         end
       end
 
-      def is_default
+      def default?
         if model.is_default?
           op_icon 'icon icon-checkmark'
         end
