@@ -40,10 +40,9 @@ class XeokitServer {
    * @param error
    */
   getMetadata(_projectId, modelId, done, error) {
-    let attachmentId = window.gon.ifc_models.metadata_attachment_ids[modelId];
-    const url = "/attachments/" + attachmentId + "/content";
-    console.log("Loading model metadata: " + url);
-    utils.loadJSON(url, done, error);
+    const attachmentId = window.gon.ifc_models.metadata_attachment_ids[modelId];
+    console.log(`Loading model metadata for: ${attachmentId}`);
+    utils.loadJSON(this.attachmentUrl(attachmentId), done, error);
   }
 
   /**
@@ -54,10 +53,13 @@ class XeokitServer {
    * @param error
    */
   getGeometry(projectId, modelId, done, error) {
-    let attachmentId = window.gon.ifc_models.xkt_attachment_ids[modelId];
-    const url = "/attachments/" + attachmentId + "/content";
-    console.log("Loading model geometry: " + url);
-    utils.loadArraybuffer(url, done, error);
+    const attachmentId = window.gon.ifc_models.xkt_attachment_ids[modelId];
+    console.log(`Loading model geometry for: ${attachmentId}`);
+    utils.loadArraybuffer(this.attachmentUrl(attachmentId), done, error);
+  }
+
+  attachmentUrl(attachmentId) {
+    return "/api/v3/attachments/" + attachmentId + "/content";
   }
 }
 
