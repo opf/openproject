@@ -80,6 +80,7 @@ de:
         inline: 'Hervorheben neben Attribut:'
         entire_card_by: 'Gesamte Karte nach'
       remove_from_list: 'Karte aus Liste entfernen'
+    caption_rate_history: "Stundensatz-Historie"
     clipboard:
       browser_error: "Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht nativ. Bitte selektieren und kopieren Sie den Text händisch."
       copied_successful: "Erfolgreich in die Zwischenablage kopiert!"
@@ -170,6 +171,9 @@ de:
       cannot_save_changes_with_message: "Ihre Änderungen können nicht gespeichert werden. Fehler: %{error}"
       query_saving: "Die Ansicht konnte nicht gespeichert werden."
       embedded_table_loading: "Die eingebettete Ansicht konnte nicht geladen werden: %{message}"
+    enumeration_activities: "Aktivitäten (Zeiterfassung)"
+    enumeration_doc_categories: "Dokumentenkategorien"
+    enumeration_work_package_priorities: "Arbeitspaket-Prioritäten"
     filter:
       description:
         text_open_filter: "Öffnen Sie diesen Filter mittels \"Alt\" und den Pfeiltasten."
@@ -191,6 +195,7 @@ de:
     general_text_yes: "ja"
     general_text_No: "Nein"
     general_text_Yes: "Ja"
+    global_roles: Globale Rollen
     hal:
       error:
         update_conflict_refresh: "Klicken Sie hier, um die Ressource auf die neueste Version zu aktualisieren."
@@ -221,6 +226,7 @@ de:
     label_and: "und"
     label_ascending: "Aufsteigend"
     label_author: "Autor: %{user}"
+    label_avatar: "Profilbild"
     label_between: "zwischen"
     label_board: "Board"
     label_board_locked: "Gesperrt"
@@ -234,6 +240,8 @@ de:
     label_deactivate: "Deaktiviere"
     label_descending: "Absteigend"
     label_description: "Beschreibung"
+    label_details: "Details"
+    label_display: "Anzeige"
     label_cancel_comment: "Kommentar abbrechen"
     label_closed_work_packages: "Geschlossen"
     label_collapse: "Zuklappen"
@@ -254,22 +262,29 @@ de:
     label_export: "Exportieren"
     label_filename: "Datei"
     label_filesize: "Größe"
+    label_general: "Allgemein"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
     label_group_by: "Gruppiere Ergebnisse"
+    label_group_plural: "Gruppen"
     label_hide_attributes: "Weniger anzeigen"
     label_hide_column: "Spalte ausblenden"
     label_hide_project_menu: "Projektmenü einklappen"
     label_in: "an"
     label_in_less_than: "in weniger als"
     label_in_more_than: "in mehr als"
+    label_incoming_emails: "Eingehende E-Mails"
+    label_information_plural: "Information"
     label_import: "Import"
     label_latest_activity: "Letzte Änderungen"
     label_last_updated_on: "Zuletzt aktualisiert am"
     label_less_or_equal: "<="
     label_less_than_ago: "vor weniger als (Tage)"
     label_loading: "Lade..."
+    label_mail_notification: "Mailbenachrichtigung"
     label_me: "ich"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Protokoll"
     label_menu_collapse: "zusammenklappen"
     label_menu_expand: "ausklappen"
     label_more_than_ago: "vor mehr als (Tage)"
@@ -290,12 +305,15 @@ de:
     label_previous: "Zurück"
     label_per_page: "Pro Seite:"
     label_please_wait: "Bitte warten"
+    label_project_plural: "Projekte"
     label_visibility_settings: "Sichtbarkeits-Einstellungen"
     label_quote_comment: "Diesen Kommentar zitieren"
     label_reset: "Zurücksetzen"
     label_remove_column: "Spalte entfernen"
     label_remove_columns: "Ausgewählte Spalten entfernen"
     label_remove_row: "Zeile entfernen"
+    label_report: "Report"
+    label_repository_plural: "Projektarchive"
     label_save_as: "Speichern unter"
     label_select_watcher: "Beobachter auswählen ..."
     label_selected_filter_list: "Ausgewählte Filter"
@@ -306,6 +324,7 @@ de:
     label_sort_higher: "Eins höher"
     label_sort_lower: "Eins tiefer"
     label_sorting: "Sortierung"
+    label_spent_time: "Aufgewendete Zeit"
     label_star_query: "Favorisiert"
     label_press_enter_to_save: "Drücken Sie Enter zum Speichern."
     label_public_query: "Öffentlich"
@@ -314,7 +333,9 @@ de:
     label_subject: "Thema"
     label_this_week: "aktuelle Woche"
     label_today: "heute"
+    label_time_entry_plural: "Aufgewendete Zeit"
     label_up: "Nach oben"
+    label_user_plural: "Benutzer"
     label_activity_show_only_comments: "Nur Aktivitäten mit Kommentaren"
     label_activity_show_all: "Alle Aktivitäten anzeigen"
     label_total_progress: "%{percent}% Gesamtfortschritt"
@@ -356,6 +377,7 @@ de:
     label_wait: "Bitte warten Sie auf die Konfiguration..."
     label_upload_counter: "%{done} von %{count} Dateien fertig"
     label_validation_error: "Das Arbeitspaket konnte aufgrund folgender Fehler nicht gespeichert werden:"
+    label_version_plural: "Versionen"
     label_view_has_changed: "Diese Ansicht hat ungespeicherte Änderungen. Klicken, um sie zu speichern."
     help_texts:
       show_modal: 'Hilfe-Text für dieses Attribut anzeigen'
@@ -435,10 +457,16 @@ de:
           includes: "die einschließend sind von"
           requires: "die erfordernd sind von"
           required: "die benötigt werden von"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projekte"
+        settings: "Einstellungen"
     time_entry:
       activity: 'Aktivität'
       comment: 'Kommentar'
       hours: 'Stunden'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Zwei-Faktor-Authentifizierung'
     watchers:
       label_loading: Lade Beobachter...
       label_error_loading: Beim Laden der Beobachter ist ein Fehler aufgetreten

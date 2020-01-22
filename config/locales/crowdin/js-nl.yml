@@ -80,6 +80,7 @@ nl:
         inline: 'Markeer inline:'
         entire_card_by: 'Gehele kaart door'
       remove_from_list: 'Verwijder kaart uit lijst'
+    caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer de geselecteerde tekst handmatig."
       copied_successful: "Met succes gekopieerd naar het klembord!"
@@ -171,6 +172,9 @@ nl:
       cannot_save_changes_with_message: "Uw wijzigingen vanwege de volgende fout niet opslaan: %{error}"
       query_saving: "Het overzicht kon niet bewaard worden."
       embedded_table_loading: "De ingesloten weergave kon niet worden geladen: %{message}"
+    enumeration_activities: "Activiteiten (tijdregistratie)"
+    enumeration_doc_categories: "Document categories"
+    enumeration_work_package_priorities: "Werkpakket prioriteiten"
     filter:
       description:
         text_open_filter: "Open dit filter met de 'ALT'-knop en toetsenbord pijlen."
@@ -192,6 +196,7 @@ nl:
     general_text_yes: "Ja"
     general_text_No: "Nee"
     general_text_Yes: "Ja"
+    global_roles: Globale functies
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -222,6 +227,7 @@ nl:
     label_and: "en"
     label_ascending: "Oplopend"
     label_author: "Auteur: %{user}"
+    label_avatar: "Avatar"
     label_between: "tussen"
     label_board: "Bord"
     label_board_locked: "Vergrendeld"
@@ -235,6 +241,8 @@ nl:
     label_deactivate: "Deactiveren"
     label_descending: "Aflopend"
     label_description: "Omschrijving"
+    label_details: "Details"
+    label_display: "Weergave"
     label_cancel_comment: "Annuleer reactie"
     label_closed_work_packages: "gesloten"
     label_collapse: "Samenvouwen"
@@ -255,22 +263,29 @@ nl:
     label_export: "Exporteren"
     label_filename: "Bestand"
     label_filesize: "Grootte"
+    label_general: "Algemeen"
     label_greater_or_equal: ">="
     label_group: 'Groep'
     label_group_by: "Groeperen op"
+    label_group_plural: "Groepen"
     label_hide_attributes: "Toon minder"
     label_hide_column: "Verberg kolom"
     label_hide_project_menu: "Project menu samenvouwen"
     label_in: "in"
     label_in_less_than: "in minder dan"
     label_in_more_than: "in meer dan"
+    label_incoming_emails: "Inkomende e-mails"
+    label_information_plural: "Informatie"
     label_import: "Import"
     label_latest_activity: "Laatste Activiteit"
     label_last_updated_on: "Laatst geüpdatet op"
     label_less_or_equal: "<="
     label_less_than_ago: "minder dan dagen geleden"
     label_loading: "Laden..."
+    label_mail_notification: "E-mailnotificaties"
     label_me: "ik"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Minuten"
     label_menu_collapse: "samenvouwen"
     label_menu_expand: "uitbreiden"
     label_more_than_ago: "meer dan dagen geleden"
@@ -291,12 +306,15 @@ nl:
     label_previous: "Vorige"
     label_per_page: "Per pagina:"
     label_please_wait: "Een ogenblik geduld"
+    label_project_plural: "Projecten"
     label_visibility_settings: "Zichtbaarheidsinstellingen"
     label_quote_comment: "Citeer dit commentaar"
     label_reset: "Herstel"
     label_remove_column: "Kolom verwijderen"
     label_remove_columns: "Verwijder geselecteerde kolommen"
     label_remove_row: "Rij verwijderen"
+    label_report: "Rapport"
+    label_repository_plural: "Repositories"
     label_save_as: "Opslaan als"
     label_select_watcher: "Kies een toezichter..."
     label_selected_filter_list: "Geselecteerde filters"
@@ -307,6 +325,7 @@ nl:
     label_sort_higher: "Omhoog"
     label_sort_lower: "Omlaag"
     label_sorting: "Sortering"
+    label_spent_time: "Bestede tijd"
     label_star_query: "Favoriet"
     label_press_enter_to_save: "Druk op Enter om te bewaren."
     label_public_query: "Publiek"
@@ -315,7 +334,9 @@ nl:
     label_subject: "Onderwerp"
     label_this_week: "deze week"
     label_today: "vandaag"
+    label_time_entry_plural: "Bestede tijd"
     label_up: "Omhoog"
+    label_user_plural: "Gebruikers"
     label_activity_show_only_comments: "Geef alleen activiteiten met commentaar weer"
     label_activity_show_all: "Geef alle activiteiten weer"
     label_total_progress: "%{percent}% totale vooruitgang"
@@ -357,6 +378,7 @@ nl:
     label_wait: "Moment geduld a.u.b. voor configuratie..."
     label_upload_counter: "%{done} van %{count} bestanden afgerond"
     label_validation_error: "Het werkpakket kon niet worden opgeslagen vanwege de volgende fouten:"
+    label_version_plural: "Versies"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Toon kenmerk help tekstinvoer'
@@ -436,10 +458,16 @@ nl:
           includes: "inclusief"
           requires: "vereisen"
           required: "vereist door"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projecten"
+        settings: "Instellingen"
     time_entry:
       activity: 'Activiteit'
       comment: 'Commentaar'
       hours: 'Uren'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Twee-factor-authenticatie'
     watchers:
       label_loading: volgers worden geladen...
       label_error_loading: Er is een fout opgetreden tijdens het laden van de volgers

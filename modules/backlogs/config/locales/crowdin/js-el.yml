@@ -23,5 +23,5 @@ el:
   js:
     work_packages:
       properties:
-        storyPoints: "Story Points"
+        storyPoints: "Πόντοι Ιστορίας"
         remainingTime: "Υπολειπόμενες Ώρες"

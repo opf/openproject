@@ -67,20 +67,20 @@ de:
       no_results_content_text: Erstellen Sie einen neuen Authentifizierungsmodus
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      Dieses LDAP-Formular erfordert technische Kenntnisse ihres LDAP-/Active Directory Setups.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Bitte besuchen Sie unsere Dokumentation für detaillierte Anweisungen</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      name: Beliebiger Name der LDAP-Verbindung
+      host: LDAP Hostname oder IP-Adresse
+      login_map: Der Attributschlüssel in LDAP, der benutzt wird, um die eindeutige Benutzeranmeldung zu identifizieren. Normalerweise wird dies `uid` oder `samAccountName` sein.
+      generic_map: Der Attributschlüssel in LDAP, der dem OpenProject `%{attribute}` Attribut zugeordnet ist
+      admin_map_html: "Optional: Der Attributenschlüssel in LDAP der, <strong>falls vorhanden</strong>, den OpenProject Nutzer als einen Administrator makiert. \nIm Zweifel leer lassen."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Geben Sie den DN des Systembenutzers ein, der für schreibgeschützten Zugriff verwendet wird.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        Beispiel: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Geben Sie das Bind-Passwort des Systembenutzers ein
       base_dn: |
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
         OpenProject will filter for provided usernames in this subtree only.

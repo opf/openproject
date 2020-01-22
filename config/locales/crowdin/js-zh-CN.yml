@@ -80,6 +80,7 @@ zh-CN:
         inline: '突出显示内联：'
         entire_card_by: '整个卡'
       remove_from_list: '从列表中移除卡'
+    caption_rate_history: "费率历史记录"
     clipboard:
       browser_error: "您的浏览器不支持复制到剪贴板，请手动复制选定的文本。"
       copied_successful: "成功复制到剪贴板!"
@@ -171,6 +172,9 @@ zh-CN:
       cannot_save_changes_with_message: "由于%{error} 原因，无法保存您的更改。"
       query_saving: "无法保存此视图。"
       embedded_table_loading: "无法加载嵌入式视图：%{message}"
+    enumeration_activities: "活动 （时间跟踪）"
+    enumeration_doc_categories: "文档类别"
+    enumeration_work_package_priorities: "工作包优先级"
     filter:
       description:
         text_open_filter: "使用 ALT 和方向键打开筛选器。"
@@ -192,6 +196,7 @@ zh-CN:
     general_text_yes: "是"
     general_text_No: "否"
     general_text_Yes: "是"
+    global_roles: 全局角色
     hal:
       error:
         update_conflict_refresh: "点击此处刷新资源并更新到最新版本。"
@@ -222,6 +227,7 @@ zh-CN:
     label_and: "和"
     label_ascending: "升序"
     label_author: "作者: %{user}"
+    label_avatar: "头像"
     label_between: "介于"
     label_board: "面板"
     label_board_locked: "锁定"
@@ -235,6 +241,8 @@ zh-CN:
     label_deactivate: "停用"
     label_descending: "降序"
     label_description: "描述"
+    label_details: "详细信息"
+    label_display: "显示"
     label_cancel_comment: "取消注释"
     label_closed_work_packages: "关闭"
     label_collapse: "折叠"
@@ -255,22 +263,29 @@ zh-CN:
     label_export: "导出"
     label_filename: "文件"
     label_filesize: "大小"
+    label_general: "通用"
     label_greater_or_equal: ">="
     label_group: '组'
     label_group_by: "分组依据"
+    label_group_plural: "组"
     label_hide_attributes: "隐藏显示"
     label_hide_column: "隐藏列"
     label_hide_project_menu: "折叠项目菜单"
     label_in: "在"
     label_in_less_than: "在小于"
     label_in_more_than: "在多于"
+    label_incoming_emails: "传入电子邮件"
+    label_information_plural: "信息"
     label_import: "导入"
     label_latest_activity: "最新活动"
     label_last_updated_on: "最后更新日期"
     label_less_or_equal: "<="
     label_less_than_ago: "小于数日前"
     label_loading: "正在加载..."
+    label_mail_notification: "电子邮件通知"
     label_me: "我"
+    label_meeting_agenda: "议程"
+    label_meeting_minutes: "会议记录"
     label_menu_collapse: "折叠"
     label_menu_expand: "展开"
     label_more_than_ago: "更多天前"
@@ -291,12 +306,15 @@ zh-CN:
     label_previous: "上一个"
     label_per_page: "每页："
     label_please_wait: "请稍等"
+    label_project_plural: "项目"
     label_visibility_settings: "可见性设置"
     label_quote_comment: "引用这个评论"
     label_reset: "重置"
     label_remove_column: "删除列"
     label_remove_columns: "删除选定的列"
     label_remove_row: "删除行"
+    label_report: "报告"
+    label_repository_plural: "代码库"
     label_save_as: "另存为"
     label_select_watcher: "选择一位关注者..."
     label_selected_filter_list: "所选的筛选器"
@@ -307,6 +325,7 @@ zh-CN:
     label_sort_higher: "向上移动"
     label_sort_lower: "向下移动"
     label_sorting: "排序"
+    label_spent_time: "已耗时间"
     label_star_query: "最爱"
     label_press_enter_to_save: "按回车键可以保存。"
     label_public_query: "公开"
@@ -315,7 +334,9 @@ zh-CN:
     label_subject: "主题"
     label_this_week: "这一周"
     label_today: "今天"
+    label_time_entry_plural: "已耗时间"
     label_up: "向上"
+    label_user_plural: "用户"
     label_activity_show_only_comments: "仅显示批注的活动"
     label_activity_show_all: "显示所有项目"
     label_total_progress: "%{percent} %总进度"
@@ -357,6 +378,7 @@ zh-CN:
     label_wait: "请等待配置..."
     label_upload_counter: "%{count} 个中的 %{done} 个文件已完成"
     label_validation_error: "由于下列错误，无法保存工作包:"
+    label_version_plural: "版本"
     label_view_has_changed: "此视图有未保存的变更。单击以保存。"
     help_texts:
       show_modal: '显示属性帮助文本项'
@@ -436,10 +458,16 @@ zh-CN:
           includes: "包括"
           requires: "要求"
           required: "要求于"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "项目"
+        settings: "设置"
     time_entry:
       activity: '活动'
       comment: '评论'
       hours: '小时'
+    two_factor_authentication:
+      label_two_factor_authentication: '双重身份验证'
     watchers:
       label_loading: 正在加载关注者...
       label_error_loading: 加载关注者时出错

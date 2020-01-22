@@ -80,6 +80,7 @@ el:
         inline: 'Επισήμανση inline:'
         entire_card_by: 'Ολόκληρη κάρτα με'
       remove_from_list: 'Αφαίρεση κάρτας από τη λίστα'
+    caption_rate_history: "Ιστορικό αμοιβής"
     clipboard:
       browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
       copied_successful: "Επιτυχής αντιγραφή στο πρόχειρο!"
@@ -170,6 +171,9 @@ el:
       cannot_save_changes_with_message: "Δεν μπορούμε να αποθηκεύσουμε τις αλλαγές σας λόγω του ακολούθου σφάλματος: %{error}"
       query_saving: "Δεν ήταν δυνατή η αποθήκευση της προβολής."
       embedded_table_loading: "Δεν ήταν δυνατή η φόρτωση της ενσωματωμένης προβολής: %{message}"
+    enumeration_activities: "Δραστηριότητες (παρακολούθηση χρόνου)"
+    enumeration_doc_categories: "Κατηγορίες εγγράφων"
+    enumeration_work_package_priorities: "Προτεραιότητες πακέτου εργασίας"
     filter:
       description:
         text_open_filter: "Ανοίξτε αυτό το φίλτρο με το 'ALT' και τα πλήκτρα βέλους."
@@ -191,6 +195,7 @@ el:
     general_text_yes: "ναι"
     general_text_No: "Όχι"
     general_text_Yes: "Ναι"
+    global_roles: Γενικοί ρόλοι
     hal:
       error:
         update_conflict_refresh: "Κάντε κλικ εδώ για να ανανεώσετε τον πόρο και να κάνετε ενημέρωση στην τελευταία έκδοση."
@@ -221,6 +226,7 @@ el:
     label_and: "και"
     label_ascending: "Αύξουσα"
     label_author: "Συγγραφέας: %{user}"
+    label_avatar: "Άβαταρ"
     label_between: "μεταξύ"
     label_board: "Πίνακας"
     label_board_locked: "Κλειδωμένο"
@@ -234,6 +240,8 @@ el:
     label_deactivate: "Απενεργοποίηση"
     label_descending: "Φθίνουσα"
     label_description: "Περιγραφή"
+    label_details: "Λεπτομέρειες"
+    label_display: "Εμφάνιση"
     label_cancel_comment: "Ακύρωση σχολίου"
     label_closed_work_packages: "κλειστό"
     label_collapse: "Σύμπτυξη"
@@ -254,22 +262,29 @@ el:
     label_export: "Εξαγωγή"
     label_filename: "Aρχείο"
     label_filesize: "Μέγεθος"
+    label_general: "Γενικά"
     label_greater_or_equal: ">="
     label_group: 'Ομάδα'
     label_group_by: "Ομαδοποίηση κατά"
+    label_group_plural: "Ομάδες"
     label_hide_attributes: "Εμφάνιση λιγότερων"
     label_hide_column: "Απόκρυψη στήλης"
     label_hide_project_menu: "Σύμπτυξη του μενού έργου"
     label_in: "σε"
     label_in_less_than: "σε λιγότερο από"
     label_in_more_than: "σε περισσότερο από"
+    label_incoming_emails: "Εισερχόμενα email"
+    label_information_plural: "Πληροφορίες"
     label_import: "Εισαγωγή"
     label_latest_activity: "Τελευταία δραστηριότητα"
     label_last_updated_on: "Τελευταία ενημέρωση στις"
     label_less_or_equal: "<="
     label_less_than_ago: "σε λιγότερο από ημέρες πριν"
     label_loading: "Φόρτωση..."
+    label_mail_notification: "Ειδοποιήσεις email"
     label_me: "εγώ"
+    label_meeting_agenda: "Ατζέντα"
+    label_meeting_minutes: "Πρακτικά"
     label_menu_collapse: "σύμπτυξη"
     label_menu_expand: "επέκταση"
     label_more_than_ago: "σε περισσότερο από ημέρες πριν"
@@ -290,12 +305,15 @@ el:
     label_previous: "Προηγούμενο"
     label_per_page: "Ανά σελίδα:"
     label_please_wait: "Παρακαλώ περιμένετε"
+    label_project_plural: "Έργα"
     label_visibility_settings: "Ρυθμίσεις ορατότητας"
     label_quote_comment: "Παραθέστε αυτό το σχόλιο"
     label_reset: "Επαναφορά"
     label_remove_column: "Κατάργηση στήλης"
     label_remove_columns: "Αφαιρέστε τις επιλεγμένες στήλες"
     label_remove_row: "Κατάργηση γραμμής"
+    label_report: "Αναφορά"
+    label_repository_plural: "Αποθετήρια"
     label_save_as: "Αποθήκευση ως"
     label_select_watcher: "Επιλέξτε έναν παρατηρητή..."
     label_selected_filter_list: "Επιλεγμένα φίλτρα"
@@ -306,6 +324,7 @@ el:
     label_sort_higher: "Μετακίνηση προς τα πάνω"
     label_sort_lower: "Μετακίνηση προς τα κάτω"
     label_sorting: "Ταξινόμηση"
+    label_spent_time: "Χρόνος που δαπανήθηκε"
     label_star_query: "Αγαπημένο"
     label_press_enter_to_save: "Πατήστε enter για αποθήκευση."
     label_public_query: "Δημόσιο"
@@ -314,7 +333,9 @@ el:
     label_subject: "Θέμα"
     label_this_week: "αυτή την εβδομάδα"
     label_today: "σήμερα"
+    label_time_entry_plural: "Χρόνος που δαπανήθηκε"
     label_up: "Πάνω"
+    label_user_plural: "Χρήστες"
     label_activity_show_only_comments: "Εμφάνιση μόνο δραστηριοτήτων με σχόλια"
     label_activity_show_all: "Εμφάνιση όλων των δραστηριοτήτων"
     label_total_progress: "%{percent}% Συνολική πρόοδος"
@@ -356,6 +377,7 @@ el:
     label_wait: "Παρακαλώ περιμένετε για την διαμόρφωση..."
     label_upload_counter: "Ολοκληρώθηκαν %{done} από %{count} αρχεία"
     label_validation_error: "Δεν ήταν δυνατή η αποθήκευση του πακέτου εργασίας λόγω των ακόλουθων σφαλμάτων:"
+    label_version_plural: "Εκδόσεις"
     label_view_has_changed: "Η προβολή έχει μη αποθηκευμένες αλλαγές. Κάντε κλικ για τις αποθηκεύσετε."
     help_texts:
       show_modal: 'Εμφανίστε το χαρακτηριστικό καταχώρησης κειμένου βοήθειας'
@@ -373,9 +395,9 @@ el:
         wiki: 'Μέσα στο <b>Wiki</b> μπορείτε να καταγράψετε και να μοιραστείτε γνώση μαζί με την ομάδα σας.'
         backlogs:
           overview: "Διαχειριστείτε την εργασία σας στην προβολή <b>Backlogs</b>. <br> Στα δεξιά υπάρχει το Backlog Προϊόντων ή το Backlog Σφαλμάτων, στα αριστερά τα αντίστοιχα sprints. Εδώ μπορείτε να δημιουργήσετε <b>epics, ιστορίες χρηστών και σφάλματα</b>, να δώσετε προτεραιότητα μέσω drag and drop και να τα προσθέσετε σε ένα sprint."
-          task_board_arrow: 'Για να δείτε τον <b>Πίνακα Καθηκόντων</b> σας, ανοίξτε το αναπτυσσόμενο μενού Sprint...'
-          task_board_select: '... και επιλέξτε την καταχώρηση <b>Πίνακας Καθηκόντων</b>.'
-          task_board: "Ο <b>Πίνακας Καθηκόντων</b> οπτικοποιεί την διαδικασία για αυτό το sprint. Προσθέστε καινούργια καθήκοντα ή εμπόδια με το εικονίδιο + δίπλα σε μια ιστορία χρήστη. Μέσω drag'n'drop μπορείτε να ενημερώσετε την κατάσταση."
+          task_board_arrow: 'Για να δείτε τον <b>Πίνακα Εργασιών</b> σας, ανοίξτε το αναπτυσσόμενο μενού Sprint...'
+          task_board_select: '... και επιλέξτε την καταχώρηση <b>Πίνακας Εργασιών</b>.'
+          task_board: "Ο <b>Πίνακας Εργασιών</b> οπτικοποιεί την διαδικασία για αυτό το sprint. Προσθέστε καινούργιες εργασίες ή εμπόδια με το εικονίδιο + δίπλα σε μια ιστορία χρήστη. Μέσω drag'n'drop μπορείτε να ενημερώσετε την κατάσταση."
         boards:
           overview: 'Διαχειριστείτε την εργασία σας μέσα από την διαισθητική προβολή <b>Πινάκων</b>.'
           lists: 'Μπορείτε να δημιουργήσετε πολλαπλές λίστες (στήλες) μέσα σε μια προβολή Πίνακα, π.χ. να δημιουργήσετε έναν πίνακα KANBAN.'
@@ -383,7 +405,7 @@ el:
           drag: 'Σύρετε τις κάρτες μέσα στη λίστα για να αλλάξετε την σειρά ή σε άλλη λίστα. Με διπλό κλικ μπορείτε να ανοίξετε την προβολή λεπτομερειών.'
         wp:
           toggler: "Τώρα ας ρίξουμε μια ματιά στη ενότητα <b>Πακέτα εργασίας</b>, η οποία δίνει μια πιο λεπτομερή ματιά της εργασίας σας."
-          list: 'Αυτή είναι η λίστα <b>Πακέτων εργασίας</b> με τις σημαντικές εργασίας για το έργο σας, όπως καθήκοντα, λειτουργίες, ορόσημα, σφάλματα και άλλα. <br> Μπορείτε να δημιουργήσετε ή να επεξεργαστείτε ένα πακέτο εργασίας απευθείας από αυτή τη λίστα. Για να δείτε τις λεπτομέρειες του, μπορείτε να κάνετε διπλό κλικ σε μια από τις γραμμές.'
+          list: 'Αυτή είναι η λίστα <b>Πακέτων εργασίας</b> με τις σημαντικές εργασίες για το έργο σας, όπως εργασίες, λειτουργίες, ορόσημα, σφάλματα και άλλα. <br> Μπορείτε να δημιουργήσετε ή να επεξεργαστείτε ένα πακέτο εργασίας απευθείας από αυτή τη λίστα. Για να δείτε τις λεπτομέρειες του, μπορείτε να κάνετε διπλό κλικ σε μια από τις γραμμές.'
           full_view: 'Μέσα στις <b>λεπτομέρειες του πακέτου εργασίας</b> θα βρείτε όλες τις σχετικές πληροφορίες, όπως την περιγραφή, την κατάσταση, την προτεραιότητα, τις δραστηριότητες, τις εξαρτήσεις και τα σχόλια του.'
           back_button: 'Με το βέλος μπορείτε να πλοηγηθείτε πίσω στην λίστα πακέτων εργασίας.'
           create_button: 'Το κουμπί <b>Δημιουργία</b> θα προσθέσει ένα καινούργιο πακέτο εργασίας στο έργο σας.'
@@ -435,10 +457,16 @@ el:
           includes: "συμπεριλαμβανομένου"
           requires: "απαιτώντας"
           required: "απαιτείται από"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Έργα"
+        settings: "Ρυθμίσεις"
     time_entry:
       activity: 'Δραστηριότητα'
       comment: 'Σχόλιο'
       hours: 'Ώρες'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Ταυτοποίηση δύο παραγόντων'
     watchers:
       label_loading: φορτώνονται οι παρατηρητές...
       label_error_loading: Παρουσιάστηκε σφάλμα κατά τη φόρτωση των παρατηρητών

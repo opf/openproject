@@ -80,6 +80,7 @@ tr:
         inline: 'Satır içi vurgula:'
         entire_card_by: 'Kartın tamamı'
       remove_from_list: 'Kartı listeden çıkar'
+    caption_rate_history: "Hız tarihi"
     clipboard:
       browser_error: "Tarayıcınız panoya kopyalamayı desteklemiyor. Metni lütfen elle kopyalayınız."
       copied_successful: "Panoya başarıyla kopyalandı!"
@@ -171,6 +172,9 @@ tr:
       cannot_save_changes_with_message: "Değişikliklerinizin kaydedilememesine sebep olan hata: %{error}"
       query_saving: "Görünüm kaydedilemedi."
       embedded_table_loading: "Gömülü görünüm yüklenemedi: %{message}"
+    enumeration_activities: "Etkinlikler (zaman izleme)"
+    enumeration_doc_categories: "Belge kategorileri"
+    enumeration_work_package_priorities: "İş paketi öncelikleri"
     filter:
       description:
         text_open_filter: "Bu filtreyi 'ALT' ve ok tuşları ile açın."
@@ -192,6 +196,7 @@ tr:
     general_text_yes: "evet"
     general_text_No: "Hayır"
     general_text_Yes: "Evet"
+    global_roles: Küresel rolleri
     hal:
       error:
         update_conflict_refresh: "Kaynağı yenilemek ve en yeni sürüme güncellemek için burayı tıklayın."
@@ -222,6 +227,7 @@ tr:
     label_and: "ve"
     label_ascending: "Azalan"
     label_author: "Yazar: %{user}"
+    label_avatar: "Avatar"
     label_between: "arasında"
     label_board: "Pano"
     label_board_locked: "Kilitlendi"
@@ -235,6 +241,8 @@ tr:
     label_deactivate: "Etkisizleştir"
     label_descending: "Azalan"
     label_description: "Açıklama"
+    label_details: "Detaylar"
+    label_display: "Göster"
     label_cancel_comment: "Yorumu iptal et"
     label_closed_work_packages: "kapalı"
     label_collapse: "Daralt"
@@ -255,22 +263,29 @@ tr:
     label_export: "Dışarı aktar"
     label_filename: "Dosya"
     label_filesize: "Boyutu"
+    label_general: "Genel"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Grupla"
+    label_group_plural: "Gruplar"
     label_hide_attributes: "Daha az göster"
     label_hide_column: "Sütunu gizle"
     label_hide_project_menu: "Proje menüsünü daralt"
     label_in: "şurada"
     label_in_less_than: "daha azdır"
     label_in_more_than: "daha fazla"
+    label_incoming_emails: "Gelen e-postalar"
+    label_information_plural: "Bilgi"
     label_import: "İçeri Aktar"
     label_latest_activity: "En son etkinlik"
     label_last_updated_on: "Son güncelleme"
     label_less_or_equal: "<="
     label_less_than_ago: "bir haftadan kısa bir süre önce"
     label_loading: "Yükleniyor..."
+    label_mail_notification: "E-posta bildirimleri"
     label_me: "ben"
+    label_meeting_agenda: "Ajanda"
+    label_meeting_minutes: "Dakika"
     label_menu_collapse: "çöküş"
     label_menu_expand: "genişletmek"
     label_more_than_ago: "günler önce"
@@ -291,12 +306,15 @@ tr:
     label_previous: "Önceki"
     label_per_page: "Sayfa başına:"
     label_please_wait: "Lütfen bekleyin"
+    label_project_plural: "Projeler"
     label_visibility_settings: "Görünürlük ayarları"
     label_quote_comment: "Yorumu alıntıla"
     label_reset: "Sıfırla"
     label_remove_column: "Sütunu kaldır"
     label_remove_columns: "Seçili sütunları sil"
     label_remove_row: "Satırı kaldır"
+    label_report: "Rapor"
+    label_repository_plural: "Depolar"
     label_save_as: "Farklı Kaydet"
     label_select_watcher: "Takipçi seç..."
     label_selected_filter_list: "Seçilen filtreler"
@@ -307,6 +325,7 @@ tr:
     label_sort_higher: "Yukarı taşı"
     label_sort_lower: "Aşağı taşı"
     label_sorting: "Sıralama"
+    label_spent_time: "Harcanan zaman"
     label_star_query: "avantajlı"
     label_press_enter_to_save: "Kaydetmek için enter tuşuna basın."
     label_public_query: "Herkese Açık"
@@ -315,7 +334,9 @@ tr:
     label_subject: "Konu"
     label_this_week: "bu hafta"
     label_today: "bugün"
+    label_time_entry_plural: "Harcanan zaman"
     label_up: "Yukarı"
+    label_user_plural: "Kullanıcılar"
     label_activity_show_only_comments: "Sadece yorumların olduğu etkinlikleri göster"
     label_activity_show_all: "Tüm etkinlikleri göster"
     label_total_progress: "Toplam ilerleme %{percent}%"
@@ -357,6 +378,7 @@ tr:
     label_wait: "Lütfen Yapılandırmanın tamamlanmasını bekleyin..."
     label_upload_counter: "%{done} / %{count} dosya yüklendi"
     label_validation_error: "İş paketi aşağıdaki hatalar nedeniyle kaydedilemedi:"
+    label_version_plural: "Sürümler"
     label_view_has_changed: "Bu görünüm kaydedilmemiş değişikliklere sahip. Onları kaydetmek için tıklayın."
     help_texts:
       show_modal: 'Metin giriş öznitelik yardımını göster'
@@ -436,10 +458,16 @@ tr:
           includes: "dahil olmak üzere"
           requires: "gerektiren"
           required: "tarafından gerekli"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projeler"
+        settings: "Ayarlar"
     time_entry:
       activity: 'Etkinlik'
       comment: 'Yorum'
       hours: 'Saat'
+    two_factor_authentication:
+      label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
     watchers:
       label_loading: takipçiler yükleniyor...
       label_error_loading: Takipçileri yüklerken bir hata oluştu

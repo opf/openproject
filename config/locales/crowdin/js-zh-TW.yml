@@ -80,6 +80,7 @@ zh-TW:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Rate history"
     clipboard:
       browser_error: "您的瀏覽器不支援複製到剪貼簿。請手動複製選取的文字。"
       copied_successful: "成功複製到剪貼簿上!"
@@ -170,6 +171,9 @@ zh-TW:
       cannot_save_changes_with_message: "由於以下錯誤, 無法保存所做的更改: %{error}"
       query_saving: "無法保存視圖。"
       embedded_table_loading: "無法載入嵌入視圖: %{message}"
+    enumeration_activities: "活動 (時間追蹤)"
+    enumeration_doc_categories: "文件類別"
+    enumeration_work_package_priorities: "工作項目優先等級"
     filter:
       description:
         text_open_filter: "使用 ALT 和方向鍵打開此篩選器。"
@@ -191,6 +195,7 @@ zh-TW:
     general_text_yes: "是"
     general_text_No: "否"
     general_text_Yes: "是"
+    global_roles: 全域角色
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -221,6 +226,7 @@ zh-TW:
     label_and: "和"
     label_ascending: "昇冪"
     label_author: "作者: %{user}"
+    label_avatar: "Avatar"
     label_between: "介於"
     label_board: "Board"
     label_board_locked: "鎖定"
@@ -234,6 +240,8 @@ zh-TW:
     label_deactivate: "停用"
     label_descending: "降冪"
     label_description: "說明"
+    label_details: "詳細資料"
+    label_display: "顯示"
     label_cancel_comment: "取消注釋"
     label_closed_work_packages: "已關閉"
     label_collapse: "折疊"
@@ -254,22 +262,29 @@ zh-TW:
     label_export: "匯出"
     label_filename: "檔案"
     label_filesize: "檔案大小"
+    label_general: "一般"
     label_greater_or_equal: ">="
     label_group: '群組'
     label_group_by: "分組依據"
+    label_group_plural: "群組"
     label_hide_attributes: "簡略"
     label_hide_column: "隱藏欄"
     label_hide_project_menu: "折疊專案選單"
     label_in: "在"
     label_in_less_than: "少於"
     label_in_more_than: "多於"
+    label_incoming_emails: "接收到的電子郵件"
+    label_information_plural: "資訊"
     label_import: "Import"
     label_latest_activity: "最新活動"
     label_last_updated_on: "最後更新於"
     label_less_or_equal: "<="
     label_less_than_ago: "少於幾天前"
     label_loading: "讀取中..."
+    label_mail_notification: "電子郵件通知"
     label_me: "我"
+    label_meeting_agenda: "會議大綱"
+    label_meeting_minutes: "會議記錄"
     label_menu_collapse: "收合"
     label_menu_expand: "展開"
     label_more_than_ago: "很多天之前"
@@ -290,12 +305,15 @@ zh-TW:
     label_previous: "上一個"
     label_per_page: "每頁："
     label_please_wait: "請稍候"
+    label_project_plural: "專案"
     label_visibility_settings: "可見度設定"
     label_quote_comment: "引述這個評論"
     label_reset: "重置"
     label_remove_column: "移除欄"
     label_remove_columns: "移除所選欄"
     label_remove_row: "移除列"
+    label_report: "報表"
+    label_repository_plural: "Repositories"
     label_save_as: "保存為"
     label_select_watcher: "選擇一位關注者"
     label_selected_filter_list: "所選的篩選器"
@@ -306,6 +324,7 @@ zh-TW:
     label_sort_higher: "往上移動"
     label_sort_lower: "往下移動"
     label_sorting: "排序"
+    label_spent_time: "耗時"
     label_star_query: "喜好"
     label_press_enter_to_save: "按 Enter 即可儲存。"
     label_public_query: "公開"
@@ -314,7 +333,9 @@ zh-TW:
     label_subject: "主題"
     label_this_week: "本週"
     label_today: "今天"
+    label_time_entry_plural: "耗時"
     label_up: "向上"
+    label_user_plural: "使用者"
     label_activity_show_only_comments: "只顯示活動和其評論"
     label_activity_show_all: "顯示所有的活動"
     label_total_progress: "%{percent}%總進度"
@@ -356,6 +377,7 @@ zh-TW:
     label_wait: "請等待配置..."
     label_upload_counter: "%{count} 個中的 %{done} 個文件已完成"
     label_validation_error: "由於下列錯誤，無法儲存工作包:"
+    label_version_plural: "版本"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: '顯示屬性說明文字項目'
@@ -435,10 +457,16 @@ zh-TW:
           includes: "包括"
           requires: "需要"
           required: "被以下需要"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "專案"
+        settings: "設定"
     time_entry:
       activity: '活動'
       comment: '評論'
       hours: '小時'
+    two_factor_authentication:
+      label_two_factor_authentication: '雙重身分驗證'
     watchers:
       label_loading: 正在載入關注者...
       label_error_loading: 而發生錯誤裝載的觀察家

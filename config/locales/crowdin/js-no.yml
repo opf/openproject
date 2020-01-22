@@ -80,6 +80,7 @@
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Nettleseren støtter ikke kopiering til utklippstavle. Kopier den merkede teksten manuelt."
       copied_successful: "Kopiert til utklippstavlen!"
@@ -171,6 +172,9 @@
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
+    enumeration_activities: "Aktiviteter (tidsstyring)"
+    enumeration_doc_categories: "Dokumentkategorier"
+    enumeration_work_package_priorities: "Prioritering av arbeidspakker"
     filter:
       description:
         text_open_filter: "Åpne dette filteret med 'ALT' og piltastene."
@@ -192,6 +196,7 @@
     general_text_yes: "ja"
     general_text_No: "Nei"
     general_text_Yes: "Ja"
+    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -222,6 +227,7 @@
     label_and: "og"
     label_ascending: "Stigende"
     label_author: "Author: %{user}"
+    label_avatar: "Avatar"
     label_between: "mellom"
     label_board: "Board"
     label_board_locked: "Låst"
@@ -235,6 +241,8 @@
     label_deactivate: "Deaktiver"
     label_descending: "Synkende"
     label_description: "Beskrivelse"
+    label_details: "Detaljer"
+    label_display: "Vis"
     label_cancel_comment: "Avbryt kommentar"
     label_closed_work_packages: "lukket"
     label_collapse: "Skjul"
@@ -255,22 +263,29 @@
     label_export: "Eksportèr"
     label_filename: "Fil"
     label_filesize: "Størrelse"
+    label_general: "Generell"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
     label_group_by: "Grupper etter"
+    label_group_plural: "Grupper"
     label_hide_attributes: "Vis færre"
     label_hide_column: "Skjul kolonne"
     label_hide_project_menu: "Collapse project menu"
     label_in: "i"
     label_in_less_than: "i mindre enn"
     label_in_more_than: "i mer enn"
+    label_incoming_emails: "Inkommende e-post"
+    label_information_plural: "Informasjon"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Sist oppdatert"
     label_less_or_equal: "<="
     label_less_than_ago: "mindre enn dager siden"
     label_loading: "Laster..."
+    label_mail_notification: "E-postvarsler"
     label_me: "meg"
+    label_meeting_agenda: "Saksliste"
+    label_meeting_minutes: "Referat"
     label_menu_collapse: "skjul"
     label_menu_expand: "utvid"
     label_more_than_ago: "mer enn dager siden"
@@ -291,12 +306,15 @@
     label_previous: "Forrige"
     label_per_page: "Pr. side:"
     label_please_wait: "Vennligst vent"
+    label_project_plural: "Prosjekter"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Quote this comment"
     label_reset: "Nullstill"
     label_remove_column: "Remove column"
     label_remove_columns: "Fjern valgte kolonner"
     label_remove_row: "Remove row"
+    label_report: "Rapport"
+    label_repository_plural: "Pakkebrønner"
     label_save_as: "Lagre som"
     label_select_watcher: "Velg en overvåker..."
     label_selected_filter_list: "Valgte filtre"
@@ -307,6 +325,7 @@
     label_sort_higher: "Flytt opp"
     label_sort_lower: "Flytt ned"
     label_sorting: "Sortering"
+    label_spent_time: "Tid brukt"
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Offentlig"
@@ -315,7 +334,9 @@
     label_subject: "Emne"
     label_this_week: "denne uken"
     label_today: "i dag"
+    label_time_entry_plural: "Tid brukt"
     label_up: "Up"
+    label_user_plural: "Brukere"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
     label_total_progress: "%{percent}% utført"
@@ -357,6 +378,7 @@
     label_wait: "Please wait for configuration..."
     label_upload_counter: "%{done} of %{count} files finished"
     label_validation_error: "The work package could not be saved due to the following errors:"
+    label_version_plural: "Versjoner"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
@@ -436,10 +458,16 @@
           includes: "including"
           requires: "requiring"
           required: "required by"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Prosjekter"
+        settings: "Innstillinger"
     time_entry:
       activity: 'Aktivitet'
       comment: 'Kommentar'
       hours: 'Timer'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Tofaktorautentisering'
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers

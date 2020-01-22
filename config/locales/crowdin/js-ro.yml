@@ -80,6 +80,7 @@ ro:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Browser-ul nu acceptă copierea în ecranul tampon. Vă rugăm să copiaţi textul selectat manual."
       copied_successful: "Copiere în ecranul tampon reușită!"
@@ -170,6 +171,9 @@ ro:
       cannot_save_changes_with_message: "Schimbările nu pot fi salvate datorită acestei erori: %{error}"
       query_saving: "Configurația nu poate salvată."
       embedded_table_loading: "Configurația inserată nu poate fi încarcată: %{message}"
+    enumeration_activities: "Activități (durata de lucru)"
+    enumeration_doc_categories: "Document categories"
+    enumeration_work_package_priorities: "Priorități pentru pachetele de lucru"
     filter:
       description:
         text_open_filter: "Deschideți acest filtru cu 'ALT' și tastele săgeată."
@@ -191,6 +195,7 @@ ro:
     general_text_yes: "da"
     general_text_No: "Nu"
     general_text_Yes: "Da"
+    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -221,6 +226,7 @@ ro:
     label_and: "și"
     label_ascending: "Crescător"
     label_author: "Autor: %{user}"
+    label_avatar: "Avatar"
     label_between: "between"
     label_board: "Board"
     label_board_locked: "Închis"
@@ -234,6 +240,8 @@ ro:
     label_deactivate: "Dezactivare"
     label_descending: "Descrescător"
     label_description: "Descriere"
+    label_details: "Detalii"
+    label_display: "Afișare"
     label_cancel_comment: "Anulează comentariu"
     label_closed_work_packages: "închis"
     label_collapse: "Restrângere"
@@ -254,22 +262,29 @@ ro:
     label_export: "Exportare"
     label_filename: "Fișier"
     label_filesize: "Dimensiune"
+    label_general: "General"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Grupare după"
+    label_group_plural: "Grupuri"
     label_hide_attributes: "Arată mai puţin"
     label_hide_column: "Ascundere coloana"
     label_hide_project_menu: "Închideți meniul proiectului"
     label_in: "în"
     label_in_less_than: "în mai puțin de"
     label_in_more_than: "în mai mult de"
+    label_incoming_emails: "E-mailuri primite"
+    label_information_plural: "Informații"
     label_import: "Import"
     label_latest_activity: "Activitate recentă"
     label_last_updated_on: "Ultima actualizare la data de"
     label_less_or_equal: "<="
     label_less_than_ago: "acum mai puțin de zile"
     label_loading: "Se încarcă..."
+    label_mail_notification: "Notificări prin e-mail"
     label_me: "eu"
+    label_meeting_agenda: "Agendă"
+    label_meeting_minutes: "Concluzii"
     label_menu_collapse: "restrângere"
     label_menu_expand: "extindere"
     label_more_than_ago: "acum mai mult de zile"
@@ -290,12 +305,15 @@ ro:
     label_previous: "Înapoi"
     label_per_page: "Pe pagină:"
     label_please_wait: "Așteptați"
+    label_project_plural: "Proiecte"
     label_visibility_settings: "Setări de vizibilitate"
     label_quote_comment: "Citare comentariu"
     label_reset: "Resetare"
     label_remove_column: "Elimina colana"
     label_remove_columns: "Eliminare coloane selectate"
     label_remove_row: "Elimina rand"
+    label_report: "Raportare"
+    label_repository_plural: "Repo-uri"
     label_save_as: "Salvare ca"
     label_select_watcher: "Selectaţi un observator..."
     label_selected_filter_list: "Filtre selectate"
@@ -306,6 +324,7 @@ ro:
     label_sort_higher: "Mută în sus"
     label_sort_lower: "Mută în jos"
     label_sorting: "Sortare"
+    label_spent_time: "Timp consumat"
     label_star_query: "Favorite"
     label_press_enter_to_save: "Apăsați tasta ”Enter” pentru a salva."
     label_public_query: "Public"
@@ -314,7 +333,9 @@ ro:
     label_subject: "Subiect"
     label_this_week: "săptămâna curentă"
     label_today: "astăzi"
+    label_time_entry_plural: "Timp consumat"
     label_up: "Sus"
+    label_user_plural: "Utilizatori"
     label_activity_show_only_comments: "Afișați doar activitățile ce conțin comentarii"
     label_activity_show_all: "Afișează toate activitățile"
     label_total_progress: "%{percent} % Progres total"
@@ -356,6 +377,7 @@ ro:
     label_wait: "Vă rugăm să aşteptaţi pentru configurare..."
     label_upload_counter: "%{done} din %{count} de fişiere terminate"
     label_validation_error: "Pachetul de lucru nu a putut fi salvat din cauza următoarelor erori:"
+    label_version_plural: "Versiuni"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
@@ -435,10 +457,16 @@ ro:
           includes: "including"
           requires: "requiring"
           required: "required by"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Proiecte"
+        settings: "Setări"
     time_entry:
       activity: 'Activitate'
       comment: 'Comentariu'
       hours: 'Ore'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Two-factor authentication'
     watchers:
       label_loading: se încarcă observatorii...
       label_error_loading: A apărut o eroare în timpul încărcării observatorilor

@@ -80,6 +80,7 @@ pt:
         inline: 'Destaque em linha:'
         entire_card_by: 'Cartão inteiro por'
       remove_from_list: 'Eliminar cartão da lista'
+    caption_rate_history: "Histórico de taxas"
     clipboard:
       browser_error: "O seu navegador não suporta o copiar para a área de transferência. Por favor, copie manualmente o texto selecionado."
       copied_successful: "Copiado com sucesso para área de transferência!"
@@ -171,6 +172,9 @@ pt:
       cannot_save_changes_with_message: "Não é possível guardar as alterações devido ao seguinte erro: %{error}"
       query_saving: "Não foi possível guardar a vista."
       embedded_table_loading: "Não foi possível carregar a vista incorporada: %{message}"
+    enumeration_activities: "Actividades (tempo)"
+    enumeration_doc_categories: "Categorias de documentos"
+    enumeration_work_package_priorities: "Prioridades de tarefas"
     filter:
       description:
         text_open_filter: "Abra este filtro com 'ALT' e teclas de seta."
@@ -192,6 +196,7 @@ pt:
     general_text_yes: "sim"
     general_text_No: "Não"
     general_text_Yes: "Sim"
+    global_roles: Papéis Globais
     hal:
       error:
         update_conflict_refresh: "Clique aqui para atualizar o recurso e atualizar para a versão mais recente."
@@ -222,6 +227,7 @@ pt:
     label_and: "e"
     label_ascending: "Ascendente"
     label_author: "Autor: %{user}"
+    label_avatar: "Avatar"
     label_between: "entre"
     label_board: "Quadro"
     label_board_locked: "Bloqueado"
@@ -235,6 +241,8 @@ pt:
     label_deactivate: "Desativar"
     label_descending: "Descendente"
     label_description: "Descrição"
+    label_details: "Detalhes"
+    label_display: "Mostrador"
     label_cancel_comment: "Cancelar comentário"
     label_closed_work_packages: "fechado"
     label_collapse: "Colapso"
@@ -255,22 +263,29 @@ pt:
     label_export: "Exportar"
     label_filename: "Ficheiro"
     label_filesize: "Tamanho"
+    label_general: "Geral"
     label_greater_or_equal: ">="
     label_group: 'Grupo'
     label_group_by: "Agrupar por"
+    label_group_plural: "Grupos"
     label_hide_attributes: "Mostrar Menos"
     label_hide_column: "Ocultar coluna"
     label_hide_project_menu: "Recolher menu de projeto"
     label_in: "em"
     label_in_less_than: "em menos de"
     label_in_more_than: "em mais de"
+    label_incoming_emails: "E-mails recebidos"
+    label_information_plural: "Informação"
     label_import: "Importar"
     label_latest_activity: "Atividade mais recente"
     label_last_updated_on: "Última actualização em"
     label_less_or_equal: "<="
     label_less_than_ago: "menos que dias atrás"
     label_loading: "A carregar..."
+    label_mail_notification: "Notificações por e-mail"
     label_me: "eu"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Minutos"
     label_menu_collapse: "ocultar"
     label_menu_expand: "expandir"
     label_more_than_ago: "mais do que dias atrás"
@@ -291,12 +306,15 @@ pt:
     label_previous: "Anterior"
     label_per_page: "Por página:"
     label_please_wait: "Aguarde, por favor"
+    label_project_plural: "Projetos"
     label_visibility_settings: "Configurações de visibilidade"
     label_quote_comment: "Citar este comentário"
     label_reset: "Reiniciar"
     label_remove_column: "Remover coluna"
     label_remove_columns: "Remover colunas selecionadas"
     label_remove_row: "Remover linha"
+    label_report: "Relatório"
+    label_repository_plural: "Repositórios"
     label_save_as: "Guardar como"
     label_select_watcher: "Selecione um \"observador\"..."
     label_selected_filter_list: "Filtros selecionados"
@@ -307,6 +325,7 @@ pt:
     label_sort_higher: "Subir"
     label_sort_lower: "Descer"
     label_sorting: "Ordenação"
+    label_spent_time: "Tempo usado"
     label_star_query: "Favoritos"
     label_press_enter_to_save: "Pressione Enter para guardar."
     label_public_query: "Público"
@@ -315,7 +334,9 @@ pt:
     label_subject: "Assunto"
     label_this_week: "esta semana"
     label_today: "hoje"
+    label_time_entry_plural: "Tempo usado"
     label_up: "Cima"
+    label_user_plural: "Utilizadores"
     label_activity_show_only_comments: "Mostrar apenas atividades com comentários"
     label_activity_show_all: "Mostrar todas as atividades"
     label_total_progress: "%{percent}% Total de progresso"
@@ -357,6 +378,7 @@ pt:
     label_wait: "Por favor aguarde pela configuração..."
     label_upload_counter: "%{done} de %{count} de ficheiros acabados"
     label_validation_error: "A tarefa não pode ser guardada devido aos seguintes erros:"
+    label_version_plural: "Versões"
     label_view_has_changed: "Esta vista tem alterações não guardadas. Clique para guardá-las."
     help_texts:
       show_modal: 'Mostrar entrada do texto de ajuda de atributos'
@@ -436,10 +458,16 @@ pt:
           includes: "incluindo"
           requires: "a necessitar"
           required: "exigido por"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projetos"
+        settings: "Definições"
     time_entry:
       activity: 'Atividade'
       comment: 'Comentario'
       hours: 'Horas'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Autenticação de dois fatores'
     watchers:
       label_loading: carregando observadores...
       label_error_loading: Ocorreu um erro ao carregar os observadores
