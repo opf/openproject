@@ -30,16 +30,7 @@ module IFCModels
   class CreateService < ::BaseServices::Create
     protected
 
-    attr_accessor :ifc_attachment
-
-    def before_perform(params)
-      self.ifc_attachment = params.delete(:ifc_attachment)
-      super(params)
-    end
-
     def after_perform(call)
-      call.success = add_attachment(call)
-
       if call.success?
         IFCConversionJob.perform_later(call.result)
       end
@@ -49,22 +40,6 @@ module IFCModels
 
     def instance(_params)
       ::IFCModels::IFCModel.new
-    end
-
-    ##
-    # Add the IFC attachment file after saving
-    def add_attachment(result)
-      return unless result.success?
-
-      model = result.result
-      if ifc_attachment && ifc_attachment.size.positive?
-        model.ifc_attachment = ifc_attachment
-        model.title = ifc_attachment.original_filename
-        model.save
-      else
-        result.errors.add(:ifc_attachment, I18n.t('ifc_models.could_not_save_file'))
-        false
-      end
     end
   end
 end

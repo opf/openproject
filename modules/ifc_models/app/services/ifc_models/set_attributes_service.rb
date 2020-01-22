@@ -30,10 +30,44 @@
 
 module IFCModels
   class SetAttributesService < ::BaseServices::SetAttributes
+    protected
+
+    def set_attributes(params)
+      set_ifc_attachment(params.delete(:ifc_attachment))
+
+      super
+
+      change_by_system do
+        model.uploader = model.ifc_attachment&.author if model.ifc_attachment&.new_record?
+      end
+    end
+
     def set_default_attributes(params)
-      model.uploader = user
-      model.is_default = params[:is_default]
-      model.title = params[:title]
+      set_title
+    end
+
+    def validate_and_result
+      super.tap do |call|
+        # map errors on attachments to better display them
+        if call.errors[:attachments].any?
+          model.ifc_attachment.errors.details.each do |_, errors|
+            errors.each do |error|
+              call.errors.add(:attachments, error[:error], **error.except(:error))
+            end
+          end
+        end
+      end
+    end
+
+    def set_title
+      model.title = model.ifc_attachment&.file&.filename&.gsub(/\.\w+$/, '')
+    end
+
+    def set_ifc_attachment(ifc_attachment)
+      return unless ifc_attachment
+
+      model.attachments.each(&:mark_for_destruction)
+      model.attach_files('first' => { 'file' => ifc_attachment, 'description' => 'ifc' })
     end
   end
 end

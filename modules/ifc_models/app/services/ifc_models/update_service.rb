@@ -30,41 +30,24 @@ module IFCModels
   class UpdateService < ::BaseServices::Update
     protected
 
-    attr_accessor :ifc_attachment
-
     def before_perform(params)
-      self.ifc_attachment = params.delete('ifc_attachment')
-      super(params)
+      super.tap do |call|
+        @ifc_attachment_replaced = call.success? && model.ifc_attachment.new_record?
+      end
     end
 
     def after_perform(call)
-      call.success = replace_attachment(call)
+      if call.success?
+        # As the attachments association does not have the autosave option, we need to remove the
+        # attachments ourselves
+        model.attachments.select(&:marked_for_destruction?).each(&:destroy)
 
-      if @ifc_attachment_replaced && call.success?
-        IFCConversionJob.perform_later(call.result)
+        if @ifc_attachment_replaced
+          IFCConversionJob.perform_later(call.result)
+        end
       end
 
       call
-    end
-
-    ##
-    # Replace the IFC attachment file after saving
-    def replace_attachment(result)
-      return unless result.success?
-
-      model = result.result
-      # Uploading an IFC file is optional
-      if ifc_attachment && ifc_attachment.size.positive?
-        model.ifc_attachment = ifc_attachment
-        @ifc_attachment_replaced = true
-      end
-
-      if model.save
-        true
-      else
-        result.errors.add(:ifc_attachment, t('ifc_models.could_not_save_file'))
-        false
-      end
     end
   end
 end
