@@ -22,7 +22,7 @@ Click the blue **Proceed To Checkout** button.
 
 Enter you email address. Then your details, First name, last name, company name and phone number.
 
-You will then **receive the token with a description how to [activate the Enterprise Edition](./activate-enterprise-edition)** via email.
+You will then **receive the token with a description how to [activate the Enterprise Edition](../activate-enterprise-edition)** via email.
 
 ![enterprise-edition-trial-license](1567610604159.png)
 

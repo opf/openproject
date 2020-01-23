@@ -42,7 +42,7 @@ You can configure general system settings in OpenProject. Under System settings 
 
 ## Welcome block text
 
-Create a welcome text block to display to users on your [application start page](../user-guide/start-page).
+Create a welcome text block to display the most important information to users on your [application start page](../user-guide/start-page).
 
 1. Insert a **welcome block title**.
 2. Add the **welcome block text description**. You can add the same formatting options, as well as macros (work package lists etc.) as for the general text blocks.
