@@ -4,6 +4,10 @@ import {StateService} from "@uirouter/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {BcfPathHelperService} from "core-app/modules/bcf/helper/bcf-path-helper.service";
+import {RevitBridgeService} from "core-app/modules/bcf/services/revit-bridge.service";
 
 
 export type ViewPointOriginal = { uuid:string, snapshot_id:string, snapshot_file_name:string };
@@ -37,7 +41,10 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
   constructor(public readonly state:StateService,
               private readonly I18n:I18nService,
               private readonly injector:Injector,
-              private readonly pathHelper:PathHelperService) {
+              private readonly pathHelper:PathHelperService,
+              readonly currentProject:CurrentProjectService,
+              readonly revitBridgeService:RevitBridgeService,
+              readonly httpClient:HttpClient) {
   }
 
   ngOnInit():void {
@@ -52,15 +59,16 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
     this.galleryOptions = [
       {
         width: '100%',
-        height: '400px',
-        thumbnailsColumns: 4,
+        height: '130px',
+        thumbnailsColumns: 5,
         imageAnimation: '',
         previewAnimation: false,
         previewCloseOnEsc: true,
         previewKeyboardNavigation: true,
         imageSize: 'contain',
         imageArrowsAutoHide: true,
-        thumbnailsArrowsAutoHide: true,
+        image: false,
+        thumbnailsArrowsAutoHide: false,
         thumbnailsAutoHide: true,
         thumbnailsMargin: 5,
         thumbnailMargin: 5,
@@ -70,6 +78,20 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
         closeIcon: 'icon-close',
         downloadIcon: 'icon-download',
         previewCloseOnClick: true,
+        thumbnailActions: [
+          {
+            icon: 'icon-modules',
+            onClick: this.setViewpoint.bind(this),
+            titleText: 'Set viewpoint'
+          }
+        ],
+        actions: [
+          {
+            icon: 'icon-modules',
+            onClick: this.setViewpoint.bind(this),
+            titleText: 'Set viewpoint'
+          }
+        ]
       },
       // max-width 800
       {
@@ -111,4 +133,34 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
   ngOnDestroy():void {
     // Nothing to do.
   }
+
+  setViewpoint(event:Event, index:number):void {
+    console.log('Set viewpoint for index', index, event);
+    let viewpointUuid = this.workPackage.bcf.viewpoints[index]['uuid'];
+    console.log('Set viewpoint for UUID', viewpointUuid);
+
+    console.log("handleClick");
+    const trackingId = this.revitBridgeService.newTrackingId();
+
+    this.httpClient.get(
+      `/api/bcf/2.1/projects/${this.projectIdentifier()}/topics/${this.topicUuid()}/viewpoints/${viewpointUuid}`,
+      {
+        withCredentials: true,
+        responseType: 'json'
+      }
+    ).subscribe((data) => {
+      console.log("Response of posting viewpiont", data);
+      this.revitBridgeService.sendMessageToRevit('ShowViewpoint', trackingId, JSON.stringify(data));
+    });
+
+  }
+
+  private projectIdentifier():string|null {
+    return this.currentProject.identifier;
+  }
+
+  private topicUuid():string {
+    return this.workPackage.bcf.uuid;
+  }
+
 }

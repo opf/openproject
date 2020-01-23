@@ -38,7 +38,6 @@ import {BcfPathHelperService} from "core-app/modules/bcf/helper/bcf-path-helper.
 import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-export-button.component";
 import {BcfAddViewpointButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-add-viewpoint-button.component";
 import {RevitBridgeService} from "core-app/modules/bcf/services/revit-bridge.service";
-import {BcfShowViewpointButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-show-viewpoint-button.component";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {OpenProjectHeaderInterceptor} from "core-app/modules/hal/http/openproject-header-interceptor";
 
@@ -59,15 +58,13 @@ import {OpenProjectHeaderInterceptor} from "core-app/modules/hal/http/openprojec
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
     BcfExportButtonComponent,
-    BcfAddViewpointButtonComponent,
-    BcfShowViewpointButtonComponent
+    BcfAddViewpointButtonComponent
   ],
   exports: [
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
     BcfExportButtonComponent,
-    BcfAddViewpointButtonComponent,
-    BcfShowViewpointButtonComponent
+    BcfAddViewpointButtonComponent
   ],
   entryComponents: [
   ]

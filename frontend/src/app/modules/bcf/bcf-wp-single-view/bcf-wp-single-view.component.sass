@@ -1,10 +1,6 @@
 .bcf--viewpoints
   clear: both
 
-  ngx-gallery
-    background: var(--gray-lighter)
-    padding: 5px
-
 .bcf--snapshot-preview
   display: block
   width: 100%
@@ -26,3 +22,8 @@ ngx-gallery ::ng-deep
 
   .ngx-gallery-arrow.ngx-gallery-disabled
     display: none
+
+  .ngx-gallery-thumbnail.ngx-gallery-clickable
+    .ngx-gallery-icon
+      color: var(--content-link-color)
+
