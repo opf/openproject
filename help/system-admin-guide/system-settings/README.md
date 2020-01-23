@@ -14,12 +14,12 @@ There are various project overarching settings that are referred to as **system 
 
 ## Overview
 
-| Popular Topics                                       | Description                                                  |
-| ---------------------------------------------------- | :----------------------------------------------------------- |
-| [General settings](/general-settings)                | How to configure general system settings, e.g. a welcome text block on the application landing page, attachment size, and much more? |
-| [Display settings](/display-settings)                | How to configure languages, date and time formats, week start, and more? |
-| [System projects settings](/project-system-settings) | How to set default project modules and more?                 |
-| [Email notifications](/email-notifications)          | How to configure email notifications and your email provider? |
-| [Incoming emails](/incoming-emails)                  | How to set up incoming emails?                               |
-| [Repositories](/repositories)                        | How to integrate SVN or GIT repositories?                    |
+| Popular Topics                                      | Description                                                  |
+| --------------------------------------------------- | :----------------------------------------------------------- |
+| [General settings](general-settings)                | How to configure general system settings, e.g. a welcome text block on the application landing page, attachment size, and much more? |
+| [Display settings](display-settings)                | How to configure languages, date and time formats, week start, and more? |
+| [System projects settings](project-system-settings) | How to set default project modules and more?                 |
+| [Email notifications](email-notifications)          | How to configure email notifications and your email provider? |
+| [Incoming emails](incoming-emails)                  | How to set up incoming emails?                               |
+| [Repositories](repositories)                        | How to integrate SVN or GIT repositories?                    |
 

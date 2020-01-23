@@ -10,13 +10,13 @@ keywords: general settings
 
 You can configure general system settings in OpenProject. Under System settings on the tab **General** you can configure the following options.
 
-1. **Application title**: This title will be displayed on the [application start page](../user-guide/start-page).
+1. **Application title**: This title will be displayed on the [application start page](../../../user-guide/start-page).
 
 2. **Attachment maximum size** defines the maximum size of an attachment (for example in a work package).
 
 3. **Object per page options** define the options of how many objects  (for example work packages or news entries) you can have displayed on one page. This is used for the pagination in the work package list. You can enter several values, separated by coma. Please note that the higher value you set, the more work packages will be initially loaded and therefore it might take longer time to load a work package page.
 
-4. **Days displayed on project activity** determines how far back the project activities will be traced and displayed in the project's [Activity](../user-guide/activity).
+4. **Days displayed on project activity** determines how far back the project activities will be traced and displayed in the project's [Activity](../../../user-guide/activity).
 
 5. **Host name**.
 
@@ -34,7 +34,7 @@ You can configure general system settings in OpenProject. Under System settings 
 
 12. **Max number of diff lines displayed** defines the maximum number of lines displayed when comparing (diff) two versions in a repository.
 
-13. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](./information), and on the [start page](../user-guide/start-page). It is displayed to administrators only.
+13. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../user-guide/start-page). It is displayed to administrators only.
 
     The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or  known vulnerabilities. For more information on what the check provides,  what data is needed to provide available updates, and how to disable this check, please visit [the configuration documentation](https://github.com/opf/openproject/blob/dev/docs/configuration/configuration.md#security-badge).        
 
