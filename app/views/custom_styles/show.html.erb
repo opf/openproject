@@ -156,22 +156,24 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= form_tag update_design_colors_path, method: :post, class: "form" do %>
   <section class="form--section">
-    <fieldset class="form--fieldset -collapsible collapsed">
+    <fieldset class="form--fieldset -collapsible <%= 'collapsed' unless @current_theme.empty?  %> ">
       <legend class="form--fieldset-legend"><%= I18n.t(:label_advanced_settings) %></legend>
 
       <% DesignColor.setables.each do |design_color|  %>
         <div class="form--field -required">
           <label class="form--label"><%= I18n.t("admin.custom_styles.colors.#{design_color.variable}") %>:</label>
           <span class="form--field-container">
+            <div class="form--field-affix">
+              <%= icon_for_color(OpenStruct.new(variable: design_color.variable,
+                                                hexcode: design_color.get_hexcode),
+                                 data: { target: "#design_colors_" + design_color.variable }) %>
+            </div>
             <span class="form--text-field-container">
               <%= styled_text_field_tag "design_colors[]" + design_color.variable,
                                         design_color.hexcode,
                                         placeholder: DesignColor.defaults[design_color.variable] %>
             </span>
           </span>
-          <%= icon_for_color(OpenStruct.new(variable: design_color.variable,
-                                            hexcode: design_color.get_hexcode),
-                             data: { target: "#design_colors_" + design_color.variable }) %>
           <div class="form--field-instructions">
             <% instruction_key = "admin.custom_styles.instructions.#{design_color.variable}" %>
             <% if I18n.exists?(instruction_key, :en) %>

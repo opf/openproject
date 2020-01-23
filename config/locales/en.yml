@@ -61,7 +61,7 @@ en:
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
       manage_colors: "Edit color select options"
       instructions:
-        alternative-color: "Strong accent color, typically used for most the important button on a screen."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
         content-link-color: "Font color of most of the links."
         primary-color: "Main color."
         primary-color-dark: "Typically a darker version of the main color used for hover effects."
