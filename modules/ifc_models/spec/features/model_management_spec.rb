@@ -28,10 +28,11 @@
 
 require 'spec_helper'
 
-require_relative '../support/pages/ifc_models/show'
+require_relative '../support/pages/ifc_models/index'
 
-describe 'model viewer', type: :feature, js: true do
+describe 'model management', type: :feature, js: true do
   let(:project) { FactoryBot.create :project }
+  let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models]) }
 
   let(:user) do
@@ -46,20 +47,29 @@ describe 'model viewer', type: :feature, js: true do
                       uploader: user)
   end
 
-  let(:show_model_page) { Pages::IfcModels::Show.new(project, model.id) }
-
   context 'with all permissions' do
     before do
       login_as(user)
-      show_model_page.visit!
-      show_model_page.finished_loading
+      model
+      index_page.visit!
     end
 
-    it 'loads and shows the viewer correctly' do
-      show_model_page.model_viewer_visible true
-      show_model_page.model_viewer_shows_a_toolbar true
-      show_model_page.page_shows_a_toolbar true
-      show_model_page.sidebar_shows_viewer_menu true
+    it 'I can perfom all actions on the models' do
+      index_page.model_listed true, model.title
+      index_page.add_model_allowed true
+      index_page.edit_model_allowed model.title, true
+      index_page.delete_model_allowed model.title, true
+
+      index_page.edit_model model.title, 'My super cool new name'
+      index_page.delete_model 'My super cool new name'
+    end
+
+    it 'I can see single models and the defaults' do
+      index_page.model_listed true, model.title
+      index_page.show_model model
+
+      index_page.model_listed true, model.title
+      index_page.show_defaults
     end
   end
 
@@ -73,15 +83,23 @@ describe 'model viewer', type: :feature, js: true do
 
     before do
       login_as(view_user)
-      show_model_page.visit!
-      show_model_page.finished_loading
+      model
+      index_page.visit!
     end
 
-    it 'loads and shows the viewer correctly, but has no possibility to edit the model' do
-      show_model_page.model_viewer_visible true
-      show_model_page.model_viewer_shows_a_toolbar true
-      show_model_page.page_shows_a_toolbar false
-      show_model_page.sidebar_shows_viewer_menu true
+    it 'I can see, but not edit models' do
+      index_page.model_listed true, model.title
+      index_page.add_model_allowed false
+      index_page.edit_model_allowed model.title, false
+      index_page.delete_model_allowed model.title, false
+    end
+
+    it 'I can see single models and the defaults' do
+      index_page.model_listed true, model.title
+      index_page.show_model model
+
+      index_page.model_listed true, model.title
+      index_page.show_defaults
     end
   end
 
@@ -95,17 +113,15 @@ describe 'model viewer', type: :feature, js: true do
 
     before do
       login_as(user_without_permissions)
-      show_model_page.visit!
+      model
+      index_page.visit!
     end
 
-    it 'shows no viewer' do
+    it "I can't see any models and perform no actions" do
       expected = '[Error 403] You are not authorized to access this page.'
       expect(page).to have_selector('.notification-box.-error', text: expected)
 
-      show_model_page.model_viewer_visible false
-      show_model_page.model_viewer_shows_a_toolbar false
-      show_model_page.page_shows_a_toolbar false
-      show_model_page.sidebar_shows_viewer_menu false
+      index_page.add_model_allowed false
     end
   end
 end
