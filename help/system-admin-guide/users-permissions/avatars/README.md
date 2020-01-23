@@ -12,7 +12,7 @@ To select which type of Avatars can be used in your OpenProject, navigate to -> 
 
 You can choose whether to allow user Gravatar or enable to upload custom avatars.
 
-The Avatars can be configured via the [users profile](./users).
+The Avatars can be configured via the [user profile](../users).
 
 ![Avatars](image-20200115173409850.png)
 

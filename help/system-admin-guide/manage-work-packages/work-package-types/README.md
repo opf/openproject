@@ -26,11 +26,11 @@ You will see a list of all work package types in the system.
 Click the green **+ Type** button to add a new work package type in the system, e.g. Risk.
 
 1. Give the new work package type a **name** that easily identifies what kind of work should be tracked.
-2. Choose whether the type should be displayed in the [roadmap](./././user-guide/roadmap/) by default.
-3. Select if the work package type should be **active in new projects by default**. This way work package types will not need to be [activated in the project settings](./././user-guide/project-settings/work-package-types/) but will be available for every project.
-4. Choose a **color** from the drow-down list which should be used for this work package type in the Gantt chart. You can configure new colors [here](./colors).
+2. Choose whether the type should be displayed in the [roadmap](../../../user-guide/roadmap/) by default.
+3. Select if the work package type should be **active in new projects by default**. This way work package types will not need to be [activated in the project settings](../../../user-guide/project-settings/work-package-types/) but will be available for every project.
+4. Choose a **color** from the drow-down list which should be used for this work package type in the Gantt chart. You can configure new colors [here](../../colors).
 5. Choose whether the type should be a **milestone**, e.g. displayed as a milestone in the Gantt chart with the same start and finish date.
-6. You can **copy a [workflow](./work-package-workflows)** from an existing type.
+6. You can **copy a [workflow](../work-package-workflows)** from an existing type.
 7. You can enter a **default text for the work package description field**, which always be shown when creating new work package from this type. This way, you can easily create work package templates, e.g. for risk management or bug tracking which already contain certain required information in the description.
 8. Click the blue **Create** button to add the new type.
 
@@ -45,7 +45,7 @@ To configure a type, first select the type from the list of types (see above) an
 Active attributes shown in blue color on the left will be displayed in the work package form for this type.
 You can then decide for each attribute which group it should be assigned to (using drag and drop or removing it by clicking the remove  icon) *(2)*. You can also rename attribute groups simply by clicking on their name or re-order attribute groups with drag and drop.
 
-Inactive attributes shown in the grey color on the right. Attributes which have been removed are shown in the *Inactive* column on the right *(3)*. This column also includes [custom fields](./custom-fields) which have been created. The custom fields also can be added with drag and drop to the active form (the blue part on the left) to be displayed in the form.
+Inactive attributes shown in the grey color on the right. Attributes which have been removed are shown in the *Inactive* column on the right *(3)*. This column also includes [custom fields](../../custom-fields) which have been created. The custom fields also can be added with drag and drop to the active form (the blue part on the left) to be displayed in the form.
 
 To add additional group, click the **+ Group** button *(4)* and select **Add attribute group**. Give the new group a name. You can then assign attributes (e.g. custom fields) via drag and drop. Note that adding attribute groups is only possible  with the [OpenProject Enterprise Edition](https://www.openproject.org/enterprise-edition/) and the [OpenProject Cloud Edition](https://www.openproject.org/hosting/).
 
@@ -67,7 +67,7 @@ Also, you can add a table of related work packages to your work package form. Cl
 
 ![Sys-admin-table-of-related-work-packages](Sys-admin-table-of-related-work-packages.png)
 
-Now, you can configure which related work packages should be included in your embedded list, e.g. child work packages or work packages related to this work package, and more. Then you can configure how the list should be filtered, grouped, etc. The configuration of the work package list can be done according to the [work package table configuration](./././user-guide/work-packages/work-package-table-configuration/).
+Now, you can configure which related work packages should be included in your embedded list, e.g. child work packages or work packages related to this work package, and more. Then you can configure how the list should be filtered, grouped, etc. The configuration of the work package list can be done according to the [work package table configuration](../../../user-guide/work-packages/work-package-table-configuration/).
 
 Click the blue **Apply** button to add this work package list to your form.
 
@@ -77,11 +77,11 @@ The embedded related work package table in the work package form will look like 
 
 ![Sys-admin-related-work-package-table](Sys-admin-related-work-package-table.png)
 
-## Activate projects for work package types
+## Activate work package types for projects
 
 Under -> *Administration* -> *Work packages* -> *Types* on the tab **Projects** you can select for which projects this work package type should be activated. 
 
-The Activated for new projects by default setting in the Types will only activate this type for new projects. For existing projects, the type needs to be activated manually. 
-This can be also configured in the [project settings](././user-guide/project-settings).
+The **Activated for new projects by default** setting in the Types will only activate this type for new projects. For existing projects, the type needs to be activated manually. 
+This can be also configured in the [project settings](../../../user-guide/project-settings).
 
 ![activate projects for work package types](image-20200116150513323.png)
