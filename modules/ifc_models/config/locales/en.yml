@@ -41,4 +41,5 @@ en:
         ifc_models/ifc_model:
           attributes:
             base:
-              ifc_attachment_missing: "No ifc file attached"
+              ifc_attachment_missing: "No ifc file attached."
+              invalid_ifc_file: "The provided file is not a valid IFC file."

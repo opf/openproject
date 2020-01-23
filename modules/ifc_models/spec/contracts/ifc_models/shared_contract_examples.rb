@@ -106,6 +106,34 @@ shared_examples_for 'ifc model contract' do
     end
   end
 
+  context 'if the new ifc file is no valid ifc file' do
+    let(:ifc_file) { FileHelpers.mock_uploaded_file name: "model.ifc", content_type: 'application/binary', binary: true }
+    let(:ifc_attachment) do
+      User.execute_as current_user do
+        ifc_model.attach_files('first' => { 'file' => ifc_file, 'description' => 'ifc' })
+        ifc_model.attachments.last
+      end
+    end
+
+    it 'is invalid' do
+      expect_valid(false, base: %i(invalid_ifc_file))
+    end
+  end
+
+  context 'if the new ifc file is a valid ifc file' do
+    let(:ifc_file) do
+      FileHelpers.mock_uploaded_file name: "model.ifc", content_type: 'application/binary', binary: true, content: "ISO-10303-21;"
+    end
+    let(:ifc_attachment) do
+      User.execute_as current_user do
+        ifc_model.attach_files('first' => { 'file' => ifc_file, 'description' => 'ifc' })
+        ifc_model.attachments.last
+      end
+    end
+
+    it_behaves_like 'is valid'
+  end
+
   context 'if user is not allowed to manage ifc models' do
     let(:permissions) { [] }
 

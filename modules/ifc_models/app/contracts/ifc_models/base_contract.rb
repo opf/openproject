@@ -44,6 +44,7 @@ module IFCModels
       user_allowed_to_manage
       user_is_uploader
       ifc_attachment_existent
+      ifc_attachment_is_ifc
       uploader_is_ifc_attachment_author
 
       super
@@ -63,6 +64,20 @@ module IFCModels
 
     def ifc_attachment_existent
       errors.add :base, :ifc_attachment_missing unless model.ifc_attachment
+    end
+
+    def ifc_attachment_is_ifc
+      return unless model.ifc_attachment&.new_record?
+
+      firstline = File.open(model.ifc_attachment.file.file.path, &:readline)
+
+      begin
+        unless firstline.match?(/^ISO-10303-21;/)
+          errors.add :base, :invalid_ifc_file
+        end
+      rescue ArgumentError
+        errors.add :base, :invalid_ifc_file
+      end
     end
 
     def uploader_is_ifc_attachment_author
