@@ -100,7 +100,7 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def inherit?(attributes, attribute)
-    [attribute, :parent].any? { |attr| attributes.include? attr }
+    [attribute, :parent, :parent_id].any? { |attr| attributes.include? attr }
   end
 
   def set_journal_note(work_packages)
