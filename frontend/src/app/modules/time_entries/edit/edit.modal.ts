@@ -19,20 +19,12 @@ export class TimeEntryEditModal extends OpModalComponent {
 
   text = {
     title: this.i18n.t('js.time_entry.edit'),
-    attributes: {
-      comment: this.i18n.t('js.time_entry.comment'),
-      hours: this.i18n.t('js.time_entry.hours'),
-      activity: this.i18n.t('js.time_entry.activity'),
-      workPackage: this.i18n.t('js.time_entry.work_package'),
-      spentOn: this.i18n.t('js.time_entry.spent_on'),
-    },
     close: this.i18n.t('js.button_close'),
     delete: this.i18n.t('js.button_delete')
   };
 
   public closeOnEscape = false;
   public closeOnOutsideClick = false;
-  public customFields:{key:string, label:string}[] = [];
 
   public modifiedEntry:TimeEntryResource;
   public destroyedEntry:TimeEntryResource;
@@ -59,18 +51,5 @@ export class TimeEntryEditModal extends OpModalComponent {
   public destroy() {
     this.destroyedEntry = this.entry;
     this.service.close();
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-    this.setCustomFields(this.entry.schema);
-  }
-
-  private setCustomFields(schema:SchemaResource) {
-    Object.entries(schema).forEach(([key, keySchema]) => {
-      if (key.match(/customField\d+/)) {
-        this.customFields.push({key: key, label: keySchema.name });
-      }
-    });
   }
 }

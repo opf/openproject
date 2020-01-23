@@ -14,56 +14,9 @@
     </div>
 
     <div class="ngdialog-body op-modal--modal-body">
-      <edit-form
-        [resource]="entry"
-        (onSaved)="setModifiedEntry($event)">
-        <div class="attributes-map">
-
-          <div class="attributes-map--key" [textContent]="text.attributes.spentOn"></div>
-          <div class="attributes-map--value">
-            <editable-attribute-field [resource]="entry"
-                                      [fieldName]="'spentOn'">
-            </editable-attribute-field>
-          </div>
-
-          <div class="attributes-map--key" [textContent]="text.attributes.hours"></div>
-          <div class="attributes-map--value">
-            <editable-attribute-field [resource]="entry"
-                                      [fieldName]="'hours'">
-            </editable-attribute-field>
-          </div>
-
-          <div class="attributes-map--key" [textContent]="text.attributes.workPackage"></div>
-          <div class="attributes-map--value">
-            <editable-attribute-field [resource]="entry"
-                                      [fieldName]="'workPackage'">
-            </editable-attribute-field>
-          </div>
-
-          <div class="attributes-map--key" [textContent]="text.attributes.activity"></div>
-          <div class="attributes-map--value">
-            <editable-attribute-field [resource]="entry"
-                                      [fieldName]="'activity'">
-            </editable-attribute-field>
-          </div>
-
-          <div class="attributes-map--key" [textContent]="text.attributes.comment"></div>
-          <div class="attributes-map--value">
-            <editable-attribute-field [resource]="entry"
-                                      [fieldName]="'comment'">
-            </editable-attribute-field>
-          </div>
-
-          <ng-container *ngFor="let cf of customFields">
-            <div class="attributes-map--key" [textContent]="cf.label"></div>
-            <div class="attributes-map--value">
-              <editable-attribute-field [resource]="entry"
-                                        [fieldName]="cf.key">
-              </editable-attribute-field>
-            </div>
-          </ng-container>
-        </div>
-      </edit-form>
+      <te-form [entry]="entry"
+               (modifiedEntry)="setModifiedEntry($event)">
+      </te-form>
     </div>
 
     <div class="op-modal--modal-footer">
