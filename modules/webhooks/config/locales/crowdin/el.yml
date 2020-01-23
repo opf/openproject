@@ -18,7 +18,7 @@ el:
     plural: Webhooks
     resources:
       time_entry:
-        name: "Είσοδος ώρας"
+        name: "Καταχώρηση ώρας"
     outgoing:
       no_results_table: Δεν έχουν οριστεί webhooks ακόμη.
       label_add_new: Προσθήκη νέου webhook
