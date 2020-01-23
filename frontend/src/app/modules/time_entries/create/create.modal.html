@@ -26,6 +26,12 @@
               [textContent]="text.create"
               [attr.title]="text.create">
       </button>
+
+      <button class="button"
+              (click)="closeMe($event)"
+              [textContent]="text.cancel"
+              [attr.title]="text.cancel">
+      </button>
     </div>
   </div>
 </div>

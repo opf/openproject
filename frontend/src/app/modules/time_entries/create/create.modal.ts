@@ -22,7 +22,8 @@ export class TimeEntryCreateModal extends OpModalComponent {
   text = {
     title: this.i18n.t('js.time_entry.edit'),
     create: this.i18n.t('js.label_create'),
-    close: this.i18n.t('js.button_close')
+    close: this.i18n.t('js.button_close'),
+    cancel: this.i18n.t('js.button_cancel')
   };
 
   public closeOnEscape = false;
