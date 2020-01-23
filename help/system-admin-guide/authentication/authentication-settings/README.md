@@ -39,21 +39,29 @@ You can define a footer for your registration emails under -> *Administration* -
 
 ![Sys-admin-authentication-registration-footer](Sys-admin-authentication-registration-footer.png)
 
+## Configure password settings
 
+You can change various settings to configure password preferences in OpenProject.
 
+1. Define the **minimum password length**.
+2. Define the password strength and select what **character classes are a mandatory part of the password**.
+3. Define the **minimum number of required character classes**.
+4. Define the number of days, after which a **password change should be enforced**.
+5. Define the **number of the most recently used passwords that a user should not be allowed to reuse**.
+6. Activate the **Forgot your password.** This way a user will be able to reset the own password via email.
 
+![Sys-admin-authentication-passwords](Sys-admin-authentication-passwords-1579791010597.png)
 
-1. Define the minimum password length.
-2. Select what character classes should be part of the password.
-3. Define the minimum number of required character classes.
-4. Define the number of days, after which a password change should be enforced.
-5. Define the number of the most recently used passwords that a user should not be allowed to reuse.
-6. Activate the *Forgot your password.*
-7. Define the number of failed login attempts, after which a user will be temporarily blocked.
-8. Define the duration of the time, for which the user will be blocked after failed login attempts.
-9. Enable or disable the autologin option. This allows a user to remain logged in, even if he/she leaves the site. Is this option is activated, the “Stay signed in” option will appear on the login screen.
-10. Activate the session expiration option. If you select this option,  an additional field will open, where you will be able to define the  inactivity time duration before the session expiry.
-11. Log user login, name, and mail address for all requests.
-12. Enable REST web service. This activates an API-Interface, which  allows communication between external services (for example MS Office)  and the instance.
-13. Don’t forget to save your changes.
+## Other authentication settings
 
+There can be defined a number of other authentication settings.
+
+1. Define the number of failed **login attempts, after which a user will be temporarily blocked**.
+2. Define the **duration of the time, for which the user will be blocked after failed login attempts**.
+3. Enable or disable the **autologin option**. This allows a user to remain logged in, even if he/she leaves the site. If this option is activated, the “Stay signed in” option will appear on the login screen to be selected.
+4. Activate the **session expiration option**. If you select this option, an additional field will open, where you will be able to define the **inactivity time duration before the session expiry**.
+5. Define to **log user login, name, and mail address for all requests**.
+6. **Enable REST web service**. This activates an API-Interface, which allows communication between external services (for example MS Office)  and the instance.
+7. Do not forget to **save** your changes.
+
+![Sys-admin-authentication-other-settings](Sys-admin-authentication-other-settings.png)

@@ -15,7 +15,7 @@ Change your personal settings in My Account. Here you can adapt, e.g. the langua
 | [Change password](#change-password)                          | How to change my password?                                   |
 | [Edit your user information](#edit-your-user-information)    | How to change the name or email address in OpenProject?      |
 | [Profile settings: change your language, time zone or display of comments](#profile-settings:-change-your-language,-time-zone-or-display-of-comments) | How to change the language, time zone or display of comments in OpenProject? |
-| [Two-factor authentication](#two-factor-authentication)      | How to set up a two-factor authentication?                   |
+| [Two-factor authentication](#two-factor-authentication-premium-feature) | How to set up a two-factor authentication?                   |
 | [Email notifications](#email-notifications)                  | How to change email notifications sent by OpenProject?       |
 | [Set an Avatar](#set-an-avatar)                              | How to set an Avatar in OpenProject and change the profile picture? |
 | [Delete account](#delete-account)                            | How to delete my own account?                                |
