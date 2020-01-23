@@ -27,7 +27,7 @@ module OpenProjectErrorHelper
   def op_logging_context
     {
       current_user: User.current,
-      params: params,
+      params: try(:params),
       request: try(:request),
       session: try(:session),
       env: try(:env)

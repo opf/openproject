@@ -29,7 +29,7 @@
 #++
 
 class MessagesController < ApplicationController
-  menu_item :boards
+  menu_item :forums
   default_search_scope :messages
   model_object Message, scope: Forum
   before_action :find_object_and_scope

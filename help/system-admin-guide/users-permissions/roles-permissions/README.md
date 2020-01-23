@@ -12,7 +12,7 @@ A role is a set of permissions that can be assigned to any project  member. Mult
 
 In contrast to “normal” project roles, **Global roles** are project-overarching roles that can be assigend to a user and allow certain actions (for example, creating new projects).
 
-Global roles can be added to a [user profile](./users/#view-user-profile).
+Global roles can be added to a [user profile](././users/#view-user-profile).
 
 ## Create a new role
 

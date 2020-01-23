@@ -22,11 +22,11 @@
 el:
   error_can_not_delete_export_card_configuration: "Αυτό το αρχείο ρυθμίσεων δεν μπορεί να διαγραφεί."
   error_can_not_change_name_of_default_configuration: "Το όνομα του προεπιλεγμένου αρχείου ρυθμίσεων δεν μπορεί να αλλάξει."
-  label_backlogs_export_card_config_select: "Επιλέξτε διαμόρφωση κάρτας εξαγωγής"
+  label_backlogs_export_card_config_select: "Επιλέξτε διαμόρφωση εξαγωγής κάρτας"
   label_backlogs_export_card_export: "Εξαγωγή"
   label_export_card_configuration_new: "Νέες ρυθμίσεις εξαγωγής κάρτας"
   label_export_card_configuration: "Ρύθμιση Εξαγωγής Κάρτας"
-  label_export_card_configuration_plural: "Εξαγωγή Ρυθμίσεων Κάρτας"
+  label_export_card_configuration_plural: "Ρυθμίσεις Εξαγωγής Κάρτας"
   label_export_card_activate: "Ενεργοποίηση"
   label_export_card_deactivate: "Απενεργοποίηση"
   notice_export_card_configuration_activated: "Οι ρυθμίσεις ενεργοποιήθηκαν επιτυχώς"
