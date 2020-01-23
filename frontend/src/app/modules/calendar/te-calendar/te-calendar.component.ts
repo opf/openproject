@@ -21,6 +21,7 @@ import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cac
 import interactionPlugin from '@fullcalendar/interaction';
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
+import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
 
 
 interface CalendarViewEvent {
@@ -50,6 +51,7 @@ interface CalendarMoveEvent {
   encapsulation: ViewEncapsulation.None,
   providers: [
     TimeEntryEditService,
+    TimeEntryCreateService,
     HalResourceEditingService
   ]
 })
@@ -89,6 +91,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
               private configuration:ConfigurationService,
               private timezone:TimezoneService,
               private timeEntryEdit:TimeEntryEditService,
+              private timeEntryCreate:TimeEntryCreateService,
               private timeEntryCache:TimeEntryCacheService) { }
 
   ngOnInit() {
@@ -276,7 +279,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     let date = moment(event.date);
 
     this
-      .timeEntryEdit
+      .timeEntryCreate
       .create(date)
       .then(modificationAction => {
         this.updateEventSet(modificationAction.entry, modificationAction.action);
