@@ -73,7 +73,6 @@ describe IFCModels::SetAttributesService, type: :model do
   describe 'call' do
     let(:call_attributes) do
       {
-        is_default: true,
         project_id: project.id
       }
     end
