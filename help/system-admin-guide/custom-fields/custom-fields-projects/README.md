@@ -6,37 +6,43 @@ description: Custom fields for projects.
 robots: index, follow
 keywords: custom fields for projects
 ---
-# Display custom fields in the project list
+# Display custom fields in the project list (Premium feature)
 
-As a user of the OpenProject Enterprise Edition you can customize the work package list and show additional project information by adding  custom fields to the project list.
- With this option you can for example display a project’s status, responsible or progress.
+As a user of the [OpenProject Enterprise Edition](https://www.openproject.org/enterprise-edition/) or [Cloud Edition](https://www.openproject.org/hosting/) you can customize the work package list and show additional project information by adding custom fields to the project list, e.g. adding accountable, project due date, progress, and more.
 
-In order to display custom fields in the project list, first make sure that you have an [activated Enterprise Edition](https://www.openproject.org/activate-the-enterprise-edition/) or use the Cloud Edition.
+## Creating a custom field for projects
 
-## Creating a project custom field
+To create a new custom field for projects, navigate to -> *Administration* -> *Custom fields* and select the tab **Project**. 
+Click on the link **Create a new custom field** to create a project custom field.
 
-Next, as an OpenProject admin navigate to the administration to  create a new custom field. To do this, click on your user name in the  upper right corner (1), select *Administration* from the dropdown menu (2) and select *Custom fields* from the side menu (3).
- Select the tab *Projects* (4) and click on the link *Create a new custom field* (5) to create a project custom field.
+![Sys-admin-create-custom-field-projects](Sys-admin-create-custom-field-projects.png)
 
-![Create project custom fields](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2018/05/Create-project-custom-fields-1-1024x372.png)
+1. In the newly opened create form provide a **name** to display in the project list (e.g. Project  accountable).
+2. Choose a **format** (e.g. List) for the custom field, e.g. list.
+3. **Enter the possible values** which can be selected (for a list). This is not relevant if you choose e.g. Text format.
+4. Define if the custom field should be **required**.
+5. If you check **visible** it will also be visible for all users (non Admins) in the project overview and displayed in the project details widget on the [Project Overview](../user-guide/project-overview/).
+6. Define if the custom field for projects should be **searchable**.
+7. Click **Save** to create the custom field.
 
-In the newly opened create form provide a name to display in the project list (e.g. Project status) (6), a format (e.g. List) (7) and enter the values which can be selected (8).
- Optionally, define if the custom field should be required and searchable (9).
- Click *Save* to create the custom field.
-
-![Custom fields create form](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2018/05/Custom-fields-1024x610.png)
+![Sys-admin-custom-fields-projects](Sys-admin-custom-fields-projects.png)
 
 ## Setting and displaying a project custom field
 
-Once you created the custom field you can set it in a project’s settings.
- To do this navigate to a project and select *Project settings* from the side menu (1). The project custom field is visible in the pre-selected *Information* tab. As a project manager you can set the project custom field to communicate the status (2).
+Once you created the custom field you can set it in the [project’s settings](../user-guide/project-settings/).
 
-![Set project custom field](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2018/05/Set-project-custom-field.png)
+To do this navigate to a project and select *Project settings* from the side menu. The project custom field is visible under *Information*. As a project manager you can set the project custom field.
 
-Next, navigate to the project list by selecting *View all projects* from the project selection menu in the top left side.
+![Sys-admin-custom-fields-project-settings](Sys-admin-custom-fields-project-settings.png)
 
-You will see the project custom field displayed as a column in the  project list. Therefore, you can easily communicate project information  across multiple projects.
+If you selected Visible in the custom fields settings, the custom field for projects is also available in the view all projects overview.
 
-![View all projects with custom field](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2018/05/View-all-projects-with-custom-field.png)
+Navigate to the project list by selecting *View all projects* from the project selection menu in the top left side.
 
- 
+![Sys-admin-view-all-projects](Sys-admin-view-all-projects-1579704910470.png)
+
+In the list of all projects you will see the project custom field displayed as a column in the  project list. Therefore, you can easily communicate project information  across multiple projects.
+
+![Sys-admin-display-project-custom-field](Sys-admin-display-project-custom-field.png)
+
+ Furthermore, the project custom field will also be displayed in the Project details widget on the [project overview page](../user-guide/project-overview/).

@@ -11,7 +11,9 @@ keywords: work package status
 
 Work packages can have various status depending on their types, e.g. tasks can have the status new, in progress, done, on hold, rejected, closed. Or any other status which you would need.
 
-The status can be configured under *Administration ->* *Work packages* -> *Status*. You will see the list of all the existing work package status in the system. You can add new status or change the name and order of existing status.
+The status can be set at the top of the work package details view or in the list view in the corresponding column.
+
+![Sys-admin-work-package-status](Sys-admin-work-package-status.png)The status field can be configured under *Administration ->* *Work packages* -> *Status*. You will see the list of all the existing work package status in the system. You can add new status or change the name and order of existing status.
 
 ## Create a new work package status
 
