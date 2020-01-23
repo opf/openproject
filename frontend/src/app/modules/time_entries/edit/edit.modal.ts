@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, ChangeDetectorRef} from "@angular/core";
+import {Component, ElementRef, Inject, ChangeDetectorRef, ChangeDetectionStrategy} from "@angular/core";
 import {OpModalComponent} from "app/components/op-modals/op-modal.component";
 import {OpModalLocalsToken} from "app/components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "app/components/op-modals/op-modal.types";
@@ -11,6 +11,7 @@ import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 @Component({
   templateUrl: './edit.modal.html',
   styleUrls: ['./edit.modal.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService
   ]

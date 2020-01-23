@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, SecurityContext, ViewChild, AfterViewInit, Output, EventEmitter, Injector, ViewEncapsulation} from "@angular/core";
+import {Component, ElementRef, Input, OnDestroy, OnInit, SecurityContext, ViewChild, AfterViewInit, Output, EventEmitter, Injector, ViewEncapsulation, ChangeDetectionStrategy} from "@angular/core";
 import {FullCalendarComponent} from '@fullcalendar/angular';
 import {States} from "core-components/states.service";
 import * as moment from "moment";
@@ -49,6 +49,7 @@ interface CalendarMoveEvent {
   styleUrls: ['./te-calendar.component.sass'],
   selector: 'te-calendar',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     TimeEntryEditService,
     TimeEntryCreateService,

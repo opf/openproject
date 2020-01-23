@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, ChangeDetectorRef, ViewChild} from "@angular/core";
+import {Component, ElementRef, Inject, ChangeDetectorRef, ViewChild, ChangeDetectionStrategy} from "@angular/core";
 import {OpModalComponent} from "app/components/op-modals/op-modal.component";
 import {OpModalLocalsToken} from "app/components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "app/components/op-modals/op-modal.types";
@@ -11,6 +11,7 @@ import {TimeEntryFormComponent} from "core-app/modules/time_entries/form/form.co
 @Component({
   templateUrl: './create.modal.html',
   styleUrls: ['../edit/edit.modal.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService
   ]
