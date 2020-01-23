@@ -5,12 +5,12 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import { TimeEntryResource } from 'core-app/modules/hal/resources/time-entry-resource';
 import { TimeEntryEditModal } from './edit.modal';
 import { take } from 'rxjs/operators';
-import {TimeEntryCreateModal} from "core-app/modules/calendar/te-calendar/create/create.modal";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import { Moment } from 'moment';
+import {TimeEntryCreateModal} from "core-app/modules/time_entries/create/create.modal";
 
 @Injectable()
 export class TimeEntryEditService {

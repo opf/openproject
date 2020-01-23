@@ -34,10 +34,8 @@ import {WorkPackagesCalendarController} from "core-app/modules/calendar/wp-calen
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
 import {TimeEntryCalendarComponent} from "core-app/modules/calendar/te-calendar/te-calendar.component";
-import {TimeEntryEditModal} from "core-app/modules/calendar/te-calendar/edit/edit.modal";
-import {TimeEntryEditService} from "core-app/modules/calendar/te-calendar/edit/edit.service";
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
-import { TimeEntryCreateModal } from './te-calendar/create/create.modal';
+import {OpenprojectTimeEntriesModule} from "core-app/modules/time_entries/openproject-time-entries.module";
 
 const menuItemClass = 'calendar-menu-item';
 
@@ -66,29 +64,25 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     // Work Package module
     OpenprojectWorkPackagesModule,
 
+    // Time entry module
+    OpenprojectTimeEntriesModule,
+
     // Editable fields e.g. for modals
     OpenprojectFieldsModule,
 
     // Calendar component
     FullCalendarModule,
   ],
-  providers: [
-    TimeEntryEditService,
-  ],
   declarations: [
     // Work package calendars
     WorkPackagesCalendarEntryComponent,
     WorkPackagesCalendarController,
     TimeEntryCalendarComponent,
-    TimeEntryEditModal,
-    TimeEntryCreateModal,
   ],
   entryComponents: [
     WorkPackagesCalendarController,
     WorkPackagesCalendarEntryComponent,
     TimeEntryCalendarComponent,
-    TimeEntryEditModal,
-    TimeEntryCreateModal,
   ],
   exports: [
     WorkPackagesCalendarController,

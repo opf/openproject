@@ -17,10 +17,10 @@ import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import { TimeEntryEditService } from './edit/edit.service';
 import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
 import interactionPlugin from '@fullcalendar/interaction';
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
 
 
 interface CalendarViewEvent {
