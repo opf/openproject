@@ -78,7 +78,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   public calendarDisplayEventTime = false;
   public calendarSlotEventOverlap = false;
   public calendarEditable = false;
-  public calendarEventOverlap = (stillEvent:any) => stillEvent.allDay;
+  public calendarEventOverlap = (stillEvent:any) => stillEvent.classNames.includes('te-calendar--day-sum');
 
   protected memoizedTimeEntries:{start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>>};
 
