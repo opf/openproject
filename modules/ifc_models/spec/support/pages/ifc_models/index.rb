@@ -49,12 +49,10 @@ module Pages
 
       def add_model_allowed(allowed)
         if allowed
-          within '.toolbar' do
-            page.find('.button.-alt-highlight', text: 'IFC model').click
-          end
+          click_toolbar_button 'IFC model'
 
-          expect(page).to have_text('New IFC model')
-          expect(current_path).to eql new_ifc_models_project_ifc_model_path(project)
+          expect_correct_page_loaded '.button[type="submit"]',
+                                     new_ifc_models_project_ifc_model_path(project)
 
           visit!
         else
@@ -77,15 +75,9 @@ module Pages
       end
 
       def edit_model(model_name, new_name)
-        row = find_model_table_row model_name
-        within row do
-          page.find('.icon-edit').click
-        end
+        click_table_icon model_name, '.icon-edit'
 
-        expect(page).to have_selector('input[type="file"]')
-        expect(page).to have_field('ifc_models_ifc_model[title]', with: model_name)
-        fill_in 'ifc_models_ifc_model[title]', with: new_name
-
+        change_model_name model_name, new_name
         click_on 'Save'
 
         model_listed true, new_name
@@ -93,10 +85,7 @@ module Pages
       end
 
       def delete_model(model_name)
-        row = find_model_table_row model_name
-        within row do
-          page.find('.icon-delete').click
-        end
+        click_table_icon model_name, '.icon-delete'
 
         page.driver.browser.switch_to.alert.accept
 
@@ -105,23 +94,19 @@ module Pages
       end
 
       def show_model(model)
-        within '.generic-table' do
-          page.find('td a', text: model.title).click
-        end
+        click_model_link model.title
 
-        expect(page).to have_selector('.ifc-model-viewer--container')
-        expect(current_path).to eq ifc_models_project_ifc_model_path(project, model)
+        expect_correct_page_loaded '.ifc-model-viewer--container',
+                                   ifc_models_project_ifc_model_path(project, model)
 
         visit!
       end
 
       def show_defaults
-        within '.toolbar' do
-          page.find('.button', text: 'Show defaults').click
-        end
+        click_toolbar_button 'Show defaults'
 
-        expect(page).to have_selector('.ifc-model-viewer--container')
-        expect(current_path).to eq show_defaults_ifc_models_project_ifc_models_path(project)
+        expect_correct_page_loaded '.ifc-model-viewer--container',
+                                   show_defaults_ifc_models_project_ifc_models_path(project)
 
         visit!
       end
@@ -132,6 +117,36 @@ module Pages
         within '.generic-table' do
           page.find('td', text: model_name).find(:xpath, '..')
         end
+      end
+
+      def click_model_link(model_name)
+        within '.generic-table' do
+          page.find('td a', text: model_name).click
+        end
+      end
+
+      def click_toolbar_button(name)
+        within '.toolbar' do
+          page.find('.button', text: name).click
+        end
+      end
+
+      def click_table_icon(model_name, icon_class)
+        row = find_model_table_row model_name
+        within row do
+          page.find(icon_class).click
+        end
+      end
+
+      def expect_correct_page_loaded(checked_selector, path)
+        expect(page).to have_selector(checked_selector)
+        expect(current_path).to eql path
+      end
+
+      def change_model_name(model_name, new_name)
+        expect(page).to have_selector('input[type="file"]')
+        expect(page).to have_field('ifc_models_ifc_model[title]', with: model_name)
+        fill_in 'ifc_models_ifc_model[title]', with: new_name
       end
     end
   end
