@@ -22,6 +22,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
 import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
+import {ColorsService} from "core-app/modules/common/colors/colors.service";
 
 
 interface CalendarViewEvent {
@@ -93,7 +94,8 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
               private timezone:TimezoneService,
               private timeEntryEdit:TimeEntryEditService,
               private timeEntryCreate:TimeEntryCreateService,
-              private timeEntryCache:TimeEntryCacheService) { }
+              private timeEntryCache:TimeEntryCacheService,
+              private colors:ColorsService) { }
 
   ngOnInit() {
     this.initializeCalendar();
@@ -167,11 +169,15 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
       hoursDistribution[entry.spentOn] = start;
 
+      const color = this.colors.forString(this.entryName(entry));
+
       return {
         title: hours < 0.5 ? '' : this.entryName(entry),
         startEditable: !!entry.update,
         start: start.format(),
         end: end.format(),
+        backgroundColor: color,
+        borderColor: color,
         entry: entry
       };
     }) as EventInput[];
