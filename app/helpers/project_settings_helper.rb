@@ -40,7 +40,7 @@ module ProjectSettingsHelper
       {
         name: 'modules',
         action: { controller: '/project_settings/modules', action: 'show' },
-        label: :label_enabled_project_modules
+        label: :label_module_plural
       },
       {
         name: 'types',

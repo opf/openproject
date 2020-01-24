@@ -49,7 +49,7 @@ describe 'menu permissions', type: :feature, js: true do
     it 'I can see all menu entries' do
       expect(page).to have_selector('#menu-sidebar .menu-item--title', text: 'Versions')
       expect(page).to have_selector('#menu-sidebar .menu-item--title', text: 'Information')
-      expect(page).to have_selector('#menu-sidebar .menu-item--title', text: 'Enabled modules')
+      expect(page).to have_selector('#menu-sidebar .menu-item--title', text: 'Modules')
     end
 
     it 'the parent node directs to the generic settings page' do
