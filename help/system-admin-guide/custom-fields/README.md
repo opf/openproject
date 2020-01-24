@@ -33,7 +33,7 @@ Depending on the module, for which the new custom field is being  created, sligh
 4. **Regular expression** specifying which values are allowed for the custom field.
 5. Set if the new custom field should be a **required** field.
 6. Specify if the new custom field should be **used for all projects**. This means the custom field will be active for all projects and does not need to be activated separately per project.
-7. Specify if the new custom field should be **used as a filter for work packages**. See [here](../user-guide/work-packages/work-package-table-configuration/#filter-work-packages) how to filter work packages.
+7. Specify if the new custom field should be **used as a filter for work packages**. See [here](../../user-guide/work-packages/work-package-table-configuration/#filter-work-packages) how to filter work packages.
 8. Specify if the new custom field should be **searchable** via the global search.
 9. **Save** the new custom field.
 
@@ -47,11 +47,11 @@ Depending on the module, for which the new custom field is being  created, sligh
     2. Custom field is activated for the project.
 </div>
 
-1. [Assign a custom field to a work package type](./manage-work-packages/work-package-types/#work-package-form-configuration) (Form configuration). You can do this directly via the link in the custom field overview.
+1. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration) (Form configuration). You can do this directly via the link in the custom field overview.
 
 ![Sys-admin-add-custom-field](Sys-admin-add-custom-field.png)
 
-2. Activate the custom field in a project [through the project settings](../user-guide/project-settings/custom-fields/). This is not relevant if the setting **For all projects** has been configured for the custom field.
+2. Activate the custom field for a project in the [project settings](../../user-guide/project-settings/custom-fields/). This is not relevant if the setting **For all projects** has been configured for the custom field.
 
 With these additional settings, you have absolute freedom which  custom fields are relevant for your projects and types. You can customize only those types that are relevant and create a whole set of  custom attributes for your work packages.
 

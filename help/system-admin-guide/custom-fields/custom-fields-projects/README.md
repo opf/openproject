@@ -21,7 +21,7 @@ Click on the link **Create a new custom field** to create a project custom field
 2. Choose a **format** (e.g. List) for the custom field, e.g. list.
 3. **Enter the possible values** which can be selected (for a list). This is not relevant if you choose e.g. Text format.
 4. Define if the custom field should be **required**.
-5. If you check **visible** it will also be visible for all users (non Admins) in the project overview and displayed in the project details widget on the [Project Overview](../user-guide/project-overview/).
+5. If you check **visible** it will also be visible for all users (non Admins) in the project overview and displayed in the project details widget on the [Project Overview](../../../user-guide/project-overview/).
 6. Define if the custom field for projects should be **searchable**.
 7. Click **Save** to create the custom field.
 
@@ -29,7 +29,7 @@ Click on the link **Create a new custom field** to create a project custom field
 
 ## Setting and displaying a project custom field
 
-Once you created the custom field you can set it in the [project’s settings](../user-guide/project-settings/).
+Once you created the custom field you can set it in the [project settings](../../../user-guide/project-settings/).
 
 To do this navigate to a project and select *Project settings* from the side menu. The project custom field is visible under *Information*. As a project manager you can set the project custom field.
 

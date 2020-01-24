@@ -17,7 +17,8 @@ Choose the languages which you want to activate for your system. Those languages
 ![available languages](image-20200123100856639.png)
 
 At the moment there are more than 30 languages available.
-**Note**: Many languages are translated by the Community. We highly appreciate if you want to [help translating OpenProject to your language](../development/translate-openproject).
+<div>
+**Note**: Many languages are translated by the Community. We highly appreciate if you want to [help translating OpenProject to your language](../../../development/translate-openproject).
 </div>
 
 ## Time and date formatting

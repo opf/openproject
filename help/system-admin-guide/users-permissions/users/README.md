@@ -35,7 +35,7 @@ Also, you get the information when the user has been created, and when the user 
 
 If you want to **block users permanently** in the system, you can click the **Lock permanently** link next to a user.
 
-If you are using the [OpenProject Cloud Edition](../../cloud-edition-guide), you will then have a new user available to add to the system within your booked plan.
+If you are using the [OpenProject Cloud Edition](../../../cloud-edition-guide), you will then have a new user available to add to the system within your booked plan.
 
 <div class="alert alert-info" role="alert">
 **Note**: The previous activities from this locked users will still be displayed in the system.
