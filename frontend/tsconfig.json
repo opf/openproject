@@ -25,7 +25,8 @@
     "skipLibCheck": true,
     "baseUrl": "./src/",
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "src/types"
     ],
     "lib": [
       "es2017",

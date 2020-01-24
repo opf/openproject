@@ -801,6 +801,7 @@ en:
     type: "Type"
     updated_at: "Updated on"
     updated_on: "Updated on"
+    uploader: "Uploader"
     user: "User"
     version: "Version"
     work_package: "Work package"

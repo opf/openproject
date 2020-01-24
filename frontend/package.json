@@ -66,6 +66,8 @@
     "@types/webpack-env": "^1.14.0",
     "@uirouter/angular": "^4.0.0",
     "@uirouter/core": "^5.0.23",
+    "@xeokit/xeokit-sdk": "^0.6.4",
+    "@xeokit/xeokit-viewer": "^1.3.9",
     "URIjs": "^1.14.1",
     "amdefine": "^1.0.0",
     "angular-dragula": "^1.2.8",

@@ -30,7 +30,7 @@
 
 module BaseServices
   class Write < BaseContracted
-    private
+    protected
 
     def persist(service_result)
       service_result = super(service_result)

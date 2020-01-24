@@ -3869,6 +3869,19 @@
         "@xtuc/long": "4.2.2"
       }
     },
+    "@xeokit/xeokit-sdk": {
+      "version": "0.6.4",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-0.6.4.tgz",
+      "integrity": "sha512-BrSS3ILe+oyVe/nQvOHVmUSmbcA4Tvjc0+p9WNuOHXKsJrLer8ntZjmmhK6wg8H6KaH4L0fa7AZ7cNTg+x+hDw=="
+    },
+    "@xeokit/xeokit-viewer": {
+      "version": "1.3.9",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-viewer/-/xeokit-viewer-1.3.9.tgz",
+      "integrity": "sha512-Z2xFIozR3VNxvWnwzr+uzu1XHJF59kb0oPvDLUOfalKIhcx7tSQBnHddZEcA6eqqVbs9bNIunCeBg0Sg+HcZWA==",
+      "requires": {
+        "@xeokit/xeokit-sdk": "^0.6.4"
+      }
+    },
     "@xtuc/ieee754": {
       "version": "1.2.0",
       "resolved": "https://registry.npmjs.org/@xtuc/ieee754/-/ieee754-1.2.0.tgz",
