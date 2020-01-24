@@ -72,7 +72,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   public calendarSlotLabelFormat = (info:any) => 24 - info.date.hour;
   public calendarScrollTime = '24:00:00';
   public calendarContentHeight = 545;
-  public calendarAllDaySlot = true;
+  public calendarAllDaySlot = false;
   public calendarAllDayText = '';
   public calendarDisplayEventTime = false;
   public calendarSlotEventOverlap = false;
@@ -197,10 +197,9 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
       calendarEntries.push({
         title: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
-        allDay: true,
-        start: m.format(),
-        classNames: 'te-calendar--day-sum',
-        end: m.format()
+        start: m.clone().add(24 - Math.min(duration, 23.5) - 0.5, 'h').format(),
+        end: m.clone().add(24 - Math.min(duration, 23.5), 'h').format(),
+        classNames: 'te-calendar--day-sum'
       });
     }
 
