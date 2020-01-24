@@ -336,6 +336,7 @@ en:
     label_project_plural: "Projects"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Quote this comment"
+    label_recent: "Recent"
     label_reset: "Reset"
     label_remove_column: "Remove column"
     label_remove_columns: "Remove selected columns"
