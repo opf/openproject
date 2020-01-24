@@ -37,6 +37,8 @@ class CustomStylesController < ApplicationController
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new
+    @current_theme = @custom_style.theme
+    @theme_options = options_for_theme_select
   end
 
   def upsale; end
@@ -87,7 +89,34 @@ class CustomStylesController < ApplicationController
 
   def update_colors
     variable_params = params[:design_colors].first
+    set_colors(variable_params)
+    set_theme(params)
 
+    redirect_to action: :show
+  end
+
+  def update_themes
+    variable_params = OpenProject::CustomStyles::ColorThemes::THEMES.find { |theme| theme[:name] == params[:theme] }[:colors]
+    set_colors(variable_params)
+    set_theme(params)
+
+    redirect_to action: :show
+  end
+
+  def show_local_breadcrumb
+    true
+  end
+
+  private
+
+  def options_for_theme_select
+    options = OpenProject::CustomStyles::ColorThemes::THEMES.map { |val| val[:name] }
+    options << [t('admin.custom_styles.color_theme_custom'), '', disabled: true] if @current_theme.empty?
+
+    options
+  end
+
+  def set_colors(variable_params)
     variable_params.each do |param_variable, param_hexcode|
       if design_color = DesignColor.find_by(variable: param_variable)
         if param_hexcode.blank?
@@ -102,15 +131,14 @@ class CustomStylesController < ApplicationController
         design_color.save
       end
     end
-
-    redirect_to action: :show
   end
 
-  def show_local_breadcrumb
-    true
-  end
+  def set_theme(params)
+    theme = ActionController::Parameters.new(theme: params[:theme] || '').permit(:theme)
 
-  private
+    @custom_style = CustomStyle.current
+    @custom_style.update(theme)
+  end
 
   def require_ee_token
     unless EnterpriseToken.allows_to?(:define_custom_style)

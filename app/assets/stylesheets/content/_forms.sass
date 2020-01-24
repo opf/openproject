@@ -236,6 +236,10 @@ hr
 fieldset.form--fieldset
   @extend %form--fieldset-or-section
 
+  &.-collapsible.collapsed
+    .-hide-when-collapsed
+      display: none
+
 .form--fieldset-legend
   @extend %form--fieldset-legend-or-section-title
   width:     100%
