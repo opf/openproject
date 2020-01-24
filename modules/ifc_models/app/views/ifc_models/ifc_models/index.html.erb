@@ -40,7 +40,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <% end %>
     </li>
   <% end %>
-  <% if @ifc_models.any? %>
+  <% if @ifc_models.defaults.any? %>
     <li class="toolbar-item">
       <%= link_to show_defaults_ifc_models_project_ifc_models_path,
                   { class: 'button',
@@ -51,6 +51,10 @@ See docs/COPYRIGHT.rdoc for more details.
       <% end %>
     </li>
   <% end %>
+<% end %>
+
+<% if @ifc_models.defaults.empty? %>
+  <%= render partial: 'no_default_notice', locals: { project: @project } %>
 <% end %>
 
 <%= cell ::IFCModels::Models::TableCell, @ifc_models %>

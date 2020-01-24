@@ -54,11 +54,11 @@ module ::IFCModels
     def show; end
 
     def show_defaults
-      if @ifc_models.empty?
+      @default_ifc_models = @ifc_models.defaults
+
+      if @default_ifc_models.empty?
         redirect_to action: :index
       end
-
-      @default_ifc_models = @project.ifc_models.defaults
     end
 
     def create

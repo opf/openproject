@@ -26,60 +26,26 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
+require_relative 'show_default'
 
 module Pages
   module IfcModels
-    class Show < ::Pages::Page
-      attr_accessor :project, :id
+    class Show < ::Pages::IfcModels::ShowDefault
+      attr_accessor :id
 
       def initialize(project, id)
-        self.project = project
+        super(project)
         self.id = id
       end
+
+      private
 
       def path
         ifc_models_project_ifc_model_path(project, id)
       end
 
-      def finished_loading
-        expect(page).to have_no_selector('.xeokit-busy-modal', visible: true)
-      end
-
-      def model_viewer_visible(visible)
-        selector = '.ifc-model-viewer--model-canvas'
-        expect(page).to (visible ? have_selector(selector) : have_no_selector(selector))
-      end
-
-      def model_viewer_shows_a_toolbar(visible)
-        selector = '.xeokit-btn'
-
-        if visible
-          within ('.ifc-model-viewer--toolbar-container') do
-            expect(page).to have_selector(selector, count: 8)
-          end
-        else
-          expect(page).to have_no_selector(selector)
-          expect(page).to have_no_selector('.ifc-model-viewer--toolbar-container')
-        end
-      end
-
-      def sidebar_shows_viewer_menu(visible)
-        selector = '.xeokit-tab'
-        tabs = ['Models', 'Objects', 'Classes', 'Storeys']
-
-        tabs.each do |tab|
-          expect(page).to (visible ? have_selector(selector, text: tab) : have_no_selector(selector, text: tab))
-        end
-      end
-
-      def page_shows_a_toolbar(visible)
-        selector = '.toolbar-item'
-        buttons = ['Edit', 'Delete']
-
-        buttons.each do |button|
-          expect(page).to (visible ? have_selector(selector, text: button) : have_no_selector(selector, text: button))
-        end
+      def toolbar_items
+        %w(Edit Delete)
       end
     end
   end

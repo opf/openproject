@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 require_relative '../support/pages/ifc_models/show'
+require_relative '../support/pages/ifc_models/show_default'
 
 describe 'model viewer', type: :feature, js: true do
   let(:project) { FactoryBot.create :project }
