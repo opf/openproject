@@ -173,42 +173,10 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
 
     make_custom_fields.each { |row| data << row }
 
-    options = {
-      cell_options: { borders: [:right] }
-    }
-    segments = make_description(work_package.description.to_s, options)
-    segments.each_with_index do |seg, index|
-      data << make_description_row(seg,
-                                   first: index == 0,
-                                   last: index == segments.size - 1)
-    end
-
     pdf.font style: :normal, size: 9
     pdf.table(data, column_widths: column_widths)
-  end
 
-  def make_description_row(seg, first: false, last: false)
-    if first
-      label = make_description_label
-    else
-      label = make_empty_label
-    end
-
-    if last
-      label.borders = [:left, :bottom]
-      seg.borders = [:bottom, :right]
-    end
-
-    [label, seg]
-  end
-
-  def make_description_label
-    text = WorkPackage.human_attribute_name(:description) + ':'
-    pdf.make_cell(text, borders: [:left], font_style: :bold, padding: cell_padding)
-  end
-
-  def make_empty_label
-    pdf.make_cell '', borders: [:left]
+    write_description!(work_package)
   end
 
   def write_changesets!
@@ -260,6 +228,7 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
         text = journal
           .render_detail(detail, no_html: true, only_path: false)
           .gsub(/\((https?[^\)]+)\)$/, "(<link href='\\1'>\\1</link>)")
+
         pdf.text('- ' + text, inline_format: true)
         newline!
       end
@@ -268,7 +237,8 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
         newline! unless journal.details.empty?
 
         pdf.font style: :normal, size: 8
-        pdf.text journal.notes.to_s
+
+        pdf.markup(format_text(journal.notes.to_s, object: work_package, format: :html))
       end
 
       newline!

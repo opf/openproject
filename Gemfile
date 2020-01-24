@@ -137,7 +137,7 @@ gem 'lograge', '~> 0.10.0'
 gem 'airbrake', '~> 9.4.3', require: false
 
 gem 'prawn', '~> 2.2'
-gem 'prawn-table', '~> 0.2.2'
+gem 'prawn-markup', '~> 0.2.1'
 
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
