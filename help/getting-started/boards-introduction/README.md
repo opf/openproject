@@ -1,5 +1,7 @@
 ---
-title: Introduction to Boards
+sidebar_navigation:
+  title: Introduction to Boards
+  priority: 120
 description: Get an introduction to Agile Boards
 robots: index, follow
 keywords: invite members

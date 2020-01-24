@@ -1,5 +1,7 @@
 ---
-title: Open and create a project
+sidebar_navigation:
+  title: Open and create a project
+  priority: 160
 description: Open and create a new project in OpenProject. 
 robots: index, follow
 keywords: open project, create project

@@ -1,5 +1,7 @@
 ---
-title: Introduction to OpenProject
+sidebar_navigation:
+  title: Introduction to OpenProject
+  priority: 180
 description: Get and introduction to OpenProject - open source project management software.
 robots: index, follow
 keywords: introduction to OpenProject

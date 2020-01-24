@@ -1,5 +1,7 @@
 ---
-title: My Page
+sidebar_navigation:
+  title: My Page
+  priority: 100
 description: Learn how to set up a personal project dashboard
 robots: index, follow
 keywords: my page

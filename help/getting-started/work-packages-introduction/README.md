@@ -1,5 +1,7 @@
 ---
-title: Introduction to Work Packages
+sidebar_navigation:
+  title: Introduction to Work Packages
+  priority: 140
 description: Learn the first steps about work packages
 robots: index, follow
 keywords: introduction work packages

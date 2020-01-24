@@ -1,5 +1,7 @@
 ---
-title: Introduction to Gantt charts
+sidebar_navigation:
+  title: Introduction to Gantt charts
+  priority: 130
 description: Introduction to Gantt charts
 robots: index, follow
 keywords: gantt charts

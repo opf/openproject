@@ -1,5 +1,7 @@
 ---
-title: Sign in and registration
+sidebar_navigation:
+  title: Sign in and registration
+  priority: 170
 description: Find out more about the sign in and registration in OpenProject. 
 robots: index, follow
 keywords: Sign in OpenProject, registration OpenProject
