@@ -1,13 +1,15 @@
 ---
-title: My Page
-description: Learn how to set up a personal project dashboard
+sidebar_navigation:
+  title: My Page
+  priority: 300
+description: My Page in OpenProject.
 robots: index, follow
 keywords: my page
 ---
 
 # My Page
 
-The My Page is your personal dashboard with important overarching project information, such as work package reports, news, spent time, or a calendar. It can be configured to your specific needs.
+The My Page is your **personal dashboard** with important overarching project information, such as work package reports, news, spent time, or a calendar. It can be configured to your specific needs.
 
 | Feature                                                      | Documentation for                                  |
 | ------------------------------------------------------------ | -------------------------------------------------- |

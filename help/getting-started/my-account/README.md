@@ -1,8 +1,10 @@
 ---
-title: My Account
-description: Learn how to configure your account
+sidebar_navigation:
+  title: My Account
+  priority: 400
+description: My account settings in OpenProject.
 robots: index, follow
-keywords: account configuration
+keywords: my account
 ---
 
 # My Account
