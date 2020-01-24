@@ -1,5 +1,7 @@
 ---
-title: My Account
+sidebar_navigation:
+  title: My Account
+  priority: 110
 description: Learn how to configure your account
 robots: index, follow
 keywords: account configuration

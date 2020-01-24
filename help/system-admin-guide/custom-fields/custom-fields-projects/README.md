@@ -45,4 +45,4 @@ In the list of all projects you will see the project custom field displayed as a
 
 ![Sys-admin-display-project-custom-field](Sys-admin-display-project-custom-field.png)
 
- Furthermore, the project custom field will also be displayed in the Project details widget on the [project overview page](../user-guide/project-overview/).
+Furthermore, the project custom field will also be displayed in the Project details widget on the [project overview page](../../../user-guide/project-overview/).

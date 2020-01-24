@@ -1,5 +1,7 @@
 ---
-title: Invite members
+sidebar_navigation:
+  title: Invite members
+  priority: 150
 description: Invite new team members to a project
 robots: index, follow
 keywords: invite members
