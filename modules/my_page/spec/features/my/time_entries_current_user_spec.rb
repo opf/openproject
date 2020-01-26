@@ -53,7 +53,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       project: project,
                       activity: activity,
                       user: user,
-                      spent_on: Date.today.beginning_of_week,
+                      spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
                       hours: 3,
                       comments: 'My comment'
   end
@@ -63,7 +63,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       project: project,
                       activity: activity,
                       user: user,
-                      spent_on: Date.today.beginning_of_week + 3.days,
+                      spent_on: Date.today.beginning_of_week(:sunday) + 4.days,
                       hours: 2,
                       comments: 'My other comment'
   end
@@ -157,7 +157,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       .to have_content "Total: 5.00"
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .fc-event").hover
+      find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .te-calendar--time-entry").hover
     end
 
     expect(page)
@@ -165,16 +165,15 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     # Adding a time entry
 
-    # Because of the structure of fullcalendar it is hard to pinpoint the area to click.
-    # The below will click on the wednesday, at around the 9 hours line.
+    # The add time entry event is invisible
     within entries_area.area do
-      find('.fc-time-grid tr.fc-minor:nth-of-type(32) .fc-widget-content:nth-of-type(2)').click
+      find(".fc-content-skeleton td:nth-of-type(5) .fc-event-container .te-calendar--add-entry", visible: false).click
     end
 
     expect(page)
       .to have_content(I18n.t('js.time_entry.work_package_required'))
 
-    spent_on_field.expect_value((Date.today.beginning_of_week + 2.days).strftime)
+    spent_on_field.expect_value((Date.today.beginning_of_week(:sunday) + 3.days).strftime)
 
     wp_field.input_element.click
     wp_field.set_value(other_work_package.subject)
@@ -199,7 +198,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     within entries_area.area do
       expect(page)
-        .to have_selector(".fc-content-skeleton td:nth-of-type(5) .fc-event-container .fc-event",
+        .to have_selector(".fc-content-skeleton td:nth-of-type(5) .fc-event-container .te-calendar--time-entry",
                           text: other_work_package.subject)
     end
 
@@ -212,7 +211,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     ## Editing an entry
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .fc-event").click
+      find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .te-calendar--time-entry").click
     end
 
     expect(page)
@@ -252,7 +251,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     my_page.expect_and_dismiss_notification message: I18n.t(:notice_successful_update)
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .fc-event").hover
+      find(".fc-content-skeleton td:nth-of-type(3) .fc-event-container .te-calendar--time-entry").hover
     end
 
     expect(page)
@@ -267,14 +266,14 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     ## Removing the time entry
 
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(6) .fc-event-container .fc-event").click
+      find(".fc-content-skeleton td:nth-of-type(6) .fc-event-container .te-calendar--time-entry").click
     end
 
     click_button 'Delete'
 
     within entries_area.area do
       expect(page)
-       .not_to have_selector(".fc-content-skeleton td:nth-of-type(6) .fc-event-container .fc-event")
+       .not_to have_selector(".fc-content-skeleton td:nth-of-type(6) .fc-event-container .te-calendar--time-entry")
     end
 
     expect(page)
