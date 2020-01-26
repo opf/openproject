@@ -45,6 +45,10 @@ interface CalendarMoveEvent {
   view:View;
 }
 
+const TIME_ENTRY_CLASS_NAME = 'te-calendar--time-entry';
+const DAY_SUM_CLASS_NAME = 'te-calendar--day-sum';
+const ADD_ENTRY_CLASS_NAME = 'te-calendar--add-entry';
+
 @Component({
   templateUrl: './te-calendar.template.html',
   styleUrls: ['./te-calendar.component.sass'],
@@ -78,7 +82,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   public calendarDisplayEventTime = false;
   public calendarSlotEventOverlap = false;
   public calendarEditable = false;
-  public calendarEventOverlap = (stillEvent:any) => stillEvent.classNames.includes('te-calendar--day-sum');
+  public calendarEventOverlap = (stillEvent:any) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME);
 
   protected memoizedTimeEntries:{start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>>};
   protected memoizedCreateAllowed:boolean = false;
@@ -174,15 +178,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
       const color = this.colors.forString(this.entryName(entry));
 
-      return {
-        title: hours < 0.5 ? '' : this.entryName(entry),
-        startEditable: !!entry.update,
-        start: start.format(),
-        end: end.format(),
-        backgroundColor: color,
-        borderColor: color,
-        entry: entry
-      };
+      return this.timeEntry(entry, hours, start, end);
     }) as EventInput[];
   }
 
@@ -214,12 +210,27 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     return calendarEntries;
   }
 
+  protected timeEntry(entry:TimeEntryResource, hours:number, start:Moment, end:Moment) {
+    const color = this.colors.forString(this.entryName(entry));
+
+    return {
+      title: hours < 0.5 ? '' : this.entryName(entry),
+      startEditable: !!entry.update,
+      start: start.format(),
+      end: end.format(),
+      backgroundColor: color,
+      borderColor: color,
+      classNames: TIME_ENTRY_CLASS_NAME,
+      entry: entry
+    };
+  }
+
   protected sumEntry(date:Moment, duration:number) {
     return {
       title: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
       start: date.clone().add(24 - Math.min(duration, 23.5) - 0.5, 'h').format(),
       end: date.clone().add(24 - Math.min(duration, 23.5), 'h').format(),
-      classNames: 'te-calendar--day-sum'
+      classNames: DAY_SUM_CLASS_NAME
     };
   }
 
@@ -228,7 +239,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
       title: '+',
       start: date.clone().format(),
       end: date.clone().add(24 - Math.min(duration, 22.5) - 0.5, 'h').format(),
-      classNames: 'te-calendar--day-add'
+      classNames: ADD_ENTRY_CLASS_NAME
     };
   }
 
