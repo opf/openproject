@@ -21,7 +21,7 @@ export class TimeEntryCreateModal extends OpModalComponent {
   @ViewChild('editForm', { static: true }) editForm:TimeEntryFormComponent;
 
   text = {
-    title: this.i18n.t('js.time_entry.edit'),
+    title: this.i18n.t('js.time_entry.create'),
     create: this.i18n.t('js.label_create'),
     close: this.i18n.t('js.button_close'),
     cancel: this.i18n.t('js.button_cancel')

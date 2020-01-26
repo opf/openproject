@@ -81,6 +81,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   public calendarEventOverlap = (stillEvent:any) => stillEvent.classNames.includes('te-calendar--day-sum');
 
   protected memoizedTimeEntries:{start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>>};
+  protected memoizedCreateAllowed:boolean = false;
 
   constructor(readonly states:States,
               readonly timeEntryDm:TimeEntryDmService,
@@ -110,9 +111,9 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
     // Therefore, setting the outputs via the underlying API
     this.ucCalendar.getApi().setOption('eventRender', (event:CalendarViewEvent) => { this.addTooltip(event); });
-    this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => { this.editEvent(event); });
+    this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => { this.dispatchEventClick(event); });
     this.ucCalendar.getApi().setOption('eventDrop', (event:CalendarMoveEvent) => { this.moveEvent(event); });
-    this.ucCalendar.getApi().setOption('dateClick', (event:CalendarDateClickEvent) => { this.addEvent(event); });
+    this.ucCalendar.getApi().setOption('dateClick', (event:CalendarDateClickEvent) => { this.addEvent(moment(event.date)); });
   }
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date },
@@ -135,6 +136,8 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
         .timeEntryDm
         .list({ filters: this.dmFilters(start, end) })
         .then(collection => {
+          this.memoizedCreateAllowed = !!collection.createTimeEntry;
+
           collection.elements.forEach(timeEntry => this.timeEntryCache.updateValue(timeEntry.id!, timeEntry));
 
           return collection;
@@ -148,7 +151,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
   private buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
     return this.buildTimeEntryEntries(entries)
-      .concat(this.buildSumEntries(entries, fetchInfo));
+      .concat(this.buildAuxEntries(entries, fetchInfo));
   }
 
   private buildTimeEntryEntries(entries:TimeEntryResource[]) {
@@ -183,7 +186,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     }) as EventInput[];
   }
 
-  private buildSumEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
+  private buildAuxEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
     let dateSums:{ [key:string]:number } = {};
 
     entries.forEach((entry) => {
@@ -201,15 +204,32 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     for (let m = moment(fetchInfo.start); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
       let duration = dateSums[m.format('YYYY-MM-DD')] || 0;
 
-      calendarEntries.push({
-        title: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
-        start: m.clone().add(24 - Math.min(duration, 23.5) - 0.5, 'h').format(),
-        end: m.clone().add(24 - Math.min(duration, 23.5), 'h').format(),
-        classNames: 'te-calendar--day-sum'
-      });
+      calendarEntries.push(this.sumEntry(m, duration));
+
+      if (this.memoizedCreateAllowed && duration < 24) {
+        calendarEntries.push(this.addEntry(m, duration));
+      }
     }
 
     return calendarEntries;
+  }
+
+  protected sumEntry(date:Moment, duration:number) {
+    return {
+      title: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
+      start: date.clone().add(24 - Math.min(duration, 23.5) - 0.5, 'h').format(),
+      end: date.clone().add(24 - Math.min(duration, 23.5), 'h').format(),
+      classNames: 'te-calendar--day-sum'
+    };
+  }
+
+  protected addEntry(date:Moment, duration:number) {
+    return {
+      title: '+',
+      start: date.clone().format(),
+      end: date.clone().add(24 - Math.min(duration, 22.5) - 0.5, 'h').format(),
+      classNames: 'te-calendar--day-add'
+    };
   }
 
   protected dmFilters(start:Date, end:Date):Array<[string, FilterOperator, string[]]> {
@@ -247,16 +267,18 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     return jQuery(this.element.nativeElement).find('.fc-view-container');
   }
 
-  private editEvent(event:CalendarViewEvent) {
-    let originalEntry = event.event.extendedProps.entry;
-
-    if (!originalEntry) {
-      return;
+  private dispatchEventClick(event:CalendarViewEvent) {
+    if (event.event.extendedProps.entry) {
+      this.editEvent(event.event.extendedProps.entry);
+    } else if (event.event.start) {
+      this.addEvent(moment(event.event.start));
     }
+  }
 
+  private editEvent(entry:TimeEntryResource) {
     this
       .timeEntryEdit
-      .edit(originalEntry)
+      .edit(entry)
       .then(modificationAction => {
         this.updateEventSet(modificationAction.entry, modificationAction.action);
       })
@@ -281,8 +303,10 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
       });
   }
 
-  private addEvent(event:CalendarDateClickEvent) {
-    let date = moment(event.date);
+  private addEvent(date:Moment) {
+    if (!this.memoizedCreateAllowed) {
+      return;
+    }
 
     this
       .timeEntryCreate
