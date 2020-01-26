@@ -115,6 +115,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
     // Therefore, setting the outputs via the underlying API
     this.ucCalendar.getApi().setOption('eventRender', (event:CalendarViewEvent) => { this.alterEventEntry(event); });
+    this.ucCalendar.getApi().setOption('eventDestroy', (event:CalendarViewEvent) => { this.beforeEventRemove(event); });
     this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => { this.dispatchEventClick(event); });
     this.ucCalendar.getApi().setOption('eventDrop', (event:CalendarMoveEvent) => { this.moveEvent(event); });
     this.ucCalendar.getApi().setOption('dateClick', (event:CalendarDateClickEvent) => { this.addEvent(moment(event.date)); });
@@ -368,12 +369,24 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     });
   }
 
+  private removeTooltip(event:CalendarViewEvent) {
+    jQuery(event.el).tooltip('disable');
+  }
+
   private prependDuration(event:CalendarViewEvent) {
     let formattedDuration = this.timezone.formattedDuration(event.event.extendedProps.entry.hours);
 
     jQuery(event.el)
       .find('.fc-title')
       .prepend(`<div class="fc-duration">${formattedDuration}</div>`);
+  }
+
+  private beforeEventRemove(event:CalendarViewEvent) {
+    if (!event.event.extendedProps.entry) {
+      return;
+    }
+
+    this.removeTooltip(event);
   }
 
   private entryName(entry:TimeEntryResource) {
