@@ -2,9 +2,8 @@
 sidebar_navigation:
   title: My Account
   priority: 400
-description: My account settings in OpenProject.
+description: Learn how to configure account settings.
 robots: index, follow
-keywords: my account
 ---
 
 # My Account
