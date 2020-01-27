@@ -44,12 +44,6 @@ FactoryBot.define do
       project factory: :project
       uploader factory: :user
       is_default { true }
-      ifc_attachment do
-        Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/ifc_models/spec/fixtures/files/minimal.ifc"),
-          'application/binary'
-        )
-      end
 
       xkt_attachment do
         Rack::Test::UploadedFile.new(
