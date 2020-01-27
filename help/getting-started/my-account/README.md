@@ -4,6 +4,7 @@ sidebar_navigation:
   priority: 400
 description: Learn how to configure account settings.
 robots: index, follow
+keywords: my account, account settings
 ---
 
 # My Account

@@ -14,6 +14,11 @@ Open a project via the Select a project drop-down menu and navigate to -> *Proje
 
 ![User-guide-open-project-settings](User-guide-open-project-settings.png)
 
+<div class="alert alert-info" role="alert">
+**Note**: You have to be a project admin in order to see and access to project settings.
+</div>
+
+
 ## Overview
 
 | Feature                                                | Documentation for                                            |
@@ -27,3 +32,4 @@ Open a project via the Select a project drop-down menu and navigate to -> *Proje
 | [Repository](repository)                               | Activate and manage a SVN or GIT repository for a project.   |
 | [Activities (time tracking)](activities-time-tracking) | Activate or deactivate Activities (for time tracking) in a project. |
 | [Backlogs settings](backlogs-settings)                 | Manage backlogs settings for a project.                      |
+
