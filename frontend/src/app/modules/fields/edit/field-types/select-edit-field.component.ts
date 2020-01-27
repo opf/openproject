@@ -78,21 +78,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
       placeholder: this.I18n.t('js.placeholders.default')
     };
-
-    let loadingPromise = this.change.getForm().then(() => {
-      return this.initialValueLoading();
-    });
-
-    this.handler
-      .$onUserActivate
-      .pipe(
-        untilComponentDestroyed(this),
-      )
-      .subscribe(() => {
-        loadingPromise.then(() => {
-          this._autocompleterComponent.openDirectly = true;
-        });
-      });
   }
 
   protected initialValueLoading() {
@@ -108,6 +93,21 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public ngOnInit() {
     super.ngOnInit();
     this.appendTo = this.overflowingSelector;
+
+    let loadingPromise = this.change.getForm().then(() => {
+      return this.initialValueLoading();
+    });
+
+    this.handler
+      .$onUserActivate
+      .pipe(
+        untilComponentDestroyed(this),
+      )
+      .subscribe(() => {
+        loadingPromise.then(() => {
+          this._autocompleterComponent.openDirectly = true;
+        });
+      });
   }
 
   public get selectedOption() {
