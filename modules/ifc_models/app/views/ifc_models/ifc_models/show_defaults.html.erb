@@ -40,6 +40,9 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= op_icon('button--icon icon-edit') %> <%= t('ifc_models.label_manage_models') %>
     <% end %>
   </li>
+  <li class="toolbar-item">
+    <zen-mode-toggle-button></zen-mode-toggle-button>
+  </li>
 <% end %>
 
 <% if @default_ifc_models.empty? %>
