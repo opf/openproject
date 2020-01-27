@@ -5,7 +5,10 @@ module OpenProject::BimSeeder::Patches::ProjectSeederPatch
 
   module InstanceMethods
     def project_data_seeders(project, key)
-      [::BimSeeder::DemoData::BcfXmlSeeder.new(project, key)] + super(project, key)
+      [
+        ::BimSeeder::DemoData::BcfXmlSeeder.new(project, key),
+        ::BimSeeder::DemoData::IfcModelSeeder.new(project, key)
+      ] + super(project, key)
     end
   end
 end
