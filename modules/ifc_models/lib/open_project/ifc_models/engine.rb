@@ -63,7 +63,8 @@ module OpenProject::IFCModels
                   caption: :'ifc_models.label_ifc_models',
                   param: :project_id,
                   after: :work_packages,
-                  icon: 'icon2 icon-ifc')
+                  icon: 'icon2 icon-ifc',
+                  badge: :label_new)
 
         menu.push :ifc_viewer_panels,
                   { controller: '/ifc_models/ifc_models', action: 'show_defaults' },
