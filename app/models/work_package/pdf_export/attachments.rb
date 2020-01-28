@@ -29,7 +29,6 @@
 #++
 
 module WorkPackage::PdfExport::Attachments
-
   ##
   # Creates cells for each attachment of the work package
   #
