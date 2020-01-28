@@ -118,7 +118,6 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     this.ucCalendar.getApi().setOption('eventDestroy', (event:CalendarViewEvent) => { this.beforeEventRemove(event); });
     this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => { this.dispatchEventClick(event); });
     this.ucCalendar.getApi().setOption('eventDrop', (event:CalendarMoveEvent) => { this.moveEvent(event); });
-    this.ucCalendar.getApi().setOption('dateClick', (event:CalendarDateClickEvent) => { this.addEvent(moment(event.date)); });
   }
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date },
