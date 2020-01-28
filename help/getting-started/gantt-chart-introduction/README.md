@@ -1,8 +1,10 @@
 ---
-title: Introduction to Gantt charts
-description: Introduction to Gantt charts
+sidebar_navigation:
+  title: Gantt charts introduction
+  priority: 600
+description: Introduction to Gantt charts to OpenProject.
 robots: index, follow
-keywords: gantt charts
+keywords: Gantt charts introduction
 ---
 
 # Introduction to Gantt charts

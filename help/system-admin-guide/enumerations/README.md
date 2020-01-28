@@ -31,3 +31,7 @@ You will then be able to name the value, activate it and choose if it should be 
 5. To remove an enumeration click on the respective **delete icon**.
 
 ![Sys-admin-enumerations](Sys-admin-enumerations.png)
+
+**Note**: To activate the [Activities (for time tracking)](../../user-guide/project-settings/activities-time-tracking) in a certain project, navigate to -> *Project settings* -> *Activities (time tracking)*.
+</div>
+

@@ -1,10 +1,11 @@
 ---
-title: Introduction to OpenProject
-description: Get and introduction to OpenProject - open source project management software.
+sidebar_navigation:
+  title: Introduction to OpenProject
+  priority: 999
+description: Get and introduction to OpenProject.
 robots: index, follow
-keywords: introduction to OpenProject
+keywords: OpenProject introduction
 ---
-
 # Introduction to OpenProject
 
 Welcome to OpenProject! We are glad to have you here. In this section we will cover an introduction to project management with OpenProject as well as general topics regarding OpenProject.

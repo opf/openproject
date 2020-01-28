@@ -23,7 +23,7 @@ Next, select **Enterprise Edition** from the menu items (3).
 Do you already have an Enterprise token?
 Yes, then you can proceed entering your token as described below.
 
-No, then you need to [order your Enterprise token](#order-the-enterprise-edition) or [request a trial token](../../enterprise-trial) first.
+No, then you need to [order your Enterprise token](#order-the-enterprise-edition) or [request a trial token](../enterprise-trial) first.
 
 In the Enterprise Edition section, copy and paste the full content of your Enterprise support token into the input field and press the blue **Save** button.
 
@@ -35,7 +35,7 @@ Your Enterprise Edition is now active.
 
 ## Order the Enterprise Edition
 
-If you want to **order the Enterprise Edition** click on the **+ Order Enterprise Edition** button shown on the page. You can also [request a trial token](./enterprise-trial) to test the premium features included in the Enterprise Edition.
+If you want to **order the Enterprise Edition** click on the **+ Order Enterprise Edition** button shown on the page. You can also [request a trial token](../enterprise-trial) to test the premium features included in the Enterprise Edition.
 
 ![image-20200120132950106](image-20200120132950106.png)
 
