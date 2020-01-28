@@ -50,6 +50,11 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
   <li class="toolbar-item">
+    <%= link_to(ifc_models_project_ifc_models_path(@project), class: 'button', accesskey: accesskey(:edit)) do %>
+      <%= op_icon('button--icon icon-settings2') %> <%= t('ifc_models.label_manage_models') %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
     <zen-mode-toggle-button></zen-mode-toggle-button>
   </li>
 <% end %>
