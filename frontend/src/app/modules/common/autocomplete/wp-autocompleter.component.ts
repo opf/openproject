@@ -28,23 +28,9 @@
 
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild
 } from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import { Subject } from 'rxjs';
 
 @Component({
   templateUrl: './create-autocompleter.component.html',
