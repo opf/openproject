@@ -32,6 +32,9 @@ module DemoData
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
     def seed_data!
+      puts ' ↳ Updating settings'
+      seed_settings
+
       seed_projects = demo_data_for('projects').keys
 
       seed_projects.each do |key|
@@ -74,9 +77,6 @@ module DemoData
 
       puts ' ↳ Update form configuration with global queries'
       set_form_configuration
-
-      puts ' ↳ Updating settings'
-      seed_settings
     end
 
     def applicable?

@@ -39,4 +39,5 @@ en:
             ifc_models:
               - file: 'testModel'
                 name: 'My super cool Model'
+                default: true
             bcf_xml_file: "seed.bcfzip"

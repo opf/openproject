@@ -53,29 +53,29 @@ module BimSeeder
       def seed_model(model)
         user = User.admin.first
 
-        xkt_data = get_file model[:file] + '.xkt'
-        meta_data = get_file model[:file] + '.json'
+        xkt_data = get_file model[:file], '.xkt'
+        meta_data = get_file model[:file], '.json'
 
         if xkt_data.nil? || meta_data.nil?
-          print '    ↳ Missing converted data for ifc model'
+          print "\n    ↳ Missing converted data for ifc model"
         else
           create_model(model, user, xkt_data, meta_data)
         end
       end
 
       def create_model(model, user, xkt_data, meta_data)
-        model_container = create_model_container project, user, model[:name]
+        model_container = create_model_container project, user, model[:name], model[:default]
 
         add_ifc_model_attachment model_container, user, xkt_data, 'xkt'
         add_ifc_model_attachment model_container, user, meta_data, 'metadata'
       end
 
-      def create_model_container(project, user, title)
+      def create_model_container(project, user, title, default)
         model_container = IFCModels::IFCModel.new
         model_container.title = title
         model_container.project = project
         model_container.uploader = user
-        model_container.is_default = true
+        model_container.is_default = default
 
         model_container.save!
         model_container
@@ -91,13 +91,14 @@ module BimSeeder
         attachment.save!
       end
 
-      def get_file(name)
-        path = 'modules/bim_seeder/files/ifc_models/'
-        return unless File.exist?(path + name)
+      def get_file(name, ending)
+        path = 'modules/bim_seeder/files/ifc_models/' + name + '/'
+        file_name = name + ending
+        return unless File.exist?(path + file_name)
 
         File.new(File.join(Rails.root,
                            path,
-                           name))
+                           file_name))
       end
     end
   end
