@@ -1,20 +1,24 @@
 ---
 sidebar_navigation:
-  title: Open and create a project
-  priority: 160
-description: Open and create a new project in OpenProject. 
+  title: Projects
+  priority: 900
+description: Introduction to projects in OpenProject.
 robots: index, follow
-keywords: open project, create project
+keywords: open project, create project, projects introduction
 ---
+# Projects introduction
 
-# Projects
+Get an introduction how to work with projects in OpenProject. To start collaboration in OpenProject, you first have to set up a new project.
 
-To start collaboration in OpenProject, you first have to set up a new project.
+<div class="alert alert-info" role="alert">
+**Note**: In order to see a project and work in it, you have to be a [member of a project](../invite-members).
+
 
 | Feature                                                 | Documentation for                                     |
 | ------------------------------------------------------- | ----------------------------------------------------- |
-| [Select a project](#open-an-existing-project)           | Open an existing project.                             |
+| [Open project](#open-an-existing-project)               | Select and open an existing project.                  |
 | [Create a new project](#create-a-new-project)           | How to create a new project?                          |
+| [View all projects](#view-all-projects)                 | How to get an overview about all my projects?         |
 | [Advanced project settings](#advanced-project-settings) | Configure further advanced settings for your project. |
 
 ## Open an existing project
@@ -67,8 +71,6 @@ You will see a list with all your projects and its details.
 
 
 
+## Advanced Project Settings
 
-
-### Advanced Project Settings
-
-Optionally, you can find out how to configure further [advanced settings](#TODO) for your projects, e.g. description, project hierarchy or setting it to public.
+In our detailed user guide you can find out how to configure further [advanced project settings](../../user-guide/projects/) for your projects, e.g. description, project hierarchy or setting it to public.

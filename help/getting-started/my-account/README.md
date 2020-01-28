@@ -1,10 +1,10 @@
 ---
 sidebar_navigation:
   title: My Account
-  priority: 110
-description: Learn how to configure your account
+  priority: 400
+description: Learn how to configure account settings.
 robots: index, follow
-keywords: account configuration
+keywords: my account, account settings
 ---
 
 # My Account

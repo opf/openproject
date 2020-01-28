@@ -1,6 +1,15 @@
-# Getting Started guide
+---
+sidebar_navigation:
+  title: Getting started
+  priority: 999
+description: OpenProject getting started guide.
+robots: index, follow
+keywords: getting started guide
+---
 
-Welcome to the OpenProject **Getting Started guide**.
+# Getting started guide
+
+Welcome to the OpenProject **Getting started guide**.
 
 Here you will learn about the **first steps with OpenProject**. If you need more detailed explanations of all features, please visit the respective section in our [user guide](../user-guide/).
 

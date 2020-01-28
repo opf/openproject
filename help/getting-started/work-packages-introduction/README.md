@@ -1,10 +1,10 @@
 ---
 sidebar_navigation:
-  title: Introduction to Work Packages
-  priority: 140
-description: Learn the first steps about work packages
+  title: Work packages introduction
+  priority: 700
+description: Introduction to work packages in OpenProject.
 robots: index, follow
-keywords: introduction work packages
+keywords: work packages introduction
 ---
 
 # Introduction to Work Packages
