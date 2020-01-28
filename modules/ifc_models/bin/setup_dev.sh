@@ -43,19 +43,11 @@ ln -fs /usr/lib/COLLADA2GLTF/COLLADA2GLTF-bin /usr/local/bin/COLLADA2GLTF
 rm -rf COLLADA2GLTF-v2.1.5-linux.zip
 
 # IFCconvert
-echo "-- Downloading and building IfcConvert --"
-git clone https://github.com/IfcOpenShell/IfcOpenShell --depth 1
-mkdir -p IfcOpenShell/build
-pushd IfcOpenShell/build
-
-cmake ../cmake -DOCC_LIBRARY_DIR=/usr/lib/x86_64-linux-gnu/ \
- -DBUILD_IFCPYTHON=0 \
- -DOPENCOLLADA_INCLUDE_DIR=/usr/local/include/opencollada \
- -DOPENCOLLADA_LIBRARY_DIR=/usr/local/lib/opencollada \
- -DPCRE_LIBRARY_DIR=/usr/lib/x86_64-linux-gnu/
-
-make install
-popd
+echo "-- Downloading IfcConvert --"
+wget --quiet https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.6.0-9bcd932-linux64.zip
+unzip -q IfcConvert-v0.6.0-9bcd932-linux64.zip -d /usr/local/src/bim/IfcConvert-v0.6.0-9bcd932-linux64
+ln -fs /usr/local/src/bim/IfcConvert-v0.6.0-9bcd932-linux64/IfcConvert /usr/local/bin/IfcConvert
+rm -rf IfcConvert-v0.6.0-9bcd932-linux64.zip
 
 echo "-- Downloading and building xeokit-metadata --"
 
