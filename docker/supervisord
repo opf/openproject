@@ -68,9 +68,8 @@ migrate() {
 	wait_for_postgres
 	pushd $APP_PATH >/dev/null
 	/etc/init.d/memcached start
-	bundle exec rake db:migrate db:seed db:structure:dump
+	bundle exec rake db:migrate db:seed
 	/etc/init.d/memcached stop
-	chown "$APP_USER.$APP_USER" db/structure.sql
 	popd >/dev/null
 }
 
@@ -110,6 +109,14 @@ fi
 
 echo "-----> Database setup finished."
 echo "       On first installation, the default admin credentials are login: admin, password: admin"
+
+if [ -n "$OPENPROJECT_RAILS__RELATIVE__URL__ROOT" ]; then
+	echo
+	echo "-----> Precompiling assets since RAILS_RELATIVE_URL_ROOT is set. This may take a minute."
+	RAILS_RELATIVE_URL_ROOT=$OPENPROJECT_RAILS__RELATIVE__URL__ROOT bash /app/docker/precompile-assets.sh
+	echo "-----> Asset precompilation finished."
+	echo
+fi
 
 echo "-----> Launching supervisord..."
 exec /usr/bin/supervisord -c $APP_PATH/docker/supervisord.conf -e ${SUPERVISORD_LOG_LEVEL}

@@ -48,14 +48,7 @@ if defined?(Unicorn) && Rails.env.production?
   use Unicorn::WorkerKiller::MaxRequests, min_req, max_req
 end
 
-##
-# Returns true if the application should be run under a subdirectory.
-def map_subdir?
-  # Don't map subdir when using Passenger as passenger takes care of that.
-  !defined?(::PhusionPassenger)
-end
-
-subdir = map_subdir? && OpenProject::Configuration.rails_relative_url_root.presence
+subdir = OpenProject::Configuration.rails_relative_url_root.presence
 
 map (subdir || '/') do
   use Rack::Protection::JsonCsrf
