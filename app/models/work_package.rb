@@ -158,7 +158,8 @@ class WorkPackage < ActiveRecord::Base
                      order: "#{Attachment.table_name}.file",
                      add_on_new_permission: :add_work_packages,
                      add_on_persisted_permission: :edit_work_packages,
-                     modification_blocked: ->(*) { readonly_status? }
+                     modification_blocked: ->(*) { readonly_status? },
+                     extract_tsv: true
 
   after_validation :set_attachments_error_details,
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }

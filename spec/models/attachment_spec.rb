@@ -310,4 +310,76 @@ describe Attachment, type: :model do
       end
     end
   end
+
+  describe 'full text extraction job on commit' do
+    let(:created_attachment) do
+      FactoryBot.create(:attachment,
+                        author: author,
+                        container: container)
+    end
+
+    shared_examples_for 'runs extraction' do
+      it 'runs extraction' do
+        extraction_with_id = nil
+
+        allow(ExtractFulltextJob)
+          .to receive(:perform_later) do |id|
+          extraction_with_id = id
+        end
+
+        attachment.save
+
+        expect(extraction_with_id).to eql attachment.id
+      end
+    end
+
+    shared_examples_for 'does not run extraction' do
+      it 'does not run extraction' do
+        created_attachment
+
+        expect(ExtractFulltextJob)
+          .not_to receive(:perform_later)
+
+        created_attachment.save
+      end
+    end
+
+    context 'for a work package' do
+      let(:work_package) { FactoryBot.create(:work_package) }
+      let(:container) { work_package }
+
+      context 'on create' do
+        it_behaves_like 'runs extraction'
+      end
+
+      context 'on update' do
+        it_behaves_like 'does not run extraction'
+      end
+    end
+
+    context 'for a wiki page' do
+      let(:wiki_page) { FactoryBot.create(:wiki_page) }
+      let(:container) { wiki_page }
+
+      context 'on create' do
+        it_behaves_like 'does not run extraction'
+      end
+
+      context 'on update' do
+        it_behaves_like 'does not run extraction'
+      end
+    end
+
+    context 'without a container' do
+      let(:container) { nil }
+
+      context 'on create' do
+        it_behaves_like 'runs extraction'
+      end
+
+      context 'on update' do
+        it_behaves_like 'does not run extraction'
+      end
+    end
+  end
 end
