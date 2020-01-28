@@ -29,6 +29,6 @@ See docs/COPYRIGHT.rdoc for more details.
 <% html_title t(:label_administration), t(:label_enumerations) %>
 <%= toolbar title: t(:label_enumerations) %>
 <% Enumeration.subclasses.each do |klass| %>
-  <h3 class="-no-border"><%= l(klass::OptionName) %></h3>
+  <h3 class="-no-border"><%= t(klass::OptionName) %></h3>
   <%= cell ::Enumerations::TableCell, klass.shared %>
 <% end %>
