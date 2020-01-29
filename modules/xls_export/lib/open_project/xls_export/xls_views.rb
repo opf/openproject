@@ -28,7 +28,7 @@ class OpenProject::XlsExport::XlsViews
     return super(row, unit_id) if as_text
 
     case unit_id
-    when 0 then row.real_costs || '-'
+    when 0 then row.real_costs || 0
     else row.units
     end
   end
