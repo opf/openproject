@@ -202,12 +202,16 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   right: 10%
 
 .notification-box--wrapper
-  z-index: 901 // Higher than loading indicator!
+  z-index: 10000 // Higher than loading indicator and modal wrapper!
+  top: 4rem
 
   .notification-box--casing
     position: relative
     .notification-box
       margin-bottom: rem-calc(3px)
+
+.flash, #errorExplanation
+  top: 1rem
 
 // awesome animations
 .notification-box
@@ -355,11 +359,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 a.notification-box--target-link
   cursor: pointer
   text-decoration: underline
-
-.flash,
-#errorExplanation,
-.notification-box--wrapper
-  top: 1rem
 
 #errorExplanation
   @extend %error-placeholder
