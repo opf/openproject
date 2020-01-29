@@ -56,7 +56,7 @@ export class IFCViewerComponent implements OnInit {
 
     import('@xeokit/xeokit-viewer/dist/main').then((XeokitViewerModule:any) => {
       let server = new XeokitServer();
-      let viewerUI = new XeokitViewerModule.ViewerUI(server, {
+      let viewerUI = new XeokitViewerModule.BIMViewer(server, {
         canvasElement: element.find(".ifc-model-viewer--model-canvas")[0], // WebGL canvas
         explorerElement: jQuery(".ifc-model-viewer--tree-panel")[0], // Left panel
         toolbarElement: element.find(".ifc-model-viewer--toolbar-container")[0], // Toolbar
