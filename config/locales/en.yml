@@ -650,7 +650,7 @@ en:
         time_entry:
           attributes:
             hours:
-              day_limit: "more than 24 hours logged for the date."
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           attributes:
