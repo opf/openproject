@@ -43,8 +43,7 @@
 .inline-edit--display-field
   display: inline-block
   max-width: 100%
-  @include text-shortener
-  white-space: inherit
+  @include text-shortener(false)
 
   &.-placeholder
     font-style: italic
@@ -52,8 +51,7 @@
   // Always render custom options as inline
   // when only one line
   .custom-option
-    @include text-shortener
-    white-space: normal
+    @include text-shortener(false)
 
     &:not(.-multiple-lines)
       display: inline

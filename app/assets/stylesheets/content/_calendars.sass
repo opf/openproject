@@ -23,8 +23,7 @@ full-calendar
 
   .fc-title
     max-width: 100%
-    overflow: hidden
-    text-overflow: ellipsis
+    @include text-shortener(false)
 
   .fc-header-toolbar
     h2
