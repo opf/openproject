@@ -125,10 +125,12 @@ class OpenProject::XlsExport::XlsViews::CostReportTable < OpenProject::XlsExport
   end
 
   def label
-    "#{I18n.t(:caption_cost_type)}: " + case unit_id
-                                        when -1 then I18n.t(:field_hours)
-                                        when 0  then "EUR"
-                                        else cost_type.unit_plural
-                                        end
+    unit = case unit_id
+           when -1 then CostEntry.human_attribute_name(:hours)
+           when 0  then Setting.plugin_openproject_costs['costs_currency']
+           else cost_type.unit_plural
+           end
+
+    "#{CostType.model_name.human}: #{unit}"
   end
 end

@@ -25,9 +25,9 @@ class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport:
 
     list = %i[spent_on user_id activity_id issue_id comments project_id]
     headers = list.collect { |field| label_for(field) }
-    headers << I18n.t(:units)
-    headers << I18n.t(:field_cost_type)
-    headers << I18n.t(:field_costs)
+    headers << CostEntry.human_attribute_name(:units)
+    headers << CostType.model_name.human
+    headers << CostEntry.human_attribute_name(:costs)
     spreadsheet.add_headers(headers)
 
     spreadsheet.add_format_option_to_column(headers.length - 1, number_format: number_to_currency(0.00))
