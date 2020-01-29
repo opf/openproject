@@ -21,20 +21,32 @@ class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport:
   end
 
   def build_spreadsheet(spreadsheet)
-    spreadsheet.add_title("#{@project.name + " >> " if @project}#{I18n.t(:cost_reports_title)} (#{format_date(Date.today)})")
+    set_title(spreadsheet)
 
-    list = %i[spent_on user_id activity_id issue_id comments project_id]
-    headers = list.collect { |field| label_for(field) }
-    headers << CostEntry.human_attribute_name(:units)
-    headers << CostType.model_name.human
-    headers << CostEntry.human_attribute_name(:costs)
+    build_header(spreadsheet)
+    format_columns(spreadsheet)
+    build_cost_rows(spreadsheet)
+    build_footer(spreadsheet)
+
+    spreadsheet
+  end
+
+  def set_title(spreadsheet)
+    spreadsheet.add_title("#{@project.name + ' >> ' if @project}#{I18n.t(:cost_reports_title)} (#{format_date(Date.today)})")
+  end
+
+  def build_header(spreadsheet)
     spreadsheet.add_headers(headers)
+  end
 
-    spreadsheet.add_format_option_to_column(headers.length - 1, number_format: number_to_currency(0.00))
-    spreadsheet.add_format_option_to_column(headers.length - 2, number_format: "0.0")
+  def format_columns(spreadsheet)
+    spreadsheet.add_format_option_to_column(headers.length - 3, number_format: "0.0")
+    spreadsheet.add_format_option_to_column(headers.length - 1, number_format: "#,##0.00 [$#{Setting.plugin_openproject_costs['costs_currency']}]")
+  end
 
+  def build_cost_rows(spreadsheet)
     query.each_direct_result do |result|
-      row = list.collect { |field| show_field field, result.fields[field.to_s] }
+      row = cost_entry_attributes.map { |field| show_field field, result.fields[field.to_s] }
       current_cost_type_id = result.fields['cost_type_id'].to_i
 
       row << show_result(result, current_cost_type_id) # units
@@ -43,15 +55,25 @@ class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport:
 
       spreadsheet.add_row(row)
     end
+  end
 
-    footer = [''] * list.size
+  def build_footer(spreadsheet)
+    footer = [''] * cost_entry_attributes.size
     footer += if show_result(query, 0) != show_result(query)
                 [show_result(query), '', show_result(query, 0)]
               else
                 ['', '', show_result(query)]
               end
     spreadsheet.add_row(footer) # footer
+  end
 
-    spreadsheet
+  def headers
+    cost_entry_attributes
+      .map { |field| label_for(field) }
+      .concat([CostEntry.human_attribute_name(:units), CostType.model_name.human, CostEntry.human_attribute_name(:costs)])
+  end
+
+  def cost_entry_attributes
+    %i[spent_on user_id activity_id issue_id comments project_id]
   end
 end

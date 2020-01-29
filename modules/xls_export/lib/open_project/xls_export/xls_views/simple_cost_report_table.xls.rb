@@ -26,7 +26,7 @@ class OpenProject::XlsExport::XlsViews::SimpleCostReportTable < OpenProject::Xls
 
     format_columns(spreadsheet)
 
-    build_cost_row(spreadsheet)
+    build_cost_rows(spreadsheet)
     build_footer(spreadsheet)
     spreadsheet
   end
@@ -50,7 +50,7 @@ class OpenProject::XlsExport::XlsViews::SimpleCostReportTable < OpenProject::Xls
     spreadsheet.add_format_option_to_column(headers.length - (column += 1), number_format: "0.0 ?") if show_units
   end
 
-  def build_cost_row(spreadsheet)
+  def build_cost_rows(spreadsheet)
     query.each do |result|
       current_cost_type_id = result.fields[:cost_type_id].to_i
       row = [show_row(result)]
