@@ -37,7 +37,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   }
 
   ngOnInit() {
-    this.timeEntryDm.list({ filters: this.dmFilters() })
+    this.timeEntryDm.list({ filters: this.dmFilters(), pageSize: 500 })
       .then((collection) => {
         this.buildEntries(collection.elements);
         this.entriesLoaded = true;

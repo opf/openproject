@@ -133,7 +133,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
         this.memoizedTimeEntries.end.getTime() !== end.getTime()) {
       let promise = this
         .timeEntryDm
-        .list({ filters: this.dmFilters(start, end) })
+        .list({ filters: this.dmFilters(start, end), pageSize: 500 })
         .then(collection => {
           this.memoizedCreateAllowed = !!collection.createTimeEntry;
 
