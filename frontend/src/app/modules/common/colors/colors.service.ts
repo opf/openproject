@@ -2,14 +2,20 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ColorsService {
-  public forString(value:string) {
+  public toHsl(value:string) {
+    return `hsl(${this.valueHash(value)}, 50%, 50%)`;
+  }
+
+  public toHsla(value:string, opacity:number) {
+    return `hsla(${this.valueHash(value)}, 50%, 50%, ${opacity}%)`;
+  }
+
+  protected valueHash(value:string) {
     let hash = 0;
-    for (var i = 0; i < value.length; i++) {
+    for (let i = 0; i < value.length; i++) {
       hash = value.charCodeAt(i) + ((hash << 5) - hash);
     }
 
-    let h = hash % 360;
-
-    return 'hsl(' + h + ', 50%, 50%)';
+    return hash % 360;
   }
 }

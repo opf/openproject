@@ -24,15 +24,10 @@ import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.serv
 import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
 
-
 interface CalendarViewEvent {
   el:HTMLElement;
   event:EventApi;
   jsEvent:MouseEvent;
-}
-
-interface CalendarDateClickEvent {
-  date:Date;
 }
 
 interface CalendarMoveEvent {
@@ -176,7 +171,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
       hoursDistribution[entry.spentOn] = start;
 
-      const color = this.colors.forString(this.entryName(entry));
+      const color = this.colors.toHsl(this.entryName(entry));
 
       return this.timeEntry(entry, hours, start, end);
     }) as EventInput[];
@@ -211,7 +206,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   protected timeEntry(entry:TimeEntryResource, hours:number, start:Moment, end:Moment) {
-    const color = this.colors.forString(this.entryName(entry));
+    const color = this.colors.toHsl(this.entryName(entry));
 
     return {
       title: hours < 0.5 ? '' : this.entryName(entry),
@@ -357,6 +352,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
     this.addTooltip(event);
     this.prependDuration(event);
+    this.appendFadeout(event);
   }
 
   private addTooltip(event:CalendarViewEvent) {
@@ -378,6 +374,38 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     jQuery(event.el)
       .find('.fc-title')
       .prepend(`<div class="fc-duration">${formattedDuration}</div>`);
+  }
+
+  /* Fade out event text to the bottom to avoid it being cut of weirdly.
+  * Multiline ellipsis with an unknown height is not possible, hence we blur the text.
+  * The gradient needs to take the background color of the element into account (hashed over the event
+  * title) which is why the style is set in code.
+  *
+  * We do not print anything on short entries (< 0.5 hours),
+  * which leads to the fc-short class not being applied by full calendar. For other short events, the css rules
+  * need to deactivate the fc-fadeout.
+   */
+  private appendFadeout(event:CalendarViewEvent) {
+    let timeEntry = event.event.extendedProps.entry;
+
+    if (this.timezone.toHours(timeEntry.hours) < 0.5) {
+      return;
+    }
+
+    let $element = jQuery(event.el);
+    let fadeout = jQuery(`<div class="fc-fadeout"></div>`);
+
+    let hslaStart = this.colors.toHsla(this.entryName(timeEntry), 0);
+    let hslaEnd = this.colors.toHsla(this.entryName(timeEntry), 100);
+
+    fadeout.css('background', `-webkit-linear-gradient(${hslaStart} 0%, ${hslaEnd} 100%`);
+
+    ['-moz-linear-gradient', '-o-linear-gradient', 'linear-gradient', '-ms-linear-gradient'].forEach((style => {
+      fadeout.css('background-image', `${style}(${hslaStart} 0%, ${hslaEnd} 100%`);
+    }));
+
+    $element
+      .append(fadeout);
   }
 
   private beforeEventRemove(event:CalendarViewEvent) {

@@ -89,7 +89,7 @@ export class UserAvatarComponent implements AfterViewInit {
     this.useFallback = element.dataset.useFallback!;
     this.userAvatarUrl = this.pathHelper.api.v3.users.id(this.userId).avatar.toString();
     this.userInitials = this.getInitials(this.userName);
-    this.colorCode = this.colors.forString(this.userName);
+    this.colorCode = this.colors.toHsl(this.userName);
     this.ref.detectChanges();
   }
 
