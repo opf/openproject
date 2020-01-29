@@ -12,6 +12,8 @@ Versions will be used, e.g. for roadmap planning to track certain product versio
 
 Also, version will  be used to enable the Backlogs module, i.e. to create a product backlog and sprints in OpenProject.
 
+[Read here how to create a new backlogs version](../../backlogs/manage-sprints).
+
 ## Create a new version
 
 Press the green **+ Version** button to create a new version for a project.
