@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Taskboard
+  title: Taskboard view
   priority: 850
 description: Taskboard in OpenProject.
 robots: index, follow

@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Working with backlogs
+  title: Backlogs view
   priority: 990
 description: Working with backlogs (scrum)
 robots: index, follow

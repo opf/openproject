@@ -27,3 +27,4 @@ Please note that this user guide does not represent an introduction into scrum m
 | [Sprint wiki page](https://www.openproject.org/help/agile-scrum/create-sprint-wiki-page/) |                                                              |
 | [Selecting folded or collapsed backlogs view](https://www.openproject.org/help/agile-scrum/selecting-folded-collapsed-backlogs-view/) |                                                              |
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wwWtuDcqj18" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Create work packages
-  priority: 869
+  priority: 990
 description: How to create work packages in OpenProject?
 robots: index, follow
 keywords: create work packages
@@ -11,11 +11,8 @@ keywords: create work packages
 
 | Feature                                                      | Documentation for                              |
 | ------------------------------------------------------------ | ---------------------------------------------- |
-| [Create work packages?](#how-to-create-work-packages?)       | How to create a new work package in a project? |
+| [Create work packages](#how-to-create-work-packages?)        | How to create a new work package in a project? |
 | [Add attachments to a work package](#add-attachments-to-work-packages) | How to add attachments to a work package?      |
-|                                                              |                                                |
-|                                                              |                                                |
-|                                                              |                                                |
 
 ## How to create work packages?
 

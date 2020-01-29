@@ -1,15 +1,21 @@
 ---
 sidebar_navigation:
   title: Work package relations and hierarchies
-  priority: 866
+  priority: 600
 description: How to add or configure work package relations?
 robots: index, follow
-keywords: work package relations
+keywords: work package relations, hierarchies
 ---
 
 # Work package relations and hierarchies
 
-You can not only create [work package hierarchies](#work-package-hierarchies), but also define relations, for example to indicate that work packages address a similar topic or create status dependencies. To create a relationship between two work packages:
+You can create work package hierarchies and relations.
+
+Hierarchies are a hierarchical relation (parent-child-relationship) vs. relations indicate any functional or timely relation (e.g. follows or proceeds, blocked by, part of, etc.)
+
+## Work package relations
+
+Work package relations indicate that work packages address a similar topic or create status dependencies. To create a relationship between two work packages:
 
 1. Select a work package, click on the **Relations** tab to open the relations tab and click the *+ Create new relations* link.
 2. Select the type of relationship from the dropdown menu.
@@ -47,3 +53,44 @@ You can click on the number to display the work packages which have the relation
 
 ## Work package hierarchies
 
+Work packages can be structured hierarchically, e.g. in order to break down a large work package into several smaller tasks.
+
+## Adding a child work package
+
+Open a work package and select the tab *Relations*.
+
+Click on *+ Create new child* to create a child work package. Alternatively, you can assign an existing child work package with *+ Add existing child*.
+
+![User-guide-hierarchies](User-guide-hierarchies.png)
+
+Insert the name of the new work package and save the newly created work package by pressing *Enter*. You can make changes to the work package by clicking on the work package ID.
+
+![create work package children](image-20200129144540902.png)
+
+For more information on the work package creation take a look at the guideline on [creating a work package](#create-work-package).
+
+## Change the parent work package
+
+To edit or remove the parent of a work package open the work package. At the top of the details view of the work package you will see the work package hierarchy. Click on the Edit or delete icon to change the work package parent.
+
+![User-guide-edit-remove-parent](User-guide-edit-remove-parent.png)
+
+## Display work package hierarchies
+
+After adding the parent and child work packages they are listed in the *Relations* tab.
+Note that only the direct parent and children are shown in the relations tab.
+
+![work package relations](image-20200129145033802.png)
+
+Hierarchies can also be displayed from the work package list view.
+To display work package hierarchies make sure the *Subject* column is displayed. You can activate or deactivate the hierarchy by pressing the icon next to the Subject.
+
+![User-guide-display-hierarchy](User-guide-display-hierarchy.png)
+
+You can also add a column with information about parent work packages:
+
+1. In the work package settings menu, click on *Columns*.
+2. Use auto-completion to search and add the *Parent* column.
+3. Click on *Apply* to display the new parent column in the work package list.
+
+![parent](image-20200129145338301.png)
