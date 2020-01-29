@@ -62,7 +62,8 @@ module Redmine
             add_on_new_permission: add_on_new_permission(options),
             add_on_persisted_permission: add_on_persisted_permission(options),
             only_user_allowed: only_user_allowed(options),
-            modification_blocked: options[:modification_blocked]
+            modification_blocked: options[:modification_blocked],
+            extract_tsv: attachable_extract_tsv_option(options)
           }
 
           options.except!(:view_permission,
@@ -71,7 +72,8 @@ module Redmine
                           :add_on_persisted_permission,
                           :add_permission,
                           :only_user_allowed,
-                          :modification_blocked)
+                          :modification_blocked,
+                          :extract_tsv)
         end
 
         def view_permission(options)
@@ -101,6 +103,10 @@ module Redmine
         def edit_permission_default
           "edit_#{name.pluralize.underscore}".to_sym
         end
+
+        def attachable_extract_tsv_option(options)
+          options.fetch(:extract_tsv, false)
+        end
       end
 
       module InstanceMethods
@@ -118,6 +124,10 @@ module Redmine
           def attachments_addable?(user = User.current)
             user.allowed_to_globally?(attachable_options[:add_on_new_permission]) ||
               user.allowed_to_globally?(attachable_options[:add_on_persisted_permission])
+          end
+
+          def attachment_tsv_extracted?
+            attachable_options[:extract_tsv]
           end
         end
 
