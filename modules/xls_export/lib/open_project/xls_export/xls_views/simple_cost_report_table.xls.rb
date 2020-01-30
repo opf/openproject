@@ -2,17 +2,31 @@ require_relative './one_dimensional_table.xls'
 
 class OpenProject::XlsExport::XlsViews::SimpleCostReportTable < OpenProject::XlsExport::XlsViews::OneDimensionalTable
   def format_columns(spreadsheet)
-    spreadsheet.add_format_option_to_column(headers.length - 1, number_format: currency_format)
-    spreadsheet.add_format_option_to_column(headers.length - 2, number_format: number_format) if show_units?
+    column_count = headers.size
+
+    if column_count - exported_fields.size == 1
+      spreadsheet.add_format_option_to_column(column_count - 1, number_format: currency_format)
+    elsif column_count - exported_fields.size == 2
+      spreadsheet.add_format_option_to_column(column_count - 2, number_format: number_format)
+    else
+      spreadsheet.add_format_option_to_column(column_count - 2, number_format: number_format)
+      spreadsheet.add_format_option_to_column(column_count - 4, number_format: currency_format)
+    end
+  end
+
+  def build_cost_rows(spreadsheet)
+    query.each do |result|
+      spreadsheet.add_row(cost_row(result))
+    end
   end
 
   def cost_row(result)
     current_cost_type_id = result.fields[:cost_type_id].to_i
     row = [show_row(result)]
     row << show_result(result, current_cost_type_id) if show_units?
-    row << cost_type_unit_label(current_cost_type_id, @cost_type) if show_units?
+    row << cost_type_unit_label(current_cost_type_id, cost_type) if show_units?
     row << show_result(result)
-    row << cost_type_unit_label(@unit_id, @cost_type)
+    row << cost_type_unit_label(unit_id, cost_type) if show_unit_label?
 
     row
   end
@@ -20,13 +34,17 @@ class OpenProject::XlsExport::XlsViews::SimpleCostReportTable < OpenProject::Xls
   def build_footer(spreadsheet)
     footer = [''] * exported_fields.size
     footer += ['', ''] if show_units?
-    spreadsheet.add_row(footer + [show_result(query), cost_type_unit_label(@unit_id, @cost_type)]) # footer
+    footer << show_result(query)
+    footer << cost_type_unit_label(unit_id, cost_type) if show_unit_label?
+
+    spreadsheet.add_row(footer)
   end
 
   def headers
     headers = exported_fields.collect { |field| label_for(field) }
-    headers << label_for(:field_units) << "" if show_units?
-    headers << label_for(:label_sum) << ""
+    headers << CostEntry.human_attribute_name(:costs) << "" if show_units?
+    headers << label_for(:label_sum)
+    headers << "" if show_unit_label?
 
     headers
   end
@@ -36,6 +54,10 @@ class OpenProject::XlsExport::XlsViews::SimpleCostReportTable < OpenProject::Xls
   end
 
   def show_units?
-    @query.collect(&:important_fields).flatten.uniq.include? "cost_type_id"
+    cost_type.present?
+  end
+
+  def show_unit_label?
+    unit_id != 0
   end
 end
