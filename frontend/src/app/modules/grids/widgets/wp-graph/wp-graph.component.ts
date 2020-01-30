@@ -20,7 +20,6 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
   constructor(protected i18n:I18nService,
               protected injector:Injector,
               protected cdr:ChangeDetectorRef,
-              protected urlParamsHelper:UrlParamsHelperService,
               protected readonly graphConfiguration:WpGraphConfigurationService) {
     super(i18n, injector);
   }

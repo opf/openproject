@@ -43,12 +43,14 @@
     height: 0
     clear: both
 
-@mixin text-shortener
-  white-space: nowrap
+@mixin text-shortener($oneline: true)
   overflow: hidden
   text-overflow: ellipsis
   -o-text-overflow: ellipsis
   -ms-text-overflow: ellipsis
+  @if $oneline
+    white-space: nowrap
+
 
 @mixin allow-vertical-scrolling
   overflow-x: hidden

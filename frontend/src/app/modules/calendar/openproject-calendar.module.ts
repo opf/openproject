@@ -33,6 +33,9 @@ import {WorkPackagesCalendarEntryComponent} from "core-app/modules/calendar/wp-c
 import {WorkPackagesCalendarController} from "core-app/modules/calendar/wp-calendar/wp-calendar.component";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
+import {TimeEntryCalendarComponent} from "core-app/modules/calendar/te-calendar/te-calendar.component";
+import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
+import {OpenprojectTimeEntriesModule} from "core-app/modules/time_entries/openproject-time-entries.module";
 
 const menuItemClass = 'calendar-menu-item';
 
@@ -61,6 +64,12 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     // Work Package module
     OpenprojectWorkPackagesModule,
 
+    // Time entry module
+    OpenprojectTimeEntriesModule,
+
+    // Editable fields e.g. for modals
+    OpenprojectFieldsModule,
+
     // Calendar component
     FullCalendarModule,
   ],
@@ -68,13 +77,16 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     // Work package calendars
     WorkPackagesCalendarEntryComponent,
     WorkPackagesCalendarController,
+    TimeEntryCalendarComponent,
   ],
   entryComponents: [
     WorkPackagesCalendarController,
     WorkPackagesCalendarEntryComponent,
+    TimeEntryCalendarComponent,
   ],
   exports: [
-    WorkPackagesCalendarController
+    WorkPackagesCalendarController,
+    TimeEntryCalendarComponent,
   ]
 })
 export class OpenprojectCalendarModule {

@@ -34,4 +34,7 @@ export class Apiv3TimeEntryPaths extends SimpleResource {
   constructor(basePath:string, newsId:string|number) {
     super(basePath, newsId);
   }
+
+  // Static paths
+  readonly form = new SimpleResource(this.path, 'form');
 }

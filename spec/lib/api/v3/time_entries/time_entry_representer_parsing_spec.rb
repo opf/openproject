@@ -33,13 +33,13 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
   let(:time_entry) do
     FactoryBot.build_stubbed(:time_entry,
-                              comments: 'blubs',
-                              spent_on: Date.today - 3.days,
-                              created_on: DateTime.now - 6.hours,
-                              updated_on: DateTime.now - 3.hours,
-                              activity: activity,
-                              project: project,
-                              user: user)
+                             comments: 'blubs',
+                             spent_on: Date.today - 3.days,
+                             created_on: DateTime.now - 6.hours,
+                             updated_on: DateTime.now - 3.hours,
+                             activity: activity,
+                             project: project,
+                             user: user)
   end
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:project2) { FactoryBot.build_stubbed(:project) }
@@ -142,6 +142,20 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
         time_entry = representer.from_hash(hash)
         expect(time_entry.hours)
           .to eql(5.0)
+      end
+
+      context 'with null value' do
+        let(:hash) do
+          {
+            "hours" => nil
+          }
+        end
+
+        it 'updates hours' do
+          time_entry = representer.from_hash(hash)
+          expect(time_entry.hours)
+            .to eql(nil)
+        end
       end
     end
 

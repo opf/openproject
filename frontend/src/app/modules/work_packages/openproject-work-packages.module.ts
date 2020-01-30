@@ -163,6 +163,7 @@ import {WorkPackageEditActionsBarComponent} from "core-app/modules/common/edit-a
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageSingleCardComponent} from "core-components/wp-card-view/wp-single-card/wp-single-card.component";
+import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-changeset';
 
 
 @NgModule({
@@ -515,11 +516,14 @@ export class OpenprojectWorkPackagesModule {
 
       /** Return specialized work package changeset for editing service */
       hookService.register('halResourceChangesetClass', (resource:HalResource) => {
-        if (resource._type === 'WorkPackage') {
-          return WorkPackageChangeset;
+        switch (resource._type) {
+          case 'WorkPackage':
+            return WorkPackageChangeset;
+          case 'TimeEntry':
+            return TimeEntryChangeset;
+          default:
+            return null;
         }
-
-        return null;
       });
     };
   }

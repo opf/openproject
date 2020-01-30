@@ -37,7 +37,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   }
 
   ngOnInit() {
-    this.timeEntryDm.list({ filters: this.dmFilters() })
+    this.timeEntryDm.list({ filters: this.dmFilters(), pageSize: 500 })
       .then((collection) => {
         this.buildEntries(collection.elements);
         this.entriesLoaded = true;
@@ -149,7 +149,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     //entries
   }
 
-  private formatNumber(value:number):string {
+  protected formatNumber(value:number):string {
     return this.i18n.toNumber(value, { precision: 2 });
   }
 

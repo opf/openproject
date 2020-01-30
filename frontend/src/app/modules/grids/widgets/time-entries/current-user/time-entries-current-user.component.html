@@ -1,0 +1,18 @@
+<widget-header
+  [name]="widgetName"
+  (onRenamed)="renameWidget($event)">
+
+  <widget-menu
+    [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<te-calendar
+  (entries)="updateEntries($event)"
+></te-calendar>
+
+<ng-container>
+  <div class="total-hours">
+    <p>Total: <span [textContent]="total"></span></p>
+  </div>
+</ng-container>

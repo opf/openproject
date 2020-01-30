@@ -65,7 +65,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryParamsService,
 
     allow(::API::V3::WorkPackageCollectionFromQueryService)
       .to receive(:new)
-      .with(query, user)
+      .with(query, user, scope: nil)
       .and_return(mock_wp_collection_from_query_service)
   end
 

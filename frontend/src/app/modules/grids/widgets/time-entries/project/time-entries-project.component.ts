@@ -1,6 +1,6 @@
 import {Component, OnInit, Injector, ChangeDetectorRef} from "@angular/core";
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
-import {WidgetTimeEntriesListComponent} from "core-app/modules/grids/widgets/time-entries-current-user/list/time-entries-list.component";
+import {WidgetTimeEntriesListComponent} from "core-app/modules/grids/widgets/time-entries/list/time-entries-list.component";
 import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";

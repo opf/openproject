@@ -300,12 +300,14 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
       // Add attachments to be assigned.
       // They will already be created on the server but now
       // we need to claim them for the newly created work package.
-      payload['_links']['attachments'] = this.pristineResource
-        .attachments
-        .elements
-        .map((a:HalResource) => {
-          return { href: a.href };
-        });
+      if (this.pristineResource.attachments) {
+        payload['_links']['attachments'] = this.pristineResource
+          .attachments
+          .elements
+          .map((a:HalResource) => {
+            return {href: a.href};
+          });
+      }
 
     } else {
       // Otherwise, simply use the bare minimum

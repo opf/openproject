@@ -98,7 +98,6 @@ describe 'Status action board', type: :feature, js: true do
                       new_status_id: open_status.id)
   }
 
-
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   before do

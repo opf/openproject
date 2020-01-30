@@ -27,6 +27,49 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 export class TimeEntryResource extends HalResource {
+  // TODO: extract the whole overridden Schema stuff into halresource or use the schemaCacheService
+  // to place it there
+  readonly schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
+
+  public overriddenSchema:SchemaResource|undefined = undefined;
+
+  /**
+   * Get the current schema, assuming it is either:
+   * 1. Overridden by the current loaded form
+   * 2. Available as a schema state
+   *
+   * If it is neither, an exception is raised.
+   */
+  public get schema():SchemaResource {
+    if (this.hasOverriddenSchema) {
+      return this.overriddenSchema!;
+    }
+
+    const state = this.schemaCacheService.state(this as any);
+
+    if (!state.hasValue()) {
+      throw `Accessing schema of ${this.id} without it being loaded.`;
+    }
+
+    return state.value!;
+  }
+
+  public get hasOverriddenSchema():boolean {
+    return this.overriddenSchema != null;
+  }
+
+  public get state() {
+    return this.states.timeEntries.get(this.id!) as any;
+  }
+
+  /**
+   * Exclude the schema _link from the linkable Resources.
+   */
+  public $linkableKeys():string[] {
+    return _.without(super.$linkableKeys(), 'schema');
+  }
 }

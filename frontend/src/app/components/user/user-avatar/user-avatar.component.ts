@@ -39,6 +39,7 @@ import {
 } from "@angular/core";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {ColorsService} from "core-app/modules/common/colors/colors.service";
 
 @Component({
   selector: 'user-avatar',
@@ -60,7 +61,8 @@ export class UserAvatarComponent implements AfterViewInit {
 
   constructor(protected elementRef:ElementRef,
               protected ref:ChangeDetectorRef,
-              protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService,
+              protected colors:ColorsService) {
   }
 
   public ngAfterViewInit() {
@@ -87,12 +89,12 @@ export class UserAvatarComponent implements AfterViewInit {
     this.useFallback = element.dataset.useFallback!;
     this.userAvatarUrl = this.pathHelper.api.v3.users.id(this.userId).avatar.toString();
     this.userInitials = this.getInitials(this.userName);
-    this.colorCode = this.computeColor(this.userName);
+    this.colorCode = this.colors.toHsl(this.userName);
     this.ref.detectChanges();
   }
 
   private getInitials(name:string) {
-    var names = name.split(' '),
+    let names = name.split(' '),
       initials = names[0].substring(0, 1).toUpperCase();
 
     if (names.length > 1) {
@@ -100,17 +102,6 @@ export class UserAvatarComponent implements AfterViewInit {
     }
 
     return initials;
-  }
-
-  private computeColor(name:string) {
-    let hash = 0;
-    for (var i = 0; i < name.length; i++) {
-      hash = name.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    let h = hash % 360;
-
-    return 'hsl(' + h + ', 50%, 50%)';
   }
 }
 

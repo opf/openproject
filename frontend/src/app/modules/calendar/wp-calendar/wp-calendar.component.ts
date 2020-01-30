@@ -139,7 +139,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
   public addTooltip(event:CalendarViewEvent) {
     jQuery(event.el).tooltip({
       content: this.tooltipContentString(event.event.extendedProps.workPackage),
-      items: '.fc-content',
+      items: '.fc-event',
       close: function () { jQuery(".ui-helper-hidden-accessible").remove(); },
       track: true
     });
