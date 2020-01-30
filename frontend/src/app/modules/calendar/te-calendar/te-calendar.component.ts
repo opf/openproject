@@ -23,6 +23,7 @@ import {HalResourceEditingService} from "core-app/modules/fields/edit/services/h
 import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
 import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
+import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -95,7 +96,8 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
               private timeEntryEdit:TimeEntryEditService,
               private timeEntryCreate:TimeEntryCreateService,
               private timeEntryCache:TimeEntryCacheService,
-              private colors:ColorsService) { }
+              private colors:ColorsService,
+              private browserDetector:BrowserDetector) { }
 
   ngOnInit() {
     this.initializeCalendar();
@@ -356,6 +358,10 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   private addTooltip(event:CalendarViewEvent) {
+    if (this.browserDetector.isMobile) {
+     return;
+    }
+
     jQuery(event.el).tooltip({
       content: this.tooltipContentString(event.event.extendedProps.entry),
       items: '.fc-event',
