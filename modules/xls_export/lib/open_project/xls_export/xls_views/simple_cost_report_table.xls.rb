@@ -1,7 +1,7 @@
 require_relative './one_dimensional_table.xls'
 
 class OpenProject::XlsExport::XlsViews::SimpleCostReportTable < OpenProject::XlsExport::XlsViews::OneDimensionalTable
-  def format_columns(spreadsheet)
+  def format_columns
     column_count = headers.size
 
     if column_count - exported_fields.size == 1
@@ -14,7 +14,7 @@ class OpenProject::XlsExport::XlsViews::SimpleCostReportTable < OpenProject::Xls
     end
   end
 
-  def build_cost_rows(spreadsheet)
+  def build_cost_rows
     query.each do |result|
       spreadsheet.add_row(cost_row(result))
     end
@@ -31,7 +31,7 @@ class OpenProject::XlsExport::XlsViews::SimpleCostReportTable < OpenProject::Xls
     row
   end
 
-  def build_footer(spreadsheet)
+  def build_footer
     footer = [''] * exported_fields.size
     footer += ['', ''] if show_units?
     footer << show_result(query)

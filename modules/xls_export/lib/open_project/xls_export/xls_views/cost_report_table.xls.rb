@@ -115,13 +115,34 @@ class OpenProject::XlsExport::XlsViews::CostReportTable < OpenProject::XlsExport
   end
 
   def build_spreadsheet
-    spreadsheet.add_title("#{@project.name + ' >> ' if @project}#{I18n.t(:cost_reports_title)} (#{format_date(Date.today)})")
+    set_title
+
     spreadsheet.add_headers [label]
     row_length = @headers.first.length
+
+    format_columns
+
     @headers.each { |head| spreadsheet.add_headers(head, spreadsheet.current_row) }
     @rows.in_groups_of(row_length).each { |body| spreadsheet.add_row(body) }
-    @footers.each { |foot| spreadsheet.add_headers(foot, spreadsheet.current_row) }
+    @footers.each { |foot| spreadsheet.add_sums(foot, spreadsheet.current_row) }
+
     spreadsheet
+  end
+
+  def format_columns
+    return unless value_format
+
+    (query.depth_of(:row)..@headers.flatten.length).each do |index|
+      spreadsheet.add_format_option_to_column(index, number_format: value_format)
+    end
+  end
+
+  def value_format
+    if unit_id.zero?
+      currency_format
+    elsif unit_id == -1
+      number_format
+    end
   end
 
   def label

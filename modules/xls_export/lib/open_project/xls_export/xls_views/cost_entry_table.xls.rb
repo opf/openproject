@@ -1,7 +1,7 @@
 require_relative './one_dimensional_table.xls'
 
 class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport::XlsViews::OneDimensionalTable
-  def format_columns(spreadsheet)
+  def format_columns
     spreadsheet.add_format_option_to_column(headers.length - 3,
                                             number_format: number_format)
     spreadsheet.add_format_option_to_column(headers.length - 1,
@@ -22,7 +22,7 @@ class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport:
       )
   end
 
-  def build_footer(spreadsheet)
+  def build_footer
     footer = [''] * cost_entry_attributes.size
     footer += if show_result(query, 0) != show_result(query)
                 [show_result(query), '', show_result(query, 0)]

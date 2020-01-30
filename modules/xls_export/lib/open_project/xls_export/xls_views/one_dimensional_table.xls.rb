@@ -1,13 +1,13 @@
 class OpenProject::XlsExport::XlsViews::OneDimensionalTable < OpenProject::XlsExport::XlsViews
   def generate
-    spreadsheet = OpenProject::XlsExport::SpreadsheetBuilder.new(I18n.t(:label_money))
+    @spreadsheet = OpenProject::XlsExport::SpreadsheetBuilder.new(I18n.t(:label_money))
     default_query = serialize_query_without_hidden(@query)
 
     available_cost_type_tabs(options[:cost_types]).each_with_index do |(unit_id, name), idx|
       setup_query_for_tab(default_query, unit_id)
 
       spreadsheet.worksheet(idx, name)
-      build_spreadsheet(spreadsheet)
+      build_spreadsheet
     end
 
     spreadsheet
@@ -24,30 +24,26 @@ class OpenProject::XlsExport::XlsViews::OneDimensionalTable < OpenProject::XlsEx
     end
   end
 
-  def build_spreadsheet(spreadsheet)
-    set_title(spreadsheet)
+  def build_spreadsheet
+    set_title
 
-    build_header(spreadsheet)
-    format_columns(spreadsheet)
-    build_cost_rows(spreadsheet)
-    build_footer(spreadsheet)
+    build_header
+    format_columns
+    build_cost_rows
+    build_footer
 
     spreadsheet
   end
 
-  def set_title(spreadsheet)
-    spreadsheet.add_title("#{@project.name + ' >> ' if @project}#{I18n.t(:cost_reports_title)} (#{format_date(Date.today)})")
-  end
-
-  def build_header(spreadsheet)
+  def build_header
     spreadsheet.add_headers(headers)
   end
 
-  def format_columns(spreadsheet)
+  def format_columns
     raise NotImplementedError
   end
 
-  def build_cost_rows(spreadsheet)
+  def build_cost_rows
     query.each_direct_result do |result|
       spreadsheet.add_row(cost_row(result))
     end
@@ -57,19 +53,11 @@ class OpenProject::XlsExport::XlsViews::OneDimensionalTable < OpenProject::XlsEx
     raise NotImplementedError
   end
 
-  def build_footer(spreadsheet)
+  def build_footer
     raise NotImplementedError
   end
 
   def headers
     raise NotImplementedError
-  end
-
-  def currency_format
-    "#,##0.00 [$#{Setting.plugin_openproject_costs['costs_currency']}]"
-  end
-
-  def number_format
-    "0.0"
   end
 end

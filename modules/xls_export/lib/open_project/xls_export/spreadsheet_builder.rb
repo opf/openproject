@@ -14,7 +14,6 @@ require 'spreadsheet'
 
 module OpenProject::XlsExport
   class SpreadsheetBuilder
-
     Worksheet = Struct.new(:sheet, :column_widths) unless defined? Worksheet
 
     def initialize(name = nil)
@@ -84,7 +83,7 @@ module OpenProject::XlsExport
         wdth = w unless w<wdth
       end
 
-      return wdth+1.5
+      wdth + 1.5
     end
 
     # Add a "Title". This basically just set the first column to
@@ -111,10 +110,23 @@ module OpenProject::XlsExport
     # second row in the document, but the row can be set using the second
     # optional parameter. The format is automatically set to bold font
     def add_headers(arr, idx = nil)
-      header_format = Spreadsheet::Format.new(:weight => :bold)
+      header_format = Spreadsheet::Format.new(weight: :bold)
       add_row(arr, idx)
       idx ||= @sheet.last_row_index
       (arr.size + 1).times { |i| @sheet.row(idx).set_format(i, header_format) }
+    end
+
+    # Add sums. The format, that might already have been set (e.g. currency formatting)
+    # is not overwritten but extended.
+    def add_sums(arr, idx = nil)
+      add_row(arr, idx)
+      idx ||= @sheet.last_row_index
+      (arr.size + 1).times do |i|
+        fmt = @sheet.column(i).default_format.clone
+        fmt.font = fmt.font.clone
+        fmt.update_format(weight: :bold)
+        @sheet.row(idx).set_format(i, fmt)
+      end
     end
 
     # Add a simple row. This will default to the next row in the sequence.

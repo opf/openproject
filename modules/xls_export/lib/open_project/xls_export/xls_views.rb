@@ -57,6 +57,18 @@ class OpenProject::XlsExport::XlsViews
       obj.options = opts
     end.generate
   end
+
+  def set_title
+    spreadsheet.add_title("#{@project.name + ' >> ' if @project}#{I18n.t(:cost_reports_title)} (#{format_date(Date.today)})")
+  end
+
+  def currency_format
+    "#,##0.00 [$#{Setting.plugin_openproject_costs['costs_currency']}]"
+  end
+
+  def number_format
+    "0.0"
+  end
 end
 
 # Load subclasses
