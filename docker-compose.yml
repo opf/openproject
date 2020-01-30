@@ -12,7 +12,7 @@ x-op-restart-policy: &restart_policy
   restart: unless-stopped
 x-op-image: &image
   build: .
-  image: openproject/community:10
+  image: openproject/community:${TAG:-10-test}
 x-op-app: &app
   <<: *image
   <<: *restart_policy
@@ -47,11 +47,22 @@ services:
     networks:
       - backend
 
+  proxy:
+    <<: *image
+    <<: *restart_policy
+    command: "./docker/proxy"
+    ports:
+      - "8080:80"
+    environment:
+      - APP_HOST=web
+    depends_on:
+      - web
+    networks:
+      - frontend
+
   web:
     <<: *app
     command: "./docker/web"
-    ports:
-      - "8080:8080"
     networks:
       - frontend
       - backend

@@ -3,6 +3,7 @@
   DocumentRoot <%= ENV.fetch('APP_PATH') %>/public
 
   ProxyRequests off
+  ProxyPreserveHost On
 
   <Location />
     ProxyPass http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8080/ retry=0
