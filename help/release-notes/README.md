@@ -79,6 +79,12 @@ Release date: 2019-09-23
 
 [Read more](10-0-0/)
 
+## 9.0.4
+
+Release date: 2019-10-02
+
+[Release Notes](9-0-4/)
+
 ## 9.0.3
 
 Release date: 2019-07-23
