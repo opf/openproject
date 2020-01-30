@@ -28,7 +28,7 @@ module OpenProject::XlsExport
       name ||= "Worksheet #{@worksheets.length + 1}"
       if @worksheets[idx].nil?
         @worksheets[idx] = Worksheet.new.tap do |wb|
-          wb.sheet = @xls.create_worksheet(:name => name)
+          wb.sheet = @xls.create_worksheet(name: name)
           wb.sheet.default_format.vertical_align = :top
           wb.column_widths = []
         end
@@ -42,14 +42,9 @@ module OpenProject::XlsExport
     def update_sheet_widths
       @column_widths.count.times do |idx|
         if @column_widths[idx] > 60
-          @sheet.column(idx).width = 60
-          @sheet.rows.each do |row|
-            fmt = row.formats[idx] || @sheet.column(idx).default_format
-            fmt.text_wrap = true
-            row.set_format(idx, fmt)
-          end
+          limit_and_wrap_column(idx, 60)
         else
-          @sheet.column(idx).width = @column_widths[idx]
+          @sheet.column(idx).width = column_width_including_affix(idx)
         end
       end
     end
@@ -61,7 +56,7 @@ module OpenProject::XlsExport
       end
 
       tot_w = [Float(0)]
-      idx=0
+      idx = 0
       value.to_s.each_char do |c|
         case c
         when '0'..'9'
@@ -78,9 +73,9 @@ module OpenProject::XlsExport
         end
       end
 
-      wdth=0
+      wdth = 0
       tot_w.each do |w|
-        wdth = w unless w<wdth
+        wdth = w unless w < wdth
       end
 
       wdth + 1.5
@@ -129,20 +124,24 @@ module OpenProject::XlsExport
       end
     end
 
+    def increase_column_width(index, amount)
+      @sheet.column(index).width += amount
+    end
+
     # Add a simple row. This will default to the next row in the sequence.
     # Fixnums, Dates and Times are preserved, all other types are converted
     # to String as the spreadsheet gem cannot do more formats
     def add_row(arr, idx = nil)
       idx ||= [@sheet.last_row_index + 1, 1].max
       column_array = []
-      arr.each_with_index do |c,i|
-        value = if ['Time', 'Date', 'Fixnum', 'Float', 'Integer'].include?(c.class.name)
-          c
-        elsif c.class == BigDecimal
-          c.to_f
-        else
-          c.to_s.gsub('_', ' ').gsub("\r\n", "\n").gsub("\r", "\n")
-        end
+      arr.each_with_index do |c, i|
+        value = if %w(Time Date Fixnum Float Integer).include?(c.class.name)
+                  c
+                elsif c.class == BigDecimal
+                  c.to_f
+                else
+                  c.to_s.gsub('_', ' ').gsub("\r\n", "\n").gsub("\r", "\n")
+                end
         column_array << value
         @column_widths[i] = 0 if @column_widths[i].nil?
         value_width = get_value_width(value)
@@ -155,7 +154,7 @@ module OpenProject::XlsExport
     def add_format_option_to_column(index, opt)
       unless opt.empty?
         fmt = @sheet.column(index).default_format.clone
-        opt.each do |k,v|
+        opt.each do |k, v|
           fmt.send(:"#{k.to_sym}=", v) if fmt.respond_to? :"#{k.to_sym}="
         end
         @sheet.column(index).default_format = fmt
@@ -179,13 +178,42 @@ module OpenProject::XlsExport
       io.read
     end
 
-  private
+    private
+
+    def column_width_including_affix(index)
+      contains_currency = @sheet.rows.any? do |row|
+        fmt = row.formats[index] || @sheet.column(index).default_format
+        fmt.number_format.include?(currency_sign)
+      end
+
+      width = @column_widths[index]
+
+      if contains_currency
+        width += currency_sign.length + 2
+      end
+
+      width
+    end
+
+    def limit_and_wrap_column(index, limit)
+      @sheet.column(index).width = limit
+      @sheet.rows.each do |row|
+        fmt = row.formats[index] || @sheet.column(index).default_format
+        fmt.text_wrap = true
+        row.set_format(index, fmt)
+      end
+    end
+
     def raw_xls
       @xls
     end
 
     def raw_sheet
       @sheet
+    end
+
+    def currency_sign
+      Setting.plugin_openproject_costs['costs_currency']
     end
   end
 end
