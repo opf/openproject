@@ -29,7 +29,7 @@ class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport:
               else
                 ['', '', show_result(query)]
               end
-    spreadsheet.add_row(footer) # footer
+    spreadsheet.add_sums(footer) # footer
   end
 
   def headers

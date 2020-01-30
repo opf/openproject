@@ -37,7 +37,7 @@ class OpenProject::XlsExport::XlsViews::SimpleCostReportTable < OpenProject::Xls
     footer << show_result(query)
     footer << cost_type_unit_label(unit_id, cost_type) if show_unit_label?
 
-    spreadsheet.add_row(footer)
+    spreadsheet.add_sums(footer)
   end
 
   def headers
