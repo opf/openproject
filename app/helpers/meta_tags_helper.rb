@@ -41,8 +41,6 @@ module MetaTagsHelper
   ##
   # Writer of html_title as string
   def html_title(*args)
-    title = []
-
     raise "Don't use html_title getter" if args.empty?
 
     @html_title ||= []

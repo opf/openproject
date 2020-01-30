@@ -1,7 +1,6 @@
 # Hooks to attach to the Redmine Issues.
 module XlsReport
-  class CostReportHook  < Redmine::Hook::ViewListener
-    # Renders the Cost Object subject and basic costs information
-    render_on :view_cost_report_table_bottom, :partial => 'hooks/xls_report/view_cost_report_other_formats'
+  class CostReportHook < Redmine::Hook::ViewListener
+    render_on :view_cost_report_toolbar, partial: 'hooks/xls_report/view_cost_report_toolbar'
   end
 end
