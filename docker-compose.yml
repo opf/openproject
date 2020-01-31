@@ -19,7 +19,9 @@ x-op-app: &app
   environment:
     - "RAILS_CACHE_STORE=memcache"
     - "OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211"
+    - "OPENPROJECT_RAILS__RELATIVE__URL__ROOT=${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
     - "DATABASE_URL=postgres://postgres:p4ssw0rd@db/openproject"
+    - "USE_PUMA=true"
     # set to true to enable the email receiving feature. See ./docker/cron for more options
     - "IMAP_ENABLED=false"
   volumes:
@@ -55,6 +57,7 @@ services:
       - "8080:80"
     environment:
       - APP_HOST=web
+      - "OPENPROJECT_RAILS__RELATIVE__URL__ROOT=${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
     depends_on:
       - web
     networks:

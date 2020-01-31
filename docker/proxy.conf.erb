@@ -5,8 +5,8 @@
   ProxyRequests off
   ProxyPreserveHost On
 
-  <Location />
-    ProxyPass http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8080/ retry=0
-    ProxyPassReverse http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8080/
+  <Location <%= ENV.fetch("OPENPROJECT_RAILS__RELATIVE__URL__ROOT", "").chomp("/") %>/>
+    ProxyPass http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8080<%= ENV.fetch("OPENPROJECT_RAILS__RELATIVE__URL__ROOT", "").chomp("/") %>/ retry=0
+    ProxyPassReverse http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8080<%= ENV.fetch("OPENPROJECT_RAILS__RELATIVE__URL__ROOT", "").chomp("/") %>/
   </Location>
 </VirtualHost>
