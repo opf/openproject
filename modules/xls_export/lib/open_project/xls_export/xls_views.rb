@@ -73,5 +73,3 @@ end
 
 # Load subclasses
 require_relative './xls_views/cost_entry_table.xls'
-require_relative './xls_views/simple_cost_report_table.xls'
-require_relative './xls_views/cost_report_table.xls'

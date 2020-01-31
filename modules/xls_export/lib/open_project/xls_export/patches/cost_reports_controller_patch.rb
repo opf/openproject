@@ -30,17 +30,13 @@ module OpenProject::XlsExport::Patches
       end
 
       # Build an xls file from a cost report.
+      # We only support extracting a simple xls table, so grouping is ignored.
       def report_to_xls
-        options = { query: @query, project: @project, cost_types: @cost_types }
+        export_query = build_query(filter_params)
 
-        sb = if @query.group_bys.empty?
-               ::OpenProject::XlsExport::XlsViews::CostEntryTable.generate(options)
-             elsif @query.depth_of(:column) + @query.depth_of(:row) == 1
-               ::OpenProject::XlsExport::XlsViews::SimpleCostReportTable.generate(options)
-             else
-               ::OpenProject::XlsExport::XlsViews::CostReportTable.generate(options)
-             end
-        sb.xls
+        options = { query: export_query, project: @project, cost_types: @cost_types }
+
+        ::OpenProject::XlsExport::XlsViews::CostEntryTable.generate(options).xls
       end
     end
   end
