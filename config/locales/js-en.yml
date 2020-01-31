@@ -181,6 +181,15 @@ en:
         edit_query: 'Edit query'
         new_group: 'New group'
         reset_to_defaults: 'Reset to defaults'
+      enterprise:
+        start_trial: 'Start free trial'
+        test_ee: 'Test the Enterprise Edition 30 days for free'
+        label_company: 'Company'
+        label_first_name: 'First name'
+        label_last_name: 'Last name'
+        label_email: 'Email'
+        label_domain: 'Domain'
+        next_step: 'In the next step we will send you an email to the email-address provided.'
 
     custom_actions:
       date:

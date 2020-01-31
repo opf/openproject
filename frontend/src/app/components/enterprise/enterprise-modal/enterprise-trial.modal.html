@@ -1,0 +1,109 @@
+<div class="op-modal--portal">
+  <div class="op-modal--modal-container"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <h3> {{ text.label_test_ee }}</h3>
+      <a class="op-modal--modal-close-button" *ngIf="showClose">
+        <i
+            class="icon-close"
+            (click)="closeMe($event)"
+            [attr.title]="text.close_popup">
+        </i>
+      </a>
+    </div>
+
+    <div class="ngdialog-body op-modal--modal-body">
+      <form class="form">
+        <div class="form--field">
+          <label class="form--label">{{ text.label_company }}</label>
+          <div class="form--field-container">
+            <div class="form--text-field-container">
+              <input type="text" class="form--text-field">
+            </div>
+          </div>
+        </div>
+        <div class="form--field -required">
+          <label class="form--label">{{ text.label_first_name }}</label>
+          <div class="form--field-container">
+            <div class="form--text-field-container">
+              <input type="text" class="form--text-field">
+            </div>
+          </div>
+        </div>
+        <div class="form--field -required">
+          <label class="form--label">{{ text.label_last_name }}</label>
+          <div class="form--field-container">
+            <div class="form--text-field-container">
+              <input type="text" class="form--text-field">
+            </div>
+          </div>
+        </div>
+        <div class="form--field -required">
+          <label class="form--label">{{ text.label_email }}</label>
+          <div class="form--field-container">
+            <div class="form--text-field-container">
+              <input type="text" class="form--text-field">
+            </div>
+          </div>
+        </div>
+        <div class="form--field -required">
+          <label class="form--label">{{ text.label_domain }}</label>
+          <div class="form--field-container">
+            <div class="form--text-field-container">
+              <input type="text" class="form--text-field">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form--field -required -trailing-label">
+          <label class="form--label -visible-overflow" for="check-terms-of-service">
+            <span>I agree with the
+              <a href="https://www.openproject.com/terms-of-service/" target="_blank">
+                terms of service</a> and the
+              <a href="https://www.openproject.com/legal-notice/" target="_blank">privacy policy</a>.
+            </span>
+            <span class="tooltip--right" data-tooltip="You already confirmed the terms of service when you created your OpenProject trial.">
+              <i class="icon icon-info1"></i>
+            </span>
+          </label>
+          <div class="form--field-container">
+            <div class="form--check-box-container">
+              <input class="form--check-box" id="check-terms-of-service" required="" type="checkbox">
+            </div>
+          </div>
+        </div>
+        <div class="form--field -trailing-label">
+          <label class="form--label"
+                 for="receive_newsletter">
+            <span>I want to receive the OpenProject
+              <a href="https://www.openproject.com/newsletter/" target="_blank">
+                newsletter</a>.
+            </span>
+          </label>
+          <div class="form--field-container">
+            <div class="form--check-box-container">
+              <input type="checkbox"
+                     id="receive_newsletter"
+                     name="receive_newsletter">
+            </div>
+          </div>
+        </div>
+      </form>
+      <p>text.next_step</p>
+    </div>
+    <div class="op-modal--modal-footer">
+      <button class="confirm-form-submit--continue button -highlight"
+              (click)="submit($event)"
+              [textContent]="text.button_submit"
+              [attr.title]="text.button_submit">
+      </button>
+      <button class="confirm-form-submit--cancel button"
+              (click)="closeMe($event)"
+              [textContent]="text.button_cancel"
+              [attr.title]="text.button_cancel">
+      </button>
+    </div>
+  </div>
+</div>
