@@ -20,7 +20,7 @@ module OpenProject::XlsExport::Patches
             yield format
             format.xls do
               report = report_to_xls
-              time = DateTime.now.strftime('%d-%m-%Y-T-%H-%M-%S')
+              time = Time.now.strftime('%d-%m-%Y-T-%H-%M-%S')
               send_data(report, type: :xls, filename: "export-#{time}.xls") if report
             end
           end

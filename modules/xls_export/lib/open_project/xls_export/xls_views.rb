@@ -13,13 +13,9 @@ class OpenProject::XlsExport::XlsViews
     when :units                     then value.to_i
     when :spent_on                  then value
     when :activity_id               then mapped value, Enumeration, I18n.t(:caption_material_costs)
-    when :project_id                then (I18n.t(:label_none) if value.to_i.zero?) or Project.find(value.to_i).name
-    when :user_id, :assigned_to_id  then (I18n.t(:label_none) if value.to_i.zero?) or User.find(value.to_i).name
-    when :work_package_id
-      return I18n.t(:label_none) if value.to_i.zero?
-
-      work_package = WorkPackage.find(value.to_i)
-      "#{work_package.project.name + ' - ' if @project}#{work_package.type} ##{work_package.id}: #{work_package.subject}"
+    when :project_id                then project_representation(value)
+    when :user_id, :assigned_to_id  then user_representation(value)
+    when :work_package_id           then work_package_representation(value)
     else super(key, value)
     end
   end
@@ -68,6 +64,21 @@ class OpenProject::XlsExport::XlsViews
 
   def number_format
     "0.0"
+  end
+
+  def project_representation(value)
+    value.to_i.zero? ? I18n.t(:label_none) : Project.find(value.to_i).name
+  end
+
+  def user_representation(value)
+    value.to_i.zero? ? I18n.t(:label_none) : User.find(value.to_i).name
+  end
+
+  def work_package_representation(value)
+    return I18n.t(:label_none) if value.to_i.zero?
+
+    work_package = WorkPackage.find(value.to_i)
+    "#{work_package.project.name + ' - ' if @project}#{work_package.type} ##{work_package.id}: #{work_package.subject}"
   end
 end
 

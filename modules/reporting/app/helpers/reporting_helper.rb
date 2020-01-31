@@ -44,6 +44,7 @@ module ReportingHelper
   def mapped(value, klass, default)
     id = value.to_i
     return default if id < 0
+
     klass.find(id).name
   end
 
