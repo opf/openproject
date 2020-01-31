@@ -19,12 +19,14 @@
     <div class="grid--area-content widget-box"
          cdkDrag
          (cdkDragStarted)="drag.start(area)"
-         (cdkDragDropped)="drag.drop()">
+         (cdkDragDropped)="drag.drop()"
+         [cdkDragDisabled]="isMobileDevice">
 
       <span *ngIf="drag.isDraggable"
             class="grid--area-drag-handle
                    icon
-                   icon-drag-handle hidden-for-mobile"
+                   icon-drag-handle"
+            [hidden]="isMobileDevice"
             cdkDragHandle></span>
 
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area)"
