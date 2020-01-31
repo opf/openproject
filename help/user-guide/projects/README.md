@@ -8,14 +8,14 @@ keywords: projects
 ---
 # Manage projects
 
-In OpenProject you can create multiple projects to collaborate with your team members, track issues, document and share information with stakeholders, organize things. A project is a way to structure your work in OpenProject.
+In OpenProject you can create projects to collaborate with your team members, track issues, document and share information with stakeholders, organize things. A project is a way to structure and organize your work in OpenProject.
 
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community nor in the Cloud or Enterprise Edition.
 
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Select a project](#select-a-project)                        | Open a project which you want to work at.                    |
-| [Create a new project](../../getting-started/#create-project)    | Find out how to create a new project in OpenProject.         |
+| [Create a new project](../../getting-started/#create-project) | Find out how to create a new project in OpenProject.         |
 | [Project structure](#project-structure)                      | Find out how to set up a project structure.                  |
 | [Project settings](#project-settings)                        | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
 | [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent parent (subproject of). |
@@ -23,8 +23,9 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
+| [View all projects](#view-all-projects)                      | Get an overview of all your projects in the project overview list. |
 | [Create a project template](#create-a-project-template)      | You can create a project template and use it for future projects. |
-| Project overarching reports                                  | How to create project overarching reports?                   |
+| [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports accross multiple projects? |
 
 ## Select a project
 
@@ -69,14 +70,13 @@ OpenProject, for example, uses the projects to structured the different modules/
 ![project-structure](1566214944644.png)
 
 <div class="alert alert-info" role="alert">
-
 **Note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
 
 </div>
 
 ## Project Settings
 
-You can specify further advanced settings for your project. Navigate to your project settings by [selecting a project](#select-a-project), and click **Project settings** in the project menu on the bottom and select the tab **Information**.
+You can specify further advanced settings for your project. Navigate to your project settings by [selecting a project](#select-a-project), and click -> *Project settings* -> *Information*.
 
 - You can define whether the project should have a parent by selecting **Subproject of**. This way, you can [change the project hierarchy](#change-the-project-hierarchy).
 
@@ -93,26 +93,30 @@ You can specify further advanced settings for your project. Navigate to your pro
 
 - Click the blue **Create** button in order to save your new project. Or click the blue **Save** button to save your changes.
 
-![Project-settings](1566216639296.png)
+![project settings](image-20200131100735316.png)
+
+Find out more detailed information about the [Project settings](project-settings).
 
 ### Change the project hierarchy
 
-To change the project's hierarchy, navigate to the project's [advanced settings](#project-settings) and click the tab **Information** and change the **Subproject of** field.
+To change the project's hierarchy, navigate to the [project settings](project-settings) -> *Information* and change the **Subproject of** field.
 
-![change-subproject](1566217261607.png)
+Press the blue **Save** button to apply your changes.
+
+![User-guide-change-subproject](User-guide-change-subproject.png)
 
 
 
 ### Set a project to public
 
-If you want to set a project to public, you can do so by selecting the option in the [project settings](#project-settings).
+If you want to set a project to public, you can do so by selecting the option in the [project settings](project-settings).
 
 
 ### Copy a project
 
-You can copy an existing project by navigating to the [Project settings](#project-settings) and click **Copy project** from the upper right of the project settings (next to the green +Subproject button)
+You can copy an existing project by navigating to the [project settings](project-settings) and click **Copy project** from the upper right of the project settings (next to the green +Subproject button).
 
-![copy-project](1566218515422.png)
+![User-guide-copy-project](User-guide-copy-project.png)
 
 Give the new project a name. Select which modules and settings you want to copy and whether or not you want to notify users via email during copying. 
 
@@ -122,7 +126,9 @@ Then click the blue **Copy** button.
 
 ### Archive a project
 
-In order to archive a project, navigate to the project settings, and click the **Archive project** button. ![archive-project](1566218906617.png)
+In order to archive a project, navigate to the [project settings](project-settings), and click the **Archive project** button. 
+
+![User-guide-archive-project](User-guide-archive-project.png)
 
 Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you expand the filter and select the Archived projects.
 
@@ -130,9 +136,9 @@ Then, the project cannot be selected from the project selection anymore. It is s
 
 ### Delete a project
 
-If you want to delete a project, navigate to the [project settings](#project-settings). Click the button **Delete project** on the top right of the page.
+If you want to delete a project, navigate to the [project settings](project-settings). Click the button **Delete project** on the top right of the page.
 
-![delete-project](1566302412893.png)
+![User-guide-delete-project](User-guide-delete-project.png)
 
 Also, you can delete a project via the [projects overview](#view-all-projects).
 
@@ -146,9 +152,11 @@ To get an overview of all your projects, select the **View all projects** option
 
 You will then get a list of all your projects in OpenProject.
 
-With the **three dots** icon at the right in the list you can open further features, such as creating a new subproject, [project settings](#project-settings), [archive a project](#archive-a-project), [copy](#copy-a-project) and [delete a project](#delte-a-project).
+With the **three dots** icon at the right in the list you can open further features, such as creating a new subproject, [project settings](project-settings), [archive a project](#archive-a-project), [copy](#copy-a-project) and [delete a project](#delte-a-project).
 
 ![Project list](1566293423878.png)
+
+In the view all projects overview list you can also create a multi project status dashboard if you include [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), such as Status, Status description, Accountable, Project duration, and more.
 
 ## Create a project template
 
@@ -164,13 +172,13 @@ Set up everything that you want to have available for next projects.
 
 [Copy the project](#copy-a-project) template if you want to start a new project and give the project a new name.
 
-## How to create project overarching reports?
+## Project overarching reports
 
 Often you need to see more than one project in your lists and want to create project overarching reports.
 
 Click on the **Modules** icon with the dots in the header navigation. These are the project overarching modules in OpenProject.![overarching-modules](overarching-modules.png) 
 
-Select Work packages from the drop down menu. Now, you will see all work packages in the projects where you have the required [permissions](../../system-admin-guide/#permissions).
+Select Work packages from the drop down menu. Now, you will see all work packages in the projects where you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
 
 You can group by project by clicking in the header of the work package list next to project and select Group by.
 

@@ -1,3 +1,11 @@
+---
+sidebar_navigation:
+  title: OpenProject User Guide
+  priority: 999
+description: OpenProject user guide for Community, Cloud Edition and Enterprise Edition.
+robots: index, follow
+keywords: user guide
+---
 # User guide
 
 Welcome to the OpenProject User guide.
@@ -38,3 +46,4 @@ Please choose the module you want to learn more about.
 | [Members](members/)                           | How to manage Members in a project?                          |
 | [Documents](documents)                        | How to upload and share documents in OpenProject?            |
 | [Meetings](meetings)                          | How to manage meetings to create and share meeting agenda and meeting minutes? |
+| [Manage projects](projects)                   | Edit, create, copy, delete projects and change project settings. |

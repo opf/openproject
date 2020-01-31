@@ -1,3 +1,11 @@
+---
+sidebar_navigation:
+  title: OpenProject Documentation
+  priority: 999
+description: Help and documentation for OpenProject Community, Enterprise Edition and Cloud Edition.
+robots: index, follow
+keywords: help, documentation
+---
 # OpenProject Documentation
 
 <div class="alert alert-info" role="alert">
