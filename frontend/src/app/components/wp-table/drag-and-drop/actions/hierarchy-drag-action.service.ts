@@ -69,10 +69,7 @@ export class HierarchyDragActionService extends TableDragActionService {
 
     // If the sibling is no hierarchy root, return it's parent.
     // Thus, the dropped element will get the same hierarchy level as the sibling
-    return this.wpCacheService.require(previousWpId)
-      .then((wp:WorkPackageResource) => {
-        return Promise.resolve(wp.parent.id);
-    });
+    return this.loadParentOfWP(previousWpId);
   }
 
   private findRelationRowRoot(el:Element):Element|null {
@@ -85,5 +82,12 @@ export class HierarchyDragActionService extends TableDragActionService {
     }
 
     return null;
+  }
+
+  private loadParentOfWP(wpId:string):Promise<string|null> {
+    return this.wpCacheService.require(wpId)
+      .then((wp:WorkPackageResource) => {
+        return Promise.resolve(wp.parent.id);
+      });
   }
 }
