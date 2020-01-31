@@ -29,7 +29,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: l('backlogs.definition_of_done') %>
 
-<%= styled_form_tag(controller: '/projects', action: "project_done_statuses", id: @project) do %>
+<%= render partial: 'projects/form/toolbar', locals: { form_name: "edit_project_#{@project.id}" } %>
+
+<%= styled_form_tag({controller: '/projects', action: "project_done_statuses", id: @project}, id: "edit_project_#{@project.id}") do %>
 
 <div class="generic-table--container">
   <div class="generic-table--results-container">

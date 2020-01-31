@@ -27,6 +27,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= render partial: 'projects/form/toolbar', locals: { form_name: "edit_project_#{@project.id}" } %>
+
 <% TimeEntryActivity
    .includes(:time_entry_activities_projects)
    .order(:name)

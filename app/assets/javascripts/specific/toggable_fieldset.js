@@ -66,7 +66,7 @@ function getFieldset(el) {
 
 function toggleFieldset(el) {
   var fieldset = getFieldset(el);
-  var contentArea = fieldset.find('> div').not('.form--fieldset-control');
+  var contentArea = fieldset.find('> div').not('.form--toolbar');
 
   fieldset.toggleClass('collapsed');
   contentArea.slideToggle('fast', null);

@@ -30,14 +30,16 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= javascript_include_tag 'types_checkboxes' %>
 
 <%= render_flash_message :notice,
-                         l(:notice_automatic_set_of_standard_type),
+                         t(:notice_automatic_set_of_standard_type),
                          style: "display:none;",
                          id: "types_flash_notice",
                          class: "ignored-by-flash-activation" %>
 
+<%= render partial: 'projects/form/toolbar', locals: { form_name: "types-form" } %>
+
 <div class="generic-table--container">
   <div class="generic-table--results-container">
-    <table class="generic-table types" id="types-form">
+    <table class="generic-table types">
       <colgroup>
         <col highlight-col>
         <col highlight-col>

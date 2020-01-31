@@ -29,9 +29,9 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:enumeration_activities) %>
 
 <% if TimeEntryActivity.any? %>
-  <%= form_tag  project_time_entry_activities_path(@project),
-                method: :put,
-                class: "tabular" do %>
+  <%= labelled_tabular_form_for @project,
+                                url: project_time_entry_activities_path(@project),
+                                method: :put do %>
 
     <%= render partial: 'projects/form/activities', locals: { project: @project, withControlls: true } %>
   <% end %>
