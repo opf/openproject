@@ -6,11 +6,14 @@ import {
   hierarchyGroupClass,
   hierarchyRootClass
 } from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {relationRowClass} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
 
 export class HierarchyDragActionService extends TableDragActionService {
 
   private wpTableHierarchies = this.injector.get(WorkPackageViewHierarchiesService);
   private relationHierarchyService = this.injector.get(WorkPackageRelationsHierarchyService);
+  private wpCacheService = this.injector.get(WorkPackageCacheService);
 
   public get applies() {
     return this.wpTableHierarchies.isEnabled;
@@ -24,36 +27,63 @@ export class HierarchyDragActionService extends TableDragActionService {
   }
 
   public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
-    const parentObject = this.determineParent(el);
-    const newParent = parentObject ? parentObject.id : null;
-    return this.relationHierarchyService.changeParent(workPackage, newParent);
+    return this.determineParent(el).then((parentId:string|null) => {
+      return this.relationHierarchyService.changeParent(workPackage, parentId);
+    });
   }
 
   /**
    * Find an applicable parent element from the hierarchy information in the table.
    * @param el
    */
-  private determineParent(el:HTMLElement):{el:Element, id:string}|null {
+  private determineParent(el:HTMLElement):Promise<string|null> {
     let previous = el.previousElementSibling;
 
+    if (previous === null) {
+      return Promise.resolve(null);
+    }
+
+    // If the previous element is a relation row,
+    // skip it until we find the real previous sibling
+    const isRelationRow = previous.className.indexOf(relationRowClass()) >= 0;
+    if (isRelationRow) {
+      let relationRoot = this.findRelationRowRoot(previous);
+      if (relationRoot == null) {
+        return Promise.resolve(null);
+      }
+      previous = relationRoot;
+    }
+
+    // When there is no hierarchy group at all, we're at a flat list
+    const inGroup = previous.className.indexOf(hierarchyGroupClass('')) >= 0;
+    const isRoot = previous.className.indexOf(hierarchyRootClass('')) >= 0;
+    if (!(inGroup || isRoot)) {
+      return Promise.resolve(null);
+    }
+
+    // If the sibling is a hierarchy root, return this one as new parent
+    let previousWpId = (previous as HTMLElement).dataset.workPackageId!;
+    if (previous.classList.contains(hierarchyRootClass(previousWpId))) {
+      return Promise.resolve(previousWpId);
+    }
+
+    // If the sibling is no hierarchy root, return it's parent.
+    // Thus, the dropped element will get the same hierarchy level as the sibling
+    return this.wpCacheService.require(previousWpId)
+      .then((wp:WorkPackageResource) => {
+        return Promise.resolve(wp.parent.id);
+    });
+  }
+
+  private findRelationRowRoot(el:Element):Element|null {
+    let previous = el.previousElementSibling;
     while (previous !== null) {
-      // When there is no hierarchy group at all, we're at a flat list
-      const inGroup = previous.className.indexOf(hierarchyGroupClass('')) >= 0;
-      const isRoot = previous.className.indexOf(hierarchyRootClass('')) >= 0;
-      if (!(inGroup || isRoot)) {
-        return null;
+      if (previous.className.indexOf(relationRowClass()) < 0) {
+        return previous;
       }
-
-      // If the sibling is a hierarchy root, return this one
-      let wpId = (previous as HTMLElement).dataset.workPackageId!;
-      if (previous.classList.contains(hierarchyRootClass(wpId))) {
-        return {el: previous, id: wpId};
-      }
-
       previous = previous.previousElementSibling;
     }
 
     return null;
   }
-
 }
