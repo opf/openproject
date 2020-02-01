@@ -13,13 +13,13 @@
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 el:
-  error_can_not_be_assigned: Ο ρόλος δεν μπορεί να δοθεί στον χρήστη
-  global_roles: Γενικοί ρόλοι
+  error_can_not_be_assigned: Ο ρόλος δεν μπορεί να ανατεθεί στον χρήστη
+  global_roles: Καθολικοί Ρόλοι
   label_role_type: Τύπος
   label_member_role: Ρόλος στο έργο
-  label_global_role: Γενικός Ρόλος
+  label_global_role: Καθολικός Ρόλος
   label_not_changeable: (μη μεταβλητό)
-  label_no_assignable_role: Μη διαθέσιμος γενικός ρόλος για εκχώρηση
-  label_global: Γενικό
+  label_no_assignable_role: Δεν υπάρχει διαθέσιμος καθολικός ρόλος για ανάθεση
+  label_global: Καθολικό
   seeders:
     default_role_project_creator: 'Δημιουργός έργου'

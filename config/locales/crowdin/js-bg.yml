@@ -85,7 +85,7 @@ bg:
       copied_successful: "Копирането в клипборд е успешно!"
     chart:
       type: 'Тип на диаграмата'
-      axis_criteria: 'Axis criteria'
+      axis_criteria: 'Критерии за ос'
       modal_title: 'Work package graph configuration'
       types:
         line: 'Line'

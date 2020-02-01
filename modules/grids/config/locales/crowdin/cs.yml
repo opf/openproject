@@ -2,13 +2,13 @@ cs:
   activerecord:
     attributes:
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "Stránka"
+        row_count: "Počet řádků"
+        column_count: "Počet sloupců"
+        widgets: "Widgety"
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'se překrývá.'
+          outside: 'je mimo mřížku.'
+          end_before_start: 'konečná hodnota musí být větší než počáteční hodnota.'

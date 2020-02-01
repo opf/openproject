@@ -35,7 +35,7 @@ cs:
   validation_error_uknown_key: "Unknown key:"
   yaml_error: "YAML error:"
   help_link_rows_format: "Rows Formatting"
-  export_config_per_page: "Per page"
+  export_config_per_page: "Na stránku"
   export_config_page_size: "Page size"
   export_config_orientation: "Orientation"
   export_config_rows: "Řádky"
@@ -43,6 +43,6 @@ cs:
     attributes:
       export_card_configuration:
         rows: "Řádky"
-        per_page: "Per page"
+        per_page: "Na stránku"
         page_size: "Page size"
         orientation: "Orientation"
