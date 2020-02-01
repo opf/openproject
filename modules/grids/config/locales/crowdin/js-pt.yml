@@ -38,7 +38,7 @@ pt:
           title: 'Subprojetos'
           no_results: 'Nenhum subprojeto.'
         time_entries_list:
-          title: 'Tempo gasto (últimos 7 dias)'
+          title: 'Tempo usado'
           no_results: 'Não há entradas de tempo nos últimos 7 dias.'
         work_packages_accountable:
           title: "Pacotes de trabalho pelos quais sou responsável"

@@ -38,7 +38,7 @@ fr:
           title: 'Sous-projets'
           no_results: 'Aucun sous-projet.'
         time_entries_list:
-          title: 'Temps passé (7 derniers jours)'
+          title: 'Temps passé'
           no_results: 'Aucune entrée de temps pour les 7 derniers jours.'
         work_packages_accountable:
           title: "Lots de Travaux dont je suis responsable"

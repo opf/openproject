@@ -459,13 +459,20 @@ tr:
           requires: "gerektiren"
           required: "tarafından gerekli"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Form Yapılandırması"
         projects: "Projeler"
         settings: "Ayarlar"
     time_entry:
+      project: 'Proje'
+      work_package: 'İş paketi'
+      work_package_required: 'Önce bir iş paketi seçilmesini gerektirir.'
       activity: 'Etkinlik'
       comment: 'Yorum'
+      duration: 'Süre'
+      spent_on: 'Tarih'
       hours: 'Saat'
+      edit: 'Zaman girişini düzenle'
+      create: 'Zaman girişi oluştur'
     two_factor_authentication:
       label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
     watchers:

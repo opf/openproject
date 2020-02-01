@@ -38,7 +38,7 @@ sk:
           title: 'Podprojekty'
           no_results: 'No subprojects.'
         time_entries_list:
-          title: 'Strávený čas (posledných 7 dní)'
+          title: 'Strávený čas'
           no_results: 'Žiadne časové záznamy za posledných 7 dní.'
         work_packages_accountable:
           title: "Pracovné balíčky, za ktoré som zodpovedný(a)"

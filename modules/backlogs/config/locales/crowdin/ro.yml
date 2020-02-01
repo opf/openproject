@@ -52,7 +52,7 @@ ro:
   backlogs:
     add_new_story: "New Story"
     any: "any"
-    backlog_settings: "Backlog Settings"
+    backlog_settings: "Backlogs settings"
     burndown_graph: "Burndown Graph"
     card_paper_size: "Paper size for card printing"
     chart_options: "Chart options"

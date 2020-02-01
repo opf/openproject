@@ -463,9 +463,16 @@ fi:
         projects: "Projektit"
         settings: "Asetukset"
     time_entry:
+      project: 'Projekti'
+      work_package: 'Työpaketti'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Aktiviteetti'
       comment: 'Kommentti'
+      duration: 'Kesto'
+      spent_on: 'Päivä'
       hours: 'Tunnit'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Kaksivaiheinen tunnistautuminen'
     watchers:

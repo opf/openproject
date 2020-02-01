@@ -463,9 +463,16 @@ lt:
         projects: "Projektai"
         settings: "Nustatymai"
     time_entry:
+      project: 'Projektas'
+      work_package: 'Darbų paketas'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Veikla'
       comment: 'Komentaras'
+      duration: 'Trukmė'
+      spent_on: 'Data'
       hours: 'Valandų'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Dviejų veiksnių autentikavimas'
     watchers:

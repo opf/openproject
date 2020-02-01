@@ -52,7 +52,7 @@ sv:
   backlogs:
     add_new_story: "Ny berättelse"
     any: "någon"
-    backlog_settings: "Inställningar för backlog"
+    backlog_settings: "Backlogs settings"
     burndown_graph: "Burndown Graph"
     card_paper_size: "Pappersstorlek för kortutskrift"
     chart_options: "Alternativ för diagram"

@@ -466,9 +466,16 @@ ja:
         projects: "プロジェクト"
         settings: "設定"
     time_entry:
+      project: 'プロジェクト'
+      work_package: 'ワーク パッケージ'
+      work_package_required: 'Requires selecting a work package first.'
       activity: '活動'
       comment: 'コメント'
+      duration: '期間'
+      spent_on: '日付'
       hours: ' 時間'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: '2要素認証'
     watchers:

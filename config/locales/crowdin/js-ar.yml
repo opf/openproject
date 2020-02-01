@@ -463,9 +463,16 @@ ar:
         projects: "المشاريع"
         settings: "إعدادات"
     time_entry:
+      project: 'مشروع'
+      work_package: 'مجموعة العمل'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'النشاط'
       comment: 'تعليق'
+      duration: 'المدّة'
+      spent_on: 'التاريخ'
       hours: 'الساعات'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

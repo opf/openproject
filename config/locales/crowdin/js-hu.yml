@@ -462,9 +462,16 @@ hu:
         projects: "Projektek"
         settings: "Beállítások"
     time_entry:
+      project: 'Projekt'
+      work_package: 'Feladatcsoport'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Tevékenység'
       comment: 'Vélemény'
+      duration: 'Időtartam'
+      spent_on: 'dátum'
       hours: 'órák'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

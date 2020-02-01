@@ -28,21 +28,39 @@ fr:
     plugins:
       no_results_title_text: Il n'y a actuellement aucun plugin disponible.
     custom_styles:
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
       custom_colors: "Couleurs personnalisées"
       customize: "Personnalisez votre installation OpenProject avec votre propre logo. Remarque : Ce logo sera accessible publiquement."
       enterprise_notice: "En tant que remerciement spécial pour leur contribution financière au développement d'OpenProject, cette fonctionnalité n’est disponible que pour les titulaires d'une version Enterprise."
       manage_colors: "Modifier les options du sélecteur de couleur"
       instructions:
-        alternative_color: "Couleur d'accentuation, habituellement utilisée pour le bouton le plus important à l'écran."
-        content_link_color: "Couleur de la police de la plupart des liens."
-        primary_color: "Couleur principale."
-        primary_color_dark: "Habituellement, un ton plus sombre de la couleur principale utilisée pour les effets de mise en évidence."
-        header_bg_color: "Couleur de l'arrière-plan de l’en-tête."
-        header_item_bg_hover_color: "Couleur d’arrière-plan des éléments de l’en-tête survolées par la souris."
-        header_item_font_color: "Couleur de la police des éléments de l’en-tête cliquables."
-        header_item_font_hover_color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
-        header_border_bottom_color: "Ligne mince sous l’en-tête. Laissez ce champ vide si vous ne voulez pas de ligne."
-        main_menu_bg_color: "Couleur d’arrière-plan du menu de gauche."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "Couleur de la police de la plupart des liens."
+        primary-color: "Couleur principale."
+        primary-color-dark: "Habituellement, un ton plus sombre de la couleur principale utilisée pour les effets de mise en évidence."
+        header-item-bg-hover-color: "Couleur d’arrière-plan des éléments de l’en-tête survolées par la souris."
+        header-item-font-color: "Couleur de la police des éléments de l’en-tête cliquables."
+        header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
+        header-border-bottom-color: "Ligne mince sous l’en-tête. Laissez ce champ vide si vous ne voulez pas de ligne."
+        main-menu-bg-color: "Couleur d’arrière-plan du menu de gauche."
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
@@ -577,6 +595,10 @@ fr:
         role:
           permissions:
             dependency_missing: "doit également inclure '%{dependency}' car'%{permission}' est sélectionné."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "Le lot de travaux #%{id} n'est pas une cible valide pour réaffecter les entrées de temps."
           attributes:
@@ -726,6 +748,7 @@ fr:
     type: "Type"
     updated_at: "Mis à jour le"
     updated_on: "Mis à jour le"
+    uploader: "Uploader"
     user: "Utilisateur"
     version: "Version"
     work_package: "Lot de travaux"

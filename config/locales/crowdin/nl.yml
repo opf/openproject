@@ -28,21 +28,39 @@ nl:
     plugins:
       no_results_title_text: Er zijn momenteel geen plugins beschikbaar.
     custom_styles:
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
       custom_colors: "Aangepaste kleuren"
       customize: "Aanpassen van uw OpenProject installatie met uw eigen logo. Opmerking: Dit logo zal toegankelijk worden voor het publiek."
       enterprise_notice: "Als een speciale 'Bedankt!' voor hun financiële bijdrage aan het ontwikkelen van OpenProject, is deze kleine functie alleen beschikbaar voor Enterprise Edition ondersteuning abonnees."
       manage_colors: "Bewerk de kleur selectie opties"
       instructions:
-        alternative_color: "Sterk accentkleur, meestal gebruikt voor de meeste de belangrijke knop op een scherm."
-        content_link_color: "De kleur van het lettertype van de meeste van de links."
-        primary_color: "Hoofdkleur."
-        primary_color_dark: "Meestal een donkere versie van de belangrijkste kleur die gebruikt wordt voor hover-effecten."
-        header_bg_color: "De achtergrondkleur van de koptekst."
-        header_item_bg_hover_color: "De achtergrondkleur van klikbare header items wanneer deze aangewezen door de muis."
-        header_item_font_color: "De lettertypekleur van klikbare header items."
-        header_item_font_hover_color: "De achtergrondkleur van klikbare header items wanneer deze aangewezen worden door de muis."
-        header_border_bottom_color: "Dunne lijn onder de kop. Laat dit veld leeg als u geen lijn wilt."
-        main_menu_bg_color: "De kleur van de achtergrond van de linkerzijde menu's."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "De kleur van het lettertype van de meeste van de links."
+        primary-color: "Hoofdkleur."
+        primary-color-dark: "Meestal een donkere versie van de belangrijkste kleur die gebruikt wordt voor hover-effecten."
+        header-item-bg-hover-color: "De achtergrondkleur van klikbare header items wanneer deze aangewezen door de muis."
+        header-item-font-color: "De lettertypekleur van klikbare header items."
+        header-item-font-hover-color: "De achtergrondkleur van klikbare header items wanneer deze aangewezen worden door de muis."
+        header-border-bottom-color: "Dunne lijn onder de kop. Laat dit veld leeg als u geen lijn wilt."
+        main-menu-bg-color: "De kleur van de achtergrond van de linkerzijde menu's."
     enterprise:
       upgrade_to_ee: "Upgrade naar Enterprise Edition"
       add_token: "Uploadeneen Enterprise Edition ondersteuningstoken"
@@ -578,6 +596,10 @@ nl:
         role:
           permissions:
             dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "Werkpakket #%{id} is niet een geldig doel voor het opnieuw toewijzen van de tijden."
           attributes:
@@ -727,6 +749,7 @@ nl:
     type: "Type"
     updated_at: "Bijgewerkt op"
     updated_on: "Bijgewerkt op"
+    uploader: "Uploader"
     user: "Gebruiker"
     version: "Versie"
     work_package: "Werkpakket"

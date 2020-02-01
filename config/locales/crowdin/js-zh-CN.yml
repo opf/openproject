@@ -463,9 +463,16 @@ zh-CN:
         projects: "项目"
         settings: "设置"
     time_entry:
+      project: '项目'
+      work_package: '工作包'
+      work_package_required: 'Requires selecting a work package first.'
       activity: '活动'
       comment: '评论'
+      duration: '持续时间'
+      spent_on: '日期'
       hours: '小时'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: '双重身份验证'
     watchers:

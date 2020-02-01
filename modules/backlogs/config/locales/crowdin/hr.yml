@@ -52,7 +52,7 @@ hr:
   backlogs:
     add_new_story: "Nova priča"
     any: "bilo koji"
-    backlog_settings: "Backlog postavke"
+    backlog_settings: "Backlogs settings"
     burndown_graph: "Burndown graf"
     card_paper_size: "Format papira za ispis kartice"
     chart_options: "Mogućnosti grafikona"

@@ -86,7 +86,7 @@ bg:
       copied_successful: "Копирането в клипборд е успешно!"
     chart:
       type: 'Тип на диаграмата'
-      axis_criteria: 'Axis criteria'
+      axis_criteria: 'Критерии за ос'
       modal_title: 'Work package graph configuration'
       types:
         line: 'Line'
@@ -459,13 +459,20 @@ bg:
           requires: "requiring"
           required: "required by"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Конфигуриране на Форма"
         projects: "Проекти"
         settings: "Настройки"
     time_entry:
+      project: 'Проект'
+      work_package: 'Работен пакет'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Активност'
       comment: 'Коментар'
+      duration: 'Продължителност'
+      spent_on: 'Дата'
       hours: 'Часове'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

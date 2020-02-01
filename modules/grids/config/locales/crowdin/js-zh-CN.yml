@@ -38,7 +38,7 @@ zh-CN:
           title: '子项目'
           no_results: '无子项目。'
         time_entries_list:
-          title: '花费时间 (最近 7天)'
+          title: '已耗时间'
           no_results: '过去7天没有时间记录。'
         work_packages_accountable:
           title: "我负责的工作包"

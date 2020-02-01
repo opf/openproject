@@ -28,21 +28,39 @@ pt-BR:
     plugins:
       no_results_title_text: Atualmente, não existem plugins disponíveis.
     custom_styles:
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
       custom_colors: "Cores personalizadas"
       customize: "Personalize a instalação do OpenProject com sua própria logomarca. Nota: Esta logomarca será acessível ao público."
       enterprise_notice: "Como um 'Obrigado!' especial a sua contribuição financeira para desenvolver o OpenProject, esse pequeno recurso está disponível somente para assinantes do suporte da versão Enterprise Edition."
       manage_colors: "Editar opções de seleção de cor"
       instructions:
-        alternative_color: "Cor de destaque forte, normalmente usada para o botão mais importante na tela."
-        content_link_color: "Cor da fonte da maioria dos links."
-        primary_color: "Cor principal."
-        primary_color_dark: "Normalmente é uma versão mais escura da cor principal, usada para efeitos de focalizar."
-        header_bg_color: "Cor de fundo do cabeçalho."
-        header_item_bg_hover_color: "Cor de fundo dos itens clicáveis do cabeçalho ao passar o mouse sobre eles."
-        header_item_font_color: "Cor da fonte dos itens clicáveis do cabeçalho."
-        header_item_font_hover_color: "Cor da fonte dos itens clicáveis do cabeçalho ao passar o mouse sobre eles."
-        header_border_bottom_color: "Linha fina sob o cabeçalho. Deixe este campo vazio se não quiser nenhuma linha."
-        main_menu_bg_color: "Cor de fundo do menu esquerdo."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "Cor da fonte da maioria dos links."
+        primary-color: "Cor principal."
+        primary-color-dark: "Normalmente é uma versão mais escura da cor principal, usada para efeitos de focalizar."
+        header-item-bg-hover-color: "Cor de fundo dos itens clicáveis do cabeçalho ao passar o mouse sobre eles."
+        header-item-font-color: "Cor da fonte dos itens clicáveis do cabeçalho."
+        header-item-font-hover-color: "Cor da fonte dos itens clicáveis do cabeçalho ao passar o mouse sobre eles."
+        header-border-bottom-color: "Linha fina sob o cabeçalho. Deixe este campo vazio se não quiser nenhuma linha."
+        main-menu-bg-color: "Cor de fundo do menu esquerdo."
     enterprise:
       upgrade_to_ee: "Atualizar para a versão Enterprise Edition"
       add_token: "Fazer upload de um token de suporte Enterprise Edition"
@@ -577,6 +595,10 @@ pt-BR:
         role:
           permissions:
             dependency_missing: "também precisa incluir '%{dependency}', já que '%{permission}' está selecionado."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "Pacote de trabalho #%{id} não é válido para re-atribuir os registros de horas gastas."
           attributes:
@@ -726,6 +748,7 @@ pt-BR:
     type: "Tipo"
     updated_at: "Atualizado em"
     updated_on: "Atualizado em"
+    uploader: "Uploader"
     user: "Usuário"
     version: "Versão"
     work_package: "Pacote de trabalho"

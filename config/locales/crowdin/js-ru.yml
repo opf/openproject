@@ -458,13 +458,20 @@ ru:
           requires: "требование"
           required: "необходим для"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Конфигурация формы"
         projects: "Проекты"
         settings: "Параметры"
     time_entry:
+      project: 'Проект'
+      work_package: 'Пакет работ'
+      work_package_required: 'Сначала необходимо выбрать пакет работ.'
       activity: 'Деятельность'
       comment: 'Комментарий'
+      duration: 'Продолжительность'
+      spent_on: 'Дата'
       hours: 'Часы'
+      edit: 'Редактировать запись времени'
+      create: 'Создать запись времени'
     two_factor_authentication:
       label_two_factor_authentication: 'Двухфакторная аутентификация'
     watchers:

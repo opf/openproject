@@ -463,9 +463,16 @@ hr:
         projects: "Projekti"
         settings: "Postavke"
     time_entry:
+      project: 'Projekt'
+      work_package: 'Radni paket'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Aktivnost'
       comment: 'Komentar'
+      duration: 'Trajanje'
+      spent_on: 'Datum'
       hours: 'Sati'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

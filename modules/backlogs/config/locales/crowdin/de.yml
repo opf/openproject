@@ -52,7 +52,7 @@ de:
   backlogs:
     add_new_story: "Neue Aufgabe"
     any: "beliebig"
-    backlog_settings: "Backlog Einstellungen"
+    backlog_settings: "Backlogs settings"
     burndown_graph: "Burndown Graph"
     card_paper_size: "Format für Kartendruck"
     chart_options: "Chart-Optionen"

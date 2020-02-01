@@ -52,7 +52,7 @@ ca:
   backlogs:
     add_new_story: "Nova història"
     any: "qualsevol"
-    backlog_settings: "Configuració de la llista de pendents"
+    backlog_settings: "Backlogs settings"
     burndown_graph: "Gràfic de progrés"
     card_paper_size: "Mida de paper per a impressió de targetes"
     chart_options: "Chart options"

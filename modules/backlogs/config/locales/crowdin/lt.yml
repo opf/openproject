@@ -52,7 +52,7 @@ lt:
   backlogs:
     add_new_story: "Nauja istorija"
     any: "any"
-    backlog_settings: "Backlog Settings"
+    backlog_settings: "Backlogs settings"
     burndown_graph: "Burndown Graph"
     card_paper_size: "Lapo dydis kortelių spausdinimui"
     chart_options: "Diagramos parinktys"

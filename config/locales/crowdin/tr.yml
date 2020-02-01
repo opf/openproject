@@ -28,21 +28,39 @@ tr:
     plugins:
       no_results_title_text: Şu anda kullanılabilir eklenti mevcut değil.
     custom_styles:
+      color_theme: "Renk teması"
+      color_theme_custom: "(Özel)"
+      colors:
+        alternative-color: "Alternatif"
+        content-link-color: "Bağlantı yazı tipi"
+        primary-color: "Birincil"
+        primary-color-dark: "Birincil (karanlık)"
+        header-bg-color: "Üstbilgi arka planı"
+        header-item-bg-hover-color: "Fareyle üzerine gelindiğinde başlık arka planı"
+        header-item-font-color: "Başlık yazı tipi"
+        header-item-font-hover-color: "Fareyle üzerine gelindiğinde başlık yazı tipi"
+        header-border-bottom-color: "Başlık kenarlığı"
+        main-menu-bg-color: "Ana menü arka planı"
+        main-menu-bg-selected-background: "Seçildiğinde ana menü"
+        main-menu-bg-hover-background: "Fareyle üzerine gelindiğinde ana menü"
+        main-menu-font-color: "Ana menü yazı tipi"
+        main-menu-selected-font-color: "Seçildiğinde ana menü yazı tipi"
+        main-menu-hover-font-color: "Fareyle üzerine gelindiğinde ana menü yazı tipi"
+        main-menu-border-color: "Ana menü kenarlığı"
       custom_colors: "Özel renkler"
       customize: "Kendi logonuuz ile OpenProject yüklemenizi özelleştirin. Not: Bu logo genel olarak erişilebilir olacaktır."
       enterprise_notice: "OpenProject'in geliştirilmesine finansal destek verenlere özel olarak 'Teşekkür ederiz!'. Bu küçük özellik sadece Enterprise Sürüm alan destekçilerimize özeldir."
       manage_colors: "Renk seçim seçeneklerini düzenle"
       instructions:
-        alternative_color: "Yüksek vurgulu renk, genellikle ekrandaki önemli tuşlarda kullanılır."
-        content_link_color: "Bir çok bağlantının yazı tipi rengi."
-        primary_color: "Ana renk."
-        primary_color_dark: "Daha etkili efektler için ana renklerin koyu versiyonu."
-        header_bg_color: "Başlığın arkaplan rengi."
-        header_item_bg_hover_color: "Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde kullanılacak arka plan rengi."
-        header_item_font_color: "Tıklanabilir başlık bileşenleri için yazı rengi."
-        header_item_font_hover_color: "Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde kullanılacak yazı rengi."
-        header_border_bottom_color: "Başlığının altında ince bir çizgi. Bu alanda herhangi bir hat istemiyorsanız boş bırakın."
-        main_menu_bg_color: "Sol taraftaki menünün arka plan rengi."
+        alternative-color: "Güçlü vurgu rengi, genellikle ekrandaki en önemli düğme için kullanılır."
+        content-link-color: "Bir çok bağlantının yazı tipi rengi."
+        primary-color: "Ana renk."
+        primary-color-dark: "Daha etkili efektler için ana renklerin koyu versiyonu."
+        header-item-bg-hover-color: "Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde kullanılacak arka plan rengi."
+        header-item-font-color: "Tıklanabilir başlık bileşenleri için yazı rengi."
+        header-item-font-hover-color: "Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde kullanılacak yazı rengi."
+        header-border-bottom-color: "Başlığının altında ince bir çizgi. Bu alanda herhangi bir hat istemiyorsanız boş bırakın."
+        main-menu-bg-color: "Sol taraftaki menünün arka plan rengi."
     enterprise:
       upgrade_to_ee: "Enterprise Edition sürümüne yükseltme"
       add_token: "Enterprise Editon versiyonu destek anahtarını yükleyin"
@@ -578,6 +596,10 @@ tr:
         role:
           permissions:
             dependency_missing: "'%'%{dependency}' seçili olduğundan,'%{permission}'  ı da eklemeniz gerekir."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "tarih başına maksimum 24 saat kaydedilebileceğinden çok yüksek."
         work_package:
           is_not_a_valid_target_for_time_entries: "İş paketi #%{id} zaman girdilerini yeniden atama için geçerli bir hedef değil."
           attributes:
@@ -727,6 +749,7 @@ tr:
     type: "Tür"
     updated_at: "Güncelleme tarihi"
     updated_on: "Güncelleme tarihi"
+    uploader: "Yükleyici"
     user: "Kullanıcı"
     version: "Sürüm"
     work_package: "İş paketi"

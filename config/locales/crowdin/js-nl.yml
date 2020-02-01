@@ -463,9 +463,16 @@ nl:
         projects: "Projecten"
         settings: "Instellingen"
     time_entry:
+      project: 'Project'
+      work_package: 'Werkpakket'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Activiteit'
       comment: 'Commentaar'
+      duration: 'Duur'
+      spent_on: 'Datum'
       hours: 'Uren'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Twee-factor-authenticatie'
     watchers:

@@ -38,7 +38,7 @@ cs:
           title: 'Podprojekty'
           no_results: 'No subprojects.'
         time_entries_list:
-          title: 'Spent time (last 7 days)'
+          title: 'Strávený čas'
           no_results: 'No time entries for the last 7 days.'
         work_packages_accountable:
           title: "Pracovní balíčky, za které zodpovídám"

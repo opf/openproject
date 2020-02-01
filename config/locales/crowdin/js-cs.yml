@@ -291,7 +291,7 @@ cs:
     label_more_than_ago: "před více jak (dny)"
     label_next: "Další"
     label_no_color: "Bez barvy"
-    label_no_data: "No data to display"
+    label_no_data: "Žádná data k zobrazení"
     label_no_due_date: "žádné datum ukončení"
     label_no_start_date: "žádné datum začátku"
     label_no_value: "Žádná hodnota"
@@ -463,9 +463,16 @@ cs:
         projects: "Projekty"
         settings: "Nastavení"
     time_entry:
+      project: 'Projekt'
+      work_package: 'Pracovní balíček'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Aktivita'
       comment: 'Komentář'
+      duration: 'Doba trvání'
+      spent_on: 'Datum'
       hours: 'Hodiny'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -571,10 +578,10 @@ cs:
       empty: "(prázdný)"
       error: "An error has occurred."
       errors:
-        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-        report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-        report_epicfail: "The timeline could not be loaded due to an unexpected error."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
+        not_implemented: "Časová osa nemohla být vykreslena, protože používá funkci, která ještě není implementována."
+        report_comparison: "Časová osa nemohla vykreslit nakonfigurovaná srovnání. Zkontrolujte prosím příslušnou sekci v konfiguraci, resetování může pomoci tento problém vyřešit."
+        report_epicfail: "Časová osa nemohla být načtena z důvodu neočekávané chyby."
+        report_timeout: "Časová osa nemohla být načtena v přiměřené době."
       filter:
         grouping_other: "Ostatní"
         noneSelection: "(žádný)"

@@ -52,7 +52,7 @@ da:
   backlogs:
     add_new_story: "Ny historie"
     any: "alle"
-    backlog_settings: "Backlog-indstillinger"
+    backlog_settings: "Backlogs settings"
     burndown_graph: "Burndown Graph"
     card_paper_size: "Papirformat til kortudskrivning"
     chart_options: "Diagrammuligheder"

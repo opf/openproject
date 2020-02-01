@@ -52,7 +52,7 @@ sk:
   backlogs:
     add_new_story: "Nový príbeh"
     any: "akékoľvek"
-    backlog_settings: "Oneskorenia nastavenie"
+    backlog_settings: "Backlogs settings"
     burndown_graph: "Burndown Graf"
     card_paper_size: "Veľkosť papiera pre tlač kariet"
     chart_options: "Možnosti grafu"

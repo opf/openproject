@@ -38,7 +38,7 @@ ja:
           title: '子プロジェクト'
           no_results: '子プロジェクトはありません。'
         time_entries_list:
-          title: '経過時間(過去7日)'
+          title: '作業時間の記録'
           no_results: '過去7日間の時間エントリはありません。'
         work_packages_accountable:
           title: "責任者である作業項目"

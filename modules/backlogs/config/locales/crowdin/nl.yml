@@ -52,7 +52,7 @@ nl:
   backlogs:
     add_new_story: "Nieuwe Story"
     any: "elke"
-    backlog_settings: "Instellingen backlog"
+    backlog_settings: "Backlogs settings"
     burndown_graph: "Burndown grafiek"
     card_paper_size: "Papierformaat voor het afdrukken van de kaart"
     chart_options: "Grafiekopties"

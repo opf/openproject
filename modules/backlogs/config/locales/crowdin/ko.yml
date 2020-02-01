@@ -52,7 +52,7 @@ ko:
   backlogs:
     add_new_story: "새로운 스토리"
     any: "모두"
-    backlog_settings: "백로그 설정"
+    backlog_settings: "Backlogs settings"
     burndown_graph: "번다운 그래프"
     card_paper_size: "카드 인쇄용 용지 크기"
     chart_options: "차트 옵션"

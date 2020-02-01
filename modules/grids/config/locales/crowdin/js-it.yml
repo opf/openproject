@@ -38,7 +38,7 @@ it:
           title: 'Sotto-progetti'
           no_results: 'Nessun sotto-progetto.'
         time_entries_list:
-          title: 'Tempo trascorso (ultimi 7 giorni)'
+          title: 'Tempo speso'
           no_results: 'Nessuna voce sul tempo per gli ultimi 7 giorni.'
         work_packages_accountable:
           title: "Macro-attività di cui sono responsabile del risultato"

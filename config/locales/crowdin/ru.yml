@@ -28,21 +28,39 @@ ru:
     plugins:
       no_results_title_text: Дополнения отсутствуют.
     custom_styles:
+      color_theme: "Цветовая тема"
+      color_theme_custom: "(Клиента)"
+      colors:
+        alternative-color: "Альтернативный"
+        content-link-color: "Шрифт ссылки"
+        primary-color: "Основной"
+        primary-color-dark: "Основной (темный)"
+        header-bg-color: "Фон заголовка"
+        header-item-bg-hover-color: "Фон заголовка при наведении курсора"
+        header-item-font-color: "Шрифт заголовка"
+        header-item-font-hover-color: "Шрифт заголовка при наведении курсора"
+        header-border-bottom-color: "Граница заголовка"
+        main-menu-bg-color: "Фон главного меню"
+        main-menu-bg-selected-background: "Главное меню при выборе"
+        main-menu-bg-hover-background: "Главное меню при наведении"
+        main-menu-font-color: "Шрифт главного меню"
+        main-menu-selected-font-color: "Шрифт главного меню при выборе"
+        main-menu-hover-font-color: "Шрифт главного меню при наведении курсора"
+        main-menu-border-color: "Граница главного меню"
       custom_colors: "Настроить цвета"
       customize: "Настройте установку OpenProject с помощью собственного логотипа. Примечание: этот логотип будет общедоступным."
       enterprise_notice: "Отдельное \"Спасибо!\" за их финансовый вклад в развитие OpenProject, эта маленькая Функция доступна только для абонентов корпоративной версии."
       manage_colors: "Изменить цвет выбранных опций"
       instructions:
-        alternative_color: "Сильный контрастный цвет, обычно используемый для большинства важных кнопок на экране."
-        content_link_color: "Цвет шрифта большинства ссылок."
-        primary_color: "Основной цвет."
-        primary_color_dark: "Для эффекта наведения обычно используется более темная версия основного цвета."
-        header_bg_color: "Цвет фона заголовка."
-        header_item_bg_hover_color: "Цвет фона в заголовках интерактивных элементов под курсором мыши."
-        header_item_font_color: "Цвет шрифта в заголовках интерактивных элементов."
-        header_item_font_hover_color: "Цвет шрифта в заголовках интерактивных элементов под курсором мыши."
-        header_border_bottom_color: "Тонкая линия под заголовком. Оставьте это поле пустым, если вы не хотите любой линии."
-        main_menu_bg_color: "Цвет фона меню слева."
+        alternative-color: "Сильный контрастный цвет, обычно используемый для большинства важных кнопок на экране."
+        content-link-color: "Цвет шрифта большинства ссылок."
+        primary-color: "Основной цвет."
+        primary-color-dark: "Для эффекта наведения обычно используется более темная версия основного цвета."
+        header-item-bg-hover-color: "Цвет фона в заголовках интерактивных элементов под курсором мыши."
+        header-item-font-color: "Цвет шрифта в заголовках интерактивных элементов."
+        header-item-font-hover-color: "Цвет шрифта в заголовках интерактивных элементов под курсором мыши."
+        header-border-bottom-color: "Тонкая линия под заголовком. Оставьте это поле пустым, если вы не хотите любой линии."
+        main-menu-bg-color: "Цвет фона меню слева."
     enterprise:
       upgrade_to_ee: "Обновите до корпоративной версии"
       add_token: "Загрузите маркер поддержки корпоративной версии"
@@ -579,6 +597,10 @@ ru:
         role:
           permissions:
             dependency_missing: "включите также '%{dependency}', так как выбрано '%{permission}'."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "слишком высок, так как максимум 24 часа может быть зарегистрировано на дату."
         work_package:
           is_not_a_valid_target_for_time_entries: "Пакет работ #%{id} не допустимым для переназначения времени записи."
           attributes:
@@ -734,6 +756,7 @@ ru:
     type: "Тип"
     updated_at: "Обновлено"
     updated_on: "Обновлено"
+    uploader: "Загрузчик"
     user: "Пользователь"
     version: "Стадия"
     work_package: "Пакет работ"

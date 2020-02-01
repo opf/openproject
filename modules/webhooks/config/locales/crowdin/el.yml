@@ -10,7 +10,7 @@ el:
         event_name: 'Όνομα συμβάντος'
         url: 'Payload URL'
         response_code: 'Κωδικός απόκρισης'
-        response_body: 'Ανταπόκριση'
+        response_body: 'Απόκριση'
     models:
       webhooks/outgoing_webhook: "Εξερχόμενο webhook"
   webhooks:
@@ -18,7 +18,7 @@ el:
     plural: Webhooks
     resources:
       time_entry:
-        name: "Καταχώρηση ώρας"
+        name: "Καταχώρηση χρόνου"
     outgoing:
       no_results_table: Δεν έχουν οριστεί webhooks ακόμη.
       label_add_new: Προσθήκη νέου webhook
@@ -44,7 +44,7 @@ el:
           placeholder: 'Προαιρετική περιγραφή για το webhook.'
         enabled:
           description: >
-            Όταν επιλεχθεί, το webhook θα ενεργοποιείται στα επιλεγμένα συμβάντα. Αποεπιλογή για να απενεργοποιήσετε το webhook.
+            Όταν επιλεχθεί, το webhook θα ενεργοποιείται στα επιλεγμένα συμβάντα. Κάντε αποεπιλογή για να απενεργοποιήσετε το webhook.
         events:
           title: 'Ενεργοποιημένα συμβάντα'
         project_ids:

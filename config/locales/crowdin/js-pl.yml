@@ -463,9 +463,16 @@ pl:
         projects: "Projekty"
         settings: "Ustawienia"
     time_entry:
+      project: 'Projekt'
+      work_package: 'Zadanie'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Działanie'
       comment: 'Komentarz'
+      duration: 'Czas trwania'
+      spent_on: 'Data'
       hours: 'Godziny'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'
     watchers:

@@ -463,9 +463,16 @@ uk:
         projects: "Проекти"
         settings: "Налаштування"
     time_entry:
+      project: 'Проект'
+      work_package: 'Пакет робіт'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Активність'
       comment: 'Коментар'
+      duration: 'Тривалість'
+      spent_on: 'Дата'
       hours: 'Години'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Двофакторна аутентифікація'
     watchers:

@@ -463,9 +463,16 @@ es:
         projects: "Proyectos"
         settings: "Configuración"
     time_entry:
+      project: 'Proyecto'
+      work_package: 'Paquete de trabajo'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Actividad'
       comment: 'Comentario'
+      duration: 'Duración'
+      spent_on: 'Fecha'
       hours: 'Horas'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticación de dos factores'
     watchers:

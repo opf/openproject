@@ -52,7 +52,7 @@ ar:
   backlogs:
     add_new_story: "قصة جديدة"
     any: "أي"
-    backlog_settings: "إعدادات العمل المتراكم غير المنجز"
+    backlog_settings: "Backlogs settings"
     burndown_graph: "الرسم البياني لتقدم العمل"
     card_paper_size: "حجم الورق لطباعة البطاقة"
     chart_options: "خيارات الرسم البياني"

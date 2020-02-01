@@ -463,9 +463,16 @@ ca:
         projects: "Projectes"
         settings: "Configuració"
     time_entry:
+      project: 'Projecte'
+      work_package: 'Paquet de treball'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Activitat'
       comment: 'Comentari'
+      duration: 'Durada'
+      spent_on: 'Data'
       hours: 'Hores'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

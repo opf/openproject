@@ -52,7 +52,7 @@ tr:
   backlogs:
     add_new_story: "Yeni Hikaye"
     any: "herhangi bir"
-    backlog_settings: "Bekleme Günlüğü Ayarları"
+    backlog_settings: "Biriktirme listeleri ayarları"
     burndown_graph: "Burndown Grafiği"
     card_paper_size: "Kart yazdırma için kağıt boyutu"
     chart_options: "Grafik seçenekleri"

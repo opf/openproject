@@ -458,13 +458,20 @@ sv:
           requires: "kräver"
           required: "krävs av"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Ställ in formulär"
         projects: "Projekt"
         settings: "Inställningar"
     time_entry:
+      project: 'Projekt'
+      work_package: 'Arbetspaket'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Aktivitet'
       comment: 'Kommentar'
+      duration: 'Varaktighet'
+      spent_on: 'Datum'
       hours: 'Timmar'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Tvåfaktorsautentisering'
     watchers:

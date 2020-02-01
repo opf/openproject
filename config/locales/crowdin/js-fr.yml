@@ -459,13 +459,20 @@ fr:
           requires: "requérant"
           required: "requis par"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Configuration du formulaire"
         projects: "Projets"
         settings: "Paramètres"
     time_entry:
+      project: 'Projet'
+      work_package: 'Lot de travaux'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Activité'
       comment: 'Commentaire'
+      duration: 'Durée'
+      spent_on: 'date'
       hours: 'Heures'
+      edit: 'Edit time entry'
+      create: 'Create time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Authentification à deux facteurs'
     watchers:

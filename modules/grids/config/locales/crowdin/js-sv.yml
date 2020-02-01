@@ -38,7 +38,7 @@ sv:
           title: 'Delprojekt'
           no_results: 'Inga delprojekt.'
         time_entries_list:
-          title: 'Spenderad tid (senaste 7 dagarna)'
+          title: 'Förbrukad tid'
           no_results: 'Inga tidsinlägg för de senaste 7 dagarna.'
         work_packages_accountable:
           title: "Arbetspaket Jag är ansvarig för"
