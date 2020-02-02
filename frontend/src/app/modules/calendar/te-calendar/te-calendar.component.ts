@@ -83,6 +83,10 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   protected memoizedTimeEntries:{start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>>};
   protected memoizedCreateAllowed:boolean = false;
 
+  public text = {
+    logTime: this.i18n.t('js.button_log_time')
+  };
+
   constructor(readonly states:States,
               readonly timeEntryDm:TimeEntryDmService,
               readonly $state:StateService,
@@ -309,6 +313,10 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
       .catch(() => {
         event.revert();
       });
+  }
+
+  public addEventToday() {
+    this.addEvent(moment(new Date()));
   }
 
   private addEvent(date:Moment) {
