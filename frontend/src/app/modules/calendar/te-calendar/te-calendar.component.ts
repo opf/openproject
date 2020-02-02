@@ -63,6 +63,10 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   @Input() static:boolean = false;
   @Output() entries = new EventEmitter<CollectionResource<TimeEntryResource>>();
 
+  // Not used by the calendar but rather is the maximum/minimum of the graph.
+  public minHour = 1;
+  public maxHour = 11;
+
   public calendarPlugins = [timeGrid, interactionPlugin];
   public calendarEvents:Function;
   public calendarHeader:ToolbarInput|boolean = {
@@ -70,14 +74,14 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     center: 'title',
     left: 'prev,next today'
   };
-  public calendarSlotLabelFormat = (info:any) => 24 - info.date.hour;
-  public calendarScrollTime = '24:00:00';
-  public calendarContentHeight = 545;
+  public calendarSlotLabelFormat = (info:any) => '';
+  //public calendarSlotDuration = '00:30:00';
+  public calendarContentHeight = 552;
   public calendarAllDaySlot = false;
-  public calendarAllDayText = '';
   public calendarDisplayEventTime = false;
   public calendarSlotEventOverlap = false;
   public calendarEditable = false;
+  public calendarMaxTime = `${this.maxHour}:00:00`;
   public calendarEventOverlap = (stillEvent:any) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME);
 
   protected memoizedTimeEntries:{start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>>};
@@ -151,24 +155,51 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   private buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
-    return this.buildTimeEntryEntries(entries)
-      .concat(this.buildAuxEntries(entries, fetchInfo));
+    let maxHoursPerDay:{ [key:string]:number } = {};
+
+    entries.forEach((entry) => {
+      let max:number;
+      let hours = this.timezone.toHours(entry.hours);
+
+      if (maxHoursPerDay[entry.spentOn]) {
+        max = maxHoursPerDay[entry.spentOn] + hours;
+      } else {
+        max = hours;
+      }
+
+      maxHoursPerDay[entry.spentOn] = max;
+    });
+
+    let maxHours = Math.max(...Object.values(maxHoursPerDay), 0);
+
+    let ratio = 1;
+
+    if (maxHours > this.maxHour - this.minHour) {
+      ratio = (this.maxHour - this.minHour) / maxHours;
+    }
+
+    //if (this.calendarSlotDuration !== `00:${Math.floor(60 * ratio)}:00`) {
+    //  this.calendarSlotDuration = `00:${Math.floor(60 * ratio)}:00`;
+    //}
+
+    return this.buildTimeEntryEntries(entries, ratio)
+      .concat(this.buildAuxEntries(entries, fetchInfo, ratio));
   }
 
-  private buildTimeEntryEntries(entries:TimeEntryResource[]) {
+  private buildTimeEntryEntries(entries:TimeEntryResource[], ratio:number) {
     let hoursDistribution:{ [key:string]:Moment } = {};
 
     return entries.map((entry) => {
       let start:Moment;
       let end:Moment;
-      let hours = this.timezone.toHours(entry.hours);
+      let hours = this.timezone.toHours(entry.hours) * ratio ;
 
       if (hoursDistribution[entry.spentOn]) {
         start = hoursDistribution[entry.spentOn].clone().subtract(hours, 'h');
         end = hoursDistribution[entry.spentOn].clone();
       } else {
-        start = moment(entry.spentOn).add(24 - hours, 'h');
-        end = moment(entry.spentOn).add(24, 'h');
+        start = moment(entry.spentOn).add(this.maxHour - hours, 'h');
+        end = moment(entry.spentOn).add(this.maxHour, 'h');
       }
 
       hoursDistribution[entry.spentOn] = start;
@@ -179,7 +210,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     }) as EventInput[];
   }
 
-  private buildAuxEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
+  private buildAuxEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }, ratio:number) {
     let dateSums:{ [key:string]:number } = {};
 
     entries.forEach((entry) => {
@@ -197,10 +228,10 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     for (let m = moment(fetchInfo.start); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
       let duration = dateSums[m.format('YYYY-MM-DD')] || 0;
 
-      calendarEntries.push(this.sumEntry(m, duration));
+      calendarEntries.push(this.sumEntry(m, duration, ratio));
 
       if (this.memoizedCreateAllowed && duration < 24) {
-        calendarEntries.push(this.addEntry(m, duration));
+        calendarEntries.push(this.addEntry(m, duration, ratio));
       }
     }
 
@@ -210,32 +241,40 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   protected timeEntry(entry:TimeEntryResource, hours:number, start:Moment, end:Moment) {
     const color = this.colors.toHsl(this.entryName(entry));
 
+    let classNames = [TIME_ENTRY_CLASS_NAME];
+
+    let span = end.diff(start, 'm');
+
+    if (span < 40) {
+      classNames.push('-no-fadeout');
+    }
+
     return {
-      title: hours < 0.5 ? '' : this.entryName(entry),
+      title: span < 20 ? '' : this.entryName(entry),
       startEditable: !!entry.update,
       start: start.format(),
       end: end.format(),
       backgroundColor: color,
       borderColor: color,
-      classNames: TIME_ENTRY_CLASS_NAME,
+      classNames: classNames,
       entry: entry
     };
   }
 
-  protected sumEntry(date:Moment, duration:number) {
+  protected sumEntry(date:Moment, duration:number, ratio:number) {
     return {
       title: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
-      start: date.clone().add(24 - Math.min(duration, 23.5) - 0.5, 'h').format(),
-      end: date.clone().add(24 - Math.min(duration, 23.5), 'h').format(),
+      start: date.clone().add(this.maxHour - Math.min(duration * ratio, this.maxHour - 0.5) - 0.5, 'h').format(),
+      end: date.clone().add(this.maxHour - Math.min(((duration + 0.05) * ratio), this.maxHour - 0.5), 'h').format(),
       classNames: DAY_SUM_CLASS_NAME
     };
   }
 
-  protected addEntry(date:Moment, duration:number) {
+  protected addEntry(date:Moment, duration:number, ratio:number) {
     return {
       title: '+',
       start: date.clone().format(),
-      end: date.clone().add(24 - Math.min(duration, 22.5) - 0.5, 'h').format(),
+      end: date.clone().add(this.maxHour - Math.min(duration * ratio, this.maxHour - 1) - 0.5, 'h').format(),
       classNames: ADD_ENTRY_CLASS_NAME
     };
   }
