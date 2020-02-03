@@ -35,21 +35,30 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 
-<% html_title (@query.persisted? ? "#{l(:label_cost_report)}: #{@query.name}" : l(:label_new_report)) %>
+<% html_title (@query.persisted? ? "#{t(:label_cost_report)}: #{@query.name}" : t(:label_new_report)) %>
 
-<h2 id="ur_caption">
-  <%= render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_to?(:rename, @query, current_user) %>
-</h2>
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2 id="ur_caption">
+        <%= render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_to?(:rename, @query, current_user) %>
+      </h2>
+    </div>
+    <ul class="toolbar-items">
+      <%= call_hook(:view_cost_report_toolbar) %>
+    </ul>
+  </div>
+</div>
+
 <%= render_widget Widget::Settings, @query, :cost_types => @cost_types, :selected_type_id => @unit_id %>
 
 <div id="result-table">
   <%= render_widget Widget::Table, @query %>
 </div>
 <p class="footnote">
-  <%= l(:text_costs_are_rounded_note) %>
-  <%= "<br />#{l(:information_restricted_depending_on_permission)}".html_safe if !User.current.admin?%>
+  <%= t(:text_costs_are_rounded_note) %>
+  <%= "<br />#{t(:information_restricted_depending_on_permission)}".html_safe unless User.current.admin?%>
 </p>
-<%= call_hook(:view_cost_report_table_bottom) %>
 
 <% content_for :sidebar do %>
   <% [:private, :public].each do |type| %>
