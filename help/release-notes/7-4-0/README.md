@@ -40,8 +40,7 @@ projects from the list view. For more information take a look at [this
 blog
 post](https://www.openproject.org/openproject-7-4-project-list-moves-administration-view-projects-page/).
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-4-0/updated-project-list-project-portfolio-management/)
+
 
 ## Resize Gantt chart with drag & drop
 
@@ -50,8 +49,7 @@ chart. This is possible with OpenProject 7.4. Simply select the handle
 on the left side of the Gantt chart drag to increase or decrease the
 width of the Gantt chart.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-4-0/resize-gantt-chart-drag-drop/)
+
 
 ## Work package status more prominent
 
@@ -79,8 +77,7 @@ overview page, from the wiki page or from a meeting.
 It is even possible to set a default type to allow users to rapidly
 create e.g. bugs or tasks.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-4-0/wiki-macro-work-package-create-buttons/)
+
 
 ## Two factor authentication (Enterprise Edition / Cloud Edition)
 

@@ -26,8 +26,7 @@ example show the progress (in %) and the assignee directly in the Gantt
 chart without having to include those attributes as separate work
 package columns.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-3-0/labels-gantt-chart/)
+
 
 ## Auto zoom in Gantt chart
 
@@ -37,8 +36,7 @@ adjust the zoom level, we implemented an intelligent zoom button. This
 allows you to immediately switch to the optimal zoom level to see all
 work packages without zooming out too much.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-3-0/auto-zoom-gantt-chart/)
+
 
 ## Notify users with @notations on work package page
 
@@ -50,8 +48,7 @@ clear and personal to directly address the person. This is possible with
 a description), simply enter an *@* sign, followed by the user’s name.
 The user then receives an email notification.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-3-0/notify-users-notations-work-package-page/)
+
 
 ## Resize work package split screen with drag & drop
 
@@ -61,8 +58,7 @@ the width of the split screen. OpenProject remembers the new size, so
 you don’t have to resize the split screen whenever you open a new work
 package.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-3-0/resize-work-package-split-screen/)
+
 
 ## Breadcrumb on work package page
 
@@ -72,8 +68,7 @@ view. In order to make the hierarchy more transparent, OpenProject 7.3
 introduces a breadcrumb for work packages (shown in both the fullscreen
 and split screen view).
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-7-3-0/breadcrumb-work-package-fullscreen-split-screen-view/)
+
 
 ## Improved usability and design
 

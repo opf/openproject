@@ -23,8 +23,7 @@ easy integration with OmniAuth strategy providers such as Google.
   - Multiple authentication provider can be integrated and are shown in
     the login screen
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-4-0/omniauth-integration/)
+
 
  
 
@@ -46,8 +45,7 @@ more intuitive.
   - Two different views: Work package table and split-screen
   - Create new queries based on existing ones (Save as)
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-4-0/integrated-toolbar/)
+
 
  
 
@@ -60,8 +58,7 @@ are being persisted.
   - Auto-completion of queries is supported
   - Selected query is persisted
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-4-0/integrated-query-title/)
+
 
  
 
@@ -77,8 +74,7 @@ package table right on a column header.
   - Hide / Remove column
   - Add new column
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-4-0/column-header/ "Column header functions in work package table")
+
 
  
 
@@ -99,8 +95,7 @@ allowing users to see the most important information at a glance.
   - “Watchers” tab to follow work package
   - “Attachments” tab showing attached documents
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-4-0/split-screen-mode/ "Split screen mode")
+
 
  
 
@@ -116,8 +111,7 @@ overall usability of OpenProject.
   - Changed headlines
   - Round avatars
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-4-0/improved-design/ "Improved Design")
+
 
  
 
@@ -132,8 +126,7 @@ page.
   - Keyboard shortcuts and access key fully functional in work package
     page
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-4-0/accessibility-improvements-4-0/ "Accessibility improvements")
+
 
  
 

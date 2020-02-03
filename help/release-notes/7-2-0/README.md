@@ -22,8 +22,7 @@ The Gantt chart highlights the weekend (Saturday, Sunday) so users can
 see when to not schedule phases or milestones. Additionally, the subject
 is shown in the Gantt chart and start and due date is visible on hover.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-2-0/gantt-chart-includes-weekends-subject-dates/)
+
 
 ### Full-width Gantt chart / timeline
 
@@ -31,16 +30,14 @@ By removing columns from the work package list the width of the Gantt
 chart can be increased. By removing all columns, the Gantt chart expands
 to almost the entire width of the page.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-2-0/full-width-gantt-chart-timeline/)
+
 
 ### Add screenshots to work package description and comments with copy / paste
 
 You can add screenshots to work packages by copying and pasting them
 into the description, the comments or custom fields of type long text.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-2-0/add-screenshots-clipboard/)
+
 
 ### Show only comments on work package activity tab
 
@@ -48,8 +45,7 @@ When working with long work package activities it can get difficult to
 see the most important information. You can choose to only show comments
 on the activity tab to hide all other activity entries.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-2-0/display-comments-work-package-activity-tab/)
+
 
 ### Relations in the work package list (Enterprise Edition / Cloud Edition)
 
@@ -57,8 +53,7 @@ With OpenProject 7.2 you can show relation columns in the work package
 list. A label shows how many related elements a work package has. By
 clicking on the label, the related work packages are shown.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-7-2-0/relations-work-package-list-enterprise-edition-cloud-edition/)
+
 
 ### Attribute help texts (Enterprise Edition / Cloud Edition)
 
@@ -66,8 +61,7 @@ Users of the Enterprise Edition and Cloud Edition can specify attribute
 help texts which show additional information for attributes (e.g. custom
 fields).
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-2-0/attribute-help-texts-enterprise-edition-cloud-edition/)
+
 
 ## Improved usability and design
 

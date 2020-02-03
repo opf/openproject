@@ -19,8 +19,7 @@
   - New work package form
   - Design customization via Themes
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-3-0-0/design-changes/)
+
 
  
 
@@ -32,8 +31,7 @@ more](https://www.openproject.org/release-notes/openproject-3-0-0/design-changes
   - Form elements linked to their labels
   - Screen reader support for multiple languages (English, German)
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-3-0-0/accessibility-improvements/)
+
 
  
 
@@ -42,8 +40,7 @@ more](https://www.openproject.org/release-notes/openproject-3-0-0/accessibility-
   -  Implementation of keyboard shortcuts for power users
   - Shortcuts can be accessed by pressing “?” on the keyboard
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-3-0-0/shortcuts/)
+
 
  
 
@@ -59,8 +56,7 @@ more](https://www.openproject.org/release-notes/openproject-3-0-0/shortcuts/)
     longer supported)
   - Performance improvements
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-3-0-0/adaptive-timelines/)
+
 
  
 
@@ -72,8 +68,7 @@ more](https://www.openproject.org/release-notes/openproject-3-0-0/adaptive-timel
   - Responible can be assigned via context menu and bulk edit
   - Easier navigation to work packages through shorter URL
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-3-0-0/work-package-functionality/)
+
 
  
 
@@ -83,8 +78,7 @@ more](https://www.openproject.org/release-notes/openproject-3-0-0/work-package-f
     navigation
   - Subsequently, query pages can be renamed or deleted
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-3-0-0/work-package-queries/)
+
 
  
 
@@ -94,8 +88,7 @@ more](https://www.openproject.org/release-notes/openproject-3-0-0/work-package-q
     templates
   - Select different project settings to be copied (e.g. work packages)
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-3-0-0/copy-projects/)
+
 
  
 
@@ -104,8 +97,7 @@ more](https://www.openproject.org/release-notes/openproject-3-0-0/copy-projects/
   - Improved member configuration
   - Improved and extended type configuration
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-3-0-0/improved-project-settings/)
+
 
  
 
@@ -119,8 +111,7 @@ more](https://www.openproject.org/release-notes/openproject-3-0-0/improved-proje
     attempts
   - Automated logout on inactivity
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-3-0-0/security-features/ "Security")
+
 
  
 

@@ -20,8 +20,7 @@ packages (e.g. tasks) via the work package list
 
 As a result, you can now easily and swiftly create task lists.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-6-0-0/inline-create-for-work-packages/)
+
 
 ## Inline edit in work package list
 
@@ -34,8 +33,7 @@ It is no longer necessary to open a separate split screen view. Note,
 that all links (except for ID) have been removed from the work package
 list and form.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-6-0-0/inline-edit-in-work-package-list/)
+
 
 ## Automatic synchronization between work package split screen and work package list
 
@@ -44,8 +42,7 @@ list.  When a work package is created, it is immediately shown in the
 list. Likewise, the work package list directly displays changes on the
 split screen.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-6-0-0/automatic-synchronization-between-work-package-split-screen-and-work-package-list/)
+
 
 ## Configuration of visible work package attributes in OpenProject
 
@@ -57,8 +54,7 @@ the start and due date.
 Users can either completely deactivate or initially hide attributes. (to
 be shown when clicking on the “Show all” button on work packages).
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-6-0-0/configuration-of-visible-work-package-attributes-in-openproject/)
+
 
 ## Extended help menu and onboarding video
 
@@ -69,8 +65,7 @@ information.
 Additionally, a *First steps* video makes it easier for new users to
 start working with OpenProject.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-6-0-0/extended-help-menu-and-onboarding-video/)
+
 
 ## **Usability improvements**
 

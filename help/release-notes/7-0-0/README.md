@@ -22,8 +22,7 @@ work package list
 The new timeline is much more interactive and user-friendly than the old
 timeline.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-7-0/new-integrated-gantt-chart-timeline/)
+
 
 ## Display hierarchies in work package list
 
@@ -31,8 +30,7 @@ You can display hierarchies on the work package list and collapse and
 expand them
 ([\#24647](https://community.openproject.com/projects/openproject/work_packages/24647/activity)).
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-0/display-hierarchies-work-package-list/)
+
 
 ## Attribute group configuration for work package types
 
@@ -43,8 +41,7 @@ are displayed for a work package type
 You can therefore control which attributes are shown and which are
 hidden by default.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-0/attribute-group-configuration-work-package-types/)
+
 
 ## Filter based on date in work package list
 
@@ -53,8 +50,7 @@ affects all date attributes (e.g. start / due date, created on / updated
 on)
 ([\#22585](https://community.openproject.com/projects/telekom/work_packages/22585/activity)).
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-0/filter-based-date-work-package-list/)
+
 
 ## New header navigation
 
@@ -63,8 +59,7 @@ project. Additionally, the logo has been centered and existing menus
 have been reordered
 ([\#24465](https://community.openproject.com/projects/design/work_packages/24465/activity)).
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-0/new-header-navigation/)
+
 
 ## Archive and delete projects from project settings
 
@@ -72,8 +67,7 @@ As an administrator you can archive and delete projects right from the
 project settings
 ([\#24913](https://community.openproject.com/projects/openproject/work_packages/24913/activity)).
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-0/archive-delete-projects-project-settings/)
+
 
 ## Zen-mode on work package page
 
@@ -83,8 +77,7 @@ available screen real estate by hiding the side and top navigation
 
 This provides a cleaner and larger user interface to work with.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-0/zen-mode-work-package-page/)
+
 
 ## Multi-select custom fields (Enterprise / Cloud Edition)
 
@@ -97,8 +90,7 @@ custom fields
 With these custom fields you can select multiple values for work package
 custom fields at once and also filter based on them.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-0/multi-select-custom-fields/)
+
 
 ## Logo upload and custom color scheme (Enterprise / Cloud Edition)
 
@@ -109,8 +101,7 @@ Additionally, you can change the colors by using a custom color scheme
 ([\#18099](https://community.openproject.com/projects/gmbh/work_packages/18099/activity),
 [\#24460](https://community.openproject.com/projects/gmbh/work_packages/24460/activity)).
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-7-0/logo-upload-custom-color-scheme/)
+
 
 ## Performance improvements
 

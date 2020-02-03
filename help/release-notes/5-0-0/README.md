@@ -19,8 +19,7 @@ work package split screen
 Attachments can now be more easily added by using the drag and drop area
 on the work package split screen.
 
-**[Read
-more](//openproject.org/open-source/release-notes/openproject-5-0-0/work-package-creation-via-split-screen/)
+
 
 ## **New work package full screen view**
 
@@ -37,8 +36,7 @@ In addition, the behavior for watchers has been changed: Email
 notifications are sent out immediately when adding a watcher to a work
 package.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-5-0-0/new-work-package-full-screen-view/)
+
 
 ## **Improved work package split screen**
 
@@ -51,8 +49,7 @@ more](https://www.openproject.org/release-notes/openproject-5-0-0/new-work-packa
     package split screen
     ([\#15422](https://community.openproject.com/work_packages/15422/activity)).
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-5-0-0/improved-work-package-split-screen/)
+
 
 ## **New home screen**
 
@@ -63,8 +60,7 @@ references have been added.
 
 Optionally, a welcome text block with custom notifications can be added.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-5-0-0/new-home-screen/)
+
 
 ## **Aggregated work package activities and email notifications**
 
@@ -78,8 +74,7 @@ aggregated
 activities ([\#20694](https://community.openproject.com/work_packages/20694/activity),
 [\#21035](https://community.openproject.com/work_packages/21035/activity)).
 
-**[Read
-more](https://openproject.org/aggregated-work-package-activities-and-email-notifications/)
+
 
 ## **Enhanced repository management**
 
@@ -101,8 +96,7 @@ information for their projects.
 Furthermore, it is possible to see the disk space used by the used
 repositories in order to get a better overview of the data usage.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-5-0-0/enhanced-repository-management/)
+
 
 ## **Invite project members to OpenProject and add to a project in one step**
 
@@ -118,8 +112,7 @@ project settings and has been added to the project side menu.
 The create user functionality has been simplified, so that only the most
 important values have to be entered during creation.
 
-**[Read
-more](//openproject.org/open-source/release-notes/openproject-5-0-0/invite-project-members-via-email/)
+
 
 ## **Improved project administration page**
 
@@ -132,8 +125,7 @@ date, used disk storage).
 The project list is paginated in order to reduce loading time when there
 are a lot of projects.
 
-**[Read
-more](https://openproject.org/improved-project-administration-page/)
+
 
 ## **Restructured my account section**
 
@@ -143,8 +135,7 @@ out across different sections
 
 Profile images can be set in my account section (local avatar plugin).
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-5-0-0/restructured-my-account-section/)
+
 
 ## **Simplified project and user creation**
 
@@ -158,8 +149,7 @@ custom fields.
 Attributes shown on user invitation screen are limited to most important
 attributes.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-5-0-0/simplified-project-and-user-creation/)
+
 
 ## **Deprecated features**
 

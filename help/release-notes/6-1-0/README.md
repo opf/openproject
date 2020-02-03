@@ -21,8 +21,7 @@ list ([\#22859](https://community.openproject.com/work_packages/22859/activity)
 This provides an easy way to quickly find, remove or edit the
 permissions of project members in large projects.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-6-1-0/enhanced-project-member-table/)
+
 
 ## Improved work package relations
 
@@ -34,8 +33,7 @@ new relation types
 Hierarchical relationships are immediately clear through a
 tree-structure.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-6-1-0/enhanced-project-member-table/)
+
 
 ## Improved performance for work packages
 

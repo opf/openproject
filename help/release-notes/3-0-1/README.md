@@ -10,8 +10,7 @@
 # OpenProject 3.0.1
 
 This release mostly fixed the bugs for [3.0.0 major
-release](/release-notes/openproject-3-0/ "OpenProject 3.0").
-
+release](/release-notes/3-0-0/).
 
 Specifically the error in adding a work package process was fixed, as
 well as the duplication of file content display.

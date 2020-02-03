@@ -40,8 +40,7 @@ around the Markdown format. When migrating to 8.0., your Textile
 documents will be converted to the new format automatically using
 pandoc.
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-8-0/wysiwyg-text-editor/)
+
 
 ## New side navigation
 
@@ -54,8 +53,7 @@ real estate, just hide the entire side navigation. In addition, work
 package views and wiki pages are now much easier to find and navigate
 to.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-8-0/new-side-navigation/)
+
 
 ## Embedded work package tables
 
@@ -65,8 +63,7 @@ chart in wiki pages
 This way you can display key project information (such as the current
 milestone plan) directly in a wiki page or in the project overview page.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-8-0/embedded-work-package-tables/)
+
 
 ## Full text search for work package attachments (Enterprise / Cloud Edition)
 
@@ -78,8 +75,7 @@ You can either search by file name of the content of the file from the
 work package page. This allows you to quickly find all the work packages
 with certain attachments.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-8-0/full-text-search-work-package-attachments-enterprise-cloud-edition/)
+
 
 ## Custom actions (Enterprise / Cloud Edition)
 
@@ -92,8 +88,7 @@ a work package with the click of a single button. This gives you a
 powerful way to easily and quickly update your work packages based on
 predefined workflows. You save time and avoid errors.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-8-0/custom-actions-enterprise-cloud-edition/)
+
 
 ## Conditional formatting for work package list (Enterprise / Cloud Edition)
 
@@ -103,8 +98,7 @@ which tasks are most important or need attention. In addition, the due
 date can be highlighted so that you see right away which phases,
 milestones or tasks are due soon or overdue.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-8-0/conditional-formatting-work-package-list-enterprise-cloud-edition/)
+
 
 ## Subelement groups for work package types (Enterprise / Cloud Edition)
 
@@ -114,8 +108,7 @@ small work package table as an attribute group to a work package. You
 can configure which columns and which types of child work packages are
 displayed.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-8-0/subelement-groups-work-package-types-enterprise-cloud-edition/)
+
 
 ## Usability improvements
 
@@ -126,8 +119,7 @@ be usable for embedded tables as well. In addition
 *<span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-36">Responsible</span>*
 has been renamed to *Accountable*.
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-8-0/usability-improvements/)
+
 
 ## New design
 
