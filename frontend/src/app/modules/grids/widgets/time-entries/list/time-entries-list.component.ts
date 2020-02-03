@@ -94,6 +94,10 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     return this.pathHelper.workPackagePath(entry.workPackage.idFromLink);
   }
 
+  public get isEditable() {
+    return false;
+  }
+
   public deleteIfConfirmed(event:Event, entry:TimeEntryResource) {
     event.preventDefault();
 

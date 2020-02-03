@@ -39,6 +39,10 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
     }
   }
 
+  public get isEditable() {
+    return false;
+  }
+
   protected formatNumber(value:number):string {
     return this.i18n.toNumber(value, { precision: 2 });
   }
