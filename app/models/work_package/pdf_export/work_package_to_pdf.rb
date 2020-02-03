@@ -38,6 +38,8 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
     super
 
     self.pdf = get_pdf(current_language)
+
+    configure_markup
   end
 
   def render!

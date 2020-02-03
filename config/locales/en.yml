@@ -1141,6 +1141,8 @@ en:
       pdf_with_descriptions: "PDF with descriptions"
       pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
       pdf_with_attachments: "PDF with attachments"
+    image:
+      omitted: "Image not exported."
 
   extraction:
     available:

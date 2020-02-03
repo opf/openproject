@@ -107,12 +107,12 @@ module OpenProject::TextFormatting::Matchers
           anchor = $5
           link_to h("#{matcher.project_prefix}#{matcher.prefix}:#{oid}"),
                   named_route(:entry_revision_project_repository,
-                                   action: 'entry',
-                                   project_id: project.identifier,
-                                   repo_path: path.to_s,
-                                   rev: rev,
-                                   anchor: anchor,
-                                   format: (matcher.prefix == 'export' ? 'raw' : nil)),
+                              action: 'entry',
+                              project_id: project.identifier,
+                              repo_path: path.to_s,
+                              rev: rev,
+                              anchor: anchor,
+                              format: (matcher.prefix == 'export' ? 'raw' : nil)),
                   class: (matcher.prefix == 'export' ? 'source download' : 'source')
         end
       end

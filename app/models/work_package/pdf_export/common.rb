@@ -66,6 +66,19 @@ module WorkPackage::PdfExport::Common
     @cell_padding ||= [2, 5, 2, 5]
   end
 
+  def configure_markup
+    # Do not attempt to fetch images.
+    # Fetching images can cause errors e.g. a 403 is returned when attempting to fetch from aws with
+    # a no longer valid token.
+    # Such an error would cause the whole export to error.
+    pdf.markup_options = {
+      image: {
+        loader: ->(_src) { nil },
+        placeholder: "<i>[#{I18n.t('export.image.omitted')}]</i>"
+      }
+    }
+  end
+
   ##
   # Writes the formatted work package description into the document.
   #
