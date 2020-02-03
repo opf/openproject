@@ -66,6 +66,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   // Not used by the calendar but rather is the maximum/minimum of the graph.
   public minHour = 1;
   public maxHour = 11;
+  public scaleRatio = 1;
 
   public calendarPlugins = [timeGrid, interactionPlugin];
   public calendarEvents:Function;
@@ -74,13 +75,22 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     center: 'title',
     left: 'prev,next today'
   };
-  public calendarSlotLabelFormat = (info:any) => '';
-  //public calendarSlotDuration = '00:30:00';
-  public calendarContentHeight = 552;
+  public calendarSlotLabelFormat = (info:any) => {
+    //if (info.date.hour === 0) {
+    //  return '';
+    //} else {
+    let ratio = this.scaleRatio;
+      return (this.maxHour - info.date.hour) / this.scaleRatio;
+    //}
+  }
+  public calendarSlotDuration = '00:30:00';
+  public calendarSlotLabelInterval = '02:00:00';
+  public calendarContentHeight = 554;
   public calendarAllDaySlot = false;
   public calendarDisplayEventTime = false;
   public calendarSlotEventOverlap = false;
   public calendarEditable = false;
+  public calendarMinTime = `${this.minHour - 1}:00:00`;
   public calendarMaxTime = `${this.maxHour}:00:00`;
   public calendarEventOverlap = (stillEvent:any) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME);
 
@@ -172,14 +182,23 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
     let maxHours = Math.max(...Object.values(maxHoursPerDay), 0);
 
+    this.scaleRatio = 1;
     let ratio = 1;
 
     if (maxHours > this.maxHour - this.minHour) {
       ratio = (this.maxHour - this.minHour) / maxHours;
+      this.scaleRatio = ratio;
     }
 
-    //if (this.calendarSlotDuration !== `00:${Math.floor(60 * ratio)}:00`) {
-    //  this.calendarSlotDuration = `00:${Math.floor(60 * ratio)}:00`;
+    let newFormat = moment(new Date()).startOf('day').add(300 * ratio, 'm').format('HH:mm:ss');
+
+    if (this.calendarSlotLabelInterval !== newFormat) {
+      this.calendarSlotLabelInterval = newFormat;
+    }
+
+
+    //if (this.calendarSlotDuration !== `00:${Math.floor(30 * ratio)}:00`) {
+    //  this.calendarSlotDuration = `00:${Math.floor(30 * ratio)}:00`;
     //}
 
     return this.buildTimeEntryEntries(entries, ratio)
