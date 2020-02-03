@@ -553,13 +553,13 @@ en:
               - ifc_models
             ifc_models:
               - file: 'hospital_architecture'
-                name: 'West Riverside Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
+                name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
                 default: true
               - file: 'hospital_mechanical'
-                name: 'West Riverside Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
+                name: 'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
                 default: false
               - file: 'hospital_structural'
-                name: 'West Riverside Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)'
+                name: 'Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)'
                 default: false
             news:
               - title: Welcome to your demo project
@@ -1046,13 +1046,13 @@ en:
               - ifc_models
             ifc_models:
               - file: 'hospital_architecture'
-                name: 'West Riverside Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
+                name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
                 default: true
               - file: 'hospital_mechanical'
-                name: 'West Riverside Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
+                name: 'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
                 default: false
               - file: 'hospital_structural'
-                name: 'West Riverside Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)'
+                name: 'Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)'
                 default: false
             types:
               - :default_type_task
