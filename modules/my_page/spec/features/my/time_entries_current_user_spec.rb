@@ -114,7 +114,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
   it 'adds the widget which then displays time entries and allows manipulating them' do
     # within top-right area, add an additional widget
-    my_page.add_widget(1, 1, :within, 'Spent time')
+    my_page.add_widget(1, 1, :within, 'My spent time')
 
     entries_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
@@ -215,7 +215,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     end
 
     expect(page)
-      .to have_content(I18n.t('js.time_entry.edit'))
+      .to have_content(I18n.t('js.time_entry.label'))
 
     activity_field.activate!
     activity_field.set_value(other_activity.name)

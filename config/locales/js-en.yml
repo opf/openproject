@@ -511,8 +511,7 @@ en:
       duration: 'Duration'
       spent_on: 'Date'
       hours: 'Hours'
-      edit: 'Edit time entry'
-      create: 'Create time entry'
+      label: 'Time entry'
 
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

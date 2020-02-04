@@ -6,7 +6,6 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 
 @Component({
   templateUrl: './edit.modal.html',
@@ -19,7 +18,7 @@ import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 export class TimeEntryEditModal extends OpModalComponent {
 
   text = {
-    title: this.i18n.t('js.time_entry.edit'),
+    title: this.i18n.t('js.time_entry.label'),
     close: this.i18n.t('js.button_close'),
     delete: this.i18n.t('js.button_delete')
   };
