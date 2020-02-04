@@ -8,16 +8,7 @@ Get an overview of the translation process and join us in translating OpenProjec
 In order to translate OpenProject, we use [CrowdIn](https://crowdin.com/projects/opf) as a platform where contributors can provide translations for a large number of languages.
 We highly appreciate the help of anyone who wants to translate OpenProject to additional languages.
 In order to provide translations not only for the OpenProject core but also for the plugins, we created several translation projects on CrowdIn:
-* [OpenProject (core)](https://crowdin.com/project/openproject)
-* [OpenProject-Meetings](https://crowdin.com/project/openproject-meeting)
-* [OpenProject-PDF_Export](https://crowdin.com/project/openproject-pdfexport)
-* [OpenProject-Costs](https://crowdin.com/project/openproject-costs)
-* [OpenProject-My_Project_Page](https://crowdin.com/project/openproject-myprojectpage)
-* [OpenProject-Documents](https://crowdin.com/project/openproject-documents)
-* [OpenProject-Reporting](https://crowdin.com/project/openproject-reporting)
-* [OpenProject-Global_Roles](https://crowdin.com/project/openproject-globalroles)
-* [OpenProject-Backlogs](https://crowdin.com/project/openproject-backlogs)
-* [Reporting_Engine](https://crowdin.com/project/reportingengine)
+* [Translate OpenProject](https://crowdin.com/project/openproject)
 
 To help us translate OpenProject, please follow the links above and follow the instructions below (see [“How to translate OpenProject via CrowdIn”](https://github.com/opf/openproject/new/release/6.1/doc/development#how-to-translate-openproject-via-crowdin)).
 You can find this project list on https://crowdin.com/projects/opf.

@@ -17,7 +17,7 @@ Work packages can be displayed in different views. They include the same work pa
 * Gantt view
 * Board view
 
-### Work package list view
+## Work package list view
 
 The list view shows all work packages in a list with selected attributes in the columns.
 
@@ -25,7 +25,7 @@ The list view shows all work packages in a list with selected attributes in the 
 
 Find out how to make changes to the work package list view, e.g. change the titles in the header, filter, group or add dependencies.
 
-### Work package split screen view
+## Work package split screen view
 
 If you are in the work package list, click on the blue info icon at the right end of a work package row to open the split screen view.
 
@@ -37,7 +37,7 @@ Once the split screen is open, you can easily navigate through the work package 
 
 ![split-screen-view](1566307254418.png)
 
-### Work package full screen view
+## Work package full screen view
 
 To display  a work package with all its details in full screen mode, double click on a row within the work package list.
 
