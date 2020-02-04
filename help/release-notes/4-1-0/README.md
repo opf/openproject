@@ -25,7 +25,7 @@ implemented to the split screen:
     attributes are clustered into separate groups (Details, People,
     Estimates & Time, Costs, Other).
 
-**[Read more](http://openproject.org/?p=5016)
+
 
 ## **In-place editing on work package split screen**
 
@@ -40,7 +40,7 @@ as:
 
 Several work package values can be edited at once.
 
-**[Read more](http://openproject.org/?p=5025)
+
 
 ## **Improved work package list and filters**
 
@@ -53,7 +53,7 @@ configured as the other columns in the work package list:
   - Work package ID in work package list can be added, removed, changed
     in order
 
-**[Read more](http://openproject.org/?p=5032)
+
 
 ## **Improved work package full screen**
 
@@ -66,7 +66,7 @@ updated:
   - The work package hierarchy, related work packages and watchers have
     been styled more prominently.
 
-**[Read more](http://openproject.org/?p=5042)
+
 
 ## **New design through Foundation framework**
 
@@ -76,7 +76,7 @@ adaptability in the future and allows a more responsive design. As a
 result, the overall design of the application has been changed
 with OpenProject 4.1.
 
-**[Read more](http://openproject.org/?p=5049)
+
 
 ## **Many accessibility improvements**
 
@@ -91,7 +91,7 @@ on the work package page.
     split screen
   - Contrast for watcher icon improved
 
-**[Read more](http://openproject.org/?p=5062)
+
 
 ## **Substantial number of bug fixes**
 

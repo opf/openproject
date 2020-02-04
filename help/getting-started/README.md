@@ -38,3 +38,8 @@ Watch a short 3 minute introduction video to get started with OpenProject in 5 e
 5. Filter, group and create reports
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Fk4papnAzMw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+## OpenProject product demo video
+
+Watch a **comprehensive OpenProject product introduction** video to learn how to work with OpenProject using traditional and agile project management. 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ebc3lcSmncA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

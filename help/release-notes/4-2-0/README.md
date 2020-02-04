@@ -29,8 +29,7 @@ Users of the manual installation should remove the translations plugin
 from their Gemfile.plugins since Translations are now provided by the
 core (Gemfile).
 
-[Read
-more](https://www.openproject.org/release-notes/openproject-4-2-0/language-support-for-openproject-plugins/)
+
 
 ## **Improved navigation**
 
@@ -53,8 +52,7 @@ administration navigation
 The option “Spent time” has been renamed “Time sheet”
 ([\#20219](https://community.openproject.org/work_packages/20219)).
 
-**[Read
-more](https://www.openproject.org/release-notes/openproject-4-2-0/improved-navigation/)
+
 
 ## **Improved design**
 

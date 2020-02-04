@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Edit Work packages
-  priority: 868
+  priority: 900
 description: How to edit work packages in OpenProject?
 robots: index, follow
 keywords: edit work packages
@@ -14,8 +14,6 @@ keywords: edit work packages
 | [Update a work package](#update-a-work-package) | How to make a change to an existing work package?  |
 | [Watchers](#watchers)                           | How to add or remove watchers from a work package? |
 | [Export work packages](#export-work-packages)   | How to export work packages?                       |
-|                                                 |                                                    |
-|                                                 |                                                    |
 
 ## Update a work package
 

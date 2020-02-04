@@ -12,7 +12,7 @@ Get an introduction how to work with projects in OpenProject. To start collabora
 
 <div class="alert alert-info" role="alert">
 **Note**: In order to see a project and work in it, you have to be a [member of a project](../invite-members).
-
+< div />
 
 | Feature                                                 | Documentation for                                     |
 | ------------------------------------------------------- | ----------------------------------------------------- |
@@ -45,7 +45,7 @@ Also, you will see your newest projects on the application landing page in the *
 
 To create a new project, click the **Select a project** button in the top left corner of the header and select **+ Project**.
 
-![create-project](1566213921784.png)
+![Getting-started-create-project](Getting-started-create-project.png)
 
 Also, you can click the green button **+ Project** directly on the system's home screen in the **Project** section.
 
@@ -74,3 +74,4 @@ You will see a list with all your projects and its details.
 ## Advanced Project Settings
 
 In our detailed user guide you can find out how to configure further [advanced project settings](../../user-guide/projects/) for your projects, e.g. description, project hierarchy or setting it to public.
+
