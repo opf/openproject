@@ -65,7 +65,8 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
   // Not used by the calendar but rather is the maximum/minimum of the graph.
   public minHour = 1;
-  public maxHour = 11;
+  public maxHour = 12;
+  public labelIntervalHours = 2;
   public scaleRatio = 1;
 
   public calendarPlugins = [timeGrid, interactionPlugin];
@@ -76,16 +77,11 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     left: 'prev,next today'
   };
   public calendarSlotLabelFormat = (info:any) => {
-    //if (info.date.hour === 0) {
-    //  return '';
-    //} else {
-    let ratio = this.scaleRatio;
-      return (this.maxHour - info.date.hour) / this.scaleRatio;
-    //}
+    return (this.maxHour - info.date.hour) / this.scaleRatio;
   }
   public calendarSlotDuration = '00:30:00';
-  public calendarSlotLabelInterval = '02:00:00';
-  public calendarContentHeight = 554;
+  public calendarSlotLabelInterval = `${this.labelIntervalHours}:00:00`;
+  public calendarContentHeight = 605;
   public calendarAllDaySlot = false;
   public calendarDisplayEventTime = false;
   public calendarSlotEventOverlap = false;
@@ -186,20 +182,9 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     let ratio = 1;
 
     if (maxHours > this.maxHour - this.minHour) {
-      ratio = (this.maxHour - this.minHour) / maxHours;
+      ratio = this.smallerSuitableRatio((this.maxHour - this.minHour) / maxHours);
       this.scaleRatio = ratio;
     }
-
-    let newFormat = moment(new Date()).startOf('day').add(300 * ratio, 'm').format('HH:mm:ss');
-
-    if (this.calendarSlotLabelInterval !== newFormat) {
-      this.calendarSlotLabelInterval = newFormat;
-    }
-
-
-    //if (this.calendarSlotDuration !== `00:${Math.floor(30 * ratio)}:00`) {
-    //  this.calendarSlotDuration = `00:${Math.floor(30 * ratio)}:00`;
-    //}
 
     return this.buildTimeEntryEntries(entries, ratio)
       .concat(this.buildAuxEntries(entries, fetchInfo, ratio));
@@ -525,5 +510,19 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
   protected formatNumber(value:number):string {
     return this.i18n.toNumber(value, { precision: 2 });
+  }
+
+  private smallerSuitableRatio(value:number):number {
+    for (let divisor = 1.0; divisor < 100; divisor++) {
+      for (let dividend = this.labelIntervalHours; dividend > 0; dividend--) {
+        let candidate = dividend / divisor;
+
+        if (value >= candidate) {
+          return candidate;
+        }
+      }
+    }
+
+    return 1;
   }
 }
