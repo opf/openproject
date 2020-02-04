@@ -38,38 +38,33 @@ export class HierarchyDragActionService extends TableDragActionService {
    */
   private determineParent(el:HTMLElement):Promise<string|null> {
     let previous = el.previousElementSibling;
+    var parent = null;
 
-    if (previous === null) {
-      return Promise.resolve(null);
-    }
-
-    // If the previous element is a relation row,
-    // skip it until we find the real previous sibling
-    const isRelationRow = previous.className.indexOf(relationRowClass()) >= 0;
-    if (isRelationRow) {
-      let relationRoot = this.findRelationRowRoot(previous);
-      if (relationRoot == null) {
-        return Promise.resolve(null);
+    if (previous !== null && !this.isFlatList(previous)) {
+      // If the previous element is a relation row,
+      // skip it until we find the real previous sibling
+      const isRelationRow = previous.className.indexOf(relationRowClass()) >= 0;
+      if (isRelationRow) {
+        let relationRoot = this.findRelationRowRoot(previous);
+        if (relationRoot == null) {
+          return Promise.resolve(null);
+        }
+        previous = relationRoot;
       }
-      previous = relationRoot;
+
+      let previousWpId = (previous as HTMLElement).dataset.workPackageId!;
+      if (this.isHiearchyRoot(previous, previousWpId)) {
+        // If the sibling is a hierarchy root, return that sibling as new parent.
+        parent = previousWpId;
+      }
+      else {
+        // If the sibling is no hierarchy root, return it's parent.
+        // Thus, the dropped element will get the same hierarchy level as the sibling
+        parent = this.loadParentOfWP(previousWpId);
+      }
     }
 
-    // When there is no hierarchy group at all, we're at a flat list
-    const inGroup = previous.className.indexOf(hierarchyGroupClass('')) >= 0;
-    const isRoot = previous.className.indexOf(hierarchyRootClass('')) >= 0;
-    if (!(inGroup || isRoot)) {
-      return Promise.resolve(null);
-    }
-
-    // If the sibling is a hierarchy root, return this one as new parent
-    let previousWpId = (previous as HTMLElement).dataset.workPackageId!;
-    if (previous.classList.contains(hierarchyRootClass(previousWpId))) {
-      return Promise.resolve(previousWpId);
-    }
-
-    // If the sibling is no hierarchy root, return it's parent.
-    // Thus, the dropped element will get the same hierarchy level as the sibling
-    return this.loadParentOfWP(previousWpId);
+    return Promise.resolve(parent);
   }
 
   private findRelationRowRoot(el:Element):Element|null {
@@ -82,6 +77,17 @@ export class HierarchyDragActionService extends TableDragActionService {
     }
 
     return null;
+  }
+
+  private isFlatList(previous:Element):boolean {
+    const inGroup = previous.className.indexOf(hierarchyGroupClass('')) >= 0;
+    const isRoot = previous.className.indexOf(hierarchyRootClass('')) >= 0;
+
+    return !(inGroup || isRoot);
+  }
+
+  private isHiearchyRoot(previous:Element, previousWpId:string):boolean {
+    return previous.classList.contains(hierarchyRootClass(previousWpId));
   }
 
   private loadParentOfWP(wpId:string):Promise<string|null> {
