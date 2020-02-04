@@ -44,6 +44,7 @@ interface CalendarMoveEvent {
 const TIME_ENTRY_CLASS_NAME = 'te-calendar--time-entry';
 const DAY_SUM_CLASS_NAME = 'te-calendar--day-sum';
 const ADD_ENTRY_CLASS_NAME = 'te-calendar--add-entry';
+const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
 
 @Component({
   templateUrl: './te-calendar.template.html',
@@ -76,9 +77,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     center: 'title',
     left: 'prev,next today'
   };
-  public calendarSlotLabelFormat = (info:any) => {
-    return (this.maxHour - info.date.hour) / this.scaleRatio;
-  }
+  public calendarSlotLabelFormat = (info:any) => (this.maxHour - info.date.hour) / this.scaleRatio;
   public calendarSlotLabelInterval = `${this.labelIntervalHours}:00:00`;
   public calendarContentHeight = 605;
   public calendarAllDaySlot = false;
@@ -218,7 +217,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
       calendarEntries.push(this.sumEntry(m, duration));
 
-      if (this.memoizedCreateAllowed && duration < 24) {
+      if (this.memoizedCreateAllowed) {
         calendarEntries.push(this.addEntry(m, duration));
       }
     }
@@ -275,11 +274,19 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   protected addEntry(date:Moment, duration:number) {
+    let classNames = [ADD_ENTRY_CLASS_NAME];
+    let title = '+';
+
+    if (duration >= 24) {
+       classNames.push(ADD_ENTRY_PROHIBITED_CLASS_NAME);
+       title = '';
+    }
+
     return {
-      title: '+',
+      title: title,
       start: date.clone().format(),
       end: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 1) - 0.5, 'h').format(),
-      classNames: ADD_ENTRY_CLASS_NAME
+      classNames: classNames
     };
   }
 
@@ -321,8 +328,8 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   private dispatchEventClick(event:CalendarViewEvent) {
     if (event.event.extendedProps.entry) {
       this.editEvent(event.event.extendedProps.entry);
-    } else if (event.event.start) {
-      this.addEvent(moment(event.event.start));
+    } else if (event.el.classList.contains(ADD_ENTRY_CLASS_NAME) && !event.el.classList.contains(ADD_ENTRY_PROHIBITED_CLASS_NAME)) {
+      this.addEvent(moment(event.event.start!));
     }
   }
 
