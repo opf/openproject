@@ -194,7 +194,7 @@ module Pages
     end
 
     def drag_and_drop_work_package(from:, to:)
-      # Wait a bit because drag & drop in selenium is easily offendedA
+      # Wait a bit because drag & drop in selenium is easily offended
       sleep 1
 
       rows = page.all('.wp-table--row')
@@ -238,7 +238,7 @@ module Pages
         .release
         .perform
 
-      # Wait a bit because drag & drop in selenium is easily offendedA
+      # Wait a bit because drag & drop in selenium is easily offended
       sleep 1
     end
 
