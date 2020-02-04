@@ -28,44 +28,45 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::VersionFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
+class ::Query::SortCriteria < ::SortHelper::SortCriteria
+  attr_reader :available_columns
 
-  def allowed_values
-    @allowed_values ||= begin
-      versions.map { |s| ["#{s.project.name} - #{s.name}", s.id.to_s] }
-    end
+  ##
+  # Initialize the sort criteria with the set of columns
+  def initialize(available_columns)
+    super()
+    @available_columns = available_columns
   end
 
-  def type
-    :list_optional
-  end
-
-  def human_name
-    WorkPackage.human_attribute_name('fixed_version')
-  end
-
-  def self.key
-    :fixed_version_id
-  end
-
-  def ar_object_filter?
-    true
-  end
-
-  def value_objects
-    value_ints = values.map(&:to_i)
-
-    versions.select { |v| value_ints.include?(v.id) }
+  ##
+  # Building the query sort criteria needs to respect
+  # specific options of the column
+  def to_a
+    @criteria
+      .map { |attribute, order| [find_column(attribute), @available_criteria[attribute], order] }
+      .reject { |column, criterion, _| column.nil? || criterion.nil? }
+      .map { |column, criterion, order| append_order(column, Array(criterion), order) }
+      .compact
   end
 
   private
 
-  def versions
-    if project
-      project.shared_versions
+  ##
+  # Find the matching column for the attribute
+  def find_column(attribute)
+    available_columns.detect { |column| column.name.to_s == attribute.to_s }
+  end
+
+  ##
+  # append the order to the criteria
+  # as well as any order handling by the column itself
+  def append_order(column, criterion, asc = true)
+    ordered_criterion = append_direction(criterion, asc)
+
+    if column.null_handling
+      ordered_criterion.map { |statement| "#{statement} #{column.null_handling}" }
     else
-      Version.visible.systemwide
+      ordered_criterion
     end
   end
 end

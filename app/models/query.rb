@@ -331,11 +331,13 @@ class Query < ActiveRecord::Base
       .map do |attribute, direction|
         attribute = attribute.to_sym
 
-        column = sortable_columns
-                 .detect { |candidate| candidate.name == attribute }
-
-        [column, direction]
+        [sort_criteria_column(attribute), direction]
       end
+  end
+
+  def sort_criteria_column(attribute)
+    sortable_columns
+      .detect { |candidate| candidate.name == attribute }
   end
 
   def sorted?

@@ -176,6 +176,12 @@ module ::Query::Grouping
   # IF it occurs in the sort criteria
   def order_for_group_by(column)
     sort_entry = query.sort_criteria.detect { |column, _dir| column == query.group_by }
-    sort_entry&.last || column.default_order
+    order = sort_entry&.last || column.default_order
+
+    if column.null_handling
+      "#{order} #{column.null_handling}"
+    else
+      order
+    end
   end
 end

@@ -265,7 +265,7 @@ class WorkPackage < ActiveRecord::Base
   def assignable_versions
     @assignable_versions ||= begin
       current_version = fixed_version_id_changed? ? Version.find_by(id: fixed_version_id_was) : fixed_version
-      ((project&.assignable_versions || []) + [current_version]).compact.uniq.sort
+      ((project&.assignable_versions || []) + [current_version]).compact.uniq
     end
   end
 

@@ -36,6 +36,7 @@ class Queries::Columns::Base
   attr_accessor :name,
                 :sortable_join,
                 :summable,
+                :null_handling,
                 :default_order
 
   alias_method :summable?, :summable
@@ -48,6 +49,7 @@ class Queries::Columns::Base
        groupable
        summable
        association
+       null_handling
        default_order).each do |attribute|
       send("#{attribute}=", options[attribute])
     end

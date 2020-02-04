@@ -29,6 +29,10 @@
 #++
 
 class Version < ActiveRecord::Base
+  default_scope do
+    order Arel.sql("#{Version.table_name}.start_date DESC NULLS LAST,
+                    #{Version.table_name}.effective_date DESC NULLS LAST")
+  end
   include Version::ProjectSharing
 
   belongs_to :project
