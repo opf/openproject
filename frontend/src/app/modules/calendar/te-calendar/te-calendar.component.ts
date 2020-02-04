@@ -79,7 +79,6 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   public calendarSlotLabelFormat = (info:any) => {
     return (this.maxHour - info.date.hour) / this.scaleRatio;
   }
-  public calendarSlotDuration = '00:30:00';
   public calendarSlotLabelInterval = `${this.labelIntervalHours}:00:00`;
   public calendarContentHeight = 605;
   public calendarAllDaySlot = false;
@@ -161,42 +160,37 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   private buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
-    let maxHoursPerDay:{ [key:string]:number } = {};
+    this.setRatio(entries);
 
-    entries.forEach((entry) => {
-      let max:number;
-      let hours = this.timezone.toHours(entry.hours);
-
-      if (maxHoursPerDay[entry.spentOn]) {
-        max = maxHoursPerDay[entry.spentOn] + hours;
-      } else {
-        max = hours;
-      }
-
-      maxHoursPerDay[entry.spentOn] = max;
-    });
-
-    let maxHours = Math.max(...Object.values(maxHoursPerDay), 0);
-
-    this.scaleRatio = 1;
-    let ratio = 1;
-
-    if (maxHours > this.maxHour - this.minHour) {
-      ratio = this.smallerSuitableRatio((this.maxHour - this.minHour) / maxHours);
-      this.scaleRatio = ratio;
-    }
-
-    return this.buildTimeEntryEntries(entries, ratio)
-      .concat(this.buildAuxEntries(entries, fetchInfo, ratio));
+    return this.buildTimeEntryEntries(entries)
+      .concat(this.buildAuxEntries(entries, fetchInfo));
   }
 
-  private buildTimeEntryEntries(entries:TimeEntryResource[], ratio:number) {
+  private setRatio(entries:TimeEntryResource[]) {
+    let dateSums = this.calculateDateSums(entries);
+
+    let maxHours = Math.max(...Object.values(dateSums), 0);
+
+    let oldRatio = this.scaleRatio;
+
+    if (maxHours > this.maxHour - this.minHour) {
+      this.scaleRatio = this.smallerSuitableRatio((this.maxHour - this.minHour) / maxHours);
+    } else {
+      this.scaleRatio = 1;
+    }
+
+    if (oldRatio !== this.scaleRatio) {
+      this.ucCalendar.getApi().render();
+    }
+  }
+
+  private buildTimeEntryEntries(entries:TimeEntryResource[]) {
     let hoursDistribution:{ [key:string]:Moment } = {};
 
     return entries.map((entry) => {
       let start:Moment;
       let end:Moment;
-      let hours = this.timezone.toHours(entry.hours) * ratio ;
+      let hours = this.timezone.toHours(entry.hours) * this.scaleRatio;
 
       if (hoursDistribution[entry.spentOn]) {
         start = hoursDistribution[entry.spentOn].clone().subtract(hours, 'h');
@@ -214,7 +208,25 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     }) as EventInput[];
   }
 
-  private buildAuxEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }, ratio:number) {
+  private buildAuxEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
+    let dateSums = this.calculateDateSums(entries);
+
+    let calendarEntries:EventInput[] = [];
+
+    for (let m = moment(fetchInfo.start); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
+      let duration = dateSums[m.format('YYYY-MM-DD')] || 0;
+
+      calendarEntries.push(this.sumEntry(m, duration));
+
+      if (this.memoizedCreateAllowed && duration < 24) {
+        calendarEntries.push(this.addEntry(m, duration));
+      }
+    }
+
+    return calendarEntries;
+  }
+
+  private calculateDateSums(entries:TimeEntryResource[]) {
     let dateSums:{ [key:string]:number } = {};
 
     entries.forEach((entry) => {
@@ -227,19 +239,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
       }
     });
 
-    let calendarEntries:EventInput[] = [];
-
-    for (let m = moment(fetchInfo.start); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
-      let duration = dateSums[m.format('YYYY-MM-DD')] || 0;
-
-      calendarEntries.push(this.sumEntry(m, duration, ratio));
-
-      if (this.memoizedCreateAllowed && duration < 24) {
-        calendarEntries.push(this.addEntry(m, duration, ratio));
-      }
-    }
-
-    return calendarEntries;
+    return dateSums;
   }
 
   protected timeEntry(entry:TimeEntryResource, hours:number, start:Moment, end:Moment) {
@@ -265,20 +265,20 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     };
   }
 
-  protected sumEntry(date:Moment, duration:number, ratio:number) {
+  protected sumEntry(date:Moment, duration:number) {
     return {
       title: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
-      start: date.clone().add(this.maxHour - Math.min(duration * ratio, this.maxHour - 0.5) - 0.5, 'h').format(),
-      end: date.clone().add(this.maxHour - Math.min(((duration + 0.05) * ratio), this.maxHour - 0.5), 'h').format(),
+      start: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 0.5) - 0.5, 'h').format(),
+      end: date.clone().add(this.maxHour - Math.min(((duration + 0.05) * this.scaleRatio), this.maxHour - 0.5), 'h').format(),
       classNames: DAY_SUM_CLASS_NAME
     };
   }
 
-  protected addEntry(date:Moment, duration:number, ratio:number) {
+  protected addEntry(date:Moment, duration:number) {
     return {
       title: '+',
       start: date.clone().format(),
-      end: date.clone().add(this.maxHour - Math.min(duration * ratio, this.maxHour - 1) - 0.5, 'h').format(),
+      end: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 1) - 0.5, 'h').format(),
       classNames: ADD_ENTRY_CLASS_NAME
     };
   }
@@ -513,13 +513,11 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   private smallerSuitableRatio(value:number):number {
-    for (let divisor = 1.0; divisor < 100; divisor++) {
-      for (let dividend = this.labelIntervalHours; dividend > 0; dividend--) {
-        let candidate = dividend / divisor;
+    for (let divisor = this.labelIntervalHours + 1; divisor < 100; divisor++) {
+      let candidate = this.labelIntervalHours / divisor;
 
-        if (value >= candidate) {
-          return candidate;
-        }
+      if (value >= candidate) {
+        return candidate;
       }
     }
 
