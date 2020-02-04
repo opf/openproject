@@ -27,7 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: l(:label_work_package_types) %>
+<%= toolbar title: t(:label_work_package_types), html: { class: '-minimum-title' } do -%>
+  <%= render partial: 'projects/form/toolbar', locals: { form_name: "types-form" } %>
+<% end %>
 
 <% if  Type.all.any? %>
   <%= form_for @project,

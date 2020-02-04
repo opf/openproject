@@ -27,16 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: t(:label_module_plural), html: { class: '-minimum-title' } do -%>
-  <%= render partial: 'projects/form/toolbar', locals: { form_name: "edit_project_#{@project.id}" } %>
-<% end %>
-
-<%= labelled_tabular_form_for @project,
-                              url: modules_project_path(@project),
-                              method: :put do |form| %>
-
-  <%= render partial: "/projects/form/modules",
-             locals: { form: form } %>
-
-  <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %></p>
-<% end %>
+<li class="form--toolbar-item -in-header">
+  (<%= check_all_links form_name %>)
+</li>

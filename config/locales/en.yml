@@ -1065,7 +1065,7 @@ en:
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
 
-  enumeration_activities: "Activities (time tracking)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Work package priorities"
   enumeration_reported_project_statuses: "Reported project status"
 

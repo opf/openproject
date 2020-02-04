@@ -496,8 +496,8 @@
     <legend class="form--fieldset-legend">
       Various information
     </legend>
-    <div class="form--fieldset-control">
-    <span class="form--fieldset-control-container">
+    <div class="form--toolbar">
+    <span class="form--toolbar-item">
       (<a href="#">Check all</a> | <a href="#">Uncheck all</a>)
     </span>
     </div>
