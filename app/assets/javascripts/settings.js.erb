@@ -54,14 +54,38 @@ See docs/COPYRIGHT.rdoc for more details.
     });
 
     /* Javascript for Settings::TextSettingCell */
-    $(".lang-select-switch").change(function() {
-      var self = $(this);
-      var id = self.attr("id");
-      var lang = self.val();
+    let langSelectSwitchData = function(select) {
+      let self = $(select);
+      let id = self.attr("id");
+      let settingName = id.replace('lang-for-', '');
+      let newLang = self.val();
+      let textArea =$(`#settings-${settingName}`)
+      let editor = textArea.siblings('ckeditor-augmented-textarea').data('editor');
 
-      $("." + id).hide();
-      $("#" + id + "-" + lang).show();
-    });
+      return { id: id, settingName: settingName, newLang: newLang, textArea: textArea, editor: editor }
+    };
+
+    // Upon focusing:
+    //   * store the current value of the editor in the hidden field for that lang.
+    // Upon change:
+    //   * get the current value from the hidden field for that lang and set the editor text to that value.
+    //   * Set the name of the textarea to reflect the current lang so that the value stored in the hidden field
+    //     is overwritten.
+    $(".lang-select-switch")
+      .focus(function() {
+        let data = langSelectSwitchData(this);
+
+        $(`#${data.id}-${data.newLang}`).val(data.editor.getData());
+      })
+      .change(function() {
+        let data = langSelectSwitchData(this);
+
+        let storedValue = $(`#${data.id}-${data.newLang}`).val();
+
+        data.editor.setData(storedValue);
+        data.textArea.attr('name', `settings[${data.settingName}][${data.newLang}]`)
+      });
+    /* end Javascript for Settings::TextSettingCell */
 
     $('.admin-settings--form').submit(function() {
        /* Update consent time if consent required */
