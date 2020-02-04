@@ -42,6 +42,11 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
 
     self.pdf = get_pdf(current_language)
 
+    configure_page_size
+    configure_markup
+  end
+
+  def configure_page_size
     pdf.options[:page_size] = 'EXECUTIVE'
     pdf.options[:page_layout] = :landscape
   end
@@ -119,7 +124,7 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
 
   def text_column?(column)
     column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) &&
-      ['string', 'text'].include?(column.custom_field.field_format)
+      %w(string text).include?(column.custom_field.field_format)
   end
 
   def write_headers!
