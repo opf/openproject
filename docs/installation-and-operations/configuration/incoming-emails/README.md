@@ -1,9 +1,10 @@
 ---
 sidebar_navigation:
   title: Configuring inbound emails
-  priority: 8
+  priority: 7
 ---
-# Incoming mail functionality
+
+# Configuring inbound emails
 
 OpenProject is able to receive emails and create and update work packages and reply in forums depending on the content of the email.
 
@@ -11,20 +12,12 @@ OpenProject is able to receive emails and create and update work packages and re
 
 Receiving emails is done via a rake task that fetches emails from an email server, parses them and performs actions depending on the content of the email. This rake task can be executed manually or automatically, e.g. with the help of a Cron job.
 
-### IMAP
-
 The rake task `redmine:email:receive_imap` fetches emails via IMAP and parses them.
 
 **Packaged installation**
 
 ```bash
 openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test_user' password='password' port=993 ssl=true allow_override=type,project project=test_project
-```
-
-**Manual installation**
-
-```bash
-bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test_user' password='password' port=993 ssl=true allow_override=type,project project=test_project
 ```
 
 **Docker installation**
@@ -39,8 +32,6 @@ Optional ENV variables:
 
 - `IMAP_CHECK_INTERVAL=600` Interval in seconds to check for new mails (defaults to 10minutes)
 - `IMAP_ALLOW_OVERRIDE` Attributes writable (true for all), comma-separated list as specified in `allow_override` configuration.
-
-
 
 Available arguments for this rake task that specify the email behavior are
 
@@ -70,54 +61,6 @@ Available arguments that change how the work packages are handled:
 | `unknown_user`| ignore: email is ignored (default), accept: accept as anonymous user,                           create: create a user account |
 | `allow_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
 
-
-### POP3
-
-The rake task `redmine:email:receive_pop3` fetches emails via POP3 and parses them.
-**Packaged installation**
-
-```bash
-openproject run bundle exec rake redmine:email:receive_pop3 host='pop.gmail.com' username='test_user' password='password' port=995 ssl=true allow_override=type,project project=test_project
-```
-
-**Manual installation**
-
-```bash
-bundle exec rake redmine:email:receive_pop3 host='pop.gmail.com' username='test_user' password='password' port=995 allow_override=priority
-```
-
-**Docker installation**
-
-POP3 fetching of incoming mails is currently not supported. We welcome a pull request submission if you're interested in integrating it!
-
-
-
-Available options that specifiy the email behavior are:
-
-|key | description|
-|----|------------|
-|`host` | address of the email server (default: 127.0.0.1)|
-| username | name of the user that is used to connect to the email server|
-| password | password of the user|
-| port| POP3 server port (default: 110)|
-| apop | use APOP authentication (default: false)|
-| delete_unprocessed | delete messages that were ignored (default: leave them on the server)|
-
-Available arguments that change how the work packages are handled:
-
-|key | description|
-|----|------------|
-| `project` | identifier of the target project|
-| `tracker` | name of the target tracker|
-| `category` | name of the target category|
-| `priority` | name of the target priority|
-| `allow_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list|
-
-If you set a default value it will be used when creating a work package.
-
-But then no other value is possible (even when you update the work package) unless you specify this with the use of `allow_override`. Some attributes (like `type, status, priority`) are only changeable if you specify this via `allow_override`. But notice: Some attributes have to specified in another format here, e.g. Assignee can be allowed to be overriden with `allow_override=assigned_to` and version can be overriden with `allow_override=fixed_version`
-
-
 ## Format of the emails
 
 ### Work packages
@@ -135,6 +78,8 @@ to create work packages, set the option `no_permission_check=1` and specify with
 **Users with mail suffixes**
 
 If you're used to using mail accounts with suffix support such as Google Mail, where you can specify `account+suffix@googlemail.com`, you will receive mails to that account but respond with your regular account `account@googlemail.com` . To mitigiate this, OpenProject by default will expand searching for mail ddresses `account@domain` to accounts `account+suffix@domain`  through regex searching the mail column. If you do not wish that behavior or want to customize the prefix, alter the setting `mail_suffix_separators` by running `bundle exec rails runner "Setting.mail_suffix_separators = ''"`
+
+
 
 #### Attributes
 
@@ -176,5 +121,3 @@ If you create a work package via email and sent it to another email (to or bcc) 
 ### Truncate Emails
 
 In the administator's setting you can specify lines after which an email will not be parsed anymore. That is useful if you want to reply to an email automatically sent to you from OpenProject. E.g. you could set it to `--Truncate here--` and insert this line into your email below the updates you want to perform.
-
-
