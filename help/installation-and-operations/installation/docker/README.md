@@ -14,10 +14,34 @@ installed first, which usually requires a recent operating system. Please see
 the [Docker Engine installation page](https://docs.docker.com/install) if you don't have Docker
 installed.
 
-Also, please note that the Docker image is quite new and might not support all
-the options that the package-based or manual installation provides.
+OpenProject with Docker can be launched in two ways:
 
-## Quick Start
+1. Multiple containers (recommended), each with a single process inside, using a Compose file. Allows to easily choose which services you want to run, and simplifies scaling and monitoring aspects.
+2. One container with all the processes inside. Easy but not recommended for production. This is the legacy behaviour.
+
+## One container per process (recommended)
+
+### Quick Start
+
+First, you must clone the OpenProject repository:
+
+```bash
+git clone --depth=1 --branch=stable/10 https://github.com/opf/openproject
+```
+
+Then, go into the OpenProject folder and you can launch all the services required by OpenProject with docker-compose:
+
+```bash
+docker-compose up -d
+```
+
+After some time, you will be able to access OpenProject on http://localhost:8080.
+
+Note that the official `docker-compose.yml` file present in the repository can be adjusted to your convenience. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official docker-compose documentation for more details.
+
+## All-in-one container
+
+### Quick Start
 
 The fastest way to get an OpenProject instance up and running is to run the
 following command:
@@ -44,7 +68,7 @@ achieved with the `-d` flag:
 docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:10
 ```
 
-## Recommended usage
+### Recommended usage
 
 The one-liner above is great to get started quickly, but if you want to run
 OpenProject in production you will likely want to ensure that your data is not
@@ -86,12 +110,12 @@ docker stop openproject
 docker rm openproject
 ```
 
-## Initial configuration
+### Initial configuration
 
 OpenProject is usually configured through a YAML file, but with the Docker
 image you need to pass all configuration through environment variables. You can
 overwrite any of the values usually found in the standard YAML file by using
-[environment variables](#TODO).
+[environment variables](../../configuration/environment).
 
 Environment variables can be either passed directly on the command-line to the
 Docker Engine, or via an environment file:
@@ -104,15 +128,4 @@ docker run -d --env-file path/to/file ...
 
 For more advanced configuration, please have a look at the [Advanced configuration](../../configuration) section.
 
-## Launching a specific process instead of the all-in-one installation
 
-OpenProject is made of multiple processes (web, worker, cron, etc.). By default the docker image will launch all those processes within a single container for ease of use. However some use cases might require that you only launch one process per container, in which case you should override the docker command to specify the process you want to launch.
-
-By default the container will run `./docker/supervisord`, but you can override this with `./docker/web`, `./docker/worker`, `./docker/cron` to launch the individual services separately (e.g. in a docker-compose file). Please note that in this configuration you will have to setup the external services (postgres, memcached, email sending) by yourself.
-
-Example:
-
-```bash
-docker run -d -e DATABASE_URL=xxx ... openproject/community:10 ./docker/web
-docker run -d -e DATABASE_URL=xxx ... openproject/community:10 ./docker/worker
-```
