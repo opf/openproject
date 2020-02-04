@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,27 +28,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+class Admin::MailNotificationsController < ApplicationController
+  include Concerns::AdminSettingsUpdater
 
-describe 'settings routes', type: :routing do
-  it { expect(get('/settings')).to route_to('settings#show') }
-
-  it do
-    expect(get('/settings/edit')).to route_to('settings#edit')
+  current_menu_item [:show] do
+    :mail_notifications
   end
 
-  it do
-    expect(patch('/settings')).to route_to('settings#update')
+  def show
+    @deliveries = ActionMailer::Base.perform_deliveries
+    @notifiables = Redmine::Notifiable.all
   end
 
-  it do
-    expect(get('/settings/plugin/abc')).to route_to(controller: 'settings',
-                                                    action: 'plugin',
-                                                    id: 'abc')
+  def default_breadcrumb
+    t(:'activerecord.attributes.user.mail_notification')
   end
-  it do
-    expect(post('/settings/plugin/abc')).to route_to(controller: 'settings',
-                                                     action: 'plugin',
-                                                     id: 'abc')
+
+  def show_local_breadcrumb
+    true
   end
 end

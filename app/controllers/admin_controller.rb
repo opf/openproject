@@ -61,7 +61,7 @@ class AdminController < ApplicationController
       flash[:error] = I18n.t(:notice_email_error, value: Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup))
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
-    redirect_to controller: '/settings', action: 'edit', tab: 'notifications'
+    redirect_to admin_mail_notifications_path
   end
 
   def force_user_language

@@ -210,9 +210,24 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-enumerations'
 
   menu.push :settings,
-            { controller: '/settings' },
+            { controller: '/settings', action: 'show' },
             caption: :label_system_settings,
             icon: 'icon2 icon-settings2'
+
+  menu.push :email,
+            { controller: '/admin/mail_notifications', action: 'show' },
+            caption: :'attributes.mail',
+            icon: 'icon2 icon-mail1'
+
+  menu.push :mail_notifications,
+            { controller: '/admin/mail_notifications', action: 'show' },
+            caption: :'activerecord.attributes.user.mail_notification',
+            parent: :email
+
+  menu.push :incoming_mails,
+            { controller: '/admin/incoming_mails', action: 'show' },
+            caption: :label_incoming_emails,
+            parent: :email
 
   menu.push :authentication,
             { controller: '/authentication', action: 'authentication_settings' },

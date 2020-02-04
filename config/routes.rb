@@ -384,11 +384,16 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  # We should fix this crappy routing (split up and rename controller methods)
-  get '/settings' => 'settings#index'
-  scope 'settings', controller: 'settings' do
-    match 'edit', action: 'edit', via: %i[get post]
-    match 'plugin/:id', action: 'plugin', via: %i[get post]
+  namespace :admin do
+    resource :incoming_mails, only: %i[show update]
+    resource :mail_notifications, only: %i[show update]
+  end
+
+  resource :settings, as: :general_settings, only: %i(update edit show) do
+    # We should fix this crappy routing (split up and rename controller methods)
+    collection do
+      match 'plugin/:id', action: 'plugin', via: %i[get post]
+    end
   end
 
   resource :workflows, only: %i[edit update show] do

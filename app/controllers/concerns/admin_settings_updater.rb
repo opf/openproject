@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,27 +28,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module Concerns
+  module AdminSettingsUpdater
+    extend ActiveSupport::Concern
 
-describe 'settings routes', type: :routing do
-  it { expect(get('/settings')).to route_to('settings#show') }
+    included do
+      layout 'admin'
 
-  it do
-    expect(get('/settings/edit')).to route_to('settings#edit')
-  end
+      before_action :require_admin
 
-  it do
-    expect(patch('/settings')).to route_to('settings#update')
-  end
+      def update
+        if params[:settings]
+          Settings::UpdateService
+            .new(user: current_user)
+            .call(settings: permitted_params.settings.to_h)
 
-  it do
-    expect(get('/settings/plugin/abc')).to route_to(controller: 'settings',
-                                                    action: 'plugin',
-                                                    id: 'abc')
-  end
-  it do
-    expect(post('/settings/plugin/abc')).to route_to(controller: 'settings',
-                                                     action: 'plugin',
-                                                     id: 'abc')
+          flash[:notice] = t(:notice_successful_update)
+          redirect_to action: 'show', tab: params[:tab]
+        end
+      end
+    end
   end
 end

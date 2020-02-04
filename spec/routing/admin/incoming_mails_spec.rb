@@ -28,25 +28,12 @@
 
 require 'spec_helper'
 
-describe 'settings routes', type: :routing do
-  it { expect(get('/settings')).to route_to('settings#show') }
-
+describe 'admin incoming_mails routes', type: :routing do
   it do
-    expect(get('/settings/edit')).to route_to('settings#edit')
+    expect(get('admin/incoming_mails')).to route_to('admin/incoming_mails#show')
   end
 
   it do
-    expect(patch('/settings')).to route_to('settings#update')
-  end
-
-  it do
-    expect(get('/settings/plugin/abc')).to route_to(controller: 'settings',
-                                                    action: 'plugin',
-                                                    id: 'abc')
-  end
-  it do
-    expect(post('/settings/plugin/abc')).to route_to(controller: 'settings',
-                                                     action: 'plugin',
-                                                     id: 'abc')
+    expect(patch('admin/incoming_mails')).to route_to('admin/incoming_mails#update')
   end
 end

@@ -35,7 +35,7 @@ describe 'Test mail notification', type: :feature do
 
   before do
     login_as(admin)
-    visit settings_path(tab: :notifications)
+    visit general_settings_path(tab: :notifications)
   end
 
   it 'shows the correct message on errors in test notification (Regression #28226)' do
