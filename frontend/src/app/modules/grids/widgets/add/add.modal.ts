@@ -5,7 +5,6 @@ import {OpModalLocalsToken} from "app/components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "app/components/op-modals/op-modal.types";
 import {GridWidgetsService} from "app/modules/grids/widgets/widgets.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 
 @Component({

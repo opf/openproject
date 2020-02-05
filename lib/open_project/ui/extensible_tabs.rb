@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,9 +55,24 @@ module OpenProject
 
         def core_user_tabs
           [
-            { name: 'general', partial: 'users/general', label: :label_general },
-            { name: 'memberships', partial: 'users/memberships', label: :label_project_plural },
-            { name: 'groups', partial: 'users/groups', label: :label_group_plural, if: ->(*) { Group.all.any? } }
+            {
+              name: 'general',
+              partial: 'users/general',
+              path: ->(params) { tab_edit_user_path(params[:user], tab: :general) },
+              label: :label_general
+            },
+            {
+              name: 'memberships',
+              partial: 'users/memberships',
+              path: ->(params) { tab_edit_user_path(params[:user], tab: :memberships) },
+              label: :label_project_plural
+            },
+            {
+              name: 'groups',
+              partial: 'users/groups',
+              path: ->(params) { tab_edit_user_path(params[:user], tab: :groups) },
+              label: :label_group_plural, if: ->(*) { Group.all.any? }
+            }
           ]
         end
       end

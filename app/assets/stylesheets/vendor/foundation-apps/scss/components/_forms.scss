@@ -180,7 +180,7 @@ input[type="checkbox"], input[type="radio"] {
 
   // Inputs stretch all the way out
   > input, > select {
-    flex: 1;
+    flex: 1 1 auto;
     margin: 0;
   }
 

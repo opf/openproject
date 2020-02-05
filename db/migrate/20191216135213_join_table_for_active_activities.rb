@@ -9,6 +9,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
 
   def up
     create_join_table
+    delete_invalid_project_activities
     link_time_entries_to_root_activities
     fill_new_join_table
     delete_inherited_activities
@@ -31,6 +32,19 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
               %i[project_id activity_id],
               unique: true,
               name: 'index_teap_on_project_id_and_activity_id'
+  end
+
+  # Delete all references from enumerations to projects which point to no longer
+  # existing projects.
+  def delete_invalid_project_activities
+    ActiveRecord::Base.connection.exec_query(
+      <<-SQL
+        DELETE FROM enumerations
+        USING enumerations AS enums
+        LEFT OUTER JOIN projects on enums.project_id = projects.id
+        WHERE enums.id = enumerations.id AND enums.type='TimeEntryActivity' AND projects.id IS NULL AND enums.project_id IS NOT NULL
+      SQL
+    )
   end
 
   def link_time_entries_to_root_activities

@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ lt:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Išimti kortelę iš sąrašo'
+    caption_rate_history: "Koeficiento istorija"
     clipboard:
       browser_error: "Jūsų naršyklė nepalaiko kopijavimo į iškarpinę. Prašome pažymėtą tekstą nukopijuoti rankiniu būdu."
       copied_successful: "Sėkmingai nukopijuota į iškarpinę!"
@@ -171,6 +172,9 @@ lt:
       cannot_save_changes_with_message: "Nepavyko įrašyti jūsų pakeitimų dėl šios klaidos: %{error}"
       query_saving: "Nepavyko įrašyti rodinio."
       embedded_table_loading: "Nepavyko įkelti įdėti rodinio: %{message}"
+    enumeration_activities: "Veikla (laiko sekimas)"
+    enumeration_doc_categories: "Dokumentų kategorijos"
+    enumeration_work_package_priorities: "Darbų paketo prioritetai"
     filter:
       description:
         text_open_filter: "Atverkite šį filtrą su 'ALT' ir krypčių klavišais."
@@ -192,6 +196,7 @@ lt:
     general_text_yes: "taip"
     general_text_No: "Ne"
     general_text_Yes: "Taip"
+    global_roles: Globalios rolės
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -222,6 +227,7 @@ lt:
     label_and: "ir"
     label_ascending: "Didėjančia tvarka"
     label_author: "Autorius: %{user}"
+    label_avatar: "Nuotrauka"
     label_between: "tarp"
     label_board: "Lenta"
     label_board_locked: "Užrakinta"
@@ -235,6 +241,8 @@ lt:
     label_deactivate: "Išjungti"
     label_descending: "Mažėjančiai"
     label_description: "Aprašymas"
+    label_details: "Detali informacija"
+    label_display: "Rodymas"
     label_cancel_comment: "Atšaukti komentarą"
     label_closed_work_packages: "uždarytas"
     label_collapse: "Sutraukti"
@@ -255,22 +263,29 @@ lt:
     label_export: "Eksportuoti"
     label_filename: "Byla"
     label_filesize: "Dydis"
+    label_general: "Bendra"
     label_greater_or_equal: ">="
     label_group: 'Grupė'
     label_group_by: "Grupuoti pagal"
+    label_group_plural: "Grupės"
     label_hide_attributes: "Rodyti mažiau"
     label_hide_column: "Slėpti stulpelį"
     label_hide_project_menu: "Sutraukti projekto meniu"
     label_in: " "
     label_in_less_than: "mažiau nei"
     label_in_more_than: "daugiau nei"
+    label_incoming_emails: "Gauti el. laiškai"
+    label_information_plural: "Informacija"
     label_import: "Importuoti"
     label_latest_activity: "Paskutinė veikla"
     label_last_updated_on: "Paskiausias atnaujinimas"
     label_less_or_equal: "<="
     label_less_than_ago: "mažiau nei prieš dieną"
     label_loading: "Įkeliama..."
+    label_mail_notification: "El. pašto priminimai"
     label_me: "aš"
+    label_meeting_agenda: "Dienotvarkė"
+    label_meeting_minutes: "Minutės"
     label_menu_collapse: "suskleisti"
     label_menu_expand: "išskleisti"
     label_more_than_ago: "daugiau nei prieš dieną"
@@ -291,12 +306,15 @@ lt:
     label_previous: "Ankstesnis"
     label_per_page: "Puslapyje:"
     label_please_wait: "Prašome palaukti"
+    label_project_plural: "Projektai"
     label_visibility_settings: "Matomumo nustatymai"
     label_quote_comment: "Cituoti šį komentarą"
     label_reset: "Nustatyti iš naujo"
     label_remove_column: "Išimti stulpelį"
     label_remove_columns: "Pašalinti pažymėtus stulpelius"
     label_remove_row: "Išimti eilutę"
+    label_report: "Ataskaita"
+    label_repository_plural: "Repozitorijos"
     label_save_as: "Išsaugoti kaip"
     label_select_watcher: "Parinkti stebėtoją..."
     label_selected_filter_list: "Parinkti filtrus"
@@ -307,6 +325,7 @@ lt:
     label_sort_higher: "Perkelti aukštyn"
     label_sort_lower: "Perkelti žemyn"
     label_sorting: "Rūšiavimas"
+    label_spent_time: "Praleista laiko"
     label_star_query: "Favored"
     label_press_enter_to_save: "Saugojimui spauskite enter."
     label_public_query: "Viešas"
@@ -315,7 +334,9 @@ lt:
     label_subject: "Tema"
     label_this_week: "ši savaitė"
     label_today: "šiandien"
+    label_time_entry_plural: "Praleista laiko"
     label_up: "Aukštyn"
+    label_user_plural: "Vartotojai"
     label_activity_show_only_comments: "Rodyti veiklą tik su komentarais"
     label_activity_show_all: "Rodyti visus atributus"
     label_total_progress: "%{percent} % įvykdyta"
@@ -357,6 +378,7 @@ lt:
     label_wait: "Vyksta konfigūracija. Palaukite..."
     label_upload_counter: "%{done} iš %{count} failų sudoroti"
     label_validation_error: "Darbų paketas negali būti įrašyti dėl šių klaidų:"
+    label_version_plural: "Versijos"
     label_view_has_changed: "Šiame rodinyje yra neįrašytų pakeitimų. Spauskite, kad juos įrašytumėte."
     help_texts:
       show_modal: 'Rodyti atributo pagalbos teksto įrašą'
@@ -436,10 +458,22 @@ lt:
           includes: "įskaitant"
           requires: "reikalauja"
           required: "reikalingas"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projektai"
+        settings: "Nustatymai"
     time_entry:
+      project: 'Projektas'
+      work_package: 'Darbų paketas'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Veikla'
       comment: 'Komentaras'
+      duration: 'Trukmė'
+      spent_on: 'Data'
       hours: 'Valandų'
+      label: 'Time entry'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Dviejų veiksnių autentikavimas'
     watchers:
       label_loading: Įkeliami stebėtojai...
       label_error_loading: Įkeliant stebėtojus įvyko klaida

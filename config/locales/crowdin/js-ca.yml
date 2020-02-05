@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ ca:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Rate history"
     clipboard:
       browser_error: "El seu navegador no suporta copiar al porta-retalls. Si us plau, copieu el text seleccionat manualment."
       copied_successful: "S'ha copiat correctament al porta-retalls!"
@@ -171,6 +172,9 @@ ca:
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
+    enumeration_activities: "Activitats (seguidor de temps)"
+    enumeration_doc_categories: "Document categories"
+    enumeration_work_package_priorities: "Prioritats dels paquets de treball"
     filter:
       description:
         text_open_filter: "Obrir aquest filtre amb les tecles 'ALT' i cursors."
@@ -192,6 +196,7 @@ ca:
     general_text_yes: "sí"
     general_text_No: "No"
     general_text_Yes: "Sí"
+    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -222,6 +227,7 @@ ca:
     label_and: "i"
     label_ascending: "Ascendent"
     label_author: "Autor: %{user}"
+    label_avatar: "Avatar"
     label_between: "between"
     label_board: "Board"
     label_board_locked: "Bloquejat"
@@ -235,6 +241,8 @@ ca:
     label_deactivate: "Desactivar"
     label_descending: "Descendent"
     label_description: "Descripció"
+    label_details: "Detalls"
+    label_display: "Mostrar"
     label_cancel_comment: "Comentari de cancel·lació"
     label_closed_work_packages: "tancat"
     label_collapse: "Replega"
@@ -255,22 +263,29 @@ ca:
     label_export: "Exportar"
     label_filename: "Fitxer"
     label_filesize: "Mida"
+    label_general: "General"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Agrupa per"
+    label_group_plural: "Grups"
     label_hide_attributes: "Mostrar menys"
     label_hide_column: "Amagar columna"
     label_hide_project_menu: "Collapse project menu"
     label_in: "en"
     label_in_less_than: "en menys de"
     label_in_more_than: "en més de"
+    label_incoming_emails: "Correu electrònics d'entrada"
+    label_information_plural: "Informació"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "La darrera actualització el"
     label_less_or_equal: "<="
     label_less_than_ago: "fa menys de"
     label_loading: "Carregant..."
+    label_mail_notification: "Avisos de correu electrònic"
     label_me: "jo mateix"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Minutes"
     label_menu_collapse: "col·lapsar"
     label_menu_expand: "expandir"
     label_more_than_ago: "fa més dies"
@@ -291,12 +306,15 @@ ca:
     label_previous: "Anterior"
     label_per_page: "Per pàgina:"
     label_please_wait: "Espereu, si us plau"
+    label_project_plural: "Projectes"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Citar aquest comentari"
     label_reset: "Restablir"
     label_remove_column: "Remove column"
     label_remove_columns: "Treure les columnes seleccionades"
     label_remove_row: "Remove row"
+    label_report: "Informe"
+    label_repository_plural: "Repositoris"
     label_save_as: "Desa com a"
     label_select_watcher: "Seleccioneu un vigilant..."
     label_selected_filter_list: "Filtres seleccionats"
@@ -307,6 +325,7 @@ ca:
     label_sort_higher: "Mou amunt"
     label_sort_lower: "Mou cap avall"
     label_sorting: "Ordenació"
+    label_spent_time: "Temps invertit"
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Públic"
@@ -315,7 +334,9 @@ ca:
     label_subject: "Assumpte"
     label_this_week: "aquesta setmana"
     label_today: "avui"
+    label_time_entry_plural: "Temps invertit"
     label_up: "Amunt"
+    label_user_plural: "Usuaris"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
     label_total_progress: "%{percent}% Progrés total"
@@ -357,6 +378,7 @@ ca:
     label_wait: "Si us plau esperi a la configuració..."
     label_upload_counter: "%{done} de %{count} arxius fets"
     label_validation_error: "El paquet de treball no es pot desar a causa dels següents errors:"
+    label_version_plural: "Versions"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
@@ -436,10 +458,22 @@ ca:
           includes: "including"
           requires: "requiring"
           required: "required by"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projectes"
+        settings: "Configuració"
     time_entry:
+      project: 'Projecte'
+      work_package: 'Paquet de treball'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Activitat'
       comment: 'Comentari'
+      duration: 'Durada'
+      spent_on: 'Data'
       hours: 'Hores'
+      label: 'Time entry'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Two-factor authentication'
     watchers:
       label_loading: carregant vigilants...
       label_error_loading: S'ha produït un error la càrrega dels vigilants

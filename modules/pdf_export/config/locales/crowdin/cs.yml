@@ -1,8 +1,11 @@
 #-- copyright
-#OpenProject PDF Export Plugin
-#Copyright (C)2014 the OpenProject Foundation (OPF)
-#This program is free software; you can redistribute it and/or modify it under
-#the terms of the GNU General Public License version 3.
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
 #as published by the Free Software Foundation; either version 2
@@ -14,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See doc/COPYRIGHT.md for more details.
+#See docs/COPYRIGHT.rdoc for more details.
 #++
 cs:
   error_can_not_delete_export_card_configuration: "This config cannot be deleted."
@@ -35,7 +38,7 @@ cs:
   validation_error_uknown_key: "Unknown key:"
   yaml_error: "YAML error:"
   help_link_rows_format: "Rows Formatting"
-  export_config_per_page: "Per page"
+  export_config_per_page: "Na stránku"
   export_config_page_size: "Page size"
   export_config_orientation: "Orientation"
   export_config_rows: "Řádky"
@@ -43,6 +46,6 @@ cs:
     attributes:
       export_card_configuration:
         rows: "Řádky"
-        per_page: "Per page"
+        per_page: "Na stránku"
         page_size: "Page size"
         orientation: "Orientation"

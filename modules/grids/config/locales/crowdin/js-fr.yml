@@ -37,6 +37,8 @@ fr:
         subprojects:
           title: 'Sous-projets'
           no_results: 'Aucun sous-projet.'
+        time_entries_current_user:
+          title: 'My spent time'
         time_entries_list:
           title: 'Temps passé (7 derniers jours)'
           no_results: 'Aucune entrée de temps pour les 7 derniers jours.'

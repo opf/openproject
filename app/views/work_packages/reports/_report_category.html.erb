@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="form--fieldset">
   <div class="form--fieldset-legend"><%= WorkPackage.human_attribute_name(report.report_type) %></div>
-  <div class="form--fieldset-control">
-    <span class="form--fieldset-control-container">
+  <div class="form--toolbar">
+    <span class="form--toolbar-item">
     <%= link_to(icon_wrapper('icon icon-zoom-in',l(:text_analyze, subject: WorkPackage.human_attribute_name(report.report_type))),
                 {action: 'report_details', detail: report.report_type},
                 title: l(:text_analyze, subject: WorkPackage.human_attribute_name(report.report_type)),

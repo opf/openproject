@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ cs:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Historie kurzů"
     clipboard:
       browser_error: "Váš prohlížeč nepodporuje, kopírování do schránky. Ručně zkopírujte vybraný text."
       copied_successful: "Úspešně zkopírováno do schránky!"
@@ -156,7 +157,7 @@ cs:
       type_form:
         custom_field: 'Vlastní pole'
         inactive: 'Neaktivní'
-        drag_to_activate: "Drag fields from here to activate them"
+        drag_to_activate: "Přetáhněte pole zde, abyste je aktivovali"
         add_group: "Přidat skupinu atributů"
         add_table: "Přidat seznam se souvisejícími pracovními balíčky"
         edit_query: 'Edit query'
@@ -171,6 +172,9 @@ cs:
       cannot_save_changes_with_message: "Nelze uložit změny kvůli následující chybě: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
+    enumeration_activities: "Aktivity (sledování času)"
+    enumeration_doc_categories: "Document categories"
+    enumeration_work_package_priorities: "Priority pracovního balíčku"
     filter:
       description:
         text_open_filter: "Otevřete tento filtr \"ALT\" a šipkami."
@@ -192,6 +196,7 @@ cs:
     general_text_yes: "ano"
     general_text_No: "Ne"
     general_text_Yes: "Ano"
+    global_roles: Globální role
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -222,6 +227,7 @@ cs:
     label_and: "a"
     label_ascending: "Vzestupně"
     label_author: "Autor: %{user}"
+    label_avatar: "Avatar"
     label_between: "mezi"
     label_board: "Board"
     label_board_locked: "Uzamčeno"
@@ -235,6 +241,8 @@ cs:
     label_deactivate: "Deaktivovat"
     label_descending: "Sestupně"
     label_description: "Popis"
+    label_details: "Podrobnosti"
+    label_display: "Zobrazit"
     label_cancel_comment: "Stornovat komentář"
     label_closed_work_packages: "uzavřeno"
     label_collapse: "Sbalit"
@@ -255,28 +263,35 @@ cs:
     label_export: "Export"
     label_filename: "Soubor"
     label_filesize: "Velikost"
+    label_general: "Obecné"
     label_greater_or_equal: ">="
     label_group: 'Skupina'
     label_group_by: "Seskupit podle"
+    label_group_plural: "Skupiny"
     label_hide_attributes: "Zobrazit méně"
     label_hide_column: "Skrýt sloupec"
     label_hide_project_menu: "Sbalit nabídku projektu"
     label_in: "v"
     label_in_less_than: "za méně než"
     label_in_more_than: "za více než"
+    label_incoming_emails: "Příchozí e-maily"
+    label_information_plural: "Informace"
     label_import: "Import"
     label_latest_activity: "Poslední aktivita"
     label_last_updated_on: "Naposled aktualizováno"
     label_less_or_equal: "<="
     label_less_than_ago: "před méně jak (dny)"
     label_loading: "Načítání..."
+    label_mail_notification: "E-mailová upozornění"
     label_me: "já"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Zápis"
     label_menu_collapse: "sbalit"
     label_menu_expand: "rozbalit"
     label_more_than_ago: "před více jak (dny)"
     label_next: "Další"
     label_no_color: "Bez barvy"
-    label_no_data: "No data to display"
+    label_no_data: "Žádná data k zobrazení"
     label_no_due_date: "žádné datum ukončení"
     label_no_start_date: "žádné datum začátku"
     label_no_value: "Žádná hodnota"
@@ -291,12 +306,15 @@ cs:
     label_previous: "Předchozí"
     label_per_page: "Na stránku:"
     label_please_wait: "Čekejte prosím"
+    label_project_plural: "Projekty"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Quote this comment"
     label_reset: "Obnovit"
     label_remove_column: "Remove column"
     label_remove_columns: "Odstranit vybrané sloupce"
     label_remove_row: "Remove row"
+    label_report: "Hlášení"
+    label_repository_plural: "Repozitáře"
     label_save_as: "Uložit jako"
     label_select_watcher: "Zvolte sledujícího..."
     label_selected_filter_list: "Vybrané filtry"
@@ -307,6 +325,7 @@ cs:
     label_sort_higher: "Přesunout výš"
     label_sort_lower: "Přesunout níž"
     label_sorting: "Řazení"
+    label_spent_time: "Strávený čas"
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Veřejné"
@@ -315,7 +334,9 @@ cs:
     label_subject: "Předmět"
     label_this_week: "tento týden"
     label_today: "dnes"
+    label_time_entry_plural: "Strávený čas"
     label_up: "Nahoru"
+    label_user_plural: "Uživatelé"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
     label_total_progress: "Celkový průběh %{percent}%"
@@ -357,6 +378,7 @@ cs:
     label_wait: "Please wait for configuration..."
     label_upload_counter: "%{done} of %{count} files finished"
     label_validation_error: "The work package could not be saved due to the following errors:"
+    label_version_plural: "Verze"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
@@ -411,7 +433,7 @@ cs:
       click_to_switch_context: 'Open this work package in that project.'
       autocompleter:
         label: 'Automatické doplňování projektu'
-    text_are_you_sure: "Are you sure?"
+    text_are_you_sure: "Jste si jisti?"
     types:
       attribute_groups:
         error_duplicate_group_name: "Jméno %{group} je již použito. Jména skupin musí být jedinečná."
@@ -436,10 +458,22 @@ cs:
           includes: "včetně"
           requires: "vyžaduje"
           required: "vyžadováno"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projekty"
+        settings: "Nastavení"
     time_entry:
+      project: 'Projekt'
+      work_package: 'Pracovní balíček'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Aktivita'
       comment: 'Komentář'
+      duration: 'Doba trvání'
+      spent_on: 'Datum'
       hours: 'Hodiny'
+      label: 'Time entry'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Two-factor authentication'
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
@@ -520,7 +554,7 @@ cs:
       activate_asc: 'aktivujte pro vzestupné řazení'
       activate_dsc: 'aktivujte pro sestupné řazení'
       activate_no: 'odstranit řazení'
-    text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
+    text_work_packages_destroy_confirmation: "Jste si jisti, že chcete odstranit vybrané pracovní balíčky?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
     text_attachment_destroy_confirmation: "Are you sure you want to delete the attachment?"
     timelines:
@@ -543,22 +577,22 @@ cs:
       empty: "(prázdný)"
       error: "An error has occurred."
       errors:
-        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-        report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-        report_epicfail: "The timeline could not be loaded due to an unexpected error."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
+        not_implemented: "Časová osa nemohla být vykreslena, protože používá funkci, která ještě není implementována."
+        report_comparison: "Časová osa nemohla vykreslit nakonfigurovaná srovnání. Zkontrolujte prosím příslušnou sekci v konfiguraci, resetování může pomoci tento problém vyřešit."
+        report_epicfail: "Časová osa nemohla být načtena z důvodu neočekávané chyby."
+        report_timeout: "Časová osa nemohla být načtena v přiměřené době."
       filter:
         grouping_other: "Ostatní"
         noneSelection: "(žádný)"
       name: "Jméno"
       outline: "Obnovit osnovu"
       outlines:
-        aggregation: "Show aggregations only"
-        level1: "Expand level 1"
-        level2: "Expand level 2"
-        level3: "Expand level 3"
-        level4: "Expand level 4"
-        level5: "Expand level 5"
+        aggregation: "Zobrazit pouze agregace"
+        level1: "Rozšířit úroveň 1"
+        level2: "Rozšířit úroveň 1"
+        level3: "Rozšířit úroveň 3"
+        level4: "Rozšířit úroveň 4"
+        level5: "Rozšířit úroveň 5"
         all: "Zobrazit vše"
       project_status: "Stav projektu"
       really_close_dialog: "Opravdu chcete zavřít dialogové okno a ztratit zadaná data?"

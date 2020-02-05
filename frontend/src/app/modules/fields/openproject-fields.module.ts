@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
 import {APP_INITIALIZER, NgModule} from '@angular/core';
@@ -54,6 +54,8 @@ import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-
 import {EditableAttributeFieldComponent} from "core-app/modules/fields/edit/field/editable-attribute-field.component";
 import {ProjectStatusEditFieldComponent} from "core-app/modules/fields/edit/field-types/project-status-edit-field.component";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
+import {PlainFormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/plain-formattable-edit-field.component";
+import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/te-work-package-edit-field.component";
 
 @NgModule({
   imports: [
@@ -87,11 +89,13 @@ import {PortalCleanupService} from "core-app/modules/fields/display/display-port
     FloatEditFieldComponent,
     IntegerEditFieldComponent,
     FormattableEditFieldComponent,
+    PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
     SelectEditFieldComponent,
     TextEditFieldComponent,
     EditFieldControlsComponent,
     WorkPackageEditFieldComponent,
+    TimeEntryWorkPackageEditFieldComponent,
     EditFormComponent,
     EditableAttributeFieldComponent,
     ProjectStatusEditFieldComponent,
@@ -105,10 +109,12 @@ import {PortalCleanupService} from "core-app/modules/fields/display/display-port
     FloatEditFieldComponent,
     IntegerEditFieldComponent,
     FormattableEditFieldComponent,
+    PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
     SelectEditFieldComponent,
     TextEditFieldComponent,
     WorkPackageEditFieldComponent,
+    TimeEntryWorkPackageEditFieldComponent,
     EditableAttributeFieldComponent,
     ProjectStatusEditFieldComponent,
   ]

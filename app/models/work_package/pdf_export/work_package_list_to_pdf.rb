@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,15 +42,17 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
 
     self.pdf = get_pdf(current_language)
 
+    configure_page_size
+    configure_markup
+  end
+
+  def configure_page_size
     pdf.options[:page_size] = 'EXECUTIVE'
     pdf.options[:page_layout] = :landscape
   end
 
   def render!
-    write_title!
-    write_work_packages!
-
-    write_footers!
+    write_content!
 
     success(pdf.render)
   rescue Prawn::Errors::CannotFit
@@ -58,6 +60,14 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
   rescue StandardError => e
     Rails.logger.error { "Failed to generated PDF export: #{e} #{e.message}." }
     error(I18n.t(:error_pdf_failed_to_export, error: e.message))
+  end
+
+  def write_content!
+    write_title!
+    write_headers!
+    write_work_packages!
+
+    write_footers!
   end
 
   def project
@@ -95,11 +105,6 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
                      style: :italic
   end
 
-  def write_work_packages!
-    pdf.font style: :normal, size: 8
-    pdf.table(data, column_widths: column_widths)
-  end
-
   def column_widths
     widths = valid_export_columns.map do |col|
       if col.name == :subject || text_column?(col)
@@ -119,11 +124,12 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
 
   def text_column?(column)
     column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) &&
-      ['string', 'text'].include?(column.custom_field.field_format)
+      %w(string text).include?(column.custom_field.field_format)
   end
 
-  def data
-    [data_headers] + data_rows
+  def write_headers!
+    pdf.font style: :normal, size: 8
+    pdf.table([data_headers], column_widths: column_widths)
   end
 
   def data_headers
@@ -132,44 +138,52 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
     end
   end
 
-  def data_rows
+  def write_work_packages!
+    pdf.font style: :normal, size: 8
     previous_group = nil
 
-    work_packages.flat_map do |work_package|
-      values = valid_export_columns.map do |column|
-        make_column_value work_package, column
-      end
+    work_packages.each do |work_package|
+      previous_group = write_group_header!(work_package, previous_group)
 
-      result = [values]
+      write_attributes!(work_package)
 
       if options[:show_descriptions]
-        make_description(work_package.description.to_s).each do |segment|
-          result << [segment]
-        end
+        write_description!(work_package, false)
       end
 
       if options[:show_attachments] && work_package.attachments.exists?
-        attachments = make_attachments_cells(work_package.attachments)
-
-        if attachments.any?
-          result << [
-            { content: pdf.make_table([attachments]), colspan: description_colspan }
-          ]
-        end
+        write_attachments!(work_package)
       end
+    end
+  end
 
-      if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group
-        label = make_group_label(group)
-        previous_group = group
+  def write_attributes!(work_package)
+    values = valid_export_columns.map do |column|
+      make_column_value work_package, column
+    end
 
-        result.insert 0, [
-          pdf.make_cell(label, font_style: :bold,
-                               colspan: valid_export_columns.size,
-                               background_color: 'DDDDDD')
-        ]
-      end
+    pdf.table([values], column_widths: column_widths)
+  end
 
-      result
+  def write_attachments!(work_package)
+    attachments = make_attachments_cells(work_package.attachments)
+
+    pdf.table([attachments], width: pdf.bounds.width) if attachments.any?
+  end
+
+  def write_group_header!(work_package, previous_group)
+    if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group
+      label = make_group_label(group)
+      group_cell = pdf.make_cell(label,
+                                 font_style: :bold,
+                                 colspan: valid_export_columns.size,
+                                 background_color: 'DDDDDD')
+
+      pdf.table([[group_cell]], column_widths: column_widths)
+
+      group
+    else
+      previous_group
     end
   end
 

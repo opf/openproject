@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,11 +44,12 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
   let(:contract) do
     contract = double('contract',
                       new_record?: new_record,
+                      id: new_record ? nil : 5,
                       project: assigned_project)
 
     allow(contract)
       .to receive(:writable?) do |attribute|
-      %w(spent_on hours project work_package activity).include?(attribute.to_s)
+      %w(spent_on hours project work_package activity comment).include?(attribute.to_s)
     end
 
     allow(contract)
@@ -114,6 +115,17 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
       end
     end
 
+    describe 'comment' do
+      let(:path) { 'comment' }
+
+      it_behaves_like 'has basic schema properties' do
+        let(:type) { 'Formattable' }
+        let(:name) { TimeEntry.human_attribute_name('comment') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
+    end
+
     describe 'createdAt' do
       let(:path) { 'createdAt' }
 
@@ -160,41 +172,22 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
       context 'if embedding' do
         let(:embedded) { true }
 
-        context 'if having no project' do
+        context 'if being a new record' do
+          let(:new_record) { true }
+
           it_behaves_like 'links to allowed values via collection link' do
             let(:href) do
-              api_v3_paths.work_packages
+              api_v3_paths.time_entries_available_work_packages_on_create
             end
           end
         end
 
-        context 'if having a project' do
-          let(:assigned_project) { project }
+        context 'if being an existing record' do
+          let(:new_record) { false }
 
           it_behaves_like 'links to allowed values via collection link' do
             let(:href) do
-              api_v3_paths.path_for(:work_packages, filters: [{ project: { operator: '=', values: [project.id.to_s] } }])
-            end
-          end
-        end
-      end
-
-      describe 'project' do
-        let(:path) { 'project' }
-
-        it_behaves_like 'has basic schema properties' do
-          let(:type) { 'Project' }
-          let(:name) { TimeEntry.human_attribute_name('project') }
-          let(:required) { false }
-          let(:writable) { true }
-        end
-
-        context 'if embedding' do
-          let(:embedded) { true }
-
-          it_behaves_like 'links to allowed values via collection link' do
-            let(:href) do
-              api_v3_paths.time_entries_available_projects
+              api_v3_paths.time_entries_available_work_packages_on_edit(contract.id)
             end
           end
         end

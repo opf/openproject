@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -97,7 +97,6 @@ describe 'Status action board', type: :feature, js: true do
                       old_status_id: closed_status.id,
                       new_status_id: open_status.id)
   }
-
 
   let(:filters) { ::Components::WorkPackages::Filters.new }
 

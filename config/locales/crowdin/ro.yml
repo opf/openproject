@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ ro:
     plugins:
       no_results_title_text: În acest moment nu există plugin-uri disponibile.
     custom_styles:
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
       custom_colors: "Culori personalizate"
       customize: "Poersonalizați instalarea dumneavoastră folosind propriul logo. Notă: Acest logo va fi accesibil publicului."
       enterprise_notice: "Ca și un semn al reconoștinței noastre, această opțiune este disponiblă doar utlizatorilor care dețin versiunea Enterprise."
       manage_colors: "Modificați opțiunile de selecție ale culorilor"
       instructions:
-        alternative_color: "Strong accent color, typically used for most the important button on a screen."
-        content_link_color: "Culoarea fontului pentru majoritatea link-urilor."
-        primary_color: "Culoarea principală."
-        primary_color_dark: "Typically a darker version of the main color used for hover effects."
-        header_bg_color: "Culoarea de fundal a antetului."
-        header_item_bg_hover_color: "Culoarea de fundal a obiectelor care pot fi selectate când cursorului se află deasupra lor."
-        header_item_font_color: "Culoare fontului pentru elementele selectabile din antet."
-        header_item_font_hover_color: "Culoarea fontului pentru elementele selectabile din antet când cursorul se află deasupra lor."
-        header_border_bottom_color: "Linia de sub antet. Lăsați acest câmp gol dacă nu doriți această linie."
-        main_menu_bg_color: "Culoarea de fundal pentru meniul din partea stângă."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "Culoarea fontului pentru majoritatea link-urilor."
+        primary-color: "Culoarea principală."
+        primary-color-dark: "Typically a darker version of the main color used for hover effects."
+        header-item-bg-hover-color: "Culoarea de fundal a obiectelor care pot fi selectate când cursorului se află deasupra lor."
+        header-item-font-color: "Culoare fontului pentru elementele selectabile din antet."
+        header-item-font-hover-color: "Culoarea fontului pentru elementele selectabile din antet când cursorul se află deasupra lor."
+        header-border-bottom-color: "Linia de sub antet. Lăsați acest câmp gol dacă nu doriți această linie."
+        main-menu-bg-color: "Culoarea de fundal pentru meniul din partea stângă."
     enterprise:
       upgrade_to_ee: "Achiziționați versiunea Enterprise"
       add_token: "Upload an Enterprise Edition support token"
@@ -579,6 +597,10 @@ ro:
         role:
           permissions:
             dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "Pachetul de lucru #%{id} nu este o ţintă validă pentru reasocierea timpilor de lucru."
           attributes:
@@ -731,6 +753,7 @@ ro:
     type: "Tip"
     updated_at: "Actualizat pe"
     updated_on: "Actualizat pe"
+    uploader: "Uploader"
     user: "Utilizator"
     version: "Versiune"
     work_package: "Pachet de lucru"
@@ -1028,7 +1051,7 @@ ro:
         rename_groups: "Rename attributes groups"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Activități (durata de lucru)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Priorități pentru pachetele de lucru"
   enumeration_reported_project_statuses: "Stările proiectului raportat"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
@@ -1099,6 +1122,8 @@ ro:
       pdf_with_descriptions: "PDF cu descrieri"
       pdf_with_descriptions_and_attachments: "Documentul pdf cu descriere și fișiere atașate"
       pdf_with_attachments: "Document pdf cu fișiere atașate"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"

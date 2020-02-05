@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 
 require 'spec_helper'
 require 'rack/test'
@@ -176,7 +176,7 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
       it 'has the available values listed in the schema' do
         body = subject.body
 
-        wp_path = api_v3_paths.path_for(:work_packages, filters: [{ project: { operator: '=', values: [project.id.to_s] } }])
+        wp_path = api_v3_paths.time_entries_available_work_packages_on_create
 
         expect(body)
           .to be_json_eql(wp_path.to_json)

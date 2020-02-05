@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -79,7 +79,8 @@ el:
       highlighting:
         inline: 'Επισήμανση inline:'
         entire_card_by: 'Ολόκληρη κάρτα με'
-      remove_from_list: 'Αφαίρεση από τη λίστα'
+      remove_from_list: 'Αφαίρεση κάρτας από τη λίστα'
+    caption_rate_history: "Ιστορικό αμοιβής"
     clipboard:
       browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
       copied_successful: "Επιτυχής αντιγραφή στο πρόχειρο!"
@@ -94,10 +95,10 @@ el:
         pie: 'Πίτα'
         doughnut: 'Ντόνατ'
         radar: 'Ραντάρ'
-        polar_area: 'Polar area'
+        polar_area: 'Πολική περιοχή'
       tabs:
         graph_settings: 'Γενικά'
-        dataset: 'Dataset %{number}'
+        dataset: 'Σύνολο Δεδομένων %{number}'
       errors:
         could_not_load: 'Τα δεδομένα για εμφάνιση στο διάγραμμα δεν μπόρεσαν να φορτωθούν. Μπορεί να λείπουν τα απαραίτητα δικαιώματα.'
     description_available_columns: "Διαθέσιμες στήλες"
@@ -158,7 +159,7 @@ el:
         drag_to_activate: "Σύρετε πεδία από εδώ για να τα ενεργοποιήσετε"
         add_group: "Προσθήκη ομάδας χαρακτηριστικών"
         add_table: "Προσθήκη πίνακα με σχετιζόμενες εργασίες"
-        edit_query: 'Edit query'
+        edit_query: 'Επεξεργασία αναζήτησης'
         new_group: 'Νέα ομάδα'
         reset_to_defaults: 'Επαναφορά στα προεπιλεγμένα'
     custom_actions:
@@ -170,6 +171,9 @@ el:
       cannot_save_changes_with_message: "Δεν μπορούμε να αποθηκεύσουμε τις αλλαγές σας λόγω του ακολούθου σφάλματος: %{error}"
       query_saving: "Δεν ήταν δυνατή η αποθήκευση της προβολής."
       embedded_table_loading: "Δεν ήταν δυνατή η φόρτωση της ενσωματωμένης προβολής: %{message}"
+    enumeration_activities: "Δραστηριότητες (παρακολούθηση χρόνου)"
+    enumeration_doc_categories: "Κατηγορίες εγγράφων"
+    enumeration_work_package_priorities: "Προτεραιότητες πακέτου εργασίας"
     filter:
       description:
         text_open_filter: "Ανοίξτε αυτό το φίλτρο με το 'ALT' και τα πλήκτρα βέλους."
@@ -191,10 +195,11 @@ el:
     general_text_yes: "ναι"
     general_text_No: "Όχι"
     general_text_Yes: "Ναι"
+    global_roles: Καθολικοί Ρόλοι
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "Κάντε κλικ εδώ για να ανανεώσετε τον πόρο και να κάνετε ενημέρωση στην τελευταία έκδοση."
+        edit_prohibited: "Η επεξεργασία του %{attribute} έχει μπλοκαριστεί για αυτό τον πόρο. Είτε αυτό το χαρακτηριστικό παράγεται από σχέσεις (π.χ. παιδιά) ή διαφορετικά δεν μπορεί να διαμορφωθεί."
         format:
           date: "%{attribute} δεν είναι έγκυρη ημερομηνία - αναμένεται ΕΕΕΕ-ΜΜ-ΗΗ."
         general: "Παρουσιάστηκε σφάλμα."
@@ -202,8 +207,8 @@ el:
       blocks:
         new_features:
           text_new_features: "Διαβάστε για τις νέες λειτουργίες και τις ενημερώσεις προϊόντων."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          current_new_feature_html: "Το OpenProject περιέχει μια νέα <b> σελίδα Επισκόπησης </b> για να <b>εμφανίσετε σημαντικές πληροφορίες έργου </b> και να δείξει εάν το έργο βρίσκεται εντός χρονοδιαγράμματος. </br> Μπορείτε να εισάγετε διάφορα γραφικά στοιχεία (widgets) για την κατάσταση, όπως: <ul><li> κατάσταση έργου, </li><li> επισκόπηση της κατάστασης του πακέτου εργασίας, </li><li>πρόοδος εργασίας,</li> <li> εργασίες που έχουν εκχωρηθεί στους χρήστες. </li></ul>"
+          learn_about: "Μάθετε περισσότερα για τα νέα widgets κατάστασης"
     label_activate: "Ενεργοποίηση"
     label_add_column_after: "Προσθήκη στήλης μετά"
     label_add_column_before: "Προσθήκη στήλης πριν"
@@ -221,10 +226,11 @@ el:
     label_and: "και"
     label_ascending: "Αύξουσα"
     label_author: "Συγγραφέας: %{user}"
+    label_avatar: "Άβαταρ"
     label_between: "μεταξύ"
-    label_board: "Πινακας"
+    label_board: "Πίνακας"
     label_board_locked: "Κλειδωμένο"
-    label_board_plural: "Πινακες"
+    label_board_plural: "Πίνακες"
     label_board_sticky: "Sticky"
     label_create: "Δημιουργία"
     label_create_work_package: "Δημιουργήστε νέο πακέτο εργασίας"
@@ -234,6 +240,8 @@ el:
     label_deactivate: "Απενεργοποίηση"
     label_descending: "Φθίνουσα"
     label_description: "Περιγραφή"
+    label_details: "Λεπτομέρειες"
+    label_display: "Εμφάνιση"
     label_cancel_comment: "Ακύρωση σχολίου"
     label_closed_work_packages: "κλειστό"
     label_collapse: "Σύμπτυξη"
@@ -254,22 +262,29 @@ el:
     label_export: "Εξαγωγή"
     label_filename: "Aρχείο"
     label_filesize: "Μέγεθος"
+    label_general: "Γενικά"
     label_greater_or_equal: ">="
     label_group: 'Ομάδα'
     label_group_by: "Ομαδοποίηση κατά"
+    label_group_plural: "Ομάδες"
     label_hide_attributes: "Εμφάνιση λιγότερων"
     label_hide_column: "Απόκρυψη στήλης"
     label_hide_project_menu: "Σύμπτυξη του μενού έργου"
     label_in: "σε"
     label_in_less_than: "σε λιγότερο από"
     label_in_more_than: "σε περισσότερο από"
+    label_incoming_emails: "Εισερχόμενα email"
+    label_information_plural: "Πληροφορίες"
     label_import: "Εισαγωγή"
     label_latest_activity: "Τελευταία δραστηριότητα"
     label_last_updated_on: "Τελευταία ενημέρωση στις"
     label_less_or_equal: "<="
     label_less_than_ago: "σε λιγότερο από ημέρες πριν"
     label_loading: "Φόρτωση..."
+    label_mail_notification: "Ειδοποιήσεις email"
     label_me: "εγώ"
+    label_meeting_agenda: "Ατζέντα"
+    label_meeting_minutes: "Πρακτικά"
     label_menu_collapse: "σύμπτυξη"
     label_menu_expand: "επέκταση"
     label_more_than_ago: "σε περισσότερο από ημέρες πριν"
@@ -290,12 +305,15 @@ el:
     label_previous: "Προηγούμενο"
     label_per_page: "Ανά σελίδα:"
     label_please_wait: "Παρακαλώ περιμένετε"
+    label_project_plural: "Έργα"
     label_visibility_settings: "Ρυθμίσεις ορατότητας"
     label_quote_comment: "Παραθέστε αυτό το σχόλιο"
     label_reset: "Επαναφορά"
     label_remove_column: "Κατάργηση στήλης"
     label_remove_columns: "Αφαιρέστε τις επιλεγμένες στήλες"
     label_remove_row: "Κατάργηση γραμμής"
+    label_report: "Αναφορά"
+    label_repository_plural: "Αποθετήρια"
     label_save_as: "Αποθήκευση ως"
     label_select_watcher: "Επιλέξτε έναν παρατηρητή..."
     label_selected_filter_list: "Επιλεγμένα φίλτρα"
@@ -306,6 +324,7 @@ el:
     label_sort_higher: "Μετακίνηση προς τα πάνω"
     label_sort_lower: "Μετακίνηση προς τα κάτω"
     label_sorting: "Ταξινόμηση"
+    label_spent_time: "Χρόνος που δαπανήθηκε"
     label_star_query: "Αγαπημένο"
     label_press_enter_to_save: "Πατήστε enter για αποθήκευση."
     label_public_query: "Δημόσιο"
@@ -314,7 +333,9 @@ el:
     label_subject: "Θέμα"
     label_this_week: "αυτή την εβδομάδα"
     label_today: "σήμερα"
+    label_time_entry_plural: "Χρόνος που δαπανήθηκε"
     label_up: "Πάνω"
+    label_user_plural: "Χρήστες"
     label_activity_show_only_comments: "Εμφάνιση μόνο δραστηριοτήτων με σχόλια"
     label_activity_show_all: "Εμφάνιση όλων των δραστηριοτήτων"
     label_total_progress: "%{percent}% Συνολική πρόοδος"
@@ -356,6 +377,7 @@ el:
     label_wait: "Παρακαλώ περιμένετε για την διαμόρφωση..."
     label_upload_counter: "Ολοκληρώθηκαν %{done} από %{count} αρχεία"
     label_validation_error: "Δεν ήταν δυνατή η αποθήκευση του πακέτου εργασίας λόγω των ακόλουθων σφαλμάτων:"
+    label_version_plural: "Εκδόσεις"
     label_view_has_changed: "Η προβολή έχει μη αποθηκευμένες αλλαγές. Κάντε κλικ για τις αποθηκεύσετε."
     help_texts:
       show_modal: 'Εμφανίστε το χαρακτηριστικό καταχώρησης κειμένου βοήθειας'
@@ -373,17 +395,17 @@ el:
         wiki: 'Μέσα στο <b>Wiki</b> μπορείτε να καταγράψετε και να μοιραστείτε γνώση μαζί με την ομάδα σας.'
         backlogs:
           overview: "Διαχειριστείτε την εργασία σας στην προβολή <b>Backlogs</b>. <br> Στα δεξιά υπάρχει το Backlog Προϊόντων ή το Backlog Σφαλμάτων, στα αριστερά τα αντίστοιχα sprints. Εδώ μπορείτε να δημιουργήσετε <b>epics, ιστορίες χρηστών και σφάλματα</b>, να δώσετε προτεραιότητα μέσω drag and drop και να τα προσθέσετε σε ένα sprint."
-          task_board_arrow: 'Για να δείτε τον <b>Πίνακα Καθηκόντων</b> σας, ανοίξτε το αναπτυσσόμενο μενού Sprint...'
-          task_board_select: '... και επιλέξτε την καταχώρηση <b>Πίνακας Καθηκόντων</b>.'
-          task_board: "Ο <b>Πίνακας Καθηκόντων</b> οπτικοποιεί την διαδικασία για αυτό το sprint. Προσθέστε καινούργια καθήκοντα ή εμπόδια με το εικονίδιο + δίπλα σε μια ιστορία χρήστη. Μέσω drag'n'drop μπορείτε να ενημερώσετε την κατάσταση."
+          task_board_arrow: 'Για να δείτε τον <b>Πίνακα Εργασιών</b> σας, ανοίξτε το αναπτυσσόμενο μενού Sprint...'
+          task_board_select: '... και επιλέξτε την καταχώρηση <b>Πίνακας Εργασιών</b>.'
+          task_board: "Ο <b>Πίνακας Εργασιών</b> οπτικοποιεί την διαδικασία για αυτό το sprint. Προσθέστε καινούργιες εργασίες ή εμπόδια με το εικονίδιο + δίπλα σε μια ιστορία χρήστη. Μέσω drag'n'drop μπορείτε να ενημερώσετε την κατάσταση."
         boards:
-          overview: 'Manage your work within an intuitive <b>Boards</b> view.'
+          overview: 'Διαχειριστείτε την εργασία σας μέσα από την διαισθητική προβολή <b>Πινάκων</b>.'
           lists: 'Μπορείτε να δημιουργήσετε πολλαπλές λίστες (στήλες) μέσα σε μια προβολή Πίνακα, π.χ. να δημιουργήσετε έναν πίνακα KANBAN.'
           add: 'Κάντε κλικ στο + για να <b>προσθέσετε μια νέα κάρτα</b> στη λίστα μέσα σε ένα Πίνακα.'
-          drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
+          drag: 'Σύρετε τις κάρτες μέσα στη λίστα για να αλλάξετε την σειρά ή σε άλλη λίστα. Με διπλό κλικ μπορείτε να ανοίξετε την προβολή λεπτομερειών.'
         wp:
           toggler: "Τώρα ας ρίξουμε μια ματιά στη ενότητα <b>Πακέτα εργασίας</b>, η οποία δίνει μια πιο λεπτομερή ματιά της εργασίας σας."
-          list: 'Αυτή είναι η λίστα <b>Πακέτων εργασίας</b> με τις σημαντικές εργασίας για το έργο σας, όπως καθήκοντα, λειτουργίες, ορόσημα, σφάλματα και άλλα. <br> Μπορείτε να δημιουργήσετε ή να επεξεργαστείτε ένα πακέτο εργασίας απευθείας από αυτή τη λίστα. Για να δείτε τις λεπτομέρειες του, μπορείτε να κάνετε διπλό κλικ σε μια από τις γραμμές.'
+          list: 'Αυτή είναι η λίστα <b>Πακέτων εργασίας</b> με τις σημαντικές δουλειές για το έργο σας, όπως εργασίες, λειτουργίες, ορόσημα, σφάλματα και άλλα. <br> Μπορείτε να δημιουργήσετε ή να επεξεργαστείτε ένα πακέτο εργασίας απευθείας από αυτή τη λίστα. Για να δείτε τις λεπτομέρειες του, μπορείτε να κάνετε διπλό κλικ σε μια από τις γραμμές.'
           full_view: 'Μέσα στις <b>λεπτομέρειες του πακέτου εργασίας</b> θα βρείτε όλες τις σχετικές πληροφορίες, όπως την περιγραφή, την κατάσταση, την προτεραιότητα, τις δραστηριότητες, τις εξαρτήσεις και τα σχόλια του.'
           back_button: 'Με το βέλος μπορείτε να πλοηγηθείτε πίσω στην λίστα πακέτων εργασίας.'
           create_button: 'Το κουμπί <b>Δημιουργία</b> θα προσθέσει ένα καινούργιο πακέτο εργασίας στο έργο σας.'
@@ -419,7 +441,7 @@ el:
         confirm_reset: >
           Προειδοποίηση: Είστε σίγουροι ότι θέλετε να επαναφέρετε τη φόρμα διαμόρφωσης; Αυτό θα επαναφέρει τα χαρακτηριστικά στις προεπιλεγμένες ομάδες τους και θα απενεργοποιήσει ΌΛΑ τα προσαρμοσμένα πεδία.
         upgrade_to_ee: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
-        upgrade_to_ee_text: "Wow! Αν χρειάζεστε αυτή τη λειτουργία τότε είστε σούπερ επαγγελματίας! Θα θέλατε να υποστηρίξετε εμάς τους προγραμματιστές OpenSource με το να γίνετε πελάτης της έκδοσης για επιχειρήσεις;"
+        upgrade_to_ee_text: "Wow! Αν χρειάζεστε αυτή τη λειτουργία τότε είστε σούπερ επαγγελματίας! Θα θέλατε να στηρίξετε εμάς τους προγραμματιστές OpenSource με το να γίνετε πελάτης της έκδοσης για επιχειρήσεις;"
         more_information: "Περισσότερες πληροφορίες"
         nevermind: "Δεν πειράζει"
         filter_types:
@@ -435,10 +457,22 @@ el:
           includes: "συμπεριλαμβανομένου"
           requires: "απαιτώντας"
           required: "απαιτείται από"
+      edit:
+        form_configuration: "Διαμόρφωση Φόρμας"
+        projects: "Έργα"
+        settings: "Ρυθμίσεις"
     time_entry:
+      project: 'Έργο'
+      work_package: 'Εργασία'
+      work_package_required: 'Πρέπει πρώτα να επιλεγεί ένα πακέτο εργασίας.'
       activity: 'Δραστηριότητα'
       comment: 'Σχόλιο'
+      duration: 'Διάρκεια'
+      spent_on: 'Ημερομηνία'
       hours: 'Ώρες'
+      label: 'Καταχώρηση χρόνου'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Ταυτοποίηση δύο παραγόντων'
     watchers:
       label_loading: φορτώνονται οι παρατηρητές...
       label_error_loading: Παρουσιάστηκε σφάλμα κατά τη φόρτωση των παρατηρητών
@@ -469,8 +503,8 @@ el:
       set_parent: "Ορισμός γονέα"
       change_parent: "Αλλαγή γονέα"
       remove_parent: "Αφαίρεση γονέα"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "Ιεραρχία εσοχής"
+      hierarchy_outdent: "Ιεραρχία προεξοχής"
       group_by_wp_type: "Ομαδοποίηση κατά τύπο πακέτου εργασίας"
       group_by_relation_type: "Ομαδοποίηση κατά τύπο συσχέτισης"
       add_parent: "Προσθέστε υπάρχοντα γονέα"
@@ -691,7 +725,7 @@ el:
         label_content: "Κάντε κλικ εδώ για να προσπεράσετε το μενού και να πάτε στο περιεχόμενο"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Κάντε κλικ για επεξεργασία..."
       query:
         column_names: "Στήλες"
         group_by: "Ομαδοποίηση αποτελεσμάτων κατά"
@@ -709,7 +743,7 @@ el:
         confirm_edit_cancel: "Είστε βέβαιοι ότι θέλετε να ακυρώσετε την επεξεργασία του ονόματος αυτής της προβολής; Ο τίτλος θα επανέλθει στην προηγούμενη τιμή του."
         click_to_edit_query_name: "Κάντε κλικ για να επεξεργαστείτε τον τίτλο αυτής της προβολής."
         rename_query_placeholder: "Το όνομα αυτής της προβολής"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Σήμανση αυτής της προβολής ως αγαπημένη και προσθήκη στην πλάγια μπάρα αποθηκευμένων προβολών στα αριστερά."
         public_text: >
           Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
@@ -806,7 +840,7 @@ el:
         has_children: "Το πακέτο εργασίας έχει %{childUnits}:"
         confirm_deletion_children: "Αναγνωρίζω ότι ΌΛΟΙ οι απόγονοι από τα αναφερόμενα πακέτα εργασίας θα αφαιρεθούν αναδρομικά."
         deletes_children: "Όλα τα παιδιά πακέτα εργασίας και οι απόγονοι τους επίσης θα διαγραφούν αναδρομικά."
-    notice_no_results_to_display: "Δεν υπάρχουν αποτελέσματα για εμφάνιση."
+    notice_no_results_to_display: "Δεν υπάρχουν ορατά αποτελέσματα για εμφάνιση."
     notice_successful_create: "Επιτυχής δημιουργία."
     notice_successful_delete: "Επιτυχής διαγραφή."
     notice_successful_update: "Επιτυχής ενημέρωση."

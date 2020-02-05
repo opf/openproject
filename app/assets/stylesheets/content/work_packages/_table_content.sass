@@ -1,6 +1,6 @@
 //-- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -84,6 +84,9 @@
   td
     padding: 0 !important
 
+  .group--value
+    @include text-shortener
+
 // Shrink column of details / inline-create icons
 .wp-table--configuration-modal--trigger
   width: 60px
@@ -124,6 +127,7 @@ html:not(.-browser-mobile)
   @extend .ellipsis
   display: inline-block
   vertical-align: middle
+  width: 100%
   .wp-table--cell-td.-editing &
     display: block
     width: initial !important

@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +49,7 @@ describe 'menu permissions', type: :feature, js: true do
     it 'I can see all menu entries' do
       expect(page).to have_selector('#menu-sidebar .menu-item--title', text: 'Versions')
       expect(page).to have_selector('#menu-sidebar .menu-item--title', text: 'Information')
-      expect(page).to have_selector('#menu-sidebar .menu-item--title', text: 'Enabled modules')
+      expect(page).to have_selector('#menu-sidebar .menu-item--title', text: 'Modules')
     end
 
     it 'the parent node directs to the generic settings page' do

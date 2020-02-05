@@ -37,6 +37,8 @@ ko:
         subprojects:
           title: '하위 프로젝트'
           no_results: '하위 프로젝트가 없습니다.'
+        time_entries_current_user:
+          title: 'My spent time'
         time_entries_list:
           title: '경과 시간(지난 7 일)'
           no_results: '지난 7일간 시간 항목이 없습니다.'

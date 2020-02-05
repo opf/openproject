@@ -69,12 +69,11 @@
   box-sizing: content-box
   height: 40px
   border-bottom: 1px solid #DDDDDD
+  margin-bottom: 1rem
   .tabrow
     display: block
     overflow-x: auto
     white-space: nowrap
-    // Padding for hiding the scroll bar
-    padding-bottom: 17px
     height: 57px
     li
       display: inline-block
@@ -102,3 +101,7 @@
   &:hover
     @include varprop(color, content-link-color)
     cursor: pointer
+
+.tab-content
+  .form--section
+    padding: 0

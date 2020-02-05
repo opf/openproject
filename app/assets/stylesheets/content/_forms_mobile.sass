@@ -1,6 +1,6 @@
 //-- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -49,10 +49,13 @@
       flex-basis: 100%
       max-width: 100%
 
-  #tab-content-info form
+  #tab-content-info form,
+  .op-modal--modal-body,
+  form.-wide-labels .op-modal--modal-body
     .form--label,
     .form--field-container
       flex-basis: 100%
+      max-width: 100%
 
   .ui-select-dropdown
     .select2-search

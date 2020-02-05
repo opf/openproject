@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ uk:
         inline: 'Виділіть у рядку:'
         entire_card_by: 'Пов''язана картка'
       remove_from_list: 'Вилучити зі списку'
+    caption_rate_history: "Історія рейтингу"
     clipboard:
       browser_error: "Ваш браузер не підтримує копіювання до буфера обміну. Потрібно скопіювати виділений текст вручну."
       copied_successful: "Успішно скопійовано до буфера обміну!"
@@ -171,6 +172,9 @@ uk:
       cannot_save_changes_with_message: "Не вдалося зберегти зміни через такі помилки: %{error}"
       query_saving: "Перегляд не вдалося зберегти."
       embedded_table_loading: "Вбудований перегляд не вдалося завантажити: %{message}"
+    enumeration_activities: "Дії (облік часу)"
+    enumeration_doc_categories: "Категорії документів"
+    enumeration_work_package_priorities: "Пріоритети робочого пакету"
     filter:
       description:
         text_open_filter: "Відкрийте цей фільтр за допомогою «ALT» і клавіш зі стрілками."
@@ -192,6 +196,7 @@ uk:
     general_text_yes: "так"
     general_text_No: "Ні"
     general_text_Yes: "Так"
+    global_roles: Глобальні ролі
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -222,6 +227,7 @@ uk:
     label_and: "і"
     label_ascending: "За зростанням"
     label_author: "Автор: %{user}"
+    label_avatar: "Аватар"
     label_between: "між ними"
     label_board: "Дошка"
     label_board_locked: "Заблоковано"
@@ -235,6 +241,8 @@ uk:
     label_deactivate: "Деактивувати"
     label_descending: "За спаданням"
     label_description: "Опис"
+    label_details: "Детальніше"
+    label_display: "Дисплей"
     label_cancel_comment: "Скасувати коментар"
     label_closed_work_packages: "зачинено"
     label_collapse: "Згорнути"
@@ -255,22 +263,29 @@ uk:
     label_export: "Експорт"
     label_filename: "Файл"
     label_filesize: "Розмір"
+    label_general: "Загальні"
     label_greater_or_equal: ">="
     label_group: 'Група'
     label_group_by: "Групувати за"
+    label_group_plural: "Групи"
     label_hide_attributes: "Показати менше"
     label_hide_column: "Приховати стовпчик"
     label_hide_project_menu: "Згорнути меню проекту"
     label_in: "в"
     label_in_less_than: "менш ніж"
     label_in_more_than: "більше ніж"
+    label_incoming_emails: "Вхідні повідомлення"
+    label_information_plural: "Інформація"
     label_import: "Імпортувати"
     label_latest_activity: "Останні дії"
     label_last_updated_on: "Останнє оновлення"
     label_less_or_equal: "<="
     label_less_than_ago: "менше, ніж день тому"
     label_loading: "Завантаження..."
+    label_mail_notification: "Email сповіщення"
     label_me: "мені"
+    label_meeting_agenda: "Порядок денний"
+    label_meeting_minutes: "Хвилини"
     label_menu_collapse: "згорнути"
     label_menu_expand: "розгорнути"
     label_more_than_ago: "більш ніж днів(я) назад"
@@ -291,12 +306,15 @@ uk:
     label_previous: "Попередній"
     label_per_page: "К-сть на сторінку:"
     label_please_wait: "Будь ласка, зачекайте"
+    label_project_plural: "Проекти"
     label_visibility_settings: "Налаштування видимості ..."
     label_quote_comment: "Цитувати цей коментар"
     label_reset: "Скинути"
     label_remove_column: "Видалити стовпець"
     label_remove_columns: "Видалити вибрані стовпці"
     label_remove_row: "Видалити рядок"
+    label_report: "Звіт"
+    label_repository_plural: "Репозиторії"
     label_save_as: "Зберегти як"
     label_select_watcher: "Виберіть спостерігача..."
     label_selected_filter_list: "Вибрані фільтри"
@@ -307,6 +325,7 @@ uk:
     label_sort_higher: "Рухатися вгору"
     label_sort_lower: "Пересунути нижче"
     label_sorting: "Сортування"
+    label_spent_time: "Трудовитрати"
     label_star_query: "Улюблений"
     label_press_enter_to_save: "Натисніть enter, щоб зберегти."
     label_public_query: "Публічний"
@@ -315,7 +334,9 @@ uk:
     label_subject: "Тема"
     label_this_week: "цього тижня"
     label_today: "сьогодні"
+    label_time_entry_plural: "Трудовитрати"
     label_up: "Вгору"
+    label_user_plural: "Користувачі"
     label_activity_show_only_comments: "Показувати заходи лише з коментарями"
     label_activity_show_all: "Показати всю активність"
     label_total_progress: "%{percent}% загального прогресу"
@@ -357,6 +378,7 @@ uk:
     label_wait: "Будь ласка, зачекайте конфігурації..."
     label_upload_counter: "%{done} з %{count} файлу(-ів) завершені"
     label_validation_error: "Пакет робіт не може бути збережений через наступні помилки:"
+    label_version_plural: "Версії"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Показати вміст атрибута тексту довідки'
@@ -436,10 +458,22 @@ uk:
           includes: "у тому числі"
           requires: "вимагає"
           required: "обов’язково"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Проекти"
+        settings: "Налаштування"
     time_entry:
+      project: 'Проект'
+      work_package: 'Пакет робіт'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Активність'
       comment: 'Коментар'
+      duration: 'Тривалість'
+      spent_on: 'Дата'
       hours: 'Години'
+      label: 'Time entry'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Двофакторна аутентифікація'
     watchers:
       label_loading: завантаження спостерігачів...
       label_error_loading: Під час завантаження спостерігачів сталася помилка

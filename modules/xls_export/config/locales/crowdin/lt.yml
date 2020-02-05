@@ -1,5 +1,5 @@
 lt:
-  export_to_excel: "Eksportuoti kaip Excel skaičiuoklę"
+  export_to_excel: "Export XLS"
   print_with_description: "Spausdinimo peržiūra su aprašymu"
   sentence_separator_or: "arba"
   different_formats: Skirtingi formatai

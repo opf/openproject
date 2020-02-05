@@ -63,21 +63,21 @@ fr:
   permission_manage_bcf: "Importer et gérer les problèmes BCF"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "Accès complet à l'API BCF v2.1"
+      bcf_v2_1_text: "L'application recevra un accès complet en lecture et écriture à l'API BCF v2.1 de OpenProject pour effectuer des actions en votre nom."
   activerecord:
     errors:
       models:
         bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
-          invalid_components: "components is invalid."
-          invalid_lines: "lines is invalid."
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
-          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
-          no_json: "Is not a well structured json."
-          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
-          snapshot_data_blank: "snapshot_data needs to be provided."
-          unsupported_key: "An unsupported json property is included."
+          bitmaps_not_writable: "bitmaps n'est pas accessible en écriture car il n'est pas encore implémenté."
+          index_not_integer: "l'index n'est pas un entier."
+          invalid_clipping_planes: "clipping_planes n'est pas valide."
+          invalid_components: "components n'est pas valide."
+          invalid_lines: "lines n'est pas valide."
+          invalid_orthogonal_camera: "orthogonal_camera n'est pas valide."
+          invalid_perspective_camera: "perspective_camera n'est pas valide."
+          mismatching_guid: "Le guid dans json_viewpoint ne correspond pas au guid du modèle."
+          no_json: "N'est pas un json bien structuré."
+          snapshot_type_unsupported: "snapshot_type doit être de type 'png' ou 'jpg'."
+          snapshot_data_blank: "snapshot_data doit être fourni."
+          unsupported_key: "Une propriété json non supportée est incluse."

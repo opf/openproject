@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ zh-CN:
     plugins:
       no_results_title_text: 目前没有插件可用。
     custom_styles:
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
       custom_colors: "自定义颜色"
       customize: "使用您自己的徽标自定义 OpenProject 安装。注：此徽标可公开查看。"
       enterprise_notice: "作为对为开发 OpenProject 提供财力支持的订阅者的特别“感谢”，这项小功能仅限企业版支持订阅者使用。"
       manage_colors: "编辑颜色选择选项"
       instructions:
-        alternative_color: "浓重的主题色，通常用于屏幕上最重要的按钮。"
-        content_link_color: "大多数链接的特定颜色。"
-        primary_color: "主颜色。"
-        primary_color_dark: "通常深色的主颜色用于悬浮效果。"
-        header_bg_color: "标题的背景色。"
-        header_item_bg_hover_color: "鼠标悬停时可点击的标题的背景色。"
-        header_item_font_color: "可点击标题的特定颜色。"
-        header_item_font_hover_color: "鼠标悬停时可点击标题的特定颜色。"
-        header_border_bottom_color: "页眉下方法细线。如果你不想看到，将其留白。"
-        main_menu_bg_color: "左菜单的背景色。"
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "大多数链接的特定颜色。"
+        primary-color: "主颜色。"
+        primary-color-dark: "通常深色的主颜色用于悬浮效果。"
+        header-item-bg-hover-color: "鼠标悬停时可点击的标题的背景色。"
+        header-item-font-color: "可点击标题的特定颜色。"
+        header-item-font-hover-color: "鼠标悬停时可点击标题的特定颜色。"
+        header-border-bottom-color: "页眉下方法细线。如果你不想看到，将其留白。"
+        main-menu-bg-color: "左菜单的背景色。"
     enterprise:
       upgrade_to_ee: "升级到企业版"
       add_token: "上传企业版支持令牌"
@@ -576,6 +594,10 @@ zh-CN:
         role:
           permissions:
             dependency_missing: "还需要包括“%{dependency}”，因为已选择“%{permission}”。"
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "工作包 #%{id} 不是重新分配时间条目的有效目标。"
           attributes:
@@ -722,6 +744,7 @@ zh-CN:
     type: "类型"
     updated_at: "更新于"
     updated_on: "更新于"
+    uploader: "Uploader"
     user: "用户"
     version: "版本"
     work_package: "工作包"
@@ -995,7 +1018,7 @@ zh-CN:
         rename_groups: "重命名属性群组"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "活动 （时间跟踪）"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "工作包优先级"
   enumeration_reported_project_statuses: "报告的项目状态"
   error_auth_source_sso_failed: "用户 \"%{value}\" 的单次登录 (SSO) 失败"
@@ -1066,6 +1089,8 @@ zh-CN:
       pdf_with_descriptions: "带描述的PDF"
       pdf_with_descriptions_and_attachments: "带有描述和附件的 PDF 文件"
       pdf_with_attachments: "带有附件的 PDF 文件"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext 可用 (可选)"

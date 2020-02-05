@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,23 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= toolbar title: t(:label_custom_style) %>
 
 <%= error_messages_for 'custom_style' %>
+
+<%= form_tag update_design_themes_path, method: :post, class: "form" do %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t('admin.custom_styles.color_theme') %></legend>
+      <div class="form--field">
+        <div class="form--field-container">
+          <%= styled_select_tag 'theme',
+                                options_for_select(@theme_options, @current_theme),
+                                container_class: '-slim' %>
+        </div>
+      </div>
+
+      <button type="submit" class="button"><%= I18n.t(:button_save) %></button>
+    </fieldset>
+  </section>
+<% end %>
 
 <%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
   <section class="form--section">
@@ -139,35 +156,34 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= form_tag update_design_colors_path, method: :post, class: "form" do %>
   <section class="form--section">
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= I18n.t('admin.custom_styles.custom_colors') %></legend>
+    <fieldset class="form--fieldset -collapsible <%= 'collapsed' unless @current_theme.empty?  %> ">
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_advanced_settings) %></legend>
 
       <% DesignColor.setables.each do |design_color|  %>
         <div class="form--field -required">
-          <label class="form--label"><%= design_color.variable %>:</label>
+          <label class="form--label"><%= I18n.t("admin.custom_styles.colors.#{design_color.variable}") %>:</label>
           <span class="form--field-container">
+            <div class="form--field-affix">
+              <%= icon_for_color(OpenStruct.new(variable: design_color.variable,
+                                                hexcode: design_color.get_hexcode),
+                                 data: { target: "#design_colors_" + design_color.variable }) %>
+            </div>
             <span class="form--text-field-container">
               <%= styled_text_field_tag "design_colors[]" + design_color.variable,
                                         design_color.hexcode,
                                         placeholder: DesignColor.defaults[design_color.variable] %>
             </span>
           </span>
-          <%= icon_for_color(OpenStruct.new(variable: design_color.variable,
-                                            hexcode: design_color.get_hexcode),
-                             data: { target: "#design_colors_" + design_color.variable }) %>
           <div class="form--field-instructions">
-            <% if design_color.variable == "primary-color" %>
-              <%= t("admin.custom_styles.instructions.primary_color") %>
-            <% elsif design_color.variable == "primary-color-dark" %>
-              <%= t("admin.custom_styles.instructions.primary_color_dark") %>
-            <% elsif design_color.variable == "alternative-color" %>
-              <%= t("admin.custom_styles.instructions.alternative_color") %>
+            <% instruction_key = "admin.custom_styles.instructions.#{design_color.variable}" %>
+            <% if I18n.exists?(instruction_key, :en) %>
+              <%= I18n.t(instruction_key) %>
             <% end %>
           </div>
         </div>
       <% end %>
 
-      <button type="submit" class="button">Save</button>
+      <button type="submit" class="button -hide-when-collapsed"><%= I18n.t(:button_save) %></button>
 
     </fieldset>
   </section>

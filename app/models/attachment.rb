@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -198,21 +198,21 @@ class Attachment < ActiveRecord::Base
   end
 
   def extract_fulltext
-    return unless OpenProject::Database.allows_tsv?
+    return unless OpenProject::Database.allows_tsv? && (!container || container.class.attachment_tsv_extracted?)
 
     ExtractFulltextJob.perform_later(id)
   end
 
   # Extract the fulltext of any attachments where fulltext is still nil.
-  # This runs inline and not in a asynchronous worker.
+  # This runs inline and not in an asynchronous worker.
   def self.extract_fulltext_where_missing(run_now: true)
     return unless OpenProject::Database.allows_tsv?
 
     Attachment
       .where(fulltext: nil)
+      .where(container_type: tsv_extracted_containers)
       .pluck(:id)
       .each do |id|
-
       if run_now
         ExtractFulltextJob.perform_now(id)
       else
@@ -226,6 +226,17 @@ class Attachment < ActiveRecord::Base
 
     Attachment.pluck(:id).each do |id|
       ExtractFulltextJob.perform_now(id)
+    end
+  end
+
+  def self.tsv_extracted_containers
+    Attachment
+      .select(:container_type)
+      .distinct
+      .pluck(:container_type)
+      .compact
+      .select do |container_class|
+      container_class.constantize.attachment_tsv_extracted?
     end
   end
 

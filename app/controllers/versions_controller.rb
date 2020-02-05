@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,9 @@
 #++
 
 class VersionsController < ApplicationController
+  menu_item :roadmap, only: [:index]
   menu_item :settings_versions
+  
   model_object Version
   before_action :find_model_object, except: %i[index new create close_completed]
   before_action :find_project_from_association, except: %i[index new create close_completed]

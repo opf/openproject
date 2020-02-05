@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ sk:
         inline: 'Highlight inline:'
         entire_card_by: 'Celý riadok o'
       remove_from_list: 'Odstrániť kartu zo zoznamu'
+    caption_rate_history: "Hodinová sadzba - História"
     clipboard:
       browser_error: "Váš prehliadač nepodporuje kopírovanie do schránky. Manuálne skopírujte vybratý text."
       copied_successful: "Úspešne skopírované do schránky!"
@@ -171,6 +172,9 @@ sk:
       cannot_save_changes_with_message: "Nie je možné uložiť zmeny kvôli nasledujúcej chybe: %{error}"
       query_saving: "Pohľad sa nepodarilo uložiť."
       embedded_table_loading: "Vložený pohľad nemožno načítať: %{message}"
+    enumeration_activities: "Činnosti (sledovanie času)"
+    enumeration_doc_categories: "Kategórie dokumentu"
+    enumeration_work_package_priorities: "Priority Pracovného balíka"
     filter:
       description:
         text_open_filter: "Otvorte tento filter pomocou „Alt“ a šípok."
@@ -192,6 +196,7 @@ sk:
     general_text_yes: "áno"
     general_text_No: "Nie"
     general_text_Yes: "Áno"
+    global_roles: Globálne roly
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -222,6 +227,7 @@ sk:
     label_and: "a"
     label_ascending: "Vzostupne"
     label_author: "Autor: %{user}"
+    label_avatar: "Avatar"
     label_between: "medzi"
     label_board: "Nástenka"
     label_board_locked: "Uzamknuté"
@@ -235,6 +241,8 @@ sk:
     label_deactivate: "Deaktivovať"
     label_descending: "Zostupne"
     label_description: "Popis"
+    label_details: "Podrobnosti"
+    label_display: "Zobraziť"
     label_cancel_comment: "Zrušiť komentár"
     label_closed_work_packages: "uzatvorené"
     label_collapse: "Zbaliť"
@@ -255,22 +263,29 @@ sk:
     label_export: "Exportovať"
     label_filename: "Súbor"
     label_filesize: "Veľkosť"
+    label_general: "Všeobecné"
     label_greater_or_equal: ">="
     label_group: 'Skupina'
     label_group_by: "Zoskupiť podľa"
+    label_group_plural: "Skupiny"
     label_hide_attributes: "Zobraziť menej"
     label_hide_column: "Skryť stĺpec"
     label_hide_project_menu: "Zbaliť ponuku projektu"
     label_in: "v"
     label_in_less_than: "v menej ako"
     label_in_more_than: "vo viac ako"
+    label_incoming_emails: "Prichádzajúce e-maily"
+    label_information_plural: "Informácie"
     label_import: "Import"
     label_latest_activity: "Posledná aktivita"
     label_last_updated_on: "Naposledy aktualizované"
     label_less_or_equal: "<="
     label_less_than_ago: "pred necelým dňom"
     label_loading: "Načítava sa..."
+    label_mail_notification: "Upozornenia e-mailom"
     label_me: "mňa"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Zápisnica"
     label_menu_collapse: "zbaliť"
     label_menu_expand: "rozbaliť"
     label_more_than_ago: "pred viac než dňom"
@@ -291,12 +306,15 @@ sk:
     label_previous: "Predošlý"
     label_per_page: "Na stranu:"
     label_please_wait: "Prosím, čakajte"
+    label_project_plural: "Projekty"
     label_visibility_settings: "Nastavenia viditeľnosti"
     label_quote_comment: "Citovať tento komentár"
     label_reset: "Vynulovať"
     label_remove_column: "Odstrániť stĺpec"
     label_remove_columns: "Odstrániť vybraté stĺpce"
     label_remove_row: "Odstrániť riadok"
+    label_report: "Report"
+    label_repository_plural: "Repozitáre"
     label_save_as: "Uložiť ako"
     label_select_watcher: "Vybrať pozorovateľa ..."
     label_selected_filter_list: "Vybrané filtre"
@@ -307,6 +325,7 @@ sk:
     label_sort_higher: "Presunúť vyššie"
     label_sort_lower: "Presunúť nižšie"
     label_sorting: "Zoradenie"
+    label_spent_time: "Strávený čas"
     label_star_query: "Preferované"
     label_press_enter_to_save: "Stlačte enter pre uloženie."
     label_public_query: "Verejný"
@@ -315,7 +334,9 @@ sk:
     label_subject: "Predmet"
     label_this_week: "tento týždeň"
     label_today: "dnes"
+    label_time_entry_plural: "Strávený čas"
     label_up: "Hore"
+    label_user_plural: "Užívatelia"
     label_activity_show_only_comments: "Zobraziť len aktivity s komentármi"
     label_activity_show_all: "Zobraziť všetky aktivity"
     label_total_progress: "%{percent}% celkový priebeh"
@@ -357,6 +378,7 @@ sk:
     label_wait: "Počkajte, prosím, pre konfiguráciu..."
     label_upload_counter: "%{done} z %{count} súborov hotové"
     label_validation_error: "Pracovný balík sa nepodarilo uložiť z nasledujúcich chýb:"
+    label_version_plural: "Verzie"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Zobraziť nápovedu pre tento atribút'
@@ -436,10 +458,22 @@ sk:
           includes: "vrátane"
           requires: "vyžaduje"
           required: "požadované"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projekty"
+        settings: "Nastavenia"
     time_entry:
+      project: 'Projekt'
+      work_package: 'Pracovný balíček'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Činnosť'
       comment: 'Komentár'
+      duration: 'Trvanie'
+      spent_on: 'Dátum'
       hours: 'Hodín'
+      label: 'Time entry'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Dvojfaktorové overenie (2FA)'
     watchers:
       label_loading: načítanie pozorovateľov...
       label_error_loading: Vyskytla sa chyba pri načítavaní pozorovateľov

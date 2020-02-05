@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ sv:
         inline: 'Markera inline:'
         entire_card_by: 'Hela kortet med'
       remove_from_list: 'Ta bort kort från listan'
+    caption_rate_history: "Historiska timpriser"
     clipboard:
       browser_error: "Din webbläsare stöder inte kopiera till Urklipp. Vänligen kopiera den markerade texten manuellt."
       copied_successful: "Kopierad till Urklipp!"
@@ -170,6 +171,9 @@ sv:
       cannot_save_changes_with_message: "Kan inte spara dina ändringar på grund av följande error: %{error}"
       query_saving: "Vyn kunde inte sparas."
       embedded_table_loading: "Den inbäddade vyn kunde inte laddas: %{message}"
+    enumeration_activities: "Aktiviteter (tidredovisning)"
+    enumeration_doc_categories: "Dokumentkategorier"
+    enumeration_work_package_priorities: "Arbetspaketsprioritering"
     filter:
       description:
         text_open_filter: "Öppna det här filtret med 'ALT' och piltangenterna."
@@ -191,6 +195,7 @@ sv:
     general_text_yes: "ja"
     general_text_No: "Nej"
     general_text_Yes: "Ja"
+    global_roles: Globala roller
     hal:
       error:
         update_conflict_refresh: "Klicka här för att uppdatera resursen och uppdatera till den nyaste versionen."
@@ -221,6 +226,7 @@ sv:
     label_and: "och"
     label_ascending: "Stigande"
     label_author: "Författare: %{user}"
+    label_avatar: "Profilbild"
     label_between: "mellan"
     label_board: "Tavla"
     label_board_locked: "Låst"
@@ -234,6 +240,8 @@ sv:
     label_deactivate: "Deaktivera"
     label_descending: "Fallande"
     label_description: "Beskrivning"
+    label_details: "Detaljer"
+    label_display: "Visa"
     label_cancel_comment: "Avbryt kommentar"
     label_closed_work_packages: "stängt"
     label_collapse: "Fäll ihop"
@@ -254,22 +262,29 @@ sv:
     label_export: "Exportera"
     label_filename: "Fil"
     label_filesize: "Filstorlek"
+    label_general: "Allmänt"
     label_greater_or_equal: ">="
     label_group: 'Grupp'
     label_group_by: "Gruppera efter"
+    label_group_plural: "Grupper"
     label_hide_attributes: "Visa mindre"
     label_hide_column: "Dölj kolumn"
     label_hide_project_menu: "Minimera projektmenyn"
     label_in: "i"
     label_in_less_than: "i mindre än"
     label_in_more_than: "i mer än"
+    label_incoming_emails: "Inkommande E-post"
+    label_information_plural: "Information"
     label_import: "Importera"
     label_latest_activity: "Senaste aktivitet"
     label_last_updated_on: "Senast uppdaterad den"
     label_less_or_equal: "<="
     label_less_than_ago: "mindre än dagar sedan"
     label_loading: "Laddar..."
+    label_mail_notification: "E-postaviseringar"
     label_me: "mig"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Protokoll"
     label_menu_collapse: "fäll ihop"
     label_menu_expand: "expandera"
     label_more_than_ago: "mer än dagar sedan"
@@ -290,12 +305,15 @@ sv:
     label_previous: "Föregående"
     label_per_page: "Per sida:"
     label_please_wait: "Vänligen vänta"
+    label_project_plural: "Projekt"
     label_visibility_settings: "Synlighet inställningar"
     label_quote_comment: "Citera denna kommentar"
     label_reset: "Återställ"
     label_remove_column: "Ta bort kolumn"
     label_remove_columns: "Ta bort markerade kolumner"
     label_remove_row: "Ta bort rad"
+    label_report: "Rapport"
+    label_repository_plural: "Versionsarkiv"
     label_save_as: "Spara som"
     label_select_watcher: "Välj en bevakare..."
     label_selected_filter_list: "Valda filter"
@@ -306,6 +324,7 @@ sv:
     label_sort_higher: "Flytta upp"
     label_sort_lower: "Flytta ned"
     label_sorting: "Sortering"
+    label_spent_time: "Förbrukad tid"
     label_star_query: "Föredragen"
     label_press_enter_to_save: "Tryck på enter för att spara."
     label_public_query: "Offentlig"
@@ -314,7 +333,9 @@ sv:
     label_subject: "Ämne"
     label_this_week: "denna vecka"
     label_today: "idag"
+    label_time_entry_plural: "Förbrukad tid"
     label_up: "Upp"
+    label_user_plural: "Användare"
     label_activity_show_only_comments: "Visa aktiviteter med endast kommentarer"
     label_activity_show_all: "Visa aktiviteter"
     label_total_progress: "%{percent}% Totalt klart"
@@ -323,7 +344,7 @@ sv:
     label_value_derived_from_children: "(värde härrör från barn)"
     label_warning: "Varning"
     label_work_package: "Arbetspaket"
-    label_work_package_plural: "Arbetspaketen"
+    label_work_package_plural: "Arbetspaket"
     label_watch: "Bevaka"
     label_watch_work_package: "Bevaka arbetspaket"
     label_watcher_added_successfully: "Bevakare har lagts till!"
@@ -356,6 +377,7 @@ sv:
     label_wait: "Vänligen vänta för konfiguration..."
     label_upload_counter: "%{done} av %{count} filer färdiga"
     label_validation_error: "Arbetspaketet kunde inte sparas på grund av följande fel:"
+    label_version_plural: "Versioner"
     label_view_has_changed: "Denna vy har osparade ändringar. Klicka för att spara dem."
     help_texts:
       show_modal: 'Visa attribut hjälp textinmatning'
@@ -435,10 +457,22 @@ sv:
           includes: "inklusive"
           requires: "kräver"
           required: "krävs av"
+      edit:
+        form_configuration: "Ställ in formulär"
+        projects: "Projekt"
+        settings: "Inställningar"
     time_entry:
+      project: 'Projekt'
+      work_package: 'Arbetspaket'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Aktivitet'
       comment: 'Kommentar'
+      duration: 'Varaktighet'
+      spent_on: 'Datum'
       hours: 'Timmar'
+      label: 'Tidspost'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Tvåfaktorsautentisering'
     watchers:
       label_loading: laddar bevakare...
       label_error_loading: Ett fel inträffade när bevakarna laddades

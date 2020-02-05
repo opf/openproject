@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= toolbar title: l(:enumeration_activities) %>
+<%= toolbar title: t(:enumeration_activities), html: { class: '-minimum-title' } do -%>
+  <%= render partial: 'projects/form/toolbar', locals: { form_name: "edit_project_#{@project.id}" } %>
+<% end %>
 
 <% if TimeEntryActivity.any? %>
-  <%= form_tag  project_time_entry_activities_path(@project),
-                method: :put,
-                class: "tabular" do %>
+  <%= labelled_tabular_form_for @project,
+                                url: project_time_entry_activities_path(@project),
+                                method: :put do %>
 
     <%= render partial: 'projects/form/activities', locals: { project: @project, withControlls: true } %>
   <% end %>

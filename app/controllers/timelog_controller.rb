@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,8 @@
 #++
 
 class TimelogController < ApplicationController
+  helper_method :gon
+
   before_action :find_work_package, only: %i[new create]
   before_action :find_project, only: %i[new create]
   before_action :find_time_entry, only: %i[show edit update destroy]
@@ -44,6 +46,9 @@ class TimelogController < ApplicationController
   menu_item :time_entries
 
   def index
+    # Set tab param to recognize correct selected tab
+    params[:tab] = params[:tab] || 'details'
+
     sort_init 'spent_on', 'desc'
     sort_update 'spent_on' => 'spent_on',
                 'user' => 'user_id',

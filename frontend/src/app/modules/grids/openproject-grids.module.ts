@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
 import {NgModule, APP_INITIALIZER, Injector} from '@angular/core';
@@ -35,7 +35,7 @@ import {FormsModule} from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {WidgetWpCalendarComponent} from "core-app/modules/grids/widgets/wp-calendar/wp-calendar.component.ts";
-import {WidgetTimeEntriesCurrentUserComponent} from "core-app/modules/grids/widgets/time-entries-current-user/current-user/time-entries-current-user.component";
+import {WidgetTimeEntriesCurrentUserComponent} from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user.component";
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
 import {GridComponent} from "core-app/modules/grids/grid/grid.component";
 import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
@@ -59,7 +59,7 @@ import {WidgetWpOverviewComponent} from "core-app/modules/grids/widgets/wp-overv
 import {WidgetCustomTextComponent} from "core-app/modules/grids/widgets/custom-text/custom-text.component";
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {WidgetProjectDetailsComponent} from "core-app/modules/grids/widgets/project-details/project-details.component";
-import {WidgetTimeEntriesProjectComponent} from "core-app/modules/grids/widgets/time-entries-current-user/project/time-entries-project.component";
+import {WidgetTimeEntriesProjectComponent} from "core-app/modules/grids/widgets/time-entries/project/time-entries-project.component";
 import {WidgetSubprojectsComponent} from "core-app/modules/grids/widgets/subprojects/subprojects.component";
 import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openproject-attachments.module";
 import {WidgetMembersComponent} from "core-app/modules/grids/widgets/members/members.component";
@@ -257,9 +257,9 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'time_entries_current_user',
           component: WidgetTimeEntriesCurrentUserComponent,
-          title: i18n.t(`js.grid.widgets.time_entries_list.title`),
+          title: i18n.t(`js.grid.widgets.time_entries_current_user.title`),
           properties: {
-            name: i18n.t('js.grid.widgets.time_entries_list.title'),
+            name: i18n.t('js.grid.widgets.time_entries_current_user.title'),
           }
         },
         {

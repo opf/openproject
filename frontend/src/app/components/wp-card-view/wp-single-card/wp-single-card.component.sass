@@ -45,8 +45,7 @@
     grid-area: type
   .wp-card--subject
     grid-area: subject
-    @include text-shortener
-    white-space: normal
+    @include text-shortener(false)
   .wp-card--assignee
     grid-area: avatar
     place-self: center left

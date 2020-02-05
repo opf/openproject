@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ es:
     plugins:
       no_results_title_text: No hay complementos disponibles.
     custom_styles:
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
       custom_colors: "Colores personalizados"
       customize: "Personalice su versión de OpenProject con su propio logotipo. Tenga en cuenta que este logotipo estará visible al público."
       enterprise_notice: "Para agradecerle su contribución económica al desarrollo de OpenProject, esta insignificante función solo está disponible para los suscriptores que apoyan la versión corporativa."
       manage_colors: "Editar opciones de selección de colores"
       instructions:
-        alternative_color: "Color de fuerte contraste que se suele usar en los botones más importantes de la pantalla."
-        content_link_color: "Color de fuente de la mayoría de los enlaces."
-        primary_color: "Color principal."
-        primary_color_dark: "Se suelen usar colores más oscuros para la acción de pasar el ratón por encima."
-        header_bg_color: "Color de fondo del encabezado."
-        header_item_bg_hover_color: "Color de fondo de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
-        header_item_font_color: "Color de fuente de los elementos interactivos del encabezado."
-        header_item_font_hover_color: "Color de fuente de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
-        header_border_bottom_color: "Línea fina debajo del encabezado. Deje este campo vacío si no quiere que se muestre ninguna línea."
-        main_menu_bg_color: "Color de fondo del menú izquierdo."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "Color de fuente de la mayoría de los enlaces."
+        primary-color: "Color principal."
+        primary-color-dark: "Se suelen usar colores más oscuros para la acción de pasar el ratón por encima."
+        header-item-bg-hover-color: "Color de fondo de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
+        header-item-font-color: "Color de fuente de los elementos interactivos del encabezado."
+        header-item-font-hover-color: "Color de fuente de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
+        header-border-bottom-color: "Línea fina debajo del encabezado. Deje este campo vacío si no quiere que se muestre ninguna línea."
+        main-menu-bg-color: "Color de fondo del menú izquierdo."
     enterprise:
       upgrade_to_ee: "Actualizar hasta versión corporativa"
       add_token: "Cargue el token de soporte de versión corporativa"
@@ -575,6 +593,10 @@ es:
         role:
           permissions:
             dependency_missing: "también es necesario incluir «%{dependency}», ya que está seleccionada la opción «%{permission}»."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "Paquete de trabajo #%{id} no es un objetivo válido para reasignar las entradas de tiempo."
           attributes:
@@ -724,6 +746,7 @@ es:
     type: "Tipo"
     updated_at: "Actualizada el"
     updated_on: "Actualizada el"
+    uploader: "Uploader"
     user: "Usuario"
     version: "Versión"
     work_package: "Paquete de trabajo"
@@ -1009,7 +1032,7 @@ es:
         rename_groups: "Cambiar nombre de grupos de atributos"
       project_filters:
         description_html: "Filtrar y ordenar en campos personalizados es una característica de edición empresarial."
-  enumeration_activities: "Actividades (tiempo de seguimiento)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Prioridades del paquete de trabajo"
   enumeration_reported_project_statuses: "Estatus del proyecto reportado"
   error_auth_source_sso_failed: "El intento de inicio de sesión único (SSO) para el usuario “%{value}” falló"
@@ -1080,6 +1103,8 @@ es:
       pdf_with_descriptions: "PDF con descripciones"
       pdf_with_descriptions_and_attachments: "PDF con descripción y archivos adjuntos"
       pdf_with_attachments: "PDF con adjuntos"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext disponible (opcional)"

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,8 @@
 #++
 
 class TimeEntries::ReportsController < ApplicationController
+  helper_method :gon
+
   menu_item :issues
   before_action :find_optional_project
   before_action :load_available_criterias
@@ -39,6 +41,9 @@ class TimeEntries::ReportsController < ApplicationController
   menu_item :time_entries
 
   def show
+    # Set tab param to recognize correct selected tab
+    params[:tab] = params[:tab] || 'report'
+
     @criterias = params[:criterias] || []
     @criterias = @criterias.select { |criteria| @available_criterias.has_key? criteria }
     @criterias.uniq!

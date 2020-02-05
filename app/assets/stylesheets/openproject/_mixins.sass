@@ -1,6 +1,6 @@
 //-- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -43,12 +43,14 @@
     height: 0
     clear: both
 
-@mixin text-shortener
-  white-space: nowrap
+@mixin text-shortener($oneline: true)
   overflow: hidden
   text-overflow: ellipsis
   -o-text-overflow: ellipsis
   -ms-text-overflow: ellipsis
+  @if $oneline
+    white-space: nowrap
+
 
 @mixin allow-vertical-scrolling
   overflow-x: hidden
@@ -112,6 +114,23 @@ $scrollbar-size: 10px
     scrollbar-color: $scrollbar-color transparent
     &::-webkit-scrollbar-thumb
       visibility: visible
+
+@mixin no-visible-scroll-bar
+  // Firefox specific styles
+  scrollbar-color: transparent transparent
+  scrollbar-width: none
+
+  // Other browser styles
+  &::-webkit-scrollbar
+    height: 0
+    width: 0
+
+  &::-webkit-scrollbar-track
+    background: transparent
+
+  &::-webkit-scrollbar-thumb
+    background: transparent
+    visibility: hidden
 
 @mixin two-column-layout
   column-count: 2

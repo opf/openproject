@@ -1,6 +1,6 @@
 //-- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -60,10 +60,12 @@
 
 .attributes-key-value--value-separator
   margin: 0px 4px
+  line-height: normal
 
   &:after
     display: inline
     content: '-'
+    vertical-align: middle
 
 .attributes-key-value--value
   @include grid-visible-overflow
@@ -90,7 +92,5 @@
     max-width: 200px
 
 .attributes-map--value
-  // empty for now but it makes sense to also have it present in the style declaration IMO
   zoom: 1
-  @include text-shortener
-  white-space: normal
+  @include text-shortener(false)

@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +38,8 @@ describe 'custom_styles/show', type: :view do
   context "no custom logo yet" do
     before do
       assign(:custom_style, CustomStyle.new)
+      assign(:current_theme, '')
+      allow(view).to receive(:options_for_select).and_return('')
       render
     end
 
@@ -49,6 +51,8 @@ describe 'custom_styles/show', type: :view do
   context "with existing custom logo" do
     before do
       assign(:custom_style, FactoryBot.build(:custom_style_with_logo))
+      assign(:current_theme, '')
+      allow(view).to receive(:options_for_select).and_return('')
       render
     end
 

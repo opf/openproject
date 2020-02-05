@@ -1,6 +1,6 @@
 el:
   logout_warning: >
-    Έχετε αποσυνδεθεί. Τα περιεχόμενα οποιασδήποτε φόρμας που υποβάλλετε ενδέχεται να χαθούν. Παρακαλώ [συνδεθείτε].
+    Έχετε αποσυνδεθεί. Τα περιεχόμενα οποιασδήποτε φόρμας που υποβάλετε ενδέχεται να χαθούν. Παρακαλούμε [συνδεθείτε].
   activemodel:
     attributes:
       openid_connect/provider:
@@ -8,12 +8,12 @@ el:
         display_name: Εμφανιζόμενο όνομα
         identifier: Αναγνωριστικό
         secret: Μυστικό
-        scope: Εμβέλεια
+        scope: Φυσικό Αντικείμενο
   openid_connect:
     menu_title: Πάροχοι OpenID
     providers:
       label_add_new: Προσθήκη νέου παρόχου OpenID
       label_edit: Επεξεργασία παρόχου OpenID %{name}
-      no_results_table: Δεν έχουν καθοριστεί πάροχοι.
+      no_results_table: Δεν έχουν οριστεί πάροχοι ακόμη.
       plural: Πάροχοι OpenID
       singular: Πάροχος OpenID

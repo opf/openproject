@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -118,6 +118,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </p>
   </div>
 </noscript>
+<notifications-container></notifications-container>
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
@@ -175,7 +176,6 @@ See docs/COPYRIGHT.rdoc for more details.
         </div>
       <% end %>
       <%= render_flash_messages %>
-      <notifications-container></notifications-container>
       <% if show_onboarding_modal? %>
         <section data-augmented-model-wrapper
                  data-modal-initialize-now="true"

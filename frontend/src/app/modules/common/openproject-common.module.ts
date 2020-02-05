@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
 import {FormsModule} from "@angular/forms";
@@ -70,7 +70,8 @@ import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-s
 import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
-import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
+import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
+import {ContentTabsComponent} from "core-app/modules/common/tabs/content-tabs/content-tabs.component";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {EditableToolbarTitleComponent} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
 import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
@@ -96,6 +97,8 @@ import {NgSelectModule} from "@ng-select/ng-select";
 import {NgOptionHighlightModule} from "@ng-select/ng-option-highlight";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {CurrentUserService} from "core-components/user/current-user.service";
+import {WorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/wp-autocompleter.component";
+import {ColorsService} from "core-app/modules/common/colors/colors.service";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -141,7 +144,9 @@ export function bootstrapModule(injector:Injector) {
     NgSelectModule,
     NgOptionHighlightModule,
 
-    DynamicModule.withComponents([VersionAutocompleterComponent,
+    DynamicModule.withComponents([
+      VersionAutocompleterComponent,
+      WorkPackageAutocompleterComponent,
       CreateAutocompleterComponent]),
   ],
   exports: [
@@ -204,6 +209,8 @@ export function bootstrapModule(injector:Injector) {
     EnterpriseBannerComponent,
 
     DynamicModule,
+
+    WorkPackageAutocompleterComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -252,6 +259,7 @@ export function bootstrapModule(injector:Injector) {
     UserAutocompleterComponent,
 
     ScrollableTabsComponent,
+    ContentTabsComponent,
 
     EditableToolbarTitleComponent,
 
@@ -272,6 +280,7 @@ export function bootstrapModule(injector:Injector) {
     // Autocompleter
     CreateAutocompleterComponent,
     VersionAutocompleterComponent,
+    WorkPackageAutocompleterComponent,
 
     HomescreenNewFeaturesBlockComponent,
     BoardVideoTeaserModalComponent
@@ -291,6 +300,8 @@ export function bootstrapModule(injector:Injector) {
     CollapsibleSectionComponent,
     UserAutocompleterComponent,
     UserAvatarComponent,
+
+    ContentTabsComponent,
 
     HomescreenNewFeaturesBlockComponent,
     BoardVideoTeaserModalComponent,
@@ -323,6 +334,7 @@ export function bootstrapModule(injector:Injector) {
     GonService,
     BackRoutingService,
     HideSectionService,
+    ColorsService
   ]
 })
 export class OpenprojectCommonModule { }

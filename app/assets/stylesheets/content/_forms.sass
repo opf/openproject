@@ -1,6 +1,6 @@
 //-- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -236,6 +236,10 @@ hr
 fieldset.form--fieldset
   @extend %form--fieldset-or-section
 
+  &.-collapsible.collapsed
+    .-hide-when-collapsed
+      display: none
+
 .form--fieldset-legend
   @extend %form--fieldset-legend-or-section-title
   width:     100%
@@ -260,21 +264,29 @@ fieldset.form--fieldset
 #sidebar .form--fieldset-legend
   @include varprop(color, main-menu-fieldset-header-color)
 
-.form--fieldset-control
+.form--toolbar
   float:          right
-  margin-top:     -2.8rem
   text-align:     right
   color:          lighten($body-font-color, 10)
   font-size:      1rem
   font-style:     italic
   line-height:    1.8
+  margin-top:     -1.8rem
+
+  fieldset > &
+    margin-top: -2.8rem
 
   a:hover
     text-decoration: none
 
-.form--fieldset-control-container
+.form--toolbar-item
   padding: 0 0.25rem
   background-color: inherit
+
+  &.-in-header
+    margin-left: 5px
+    font-style:  italic
+    line-height: 44px
 
 .form--section
   @extend %form--fieldset-or-section

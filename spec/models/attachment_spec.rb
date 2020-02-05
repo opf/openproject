@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -307,6 +307,78 @@ describe Attachment, type: :model do
       it "should make S3 use content_disposition 'attachment; filename=...'" do
         expect(binary_attachment.content_disposition).to eq "attachment"
         expect(binary_attachment.external_url.to_s).to include "response-content-disposition=attachment"
+      end
+    end
+  end
+
+  describe 'full text extraction job on commit' do
+    let(:created_attachment) do
+      FactoryBot.create(:attachment,
+                        author: author,
+                        container: container)
+    end
+
+    shared_examples_for 'runs extraction' do
+      it 'runs extraction' do
+        extraction_with_id = nil
+
+        allow(ExtractFulltextJob)
+          .to receive(:perform_later) do |id|
+          extraction_with_id = id
+        end
+
+        attachment.save
+
+        expect(extraction_with_id).to eql attachment.id
+      end
+    end
+
+    shared_examples_for 'does not run extraction' do
+      it 'does not run extraction' do
+        created_attachment
+
+        expect(ExtractFulltextJob)
+          .not_to receive(:perform_later)
+
+        created_attachment.save
+      end
+    end
+
+    context 'for a work package' do
+      let(:work_package) { FactoryBot.create(:work_package) }
+      let(:container) { work_package }
+
+      context 'on create' do
+        it_behaves_like 'runs extraction'
+      end
+
+      context 'on update' do
+        it_behaves_like 'does not run extraction'
+      end
+    end
+
+    context 'for a wiki page' do
+      let(:wiki_page) { FactoryBot.create(:wiki_page) }
+      let(:container) { wiki_page }
+
+      context 'on create' do
+        it_behaves_like 'does not run extraction'
+      end
+
+      context 'on update' do
+        it_behaves_like 'does not run extraction'
+      end
+    end
+
+    context 'without a container' do
+      let(:container) { nil }
+
+      context 'on create' do
+        it_behaves_like 'runs extraction'
+      end
+
+      context 'on update' do
+        it_behaves_like 'does not run extraction'
       end
     end
   end

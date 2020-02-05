@@ -17,7 +17,7 @@ el:
     label_avatar: "Άβαταρ"
     label_gravatar: 'Gravatar'
     label_current_avatar: 'Τρέχον άβαταρ'
-    label_local_avatar: 'Προσαρμοσμένος άβαταρ'
+    label_local_avatar: 'Προσαρμοσμένο άβαταρ'
     text_current_avatar: |
       Η ακόλουθη εικόνα δείχνει το τρέχον άβαταρ.
     text_upload_instructions: |

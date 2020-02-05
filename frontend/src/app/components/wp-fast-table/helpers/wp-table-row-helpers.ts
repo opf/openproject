@@ -6,6 +6,10 @@ export function rowId(workPackageId:string):string {
   return `wp-row-${workPackageId}-table`;
 }
 
+export function relationRowClass():string {
+  return `wp-table--relations-aditional-row`;
+}
+
 export function locateTableRow(workPackageId:string):JQuery {
   return jQuery('.' + rowId(workPackageId));
 }

@@ -1,6 +1,6 @@
 //-- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 //++
 
 /*jshint expr: true*/
@@ -193,6 +193,7 @@ describe('UrlParamsHelper', function() {
         timelineZoomLevel: 0,
         timelineLabels: { left: 'foo', right: 'bar', farRight: 'asdf' },
         highlightingMode: 'inline',
+        highlightedAttributes: [{href: 'a'}, {href: 'b'}],
         sums: true,
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
@@ -238,6 +239,7 @@ describe('UrlParamsHelper', function() {
         timelineVisible: false,
         showHierarchies: false,
         highlightingMode: 'inline',
+        'highlightedAttributes[]': ['a', 'b'],
         offset: 10,
         pageSize: 100
       };

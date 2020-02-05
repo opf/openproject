@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -373,9 +373,9 @@ module ApplicationHelper
   end
 
   def check_all_links(form_name)
-    link_to_function(l(:button_check_all), "checkAll('#{form_name}', true)") +
+    link_to_function(t(:button_check_all), "checkAll('#{form_name}', true)") +
       ' | ' +
-      link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
+      link_to_function(t(:button_uncheck_all), "checkAll('#{form_name}', false)")
   end
 
   def current_layout

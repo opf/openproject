@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'group memberships through groups page', type: :feature do
+feature 'group memberships through groups page', type: :feature, js: true do
   let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
   let(:admin)     { FactoryBot.create :admin }
@@ -48,7 +48,7 @@ feature 'group memberships through groups page', type: :feature do
     group.add_member! peter
   end
 
-  scenario 'adding a user to a group adds the user to the project as well', js: true do
+  scenario 'adding a user to a group adds the user to the project as well' do
     members_page.visit!
     expect(members_page).not_to have_user 'Hannibal Smith'
 
@@ -83,7 +83,7 @@ feature 'group memberships through groups page', type: :feature do
       expect(members_page).not_to have_user 'Hannibal Smith'
     end
 
-    scenario 'removing the group from a project', js: true do
+    scenario 'removing the group from a project' do
       group_page.visit!
       group_page.open_projects_tab!
       expect(group_page).to have_project 'Project 1'

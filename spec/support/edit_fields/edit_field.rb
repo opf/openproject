@@ -51,6 +51,11 @@ class EditField
     expect(input_element.value).to eq(value)
   end
 
+  def expect_display_value(value)
+    expect(display_element)
+      .to have_content(value)
+  end
+
   ##
   # Activate the field and check it opened correctly
   def activate!(expect_open: true)
@@ -222,8 +227,11 @@ class EditField
            'status',
            'project',
            'type',
-           'category'
+           'category',
+           'workPackage'
         'create-autocompleter'
+      when 'activity'
+        'activity-autocompleter'
       else
         :input
       end.to_s

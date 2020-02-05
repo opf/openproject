@@ -1,0 +1,43 @@
+#English strings go here for Rails i18n
+ru:
+  ifc_models:
+    label_ifc_models: 'Модели IFC'
+    label_new_ifc_model: 'Новая модель IFC'
+    label_show_defaults: 'Показывать по умолчанию'
+    label_default_ifc_models: 'Модели IFC по умолчанию'
+    label_edit_defaults: 'Изменить значения по умолчанию'
+    label_manage_models: 'Управление моделями'
+    no_defaults_warning:
+      title: 'Ни одна модель IFC не была установлена по умолчанию для этого проекта.'
+      check_1: 'Убедитесь, что вы загрузили хотя бы одну модель IFC.'
+      check_2: 'Убедитесь, что хотя бы одна модель IFC имеет значение "По умолчанию".'
+    no_results: "В этом проекте не было загружено ни одной модели IFC."
+    processing_state:
+      label: 'Обработка?'
+      in_progress: 'В процессе'
+      completed: 'Выполнено'
+    processing_notice:
+      processing_default: 'Следующие модели IFC по умолчанию все еще обрабатываются и поэтому недоступны:'
+    flash_messages:
+      upload_successful: 'Загрузка успешно завершена. Теперь она будет обработана и будет готова к использованию через пару минут.'
+    conversion:
+      missing_commands: "В этой системе отсутствуют команды для следующего IFC: %{names}"
+  project_module_ifc_models: "Модели IFC"
+  permission_view_ifc_models: "Просмотр моделей IFC"
+  permission_manage_ifc_models: "Импорт и управление моделями IFC"
+  extraction:
+    available:
+      ifc_convert: "Доступен конверсионный конвейер IFC"
+  activerecord:
+    attributes:
+      ifc_models/ifc_model:
+        ifc_attachment: "IFC файл"
+        is_default: "Модель по умолчанию"
+        attachments: "IFC файл"
+    errors:
+      models:
+        ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Нет прикрепленного файла ifc."
+              invalid_ifc_file: "Указанный файл не является допустимым IFC файлом."

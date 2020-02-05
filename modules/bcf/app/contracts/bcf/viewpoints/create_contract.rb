@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Bcf::Viewpoints
@@ -131,7 +131,7 @@ module Bcf::Viewpoints
 
       if ocjson.keys != ORTHOGONAL_CAMERA_PROPERTIES ||
          ocjson.except('view_to_world_scale').any? { |_, direction| invalid_direction?(direction) } ||
-         !ocjson['view_to_world_scale'].is_a?(Float)
+         !ocjson['view_to_world_scale'].is_a?(Numeric)
         errors.add(:json_viewpoint, :invalid_orthogonal_camera)
       end
     end
@@ -141,7 +141,7 @@ module Bcf::Viewpoints
 
       if pcjson.keys != PERSPECTIVE_CAMERA_PROPERTIES ||
          pcjson.except('field_of_view').any? { |_, direction| invalid_direction?(direction) } ||
-         !pcjson['field_of_view'].is_a?(Float)
+         !pcjson['field_of_view'].is_a?(Numeric)
         errors.add(:json_viewpoint, :invalid_perspective_camera)
       end
     end
@@ -246,7 +246,7 @@ module Bcf::Viewpoints
     def invalid_direction?(direction)
       !direction.is_a?(Hash) ||
         direction.keys != WHITELISTED_DIMENSIONS ||
-        direction.values.any? { |v| !v.is_a? Float }
+        direction.values.any? { |v| !v.is_a? Numeric }
     end
     alias_method :invalid_point?, :invalid_direction?
 

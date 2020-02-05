@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,12 +80,13 @@ bg:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Вашият браузър не поддържа копиране в клипборд. Моля копирайте избрания текст ръчно."
       copied_successful: "Копирането в клипборд е успешно!"
     chart:
       type: 'Тип на диаграмата'
-      axis_criteria: 'Axis criteria'
+      axis_criteria: 'Критерии за ос'
       modal_title: 'Work package graph configuration'
       types:
         line: 'Line'
@@ -171,6 +172,9 @@ bg:
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
+    enumeration_activities: "Дейности (проследяване по време)"
+    enumeration_doc_categories: "Document categories"
+    enumeration_work_package_priorities: "Приоритети на работни пакети"
     filter:
       description:
         text_open_filter: "Отворете този филтър с клавишите \"ALT\" и клавишите за стрелки."
@@ -192,6 +196,7 @@ bg:
     general_text_yes: "Да"
     general_text_No: "Не"
     general_text_Yes: "Да"
+    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -222,6 +227,7 @@ bg:
     label_and: "и"
     label_ascending: "Възходящо"
     label_author: "Автор: %{user}"
+    label_avatar: "Аватар"
     label_between: "between"
     label_board: "Board"
     label_board_locked: "Заключен"
@@ -235,6 +241,8 @@ bg:
     label_deactivate: "Деактивирай"
     label_descending: "Низходящо"
     label_description: "Описание"
+    label_details: "Подробности"
+    label_display: "Покажи"
     label_cancel_comment: "Отказване от коментар"
     label_closed_work_packages: "затворен"
     label_collapse: "Свий"
@@ -255,22 +263,29 @@ bg:
     label_export: "Експортиране"
     label_filename: "Файл"
     label_filesize: "Размер"
+    label_general: "Общ"
     label_greater_or_equal: ">="
     label_group: 'Група'
     label_group_by: "Групиране по"
+    label_group_plural: "Групи"
     label_hide_attributes: "Скрии детайли"
     label_hide_column: "Скрий колоната"
     label_hide_project_menu: "Collapse project menu"
     label_in: "в"
     label_in_less_than: "в по-малко от"
     label_in_more_than: "в повече от"
+    label_incoming_emails: "Входящи имейли"
+    label_information_plural: "Информация"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Последно актуализиран на"
     label_less_or_equal: "<="
     label_less_than_ago: "по-скоро от няколко дни"
     label_loading: "Зареждане..."
+    label_mail_notification: "Известия по имейл"
     label_me: "мен"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Minutes"
     label_menu_collapse: "събери"
     label_menu_expand: "разтвори"
     label_more_than_ago: "повече от преди дни"
@@ -291,12 +306,15 @@ bg:
     label_previous: "Предишен"
     label_per_page: "За страница:"
     label_please_wait: "Моля изчакайте"
+    label_project_plural: "Проекти"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Цитиране на този коментар"
     label_reset: "Нулиране"
     label_remove_column: "Remove column"
     label_remove_columns: "Премахване на избраните колони"
     label_remove_row: "Remove row"
+    label_report: "Отчет"
+    label_repository_plural: "Хранилища"
     label_save_as: "Запиши като"
     label_select_watcher: "Изберете наблюдаващ..."
     label_selected_filter_list: "Избрани филтри"
@@ -307,6 +325,7 @@ bg:
     label_sort_higher: "Премести нагоре"
     label_sort_lower: "Премести надолу"
     label_sorting: "Сортиране"
+    label_spent_time: "Отработено време"
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Публичен"
@@ -315,7 +334,9 @@ bg:
     label_subject: "Заглавие"
     label_this_week: "тази седмица"
     label_today: "днес"
+    label_time_entry_plural: "Отработено време"
     label_up: "Up"
+    label_user_plural: "Потребители"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
     label_total_progress: "%{percent} % Общ напредък"
@@ -357,6 +378,7 @@ bg:
     label_wait: "Моля, изчакайте за конфигурация..."
     label_upload_counter: "%{done} от %{count} файлове са завършени"
     label_validation_error: "Работния пакет не може да бъде съхранен поради следните грешки:"
+    label_version_plural: "Версии"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
@@ -436,10 +458,22 @@ bg:
           includes: "including"
           requires: "requiring"
           required: "required by"
+      edit:
+        form_configuration: "Конфигуриране на Форма"
+        projects: "Проекти"
+        settings: "Настройки"
     time_entry:
+      project: 'Проект'
+      work_package: 'Работен пакет'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Активност'
       comment: 'Коментар'
+      duration: 'Продължителност'
+      spent_on: 'Дата'
       hours: 'Часове'
+      label: 'Time entry'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Two-factor authentication'
     watchers:
       label_loading: Зареждане на наблюдаващи...
       label_error_loading: Възникна грешка при зареждане на наблюдатели

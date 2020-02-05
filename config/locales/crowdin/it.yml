@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ it:
     plugins:
       no_results_title_text: Al momento non vi sono plugin disponibili.
     custom_styles:
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
       custom_colors: "Colori personalizzati"
       customize: "Personalizza l'installazione di OpenProject con il tuo logo. Nota: Il logo sarà visibile pubblicamente."
       enterprise_notice: "Questa funzionalità è disponibile solo per chi si è iscritto alla Enterprise Edition, come ringraziamento speciale per il contributo finanziario allo sviluppo di OpenProject."
       manage_colors: "Modifica opzioni di selezione del colore"
       instructions:
-        alternative_color: "Colore forte, utilizzato di solito per far risaltare il tasto principale sullo schermo."
-        content_link_color: "Colore del carattere della maggior parte dei collegamenti."
-        primary_color: "Colore principale."
-        primary_color_dark: "In genere una versione più scura del colore principale utilizzato per effetti hover."
-        header_bg_color: "Colore di sfondo dell'intestazione."
-        header_item_bg_hover_color: "Colore dello sfondo degli elementi cliccabili nelle intestazioni al passaggio del mouse."
-        header_item_font_color: "Colore del carattere degli elementi cliccabili nelle intestazioni."
-        header_item_font_hover_color: "Colore del carattere degli elementi cliccabili nelle intestazioni al passaggio del mouse."
-        header_border_bottom_color: "Sottile linea sotto l'intestazione. Lascia vuoto questo campo se non vuoi nessuna linea."
-        main_menu_bg_color: "Colore di sfondo del menu a sinistra."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "Colore del carattere della maggior parte dei collegamenti."
+        primary-color: "Colore principale."
+        primary-color-dark: "In genere una versione più scura del colore principale utilizzato per effetti hover."
+        header-item-bg-hover-color: "Colore dello sfondo degli elementi cliccabili nelle intestazioni al passaggio del mouse."
+        header-item-font-color: "Colore del carattere degli elementi cliccabili nelle intestazioni."
+        header-item-font-hover-color: "Colore del carattere degli elementi cliccabili nelle intestazioni al passaggio del mouse."
+        header-border-bottom-color: "Sottile linea sotto l'intestazione. Lascia vuoto questo campo se non vuoi nessuna linea."
+        main-menu-bg-color: "Colore di sfondo del menu a sinistra."
     enterprise:
       upgrade_to_ee: "Aggiorna ad Enterprise Edition"
       add_token: "Carica un token di assistenza per Enterprise Edition"
@@ -574,6 +592,10 @@ it:
         role:
           permissions:
             dependency_missing: "deve includere anche '%{dependency}' in quanto è selezionato '%{permission}'."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "La macro-attività #%{id} non può essere utilizzata per riassegnare la cronologia."
           attributes:
@@ -723,6 +745,7 @@ it:
     type: "Tipo"
     updated_at: "Aggiornato il"
     updated_on: "Aggiornato il"
+    uploader: "Uploader"
     user: "Utente"
     version: "Versione"
     work_package: "Macro-attività"
@@ -1008,7 +1031,7 @@ it:
         rename_groups: "Rinominazione di gruppi di proprietà"
       project_filters:
         description_html: "Le opzioni di filtraggio ed ordinamento dei campi personalizzati sono disponibili nella versione enterprise."
-  enumeration_activities: "Attività (monitoraggio tempi)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Priorità della macro-attività"
   enumeration_reported_project_statuses: "Stato di progetto segnalato"
   error_auth_source_sso_failed: "Single Sign-On (SSO) per l'utente '%{value}' non riuscita"
@@ -1079,6 +1102,8 @@ it:
       pdf_with_descriptions: "PDF con descrizioni"
       pdf_with_descriptions_and_attachments: "PDF con descrizioni e allegati"
       pdf_with_attachments: "PDF con allegati"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdfatesto disponibile (opzionale)"

@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class ExtractFulltextJob < ApplicationJob
@@ -51,37 +51,33 @@ class ExtractFulltextJob < ApplicationJob
   private
 
   def init
-    begin
-      carrierwave_uploader = @attachment.file
-      @file = carrierwave_uploader.local_file
-      @filename = carrierwave_uploader.file.filename
+    carrierwave_uploader = @attachment.file
+    @file = carrierwave_uploader.local_file
+    @filename = carrierwave_uploader.file.filename
 
-      if @attachment.readable?
-        resolver = Plaintext::Resolver.new(@file, @attachment.content_type)
-        @text = resolver.text
-      end
-    rescue StandardError => e
-      Rails.logger.error(
-        "Failed to extract plaintext from file #{@attachment&.id} (On domain #{Setting.host_name}): #{e}: #{e.message}"
-      )
+    if @attachment.readable?
+      resolver = Plaintext::Resolver.new(@file, @attachment.content_type)
+      @text = resolver.text
     end
+  rescue StandardError => e
+    Rails.logger.error(
+      "Failed to extract plaintext from file #{@attachment&.id} (On domain #{Setting.host_name}): #{e}: #{e.message}"
+    )
   end
 
   def update
-    begin
-      Attachment
-        .where(id: @attachment_id)
-        .update_all(['fulltext = ?, fulltext_tsv = to_tsvector(?, ?), file_tsv = to_tsvector(?, ?)',
-                     @text,
-                     @language,
-                     OpenProject::FullTextSearch.normalize_text(@text),
-                     @language,
-                     OpenProject::FullTextSearch.normalize_filename(@filename)])
-    rescue StandardError => e
-      Rails.logger.error(
-        "Failed to update TSV values for attachment #{@attachment&.id} (On domain #{Setting.host_name}): #{e.message[0..499]}[...]"
-      )
-    end
+    Attachment
+      .where(id: @attachment_id)
+      .update_all(['fulltext = ?, fulltext_tsv = to_tsvector(?, ?), file_tsv = to_tsvector(?, ?)',
+                   @text,
+                   @language,
+                   OpenProject::FullTextSearch.normalize_text(@text),
+                   @language,
+                   OpenProject::FullTextSearch.normalize_filename(@filename)])
+  rescue StandardError => e
+    Rails.logger.error(
+      "Failed to update TSV values for attachment #{@attachment&.id} (On domain #{Setting.host_name}): #{e.message[0..499]}[...]"
+    )
   end
 
   def find_attachment(id)

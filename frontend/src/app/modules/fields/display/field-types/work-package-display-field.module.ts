@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,41 +23,16 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {StateService} from '@uirouter/core';
-import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import {UiStateLinkBuilder} from "core-components/wp-fast-table/builders/ui-state-link-builder";
 
 export class WorkPackageDisplayField extends DisplayField {
 
   public text = {
-    linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
     none: this.I18n.t('js.filter.noneElement')
   };
-
-  private $state:StateService = this.$injector.get(StateService);
-  private keepTab:KeepTabService = this.$injector.get(KeepTabService);
-
-  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
-
-  public render(element:HTMLElement, displayText:string):void {
-    if (this.isEmpty()) {
-      element.innerText = this.placeholder;
-      return;
-    }
-
-    let link = this.uiStateBuilder.linkToShow(
-      this.wpId,
-      this.text.linkTitle,
-      this.valueString
-    );
-
-    element.innerHTML = '';
-    element.appendChild(link);
-  }
 
   public get value() {
     return this.resource[this.name];
@@ -84,12 +59,9 @@ export class WorkPackageDisplayField extends DisplayField {
     return this.value.href.match(/(\d+)$/)[0];
   }
 
-  public get writable():boolean {
-    return false;
-  }
-
   public get valueString() {
-    return '#' + this.wpId;
+    // cannot display the type name easily here as it may not be loaded
+    return `#${ this.wpId } ${ this.title }`;
   }
 
   public isEmpty():boolean {
@@ -99,5 +71,4 @@ export class WorkPackageDisplayField extends DisplayField {
   public get unknownAttribute():boolean {
     return false;
   }
-
 }

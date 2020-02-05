@@ -37,6 +37,8 @@ uk:
         subprojects:
           title: 'Підпроекти'
           no_results: 'Немає підпроектів.'
+        time_entries_current_user:
+          title: 'My spent time'
         time_entries_list:
           title: 'Витрачений час (останні 7 днів)'
           no_results: 'Немає записів часу за останні 7 днів.'

@@ -8,7 +8,7 @@ el:
     settings:
       website_key: 'Κλειδί ιστοσελίδας'
       website_key_text: 'Εισάγετε το κλειδί της ιστοσελίδας που δημιουργήσατε στο reCAPTCHA στην κονσόλα διαχειριστή αυτού του τομέα.'
-      secret_key: 'Secret key'
+      secret_key: 'Κρυφό κλειδί'
       secret_key_text: 'Εισάγετε το κρυφό κλειδί που δημιουργήσατε στο reCAPTCHA στην κονσόλα διαχειριστή.'
       type: 'Χρήση reCAPTCHA'
       type_disabled: 'Απενεργοποίηση reCAPTCHA'

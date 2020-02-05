@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ ru:
         inline: 'Выделение:'
         entire_card_by: 'Вся карточка по'
       remove_from_list: 'Удалить карточку из списка'
+    caption_rate_history: "История тарифов"
     clipboard:
       browser_error: "Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста, скопируйте выделенный текст вручную."
       copied_successful: "Успешно скопировано в буфер обмена!"
@@ -170,6 +171,9 @@ ru:
       cannot_save_changes_with_message: "Не удается сохранить изменения из-за следующей ошибки: %{error}"
       query_saving: "Представление не может быть сохранено."
       embedded_table_loading: "Встроенное представление не может быть загружено: %{message}"
+    enumeration_activities: "Деятельность (отслеживание времени)"
+    enumeration_doc_categories: "Категории документов"
+    enumeration_work_package_priorities: "Приоритеты пакета работ"
     filter:
       description:
         text_open_filter: "Откройте этот фильтр с «ALT» и клавишей со стрелкой."
@@ -191,6 +195,7 @@ ru:
     general_text_yes: "Да"
     general_text_No: "Нет"
     general_text_Yes: "да"
+    global_roles: Глобальная роль
     hal:
       error:
         update_conflict_refresh: "Кликните здесь для обновления ресурса и обновления до последней версии."
@@ -221,6 +226,7 @@ ru:
     label_and: "и"
     label_ascending: "По возрастанию"
     label_author: "Автор: %{user}"
+    label_avatar: "Аватар"
     label_between: "между"
     label_board: "Доска"
     label_board_locked: "Заперто"
@@ -234,6 +240,8 @@ ru:
     label_deactivate: "Деактивировать"
     label_descending: "По убыванию"
     label_description: "Описание"
+    label_details: "Детали"
+    label_display: "Отображение"
     label_cancel_comment: "Отменить комментарий"
     label_closed_work_packages: "закрыт"
     label_collapse: "свернуть"
@@ -254,22 +262,29 @@ ru:
     label_export: "Экспорт"
     label_filename: "Файл"
     label_filesize: "Размер"
+    label_general: "Общие"
     label_greater_or_equal: ">="
     label_group: 'Группа'
     label_group_by: "Группировать по"
+    label_group_plural: "Группы"
     label_hide_attributes: "Показывать меньше"
     label_hide_column: "Скрыть столбец"
     label_hide_project_menu: "Свернуть меню проекта"
     label_in: "в"
     label_in_less_than: "менее чем"
     label_in_more_than: "более чем"
+    label_incoming_emails: "Входящие e-mail"
+    label_information_plural: "Информация"
     label_import: "Импорт"
     label_latest_activity: "Последние действия"
     label_last_updated_on: "Последний раз обновлено"
     label_less_or_equal: "<="
     label_less_than_ago: "меньше чем день назад"
     label_loading: "Загрузка..."
+    label_mail_notification: "Уведомления по электронной почте"
     label_me: "мне"
+    label_meeting_agenda: "Повестка дня"
+    label_meeting_minutes: "Протокол(-ы)"
     label_menu_collapse: "свернуть"
     label_menu_expand: "развернуть"
     label_more_than_ago: "больше, чем дней назад"
@@ -290,12 +305,15 @@ ru:
     label_previous: "Предыдущие"
     label_per_page: "На странице:"
     label_please_wait: "Пожалуйста, подождите"
+    label_project_plural: "Проекты"
     label_visibility_settings: "Параметры видимости"
     label_quote_comment: "Цитировать этот комментарий"
     label_reset: "Сброс"
     label_remove_column: "Удалить столбец"
     label_remove_columns: "Удалить выбранные столбцы"
     label_remove_row: "Удалить строку"
+    label_report: "Отчет"
+    label_repository_plural: "Репозитории"
     label_save_as: "Сохранить как"
     label_select_watcher: "Выберите наблюдателя..."
     label_selected_filter_list: "Выбранные фильтры"
@@ -306,6 +324,7 @@ ru:
     label_sort_higher: "Переместить вверх"
     label_sort_lower: "Переместить вниз"
     label_sorting: "Сортировка"
+    label_spent_time: "Затраченное время"
     label_star_query: "Добавлено в избранное"
     label_press_enter_to_save: "Нажмите ввод для сохранения."
     label_public_query: "Общий"
@@ -314,7 +333,9 @@ ru:
     label_subject: "Тема"
     label_this_week: "на этой неделе"
     label_today: "Сегодня"
+    label_time_entry_plural: "Затраченное время"
     label_up: "Вверх"
+    label_user_plural: "Пользователи"
     label_activity_show_only_comments: "Показать только деятельности с комментариями"
     label_activity_show_all: "Показать все активности"
     label_total_progress: "%{percent}% общего прогресса"
@@ -356,6 +377,7 @@ ru:
     label_wait: "Пожалуйста, подождите конфигурирование..."
     label_upload_counter: "%{done} %{count} файлов, готовы"
     label_validation_error: "Пакет работ не удалось сохранить из-за следующих ошибок:"
+    label_version_plural: "Этапы"
     label_view_has_changed: "У этого вида есть несохраненные изменения. Нажмите, чтобы сохранить их."
     help_texts:
       show_modal: 'Показать содержимое атрибута текста справки'
@@ -435,10 +457,22 @@ ru:
           includes: "включая"
           requires: "требование"
           required: "необходим для"
+      edit:
+        form_configuration: "Конфигурация формы"
+        projects: "Проекты"
+        settings: "Параметры"
     time_entry:
+      project: 'Проект'
+      work_package: 'Пакет работ'
+      work_package_required: 'Сначала необходимо выбрать пакет работ.'
       activity: 'Деятельность'
       comment: 'Комментарий'
+      duration: 'Продолжительность'
+      spent_on: 'Дата'
       hours: 'Часы'
+      label: 'Время поступления'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Двухфакторная аутентификация'
     watchers:
       label_loading: Загрузка наблюдателей...
       label_error_loading: При загрузке наблюдателей произошла ошибка

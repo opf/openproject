@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ lt:
     plugins:
       no_results_title_text: Nėra jokių pasiekiamų plėtinių.
     custom_styles:
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
       custom_colors: "Pasirinktinės spalvos"
       customize: "Suasmeninkite savo OpenProject įdiegtį su savo logotipu. Pastaba: šis logotipas bus matomas viešai."
       enterprise_notice: "Kaip specialus „AČIŪ!“ už finansinę paramą kuriant OpenProject, ši mažytė funkcija galima naudoti tik „Enterprise Edition“ paramos prenumeratoriams."
       manage_colors: "Redaguoti spalvos pasirinkimo variantus"
       instructions:
-        alternative_color: "Stipri, akį rėžianti spalva įprastai naudojama svarbiausiams mygtukams ekrane."
-        content_link_color: "Šrifto spalva daugeliui nuorodų."
-        primary_color: "Pagrindinė spalva."
-        primary_color_dark: "Įprastai tamsesnė pagrindinės spalvos atmaina naudojama sklandymo efektui sukurti."
-        header_bg_color: "Antraštės fono spalva."
-        header_item_bg_hover_color: "Antraštės fono spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
-        header_item_font_color: "Šrifto spalva galimiems paspausti antraštės įrašams."
-        header_item_font_hover_color: "Šrifto spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
-        header_border_bottom_color: "Linija po antrašte. Palikite laukelį tuščią, jei nenorite jokios linijos."
-        main_menu_bg_color: "Kairiojo šoninio meniu fono spalva."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "Šrifto spalva daugeliui nuorodų."
+        primary-color: "Pagrindinė spalva."
+        primary-color-dark: "Įprastai tamsesnė pagrindinės spalvos atmaina naudojama sklandymo efektui sukurti."
+        header-item-bg-hover-color: "Antraštės fono spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
+        header-item-font-color: "Šrifto spalva galimiems paspausti antraštės įrašams."
+        header-item-font-hover-color: "Šrifto spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
+        header-border-bottom-color: "Linija po antrašte. Palikite laukelį tuščią, jei nenorite jokios linijos."
+        main-menu-bg-color: "Kairiojo šoninio meniu fono spalva."
     enterprise:
       upgrade_to_ee: "Patobulinti į „Enterprise Edition“ versiją"
       add_token: "Įkelti „Enterprise Edition“ paramos raktą"
@@ -579,6 +597,10 @@ lt:
         role:
           permissions:
             dependency_missing: "taipogi reikia įtraukti „%{dependency}“ kai parinktas „%{permission}“."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "Darbų paketas #%{id} nėra tinkamas laiko įrašų perskirstymo pasirinkimas."
           attributes:
@@ -734,6 +756,7 @@ lt:
     type: "Tipas"
     updated_at: "Atnaujinta"
     updated_on: "Atnaujinta"
+    uploader: "Uploader"
     user: "Vartotojas"
     version: "Versija"
     work_package: "Darbų paketas"
@@ -1043,7 +1066,7 @@ lt:
         rename_groups: "Pervadinti atributų grupes"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Veikla (laiko sekimas)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Darbų paketo prioritetai"
   enumeration_reported_project_statuses: "Pranešta projekto būsena"
   error_auth_source_sso_failed: "Bendroji autentifikacija (SSO) vartotojui „%{value}“ nepavyko"
@@ -1114,6 +1137,8 @@ lt:
       pdf_with_descriptions: "PDF su aprašymu"
       pdf_with_descriptions_and_attachments: "PDF su aprašymais ir priedais"
       pdf_with_attachments: "PDF su priedais"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdf-į-tekstą pasiekiamas (pasirinktinai)"

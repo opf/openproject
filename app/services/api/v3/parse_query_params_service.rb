@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -118,17 +118,20 @@ module API
         filters = params[:filters]
         filters = JSON.parse filters if filters.is_a? String
 
-        filters.each_with_object([]) do |filter, array|
-          attribute = filter.keys.first # there should only be one attribute per filter
-          operator =  filter[attribute]['operator']
-          values = filter[attribute]['values']
-          ar_attribute = convert_filter_attribute attribute, append_id: true
-
-          internal_representation = { field: ar_attribute,
-                                      operator: operator,
-                                      values: values }
-          array << internal_representation
+        filters.map do |filter|
+          filter_from_params(filter)
         end
+      end
+
+      def filter_from_params(filter)
+        attribute = filter.keys.first # there should only be one attribute per filter
+        operator =  filter[attribute]['operator']
+        values = Array(filter[attribute]['values']).map { |v| CGI.unescape(v.to_s) }
+        ar_attribute = convert_filter_attribute attribute, append_id: true
+
+        { field: ar_attribute,
+          operator: operator,
+          values: values }
       end
 
       def columns_from_params(params)

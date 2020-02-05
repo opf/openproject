@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -194,7 +194,7 @@ module Pages
     end
 
     def drag_and_drop_work_package(from:, to:)
-      # Wait a bit because drag & drop in selenium is easily offendedA
+      # Wait a bit because drag & drop in selenium is easily offended
       sleep 1
 
       rows = page.all('.wp-table--row')
@@ -238,7 +238,7 @@ module Pages
         .release
         .perform
 
-      # Wait a bit because drag & drop in selenium is easily offendedA
+      # Wait a bit because drag & drop in selenium is easily offended
       sleep 1
     end
 

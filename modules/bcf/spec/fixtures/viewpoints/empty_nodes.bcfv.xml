@@ -1,0 +1,52 @@
+<VisualizationInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Components>
+    <ViewSetupHints OpeningsVisible="false" SpaceBoundariesVisible="false" SpacesVisible="false" />
+    <Selection>
+      <Component IfcGuid="3_LMnKT5PDNvfeWnu3ys5Q">
+        <OriginatingSystem>Revit</OriginatingSystem>
+        <AuthoringToolId>1110420</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="3_LMnKT5PDNvfeWnu3ysAc">
+        <OriginatingSystem>Revit</OriginatingSystem>
+        <AuthoringToolId>1110632</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="3$Zh1JmxjAjwR7Z9q6WWTd">
+        <OriginatingSystem>Revit</OriginatingSystem>
+        <AuthoringToolId>1799551</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="3_LMnKT5PDNvfeWnu3ys7t">
+        <OriginatingSystem>Revit</OriginatingSystem>
+        <AuthoringToolId>1110329</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="3_LMnKT5PDNvfeWnu3ysAY">
+        <OriginatingSystem>Revit</OriginatingSystem>
+        <AuthoringToolId>1110636</AuthoringToolId>
+      </Component>
+      <Component IfcGuid="3_LMnKT5PDNvfeWnu3ysB9">
+        <OriginatingSystem>Revit</OriginatingSystem>
+        <AuthoringToolId>1110535</AuthoringToolId>
+      </Component>
+    </Selection>
+    <Coloring />
+  </Components>
+  <PerspectiveCamera>
+    <CameraViewPoint>
+      <X>18.231598160156043</X>
+      <Y>10.1419780452169</Y>
+      <Z>37.143082088190553</Z>
+    </CameraViewPoint>
+    <CameraDirection>
+      <X>-0.64168353225906516</X>
+      <Y>0.62570792643531381</Y>
+      <Z>-0.44354462596625993</Z>
+    </CameraDirection>
+    <CameraUpVector>
+      <X>-0.31756156824657888</X>
+      <Y>0.30965543043247745</Y>
+      <Z>0.89625228857529327</Z>
+    </CameraUpVector>
+    <FieldOfView>59.999999999999993</FieldOfView>
+  </PerspectiveCamera>
+  <Lines />
+  <ClippingPlanes />
+</VisualizationInfo>
