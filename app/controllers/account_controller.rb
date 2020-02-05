@@ -250,7 +250,7 @@ class AccountController < ApplicationController
   # When making changes here, also check MyController.change_password
   def change_password
     # Retrieve user_id from session
-    @user = User.find(flash[:_password_change_user_id])
+    @user = User.find(params[:password_change_user_id])
 
     change_password_flow(user: @user, params: params, show_user_name: true) do
       password_authentication(@user.login, params[:new_password])
