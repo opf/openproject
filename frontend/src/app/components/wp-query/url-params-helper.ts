@@ -263,7 +263,7 @@ export class UrlParamsHelperService {
     }
 
     if (query.highlightedAttributes && query.highlightingMode === 'inline') {
-      queryData.highlightedAttributes = query.highlightedAttributes.map(el => el.href);
+      queryData['highlightedAttributes[]'] = query.highlightedAttributes.map(el => el.href);
     }
 
     if (query.displayRepresentation) {
