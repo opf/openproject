@@ -12,7 +12,7 @@ Get an introduction how to work with projects in OpenProject. To start collabora
 
 <div class="alert alert-info" role="alert">
 **Note**: In order to see a project and work in it, you have to be a [member of a project](../invite-members).
-< div />
+</div>
 
 | Feature                                                 | Documentation for                                     |
 | ------------------------------------------------------- | ----------------------------------------------------- |
