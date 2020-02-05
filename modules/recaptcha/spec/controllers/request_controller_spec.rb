@@ -27,6 +27,17 @@ describe ::Recaptcha::RequestController, type: :controller do
       get :perform
       expect(response).to redirect_to stage_success_path(stage: :recaptcha, secret: 'asdf')
     end
+
+    context 'if the user is an admin' do
+      let(:user) { FactoryBot.create :admin }
+
+      it 'skips the verification' do
+        expect(controller).not_to receive(:perform)
+
+        get :perform
+        expect(response).to redirect_to stage_success_path(stage: :recaptcha, secret: 'asdf')
+      end
+    end
   end
 
   describe 'verify' do
