@@ -375,12 +375,12 @@ zh-TW:
         active_user_count_restriction: "最大活動使用者數"
       grids/grid:
         page: "頁面"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        row_count: "列數"
+        column_count: "欄數："
+        widgets: "小工具"
       relation:
         delay: "延時"
-        from: "Work package"
+        from: "工作項目"
         to: "相關的工作項目"
       status:
         is_closed: "工作項目關閉"
@@ -550,7 +550,7 @@ zh-TW:
         enterprise_token:
           unreadable: "無法讀取，確定是一個 support token?"
         grids/grid:
-          overlaps: 'overlap.'
+          overlaps: '重疊'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
         parse_schema_filter_params_service:
@@ -683,7 +683,7 @@ zh-TW:
       wiki: "維基"
       wiki_page: "維基頁面"
       workflow: "工作流程"
-      work_package: "Work package"
+      work_package: "工作項目"
       'doorkeeper/application': "Oauth 應用程式"
   errors:
     header_invalid_fields: "以下的欄位有問題:"
@@ -725,7 +725,7 @@ zh-TW:
     is_for_all: "對所有的專案"
     is_public: "公開"
     #kept for backwards compatibility
-    issue: "Work package"
+    issue: "工作項目"
     lastname: "姓："
     login: "Username"
     mail: "電子郵件"
@@ -748,7 +748,7 @@ zh-TW:
     uploader: "Uploader"
     user: "使用者"
     version: "版本"
-    work_package: "Work package"
+    work_package: "工作項目"
   button_add: "增加"
   button_add_member: 新增成員
   button_add_watcher: "新增監看者"
@@ -1019,7 +1019,7 @@ zh-TW:
         rename_groups: "重新命名屬性群组"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "活動 (時間追蹤)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "工作項目優先等級"
   enumeration_reported_project_statuses: "報告的專案狀態"
   error_auth_source_sso_failed: "單一登入 (SSO) 使用者 '%{value}' 失敗"
@@ -1079,7 +1079,7 @@ zh-TW:
     reply: 已回覆
     time_entry: '已編輯時間日誌'
     wiki_page: '維基頁面已編輯'
-    work_package_closed: 'Work Package closed'
+    work_package_closed: '工作項目關閉'
     work_package_edit: '工作項目已編輯'
     work_package_note: '工作項目註記已新增'
   export:
@@ -1087,9 +1087,11 @@ zh-TW:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF with descriptions"
+      pdf_with_descriptions: "有說明的 PDF 檔"
       pdf_with_descriptions_and_attachments: "帶有說明和附件的 pdf"
       pdf_with_attachments: "帶有附件的 pdf"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext 可用 (非必要)"
@@ -1629,7 +1631,7 @@ zh-TW:
   label_view_diff: "檢視差異"
   label_view_revisions: "檢視修訂"
   label_watched_work_packages: "監看的工作項目"
-  label_what_is_this: "What is this?"
+  label_what_is_this: "這是什麼？"
   label_week: "週"
   label_wiki_content_added: "維基頁面已新增"
   label_wiki_content_updated: "維基頁面已更新"
@@ -1648,7 +1650,7 @@ zh-TW:
   label_wiki_show_new_page_link: "顯示子功能表 '新增子頁面'"
   label_wiki_show_submenu_item: "呈現於子功能表的 "
   label_wiki_start: "開始頁面"
-  label_work_package: "Work package"
+  label_work_package: "工作項目"
   label_work_package_added: "工作項目已新增"
   label_work_package_attachments: "工作項目附件"
   label_work_package_category_new: "新增類別"
@@ -2440,9 +2442,9 @@ zh-TW:
     zoom:
       in: "放大"
       out: "縮小"
-      days: "Days"
-      weeks: "Weeks"
-      months: "Months"
+      days: "日"
+      weeks: "週"
+      months: "月"
       quarters: "季"
       years: "年"
   title_remove_and_delete_user: 從專案移除已被邀請的使用者別且刪除他/她
@@ -2619,7 +2621,7 @@ zh-TW:
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
     authorization_dialog:
-      authorize: "Authorize"
+      authorize: "授權"
       cancel: "Cancel and deny authorization."
       prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
       title: "Authorize %{application_name}"

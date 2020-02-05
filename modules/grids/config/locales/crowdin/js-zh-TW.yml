@@ -37,8 +37,10 @@ zh-TW:
         subprojects:
           title: '子專案'
           no_results: 'No subprojects.'
+        time_entries_current_user:
+          title: 'My spent time'
         time_entries_list:
-          title: '耗時'
+          title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
         work_packages_accountable:
           title: "我負責的工作項目"

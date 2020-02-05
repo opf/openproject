@@ -471,8 +471,7 @@ ko:
       duration: '기간'
       spent_on: '날짜'
       hours: '시간'
-      edit: 'Edit time entry'
-      create: 'Create time entry'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: '2단계 인증'
     watchers:

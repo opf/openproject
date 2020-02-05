@@ -1033,7 +1033,7 @@ de:
         rename_groups: "Attributgruppen umbenennen"
       project_filters:
         description_html: "Filtern und Sortieren auf benutzerdefinierten Feldern ist eine Funktion der Enterprise Edition."
-  enumeration_activities: "Aktivitäten (Zeiterfassung)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Arbeitspaket-Prioritäten"
   enumeration_reported_project_statuses: "Gemeldeter Projekt-Status"
   error_auth_source_sso_failed: "Single Sign-On (SSO) für Nutzer '%{value}' fehlgeschlagen"
@@ -1104,6 +1104,8 @@ de:
       pdf_with_descriptions: "PDF mit Beschreibungen"
       pdf_with_descriptions_and_attachments: "PDF mit Beschreibungen und Anhängen"
       pdf_with_attachments: "PDF mit Anhängen"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext verfügbar (optional)"
@@ -1114,7 +1116,7 @@ de:
       tesseract: "Tesseract verfügbar (optional)"
   general_csv_decimal_separator: ","
   general_csv_encoding: "UTF-8"
-  general_csv_separator: ";"
+  general_csv_separator: ","
   general_first_day_of_week: "1"
   general_lang_name: "Deutsch"
   general_pdf_encoding: "ISO-8859-1"

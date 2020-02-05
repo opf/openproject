@@ -1032,7 +1032,7 @@ es:
         rename_groups: "Cambiar nombre de grupos de atributos"
       project_filters:
         description_html: "Filtrar y ordenar en campos personalizados es una característica de edición empresarial."
-  enumeration_activities: "Actividades (tiempo de seguimiento)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Prioridades del paquete de trabajo"
   enumeration_reported_project_statuses: "Estatus del proyecto reportado"
   error_auth_source_sso_failed: "El intento de inicio de sesión único (SSO) para el usuario “%{value}” falló"
@@ -1103,6 +1103,8 @@ es:
       pdf_with_descriptions: "PDF con descripciones"
       pdf_with_descriptions_and_attachments: "PDF con descripción y archivos adjuntos"
       pdf_with_attachments: "PDF con adjuntos"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext disponible (opcional)"

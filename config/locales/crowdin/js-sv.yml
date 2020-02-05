@@ -470,8 +470,7 @@ sv:
       duration: 'Varaktighet'
       spent_on: 'Datum'
       hours: 'Timmar'
-      edit: 'Edit time entry'
-      create: 'Create time entry'
+      label: 'Tidspost'
     two_factor_authentication:
       label_two_factor_authentication: 'Tvåfaktorsautentisering'
     watchers:

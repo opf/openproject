@@ -37,8 +37,10 @@ de:
         subprojects:
           title: 'Unterprojekte'
           no_results: 'Keine Unterprojekte.'
+        time_entries_current_user:
+          title: 'My spent time'
         time_entries_list:
-          title: 'Aufgewendete Zeit'
+          title: 'Verbrachte Zeit (letzte 7 Tage)'
           no_results: 'Keine Zeiteinträge der letzten 7 Tage.'
         work_packages_accountable:
           title: "Von mir verantwortete Arbeitspakete"

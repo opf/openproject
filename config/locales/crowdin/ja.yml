@@ -1017,7 +1017,7 @@ ja:
         rename_groups: "属性グループの名前を変更"
       project_filters:
         description_html: "カスタムフィールドのフィルタリングと並べ替えは、エンタープライズ版の機能です。"
-  enumeration_activities: "作業分類 (時間の追跡)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "作業項目の優先度"
   enumeration_reported_project_statuses: "報告されるプロジェクト進捗状況"
   error_auth_source_sso_failed: "ユーザー '%{value}' のシングルサインオン (SSO) に失敗しました"
@@ -1088,6 +1088,8 @@ ja:
       pdf_with_descriptions: "説明付きPDF"
       pdf_with_descriptions_and_attachments: "説明と添付ファイル付きPDF"
       pdf_with_attachments: "添付ファイル付きPDF"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotextが利用可能 (オプション)"

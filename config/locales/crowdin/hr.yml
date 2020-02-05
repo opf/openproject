@@ -1051,7 +1051,7 @@ hr:
         rename_groups: "Rename attributes groups"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Aktivnosti (vremensko praćenje)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Prioriteti radnog paketa"
   enumeration_reported_project_statuses: "Priopćeni statusi projekta"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
@@ -1122,6 +1122,8 @@ hr:
       pdf_with_descriptions: "PDF s opisima"
       pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
       pdf_with_attachments: "PDF s privicima"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"

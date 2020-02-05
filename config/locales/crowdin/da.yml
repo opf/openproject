@@ -1035,7 +1035,7 @@ da:
         rename_groups: "Rename attributes groups"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Aktiviteter (styring af tid)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Prioritering af arbejdspakker"
   enumeration_reported_project_statuses: "Rapporteret projektstatus"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
@@ -1106,6 +1106,8 @@ da:
       pdf_with_descriptions: "PDF med beskrivelse"
       pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
       pdf_with_attachments: "PDF with attachments"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"

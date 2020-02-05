@@ -37,8 +37,10 @@ lt:
         subprojects:
           title: 'Sub-projektai'
           no_results: 'Nėra su-projektų.'
+        time_entries_current_user:
+          title: 'My spent time'
         time_entries_list:
-          title: 'Praleista laiko'
+          title: 'Sugaišta laiko (per paskutines 7 dienas)'
           no_results: 'Nėra laiko įrašų per paskutines 7 dienas.'
         work_packages_accountable:
           title: "Darbo paketai, už kuriuos aš atsakingas"

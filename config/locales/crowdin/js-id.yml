@@ -471,8 +471,7 @@ id:
       duration: 'Durasi'
       spent_on: 'Tanggal'
       hours: 'Jam'
-      edit: 'Edit time entry'
-      create: 'Create time entry'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Autentikasi dua faktor'
     watchers:

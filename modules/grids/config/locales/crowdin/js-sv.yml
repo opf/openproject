@@ -37,8 +37,10 @@ sv:
         subprojects:
           title: 'Delprojekt'
           no_results: 'Inga delprojekt.'
+        time_entries_current_user:
+          title: 'My spent time'
         time_entries_list:
-          title: 'Förbrukad tid'
+          title: 'Spenderad tid (senaste 7 dagarna)'
           no_results: 'Inga tidsinlägg för de senaste 7 dagarna.'
         work_packages_accountable:
           title: "Arbetspaket Jag är ansvarig för"

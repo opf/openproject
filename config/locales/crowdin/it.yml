@@ -1031,7 +1031,7 @@ it:
         rename_groups: "Rinominazione di gruppi di proprietà"
       project_filters:
         description_html: "Le opzioni di filtraggio ed ordinamento dei campi personalizzati sono disponibili nella versione enterprise."
-  enumeration_activities: "Attività (monitoraggio tempi)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Priorità della macro-attività"
   enumeration_reported_project_statuses: "Stato di progetto segnalato"
   error_auth_source_sso_failed: "Single Sign-On (SSO) per l'utente '%{value}' non riuscita"
@@ -1102,6 +1102,8 @@ it:
       pdf_with_descriptions: "PDF con descrizioni"
       pdf_with_descriptions_and_attachments: "PDF con descrizioni e allegati"
       pdf_with_attachments: "PDF con allegati"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdfatesto disponibile (opzionale)"

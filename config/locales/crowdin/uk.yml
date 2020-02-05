@@ -1067,7 +1067,7 @@ uk:
         rename_groups: "Перейменувати групи атрибутів"
       project_filters:
         description_html: "Фільтрування та сортування по власних полях доступне тільки у корпоративній версії."
-  enumeration_activities: "Дії (облік часу)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Пріоритети робочого пакету"
   enumeration_reported_project_statuses: "Повідомлення про статус проекту"
   error_auth_source_sso_failed: "Єдиний вхід (SSO) для користувача %{value} не вдалося "
@@ -1138,6 +1138,8 @@ uk:
       pdf_with_descriptions: "PDF з описами"
       pdf_with_descriptions_and_attachments: "PDF з описами та додатками"
       pdf_with_attachments: "PDF з вкладеннями"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Доступний текст PDF (необов'язково)"

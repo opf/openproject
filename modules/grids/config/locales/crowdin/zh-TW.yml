@@ -3,12 +3,12 @@ zh-TW:
     attributes:
       grids/grid:
         page: "頁面"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        row_count: "列數"
+        column_count: "欄數："
+        widgets: "小工具"
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
+          overlaps: '重疊'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'

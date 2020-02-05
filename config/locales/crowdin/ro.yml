@@ -1051,7 +1051,7 @@ ro:
         rename_groups: "Rename attributes groups"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Activități (durata de lucru)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Priorități pentru pachetele de lucru"
   enumeration_reported_project_statuses: "Stările proiectului raportat"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
@@ -1122,6 +1122,8 @@ ro:
       pdf_with_descriptions: "PDF cu descrieri"
       pdf_with_descriptions_and_attachments: "Documentul pdf cu descriere și fișiere atașate"
       pdf_with_attachments: "Document pdf cu fișiere atașate"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"

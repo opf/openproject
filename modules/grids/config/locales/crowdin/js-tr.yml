@@ -37,8 +37,10 @@ tr:
         subprojects:
           title: 'Alt Projeler'
           no_results: 'Alt proje yok.'
+        time_entries_current_user:
+          title: 'My spent time'
         time_entries_list:
-          title: 'Harcanan zaman'
+          title: 'Harcanan zaman (son 7 gün)'
           no_results: 'Son 7 günde zaman girişi yok.'
         work_packages_accountable:
           title: "Sorumlusu olduğum iş paketleri"
