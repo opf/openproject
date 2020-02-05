@@ -229,7 +229,7 @@ class Attachment < ActiveRecord::Base
     end
   end
 
-  def tsv_extracted_containers
+  def self.tsv_extracted_containers
     Attachment
       .select(:container_type)
       .distinct
