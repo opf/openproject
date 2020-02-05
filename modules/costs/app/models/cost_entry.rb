@@ -82,11 +82,11 @@ class CostEntry < ActiveRecord::Base
   end
 
   def overwritten_costs=(costs)
-    write_attribute(:overwritten_costs, CostRate.clean_currency(costs))
+    write_attribute(:overwritten_costs, CostRate.parse_number_string_to_number(costs))
   end
 
   def units=(units)
-    write_attribute(:units, CostRate.clean_currency(units))
+    write_attribute(:units, CostRate.parse_number_string(units))
   end
 
   # tyear, tmonth, tweek assigned where setting spent_on attributes

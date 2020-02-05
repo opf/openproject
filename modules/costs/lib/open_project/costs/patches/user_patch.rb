@@ -74,7 +74,7 @@ module OpenProject::Costs::Patches::UserPatch
       return unless rate_attributes
 
       rate_attributes.each do |_index, attributes|
-        attributes[:rate] = Rate.clean_currency(attributes[:rate])
+        attributes[:rate] = Rate.parse_number_string(attributes[:rate])
 
         if project.nil?
           default_rates.build(attributes)
@@ -107,7 +107,7 @@ module OpenProject::Costs::Patches::UserPatch
 
     def update_rate(rate, attributes, project_rate = true)
       if attributes && attributes[:rate].present?
-        attributes[:rate] = Rate.clean_currency(attributes[:rate])
+        attributes[:rate] = Rate.parse_number_string(attributes[:rate])
         rate.attributes = attributes
       else
         # TODO: this is surprising

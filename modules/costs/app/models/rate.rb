@@ -42,15 +42,7 @@ class Rate < ActiveRecord::Base
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  def self.clean_currency(value)
-    if value && value.is_a?(String)
-      value = value.strip
-      value.gsub!(I18n.t(:currency_delimiter), '') if value.include?(I18n.t(:currency_delimiter)) && value.include?(I18n.t(:currency_separator))
-      value.gsub(',', '.')
-    else
-      value
-    end
-  end
+  extend Costs::NumberHelper
 
   private
 
@@ -65,7 +57,7 @@ class Rate < ActiveRecord::Base
   end
 
   def update_costs
-    entry_class = self.is_a?(HourlyRate) ? TimeEntry : CostEntry
+    entry_class = is_a?(HourlyRate) ? TimeEntry : CostEntry
     entry_class.where(rate_id: id).each(&:update_costs!)
   end
 
@@ -74,10 +66,10 @@ class Rate < ActiveRecord::Base
 
     next_rate = self.next
     # get entries from the current project
-    entries = o.find_entries(valid_from, (next_rate.valid_from if next_rate))
+    entries = o.find_entries(valid_from, (next_rate&.valid_from))
 
     # and entries from subprojects that need updating (only applies to hourly_rates)
-    entries += o.orphaned_child_entries(valid_from, (next_rate.valid_from if next_rate))
+    entries += o.orphaned_child_entries(valid_from, (next_rate&.valid_from))
 
     o.update_entries(entries)
   end
