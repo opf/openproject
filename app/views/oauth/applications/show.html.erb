@@ -27,6 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title t(:label_administration), t('oauth.application.singular'), h(@application.name) -%>
+<% local_assigns[:additional_breadcrumb] = h(@application.name) %>
 
 <%= toolbar title: "#{t('oauth.application.singular')} - #{h(@application.name)}",
             title_class: 'no-padding-bottom' do %>

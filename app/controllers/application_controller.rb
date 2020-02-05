@@ -588,8 +588,8 @@ class ApplicationController < ActionController::Base
   helper_method :show_local_breadcrumb
 
   def admin_first_level_menu_entry
-    current_menu_item = self.admin_menu_item(self.current_menu_item)
-    current_menu_item.parent
+    menu_item = admin_menu_item(current_menu_item)
+    menu_item.parent
   end
   helper_method :admin_first_level_menu_entry
 

@@ -85,5 +85,15 @@ module OpenIDConnect
       Provider::ALLOWED_TYPES.dup - providers.map(&:name)
     end
     helper_method :openid_connect_providers_available_for_configure
+
+    def default_breadcrumb
+      if action_name != 'index'
+        ActionController::Base.helpers.link_to(t('openid_connect.providers.plural'), openid_connect_providers_path)
+      end
+    end
+
+    def show_local_breadcrumb
+      true
+    end
   end
 end
