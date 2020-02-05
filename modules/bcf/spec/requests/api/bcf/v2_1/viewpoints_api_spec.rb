@@ -61,7 +61,8 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
       FactoryBot.create(:work_package, project: project)
     end
   end
-  shared_let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_viewpoint, work_package: work_package) }
+
+  let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_viewpoint, work_package: work_package) }
 
   let(:viewpoint) { bcf_issue.viewpoints.first }
   let(:viewpoint_json) { viewpoint.json_viewpoint }
@@ -124,14 +125,31 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
       delete path
     end
 
-    it_behaves_like 'bcf api successful response' do
-      let(:expected_status) { 204 }
-      let(:expected_body) { nil }
-      let(:no_content) { true }
+    shared_examples "successfully deletes the viewpoint" do
+      it_behaves_like 'bcf api successful response' do
+        let(:expected_status) { 204 }
+        let(:expected_body) { nil }
+        let(:no_content) { true }
+      end
+
+      it 'deletes the viewpoint' do
+        expect(Bcf::Viewpoint.where(id: viewpoint.id)).not_to be_exist
+      end
     end
 
-    it 'deletes the viewpoint' do
-      expect(Bcf::Viewpoint.where(id: viewpoint.id)).not_to be_exist
+    context "no BCF comment holds a reference to that viewpoint" do
+      it_behaves_like "successfully deletes the viewpoint"
+    end
+
+    context "one BCF comment holds a reference to that viewpoint" do
+      let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_comment, work_package: work_package) }
+      let(:comment) { bcf_issue.comments.first }
+
+      it "nullifies the comment's reference to the viewpoint" do
+        expect(comment.viewpoint).to be_nil
+      end
+
+      it_behaves_like "successfully deletes the viewpoint"
     end
 
     context 'lacking permission to see project' do
