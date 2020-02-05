@@ -371,6 +371,7 @@ Redmine::MenuManager.map :project_menu do |menu|
     menu.push :"settings_#{node[:name]}",
               node[:action],
               caption: node[:label],
-              parent: :settings
+              parent: :settings,
+              if: node[:if]
   end
 end
