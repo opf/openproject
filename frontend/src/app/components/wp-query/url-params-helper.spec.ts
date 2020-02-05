@@ -193,6 +193,7 @@ describe('UrlParamsHelper', function() {
         timelineZoomLevel: 0,
         timelineLabels: { left: 'foo', right: 'bar', farRight: 'asdf' },
         highlightingMode: 'inline',
+        highlightedAttributes: [{href: 'a'}, {href: 'b'}],
         sums: true,
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
@@ -238,6 +239,7 @@ describe('UrlParamsHelper', function() {
         timelineVisible: false,
         showHierarchies: false,
         highlightingMode: 'inline',
+        'highlightedAttributes[]': ['a', 'b'],
         offset: 10,
         pageSize: 100
       };
