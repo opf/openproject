@@ -52,6 +52,8 @@
     opacity: 0
     background: none
     border: none
+    display: flex
+    align-items: center
 
     &:hover
       opacity: 1
@@ -59,12 +61,13 @@
       background: #EAEAEA
 
     .fc-content
-      position: sticky
       color: black
       width: 100%
-      top: 200px
       font-weight: normal
       font-size: 1.5rem
+
+    &.-prohibited
+      cursor: not-allowed
 
   .te-calendar--time-entry
     .fc-content
@@ -76,7 +79,7 @@
       height: 2em
       z-index: 5
 
-    &.fc-short
+    &.-no-fadeout
       .fc-fadeout
         display: none
 

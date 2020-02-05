@@ -44,6 +44,7 @@ interface CalendarMoveEvent {
 const TIME_ENTRY_CLASS_NAME = 'te-calendar--time-entry';
 const DAY_SUM_CLASS_NAME = 'te-calendar--day-sum';
 const ADD_ENTRY_CLASS_NAME = 'te-calendar--add-entry';
+const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
 
 @Component({
   templateUrl: './te-calendar.template.html',
@@ -63,6 +64,12 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   @Input() static:boolean = false;
   @Output() entries = new EventEmitter<CollectionResource<TimeEntryResource>>();
 
+  // Not used by the calendar but rather is the maximum/minimum of the graph.
+  public minHour = 1;
+  public maxHour = 12;
+  public labelIntervalHours = 2;
+  public scaleRatio = 1;
+
   public calendarPlugins = [timeGrid, interactionPlugin];
   public calendarEvents:Function;
   public calendarHeader:ToolbarInput|boolean = {
@@ -70,14 +77,15 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     center: 'title',
     left: 'prev,next today'
   };
-  public calendarSlotLabelFormat = (info:any) => 24 - info.date.hour;
-  public calendarScrollTime = '24:00:00';
-  public calendarContentHeight = 545;
+  public calendarSlotLabelFormat = (info:any) => (this.maxHour - info.date.hour) / this.scaleRatio;
+  public calendarSlotLabelInterval = `${this.labelIntervalHours}:00:00`;
+  public calendarContentHeight = 605;
   public calendarAllDaySlot = false;
-  public calendarAllDayText = '';
   public calendarDisplayEventTime = false;
   public calendarSlotEventOverlap = false;
   public calendarEditable = false;
+  public calendarMinTime = `${this.minHour - 1}:00:00`;
+  public calendarMaxTime = `${this.maxHour}:00:00`;
   public calendarEventOverlap = (stillEvent:any) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME);
 
   protected memoizedTimeEntries:{start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>>};
@@ -151,8 +159,28 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   private buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
+    this.setRatio(entries);
+
     return this.buildTimeEntryEntries(entries)
       .concat(this.buildAuxEntries(entries, fetchInfo));
+  }
+
+  private setRatio(entries:TimeEntryResource[]) {
+    let dateSums = this.calculateDateSums(entries);
+
+    let maxHours = Math.max(...Object.values(dateSums), 0);
+
+    let oldRatio = this.scaleRatio;
+
+    if (maxHours > this.maxHour - this.minHour) {
+      this.scaleRatio = this.smallerSuitableRatio((this.maxHour - this.minHour) / maxHours);
+    } else {
+      this.scaleRatio = 1;
+    }
+
+    if (oldRatio !== this.scaleRatio) {
+      this.ucCalendar.getApi().render();
+    }
   }
 
   private buildTimeEntryEntries(entries:TimeEntryResource[]) {
@@ -161,14 +189,14 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     return entries.map((entry) => {
       let start:Moment;
       let end:Moment;
-      let hours = this.timezone.toHours(entry.hours);
+      let hours = this.timezone.toHours(entry.hours) * this.scaleRatio;
 
       if (hoursDistribution[entry.spentOn]) {
         start = hoursDistribution[entry.spentOn].clone().subtract(hours, 'h');
         end = hoursDistribution[entry.spentOn].clone();
       } else {
-        start = moment(entry.spentOn).add(24 - hours, 'h');
-        end = moment(entry.spentOn).add(24, 'h');
+        start = moment(entry.spentOn).add(this.maxHour - hours, 'h');
+        end = moment(entry.spentOn).add(this.maxHour, 'h');
       }
 
       hoursDistribution[entry.spentOn] = start;
@@ -180,6 +208,24 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   private buildAuxEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
+    let dateSums = this.calculateDateSums(entries);
+
+    let calendarEntries:EventInput[] = [];
+
+    for (let m = moment(fetchInfo.start); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
+      let duration = dateSums[m.format('YYYY-MM-DD')] || 0;
+
+      calendarEntries.push(this.sumEntry(m, duration));
+
+      if (this.memoizedCreateAllowed) {
+        calendarEntries.push(this.addEntry(m, duration));
+      }
+    }
+
+    return calendarEntries;
+  }
+
+  private calculateDateSums(entries:TimeEntryResource[]) {
     let dateSums:{ [key:string]:number } = {};
 
     entries.forEach((entry) => {
@@ -192,32 +238,28 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
       }
     });
 
-    let calendarEntries:EventInput[] = [];
-
-    for (let m = moment(fetchInfo.start); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
-      let duration = dateSums[m.format('YYYY-MM-DD')] || 0;
-
-      calendarEntries.push(this.sumEntry(m, duration));
-
-      if (this.memoizedCreateAllowed && duration < 24) {
-        calendarEntries.push(this.addEntry(m, duration));
-      }
-    }
-
-    return calendarEntries;
+    return dateSums;
   }
 
   protected timeEntry(entry:TimeEntryResource, hours:number, start:Moment, end:Moment) {
     const color = this.colors.toHsl(this.entryName(entry));
 
+    let classNames = [TIME_ENTRY_CLASS_NAME];
+
+    let span = end.diff(start, 'm');
+
+    if (span < 40) {
+      classNames.push('-no-fadeout');
+    }
+
     return {
-      title: hours < 0.5 ? '' : this.entryName(entry),
+      title: span < 20 ? '' : this.entryName(entry),
       startEditable: !!entry.update,
       start: start.format(),
       end: end.format(),
       backgroundColor: color,
       borderColor: color,
-      classNames: TIME_ENTRY_CLASS_NAME,
+      classNames: classNames,
       entry: entry
     };
   }
@@ -225,18 +267,26 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   protected sumEntry(date:Moment, duration:number) {
     return {
       title: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
-      start: date.clone().add(24 - Math.min(duration, 23.5) - 0.5, 'h').format(),
-      end: date.clone().add(24 - Math.min(duration, 23.5), 'h').format(),
+      start: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 0.5) - 0.5, 'h').format(),
+      end: date.clone().add(this.maxHour - Math.min(((duration + 0.05) * this.scaleRatio), this.maxHour - 0.5), 'h').format(),
       classNames: DAY_SUM_CLASS_NAME
     };
   }
 
   protected addEntry(date:Moment, duration:number) {
+    let classNames = [ADD_ENTRY_CLASS_NAME];
+    let title = '+';
+
+    if (duration >= 24) {
+       classNames.push(ADD_ENTRY_PROHIBITED_CLASS_NAME);
+       title = '';
+    }
+
     return {
-      title: '+',
+      title: title,
       start: date.clone().format(),
-      end: date.clone().add(24 - Math.min(duration, 22.5) - 0.5, 'h').format(),
-      classNames: ADD_ENTRY_CLASS_NAME
+      end: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 1) - 0.5, 'h').format(),
+      classNames: classNames
     };
   }
 
@@ -278,8 +328,8 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   private dispatchEventClick(event:CalendarViewEvent) {
     if (event.event.extendedProps.entry) {
       this.editEvent(event.event.extendedProps.entry);
-    } else if (event.event.start) {
-      this.addEvent(moment(event.event.start));
+    } else if (event.el.classList.contains(ADD_ENTRY_CLASS_NAME) && !event.el.classList.contains(ADD_ENTRY_PROHIBITED_CLASS_NAME)) {
+      this.addEvent(moment(event.event.start!));
     }
   }
 
@@ -467,5 +517,17 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
   protected formatNumber(value:number):string {
     return this.i18n.toNumber(value, { precision: 2 });
+  }
+
+  private smallerSuitableRatio(value:number):number {
+    for (let divisor = this.labelIntervalHours + 1; divisor < 100; divisor++) {
+      let candidate = this.labelIntervalHours / divisor;
+
+      if (value >= candidate) {
+        return candidate;
+      }
+    }
+
+    return 1;
   }
 }
