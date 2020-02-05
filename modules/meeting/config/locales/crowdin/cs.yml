@@ -31,7 +31,7 @@ cs:
       meeting_agenda: "Agenda"
       meeting_minutes: "Zápis"
   description_attended: "zúčastněn"
-  description_invite: "invited"
+  description_invite: "pozván"
   events:
     meeting: Meeting edited
     meeting_agenda: Meeting agenda edited

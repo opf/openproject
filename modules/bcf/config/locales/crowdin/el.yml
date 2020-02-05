@@ -7,7 +7,7 @@ el:
     issues: "Ζητήματα"
     recommended: 'προτεινόμενο'
     not_recommended: 'δεν συνιστάται'
-    no_viewpoints: 'No viewpoints'
+    no_viewpoints: 'Δεν υπάρχουν viewpoints'
     new_badge: "Νέο"
     exceptions:
       file_invalid: "Το αρχείο BCF δεν είναι έγκυρο"

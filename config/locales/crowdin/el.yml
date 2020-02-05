@@ -102,7 +102,7 @@ el:
       simple_tls: 'απλό_tls'
       start_tls: 'εκκίνηση_tls'
       plain_description: "Απλή μη κρυπτογραφημένη σύνδεση, χωρίς διαπραγμάτευση TLS."
-      simple_tls_description: "Τυπική κρυπτογράφηση TLS, χωρίς επικύρωση πιστοποιητικού. Χρησιμοποιήστε με προσοχή και την έμμεση εμπιστοσύνη της σύνδεσης LDAP."
+      simple_tls_description: "Τυπική κρυπτογράφηση TLS, χωρίς επικύρωση πιστοποιητικού. Χρησιμοποιήστε με προσοχή και εμπιστοσύνη για την σύνδεση LDAP."
       start_tls_description: "Αυξημένη κρυπτογράφηση TLS με πλήρη επικύρωση. Χρησιμοποιήστε το για LDAP μέσω TLS / SSL."
       section_more_info_link_html: >
         Αυτή η ενότητα αφορά την ασφάλεια σύνδεσης αυτής της πηγής ελέγχου ταυτότητας LDAP. Για περισσότερες πληροφορίες, επισκεφθείτε <a href="%{link}">the Net::LDAP documentation</a>.
@@ -357,7 +357,7 @@ el:
         page: "Σελίδα"
         row_count: "Πλήθος γραμμών"
         column_count: "Πλήθοςστηλών"
-        widgets: "Γραφικά στοιχεία"
+        widgets: "Widgets"
       relation:
         delay: "Καθυστέρηση"
         from: "Εργασία"
@@ -1992,15 +1992,15 @@ el:
       exception_title: "Δεν είναι δυνατή η πρόσβαση στο αποθετήριο: %{message}"
       disabled_or_unknown_type: "Ο επιλεγμένος τύπος %{type} είναι απενεργοποιημένος ή δεν είναι πλέον διαθέσιμος για το SCM vendor %{vendor}."
       disabled_or_unknown_vendor: "Το SCM vendor %{vendor} είναι απενεργοποιημένο ή δεν είναι πλέον διαθέσιμο."
-      remote_call_failed: "Calling the managed remote failed with message '%{message}' (Code: %{code})"
-      remote_invalid_response: "Received an invalid response from the managed remote."
-      remote_save_failed: "Could not save the repository with the parameters retrieved from the remote."
+      remote_call_failed: "Η κλήση του διαχειριζόμενου απομακρυσμένου εξυπηρετητή απέτυχε με το μήνυμα '%{message}' (Κωδικός: %{code})"
+      remote_invalid_response: "Λάβαμε μια μη έγκυρη απόκριση από το διαχειριζόμενο απομακρυσμένο εξυπηρετητή."
+      remote_save_failed: "Δεν ήταν δυνατή η αποθήκευση του αποθετηρίου με τις παραμέτρους που ανακτήθηκαν από τον απομακρυσμένο εξυπηρετητή."
     git:
       instructions:
         managed_url: "Αυτό είναι το URL του διαχειριζόμενου (τοπικού) αποθετηρίου Git."
         path: >-
           Ορίστε το μονοπάτι του τοπικού σας αποθετηρίου Git (π.χ., %{example_path} ). Μπορείτε να χρησιμοποιείτε απομακρυσμένα αποθετήρια τα οποία έχουν κλωνοποιηθεί σε ένα τοπικό αντίγραφο χρησιμοποιώντας μια τιμή που ξεκινάει με http(s):// ή file://.
-        path_encoding: "Παράκαμπψη του μονοπατιού κωδικοποίησης Git (Προεπιλογή: UTF-8)"
+        path_encoding: "Παράκαμψη του μονοπατιού κωδικοποίησης Git (Προεπιλογή: UTF-8)"
       local_title: "Σύνδεση με υπάρχον τοπικό αποθετήριο Git"
       local_url: "Τοπικό URL"
       local_introduction: "Αν έχετε ένα υπάρχον τοπικό αποθετήριο Git, μπορείτε να το συνδέσετε με το OpenProject για να αποκτήσετε πρόσβαση σε αυτό μέσα από την εφαρμογή."
@@ -2010,8 +2010,8 @@ el:
       path: "Μονοπάτι για το αποθετήριο Git"
       path_encoding: "Κωδικοποίηση μονοπατιού"
     go_to_revision: "Πηγαίνετε στην αναθεώρηση"
-    managed_remote: "Managed repositories for this vendor are handled remotely."
-    managed_remote_note: "Information on the URL and path of this repository is not available prior to its creation."
+    managed_remote: "Τα διαχειριζόμενα αποθετήρια για αυτό τον προμηθευτή χειρίζονται απομακρυσμένα."
+    managed_remote_note: "Οι πληροφορίες για το URL και το μονοπάτι αυτού του αποθετηρίου δεν είναι διαθέσιμες πριν την δημιουργία του."
     managed_url: "Διαχειριζόμενο URL"
     settings:
       automatic_managed_repos_disabled: "Απενεργοποίηση αυτόματης δημιουργίας"

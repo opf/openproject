@@ -89,7 +89,7 @@ cs:
     task_color: "Task color"
     unassigned: "Unassigned"
     x_more: "%{count} more..."
-  backlogs_active: "active"
+  backlogs_active: "aktivní"
   backlogs_any: "any"
   backlogs_card_specification: "Label types for card printing"
   backlogs_inactive: "Project shows no activity"

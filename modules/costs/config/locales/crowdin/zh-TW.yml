@@ -17,7 +17,7 @@ zh-TW:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Work package"
+        work_package: "工作項目"
         overridden_costs: "Overridden costs"
         spent: "Spent"
         spent_on: "日期"
