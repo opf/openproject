@@ -215,7 +215,7 @@ group :test do
   gem 'capybara', '~> 3.29.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
-  gem 'webdrivers', '~> 4.1.2', require: false
+  gem 'webdrivers', '~> 4.2.0', require: false
   gem 'selenium-webdriver', '~> 3.14'
 
   gem 'fuubar', '~> 2.3.2'
