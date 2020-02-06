@@ -27,22 +27,96 @@
 
 import {Component} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
+import {keyCodes} from "core-app/modules/common/keyCodes.enum";
 
 @Component({
   template: `
-    <input type="number"
-           step="any"
+    <input type="text"
            class="inline-edit--field"
            [attr.aria-required]="required"
            [attr.required]="required"
            [disabled]="inFlight"
-           [(ngModel)]="value"
-           (keydown)="handler.handleUserKeydown($event)"
+           [ngModel]="formatter(value)"
+           [attr.placeholder]="placeholder"
+           (ngModelChange)="value = parser($event);"
+           (keydown)="handleUserKeydown($event)"
            (focusout)="handler.onFocusOut()"
-           [attr.lang]="locale"
            [id]="handler.htmlId" />
   `
 })
 export class FloatEditFieldComponent extends EditFieldComponent {
-  public locale = I18n.locale;
+
+  /** There's no builtin function to PARSE a locale string
+   * but one to produce one so we can simply explode the string by the decimal separator
+   * */
+  public decimalSeparator:string = '.';
+  public thousandSeparator:string = ',';
+
+  private pattern:RegExp;
+
+  ngOnInit() {
+    super.ngOnInit();
+    let testNumber = this.formatter(1234.56);
+    this.decimalSeparator = testNumber.charAt(testNumber.length - 3);
+
+    // set the thousand separator if it is used by toLocaleString
+    if (testNumber.charAt(1) !== '2') {
+      this.thousandSeparator = testNumber.charAt(1);
+    }
+
+    this.pattern = new RegExp(`^[\\d\\${this.decimalSeparator}\\${this.thousandSeparator}]*$`);
+  }
+
+  public handleUserKeydown(event:JQuery.TriggeredEvent) {
+    if (event.which && event.which < 65) {
+      this.handler.handleUserKeydown(event);
+      return true;
+    }
+
+    // Avoid meta events
+    if (event.metaKey || event.ctrlKey) {
+      return true;
+    }
+
+    // Test if key matches our number pattern
+    if (event.key && !event.key.match(this.pattern)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public parser(value:string|null):number|null {
+    if (!value) {
+      return null;
+    }
+
+    if (!value.match(this.pattern)) {
+      return null;
+    }
+
+    // Remove decimal separator
+    let parts = value.split(this.decimalSeparator);
+
+    // Replace thousands separator if any
+    parts[0] = parts[0].replace(/[^\d]/g, '');
+
+    // Parseable number
+    return parseFloat(parts.join('.'));
+  }
+
+  public formatter(value:number|null):string {
+    if (!value) {
+      return '';
+    }
+
+    return value.toLocaleString(
+      this.I18n.locale,
+      { useGrouping: true, maximumFractionDigits: 20 }
+    );
+  }
+
+  public get placeholder() {
+    return this.I18n.t('js.placeholders.float');
+  }
 }
