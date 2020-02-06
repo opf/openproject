@@ -470,8 +470,7 @@ ru:
       duration: 'Продолжительность'
       spent_on: 'Дата'
       hours: 'Часы'
-      edit: 'Редактировать запись времени'
-      create: 'Создать запись времени'
+      label: 'Время поступления'
     two_factor_authentication:
       label_two_factor_authentication: 'Двухфакторная аутентификация'
     watchers:

@@ -34,10 +34,13 @@ describe 'Work Package highlighting fields',
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:highlighting) { ::Components::WorkPackages::Highlighting.new }
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
+  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
 
   let!(:query) do
     query = FactoryBot.build(:query, user: user, project: project)
     query.column_names = %w[id subject status priority due_date]
+    query.highlighted_attributes = %i[status priority due_date]
+    query.highlighting_mode = :inline
 
     query.save!
     query
@@ -200,5 +203,25 @@ describe 'Work Package highlighting fields',
     # Regression test, resort table
     sort_by.sort_via_header 'Subject', descending: true
     wp_table.expect_work_package_order wp_1, wp_2
+  end
+
+  it 'does not set query_props when switching in view (Regression #32118)' do
+    prio_wp1 = wp_table.edit_field(wp_1, :priority)
+    prio_wp1.update priority_no_color.name
+    prio_wp1.expect_state_text priority_no_color.name
+
+    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_1.reload
+    expect(wp_1.priority).to eq priority_no_color
+
+    # We need to wait a bit for the query_props to load
+    # I don't have a better idea than waiting explicitly here
+    sleep 5
+
+    query_title.expect_not_changed
+
+    url = URI.parse(page.current_url).query
+    expect(url).to include("query_id=#{query.id}")
+    expect(url).not_to match(/query_props=.+/)
   end
 end

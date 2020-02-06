@@ -34,5 +34,13 @@ module ::Recaptcha
     def permitted_params
       params.permit(:recaptcha_type, :website_key, :secret_key)
     end
+
+    def default_breadcrumb
+      t('recaptcha.label_recaptcha')
+    end
+
+    def show_local_breadcrumb
+      true
+    end
   end
 end

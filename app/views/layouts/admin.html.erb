@@ -28,10 +28,16 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%
+  parent_node = admin_first_level_menu_entry
   if local_assigns[:additional_breadcrumb].nil?
-    breadcrumb_paths(t(:label_administration), default_breadcrumb)
+    breadcrumb_paths(t(:label_administration),
+                     parent_node.name == :root ? nil : parent_node.caption,
+                     default_breadcrumb)
   else
-    breadcrumb_paths(t(:label_administration), default_breadcrumb, local_assigns[:additional_breadcrumb])
+    breadcrumb_paths(t(:label_administration),
+                     parent_node.name == :root ? nil : parent_node.caption,
+                     default_breadcrumb,
+                     local_assigns[:additional_breadcrumb])
   end
 %>
 

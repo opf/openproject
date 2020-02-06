@@ -1035,7 +1035,7 @@ nl:
         rename_groups: "Attribuutgroepen hernoemen"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Activiteiten (tijdregistratie)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Werkpakket prioriteiten"
   enumeration_reported_project_statuses: "Gerapporteerde projectstatus"
   error_auth_source_sso_failed: "Single Sign-On (SSO) voor gebruiker '%{value}' is mislukt"
@@ -1106,6 +1106,8 @@ nl:
       pdf_with_descriptions: "PDF met beschrijvingen"
       pdf_with_descriptions_and_attachments: "PDF met beschrijvingen en bijlagen"
       pdf_with_attachments: "PDF met bijlagen"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext beschikbaar (optioneel)"

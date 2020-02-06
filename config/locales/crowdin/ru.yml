@@ -1066,7 +1066,7 @@ ru:
         rename_groups: "Переименовать группу атрибутов"
       project_filters:
         description_html: "Фильтрация и сортировка по настраиваемым полям - это функция корпоративной версии."
-  enumeration_activities: "Деятельность (отслеживание времени)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Приоритеты пакета работ"
   enumeration_reported_project_statuses: "Перечень отчетов о статусах проекта"
   error_auth_source_sso_failed: "Сбой единого входа (SSO) для пользователя «%{value}»"
@@ -1137,6 +1137,8 @@ ru:
       pdf_with_descriptions: "PDF с описанием"
       pdf_with_descriptions_and_attachments: "PDF с описанием и вложениями"
       pdf_with_attachments: "PDF с вложениями"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext доступно (опционально)"

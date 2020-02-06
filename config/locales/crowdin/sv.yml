@@ -1034,7 +1034,7 @@ sv:
         rename_groups: "Byt namn på attributgrupper"
       project_filters:
         description_html: "Filtrering och sortering på anpassade fält är en funktion tillgänglig i Enterprise Edition."
-  enumeration_activities: "Aktiviteter (tidredovisning)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Arbetspaketsprioritering"
   enumeration_reported_project_statuses: "Rapporterad projektstatus"
   error_auth_source_sso_failed: "Singelinloggning (SSO) för användaren '%{value}' misslyckades"
@@ -1105,6 +1105,8 @@ sv:
       pdf_with_descriptions: "PDF med beskrivningar"
       pdf_with_descriptions_and_attachments: "PDF med beskrivningar och bilagor"
       pdf_with_attachments: "PDF med bilagor"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext tillgängligt (tillval)"

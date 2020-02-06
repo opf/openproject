@@ -152,6 +152,10 @@ module OpenProject
       # Show pending migrations as warning bar
       'show_pending_migrations_warning' => true,
 
+      # Show mismatched protocol/hostname warning
+      # in settings where they must differ this can be disabled
+      'show_setting_mismatch_warning' => true,
+
       # Render warning bars (pending migrations, deprecation, unsupported browsers)
       # Set to false to globally disable this for all users!
       'show_warning_bars' => true,

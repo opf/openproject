@@ -73,6 +73,14 @@ import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-s
       window.OpenProject.pageIsSubmitted = true;
     });
 
+    // Add to content if warnings displayed
+    if (document.querySelector('.warning-bar--item')) {
+      let content = document.querySelector('#content') as HTMLElement;
+      if (content) {
+        content.style.marginBottom = '100px';
+      }
+    }
+
     // Global beforeunload hook
     $(window).on('beforeunload', (e:JQuery.TriggeredEvent) => {
       const event = e.originalEvent as BeforeUnloadEvent;

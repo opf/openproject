@@ -1,5 +1,5 @@
 el:
-  export_to_excel: "Export XLS"
+  export_to_excel: "Εξαγωγή XLS"
   print_with_description: "Προεπισκόπηση εκτύπωσης με περιγραφή"
   sentence_separator_or: "ή"
   different_formats: Διαφορετικές μορφές

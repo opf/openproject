@@ -1067,7 +1067,7 @@ sk:
         rename_groups: "Premenovať skupiny atribútov"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Činnosti (sledovanie času)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Priority Pracovného balíka"
   enumeration_reported_project_statuses: "Nahlásený stav projektu"
   error_auth_source_sso_failed: "Jednoduché prihlásenie (SSO) pre používateľa '%{value}' zlyhalo"
@@ -1138,6 +1138,8 @@ sk:
       pdf_with_descriptions: "PDF s popisom"
       pdf_with_descriptions_and_attachments: "PDF s popiskami a prílohami"
       pdf_with_attachments: "PDF s prílohami"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext k dispozícii (voliteľné)"

@@ -62,12 +62,17 @@
     &:focus
       outline: none
 
+// Hightlighted list items shall look like a "pill", similarly to the selected tree item in the wiki menu.
+$pill-padding-left: 8px
+
 .xeokit-tab
   ul
     list-style: none
     padding-left: 30px
+    margin-left: -1 * $pill-padding-left
     li
       line-height: 30px
+      padding-left: $pill-padding-left
       a
         display: inline-block
         line-height: 30px
@@ -92,6 +97,11 @@
           @include icon-mixin-arrow-right2
         &.minus:before
           @include icon-mixin-arrow-down1
+
+      .highlighted-node
+        @include varprop(background, main-menu-bg-selected-background)
+        @include varprop(color, main-menu-selected-font-color)
+        border-radius: 3px
 
       input
         margin-right: 5px

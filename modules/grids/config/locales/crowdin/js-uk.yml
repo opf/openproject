@@ -37,8 +37,10 @@ uk:
         subprojects:
           title: 'Підпроекти'
           no_results: 'Немає підпроектів.'
+        time_entries_current_user:
+          title: 'My spent time'
         time_entries_list:
-          title: 'Трудовитрати'
+          title: 'Витрачений час (останні 7 днів)'
           no_results: 'Немає записів часу за останні 7 днів.'
         work_packages_accountable:
           title: "Робочі пакети, за які я відповідаю"

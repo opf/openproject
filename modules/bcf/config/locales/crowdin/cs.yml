@@ -53,7 +53,7 @@ cs:
         perform_description: "Do you want to import or update the issues listed above?"
         replace_with_system_user: 'Replace them with "System" user'
         import_as_system_user: 'Import them as "System" user.'
-        what_to_do: "What do you want to do?"
+        what_to_do: "Co chcete udělat?"
         work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
   export:
     format:

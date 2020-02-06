@@ -1035,7 +1035,7 @@ pt:
         rename_groups: "Mudar o nome de grupos de atributos"
       project_filters:
         description_html: "Filtrar e ordenar os campos personalizados é uma característica da edição enterprise."
-  enumeration_activities: "Actividades (tempo)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Prioridades de tarefas"
   enumeration_reported_project_statuses: "Estado do projeto reportado"
   error_auth_source_sso_failed: "Single Sign-On (SSO) para o utilizador '%{value}' falhou"
@@ -1106,6 +1106,8 @@ pt:
       pdf_with_descriptions: "PDF com descrições"
       pdf_with_descriptions_and_attachments: "PDF com descrições e anexos"
       pdf_with_attachments: "PDF com anexos"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext disponível (opcional)"

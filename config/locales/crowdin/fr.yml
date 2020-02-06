@@ -1034,7 +1034,7 @@ fr:
         rename_groups: "Renommer les groupes d’attributs"
       project_filters:
         description_html: "Filtrer et trier sur les champs personnalisés est une fonctionnalité de l'édition entreprise."
-  enumeration_activities: "Activités (suivi de temps)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Priorités du Lot de Travaux"
   enumeration_reported_project_statuses: "Statuts de projet signalés"
   error_auth_source_sso_failed: "Single Sign-On (SSO) pour l’utilisateur '%{value}' a échoué"
@@ -1105,6 +1105,8 @@ fr:
       pdf_with_descriptions: "PDF avec descriptions"
       pdf_with_descriptions_and_attachments: "PDF avec descriptions et pièces jointes"
       pdf_with_attachments: "PDF avec pièces jointes"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext disponible (optionnel)"

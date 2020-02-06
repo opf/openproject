@@ -1035,7 +1035,7 @@ tr:
         rename_groups: "Öznitelik grubunun adını değiştirin"
       project_filters:
         description_html: "Özel alanlara filtre uygulama ve sıralama, kurumsal sürüm özelliğidir."
-  enumeration_activities: "Etkinlikler (zaman izleme)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "İş paketi öncelikleri"
   enumeration_reported_project_statuses: "Bildirilen proje durumları"
   error_auth_source_sso_failed: "Çoklu oturum açma (SSO) için kullanıcı '%{value}' başarısız oldu"
@@ -1106,6 +1106,8 @@ tr:
       pdf_with_descriptions: "Açıklamalı PDF"
       pdf_with_descriptions_and_attachments: "Ekler ve açıklamalarla birlikte PDF"
       pdf_with_attachments: "Eklerle birlikte PDF"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext kullanılabilir (isteğe bağlı)"

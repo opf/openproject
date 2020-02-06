@@ -1018,7 +1018,7 @@ zh-CN:
         rename_groups: "重命名属性群组"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "活动 （时间跟踪）"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "工作包优先级"
   enumeration_reported_project_statuses: "报告的项目状态"
   error_auth_source_sso_failed: "用户 \"%{value}\" 的单次登录 (SSO) 失败"
@@ -1089,6 +1089,8 @@ zh-CN:
       pdf_with_descriptions: "带描述的PDF"
       pdf_with_descriptions_and_attachments: "带有描述和附件的 PDF 文件"
       pdf_with_attachments: "带有附件的 PDF 文件"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext 可用 (可选)"

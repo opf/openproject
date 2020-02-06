@@ -65,7 +65,6 @@ module OpenProject::Backlogs
         edit.actions << 'rb_impediments/update'
       end
 
-
       project_module :backlogs do
         # SYNTAX: permission :name_of_permission, { :controller_name => [:action1, :action2] }
 

@@ -1033,7 +1033,7 @@ hu:
         rename_groups: "Attribútum-csoportok átnevezése"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Tevékenységek (időkövetés)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Feladatcsoport fontosság"
   enumeration_reported_project_statuses: "Projekt állapot beszámoló"
   error_auth_source_sso_failed: "Single Sign-On (SSO) a '%{value}' felhasználóval sikertelen"
@@ -1104,6 +1104,8 @@ hu:
       pdf_with_descriptions: "PDF leírásokkal"
       pdf_with_descriptions_and_attachments: "PDF leírásokkal és mellékletekkel"
       pdf_with_attachments: "PDF mellékletekkel"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext elérhető (opcionális)"

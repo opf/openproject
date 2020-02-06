@@ -1,9 +1,5 @@
 <% html_title(t(:label_administration), t('openid_connect.providers.label_add_new')) -%>
-<% local_assigns[:additional_breadcrumb] = [
-  link_to(t('openid_connect.providers.plural'), openid_connect_providers_path),
-  t('openid_connect.providers.label_add_new')
-  ]
-%>
+<% local_assigns[:additional_breadcrumb] = t('openid_connect.providers.label_add_new') %>
 
 <%= toolbar title: t('openid_connect.providers.label_add_new') %>
 

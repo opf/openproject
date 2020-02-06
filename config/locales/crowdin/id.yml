@@ -1018,7 +1018,7 @@ id:
         rename_groups: "Menamai ulang atribut kelompok-kelompok"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Activity (pelacakan waktu)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Paket-Penugasan prioritas"
   enumeration_reported_project_statuses: "Status Project yang di-Report"
   error_auth_source_sso_failed: "Single Sign-On (SSO) untuk pengguna '%{value}' gagal"
@@ -1089,6 +1089,8 @@ id:
       pdf_with_descriptions: "PDF disertai deskripsi"
       pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
       pdf_with_attachments: "PDF with attachments"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"

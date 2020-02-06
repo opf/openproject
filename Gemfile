@@ -125,7 +125,7 @@ gem 'secure_headers', '~> 6.3.0'
 gem 'browser', '~> 2.6.1'
 
 # Providing health checks
-gem 'okcomputer', '~> 1.17.3'
+gem 'okcomputer', '~> 1.18.1'
 
 gem 'gon', '~> 6.2.1'
 

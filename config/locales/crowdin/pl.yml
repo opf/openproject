@@ -1067,7 +1067,7 @@ pl:
         rename_groups: "Zmień grupy atrybutów"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Działania"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Priorytety pakietów roboczych"
   enumeration_reported_project_statuses: "Status zgłoszonego projektu"
   error_auth_source_sso_failed: "Pojedyncze logowanie (SSO) dla użytkownika '%{value}' nie powiodło się"
@@ -1138,6 +1138,8 @@ pl:
       pdf_with_descriptions: "PDF z opisami"
       pdf_with_descriptions_and_attachments: "Plik PDF z opisami i załącznikami"
       pdf_with_attachments: "Plik PDF z załącznikami"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Dostępny konwerter Pdftotext (opcjonalny)"

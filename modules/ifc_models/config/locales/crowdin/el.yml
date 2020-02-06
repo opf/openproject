@@ -27,7 +27,7 @@ el:
   permission_manage_ifc_models: "Εισαγωγή και διαχείριση μοντέλων IFC"
   extraction:
     available:
-      ifc_convert: "IFC conversion pipeline available"
+      ifc_convert: "Διαθέσιμο pipeline μετατροπής IFC"
   activerecord:
     attributes:
       ifc_models/ifc_model:

@@ -471,8 +471,7 @@ hr:
       duration: 'Trajanje'
       spent_on: 'Datum'
       hours: 'Sati'
-      edit: 'Edit time entry'
-      create: 'Create time entry'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

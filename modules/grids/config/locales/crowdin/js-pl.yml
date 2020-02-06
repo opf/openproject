@@ -37,8 +37,10 @@ pl:
         subprojects:
           title: 'Podprojekty'
           no_results: 'Brak podprojektów.'
+        time_entries_current_user:
+          title: 'My spent time'
         time_entries_list:
-          title: 'Czas pracy'
+          title: 'Poświęcony czas (ostatnie 7 dni)'
           no_results: 'Brak zarejestrowanego czasu pracy w ostatnich 7 dniach.'
         work_packages_accountable:
           title: "Pakiety robocze, za które odpowiadam"

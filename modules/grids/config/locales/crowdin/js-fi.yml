@@ -37,8 +37,10 @@ fi:
         subprojects:
           title: 'Aliprojektit'
           no_results: 'No subprojects.'
+        time_entries_current_user:
+          title: 'My spent time'
         time_entries_list:
-          title: 'Käytetty aika'
+          title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
         work_packages_accountable:
           title: "Kaikki työpaketit joista olen vastuussa"
