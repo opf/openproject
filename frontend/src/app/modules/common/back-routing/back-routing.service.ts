@@ -29,6 +29,7 @@
 import {Injectable, Injector} from '@angular/core';
 import {StateService, Transition} from "@uirouter/core";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import {TransitionOptions} from "@uirouter/core/lib/transition/interface";
 
 interface BackRouteOptions {
   name:string;
@@ -45,20 +46,20 @@ export class BackRoutingService {
   constructor(protected injector:Injector) {
   }
 
-  public goBack(preferListOverSplit:boolean = false) {
+  public goBack(preferListOverSplit:boolean = false, opts:Partial<TransitionOptions> = {}) {
     // Default: back to list
     // When coming from a deep link or a create form
     if (!this.backRoute || this.backRoute.name.includes('new')) {
-      this.$state.go('work-packages.list', this.$state.params);
+      this.$state.go('work-packages.list', this.$state.params, opts);
     } else {
       if (this.keepTab.isDetailsState(this.backRoute.parent)) {
-        if(preferListOverSplit) {
-          this.$state.go('work-packages.list', this.$state.params);
+        if (preferListOverSplit) {
+          this.$state.go('work-packages.list', this.$state.params, opts);
         } else {
-          this.$state.go(this.keepTab.currentDetailsState, this.$state.params);
+          this.$state.go(this.keepTab.currentDetailsState, this.$state.params, opts);
         }
       } else {
-        this.$state.go(this.backRoute.name, this.backRoute.params);
+        this.$state.go(this.backRoute.name, this.backRoute.params, opts);
       }
     }
   }
