@@ -38,7 +38,7 @@ module OpenProject::Backlogs::Patches::ProjectSettingsHelperPatch
           settings << {
             name: :backlogs,
             action: { controller: '/backlogs_settings', action: 'show' },
-            label: :'backlogs.backlog_settings',
+            label: :label_backlogs,
             if: ->(p) { p.module_enabled?('backlogs') }
           }
         end
