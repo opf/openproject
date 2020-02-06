@@ -96,8 +96,12 @@ class CustomStylesController < ApplicationController
   end
 
   def update_themes
-    variable_params = OpenProject::CustomStyles::ColorThemes::THEMES.find { |theme| theme[:name] == params[:theme] }[:colors]
-    set_colors(variable_params)
+    theme = OpenProject::CustomStyles::ColorThemes::THEMES.find { |t| t[:name] == params[:theme] }
+    color_params = theme[:colors]
+    logo = theme[:logo]
+
+    set_logo(logo)
+    set_colors(color_params)
     set_theme(params)
 
     redirect_to action: :show
@@ -114,6 +118,10 @@ class CustomStylesController < ApplicationController
     options << [t('admin.custom_styles.color_theme_custom'), '', disabled: true] if @current_theme.empty?
 
     options
+  end
+
+  def set_logo(logo)
+    CustomStyle.current.update(theme_logo: logo)
   end
 
   def set_colors(variable_params)
