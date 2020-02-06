@@ -28,9 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title t(:label_administration), t(:'attribute_help_texts.add_new') %>
-<% local_assigns[:additional_breadcrumb] = link_to(@attribute_help_text.type_caption,
-                                                   attribute_help_texts_path(tab: @attribute_help_text.attribute_scope)),
-                                           t(:'attribute_help_texts.add_new') %>
+<% local_assigns[:additional_breadcrumb] = t(:'attribute_help_texts.add_new') %>
 <%= breadcrumb_toolbar t(:'attribute_help_texts.add_new')
 %>
 

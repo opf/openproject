@@ -587,6 +587,12 @@ class ApplicationController < ActionController::Base
   end
   helper_method :show_local_breadcrumb
 
+  def admin_first_level_menu_entry
+    menu_item = admin_menu_item(current_menu_item)
+    menu_item.parent
+  end
+  helper_method :admin_first_level_menu_entry
+
   def check_session_lifetime
     if session_expired?
       self.logged_user = nil

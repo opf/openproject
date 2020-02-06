@@ -106,6 +106,10 @@ module Redmine::MenuManager::MenuController
     Redmine::MenuManager.items(:project_menu).detect { |i| i.name.to_s == name.to_s }
   end
 
+  def admin_menu_item(name)
+    Redmine::MenuManager.items(:admin_menu).detect { |i| i.name.to_s == name.to_s }
+  end
+
   def user_allowed_to_access_item?(project, item)
     item && User.current.allowed_to?(item.url(project), project) && (item.condition.nil? || item.condition.call(project))
   end
