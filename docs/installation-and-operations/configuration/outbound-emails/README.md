@@ -6,7 +6,7 @@ sidebar_navigation:
 
 # Configuring outbound emails
 
-By default, both the docker and package-based installations will setup a postfix server to allow sending emails from your server. While it is a good starting point, it is not a recommended production setup since you will most likely run into delivery issues since your server will lack the trust of a proper email provider. 
+By default, both the docker and package-based installations will setup a postfix server to allow sending outgoing emails from your server. While it is a good starting point, it is not a recommended production setup since you will most likely run into delivery issues since your server will lack the trust of a proper email provider. 
 
 In this guide we will describe how to configure outbound emails using an external SMTP server.
 

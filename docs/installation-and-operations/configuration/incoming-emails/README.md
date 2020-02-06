@@ -6,7 +6,7 @@ sidebar_navigation:
 
 # Configuring inbound emails
 
-OpenProject is able to receive emails and create and update work packages and reply in forums depending on the content of the email.
+OpenProject is able to receive incoming emails and create and update work packages and reply in forums depending on the content of the email.
 
 ## Setup
 
