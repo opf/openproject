@@ -321,7 +321,7 @@ hu:
         account: "Felhasználói fiók"
         attr_firstname: "Keresztnév attribútum"
         attr_lastname: "Vezetéknév attribútum"
-        attr_login: "Username attribute"
+        attr_login: "Felhasználónév attribútum"
         attr_mail: "Email attribútum"
         base_dn: "Base DN"
         host: "Host"
@@ -707,7 +707,7 @@ hu:
     #kept for backwards compatibility
     issue: "Feladatcsoport"
     lastname: "Vezetéknév"
-    login: "Username"
+    login: "Felhasználónév"
     mail: "Email"
     name: "Név"
     password: "Jelszó"

@@ -844,7 +844,7 @@ hu:
         other: "%{count} gyermek feladatcsoport"
       hour:
         one: "1 h"
-        other: "%{count} h"
+        other: "%{count} ó"
     zen_mode:
       button_activate: 'Zen mód aktiválása'
       button_deactivate: 'Zen mód kikapcsolása'
