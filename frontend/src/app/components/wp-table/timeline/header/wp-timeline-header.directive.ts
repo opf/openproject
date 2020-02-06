@@ -37,9 +37,10 @@ import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/rou
 
 
 export const timelineHeaderCSSClass = 'wp-timeline--header-element';
+export const timelineHeaderSelector = 'wp-timeline-header';
 
 @Component({
-  selector: 'wp-timeline-header',
+  selector: timelineHeaderSelector,
   templateUrl: './wp-timeline-header.html'
 })
 export class WorkPackageTimelineHeaderController implements OnInit {
