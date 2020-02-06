@@ -70,7 +70,8 @@ module OpenProject::CustomStyles
           'main-menu-hover-font-color'                           => "#000000",
           'main-menu-selected-font-color'                        => "#000000",
           'main-menu-border-color'                               => "#EAEAEA"
-        }
+        },
+        logo:                                                   'logo_openproject.png'
       },
       {
         name:                                                   'OpenProject Dark',

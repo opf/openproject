@@ -32,6 +32,10 @@ See docs/COPYRIGHT.rdoc for more details.
     #logo .home-link {
       background-image: url("<%= custom_style_logo_path(digest: CustomStyle.current.digest, filename: CustomStyle.current.logo_identifier) %>");
     }
+  <% elsif CustomStyle.current.theme_logo %>
+    #logo .home-link {
+      background-image: url("<%= asset_path(CustomStyle.current.theme_logo) %>");
+    }
   <% end %>
 
   :root {
