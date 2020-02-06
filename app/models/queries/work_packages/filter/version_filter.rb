@@ -33,7 +33,7 @@ class Queries::WorkPackages::Filter::VersionFilter <
 
   def allowed_values
     @allowed_values ||= begin
-      versions.map { |s| ["#{s.project.name} - #{s.name}", s.id.to_s] }
+      versions.order_by_newest_date.map { |s| ["#{s.project.name} - #{s.name}", s.id.to_s] }
     end
   end
 

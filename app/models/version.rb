@@ -29,10 +29,6 @@
 #++
 
 class Version < ActiveRecord::Base
-  default_scope do
-    order Arel.sql("#{Version.table_name}.start_date DESC NULLS LAST,
-                    #{Version.table_name}.effective_date DESC NULLS LAST")
-  end
   include Version::ProjectSharing
 
   belongs_to :project
@@ -61,6 +57,11 @@ class Version < ActiveRecord::Base
   scope :systemwide, -> { where(sharing: 'system') }
 
   scope :order_by_name, -> { order(Arel.sql("LOWER(#{Version.table_name}.name)")) }
+
+  scope :order_by_newest_date, -> {
+    reorder Arel.sql("#{Version.table_name}.start_date DESC NULLS LAST,
+                    #{Version.table_name}.effective_date DESC NULLS LAST")
+  }
 
   def self.with_status_open
     where(status: 'open')
