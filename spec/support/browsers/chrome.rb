@@ -28,12 +28,18 @@ def register_chrome_headless(language)
     options.add_argument('--disable-popup-blocking')
     options.add_argument("--lang=#{language}")
 
+    puts "chrome driver lang " * 10
+    puts language
+    puts "chrome driver lang " * 10
+
     options.add_preference(:download,
                            directory_upgrade: true,
                            prompt_for_download: false,
                            default_directory: DownloadedFile::PATH.to_s)
 
     options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
+
+    puts options
 
     client = Selenium::WebDriver::Remote::Http::Default.new
     client.read_timeout = 180
