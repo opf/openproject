@@ -41,12 +41,6 @@ cache:
     - app/assets/javascripts/bundles
     - app/assets/javascripts/locales
 
-branches:
-  only:
-    - master
-    - dev
-    - /^(stable|release)\/.*$/
-
 env:
   global:
     - CI=true
