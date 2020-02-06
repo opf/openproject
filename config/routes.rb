@@ -389,7 +389,7 @@ OpenProject::Application.routes.draw do
     resource :mail_notifications, only: %i[show update]
   end
 
-  resource :settings, as: :general_settings, only: %i(update edit show) do
+  resource :settings, as: :general_settings, only: %i(update show) do
     # We should fix this crappy routing (split up and rename controller methods)
     collection do
       match 'plugin/:id', action: 'plugin', via: %i[get post]

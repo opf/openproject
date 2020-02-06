@@ -32,10 +32,6 @@ describe 'settings routes', type: :routing do
   it { expect(get('/settings')).to route_to('settings#show') }
 
   it do
-    expect(get('/settings/edit')).to route_to('settings#edit')
-  end
-
-  it do
     expect(patch('/settings')).to route_to('settings#update')
   end
 
