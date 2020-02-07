@@ -128,6 +128,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       },
       type: relationType
     };
+
     const path = this.PathHelper.api.v3.work_packages.id(fromId).relations.toString();
     return this.halResource
       .post<RelationResource>(path, params)
