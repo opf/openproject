@@ -25,7 +25,7 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 
 | Popular Topics                                               | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [Work packages views](work-packages-views)                   | What is the difference between the work packages views: list view, split screen view, details view? |
+| [Work packages views](work-package-views)                    | What is the difference between the work packages views: list view, split screen view, details view? |
 | [Create a work package](#create-work-packages)               | How to create a new work package in OpenProject?             |
 | [Edit work package](edit-work-package)                       | How to edit a work package in OpenProject?                   |
 | [Copy, move, delete](copy-move-delete)                       | How to copy, move, delete a work package?                    |
