@@ -60,6 +60,7 @@ import {debugLog, timeOutput} from "core-app/helpers/debug_output";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {timelineHeaderSelector} from "core-components/wp-table/timeline/header/wp-timeline-header.directive";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -237,8 +238,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       });
 
       // Calculate overflowing width to set to outer container
-      // required to match width in all child divs
-      const currentWidth = this.getParentScrollContainer().scrollWidth;
+      // required to match width in all child divs.
+      // The header is the only one reliable, as it already has the final width.
+      const currentWidth = this.$element.find(timelineHeaderSelector)[0].scrollWidth;
       this.outerContainer.width(currentWidth);
     });
   }
