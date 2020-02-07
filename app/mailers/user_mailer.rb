@@ -211,8 +211,7 @@ class UserMailer < BaseMailer
                              action:     :diff,
                              project_id: wiki_content.project,
                              id:         wiki_content.page.slug,
-                             # using wiki_content.version + 1 because at this point the journal is not saved yet
-                             version:    wiki_content.version + 1)
+                             version:    wiki_content.version)
 
     open_project_headers 'Project'      => @wiki_content.project.identifier,
                          'Wiki-Page-Id' => @wiki_content.page.id,

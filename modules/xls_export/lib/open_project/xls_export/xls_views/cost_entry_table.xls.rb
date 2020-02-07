@@ -91,6 +91,6 @@ class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport:
   end
 
   def cost_entry_attributes
-    %i[spent_on user_id activity_id issue_id comments project_id]
+    %i[spent_on user_id activity_id work_package_id comments project_id]
   end
 end

@@ -174,7 +174,7 @@ describe UserMailer, type: :mailer do
     it_behaves_like 'mail is sent'
 
     it 'should link to the latest version diff page' do
-      expect(ActionMailer::Base.deliveries.first.body.encoded).to include 'diff/2'
+      expect(ActionMailer::Base.deliveries.first.body.encoded).to include 'diff/1'
     end
 
     it_behaves_like 'does only send mails to author if permitted'

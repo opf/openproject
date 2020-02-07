@@ -39,7 +39,7 @@ import {
   calculateDaySpan,
   getPixelPerDayForZoomLevel,
   requiredPixelMarginLeft,
-  timelineElementCssClass,
+  timelineElementCssClass, timelineHeaderSelector,
   timelineMarkerSelectionStartClass,
   TimelineViewParameters,
   zoomLevelOrder
@@ -50,7 +50,6 @@ import {WorkPackageTimelineCellsRenderer} from "core-components/wp-table/timelin
 import {States} from "core-components/states.service";
 import {WorkPackagesTableController} from "core-components/wp-table/wp-table.directive";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import {WorkPackageTimelineState} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-timeline";
@@ -237,8 +236,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       });
 
       // Calculate overflowing width to set to outer container
-      // required to match width in all child divs
-      const currentWidth = this.getParentScrollContainer().scrollWidth;
+      // required to match width in all child divs.
+      // The header is the only one reliable, as it already has the final width.
+      const currentWidth = this.$element.find(timelineHeaderSelector)[0].scrollWidth;
       this.outerContainer.width(currentWidth);
     });
   }

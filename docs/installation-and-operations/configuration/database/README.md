@@ -12,8 +12,9 @@ Simply run `sudo openproject reconfigure`, and when the database wizard is displ
 
 ## Docker-based installation
 
-You can simply pass a custom `DATABASE_URL` environment variable on the
-docker command-line, which could point to an external database.
+If you run the all-in-one container, you can simply pass a custom
+`DATABASE_URL` environment variable on the docker command-line, which could
+point to an external database.
 
 Example:
 
@@ -21,5 +22,11 @@ Example:
 docker run -d ... -e DATABASE_URL=mysql2://user:pass@host:port/dbname openproject/community:10
 ```
 
-The docker image will make sure that the database gets the migrations and demo
-data as well.
+If you run the Compose based docker stack, you can simply override the `DATABASE_URL` environment variable, and remove the `db` service from the `docker-compose.yml` file. Then you can restart the stack with:
+
+```
+docker-compose down
+docker-compose up -d
+```
+
+In both cases the seeder will be run when you (re)launch OpenProject to make sure that the database gets the migrations and demo data as well.

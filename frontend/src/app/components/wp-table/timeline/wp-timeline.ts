@@ -37,6 +37,8 @@ export const timelineElementCssClass = 'timeline-element';
 export const timelineBackgroundElementClass = 'timeline-element--bg';
 export const timelineGridElementCssClass = 'wp-timeline--grid-element';
 export const timelineMarkerSelectionStartClass = 'selection-start';
+export const timelineHeaderCSSClass = 'wp-timeline--header-element';
+export const timelineHeaderSelector = 'wp-timeline-header';
 
 /**
  *

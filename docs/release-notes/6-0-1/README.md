@@ -14,7 +14,7 @@
 module:**
 
 In OpenProject versions prior to 6.0.0., specific characters of
-[wiki](https://www.openproject.org/?page_id=6406) titles were removed
+[wiki](../../user-guide/wiki/) titles were removed
 upon saving – especially dots and spaces. Spaces were replaced with an
 underscore, while other characters were removed.  
 Still, linking to these pages was possible with either the original

@@ -98,7 +98,7 @@ module OpenProject
               label: 'homescreen.links.glossary'
             },
             shortcuts: {
-              href: 'https://www.openproject.org/help/keyboard-shortcuts-access-keys/',
+              href: 'https://docs.openproject.org/user-guide/keyboard-shortcuts-access-keys/',
               label: 'homescreen.links.shortcuts'
             },
             forums: {
@@ -122,7 +122,7 @@ module OpenProject
               label: 'homescreen.links.blog'
             },
             release_notes: {
-              href: 'https://www.openproject.org/release-notes/',
+              href: 'https://docs.openproject.org/release-notes/',
               label: :label_release_notes
             },
             data_privacy: {
@@ -130,7 +130,7 @@ module OpenProject
               label: :label_privacy_policy
             },
             report_bug: {
-              href: 'https://www.openproject.org/development/report-a-bug/',
+              href: 'https://docs.openproject.org/development/report-a-bug/',
               label: :label_report_bug
             },
             roadmap: {

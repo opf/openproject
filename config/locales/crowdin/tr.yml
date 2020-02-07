@@ -1035,7 +1035,7 @@ tr:
         rename_groups: "Öznitelik grubunun adını değiştirin"
       project_filters:
         description_html: "Özel alanlara filtre uygulama ve sıralama, kurumsal sürüm özelliğidir."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "Zaman izleme faaliyetleri"
   enumeration_work_package_priorities: "İş paketi öncelikleri"
   enumeration_reported_project_statuses: "Bildirilen proje durumları"
   error_auth_source_sso_failed: "Çoklu oturum açma (SSO) için kullanıcı '%{value}' başarısız oldu"
@@ -1107,7 +1107,7 @@ tr:
       pdf_with_descriptions_and_attachments: "Ekler ve açıklamalarla birlikte PDF"
       pdf_with_attachments: "Eklerle birlikte PDF"
     image:
-      omitted: "Image not exported."
+      omitted: "Görüntü dışa aktarılmadı."
   extraction:
     available:
       pdftotext: "Pdftotext kullanılabilir (isteğe bağlı)"
@@ -2534,6 +2534,17 @@ tr:
     Kullanıcı limitine ulaşıldı. Daha fazla kullanıcıyı etkinleştiremezsiniz. Lütfen <a href="%{upgrade_url}"> planınızı yükseltin </a> veya ek kullanıcılara izin vermek için üyeleri engelleyin.
   warning_user_limit_reached_instructions: >
     Kullanıcı sınırınıza ulaştınız (%{current}/%{max} aktif kullanıcılar). Enterprise Edition planınızı yükseltmek ve ek kullanıcılar eklemek için lütfen sales@openproject.com adresine başvurun.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protocol setting mismatch'
+      text_html: >
+        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+    hostname_mismatch:
+      title: 'Hostname setting mismatch'
+      text_html: >
+        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Menü seçeneği"
   menu_item_setting: "Görünürlük"
   wiki_menu_item_for: "Wikipage için menü öğesi \" %{title} \""

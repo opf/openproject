@@ -92,7 +92,7 @@ el:
   backlogs_product_backlog_is_empty: "Το backlog του προϊόντος είναι άδειο"
   backlogs_product_backlog_unsized: "Η κορυφή του backlog προϊόντων έχει μη εκτιμημένα μεγέθη ιστοριών"
   backlogs_sizing_inconsistent: "Τα μεγέθη ιστοριών ποικίλλουν συγκριτικά με τις εκτιμήσεις τους"
-  backlogs_sprint_notes_missing: "Closed sprints without retrospective/review notes"
+  backlogs_sprint_notes_missing: "Κλειστά sprints χωρίς αναδρομικές/αναθεωρημένες σημειώσεις"
   backlogs_sprint_unestimated: "Κλειστά ή ενεργά sprints με μη εκτιμημένες ιστορίες"
   backlogs_sprint_unsized: "Το έργο έχει ιστορίες σε sprints που είναι ενεργά ή που έκλεισαν πρόσφατα οι οποίες δεν έχουν εκτιμημένο μέγεθος"
   backlogs_sprints: "Sprints"

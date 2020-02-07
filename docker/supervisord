@@ -110,13 +110,5 @@ fi
 echo "-----> Database setup finished."
 echo "       On first installation, the default admin credentials are login: admin, password: admin"
 
-if [ -n "$OPENPROJECT_RAILS__RELATIVE__URL__ROOT" ]; then
-	echo
-	echo "-----> Precompiling assets since RAILS_RELATIVE_URL_ROOT is set. This may take a minute."
-	RAILS_RELATIVE_URL_ROOT=$OPENPROJECT_RAILS__RELATIVE__URL__ROOT bash /app/docker/precompile-assets.sh
-	echo "-----> Asset precompilation finished."
-	echo
-fi
-
 echo "-----> Launching supervisord..."
 exec /usr/bin/supervisord -c $APP_PATH/docker/supervisord.conf -e ${SUPERVISORD_LOG_LEVEL}
