@@ -573,7 +573,7 @@ el:
       error: "Παρουσιάστηκε σφάλμα."
       errors:
         not_implemented: "Το χρονοδιάγραμμα δεν μπόρεσε να επεξεργαστεί γιατί χρησιμοποιεί μια λειτουργία που δεν μπορεί να εφαρμοστεί ακόμη."
-        report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
+        report_comparison: "Το χρονοδιάγραμμα δεν θα μπορούσε να αποδώσει τις διαμορφωμένες συγκρίσεις. Ελέγξτε την κατάλληλη ενότητα στη διαμόρφωση, επαναφέροντας την μπορεί να βοηθήσει στην επίλυση αυτού του προβλήματος."
         report_epicfail: "Το χρονοδιάγραμμα δεν ήταν δυνατό να φορτωθεί λόγω απροσδόκητου σφάλματος."
         report_timeout: "Το χρονοδιάγραμμα δεν ήταν δυνατό να φορτωθεί μέσα σε ένα λογικό χρονικό πλαίσιο."
       filter:
@@ -745,7 +745,7 @@ el:
         rename_query_placeholder: "Το όνομα αυτής της προβολής"
         star_text: "Σήμανση αυτής της προβολής ως αγαπημένη και προσθήκη στην πλάγια μπάρα αποθηκευμένων προβολών στα αριστερά."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Δημοσιεύστε αυτή την προβολή, επιτρέποντας σε άλλους χρήστες να έχουν πρόσβαση στην προβολή σας. Οι χρήστες με δικαίωμα 'Διαχείρισης δημόσιων προβολών' μπορούν να τροποποιήσουν ή να αφαιρέσουν τις δημόσιες αναζητήσεις. Αυτό δεν επηρεάζει την ορατότητα των αποτελεσμάτων πακέτων εργασίας σε αυτή την προβολή και ανάλογα με τα δικαιώματα τους, οι χρήστες μπορεί να βλέπουν διαφορετικά αποτελέσματα.
         errors:
           unretrievable_query: "Δεν ήταν δυνατή η ανάκτηση της προβολής από τον σύνδεσμο URL"
           not_found: "Δεν υπάρχει τέτοια προβολή"

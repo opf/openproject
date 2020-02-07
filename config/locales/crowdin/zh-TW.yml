@@ -2511,6 +2511,17 @@ zh-TW:
     達到用戶限制。 您無法再激活任何用戶。 請<a href="%{upgrade_url}">升級您的計劃</a>或阻止會員以允許其他用戶。
   warning_user_limit_reached_instructions: >
     您達到了用戶限制（%{current}/%{max}活躍用戶）。 請聯係sales@openproject.com以升級Enterprise Edition計劃並添加其他用戶。
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protocol setting mismatch'
+      text_html: >
+        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+    hostname_mismatch:
+      title: 'Hostname setting mismatch'
+      text_html: >
+        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "選單項目"
   menu_item_setting: "可見度"
   wiki_menu_item_for: "Wikipage \"%{title}\" 的功能表項目"

@@ -2578,6 +2578,17 @@ pl:
     Osiągnięto limit użytkowników. Nie możesz aktywować kolejnych użytkowników. <a href="%{upgrade_url}"> uaktualnij swój plan </a> lub zablokuj członków, aby umożliwić korzystanie z dodatkowych użytkowników.
   warning_user_limit_reached_instructions: >
     Osiągnięto limit użytkownika (%{current}/%{max} aktywnych użytkowników). Skontaktuj się z sales@openproject.com do uaktualnienia planu Enterprise Edition i dodać więcej kont użytkowników.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protocol setting mismatch'
+      text_html: >
+        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+    hostname_mismatch:
+      title: 'Hostname setting mismatch'
+      text_html: >
+        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Element menu"
   menu_item_setting: "Widoczność"
   wiki_menu_item_for: "Element menu dla strony wiki \"%{title}\""

@@ -2577,6 +2577,17 @@ lt:
     Pasiektas vartotojų limitas. Jūs negalite aktyvuoti daugiau vartotojų. Prašome <a href="%{upgrade_url}">atnaujinti planą</a> arba blokuokite esamus vartotojus norėdami aktyvuoti naujus vartotojus.
   warning_user_limit_reached_instructions: >
     Jūs pasiekėte vartotojų ribą (%{current}/%{max} aktyvūs vartotojai). Susisiekite su sales@openproject.com norėdami atnaujinti savo Enterprise Edition planą arba pridėti papildomų vartotojų.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protocol setting mismatch'
+      text_html: >
+        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+    hostname_mismatch:
+      title: 'Hostname setting mismatch'
+      text_html: >
+        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Meniu punktas"
   menu_item_setting: "Matomumas"
   wiki_menu_item_for: "Meniu punktas wiki puslapiui „%{title}“"
