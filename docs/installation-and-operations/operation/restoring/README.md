@@ -97,16 +97,4 @@ sudo service openproject restart
 
 ## Docker-based installation
 
-Assuming you have a backup as per the procedure described in the [Backing up](../backing-up) guide, if at any point you want to restore from a backup, just put your backup back in `/var/lib/openproject` on your local host, and re-launch the docker container with the recommended options.
-
-For instance, assuming your backup was stored on S3:
-
-```bash
-aws s3 cp --recursive s3://my-backup-bucket/openproject-backups/ /var/lib/openproject/
-
-docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
-  -v /var/lib/openproject/pgdata:/var/lib/postgresql/9.6/main \
-  -v /var/lib/openproject/logs:/var/log/supervisor \
-  -v /var/lib/openproject/static:/var/db/openproject \
-  openproject/community:10
-```
+For Docker-based installations, assuming you have a backup as per the procedure described in the [Backing up](../backing-up) guide, you simply need to restore files into the correct folders (when using the all-in-one container), or restore the docker volumes (when using the Compose file), then start OpenProject using the normal docker or docker-compose command.

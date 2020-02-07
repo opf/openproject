@@ -52,12 +52,9 @@ You should then copy those dump files to a secure location, for instance an S3 b
 
 ## Docker-based installation
 
-TODO: review
+If you are using docker-compose, then the data volumes are managed by Docker and you should have a look at https://docs.docker.com/storage/volumes/ for instructions on how to backup.
 
-If you've followed the steps described in the [installation guide for Docker](../../installation/docker),
-then you just need to make a backup of the exported volumes, at your
-convenience. As a reminder, here is the recommended way to launch OpenProject
-with Docker:
+If you are using the all-in-one container, then you can simply backup any local volumes that you chose to bind-mount with the `-v` option when launching the container. For instance if you launched the container with:
 
 ```bash
 sudo mkdir -p /var/lib/openproject/{pgdata,logs,static}
@@ -69,6 +66,4 @@ docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
   openproject/community:10
 ```
 
-If you're using the same local directories than the above command, then you
-just need to backup your local `/var/lib/openproject` folder (for instance to
-S3 or FTP).
+Then you would need to backup the `/var/lib/openproject` folder (for instance to S3 or FTP server).
