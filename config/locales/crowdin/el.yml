@@ -2322,7 +2322,7 @@ el:
     end: "Λήξη"
     errors:
       not_implemented: "Το χρονοδιάγραμμα δεν μπόρεσε να επεξεργαστεί γιατί χρησιμοποιεί μια λειτουργία που δεν μπορεί να εφαρμοστεί ακόμη."
-      report_comparison: "Η χρονική γραμμή δεν θα μπορούσε να αποδώσει τις διαμορφωμένες συγκρίσεις. Ελέγξτε την κατάλληλη ενότητα στη διαμόρφωση, επαναφέροντάς την μπορεί να βοηθήσει στην επίλυση αυτού του προβλήματος."
+      report_comparison: "Το χρονοδιάγραμμα δεν θα μπορούσε να αποδώσει τις διαμορφωμένες συγκρίσεις. Ελέγξτε την κατάλληλη ενότητα στη διαμόρφωση, επαναφέροντας την μπορεί να βοηθήσει στην επίλυση αυτού του προβλήματος."
       report_epicfail: "Το χρονοδιάγραμμα δεν ήταν δυνατό να φορτωθεί λόγω απροσδόκητου σφάλματος."
       report_timeout: "Το χρονοδιάγραμμα δεν ήταν δυνατό να φορτωθεί μέσα σε ένα λογικό χρονικό πλαίσιο."
     filter:
@@ -2580,13 +2580,13 @@ el:
         temporarily_unavailable: 'Ο διακομιστής ταυτοποίησης δεν μπορεί να διαχειριστεί το αίτημα αυτή τη στιγμή λόγω προσωρινής υπερφόρτωσης ή συντήρησης του διακομιστή.'
         #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
+        resource_owner_authenticator_not_configured: 'Ο κάτοχος του πόρου απέτυχε εξαιτίας της μη ρύθμισης του Doorkeeper.configure.resource_owner_authenticator.'
         admin_authenticator_not_configured: 'Η πρόσβαση στον πίνακα διαχείρισης απαγορεύεται επειδή το Doorkeeper.configure.admin_authenticator δεν είναι διαμορφωμένο.'
         #Access grant errors
         unsupported_response_type: 'Ο διακομιστής ταυτοποίησης δεν υποστηρίζει αυτό τον τύπο απόκρισης.'
         #Access token errors
-        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
-        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
+        invalid_client: 'Ο έλεγχος ταυτότητας με τον πελάτη απέτυχε λόγω άγνωστου πελάτη, χωρίς έλεγχο ταυτότητας πελάτη ή με μη υποστηριζόμενη μέθοδο ελέγχου ταυτότητας.'
+        invalid_grant: 'Η χορηγούμενη επιχορήγηση εξουσιοδότησης είναι άκυρη, έχει λήξει, ανακληθεί, δεν αντιστοιχεί στο URI ανακατεύθυνσης που χρησιμοποιήθηκε στην αίτηση εξουσιοδότησης ή έχει εκδοθεί σε άλλο πελάτη.'
         unsupported_grant_type: 'Ο τύπος χορήγησης ταυτοποίησης δεν υποστηρίζεται από τον εξυπηρετητή ταυτοποίησης.'
         invalid_token:
           revoked: "Το token πρόσβασης ανακλήθηκε"
@@ -2608,7 +2608,7 @@ el:
         name: "Το όνομα τις εφαρμογής. Αυτό θα εμφανίζεται στους υπόλοιπους χρήστες μόλις γίνει η εξουσιοδότηση."
         redirect_uri_html: >
           Τα επιτρεπόμενα URLs στα οποία ανακατευθύνονται οι ταυτοποιημένοι χρήστες. <br/> Αν εγγράφεστε από την εφαρμογή υπολογιστή, χρησιμοποιείστε το ακόλουθο URL.
-        confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
+        confidential: "Ελέγξτε εάν η εφαρμογή θα χρησιμοποιηθεί όταν το μυστικό πελάτη μπορεί να παραμείνει εμπιστευτικό. Οι εγγενείς εφαρμογές για κινητά και οι εφαρμογές μιας σελίδας θεωρούνται μη εμπιστευτικές."
         scopes: "Επιλέξτε τα φυσικά αντικείμενα στα οποία θέλετε να δώσει πρόσβαση η εφαρμογή. Αν δεν επιλεγεί κανένα φυσικό αντικείμενο, θα υποτεθεί api_v3."
         client_credential_user_id: "Προαιρετική ταυτότητα χρήστη για να υποδυθεί όταν οι πελάτες χρησιμοποιούν αυτή την εφαρμογή. Αφήστε κενό για να επιτρέψετε μόνο δημόσια πρόσβαση"
         register_intro: "Αν αναπτύσσετε μια εφαρμογή πελάτη OAuth API για το OpenProject, μπορείτε να την καταχωρήσετε χρησιμοποιώντας αυτή τη φόρμα για να μπορούν να τη χρησιμοποιήσουν όλοι οι χρήστες."
