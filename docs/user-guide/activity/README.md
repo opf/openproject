@@ -9,7 +9,14 @@ keywords: activity
 
 # Activity
 
-In OpenProject you can display the activities in a project to gain a quick overview about the current status and changes. The activity page lists the newest developments in your project. The changes are listed in reverse chronological order, with the latest changes appearing on top. Apply a filter (located below the project navigation on the left), to select which attributes are included in the activity.
+In OpenProject you can display the activities in a project to gain a quick overview about the current status and changes. The activity page lists the newest developments in your project.
+
+<div class="glossary">
+**Activity** is defined as a module that displays the actions performed in a project over a certain period of time.
+
+</div>
+
+The changes are listed in reverse chronological order, with the latest changes appearing on top. Apply a filter (located below the project navigation on the left), to select which attributes are included in the activity.
 
 The activity includes changes to work packages, repository changes, new, wiki entries or forum messages.
 

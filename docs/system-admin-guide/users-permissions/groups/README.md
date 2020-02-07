@@ -12,6 +12,10 @@ keywords: manage groups
 OpenProject allows creating tailored project member **groups**, which  grants additional rights to individual users within specific projects. This way, you do not need to add individual users to a project but you can add a user group, e.g. Marketing.
  You can edit the existing groups and create new ones in the system administration. To do that select *Administration -> Users & Permissions -> *Groups*.
 
+<div class="glossary">
+**Group** is defined as a list of users which can be assigned to a project with a certain role. New groups can be defined in the admin settings (Modules > Administration).
+  </div>
+
 ## Add a new group
 
 After selecting the *Groups* from the administration menu, you will see the list of all the existing groups. If no groups  have been created yet, the list will be empty.

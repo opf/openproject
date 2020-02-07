@@ -13,6 +13,12 @@ Working in agile project teams is becoming increasingly important.
 
 OpenProject supports your work with the Scrum methodology by providing a variety of functionalities. You can record and prioritize user stories in the sprint and product backlog, use digital task boards or burndown-charts, print story cards, and much more. For more information, please refer to the OpenProject [agile and scrum features](https://www.openproject.org/collaboration-software-features/agile-scrum-agile-project-management-openproject/) page.
 
+<div class="glossary">
+
+A **backlog** is defined as a plugin that allows to use the backlogs feature in OpenProject. In order to use backlogs in a project, the backlogs plugin has to be installed and the backlogs module has to be activated in the project settings of a project (the accessibility mode has to be deactivated).
+
+</div>
+
 Please note that this user guide does not represent an introduction into scrum methodology, but merely explains the scrum-related functionalities and user instructions in OpenProject.
 
 | Feature                                                      | Documentation for                                            |
@@ -22,9 +28,9 @@ Please note that this user guide does not represent an introduction into scrum m
 | [Story points](story-points)                                 | How to estimate and edit story points in the backlogs view?  |
 | [Create a new user story](create-new-story)                  | How to create a new epic, user story, bug or feature in the backlogs view? |
 | [Task board](taskboard)                                      | How to work with the taskboard?                              |
-| [Burndown chart](burndown-chart)                             |                                                              |
-| [Print story cards](https://www.openproject.org/help/agile-scrum/print-story-cards/) |                                                              |
-| [Sprint wiki page](https://www.openproject.org/help/agile-scrum/create-sprint-wiki-page/) |                                                              |
-| [Selecting folded or collapsed backlogs view](https://www.openproject.org/help/agile-scrum/selecting-folded-collapsed-backlogs-view/) |                                                              |
+| [Burndown chart](burndown-chart)                             | How to create a burndown chart?                              |
+| [Print story cards](https://www.openproject.org/help/agile-scrum/print-story-cards/) | How to print story cards?                                    |
+| [Sprint wiki page](https://www.openproject.org/help/agile-scrum/create-sprint-wiki-page/) | How to create a sprint wiki page?                            |
+| [Selecting folded or collapsed backlogs view](https://www.openproject.org/help/agile-scrum/selecting-folded-collapsed-backlogs-view/) | How to select the folded or collapsed backlogs view?         |
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/wwWtuDcqj18" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

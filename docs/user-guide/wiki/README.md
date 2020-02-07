@@ -11,6 +11,8 @@ keywords: wiki
 
 In a project wiki you can collaboratively create and document information with your team, such as project documentation, specifications, guidelines, or any other important project information.
 
+<div class="glossary">**Wiki** is defined as a module that allows to use textile-based wiki pages. In order to use the wiki module, it has to be activated in the project settings. </div>
+
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [General wiki information](#general-wiki-information)        | How to format a wiki page.                                   |

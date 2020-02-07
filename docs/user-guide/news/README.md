@@ -11,6 +11,8 @@ keywords: news
 
 On the news page, you can see the latest news in a project in reverse chronological order. News communicate general topics to all team members.
 
+<div class="glossary"> **News** are defined as a module that allows the publication and use of news entries.</div>
+
 They can be displayed on the main project overview page.
 
 | Feature                                     | Documentation for                                 |

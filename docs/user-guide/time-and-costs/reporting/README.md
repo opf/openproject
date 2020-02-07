@@ -27,6 +27,8 @@ You can easily report spent time and costs in OpenProject and filter, group and 
 
 To open the time and costs reports in OpenProject, navigate to the **Cost reports** module in the project navigation.
 
+<div class="glossary">**Cost Reports** is defined as a plugin to filter cost reports on individual or multiple users across individual or multiple projects. The plugin has to be activated as a module in the project settings to be displayed in the side navigation.</div>
+
 ![Time-costs-reports](Time-costs-reports.png)
 
 ## Change time and costs reports
