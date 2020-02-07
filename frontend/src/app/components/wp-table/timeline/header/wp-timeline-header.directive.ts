@@ -30,14 +30,16 @@ import {Component, ElementRef, OnInit} from '@angular/core';
 import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import * as moment from 'moment';
-import {calculatePositionValueForDayCount, getTimeSlicesForHeader, TimelineViewParameters} from '../wp-timeline';
-import Moment = moment.Moment;
+import {
+  calculatePositionValueForDayCount,
+  getTimeSlicesForHeader,
+  timelineHeaderCSSClass,
+  timelineHeaderSelector,
+  TimelineViewParameters
+} from '../wp-timeline';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-
-
-export const timelineHeaderCSSClass = 'wp-timeline--header-element';
-export const timelineHeaderSelector = 'wp-timeline-header';
+import Moment = moment.Moment;
 
 @Component({
   selector: timelineHeaderSelector,
