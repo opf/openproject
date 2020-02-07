@@ -150,8 +150,9 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def set_fixed_version_to_nil
-    unless work_package.fixed_version &&
-           work_package.project.shared_versions.include?(work_package.fixed_version)
+    if work_package.fixed_version &&
+       !(work_package.project &&
+         work_package.project.shared_versions.include?(work_package.fixed_version))
       work_package.fixed_version = nil
     end
   end
