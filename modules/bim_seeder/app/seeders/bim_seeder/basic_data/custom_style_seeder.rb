@@ -28,19 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 module BimSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::BimSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::BimSeeder::BasicData::CustomStyleSeeder,
-        ::BimSeeder::BasicData::WorkflowSeeder,
-        ::BimSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
+  module BasicData
+    class CustomStyleSeeder < Seeder
+      def seed_data!
+        CustomStyle.create data
+      end
+
+      def data
+        { theme: 'OpenProject Dark' }
+      end
     end
   end
 end

@@ -76,22 +76,22 @@ module OpenProject::CustomStyles
       {
         name:                                                   'OpenProject Dark',
         colors: {
-          'primary-color'                                        => "#1A67A3",
-          'primary-color-dark'                                   => "#175A8E",
-          'alternative-color'                                    => "#138E1B",
-          'content-link-color'                                   => "#175A8E",
-          'header-bg-color'                                      => "#031D2F",
-          'header-item-bg-hover-color'                           => "#0F3A5A",
-          'header-item-font-color'                               => "#DFDFDF",
-          'header-item-font-hover-color'                         => "#DFDFDF",
+          'primary-color'                                        => "#3270DB",
+          'primary-color-dark'                                   => "#163473",
+          'alternative-color'                                    => "#349939",
+          'content-link-color'                                   => "#275BB5",
+          'header-bg-color'                                      => "#05002C",
+          'header-item-bg-hover-color'                           => "#163473",
+          'header-item-font-color'                               => "#FFFFFF",
+          'header-item-font-hover-color'                         => "#FFFFFF",
           'header-border-bottom-color'                           => "",
-          'main-menu-bg-color'                                   => "#2F3131",
-          'main-menu-bg-selected-background'                     => "#143E5F",
-          'main-menu-bg-hover-background'                        => "#0D2B42",
-          'main-menu-font-color'                                 => "#DFDFDF",
-          'main-menu-hover-font-color'                           => "#DFDFDF",
-          'main-menu-selected-font-color'                        => "#DFDFDF",
-          'main-menu-border-color'                               => "#000000"
+          'main-menu-bg-color'                                   => "#0E2045",
+          'main-menu-bg-selected-background'                     => "#3270DB",
+          'main-menu-bg-hover-background'                        => "#163473",
+          'main-menu-font-color'                                 => "#FFFFFF",
+          'main-menu-hover-font-color'                           => "#FFFFFF",
+          'main-menu-selected-font-color'                        => "#FFFFFF",
+          'main-menu-border-color'                               => "#EAEAEA"
         }
       }
     ].freeze
