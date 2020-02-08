@@ -2213,7 +2213,7 @@ el:
   text_destroy: "Διαγραφή"
   text_destroy_with_associated: "Υπάρχουν επιπλέον αντικείμενα μαζί με το πακέτο εργασίας που πρόκειται να διαγραφεί. Τα αντικείμενα αυτά είναι των παρακάτω τύπων:"
   text_destroy_what_to_do: "Τι θέλετε να κάνετε;"
-  text_diff_truncated: "... Αυτό το diff ήταν περικομμένο επειδή υπερβαίνει το μέγιστο μέγεθος που μπορεί να εμφανιστεί."
+  text_diff_truncated: "... Αυτό το diff περικόπηκε επειδή υπερβαίνει το μέγιστο μέγεθος που μπορεί να εμφανιστεί."
   text_email_delivery_not_configured: "Η παράδοσης email δεν έχει διαμορφωθεί και οι ειδοποιήσεις είναι απενεργοποιημένες. Διαμορφώστε τον SMTP διακομιστή στο config/configuration.yml και επανεκκινήστε την εφαρμογή για να τα ενεργοποιήσετε."
   text_enumeration_category_reassign_to: "Επανεκχώρηση τους σε αυτή την τιμή:"
   text_enumeration_destroy_question: "%{count} αντικείμενα έχουν ανατεθεί σε αυτή την τιμή."
@@ -2579,7 +2579,7 @@ el:
         server_error: 'Ο διακομιστής ταυτοποίησης συνάντησε μια απροσδόκητη κατάσταση η οποία τον απέτρεψε από την ολοκλήρωση του αιτήματος.'
         temporarily_unavailable: 'Ο διακομιστής ταυτοποίησης δεν μπορεί να διαχειριστεί το αίτημα αυτή τη στιγμή λόγω προσωρινής υπερφόρτωσης ή συντήρησης του διακομιστή.'
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
+        credential_flow_not_configured: 'Ο κάτοχος του πόρου πιστοποιητικών κωδικών πρόσβασης απέτυχε λόγω της μη ρύθμισης του Doorkeeper.configure.resource_owner_from_credentials.'
         resource_owner_authenticator_not_configured: 'Ο κάτοχος του πόρου απέτυχε εξαιτίας της μη ρύθμισης του Doorkeeper.configure.resource_owner_authenticator.'
         admin_authenticator_not_configured: 'Η πρόσβαση στον πίνακα διαχείρισης απαγορεύεται επειδή το Doorkeeper.configure.admin_authenticator δεν είναι διαμορφωμένο.'
         #Access grant errors
