@@ -2538,13 +2538,13 @@ tr:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Protokol ayarı uyuşmazlığı'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Uygulamanız, protokol ayarı <code>%{set_protocol}</code>,olarak ayarlanmış şekilde çalışıyor, ancak istek bir <code>%{actual_protocol}</code> isteğidir. Bu hatalarla sonuçlanacaktır! <a href="%{setting_path}"> Sistem ayarları </a> 'na gidin ve bunu düzeltmek için "Protokol" ayarını değiştirin.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Ana bilgisayar adı ayar uyuşmazlığı'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        Uygulamanız, ana makine adı ayarı <code>%{set_hostname}</code> olarak ayarlanmış, ancak istek bir <code>%{actual_hostname}</code> ana bilgisayar adı. Bu hatalarla sonuçlanacaktır! <a href="%{setting_path}"> Sistem ayarları </a> 'na gidin ve bunu düzeltmek için "Ana makine adı" ayarını değiştirin.
   menu_item: "Menü seçeneği"
   menu_item_setting: "Görünürlük"
   wiki_menu_item_for: "Wikipage için menü öğesi \" %{title} \""
