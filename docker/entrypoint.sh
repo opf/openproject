@@ -39,11 +39,25 @@ fi
 
 if [ "$(id -u)" = '0' ]; then
 	mkdir -p $APP_DATA_PATH/{files,git,svn}
-	chown -R $APP_USER:$APP_USER $APP_DATA_PATH
+	chown -R $APP_USER:$APP_USER $APP_DATA_PATH /etc/apache2/sites-enabled/
+
+	# Clean up any dangling PID file
+	rm -f $APP_PATH/tmp/pids/*
 
 	# Clean up a dangling PID file of apache
 	if [ -e "$APACHE_PIDFILE" ]; then
 	  rm -f $APACHE_PIDFILE || true
+	fi
+
+	# Fix assets path if relative URL is used
+	relative_url_root_without_trailing_slash="$(echo $OPENPROJECT_RAILS__RELATIVE__URL__ROOT | sed 's:/*$::')"
+	if [ "$relative_url_root_without_trailing_slash" != "" ]; then
+		for file in $(egrep -lR "/assets/" "$APP_PATH/public"); do
+			# only the font paths in the CSSs need updating
+			sed -i "s|/assets/|${relative_url_root_without_trailing_slash}/assets/|g" $file
+			# the .gz is the one served by puma, so rebuild it
+			gzip --force --keep $file
+		done
 	fi
 
 	if [ ! -z "$ATTACHMENTS_STORAGE_PATH" ]; then
@@ -53,7 +67,7 @@ if [ "$(id -u)" = '0' ]; then
 	mkdir -p "$APP_PATH/log" "$APP_PATH/tmp/pids" "$APP_PATH/files"
 	chown "$APP_USER:$APP_USER" "$APP_PATH"
 	chown -R "$APP_USER:$APP_USER" "$APP_PATH/log" "$APP_PATH/tmp" "$APP_PATH/files" "$APP_PATH/public"
-	if [ "$1" = "./docker/supervisord" ]; then
+	if [ "$1" = "./docker/supervisord" ] || [ "$1" = "./docker/proxy" ]; then
 		exec "$@"
 	else
 		exec $APP_PATH/docker/gosu $APP_USER "$BASH_SOURCE" "$@"

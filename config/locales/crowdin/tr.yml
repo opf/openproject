@@ -1035,7 +1035,7 @@ tr:
         rename_groups: "Öznitelik grubunun adını değiştirin"
       project_filters:
         description_html: "Özel alanlara filtre uygulama ve sıralama, kurumsal sürüm özelliğidir."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "Zaman izleme faaliyetleri"
   enumeration_work_package_priorities: "İş paketi öncelikleri"
   enumeration_reported_project_statuses: "Bildirilen proje durumları"
   error_auth_source_sso_failed: "Çoklu oturum açma (SSO) için kullanıcı '%{value}' başarısız oldu"
@@ -1107,7 +1107,7 @@ tr:
       pdf_with_descriptions_and_attachments: "Ekler ve açıklamalarla birlikte PDF"
       pdf_with_attachments: "Eklerle birlikte PDF"
     image:
-      omitted: "Image not exported."
+      omitted: "Görüntü dışa aktarılmadı."
   extraction:
     available:
       pdftotext: "Pdftotext kullanılabilir (isteğe bağlı)"
@@ -2534,6 +2534,17 @@ tr:
     Kullanıcı limitine ulaşıldı. Daha fazla kullanıcıyı etkinleştiremezsiniz. Lütfen <a href="%{upgrade_url}"> planınızı yükseltin </a> veya ek kullanıcılara izin vermek için üyeleri engelleyin.
   warning_user_limit_reached_instructions: >
     Kullanıcı sınırınıza ulaştınız (%{current}/%{max} aktif kullanıcılar). Enterprise Edition planınızı yükseltmek ve ek kullanıcılar eklemek için lütfen sales@openproject.com adresine başvurun.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protokol ayarı uyuşmazlığı'
+      text_html: >
+        Uygulamanız, protokol ayarı <code>%{set_protocol}</code>,olarak ayarlanmış şekilde çalışıyor, ancak istek bir <code>%{actual_protocol}</code> isteğidir. Bu hatalarla sonuçlanacaktır! <a href="%{setting_path}"> Sistem ayarları </a> 'na gidin ve bunu düzeltmek için "Protokol" ayarını değiştirin.
+    hostname_mismatch:
+      title: 'Ana bilgisayar adı ayar uyuşmazlığı'
+      text_html: >
+        Uygulamanız, ana makine adı ayarı <code>%{set_hostname}</code> olarak ayarlanmış, ancak istek bir <code>%{actual_hostname}</code> ana bilgisayar adı. Bu hatalarla sonuçlanacaktır! <a href="%{setting_path}"> Sistem ayarları </a> 'na gidin ve bunu düzeltmek için "Ana makine adı" ayarını değiştirin.
   menu_item: "Menü seçeneği"
   menu_item_setting: "Görünürlük"
   wiki_menu_item_for: "Wikipage için menü öğesi \" %{title} \""

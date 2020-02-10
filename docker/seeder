@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+echo "Executing database migration and database seed..."
+bundle exec rake db:migrate db:seed
+if [ "$1" = "--set" ]; then
+	shift
+	echo "Update application settings..."
+	bundle exec rake setting:set["$@"]
+fi
+
+exit 0

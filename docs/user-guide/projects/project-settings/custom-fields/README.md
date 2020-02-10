@@ -10,6 +10,8 @@ keywords: custom fields
 
 **Custom fields can be activated or deactivated in a project**. Open the respective project and go to -> *project settings* -> *custom fields*.
 
+<div class="glossary">**Custom fields** are defined as additional value fields which can be added to existing value fields. The different sections that can use custom fields are work packages, spent time, projects, versions, users, groups, activities (time tracking), and work package priorities.</div>
+
 1. Manage the custom field by clicking on the name. You have to be a System Administrator in order to [manage custom fields in the system administration](../../syste-admin-guide/custom-fields).
 2. **Select if the custom fields shall be enabled in the project**. If enabled globally in the custom fields settings, it will automatically be displayed in all projects.
 3. View the work package types for which the custom field is already enabled. Only for the displayed types the custom field will be active.

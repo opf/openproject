@@ -20,10 +20,10 @@ In the overlay window, you can choose between several topics:
 | Popular Topics                                               | Description                                            |
 | ------------------------------------------------------------ | :----------------------------------------------------- |
 | [Upgrade, downgrade or cancel](#update-existing-subscriptions) | How to upgrade, downgrade or cancel a subscription?    |
-| Edit Account information                                     |                                                        |
-| Edit Billing Addresses                                       |                                                        |
-| Edit or add payment methods                                  |                                                        |
-| Edit or add payment methods                                  |                                                        |
+| Edit Account information                                     | How to edit account information?                       |
+| Edit Billing Addresses                                       | How to edit the billing addresses?                     |
+| Edit or add payment methods                                  | How to edit or add the payment method?                 |
+|                                                              |                                                        |
 | [View billing history and dowload invoices](../invoices-and-billing-history) | How to view the billing history and download invoices? |
 
 ## Update existing subscriptions

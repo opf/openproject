@@ -16,7 +16,7 @@ Please go to https://www.openproject.org/enterprise-edition/ and press the green
 
 A window will appear which explains that you will receive a 14 days free trial license with that you can temporarily upgrade your Community Edition.
 
-There is no need to cancel the trial license. The license will run out automatically and will bring you  back to the Community version.
+There is no need to cancel the trial license. The license will run out automatically and will bring you back to the Community version.
 
 Click the blue **Proceed To Checkout** button.
 

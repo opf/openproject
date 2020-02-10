@@ -339,7 +339,7 @@ hu:
         account: "Felhasználói fiók"
         attr_firstname: "Keresztnév attribútum"
         attr_lastname: "Vezetéknév attribútum"
-        attr_login: "Username attribute"
+        attr_login: "Felhasználónév attribútum"
         attr_mail: "Email attribútum"
         base_dn: "Base DN"
         host: "Host"
@@ -729,7 +729,7 @@ hu:
     #kept for backwards compatibility
     issue: "Feladatcsoport"
     lastname: "Vezetéknév"
-    login: "Username"
+    login: "Felhasználónév"
     mail: "Email"
     name: "Név"
     password: "Jelszó"
@@ -2532,6 +2532,17 @@ hu:
     Elérte a felhasználói korlátot. Nem aktiválhat további felhasználókat. Kérjük, <a href="%{upgrade_url}"> frissítse a licencét </a>, vagy blokkolja a további tagokat a felhasználók engedélyezéséhez.
   warning_user_limit_reached_instructions: >
     Elérte a felhasználói limitet (%{current}/%{max} aktív felhasználók). Kérjük, forduljon a sales@openproject.com címhez az Enterprise Edition licenc frissítésért és további felhasználók hozzáadásához.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protocol setting mismatch'
+      text_html: >
+        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+    hostname_mismatch:
+      title: 'Hostname setting mismatch'
+      text_html: >
+        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Menüpont"
   menu_item_setting: "Látható"
   wiki_menu_item_for: "Wikipage \"%{title}\" menüeleme"
