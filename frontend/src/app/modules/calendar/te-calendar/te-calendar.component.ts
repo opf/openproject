@@ -44,6 +44,7 @@ interface CalendarMoveEvent {
 const TIME_ENTRY_CLASS_NAME = 'te-calendar--time-entry';
 const DAY_SUM_CLASS_NAME = 'te-calendar--day-sum';
 const ADD_ENTRY_CLASS_NAME = 'te-calendar--add-entry';
+const ADD_ICON_CLASS_NAME = 'te-calendar--add-icon';
 const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
 
 @Component({
@@ -279,17 +280,15 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
   protected addEntry(date:Moment, duration:number) {
     let classNames = [ADD_ENTRY_CLASS_NAME];
-    let title = '+';
 
     if (duration >= 24) {
        classNames.push(ADD_ENTRY_PROHIBITED_CLASS_NAME);
-       title = '';
     }
 
     return {
-      title: title,
       start: date.clone().format(),
       end: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 1) - 0.5, 'h').format(),
+      rendering: "background" as 'background',
       classNames: classNames
     };
   }
@@ -406,6 +405,8 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   private alterEventEntry(event:CalendarViewEvent) {
+    this.appendAddIcon(event);
+
     if (!event.event.extendedProps.entry) {
       return;
     }
@@ -413,6 +414,17 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     this.addTooltip(event);
     this.prependDuration(event);
     this.appendFadeout(event);
+  }
+
+  private appendAddIcon(event:CalendarViewEvent) {
+    if (!event.el.classList.contains(ADD_ENTRY_CLASS_NAME)) {
+      return;
+    }
+
+    let addIcon = document.createElement('div');
+    addIcon.classList.add(ADD_ICON_CLASS_NAME);
+    addIcon.innerText = '+';
+    event.el.append(addIcon);
   }
 
   private addTooltip(event:CalendarViewEvent) {
