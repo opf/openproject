@@ -67,18 +67,27 @@ class OpenProject::XlsExport::XlsViews
   end
 
   def project_representation(value)
-    value.to_i.zero? ? I18n.t(:label_none) : Project.find(value.to_i).name
+    ar_presentation(Project, value, &:name)
   end
 
   def user_representation(value)
-    value.to_i.zero? ? I18n.t(:label_none) : User.find(value.to_i).name
+    ar_presentation(User, value, &:name)
   end
 
   def work_package_representation(value)
-    return I18n.t(:label_none) if value.to_i.zero?
+    ar_presentation(WorkPackage, value) do |work_package|
+      "#{work_package.type} ##{work_package.id}: #{work_package.subject}"
+    end
+  end
 
-    work_package = WorkPackage.find(value.to_i)
-    "#{work_package.project.name + ' - ' if @project}#{work_package.type} ##{work_package.id}: #{work_package.subject}"
+  def ar_presentation(klass, id)
+    record = klass.find_by(id: id.to_i)
+
+    if record
+      yield record
+    else
+      I18n.t(:label_none)
+    end
   end
 end
 
