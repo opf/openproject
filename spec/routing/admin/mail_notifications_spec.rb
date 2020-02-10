@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,43 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative '../legacy_spec_helper'
-require 'settings_controller'
+require 'spec_helper'
 
-describe SettingsController, type: :controller do
-  fixtures :all
-
-  before do
-    User.current = nil
-    session[:user_id] = 1 # admin
+describe 'admin mail_notifications routes', type: :routing do
+  it do
+    expect(get('admin/mail_notifications')).to route_to('admin/mail_notifications#show')
   end
 
-  it 'should index' do
-    get :index
-    assert_response :success
-    assert_template 'edit'
-  end
-
-  it 'should get edit' do
-    get :edit
-    assert_response :success
-    assert_template 'edit'
-  end
-
-  it 'should post edit notifications' do
-    post :edit,
-         params: {
-           settings: {
-             mail_from: 'functional@test.foo',
-             bcc_recipients:  '0',
-             notified_events: %w(work_package_added work_package_updated news_added),
-             emails_footer: 'Test footer'
-           }
-         }
-    assert_redirected_to '/settings/edit'
-    assert_equal 'functional@test.foo', Setting.mail_from
-    assert !Setting.bcc_recipients?
-    assert_equal %w(work_package_added work_package_updated news_added), Setting.notified_events
-    assert_equal 'Test footer', Setting.emails_footer
+  it do
+    expect(patch('admin/mail_notifications')).to route_to('admin/mail_notifications#update')
   end
 end

@@ -28,52 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class SettingsController < ApplicationController
+class Admin::MailNotificationsController < ApplicationController
   include Concerns::AdminSettingsUpdater
 
-  helper_method :gon
-
   current_menu_item [:show] do
-    :settings
-  end
-
-  current_menu_item :plugin do |controller|
-    plugin = Redmine::Plugin.find(controller.params[:id])
-    plugin.settings[:menu_item] || :settings
-  rescue Redmine::PluginNotFound
-    :settings
+    :mail_notifications
   end
 
   def show
-    @options = {}
-    @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
-
-    @guessed_host = request.host_with_port.dup
-
-    @custom_style = CustomStyle.current || CustomStyle.new
-  end
-
-  def plugin
-    @plugin = Redmine::Plugin.find(params[:id])
-    if request.post?
-      Setting["plugin_#{@plugin.id}"] = params[:settings].permit!.to_h
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to action: 'plugin', id: @plugin.id
-    else
-      @partial = @plugin.settings[:partial]
-      @settings = Setting["plugin_#{@plugin.id}"]
-    end
-  rescue Redmine::PluginNotFound
-    render_404
+    @deliveries = ActionMailer::Base.perform_deliveries
+    @notifiables = Redmine::Notifiable.all
   end
 
   def default_breadcrumb
-    if params[:action] == "plugin"
-      plugin = Redmine::Plugin.find(params[:id])
-      plugin.name
-    else
-      t(:label_system_settings)
-    end
+    t(:'activerecord.attributes.user.mail_notification')
   end
 
   def show_local_breadcrumb

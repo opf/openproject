@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,25 +28,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module Concerns
+  module AdminSettingsUpdater
+    extend ActiveSupport::Concern
 
-describe 'Test mail notification', type: :feature do
-  let(:admin) { FactoryBot.create(:admin) }
+    included do
+      layout 'admin'
 
-  before do
-    login_as(admin)
-    visit admin_mail_notifications_path(tab: :notifications)
-  end
+      before_action :require_admin
 
-  it 'shows the correct message on errors in test notification (Regression #28226)' do
-    error_message = '"error" with <strong>Markup?</strong>'
-    expect(UserMailer).to receive(:test_mail).with(admin)
-      .and_raise error_message
+      def update
+        if params[:settings]
+          Settings::UpdateService
+            .new(user: current_user)
+            .call(settings: permitted_params.settings.to_h)
 
-    click_link 'Send a test email'
-
-    expected = "An error occurred while sending mail (#{error_message})"
-    expect(page).to have_selector('.flash.error', text: expected)
-    expect(page).to have_no_selector('.flash.error strong')
+          flash[:notice] = t(:notice_successful_update)
+          redirect_to action: 'show', tab: params[:tab]
+        end
+      end
+    end
   end
 end
