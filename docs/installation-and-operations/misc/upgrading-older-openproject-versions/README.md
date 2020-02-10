@@ -1,6 +1,6 @@
-### Migrating from an old MySQL database
+# Migrating from an old MySQL database
 
-The script described above reuqires at least OpenProject 8 to work properly. If you are still on an older OpenProject version you have to migrate to OpenProject 8 first.
+The script described above requires at least OpenProject 8 to work properly. If you are still on an older OpenProject version you have to migrate to OpenProject 8 first.
 
 To make this easier there is a script which automates that too. It's included in the docker image itself but will want to run it directly on the docker host. To do that you can either copy it onto your system from `/app/script/migration/migrate-from-pre-8.sh` or simply download it [here](https://github.com/opf/openproject/tree/release/10.3/script/migration/migrate-from-pre-8.sh).
 
@@ -13,4 +13,3 @@ With docker installed, use the following command to start the upgrade process on
 ```bash
 bash migrate-from-pre-8.sh <docker host IP> <MySQL dump>"
 ```
-

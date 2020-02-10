@@ -1,14 +1,12 @@
 # Migrating your packaged OpenProject database to PostgreSQL
 
-TODO: review
-
 **Note:** this guide only applies if you've installed OpenProject using our DEB/RPM packages.
 
 This guide will migrate your packaged MySQL installation to a PostgreSQL installation using [pgloader](https://github.com/dimitri/pgloader). 
 
 ## Backing up
 
-Before beginning the migration, please ensure you have created a backup of your current installation. Please follow our [backup and restore documentation](https://www.openproject.org/operations/backup/backup-guide-packaged-installation/) for our packaged installation.
+Before beginning the migration, please ensure you have created a backup of your current installation. Please follow our [backup and restore guides](../../operation).
 
 This guide should leave you with a set of archives that you can use to restore, should the migration end up in an unstable state:
 

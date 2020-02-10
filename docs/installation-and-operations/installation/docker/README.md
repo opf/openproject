@@ -35,9 +35,15 @@ Then, go into the OpenProject folder and you can launch all the services require
 docker-compose up -d
 ```
 
-After some time, you will be able to access OpenProject on http://localhost:8080.
+After some time, you will be able to access OpenProject on http://localhost:8080. The default username and password is login: `admin`, and password: `admin`.
 
 Note that the official `docker-compose.yml` file present in the repository can be adjusted to your convenience. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official docker-compose documentation for more details.
+
+You can stop the Compose stack by running:
+
+```
+docker-compose down
+```
 
 ## All-in-one container
 
@@ -127,5 +133,3 @@ docker run -d --env-file path/to/file ...
 ```
 
 For more advanced configuration, please have a look at the [Advanced configuration](../../configuration) section.
-
-

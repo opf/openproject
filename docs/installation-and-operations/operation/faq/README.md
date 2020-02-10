@@ -4,10 +4,7 @@ sidebar_navigation:
   priority: 4
 ---
 
-
 # Frequently asked questions - FAQ
-
-TODO: review
 
 ## How to migrate from Bitnami to the official OpenProject installation packages?
 
@@ -36,7 +33,6 @@ This led us to the path of removing support in the upcoming stable releases of O
 
 Older installations of OpenProject are likely installed with a MySQL installation because the installer shipped with an option to auto-install it. With [pgloader](https://pgloader.io), it is trivially easy to convert a dump between MySQL and PostgreSQL installation. [We have prepared a guide](../../misc/packaged-postgresql-migration ) on how to migrate to a PostgreSQL database if you previously used MySQL. 
 
-
 ## My favorite linux distribution is not listed. What can I do?
 
 You can either try the manual installation, or ask in the forum whether this could be added to the list of supported distributions. We try to support recent major distributions, but due to maintenance and operations cost cannot freely add to that list.
@@ -45,19 +41,15 @@ You can either try the manual installation, or ask in the forum whether this cou
 
 We recommend the Linux packages [if you have a compatible distribution](../../system-requirements/) and a separate machine for OpenProject, since it will allow for the easiest and most flexible setup. Use a docker-based image either for quickly spinning up an environment or if you have knowledge in setting up and maintaining docker-based installations.
 
-Please note we currently  do not yet provide a docker-compose based image, [please see this ticket for a timeline](https://community.openproject.com/wp/30551) and help us contribute one!
-
-
 ## Do you provide different release channels?
 
-Yes! We release OpenProject in separate release channels that you can try out. For production environments, **always** use the `stable/MAJOR`  (e.g., stable/9) package source that will receive stable and release updates. Every major upgrade will result in a source switch (from `stable/7` to `stable/8` for example).
+Yes! We release OpenProject in separate release channels that you can try out. For production environments, **always** use the `stable/MAJOR`  (e.g., stable/9) package source that will receive stable and release updates. Every major upgrade will result in a source switch (from `stable/9` to `stable/10` for example).
 
 A closer look at the available branches:
 
 * [stable/10](https://packager.io/gh/opf/openproject/refs/stable/10): Latest stable releases, starting with 10.0.0 until the last minor and patch releases of 10.X.Y are released, this will receive updates.
 * [release/10.0](https://packager.io/gh/opf/openproject/refs/release/10.0): Regular (usually daily) release builds for the current next patch release (or for the first release in this version, such as 10.0.0). This will contain early bugfixes before they are being release into stable. **Do not use in production**. But, for upgrading to the next major version, this can be regarded as a _release candidate channel_ that you can use to test your upgrade on a copy of your production environment.
 * [dev](https://packager.io/gh/opf/openproject/refs/dev): Daily builds of the current development build of OpenProject. While we try to keep this operable, this may result in broken code and/or migrations from time to time. Use when you're interested what the next release of OpenProject will look like. **Do not use in production!**
-
 
 ## What skills should I have for the installation?
 
@@ -72,5 +64,3 @@ Ruby support on Windows is notoriously difficult, however you might be able to r
 ## How to backup and restore my OpenProject installation?
 
 Please refer to the [backup documentation](../backing-up) for the packaged installation.
-
-

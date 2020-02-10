@@ -52,7 +52,7 @@ You should then copy those dump files to a secure location, for instance an S3 b
 
 ## Docker-based installation
 
-If you are using docker-compose, then the data volumes are managed by Docker and you should have a look at https://docs.docker.com/storage/volumes/ for instructions on how to backup.
+If you are using docker-compose, then the data volumes are managed by Docker and you should have a look at the [official Docker documentation](https://docs.docker.com/storage/volumes/) for instructions on how to backup.
 
 If you are using the all-in-one container, then you can simply backup any local volumes that you chose to bind-mount with the `-v` option when launching the container. For instance if you launched the container with:
 
