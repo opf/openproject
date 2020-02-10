@@ -1066,7 +1066,7 @@ ru:
         rename_groups: "Переименовать группу атрибутов"
       project_filters:
         description_html: "Фильтрация и сортировка по настраиваемым полям - это функция корпоративной версии."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "Деятельность по отслеживанию времени"
   enumeration_work_package_priorities: "Приоритеты пакета работ"
   enumeration_reported_project_statuses: "Перечень отчетов о статусах проекта"
   error_auth_source_sso_failed: "Сбой единого входа (SSO) для пользователя «%{value}»"
@@ -1138,7 +1138,7 @@ ru:
       pdf_with_descriptions_and_attachments: "PDF с описанием и вложениями"
       pdf_with_attachments: "PDF с вложениями"
     image:
-      omitted: "Image not exported."
+      omitted: "Изображение не экспортировано."
   extraction:
     available:
       pdftotext: "Pdftotext доступно (опционально)"
@@ -2580,13 +2580,13 @@ ru:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Несоответствие настроек протокола'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Ваше приложение запущено с настройкой протокола <code>%{set_protocol}</code>, но запрос - это <code>%{actual_protocol}</code> запрос. Это приведёт к ошибкам! Перейдите в <a href="%{setting_path}">Системные настройки</a> и измените параметр "Протокол", чтобы исправить это.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Несоответствие настроек имени хоста'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        Приложение запущено с настройкой имени хоста <code>%{set_hostname}</code>, но запрос - это имя хоста <code>%{actual_hostname}</code>. Это приведёт к ошибкам! Перейдите в <a href="%{setting_path}">Системные настройки</a> и измените параметр "Имя хоста", чтобы исправить это.
   menu_item: "Пункт меню"
   menu_item_setting: "Видимость"
   wiki_menu_item_for: "Пункт меню для wiki-страницы  «%{title}»"
