@@ -37,82 +37,106 @@ describe SettingsController, type: :controller do
     allow(User).to receive(:current).and_return @user
   end
 
-  describe 'edit' do
+  describe 'show' do
     render_views
 
-    before do
-      @previous_projects_modules = Setting.default_projects_modules
-    end
-
-    after do
-      Setting.default_projects_modules = @previous_projects_modules
-    end
-
-    it 'contains a check box for the activity module on the projects tab' do
-      get 'edit', params: { tab: 'projects' }
-
-      expect(response).to be_successful
-      expect(response).to render_template 'edit'
-      expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity']"
-    end
-
-    it 'does not store the activity in the default_projects_modules if unchecked' do
-      post 'edit',
-           params: {
-             tab: 'projects',
-             settings: {
-               default_projects_modules: ['wiki']
-             }
-           }
-
-      expect(response).to be_redirect
-      expect(response).to redirect_to action: 'edit', tab: 'projects'
-
-      expect(Setting.default_projects_modules).to eq(['wiki'])
-    end
-
-    it 'stores the activity in the default_projects_modules if checked' do
-      post 'edit',
-           params: {
-             tab: 'projects',
-             settings: {
-               default_projects_modules: ['activity', 'wiki']
-             }
-           }
-
-      expect(response).to be_redirect
-      expect(response).to redirect_to action: 'edit', tab: 'projects'
-
-      expect(Setting.default_projects_modules).to eq(['activity', 'wiki'])
-    end
-
-    describe 'with activity in Setting.default_projects_modules' do
+    context 'default project modules' do
       before do
-        Setting.default_projects_modules = %w[activity wiki]
+        @previous_projects_modules = Setting.default_projects_modules
       end
 
-      it 'contains a checked checkbox for activity' do
-        get 'edit', params: { tab: 'projects' }
+      after do
+        Setting.default_projects_modules = @previous_projects_modules
+      end
+
+      it 'contains a check box for the activity module on the projects tab' do
+        get 'show', params: { tab: 'projects' }
 
         expect(response).to be_successful
-        expect(response).to render_template 'edit'
-
-        expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
-      end
-    end
-
-    describe 'without activated activity module' do
-      before do
-        Setting.default_projects_modules = %w[wiki]
+        expect(response).to render_template 'show'
+        expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity']"
       end
 
-      it 'contains an unchecked checkbox for activity' do
-        get 'edit', params: { tab: 'projects' }
+      it 'contains a check box for the activity module on the projects tab' do
+        get 'show', params: { tab: 'projects' }
 
         expect(response).to be_successful
-        expect(response).to render_template 'edit'
+        expect(response).to render_template 'show'
+        expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity']"
+      end
 
-        expect(response.body).not_to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
+      describe 'without activated activity module' do
+        before do
+          Setting.default_projects_modules = %w[wiki]
+        end
+
+        it 'contains an unchecked checkbox for activity' do
+          get 'show', params: { tab: 'projects' }
+
+          expect(response).to be_successful
+          expect(response).to render_template 'show'
+
+          expect(response.body).not_to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
+        end
+      end
+
+      describe 'with activity in Setting.default_projects_modules' do
+        before do
+          Setting.default_projects_modules = %w[activity wiki]
+        end
+
+        it 'contains a checked checkbox for activity' do
+          get 'show', params: { tab: 'projects' }
+
+          expect(response).to be_successful
+          expect(response).to render_template 'show'
+
+          expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
+        end
+      end
+    end
+  end
+
+  describe 'update' do
+    render_views
+
+    context 'default project modules' do
+      before do
+        @previous_projects_modules = Setting.default_projects_modules
+      end
+
+      after do
+        Setting.default_projects_modules = @previous_projects_modules
+      end
+
+      it 'does not store the activity in the default_projects_modules if unchecked' do
+        patch 'update',
+              params: {
+                tab: 'projects',
+                settings: {
+                  default_projects_modules: ['wiki']
+                }
+              }
+
+        expect(response).to be_redirect
+        expect(response).to redirect_to action: 'show', tab: 'projects'
+
+        expect(Setting.default_projects_modules).to eq(['wiki'])
+      end
+
+      it 'stores the activity in the default_projects_modules if checked' do
+        patch 'update',
+              params: {
+                tab: 'projects',
+                settings: {
+                  default_projects_modules: ['activity', 'wiki']
+                }
+              }
+
+        expect(response).to be_redirect
+        expect(response).to redirect_to action: 'show', tab: 'projects'
+
+        expect(Setting.default_projects_modules).to eq(['activity', 'wiki'])
       end
     end
 
@@ -158,11 +182,11 @@ describe SettingsController, type: :controller do
         end
       end
 
-      describe 'POST #edit with password login enabled' do
+      describe 'PATCH #update with password login enabled' do
         before do
           allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
 
-          post 'edit', params: { tab: 'authentication', settings: new_settings }
+          patch 'update', params: { tab: 'authentication', settings: new_settings }
         end
 
         it 'is successful' do
@@ -194,11 +218,11 @@ describe SettingsController, type: :controller do
         end
       end
 
-      describe 'POST #edit with password login disabled' do
+      describe 'PATCH #update with password login disabled' do
         before do
           allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
-          post 'edit', params: { tab: 'authentication', settings: new_settings }
+          patch 'update', params: { tab: 'authentication', settings: new_settings }
         end
 
         it 'is successful' do

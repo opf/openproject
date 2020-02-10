@@ -34,7 +34,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <div class="menu-blocks--container">
   <% @menu_nodes.each do |menu_node| -%>
     <%= link_to menu_node.url, { class: 'menu-block' } do %>
-      <%= op_icon('menu-block--icon ' + menu_node.icon) %>
+      <%= op_icon('menu-block--icon ' + menu_node.icon.gsub(/icon2/, "icon3")) %>
       <span class="menu-block--title"> <%= menu_node.caption %> </span>
     <% end %>
   <% end %>

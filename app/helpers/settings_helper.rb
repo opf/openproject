@@ -37,37 +37,25 @@ module SettingsHelper
       {
         name: 'general',
         partial: 'settings/general',
-        path: settings_path,
+        path: general_settings_path,
         label: :label_general
       },
       {
         name: 'display',
         partial: 'settings/display',
-        path: settings_path(tab: :display),
+        path: general_settings_path(tab: :display),
         label: :label_display
       },
       {
         name: 'projects',
         partial: 'settings/projects',
-        path: settings_path(tab: :projects),
+        path: general_settings_path(tab: :projects),
         label: :label_project_plural
-      },
-      {
-        name: 'notifications',
-        partial: 'settings/notifications',
-        path: settings_path(tab: :notifications),
-        label: :label_mail_notification
-      },
-      {
-        name: 'mail_handler',
-        partial: 'settings/mail_handler',
-        path: settings_path(tab: :mail_handler),
-        label: :label_incoming_emails
       },
       {
         name: 'repositories',
         partial: 'settings/repositories',
-        path: settings_path(tab: :repositories),
+        path: general_settings_path(tab: :repositories),
         label: :label_repository_plural
       }
     ]

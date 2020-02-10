@@ -38,7 +38,7 @@ ru:
           title: 'Подпроекты'
           no_results: 'Подпроектов нет.'
         time_entries_current_user:
-          title: 'My spent time'
+          title: 'Затраченное время'
         time_entries_list:
           title: 'Затраченное время (за последние 7 дней)'
           no_results: 'Нет записей о входах за последние 7 дней.'

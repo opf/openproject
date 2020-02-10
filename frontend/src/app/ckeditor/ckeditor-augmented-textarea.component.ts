@@ -116,6 +116,10 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
   }
 
   public setup(editor:ICKEditorInstance) {
+    // Have a hacky way to access the editor from outside of angular.
+    // This is e.g. employed to set the text from outside to reuse the same editor for different languages.
+    this.$element.data('editor', editor);
+
     if (this.resource && this.resource.attachments) {
       this.setupAttachmentAddedCallback(editor);
       this.setupAttachmentRemovalSignal(editor);
