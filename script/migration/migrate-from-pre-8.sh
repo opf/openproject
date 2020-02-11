@@ -70,7 +70,7 @@ if [[ ! "$SKIP_STEP_1" = "true" ]]; then
   echo
   echo "1.3) Starting OpenProject 8"
   if [[ ! `docker ps | grep $OP8_CONTAINER` ]]; then
-    docker run -d --name $OP8_CONTAINER openproject/community:8 # can use `run -it` directly because the image doesn't support it yet in version 8
+    docker run -d --name $OP8_CONTAINER openproject/community:8-mysql # can use `run -it` directly because the image doesn't support it yet in version 8
     if [[ $? -gt 0 ]]; then exit 1; fi
     echo "  OpenProject started"
   else
