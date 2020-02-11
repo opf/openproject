@@ -271,10 +271,11 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
   protected sumEntry(date:Moment, duration:number) {
     return {
-      title: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
       start: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 0.5) - 0.5, 'h').format(),
       end: date.clone().add(this.maxHour - Math.min(((duration + 0.05) * this.scaleRatio), this.maxHour - 0.5), 'h').format(),
-      classNames: DAY_SUM_CLASS_NAME
+      classNames: DAY_SUM_CLASS_NAME,
+      rendering: 'background' as 'background',
+      sum: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) })
     };
   }
 
@@ -406,6 +407,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
   private alterEventEntry(event:CalendarViewEvent) {
     this.appendAddIcon(event);
+    this.appendSum(event);
 
     if (!event.event.extendedProps.entry) {
       return;
@@ -425,6 +427,12 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     addIcon.classList.add(ADD_ICON_CLASS_NAME);
     addIcon.innerText = '+';
     event.el.append(addIcon);
+  }
+
+  private appendSum(event:CalendarViewEvent) {
+    if (event.event.extendedProps.sum) {
+      event.el.append(event.event.extendedProps.sum);
+    }
   }
 
   private addTooltip(event:CalendarViewEvent) {
