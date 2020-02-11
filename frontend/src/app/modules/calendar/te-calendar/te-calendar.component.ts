@@ -397,6 +397,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
           collection.elements.splice(foundIndex, 1);
           break;
         case 'create':
+          this.timeEntryCache.updateValue(event.id!, event);
           collection.elements.push(event);
           break;
       }

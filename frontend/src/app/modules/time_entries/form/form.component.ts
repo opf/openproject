@@ -72,6 +72,16 @@ export class TimeEntryFormComponent implements OnInit, OnDestroy {
     return this.entry.isNew;
   }
 
+  public isRequired(field:string) {
+    // Other than defined in the schema, we consider the work package to be required.
+    // Remove once the schema requires it explicitly.
+    if (field === 'workPackage') {
+      return true;
+    } else {
+      return this.entry.schema[field].required;
+    }
+  }
+
   private setCustomFields(schema:SchemaResource) {
     Object.entries(schema).forEach(([key, keySchema]) => {
       if (key.match(/customField\d+/)) {
