@@ -58,6 +58,11 @@ class Version < ActiveRecord::Base
 
   scope :order_by_name, -> { order(Arel.sql("LOWER(#{Version.table_name}.name)")) }
 
+  scope :order_by_newest_date, -> {
+    reorder Arel.sql("#{Version.table_name}.start_date DESC NULLS LAST,
+                    #{Version.table_name}.effective_date DESC NULLS LAST")
+  }
+
   def self.with_status_open
     where(status: 'open')
   end

@@ -11,20 +11,29 @@ describe 'subject inplace editor', js: true, selenium: true do
 
   let!(:version) do
     FactoryBot.create(:version,
+                      name: 'Old version',
                       status: 'open',
                       sharing: 'tree',
+                      start_date: '2019-02-02',
+                      effective_date: '2019-02-03',
                       project: project)
   end
   let!(:version2) do
     FactoryBot.create(:version,
                       status: 'open',
                       sharing: 'tree',
+                      name: 'New version',
+                      start_date: '2020-02-02',
+                      effective_date: '2020-02-03',
                       project: subproject1)
   end
   let!(:version3) do
     FactoryBot.create(:version,
                       status: 'open',
                       sharing: 'tree',
+                      start_date: nil,
+                      effective_date: nil,
+                      name: 'No date version',
                       project: subproject2)
   end
 
@@ -59,6 +68,10 @@ describe 'subject inplace editor', js: true, selenium: true do
       expect(page).to have_selector('.ng-option-label', text: version3.name)
       expect(page).to have_selector('.ng-option-label', text: version2.name)
       expect(page).to have_selector('.ng-option-label', text: version.name)
+
+      # Expect the order to be descending by version date
+      labels = page.all('.ng-option-label').map { |el| el.text.strip }
+      expect(labels).to eq ['-', 'New version', 'Old version', 'No date version']
 
       page.find('.ng-option-label', text: version3.name).select_option
       field.expect_state_text(version3.name)

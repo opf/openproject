@@ -123,7 +123,7 @@ See docs/COPYRIGHT.rdoc for more details.
           </tr>
         </thead>
         <tbody>
-          <% for version in @project.shared_versions.sort %>
+          <% @project.shared_versions.order_by_newest_date.each do |version| %>
             <tr class="version <%= 'shared' if version.project != @project %>">
               <td class="name <%=h version.status %><%= ' icon-context icon-link' if version.project != @project %>">
                 <%= link_to_version version %>
