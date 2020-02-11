@@ -22,7 +22,7 @@ Navigate to the -> *Administration* -> *Work packages* -> *Custom actions*.
 
 To create a new custom action button press the green **+ Custom action button**.
 
-![Create custom action](image-20200121161925611.png)
+![custom action](image-20200211142943484.png)
 
 You can now configure the **Conditions** and **Actions** for the custom action button.
 

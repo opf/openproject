@@ -20,7 +20,7 @@ You can configure the following in the backlogs settings.
 4. Set a template for **sprint wiki page**. If you create a wiki page with this name, e.g. sprintwiki, you will set up a new wiki page based on this template if you open it via the sprint drop-down menu in the backlogs view. This way, you can easily create templates for sprint review meetings or retrospectives.
 5. Press the blue **apply** button to save your changes.
 
-![Sys-admin-backlogs](Sys-admin-backlogs-1579854523349.png)
+![System-admin-guide-backlogs](System-admin-guide-backlogs.png)
 
 ## Configure story cards to export
 
@@ -30,7 +30,7 @@ Navigate to -> *Administration* -> *Backlogs* -> *Export Card Configs* in order 
 
 Press the green **+ Export Card Config** button to create a new story card export configuration.
 
-![story card export configuration](image-20200124093824243.png)
+![export story cards configuration](image-20200211153632946.png)
 
 1. Give a **name** for your story card export configuration.
 2. You can add a **description**.

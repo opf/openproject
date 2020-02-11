@@ -29,4 +29,4 @@ You will have the following options in the project settings.
 13. **Archive a project**. This way the [archived project](../../projects/#archive-a-project) will not appear in the project selection anymore and cannot be accessed by team members. You can view archived projects in the view all projects list.
 14. **Delete a project**. By [deleting a project](../../projects/#delete-a-project) the whole project will all included information will be removed.
 
-![User-guide-project-settings](User-guide-project-settings.png)
+![User-guide_project-settings](User-guide_project-settings.png)

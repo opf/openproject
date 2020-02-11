@@ -27,7 +27,7 @@ To edit a workflow:
 
 4. Click the **Edit** button.
 
-![Sys-admin-edit-workflow](Sys-admin-edit-workflow-1579617694505.png)
+![System-admin-guide-work-package-workflows](System-admin-guide-work-package-workflows.png)
 
 You will be able to adapt the following:
 

@@ -21,7 +21,7 @@ To adapt repositories settings, go to System settings on the tab **Repositories*
 9. Define the **maximum number of files displayed in the repository browser**.
 10. **Enable caching for authentication request of version control software**. This option allows saving the authentication so that a user doesn’t have to authenticate every time a repository is accessed (for  example during commits).
 
-1. ![Sys-admin-system-settings-repositories](Sys-admin-system-settings-repositories.png)
+![System-admin-guide-repository](System-admin-guide-repository.png)
 
 
 

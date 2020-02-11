@@ -14,8 +14,8 @@ Your projects can be available publicly or internally. OpenProject does not limi
 
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Select a project](#select-a-project)                        | Open a project which you want to work at.                    |
-| [Create a new project](../../getting-started/#create-project) | Find out how to create a new project in OpenProject.         |
+| [Select a project](../../getting-started/projects/)          | Open a project which you want to work at.                    |
+| [Create a new project](../../getting-started/projects/#create-a-new-project) | Find out how to create a new project in OpenProject.         |
 | [Project structure](#project-structure)                      | Find out how to set up a project structure.                  |
 | [Project settings](#project-settings)                        | Configure further settings for your projects, such as description, project hierarchy structure, or setting it to public. |
 | [Change the project hierarchy](#change-the-project-hierarchy) | You can change the hierarchy by selecting the parent parent (subproject of). |
@@ -29,15 +29,19 @@ Your projects can be available publicly or internally. OpenProject does not limi
 
 ## Select a project
 
-Find out [how to open an existing project](../../getting-started/#open-an-existing-project) in OpenProject.
+Find out in our Getting started guide [how to open an existing project](../../getting-started/projects/) in OpenProject.
 
 ## Create a new project
 
-Find out how to [create a new project](../../getting-started/#create-project) in OpenProject.
+Find out in our Getting started guide how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject.
 
 ## Create subproject
 
-To create a subproject for an existing project, navigate to the View all projects page.
+To create a subproject for an existing project, navigate to the [project settings](#project-settings) -> *Information* and click on the green + Subproject button.
+
+Follow the instructions to [create a new project](../../getting-started/projects/#create-a-new-project).
+
+![Create-subproject](Create-subproject.png)
 
 ## Project structure
 

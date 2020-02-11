@@ -10,23 +10,33 @@ keywords: custom color, theme and logo
 
 As an OpenProject premium feature you can replace the default  OpenProject logo with your own logo. In addition, you can define your own color theme which allows you to implement your corporate identity in OpenProject.
 
-(1) Click on your user avatar in the upper right corner.
-
-(2) Select *Administration* from the dropdown menu.
-
-(3) Choose **Design** from the menu.
+Navigate to -> *Administration* -> *Design* in order to customize your OpenProject theme and logo.
 
 The design page provides several options to customize your OpenProject Enterprise Edition:
 
-(4) Upload your own **custom logo** to replace the default OpenProject logo.
+1. Choose a default color theme: OpenProject, Light or Dark. Press the Save button to apply your changes.
 
-(5) Set a custom **favicon** which is shown as an icon in your browser window/tab.
+2. Upload your own **custom logo** to replace the default OpenProject logo.
 
-(6) Upload a custom **touch icon** which is shown on your smartphone or tablet when you bookmark OpenProject on your home screen.
+3. Set a custom **favicon** which is shown as an icon in your browser window/tab.
+4. Upload a custom **touch icon** which is shown on your smartphone or tablet when you bookmark OpenProject on your home screen.
+5. [Advanced settings](#advanced-settings) to configure **custom colors** to adjust nearly any aspect of OpenProject, such  as the color of the header and side menu, the link color and the hover color.
 
-(7) Set **custom colors** to adjust nearly any aspect of OpenProject, such  as the color of the header and side menu, the link color and the hover color.
+![System-admin-guide_design](System-admin-guide_design.png)
 
-![Sys-admin-design](Sys-admin-design.png)
+## Choose a color theme
+
+You can choose between the three default color themes for OpenProject:
+
+* OpenProject 
+* OpenProject Light
+* OpenProject Dark
+
+Press the Save button to apply your changes. The theme will then be changed.
+
+![System-admin-guide_color-theme](System-admin-guide_color-theme.png)
+
+
 
 ## Upload a custom logo
 
@@ -54,33 +64,14 @@ Click the *Upload* button to confirm and upload your custom touch icon.
 
 When you bookmark your OpenProject environment’s URL, you will see that the uploaded icon is used as a custom touch icon.
 
-## Specify custom colors
+## Advanced settings
 
-Aside from uploading logos and icons, you can also customize the colors used within your OpenProject environment.
+Aside from uploading logos and icons, you can also customize the colors used within your OpenProject environment. 
 
 To do this change the color values (entered as color hex code) in the *Custom Colors* section. In order to find the right hex code for a color, you can use a website, such as [color-hex.com](http://www.color-hex.com/).
  You can see the selected color in the preview area next to the color hex code. Therefore, it is possible to see the selected color before saving the changes.
 
-![Sys-admin-design-custom-colors](Sys-admin-design-custom-colors.png)
-
-You can set the following custom colors:
-
-1. **Primary color**: The primary color changes the color of many parts of  the application, including the color of the header and the edit buttons. Along with the alternative color, the primary color defines the  majority of your OpenProject’s color theme.
-2. **Primary color dark**: This color is used for hover effects. When you  hover over links in the header navigation or select edit buttons (whose  color is set by the primary color), the primary color dark is applied.
-3. **Alternative color**: The most important buttons (e.g. the work package or wiki create button) use the color defined here.
-4. **Header background color**: By default, the header background color is  set through the primary color. However, you can set a separate header  background color which leaves the button colors defined by the primary  color unaffected.
-5. **Header item font color**: You can separately control the font color of the links shown in the header navigation. If you define e.g. a white  header background color you should choose a darker header item font  color in order to still see the links shown in the header navigation.
-6. **Header item font hover color**: With this setting you can change the  item font color shown when hovering with the mouse over entries in the  header navigation.
-7. **Header item background hover colo**r: This color setting controls the  background color for the entries in the header navigation when hovering  over them with your mouse.
-8. **Header border bottom color**: You can show a line right below the  header navigation. This makes sense e.g. if you are using a white header but want a clear separation to the rest of the application. Set the  color you want to use for the line below the header. Leave this setting  empty if you don’t want to display a line below the header.
-9. **Content link color**: Adjust this setting in order to change the link  color (e.g. for the selected menu in the side navigation of a project or the administration or the breadcrumb color).
-10. **Main menu background color**: This setting allows you to change the background color of the side menu displayed on the left side.
-11. **Main menu font color**: This defines the font color in the main navigation menu.
-12. **Main menu background selected background**: This color is set as background when a menu item is selected.
-13. **Main menu selected font color**: The color of the font of a selected menu item.
-14. **Main menu background hover background**: This is the color of the background when hovering in the menu items.
-15. **Main menu hover font color**: This is the font color when hovering in the menu items.
-16. **Main menu border color**: Is is the border color of the main menu.
+![Advanced settings colors](image-20200211140615090.png)
 
 As soon as you press the **Save** button your changes are applied and the colors of your OpenProject environment are adjusted accordingly.
 

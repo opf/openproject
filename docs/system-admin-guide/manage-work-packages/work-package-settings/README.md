@@ -10,7 +10,7 @@ keywords: work package settings
 
 To change basic settings for work package tracking in OpenProject, navigate to the -> *Administration* -> *Work packages* -> *Settings*.
 
-![work package settings](image-20200116131607856.png)
+![work package settings](image-20200211142320041.png)
 
 You can adapt the following under settings:
 

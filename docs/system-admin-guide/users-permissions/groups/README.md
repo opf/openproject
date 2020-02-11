@@ -22,7 +22,7 @@ After selecting the *Groups* from the administration menu, you will see the list
 
 Click the green **+ Group** button in order to create a new group in the system.
 
-![create group](image-20200115164118182.png)
+![create groups](image-20200211142053557.png)
 
 Give a name for your new group and click the blue **Create** button
 

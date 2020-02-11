@@ -38,7 +38,7 @@ You can configure general system settings in OpenProject. Under System settings 
 
     The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or  known vulnerabilities. For more information on what the check provides,  what data is needed to provide available updates, and how to disable this check, please visit [the configuration documentation](https://github.com/opf/openproject/blob/dev/docs/configuration/configuration.md#security-badge).        
 
-![Sys-admin-system-settings-general](Sys-admin-system-settings-general-1579709196800.png)
+![System-admin-guide-system-settings-general](System-admin-guide-system-settings-general.png)
 
 ## Welcome block text
 

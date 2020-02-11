@@ -18,7 +18,7 @@ Navigate to -> *Administration* -> *Work packages* -> *Attribute help texts*.
 
 In order to create new attribute help texts, press the green **+ Attribute help text** button.
 
-![create new attribute help text](image-20200122100830004.png)
+![attribute help texts](image-20200211143017619.png)
 
 1. **Choose an attribute** from the list for which you want to add a description from the drop-down list. Also custom fields will be shown here which might need further specific explanation.
 2. Enter the **detailed help text description** which will be shown in the work package forms for the users.

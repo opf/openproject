@@ -22,7 +22,7 @@ You will see the list of all the roles that have been created so far.
 
 After clicking the green *+ New Role* button a form will open and you will be able to specify the role.
 
-![Sys-admin-new-roles](Sys-admin-new-roles.png)
+![create roles](image-20200211142134472.png)
 
 You will then be able to specify the following:
 

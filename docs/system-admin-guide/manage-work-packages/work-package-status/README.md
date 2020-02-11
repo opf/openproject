@@ -19,7 +19,7 @@ The status can be set at the top of the work package details view or in the list
 
 To create a new work package status click the green ***+ New Status*** icon. 
 
-![Sys-admin-work-packages-new-status](Sys-admin-work-packages-new-status.png)
+![work package status](image-20200211142716298.png)
 
 A new window will open, where you will be able to specify the following:
 

@@ -11,7 +11,7 @@ keywords: work package types
 **Activate or deactivate work package types for a project**. 
 Select the respective project via the project drop-down menu at the top left in the header navigation and choose -> *Project settings* -> *Work package types* in the project menu.
 
-![enable work package types](image-20200127140623978.png)
+![project settings work package types](image-20200211133405469.png)
 
 Check the different types which you want to enable for your project. In the table you will also see if the work package types is displayed in the roadmap by default and if it is a milestone.
 
