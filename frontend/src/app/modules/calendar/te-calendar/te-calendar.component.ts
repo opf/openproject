@@ -5,7 +5,6 @@ import * as moment from "moment";
 import { Moment } from 'moment';
 import {StateService} from "@uirouter/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import timeGrid from '@fullcalendar/timegrid';
 import { EventInput, EventApi, Duration, View } from '@fullcalendar/core';
@@ -24,6 +23,7 @@ import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.serv
 import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
+import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -102,7 +102,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
               private element:ElementRef,
               readonly i18n:I18nService,
               readonly injector:Injector,
-              readonly notificationsService:NotificationsService,
+              readonly notifications:HalResourceNotificationService,
               private sanitizer:DomSanitizer,
               private configuration:ConfigurationService,
               private timezone:TimezoneService,
@@ -360,7 +360,8 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
       .then(event => {
         this.updateEventSet(event, 'update');
       })
-      .catch(() => {
+      .catch((e) => {
+        this.notifications.handleRawError(e);
         event.revert();
       });
   }
