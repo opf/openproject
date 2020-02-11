@@ -30,10 +30,10 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= toolbar title: t(:label_forum_plural) do %>
   <% if User.current.allowed_to?(:manage_forums, @project) %>
     <li class="toolbar-item">
-      <%= link_to({ controller: '/forums', action: 'new', project_id: @project },
-                                { aria: { label: t(:label_forum_new) },
-                                  title: t(:label_forum_new),
-                                  class: 'button -highlight' }) do %>
+      <%= link_to(new_project_forum_path(@project),
+                  { aria: { label: t(:label_forum_new) },
+                    title: t(:label_forum_new),
+                    class: 'button -alt-highlight' }) do %>
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t('activerecord.models.forum') %></span>
       <% end %>

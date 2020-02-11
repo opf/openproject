@@ -167,7 +167,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     # The add time entry event is invisible
     within entries_area.area do
-      find(".fc-content-skeleton td:nth-of-type(5) .fc-event-container .te-calendar--add-entry", visible: false).click
+      find(".fc-content-skeleton td:nth-of-type(5) .te-calendar--add-entry", visible: false).click
     end
 
     expect(page)
