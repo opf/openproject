@@ -196,6 +196,24 @@ else
   echo "  migration SUCCESSFUL!"
 fi
 
+echo
+echo "2.3) Renaming PostgreSQL schema from $DATABASE to public"
+
+MOVE_SCHEMA_FN='' read -r -d '' String <<"EOF"
+CREATE OR REPLACE FUNCTION move_schema_to_public(old_schema varchar) RETURNS void LANGUAGE plpgsql VOLATILE AS
+$$
+DECLARE
+    row record;
+BEGIN
+    FOR row IN SELECT tablename FROM pg_tables WHERE schemaname = quote_ident(old_schema)
+    LOOP
+        EXECUTE 'ALTER TABLE ' || quote_ident(old_schema) || '.' || quote_ident(row.tablename) || ' SET SCHEMA public;';
+    END LOOP;
+END;
+$$;
+EOF
+
+
 docker exec -e PGPASSWORD=postgres -it migrate8to10 psql \
   -h $DOCKER_HOST_IP \
   -p $POSTGRES_PORT \
@@ -204,7 +222,7 @@ docker exec -e PGPASSWORD=postgres -it migrate8to10 psql \
   -c "${MOVE_SCHEMA_FN}; SELECT * FROM move_schema_to_public('$DATABASE');"
 
 echo
-echo "2.3) Dumping migrated database to $DATABASE-migrated.sql"
+echo "2.4) Dumping migrated database to $DATABASE-migrated.sql"
 
 # using the running docker image to dump the database to ensure we use the same
 # postgres client version and also so that a postgres client is not necessary to run this script
