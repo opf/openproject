@@ -197,11 +197,11 @@ else
 fi
 
 echo
-echo "2.3) Renaming PostgreSQL schema from $DATABASE to public"
+echo "2.3) Moving dangling tables from $DATABASE to public"
 
-MOVE_SCHEMA_FN='' read -r -d '' String <<"EOF"
+read -r -d '' MOVE_SCHEMA_FN <<EOF
 CREATE OR REPLACE FUNCTION move_schema_to_public(old_schema varchar) RETURNS void LANGUAGE plpgsql VOLATILE AS
-$$
+\$\$
 DECLARE
     row record;
 BEGIN
@@ -210,16 +210,22 @@ BEGIN
         EXECUTE 'ALTER TABLE ' || quote_ident(old_schema) || '.' || quote_ident(row.tablename) || ' SET SCHEMA public;';
     END LOOP;
 END;
-$$;
+\$\$;
 EOF
-
 
 docker exec -e PGPASSWORD=postgres -it migrate8to10 psql \
   -h $DOCKER_HOST_IP \
   -p $POSTGRES_PORT \
   -U postgres \
   -d $DATABASE \
-  -c "${MOVE_SCHEMA_FN}; SELECT * FROM move_schema_to_public('$DATABASE');"
+  -c "$(echo $MOVE_SCHEMA_FN); SELECT * FROM move_schema_to_public('$DATABASE');"
+
+if [[ $? -gt 0 ]]; then
+  echo "  Could not move tables from $DATABASE to public. You may have to do this yourself."
+  exit 1
+else
+  echo "  Moved tables from $DATABASE to public"
+fi
 
 echo
 echo "2.4) Dumping migrated database to $DATABASE-migrated.sql"
