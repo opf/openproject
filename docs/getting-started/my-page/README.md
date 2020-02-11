@@ -16,6 +16,7 @@ The My Page is your **personal dashboard** with important overarching project in
 | [My Page introduction](#my-page-introduction)                | What is My Page and what can I do with it?         |
 | [Configure the My Page](#configure-the-my-page)              | How to configure My Page?                          |
 | [Add widgets](#add-widgets)                                  | How to add widgets to My Page?                     |
+| [My spent time widget](#my-spent-time-widget)                | How to track spent time?                           |
 | [Change position of the widgets](#change-position-of-the-widgets) | How to change the position of a widget on My Page? |
 | [Change the size of a widget](#change-the-size-of-a-widget)  | How to change the size of a widget?                |
 | [Remove a widget](#remove-widget)                            | How to delete a widget on My Page?                 |
@@ -48,7 +49,17 @@ Press a plus icon to add a widget to My Page at the according place.
 
 Once you have chosen the place where to add the new widget on My Page, you can choose from a number of different widgets that can be included on your dashboard.
 
-![my page new widgets](1572883929593.png)
+![my page new widgets](image-20200211154602328.png)
+
+For a **detailed explanation of the widgets**, visit the section in the [project overview](../../user-guide/project-overview/#available-project-overview-widgets).
+
+## My spent time widget
+
+To track spent time, [add the **My spent time** widget](#add-widget) in the My Page.
+
+Watch the short video to see how to activate the spent time widget, add spent time, edit spent time (e.g. change the date or work packages or change the time booked) and delete spent time.
+
+![Spent-time-widget](Spent-time-widget.gif)
 
 ### Change position of the widgets
 

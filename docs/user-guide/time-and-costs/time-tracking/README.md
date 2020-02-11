@@ -80,3 +80,10 @@ In the list of time entries, click on the **Delete** icon next to a time entry t
 
 In order to track labor costs, you need to [define an hourly rate](../cost-tracking/#hourly-rate) in your user profile first.
 
+## Spent time widget on the My Page
+
+You can easily track spent time in the spent time widget on the MyPage and get an overview about all your activities during a week.
+
+The the information on the [MyPage](../../../getting-started/my-page) for further information.
+
+![spent time widget](image-20200211160311662.png)
