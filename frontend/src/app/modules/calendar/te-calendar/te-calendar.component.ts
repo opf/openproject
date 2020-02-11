@@ -352,7 +352,9 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   private moveEvent(event:CalendarMoveEvent) {
     let entry = event.event.extendedProps.entry;
 
-    entry.spentOn = moment(event.event.start!).format('YYYY-MM-DD');
+    // Use end instead of start as when dragging, the event might be too long and would thus be start
+    // on the day before by fullcalendar.
+    entry.spentOn = moment(event.event.end!).format('YYYY-MM-DD');
 
     this
       .timeEntryDm
