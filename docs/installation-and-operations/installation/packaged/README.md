@@ -26,14 +26,14 @@ The package will:
 
 The package is available for the following Linux distributions:
 
-| Distribution (**64 bits only**) |
-| ------------------------------- |
-| CentOS/RHEL 7.x                 |
-| Debian 9 Stretch                |
-| Debian 10 Stretch               |
-| Suse Linux Enterprise Server 12 |
-| Ubuntu 16.04 Xenial Xerus       |
-| Ubuntu 18.04 Bionic Beaver      |
+| Distribution (**64 bits only**)             |
+| ------------------------------------------- |
+| [CentOS/RHEL 7.x](#centos/rhel-7-x)         |
+| [Debian 9 Stretch](#debian-9)               |
+| [Debian 10 Buster](#debian-10)              |
+| [Suse Linux Enterprise Server 12](#sles-12) |
+| [Ubuntu 16.04 Xenial Xerus](#ubuntu-16-04)  |
+| [Ubuntu 18.04 Bionic Beaver](#ubuntu-18-04) |
 
 Please ensure that you are running on a 64bit system before proceeding with the installation. You can check by running the `uname -i` command on the target server and verifying that it outputs `x86_64`:
 
@@ -43,7 +43,6 @@ x86_64
 ```
 
 <div class="alert alert-info" role="alert">
-
 **Important note:** Please note that the packaged installation works best when running on a dedicated server or virtual machine, as we cannot ensure that the components installed and configured by the OpenProject installer will work on systems that have been already customized. If you must install OpenProject on a server where other software is running, or with an already configured Apache or NginX server, then you should have a look at the Docker-based installation instead.
 
 </div>
@@ -247,7 +246,7 @@ The available options are:
 ### **Install Apache2 web server** (default)
 
 We recommend that you let OpenProject install and configure the outer web server, in which case we will install an Apache2 web server with a VirtualHost listening to the domain name you specify, optionally providing SSL/TLS termination.
-  
+
 In case you select to auto-install Apache2, multiple dialogs will request the parameters for setting it up:
 
 **Domain name**

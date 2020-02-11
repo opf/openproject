@@ -25,7 +25,7 @@ The [package-based installation](../installation/packaged) requires one of the f
 | ------------------------------- |
 | CentOS/RHEL 7.x                 |
 | Debian 9 Stretch                |
-| Debian 10 Stretch               |
+| Debian 10 Buster                |
 | Suse Linux Enterprise Server 12 |
 | Ubuntu 16.04 Xenial Xerus       |
 | Ubuntu 18.04 Bionic Beaver      |
