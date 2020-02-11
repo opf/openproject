@@ -1938,7 +1938,7 @@ el:
     active_or_archived: "Ενεργό ή αρχειοθετημένο"
     assigned_to_role: "Ρόλος ανάθεσης"
     member_of_group: "Ομάδα ανάθεσης"
-    assignee_or_group: "Ανάθεση ή ομάδα"
+    assignee_or_group: "Ανάθεση σε ή ανήκει σε ομάδα"
     subproject_id: "Υποέργο"
     name_or_identifier: "Όνομα ή αναγνωριστικό"
   repositories:
@@ -2579,13 +2579,13 @@ el:
         server_error: 'Ο διακομιστής ταυτοποίησης συνάντησε μια απροσδόκητη κατάσταση η οποία τον απέτρεψε από την ολοκλήρωση του αιτήματος.'
         temporarily_unavailable: 'Ο διακομιστής ταυτοποίησης δεν μπορεί να διαχειριστεί το αίτημα αυτή τη στιγμή λόγω προσωρινής υπερφόρτωσης ή συντήρησης του διακομιστή.'
         #Configuration error messages
-        credential_flow_not_configured: 'Ο κάτοχος του πόρου πιστοποιητικών κωδικών πρόσβασης απέτυχε λόγω της μη ρύθμισης του Doorkeeper.configure.resource_owner_from_credentials.'
-        resource_owner_authenticator_not_configured: 'Ο κάτοχος του πόρου απέτυχε εξαιτίας της μη ρύθμισης του Doorkeeper.configure.resource_owner_authenticator.'
+        credential_flow_not_configured: 'Η ροή κατόχου του πόρου πιστοποιητικών κωδικών πρόσβασης απέτυχε λόγω της μη ρύθμισης του Doorkeeper.configure.resource_owner_from_credentials.'
+        resource_owner_authenticator_not_configured: 'Η αναζήτηση του κατόχου του πόρου απέτυχε εξαιτίας της μη ρύθμισης του Doorkeeper.configure.resource_owner_authenticator.'
         admin_authenticator_not_configured: 'Η πρόσβαση στον πίνακα διαχείρισης απαγορεύεται επειδή το Doorkeeper.configure.admin_authenticator δεν είναι διαμορφωμένο.'
         #Access grant errors
         unsupported_response_type: 'Ο διακομιστής ταυτοποίησης δεν υποστηρίζει αυτό τον τύπο απόκρισης.'
         #Access token errors
-        invalid_client: 'Ο έλεγχος ταυτότητας με τον πελάτη απέτυχε λόγω άγνωστου πελάτη, χωρίς έλεγχο ταυτότητας πελάτη ή με μη υποστηριζόμενη μέθοδο ελέγχου ταυτότητας.'
+        invalid_client: 'Η ταυτοποίηση πελάτη απέτυχε λόγω άγνωστου πελάτη, έλλειψης ταυτοποίησης πελάτη ή μη υποστηριζόμενης μεθόδου ταυτοποίησης.'
         invalid_grant: 'Η χορηγούμενη επιχορήγηση εξουσιοδότησης είναι άκυρη, έχει λήξει, ανακληθεί, δεν αντιστοιχεί στο URI ανακατεύθυνσης που χρησιμοποιήθηκε στην αίτηση εξουσιοδότησης ή έχει εκδοθεί σε άλλο πελάτη.'
         unsupported_grant_type: 'Ο τύπος χορήγησης ταυτοποίησης δεν υποστηρίζεται από τον εξυπηρετητή ταυτοποίησης.'
         invalid_token:

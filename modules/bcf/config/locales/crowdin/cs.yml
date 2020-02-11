@@ -18,7 +18,7 @@ cs:
       other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML File'
-      import_title: 'Import'
+      import_title: 'Importovat'
       export: 'Export'
       import_update_comment: '(Updated in BCF import)'
       import_failed: 'Cannot import BCF file: %{error}'
