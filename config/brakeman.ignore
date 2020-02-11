@@ -224,7 +224,7 @@
       "render_path": null,
       "location": {
         "type": "method",
-        "class": "OpenProject::Scm::Adapters::Subversion",
+        "class": "OpenProject::SCM::Adapters::Subversion",
         "method": "annotate"
       },
       "user_input": "target(path)",

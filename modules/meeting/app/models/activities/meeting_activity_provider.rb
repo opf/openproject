@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Activity::MeetingActivityProvider < Activity::BaseActivityProvider
+class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
   acts_as_activity_provider type: 'meetings',
                             activities: [:meeting, :meeting_content],
                             permission: :view_meetings

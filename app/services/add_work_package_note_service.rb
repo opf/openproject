@@ -32,7 +32,7 @@
 # Does not change the work package itself.
 
 class AddWorkPackageNoteService
-  include Concerns::Contracted
+  include Contracted
   attr_accessor :user, :work_package
 
   def initialize(user:, work_package:)

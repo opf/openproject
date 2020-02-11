@@ -28,7 +28,7 @@
 #++
 
 module OpenProject
-  module Scm
+  module SCM
     module ManageableRepository
       def self.included(base)
         base.extend(ClassMethods)
@@ -39,7 +39,7 @@ module OpenProject
           repository = payload[:project].repository
 
           if repository&.managed?
-            ::Scm::RelocateRepositoryJob.perform_later(repository)
+            ::SCM::RelocateRepositoryJob.perform_later(repository)
           end
         end
       end

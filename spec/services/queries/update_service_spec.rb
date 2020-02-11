@@ -30,14 +30,14 @@
 
 require 'spec_helper'
 
-describe UpdateQueryService do
+describe Queries::UpdateService do
   let(:query) { FactoryBot.create(:query, user: user) }
   let(:menu_item) do
     FactoryBot.create(:query_menu_item,
-                       query: query)
+                      query: query)
   end
   let(:user) { FactoryBot.create(:admin) }
-  let(:instance) { UpdateQueryService.new(user: user) }
+  let(:instance) { described_class.new(user: user) }
 
   describe "a query's menu item" do
     before do

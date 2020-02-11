@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,24 +26,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class QueryService
-  include Concerns::Contracted
+class Activities::CostObjectActivityProvider < Activities::BaseActivityProvider
+  acts_as_activity_provider type: 'cost_objects',
+                            permission: :view_cost_objects
 
-  attr_reader :user
-
-  def initialize(user:)
-    @user = user
+  def event_query_projection(activity)
+    [
+      activity_journal_projection_statement(:subject, 'cost_object_subject', activity),
+      activity_journal_projection_statement(:project_id, 'project_id', activity)
+    ]
   end
 
-  def call(query)
-    result, errors = validate_and_save(query, user)
+  def event_type(_event, _activity)
+    'cost_object'
+  end
 
-    service_result result, errors, query
+  def event_title(event, _activity)
+    "#{I18n.t(:label_cost_object)} ##{event['journable_id']}: #{event['cost_object_subject']}"
+  end
+
+  def event_path(event, _activity)
+    url_helpers.cost_object_path(url_helper_parameter(event))
+  end
+
+  def event_url(event, _activity)
+    url_helpers.cost_object_url(url_helper_parameter(event))
   end
 
   private
 
-  def service_result(result, errors, query)
-    ServiceResult.new success: result, errors: errors, result: query
+  def url_helper_parameter(event)
+    event['journable_id']
   end
 end

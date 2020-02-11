@@ -30,7 +30,7 @@ require 'uri'
 
 ##
 # Intended to be used by the AccountController to handle omniauth logins
-module Concerns::OmniauthLogin
+module Accounts::OmniauthLogin
   extend ActiveSupport::Concern
 
   included do

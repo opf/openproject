@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Activity::MessageActivityProvider < Activity::BaseActivityProvider
+class Activities::MessageActivityProvider < Activities::BaseActivityProvider
   acts_as_activity_provider type: 'messages',
                             permission: :view_messages
 

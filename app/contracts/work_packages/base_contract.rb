@@ -28,12 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
-
 module WorkPackages
   class BaseContract < ::ModelContract
     include ::Attachments::ValidateReplacements
-    include ::Concerns::AssignableValuesContract
+    include AssignableValuesContract
 
     attribute :subject
     attribute :description

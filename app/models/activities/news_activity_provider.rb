@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,20 +27,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'query_service'
+class Activities::NewsActivityProvider < Activities::BaseActivityProvider
+  acts_as_activity_provider type: 'news',
+                            permission: :view_news
 
-class CreateQueryService < QueryService
+  def extend_event_query(_query, _activity)
+  end
 
-  def initialize(**args)
-    super(**args)
-    self.contract_class = Queries::CreateContract
+  def event_query_projection(activity)
+    [
+      activity_journal_projection_statement(:title, 'title', activity),
+      activity_journal_projection_statement(:project_id, 'project_id', activity)
+    ]
+  end
+
+  protected
+
+  def event_title(event, _activity)
+    event['title']
+  end
+
+  def event_type(_event, _activity)
+    'news'
+  end
+
+  def event_path(event, _activity)
+    url_helpers.news_path(url_helper_parameter(event))
+  end
+
+  def event_url(event, _activity)
+    url_helpers.news_url(url_helper_parameter(event))
   end
 
   private
 
-  def service_result(result, errors, query)
-    query.update user: user
-
-    super
+  def url_helper_parameter(event)
+    event['journable_id']
   end
 end

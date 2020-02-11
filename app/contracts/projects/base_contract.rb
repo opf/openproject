@@ -30,8 +30,8 @@
 
 module Projects
   class BaseContract < ::ModelContract
-    include Concerns::AssignableValuesContract
-    include Concerns::AssignableCustomFieldValues
+    include AssignableValuesContract
+    include AssignableCustomFieldValues
 
     attribute :name
     attribute :identifier

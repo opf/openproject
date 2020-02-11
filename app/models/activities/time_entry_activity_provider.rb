@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
+class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
   acts_as_activity_provider type: 'time_entries',
                             permission: :view_time_entries
 
@@ -63,11 +63,11 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
   end
 
   def work_package_title(event)
-    Activity::WorkPackageActivityProvider.work_package_title(event['work_package_id'],
-                                                             event['work_package_subject'],
-                                                             event['type_name'],
-                                                             event['status_name'],
-                                                             event['is_standard'])
+    Activities::WorkPackageActivityProvider.work_package_title(event['work_package_id'],
+                                                               event['work_package_subject'],
+                                                               event['type_name'],
+                                                               event['status_name'],
+                                                               event['is_standard'])
   end
 
   def event_description(event, _activity)

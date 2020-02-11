@@ -28,10 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'query_service'
-
-class UpdateQueryService < QueryService
-
+class Queries::UpdateService < Queries::BaseService
   def initialize(**args)
     super(**args)
 

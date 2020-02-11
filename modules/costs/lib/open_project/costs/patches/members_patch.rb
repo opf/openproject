@@ -27,7 +27,7 @@
 #++
 
 module OpenProject::Costs
-  module Members
+  module Patches::MembersPatch
     def self.mixin!
       ::Members::TableCell.add_column :current_rate
       ::Members::TableCell.options :current_user # adds current_user option

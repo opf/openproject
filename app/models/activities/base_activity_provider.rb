@@ -41,7 +41,7 @@
 #                                                                             #
 # See the comments on the methods to get additional information.              #
 ###############################################################################
-class Activity::BaseActivityProvider
+class Activities::BaseActivityProvider
   include Redmine::Acts::ActivityProvider
   include I18n
   include Redmine::I18n
@@ -91,7 +91,6 @@ class Activity::BaseActivityProvider
 
   def activitied_type(_activity = nil)
     activity_type = self.class.name
-    namespace = activity_type.deconstantize
 
     class_name = activity_type.demodulize
     class_name.gsub('ActivityProvider', '').constantize

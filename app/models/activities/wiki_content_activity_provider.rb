@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
+class Activities::WikiContentActivityProvider < Activities::BaseActivityProvider
   acts_as_activity_provider type: 'wiki_edits',
                             permission: :view_wiki_edits
 

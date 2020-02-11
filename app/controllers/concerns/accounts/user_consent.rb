@@ -29,7 +29,7 @@
 ##
 # Intended to be used by the AccountController to implement the user consent
 # check.
-module Concerns::UserConsent
+module Accounts::UserConsent
   include ::UserConsentHelper
 
   def consent

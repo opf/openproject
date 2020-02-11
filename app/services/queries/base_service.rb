@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,36 +27,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Activity::DocumentActivityProvider < Activity::BaseActivityProvider
-  acts_as_activity_provider type: 'documents',
-                            permission: :view_documents
+class Queries::BaseService
+  include Contracted
 
-  def event_query_projection(activity)
-    [
-      activity_journal_projection_statement(:title, 'document_title', activity),
-      activity_journal_projection_statement(:project_id, 'project_id', activity)
-    ]
+  attr_reader :user
+
+  def initialize(user:)
+    @user = user
   end
 
-  def event_title(event, _activity)
-    "#{Document.model_name.human}: #{event['document_title']}"
-  end
+  def call(query)
+    result, errors = validate_and_save(query, user)
 
-  def event_type(_event, _activity)
-    'document'
-  end
-
-  def event_path(event, _activity)
-    url_helpers.document_url(url_helper_parameter(event))
-  end
-
-  def event_url(event, _activity)
-    url_helpers.document_url(url_helper_parameter(event))
+    service_result result, errors, query
   end
 
   private
 
-  def url_helper_parameter(event)
-    event['journable_id']
+  def service_result(result, errors, query)
+    ServiceResult.new success: result, errors: errors, result: query
   end
 end

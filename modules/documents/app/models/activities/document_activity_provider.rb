@@ -26,31 +26,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Activity::CostObjectActivityProvider < Activity::BaseActivityProvider
-  acts_as_activity_provider type: 'cost_objects',
-                            permission: :view_cost_objects
+class Activities::DocumentActivityProvider < Activities::BaseActivityProvider
+  acts_as_activity_provider type: 'documents',
+                            permission: :view_documents
 
   def event_query_projection(activity)
     [
-      activity_journal_projection_statement(:subject, 'cost_object_subject', activity),
+      activity_journal_projection_statement(:title, 'document_title', activity),
       activity_journal_projection_statement(:project_id, 'project_id', activity)
     ]
   end
 
-  def event_type(_event, _activity)
-    'cost_object'
+  def event_title(event, _activity)
+    "#{Document.model_name.human}: #{event['document_title']}"
   end
 
-  def event_title(event, _activity)
-    "#{I18n.t(:label_cost_object)} ##{event['journable_id']}: #{event['cost_object_subject']}"
+  def event_type(_event, _activity)
+    'document'
   end
 
   def event_path(event, _activity)
-    url_helpers.cost_object_path(url_helper_parameter(event))
+    url_helpers.document_url(url_helper_parameter(event))
   end
 
   def event_url(event, _activity)
-    url_helpers.cost_object_url(url_helper_parameter(event))
+    url_helpers.document_url(url_helper_parameter(event))
   end
 
   private

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Scm::CheckoutInstructionsService do
+describe SCM::CheckoutInstructionsService do
   let(:user) { FactoryBot.build(:user) }
   let(:project) { FactoryBot.build(:project) }
 
@@ -52,7 +52,7 @@ describe Scm::CheckoutInstructionsService do
     }
   }
 
-  subject(:service) { Scm::CheckoutInstructionsService.new(repository, user: user, path: path) }
+  subject(:service) { SCM::CheckoutInstructionsService.new(repository, user: user, path: path) }
 
   before do
     allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)

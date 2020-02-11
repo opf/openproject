@@ -12,7 +12,7 @@ module ::TwoFactorAuthentication
       include ::TwoFactorAuthentication::Concerns::RememberToken
 
       # Password confirmation helpers and actions
-      include ::Concerns::PasswordConfirmation
+      include PasswordConfirmation
       before_action :check_password_confirmation,
                     only: [:make_default, :destroy]
 

@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
+class Activities::ChangesetActivityProvider < Activities::BaseActivityProvider
   acts_as_activity_provider type: 'changesets',
                             permission: :view_changesets
 

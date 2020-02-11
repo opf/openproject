@@ -29,11 +29,11 @@
 
 require 'spec_helper'
 
-describe OpenProject::Scm::Adapters::Subversion do
+describe OpenProject::SCM::Adapters::Subversion do
   let(:root_url) { '/tmp/bar.svn' }
   let(:url) { "file://#{root_url}" }
   let(:config) { {} }
-  let(:adapter) { OpenProject::Scm::Adapters::Subversion.new url, root_url }
+  let(:adapter) { OpenProject::SCM::Adapters::Subversion.new url, root_url }
 
   before do
     allow(adapter.class).to receive(:config).and_return(config)
@@ -75,7 +75,7 @@ describe OpenProject::Scm::Adapters::Subversion do
         expect(Dir.exists?(url)).to be false
         expect(adapter).not_to be_available
         expect { adapter.check_availability! }
-          .to raise_error(OpenProject::Scm::Exceptions::ScmUnavailable)
+          .to raise_error(OpenProject::SCM::Exceptions::SCMUnavailable)
       end
 
       it 'should raise a meaningful error if shell output fails' do
@@ -90,13 +90,13 @@ describe OpenProject::Scm::Adapters::Subversion do
           .and_yield(StringIO.new(''), StringIO.new(error_string))
 
         expect { adapter.check_availability! }
-          .to raise_error(OpenProject::Scm::Exceptions::ScmUnauthorized)
+          .to raise_error(OpenProject::SCM::Exceptions::SCMUnauthorized)
       end
     end
   end
 
   describe 'repository with authorization' do
-    let(:adapter) { OpenProject::Scm::Adapters::Subversion.new url, root_url, login, password }
+    let(:adapter) { OpenProject::SCM::Adapters::Subversion.new url, root_url, login, password }
     let(:login) { 'whatever@example.org' }
     let(:svn_cmd) { adapter.send :build_svn_cmd, ['info'] }
 
@@ -146,7 +146,7 @@ describe OpenProject::Scm::Adapters::Subversion do
 
         it 'should fail' do
           expect { adapter.create_empty_svn }
-            .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
+            .to raise_error(OpenProject::SCM::Exceptions::CommandFailed)
 
           expect(Dir.exists?(root_url)).to be false
         end
@@ -157,7 +157,7 @@ describe OpenProject::Scm::Adapters::Subversion do
       it 'should be marked empty' do
         adapter.create_empty_svn
         expect { adapter.check_availability! }
-          .to raise_error(OpenProject::Scm::Exceptions::ScmEmpty)
+          .to raise_error(OpenProject::SCM::Exceptions::SCMEmpty)
       end
     end
   end
@@ -311,7 +311,7 @@ describe OpenProject::Scm::Adapters::Subversion do
         it 'returns revision for a specific path and revision' do
           # Folder was added in rev 2
           expect { adapter.revisions('subversion_test/folder', 1) }
-            .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
+            .to raise_error(OpenProject::SCM::Exceptions::CommandFailed)
 
           revisions = adapter.revisions('subversion_test/folder', 2, nil,
                                         with_paths: true)
@@ -363,7 +363,7 @@ describe OpenProject::Scm::Adapters::Subversion do
 
         it 'raises an exception for an invalid file' do
           expect { adapter.cat('subversion_test/[folder_with_brackets]/README.txt', 10) }
-            .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
+            .to raise_error(OpenProject::SCM::Exceptions::CommandFailed)
         end
       end
 

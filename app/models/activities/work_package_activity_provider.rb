@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
+class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
   acts_as_activity_provider type: 'work_packages',
                             permission: :view_work_packages
 

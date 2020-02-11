@@ -28,15 +28,15 @@
 #++
 
 Redmine::Activity.map do |activity|
-  activity.register :work_packages, class_name: 'Activity::WorkPackageActivityProvider'
-  activity.register :changesets, class_name: 'Activity::ChangesetActivityProvider'
-  activity.register :news, class_name: 'Activity::NewsActivityProvider',
+  activity.register :work_packages, class_name: '::Activities::WorkPackageActivityProvider'
+  activity.register :changesets, class_name: 'Activities::ChangesetActivityProvider'
+  activity.register :news, class_name: 'Activities::NewsActivityProvider',
                            default: false
-  activity.register :wiki_edits, class_name: 'Activity::WikiContentActivityProvider',
+  activity.register :wiki_edits, class_name: 'Activities::WikiContentActivityProvider',
                                  default: false
-  activity.register :messages, class_name: 'Activity::MessageActivityProvider',
+  activity.register :messages, class_name: 'Activities::MessageActivityProvider',
                                default: false
-  activity.register :time_entries, class_name: 'Activity::TimeEntryActivityProvider',
+  activity.register :time_entries, class_name: 'Activities::TimeEntryActivityProvider',
                                    default: false
 end
 

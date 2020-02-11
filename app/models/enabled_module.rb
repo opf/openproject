@@ -61,7 +61,7 @@ class EnabledModule < ActiveRecord::Base
       scm_type: Repository.managed_type
     }
 
-    service = Scm::RepositoryFactoryService.new(project,
+    service = SCM::RepositoryFactoryService.new(project,
                                                 ActionController::Parameters.new(params))
     service.build_and_save
   end

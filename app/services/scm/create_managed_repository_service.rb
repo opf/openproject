@@ -29,7 +29,7 @@
 
 ##
 # Implements the creation of a local repository.
-class Scm::CreateManagedRepositoryService < Scm::BaseRepositoryService
+class SCM::CreateManagedRepositoryService < SCM::BaseRepositoryService
   ##
   # Checks if a given repository may be created and managed locally.
   # Registers an job to create the repository on disk.
@@ -46,10 +46,10 @@ class Scm::CreateManagedRepositoryService < Scm::BaseRepositoryService
       # creating and deleting repositories, which provides transactional DB access
       # as well as filesystem access.
       if repository.class.manages_remote?
-        Scm::CreateRemoteRepositoryJob.perform_now(repository)
+        SCM::CreateRemoteRepositoryJob.perform_now(repository)
       else
-        Scm::CreateLocalRepositoryJob.ensure_not_existing!(repository)
-        Scm::CreateLocalRepositoryJob.perform_later(repository)
+        SCM::CreateLocalRepositoryJob.ensure_not_existing!(repository)
+        SCM::CreateLocalRepositoryJob.perform_later(repository)
       end
       return true
     end
@@ -63,7 +63,7 @@ class Scm::CreateManagedRepositoryService < Scm::BaseRepositoryService
     @rejected = I18n.t('repositories.errors.filesystem_access_failed',
                        message: e.message)
     false
-  rescue OpenProject::Scm::Exceptions::ScmError => e
+  rescue OpenProject::SCM::Exceptions::SCMError => e
     @rejected = e.message
     false
   end

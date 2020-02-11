@@ -28,7 +28,7 @@
 
 ##
 # Intended to be used by the MyController and AccountController for password change flows
-module Concerns::UserPasswordChange
+module Accounts::UserPasswordChange
   ##
   # Process a password change form, used when the user is forced
   # to change the password.

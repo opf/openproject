@@ -28,7 +28,7 @@
 
 ##
 # Intended to be used by the UsersController to enforce the user limit.
-module Concerns::UserLimits
+module Accounts::UserLimits
   def enforce_user_limit(
     redirect_to: users_path,
     hard: OpenProject::Enterprise.fail_fast?,
