@@ -69,7 +69,9 @@ export class TimeEntryFormComponent implements OnInit, OnDestroy {
   }
 
   public get inEditMode() {
-    return this.entry.isNew;
+    // For now, we always want the form in edit mode.
+    // Alternatively, this.entry.isNew can be used.
+    return true;
   }
 
   public isRequired(field:string) {
