@@ -112,7 +112,7 @@ class VariableCostObject < CostObject
 
       if User.current.allowed_to? :edit_cost_objects, material_budget_item.cost_object.project
         if attributes && attributes[:units].to_i > 0
-          attributes[:budget] = Rate.clean_currency(attributes[:budget])
+          attributes[:budget] = Rate.parse_number_string(attributes[:budget])
           material_budget_item.attributes = attributes
         else
           material_budget_items.delete(material_budget_item)
@@ -144,7 +144,7 @@ class VariableCostObject < CostObject
       attributes = labor_budget_item_attributes[labor_budget_item.id.to_s]
       if User.current.allowed_to? :edit_cost_objects, labor_budget_item.cost_object.project
         if attributes && attributes[:hours].to_i > 0 && attributes[:user_id].to_i > 0 && project.possible_assignees.map(&:id).include?(attributes[:user_id].to_i)
-          attributes[:budget] = Rate.clean_currency(attributes[:budget])
+          attributes[:budget] = Rate.parse_number_string(attributes[:budget])
           labor_budget_item.attributes = attributes
         else
           labor_budget_items.delete(labor_budget_item)

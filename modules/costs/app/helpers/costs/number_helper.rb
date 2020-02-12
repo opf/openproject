@@ -26,15 +26,40 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Costs::Patches::NumberToCurrencyConverterPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
+module Costs::NumberHelper
+  # Turns a string representing a number in the current locale
+  # to a string representing a number in en (without delimiters).
+  def parse_number_string(value)
+    return value unless value&.is_a?(String) && value.present?
+
+    value = value.strip
+
+    # All locales seem to have their delimiters set to "".
+    # We thus remove all typical delimiters that are not the separator.
+    separator = I18n.t(:'number.format.separator')
+
+    if separator
+      delimiters = Regexp.new('[ .,’˙]'.gsub(separator, ''))
+
+      value.gsub!(delimiters, '')
+
+      value.gsub!(separator, '.')
+    end
+
+    value
   end
 
-  module InstanceMethods
-    def i18n_opts
-      super.merge(unit: ERB::Util.h(Setting.plugin_openproject_costs['costs_currency']),
-                  format: ERB::Util.h(Setting.plugin_openproject_costs['costs_currency_format']))
-    end
+  # Turns a string representing a number in the current locale
+  # to a BigDecimal number.
+  #
+  # In case the string cannot be parsed, 0.0 is returned.
+  def parse_number_string_to_number(value)
+    BigDecimal(parse_number_string(value))
+  rescue TypeError, ArgumentError
+    0.0
+  end
+
+  def to_currency_with_empty(rate)
+    rate.nil? ? '0.0' : number_to_currency(rate.rate)
   end
 end

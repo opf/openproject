@@ -134,7 +134,7 @@ class HourlyRatesController < ApplicationController
       hr.project    = @project
       hr.user       = @user
       hr.valid_from = today
-      hr.rate = clean_currency(params[:rate])
+      hr.rate = parse_number_string_to_number(params[:rate])
     end
 
     if rate.save

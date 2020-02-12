@@ -51,19 +51,4 @@ module CostlogHelper
     done = 100.0 - ((100.0 / pcts) * 100).round
     progress_bar([closed, done], options)
   end
-
-  def clean_currency(value)
-    return nil if value.nil? || value == ''
-
-    value = value.strip
-    value.gsub!(t(:currency_delimiter), '') if value.include?(t(:currency_delimiter)) && value.include?(t(:currency_separator))
-    value.gsub(',', '.')
-    BigDecimal(value)
-  end
-
-  def to_currency_with_empty(rate)
-    rate.nil? ?
-      '0.0' :
-      number_to_currency(rate.rate)
-  end
 end
