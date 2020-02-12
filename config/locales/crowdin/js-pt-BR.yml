@@ -532,12 +532,14 @@ pt-BR:
     field_value_enter_prompt: "Insira um valor para '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Por favor, insira mais um caracter"
         other: "Por favor, insira {{count}} ou mais caracteres"
       load_more: "Carregando mais resultados..."
       no_matches: "Encontrado nenhum resultado"
       searching: "Pesquisando ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Você pode selecionar somente um item"
         other: "Você pode selecionar somente {{limit}} itens"
     project_menu_details: "Detalhes"
@@ -877,6 +879,7 @@ pt-BR:
         one: "um pacote de trabalho filho"
         other: "%{count} pacotes de trabalho filhos"
       hour:
+        zero: "0 h"
         one: "1 h"
         other: "%{count} hs"
     zen_mode:

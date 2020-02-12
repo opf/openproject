@@ -1688,15 +1688,19 @@ fil:
   label_workflow_plural: "Daloy ng trabaho"
   label_workflow_summary: "Buod"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "Isa ang isinara"
     other: "%{count} ang isinara"
   label_x_comments:
+    zero: "no comments"
     one: "Isang komento"
     other: "%{count} mga komento"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "Isa ang bukas"
     other: "%{count} ang bukas"
   label_x_projects:
+    zero: "no projects"
     one: "Isang proyekto"
     other: "%{count} mga proyekto"
   label_year: "Taon"

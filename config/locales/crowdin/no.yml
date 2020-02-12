@@ -1688,15 +1688,19 @@
   label_workflow_plural: "Arbeidsflyt"
   label_workflow_summary: "Sammendrag"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 lukket"
     other: "%{count} stengt"
   label_x_comments:
+    zero: "no comments"
     one: "%{count} kommentar"
     other: "%{count} kommentarer"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "%{count} åpen"
     other: "%{count} åpne"
   label_x_projects:
+    zero: "no projects"
     one: "%{count} prosjekt"
     other: "%{count} prosjekter"
   label_year: "År"

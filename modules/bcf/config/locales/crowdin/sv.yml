@@ -12,6 +12,7 @@ sv:
     exceptions:
       file_invalid: "BCF-fil ogiltig"
     x_bcf_issues:
+      zero: 'No BCF issues'
       one: 'Ett BCF-problem'
       other: '%{count} BCF-ärenden'
     bcf_xml:

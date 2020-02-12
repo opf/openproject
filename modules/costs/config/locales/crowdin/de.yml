@@ -104,9 +104,6 @@ de:
   caption_set_rate: "Aktuellen Satz festlegen"
   caption_show_locked: "Gesperrte Typen anzeigen"
   cost_objects_title: "Budgets"
-  label_cost_type_plural: "Kostentypen"
-  currency_delimiter: "."
-  currency_separator: ","
   description_date_for_new_rate: "Datum für neuen Satz"
   events:
     cost_object: "Budget bearbeitet"
@@ -124,6 +121,7 @@ de:
   label_cost_plural: "Kosten"
   label_cost_report: "Report"
   label_cost_type_specific: "Kostentyp #%{id}: %{name}"
+  label_cost_type_plural: "Kostentypen"
   label_costs_per_page: "Kosten dieser Seite"
   label_currency: "Währung"
   label_currency_format: "Währungsformat"

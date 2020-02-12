@@ -533,11 +533,13 @@ ko:
     field_value_enter_prompt: "'%{field}'에 대 한 값을 입력하세요."
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         other: "{{count}} 이상의 글자를 입력해 주십시오."
       load_more: "더 많은 결과를 불러오고 있습니다 ..."
       no_matches: "조건에 맞는 결과가 없습니다."
       searching: "찾는 중 ..."
       selection_too_big:
+        zero: "You cannot select any items"
         other: "{{limit}}개만 선택하실 수 있습니다."
     project_menu_details: "세부 정보"
     sort:
@@ -874,6 +876,7 @@ ko:
       child_work_packages:
         other: "%{count}개의 작업 패키지 자식"
       hour:
+        zero: "0 h"
         other: "%{count}시간"
     zen_mode:
       button_activate: 'Zen 모드 활성화'

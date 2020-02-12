@@ -12,6 +12,7 @@ pl:
     exceptions:
       file_invalid: "Nieprawidłowy plik BCF"
     x_bcf_issues:
+      zero: 'No BCF issues'
       one: 'Jeden problem BCF'
       few: '%{count} problemy BCF'
       many: '%{count} problemów BCF'

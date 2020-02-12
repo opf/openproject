@@ -104,9 +104,6 @@ it:
   caption_set_rate: "Impostata tariffa corrente"
   caption_show_locked: "Mostra tipi bloccati"
   cost_objects_title: "Bilanci"
-  label_cost_type_plural: "Tipo di costo"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "Data per la nuova tariffa"
   events:
     cost_object: "Bilancio modificato"
@@ -124,6 +121,7 @@ it:
   label_cost_plural: "Costi"
   label_cost_report: "Relazione sui costi"
   label_cost_type_specific: "Budget #%{id}: %{name}"
+  label_cost_type_plural: "Tipo di costo"
   label_costs_per_page: "Costi per pagina"
   label_currency: "Valuta"
   label_currency_format: "Formato della valuta"

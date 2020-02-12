@@ -108,9 +108,6 @@ ar:
   caption_set_rate: "ضبط المعدل الحالي"
   caption_show_locked: "إظهار الأنواع المغلقة"
   cost_objects_title: "الميزانيات"
-  label_cost_type_plural: "أنواع التكلفة"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "تاريخ المعدل الجديد"
   events:
     cost_object: "تم تعديل الميزانية"
@@ -128,6 +125,7 @@ ar:
   label_cost_plural: "التكاليف"
   label_cost_report: "تقرير التكلفة"
   label_cost_type_specific: "الميزانية #%{id}:\n%{name}"
+  label_cost_type_plural: "أنواع التكلفة"
   label_costs_per_page: "التكاليف للصفحة"
   label_currency: "العملة"
   label_currency_format: "شكل العملة"

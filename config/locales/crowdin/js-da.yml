@@ -532,12 +532,14 @@ da:
     field_value_enter_prompt: "Indtast en værdi for '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Angiv venligst ét tegn yderligere"
         other: "Angiv venligst {{count}} tegn yderligere"
       load_more: "Henter flere resultater..."
       no_matches: "Ingen passende resultater fundet"
       searching: "Søger..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Du kan kun vælge ét emne"
         other: "Du kan kun vælge {{limit}} emne"
     project_menu_details: "Detaljer"
@@ -877,6 +879,7 @@ da:
         one: "one child work package"
         other: "%{count} work package children"
       hour:
+        zero: "0 h"
         one: "1 h"
         other: "%{count} h"
     zen_mode:

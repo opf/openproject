@@ -1671,12 +1671,16 @@ zh-CN:
   label_workflow_plural: "工作流"
   label_workflow_summary: "摘要"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     other: "%{count} 个已关闭"
   label_x_comments:
+    zero: "no comments"
     other: "%{count} 条评论"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     other: "%{count} 个待处理"
   label_x_projects:
+    zero: "no projects"
     other: "%{count} 个项目"
   label_year: "年"
   label_yesterday: "昨天"

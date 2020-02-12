@@ -1687,15 +1687,19 @@ sv:
   label_workflow_plural: "Arbetsflöden"
   label_workflow_summary: "Sammanfattning"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "en stängd"
     other: "%{count} stängda"
   label_x_comments:
+    zero: "no comments"
     one: "En kommentar"
     other: "%{count} kommentarer"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "en öppen"
     other: "%{count} öppnade"
   label_x_projects:
+    zero: "no projects"
     one: "Ett projekt"
     other: "%{count} projekt"
   label_year: "År"

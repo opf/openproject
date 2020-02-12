@@ -1688,15 +1688,19 @@ tr:
   label_workflow_plural: "İş Akışları"
   label_workflow_summary: "Özet"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 kapatıldı"
     other: "%{count} kapatıldı"
   label_x_comments:
+    zero: "no comments"
     one: "1 yorum"
     other: "%{count} yorum"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 açık"
     other: "%{count} açık"
   label_x_projects:
+    zero: "no projects"
     one: "1 proje"
     other: "%{count} proje"
   label_year: "Yıl"

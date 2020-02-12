@@ -12,6 +12,7 @@ cs:
     exceptions:
       file_invalid: "Neplatný soubor BCF"
     x_bcf_issues:
+      zero: 'No BCF issues'
       one: 'Jeden problém s BCFF'
       few: '%{count} Problémy s BCF'
       many: '%{count} Problémy s BCF'

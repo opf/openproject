@@ -104,9 +104,6 @@ el:
   caption_set_rate: "Ορίστε την τρέχουσα αμοιβή"
   caption_show_locked: "Εμφάνιση κλειδωμένων τύπων"
   cost_objects_title: "Προϋπολογισμοί"
-  label_cost_type_plural: "Τύποι κόστους"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "Ημερομηνία για νέα αμοιβή"
   events:
     cost_object: "Ο προϋπολογισμός επεξεργάστηκε"
@@ -124,6 +121,7 @@ el:
   label_cost_plural: "Κόστος"
   label_cost_report: "Αναφορά κόστους"
   label_cost_type_specific: "Προϋπολογισμός#%{id}: %{name}"
+  label_cost_type_plural: "Τύποι κόστους"
   label_costs_per_page: "Κόστος ανά σελίδα"
   label_currency: "Νόμισμα"
   label_currency_format: "Μορφοποίηση του νομίσματος"
