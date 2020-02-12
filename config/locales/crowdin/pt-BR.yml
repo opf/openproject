@@ -2240,7 +2240,7 @@ pt-BR:
   text_destroy_with_associated: "Existem objetos adicionais associados com o pacote de trabalho que serão excluídos. Esses objetos são dos seguintes tipos:"
   text_destroy_what_to_do: "O que você quer fazer?"
   text_diff_truncated: "... Este diff foi truncado porque excede o tamanho máximo que pode ser exibido."
-  text_email_delivery_not_configured: "Envio de e-mail não está configurado, e as notificações estão desabilitadas. Configure o seu servidor SMTP em config/configuration.yml e reinicie o aplicativo para habilitá-los."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Reatribuí-los para este valor:"
   text_enumeration_destroy_question: "%{count} objetos estão atribuídos a esse valor."
   text_file_repository_writable: "Diretório de anexos gravável"

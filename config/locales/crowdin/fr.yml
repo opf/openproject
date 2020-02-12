@@ -2240,7 +2240,7 @@ fr:
   text_destroy_with_associated: "Il y a des objéts supplémentaires associés à ce(s) Lot(s) de Travaux qui doivent être supprimés. Ces objets sont des types suivants:"
   text_destroy_what_to_do: "Que voulez-vous faire?"
   text_diff_truncated: "... Cette « diff » a été tronquée car elle dépasse la taille maximale d'affichage."
-  text_email_delivery_not_configured: "L'envoi de courriel n'est pas configuré et les notifications sont désactivées.\nConfigurez votre serveur SMTP dans config/configuration.yml et redémarrez l'application pour appliquer les changements."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Les réassigner à cette valeur:"
   text_enumeration_destroy_question: "%{count} objéts sont assignés à cette valeur."
   text_file_repository_writable: "Répertoire des pièces jointes accessible en écriture"

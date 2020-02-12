@@ -2216,7 +2216,7 @@ zh-CN:
   text_destroy_with_associated: "有额外的对象关联到要删除的工作包。这些对象是以下类型："
   text_destroy_what_to_do: "你想做什么？"
   text_diff_truncated: "...这个比较被截断，因为它超出了可显示的最大大小。"
-  text_email_delivery_not_configured: "电子邮件未配置，通知已禁用。\n请修改 SMTP 服务器配置文件 config/configuration.yml 并重新启动应用程序以启用本功能。"
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "重新分配以此值："
   text_enumeration_destroy_question: "%{count} 个对象被分配到该值。"
   text_file_repository_writable: "附件目录可写"

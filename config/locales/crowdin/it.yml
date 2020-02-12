@@ -2237,7 +2237,7 @@ it:
   text_destroy_with_associated: "Ci sono ulteriori oggetti associati con la/le macro-attività che devono essere eliminati. Tali oggetti sono dei seguenti tipi:"
   text_destroy_what_to_do: "Cosa vuoi fare?"
   text_diff_truncated: "... Questo diff è stato troncato perché supera la dimensione massima che può essere visualizzata."
-  text_email_delivery_not_configured: "L'invio di email non è configurato e le notifiche sono disabilitate.\nConfigura il tuo server SMTP nel file config/configuration.yml e riavvia l'applicazione per abilitare le nuove impostazioni."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Riassegnali a questo valore:"
   text_enumeration_destroy_question: "%{count} oggetti sono assegnati a questo valore."
   text_file_repository_writable: "Cartella allegati scrivibile"

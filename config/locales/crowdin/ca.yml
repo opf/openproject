@@ -2239,7 +2239,7 @@ ca:
   text_destroy_with_associated: "Hi ha objectes addicionals associats amb el(s) paquet(s) de treball que es suprimiran. Aquests objectes són dels tipus següents:"
   text_destroy_what_to_do: "Què voleu fer?"
   text_diff_truncated: "... Aquestes diferències s'han truncat perquè excedeixen la mida màxima que es pot mostrar."
-  text_email_delivery_not_configured: "El lliurament per correu electrònic no està configurat i les notificacions estan inhabilitades.\nConfigureu el servidor SMTP a config/configuration.yml i reinicieu l'aplicació per habilitar-lo."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Torna a assignar-los a aquest valor:"
   text_enumeration_destroy_question: "objectes %{count} estan assignades a aquest valor."
   text_file_repository_writable: "Es pot escriure en el repositori de fitxers adjunts"

@@ -2261,7 +2261,7 @@ ro:
   text_destroy_with_associated: "Există obiecte suplimentare asociate cu pachetul(ele) de lucru care urmează să fie șters(e). Aceste obiecte sunt de următoarele tipuri:"
   text_destroy_what_to_do: "Ce vrei să faci?"
   text_diff_truncated: "... Acest diff a fost trunchiat deoarece depășește dimensiunea maximă care poate fi afișată."
-  text_email_delivery_not_configured: "Trimiterea de emailuri nu este configurată și ca urmare, notificările sunt dezactivate.\nTrebuie configurat serverul SMTP în config/configuration.yml și apoi repornită aplicația pentru a le activa."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Reasociere la valoarea:"
   text_enumeration_destroy_question: "%{count} obiecte sunt asociate la această valoare."
   text_file_repository_writable: "Directorul pentru atașamente inscriptibil"

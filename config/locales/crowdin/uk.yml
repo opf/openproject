@@ -2283,7 +2283,7 @@ uk:
   text_destroy_with_associated: "Існують додаткові об'єкти, асоційовані з робочими пакетами, які потрібно видалити. Ці об'єкти мають наступні типи:"
   text_destroy_what_to_do: "Що ти хочеш зробити?"
   text_diff_truncated: "... Це порівняння (diff) було скорочене, оскільки воно перевищує максимальний розмір, який можна відобразити."
-  text_email_delivery_not_configured: "Параметри роботи з поштовим сервером не налаштовані і функція сповіщення по email не активна.\nНалаштувати параметри для Вашого SMTP-сервера Ви можете в файлі config/configuration.yml. Для застосування змін перезапустіть програму."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Надати їм наступне значення:"
   text_enumeration_destroy_question: "%{count} об'єктам призначено дане значення."
   text_file_repository_writable: "Папка вкладень доступна для запису"

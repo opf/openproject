@@ -2241,7 +2241,7 @@ fi:
   text_destroy_with_associated: "There are additional objects assossociated with the work package(s) that are to be deleted. Those objects are of the following types:"
   text_destroy_what_to_do: "Mitä sinä haluat tehdä?"
   text_diff_truncated: "... Tämä katkaistiin koska suurin mahdollinen näytettävä määrä tuli täyteen."
-  text_email_delivery_not_configured: "Sähköpostin jakelu ei ole määritelty ja sähköpostimuistutukset eivät ole käytössä.\nKonfiguroi sähköpostipalvelinasetukset (SMTP) config/configuration.yml tiedostosta ja uudelleenkäynnistä sovellus jotta asetukset astuvat voimaan."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Siirrä täksi arvoksi:"
   text_enumeration_destroy_question: "%{count} kohdetta on liitetty tälle arvolle."
   text_file_repository_writable: "Liitekansioon voi kirjoittaa"

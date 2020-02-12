@@ -2239,7 +2239,7 @@ pt:
   text_destroy_with_associated: "Existem objetos adicionais associados com o pacote de trabalho que está a ser apagado. Esses objetos são dos seguintes tipos:"
   text_destroy_what_to_do: "O que deseja fazer?"
   text_diff_truncated: "... Este diff foi truncado porque excede o tamanho máximo que pode ser mostrado."
-  text_email_delivery_not_configured: "Entrega por e-mail não está configurada, e as notificação estão desativadas.\nConfigure o seu servidor de SMTP em config/configuration.yml e reinicie a aplicação para ativar estas funcionalidades."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Reatribuí-los ao valor:"
   text_enumeration_destroy_question: "%{count} objetos estão atribuídos a esse valor."
   text_file_repository_writable: "Diretório de anexos com permissões de escrita"

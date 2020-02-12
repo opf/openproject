@@ -2241,7 +2241,7 @@ tr:
   text_destroy_with_associated: "Silinecek iş paketleri ile birlikte ek nesne(ler) vardır. Bu nesneler aşağıdaki türdedir:"
   text_destroy_what_to_do: "Ne yapmak istiyorsun?"
   text_diff_truncated: "... Bu fark, görüntülenebilecek maksimum boyutu aştığı için kesildi."
-  text_email_delivery_not_configured: "E-posta dağıtımı yapılandırılmadı ve bildirimler devre dışı bırakıldı. SMTP sunucunuzu config / configuration.yml dosyasında yapılandırın ve bunları etkinleştirmek için uygulamayı yeniden başlatın."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Onları şu değere yeniden atayın:"
   text_enumeration_destroy_question: "Bu değere %{count} nesneler atandı."
   text_file_repository_writable: "Ekler dizini yazılabilir"

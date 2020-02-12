@@ -2240,7 +2240,7 @@ nl:
   text_destroy_with_associated: "Er zijn extra objecten gerelateerd aan het/de te verwijderen werkpakket(ten). Deze objecten zijn van de soorten:"
   text_destroy_what_to_do: "Wat wilt u doen?"
   text_diff_truncated: "... deze diff is truncated vanwege dat de maximale grote is overschreden om te tonen."
-  text_email_delivery_not_configured: "E-maillevering niet is geconfigureerd, en meldingen zijn uitgeschakeld. Configureer ww SMTP-server in config/configuration.yml en start de applicatie opnieuw om de instellingen te activeren."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Wijzig alle naar de deze waarde:"
   text_enumeration_destroy_question: "%{count} objecten zijn toegewezen aan deze waarde."
   text_file_repository_writable: "Bijlagen directory schrijfbaar"

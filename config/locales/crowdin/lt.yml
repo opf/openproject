@@ -2280,7 +2280,7 @@ lt:
   text_destroy_with_associated: "Yra papildomų objektų, kurie susieti su darbų paketu(-ais), kurie ketinami ištrinti.\nTie objektai yra šių tipų:"
   text_destroy_what_to_do: "Ką norite daryti?"
   text_diff_truncated: "... Šis diff'as sutrauktas, nes viršija maksimalų rodomų eilučių skaičių."
-  text_email_delivery_not_configured: "El.pašto siuntimas nesukonfigūruotas ir perspėjimai neaktyvūs.\nSukonfigūruokite savo SMTP serverį byloje config/configuration.yml ir perleiskite programą norėdami pritaikyti pakeitimus."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Priskirti juos šiai reikšmei:"
   text_enumeration_destroy_question: "%{count} objektai(-ų) priskirti(-ų) šiai reikšmei."
   text_file_repository_writable: "Į priedų saugyklą rašyti galima"

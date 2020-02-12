@@ -2217,7 +2217,7 @@ ko:
   text_destroy_with_associated: "삭제할 작업 패키지와 연결된 추가 개체가 있습니다. 이러한 개체의 유형은 다음과 같습니다."
   text_destroy_what_to_do: "어떤 작업을 수행하시겠습니까?"
   text_diff_truncated: "... 이 차이점은 표시할 수 있는 최대 크기를 초과하므로 잘렸습니다."
-  text_email_delivery_not_configured: "이메일 배달이 구성되지 않았고, 알림이 비활성화되었습니다.\nSMTP 서버를 config/configuration.yml에서 구성하고 응용 프로그램을 다시 시작하여 알림을 활성화하세요."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "이 값에 해당 항목 다시 할당:"
   text_enumeration_destroy_question: "%{count}개 개체가 이 값에 할당되었습니다."
   text_file_repository_writable: "첨부 파일 디렉터리 쓰기 가능"

@@ -2239,7 +2239,7 @@ da:
   text_destroy_with_associated: "Der er yderligere objekter tilknyttet arbejdspakken/-kerne som skal slettes. Disse er af følgende art:"
   text_destroy_what_to_do: "Hvad vil du lave?"
   text_diff_truncated: "... Denne afvigelse blev undertrykt da den overstiger den længde, der kan vises."
-  text_email_delivery_not_configured: "Email levering er ikke indstillet og påmindelser er inaktive.\nOpsæt din SMTP-server i config/configuration.yml og genstart appen for at aktivere dette."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Genindsæt dem med denne værdi:"
   text_enumeration_destroy_question: "%{count} objekter er tilknyttet denne værdi."
   text_file_repository_writable: "Arkiv for vedhæftninger er skrivbart"

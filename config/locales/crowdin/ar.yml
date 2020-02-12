@@ -2323,7 +2323,7 @@ ar:
   text_destroy_with_associated: "وهناك كائنات إضافية مرتبطة مع الحزمة (الحزم) العمل الموجودة المراد حذفها. هذه الكائنات من الأنواع التالية: "
   text_destroy_what_to_do: "ماذا تريد أن تفعل؟"
   text_diff_truncated: "... تم اقتطاعه لأنه يتجاوز الحد الأقصى للحجم التي يمكن عرضها."
-  text_email_delivery_not_configured: "لم يتم تكوين تسليم البريد الإلكتروني و تم تعطيل إعلامات. كون ملقم SMTP الخاص بك في config/configuration.yml وإعادة تشغيل التطبيق لتمكينها."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "إعادة تعيينهم إلى هذه القيمة:"
   text_enumeration_destroy_question: "يتم تعيين الكائنات %{count} لهذه القيمة."
   text_file_repository_writable: "مرفقات دليل قابل للكتابة"

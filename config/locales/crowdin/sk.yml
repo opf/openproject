@@ -2282,7 +2282,7 @@ sk:
   text_destroy_with_associated: "Existujú ďalšie objekty spojené s pracovným balíčkom(-ami), ktoré sa majú vymazať. Tieto objekty sú z týchto typov:"
   text_destroy_what_to_do: "Čo chcete urobiť?"
   text_diff_truncated: "... Tento výpis rozdielov bol skrátený, pretože prekračuje maximálny počet riadkov, ktorý môže byť zobrazený."
-  text_email_delivery_not_configured: "Doručovanie e-mailov nie je nakonfigurované a upozornenia sú zakázané.\nNakonfigurujte server SMTP v konfigurácii / configuration.yml a reštartujte aplikáciu, aby ste ich povolili."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Znova ich priradiť k tejto hodnote:"
   text_enumeration_destroy_question: "%{count} objekty sú priradené k tejto hodnote."
   text_file_repository_writable: "Povolený zápis do priečinka s prílohami"

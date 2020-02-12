@@ -2238,7 +2238,7 @@ hu:
   text_destroy_with_associated: "További objektumok vannak hozzárendelve, a feladatcsoport(ok)hoz, amelyeket törölni kell. Ezek az objektumok a következők:"
   text_destroy_what_to_do: "Mit szeretne tenni?"
   text_diff_truncated: "... Ez a különbség csonkolva lett, mert meghaladja a maximálisan megjeleníthető méretet."
-  text_email_delivery_not_configured: "A beérkező email beállitások hiányoznak, az értesítések le vannak tiltva. Az SMTP-kiszolgáló konfigurálása a config/configuration.yml, és indítsa újra az alkalmazást, hogy érvényesítse az új  beállitásokat."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Újra hozzárendelve ehhez az értékhez:"
   text_enumeration_destroy_question: "%{count} objektum ehhez az értékhez van újra hozzárendelve."
   text_file_repository_writable: "A mellékletek könyvtára írható"

@@ -54,7 +54,7 @@ cs:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Zápis"
   label_meeting_close: "Zavřít"
-  label_meeting_open: "Open"
+  label_meeting_open: "Otevřít"
   label_meeting_agenda_close: "Uzavřete agendu pro vytvoření zápisu"
   label_meeting_date_time: "Datum/Čas"
   label_meeting_diff: "Rozdíl"
