@@ -48,7 +48,7 @@ import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-s
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
-    { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
+    {provide: HalResourceNotificationService, useClass: WorkPackageNotificationService},
     DragAndDropService,
     CausedUpdatesService
   ]
@@ -184,7 +184,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     if (query.persisted) {
       this.selectedTitle = query.name;
     } else {
-      this.selectedTitle =  this.wpStaticQueries.getStaticName(query);
+      this.selectedTitle = this.wpStaticQueries.getStaticName(query);
     }
 
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
@@ -205,7 +205,13 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     }
 
     if (visibly) {
-      this.loadingIndicator = promise;
+      this.loadingIndicator = promise.then(() => {
+        if (this.wpTableTimeline.isVisible) {
+          return this.querySpace.timelineRendered.toPromise();
+        } else {
+          return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
+        }
+      });
     }
 
     return promise;
@@ -270,13 +276,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   protected loadCurrentQuery():Promise<unknown> {
     return this.loadingIndicator =
       this.wpListService
-        .loadCurrentQueryFromParams(this.projectIdentifier)
-        .then(() => {
-          if (this.wpTableTimeline.isVisible) {
-            return this.querySpace.timelineRendered.valuesPromise();
-          } else {
-            return this.querySpace.tableRendered.valuesPromise();
-          }
-        });
+        .loadCurrentQueryFromParams(this.projectIdentifier);
   }
 }

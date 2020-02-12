@@ -37,8 +37,8 @@ export class IsolatedQuerySpace extends StatesGroup {
   // State to be updated when the table is up to date
   tableRendered = input<RenderedWorkPackage[]>();
 
-  // State to be updated when the timeline is up to date
-  timelineRendered = input<null>();
+  // Event to be raised when the timeline is up to date
+  timelineRendered = new Subject<null>();
 
   renderedWorkPackages:State<RenderedWorkPackage[]> = derive(this.tableRendered, $ => $.pipe(
     map(rows => rows.filter(row => !!row.workPackageId)))

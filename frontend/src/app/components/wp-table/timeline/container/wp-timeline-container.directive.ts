@@ -222,7 +222,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
       // Mark rendering event in a timeout to let DOM process
       setTimeout(() => {
-        this.querySpace.timelineRendered.putValue(null);
+        this.querySpace.timelineRendered.next(null);
       });
     });
   }

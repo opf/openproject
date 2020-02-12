@@ -45,6 +45,7 @@ import {HalEventsService} from "core-app/modules/hal/services/hal-events.service
 import Moment = moment.Moment;
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {take} from "rxjs/operators";
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
@@ -243,20 +244,22 @@ export function registerWorkPackageMouseHandler(this:void,
 
   function saveWorkPackage(change:WorkPackageChangeset) {
     const queryDm:QueryDmService = injector.get(QueryDmService);
+    const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
 
     // Remember the time before saving the work package to know which work packages to update
     const updatedAt = moment().toISOString();
 
-    return loadingIndicator.table.promise = halEditing.save<WorkPackageResource, WorkPackageChangeset>(change)
+    return loadingIndicator.table.promise = halEditing
+      .save<WorkPackageResource, WorkPackageChangeset>(change)
       .then((result) => {
         notificationService.showSave(result.resource);
         const ids = _.map(querySpace.tableRendered.value!, row => row.workPackageId);
-        loadingIndicator.table.promise =
-          queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
-            wpCacheService.updateWorkPackageList(workPackageCollection.elements);
+        return queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
+          wpCacheService.updateWorkPackageList(workPackageCollection.elements);
 
-            halEvents.push(result.resource, { eventType: 'updated' });
-          });
+          halEvents.push(result.resource, { eventType: 'updated' });
+          return querySpace.timelineRendered.pipe(take(1)).toPromise();
+        });
       })
       .catch((error) => {
         notificationService.handleRawError(error, renderInfo.workPackage);
