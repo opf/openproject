@@ -46,20 +46,20 @@ export class BackRoutingService {
   constructor(protected injector:Injector) {
   }
 
-  public goBack(preferListOverSplit:boolean = false, opts:Partial<TransitionOptions> = {}) {
+  public goBack(preferListOverSplit:boolean = false) {
     // Default: back to list
     // When coming from a deep link or a create form
     if (!this.backRoute || this.backRoute.name.includes('new')) {
-      this.$state.go('work-packages.list', this.$state.params, opts);
+      this.$state.go('work-packages.list', this.$state.params);
     } else {
       if (this.keepTab.isDetailsState(this.backRoute.parent)) {
         if (preferListOverSplit) {
-          this.$state.go('work-packages.list', this.$state.params, opts);
+          this.$state.go('work-packages.list', this.$state.params);
         } else {
-          this.$state.go(this.keepTab.currentDetailsState, this.$state.params, opts);
+          this.$state.go(this.keepTab.currentDetailsState, this.$state.params);
         }
       } else {
-        this.$state.go(this.backRoute.name, this.backRoute.params, opts);
+        this.$state.go(this.backRoute.name, this.backRoute.params);
       }
     }
   }
