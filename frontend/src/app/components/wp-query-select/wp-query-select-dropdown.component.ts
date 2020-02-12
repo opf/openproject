@@ -432,15 +432,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   // On click of a menu item, load requested query
   private loadQuery(item:IAutocompleteItem) {
     const params = this.getQueryParams(item);
-    const currentId = _.toString(this.$state.params.query_id);
-    let opts = {reload: false};
-
-    const isSameItem = params.query_id && params.query_id === currentId.toString();
-
-    // Ensure we're reloading the query
-    if (isSameItem) {
-      opts.reload = true;
-    }
+    const opts = {reload: true};
 
     this.$state.go(
       'work-packages.list',
