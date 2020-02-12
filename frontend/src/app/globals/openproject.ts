@@ -58,6 +58,18 @@ export class OpenProject {
     return jQuery('meta[name=openproject_initializer]').data('environment');
   }
 
+  public get edition():string {
+    return jQuery('meta[name=openproject_initializer]').data('edition');
+  }
+
+  public get isStandardEdition():boolean {
+    return this.edition == "standard";
+  }
+
+  public get isBimEdition():boolean {
+    return this.edition == "bim";
+  }
+
   /**
    * Guard access to reads and writes to the localstorage due to corrupted local databases
    * in Firefox happening in one larger client.
@@ -83,4 +95,3 @@ export class OpenProject {
 }
 
 window.OpenProject = new OpenProject();
-

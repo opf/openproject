@@ -30,7 +30,6 @@ import {Component} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DomSanitizer} from "@angular/platform-browser";
-import {dashboardWebsiteUrl} from "core-app/modules/dashboards/dashboard-constants.const";
 
 @Component({
   template: `
@@ -39,12 +38,12 @@ import {dashboardWebsiteUrl} from "core-app/modules/dashboards/dashboard-constan
     </p>
 
     <div class="widget-box--description">
-      <p [innerHtml]="text.currentNewFeatureHtml"></p>
+      <p [innerHtml]="currentNewFeatureHtml"></p>
 
       <a class="widget-box--teaser-image"></a>
     </div>
 
-    <a [href]="teaserWebsiteUrl()" target="_blank">{{ text.learnAbout }}</a>
+    <a [href]="teaserWebsiteUrl" target="_blank">{{ text.learnAbout }}</a>
   `,
   selector: 'homescreen-new-features-block',
   styleUrls: ['./new-features.component.sass'],
@@ -56,19 +55,38 @@ import {dashboardWebsiteUrl} from "core-app/modules/dashboards/dashboard-constan
  * Locals (js-en.yml), Styles (new-features.component.sass), HTML (above), TS (below)
  */
 export class HomescreenNewFeaturesBlockComponent {
+  public isStandardEdition:boolean;
+
   public text = {
     newFeatures: this.i18n.t('js.label_new_features'),
     descriptionNewFeatures: this.i18n.t('js.homescreen.blocks.new_features.text_new_features'),
-    currentNewFeatureHtml: this.i18n.t('js.homescreen.blocks.new_features.current_new_feature_html'),
     learnAbout: this.i18n.t('js.homescreen.blocks.new_features.learn_about'),
   };
 
-  constructor(readonly i18n:I18nService,
-              readonly domSanitizer:DomSanitizer) {
+  constructor(
+    readonly i18n:I18nService,
+    readonly domSanitizer:DomSanitizer
+  ) {
+    this.isStandardEdition = window.OpenProject.isStandardEdition;
   }
 
-  public teaserWebsiteUrl() {
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(dashboardWebsiteUrl);
+  public get teaserWebsiteUrl() {
+    let url = this.translated('learn_about_link');
+    return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  public get currentNewFeatureHtml():string {
+    return this.translated('current_new_feature_html');
+  }
+
+  private translated(key:string):string {
+    return this.i18n.t(this.i18nBase + this.i18nPrefix + '.' + key);
+  }
+
+  private i18nBase:string = 'js.homescreen.blocks.new_features.';
+
+  private get i18nPrefix():string {
+    return this.isStandardEdition ? "standard" : "bim";
   }
 }
 
