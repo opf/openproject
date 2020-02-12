@@ -23,14 +23,20 @@
     <div class="op-modal--modal-footer">
       <button class="button -highlight"
               (click)="createEntry()"
-              [textContent]="text.create"
               [attr.title]="text.create">
+        <op-icon icon-classes="button--icon icon-checkmark"></op-icon>
+        <span class="button--text"
+              [textContent]="text.create"
+              aria-hidden="true"></span>
       </button>
 
       <button class="button"
               (click)="closeMe($event)"
-              [textContent]="text.cancel"
               [attr.title]="text.cancel">
+        <op-icon icon-classes="button--icon icon-close"></op-icon>
+        <span class="button--text"
+              [textContent]="text.cancel"
+              aria-hidden="true"></span>
       </button>
     </div>
   </div>

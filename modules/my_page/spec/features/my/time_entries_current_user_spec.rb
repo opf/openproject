@@ -217,35 +217,19 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     expect(page)
       .to have_content(I18n.t('js.time_entry.label'))
 
-    activity_field.activate!
+    activity_field.input_element.click
     activity_field.set_value(other_activity.name)
-    activity_field.expect_display_value(other_activity.name)
 
-    wp_field.activate!
+    wp_field.input_element.click
     wp_field.set_value(other_work_package.subject)
-    wp_field.expect_display_value(other_work_package.name)
 
-    hours_field.activate!
     hours_field.set_value('6')
-    hours_field.save!
 
-    hours_field.expect_display_value('6 h')
-
-    comments_field.activate!
     comments_field.set_value('Some comment')
-    comments_field.save!
 
-    comments_field.expect_display_value('Some comment')
-
-    cf_field.activate!
     cf_field.set_value('Cf text value')
-    cf_field.save!
 
-    cf_field.expect_display_value('Cf text value')
-
-    sleep(1)
-
-    find(".op-modal--portal .op-modal--modal-close-button").click
+    click_button 'Save'
 
     sleep(0.1)
     my_page.expect_and_dismiss_notification message: I18n.t(:notice_successful_update)
@@ -255,10 +239,16 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     end
 
     expect(page)
-      .to have_selector('.ui-tooltip', text: "Comment: Some comment")
+      .to have_selector('.ui-tooltip', text: "Work package: ##{other_work_package.id}: #{other_work_package.subject}")
+
+    expect(page)
+      .to have_selector('.ui-tooltip', text: "Duration: 6 h")
 
     expect(page)
       .to have_selector('.ui-tooltip', text: "Activity: #{other_activity.name}")
+
+    expect(page)
+      .to have_selector('.ui-tooltip', text: "Comment: Some comment")
 
     expect(page)
       .to have_content "Total: 12.00"

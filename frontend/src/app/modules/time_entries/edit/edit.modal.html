@@ -14,16 +14,31 @@
     </div>
 
     <div class="ngdialog-body op-modal--modal-body">
-      <te-form [entry]="entry"
+      <te-form #editForm
+               [entry]="entry"
                (modifiedEntry)="setModifiedEntry($event)">
       </te-form>
     </div>
 
     <div class="op-modal--modal-footer">
       <button class="button -highlight"
+              *ngIf="updateAllowed"
+              (click)="saveEntry()"
+              [attr.title]="text.save">
+        <op-icon icon-classes="button--icon icon-checkmark"></op-icon>
+        <span class="button--text"
+              [textContent]="text.save"
+              aria-hidden="true"></span>
+      </button>
+
+      <button class="button"
+              *ngIf="updateAllowed"
               (click)="closeMe($event)"
-              [textContent]="text.close"
-              [attr.title]="text.close">
+              [attr.title]="text.cancel">
+        <op-icon icon-classes="button--icon icon-close"></op-icon>
+        <span class="button--text"
+              [textContent]="text.cancel"
+              aria-hidden="true"></span>
       </button>
 
       <button class="button"
