@@ -41,6 +41,7 @@
     text-decoration: none
     &:hover
       text-decoration: none
+
   li.tab-icon
     width: 5%
     .icon-context:before
@@ -62,6 +63,13 @@
     @include varprop(border-bottom-color, content-link-color)
   li:hover
     border-bottom-color: #DDDDDD
+
+  li.-disabled
+    cursor: default
+    pointer-events: none
+    border-bottom-width: 0
+    a
+      color: $tabs-font-color-disabled
 
 content-tabs
   min-height: 73px
