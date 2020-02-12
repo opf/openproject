@@ -242,7 +242,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
       .to have_selector('.ui-tooltip', text: "Work package: ##{other_work_package.id}: #{other_work_package.subject}")
 
     expect(page)
-      .to have_selector('.ui-tooltip', text: "Duration: 6 h")
+      .to have_selector('.ui-tooltip', text: "Hours: 6 h")
 
     expect(page)
       .to have_selector('.ui-tooltip', text: "Activity: #{other_activity.name}")
