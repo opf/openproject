@@ -428,18 +428,17 @@
       "integrity": "sha512-jB8+SC3vMztW5zt5UYVmtVwqIWE33UyEjbP5JPba3I3bLRK5E059LcJmN1rSdJHItgIAdG9Y1I0WJ6aiSFyp4Q=="
     },
     "@angular/cdk": {
-      "version": "8.2.2",
-      "resolved": "https://registry.npmjs.org/@angular/cdk/-/cdk-8.2.2.tgz",
-      "integrity": "sha512-e+BtFab0Vd1q/ZVu6l850Q4vvgyVYiugSX31oMRlp86fKHPowlAO7jL3z5JcAG7TybpLIqd7oqF8XQBR/yw83w==",
+      "version": "9.0.0",
+      "resolved": "https://registry.npmjs.org/@angular/cdk/-/cdk-9.0.0.tgz",
+      "integrity": "sha512-2kYpyYbewIB6fubSIDMvSprJLNplRZoL/AtXW3od4dLyRxtzX+7iWTAtzUG/dhq8CKev0lpd1HENh5lLR/Lhjw==",
       "requires": {
-        "parse5": "^5.0.0",
-        "tslib": "^1.7.1"
+        "parse5": "^5.0.0"
       },
       "dependencies": {
         "parse5": {
-          "version": "5.1.0",
-          "resolved": "https://registry.npmjs.org/parse5/-/parse5-5.1.0.tgz",
-          "integrity": "sha512-fxNG2sQjHvlVAYmzBZS9YlDp6PTSSDwa98vkD4QgVDDCAo84z5X1t5XyJQ62ImdLXx5NdIIfihey6xpum9/gRQ==",
+          "version": "5.1.1",
+          "resolved": "https://registry.npmjs.org/parse5/-/parse5-5.1.1.tgz",
+          "integrity": "sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==",
           "optional": true
         }
       }
