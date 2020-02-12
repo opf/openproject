@@ -34,7 +34,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import * as moment from 'moment';
 import {Moment} from 'moment';
 import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {debounceTime, filter, map, takeUntil, withLatestFrom} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, map, skip, take, takeUntil, withLatestFrom} from 'rxjs/operators';
 import {
   calculateDaySpan,
   getPixelPerDayForZoomLevel,
@@ -59,6 +59,11 @@ import {debugLog, timeOutput} from "core-app/helpers/debug_output";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {
+  LoadingIndicatorService,
+  withLoadingIndicator
+} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {combineLatest} from "rxjs";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -104,6 +109,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private wpRelations:WorkPackageRelationsService,
               private wpTableHierarchies:WorkPackageViewHierarchiesService,
               private halEvents:HalEventsService,
+              private loadingIndicator:LoadingIndicatorService,
               readonly I18n:I18nService) {
   }
 
@@ -121,55 +127,27 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     // Register this instance to the table
     this.wpTableDirective.registerTimeline(this, this.timelineBody[0]);
 
-    // Refresh on changes to work packages
-    this.updateOnWorkPackageChangesets();
-
-    // Refresh timeline rendering callback
-    this.setupRefreshListener();
-
     // Refresh on window resize events
     window.addEventListener('wp-resize.timeline', () => this.refreshRequest.putValue(undefined));
 
-    // Refresh timeline view after table rendered
-    this.querySpace.tableRendered.values$()
-      .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
-        filter(() => this.initialized)
-      )
-      .subscribe((orderedRows) => {
+    combineLatest([
+      this.querySpace.tableRendered.values$(),
+      this.refreshRequest.changes$(),
+      this.wpTableTimeline.live$()
+    ]).pipe(
+      untilComponentDestroyed(this),
+      takeUntil(this.querySpace.stopAllSubscriptions),
+      filter(() => this.initialized && this.wpTableTimeline.isVisible)
+    )
+      .subscribe(([orderedRows, changes, timelineState]) => {
         // Remember all visible rows in their order of appearance.
         this.workPackageIdOrder = orderedRows.filter(row => !row.hidden);
         this.refreshView();
       });
-
-    // Refresh timeline view when becoming visible
-    this.wpTableTimeline
-      .live$()
-      .pipe(
-        untilComponentDestroyed(this),
-        filter((timelineState:WorkPackageTimelineState) => timelineState.visible),
-      )
-      .subscribe((timelineState:WorkPackageTimelineState) => {
-        this.refreshRequest.putValue(undefined);
-      });
-  }
-
-  private setupRefreshListener() {
-    this.refreshRequest
-      .changes$()
-      .pipe(
-        untilComponentDestroyed(this),
-        debounceTime(250)
-      )
-      .subscribe(() => this.refreshView());
   }
 
   ngOnDestroy():void {
     // empty
-  }
-
-  workPackageInView(wpId:string):boolean {
-    return this.cellsRenderer.hasCell(wpId);
   }
 
   workPackageCells(wpId:string):WorkPackageTimelineCell[] {
@@ -208,6 +186,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   refreshView() {
+    console.log('START REFRESH VIEW');
     if (!this.wpTableTimeline.isVisible) {
       debugLog('refreshView() requested, but TL is invisible.');
       return;
@@ -246,24 +225,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         this.querySpace.timelineRendered.putValue(null);
       });
     });
-  }
-
-  updateOnWorkPackageChangesets() {
-    this.states.workPackages.observeChange()
-      .pipe(
-        takeUntil(componentDestroyed(this)),
-        filter(() => this.initialized && this.wpTableTimeline.isVisible),
-        filter(([wpId, ]) => this.cellsRenderer.hasCell(wpId))
-      )
-      .subscribe(([wpId, ]) => {
-        const viewParamsChanged = this.calculateViewParams(this._viewParameters);
-        if (viewParamsChanged) {
-          this.refreshRequest.putValue(undefined);
-        } else {
-          // Refresh the single cell
-          this.cellsRenderer.refreshCellsFor(wpId);
-        }
-      });
   }
 
   startAddRelationPredecessor(start:WorkPackageResource) {

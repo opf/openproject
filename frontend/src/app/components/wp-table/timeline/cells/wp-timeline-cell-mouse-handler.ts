@@ -231,7 +231,6 @@ export function registerWorkPackageMouseHandler(this:void,
       const stopAndRefresh = () => {
         renderInfo.change.clear();
         renderer.onMouseDownEnd(labels, renderInfo.change);
-        workPackageTimeline.refreshView();
       };
 
       // Persist the changes
