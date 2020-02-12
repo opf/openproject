@@ -251,7 +251,7 @@ export function registerWorkPackageMouseHandler(this:void,
     return loadingIndicator.table.promise = halEditing.save<WorkPackageResource, WorkPackageChangeset>(change)
       .then((result) => {
         notificationService.showSave(result.resource);
-        const ids = _.map(querySpace.rendered.value!, row => row.workPackageId);
+        const ids = _.map(querySpace.tableRendered.value!, row => row.workPackageId);
         loadingIndicator.table.promise =
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
             wpCacheService.updateWorkPackageList(workPackageCollection.elements);

@@ -272,7 +272,11 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       this.wpListService
         .loadCurrentQueryFromParams(this.projectIdentifier)
         .then(() => {
-          this.querySpace.rendered.valuesPromise();
+          if (this.wpTableTimeline.isVisible) {
+            return this.querySpace.timelineRendered.valuesPromise();
+          } else {
+            return this.querySpace.tableRendered.valuesPromise();
+          }
         });
   }
 }

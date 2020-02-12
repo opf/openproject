@@ -131,7 +131,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     window.addEventListener('wp-resize.timeline', () => this.refreshRequest.putValue(undefined));
 
     // Refresh timeline view after table rendered
-    this.querySpace.rendered.values$()
+    this.querySpace.tableRendered.values$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions),
         filter(() => this.initialized)
@@ -204,7 +204,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   get initialized():boolean {
-    return this.workPackageTable && this.querySpace.rendered.hasValue();
+    return this.workPackageTable && this.querySpace.tableRendered.hasValue();
   }
 
   refreshView() {
@@ -240,6 +240,11 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       // The header is the only one reliable, as it already has the final width.
       const currentWidth = this.$element.find(timelineHeaderSelector)[0].scrollWidth;
       this.outerContainer.width(currentWidth);
+
+      // Mark rendering event in a timeout to let DOM process
+      setTimeout(() => {
+        this.querySpace.timelineRendered.putValue(null);
+      });
     });
   }
 
