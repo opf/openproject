@@ -210,7 +210,7 @@ describe 'custom field inplace editor', js: true do
     end
 
     context 'with german locale',
-            driver: :chrome_headless_de do
+            driver: :firefox_headless_de do
       let(:user) { FactoryBot.create :admin, language: 'de' }
 
       it 'displays the float with german locale and allows editing' do
