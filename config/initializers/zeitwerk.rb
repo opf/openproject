@@ -37,3 +37,7 @@ Rails.autoloaders.each do |autoloader|
     'scm' => 'SCM'
   )
 end
+
+# Instruct zeitwerk to ignore all the engine gems' lib initialization files
+Rails.autoloaders.main.ignore(Rails.root.join('modules/*/lib/openproject-*.rb'))
+Rails.autoloaders.main.ignore(Bundler.bundle_path.join('**/lib/openproject-*.rb'))
