@@ -25,17 +25,19 @@ module OpenProject::XlsExport
 
     # Retrieve or create the worksheet at index x
     def worksheet(idx, name = nil)
-      name ||= "Worksheet #{@worksheets.length + 1}"
-      if @worksheets[idx].nil?
-        @worksheets[idx] = Worksheet.new.tap do |wb|
-          wb.sheet = @xls.create_worksheet(name: name)
-          wb.sheet.default_format.vertical_align = :top
-          wb.column_widths = []
-        end
-      end
+      @worksheets[idx] ||= create_worksheet(name)
 
       @sheet = @worksheets[idx].sheet
       @column_widths = @worksheets[idx].column_widths
+    end
+
+    def create_worksheet(name)
+      name ||= "Worksheet #{@worksheets.length + 1}"
+      Worksheet.new.tap do |wb|
+        wb.sheet = @xls.create_worksheet(name: escaped_worksheet_name(name))
+        wb.sheet.default_format.vertical_align = :top
+        wb.column_widths = []
+      end
     end
 
     # Update column widths and wrap text if neccessary
@@ -214,6 +216,13 @@ module OpenProject::XlsExport
 
     def currency_sign
       Setting.plugin_openproject_costs['costs_currency']
+    end
+
+    def escaped_worksheet_name(name)
+      name.gsub!(/[\/\\*\[\]:?]/, '#')
+      name = name[0, [name.length, 27].min] + "..." if name.length > 31
+
+      name
     end
   end
 end
