@@ -138,9 +138,6 @@ import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-p
 
     WidgetHeaderComponent,
   ],
-  entryComponents: [
-    AddGridWidgetModal,
-  ],
   exports: [
     GridComponent
   ]

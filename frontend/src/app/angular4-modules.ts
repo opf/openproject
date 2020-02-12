@@ -211,23 +211,6 @@ import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cac
     // Form configuration
     OpDragScrollDirective,
     ConfirmFormSubmitController,
-  ],
-  entryComponents: [
-    // Project Auto completer
-    ProjectMenuAutocompleteComponent,
-
-    // Modals
-
-    DynamicContentModal,
-    ConfirmDialogModal,
-    PasswordConfirmationModal,
-    AttributeHelpTextModal,
-    WpPreviewModal,
-
-    // Main menu
-    MainMenuResizerComponent,
-    MainMenuToggleComponent,
-    ConfirmFormSubmitController,
   ]
 })
 export class OpenProjectModule {

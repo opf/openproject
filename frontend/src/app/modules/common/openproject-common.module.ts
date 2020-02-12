@@ -285,38 +285,6 @@ export function bootstrapModule(injector:Injector) {
     HomescreenNewFeaturesBlockComponent,
     BoardVideoTeaserModalComponent
   ],
-  entryComponents: [
-    OpDateTimeComponent,
-    CopyToClipboardDirective,
-    NotificationsContainerComponent,
-    HighlightColDirective,
-    HighlightColDirective,
-    ColorsAutocompleter,
-
-    TablePaginationComponent,
-
-    OPContextMenuComponent,
-    ZenModeButtonComponent,
-    CollapsibleSectionComponent,
-    UserAutocompleterComponent,
-    UserAvatarComponent,
-
-    ContentTabsComponent,
-
-    HomescreenNewFeaturesBlockComponent,
-    BoardVideoTeaserModalComponent,
-    UserAvatarComponent,
-    PersistentToggleComponent,
-    AutocompleteSelectDecorationComponent,
-    HideSectionLinkComponent,
-    AddSectionDropdownComponent,
-    RemoteFieldUpdaterComponent,
-    AttributeHelpTextComponent,
-    ShowSectionDropdownComponent,
-
-    // Enterprise Edition
-    EnterpriseBannerBootstrapComponent,
-  ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: bootstrapModule, deps: [Injector], multi: true },
     I18nService,

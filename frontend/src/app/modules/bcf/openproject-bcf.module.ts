@@ -57,8 +57,6 @@ import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-exp
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
     BcfExportButtonComponent
-  ],
-  entryComponents: [
   ]
 })
 export class OpenprojectBcfModule {

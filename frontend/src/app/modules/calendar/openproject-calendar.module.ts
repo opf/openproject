@@ -78,12 +78,7 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     WorkPackagesCalendarEntryComponent,
     WorkPackagesCalendarController,
     TimeEntryCalendarComponent,
-  ],
-  entryComponents: [
-    WorkPackagesCalendarController,
-    WorkPackagesCalendarEntryComponent,
-    TimeEntryCalendarComponent,
-  ],
+  ]
   exports: [
     WorkPackagesCalendarController,
     TimeEntryCalendarComponent,

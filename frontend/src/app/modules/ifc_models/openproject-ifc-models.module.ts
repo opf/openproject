@@ -37,9 +37,6 @@ import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer.compone
   ],
   exports: [
     IFCViewerComponent
-  ],
-  entryComponents: [
-    IFCViewerComponent
   ]
 })
 export class OpenprojectIFCModelsModule {

@@ -55,11 +55,6 @@ import {
   ],
   declarations: [
     ApplicationBaseComponent
-  ],
-  entryComponents: [
-    ApplicationBaseComponent
-  ],
-  exports: [
   ]
 })
 export class OpenprojectRouterModule {

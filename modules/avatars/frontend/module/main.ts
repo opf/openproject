@@ -50,9 +50,6 @@ export function initializeAvatarsPlugin(injector:Injector) {
     ],
     declarations: [
         AvatarUploadFormComponent
-    ],
-    entryComponents: [
-        AvatarUploadFormComponent
     ]
 })
 export class PluginModule {
