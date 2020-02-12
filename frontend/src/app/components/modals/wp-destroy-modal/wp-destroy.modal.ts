@@ -144,7 +144,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
          * since the WP in view (split/full) does not exist any more.
          */
         if (this.$state.current.name !== 'work-packages.list') {
-          this.backRoutingService.goBack(true, { reload: true });
+          this.backRoutingService.goBack(true);
         }
       })
       .catch(() => {
