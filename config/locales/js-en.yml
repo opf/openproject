@@ -236,10 +236,10 @@ en:
             current_new_feature_html: >
               The release contains various new features and improvements: <br><br>
               <ul>
-                <li>Default <b>design templates</b> to select a light or dark theme (premium feature)</li>
-                <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart</li>
-                <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages</li>
-                <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration</li>
+                <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li>
+                <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li>
+                <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li>
+                <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li>
               </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-4
@@ -249,10 +249,12 @@ en:
               with these files with your team without installation of separate
               costly software or licenses. <br><br>
               <ul>
-                <li><b>Import IFC files</b> of building models into your OpenProject application</li>
-                <li>overview of work package status,</li>
-                <li>task progress,</li>
-                <li>tasks assigned to users.</li>
+                <li><b>Import IFC files</b> of building models into your OpenProject application.</li>
+                <li><b>Open 3D models and visualize building models</b> in your browser.</li>
+                <li>
+                  Easily <b>work on multiple IFC files</b> with your team directly in OpenProject
+                  without installation of separate costly software.
+                </li>
               </ul>
 
     label_activate: "Activate"

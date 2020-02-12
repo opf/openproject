@@ -63,11 +63,11 @@ export class OpenProject {
   }
 
   public get isStandardEdition():boolean {
-    return this.edition == "standard";
+    return this.edition === "standard";
   }
 
   public get isBimEdition():boolean {
-    return this.edition == "bim";
+    return this.edition === "bim";
   }
 
   /**
