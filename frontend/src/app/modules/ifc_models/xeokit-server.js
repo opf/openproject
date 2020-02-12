@@ -19,7 +19,7 @@ class XeokitServer {
    * @param error
    */
   getProjects(done, _error) {
-    done(window.gon.ifc_models.projects);
+    done({ projects: window.gon.ifc_models.projects });
   }
 
   /**
@@ -28,8 +28,17 @@ class XeokitServer {
    * @param done
    * @param error
    */
-  getProject(_projectId, done, _error) {
-    done({ models: window.gon.ifc_models.models });
+  getProject(projectData, done, _error) {
+    var manifestData = {
+      id: projectData[0].id,
+      name: projectData[0].name,
+      models: window.gon.ifc_models.models,
+      viewerContent: {
+        modelsLoaded: window.gon.ifc_models.default_models
+      }
+    };
+
+    done(manifestData);
   }
 
   /**

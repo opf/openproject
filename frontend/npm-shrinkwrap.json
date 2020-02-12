@@ -3883,16 +3883,16 @@
       }
     },
     "@xeokit/xeokit-sdk": {
-      "version": "0.7.9",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-0.7.9.tgz",
-      "integrity": "sha512-+MPFDs/z2r6i9ctD5+HFuwUym02bjXVkRzz4mpBDgGLKNI2ALxxi0Dt8gjnNjobZhAjvVn1t1x7jch72vlzUAA=="
+      "version": "0.8.1",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-0.8.1.tgz",
+      "integrity": "sha512-ayASDbyE92cNtsLeg2G9ZocZ3gLJp9oz2TFqGn4qUo8Ton6zjezhKOxYjewFIIjRd6hMft/Z6JAnQrkJLEywZg=="
     },
     "@xeokit/xeokit-viewer": {
-      "version": "1.4.9",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-viewer/-/xeokit-viewer-1.4.9.tgz",
-      "integrity": "sha512-igIieHItb2TDWUSyW7stKqxlEBhdTeInYT+tL7tYVGYgPMVNkfPFG70ISSTE8Pv39vTuY1ENM3zaqpxmf8h1Qg==",
+      "version": "1.5.4",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-viewer/-/xeokit-viewer-1.5.4.tgz",
+      "integrity": "sha512-FhqEw+/LR7nGg7qsAPrS1mdBO0bTJ7M5Irn2PDU0l6OAOwY0BTwQ7UGcBfQ3riPWSYiv98E1ZtoOdjd7fTYitQ==",
       "requires": {
-        "@xeokit/xeokit-sdk": "^0.7.9"
+        "@xeokit/xeokit-sdk": "^0.8.1"
       }
     },
     "@xtuc/ieee754": {

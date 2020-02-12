@@ -4,6 +4,7 @@ module IFCModelsHelper
 
     gon.ifc_models = {
       models: gon_ifc_model_models(all_converted_models, models_to_load),
+      default_models: gon_ifc_default_models(all_converted_models, models_to_load),
       projects: [{ id: @project.identifier, name: @project.name }],
       xkt_attachment_ids: gon_ifc_model_xkt_attachment_ids(all_converted_models),
       metadata_attachment_ids: gon_ifc_model_metadata_attachment_ids(all_converted_models)
@@ -24,6 +25,16 @@ module IFCModelsHelper
         default: models_to_load.include?(ifc_model)
       }
     end
+  end
+
+  def gon_ifc_default_models(all_models, models_to_load)
+    all_converted_models = converted_ifc_models(all_models)
+    default_models = []
+
+    all_converted_models.map do |ifc_model|
+      default_models << ifc_model.id if models_to_load.include?(ifc_model)
+    end
+    default_models
   end
 
   def gon_ifc_model_xkt_attachment_ids(models)
