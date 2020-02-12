@@ -79,7 +79,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   @ViewChild('loadingIndicator', { static: true }) indicator:ElementRef;
 
   /** Access to the card view */
-  @ViewChild(WorkPackageCardViewComponent, { static: false }) cardView:WorkPackageCardViewComponent;
+  @ViewChild(WorkPackageCardViewComponent) cardView:WorkPackageCardViewComponent;
 
   /** The query resource being loaded */
   public query:QueryResource;

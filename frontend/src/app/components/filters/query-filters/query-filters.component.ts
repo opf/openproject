@@ -57,7 +57,7 @@ const ADD_FILTER_SELECT_INDEX = -1;
 })
 export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
 
-  @ViewChild(NgSelectComponent, { static: false }) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
   @Input() public filters:QueryFilterInstanceResource[];
   @Input() public showCloseFilter:boolean = false;
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));

@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Input, SimpleChanges} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Input, SimpleChanges, Directive } from '@angular/core';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
 import {
@@ -13,6 +13,7 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 
+@Directive()
 export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewBase implements AfterViewInit {
   @Input('configuration') protected providedConfiguration:WorkPackageTableConfigurationObject;
   @Input() public uniqueEmbeddedTableName:string = `embedded-table-${Date.now()}`;

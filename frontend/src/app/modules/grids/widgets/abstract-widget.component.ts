@@ -1,8 +1,9 @@
-import {HostBinding, Input, EventEmitter, Output, HostListener, Injector} from "@angular/core";
+import { HostBinding, Input, EventEmitter, Output, HostListener, Injector, Directive } from "@angular/core";
 import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
 
+@Directive()
 export abstract class AbstractWidgetComponent {
   @HostBinding('style.grid-column-start') gridColumnStart:number;
   @HostBinding('style.grid-column-end') gridColumnEnd:number;

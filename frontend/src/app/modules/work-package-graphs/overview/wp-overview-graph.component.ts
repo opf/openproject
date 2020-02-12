@@ -24,8 +24,8 @@ import {
 
 export class WorkPackageOverviewGraphComponent implements OnInit {
   @Input() additionalFilter:any;
-  @ViewChild('wpEmbeddedGraphMulti', { static: false }) private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
-  @ViewChild('wpEmbeddedGraphSingle', { static: false }) private embeddedGraphSingle:WorkPackageEmbeddedGraphComponent;
+  @ViewChild('wpEmbeddedGraphMulti') private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
+  @ViewChild('wpEmbeddedGraphSingle') private embeddedGraphSingle:WorkPackageEmbeddedGraphComponent;
   @Input() groupBy:string = 'status';
   @Input() chartOptions:ChartOptions = { maintainAspectRatio: false };
   public datasets:WorkPackageEmbeddedGraphDataset[] = [];

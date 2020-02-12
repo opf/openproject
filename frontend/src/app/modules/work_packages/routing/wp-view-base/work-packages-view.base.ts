@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Injector, OnDestroy, OnInit} from '@angular/core';
+import { ChangeDetectorRef, Injector, OnDestroy, OnInit, Directive } from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
@@ -57,6 +57,7 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
 
+@Directive()
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
   readonly $state:StateService = this.injector.get(StateService);

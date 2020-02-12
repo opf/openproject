@@ -34,9 +34,10 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {ChangeDetectionStrategy} from "@angular/core";
+import { ChangeDetectionStrategy, Directive } from "@angular/core";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 
+@Directive()
 export class WorkPackageCopyController extends WorkPackageCreateController {
   private __initialized_at:Number;
   private copiedWorkPackageId:string;

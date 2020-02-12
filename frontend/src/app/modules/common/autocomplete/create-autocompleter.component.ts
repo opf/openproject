@@ -64,7 +64,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Output() public onAfterViewInit = new EventEmitter<this>();
 
 
-  @ViewChild('ngSelectComponent', {static: false}) public ngSelectComponent:NgSelectComponent;
+  @ViewChild('ngSelectComponent') public ngSelectComponent:NgSelectComponent;
 
   public text:any = {
     add_new_action: this.I18n.t('js.label_create'),

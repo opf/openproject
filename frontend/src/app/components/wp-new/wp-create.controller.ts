@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Injectable, Injector, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Injectable, Injector, OnDestroy, OnInit, ViewChild, Directive } from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -49,6 +49,7 @@ import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-for
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 
+@Directive()
 @Injectable()
 export class WorkPackageCreateController implements OnInit, OnDestroy {
   public successState:string;
@@ -64,7 +65,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     button_settings: this.I18n.t('js.button_settings')
   };
 
-  @ViewChild(EditFormComponent, {static: false}) private editForm:EditFormComponent|undefined;
+  @ViewChild(EditFormComponent) private editForm:EditFormComponent|undefined;
 
   constructor(protected readonly $transition:Transition,
               protected readonly $state:StateService,

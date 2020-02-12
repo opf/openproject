@@ -65,7 +65,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
   };
 
   @Input() appendToContainer:string = '.board--container';
-  @ViewChild(NgSelectComponent, { static: false }) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   @Output() onCancel = new EventEmitter<undefined>();
   @Output() onReferenced = new EventEmitter<WorkPackageResource>();

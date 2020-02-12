@@ -60,7 +60,7 @@ const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
   ]
 })
 export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(FullCalendarComponent, { static: false }) ucCalendar:FullCalendarComponent;
+  @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
   @Output() entries = new EventEmitter<CollectionResource<TimeEntryResource>>();
