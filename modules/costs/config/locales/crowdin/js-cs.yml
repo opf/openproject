@@ -31,9 +31,9 @@ cs:
       property_groups:
         costs: "Náklady"
       properties:
-        costObject: "Budget"
+        costObject: "Rozpočet"
         overallCosts: "Celkové náklady"
         spentUnits: "Strávené jednotky"
-    button_log_costs: "Log unit costs"
+    button_log_costs: "Logovat jednotkové náklady"
     label_hour: "hodina"
     label_hours: "hodiny"

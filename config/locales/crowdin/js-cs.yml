@@ -99,7 +99,7 @@ cs:
         graph_settings: 'Obecné'
         dataset: 'Dataset %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'Data k zobrazení grafu nelze načíst. Možná chybí potřebná oprávnění.'
     description_available_columns: "Dostupné sloupce"
     description_current_position: "Jste zde: "
     description_select_work_package: "Vyberte pracovní balíček #%{id}"
@@ -159,7 +159,7 @@ cs:
         drag_to_activate: "Přetáhněte pole zde, abyste je aktivovali"
         add_group: "Přidat skupinu atributů"
         add_table: "Přidat seznam se souvisejícími pracovními balíčky"
-        edit_query: 'Edit query'
+        edit_query: 'Upravit dotaz'
         new_group: 'Nová skupina'
         reset_to_defaults: 'Obnovit výchozí nastavení'
     custom_actions:
@@ -357,7 +357,7 @@ cs:
     label_wait: "Počkejte prosím na konfiguraci..."
     label_upload_counter: "Dokončeno %{done} z %{count} souborů"
     label_validation_error: "Pracovní balíček nemohl být uložen z důvodu následujících chyb:"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "Toto zobrazení obsahuje neuložené změny. Klepnutím je uložíte."
     help_texts:
       show_modal: 'Zobrazit položku nápovědy atributu'
     onboarding:
@@ -470,8 +470,8 @@ cs:
       set_parent: "Nastavit nadřazený"
       change_parent: "Změnit nadřazený"
       remove_parent: "Odstranit nadřazený"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "Přisadit hierarchii"
+      hierarchy_outdent: "Přisadit hierarchii"
       group_by_wp_type: "Seskupit podle typu pracovního balíčku"
       group_by_relation_type: "Seskupit podle typu vztahu"
       add_parent: "Přidat existujícího rodiče"
@@ -603,7 +603,7 @@ cs:
       image: "Obrázek"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'Hromadná změna projektu'
         edit: 'Hromadná úprava'
         copy: 'Hromadné kopírování'
         delete: 'Hromadné odstranění'
@@ -654,7 +654,7 @@ cs:
       no_results:
         title: Žádné pracovní balíčky k zobrazení.
         description: Buď nebyly vytvořeny nebo jsou všechny pracovní balíčky odfiltrovány.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Pouze %{count} pracovních balíčků může být zobrazeno v ručním režimu. Snížte prosím výsledky filtrováním.
       property_groups:
         details: "Podrobnosti"
         people: "Lidé"
@@ -714,9 +714,9 @@ cs:
         confirm_edit_cancel: "Jste si jisti, že chcete zrušit úpravy názvu tohoto pohledu? Titulek bude nastaven zpět na předchozí hodnotu."
         click_to_edit_query_name: "Kliknutím upravíte název tohoto zobrazení."
         rename_query_placeholder: "Název tohoto zobrazení"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Označte tento pohled jako oblíbený a přidejte do postranního panelu vlevo."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Publikujte toto zobrazení, umožňující ostatním uživatelům přístup k vašemu zobrazení. Uživatelé s oprávněním 'Spravovat veřejné zobrazení' mohou upravit nebo odebrat veřejný dotaz. To nemá vliv na viditelnost výsledků pracovního balíčku v tomto zobrazení a v závislosti na jejich oprávněních mohou uživatelé vidět různé výsledky.
         errors:
           unretrievable_query: "Nelze načíst zobrazení z URL"
           not_found: "Takový pohled není"
@@ -751,10 +751,10 @@ cs:
           priority: 'Priorita'
           type: 'Typ'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Vyberte režim pro řazení vašich pracovních balíčků:'
+          automatic: 'Automaticky'
+          manually: 'Ručně'
+          warning: 'Při aktivaci režimu automatického řazení ztratíte své předchozí řazení.'
         columns_help_text: "Použijte vstup výše pro přidání nebo odebrání sloupců do tabulkového pohledu. Přetažením sloupců změníte jejich pořadí."
         upsale:
           attribute_highlighting: 'Potřebujete určité pracovní balíčky, aby vyšly z celkového objemu?'
@@ -870,6 +870,6 @@ cs:
         project_and_subprojects: "a všechny podprojekty"
         search_for: "Hledat"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Karty'
+      list: 'Tabulka'
       timeline: 'Ganttův diagram'
