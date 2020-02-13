@@ -22,13 +22,13 @@ You can easily report spent time and costs in OpenProject and filter, group and 
 | [Filter cost reports](#filter-cost-reports)                  | How to filter time and cost reports?                         |
 | [Group by criteria for cost reports](#group-by-criteria-for-cost-reports) | How to group time and cost reports?                          |
 | [Select units to display](#select-units-to-display)          | How to choose the unit to be displayed in a report?          |
+| [Export time and cost reports](#export-time-and-cost-reports) | How to export time and cost reports to Excel?                |
 
 ## Time and costs reports
 
 To open the time and costs reports in OpenProject, navigate to the **Cost reports** module in the project navigation.
 
 <div class="glossary">**Cost Reports** is defined as a plugin to filter cost reports on individual or multiple users across individual or multiple projects. The plugin has to be activated as a module in the project settings to be displayed in the side navigation.</div>
-
 ![Time-costs-reports](Time-costs-reports.png)
 
 ## Change time and costs reports
@@ -80,3 +80,15 @@ The **Cash value** will display the costs logged according to the filter and gro
 If you just want to report on spent **unit costs**, choose the respective unit costs in the cost report under Units. Only the logged unit costs will then be displayed in the report according to your filter and grouping criteria.
 
 ![Time-costs-unit-costs](Time-costs-unit-costs.png)
+
+## Export time and cost reports
+
+To **export reports for time and costs** to Excel you can open a report under -> *Cost Reports* in your project. For the Excel export, first [filter and group the report](#group-by-criteria-for-cost-reports) according to your needs. Select the [unit to be displayed](#select-units-to-display) (Labor, Cash value, unit costs).
+
+Click the grey **Export XLS** (Excel) button.
+
+![User-guide-cost-reports-export](User-guide-cost-reports-export.png)
+
+You can then continue working in the Excel spreadsheet to filter, group, or import in different systems.
+
+![Excel export time and cost reports](image-20200212131921959.png)

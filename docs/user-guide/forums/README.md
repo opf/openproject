@@ -12,7 +12,6 @@ keywords: forum
 In the forum in OpenProject you can discuss topics in a project with the team: post questions, comment on it and document answers.
 
 <div class="glossary"> **Forum** is defined as a module used to display forums and forum entries. The module has to be activated in the project settings and a forum has to be created in the forums tab in the project settings to be displayed in the side navigation.</div> 
-
 | Feature                                                  | Documentation for                                            |
 | -------------------------------------------------------- | ------------------------------------------------------------ |
 | [Open a forum](#open-a-forum)                            | How to open an existing forum?                               |
@@ -21,6 +20,8 @@ In the forum in OpenProject you can discuss topics in a project with the team: p
 | [Watch a forum](#watch-a-frum)                           | How to keep informed about changes in a forum, e.g. new messages or replies? |
 | [Edit a forum message](#edit-a-forum-message)            | How to edit a message in a forum?                            |
 | [Delete a forum message](#delete-a-forum-message)        | How to delete a message within a forum?                      |
+| [Create a new forum](#create-a-new-forum)                | How to create a new forum?                                   |
+| Manage forums                                            | How to sort, edit or delete a forum?                         |
 
 ## Open a forum
 
@@ -40,13 +41,13 @@ To **add a new message** within an existing forum, click the green **+ Message**
 
 Enter the **subject of the message**.
 
-You can choose whether the message should be **Sticky**. A sticky message always appears on top ot the forum.
+You can choose whether the message should be **Sticky**. A sticky message always appears on top of the selected forum.
 
 Select if a message should be **Locked**. Then it can no longer be edited or commented by the project team.
 
 Enter a description which will then appears next to the message title in the forum. You can add a file if needed.
 
-Click the blue **Create** button to creat the new message for this forum.
+Click the blue **Create** button to create the new message for this forum.
 
 ![Forum new message details](image-20191119102209845.png)
 
@@ -123,3 +124,23 @@ The message details will then be opened. You can make your changes  and click th
 To **delete a message in a forum**, select the message which you want to delete and press the **Delete** button in the top right corner of the message details.
 
 ![Forum_delete-message](Forum_delete-message.png)
+
+## Create a new forum
+
+To create a new forum in your project, navigate to -> *Forums* and click the green **+ Forum** button.
+
+![User-guide-create-new-forum](User-guide-create-new-forum.png)
+
+Enter a name and description for the new forum. Press the blue **Create** button so save the new forum.
+
+![create new forum](image-20200213093639380.png)
+
+## Manage forums
+
+If you wan to change the order of the forums in your project, want to edit a forum, or delete a form, go to the -> *Forums* overview list in your project.
+
+1. Click the **arrows (up or down) to change the order** of the forums and sort them differently in the forum list in your project.
+2. Click the **edit icon to change the name or description** of your form.
+3. Click the delete icon to **delete a forum** from your project.
+
+![User-guide-manage-forums](User-guide-manage-forums.png)
