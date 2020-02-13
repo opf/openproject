@@ -207,8 +207,15 @@ ru:
       blocks:
         new_features:
           text_new_features: "Читайте о новых возможностях и обновлениях продуктов."
-          current_new_feature_html: "В OpenProject появилась новая <b>страница обзора</b>, где <b>собрана важная информация о проекте</b>, в том числе сведения о его отслеживании. </br>Кроме того, можно добавить множество новых виджетов состояния, таких как: <ul><li>состояние проекта;</li><li>обзор состояния пакета работ;</li><li>ход выполнения задач;</li><li>задачи, назначенные пользователям.</li></ul>"
-          learn_about: "Подробнее о новых виджетах состояния"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -308,6 +315,7 @@ ru:
     label_project_plural: "Проекты"
     label_visibility_settings: "Параметры видимости"
     label_quote_comment: "Цитировать этот комментарий"
+    label_recent: "Recent"
     label_reset: "Сброс"
     label_remove_column: "Удалить столбец"
     label_remove_columns: "Удалить выбранные столбцы"
@@ -532,7 +540,7 @@ ru:
     field_value_enter_prompt: "Введите значение для «%{field}»"
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "Пожалуйста, введите больше символов"
         one: "Пожалуйста, введите еще один символ"
         few: "Пожалуйста, введите более {{count}} символов"
         many: "Пожалуйста, введите более {{count}} символов"
@@ -541,7 +549,7 @@ ru:
       no_matches: "Совпадения не найдены"
       searching: "Поиск ..."
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "Вы не можете выбрать элементы"
         one: "Вы можете выбрать только один элемент"
         few: "Можно выбрать {{limit}} элементов"
         many: "Можно выбрать {{limit}} элементов"
@@ -887,7 +895,7 @@ ru:
         many: "пакет работ с %{count} дочерними"
         other: "пакет работ с %{count} дочерними"
       hour:
-        zero: "0 h"
+        zero: "0 ч"
         one: "1 ч"
         few: "%{count} ч"
         many: "%{count} ч"

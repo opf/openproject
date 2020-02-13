@@ -207,8 +207,15 @@ pt-BR:
       blocks:
         new_features:
           text_new_features: "Ler sobre os novos recursos e atualizações de produtos."
-          current_new_feature_html: "OpenProject contém uma nova <b>Página de visão geral</b> para <b>exibir informações importantes do projeto</b> e mostrar se ele está sob controle. </br> Você pode inserir vários novos widgets de estado, como: <ul><li>estado do projeto,</li> <li>visão geral do estado do pacote de trabalho,</li> <li>progresso da tarefa,</li> <li>tarefas atribuídas a usuários.</li></ul>"
-          learn_about: "Saiba mais sobre os novos widgets de estado"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"
@@ -308,6 +315,7 @@ pt-BR:
     label_project_plural: "Projetos"
     label_visibility_settings: "Configurações de visibilidade"
     label_quote_comment: "Citar este comentário"
+    label_recent: "Recent"
     label_reset: "Reiniciar"
     label_remove_column: "Remover coluna"
     label_remove_columns: "Remover colunas selecionadas"
@@ -458,13 +466,13 @@ pt-BR:
           requires: "exigindo"
           required: "exigido por"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Configuração do formulário"
         projects: "Projetos"
         settings: "Configurações"
     time_entry:
       project: 'Projeto'
       work_package: 'Pacote de trabalho'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Requer que selecione um pacote de trabalho primeiro.'
       activity: 'Atividade'
       comment: 'Comentário'
       duration: 'Duração'
@@ -532,14 +540,14 @@ pt-BR:
     field_value_enter_prompt: "Insira um valor para '%{field}'"
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "Por favor, insira mais caracteres"
         one: "Por favor, insira mais um caracter"
         other: "Por favor, insira {{count}} ou mais caracteres"
       load_more: "Carregando mais resultados..."
       no_matches: "Encontrado nenhum resultado"
       searching: "Pesquisando ..."
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "Não pode selecionar nenhum item"
         one: "Você pode selecionar somente um item"
         other: "Você pode selecionar somente {{limit}} itens"
     project_menu_details: "Detalhes"

@@ -208,8 +208,15 @@ zh-CN:
       blocks:
         new_features:
           text_new_features: "了解新功能和产品更新。"
-          current_new_feature_html: "OpenProject 包含一个新的<b>概览页面</b>，用于<b>显示重要的项目信息</b>并显示该项目是否按计划进行。</br> 您可以插入各种新的状态微件，例如：<ul><li>项目状态、</li><li>工作包状态概览、</li><li>任务进度、</li><li>分配给用户的任务。</li></ul>"
-          learn_about: "详细了解新的状态微件"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
@@ -309,6 +316,7 @@ zh-CN:
     label_project_plural: "项目"
     label_visibility_settings: "可见性设置"
     label_quote_comment: "引用这个评论"
+    label_recent: "Recent"
     label_reset: "重置"
     label_remove_column: "删除列"
     label_remove_columns: "删除选定的列"
@@ -459,13 +467,13 @@ zh-CN:
           requires: "要求"
           required: "要求于"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "表单配置"
         projects: "项目"
         settings: "设置"
     time_entry:
       project: '项目'
       work_package: '工作包'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: '需要先选择一个工作包。'
       activity: '活动'
       comment: '评论'
       duration: '持续时间'
@@ -533,13 +541,13 @@ zh-CN:
     field_value_enter_prompt: "为'%{field}'输入值"
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "请输入更多字符。"
         other: "请再输入{{count}} 个字符"
       load_more: "正在加载更多的结果..."
       no_matches: "未找到匹配项"
       searching: "正在搜索..."
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "您无法选择任何项"
         other: "您可以只选择 {{limit}} 个条目"
     project_menu_details: "详细信息"
     sort:

@@ -12,7 +12,7 @@ pt:
     exceptions:
       file_invalid: "Ficheiro BCF inválido"
     x_bcf_issues:
-      zero: 'No BCF issues'
+      zero: 'Sem problemas no BCF'
       one: 'Um problema BCF'
       other: '%{count} problemas BCF'
     bcf_xml:

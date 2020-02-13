@@ -12,7 +12,7 @@ zh-CN:
     exceptions:
       file_invalid: "BCF 文件无效"
     x_bcf_issues:
-      zero: 'No BCF issues'
+      zero: '无 BCF 问题'
       other: '%{count} 个 BCF 问题'
     bcf_xml:
       xml_file: 'BCF XML 文件'

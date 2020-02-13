@@ -52,7 +52,7 @@ zh-CN:
   backlogs:
     add_new_story: "新故事"
     any: "任何"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "待办清单设置"
     burndown_graph: "燃尽图"
     card_paper_size: "卡片打印的纸张大小"
     chart_options: "图表选项"

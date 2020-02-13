@@ -28,31 +28,31 @@ pt:
     plugins:
       no_results_title_text: Atualmente, não existem extensões disponíveis.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Cores do tema"
+      color_theme_custom: "(Personalizado)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "Alternativo"
+        content-link-color: "Fonte dos links"
+        primary-color: "Primária"
+        primary-color-dark: "Primária (escuro)"
+        header-bg-color: "Fundo do cabeçalho"
+        header-item-bg-hover-color: "Fundo do cabeçalho ao passar o rato"
+        header-item-font-color: "Fonte do cabeçalho"
+        header-item-font-hover-color: "Fonte do cabeçalho ao passar o rato"
+        header-border-bottom-color: "Borda do cabeçalho"
+        main-menu-bg-color: "Fundo do menu principal"
+        main-menu-bg-selected-background: "Menu principal quando selecionado"
+        main-menu-bg-hover-background: "Menu principal ao passar o rato"
+        main-menu-font-color: "Fonte do menu principal"
+        main-menu-selected-font-color: "Fonte do menu principal quando selecionado"
+        main-menu-hover-font-color: "Fonte do menu principal ao passar o rato"
+        main-menu-border-color: "Borda do menu principal"
       custom_colors: "Cores personalizadas"
       customize: "Personalize a sua instalação do OpenProject com seu próprio logótipo. Nota: este logótipo estará acessível ao público."
       enterprise_notice: "Como forma de agradecimento pela sua contribuição financeira para o desenvolvimento do OpenProject, esta pequena funcionalidade está apenas disponível para os subscritores da versão Enterprise."
       manage_colors: "Editar opções de selecção de cor"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Cor de contraste forte, utilizada habitualmente no botão mais importante de um ecrã."
         content-link-color: "Cor da fonte da maioria dos links."
         primary-color: "Cor principal."
         primary-color-dark: "Normalmente é utilizada uma cor mais escura da cor principal para a ação de passar com o rato por cima."
@@ -599,7 +599,7 @@ pt:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "é demasiado alto, uma vez que pode ser registado por data um máximo de 24 horas."
         work_package:
           is_not_a_valid_target_for_time_entries: "Pacote de trabalho #%{id} não válido para reafectar os registos de horas."
           attributes:
@@ -749,7 +749,7 @@ pt:
     type: "Tipo"
     updated_at: "Atualizado em"
     updated_on: "Atualizado em"
-    uploader: "Uploader"
+    uploader: "Enviado por"
     user: "Utilizador"
     version: "Versão"
     work_package: "Pacote de trabalho"
@@ -1035,7 +1035,7 @@ pt:
         rename_groups: "Mudar o nome de grupos de atributos"
       project_filters:
         description_html: "Filtrar e ordenar os campos personalizados é uma característica da edição enterprise."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "Atividades de controlo de tempo"
   enumeration_work_package_priorities: "Prioridades de tarefas"
   enumeration_reported_project_statuses: "Estado do projeto reportado"
   error_auth_source_sso_failed: "Single Sign-On (SSO) para o utilizador '%{value}' falhou"
@@ -1107,7 +1107,7 @@ pt:
       pdf_with_descriptions_and_attachments: "PDF com descrições e anexos"
       pdf_with_attachments: "PDF com anexos"
     image:
-      omitted: "Image not exported."
+      omitted: "Imagem não exportada."
   extraction:
     available:
       pdftotext: "Pdftotext disponível (opcional)"
@@ -1688,19 +1688,19 @@ pt:
   label_workflow_plural: "Fluxos de Trabalho"
   label_workflow_summary: "Resumo"
   label_x_closed_work_packages_abbr:
-    zero: "0 closed"
+    zero: "0 fechados"
     one: "Um fechado"
     other: "%{count} fechados"
   label_x_comments:
-    zero: "no comments"
+    zero: "sem comentários"
     one: "1 comentário"
     other: "%{count} comentários"
   label_x_open_work_packages_abbr:
-    zero: "0 open"
+    zero: "0 abertos"
     one: "Um aberto"
     other: "%{count} abertos"
   label_x_projects:
-    zero: "no projects"
+    zero: "sem projetos"
     one: "1 projeto"
     other: "%{count} projetos"
   label_year: "Ano"
@@ -2243,7 +2243,7 @@ pt:
   text_destroy_with_associated: "Existem objetos adicionais associados com o pacote de trabalho que está a ser apagado. Esses objetos são dos seguintes tipos:"
   text_destroy_what_to_do: "O que deseja fazer?"
   text_diff_truncated: "... Este diff foi truncado porque excede o tamanho máximo que pode ser mostrado."
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
+  text_email_delivery_not_configured: "A entrega de emails não está configurada e as notificações estão desativadas.\nConfigure o seu servidor de SMTP para ativar."
   text_enumeration_category_reassign_to: "Reatribuí-los ao valor:"
   text_enumeration_destroy_question: "%{count} objetos estão atribuídos a esse valor."
   text_file_repository_writable: "Diretório de anexos com permissões de escrita"
@@ -2541,13 +2541,13 @@ pt:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Incompatibilidade de configuração do protocolo'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        A sua aplicação está a ser executada com a sua configuração de protocolo definida para <code>%{set_protocol}</code>, mas a soliticitação é uma solicitação <code>%{actual_protocol}</code>. Isto pode provocar erros! Avance para as <a href="%{setting_path}">Configurações do sistema</a> e altere a configuração "Protocolo" para corrigir isto.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Incompatibilidade de configuração do anfitrião'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        A sua aplicação está a ser executada com a configuração de nome de anfitrião definida como <code>%{set_hostname}</code>, mas a soliticitação é um nome de anfitrião <code>%{actual_hostname}</code>. Isto pode provocar erros! Avance para <a href="%{setting_path}">Configurações do Sistema</a> e altere a configuração de "Nome de anfitrião" para corrigir isto.
   menu_item: "Item de menu"
   menu_item_setting: "Visibilidade"
   wiki_menu_item_for: "Item de menu para página wiki \"%{title}\""

@@ -28,31 +28,31 @@ ko:
     plugins:
       no_results_title_text: 사용 가능한 플러그인이 없습니다.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "컬러 테마"
+      color_theme_custom: "(사용자 지정)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "대안"
+        content-link-color: "링크 글꼴"
+        primary-color: "기본"
+        primary-color-dark: "기본(진함)"
+        header-bg-color: "헤더 배경"
+        header-item-bg-hover-color: "가리킬 때 헤더 배경"
+        header-item-font-color: "헤더 글꼴"
+        header-item-font-hover-color: "가리킬 때 헤더 글꼴"
+        header-border-bottom-color: "헤더 테두리"
+        main-menu-bg-color: "기본 메뉴 배경"
+        main-menu-bg-selected-background: "선택할 때 기본 메뉴"
+        main-menu-bg-hover-background: "가리킬 때 기본 메뉴"
+        main-menu-font-color: "기본 메뉴 글꼴"
+        main-menu-selected-font-color: "선택할 때 기본 메뉴 글꼴"
+        main-menu-hover-font-color: "가리킬 때 기본 메뉴 글꼴"
+        main-menu-border-color: "기본 메뉴 테두리"
       custom_colors: "사용자 정의 색상"
       customize: "당신만의 로고로 당신의 OpenProject 설치를 커스텀하세요. 참고: 이 로고는 공개적으로 접근 가능합니다."
       enterprise_notice: "OpenProject 개발에의 재정적인 후원에 대한 특별한 감사로 이 작은 기능은 Enterprise Edition 후원자에게만 지원됩니다."
       manage_colors: "색상 선택 옵션 편집"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "강한 강조 색은 일반적으로 화면의 가장 중요한 버튼에 사용됩니다."
         content-link-color: "대부분 링크의 글꼴색입니다."
         primary-color: "주 색상"
         primary-color-dark: "일반적으로 메인 색상의 어두운 버전은 호버 효과에 사용됩니다."
@@ -597,7 +597,7 @@ ko:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "하루 최대 24시간을 기록할 수 있으므로 너무 높습니다."
         work_package:
           is_not_a_valid_target_for_time_entries: "작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른 대상이 아닙니다."
           attributes:
@@ -744,7 +744,7 @@ ko:
     type: "타입"
     updated_at: "업데이트 날짜"
     updated_on: "업데이트 날짜"
-    uploader: "Uploader"
+    uploader: "업로더"
     user: "사용자"
     version: "버전"
     work_package: "작업 패키지"
@@ -1018,7 +1018,7 @@ ko:
         rename_groups: "특성 그룹 이름 바꾸기"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "시간 추적 활동"
   enumeration_work_package_priorities: "작업 패키지 우선 순위"
   enumeration_reported_project_statuses: "보고된 프로젝트 상태"
   error_auth_source_sso_failed: "사용자 '%{value}'에 대한 Single Sign-On(SSO) 실패"
@@ -1090,7 +1090,7 @@ ko:
       pdf_with_descriptions_and_attachments: "PDF와 설명 및 첨부 파일"
       pdf_with_attachments: "PDF와 첨부 파일"
     image:
-      omitted: "Image not exported."
+      omitted: "이미지를 내보내지 못했습니다."
   extraction:
     available:
       pdftotext: "Pdftotext 사용 가능(선택적)"
@@ -1671,16 +1671,16 @@ ko:
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
   label_x_closed_work_packages_abbr:
-    zero: "0 closed"
+    zero: "0개 닫힘"
     other: "1개 닫힘\n%{count}개 닫힘"
   label_x_comments:
-    zero: "no comments"
+    zero: "코멘트 없음"
     other: "1개 코멘트\n%{count}개 코멘트"
   label_x_open_work_packages_abbr:
-    zero: "0 open"
+    zero: "0개 열림"
     other: "1개 열림\n%{count}개 열림"
   label_x_projects:
-    zero: "no projects"
+    zero: "프로젝트 없음"
     other: "1개 프로젝트\n%{count}개 프로젝트"
   label_year: "년"
   label_yesterday: "어제"
@@ -2221,7 +2221,7 @@ ko:
   text_destroy_with_associated: "삭제할 작업 패키지와 연결된 추가 개체가 있습니다. 이러한 개체의 유형은 다음과 같습니다."
   text_destroy_what_to_do: "어떤 작업을 수행하시겠습니까?"
   text_diff_truncated: "... 이 차이점은 표시할 수 있는 최대 크기를 초과하므로 잘렸습니다."
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
+  text_email_delivery_not_configured: "이메일 배달이 구성되지 않았고, 알림이 비활성화되었습니다.\nSMTP 서버를 구성하여 활성화하세요."
   text_enumeration_category_reassign_to: "이 값에 해당 항목 다시 할당:"
   text_enumeration_destroy_question: "%{count}개 개체가 이 값에 할당되었습니다."
   text_file_repository_writable: "첨부 파일 디렉터리 쓰기 가능"
@@ -2517,13 +2517,13 @@ ko:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: '프로토콜 설정 불일치'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        해당 애플리케이션이 <code>%{set_protocol}</code>(으)로 지정된 프로토콜 설정으로 실행되고 있지만, 이 요청은 <code>%{actual_protocol}</code> 요청입니다. 이로 인해 오류가 발생하게 됩니다! <a href="%{setting_path}">시스템 설정</a>으로 이동하고 "프로토콜" 설정을 변경하여 이 오류를 수정하세요.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: '호스트 이름 설정 불일치'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        해당 애플리케이션이 <code>%{set_hostname}</code>(으)로 지정된 호스트 이름 설정으로 실행되고 있지만, 이 요청은 <code>%{actual_hostname}</code> 호스트 이름입니다. 이로 인해 오류가 발생하게 됩니다! <a href="%{setting_path}">시스템 설정</a>으로 이동하고 "호스트 이름" 설정을 변경하여 이 오류를 수정하세요.
   menu_item: "메뉴 항목"
   menu_item_setting: "표시 여부"
   wiki_menu_item_for: "위키 페이지 \"%{title}\"에 대한 메뉴 항목"

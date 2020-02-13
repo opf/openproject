@@ -28,31 +28,31 @@ fr:
     plugins:
       no_results_title_text: Il n'y a actuellement aucun plugin disponible.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Thème de couleur"
+      color_theme_custom: "(Personnalisé)"
       colors:
         alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        content-link-color: "Police des liens"
+        primary-color: "Principale"
+        primary-color-dark: "Principale (sombre)"
+        header-bg-color: "Fond de l'en-tête"
+        header-item-bg-hover-color: "Fond d’en-tête au survol"
+        header-item-font-color: "Police de l'en-tête"
+        header-item-font-hover-color: "Police d'en-tête au survol"
+        header-border-bottom-color: "Bordure de l'en-tête"
+        main-menu-bg-color: "Arrière-plan du menu principal"
+        main-menu-bg-selected-background: "Menu principal quand sélectionné"
+        main-menu-bg-hover-background: "Menu principal au survol"
+        main-menu-font-color: "Police du menu principal"
+        main-menu-selected-font-color: "Police du menu principal lorsque sélectionné"
+        main-menu-hover-font-color: "Police du menu principal au survol"
+        main-menu-border-color: "Bordure du menu principal"
       custom_colors: "Couleurs personnalisées"
       customize: "Personnalisez votre installation OpenProject avec votre propre logo. Remarque : Ce logo sera accessible publiquement."
       enterprise_notice: "En tant que remerciement spécial pour leur contribution financière au développement d'OpenProject, cette fonctionnalité n’est disponible que pour les titulaires d'une version Enterprise."
       manage_colors: "Modifier les options du sélecteur de couleur"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Couleur d'accentuation, habituellement utilisée pour le bouton le plus important à l'écran."
         content-link-color: "Couleur de la police de la plupart des liens."
         primary-color: "Couleur principale."
         primary-color-dark: "Habituellement, un ton plus sombre de la couleur principale utilisée pour les effets de mise en évidence."
@@ -598,7 +598,7 @@ fr:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "est trop élevé car un maximum de 24 heures peut être enregistré par date."
         work_package:
           is_not_a_valid_target_for_time_entries: "Le lot de travaux #%{id} n'est pas une cible valide pour réaffecter les entrées de temps."
           attributes:
@@ -748,7 +748,7 @@ fr:
     type: "Type"
     updated_at: "Mis à jour le"
     updated_on: "Mis à jour le"
-    uploader: "Uploader"
+    uploader: "Téléversé par"
     user: "Utilisateur"
     version: "Version"
     work_package: "Lot de travaux"
@@ -1034,7 +1034,7 @@ fr:
         rename_groups: "Renommer les groupes d’attributs"
       project_filters:
         description_html: "Filtrer et trier sur les champs personnalisés est une fonctionnalité de l'édition entreprise."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "Activités de suivi du temps"
   enumeration_work_package_priorities: "Priorités du Lot de Travaux"
   enumeration_reported_project_statuses: "Statuts de projet signalés"
   error_auth_source_sso_failed: "Single Sign-On (SSO) pour l’utilisateur '%{value}' a échoué"
@@ -1106,7 +1106,7 @@ fr:
       pdf_with_descriptions_and_attachments: "PDF avec descriptions et pièces jointes"
       pdf_with_attachments: "PDF avec pièces jointes"
     image:
-      omitted: "Image not exported."
+      omitted: "Image non exportée."
   extraction:
     available:
       pdftotext: "Pdftotext disponible (optionnel)"
@@ -1687,19 +1687,19 @@ fr:
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
   label_x_closed_work_packages_abbr:
-    zero: "0 closed"
+    zero: "0 clôturé"
     one: "1 clôturé"
     other: "%{count} clôturé(s)"
   label_x_comments:
-    zero: "no comments"
+    zero: "aucun commentaire"
     one: "1 commentaire"
     other: "%{count} commentaires"
   label_x_open_work_packages_abbr:
-    zero: "0 open"
+    zero: "0 ouvert"
     one: "un ouvert"
     other: "%{count} ouverts"
   label_x_projects:
-    zero: "no projects"
+    zero: "aucun projet"
     one: "1 projet"
     other: "%{count} projets"
   label_year: "Année"
@@ -2244,7 +2244,7 @@ fr:
   text_destroy_with_associated: "Il y a des objéts supplémentaires associés à ce(s) Lot(s) de Travaux qui doivent être supprimés. Ces objets sont des types suivants:"
   text_destroy_what_to_do: "Que voulez-vous faire?"
   text_diff_truncated: "... Cette « diff » a été tronquée car elle dépasse la taille maximale d'affichage."
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
+  text_email_delivery_not_configured: "L'envoi d'e-mails n'est pas configuré et les notifications sont désactivées.\nConfigurer votre serveur SMTP pour les activer."
   text_enumeration_category_reassign_to: "Les réassigner à cette valeur:"
   text_enumeration_destroy_question: "%{count} objéts sont assignés à cette valeur."
   text_file_repository_writable: "Répertoire des pièces jointes accessible en écriture"
@@ -2541,13 +2541,13 @@ fr:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Incompatibilité des paramètres de protocole'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Votre application est en cours d'exécution avec sa configuration de protocole définie sur <code>%{set_protocol}</code>, mais la requête est une requête <code>%{actual_protocol}</code> . Cela causera des erreurs ! Allez dans <a href="%{setting_path}">Paramètres système</a> et modifiez le paramètre « Protocole » pour corriger cela.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Incompatibilité des paramètres du nom d''hôte'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        Votre application est en cours d'exécution avec son nom d'hôte défini sur <code>%{set_hostname}</code>, mais la requête est un nom d'hôte <code>%{actual_hostname}</code> . Cela causera des erreurs ! Allez dans <a href="%{setting_path}">Paramètres système</a> et modifiez le paramètre « Nom d'hôte » pour corriger cela.
   menu_item: "Éléments de menu"
   menu_item_setting: "Visibilité"
   wiki_menu_item_for: "Élément de menu pour wikipage « %{title} »"
