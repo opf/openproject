@@ -74,7 +74,7 @@ export class GroupEditInPlaceComponent implements OnInit {
     );
   }
 
-  saveEdition(event:KeyboardEvent) {
+  saveEdition(event:FocusEvent) {
     this.leaveEditingMode();
     this.name = this.editedName.trim();
 
