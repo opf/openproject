@@ -12,6 +12,7 @@ ru:
     exceptions:
       file_invalid: "Неверный файл BCF"
     x_bcf_issues:
+      zero: 'No BCF issues'
       one: 'Проблема BCF'
       few: '%{count} проблемы BCF'
       many: '%{count} проблем BCF'

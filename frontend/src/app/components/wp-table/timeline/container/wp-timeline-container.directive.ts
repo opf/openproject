@@ -186,7 +186,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   refreshView() {
-    console.log('START REFRESH VIEW');
     if (!this.wpTableTimeline.isVisible) {
       debugLog('refreshView() requested, but TL is invisible.');
       return;
@@ -220,7 +219,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       const currentWidth = this.$element.find(timelineHeaderSelector)[0].scrollWidth;
       this.outerContainer.width(currentWidth);
 
-      // Mark rendering event in a timeout to let DOM process
+      // Mark rendering event in a timeout to give DOM some time
       setTimeout(() => {
         this.querySpace.timelineRendered.next(null);
       });

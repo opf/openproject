@@ -203,7 +203,7 @@ module OpenProject
       'status-selector-bg-color'                             => '#F99601',
       'status-selector-bg-hover-color'                       => '#E08600',
       'card-font-size'                                       => '16px',
-      'new-feature-teaser-image'                             => '#{image-url("new_feature_teaser.png")}',
+      'new-feature-teaser-image'                             => '#{image-url("new_feature_teaser.jpg")}',
       'project-status-gray'                                  => '#CCCCCC',
       'project-status-red'                                   => '#E73E3D',
       'project-status-orange'                                => '#FFB030',

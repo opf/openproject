@@ -1688,15 +1688,19 @@ bg:
   label_workflow_plural: "Работни потоци"
   label_workflow_summary: "Обобщение"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 затворен"
     other: "%{count} затворени"
   label_x_comments:
+    zero: "no comments"
     one: "1 коментар"
     other: "%{count} коментари"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 отворен"
     other: "%{count} отворени"
   label_x_projects:
+    zero: "no projects"
     one: "1 проект"
     other: "%{count} проекти"
   label_year: "Година"

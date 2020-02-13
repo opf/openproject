@@ -106,9 +106,6 @@ pl:
   caption_set_rate: "Ustaw domyślną stawkę"
   caption_show_locked: "Pokaż zamknięte typy kosztów"
   cost_objects_title: "Budżetowanie"
-  label_cost_type_plural: "Rodzaje kosztów"
-  currency_delimiter: "."
-  currency_separator: ","
   description_date_for_new_rate: "Data nowej stawki"
   events:
     cost_object: "Budżet edytowany"
@@ -126,6 +123,7 @@ pl:
   label_cost_plural: "Koszty"
   label_cost_report: "Raport kosztów"
   label_cost_type_specific: "Budżet #%{id}: %{name}"
+  label_cost_type_plural: "Rodzaje kosztów"
   label_costs_per_page: "Kosztów na stronę"
   label_currency: "Waluta"
   label_currency_format: "Format waluty"

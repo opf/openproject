@@ -104,9 +104,6 @@ bg:
   caption_set_rate: "Set current rate"
   caption_show_locked: "Show locked types"
   cost_objects_title: "Budgets"
-  label_cost_type_plural: "Cost types"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "Date for new rate"
   events:
     cost_object: "Budget edited"
@@ -124,6 +121,7 @@ bg:
   label_cost_plural: "Costs"
   label_cost_report: "Cost report"
   label_cost_type_specific: "Budget #%{id}: %{name}"
+  label_cost_type_plural: "Cost types"
   label_costs_per_page: "Costs per page"
   label_currency: "Currency"
   label_currency_format: "Format of currency"

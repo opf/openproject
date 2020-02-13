@@ -104,9 +104,6 @@ sv:
   caption_set_rate: "Ange aktuellt timpris"
   caption_show_locked: "Visa låst typer"
   cost_objects_title: "Budgetar"
-  label_cost_type_plural: "Kostnadstyper"
-  currency_delimiter: ";"
-  currency_separator: ","
   description_date_for_new_rate: "Datum för nytt timpris"
   events:
     cost_object: "Budget redigerad"
@@ -124,6 +121,7 @@ sv:
   label_cost_plural: "Kostnader"
   label_cost_report: "Kostnadsrapport"
   label_cost_type_specific: "Budget #%{id}: %{name}"
+  label_cost_type_plural: "Kostnadstyper"
   label_costs_per_page: "Kostnader per sida"
   label_currency: "Valuta"
   label_currency_format: "Formatet för valuta"

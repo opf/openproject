@@ -12,6 +12,7 @@ ko:
     exceptions:
       file_invalid: "잘못된 BCF 파일"
     x_bcf_issues:
+      zero: 'No BCF issues'
       other: '%{count}개 BCF 이슈'
     bcf_xml:
       xml_file: 'BCF XML 파일'

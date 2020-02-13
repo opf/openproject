@@ -103,9 +103,6 @@ ja:
   caption_set_rate: "現在の進捗を設定する"
   caption_show_locked: "ロックの種類を表示します。"
   cost_objects_title: "予算"
-  label_cost_type_plural: "コスト種類"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "新しいレートの日付"
   events:
     cost_object: "予算の編集"
@@ -123,6 +120,7 @@ ja:
   label_cost_plural: "コスト"
   label_cost_report: "コストレポート"
   label_cost_type_specific: "予算 #%{id}: %{name}"
+  label_cost_type_plural: "コスト種類"
   label_costs_per_page: "1ページあたりのコスト"
   label_currency: "通貨"
   label_currency_format: "通貨の形式"

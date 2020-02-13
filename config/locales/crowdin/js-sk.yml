@@ -533,6 +533,7 @@ sk:
     field_value_enter_prompt: "Zadajte hodnotu pre \"%{field}\""
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Zadajte ešte minimálne jeden znak"
         few: "Zadajte ešte minimálne {{count}} znakov"
         many: "Zadajte ešte minimálne {{count}} znakov"
@@ -541,6 +542,7 @@ sk:
       no_matches: "Nenašli sa žiadne záznamy"
       searching: "Vyhľadávanie ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Môžete vybrať maximálne 1 položku"
         few: "Môžete vybrať maximálne {{limit}} položku"
         many: "Môžete vybrať maximálne {{limit}} položku"
@@ -886,6 +888,7 @@ sk:
         many: "%{count} podradených pracovných balíčkov"
         other: "%{count} podradených pracovných balíčkov"
       hour:
+        zero: "0 h"
         one: "1 h"
         few: "%{count} h"
         many: "%{count} h"

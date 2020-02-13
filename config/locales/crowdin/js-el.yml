@@ -532,12 +532,14 @@ el:
     field_value_enter_prompt: "Εισαγωγή τιμής για το '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Παρακαλώ εισάγετε έναν ακόμη χαρακτήρα"
         other: "Παρακαλώ εισάγετε {{count}} ακόμη χαρακτήρες"
       load_more: "Φόρτωση περισσότερων αποτελεσμάτων ..."
       no_matches: "Δεν βρέθηκαν αντιστοιχίες"
       searching: "Αναζήτηση ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Μπορείτε να επιλέξετε μόνο ένα αντικείμενο"
         other: "Μπορείτε να επιλέξετε μόνο {{limit}} αντικείμενα"
     project_menu_details: "Λεπτομέρειες"
@@ -877,6 +879,7 @@ el:
         one: "ένα παιδί πακέτο εργασίας"
         other: "%{count} παιδιά πακέτα εργασίας"
       hour:
+        zero: "0 h"
         one: "1 ώρα"
         other: "%{count} ώρες"
     zen_mode:

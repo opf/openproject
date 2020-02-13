@@ -106,9 +106,6 @@ lt:
   caption_set_rate: "Nustatyti esamą koeficientą"
   caption_show_locked: "Rodyti užrakintus tipus"
   cost_objects_title: "Biudžetai"
-  label_cost_type_plural: "Kaštų tipai"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "Naujo koeficiento data"
   events:
     cost_object: "Biudžetas redaguotas"
@@ -126,6 +123,7 @@ lt:
   label_cost_plural: "Kaštai"
   label_cost_report: "Kaštų ataskaita"
   label_cost_type_specific: "Biudžetas Ę%{id}: %{name}"
+  label_cost_type_plural: "Kaštų tipai"
   label_costs_per_page: "Kaštų puslapyje"
   label_currency: "Valiuta"
   label_currency_format: "Valiutos formatas"

@@ -1688,15 +1688,19 @@ ca:
   label_workflow_plural: "Fluxos de treball"
   label_workflow_summary: "Resum"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 tancat"
     other: "%{count} tancats"
   label_x_comments:
+    zero: "no comments"
     one: "1 comentari"
     other: "%{count} comentaris"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 obert"
     other: "%{count} oberts"
   label_x_projects:
+    zero: "no projects"
     one: "1 projecte"
     other: "%{count} projectes"
   label_year: "Any"

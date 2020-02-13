@@ -533,6 +533,7 @@ pl:
     field_value_enter_prompt: "Wprowadź wartość dla '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Wprowadź jeszcze jeden znak"
         few: "Proszę wpisać jeszcze {{count}} znaków"
         many: "Proszę wpisać jeszcze {{count}} znaków"
@@ -541,6 +542,7 @@ pl:
       no_matches: "Nie znaleziono dopasowań"
       searching: "Wyszukiwanie ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Możesz wybrać tylko jeden element"
         few: "Możesz wybrać tylko {{limit}} elementy"
         many: "Możesz wybrać tylko {{limit}} elementy"
@@ -886,6 +888,7 @@ pl:
         many: "%{count} potomnych pakietów roboczych"
         other: "%{count} potomnych pakietów roboczych"
       hour:
+        zero: "0 h"
         one: "1 h"
         few: "%{count} h"
         many: "%{count} h"
