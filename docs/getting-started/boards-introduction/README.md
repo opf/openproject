@@ -1,14 +1,25 @@
-# Introduction to agile Boards (premium feature available in cloud and enterprise edition)
+---
+sidebar_navigation:
+  title: Agile Boards introduction
+  priority: 500
+description: Introduction to agile Boards in OpenProject.
+robots: index, follow
+keywords: Agile Boards
+---
+
+# Introduction to agile Boards (premium feature)
 
 In this document you will get a first introduction to the Boards in OpenProject, i.e. how to use a Kanban board to manage your tasks in an agile way.
 
-<div class="glossary">
-**Boards** in OpenProject consist of cards and columns. They help to visualize work, limit work-in-progress, and maximize efficiency (or flow). 
+<div class="alert alert-info" role="alert">
+**Note**: The agile Board is a premium feature and only available for [OpenProject Cloud Edition](https://www.openproject.org/hosting/) and [Enterprise Edition](https://www.openproject.org/enterprise-edition/) customers.
 </div>
 
-To find out more about the functionalities of Boards, please visit our [user guide for boards](../../user-guide/agile-boards).
+<div class="glossary">
+**Boards** in OpenProject enable agile project management, i.e. Kanban. Boards consist of lists (columns) with cards (work packages) on it. They help to visualize work, limit work-in-progress, and maximize efficiency (or flow).
+</div>
 
-The Agile Board is a premium feature and only available for [OpenProject Cloud Edition](https://www.openproject.org/hosting/) and [Enterprise Edition](https://www.openproject.org/enterprise-edition/) customers.
+To find out more about the detailed functionalities of Boards, please visit our [user guide for boards](../../user-guide/agile-boards).
 
 
 | Feature                                                     | Documentation for                          |

@@ -89,6 +89,6 @@ Click the grey **Export XLS** (Excel) button.
 
 ![User-guide-cost-reports-export](User-guide-cost-reports-export.png)
 
-You can then continue working in the Excel spreadsheet to filter, group, or import in different systems.
+You can then continue working in the Excel spreadsheet to filter, group, or import the data in different systems.
 
 ![Excel export time and cost reports](image-20200212131921959.png)
