@@ -175,13 +175,14 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
 
     spent_on_field.expect_value((Date.today.beginning_of_week(:sunday) + 3.days).strftime)
 
+    expect(page)
+      .not_to have_selector('.ng-spinner-loader')
+
     wp_field.input_element.click
     wp_field.set_value(other_work_package.subject)
 
     expect(page)
       .to have_no_content(I18n.t('js.time_entry.work_package_required'))
-
-    sleep(0.1)
 
     comments_field.set_value('Comment for new entry')
 
@@ -221,6 +222,11 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     activity_field.set_value(other_activity.name)
 
     wp_field.input_element.click
+    # As the other_work_package now has time logged, it is now considered to be a
+    # recent work package.
+    within('.ng-dropdown-header') do
+      click_link(I18n.t('js.label_recent'))
+    end
     wp_field.set_value(other_work_package.subject)
 
     hours_field.set_value('6')
