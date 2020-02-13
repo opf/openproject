@@ -132,13 +132,6 @@
           self.toggleClick($(this));
           return false;
         });
-        $(it).hover(function() {
-          // only do something if the menu is in hover mode
-          // AND the dropdown we hover on is not currently open anyways
-          if (self.hover && self.isClosed($(this))) {
-            self.open($(this));
-          }
-        });
         $(it).on('touchstart', function(e) {
           // This shall avoid the hover event is fired,
           // which would otherwise lead to menu being closed directly after its opened.
