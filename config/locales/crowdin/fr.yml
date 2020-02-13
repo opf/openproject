@@ -1663,15 +1663,19 @@ fr:
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
   label_x_closed_work_packages_abbr:
+    zero: "0 clôturé"
     one: "1 clôturé"
     other: "%{count} clôturé(s)"
   label_x_comments:
+    zero: "aucun commentaire"
     one: "1 commentaire"
     other: "%{count} commentaires"
   label_x_open_work_packages_abbr:
+    zero: "0 ouvert"
     one: "un ouvert"
     other: "%{count} ouverts"
   label_x_projects:
+    zero: "aucun projet"
     one: "1 projet"
     other: "%{count} projets"
   label_year: "Année"

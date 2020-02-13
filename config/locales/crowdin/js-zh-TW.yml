@@ -498,11 +498,13 @@ zh-TW:
     field_value_enter_prompt: "輸入'%{field}'的值"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         other: "請再輸入{{count}} 個字元"
       load_more: "正在載入更多結果..."
       no_matches: "找不到符合項目"
       searching: "正在搜尋…"
       selection_too_big:
+        zero: "You cannot select any items"
         other: "您只能選擇 {{limit}} 個項目"
     project_menu_details: "詳細資料"
     sort:
@@ -839,6 +841,7 @@ zh-TW:
       child_work_packages:
         other: "%{count} 個子工作項目"
       hour:
+        zero: "0 h"
         other: "%{count} h"
     zen_mode:
       button_activate: '啟動 zen 模式'

@@ -1680,18 +1680,22 @@ ro:
   label_workflow_plural: "Fluxuri de lucru"
   label_workflow_summary: "Descriere"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "unul închis"
     few: "%{count} închise"
     other: "%{count} închise"
   label_x_comments:
+    zero: "no comments"
     one: "un comentariu"
     few: "%{count} comentarii"
     other: "%{count} comentarii"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "unul deschis"
     few: "%{count} deschise"
     other: "%{count} deschise"
   label_x_projects:
+    zero: "no projects"
     one: "un proiect"
     few: "%{count} proiecte"
     other: "%{count} proiecte"

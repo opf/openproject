@@ -1662,15 +1662,19 @@ hu:
   label_workflow_plural: "A munkafolyamatok"
   label_workflow_summary: "Összegzés"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 zárva"
     other: "%{count} zárva"
   label_x_comments:
+    zero: "no comments"
     one: "1 komment"
     other: "%{count} komment"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 nyitott"
     other: "%{count} nyitott"
   label_x_projects:
+    zero: "no projects"
     one: "1 projekt"
     other: "%{count} projekt"
   label_year: "Év"

@@ -1648,12 +1648,16 @@ zh-TW:
   label_workflow_plural: "工作流程"
   label_workflow_summary: "大綱"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     other: "%{count} 個已結案"
   label_x_comments:
+    zero: "no comments"
     other: "%{count} 個評論"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     other: "%{count} 個未完成"
   label_x_projects:
+    zero: "no projects"
     other: "%{count} 個專案"
   label_year: "年份"
   label_yesterday: "昨天"

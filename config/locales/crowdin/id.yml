@@ -1647,12 +1647,16 @@ id:
   label_workflow_plural: "Alur kerja"
   label_workflow_summary: "Ringkasan"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     other: "%{count} tertutup"
   label_x_comments:
+    zero: "no comments"
     other: "%{count} komentar"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     other: "%{count} terbuka"
   label_x_projects:
+    zero: "no projects"
     other: "%{count} proyek"
   label_year: "Tahun"
   label_yesterday: "kemarin"

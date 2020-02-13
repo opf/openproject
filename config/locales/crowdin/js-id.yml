@@ -499,11 +499,13 @@ id:
     field_value_enter_prompt: "Masukkan nilai untuk '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         other: "Please enter {{count}} more characters"
       load_more: "Memuat hasil lebih banyak..."
       no_matches: "Tak ditemukan yang cocok"
       searching: "Mencari ..."
       selection_too_big:
+        zero: "You cannot select any items"
         other: "Anda hanya dapat memilih {{limit}} item"
     project_menu_details: "Detil"
     sort:
@@ -840,6 +842,7 @@ id:
       child_work_packages:
         other: "Paket kerja %{count} turunan"
       hour:
+        zero: "0 h"
         other: "%{count} h"
     zen_mode:
       button_activate: 'Mengaktifkan modus zen'

@@ -1728,6 +1728,7 @@ ar:
   label_workflow_plural: "تدفقات العمل"
   label_workflow_summary: "مُلخّص"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     zero: "%{count} مغلق"
     one: "1 مغلقة"
     two: "%{count} مغلق"
@@ -1735,6 +1736,7 @@ ar:
     many: "%{count} مغلق"
     other: "%{count} مغلق"
   label_x_comments:
+    zero: "no comments"
     zero: "%{count} تعليقات"
     one: "1 comment"
     two: "%{count} تعليقات"
@@ -1742,6 +1744,7 @@ ar:
     many: "%{count} تعليقات"
     other: "%{count} تعليقات"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     zero: "%{count} مفتوح"
     one: "1 open"
     two: "%{count} مفتوح"
@@ -1749,6 +1752,7 @@ ar:
     many: "%{count} مفتوح"
     other: "%{count} مفتوح"
   label_x_projects:
+    zero: "no projects"
     zero: "%{count} مشاريع"
     one: "1 project"
     two: "%{count} مشاريع"

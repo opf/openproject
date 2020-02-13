@@ -499,6 +499,7 @@ hr:
     field_value_enter_prompt: "Unesite vrijednost za '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Molim vas unesite još jedan znak"
         few: "Molim vas unesite još {{count}} znaka"
         other: "Molim vas unesite još {{count}} znaka"
@@ -506,6 +507,7 @@ hr:
       no_matches: "Nema pronađenih poveznica"
       searching: "Traženje ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Možete odabrati samo jedan element"
         few: "Možete odabrati samo {{limit}} elementa"
         other: "Možete odabrati samo {{limit}} elementa"
@@ -848,6 +850,7 @@ hr:
         few: "%{count} work package children"
         other: "%{count} work package children"
       hour:
+        zero: "0 h"
         one: "1 h"
         few: "%{count} h"
         other: "%{count} h"

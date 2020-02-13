@@ -1696,21 +1696,25 @@ uk:
   label_workflow_plural: "Робочі процеси"
   label_workflow_summary: "Резюме"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 закрита"
     few: "%{count} закритих"
     many: "%{count} закритих"
     other: "%{count} закритих"
   label_x_comments:
+    zero: "no comments"
     one: "1 коментар"
     few: "Коментарів: %{count}"
     many: "Коментарів: %{count}"
     other: "Коментарів: %{count}"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 відкрита"
     few: "%{count} відкритих"
     many: "%{count} відкритих"
     other: "%{count} відкритих"
   label_x_projects:
+    zero: "no projects"
     one: "1 проект"
     few: "%{count} проектів"
     many: "%{count} проектів"

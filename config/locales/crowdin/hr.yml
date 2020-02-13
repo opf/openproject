@@ -1680,18 +1680,22 @@ hr:
   label_workflow_plural: "Tijek rada"
   label_workflow_summary: "Sažetak"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 zaključen"
     few: "%{count} zatvorenih"
     other: "%{count} zatvorenih"
   label_x_comments:
+    zero: "no comments"
     one: "1 komentar"
     few: "%{count} komentara"
     other: "%{count} komentara"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 započet"
     few: "%{count} započeta"
     other: "%{count} započeta"
   label_x_projects:
+    zero: "no projects"
     one: "1 projekt"
     few: "%{count} projekta"
     other: "%{count} projekta"

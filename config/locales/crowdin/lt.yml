@@ -1695,21 +1695,25 @@ lt:
   label_workflow_plural: "Darbų eigos"
   label_workflow_summary: "Santrauka"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 uždarytas"
     few: "%{count} uždaryti (-as, -ų)"
     many: "%{count} uždaryti (-as, -ų)"
     other: "%{count} uždaryti (-as, -ų)"
   label_x_comments:
+    zero: "no comments"
     one: "1 komentatas"
     few: "%{count} komentarai (-as, -ų)"
     many: "%{count} komentarai (-as, -ų)"
     other: "%{count} komentarai (-as, -ų)"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 atidarytas"
     few: "%{count} atidaryti (-as, -ų)"
     many: "%{count} atidaryti (-as, -ų)"
     other: "%{count} atidaryti (-as, -ų)"
   label_x_projects:
+    zero: "no projects"
     one: "1 projektas"
     few: "%{count} projektai (-as, -ų)"
     many: "%{count} projektai (-as, -ų)"

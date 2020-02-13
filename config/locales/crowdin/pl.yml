@@ -1043,7 +1043,7 @@ pl:
         add_groups: "Dodaj nowe grupy atrybutów"
         rename_groups: "Zmień grupy atrybutów"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Filtrowanie i sortowanie pól niestandardowych jest funkcją edycji enterprise."
   enumeration_activities: "Działania"
   enumeration_work_package_priorities: "Priorytety pakietów roboczych"
   enumeration_system_activity: "Aktywność systemu"
@@ -1696,21 +1696,25 @@ pl:
   label_workflow_plural: "Przepływ zadań"
   label_workflow_summary: "Podsumowanie"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 zamknięty"
     few: "%{count} zamknięte"
     many: "%{count} zamknięte"
     other: "%{count} zamknięte"
   label_x_comments:
+    zero: "no comments"
     one: "1 komentarz"
     few: "%{count} komentarzy"
     many: "%{count} komentarzy"
     other: "%{count} komentarzy"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 otwarty"
     few: "Otwarte: %{count}"
     many: "Otwarte: %{count}"
     other: "Otwarte: %{count}"
   label_x_projects:
+    zero: "no projects"
     one: "%{count} projekt"
     few: "%{count} projekty"
     many: "%{count} projekty"
@@ -2681,7 +2685,7 @@ pl:
     x_active_tokens:
       one: 'jeden aktywny token'
       few: '%{count} aktywne tokeny'
-      many: '%{count} active token'
+      many: '%{count} aktywnych tokenów'
       other: '%{count} aktywnych tokenów'
     flows:
       authorization_code: "Przepływ Kod autoryzacji"

@@ -499,6 +499,7 @@ ar:
     field_value_enter_prompt: "أدخِل قيمة ل '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         zero: "من فضلك أدخِل {{count}} حروفًا أكثر"
         one: "من فضلك أدخِل حرفًا واحدًا آخر"
         two: "من فضلك أدخِل {{count}} حروفًا أكثر"
@@ -509,6 +510,7 @@ ar:
       no_matches: "لم يتم العثور على تطابقات"
       searching: "جاري البحث ..."
       selection_too_big:
+        zero: "You cannot select any items"
         zero: "تستطيع فقط اختيار {{limit}} عناصر"
         one: "تستطيع فقط اختيار عنصر واحد"
         two: "تستطيع فقط اختيار {{limit}} عناصر"
@@ -860,6 +862,7 @@ ar:
         many: "%{count} work package children"
         other: "%{count} work package children"
       hour:
+        zero: "0 h"
         zero: "%{count} h"
         one: "1 h"
         two: "%{count} h"

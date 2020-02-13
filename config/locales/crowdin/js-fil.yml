@@ -499,12 +499,14 @@ fil:
     field_value_enter_prompt: "Ipasok ang halaga para sa %{field}"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Mangyaring ipasok ang higit isang karakter"
         other: "Mangyaring ipasok ang {{count}} maraming karakter"
       load_more: "Naglo-load ng ibang resulta ..."
       no_matches: "Walang magkatugmang natagpuan"
       searching: "Naghahanap ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Maari ka lamang oumili ng isang aytem"
         other: "Maari ka lamang pumili ng mga {{limit}} aytem"
     project_menu_details: "Mga detalye"
@@ -844,6 +846,7 @@ fil:
         one: "isang bata work package"
         other: "%{count} work package mga bata"
       hour:
+        zero: "0 h"
         one: "1 h"
         other: "%{count} h"
     zen_mode:

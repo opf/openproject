@@ -1647,12 +1647,16 @@ ko:
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
   label_x_closed_work_packages_abbr:
+    zero: "0개 닫힘"
     other: "1개 닫힘\n%{count}개 닫힘"
   label_x_comments:
+    zero: "코멘트 없음"
     other: "1개 코멘트\n%{count}개 코멘트"
   label_x_open_work_packages_abbr:
+    zero: "0개 열림"
     other: "1개 열림\n%{count}개 열림"
   label_x_projects:
+    zero: "프로젝트 없음"
     other: "1개 프로젝트\n%{count}개 프로젝트"
   label_year: "년"
   label_yesterday: "어제"

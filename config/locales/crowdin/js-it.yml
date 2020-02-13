@@ -499,12 +499,14 @@ it:
     field_value_enter_prompt: "Inserisci un valore per '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Inserisci un altro carattere"
         other: "Inserisci altri {{count}} caratteri"
       load_more: "Carica altri risultati ..."
       no_matches: "Nessuna corrispondenza trovata"
       searching: "Ricerca in corso ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Puoi selezionare solo un elemento"
         other: "Puoi selezionare solo {{limit}} elementi"
     project_menu_details: "Dettagli"
@@ -844,6 +846,7 @@ it:
         one: "una macro-attività subordinata"
         other: "%{count} macro-attività subordinate"
       hour:
+        zero: "0 h"
         one: "1 o"
         other: "%{count} o"
     zen_mode:

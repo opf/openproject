@@ -499,12 +499,14 @@ tr:
     field_value_enter_prompt: "'%{field}' için bir değer girin"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Lütfen bir karakter daha girin"
         other: "Lütfen {{count}} karakter daha girin"
       load_more: "Daha fazla sonuç yükleniyor ..."
       no_matches: "Eşleşme bulunamadı"
       searching: "Aranıyor ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Yalnızca bir öğe seçebilirsiniz"
         other: "Sadece {{limit}} tane seçebilirsiniz"
     project_menu_details: "Detaylar"
@@ -844,6 +846,7 @@ tr:
         one: "bir alt iş paketi"
         other: "%{count} alt iş paketi"
       hour:
+        zero: "0 h"
         one: "%{count} 1 saat"
         other: "%{count} 1 saat"
     zen_mode:

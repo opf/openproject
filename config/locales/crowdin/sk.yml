@@ -1696,21 +1696,25 @@ sk:
   label_workflow_plural: "Pracovné postupy"
   label_workflow_summary: "Zhrnutie"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 uzatvorený"
     few: "%{count} uzatvorených"
     many: "%{count} uzatvorených"
     other: "%{count} uzatvorených"
   label_x_comments:
+    zero: "no comments"
     one: "1 komentár"
     few: "%{count} komentárov"
     many: "%{count} komentárov"
     other: "%{count} komentárov"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 otvorený"
     few: "%{count} otvorených"
     many: "%{count} otvorených"
     other: "%{count} otvorených"
   label_x_projects:
+    zero: "no projects"
     one: "1 projekt"
     few: "%{count} projektov"
     many: "%{count} projektov"

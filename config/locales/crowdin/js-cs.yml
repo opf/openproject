@@ -499,6 +499,7 @@ cs:
     field_value_enter_prompt: "Zadejte hodnotu pro '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Prosím, zadejte jeden nebo více znaků"
         few: "Prosím, zadejte ještě {{count}} znaků"
         many: "Prosím, zadejte ještě {{count}} znaků"
@@ -507,6 +508,7 @@ cs:
       no_matches: "Nenalezena žádná shoda"
       searching: "Vyhledávání ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Můžete vybrat pouze jednu položku"
         few: "Můžete vybrat pouze {{limit}} položek"
         many: "Můžete vybrat pouze {{limit}} položek"
@@ -852,6 +854,7 @@ cs:
         many: "%{count} podřazených pracovních balíčků"
         other: "%{count} podřazených pracovních balíčků"
       hour:
+        zero: "0 h"
         one: "1 h"
         few: "%{count} h"
         many: "%{count} h"

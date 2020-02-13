@@ -499,12 +499,14 @@
     field_value_enter_prompt: "Angi en verdi for '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Angi mer enn {{count}} tegn"
         other: "Vennligst skriv {{count}} flere tegn"
       load_more: "Laster inn flere resultater..."
       no_matches: "Ingen treff"
       searching: "Søker ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Du kan bare velge ett element"
         other: "Du kan bare velge {{limit}} elementer"
     project_menu_details: "Detaljer"
@@ -844,6 +846,7 @@
         one: "one child work package"
         other: "%{count} work package children"
       hour:
+        zero: "0 h"
         one: "1 h"
         other: "%{count} h"
     zen_mode:

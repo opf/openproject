@@ -1661,15 +1661,19 @@ es:
   label_workflow_plural: "Flujos de trabajo"
   label_workflow_summary: "Resumen"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 cerrado"
     other: "%{count} cerrados"
   label_x_comments:
+    zero: "no comments"
     one: "un comentario"
     other: "%{count} comentarios"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 abierto"
     other: "%{count} abiertos"
   label_x_projects:
+    zero: "no projects"
     one: "1 proyecto"
     other: "%{count} projectos"
   label_year: "Año"

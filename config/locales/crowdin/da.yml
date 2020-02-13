@@ -1664,15 +1664,19 @@ da:
   label_workflow_plural: "Arbejdsprocesser"
   label_workflow_summary: "Opsummering"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 lukket"
     other: "%{count} lukkede"
   label_x_comments:
+    zero: "no comments"
     one: "1 kommetar"
     other: "%{count} kommetarer"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 åbne"
     other: "%{count} åbne"
   label_x_projects:
+    zero: "no projects"
     one: "%{count} projekter"
     other: "%{count} projekter"
   label_year: "År"

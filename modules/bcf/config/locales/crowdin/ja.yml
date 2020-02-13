@@ -12,6 +12,7 @@ ja:
     exceptions:
       file_invalid: "BCFファイルが無効"
     x_bcf_issues:
+      zero: 'No BCF issues'
       other: '%{count} BCFチケット'
     bcf_xml:
       xml_file: 'BCF XML ファイル'

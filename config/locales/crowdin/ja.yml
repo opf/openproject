@@ -1646,12 +1646,16 @@ ja:
   label_workflow_plural: "ワークフロー"
   label_workflow_summary: "サマリー"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     other: "%{count}件完了"
   label_x_comments:
+    zero: "no comments"
     other: "%{count}件コメント"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     other: "%{count}件未完了"
   label_x_projects:
+    zero: "no projects"
     other: "%{count}件プロジェクト"
   label_year: "年"
   label_yesterday: "昨日"
