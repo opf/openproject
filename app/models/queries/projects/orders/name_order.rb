@@ -28,10 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Projects::Orders::DefaultOrder < Queries::BaseOrder
+class Queries::Projects::Orders::NameOrder < Queries::BaseOrder
   self.model = Project
 
   def self.key
-    /\A(id|created_at|public|lft)\z/
+    :name
+  end
+
+  def order
+    with_raise_on_invalid do
+      model.order(Arel.sql("lower(projects.name)").send(direction))
+    end
   end
 end

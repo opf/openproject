@@ -816,6 +816,11 @@ describe 'Projects index page',
                         parent: project,
                         name: "Z Child")
     end
+    let!(:child_project_m) do
+      FactoryBot.create(:project,
+                        parent: project,
+                        name: "m Child") # intentionally written lowercase to test for case insensitive sorting
+    end
     let!(:child_project_a) do
       FactoryBot.create(:project,
                         parent: project,
@@ -835,6 +840,8 @@ describe 'Projects index page',
       public_project.save!
       child_project_z.custom_field_values = { integer_custom_field.id => 4 }
       child_project_z.save!
+      child_project_m.custom_field_values = { integer_custom_field.id => 4 }
+      child_project_m.save!
       child_project_a.custom_field_values = { integer_custom_field.id => 4 }
       child_project_a.save!
     end
@@ -844,6 +851,7 @@ describe 'Projects index page',
       expect_projects_in_order(development_project,
                                project,
                                child_project_a,
+                               child_project_m,
                                child_project_z,
                                public_project)
 
@@ -852,6 +860,7 @@ describe 'Projects index page',
       # Projects ordered by name asc
       expect_projects_in_order(child_project_a,
                                development_project,
+                               child_project_m,
                                project,
                                public_project,
                                child_project_z)
@@ -862,6 +871,7 @@ describe 'Projects index page',
       expect_projects_in_order(child_project_z,
                                public_project,
                                project,
+                               child_project_m,
                                development_project,
                                child_project_a)
 
@@ -872,6 +882,7 @@ describe 'Projects index page',
                                development_project,
                                public_project,
                                child_project_z,
+                               child_project_m,
                                child_project_a)
 
       click_link('Sort by "Project hierarchy"')
@@ -880,18 +891,19 @@ describe 'Projects index page',
       expect_projects_in_order(development_project,
                                project,
                                child_project_a,
+                               child_project_m,
                                child_project_z,
                                public_project)
     end
+  end
 
-    feature 'blacklisted filters' do
-      scenario 'are not visible' do
-        load_and_open_filters admin
+  feature 'blacklisted filters' do
+    scenario 'are not visible' do
+      load_and_open_filters admin
 
-        expect(page).to_not have_select('add_filter_select', with_options: ["Principal"])
-        expect(page).to_not have_select('add_filter_select', with_options: ["ID"])
-        expect(page).to_not have_select('add_filter_select', with_options: ["Subproject of"])
-      end
+      expect(page).to_not have_select('add_filter_select', with_options: ["Principal"])
+      expect(page).to_not have_select('add_filter_select', with_options: ["ID"])
+      expect(page).to_not have_select('add_filter_select', with_options: ["Subproject of"])
     end
   end
 end
