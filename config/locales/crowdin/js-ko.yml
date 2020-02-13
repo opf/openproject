@@ -208,8 +208,15 @@ ko:
       blocks:
         new_features:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
-          current_new_feature_html: "OpenProject에는 <b>중요 프로젝트 정보를 표시하고</b> 프로젝트가 정상 상태인지 나타내는 새로운 <b>요약 페이지</b>가 포함되어 있습니다. </br> 사용자는 다양한 새로운 상태 위젯을 삽입할 수 있습니다. 예: <ul><li>프로젝트 상태,</li> <li>작업 패키지 상태 개요,</li> <li>작업 진행률,</li> <li>사용자에게 할당된 작업.</li></ul>"
-          learn_about: "새로운 상태 위젯에 대해 자세히 알아보기"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -309,6 +316,7 @@ ko:
     label_project_plural: "프로젝트"
     label_visibility_settings: "표시 여부 설정"
     label_quote_comment: "코멘트 인용"
+    label_recent: "Recent"
     label_reset: "재설정"
     label_remove_column: "열 제거"
     label_remove_columns: "선택된 열 제거"
@@ -459,13 +467,13 @@ ko:
           requires: "요구"
           required: "다음에 의해 요구됨:"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "양식 구성"
         projects: "프로젝트"
         settings: "설정"
     time_entry:
       project: '프로젝트'
       work_package: '작업 패키지'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: '먼저 작업 패키지를 선택해야 합니다.'
       activity: '활동'
       comment: '코멘트'
       duration: '기간'
@@ -533,11 +541,13 @@ ko:
     field_value_enter_prompt: "'%{field}'에 대 한 값을 입력하세요."
     select2:
       input_too_short:
+        zero: "문자를 더 입력하세요"
         other: "{{count}} 이상의 글자를 입력해 주십시오."
       load_more: "더 많은 결과를 불러오고 있습니다 ..."
       no_matches: "조건에 맞는 결과가 없습니다."
       searching: "찾는 중 ..."
       selection_too_big:
+        zero: "어느 항목도 선택할 수 없습니다"
         other: "{{limit}}개만 선택하실 수 있습니다."
     project_menu_details: "세부 정보"
     sort:
@@ -874,6 +884,7 @@ ko:
       child_work_packages:
         other: "%{count}개의 작업 패키지 자식"
       hour:
+        zero: "0 h"
         other: "%{count}시간"
     zen_mode:
       button_activate: 'Zen 모드 활성화'

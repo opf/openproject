@@ -208,8 +208,15 @@ fr:
       blocks:
         new_features:
           text_new_features: "En savoir plus sur les nouvelles fonctionnalités et les mises à jour des produits."
-          current_new_feature_html: "OpenProject contient une nouvelle <b>page d'aperçu</b> pour <b>afficher les informations importantes du projet</b> et montrer si le projet est sur la bonne voie. </br> Vous pouvez insérer divers widgets de statut, comme : <ul><li>statut du projet,</li> <li> aperçu du statut du lot de travaux,</li> <li>progression de tâches,</li> <li>tâches assignées aux utilisateurs.</li></ul>"
-          learn_about: "En savoir plus sur les nouveaux widgets de statut"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne au-dessus"
     label_add_column_before: "Ajouter une colonne avant"
@@ -309,6 +316,7 @@ fr:
     label_project_plural: "Projets"
     label_visibility_settings: "Paramètres de visibilité"
     label_quote_comment: "Citer ce commentaire"
+    label_recent: "Recent"
     label_reset: "Réinitialiser"
     label_remove_column: "Supprimer la colonne"
     label_remove_columns: "Enlever les colonnes sélectionnées"
@@ -465,7 +473,7 @@ fr:
     time_entry:
       project: 'Projet'
       work_package: 'Lot de travaux'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Nécessite d''abord la sélection d''un lot de travaux.'
       activity: 'Activité'
       comment: 'Commentaire'
       duration: 'Durée'
@@ -533,12 +541,14 @@ fr:
     field_value_enter_prompt: "Saisissez une valeur pour « %{field} »"
     select2:
       input_too_short:
+        zero: "Veuillez saisir plus de caractères"
         one: "Veuillez saisir un caractère supplémentaire"
         other: "Veuillez saisir {{count}} caractères supplémentaires"
       load_more: "Chargement de plus de résultats ..."
       no_matches: "Pas de correspondances trouvées"
       searching: "Recherche…"
       selection_too_big:
+        zero: "Vous ne pouvez sélectionner aucun élément"
         one: "Vous pouvez seulement sélectionner un élément"
         other: "Vous pouvez seulement sélectionner {{limit}} éléments"
     project_menu_details: "Détails"
@@ -878,6 +888,7 @@ fr:
         one: "un lot de travaux enfant"
         other: "%{count} lots de travaux enfant"
       hour:
+        zero: "0 h"
         one: "1h"
         other: "%{count}h"
     zen_mode:

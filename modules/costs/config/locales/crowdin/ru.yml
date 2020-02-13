@@ -106,9 +106,6 @@ ru:
   caption_set_rate: "Установить текущий тариф"
   caption_show_locked: "Показывать Заблокированные типы"
   cost_objects_title: "Бюджеты"
-  label_cost_type_plural: "Типы затрат"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "Дата для нового тарифа"
   events:
     cost_object: "Бюджет изменен"
@@ -126,6 +123,7 @@ ru:
   label_cost_plural: "Расходы"
   label_cost_report: "Отчет по расходам"
   label_cost_type_specific: "Бюджет #%{id}: %{name}"
+  label_cost_type_plural: "Типы затрат"
   label_costs_per_page: "Расходов на странице"
   label_currency: "Валюта"
   label_currency_format: "Формат валюты"

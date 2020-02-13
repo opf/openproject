@@ -52,7 +52,7 @@ pl:
   backlogs:
     add_new_story: "Nowe Story"
     any: "którekolwiek"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "Ustawienia Backlogs"
     burndown_graph: "Wykres Burndown"
     card_paper_size: "Rozmiar papieru do drukowania kart"
     chart_options: "Opcje wykresu"

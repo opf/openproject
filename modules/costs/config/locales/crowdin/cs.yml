@@ -106,9 +106,6 @@ cs:
   caption_set_rate: "Nastavit aktuální sazbu."
   caption_show_locked: "Zobrazit uzamčené typy"
   cost_objects_title: "Rozpočty"
-  label_cost_type_plural: "Typy nákladů"
-  currency_delimiter: ","
-  currency_separator: ","
   description_date_for_new_rate: "Datum pro nový kurz"
   events:
     cost_object: "Rozpočet editován"
@@ -126,6 +123,7 @@ cs:
   label_cost_plural: "Náklady"
   label_cost_report: "Výkaz nákladů"
   label_cost_type_specific: "Rozpočet č.%{id}: %{name}"
+  label_cost_type_plural: "Typy nákladů"
   label_costs_per_page: "Náklady na stránku"
   label_currency: "Měna"
   label_currency_format: "Formát měny"

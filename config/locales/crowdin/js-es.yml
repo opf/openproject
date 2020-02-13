@@ -208,8 +208,15 @@ es:
       blocks:
         new_features:
           text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
-          current_new_feature_html: "OpenProject tiene una nueva <b>página de información general</b> para <b>mostrar información importante sobre el proyecto</b> e indicar si se completará según lo previsto. </br> Puede insertar nuevos widgets de estado, como: <ul><li>estado del proyecto,</li> <li>información general sobre el estado del paquete de trabajo,</li> <li>progreso de la tarea,</li> <li>tareas asignadas a usuarios.</li></ul>"
-          learn_about: "Más información sobre los nuevos widgets de estado"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
@@ -309,6 +316,7 @@ es:
     label_project_plural: "Proyectos"
     label_visibility_settings: "Configuración de visibilidad"
     label_quote_comment: "Citar este comentario"
+    label_recent: "Recent"
     label_reset: "Reiniciar"
     label_remove_column: "Eliminar columna"
     label_remove_columns: "Eliminar columnas seleccionadas"
@@ -533,12 +541,14 @@ es:
     field_value_enter_prompt: "Introduzca un valor para '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Por favor introduzca un carácter más"
         other: "Por favor, ingrese {{count}} caracteres más"
       load_more: "Cargando mas resultados ..."
       no_matches: "No se encontraron coincidencias"
       searching: "Buscando ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Solo puede seleccionar un objeto"
         other: "Solo puede seleccionar {{limit}} objetos"
     project_menu_details: "Detalles"
@@ -878,6 +888,7 @@ es:
         one: "un paquete de trabajo secundario"
         other: "%{count} paquetes de trabajo secundarios"
       hour:
+        zero: "0 h"
         one: "1 h"
         other: "%{count} h"
     zen_mode:

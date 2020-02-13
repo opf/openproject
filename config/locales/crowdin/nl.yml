@@ -1688,15 +1688,19 @@ nl:
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Samenvatting"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 gesloten"
     other: "%{count} gesloten"
   label_x_comments:
+    zero: "no comments"
     one: "%{count} reactie"
     other: "%{count} reacties"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 open"
     other: "%{count} open"
   label_x_projects:
+    zero: "no projects"
     one: "1 project"
     other: "%{count} projecten"
   label_year: "Jaar"

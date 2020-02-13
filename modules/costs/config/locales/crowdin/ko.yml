@@ -103,9 +103,6 @@ ko:
   caption_set_rate: "현재 요금 설정"
   caption_show_locked: "잠긴 유형 표시"
   cost_objects_title: "예산"
-  label_cost_type_plural: "비용 유형"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "새로운 요금의 날짜"
   events:
     cost_object: "예산 편집됨"
@@ -123,6 +120,7 @@ ko:
   label_cost_plural: "비용"
   label_cost_report: "비용 보고서"
   label_cost_type_specific: "예산 #%{id}: %{name}"
+  label_cost_type_plural: "비용 유형"
   label_costs_per_page: "페이지당 비용"
   label_currency: "통화"
   label_currency_format: "통화 형식"

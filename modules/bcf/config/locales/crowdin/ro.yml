@@ -12,6 +12,7 @@ ro:
     exceptions:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
+      zero: 'No BCF issues'
       one: 'One BCF issue'
       few: '%{count} BCF issues'
       other: '%{count} BCF issues'

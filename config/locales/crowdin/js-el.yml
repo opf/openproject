@@ -207,8 +207,15 @@ el:
       blocks:
         new_features:
           text_new_features: "Διαβάστε για τις νέες λειτουργίες και τις ενημερώσεις προϊόντων."
-          current_new_feature_html: "Το OpenProject περιέχει μια νέα <b> σελίδα Επισκόπησης </b> για να <b>εμφανίσετε σημαντικές πληροφορίες έργου </b> και να δείξει εάν το έργο βρίσκεται εντός χρονοδιαγράμματος. </br> Μπορείτε να εισάγετε διάφορα γραφικά στοιχεία (widgets) για την κατάσταση, όπως: <ul><li> κατάσταση έργου, </li><li> επισκόπηση της κατάστασης του πακέτου εργασίας, </li><li>πρόοδος εργασίας,</li> <li> εργασίες που έχουν εκχωρηθεί στους χρήστες. </li></ul>"
-          learn_about: "Μάθετε περισσότερα για τα νέα widgets κατάστασης"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Ενεργοποίηση"
     label_add_column_after: "Προσθήκη στήλης μετά"
     label_add_column_before: "Προσθήκη στήλης πριν"
@@ -308,6 +315,7 @@ el:
     label_project_plural: "Έργα"
     label_visibility_settings: "Ρυθμίσεις ορατότητας"
     label_quote_comment: "Παραθέστε αυτό το σχόλιο"
+    label_recent: "Recent"
     label_reset: "Επαναφορά"
     label_remove_column: "Κατάργηση στήλης"
     label_remove_columns: "Αφαιρέστε τις επιλεγμένες στήλες"
@@ -532,12 +540,14 @@ el:
     field_value_enter_prompt: "Εισαγωγή τιμής για το '%{field}'"
     select2:
       input_too_short:
+        zero: "Παρακαλούμε εισάγετε περισσότερους χαρακτήρες"
         one: "Παρακαλώ εισάγετε έναν ακόμη χαρακτήρα"
         other: "Παρακαλώ εισάγετε {{count}} ακόμη χαρακτήρες"
       load_more: "Φόρτωση περισσότερων αποτελεσμάτων ..."
       no_matches: "Δεν βρέθηκαν αντιστοιχίες"
       searching: "Αναζήτηση ..."
       selection_too_big:
+        zero: "Δεν μπορείτε να επιλέξετε κανένα αντικείμενο"
         one: "Μπορείτε να επιλέξετε μόνο ένα αντικείμενο"
         other: "Μπορείτε να επιλέξετε μόνο {{limit}} αντικείμενα"
     project_menu_details: "Λεπτομέρειες"
@@ -877,6 +887,7 @@ el:
         one: "ένα παιδί πακέτο εργασίας"
         other: "%{count} παιδιά πακέτα εργασίας"
       hour:
+        zero: "0 ω"
         one: "1 ώρα"
         other: "%{count} ώρες"
     zen_mode:

@@ -533,7 +533,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
             <span class="tooltip--map--value">${this.sanitizedValue(entry.activity.name)}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.duration')}:</span>
+            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.hours')}:</span>
             <span class="tooltip--map--value">${this.timezone.formattedDuration(entry.hours)}</span>
           </li>
           <li class="tooltip--map--item">

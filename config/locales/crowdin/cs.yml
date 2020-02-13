@@ -1720,21 +1720,25 @@ cs:
   label_workflow_plural: "Pracovní vrstvy"
   label_workflow_summary: "Souhrn"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 uzavřen"
     few: "%{count} uzavřeny"
     many: "%{count} uzavřeny"
     other: "%{count} uzavřeny"
   label_x_comments:
+    zero: "no comments"
     one: "1 komentář"
     few: "%{count} komentářů"
     many: "%{count} komentářů"
     other: "%{count} komentářů"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 otevřený"
     few: "%{count} otevřených"
     many: "%{count} otevřených"
     other: "%{count} otevřených"
   label_x_projects:
+    zero: "no projects"
     one: "1 projekt"
     few: "%{count} projektů"
     many: "%{count} projektů"

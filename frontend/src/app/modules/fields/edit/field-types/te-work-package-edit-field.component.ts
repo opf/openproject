@@ -28,11 +28,44 @@
 
 import {Component} from "@angular/core";
 import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
+import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {
+  TimeEntryWorkPackageAutocompleterComponent,
+  TimeEntryWorkPackageAutocompleterMode
+} from "core-app/modules/common/autocomplete/te-work-package-autocompleter.component";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+
+const RECENT_TIME_ENTRIES_MAGIC_NUMBER = 30;
 
 @Component({
   templateUrl: './work-package-edit-field.component.html'
 })
 export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditFieldComponent {
+  public timeEntryDm = this.injector.get(TimeEntryDmService);
+  private recentWorkPackageIds:string[];
+
+  protected initialize() {
+    super.initialize();
+
+    // For reasons beyond me, the referenceOutputs variable is not defined at first when editing
+    // existing values.
+    if (this.referenceOutputs) {
+      this.referenceOutputs['modeSwitch'] = (mode:TimeEntryWorkPackageAutocompleterMode) => {
+        let lastValue = this.requests.lastRequestedValue!;
+
+        // Hack to provide a new value to "reset" the input.
+        // Only the second input is actually processed as the input is debounced.
+        this.requests.input$.next('_/&"()____');
+        this.requests.input$.next(lastValue);
+      };
+    }
+  }
+
+  public autocompleterComponent() {
+    return TimeEntryWorkPackageAutocompleterComponent;
+  }
+
   // Although the schema states the work packages to not be required,
   // as time entries can also be assigned to a project, we want to only assign
   // time entries to work packages and thus require a value.
@@ -40,5 +73,56 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
   // time entry view in the application.
   protected isRequired() {
     return true;
+  }
+
+  // We fetch the last RECENT_TIME_ENTRIES_MAGIC_NUMBER time entries by that user. We then use it to fetch the work packages
+  // associated with the time entries so that we have the most recent work packages the user logged time on.
+  // As a worst case, the user logged RECENT_TIME_ENTRIES_MAGIC_NUMBER times on one work package so we can not guarantee to actually have
+  // a fixed number returned.
+  protected allowedValuesFetch(query?:string) {
+    if (!this.recentWorkPackageIds) {
+      return this
+        .timeEntryDm
+        .list({ filters: [['user_id', '=', ['me']]], sortBy: [["updated_on", "desc"]], pageSize: RECENT_TIME_ENTRIES_MAGIC_NUMBER })
+        .then(collection => {
+          this.recentWorkPackageIds = collection
+            .elements
+            .map((timeEntry) => timeEntry.workPackage.idFromLink)
+            .filter((v, i, a) => a.indexOf(v) === i);
+
+          return super.allowedValuesFetch(query);
+        });
+    } else {
+      return super.allowedValuesFetch(query);
+    }
+  }
+
+  protected allowedValuesFilter(query?:string):{} {
+    let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+
+    if ((this._autocompleterComponent as TimeEntryWorkPackageAutocompleterComponent).mode === 'recent') {
+      filters.add('id', '=', this.recentWorkPackageIds);
+    }
+
+    if (query) {
+      filters.add('subjectOrId', '**', [query]);
+    }
+
+    return { filters: filters.toJson() };
+  }
+
+  protected sortValues(availableValues:HalResource[]) {
+    if ((this._autocompleterComponent as TimeEntryWorkPackageAutocompleterComponent).mode === 'recent') {
+      return this.sortValuesByRecentIds(availableValues);
+    } else {
+      return super.sortValues(availableValues);
+    }
+  }
+
+  protected sortValuesByRecentIds(availableValues:HalResource[]) {
+    return availableValues
+      .sort((a, b) => {
+        return this.recentWorkPackageIds.indexOf(a.id!) - this.recentWorkPackageIds.indexOf(b.id!);
+      });
   }
 }

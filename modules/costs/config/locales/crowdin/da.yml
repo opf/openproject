@@ -104,9 +104,6 @@ da:
   caption_set_rate: "Indstil nuværende sats"
   caption_show_locked: "Vis låste typer"
   cost_objects_title: "Budgetter"
-  label_cost_type_plural: "Omkostningstyper"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "Dato for ny sats"
   events:
     cost_object: "Budget redigeret"
@@ -124,6 +121,7 @@ da:
   label_cost_plural: "Omkostninger"
   label_cost_report: "Omkostningsrapport"
   label_cost_type_specific: "Budget #%{id}: %{name}"
+  label_cost_type_plural: "Omkostningstyper"
   label_costs_per_page: "Omkostninger pr. side"
   label_currency: "Valuta"
   label_currency_format: "Valutaformat"

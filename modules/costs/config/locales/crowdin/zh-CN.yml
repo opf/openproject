@@ -103,9 +103,6 @@ zh-CN:
   caption_set_rate: "设置当前费率"
   caption_show_locked: "显示锁定类型"
   cost_objects_title: "预算"
-  label_cost_type_plural: "成本类型"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "新费率的日期"
   events:
     cost_object: "预算已编辑"
@@ -123,6 +120,7 @@ zh-CN:
   label_cost_plural: "成本"
   label_cost_report: "成本报告"
   label_cost_type_specific: "预算 #%{id}：%{name}"
+  label_cost_type_plural: "成本类型"
   label_costs_per_page: "每页的成本"
   label_currency: "货币"
   label_currency_format: "货币格式"

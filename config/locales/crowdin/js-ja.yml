@@ -209,8 +209,15 @@ ja:
       blocks:
         new_features:
           text_new_features: "新しい機能と製品の更新について表示する"
-          current_new_feature_html: "OpenProject には、<b>重要なプロジェクト情報を表示</b> して、プロジェクトが順調に進んでいるかどうかを表示する、新しい <b>概要ページ</b> が含まれています。 </br> <ul><li>プロジェクトのステータス</li> <li>作業項目のステータスの概要</li> <li>タスクの進捗状況</li> <li>ユーザーに割り当てられたタスク</li></ul> など、さまざまな新しいステータスウィジェットを挿入できます。"
-          learn_about: "新しいステータスウィジェットの詳細"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "有効にする"
     label_add_column_after: "後に列を追加"
     label_add_column_before: "前に列を追加"
@@ -310,6 +317,7 @@ ja:
     label_project_plural: "プロジェクト"
     label_visibility_settings: "表示の設定"
     label_quote_comment: "このコメントを引用"
+    label_recent: "Recent"
     label_reset: "リセット"
     label_remove_column: "列を削除"
     label_remove_columns: "選択した列を削除"
@@ -536,11 +544,13 @@ ja:
     field_value_enter_prompt: "'%{field}'の値を入力"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         other: "後{{count}}以上の文字を入力してください。"
       load_more: "より多くの結果を読み込み中…"
       no_matches: "一致するものが見つかりません。"
       searching: "検索中..."
       selection_too_big:
+        zero: "You cannot select any items"
         other: "{{limit}}つ項目のみを選択できます。"
     project_menu_details: "詳細"
     sort:
@@ -877,6 +887,7 @@ ja:
       child_work_packages:
         other: "%{count} の子ワークパッケージ"
       hour:
+        zero: "0 h"
         other: "%{count} 時間"
     zen_mode:
       button_activate: 'マナーモードをアクティブにする'

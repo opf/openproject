@@ -208,8 +208,15 @@ tr:
       blocks:
         new_features:
           text_new_features: "Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin."
-          current_new_feature_html: "OpenProject, <b> önemli proje bilgilerini görüntülemek </b> ve projenin yolunda olup olmadığını göstermek için yeni bir <b> Genel bakış sayfası </b> içerir. </br> Şunlar gibi çeşitli yeni durum widget'ları ekleyebilirsiniz: <ul> <li> proje durumu, </li> <li> iş paketi durumuna genel bakış, </li> <li> görev ilerlemesi, </ li > <li> kullanıcılara atanan görevler. </li> </ul>"
-          learn_about: "Yeni durum widget'ları hakkında daha fazla bilgi edinin"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
@@ -309,6 +316,7 @@ tr:
     label_project_plural: "Projeler"
     label_visibility_settings: "Görünürlük ayarları"
     label_quote_comment: "Yorumu alıntıla"
+    label_recent: "Recent"
     label_reset: "Sıfırla"
     label_remove_column: "Sütunu kaldır"
     label_remove_columns: "Seçili sütunları sil"
@@ -533,12 +541,14 @@ tr:
     field_value_enter_prompt: "'%{field}' için bir değer girin"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Lütfen bir karakter daha girin"
         other: "Lütfen {{count}} karakter daha girin"
       load_more: "Daha fazla sonuç yükleniyor ..."
       no_matches: "Eşleşme bulunamadı"
       searching: "Aranıyor ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Yalnızca bir öğe seçebilirsiniz"
         other: "Sadece {{limit}} tane seçebilirsiniz"
     project_menu_details: "Detaylar"
@@ -878,6 +888,7 @@ tr:
         one: "bir alt iş paketi"
         other: "%{count} alt iş paketi"
       hour:
+        zero: "0 h"
         one: "%{count} 1 saat"
         other: "%{count} 1 saat"
     zen_mode:

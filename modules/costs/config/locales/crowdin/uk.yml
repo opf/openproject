@@ -106,9 +106,6 @@ uk:
   caption_set_rate: "Встановити поточну швидкість"
   caption_show_locked: "Показати заблоковані типи"
   cost_objects_title: "Бюджети"
-  label_cost_type_plural: "Види витрат"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "Дата нової ставки"
   events:
     cost_object: "Бюджет відредаговано"
@@ -126,6 +123,7 @@ uk:
   label_cost_plural: "Витрати"
   label_cost_report: "Звіт про витрати"
   label_cost_type_specific: "Бюджет #%{id}: %{name}\n"
+  label_cost_type_plural: "Види витрат"
   label_costs_per_page: "Витрати на сторінку"
   label_currency: "Валюта"
   label_currency_format: "Формат валюти"

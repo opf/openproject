@@ -61,7 +61,8 @@ See docs/COPYRIGHT.rdoc for more details.
         data-locale="<%= I18n.locale %>"
         data-first-day-of-week="<%= locale_first_day_of_week %>"
         data-default-locale="<%= I18n.default_locale %>"
-        data-environment="<%= Rails.env %>"/>
+        data-environment="<%= Rails.env %>"
+        data-edition="<%= OpenProject::Configuration.edition %>"/>
   <meta name="current_menu_item" content="<%= current_menu_item %>"/>
   <% if Setting.demo_projects_available %><meta name="demo_projects_available" content="true"/><% end %>
   <% if Setting.boards_demo_data_available %><meta name="boards_demo_data_available" content="true"/><% end %>

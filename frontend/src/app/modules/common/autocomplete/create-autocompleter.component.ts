@@ -66,7 +66,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   @ViewChild('ngSelectComponent', {static: false}) public ngSelectComponent:NgSelectComponent;
 
-  public text:any = {
+  public text:{ [key:string]:string } = {
     add_new_action: this.I18n.t('js.label_create'),
   };
 

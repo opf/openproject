@@ -12,6 +12,7 @@ zh-TW:
     exceptions:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
+      zero: 'No BCF issues'
       other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML File'
