@@ -101,11 +101,8 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     this.hasQueryProps = !!this.$state.params.query_props;
 
     // If the query was loaded, reload invisibly
-    if (this.querySpace.initialized.hasValue()) {
-      this.refresh();
-    } else {
-      this.loadCurrentQuery();
-    }
+    const isFirstLoad = !this.querySpace.initialized.hasValue();
+    this.refresh(isFirstLoad, isFirstLoad);
 
     // Load query on URL transitions
     this.updateQueryOnParamsChanges();
@@ -199,7 +196,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     let promise:Promise<unknown>;
 
     if (firstPage) {
-      promise = this.loadCurrentQuery();
+      promise = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
     } else {
       promise = this.wpListService.reloadCurrentResultsList();
     }
@@ -207,7 +204,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     if (visibly) {
       this.loadingIndicator = promise.then(() => {
         if (this.wpTableTimeline.isVisible) {
-          return this.querySpace.timelineRendered.toPromise();
+          return this.querySpace.timelineRendered.pipe(take(1)).toPromise();
         } else {
           return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
         }
@@ -253,7 +250,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       this.wpListChecksumService
         .executeIfOutdated(newId,
           newChecksum,
-          () => this.loadCurrentQuery());
+          () => this.refresh(true, true));
     });
   }
 
@@ -273,9 +270,4 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     this.loadingIndicatorService.table.promise = promise;
   }
 
-  protected loadCurrentQuery():Promise<unknown> {
-    return this.loadingIndicator =
-      this.wpListService
-        .loadCurrentQueryFromParams(this.projectIdentifier);
-  }
 }
