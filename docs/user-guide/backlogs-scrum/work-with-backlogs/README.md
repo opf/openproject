@@ -25,7 +25,7 @@ Moreover, please note that the backlogs module is not available in the accessibi
 
 ## Create a new backlog
 
-The first thing you will do is to **create a new backlog version** (product backlog or sprints). Read here on [creating a new backlogs version or a sprint](../../project-settings/versions/versions-backlogs). You can always manage the backlog versions under project settings, if you have the necessary administrator rights.
+The first thing you will do is to **create a new backlog version** (product backlog or sprints). Read here on [creating a new backlogs version or a sprint](../manage-sprints). You can always manage the backlog versions under project settings, if you have the necessary administrator rights.
 
 The versions (product backlog or sprint) will then appear in the module Backlogs either on the left or on the right side.
 

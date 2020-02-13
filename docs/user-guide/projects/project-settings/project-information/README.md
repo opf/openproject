@@ -10,7 +10,7 @@ keywords: project information
 
 Manage your project information in the Project settings: select a project and open the -> *Project Settings* -> *Information*.
 
-**To view all details about managing projects**, view our [projects section](../../projects).
+**To view all details about managing projects**, view our [projects section](../../).
 
 You will have the following options in the project settings.
 
@@ -20,13 +20,13 @@ You will have the following options in the project settings.
 4. Add a project **description**.
 5. Display or edit the **project identifier**. This is the part of the project name shown in the URL, e.g. /demo-project.
 6. The a project to **public**. This ways users will be able to access the project without logging in.
-7. Set a **project status**. The project status can be displayed in the [project overview](../../project-overview).
-8. Ad a **project status description**. The status description will be shown on the [project overview](../../project-overview) page.
+7. Set a **project status**. The project status can be displayed in the [project overview](../../../project-overview).
+8. Ad a **project status description**. The status description will be shown on the [project overview](../../../project-overview) page.
 9. Display the required disk storage information.
 10. **Save** your changes.
 11. **Create a new subproject** for this project with the green **+ Subproject** button.
-12. **Copy the project**. When [copying a project](../../projects/#copy-a-project) you can choose which modules you will copy.
-13. **Archive a project**. This way the [archived project](../../projects/#archive-a-project) will not appear in the project selection anymore and cannot be accessed by team members. You can view archived projects in the view all projects list.
-14. **Delete a project**. By [deleting a project](../../projects/#delete-a-project) the whole project will all included information will be removed.
+12. **Copy the project**. When [copying a project](../../#copy-a-project) you can choose which modules you will copy.
+13. **Archive a project**. This way the [archived project](../../#archive-a-project) will not appear in the project selection anymore and cannot be accessed by team members. You can view archived projects in the view all projects list.
+14. **Delete a project**. By [deleting a project](../../#delete-a-project) the whole project will all included information will be removed.
 
 ![User-guide_project-settings](User-guide_project-settings.png)
