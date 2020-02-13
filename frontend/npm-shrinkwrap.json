@@ -3888,9 +3888,9 @@
       "integrity": "sha512-z5UKiLb2uJBr5K2nHSNuXtWCV8ZueSe+DQ0DLGRPm4FoIMxNCMxwj3sQCZjo0YdM9NnAHawC8hjn9K2o+Z9HNA=="
     },
     "@xeokit/xeokit-viewer": {
-      "version": "1.5.7",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-viewer/-/xeokit-viewer-1.5.7.tgz",
-      "integrity": "sha512-YrYO7PjYJ0k8wfxLBAPdSddpJWjOiCr9n7cia3fb+ZB4PBUjgeiKEpLovZzmxlTAI0UsvhepplTbgvl+8M4akA==",
+      "version": "1.5.9",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-viewer/-/xeokit-viewer-1.5.9.tgz",
+      "integrity": "sha512-E7AxIUb52m5pgN6iEQqwuebbZ4IsV1kagP6tHD8F7jhc9adFRmHtMlH7LzJeBun5hU9l4WJYs4TfPMHGssOtrQ==",
       "requires": {
         "@xeokit/xeokit-sdk": "^0.8.3"
       }

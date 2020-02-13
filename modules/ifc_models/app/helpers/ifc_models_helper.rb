@@ -22,7 +22,7 @@ module IFCModelsHelper
       {
         id: ifc_model.id,
         name: ifc_model.title,
-        default: models_to_load.include?(ifc_model)
+        saoEnabled: models_to_load.include?(ifc_model)
       }
     end
   end
@@ -32,7 +32,7 @@ module IFCModelsHelper
     default_models = []
 
     all_converted_models.map do |ifc_model|
-      default_models << ifc_model.id if models_to_load.include?(ifc_model)
+      default_models << ifc_model.id.to_s if models_to_load.include?(ifc_model)
     end
     default_models
   end

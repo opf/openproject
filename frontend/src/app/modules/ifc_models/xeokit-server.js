@@ -35,6 +35,9 @@ class XeokitServer {
       models: window.gon.ifc_models.models,
       viewerContent: {
         modelsLoaded: window.gon.ifc_models.default_models
+      },
+      viewerConfigs: {
+        saoEnabled: false
       }
     };
 
