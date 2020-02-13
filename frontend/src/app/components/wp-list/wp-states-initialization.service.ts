@@ -92,7 +92,7 @@ export class WorkPackageStatesInitializationService {
   public updateQuerySpace(query:QueryResource, results:WorkPackageCollectionResource) {
     // Clear table required data states
     this.querySpace.additionalRequiredWorkPackages.clear('Clearing additional WPs before updating rows');
-    this.querySpace.rendered.clear('Clearing rendered data before upgrading query space');
+    this.querySpace.tableRendered.clear('Clearing rendered data before upgrading query space');
 
     if (results.schemas) {
       _.each(results.schemas.elements, (schema:SchemaResource) => {
@@ -178,6 +178,6 @@ export class WorkPackageStatesInitializationService {
     this.wpTableSum.clear(reason);
 
     // Clear rendered state
-    this.querySpace.rendered.clear(reason);
+    this.querySpace.tableRendered.clear(reason);
   }
 }

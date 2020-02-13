@@ -70,7 +70,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   public refreshExpansionState() {
     const groups = this.getGroupData();
     const colspan = this.wpTableColumns.columnCount + 1;
-    const rendered = this.querySpace.rendered.value!;
+    const rendered = this.querySpace.tableRendered.value!;
     const builder = new GroupHeaderBuilder(this.injector);
 
     jQuery(this.workPackageTable.tableAndTimelineContainer)
@@ -100,7 +100,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       });
     });
 
-    this.querySpace.rendered.putValue(rendered, 'Updated hidden state of rows after group change.');
+    this.querySpace.tableRendered.putValue(rendered, 'Updated hidden state of rows after group change.');
   }
 
   /**

@@ -421,10 +421,8 @@ describe AccountController, type: :controller do
     describe "User who is not allowed to change password can't login" do
       before do
         post 'change_password',
-             flash: {
-               _password_change_user_id: admin.id
-             },
              params: {
+               password_change_user_id: admin.id,
                username: admin.login,
                password: 'adminADMIN!',
                new_password: 'adminADMIN!New',

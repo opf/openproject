@@ -81,7 +81,6 @@ module Concerns::UserPasswordChange
 
   def render_password_change(user, message, show_user_name: false)
     flash[:error] = message unless message.nil?
-    flash[:_password_change_user_id] = user.id
     @user = user
     @username = user.login
     render 'my/password', locals: { show_user_name: show_user_name }
