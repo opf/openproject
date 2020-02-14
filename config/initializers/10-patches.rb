@@ -150,3 +150,14 @@ end
 
 # Patch acts_as_list before any class includes the module
 require 'open_project/patches/acts_as_list'
+
+# Patch String to have some helper methods
+require 'open_project/patches/string'
+
+# Patch Array to have some helper methods
+require 'open_project/patches/array'
+
+# Patch carrierwave to support custom access key validity (to be removed once carrierwave is bumped to 2)
+require 'open_project/patches/carrierwave'
+
+require 'open_project/patches/reform'

@@ -30,14 +30,6 @@
 require 'open_project/plugins/auth_plugin'
 
 module OmniAuth
-  module FlexibleStrategyClass
-    def new(app, *args, &block)
-      super(app, *args, &block).tap do |strategy|
-        strategy.extend FlexibleStrategy
-      end
-    end
-  end
-
   module FlexibleStrategy
     def on_auth_path?
       possible_auth_path? && (match_provider! || false) && super
@@ -94,6 +86,14 @@ module OmniAuth
     def dup
       super.tap do |s|
         s.extend FlexibleStrategy
+      end
+    end
+  end
+
+  module FlexibleStrategyClass
+    def new(app, *args, &block)
+      super(app, *args, &block).tap do |strategy|
+        strategy.extend FlexibleStrategy
       end
     end
   end

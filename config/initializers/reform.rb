@@ -47,10 +47,7 @@ Reform::Form::ActiveModel::Validations::Validator.class_eval do
   end
 end
 
-
 require 'reform/contract'
-
-require 'open_project/patches/reform'
 
 class Reform::Form::ActiveModel::Errors
   prepend OpenProject::Patches::Reform

@@ -44,7 +44,7 @@ describe OpenProject::SCM::Manager do
   end
 
   it 'is a valid const' do
-    expect(OpenProject::SCM::Manager.registered[:test_scm]).to eq(Repository::TestSCM)
+    expect(OpenProject::SCM::Manager.registered[:test_scm]).to eq(Repository::TestScm)
   end
 
   context 'scm is not known' do

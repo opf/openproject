@@ -33,7 +33,6 @@ require 'posix-spawn'
 module OpenProject::TextFormatting::Formats
   module Markdown
     class PandocWrapper
-
       attr_reader :logger
 
       def initialize(logger = ::Logger.new(STDOUT))

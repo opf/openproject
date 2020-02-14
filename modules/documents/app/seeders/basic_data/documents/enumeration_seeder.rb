@@ -27,13 +27,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine #:nodoc:
-  module CoreExtensions #:nodoc:
-    module String #:nodoc:
-      # Custom string inflections
-      module Inflections
-        def with_leading_slash
-          starts_with?('/') ? self : "/#{ self }"
+module BasicData
+  module Documents
+    class EnumerationSeeder < Seeder
+      def seed_data!
+        category_names.each do |name|
+          DocumentCategory.create name: name
+        end
+      end
+
+      def category_names
+        category_i18n_keys.map { |key| I18n.t key }
+      end
+
+      def category_i18n_keys
+        ['documentation', 'specification', 'other'].map do |name|
+          ['enumeration', 'document_category', name].join('.')
         end
       end
     end

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,4 +26,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Dir[File.dirname(__FILE__) + '/core_ext/*.rb'].each { |file| require(file) }
+module OpenProject::Documents::Patches
+  module ColonSeparatorPatch
+    def self.mixin!
+      base = ::OpenProject::TextFormatting::Matchers::LinkHandlers::ColonSeparator
+      base.prepend InstanceMethods
+      base.singleton_class.prepend ClassMethods
+    end
+
+    module InstanceMethods
+      def render_document
+        name = identifier.gsub(%r{^"(.*)"$}, "\\1")
+        if document = project.documents.visible.find_by_title(name)
+          link_to document.title,
+                  { only_path: context[:only_path],
+                    controller: '/documents',
+                    action: 'show',
+                    id: document },
+                  class: 'document'
+        end
+      end
+    end
+
+    module ClassMethods
+      def allowed_prefixes
+        super + %w[document]
+      end
+    end
+  end
+end

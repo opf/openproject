@@ -28,12 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module WorkPackage::PdfExport::Common
+module WorkPackage::PDFExport::Common
   include Redmine::I18n
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
   include CustomFieldsHelper
-  include WorkPackage::PdfExport::ToPdfHelper
+  include WorkPackage::PDFExport::ToPdfHelper
   include OpenProject::TextFormatting
 
   private

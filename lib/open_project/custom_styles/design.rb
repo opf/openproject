@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
+module OpenProject::CustomStyles
   class Design
     DEFAULTS = {
       'primary-color'                                        => "#1A67A3",

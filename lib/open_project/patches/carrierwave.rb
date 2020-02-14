@@ -1,4 +1,4 @@
-require 'carrierwave'
+require 'carrierwave/storage/fog'
 
 ##
 # Code copied straight from the CarrierWave source.

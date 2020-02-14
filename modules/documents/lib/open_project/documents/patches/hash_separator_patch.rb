@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,10 +26,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.dirname(__FILE__) + '/string/conversions'
-require File.dirname(__FILE__) + '/string/inflections'
+module OpenProject::Documents::Patches
+  module HashSeparatorPatch
+    def self.mixin!
+      base = ::OpenProject::TextFormatting::Matchers::LinkHandlers::HashSeparator
+      base.prepend InstanceMethods
+      base.singleton_class.prepend ClassMethods
+    end
 
-class String #:nodoc:
-  include Redmine::CoreExtensions::String::Conversions
-  include Redmine::CoreExtensions::String::Inflections
+    module InstanceMethods
+      def render_document
+        if document = Document.visible.find_by_id(oid)
+          link_to document.title,
+                  { only_path: context[:only_path],
+                    controller: '/documents',
+                    action: 'show',
+                    id: document },
+                  class: 'document'
+        end
+      end
+    end
+
+    module ClassMethods
+      def allowed_prefixes
+        super + %w[document]
+      end
+    end
+  end
 end
