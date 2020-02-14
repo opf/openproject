@@ -161,7 +161,7 @@ module OpenProject
               href: 'https://www.rubydoc.info/gems/net-ldap/Net/LDAP#constructor_details',
             },
             security_badge_documentation: {
-              href: 'https://github.com/opf/openproject/tree/dev/docs/system-admin-guide/information#security-badge'
+              href: 'https://docs.openproject.org/system-admin-guide/information/#security-badge'
             }
           }
         end
