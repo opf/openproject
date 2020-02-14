@@ -29,7 +29,7 @@ Click on the link **Create a new custom field** to create a project custom field
 
 ## Setting and displaying a project custom field
 
-Once you created the custom field you can set it in the [project settings](../../../user-guide/project-settings/).
+Once you created the custom field you can set it in the [project settings](../../../user-guide/projects/project-settings/).
 
 To do this navigate to a project and select *Project settings* from the side menu. The project custom field is visible under *Information*. As a project manager you can set the project custom field.
 

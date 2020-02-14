@@ -51,7 +51,7 @@ Depending on the module, for which the new custom field is being  created, sligh
 
 ![Sys-admin-add-custom-field](Sys-admin-add-custom-field.png)
 
-2. Activate the custom field for a project in the [project settings](../../user-guide/project-settings/custom-fields/). This is not relevant if the setting **For all projects** has been configured for the custom field.
+2. Activate the custom field for a project in the [project settings](../../user-guide/projects/project-settings/custom-fields/). This is not relevant if the setting **For all projects** has been configured for the custom field.
 
 With these additional settings, you have absolute freedom which  custom fields are relevant for your projects and types. You can customize only those types that are relevant and create a whole set of  custom attributes for your work packages.
 

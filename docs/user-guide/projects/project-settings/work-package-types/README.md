@@ -17,4 +17,4 @@ Check the different types which you want to enable for your project. In the tabl
 
 Press the blue **Save** button to confirm your changes.
 
-[Work package types can be managed](../../system-admin-guide/work-packages/work-package-types) in the System *Administration* -> *Work packages* -> *Types*.
+[Work package types can be managed](../../../../system-admin-guide/manage-work-packages/work-package-types) in the System *Administration* -> *Work packages* -> *Types*.
