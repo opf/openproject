@@ -464,12 +464,17 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
         work_package_attributes.merge(estimated_hours: 5,
                                       parent: parent_work_package)
       end
+      let(:child_attributes) do
+        work_package_attributes.merge(estimated_hours: 10,
+                                      parent: work_package)
+      end
 
       before do
         parent_work_package
         grandparent_work_package
         sibling1_work_package
         sibling2_work_package
+        child_work_package
       end
 
       it 'works and inherits' do
@@ -485,7 +490,8 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
          grandparent_work_package].each do |wp|
           sum = sibling1_attributes[:estimated_hours].to_f +
                 sibling2_attributes[:estimated_hours].to_f +
-                attributes[:estimated_hours].to_f
+                attributes[:estimated_hours].to_f +
+                child_attributes[:estimated_hours].to_f
 
           wp.reload
 
@@ -501,6 +507,11 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
         sibling2_work_package.reload
         expect(sibling2_work_package.estimated_hours)
           .to eql(sibling2_attributes[:estimated_hours].to_f)
+
+        # child hours are unchanged
+        child_work_package.reload
+        expect(child_work_package.estimated_hours)
+          .to eql(child_attributes[:estimated_hours].to_f)
       end
     end
 
