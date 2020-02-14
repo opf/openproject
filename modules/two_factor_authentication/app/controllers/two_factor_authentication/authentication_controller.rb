@@ -1,10 +1,9 @@
 module ::TwoFactorAuthentication
   class AuthenticationController < ApplicationController
-
     # Remmeber token functionality
-    include ::TwoFactorAuthentication::Concerns::RememberToken
+    include ::TwoFactorAuthentication::RememberToken
     # Backup tokens functionality
-    include ::TwoFactorAuthentication::Concerns::BackupCodes
+    include ::TwoFactorAuthentication::BackupCodes
     # Include global layout helper
     layout 'no_menu'
 

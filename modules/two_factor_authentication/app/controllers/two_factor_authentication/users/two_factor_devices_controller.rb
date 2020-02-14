@@ -15,8 +15,7 @@ module ::TwoFactorAuthentication
       # Skip before action on delete_all
       skip_before_action :find_device, only: [:delete_all]
 
-      def index
-      end
+      def index; end
 
       ##
       # Register the device and let the user confirm
