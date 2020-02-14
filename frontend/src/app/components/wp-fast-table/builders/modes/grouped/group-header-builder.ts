@@ -52,13 +52,4 @@ export class GroupHeaderBuilder {
 
     return row;
   }
-
-  public setActualCount(group:GroupObject, body:DocumentFragment|HTMLElement):void {
-    const headerElement = body.querySelector(`#wp-table-rowgroup-${group.index}`);
-
-    if (headerElement) {
-      const count = headerElement.querySelector('.count')!;
-      count.textContent = `(${group.renderedCount || group.count})`;
-    }
-  }
 }

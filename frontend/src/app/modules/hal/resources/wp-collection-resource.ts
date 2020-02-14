@@ -56,8 +56,6 @@ export interface WorkPackageCollectionResource extends WorkPackageCollectionReso
 export interface GroupObject {
   value:any;
   count:number;
-  // The count currently living in the frontend
-  renderedCount:number;
   collapsed?:boolean;
   index:number;
   identifier:string;
