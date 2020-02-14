@@ -14,6 +14,7 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
     cancel: this.i18n.t('js.button_cancel'),
     close: this.i18n.t('js.button_close'),
     delete: this.i18n.t('js.button_delete'),
+    areYouSure: this.i18n.t('js.text_are_you_sure'),
   };
 
   public closeOnEscape = false;

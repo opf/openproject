@@ -266,6 +266,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     end
 
     click_button 'Delete'
+    page.driver.browser.switch_to.alert.accept
 
     within entries_area.area do
       expect(page)
