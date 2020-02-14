@@ -28,7 +28,7 @@ If you want to force a specific version within your path, set the environment va
 
 ## CommonMark
 
-Our Markdown parsers and formatters operate on the [CommonMark Markdown standard](https://commonmark.org/) with some suggested additions not yet part of the standard formalized in the [GitHub-flavored Markdown spec.](https://github.github.com/gfm/])
+Our Markdown parsers and formatters operate on the [CommonMark Markdown standard](https://commonmark.org/) with some suggested additions not yet part of the standard formalized in the [GitHub-flavored Markdown spec.](https://github.github.com/gfm/)
 
 
 

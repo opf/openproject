@@ -197,7 +197,7 @@ en:
                       ![project modules](##attachment:"project_modules.jpg")
 
                       **Find out more:**
-                      * https://www.openproject.org/help/activate-deactivate-modules/
+                      * https://docs.openproject.org/user-guide/projects/project-settings/modules/
                     status: :default_status_new
                     type: :default_type_task
                     start: 0

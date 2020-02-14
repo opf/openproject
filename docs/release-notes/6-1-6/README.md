@@ -18,5 +18,3 @@ We recommend the update to the current version.
 
 Thanks a lot to the community, in particular to Mohamed A. Baset from
 Seekurity SAS de C.V for reporting this security bug\!
-
-</div>
