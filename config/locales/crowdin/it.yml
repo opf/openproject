@@ -2541,11 +2541,11 @@ it:
     protocol_mismatch:
       title: 'Mancata corrispondenza delle impostazioni di protocollo'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        La tua applicazione è in esecuzione con le impostazioni del protocollo impostate a <code>%{set_protocol}</code>, ma la richiesta è una richiesta <code>%{actual_protocol}</code>. Ciò causerà degli errori! Vai nelle <a href="%{setting_path}">Impostazioni di sistema</a> e cambia l'impostazione "Protocollo" per correggerlo.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Mancata corrispondenza delle impostazioni del nome host'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        La tua applicazione è in esecuzione con le impostazioni del nome host impostate a <code>%{set_hostname}</code>, ma la richiesta è un nome host <code>%{actual_hostname}</code>. Ciò causerà degli errori! Vai nelle <a href="%{setting_path}">Impostazioni di sistema</a> e modifica l'impostazione "Nome dell'Host" per correggerlo.
   menu_item: "Voce di menu"
   menu_item_setting: "Visibilità"
   wiki_menu_item_for: "Voce di menù per la pagina wiki \"%{title}\""

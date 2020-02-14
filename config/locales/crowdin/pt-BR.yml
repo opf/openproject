@@ -28,31 +28,31 @@ pt-BR:
     plugins:
       no_results_title_text: Atualmente, não existem plugins disponíveis.
     custom_styles:
-      color_theme: "Cores do tema"
+      color_theme: "Tema Colorido"
       color_theme_custom: "(Personalizado)"
       colors:
         alternative-color: "Alternativo"
-        content-link-color: "Fonte dos links"
-        primary-color: "Primária"
-        primary-color-dark: "Primária (escuro)"
+        content-link-color: "Fonte do link"
+        primary-color: "Primário"
+        primary-color-dark: "Primário (escuro)"
         header-bg-color: "Fundo do cabeçalho"
-        header-item-bg-hover-color: "Fundo do cabeçalho ao passar o rato"
+        header-item-bg-hover-color: "Fundo do cabeçalho ao passar o mouse"
         header-item-font-color: "Fonte do cabeçalho"
-        header-item-font-hover-color: "Fonte do cabeçalho ao passar o rato"
-        header-border-bottom-color: "Borda do cabeçalho"
+        header-item-font-hover-color: "Fonte do cabeçalho ao passar o mouse"
+        header-border-bottom-color: "Margem do cabeçalho"
         main-menu-bg-color: "Fundo do menu principal"
         main-menu-bg-selected-background: "Menu principal quando selecionado"
-        main-menu-bg-hover-background: "Menu principal ao passar o rato"
+        main-menu-bg-hover-background: "Menu principal ao passar o mouse"
         main-menu-font-color: "Fonte do menu principal"
         main-menu-selected-font-color: "Fonte do menu principal quando selecionado"
-        main-menu-hover-font-color: "Fonte do menu principal ao passar o rato"
-        main-menu-border-color: "Borda do menu principal"
+        main-menu-hover-font-color: "Fonte do menu principal ao passar o mouse"
+        main-menu-border-color: "Margem do menu principal"
       custom_colors: "Cores personalizadas"
       customize: "Personalize a instalação do OpenProject com sua própria logomarca. Nota: Esta logomarca será acessível ao público."
       enterprise_notice: "Como um 'Obrigado!' especial a sua contribuição financeira para desenvolver o OpenProject, esse pequeno recurso está disponível somente para assinantes do suporte da versão Enterprise Edition."
       manage_colors: "Editar opções de seleção de cor"
       instructions:
-        alternative-color: "Cor de contraste forte, utilizada habitualmente no botão mais importante de um ecrã."
+        alternative-color: "Cor de destaque forte, normalmente usada para o botão mais importante na tela."
         content-link-color: "Cor da fonte da maioria dos links."
         primary-color: "Cor principal."
         primary-color-dark: "Normalmente é uma versão mais escura da cor principal, usada para efeitos de focalizar."
@@ -598,7 +598,7 @@ pt-BR:
         time_entry:
           attributes:
             hours:
-              day_limit: "é demasiado alto, uma vez que pode ser registado por data um máximo de 24 horas."
+              day_limit: "muito alto, já que só se pode registrar um máximo de 24 horas por data."
         work_package:
           is_not_a_valid_target_for_time_entries: "Pacote de trabalho #%{id} não é válido para re-atribuir os registros de horas gastas."
           attributes:
@@ -1034,7 +1034,7 @@ pt-BR:
         rename_groups: "Renomear grupos de atributos"
       project_filters:
         description_html: "Filtrar e ordenar em campos personalizados é um recurso da edição empresarial."
-  enumeration_activities: "Atividades de controlo de tempo"
+  enumeration_activities: "Atividades de controle de tempo"
   enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
   enumeration_reported_project_statuses: "Situação relatada do projeto"
   error_auth_source_sso_failed: "Single Sign-On (SSO) para o usuário '%{value}' falhou"
@@ -1687,7 +1687,7 @@ pt-BR:
   label_workflow_plural: "Fluxos de trabalho"
   label_workflow_summary: "Sumário"
   label_x_closed_work_packages_abbr:
-    zero: "0 fechados"
+    zero: "0 fechado"
     one: "1 fechado"
     other: "%{count} fechados"
   label_x_comments:
@@ -1695,7 +1695,7 @@ pt-BR:
     one: "1 comentário"
     other: "%{count} comentários"
   label_x_open_work_packages_abbr:
-    zero: "0 abertos"
+    zero: "0 aberto"
     one: "1 aberto"
     other: "%{count} abertos"
   label_x_projects:
@@ -2244,7 +2244,7 @@ pt-BR:
   text_destroy_with_associated: "Existem objetos adicionais associados com o pacote de trabalho que serão excluídos. Esses objetos são dos seguintes tipos:"
   text_destroy_what_to_do: "O que você quer fazer?"
   text_diff_truncated: "... Este diff foi truncado porque excede o tamanho máximo que pode ser exibido."
-  text_email_delivery_not_configured: "A entrega de emails não está configurada e as notificações estão desativadas.\nConfigure o seu servidor de SMTP para ativar."
+  text_email_delivery_not_configured: "O envio de e-mails não está configurado e as notificações estão desativadas.\nConfigure seu servidor de SMTP para ativá-los."
   text_enumeration_category_reassign_to: "Reatribuí-los para este valor:"
   text_enumeration_destroy_question: "%{count} objetos estão atribuídos a esse valor."
   text_file_repository_writable: "Diretório de anexos gravável"
@@ -2543,11 +2543,11 @@ pt-BR:
     protocol_mismatch:
       title: 'Incompatibilidade de configuração do protocolo'
       text_html: >
-        A sua aplicação está a ser executada com a sua configuração de protocolo definida para <code>%{set_protocol}</code>, mas a soliticitação é uma solicitação <code>%{actual_protocol}</code>. Isto pode provocar erros! Avance para as <a href="%{setting_path}">Configurações do sistema</a> e altere a configuração "Protocolo" para corrigir isto.
+        Seu aplicativo está sendo executado com sua configuração de protocolo definida para <code>%{set_protocol}</code>, mas solicitação é uma solicitação <code>%{actual_protocol}</code>. Isto pode provocar erros! Avance para as <a href="%{setting_path}">Configurações do sistema</a> e altere a configuração "Protocolo" para corrigir isto.
     hostname_mismatch:
       title: 'Incompatibilidade de configuração do anfitrião'
       text_html: >
-        A sua aplicação está a ser executada com a configuração de nome de anfitrião definida como <code>%{set_hostname}</code>, mas a soliticitação é um nome de anfitrião <code>%{actual_hostname}</code>. Isto pode provocar erros! Avance para <a href="%{setting_path}">Configurações do Sistema</a> e altere a configuração de "Nome de anfitrião" para corrigir isto.
+        Sua aplicativo está sendo executado com a configuração de nome de anfitrião definida como <code>%{set_hostname}</code>, mas a solicitação é um nome de anfitrião <code>%{actual_hostname}</code>. Isto pode provocar erros! Avance para <a href="%{setting_path}">Configurações do Sistema</a> e altere a configuração de "Nome de anfitrião" para corrigir isto.
   menu_item: "Item de menu"
   menu_item_setting: "Visibilidade"
   wiki_menu_item_for: "Item de menu para página wiki \"%{title}\""

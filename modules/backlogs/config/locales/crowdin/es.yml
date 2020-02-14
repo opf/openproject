@@ -52,7 +52,7 @@ es:
   backlogs:
     add_new_story: "Nueva historia"
     any: "cualquiera"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "Configuración de trabajos pendientes"
     burndown_graph: "Grafico de Trabajo Pendiente"
     card_paper_size: "Tamaño de papel para la impresión de tarjetas"
     chart_options: "Opciones de gráfico"

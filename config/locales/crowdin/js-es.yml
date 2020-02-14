@@ -208,15 +208,15 @@ es:
       blocks:
         new_features:
           text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
-          learn_about: "Learn more about the new features"
+          learn_about: "Más información sobre las nuevas características"
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-4
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+              Esta versión contiene nuevas características y mejoras: <br><br> <ul> <li><b>Plantillas de diseño</b> predeterminadas para seleccionar un tema claro u oscuro (característica de pago).</li> <li>Nuevo <b>widget de seguimiento del tiempo</b> para <i>Mi página</i>, donde se muestra el tiempo invertido en un gráfico de barras.</li> <li><b>Exportación a XLS de informes de costes</b> y texto con formato al exportar a PDF paquetes de trabajo.</li> <li><b>Mejoras de diseño y usabilidad</b> (como pestañas y más) en la configuración del proyecto y en el área de administración.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-4
             current_new_feature_html: >
-              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
+              OpenProject tiene un <b>nuevo módulo IFC para integrar modelos 3D</b> en su aplicación de gestión de proyectos y trabajar de forma colaborativa en esos archivos con los miembros de su equipo, sin tener que instalar costosos programas adicionales ni usar más licencias. <br><br> <ul> <li><b>Importe archivos IFC</b> de modelos de edificios en su aplicación de OpenProject.</li> <li><b>Abra modelos 3D y visualice modelos de edificios</b> en el navegador.</li> <li> <b>Trabaje en varios archivos IFC</b> fácilmente con su equipo directamente en OpenProject, sin tener que instalar costosos programas adicionales. </li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
@@ -316,7 +316,7 @@ es:
     label_project_plural: "Proyectos"
     label_visibility_settings: "Configuración de visibilidad"
     label_quote_comment: "Citar este comentario"
-    label_recent: "Recent"
+    label_recent: "Recientes"
     label_reset: "Reiniciar"
     label_remove_column: "Eliminar columna"
     label_remove_columns: "Eliminar columnas seleccionadas"
@@ -467,13 +467,13 @@ es:
           requires: "requiere"
           required: "requerido por"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Configuración del formulario"
         projects: "Proyectos"
         settings: "Configuración"
     time_entry:
       project: 'Proyecto'
       work_package: 'Paquete de trabajo'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Es necesario seleccionar primero un paquete de trabajo.'
       activity: 'Actividad'
       comment: 'Comentario'
       duration: 'Duración'
@@ -541,14 +541,14 @@ es:
     field_value_enter_prompt: "Introduzca un valor para '%{field}'"
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "Escriba más caracteres"
         one: "Por favor introduzca un carácter más"
         other: "Por favor, ingrese {{count}} caracteres más"
       load_more: "Cargando mas resultados ..."
       no_matches: "No se encontraron coincidencias"
       searching: "Buscando ..."
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "No se puede seleccionar ningún elemento"
         one: "Solo puede seleccionar un objeto"
         other: "Solo puede seleccionar {{limit}} objetos"
     project_menu_details: "Detalles"

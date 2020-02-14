@@ -208,15 +208,15 @@ zh-CN:
       blocks:
         new_features:
           text_new_features: "了解新功能和产品更新。"
-          learn_about: "Learn more about the new features"
+          learn_about: "详细了解新功能"
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-4
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+              该版本包含各种新功能和改进：<br><br> <ul> <li>默认<b>设计模板</b>，用于选择浅色或深色主题（高级功能）。</li> <li><i>我的页面</i>新增<b>时间跟踪微件</b>，在条形图中显示花费的时间。</li> <li><b>以 XLS 导出费用报告</b>和工作包 PDF 导出结果中的格式化文本。</li> <li><b>改进了设计和实用性</b>，在项目设置和管理中添加了更多选项卡。</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-4
             current_new_feature_html: >
-              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
+              OpenProject 包含<b>一个新的 IFC 模块</b>，可用于将 3D 模型集成到您的项目管理应用程序中以及与您的团队合作处理这些文件，而无需单独安装昂贵的软件或许可证。<br><br> <ul> <li><b>将构建模型的 IFC 文件导入</b>您的 OpenProject 应用程序。</li> <li>在您的浏览器中<b>打开 3D 模型并可视化构建模型</b>。</li> <li>直接在 OpenProject 中轻松地与您的团队<b>合作处理多个 IFC 文件</b>，无需单独安装昂贵的软件。</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
@@ -316,7 +316,7 @@ zh-CN:
     label_project_plural: "项目"
     label_visibility_settings: "可见性设置"
     label_quote_comment: "引用这个评论"
-    label_recent: "Recent"
+    label_recent: "最近"
     label_reset: "重置"
     label_remove_column: "删除列"
     label_remove_columns: "删除选定的列"

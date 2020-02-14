@@ -208,15 +208,15 @@ pl:
       blocks:
         new_features:
           text_new_features: "Przeczytaj o nowych funkcjach i aktualizacjach produktów."
-          learn_about: "Learn more about the new features"
+          learn_about: "Dowiedz się więcej o nowych funkcjach"
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-4
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+              Ta wersja zawiera różne nowe funkcje i ulepszenia: <br><br> <ul> <li>Domyślne <b>szablony projektów</b>, umożliwiające wybranie jasnego lub ciemnego motywu (funkcja premium).</li> <li>Nowy <b>widżet śledzenia czasu</b> w obszarze <i>Moja strona</i>, umożliwiające pokazywanie spędzonego czasu na wykresie słupkowym.</li> <li><b>Eksport raportów kosztów do plików XLS</b> i tekst sformatowany w pliku PDF eksportu pakietów roboczych.</li> <li><b>Ulepszony wygląd i cechy użytkowe</b>, tj. karty i inne elementy w obszarach ustawień projektu i administracji.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-4
             current_new_feature_html: >
-              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
+              OpenProject zawiera <b>nowy moduł IFC do integracji modeli 3D</b> z aplikacją do zarządzania projektami oraz do pracy zespołowej nad tymi plikami z Twoim zespołem bez konieczności instalacji osobnego, kosztownego oprogramowania lub licencji. <br><br> <ul> <li><b>Import plików IFC</b> modeli budynków do aplikacji OpenProject.</li> <li><b>Otwieranie modeli 3D i wizualizowanie modeli budynków</b> w przeglądarce.</li> <li>Łatwa <b>praca nad wieloma plikami IFC</b> z zespołem bezpośrednio w OpenProject bez konieczności instalacji osobnego, kosztownego oprogramowania. </li> </ul>
     label_activate: "Aktywuj"
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
@@ -316,7 +316,7 @@ pl:
     label_project_plural: "Projekty"
     label_visibility_settings: "Ustawienia widoczności"
     label_quote_comment: "Cytuj komentarz"
-    label_recent: "Recent"
+    label_recent: "Najnowsze"
     label_reset: "Reset"
     label_remove_column: "Usuń kolumnę"
     label_remove_columns: "Usuń zaznaczone kolumny"
@@ -467,13 +467,13 @@ pl:
           requires: "wymagające"
           required: "wymagane przez"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Konfiguracja formularza"
         projects: "Projekty"
         settings: "Ustawienia"
     time_entry:
       project: 'Projekt'
       work_package: 'Zadanie'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Wymaga wybrania najpierw pakietu roboczego.'
       activity: 'Działanie'
       comment: 'Komentarz'
       duration: 'Czas trwania'
@@ -541,7 +541,7 @@ pl:
     field_value_enter_prompt: "Wprowadź wartość dla '%{field}'"
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "Wprowadź więcej znaków"
         one: "Wprowadź jeszcze jeden znak"
         few: "Proszę wpisać jeszcze {{count}} znaków"
         many: "Proszę wpisać jeszcze {{count}} znaków"
@@ -550,7 +550,7 @@ pl:
       no_matches: "Nie znaleziono dopasowań"
       searching: "Wyszukiwanie ..."
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "Nie możesz wybrać elementów"
         one: "Możesz wybrać tylko jeden element"
         few: "Możesz wybrać tylko {{limit}} elementy"
         many: "Możesz wybrać tylko {{limit}} elementy"

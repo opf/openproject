@@ -207,15 +207,15 @@ ru:
       blocks:
         new_features:
           text_new_features: "Читайте о новых возможностях и обновлениях продуктов."
-          learn_about: "Learn more about the new features"
+          learn_about: "Подробнее о новых функциях"
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-4
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+              Этот релиз содержит ряд новых функций и улучшений: <br><br> <ul> <li><b>Шаблоны оформления</b> по умолчанию: светлая и темная темы (премиум-функция).</li> <li>Новый <b>виджет отслеживания времени</b> для <i>Моей страницы</i>, в котором затраченное время отображается в виде столбчатой диаграммы.</li> <li><b>Экспорт отчетов о затратах в виде XLS</b> и форматированного текста из пакетов работ в виде PDF.</li> <li><b>Обновленный внешний вид и эргономика:</b>вкладки и другие улучшения в настройках проекта и функциях администрирования.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-4
             current_new_feature_html: >
-              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
+              OpenProject содержит <b>новый модуль IFC для интеграции 3D-моделей</b> в систему управления проектами и для совместной работы с этими файлами в команде без установки отдельных платных приложений или лицензий. <br><br> <ul> <li><b>Импортируйте файлы IFC</b> моделей построения в свое приложение OpenProject.</li> <li><b>Открывайте 3D-модели и визуализируйте модели построения</b> прямо в браузере.</li> <li> <b>Работайте сразу с несколькими файлами IFC</b> вместе со своей командой прямо в OpenProject без установки отдельных платных приложений. </li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -315,7 +315,7 @@ ru:
     label_project_plural: "Проекты"
     label_visibility_settings: "Параметры видимости"
     label_quote_comment: "Цитировать этот комментарий"
-    label_recent: "Recent"
+    label_recent: "Недавние"
     label_reset: "Сброс"
     label_remove_column: "Удалить столбец"
     label_remove_columns: "Удалить выбранные столбцы"
@@ -540,7 +540,7 @@ ru:
     field_value_enter_prompt: "Введите значение для «%{field}»"
     select2:
       input_too_short:
-        zero: "Пожалуйста, введите больше символов"
+        zero: "Введите больше символов"
         one: "Пожалуйста, введите еще один символ"
         few: "Пожалуйста, введите более {{count}} символов"
         many: "Пожалуйста, введите более {{count}} символов"

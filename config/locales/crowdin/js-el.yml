@@ -207,15 +207,15 @@ el:
       blocks:
         new_features:
           text_new_features: "Διαβάστε για τις νέες λειτουργίες και τις ενημερώσεις προϊόντων."
-          learn_about: "Learn more about the new features"
+          learn_about: "Μάθετε περισσότερα για τις νέες λειτουργίες"
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-4
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+              Η έκδοση περιέχει διάφορες νέες λειτουργίες και βελτιώσεις: <br><br> <ul> <li>Προεπιλογή <b>προτύπων σχεδιασμού</b> για να επιλέγετε ένα φωτεινό ή σκοτεινό θέμα (premium λειτουργία).</li> <li>Νέο <b>widget παρακολούθησης χρόνου</b> για τη <i>Σελίδα Μου</i> για την εμφάνιση δαπανημένου χρόνου σε ένα ραβδόγραμμα.</li> <li><b>Εξαγωγές-XLS για αναφορές κόστους</b> και μορφοποιημένο κείμενο στην εξαγωγή PDF του πακέτου εργασίας.</li> <li><b>Βελτιωμένος σχεδιασμός και χρηστικότητα</b>, π.χ. καρτέλες και περισσότερα στις ρυθμίσεις έργου και διαχείριση.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-4
             current_new_feature_html: >
-              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
+              Το OpenProject περιέχει μία <b>νέα ενότητα IFC για την ενσωμάτωση 3D μοντέλων</b> στην εφαρμογή διαχείρισης έργων σας και για να εργάζεστε συνεργατικά σε αυτά τα αρχεία με την ομάδα σας χωρίς την εγκατάσταση ξεχωριστών δαπανηρών λογισμικών ή αδειών. <br><br> <ul> <li><b>Εισάγετε αρχεία IFC</b> από μοντέλα κτιρίων στην εφαρμογή OpenProject σας.</li> <li><b>Ανοίξτε 3D μοντέλα και οπτικοποιήστε τα μοντέλα κτιρίων</b> στον περιηγητή σας.</li> <li> <b>Εργαστείτε εύκολα σε πολλαπλά αρχεία IFC</b> με την ομάδα σας κατευθείαν στο OpenProject χωρίς εγκατάσταση ξεχωριστού δαπανηρού λογισμικού. </li> </ul>
     label_activate: "Ενεργοποίηση"
     label_add_column_after: "Προσθήκη στήλης μετά"
     label_add_column_before: "Προσθήκη στήλης πριν"
@@ -315,7 +315,7 @@ el:
     label_project_plural: "Έργα"
     label_visibility_settings: "Ρυθμίσεις ορατότητας"
     label_quote_comment: "Παραθέστε αυτό το σχόλιο"
-    label_recent: "Recent"
+    label_recent: "Πρόσφατα"
     label_reset: "Επαναφορά"
     label_remove_column: "Κατάργηση στήλης"
     label_remove_columns: "Αφαιρέστε τις επιλεγμένες στήλες"

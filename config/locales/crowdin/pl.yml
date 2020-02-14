@@ -32,27 +32,27 @@ pl:
       color_theme_custom: "(Niestandardowe)"
       colors:
         alternative-color: "Alternatywny"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        content-link-color: "Czcionka linków"
+        primary-color: "Główny"
+        primary-color-dark: "Główny (ciemny)"
+        header-bg-color: "Tło nagłówka"
+        header-item-bg-hover-color: "Tło nagłowka po najechaniu myszą"
+        header-item-font-color: "Czcionka nagłówka"
+        header-item-font-hover-color: "Czcionka nagłówka po najechaniu myszą"
+        header-border-bottom-color: "Obramowanie nagłówka"
+        main-menu-bg-color: "Tło menu głównego"
+        main-menu-bg-selected-background: "Menu główne po wybraniu"
+        main-menu-bg-hover-background: "Menu główne po najechaniu myszą"
+        main-menu-font-color: "Czcionka menu głównego"
+        main-menu-selected-font-color: "Czcionka menu głównego po wybraniu"
+        main-menu-hover-font-color: "Czcionka menu głównego po najechaniu myszą"
+        main-menu-border-color: "Obramowanie menu głównego"
       custom_colors: "Kolory użytkownika"
       customize: "Dostosuj instalacje OpenProject ze swoim własnym logiem. Uwaga: To logo będzie publicznie dostępne."
       enterprise_notice: "Jako specjalne 'dziękuje!' za ich wkład finansowy który umożliwia rozwijanie OpenProject, ten mały dodatek jest dostępny tylko dla subskrybentów Enterprise Edition."
       manage_colors: "Edytuj kolor wybranych opcji"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Silnie zaakcentowany kolor, zazwyczaj stosowany do najważniejszego przycisku na ekranie."
         content-link-color: "Kolor czcionki większości linków."
         primary-color: "Główny kolor."
         primary-color-dark: "Zwykle ciemniejsza wersja głównego koloru, używana dla efektów po najechaniu kursorem."
@@ -601,7 +601,7 @@ pl:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "jest zbyt wysoki, ponieważ pod jedną datą można zarejestrować maksymalnie 24 godziny."
         work_package:
           is_not_a_valid_target_for_time_entries: "Zadanie #%{id} jest niepoprawnym celem do ponownego rozpisania czasu."
           attributes:
@@ -757,7 +757,7 @@ pl:
     type: "Typ"
     updated_at: "Aktualizacja"
     updated_on: "Aktualizacja"
-    uploader: "Uploader"
+    uploader: "Osoba przesyłająca"
     user: "Użytkownik"
     version: "Wersja"
     work_package: "Zadanie"
@@ -1067,7 +1067,7 @@ pl:
         rename_groups: "Zmień grupy atrybutów"
       project_filters:
         description_html: "Filtrowanie i sortowanie pól niestandardowych jest funkcją edycji enterprise."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "Działania śledzenia czasu"
   enumeration_work_package_priorities: "Priorytety pakietów roboczych"
   enumeration_reported_project_statuses: "Status zgłoszonego projektu"
   error_auth_source_sso_failed: "Pojedyncze logowanie (SSO) dla użytkownika '%{value}' nie powiodło się"
@@ -1139,7 +1139,7 @@ pl:
       pdf_with_descriptions_and_attachments: "Plik PDF z opisami i załącznikami"
       pdf_with_attachments: "Plik PDF z załącznikami"
     image:
-      omitted: "Image not exported."
+      omitted: "Nie wyeksportowano obrazu"
   extraction:
     available:
       pdftotext: "Dostępny konwerter Pdftotext (opcjonalny)"
@@ -1720,25 +1720,25 @@ pl:
   label_workflow_plural: "Przepływ zadań"
   label_workflow_summary: "Podsumowanie"
   label_x_closed_work_packages_abbr:
-    zero: "0 closed"
+    zero: "0 zamknięty"
     one: "1 zamknięty"
     few: "%{count} zamknięte"
     many: "%{count} zamknięte"
     other: "%{count} zamknięte"
   label_x_comments:
-    zero: "no comments"
+    zero: "brak komentarzy"
     one: "1 komentarz"
     few: "%{count} komentarzy"
     many: "%{count} komentarzy"
     other: "%{count} komentarzy"
   label_x_open_work_packages_abbr:
-    zero: "0 open"
+    zero: "0 otwarty"
     one: "1 otwarty"
     few: "Otwarte: %{count}"
     many: "Otwarte: %{count}"
     other: "Otwarte: %{count}"
   label_x_projects:
-    zero: "no projects"
+    zero: "brak projektów"
     one: "%{count} projekt"
     few: "%{count} projekty"
     many: "%{count} projekty"
@@ -2284,7 +2284,7 @@ pl:
   text_destroy_with_associated: "Istnieją dodatkowe obiekty powiązane z pakietami roboczymi, które będą usunięte. Te obiekty są następujących typów:"
   text_destroy_what_to_do: "Co chcesz zrobić?"
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
+  text_email_delivery_not_configured: "Dostarczanie poczty elektronicznej nie jest skonfigurowane, a powiadomienia są wyłączone.\nSkonfiguruj swój serwer SMTP, aby je włączyć."
   text_enumeration_category_reassign_to: "Reassign them to this value:"
   text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_file_repository_writable: "Można zapisywać do katalogu z załącznikami"
@@ -2586,13 +2586,13 @@ pl:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Niezgodność ustawienia protokołu'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Twoja aplikacja jest uruchomiona z ustawieniem protokołu <code>%{set_protocol}</code>, ale żądane jest ustawienie <code>%{actual_protocol}</code>. To doprowadzi do błędów! Przejdź do obszaru <a href="%{setting_path}">Ustawienia</a> i zmień ustawienie Protokół, aby to skorygować.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Niezgodność ustawienia nazwy hosta'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        Twoja aplikacja jest uruchomiona z ustawieniem nazwy hosta <code>%{set_hostname}</code>, ale żądane jest ustawienie <code>%{actual_hostname}</code>. To doprowadzi do błędów! Przejdź do obszaru <a href="%{setting_path}">Ustawienia</a> i zmień ustawienie Nazwa hosta, aby to skorygować.
   menu_item: "Element menu"
   menu_item_setting: "Widoczność"
   wiki_menu_item_for: "Element menu dla strony wiki \"%{title}\""

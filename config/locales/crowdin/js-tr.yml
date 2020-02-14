@@ -208,15 +208,15 @@ tr:
       blocks:
         new_features:
           text_new_features: "Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin."
-          learn_about: "Learn more about the new features"
+          learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-4
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+              Sürüm çeşitli yeni özellikler ve geliştirmeler içeriyor: <br><br> <ul> <li>Default <b> Açık veya karanlık bir tema (premium özellik) seçmek için varsayılan <b> tasarım şablonları </li> <li>New <b> Sayfam </i> için çubuk grafikte harcanan zamanı göstermek üzere yeni <b> zaman izleme widget'ı </b>. </li> <li> <b> Maliyet raporları için XLS dışa aktarma </b> ve iş paketlerinin PDF dışa aktarımında biçimlendirilmiş metin. </li> <li><b> Geliştirilmiş tasarım ve kullanılabilirlik </b>, yani proje ayarları ve yönetimindeki sekmeler ve daha fazlası. </li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-4
             current_new_feature_html: >
-              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
+              OpenProject, proje yönetim uygulamanıza <b> 3B modelleri entegre etmek için </b> yeni bir IFC modülü içerir </b> ve ayrı pahalı yazılım veya lisanslar kurmadan ekibinizle bu dosyalarla işbirliği içinde çalışmak. <br> <br> <ul> <li> <b> Bina modellerinin IFC dosyalarını </b> OpenProject uygulamanıza aktarın. </li> <li> <b> 3D modelleri açın ve bina modellerini görselleştirin </ b > tarayıcınızda. </li> <li> Ekibi ayrı bir pahalı yazılım yüklemeden doğrudan OpenProject ile kolayca <b> birden fazla IFC dosyası üzerinde çalışın </b>. </li> </ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
@@ -316,7 +316,7 @@ tr:
     label_project_plural: "Projeler"
     label_visibility_settings: "Görünürlük ayarları"
     label_quote_comment: "Yorumu alıntıla"
-    label_recent: "Recent"
+    label_recent: "son günlerdeki"
     label_reset: "Sıfırla"
     label_remove_column: "Sütunu kaldır"
     label_remove_columns: "Seçili sütunları sil"
@@ -541,14 +541,14 @@ tr:
     field_value_enter_prompt: "'%{field}' için bir değer girin"
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "Lütfen daha fazla karakter girin"
         one: "Lütfen bir karakter daha girin"
         other: "Lütfen {{count}} karakter daha girin"
       load_more: "Daha fazla sonuç yükleniyor ..."
       no_matches: "Eşleşme bulunamadı"
       searching: "Aranıyor ..."
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "Hiçbir öğeyi seçemezsiniz"
         one: "Yalnızca bir öğe seçebilirsiniz"
         other: "Sadece {{limit}} tane seçebilirsiniz"
     project_menu_details: "Detaylar"
@@ -888,7 +888,7 @@ tr:
         one: "bir alt iş paketi"
         other: "%{count} alt iş paketi"
       hour:
-        zero: "0 h"
+        zero: "0 s"
         one: "%{count} 1 saat"
         other: "%{count} 1 saat"
     zen_mode:
