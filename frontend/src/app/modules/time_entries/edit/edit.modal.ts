@@ -29,6 +29,10 @@ export class TimeEntryEditModal extends TimeEntryBaseModal {
   }
 
   public destroy() {
+    if (!window.confirm(this.text.areYouSure)) {
+      return;
+    }
+
     this.destroyedEntry = this.entry;
     this.service.close();
   }
