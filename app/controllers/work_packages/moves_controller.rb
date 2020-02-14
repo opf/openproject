@@ -132,6 +132,7 @@ class WorkPackages::MovesController < ApplicationController
     @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
     @target_project ||= @project
     @types = @target_project.types
+    @available_versions = @target_project.shared_versions.order_by_newest_date
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes]
     @notes ||= ''
@@ -160,6 +161,7 @@ class WorkPackages::MovesController < ApplicationController
               :start_date,
               :due_date,
               :status_id,
+              :fixed_version_id,
               :priority_id)
       .to_h
       .reject { |_, v| v.blank? }
