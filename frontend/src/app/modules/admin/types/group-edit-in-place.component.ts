@@ -26,7 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import {TypeBannerService} from 'core-app/modules/admin/types/type-banner.service';
 
 @Component({
@@ -44,7 +52,8 @@ export class GroupEditInPlaceComponent implements OnInit {
 
   public editedName:string;
 
-  constructor(private bannerService:TypeBannerService) {
+  constructor(private bannerService:TypeBannerService,
+              protected readonly cdRef:ChangeDetectorRef) {
   }
 
   ngOnInit():void {
@@ -65,9 +74,11 @@ export class GroupEditInPlaceComponent implements OnInit {
     );
   }
 
-  saveEdition(event:KeyboardEvent) {
+  saveEdition(event:FocusEvent) {
     this.leaveEditingMode();
     this.name = this.editedName.trim();
+
+    this.cdRef.detectChanges();
 
     if (this.name !== '') {
       this.onValueChange.emit(this.name);

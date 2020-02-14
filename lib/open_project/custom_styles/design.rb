@@ -174,6 +174,7 @@ module OpenProject
       'table-row-hierarchies-row-font-color'                 => "#6C7A89",
       'table-header-border-color'                            => "#D7D7D7",
       'table-header-shadow-color'                            => "#DDDDDD",
+      'tabs-font-color-disabled'                             => "$gray-dark",
       'loading-indicator-bg-color'                           => "$body-background",
       'loading-indicator-bg-opacity'                         => "0.8",
       'loading-indicator-spinner-color'                      => "$primary-color",

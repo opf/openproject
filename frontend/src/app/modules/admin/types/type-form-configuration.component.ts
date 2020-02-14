@@ -7,8 +7,6 @@ import {DomAutoscrollService} from 'core-app/modules/common/drag-and-drop/dom-au
 import {DragulaService} from 'ng2-dragula';
 import {ConfirmDialogService} from 'core-components/modals/confirm-dialog/confirm-dialog.service';
 import {Drake} from 'dragula';
-
-import {randomString} from 'core-app/helpers/random-string';
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {takeUntil} from "rxjs/operators";
@@ -55,6 +53,7 @@ export class TypeFormConfigurationComponent implements OnInit, OnDestroy {
   private autoscroll:any;
   private element:HTMLElement;
   private form:JQuery;
+  private submit:JQuery;
 
   public groups:TypeGroup[] = [];
   public inactives:TypeFormAttribute[] = [];
@@ -78,6 +77,15 @@ export class TypeFormConfigurationComponent implements OnInit, OnDestroy {
     this.element = this.elementRef.nativeElement;
     this.no_filter_query = this.element.dataset.noFilterQuery!;
     this.form = jQuery(this.element).closest('form');
+    this.submit = this.form.find('.form-configuration--save');
+
+    // Capture mousedown on button because firefox breaks blur on click
+    this.submit.on('mousedown', (event) => {
+      setTimeout(() => this.form.trigger('submit'), 50);
+      return true;
+    });
+
+    // Capture regular form submit
     this.form.on('submit.typeformupdater', () => {
       this.updateHiddenFields();
       return true;
