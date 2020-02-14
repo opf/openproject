@@ -33,10 +33,10 @@ import {OpModalComponent} from "app/components/op-modals/op-modal.component";
 import {OpModalLocalsToken} from "app/components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "app/components/op-modals/op-modal.types";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
-
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {enterpriseEditionUrl} from "core-app/globals/constants.const";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 export interface EnterpriseTrialOptions {
   text:{
@@ -51,7 +51,8 @@ export interface EnterpriseTrialOptions {
 }
 
 @Component({
-  templateUrl: './enterprise-trial.modal.html'
+  templateUrl: './enterprise-trial.modal.html',
+  styleUrls: ['./enterprise-trial.modal.sass']
 })
 export class EnterpriseTrialModal extends OpModalComponent {
   @Input() public opReferrer:string;
@@ -103,7 +104,7 @@ export class EnterpriseTrialModal extends OpModalComponent {
               readonly I18n:I18nService,
               protected http:HttpClient,
               readonly pathHelper:PathHelperService,
-              protected halNotification:HalResourceNotificationService,
+              protected notificationsService:NotificationsService,
               private formBuilder:FormBuilder) {
     super(locals, cdRef, elementRef);
 
@@ -137,12 +138,12 @@ export class EnterpriseTrialModal extends OpModalComponent {
         this.confirmMailAddress();
       })
       .catch((error:HttpErrorResponse) => {
-        // TODO: on error -> use notificationService? or show other msg
-        if (error.status === 422 || error.status === 400) { // user already created a trial
+        // mail is invalid or user already created a trial
+        if (error.status === 422 || error.status === 400) {
           this.errorMsg = error.error.description;
         } else {
-          console.log('sendForm: Error in else', error.error.description);
           // 500 -> internal error occured
+          this.notificationsService.addWarning(error.error.description || I18n.t('js.error.internal'));
         }
       });
   }
@@ -153,25 +154,20 @@ export class EnterpriseTrialModal extends OpModalComponent {
       .get<any>(this.baseUrl + this.trialLink)
       .toPromise()
       .then((res:any) => {
-        // returns token if mail was confirmed
         // show confirmed status and enable continue btn
         this.confirmed = true;
-
-        // save token in backend
+        // returns token if mail was confirmed -> save token in backend
         this.token = res.token;
         this.saveToken(this.token);
       })
       .catch((error:HttpErrorResponse) => {
-        let message:undefined|string;
-        // 2.1) returns error 422 while waiting of confirmation
+        // returns error 422 while waiting of confirmation
         if (error.status === 422 && error.error.identifier === 'waiting_for_email_verification') {
-          console.log('comfirmMailaddress: Error 422: ', error.error.identifier);
           // open next modal window
           // status waiting
           this.status = 'mailSubmitted';
 
           // get resend button link
-          // TODO: does not work yet
           this.resendLink = error.error._links.resend.href;
 
           // TODO add limit for retrying
@@ -180,16 +176,13 @@ export class EnterpriseTrialModal extends OpModalComponent {
             if (!this.cancelled) {
               this.confirmMailAddress();
             }
-          }, 10000);
+          }, 5000);
         } else if (_.get(error, 'error._type') === 'Error') {
-          message = error.error.message;
+          this.notificationsService.addWarning(error.error.message);
         } else {
-          // The backend returned an unsuccessful response code.
-          message = error.error;
+          // backend returned an unsuccessful response code
+          this.notificationsService.addWarning(error.error);
         }
-
-        this.halNotification.handleRawError(message);
-        return message || I18n.t('js.error.internal');
       });
   }
 
@@ -200,16 +193,22 @@ export class EnterpriseTrialModal extends OpModalComponent {
     this.http.post(this.pathHelper.api.v3.appBasePath + '/admin/enterprise', { enterprise_token: { encoded_token: token } }, { withCredentials: true })
       .toPromise()
       .then((res:any) => {
-        // TODO show token to copy?
+        // TODO: needs clarification: show token to copy?
+        console.log('saveToken() success: ', res);
       })
       .catch((error:HttpErrorResponse) => {
+        console.log('saveToken() failed: ', error.error);
       });
   }
 
+  // TODO: needs specification
   public startEnterpriseTrial() {
     // open onboarding modal
     this.status = 'startTrial';
-    console.log("Start enterprise trial!", this.status);
+    console.log(this.status);
+    // on continue:
+    // this.closeModal();
+    // reload page to show enterprise trial
   }
 
   public checkMailField() {
@@ -224,6 +223,23 @@ export class EnterpriseTrialModal extends OpModalComponent {
     // cancel all actions (e.g. an already send request)
     this.cancelled = true;
     this.closeMe(event);
+    // refresh page to show trial
+    if (this.status === 'startTrial' || this.confirmed) {
+      window.location.reload();
+    }
+  }
+
+  public resendMail() {
+    this.http.post(this.baseUrl + this.resendLink, {})
+      .toPromise()
+      .then((enterpriseTrial:any) => {
+        console.log('Mail has been resent.');
+        this.notificationsService.addSuccess('Mail has been resent. Please check your mails and click the confirmation link provided.');
+      })
+      .catch((error:HttpErrorResponse) => {
+        console.log('An Error occured: ', error);
+        this.notificationsService.addWarning('Could not resend mail.');
+      });
   }
 }
 

@@ -34,8 +34,7 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 
 @Component({
   selector: 'enterprise',
-  templateUrl: './enterprise.component.html',
-  styleUrls: ['./enterprise.component.sass']
+  templateUrl: './enterprise.component.html'
 })
 export class EnterpriseComponent {
   public text = {

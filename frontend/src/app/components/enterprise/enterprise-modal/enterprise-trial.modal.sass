@@ -1,0 +1,21 @@
+@import 'helpers'
+
+.op-modal--modal-body
+  max-height: 65vh
+
+#enterprise-trial-form
+  .-error
+    .form--field-instructions,
+    .form--label,
+    .form--label::after
+      color: var(--content-form-danger-zone-bg-color)
+    .form--text-field
+      border: 1px solid var(--content-form-danger-zone-bg-color)
+
+#resend-link
+  float: right
+
+.status--confirmed
+  color: var(--button--alt-highlight-background-color)
+.status--waiting
+  color: orange

@@ -40,13 +40,7 @@ class EnterprisesController < ApplicationController
   def create
     @token = EnterpriseToken.current || EnterpriseToken.new
     @token.encoded_token = params[:enterprise_token][:encoded_token]
-
-    if @token.save
-      flash[:notice] = t(:notice_successful_update)
-      redirect_to action: :show
-    else
-      render action: :show
-    end
+    @token.save
   end
 
   def destroy

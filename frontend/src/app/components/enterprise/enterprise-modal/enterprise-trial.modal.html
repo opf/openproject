@@ -6,11 +6,10 @@
         <h3 *ngIf="!status"> {{ text.label_test_ee }}</h3>
         <h3 *ngIf="status === 'mailSubmitted'">Confirmation of email-address</h3>
         <h3 *ngIf="status === 'startTrial'">Next steps</h3>
-        <a class="op-modal--modal-close-button" *ngIf="showClose">
-          <i
-              class="icon-close"
-              (click)="closeModal($event)"
-              [attr.title]="text.close_popup">
+        <a *ngIf="showClose" class="op-modal--modal-close-button">
+          <i class="icon-close"
+             (click)="closeModal($event)"
+             [attr.title]="text.close_popup">
           </i>
         </a>
       </div>
@@ -18,49 +17,46 @@
       <div class="op-modal--modal-body">
         <div *ngIf="!status">
           <form id="enterprise-trial-form" class="form" [formGroup]="enterpriseTrialForm">
-            <div class="form--field -required">
+            <div class="form--field -wide-label -required">
               <label class="form--label">{{ text.label_company }}</label>
               <div class="form--field-container">
                 <div class="form--text-field-container">
                   <input type="text"
                          class="form--text-field"
-                         formControlName="company"
-                         required>
+                         formControlName="company">
                 </div>
               </div>
             </div>
-            <div class="form--field -required">
+            <div class="form--field -wide-label -required">
               <label class="form--label">{{ text.label_first_name }}</label>
               <div class="form--field-container">
                 <div class="form--text-field-container">
                   <input type="text"
                          class="form--text-field"
-                         formControlName="first_name"
-                         required>
+                         formControlName="first_name">
                 </div>
               </div>
             </div>
-            <div class="form--field -required">
+            <div class="form--field -wide-label -required">
               <label class="form--label">{{ text.label_last_name }}</label>
               <div class="form--field-container">
                 <div class="form--text-field-container">
                   <input type="text"
                          class="form--text-field"
-                         formControlName="last_name"
-                         required>
+                         formControlName="last_name">
                 </div>
               </div>
             </div>
-            <div class="form--field -required">
+            <div class="form--field -wide-label -required" [ngClass]="{ '-error': this.errorMsg }">
               <label class="form--label">{{ text.label_email }}</label>
-              <div class="form--field-container" [ngClass]="{ '-required-highlighting': this.errorMsg }">
+              <div class="form--field-container">
                 <div class="form--text-field-container">
                   <input type="email" class="form--text-field" formControlName="email" (blur)="checkMailField()">
                 </div>
               </div>
               <div *ngIf="this.errorMsg" class="form--field-instructions">{{ this.errorMsg }}</div>
             </div>
-            <div class="form--field -required">
+            <div class="form--field -wide-label -required">
               <label class="form--label">{{ text.label_domain }}</label>
               <div class="form--field-container">
                 <div class="form--text-field-container">
@@ -68,42 +64,39 @@
                 </div>
               </div>
             </div>
-            <div class="form--field -required -trailing-label">
-              <label class="form--label -visible-overflow" for="check-terms-of-service">
-                <span>I agree with the
-                  <a href="https://www.openproject.com/terms-of-service/" target="_blank">
-                    terms of service</a> and the
-                  <a href="https://www.openproject.com/legal-notice/" target="_blank">privacy policy</a>.
-                </span>
-                <span class="tooltip--right"
-                      data-tooltip="You already confirmed the terms of service when you created your OpenProject trial.">
-                  <i class="icon icon-info1"></i>
-                </span>
-              </label>
+            <div class="form--field -required">
               <div class="form--field-container">
-                <div class="form--check-box-container">
-                  <input class="form--check-box"
-                         id="check-terms-of-service"
-                         required type="checkbox"
-                         formControlName="general_consent">
-                </div>
+                <label class="form--label-with-check-box">
+                  <div class="form--check-box-container">
+                    <input type="checkbox"
+                           class="form--check-box"
+                           formControlName="general_consent">
+                  </div>
+                  <span>I agree with the
+                    <a href="https://www.openproject.com/terms-of-service/" target="_blank">
+                      terms of service</a> and the
+                    <a href="https://www.openproject.com/legal-notice/" target="_blank">privacy policy</a>.
+                  </span>
+                    <span class="tooltip--right"
+                          data-tooltip="You already confirmed the terms of service when you created your OpenProject trial.">
+                    <i class="icon icon-info1"></i>
+                  </span>
+                </label>
               </div>
             </div>
-            <div class="form--field -trailing-label">
-              <label class="form--label"
-                     for="receive_newsletter">
-                <span>I want to receive the OpenProject
-                  <a href="https://www.openproject.com/newsletter/" target="_blank">
-                    newsletter</a>.
-                </span>
-              </label>
+            <div class="form--field">
               <div class="form--field-container">
-                <div class="form--check-box-container">
-                  <input type="checkbox"
-                         id="receive_newsletter"
-                         name="receive_newsletter"
-                         formControlName="newsletter_consent">
-                </div>
+                <label class="form--label-with-check-box">
+                  <div class="form--check-box-container">
+                    <input type="checkbox"
+                           class="form--check-box"
+                           formControlName="newsletter_consent">
+                  </div>
+                  <span>I want to receive the OpenProject
+                    <a href="https://www.openproject.com/newsletter/" target="_blank">
+                      newsletter</a>.
+                  </span>
+                </label>
               </div>
             </div>
           </form>
@@ -116,7 +109,7 @@
             <span>Status: </span>
             <span *ngIf="!confirmed; else confirmedStatus" class="status--waiting">
               email sent - waiting for confirmation
-              <a id="resend-link" href="{{ baseUrl + resendLink }}" target="_blank">{{ text.resend }}</a>
+              <a id="resend-link" (click)="resendMail()">{{ text.resend }}</a>
             </span>
             <ng-template #confirmedStatus>
               <span class="status--confirmed">confirmed ✓</span>
@@ -150,7 +143,14 @@
                   (click)="startEnterpriseTrial()"
                   [textContent]="text.button_continue"
                   [attr.title]="text.button_continue"
-                  [disabled]="!confirmed">
+                  [disabled]="!confirmed"
+                  [hidden]="status === 'startTrial'">
+          </button>
+          <button *ngIf="status === 'startTrial'"
+                  class="confirm-form-submit--continue button -highlight"
+                  (click)="closeModal($event)"
+                  [textContent]="text.button_continue"
+                  [attr.title]="text.button_continue">
           </button>
         </ng-template>
       </div>
