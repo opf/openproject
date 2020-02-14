@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,23 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Decorators
-    class UnpaginatedCollection < ::API::Decorators::Collection
-      def initialize(models, self_link, current_user:)
-        super(models, model_count(models), self_link, current_user: current_user)
-      end
+class Queries::Projects::Orders::NameOrder < Queries::BaseOrder
+  self.model = Project
 
-      def model_count(models)
-        if models.respond_to?(:except)
-          # We do not want any order/selecting with counting
-          # when it would result in an invalid SELECT COUNT(DISTINCT *, ).
-          # As both, order and select should have no impact on the count result, we remove them.
-          models.except(:select, :order)
-        else
-          models
-        end.count
-      end
+  def self.key
+    :name
+  end
+
+  def scope
+    super.select('projects.*', 'lower(projects.name)')
+  end
+
+  def order
+    with_raise_on_invalid do
+      model.order(Arel.sql("lower(projects.name)").send(direction))
     end
   end
 end

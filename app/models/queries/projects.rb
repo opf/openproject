@@ -51,4 +51,5 @@ module Queries::Projects
   register.order query, orders::RequiredDiskSpaceOrder
   register.order query, orders::CustomFieldOrder
   register.order query, orders::ProjectStatusOrder
+  register.order query, orders::NameOrder
 end
