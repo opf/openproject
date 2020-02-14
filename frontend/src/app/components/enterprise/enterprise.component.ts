@@ -26,27 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Input} from "@angular/core";
-import {enterpriseEditionUrl} from "core-app/globals/constants.const";
+import {Component, Injector} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {EnterpriseTrialModal} from "core-components/enterprise/enterprise-modal/enterprise-trial.modal";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {Injector} from "@angular/core";
-
 
 @Component({
   selector: 'enterprise',
-  templateUrl: '/app/components/enterprise/enterprise.component.html'
+  templateUrl: './enterprise.component.html',
+  styleUrls: ['./enterprise.component.sass']
 })
 export class EnterpriseComponent {
-  @Input() public leftMargin:boolean = false;
-  @Input() public textMessage:string;
-  @Input() public linkMessage:string;
-  @Input() public opReferrer:string;
-
-  public text:any = {
-    enterpriseFeature: this.I18n.t('js.upsale.ee_only'),
+  public text = {
+    button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
+    button_book: this.I18n.t('js.admin.enterprise.upsale.button_book_now'),
+    button_quote: this.I18n.t('js.admin.enterprise.upsale.button_quote')
   };
 
   constructor(protected I18n:I18nService,
@@ -56,14 +51,6 @@ export class EnterpriseComponent {
 
   public openTrialModal() {
     this.opModalService.show(EnterpriseTrialModal, this.injector);
-  }
-
-  public eeLink() {
-    if (this.opReferrer) {
-      return enterpriseEditionUrl + '&op_referrer=' + this.opReferrer;
-    } else {
-      return enterpriseEditionUrl;
-    }
   }
 }
 

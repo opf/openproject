@@ -182,14 +182,30 @@ en:
         new_group: 'New group'
         reset_to_defaults: 'Reset to defaults'
       enterprise:
-        start_trial: 'Start free trial'
-        test_ee: 'Test the Enterprise Edition 30 days for free'
-        label_company: 'Company'
-        label_first_name: 'First name'
-        label_last_name: 'Last name'
-        label_email: 'Email'
-        label_domain: 'Domain'
-        next_step: 'In the next step we will send you an email to the email-address provided.'
+        trial:
+          label_company: 'Company'
+          label_first_name: 'First name'
+          label_last_name: 'Last name'
+          label_email: 'Email'
+          label_domain: 'Domain'
+          next_step: 'In the next step we will send you an email to the email-address provided.'
+          resend_link: 'Resend'
+          test_ee: 'Test the Enterprise Edition 30 days for free'
+        upsale:
+          button_start_trial: 'Start free trial'
+          button_book_now: 'Book now'
+          button_quote: 'Get a quote'
+          become_hero: "Become a hero!"
+          benefits:
+            high_security: "High security features"
+            high_security_text: "Our security features ensure a secure and enterprise-class business application."
+            installation: "Installation and alerts"
+            installation_text: "Let the OpenProject experts do the installation for you and rely on our fast and secure service."
+            premium_features: "Premium features"
+            premium_features_text: "Enjoy additional powerful premium features which make your OpenProject even better."
+            professional_support: "Professional support"
+            professional_support_text: "Our professional support service engineers guarantee quick and friendly issue solving."
+          you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
 
     custom_actions:
       date:

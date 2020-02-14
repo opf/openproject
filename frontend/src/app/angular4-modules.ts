@@ -27,6 +27,7 @@
 // ++
 
 import {APP_INITIALIZER, ApplicationRef, Injector, NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -39,7 +40,6 @@ import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
 import {PasswordConfirmationModal} from "core-components/modals/request-for-confirmation/password-confirmation.modal";
-import {EnterpriseComponent} from "core-components/enterprise/enterprise.component";
 import {EnterpriseTrialModal} from "core-components/enterprise/enterprise-modal/enterprise-trial.modal";
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
@@ -129,6 +129,9 @@ import {OpenprojectMembersModule} from "core-app/modules/members/members.module"
 
     // Members
     OpenprojectMembersModule,
+
+    // Angular Forms
+    ReactiveFormsModule
   ],
   providers: [
     {provide: States, useValue: new States()},

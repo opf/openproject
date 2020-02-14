@@ -26,11 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
+import {ChangeDetectorRef, Component, ElementRef, Inject, Input} from "@angular/core";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {OpModalComponent} from "app/components/op-modals/op-modal.component";
 import {OpModalLocalsToken} from "app/components/op-modals/op-modal.service";
-import {ChangeDetectorRef, Component, ElementRef, Inject} from "@angular/core";
 import {OpModalLocalsMap} from "app/components/op-modals/op-modal.types";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
+
+import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {enterpriseEditionUrl} from "core-app/globals/constants.const";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 export interface EnterpriseTrialOptions {
   text:{
@@ -48,35 +54,60 @@ export interface EnterpriseTrialOptions {
   templateUrl: './enterprise-trial.modal.html'
 })
 export class EnterpriseTrialModal extends OpModalComponent {
+  @Input() public opReferrer:string;
+
+  // enterprise form
+  enterpriseTrialForm = this.formBuilder.group({
+    company: ['', Validators.required],
+    first_name: ['', Validators.required],
+    last_name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    domain: ['', Validators.required],
+    general_consent: [null, Validators.required],
+    newsletter_consent:  null,
+  });
+
+  public baseUrl = 'https://augur.openproject-edge.com';
+  public trialLink:string;
+  public resendLink:string;
+  public token:string;
 
   public showClose:boolean;
-
   public confirmed = false;
+  public cancelled = false;
+  public status:string;
+  public errorMsg:string|undefined;
 
   private options:EnterpriseTrialOptions;
 
-  public text:any = {
-    title: this.I18n.t('js.modals.form_submit.title'),
-    text: this.I18n.t('js.modals.form_submit.text'),
+  public text = {
     button_submit: this.I18n.t('js.modals.button_submit'),
     button_cancel: this.I18n.t('js.modals.button_cancel'),
+    button_continue: this.I18n.t('js.button_continue'),
     close_popup: this.I18n.t('js.close_popup_title'),
-    label_test_ee: this.I18n.t('js.admin.enterprise.test_ee'),
-    label_company: this.I18n.t('js.admin.enterprise.label_company'),
-    label_first_name: this.I18n.t('js.admin.enterprise.label_first_name'),
-    label_last_name: this.I18n.t('js.admin.enterprise.label_last_name'),
-    label_email: this.I18n.t('js.admin.enterprise.label_email'),
-    label_domain: this.I18n.t('js.admin.enterprise.label_domain'),
-    next_step: this.I18n.t('js.admin.enterprise.next_step')
+    label_test_ee: this.I18n.t('js.admin.enterprise.trial.test_ee'),
+    label_company: this.I18n.t('js.admin.enterprise.trial.label_company'),
+    label_first_name: this.I18n.t('js.admin.enterprise.trial.label_first_name'),
+    label_last_name: this.I18n.t('js.admin.enterprise.trial.label_last_name'),
+    label_email: this.I18n.t('js.admin.enterprise.trial.label_email'),
+    label_domain: this.I18n.t('js.admin.enterprise.trial.label_domain'),
+    next_step: this.I18n.t('js.admin.enterprise.trial.next_step'),
+    resend: this.I18n.t('js.admin.enterprise.trial.resend_link'),
+    title: this.I18n.t('js.modals.form_submit.title'),
+    text: this.I18n.t('js.modals.form_submit.text'),
   };
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService) {
-
+              readonly I18n:I18nService,
+              protected http:HttpClient,
+              readonly pathHelper:PathHelperService,
+              protected halNotification:HalResourceNotificationService,
+              private formBuilder:FormBuilder) {
     super(locals, cdRef, elementRef);
 
+    // modal configuration
     this.options = locals.options || {};
     this.closeOnEscape = _.defaultTo(this.options.closeByEscape, true);
     this.closeOnOutsideClick = _.defaultTo(this.options.closeByDocument, true);
@@ -86,16 +117,113 @@ export class EnterpriseTrialModal extends OpModalComponent {
     this.text = _.defaults(this.options.text, this.text);
   }
 
-  public submit(evt:JQuery.TriggeredEvent) {
-    // open next window
-    // this.confirmMailAddress();
-    // waiting -> show status and btn "Check status"
-    // confirmed -> show confirmed, enable btn "Continue"
-    // onclick of continue: this.closeMe(evt);
+  public onSubmit() {
+    // check if form is valid and handle input errors
+    if (this.enterpriseTrialForm.valid) {
+      this.enterpriseTrialForm.addControl('_type', new FormControl('enterprise-trial'));
+
+      this.sendForm(this.enterpriseTrialForm.value);
+    }
+  }
+
+  public sendForm(form:FormGroup) {
+    const trialPath = 'https://augur.openproject-edge.com/public/v1/trials';
+    // POST /public/v1/trials/ (send POST with form object)
+    this.http.post(trialPath, form)
+      .toPromise()
+      .then((enterpriseTrial:any) => {
+        this.trialLink = enterpriseTrial._links.self.href;
+
+        this.confirmMailAddress();
+      })
+      .catch((error:HttpErrorResponse) => {
+        // TODO: on error -> use notificationService? or show other msg
+        if (error.status === 422 || error.status === 400) { // user already created a trial
+          this.errorMsg = error.error.description;
+        } else {
+          console.log('sendForm: Error in else', error.error.description);
+          // 500 -> internal error occured
+        }
+      });
   }
 
   public confirmMailAddress() {
-    this.confirmed = true;
+    // 2) GET /public/v1/trials/:id
+    this.http
+      .get<any>(this.baseUrl + this.trialLink)
+      .toPromise()
+      .then((res:any) => {
+        // returns token if mail was confirmed
+        // show confirmed status and enable continue btn
+        this.confirmed = true;
+
+        // save token in backend
+        this.token = res.token;
+        this.saveToken(this.token);
+      })
+      .catch((error:HttpErrorResponse) => {
+        let message:undefined|string;
+        // 2.1) returns error 422 while waiting of confirmation
+        if (error.status === 422 && error.error.identifier === 'waiting_for_email_verification') {
+          console.log('comfirmMailaddress: Error 422: ', error.error.identifier);
+          // open next modal window
+          // status waiting
+          this.status = 'mailSubmitted';
+
+          // get resend button link
+          // TODO: does not work yet
+          this.resendLink = error.error._links.resend.href;
+
+          // TODO add limit for retrying
+          setTimeout( () => {
+            // retry as long as modal is open and action is not cancelled
+            if (!this.cancelled) {
+              this.confirmMailAddress();
+            }
+          }, 10000);
+        } else if (_.get(error, 'error._type') === 'Error') {
+          message = error.error.message;
+        } else {
+          // The backend returned an unsuccessful response code.
+          message = error.error;
+        }
+
+        this.halNotification.handleRawError(message);
+        return message || I18n.t('js.error.internal');
+      });
+  }
+
+  // TODO
+  private saveToken(token:string) {
+    // POST /admin/enterprise (params[:enterprise_token][:encoded_token])
+    // -> if token is new (token_retrieved: false) save token in ruby controller
+    this.http.post(this.pathHelper.api.v3.appBasePath + '/admin/enterprise', { enterprise_token: { encoded_token: token } }, { withCredentials: true })
+      .toPromise()
+      .then((res:any) => {
+        // TODO show token to copy?
+      })
+      .catch((error:HttpErrorResponse) => {
+      });
+  }
+
+  public startEnterpriseTrial() {
+    // open onboarding modal
+    this.status = 'startTrial';
+    console.log("Start enterprise trial!", this.status);
+  }
+
+  public checkMailField() {
+    if (this.enterpriseTrialForm.value.email !== '' && this.enterpriseTrialForm.controls.email.errors) {
+      this.errorMsg = 'Invalid e-mail address';
+    } else {
+      this.errorMsg = undefined;
+    }
+  }
+
+  public closeModal(event:any) {
+    // cancel all actions (e.g. an already send request)
+    this.cancelled = true;
+    this.closeMe(event);
   }
 }
 

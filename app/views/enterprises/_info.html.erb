@@ -26,18 +26,37 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<span hidden><%= augur_content_security_policy %></span>
 
 <p>
-  <b><%= t('homescreen.blocks.upsale.become_hero') %></b> <%= t('homescreen.blocks.upsale.you_contribute') %>
+  <b><%= t('js.admin.enterprise.upsale.become_hero') %></b> <%= t('js.admin.enterprise.upsale.you_contribute') %>
 </p>
 
 <enterprise></enterprise>
 
-<ul class="">
+<ul class="upsale-benefits">
   <li>
-    <%= t('homescreen.blocks.upsale.additional_features') %>
+    <p>
+      <b><%= t('js.admin.enterprise.upsale.benefits.installation') %></b>
+    </p>
+    <p><%= t('js.admin.enterprise.upsale.benefits.installation_text') %></p>
   </li>
   <li>
-    <%= t('homescreen.blocks.upsale.professional_support') %>
+    <p>
+      <b><%= t('js.admin.enterprise.upsale.benefits.professional_support') %></b>
+    </p>
+    <p><%= t('js.admin.enterprise.upsale.benefits.professional_support_text') %></p>
+  </li>
+  <li>
+    <p>
+      <b><%= t('js.admin.enterprise.upsale.benefits.premium_features') %></b>
+    </p>
+    <p><%= t('js.admin.enterprise.upsale.benefits.premium_features_text') %></p>
+  </li>
+  <li>
+    <p>
+      <b><%= t('js.admin.enterprise.upsale.benefits.high_security') %></b>
+    </p>
+    <p><%= t('js.admin.enterprise.upsale.benefits.high_security_text') %></p>
   </li>
 </ul>
