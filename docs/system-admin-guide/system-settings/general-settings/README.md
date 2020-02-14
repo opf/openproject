@@ -36,7 +36,7 @@ You can configure general system settings in OpenProject. Under System settings 
 
 13. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../../../user-guide/start-page). It is displayed to administrators only.
 
-    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or  known vulnerabilities. For more information on what the check provides,  what data is needed to provide available updates, and how to disable this check, please visit [the configuration documentation](../../system-admin-guide/information#security-badge).        
+    The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or  known vulnerabilities. For more information on what the check provides,  what data is needed to provide available updates, and how to disable this check, please visit [the configuration documentation](../../information#security-badge).        
 
 ![System-admin-guide-system-settings-general](System-admin-guide-system-settings-general.png)
 
