@@ -12,6 +12,7 @@ keywords: backlogs, scrum
 The starting point for effective work in Scrum teams is a well-maintained and prioritized product backlog as well as the creation of sprint backlogs. In OpenProject, you can easily record and specify requirements represented by user stories. Moreover, you can respond to  inquiries and sort them by priority for implementation.
 
 Moreover, please note that the backlogs module is not available in the accessibility mode, since it uses drag&drop functionalities which are not accessible. If you use the accessibility mode you can however perform the same actions (like viewing and editing work packages such as user stories and epics) from the work package list view.
+
 | Feature                                             | Documentation for                                            |
 | --------------------------------------------------- | ------------------------------------------------------------ |
 | [Create a new backlog](#create-a-new-backlog)       | How to create a new product backlog or sprint?               |
