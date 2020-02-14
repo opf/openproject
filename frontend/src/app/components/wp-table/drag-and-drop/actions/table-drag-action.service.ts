@@ -1,10 +1,6 @@
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {Injector} from "@angular/core";
-import {
-  hierarchyGroupClass,
-  hierarchyRootClass
-} from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 
 export class TableDragActionService {
 

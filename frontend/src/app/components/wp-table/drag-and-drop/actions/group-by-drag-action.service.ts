@@ -7,11 +7,13 @@ import {rowGroupClassName} from "core-components/wp-fast-table/builders/modes/gr
 import {locatePredecessorBySelector} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
 import {groupIdentifier} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 
 export class GroupByDragActionService extends TableDragActionService {
 
   private wpTableGroupBy = this.injector.get(WorkPackageViewGroupByService);
   private halEditing = this.injector.get<HalResourceEditingService>(HalResourceEditingService);
+  private halEvents = this.injector.get<HalEventsService>(HalEventsService);
   private halNotification = this.injector.get(HalResourceNotificationService);
 
   public get applies() {
@@ -33,6 +35,7 @@ export class GroupByDragActionService extends TableDragActionService {
     changeset.projectedResource[this.groupedAttribute!] = groupedValue;
     return this.halEditing
       .save(changeset)
+      .then((saved) => this.halEvents.push(saved.resource, { eventType: 'updated' }))
       .catch(e => this.halNotification.handleRawError(e, workPackage));
   }
 
