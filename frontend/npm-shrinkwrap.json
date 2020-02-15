@@ -2700,19 +2700,18 @@
       }
     },
     "@fullcalendar/angular": {
-      "version": "4.4.0",
-      "resolved": "https://registry.npmjs.org/@fullcalendar/angular/-/angular-4.4.0.tgz",
-      "integrity": "sha512-GVk88gpDeTknDKkeu8kP6b7gWHQ8R+NZqZmaFY5yoJTorDZ0gLr9cYaxys+InvFVatHWb12aLB7UpNxFAfLHKg==",
+      "version": "4.4.5-beta",
+      "resolved": "https://registry.npmjs.org/@fullcalendar/angular/-/angular-4.4.5-beta.tgz",
+      "integrity": "sha512-L144YrgrgFr75/LGNcDDX9xKy465AZR/EqWPxkdNFgBSeeblH+kf8OMy8K6YcuJDlv4nXw4RucBqbMrrQKvbQw==",
       "requires": {
-        "@fullcalendar/core": "~4.3.1",
-        "fast-deep-equal": "^2.0.1",
-        "tslib": "^1.9.0"
+        "@fullcalendar/core": "~4.4.0",
+        "fast-deep-equal": "^3.1.1"
       },
       "dependencies": {
-        "@fullcalendar/core": {
-          "version": "4.3.1",
-          "resolved": "https://registry.npmjs.org/@fullcalendar/core/-/core-4.3.1.tgz",
-          "integrity": "sha512-Eh+p/wpMkWGu26f8NpfQK9ecQMoZxX/aopv+0+4/CH+Ip0paP6iEc40JYgTz7RFl0bFqV1dvwyGyUZ4+9ZeySA=="
+        "fast-deep-equal": {
+          "version": "3.1.1",
+          "resolved": "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.1.tgz",
+          "integrity": "sha512-8UEa58QDLauDNfpbrX55Q9jrGHThw2ZMdOky5Gl1CDtVeJDPVrG4Jxx1N8jw2gkWaff5UUuX1KJd+9zGe2B+ZA=="
         }
       }
     },
@@ -2743,6 +2742,11 @@
       "version": "0.1.2",
       "resolved": "https://registry.npmjs.org/@istanbuljs/schema/-/schema-0.1.2.tgz",
       "integrity": "sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw=="
+    },
+    "@kolkov/ngx-gallery": {
+      "version": "1.0.10",
+      "resolved": "https://registry.npmjs.org/@kolkov/ngx-gallery/-/ngx-gallery-1.0.10.tgz",
+      "integrity": "sha512-A+xzyFLOqsiTzqg4kqZfcy3ESpM+gGEtzjO1RbFNKynRxNNGQ1rX08ewsqu+4eu9F89SSckBFVX/B3dDivFigA=="
     },
     "@ng-select/ng-option-highlight": {
       "version": "0.0.2",
@@ -9405,11 +9409,6 @@
           "integrity": "sha1-597mbjXW/Bb3EP6R1c9p9w8IkR0="
         }
       }
-    },
-    "ngx-gallery": {
-      "version": "5.10.0",
-      "resolved": "https://registry.npmjs.org/ngx-gallery/-/ngx-gallery-5.10.0.tgz",
-      "integrity": "sha512-+2DnsBfkIzNQoReOHf6+OMf06+qyQQMyVVN4iQAtL0+KykjVqDZiBwLQtmwajDWMGph6O1HNKLrqTcmgqw+d2A=="
     },
     "nice-try": {
       "version": "1.0.5",

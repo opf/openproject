@@ -3,7 +3,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {StateService} from "@uirouter/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
+import {NgxGalleryImage, NgxGalleryOptions} from '@kolkov/ngx-gallery';
 
 
 export type ViewPointOriginal = { id:string, file_name:string };
