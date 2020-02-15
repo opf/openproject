@@ -130,7 +130,7 @@ export class KeyboardShortcutService {
   clickLink(link:any) {
     var cancelled = false;
 
-    if (document.createEvent) {
+    if (!!document.createEvent) {
       var event = new MouseEvent('click', {
         view: window,
         bubbles: true,

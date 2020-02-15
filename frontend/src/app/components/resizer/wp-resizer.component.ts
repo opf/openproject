@@ -99,7 +99,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // Reset the style when killing this directive, otherwise the style remains
-    this.resizingElement.style.flexBasis = null;
+    this.resizingElement.style.flexBasis = '';
   }
 
   @HostListener('mousedown', ['$event'])

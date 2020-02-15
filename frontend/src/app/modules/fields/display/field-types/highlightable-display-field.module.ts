@@ -32,7 +32,7 @@ import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages
 export class HighlightableDisplayField extends DisplayField {
 
   /** Optionally test if we can inject highlighting service */
-  protected readonly viewHighlighting:WorkPackageViewHighlightingService = this.$injector.get(WorkPackageViewHighlightingService, null);
+  protected readonly viewHighlighting:WorkPackageViewHighlightingService|null = this.$injector.get(WorkPackageViewHighlightingService, null);
 
   public get shouldHighlight() {
     if (this.context.options.colorize === false) {
