@@ -452,19 +452,6 @@ ru:
         upgrade_to_ee_text: "Ух ты! Если вам нужна эта функция, вы – супер профессионал! Не хотите поддержать OpenSource разработчиков, став клиентом корпоративной версии?"
         more_information: "Больше информации"
         nevermind: "Неважно"
-        filter_types:
-          parent: "будучи потомком"
-          precedes: "предыдущие"
-          follows: "следующие"
-          relates: "связанные с"
-          duplicates: "дублирование"
-          duplicated: "Дублируется"
-          blocks: "блокировка"
-          blocked: "заблокировано"
-          partof: "является частью"
-          includes: "включая"
-          requires: "требование"
-          required: "необходим для"
       edit:
         form_configuration: "Конфигурация формы"
         projects: "Проекты"
@@ -804,8 +791,7 @@ ru:
           relation_columns: 'Нужно видеть отношения в списке пакетов работ?'
           check_out_link: 'Проверьте корпоративную версию.'
         relation_filters:
-          first_part: "Показать все пакеты работы"
-          second_part: "текущий пакет работ"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Обзор
         activity: Деятельность

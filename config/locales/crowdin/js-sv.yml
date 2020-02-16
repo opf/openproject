@@ -452,19 +452,6 @@ sv:
         upgrade_to_ee_text: "Wow! Om du behöver denna funktion så är du ett superproffs! Skulle du vilja stötta oss OpenSource-utvecklare genom att bli en Enterprise Edition-kund?"
         more_information: "Mer information"
         nevermind: "Det var inget"
-        filter_types:
-          parent: "att vara barn till"
-          precedes: "föregående"
-          follows: "följer"
-          relates: "relaterar till"
-          duplicates: "duplicerar"
-          duplicated: "duplicerad genom"
-          blocks: "blockerar"
-          blocked: "blockeras av"
-          partof: "är en del av"
-          includes: "inklusive"
-          requires: "kräver"
-          required: "krävs av"
       edit:
         form_configuration: "Ställ in formulär"
         projects: "Projekt"
@@ -800,8 +787,7 @@ sv:
           relation_columns: 'Behöver du se relationer i listan på arbetspaket?'
           check_out_link: 'Kolla in Enterprise Edition.'
         relation_filters:
-          first_part: "Visa alla arbetspaket"
-          second_part: "nuvarande arbetspaket"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Översikt
         activity: Aktivitet

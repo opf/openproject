@@ -453,19 +453,6 @@ fr:
         upgrade_to_ee_text: "Waouh ! Si vous avez besoin de cette fonctionnalité, vous êtes un véritable pro ! Cela vous dérangerait-il de soutenir les développeurs Open Source en devenant un client de la Version Enterprise ?"
         more_information: "Plus d'informations"
         nevermind: "Peu importe"
-        filter_types:
-          parent: "étant enfant de"
-          precedes: "précédant"
-          follows: "suivant"
-          relates: "en relation avec"
-          duplicates: "dupliquant"
-          duplicated: "Dupliqué par"
-          blocks: "bloquant"
-          blocked: "bloqué par"
-          partof: "faisant partie de"
-          includes: "incluant"
-          requires: "requérant"
-          required: "requis par"
       edit:
         form_configuration: "Configuration du formulaire"
         projects: "Projets"
@@ -801,8 +788,7 @@ fr:
           relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'
           check_out_link: 'Découvrez l’édition entreprise.'
         relation_filters:
-          first_part: "Afficher tous les lots de travaux"
-          second_part: "le package de travail actuel"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Vue globale
         activity: Activité

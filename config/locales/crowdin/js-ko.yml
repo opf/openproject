@@ -453,19 +453,6 @@ ko:
         upgrade_to_ee_text: "와우! 만약 이 기능이 필요하다면 당신은 진짜 프로입니다! Enterprise Edition 고객이 되어서 OpenSource 개발자들을 지원할 생각이 있나요?"
         more_information: "더보기"
         nevermind: "신경쓰지 마세요"
-        filter_types:
-          parent: "다음의 자식:"
-          precedes: "이전"
-          follows: "다음"
-          relates: "관련"
-          duplicates: "복제"
-          duplicated: "복제한 사용자"
-          blocks: "차단"
-          blocked: "차단한 사용자"
-          partof: "다음의 일부:"
-          includes: "포함"
-          requires: "요구"
-          required: "다음에 의해 요구됨:"
       edit:
         form_configuration: "양식 구성"
         projects: "프로젝트"
@@ -799,8 +786,7 @@ ko:
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'
           check_out_link: 'Enterprise Edition을 체크아웃하세요.'
         relation_filters:
-          first_part: "모든 작업 패키지 표시"
-          second_part: "현재 작업 패키지"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: 요약
         activity: 활동

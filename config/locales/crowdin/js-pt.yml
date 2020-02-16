@@ -453,19 +453,6 @@ pt:
         upgrade_to_ee_text: "Uau! Se precisa desta funcionalidade é porque é um utilizador especializado! Gostaria de apoiar os desenvolvedores de OpenSource, tornando-se num cliente da versão Enterprise Edition?"
         more_information: "Mais informação"
         nevermind: "Não, obrigado"
-        filter_types:
-          parent: "sendo filho de"
-          precedes: "anterior"
-          follows: "seguinte"
-          relates: "relativo a"
-          duplicates: "a duplicar"
-          duplicated: "duplicado por"
-          blocks: "a bloquear"
-          blocked: "bloqueado por"
-          partof: "sendo parte de"
-          includes: "incluindo"
-          requires: "a necessitar"
-          required: "exigido por"
       edit:
         form_configuration: "Configuração do formulário"
         projects: "Projetos"
@@ -479,7 +466,7 @@ pt:
       duration: 'Duração'
       spent_on: 'Data'
       hours: 'Horas'
-      label: 'Time entry'
+      label: 'Entrada de hora'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticação de dois fatores'
     watchers:
@@ -801,8 +788,7 @@ pt:
           relation_columns: 'Precisa de ver as relações na lista do pacote de trabalho?'
           check_out_link: 'Experimente a versão Enterprise Edition.'
         relation_filters:
-          first_part: "Mostrar todos os pacotes de trabalho"
-          second_part: "o pacote de trabalho atual"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Sinopse
         activity: Atividade

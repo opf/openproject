@@ -452,19 +452,6 @@ hu:
         upgrade_to_ee_text: "Hűha! Ha erre a funkcióra szükséged van, profi vagy! Támogatna minket, \"nyiltforrású\" fejlesztőket azzal, hogy Enterprise Edition ügyfelünk legyen?"
         more_information: "További információ"
         nevermind: "Mindegy"
-        filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
-          duplicated: "Ismétlődések szerint"
-          blocks: "blocking"
-          blocked: "Blokkolta"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
       edit:
         form_configuration: "Form Configuration"
         projects: "Projektek"
@@ -800,8 +787,7 @@ hu:
           relation_columns: 'Szeretné látni a munkacsomag kapcsolatait?'
           check_out_link: 'Tekintse meg az Enterprise Edition-t!'
         relation_filters:
-          first_part: "Show all work packages"
-          second_part: "the current work package"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Áttekintés
         activity: Tevékenység

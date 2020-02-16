@@ -453,19 +453,6 @@ es:
         upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡es un usuario experto! ¿Le importaría apoyar a los desarrolladores de OpenSource convirtiéndose en un cliente de la versión corporativa?"
         more_information: "Más información"
         nevermind: "No importa"
-        filter_types:
-          parent: "es un elemento secundario de"
-          precedes: "anterior"
-          follows: "posterior"
-          relates: "relacionado con"
-          duplicates: "duplicado"
-          duplicated: "duplicado por"
-          blocks: "bloqueo"
-          blocked: "bloqueado por"
-          partof: "pertenece a"
-          includes: "incluido"
-          requires: "requiere"
-          required: "requerido por"
       edit:
         form_configuration: "Configuración del formulario"
         projects: "Proyectos"
@@ -801,8 +788,7 @@ es:
           relation_columns: '¿Necesita ver las relaciones en la lista del paquete de trabajo?'
           check_out_link: 'Vea la versión Enterprise Edition.'
         relation_filters:
-          first_part: "Mostrar todos los paquetes de trabajo"
-          second_part: "el paquete de trabajo actual"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Resumen
         activity: Actividad

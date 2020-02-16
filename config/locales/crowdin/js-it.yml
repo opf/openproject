@@ -453,19 +453,6 @@ it:
         upgrade_to_ee_text: "Wow! Se hai bisogno di questa funzionalità sei un vero professionista! Ti andrebbe di aiutare noi sviluppatori OpenSource diventando un cliente Enterprise Edition?"
         more_information: "Altre informazioni"
         nevermind: "Lascia stare"
-        filter_types:
-          parent: "essere figlio di"
-          precedes: "precedente"
-          follows: "seguente"
-          relates: "in relazione a"
-          duplicates: "duplicazione"
-          duplicated: "duplicato da"
-          blocks: "blocco"
-          blocked: "bloccato da"
-          partof: "essere parte di"
-          includes: "compreso"
-          requires: "che richiedono"
-          required: "richiesto dalla"
       edit:
         form_configuration: "Configurazione del modulo"
         projects: "Progetti"
@@ -801,8 +788,7 @@ it:
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'
           check_out_link: 'Scopri Enterprise Edition.'
         relation_filters:
-          first_part: "Visualizza tutti i pacchetti di lavoro"
-          second_part: "l'attuale pacchetto di lavoro"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Panoramica
         activity: Attività

@@ -453,19 +453,6 @@ fil:
         upgrade_to_ee_text: "Wow! kung kinakailngan mo ang tampok na ito ikaw sobrang galing! Ayos lang ba sa iyo na suportahan ag aming OpenSource developers sa pamamagitan ng pagiging isang kliyente ng Enterprise Edition?"
         more_information: "Karagdagang impornasyon"
         nevermind: "Hindi bale"
-        filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
-          duplicated: "ginaya sa pamamagitan ng"
-          blocks: "blocking"
-          blocked: "hinarangan ni"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
       edit:
         form_configuration: "Form Configuration"
         projects: "Mga proyekto"
@@ -801,8 +788,7 @@ fil:
           relation_columns: 'Kailangan tingnan ang mga relasyon sa listahan ng work package?'
           check_out_link: 'Suriin ang Enterprise Edition.'
         relation_filters:
-          first_part: "Show all work packages"
-          second_part: "the current work package"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Buod
         activity: Aktibidad

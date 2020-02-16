@@ -453,19 +453,6 @@ uk:
         upgrade_to_ee_text: "Оце Так! Якщо вам потрібна ця функція, ви супер-про! Чи не могли б ви підтримати розробників OpenSource, ставши клієнтом Enterprise Edition?"
         more_information: "Більше інформації"
         nevermind: "Nevermind"
-        filter_types:
-          parent: "будучи дитиною"
-          precedes: "попередній"
-          follows: "наступні"
-          relates: "у зв'язку з"
-          duplicates: "дублювання"
-          duplicated: "Дублюється"
-          blocks: "blocking"
-          blocked: "заблоковано"
-          partof: "будучи частиною"
-          includes: "у тому числі"
-          requires: "вимагає"
-          required: "обов’язково"
       edit:
         form_configuration: "Form Configuration"
         projects: "Проекти"
@@ -805,8 +792,7 @@ uk:
           relation_columns: 'Потрібно бачити відносини у списку робочих пакетів?'
           check_out_link: 'Перегляньте Enterprise Edition.'
         relation_filters:
-          first_part: "Показати всі робочі пакети"
-          second_part: "поточний пакет робіт"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Огляд
         activity: Активність

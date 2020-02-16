@@ -453,19 +453,6 @@ tr:
         upgrade_to_ee_text: "Vay canına! Eğer bu özelliğe ihtiyaç duyuyorsanız süper bir profesyonelsiniz! Açık Kaynak kodu desteklemeyi düşünüyorseniz bizim geliştiricilerimize katkı sağlamak için Enterprise sürüm müşterimiz olur musunuz?"
         more_information: "Daha fazla bilgi"
         nevermind: "Boşver"
-        filter_types:
-          parent: "çocuğu olmak"
-          precedes: "önceki"
-          follows: "takip etmek"
-          relates: "ile ilgili"
-          duplicates: "çoğaltmak"
-          duplicated: "tarafından çoğaltılır"
-          blocks: "engelleme"
-          blocked: "bağlı"
-          partof: "parçası olmak"
-          includes: "dahil olmak üzere"
-          requires: "gerektiren"
-          required: "tarafından gerekli"
       edit:
         form_configuration: "Form Yapılandırması"
         projects: "Projeler"
@@ -801,8 +788,7 @@ tr:
           relation_columns: 'İş paketleri listesindeki ilişkileri görmek ister misiniz?'
           check_out_link: 'Enterprise sürüme bakın.'
         relation_filters:
-          first_part: "Tüm iş paketleri görüntüle"
-          second_part: "geçerli iş paketi"
+          filter_work_packages_by_relation_type: 'İş paketlerini ilişki türüne göre filtreleme'
       tabs:
         overview: Genel Bakış
         activity: Etkinlik

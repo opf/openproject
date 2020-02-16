@@ -453,19 +453,6 @@ sk:
         upgrade_to_ee_text: "Wow! Ak potrebujete túto funkciu, ste super profesionál! Mohli by ste podporiť vývojárov Open Source tým, že sa staneme klientom Enterprise Edition?"
         more_information: "Viac informácií"
         nevermind: "Nie ďakujem"
-        filter_types:
-          parent: "podradený"
-          precedes: "predchádzajúci"
-          follows: "následujúci"
-          relates: "súvisiace s"
-          duplicates: "duplicitné"
-          duplicated: "zduplikoval"
-          blocks: "blokuje"
-          blocked: "zablokované používateľom"
-          partof: "sú zahrnuté v"
-          includes: "vrátane"
-          requires: "vyžaduje"
-          required: "požadované"
       edit:
         form_configuration: "Form Configuration"
         projects: "Projekty"
@@ -805,8 +792,7 @@ sk:
           relation_columns: 'Potrebujete vidieť vzťahy v zozname pracovných balíčkov?'
           check_out_link: 'Pozrite si verziu Enterprise.'
         relation_filters:
-          first_part: "Zobraziť všetky pracovné balíčky"
-          second_part: "aktuálny pracovný balíček"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Prehľad
         activity: Činnosť

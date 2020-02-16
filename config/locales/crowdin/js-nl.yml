@@ -453,19 +453,6 @@ nl:
         upgrade_to_ee_text: "Wow! Als u deze functie nodig heeft bent u een super pro! Zou u de opensource ontwikkelaars willen ondersteunen door een licentie te nemen op de enterprice edition?"
         more_information: "Meer informatie"
         nevermind: "Geen aandacht"
-        filter_types:
-          parent: "onderliggend van"
-          precedes: "voorafgaand aan"
-          follows: "volgende"
-          relates: "met betrekking tot"
-          duplicates: "dupliceren"
-          duplicated: "gedupliceerd door"
-          blocks: "blokkeren"
-          blocked: "vergrendeld door"
-          partof: "die deel uitmaken van"
-          includes: "inclusief"
-          requires: "vereisen"
-          required: "vereist door"
       edit:
         form_configuration: "Form Configuration"
         projects: "Projecten"
@@ -801,8 +788,7 @@ nl:
           relation_columns: 'Nodig om te zien van betrekkingen in de pakketlijst werk?'
           check_out_link: 'Bekijk de Enterprise Edition.'
         relation_filters:
-          first_part: "Bekijk alle werkpakketten"
-          second_part: "her huidige werkpakket"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Overzicht
         activity: Activiteit

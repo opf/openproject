@@ -452,19 +452,6 @@ zh-TW:
         upgrade_to_ee_text: "哇！如果您需要使用此功能，說明您非常專業！您是否願意成為企業版客戶來支持 OpenSource 開發人員？"
         more_information: "更多資訊"
         nevermind: "無視"
-        filter_types:
-          parent: "成為子級"
-          precedes: "前"
-          follows: "接著的"
-          relates: "相關於"
-          duplicates: "複製中..."
-          duplicated: "標示重複者"
-          blocks: "阻止"
-          blocked: "標示禁止者"
-          partof: "成為的一部分"
-          includes: "包括"
-          requires: "需要"
-          required: "被以下需要"
       edit:
         form_configuration: "Form Configuration"
         projects: "專案"
@@ -798,8 +785,7 @@ zh-TW:
           relation_columns: '需要檢視工作項目清單的關係嗎'
           check_out_link: '請查閱企業版'
         relation_filters:
-          first_part: "顯示所有工作包"
-          second_part: "當前工作包"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: 概要
         activity: 活動

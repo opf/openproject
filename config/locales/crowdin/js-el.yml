@@ -452,19 +452,6 @@ el:
         upgrade_to_ee_text: "Wow! Αν χρειάζεστε αυτή τη λειτουργία τότε είστε σούπερ επαγγελματίας! Θα θέλατε να στηρίξετε εμάς τους προγραμματιστές OpenSource με το να γίνετε πελάτης της έκδοσης για επιχειρήσεις;"
         more_information: "Περισσότερες πληροφορίες"
         nevermind: "Δεν πειράζει"
-        filter_types:
-          parent: "είναι παιδί του"
-          precedes: "προηγούμενο"
-          follows: "ακολουθεί"
-          relates: "σχετικά με"
-          duplicates: "γίνεται αντιγραφή"
-          duplicated: "αντιγράφτηκε από"
-          blocks: "μπλοκάρισμα"
-          blocked: "αποκλεισμένο από"
-          partof: "είναι μέρος του"
-          includes: "συμπεριλαμβανομένου"
-          requires: "απαιτώντας"
-          required: "απαιτείται από"
       edit:
         form_configuration: "Διαμόρφωση Φόρμας"
         projects: "Έργα"
@@ -800,8 +787,7 @@ el:
           relation_columns: 'Χρειάζεστε να βλέπετε συσχετίσεις στη λίστα πακέτων εργασίας;'
           check_out_link: 'Δείτε την Έκδοση για Επιχειρήσεις.'
         relation_filters:
-          first_part: "Εμφάνιση όλων των πακέτων εργασίας"
-          second_part: "το τρέχον πακέτο εργασίας"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Επισκόπηση
         activity: Δραστηριότητα

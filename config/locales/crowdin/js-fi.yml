@@ -29,16 +29,16 @@ fi:
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
-        single: "Select \"%{name}\""
-      remove: "Remove %{name}"
-      active: "Active %{label} %{name}"
+        multi: "Add \"%{name}\"Lisää"
+        single: "Select \"%{name}\"Valitse"
+      remove: "Remove %{name} Poista"
+      active: "Active %{label} %{name} Aktiivinen"
     close_popup_title: "Sulje ponnahdus-ikkuna"
     close_filter_title: "Sulje suodatin"
     close_form_title: "Sulje lomake"
     button_add_watcher: "Lisää seuraaja"
     button_back: "Takaisin"
-    button_back_to_list_view: "Back to list view"
+    button_back_to_list_view: "Takaisin listaan"
     button_cancel: "Peruuta"
     button_close: "Sulje"
     button_change_project: "Change project"
@@ -54,7 +54,7 @@ fi:
     button_duplicate: "Kahdenna"
     button_edit: "Muokkaa"
     button_filter: "Suodata"
-    button_advanced_filter: "Advanced filter"
+    button_advanced_filter: "Edistynyt suodatin"
     button_list_view: "Luettelonäkymä"
     button_show_view: "Koko näytön tila"
     button_log_time: "Kirjaa lokiin aika"
@@ -453,19 +453,6 @@ fi:
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "Lisätietoja"
         nevermind: "Nevermind"
-        filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
-          duplicated: "kaksoiskappale"
-          blocks: "blocking"
-          blocked: "estänyt"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
       edit:
         form_configuration: "Form Configuration"
         projects: "Projektit"
@@ -801,8 +788,7 @@ fi:
           relation_columns: 'Täytyy nähdä suhteet toimia paketti lista?'
           check_out_link: 'Check out the Enterprise Edition.'
         relation_filters:
-          first_part: "Show all work packages"
-          second_part: "the current work package"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Yleiskatsaus
         activity: Aktiviteetti

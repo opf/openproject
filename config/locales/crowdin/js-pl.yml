@@ -453,19 +453,6 @@ pl:
         upgrade_to_ee_text: "Znakomicie! Jeśli potrzebujesz tej funkcji, jesteś prawdziwym pro! Możesz wesprzesz nas jako deweloperów OpenSource, zostając klientem edycji Enterprise."
         more_information: "Więcej informacji"
         nevermind: "Nieważne"
-        filter_types:
-          parent: "będące elementem podrzędnym elementu"
-          precedes: "poprzedzające"
-          follows: "następujące po"
-          relates: "powiązane z"
-          duplicates: "duplikujące"
-          duplicated: "Powielone przez"
-          blocks: "blokujące"
-          blocked: "Zablokowane przez"
-          partof: "będące częścią"
-          includes: "zawierające"
-          requires: "wymagające"
-          required: "wymagane przez"
       edit:
         form_configuration: "Konfiguracja formularza"
         projects: "Projekty"
@@ -479,7 +466,7 @@ pl:
       duration: 'Czas trwania'
       spent_on: 'Data'
       hours: 'Godziny'
-      label: 'Time entry'
+      label: 'Wpis czasu'
     two_factor_authentication:
       label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'
     watchers:
@@ -805,8 +792,7 @@ pl:
           relation_columns: 'Chcesz zobaczyć relacje w tej liście pakietów roboczych?'
           check_out_link: 'Sprawdź wersję Enterprise.'
         relation_filters:
-          first_part: "Pokaż wszystkie pakiety robocze"
-          second_part: "bieżący pakiet roboczy"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Przegląd
         activity: Działanie

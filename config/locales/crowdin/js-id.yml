@@ -453,19 +453,6 @@ id:
         upgrade_to_ee_text: "Wow! Kalau Anda membutuhkan fitur ini, Anda adalah profesional yang super! Bersediakah Anda mendukung kami, pengembang OpenSource, untuk menjadi pelanggan Edisi Perusahaan?"
         more_information: "Informasi lebih lanjut"
         nevermind: "Tidak masalah"
-        filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
-          duplicated: "disalin oleh"
-          blocks: "blocking"
-          blocked: "diblokir oleh"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
       edit:
         form_configuration: "Form Configuration"
         projects: "Project"
@@ -799,8 +786,7 @@ id:
           relation_columns: 'Apakah perlu untuk melihat hubungan dalam daftar paker kerja?'
           check_out_link: 'Periksa edisi Perusahaan.'
         relation_filters:
-          first_part: "Show all work packages"
-          second_part: "the current work package"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Tinjauan
         activity: Activity

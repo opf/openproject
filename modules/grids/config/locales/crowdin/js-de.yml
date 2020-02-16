@@ -38,7 +38,7 @@ de:
           title: 'Unterprojekte'
           no_results: 'Keine Unterprojekte.'
         time_entries_current_user:
-          title: 'My spent time'
+          title: 'Meine gebuchte Zeit'
         time_entries_list:
           title: 'Verbrachte Zeit (letzte 7 Tage)'
           no_results: 'Keine Zeiteinträge der letzten 7 Tage.'

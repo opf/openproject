@@ -207,15 +207,15 @@ de:
       blocks:
         new_features:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
-          learn_about: "Learn more about the new features"
+          learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-4
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+              Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br><br> <ul> <li>Vordefinierte <b>Farbschemata</b>, um ein helles oder dunkles Farbschema (Premium-Funktion) auszuwählen.</li> <li>Neues <b>Zeiterfassungs-Widget</b> für <i>Meine Seite</i> um verbrachte Zeit in einem Balkendiagramm anzuzeigen.</li> <li><b>XLS-Export für Kostenberichte</b> und formatierten Text im PDF-Export von Arbeitspaketen.</li> <li><b>Verbessertes Design und Benutzerfreundlichkeit</b>, u.a. Tabs in den Projekteinstellungen und der Administration.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-4
             current_new_feature_html: >
-              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
+              OpenProject enthält ein <b>neues IFC-Modul, um 3D-Modelle</b> in Ihre Projekt-Management-Anwendung zu integrieren und mit Ihrem Team zusammenzuarbeiten, ohne separate teure Software oder Lizenzen zu installieren. <br><br> <ul> <li><b>Importieren Sie IFC-Dateien</b> der Modellierung in Ihre OpenProject-Anwendung.</li> <li><b>Öffnen Sie 3D-Modelle und visualisieren Sie Baumodelle</b> in Ihrem Browser.</li> <li> Einfach mit ihrem Team <b>an mehreren IFC-Dateien arbeiten</b>, direkt in OpenProject ohne Installation von separater kostspieliger Software. </li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -315,7 +315,7 @@ de:
     label_project_plural: "Projekte"
     label_visibility_settings: "Sichtbarkeits-Einstellungen"
     label_quote_comment: "Diesen Kommentar zitieren"
-    label_recent: "Recent"
+    label_recent: "Kürzlich benutzt"
     label_reset: "Zurücksetzen"
     label_remove_column: "Spalte entfernen"
     label_remove_columns: "Ausgewählte Spalten entfernen"
@@ -452,27 +452,14 @@ de:
         upgrade_to_ee_text: "Wow! Wenn du dieses Feature benötigst, bist du ein super Pro! Würdest du uns OpenProject-Entwickler unterstützen, indem du ein Enterprise Edition-Kunde wirst?"
         more_information: "Weitere Informationen"
         nevermind: "Nein danke"
-        filter_types:
-          parent: "die Unteraufgaben sind von"
-          precedes: "die Vörganger sind von"
-          follows: "die Nachfolger sind von"
-          relates: "die verwandt sind mit"
-          duplicates: "die duplizierend sind gegenüber"
-          duplicated: "Dupliziert durch"
-          blocks: "die eine Blockierung sind von"
-          blocked: "Blockiert durch"
-          partof: "die enthalten sind in"
-          includes: "die einschließend sind von"
-          requires: "die erfordernd sind von"
-          required: "die benötigt werden von"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Formularkonfiguration"
         projects: "Projekte"
         settings: "Einstellungen"
     time_entry:
       project: 'Projekt'
       work_package: 'Arbeitspaket'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Benötigt zuerst die Auswahl eines Arbeitspakets.'
       activity: 'Aktivität'
       comment: 'Kommentar'
       duration: 'Dauer'
@@ -540,14 +527,14 @@ de:
     field_value_enter_prompt: "Einen Wert für '%{field}' eingeben"
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "Bitte mehr Zeichen eingeben"
         one: "Bitte ein weiteres Zeichen eingeben"
         other: "Bitte {{count}} weitere Zeichen eingeben"
       load_more: "Weitere Ergebnisse werden geladen ..."
       no_matches: "Keine Treffer gefunden"
       searching: "Suche ..."
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "Sie können keine Einträge auswählen"
         one: "Sie dürfen nur ein Element auswählen"
         other: "Sie dürfen nur {{limit}} Elemente auswählen"
     project_menu_details: "Details"
@@ -800,8 +787,7 @@ de:
           relation_columns: 'Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?'
           check_out_link: 'Testen Sie die Enterprise Edition.'
         relation_filters:
-          first_part: "Alle Arbeitspakete anzeigen"
-          second_part: "dem aktuellen Arbeitspaket"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Übersicht
         activity: Aktivität

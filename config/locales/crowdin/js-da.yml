@@ -452,19 +452,6 @@ da:
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "More information"
         nevermind: "Nevermind"
-        filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
-          duplicated: "duplikeret gennem"
-          blocks: "blocking"
-          blocked: "spærret af"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
       edit:
         form_configuration: "Form Configuration"
         projects: "Projekter"
@@ -800,8 +787,7 @@ da:
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
         relation_filters:
-          first_part: "Show all work packages"
-          second_part: "the current work package"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Overblik
         activity: Aktivivtet

@@ -452,19 +452,6 @@ ro:
         upgrade_to_ee_text: "Hopa! Dacă aveți nevoie de această opțiune înseamnă că sunteți un profesionist! Dacă doriți, puteți susține acest produs achiziționând Versiunea Enterprise."
         more_information: "More information"
         nevermind: "Asta e..."
-        filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
-          duplicated: "dublat de"
-          blocks: "blocking"
-          blocked: "blocat de"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
       edit:
         form_configuration: "Form Configuration"
         projects: "Proiecte"
@@ -802,8 +789,7 @@ ro:
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
         relation_filters:
-          first_part: "Show all work packages"
-          second_part: "the current work package"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Vedere de ansamblu
         activity: Activitate

@@ -453,19 +453,6 @@ lt:
         upgrade_to_ee_text: "Vau! Jei Jums reikia šios funkcijos, esate super pro! Ar nenorėtumėte paremti mus, OpenSource (atviro kodo) kūrėjus, tapdami Enterprise Edition klientu?"
         more_information: "Daugiau informacijos"
         nevermind: "Nekreipti dėmesio"
-        filter_types:
-          parent: "yra vaikas"
-          precedes: "eina prieš"
-          follows: "eina po"
-          relates: "susieta su"
-          duplicates: "dubliuoja"
-          duplicated: "dubliuojasi su"
-          blocks: "blokuoja"
-          blocked: "blokuojamas"
-          partof: "yra dalis"
-          includes: "įskaitant"
-          requires: "reikalauja"
-          required: "reikalingas"
       edit:
         form_configuration: "Form Configuration"
         projects: "Projektai"
@@ -805,8 +792,7 @@ lt:
           relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'
           check_out_link: 'Patikrinkite Enterprise Edition.'
         relation_filters:
-          first_part: "Visi darbų paketai"
-          second_part: "dabartinis darbų paketas"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Peržiūra
         activity: Veikla
