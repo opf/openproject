@@ -119,6 +119,7 @@ class WorkPackage < ActiveRecord::Base
 
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_status
+  before_destroy :remove_associated_journals
 
   acts_as_customizable
 
@@ -761,5 +762,13 @@ class WorkPackage < ActiveRecord::Base
     end
 
     related.select(&:present?)
+  end
+
+  def remove_associated_journals
+    associated_journals.destroy_all
+  end
+
+  def associated_journals
+    journals.where(journable_type: ['Aggregated', 'Attachable', 'WorkPackage'])
   end
 end

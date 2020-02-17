@@ -301,18 +301,22 @@ describe WorkPackage, type: :model do
     before do
       time_entry_1
       time_entry_2
-
       work_package.destroy
     end
 
     context 'work package' do
       subject { WorkPackage.find_by(id: work_package.id) }
-
       it { is_expected.to be_nil }
     end
 
     context 'time entries' do
       subject { TimeEntry.find_by(work_package_id: work_package.id) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'associated journals' do
+      subject { Journal.find_by(journable_id: work_package.id) }
 
       it { is_expected.to be_nil }
     end
