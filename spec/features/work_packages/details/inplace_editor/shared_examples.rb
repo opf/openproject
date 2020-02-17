@@ -144,7 +144,7 @@ shared_examples 'a principal autocomplete field' do
 
     it 'autocompletes links to user profiles' do
       field.activate!
-      field.input_element.set(' ', fill_options: { clear: :backspace })
+      field.clear with_backspace: true
       field.input_element.set(" @lau")
       expect(page).to have_selector('.mention-list-item', text: mentioned_user.name)
       expect(page).to have_selector('.mention-list-item', text: mentioned_group.name)
@@ -155,7 +155,7 @@ shared_examples 'a principal autocomplete field' do
 
       # Clear the field
       sleep(0.01)
-      field.input_element.set(' ', fill_options: { clear: :backspace })
+      field.clear with_backspace: true
       sleep(0.01)
 
       field.input_element.set(" @Laura Fo")

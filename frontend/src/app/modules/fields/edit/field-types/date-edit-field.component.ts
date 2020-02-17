@@ -36,6 +36,7 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
     <op-date-picker
       tabindex="-1"
       (onChange)="onValueSelected($event)"
+      (onClose)="handler.handleUserSubmit()"
       [initialDate]="defaultDate">
 
       <input [ngModel]="formatter(value)"
@@ -57,7 +58,6 @@ export class DateEditFieldComponent extends EditFieldComponent {
 
   public onValueSelected(data:string) {
     this.value = this.parser(data);
-    this.handler.handleUserSubmit();
   }
 
   public parser(data:any) {

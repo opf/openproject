@@ -42,6 +42,7 @@ describe 'date inplace editor',
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package,project) }
 
   let(:due_date) { work_packages_page.edit_field(:dueDate) }
+  let(:start_date) { work_packages_page.edit_field(:startDate) }
 
   before do
     login_as(user)
@@ -62,5 +63,27 @@ describe 'date inplace editor',
 
     due_date.expect_inactive!
     due_date.expect_state_text '2016-01-25'
+  end
+
+  it 'saves the date when clearing and then confirming' do
+    start_date.activate!
+
+    sleep 1
+
+    start_date.input_element.click
+    start_date.clear with_backspace: true
+    start_date.input_element.send_keys :backspace
+
+    within('.ui-datepicker') do
+      find('button', text: 'Confirm').click
+    end
+
+    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+
+    start_date.expect_inactive!
+    start_date.expect_state_text 'no start date'
+
+    work_package.reload
+    expect(work_package.start_date).to be_nil
   end
 end
