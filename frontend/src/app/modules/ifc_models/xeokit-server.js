@@ -37,7 +37,7 @@ class XeokitServer {
         modelsLoaded: window.gon.ifc_models.default_models
       },
       viewerConfigs: {
-        saoEnabled: false
+        saoEnabled: true // Needs to be enabled by default if we want to use it selectively on the available models.
       }
     };
 
