@@ -168,7 +168,7 @@ describe 'Projects index page',
           expect(page)
             .to have_selector('th', text: 'LATEST ACTIVITY AT')
           expect(page)
-            .to have_selector('td', text: news.created_on.strftime('%m/%d/%Y'))
+            .to have_selector('td', text: news.created_at.strftime('%m/%d/%Y'))
         end
       end
 
@@ -802,7 +802,7 @@ describe 'Projects index page',
         expect(page)
           .to have_no_selector('th', text: 'LATEST ACTIVITY AT')
         expect(page)
-          .to have_no_selector('td', text: news.created_on.strftime('%m/%d/%Y'))
+          .to have_no_selector('td', text: news.created_at.strftime('%m/%d/%Y'))
       end
     end
   end
