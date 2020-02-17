@@ -791,7 +791,7 @@ ru:
           relation_columns: 'Нужно видеть отношения в списке пакетов работ?'
           check_out_link: 'Проверьте корпоративную версию.'
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: 'Фильтр пакета работ по типу отношения'
       tabs:
         overview: Обзор
         activity: Деятельность

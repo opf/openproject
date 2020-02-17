@@ -792,7 +792,7 @@ pl:
           relation_columns: 'Chcesz zobaczyć relacje w tej liście pakietów roboczych?'
           check_out_link: 'Sprawdź wersję Enterprise.'
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: 'Filtruj pakiety robocze według typu relacji'
       tabs:
         overview: Przegląd
         activity: Działanie

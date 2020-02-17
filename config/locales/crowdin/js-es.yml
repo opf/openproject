@@ -788,7 +788,7 @@ es:
           relation_columns: '¿Necesita ver las relaciones en la lista del paquete de trabajo?'
           check_out_link: 'Vea la versión Enterprise Edition.'
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: 'Filtrar paquetes de trabajo por tipo de relación'
       tabs:
         overview: Resumen
         activity: Actividad

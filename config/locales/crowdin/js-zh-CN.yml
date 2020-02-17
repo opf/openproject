@@ -786,7 +786,7 @@ zh-CN:
           relation_columns: '需要查看工作包列表中的关系吗？'
           check_out_link: '签出企业版。'
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: '按关系类型筛选工作包'
       tabs:
         overview: 概述
         activity: 活动

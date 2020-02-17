@@ -466,7 +466,7 @@ ko:
       duration: '기간'
       spent_on: '날짜'
       hours: '시간'
-      label: 'Time entry'
+      label: '시간 입력'
     two_factor_authentication:
       label_two_factor_authentication: '2단계 인증'
     watchers:
@@ -786,7 +786,7 @@ ko:
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'
           check_out_link: 'Enterprise Edition을 체크아웃하세요.'
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: '관계 유형별 작업 패키지 필터링'
       tabs:
         overview: 요약
         activity: 활동

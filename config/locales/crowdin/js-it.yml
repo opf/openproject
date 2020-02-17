@@ -788,7 +788,7 @@ it:
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'
           check_out_link: 'Scopri Enterprise Edition.'
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: 'Filtra le macro-attività per tipo di relazione'
       tabs:
         overview: Panoramica
         activity: Attività
