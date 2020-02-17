@@ -28,12 +28,13 @@ The package is available for the following Linux distributions:
 
 | Distribution (**64 bits only**)             |
 | ------------------------------------------- |
-| [CentOS/RHEL 7.x](#centos/rhel-7-x)         |
-| [Debian 9 Stretch](#debian-9)               |
+| [Ubuntu 18.04 Bionic Beaver](#ubuntu-1804)  |
+| [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
 | [Debian 10 Buster](#debian-10)              |
+| [Debian 9 Stretch](#debian-9)               |
+| [CentOS/RHEL 8.x](#el-8)                    |
+| [CentOS/RHEL 7.x](#el-7)                    |
 | [Suse Linux Enterprise Server 12](#sles-12) |
-| [Ubuntu 16.04 Xenial Xerus](#ubuntu-16-04)  |
-| [Ubuntu 18.04 Bionic Beaver](#ubuntu-18-04) |
 
 Please ensure that you are running on a 64bit system before proceeding with the installation. You can check by running the `uname -i` command on the target server and verifying that it outputs `x86_64`:
 
@@ -142,6 +143,34 @@ sudo apt-get install openproject
 ```
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+<a name="el-8"></a>
+
+## CentOS 8 / RHEL 8
+
+Add the OpenProject package source:
+
+```bash
+sudo wget -O /etc/yum.repos.d/openproject.repo \
+  https://dl.packager.io/srv/opf/openproject/stable/10/installer/el/8.repo
+```
+
+Download the OpenProject package:
+
+```bash
+sudo yum install openproject
+```
+
+Note: if the package manager refuses to install OpenProject due to the package `epel-release` not being found, you should add the EPEL repository manually, and then relaunch the command above:
+
+```bash
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+sudo yum install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+<a name="el-7"></a>
 
 ## CentOS 7 / RHEL 7
 
