@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% html_title h(@document.title) -%>
 <%= toolbar title: @document.title,
-            subtitle: "#{@document.category.name} - #{format_date @document.created_on}" do %>
+            subtitle: "#{@document.category.name} - #{format_date @document.created_at}" do %>
   <% if authorize_for(:documents, :edit) %>
     <li class="toolbar-item">
       <%= link_to({controller: '/documents', action: 'edit', id: @document}, class: 'button', accesskey: accesskey(:edit)) do %>

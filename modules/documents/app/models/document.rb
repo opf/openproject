@@ -36,14 +36,15 @@ class Document < ActiveRecord::Base
   acts_as_journalized
   acts_as_event title: Proc.new { |o| "#{Document.model_name.human}: #{o.title}" },
                 url: Proc.new { |o| { controller: '/documents', action: 'show', id: o.id } },
-                datetime: :created_on,
+                datetime: :created_at,
                 author: ( Proc.new do |o|
                             o.attachments.find(:first, order: "#{Attachment.table_name}.created_at ASC").try(:author)
                           end)
 
   acts_as_searchable columns: ['title', "#{table_name}.description"],
                      include: :project,
-                     references: :projects
+                     references: :projects,
+                     date_column: "#{table_name}.created_at"
 
   validates_presence_of :project, :title, :category
   validates_length_of :title, maximum: 60
@@ -73,11 +74,11 @@ class Document < ActiveRecord::Base
 
   def updated_on
     unless @updated_on
-      # attachments has a default order that conflicts with `created_on DESC`
+      # attachments has a default order that conflicts with `created_at DESC`
       # #reorder removes that default order but rather than #unscoped keeps the
       # scoping by this document
       a = attachments.reorder(Arel.sql('created_at DESC')).first
-      @updated_on = (a && a.created_at) || created_on
+      @updated_on = (a && a.created_at) || created_at
     end
     @updated_on
   end
