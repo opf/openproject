@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::UpdateAncestorsService, type: :model do
+describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
   let(:user) { FactoryBot.create :user }
   let(:estimated_hours) { [nil, nil, nil] }
   let(:done_ratios) { [0, 0, 0] }
