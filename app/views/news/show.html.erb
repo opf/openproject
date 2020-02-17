@@ -69,7 +69,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= format_text(@news.summary, object: @news) %>
   </div>
 <% end %>
-  <p class="author additional-information"><%= authoring @news.created_on, @news.author %></p>
+  <p class="author additional-information"><%= authoring @news.created_at, @news.author %></p>
 <div class="wiki">
   <%= format_text(@news.description, object: @news) %>
 </div>
