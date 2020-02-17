@@ -1,9 +1,3 @@
-
-
-# TODO: Token:Rss and Token::Api have been renamed to Token::RSS and Token::API. A migration needs to set the existing data accordingly
-
-# frozen_string_literal: true
-
 module OpenProject
   class Inflector < Zeitwerk::GemInflector
     # TODO: split up into a registry
