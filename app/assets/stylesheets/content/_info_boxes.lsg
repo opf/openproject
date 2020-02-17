@@ -6,22 +6,22 @@
   <h2>Heading</h2>
   <div class="info-boxes--container">
     <div class="info-boxes--item">
-      <header>
-        <h3>Box 1</h3>
-      </header>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <h3 class="info-boxes--item-title">Box 1</h3>
+      <div class="info-boxes--item-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
     </div>
     <div class="info-boxes--item">
-      <header>
-        <h3>Box 2</h3>
-      </header>
-      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <h3 class="info-boxes--item-title">Box 2</h3>
+      <div class="info-boxes--item-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
     </div>
     <div class="info-boxes--item">
-      <header>
-        <h3>Box 3</h3>
-      </header>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+      <h3 class="info-boxes--item-title">Box 3</h3>
+      <div class="info-boxes--item-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
     </div>
   </div>
 </div>
@@ -33,35 +33,40 @@
   <h2>Heading</h2>
   <div class="info-boxes--container">
     <div class="info-boxes--item">
-      <header>
-        <img src="https://via.placeholder.com/250x200" class="info-boxes--teaser-image">
-        <h3>Box 1</h3>
-      </header>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-      <ul class="widget-box--arrow-links">
-        <li><a>Learn more</a></li>
-      </ul>
+      <img src="https://via.placeholder.com/250x200" class="info-boxes--teaser-image">
+      <h3 class="info-boxes--item-title">Box 1</h3>
+      <div class="info-boxes--item-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <a href="" target="_blank">Learn more</a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="info-boxes--item">
-      <header>
-        <img src="https://via.placeholder.com/250x200" class="info-boxes--teaser-image">
-        <h3>Box 2</h3>
-      </header>
-      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-      <ul class="widget-box--arrow-links">
-        <li><a>Learn more</a></li>
-        <li><a>Another link</a></li>
-      </ul>
+      <img src="https://via.placeholder.com/250x200" class="info-boxes--teaser-image">
+      <h3 class="info-boxes--item-title">Box 2</h3>
+      <div class="info-boxes--item-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <a href="" target="_blank">Learn more</a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="info-boxes--item">
-      <header>
-        <img src="https://via.placeholder.com/250x200" class="info-boxes--teaser-image">
-        <h3>Box 3</h3>
-      </header>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-      <ul class="widget-box--arrow-links">
-        <li><a>Learn more</a></li>
-      </ul>
+      <img src="https://via.placeholder.com/250x200" class="info-boxes--teaser-image">
+      <h3 class="info-boxes--item-title">Box 3</h3>
+      <div class="info-boxes--item-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <a href="" target="_blank">Learn more</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

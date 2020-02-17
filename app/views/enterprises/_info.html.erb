@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <span hidden><%= augur_content_security_policy %></span>
 
 <p>
-  <b><%= t('js.admin.enterprise.upsale.become_hero') %></b> <%= t('js.admin.enterprise.upsale.you_contribute') %>
+  <b><%= t('js.admin.enterprise.upsale.become_hero') %></b><br> <%= t('js.admin.enterprise.upsale.you_contribute') %>
 </p>
 
 <enterprise></enterprise>
@@ -38,44 +38,72 @@ See docs/COPYRIGHT.rdoc for more details.
   <h2>What are the benefits</h2>
   <div class="info-boxes--container">
     <div class="info-boxes--item">
-      <header>
-        <%= image_tag "", class: "info-boxes--teaser-image" %>
-        <h3><%= t('js.admin.enterprise.upsale.benefits.installation') %></h3>
-      </header>
-      <p><%= t('js.admin.enterprise.upsale.benefits.installation_text') %></p>
-      <ul class="widget-box--arrow-links">
-        <li><a><%= t('js.label_learn_more_link') %></a></li>
-      </ul>
+      <%= image_tag "https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2017/06/icon-security-features.png",
+                    class: "info-boxes--teaser-image",
+                    title: t('js.admin.enterprise.upsale.benefits.installation'),
+                    alt: t('js.admin.enterprise.upsale.benefits.installation') %>
+      <h3 class="info-boxes--item-title"><%= t('js.admin.enterprise.upsale.benefits.installation') %></h3>
+      <div class="info-boxes--item-content">
+        <p><%= t('js.admin.enterprise.upsale.benefits.installation_text') %></p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <a href="https://www.openproject.org/enterprise-edition/#installation" target="_blank">
+              <%= t('js.label_learn_more_link') %>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="info-boxes--item">
-      <header>
-        <%= image_tag "", class: "info-boxes--teaser-image" %>
-        <h3><%= t('js.admin.enterprise.upsale.benefits.professional_support') %></h3>
-      </header>
-      <p><%= t('js.admin.enterprise.upsale.benefits.professional_support_text') %></p>
-      <ul class="widget-box--arrow-links">
-        <li><a><%= t('js.label_learn_more_link') %></a></li>
-      </ul>
+      <%= image_tag "https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2017/06/icon-system-maintenance.jpg",
+                    class: "info-boxes--teaser-image",
+                    title: t('js.admin.enterprise.upsale.benefits.professional_support'),
+                    alt: t('js.admin.enterprise.upsale.benefits.professional_support') %>
+      <h3 class="info-boxes--item-title"><%= t('js.admin.enterprise.upsale.benefits.professional_support') %></h3>
+      <div class="info-boxes--item-content">
+        <p><%= t('js.admin.enterprise.upsale.benefits.professional_support_text') %></p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <a href="https://www.openproject.org/enterprise-edition/#professional-support" target="_blank">
+              <%= t('js.label_learn_more_link') %>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="info-boxes--item">
-      <header>
-        <%= image_tag "", class: "info-boxes--teaser-image" %>
-        <h3><%= t('js.admin.enterprise.upsale.benefits.premium_features') %></h3>
-      </header>
-      <p><%= t('js.admin.enterprise.upsale.benefits.premium_features_text') %></p>
-      <ul class="widget-box--arrow-links">
-        <li><a><%= t('js.label_learn_more_link') %></a></li>
-      </ul>
+      <%= image_tag "https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2017/03/icon-premium-features.png",
+                    class: "info-boxes--teaser-image",
+                    title: t('js.admin.enterprise.upsale.benefits.premium_features'),
+                    alt: t('js.admin.enterprise.upsale.benefits.premium_features') %>
+      <h3 class="info-boxes--item-title"><%= t('js.admin.enterprise.upsale.benefits.premium_features') %></h3>
+      <div class="info-boxes--item-content">
+        <p><%= t('js.admin.enterprise.upsale.benefits.premium_features_text') %></p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <a href="https://www.openproject.org/enterprise-edition/#premium-features" target="_blank">
+              <%= t('js.label_learn_more_link') %>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="info-boxes--item">
-      <header>
-        <%= image_tag "", class: "info-boxes--teaser-image" %>
-        <h3><%= t('js.admin.enterprise.upsale.benefits.high_security') %></h3>
-      </header>
-      <p><%= t('js.admin.enterprise.upsale.benefits.high_security_text') %></p>
-      <ul class="widget-box--arrow-links">
-        <li><a><%= t('js.label_learn_more_link') %></a></li>
-      </ul>
+      <%= image_tag "https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2017/06/icon-security-alerts.jpg",
+                    class: "info-boxes--teaser-image",
+                    title: t('js.admin.enterprise.upsale.benefits.high_security'),
+                    alt: t('js.admin.enterprise.upsale.benefits.high_security') %>
+      <h3 class="info-boxes--item-title"><%= t('js.admin.enterprise.upsale.benefits.high_security') %></h3>
+      <div class="info-boxes--item-content">
+        <p><%= t('js.admin.enterprise.upsale.benefits.high_security_text') %></p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <a href="https://www.openproject.org/enterprise-edition/#security-features" target="_blank">
+              <%= t('js.label_learn_more_link') %>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

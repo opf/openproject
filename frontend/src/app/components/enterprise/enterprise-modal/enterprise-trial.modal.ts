@@ -65,13 +65,12 @@ export class EnterpriseTrialModal extends OpModalComponent {
     email: ['', [Validators.required, Validators.email]],
     domain: ['', Validators.required],
     general_consent: [null, Validators.required],
-    newsletter_consent:  null,
+    newsletter_consent: null,
   });
 
-  public baseUrl = 'https://augur.openproject-edge.com';
+  public baseUrlAugur = 'https://augur.openproject-edge.com';
   public trialLink:string;
   public resendLink:string;
-  public token:string;
 
   public showClose:boolean;
   public confirmed = false;
@@ -151,14 +150,13 @@ export class EnterpriseTrialModal extends OpModalComponent {
   public confirmMailAddress() {
     // 2) GET /public/v1/trials/:id
     this.http
-      .get<any>(this.baseUrl + this.trialLink)
+      .get<any>(this.baseUrlAugur + this.trialLink)
       .toPromise()
       .then((res:any) => {
         // show confirmed status and enable continue btn
         this.confirmed = true;
         // returns token if mail was confirmed -> save token in backend
-        this.token = res.token;
-        this.saveToken(this.token);
+        this.saveToken(res.token);
       })
       .catch((error:HttpErrorResponse) => {
         // returns error 422 while waiting of confirmation
@@ -219,18 +217,8 @@ export class EnterpriseTrialModal extends OpModalComponent {
     }
   }
 
-  public closeModal(event:any) {
-    // cancel all actions (e.g. an already send request)
-    this.cancelled = true;
-    this.closeMe(event);
-    // refresh page to show trial
-    if (this.status === 'startTrial' || this.confirmed) {
-      window.location.reload();
-    }
-  }
-
   public resendMail() {
-    this.http.post(this.baseUrl + this.resendLink, {})
+    this.http.post(this.baseUrlAugur + this.resendLink, {})
       .toPromise()
       .then((enterpriseTrial:any) => {
         console.log('Mail has been resent.');
@@ -240,6 +228,16 @@ export class EnterpriseTrialModal extends OpModalComponent {
         console.log('An Error occured: ', error);
         this.notificationsService.addWarning('Could not resend mail.');
       });
+  }
+
+  public closeModal(event:any) {
+    // cancel all actions (e.g. an already send request)
+    this.cancelled = true;
+    this.closeMe(event);
+    // refresh page to show trial
+    if (this.status === 'startTrial' || this.confirmed) {
+      window.location.reload();
+    }
   }
 }
 
