@@ -34,29 +34,48 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <enterprise></enterprise>
 
-<ul class="upsale-benefits">
-  <li>
-    <p>
-      <b><%= t('js.admin.enterprise.upsale.benefits.installation') %></b>
-    </p>
-    <p><%= t('js.admin.enterprise.upsale.benefits.installation_text') %></p>
-  </li>
-  <li>
-    <p>
-      <b><%= t('js.admin.enterprise.upsale.benefits.professional_support') %></b>
-    </p>
-    <p><%= t('js.admin.enterprise.upsale.benefits.professional_support_text') %></p>
-  </li>
-  <li>
-    <p>
-      <b><%= t('js.admin.enterprise.upsale.benefits.premium_features') %></b>
-    </p>
-    <p><%= t('js.admin.enterprise.upsale.benefits.premium_features_text') %></p>
-  </li>
-  <li>
-    <p>
-      <b><%= t('js.admin.enterprise.upsale.benefits.high_security') %></b>
-    </p>
-    <p><%= t('js.admin.enterprise.upsale.benefits.high_security_text') %></p>
-  </li>
-</ul>
+<div class="info-boxes upsale-benefits">
+  <h2>What are the benefits</h2>
+  <div class="info-boxes--container">
+    <div class="info-boxes--item">
+      <header>
+        <%= image_tag "", class: "info-boxes--teaser-image" %>
+        <h3><%= t('js.admin.enterprise.upsale.benefits.installation') %></h3>
+      </header>
+      <p><%= t('js.admin.enterprise.upsale.benefits.installation_text') %></p>
+      <ul class="widget-box--arrow-links">
+        <li><a><%= t('js.label_learn_more_link') %></a></li>
+      </ul>
+    </div>
+    <div class="info-boxes--item">
+      <header>
+        <%= image_tag "", class: "info-boxes--teaser-image" %>
+        <h3><%= t('js.admin.enterprise.upsale.benefits.professional_support') %></h3>
+      </header>
+      <p><%= t('js.admin.enterprise.upsale.benefits.professional_support_text') %></p>
+      <ul class="widget-box--arrow-links">
+        <li><a><%= t('js.label_learn_more_link') %></a></li>
+      </ul>
+    </div>
+    <div class="info-boxes--item">
+      <header>
+        <%= image_tag "", class: "info-boxes--teaser-image" %>
+        <h3><%= t('js.admin.enterprise.upsale.benefits.premium_features') %></h3>
+      </header>
+      <p><%= t('js.admin.enterprise.upsale.benefits.premium_features_text') %></p>
+      <ul class="widget-box--arrow-links">
+        <li><a><%= t('js.label_learn_more_link') %></a></li>
+      </ul>
+    </div>
+    <div class="info-boxes--item">
+      <header>
+        <%= image_tag "", class: "info-boxes--teaser-image" %>
+        <h3><%= t('js.admin.enterprise.upsale.benefits.high_security') %></h3>
+      </header>
+      <p><%= t('js.admin.enterprise.upsale.benefits.high_security_text') %></p>
+      <ul class="widget-box--arrow-links">
+        <li><a><%= t('js.label_learn_more_link') %></a></li>
+      </ul>
+    </div>
+  </div>
+</div>

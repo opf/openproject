@@ -351,6 +351,7 @@ en:
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Last updated on"
+    label_learn_more_link: "Learn more"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
     label_loading: "Loading..."
