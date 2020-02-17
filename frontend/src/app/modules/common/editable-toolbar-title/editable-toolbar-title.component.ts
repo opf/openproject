@@ -56,17 +56,20 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   @Input() public showSaveCondition:boolean = false;
   @Input() public initialFocus:boolean = false;
   @Input() public smallHeader:boolean = false;
-
+  
   @Output() public onSave = new EventEmitter<string>();
   @Output() public onEmptySubmit = new EventEmitter<void>();
-
   @ViewChild('editableTitleInput', { static: false }) inputField?:ElementRef;
-
+  @ViewChild('hiddenDiv', { static: false }) hiddenDivElement: ElementRef;
   public selectedTitle:string;
   public selectableTitleIdentifier = selectableTitleIdentifier;
 
   protected readonly elementRef:ElementRef = this.injector.get(ElementRef);
   protected readonly I18n:I18nService = this.injector.get(I18nService);
+
+  width: number = 150;
+  divToMeasureWidth:number;
+  hiddenText : string;
 
   public text = {
     click_to_edit: this.I18n.t('js.work_packages.query.click_to_edit_query_name'),
@@ -78,6 +81,8 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
     confirm_edit_cancel: this.I18n.t('js.work_packages.query.confirm_edit_cancel'),
     duplicate_query_title: this.I18n.t('js.work_packages.query.errors.duplicate_query_title')
   };
+
+  editableTitleInput: any;
 
   constructor(protected readonly injector:Injector) {
   }
@@ -101,6 +106,27 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
     });
   }
 
+
+  resizeInput(event:any) {
+   this.hiddenText = event.target.value;
+   setTimeout ( () =>{
+      var divwidth = this.hiddenDivElement.nativeElement.offsetWidth;
+      if(event.inputType == 'insertText' || event.inputType == 'insertFromPaste'){
+         if(divwidth > 150 && divwidth < 520){
+        this.width = divwidth;
+      }        
+      }else if(event.inputType == 'deleteContentBackward'){
+        if(divwidth == 0){
+          this.width = 150;
+        }        
+        if(divwidth > 150 && divwidth < 520){
+          this.width = divwidth;
+        }
+        
+      }
+    }, 0);
+  }
+  
   ngOnChanges(changes:SimpleChanges):void {
 
     if (changes.inputTitle) {

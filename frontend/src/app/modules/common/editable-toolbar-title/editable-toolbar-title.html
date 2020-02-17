@@ -10,12 +10,17 @@
     <span aria-hidden="true" class="icon icon-save"></span>
   </a>
   <input #editableTitleInput
+  id="inputTextID"
+  [ngStyle]="{'width.px': width}"
          type="text"
          aria-required="true"
          [attr.name]="selectableTitleIdentifier"
          [focus]="this.initialFocus || undefined"
          (focus)="onFocus($event)"
          (blur)="onBlur()"
+         (paste)="resizeInput($event)"
+         (cut)="resizeInput($event)"
+         (input)="resizeInput($event)"
          (keydown.escape)="reset($event)"
          (keydown.enter)="save($event)"
          [attr.placeholder]="text.input_placeholder"
@@ -23,10 +28,13 @@
          [(ngModel)]="selectedTitle"
          [disabled]="inFlight"
          [ngClass]="{ '-error': isEmpty, '-changed': showSave }"
-         class="editable-toolbar-title--input -border-on-hover-only toolbar--editable-toolbar ellipsis"/>
+         />
 </div>
+
+
 <h2 *ngIf="!editable"
     [attr.title]="selectedTitle"
     [ngClass]="{ '-disabled': disabled, '-small': smallHeader }"
     class="editable-toolbar-title--fixed"> {{ selectedTitle | slice:0:50 }}
 </h2>
+<div #hiddenDiv class="calWidth">{{ hiddenText }}</div>
