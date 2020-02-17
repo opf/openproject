@@ -133,7 +133,7 @@ export class WorkPackageTimelineCell {
     const cell = this.cellElement;
 
     if (!cell.length) {
-      return Promise.reject();
+      return Promise.reject('uninitialized');
     }
 
     const wasRendered = this.wpElement !== null && body.contains(this.wpElement);
@@ -190,17 +190,19 @@ export class WorkPackageTimelineCell {
     const renderer = this.cellRenderer(renderInfo.workPackage);
 
     // Render initial element if necessary
-    this.lazyInit(renderer, renderInfo).then(() => {
-      // Render the upgrade from renderInfo
-      const shouldBeDisplayed = renderer.update(
-        this.wpElement as HTMLDivElement,
-        this.labels,
-        renderInfo);
+    this.lazyInit(renderer, renderInfo)
+      .then(() => {
+        // Render the upgrade from renderInfo
+        const shouldBeDisplayed = renderer.update(
+          this.wpElement as HTMLDivElement,
+          this.labels,
+          renderInfo);
 
-      if (!shouldBeDisplayed) {
-        this.clear();
-      }
-    });
+        if (!shouldBeDisplayed) {
+          this.clear();
+        }
+      })
+      .catch(() => null);
   }
 
 }
