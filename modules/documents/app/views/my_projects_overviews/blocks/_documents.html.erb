@@ -39,5 +39,5 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% if current_user.allowed_to?(:view_documents, @project)%>
     <%= render(:partial => 'documents/document',
-               :collection => Document.where(project_id: @project.id).limit(10).order("created_on DESC")) %>
+               :collection => Document.where(project_id: @project.id).limit(10).order("created_at DESC")) %>
 <% end %>

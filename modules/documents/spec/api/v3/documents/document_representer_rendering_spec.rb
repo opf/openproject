@@ -33,7 +33,6 @@ describe ::API::V3::Documents::DocumentRepresenter, 'rendering' do
 
   let(:document) do
     FactoryBot.build_stubbed(:document,
-                             created_on: Time.now,
                              description: 'Some description') do |document|
       allow(document)
         .to receive(:project)
@@ -97,8 +96,13 @@ describe ::API::V3::Documents::DocumentRepresenter, 'rendering' do
     end
 
     it_behaves_like 'has UTC ISO 8601 date and time' do
-      let(:date) { document.created_on }
+      let(:date) { document.created_at }
       let(:json_path) { 'createdAt' }
+    end
+
+    it_behaves_like 'has UTC ISO 8601 date and time' do
+      let(:date) { document.updated_at }
+      let(:json_path) { 'updatedAt' }
     end
 
     it_behaves_like 'API V3 formattable', 'description' do
@@ -112,7 +116,7 @@ describe ::API::V3::Documents::DocumentRepresenter, 'rendering' do
     it 'has project embedded' do
       expect(subject)
         .to be_json_eql(project.name.to_json)
-              .at_path('_embedded/project/name')
+        .at_path('_embedded/project/name')
     end
   end
 end
