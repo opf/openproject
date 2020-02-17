@@ -62,7 +62,7 @@ describe 'Wysiwyg work package user mentions',
   it 'can autocomplete users and groups' do
     comment_field.activate!
 
-    comment_field.input_element.set('', fill_options: { clear: :backspace })
+    comment_field.clear with_backspace: true
     comment_field.input_element.send_keys("@Foo")
     expect(page).to have_selector('.mention-list-item', text: user2.name)
     expect(page).to have_selector('.mention-list-item', text: group.name)
@@ -76,7 +76,7 @@ describe 'Wysiwyg work package user mentions',
     end
 
     comment_field.activate!
-    comment_field.input_element.set('', fill_options: { clear: :backspace })
+    comment_field.clear with_backspace: true
     comment_field.input_element.send_keys(" @Foo")
     expect(page).to have_selector('.mention-list-item', text: user2.name)
     expect(page).to have_selector('.mention-list-item', text: group.name)
