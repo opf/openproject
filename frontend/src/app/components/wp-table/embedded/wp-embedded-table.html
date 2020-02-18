@@ -20,7 +20,9 @@
 
     <!-- GRID representation of the WP -->
     <div class="work-packages-embedded-view--grid-view">
-      <wp-grid *ngIf="configuration.isCardView"></wp-grid>
+      <wp-grid *ngIf="configuration.isCardView"
+               [configuration]="configuration">
+      </wp-grid>
     </div>
 
     <!-- Footer -->
