@@ -788,7 +788,7 @@ fr:
           relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'
           check_out_link: 'Découvrez l’édition entreprise.'
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: 'Filtrer les lots de travaux par type de relation'
       tabs:
         overview: Vue globale
         activity: Activité
