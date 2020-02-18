@@ -10,9 +10,14 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {WorkPackageViewHandlerToken} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
+import {BcfCardViewHandlerRegistry} from "core-app/modules/ifc_models/ifc-base-view/event-handler/bcf-card-view-handler-registry";
 
 @Component({
   templateUrl: './bcf-container.component.html',
+  providers: [
+    { provide: WorkPackageViewHandlerToken, useValue: BcfCardViewHandlerRegistry }
+  ]
 })
 export class BCFContainerComponent implements OnInit, OnDestroy {
   @InjectField() public queryParamListener:QueryParamListenerService;
