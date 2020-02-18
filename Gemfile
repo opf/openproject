@@ -283,7 +283,7 @@ gem 'roar', '~> 1.1.0'
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
-    gem 'pg', '~> 1.1.0'
+    gem 'pg', '~> 1.2.2'
   end
 
   # Support application loading when no database exists yet.
