@@ -1,43 +1,55 @@
-module OpenProject
-  class Inflector < Zeitwerk::GemInflector
-    # TODO: split up into a registry
-    def camelize(basename, abspath)
-      if basename =~ /\A(.*)_api\z/
-        super($1, abspath) + 'API'
-      elsif basename =~ /\Aoauth_(.*)\z/
-        'OAuth' + super($1, abspath)
-      elsif basename =~ /\A(.*)_oauth\z/
-        super($1, abspath) + 'OAuth'
-      elsif basename =~ /\A(.*)_sso\z/
-        super($1, abspath) + 'SSO'
-      elsif basename =~ /\Aar_(.*)\z/
-        'AR' + super($1, abspath)
-      elsif basename =~ /\Apdf_export\z/
-        'PDFExport'
-      elsif abspath =~ /open_project\/version(\.rb)?\z/
-        "VERSION"
-      else
-        super
-      end
-    end
+require Rails.root.join('config/constants/open_project/inflector')
+
+OpenProject::Inflector.rule do |_, abspath|
+  if abspath.match?(/open_project\/version(\.rb)?\z/)
+    "VERSION"
   end
 end
 
+OpenProject::Inflector.rule do |basename, abspath|
+  if basename =~ /\A(.*)_api\z/
+    default_inflect($1, abspath) + 'API'
+  end
+end
+
+OpenProject::Inflector.rule do |basename, abspath|
+  if basename =~ /\Aar_(.*)\z/
+    'AR' + default_inflect($1, abspath)
+  end
+end
+
+OpenProject::Inflector.rule do |basename, abspath|
+  if basename =~ /\Aoauth_(.*)\z/
+    'OAuth' + default_inflect($1, abspath)
+  elsif basename =~ /\A(.*)_oauth\z/
+    default_inflect($1, abspath) + 'OAuth'
+  elsif basename == 'oauth'
+    'OAuth'
+  end
+end
+
+OpenProject::Inflector.rule do |basename, abspath|
+  if basename =~ /\A(.*)_sso\z/
+    default_inflect($1, abspath) + 'SSO'
+  end
+end
+
+OpenProject::Inflector.inflection(
+  'api' => 'API',
+  'rss' => 'RSS',
+  'sha1' => 'SHA1',
+  'sso' => 'SSO',
+  'csv' => 'CSV',
+  'pdf' => 'PDF',
+  'scm' => 'SCM',
+  'imap' => 'IMAP',
+  'pop3' => 'POP3',
+  'openid_connect' => 'OpenIDConnect',
+  'pdf_export' => 'PDFExport'
+)
+
 Rails.autoloaders.each do |autoloader|
   autoloader.inflector = OpenProject::Inflector.new(__FILE__)
-  autoloader.inflector.inflect(
-    'api' => 'API',
-    'rss' => 'RSS',
-    'sha1' => 'SHA1',
-    'oauth' => 'OAuth',
-    'sso' => 'SSO',
-    'csv' => 'CSV',
-    'pdf' => 'PDF',
-    'scm' => 'SCM',
-    'imap' => 'IMAP',
-    'pop3' => 'POP3',
-    'openid_connect' => 'OpenIDConnect'
-  )
 end
 
 # Instruct zeitwerk to ignore all the engine gems' lib initialization files
