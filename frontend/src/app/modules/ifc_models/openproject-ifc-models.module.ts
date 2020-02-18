@@ -25,28 +25,68 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-
 import {NgModule} from "@angular/core";
-import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.component";
-import {IfcBaseViewComponent} from "core-app/modules/ifc_models/ifc-base-view/ifc-base-view.component";
+import {IFCBaseViewComponent} from "core-app/modules/ifc_models/ifc-base-view/ifc-base-view.component";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
+import { Ng2StateDeclaration, UIRouterModule, UIRouter } from '@uirouter/angular';
+import {IFCIndexPageComponent} from "core-app/modules/ifc_models/pages/index/ifc-index-page.component";
+import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
+import { IFCViewerComponent } from './ifc-viewer/ifc-viewer.component';
+
+export const IFC_ROUTES:Ng2StateDeclaration[] = [
+  // TODO: properly namespace the routes e.g. bim.something
+  {
+    name: 'bim_defaults',
+    parent: 'root',
+    url: '/ifc_models/defaults/',
+    component: IFCIndexPageComponent
+  },
+  {
+    name: 'bim_show',
+    parent: 'root',
+    url: '/ifc_models/{model_id:[0-9]+}/',
+    component: IFCIndexPageComponent,
+  }
+];
+
+export function uiRouterIFCConfiguration(uiRouter:UIRouter) {
+  uiRouter.urlService.rules
+    .when(
+      new RegExp("^/projects/(.*)/ifc_models/defaults$"),
+      match => `/projects/${match[1]}/ifc_models/defaults/`
+    );
+
+  uiRouter.urlService.rules
+    .when(
+      new RegExp("^/projects/(.*)/ifc_models/([0-9]+)$"),
+      match => `/projects/${match[1]}/ifc_models/${match[2]}/`
+    );
+}
 
 @NgModule({
   imports: [
-    OpenprojectWorkPackagesModule
+    OpenprojectCommonModule,
+    OpenprojectWorkPackagesModule,
+    UIRouterModule.forChild({
+      states: IFC_ROUTES,
+      config: uiRouterIFCConfiguration
+    })
   ],
   providers: [
   ],
   declarations: [
-    IfcBaseViewComponent,
+    // Pages
+    IFCIndexPageComponent,
+    IFCBaseViewComponent,
+
     IFCViewerComponent
   ],
   exports: [
-    IfcBaseViewComponent,
+    IFCBaseViewComponent,
     IFCViewerComponent
   ],
   entryComponents: [
-    IfcBaseViewComponent,
+    IFCBaseViewComponent,
     IFCViewerComponent
   ]
 })

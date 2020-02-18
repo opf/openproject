@@ -36,23 +36,22 @@ import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-t
   selector: 'ifc-base-view',
   styleUrls: ['./ifc-base-view.component.sass']
 })
-export class IfcBaseViewComponent {
+export class IFCBaseViewComponent {
   public queryProps:{ [key:string]:any };
-  public configuration:WorkPackageTableConfigurationObject;
+  public configuration:WorkPackageTableConfigurationObject = {
+    actionsColumnEnabled: false,
+    columnMenuEnabled: false,
+    contextMenuEnabled: false,
+    inlineCreateEnabled: false,
+    withFilters: true,
+    showFilterButton: false,
+    isCardView: true
+  };
 
-  private filters:any[] = [];
+private filters:any[] = [];
 
   constructor() {
-    this.configuration = {
-      actionsColumnEnabled: false,
-      columnMenuEnabled: false,
-      contextMenuEnabled: false,
-      inlineCreateEnabled: false,
-      withFilters: true,
-      showFilterButton: false,
-      isCardView: true
-    };
-
+    // TODO: Limit to project
     this.filters.push({ status: {
         operator: 'o',
         values: [] }});
@@ -67,5 +66,5 @@ export class IfcBaseViewComponent {
 
 }
 DynamicBootstrapper.register({
-  selector: 'ifc-base-view', cls: IfcBaseViewComponent
+  selector: 'ifc-base-view', cls: IFCBaseViewComponent
 });

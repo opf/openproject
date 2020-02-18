@@ -1,20 +1,15 @@
+#-- encoding: UTF-8
+
 #-- copyright
-# OpenProject Backlogs Plugin
+# OpenProject is a project management system.
+# Copyright (C) 2012-2020 the OpenProject Foundation (OPF)
 #
-# Copyright (C)2013-2014 the OpenProject Foundation (OPF)
-# Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
-# Copyright (C)2010-2011 friflaj
-# Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
-# Copyright (C)2009-2010 Mark Maglana
-# Copyright (C)2009 Joe Heck, Nate Lowrie
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
 #
-# This program is free software; you can redistribute it and/or modify it under
-# the terms of the GNU General Public License version 3.
-#
-# OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
-# The copyright follows:
-# Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
-# Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,12 +29,11 @@
 #++
 
 OpenProject::Application.routes.draw do
-  # get '/projects/:project_id/ifc_models', to: 'ifc_models/ifc_models#index'
   scope '', as: 'ifc_models' do
     scope 'projects/:project_id', as: 'project' do
       resources :ifc_models, controller: 'ifc_models/ifc_models' do
         collection do
-          get 'show_defaults'
+          get 'defaults'
         end
       end
     end

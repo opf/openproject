@@ -106,7 +106,7 @@ module Pages
         click_toolbar_button 'Show defaults'
 
         expect_correct_page_loaded '.ifc-model-viewer--container',
-                                   show_defaults_ifc_models_project_ifc_models_path(project)
+                                   defaults_ifc_models_project_ifc_models_path(project)
 
         visit!
       end

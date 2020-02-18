@@ -98,7 +98,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
       this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
         label: this.workPackageLabel,
         count: this.workPackages.length
-      }),
+      });
 
       this.text.childCount = (wp:WorkPackageResource) => {
         const count = this.children(wp).length;

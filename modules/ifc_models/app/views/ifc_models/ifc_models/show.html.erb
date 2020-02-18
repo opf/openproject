@@ -34,31 +34,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render partial: 'show_headers', locals: { all_models: @ifc_models, selected_models: [@ifc_model] } %>
 
-<%= toolbar title: @ifc_model.title do %>
-  <% if authorize_for('ifc_models/ifc_models', :edit) %>
-    <li class="toolbar-item">
-      <%= link_to(edit_ifc_models_project_ifc_model_path(@project, @ifc_model), class: 'button', accesskey: accesskey(:edit)) do %>
-        <%= op_icon('button--icon icon-edit') %> <%= t(:button_edit) %>
-      <% end %>
-    </li>
-  <% end %>
-  <% if authorize_for('ifc_models/ifc_models', :destroy) %>
-    <li class="toolbar-item">
-      <%= link_to(ifc_models_project_ifc_model_path(@project,  @ifc_model), class: 'button', data: { confirm: t(:text_are_you_sure) }, method: :delete) do %>
-        <%= op_icon('button--icon icon-delete') %> <%= t(:button_delete) %>
-      <% end %>
-    </li>
-  <% end %>
-  <li class="toolbar-item">
-    <%= link_to(ifc_models_project_ifc_models_path(@project), class: 'button', accesskey: accesskey(:edit)) do %>
-      <%= op_icon('button--icon icon-settings2') %> <%= t('ifc_models.label_manage_models') %>
-    <% end %>
-  </li>
-  <li class="toolbar-item">
-    <zen-mode-toggle-button></zen-mode-toggle-button>
-  </li>
-<% end %>
-
 <% if @ifc_model.converted? %>
-  <ifc-base-view></ifc-base-view>
+  <openproject-base></openproject-base>
 <% end %>
