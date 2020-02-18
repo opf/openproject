@@ -4,7 +4,9 @@
       <colgroup>
         <col *ngIf="configuration.dragAndDropEnabled">
         <!-- Generate col elements dynamically(!) for each requested column plus one for the action menu's column. -->
-        <col highlight-col *ngFor="let column of [].constructor(columns.length + 1)">
+        <col highlight-col *ngFor="let column of [].constructor(columns.length)">
+        <col highlight-col *ngIf="configuration.columnMenuEnabled">
+        <col *ngIf="!configuration.columnMenuEnabled">
       </colgroup>
       <caption class="hidden-for-sighted">
         <span>{{text.tableSummary}}</span>
@@ -31,8 +33,8 @@
           </th>
           <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th -short hide-when-print"
               *ngIf="configuration.columnMenuEnabled || configuration.actionsColumnEnabled">
-            <div class="generic-table--sort-header-outer">
-              <wp-table-config-menu *ngIf="configuration.columnMenuEnabled">
+            <div class="generic-table--sort-header-outer" *ngIf="configuration.columnMenuEnabled">
+              <wp-table-config-menu>
               </wp-table-config-menu>
             </div>
           </th>
