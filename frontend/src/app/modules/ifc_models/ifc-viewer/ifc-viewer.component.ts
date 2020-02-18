@@ -43,7 +43,6 @@ import {GonService} from "core-app/modules/common/gon/gon.service";
 </div>
 
 <canvas class="ifc-model-viewer--nav-cube-canvas"></canvas>
-<canvas class="ifc-model-viewer--section-planes-overview-canvas"></canvas>
 `
 })
 export class IFCViewerComponent implements OnInit {
