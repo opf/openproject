@@ -50,8 +50,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 
 gem 'will_paginate', '~> 3.1.7'
 
-# Replace once friendly_id release supports rails 6
-gem 'friendly_id', git: 'https://github.com/norman/friendly_id', ref: '67422c04e1bfed4207b2a04826bc67ec0e231ce7'
+gem 'friendly_id', '~> 5.3.0'
 
 gem 'acts_as_list', '~> 0.9.9'
 gem 'acts_as_tree', '~> 2.9.0'
