@@ -787,7 +787,7 @@ el:
           relation_columns: 'Χρειάζεστε να βλέπετε συσχετίσεις στη λίστα πακέτων εργασίας;'
           check_out_link: 'Δείτε την Έκδοση για Επιχειρήσεις.'
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: 'Φιλτράρετε τα πακέτα εργασίας κατά τύπο συσχέτισης'
       tabs:
         overview: Επισκόπηση
         activity: Δραστηριότητα
