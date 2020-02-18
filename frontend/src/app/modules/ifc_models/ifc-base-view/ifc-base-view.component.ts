@@ -29,12 +29,17 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
+import {WorkPackageViewHandlerToken} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
+import {BcfCardViewHandlerRegistry} from "core-app/modules/ifc_models/ifc-base-view/event-handler/bcf-card-view-handler-registry";
 
 @Component({
   templateUrl: './ifc-base-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ifc-base-view',
-  styleUrls: ['./ifc-base-view.component.sass']
+  styleUrls: ['./ifc-base-view.component.sass'],
+  providers: [
+    { provide: WorkPackageViewHandlerToken, useValue: BcfCardViewHandlerRegistry }
+  ]
 })
 export class IfcBaseViewComponent {
   public queryProps:{ [key:string]:any };
