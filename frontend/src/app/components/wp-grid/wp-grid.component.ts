@@ -76,7 +76,7 @@ export class WorkPackagesGridComponent {
 
   ngOnInit() {
     this.dragInto = this.configuration.dragAndDropEnabled;
-    this.canDragOutOf = () => { return this.configuration.dragAndDropEnabled };
+    this.canDragOutOf = () => { return this.configuration.dragAndDropEnabled; };
 
     this.wpTableHighlight
       .updates$()
