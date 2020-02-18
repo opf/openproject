@@ -33,7 +33,8 @@ require_relative '../support/pages/ifc_models/show_default'
 
 describe 'model viewer', type: :feature, js: true do
   let(:project) { FactoryBot.create :project }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models]) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
 
   let(:user) do
     FactoryBot.create :user,
@@ -48,10 +49,12 @@ describe 'model viewer', type: :feature, js: true do
   end
 
   let(:show_model_page) { Pages::IfcModels::Show.new(project, model.id) }
+  let(:card_view) { ::Pages::WorkPackageCards.new(project) }
 
   context 'with all permissions' do
     before do
       login_as(user)
+      work_package
       show_model_page.visit!
       show_model_page.finished_loading
     end
@@ -61,6 +64,11 @@ describe 'model viewer', type: :feature, js: true do
       show_model_page.model_viewer_shows_a_toolbar true
       show_model_page.page_shows_a_toolbar true
       show_model_page.sidebar_shows_viewer_menu true
+    end
+
+    it 'shows a work package list as cards next to the viewer' do
+      show_model_page.model_viewer_visible true
+      card_view.expect_work_package_listed work_package
     end
   end
 
@@ -96,6 +104,7 @@ describe 'model viewer', type: :feature, js: true do
 
     before do
       login_as(user_without_permissions)
+      work_package
       show_model_page.visit!
     end
 
@@ -107,6 +116,11 @@ describe 'model viewer', type: :feature, js: true do
       show_model_page.model_viewer_shows_a_toolbar false
       show_model_page.page_shows_a_toolbar false
       show_model_page.sidebar_shows_viewer_menu false
+    end
+
+    it 'shows no work package list next to the viewer' do
+      show_model_page.model_viewer_visible false
+      card_view.expect_work_package_not_listed work_package
     end
   end
 end

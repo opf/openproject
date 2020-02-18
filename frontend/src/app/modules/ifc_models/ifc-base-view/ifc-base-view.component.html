@@ -1,0 +1,12 @@
+<div class="ifc-base-view--container">
+  <div class="ifc-view--viewer-container">
+    <ifc-viewer></ifc-viewer>
+  </div>
+
+  <div class="ifc-view--table-container" wp-isolated-query-space>
+    <wp-embedded-table [queryProps]="queryProps"
+                       [configuration]="configuration"
+                       [externalHeight]="true">
+    </wp-embedded-table>
+  </div>
+</div>
