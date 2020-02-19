@@ -96,8 +96,9 @@ module Pages
       def show_model(model)
         click_model_link model.title
 
+        # The extra slash is required for angular
         expect_correct_page_loaded '.ifc-model-viewer--container',
-                                   ifc_models_project_ifc_model_path(project, model)
+                                   ifc_models_project_ifc_model_path(project, model) + '/'
 
         visit!
       end
@@ -105,8 +106,9 @@ module Pages
       def show_defaults
         click_toolbar_button 'Show defaults'
 
+        # The extra slash is required for angular
         expect_correct_page_loaded '.ifc-model-viewer--container',
-                                   defaults_ifc_models_project_ifc_models_path(project)
+                                   defaults_ifc_models_project_ifc_models_path(project) + '/'
 
         visit!
       end
@@ -140,8 +142,7 @@ module Pages
 
       def expect_correct_page_loaded(checked_selector, path)
         expect(page).to have_selector(checked_selector)
-        # Angular will append a slash to the path
-        expect(current_path).to eql path + '/'
+        expect(current_path).to eql path
       end
 
       def change_model_name(model_name, new_name)
