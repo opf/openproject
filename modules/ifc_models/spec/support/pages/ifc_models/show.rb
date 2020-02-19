@@ -43,10 +43,6 @@ module Pages
       def path
         ifc_models_project_ifc_model_path(project, id)
       end
-
-      def toolbar_items
-        %w(Edit Delete)
-      end
     end
   end
 end

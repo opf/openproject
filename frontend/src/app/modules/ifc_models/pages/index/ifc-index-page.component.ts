@@ -44,7 +44,7 @@ export class IFCIndexPageComponent {
     if (this.state.current.name === 'bim_defaults') {
       return this.i18n.t('js.ifc_models.models.default');
     } else {
-      return (this.gon.get('ifc_models') as any)['models'][0]['name'];
+      return this.gonIFC['models'][0]['name'];
     }
   }
 
@@ -54,6 +54,10 @@ export class IFCIndexPageComponent {
 
   public get manageIFCPath() {
     return this.paths.ifcModelsPath(this.projectIdentifier);
+  }
+
+  public get manageAllowed() {
+    return this.gonIFC.permissions.manage;
   }
 
   private applyFilters() {
@@ -71,5 +75,9 @@ export class IFCIndexPageComponent {
       sortBy: JSON.stringify([['updatedAt', 'desc']]),
       showHierarchies: false
     };
+  }
+
+  private get gonIFC() {
+    return (this.gon.get('ifc_models') as any)
   }
 }

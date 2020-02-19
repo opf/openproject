@@ -5,7 +5,8 @@
         </h2>
     </div>
     <ul class="toolbar-items">
-      <li class="toolbar-item">
+      <li class="toolbar-item"
+          *ngIf="manageAllowed">
         <a class="button"
            [href]="manageIFCPath">
           <op-icon icon-classes="button--icon icon-settings2"></op-icon>

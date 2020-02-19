@@ -140,7 +140,8 @@ module Pages
 
       def expect_correct_page_loaded(checked_selector, path)
         expect(page).to have_selector(checked_selector)
-        expect(current_path).to eql path
+        # Angular will append a slash to the path
+        expect(current_path).to eql path + '/'
       end
 
       def change_model_name(model_name, new_name)
