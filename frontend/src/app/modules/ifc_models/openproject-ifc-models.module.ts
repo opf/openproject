@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 import {NgModule} from "@angular/core";
-import {IFCBaseViewComponent} from "core-app/modules/ifc_models/ifc-base-view/ifc-base-view.component";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import { Ng2StateDeclaration, UIRouterModule, UIRouter } from '@uirouter/angular';
 import {IFCIndexPageComponent} from "core-app/modules/ifc_models/pages/index/ifc-index-page.component";
@@ -77,17 +76,12 @@ export function uiRouterIFCConfiguration(uiRouter:UIRouter) {
   declarations: [
     // Pages
     IFCIndexPageComponent,
-    IFCBaseViewComponent,
 
     IFCViewerComponent
   ],
   exports: [
-    IFCBaseViewComponent,
-    IFCViewerComponent
   ],
   entryComponents: [
-    IFCBaseViewComponent,
-    IFCViewerComponent
   ]
 })
 export class OpenprojectIFCModelsModule {
