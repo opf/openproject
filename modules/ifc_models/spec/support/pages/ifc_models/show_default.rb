@@ -38,7 +38,7 @@ module Pages
       end
 
       def path
-        show_defaults_ifc_models_project_ifc_models_path(project)
+        defaults_ifc_models_project_ifc_models_path(project)
       end
 
       def finished_loading

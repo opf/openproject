@@ -32,9 +32,9 @@ module ::IFCModels
   class IFCModelsController < BaseController
     helper_method :gon
 
-    before_action :find_project_by_project_id, only: %i[index new create show show_defaults edit update destroy]
+    before_action :find_project_by_project_id, only: %i[index new create show defaults edit update destroy]
     before_action :find_ifc_model_object, except: %i[index new create]
-    before_action :find_all_ifc_models, only: %i[show show_defaults index]
+    before_action :find_all_ifc_models, only: %i[show defaults index]
 
     before_action :authorize
 
@@ -53,7 +53,7 @@ module ::IFCModels
 
     def show; end
 
-    def show_defaults
+    def defaults
       @default_ifc_models = @ifc_models.defaults
 
       if @default_ifc_models.empty?

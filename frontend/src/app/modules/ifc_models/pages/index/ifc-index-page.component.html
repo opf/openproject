@@ -1,0 +1,34 @@
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+        <h2 [textContent]="title">
+        </h2>
+    </div>
+    <ul class="toolbar-items">
+      <li class="toolbar-item"
+          *ngIf="manageAllowed">
+        <a class="button"
+           [href]="manageIFCPath">
+          <op-icon icon-classes="button--icon icon-settings2"></op-icon>
+          <span class="button--text"
+                [textContent]="text.manage"
+                aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="toolbar-item hidden-for-mobile">
+        <zen-mode-toggle-button></zen-mode-toggle-button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="ifc-view--viewer-container">
+  <ifc-viewer></ifc-viewer>
+</div>
+
+<div class="ifc-view--table-container" wp-isolated-query-space>
+  <wp-embedded-table [queryProps]="queryProps"
+                     [configuration]="configuration"
+                     [externalHeight]="true">
+  </wp-embedded-table>
+</div>

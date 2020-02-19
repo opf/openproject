@@ -180,9 +180,6 @@ import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-
     OpenprojectBcfModule,
 
     OpenprojectProjectsModule,
-
-    // Work package custom actions
-    //WpCustomActionsModule,
   ],
   providers: [
     {

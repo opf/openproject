@@ -73,6 +73,3 @@ export class IFCViewerComponent implements OnInit {
     });
   }
 }
-DynamicBootstrapper.register({
-  selector: 'ifc-viewer', cls: IFCViewerComponent
-});

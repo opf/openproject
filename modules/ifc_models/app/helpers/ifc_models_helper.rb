@@ -7,7 +7,10 @@ module IFCModelsHelper
       default_models: gon_ifc_default_models(all_converted_models, models_to_load),
       projects: [{ id: @project.identifier, name: @project.name }],
       xkt_attachment_ids: gon_ifc_model_xkt_attachment_ids(all_converted_models),
-      metadata_attachment_ids: gon_ifc_model_metadata_attachment_ids(all_converted_models)
+      metadata_attachment_ids: gon_ifc_model_metadata_attachment_ids(all_converted_models),
+      permissions: {
+        manage: User.current.allowed_to?(:manage_ifc_models, @project)
+      }
     }
   end
 
