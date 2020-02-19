@@ -234,6 +234,8 @@ The apache configuration for this configuration then looks like this:
     RewriteEngine on
     RewriteRule "^/openproject$" "/openproject/" [R,L]
 
+    ProxyRequests off
+
     <Location "/openproject/">
       RequestHeader set X-Forwarded-Proto 'https'
 
