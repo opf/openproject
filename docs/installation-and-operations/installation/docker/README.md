@@ -155,6 +155,9 @@ Both configuration examples are based on the following assumptions:
 * certificate and key are located under `/etc/ssl/crt/server.{crt, key}`
 * the OpenProject docker container's port 80 is mapped to the docker host's port 8080
 
+*Important:* Once OpenProject is running make sure to also set the host name and protocol
+accordingly under Administration -> System Settings.
+
 #### 1) Virtual host root
 
 The default scenario is to have OpenProject serve the whole virtual host.
