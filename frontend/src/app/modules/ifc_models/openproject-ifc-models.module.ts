@@ -27,40 +27,14 @@
 // ++
 import {NgModule} from "@angular/core";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
-import { Ng2StateDeclaration, UIRouterModule, UIRouter } from '@uirouter/angular';
-import {IFCIndexPageComponent} from "core-app/modules/ifc_models/pages/index/ifc-index-page.component";
+import {UIRouterModule} from '@uirouter/angular';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import { IFCViewerComponent } from './ifc-viewer/ifc-viewer.component';
-
-export const IFC_ROUTES:Ng2StateDeclaration[] = [
-  // TODO: properly namespace the routes e.g. bim.something
-  {
-    name: 'bim_defaults',
-    parent: 'root',
-    url: '/ifc_models/defaults/',
-    component: IFCIndexPageComponent
-  },
-  {
-    name: 'bim_show',
-    parent: 'root',
-    url: '/ifc_models/{model_id:[0-9]+}/',
-    component: IFCIndexPageComponent,
-  }
-];
-
-export function uiRouterIFCConfiguration(uiRouter:UIRouter) {
-  uiRouter.urlService.rules
-    .when(
-      new RegExp("^/projects/(.*)/ifc_models/defaults$"),
-      match => `/projects/${match[1]}/ifc_models/defaults/`
-    );
-
-  uiRouter.urlService.rules
-    .when(
-      new RegExp("^/projects/(.*)/ifc_models/([0-9]+)$"),
-      match => `/projects/${match[1]}/ifc_models/${match[2]}/`
-    );
-}
+import {IFCViewerComponent} from './ifc-viewer/ifc-viewer.component';
+import {IFC_ROUTES, uiRouterIFCConfiguration} from "core-app/modules/ifc_models/openproject-ifc-models.routes";
+import {IfcViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
+import {IfcSplitPageComponent} from "core-app/modules/ifc_models/pages/split/ifc-split-page.component";
+import {BimViewToggleDropdownDirective} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle-dropdown.directive";
+import {BimViewToggleComponent} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle.component";
 
 @NgModule({
   imports: [
@@ -75,7 +49,12 @@ export function uiRouterIFCConfiguration(uiRouter:UIRouter) {
   ],
   declarations: [
     // Pages
-    IFCIndexPageComponent,
+    IfcViewerPageComponent,
+    IfcSplitPageComponent,
+
+    // View selector
+    BimViewToggleComponent,
+    BimViewToggleDropdownDirective,
 
     IFCViewerComponent
   ],

@@ -1,0 +1,16 @@
+*:host
+  height: 100%
+  overflow: hidden
+  display: grid
+  grid-template-columns: 1fr 500px
+  grid-template-rows: 60px calc(100% - 60px)
+  grid-template-areas: "header header" "ifc-model"
+  grid-column-gap: 10px
+
+  .toolbar-container
+    grid-area: header
+
+  .ifc-view--viewer-container
+    grid-area: ifc-model
+    position: relative
+    overflow: hidden

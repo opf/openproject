@@ -4,16 +4,22 @@
   display: grid
   grid-template-columns: 1fr 500px
   grid-template-rows: 60px calc(100% - 60px)
-  grid-template-areas: "header header" "ifc-model wp-list"
+  grid-template-areas: "header header" "ifc-model ifc-model"
   grid-column-gap: 10px
 
   .toolbar-container
     grid-area: header
 
-  .ifc-view--view-table-container
-    grid-area: wp-list
-
-  .ifc-view--viewer-container
+  .ifc-view--split-container
     grid-area: ifc-model
     position: relative
     overflow: hidden
+    display: flex
+
+  .ifc-view--viewer-container,
+  .ifc-view--table-container
+    display: none
+
+    &.-active
+      display: block
+      flex: 1

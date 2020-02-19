@@ -4,3 +4,7 @@ en:
       models:
         default: 'Default IFC models'
         manage: 'Manage models'
+      views:
+        list: 'List only'
+        viewer: 'Viewer only'
+        split: 'Viewer and list'
