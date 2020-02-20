@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# OpenProject is a project management system.
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,22 +24,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See docs/COPYRIGHT.rdoc for more details.
-#++
+#+
 
-module OpenProject::Bim::Patches::SettingSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
+module Bim
+  module IFCModels
+    class UpdateService < ::BaseServices::Update
+      protected
 
-  module InstanceMethods
-    def data
-      original_data = super
-
-      unless original_data['default_projects_modules'].include? 'bim'
-        original_data['default_projects_modules'] << 'bim'
+      def before_perform(params)
+        super.tap do |call|
+          @ifc_attachment_replaced = call.success? && model.ifc_attachment.new_record?
+        end
       end
 
-      original_data
+      def after_perform(call)
+        if call.success?
+          # As the attachments association does not have the autosave option, we need to remove the
+          # attachments ourselves
+          model.attachments.select(&:marked_for_destruction?).each(&:destroy)
+
+          if @ifc_attachment_replaced
+            IFCConversionJob.perform_later(call.result)
+          end
+        end
+
+        call
+      end
     end
   end
 end

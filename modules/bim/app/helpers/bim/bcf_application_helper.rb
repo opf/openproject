@@ -26,20 +26,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Bim::Patches::SettingSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
+module Bim
+  module BcfApplicationHelper
+    def body_css_classes
+      classes = super
+      classes = classes + " bcf-#{@project&.module_enabled?(:bcf) ? 'activated' : 'deactivated'}"
 
-  module InstanceMethods
-    def data
-      original_data = super
-
-      unless original_data['default_projects_modules'].include? 'bim'
-        original_data['default_projects_modules'] << 'bim'
-      end
-
-      original_data
+      classes
     end
   end
 end

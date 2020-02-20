@@ -42,12 +42,18 @@ module OpenProject::Bim
                default: {
                }
              } do
-      project_module :bcf do
+      project_module :bim do
+        permission :view_ifc_models,
+                   { 'bim/ifc_models/ifc_models': %i[index show defaults] }
+        permission :manage_ifc_models,
+                   { 'bim/ifc_models/ifc_models': %i[index show destroy edit update create new] },
+                   dependencies: %i[view_ifc_models]
+
         permission :view_linked_issues,
-                   { 'bcf/issues': %i[index] },
+                   { 'bim/bcf/issues': %i[index] },
                    dependencies: %i[view_work_packages]
         permission :manage_bcf,
-                   { 'bcf/issues': %i[index upload prepare_import configure_import perform_import] },
+                   { 'bim/bcf/issues': %i[index upload prepare_import configure_import perform_import] },
                    dependencies: %i[view_linked_issues
                                     view_work_packages
                                     add_work_packages
@@ -57,18 +63,25 @@ module OpenProject::Bim
 
       OpenProject::AccessControl.permission(:view_work_packages).actions << 'bcf/issues/redirect_to_bcf_issues_list'
 
-      rename_menu_item :project_menu,
-                       :work_packages,
-                       { url: Proc.new { |project| project.module_enabled?(:bcf) ?
-                                                     { controller: 'bcf/issues', action: 'redirect_to_bcf_issues_list' } :
-                                                     { controller: '/work_packages', action: 'index' } },
-                         caption: Proc.new { |project| project.module_enabled?(:bcf) ? I18n.t(:'bcf.label_bcf') : I18n.t(:label_work_package_plural) },
-                         icon: Proc.new { |project| project.module_enabled?(:bcf) ? 'icon2 icon-bcf' : 'icon2 icon-view-timeline' },
-                         badge: Proc.new { |project| project.module_enabled?(:bcf) ? 'bcf.new_badge' : nil } }
+      ::Redmine::MenuManager.map(:project_menu) do |menu|
+        menu.push(:ifc_models,
+                  { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
+                  caption: :'bim.label_bim',
+                  param: :project_id,
+                  after: :work_packages,
+                  icon: 'icon2 icon-ifc',
+                  badge: :label_new)
+
+        menu.push :ifc_viewer_panels,
+                  { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
+                  param: :project_id,
+                  parent: :ifc_models,
+                  partial: '/bim/ifc_models/ifc_models/panels'
+      end
 
     end
 
-    assets %w(bcf/bcf.css)
+    assets %w(bim/bcf.css bim/ifc_viewer/generic.css)
 
     patches %i[WorkPackage Type Journal]
 
@@ -139,17 +152,21 @@ module OpenProject::Bim
       "#{project(project_id)}/bcf_xml"
     end
 
-    initializer 'bcf.register_hooks' do
+    config.to_prepare do
+      require 'open_project/ifc_models/hooks'
+    end
+
+    initializer 'bim.bcf.register_hooks' do
       # don't use require_dependency to not reload hooks in development mode
       require 'open_project/xls_export/hooks/work_package_hook.rb'
     end
 
-    initializer 'bcf.register_mimetypes' do
+    initializer 'bim.bcf.register_mimetypes' do
       Mime::Type.register "application/octet-stream", :bcf unless Mime::Type.lookup_by_extension(:bcf)
       Mime::Type.register "application/octet-stream", :bcfzip unless Mime::Type.lookup_by_extension(:bcfzip)
     end
 
-    initializer 'bcf.add_api_scope' do
+    initializer 'bim.bcf.add_api_scope' do
       Doorkeeper.configuration.scopes.add(:bcf_v2_1)
 
       module OpenProject::Authentication::Scope

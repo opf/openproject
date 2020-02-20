@@ -41,4 +41,19 @@ OpenProject::Application.routes.draw do
       get 'bcf_issues', to: 'bcf/issues#redirect_to_bcf_issues_list', as: :work_packages
     end
   end
+
+  scope '', as: 'ifc_models' do
+    scope 'projects/:project_id', as: 'project' do
+      resources :ifc_models, except: [:show], controller: 'ifc_models/ifc_models' do
+        collection do
+          get 'defaults(/*state)', action: :defaults
+          get 'list(/*state)', action: :defaults
+        end
+
+        member do
+          get 'show(/*state)', action: :show
+        end
+      end
+    end
+  end
 end

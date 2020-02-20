@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,20 +28,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Bim::Patches::SettingSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
+module Bim
+  module BcfWorkPackagesFilterHelper
+    include WorkPackagesFilterHelper
 
-  module InstanceMethods
-    def data
-      original_data = super
+    def project_work_packages_bcf_issues_path(project)
+      query = {
+        f: [
+          filter_object('status_id', 'o')
+        ],
+        hi: true,
+        hl: 'priority',
+        dr: 'card'
+      }
 
-      unless original_data['default_projects_modules'].include? 'bim'
-        original_data['default_projects_modules'] << 'bim'
-      end
-
-      original_data
+      project_work_packages_with_query_path(project, query)
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# OpenProject is a project management system.
+# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Bim::Patches::SettingSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
+require_dependency 'work_package'
 
-  module InstanceMethods
-    def data
-      original_data = super
-
-      unless original_data['default_projects_modules'].include? 'bim'
-        original_data['default_projects_modules'] << 'bim'
-      end
-
-      original_data
+module OpenProject::Bim::Patches::ProjectPatch
+  def self.included(base)
+    base.class_eval do
+      has_many :ifc_models, class_name: 'Bim::IFCModels::IFCModel', foreign_key: 'project_id'
     end
   end
 end
