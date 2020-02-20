@@ -1,6 +1,6 @@
 ##
 # Creates or updates a BCF issue and markup from a work package
-module OpenProject::Bcf::BcfXml
+module OpenProject::Bim::BcfXml
   class BaseWriter
     attr_reader :markup_doc
 

@@ -31,7 +31,7 @@ require_dependency 'work_package'
 module OpenProject::Bim::Patches::WorkPackagePatch
   def self.included(base)
     base.class_eval do
-      has_one :bcf_issue, class_name: 'Bcf::Issue', foreign_key: 'work_package_id'
+      has_one :bcf_issue, class_name: 'Bim::Bcf::Issue', foreign_key: 'work_package_id'
     end
   end
 end

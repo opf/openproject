@@ -1,4 +1,4 @@
-module OpenProject::Bcf::BcfXml
+module OpenProject::Bim::BcfXml
   class Aggregations
     attr_reader :listings, :project, :instance_cache
 

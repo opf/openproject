@@ -6,7 +6,7 @@ class RemoveProjectIdFromBcfIssue < ActiveRecord::Migration[5.1]
   def down
     add_reference :bcf_issues, :project, foreign_key: { on_delete: :cascade }, index: true
 
-    Bcf::Issue.includes(:work_package).find_each do |bcf_issue|
+    Bim::Bcf::Issue.includes(:work_package).find_each do |bcf_issue|
       if bcf_issue.work_package
         bcf_issue.project_id = bcf_issue.work_package.project_id
         bcf_issue.save

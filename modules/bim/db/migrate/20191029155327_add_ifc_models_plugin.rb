@@ -1,4 +1,4 @@
-class AddIFCModelsPlugin < ActiveRecord::Migration[5.1]
+class AddIfcModelsPlugin < ActiveRecord::Migration[5.1]
   def change
     create_table :ifc_models do |t|
       t.string :title

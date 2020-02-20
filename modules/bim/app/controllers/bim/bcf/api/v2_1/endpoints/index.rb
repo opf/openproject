@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfAPI::V2_1::Endpoints
+module Bim::Bcf::API::V2_1::Endpoints
   class Index < API::Utilities::Endpoints::Index
     def mount
       index = self
@@ -51,7 +51,7 @@ module Bim::BcfAPI::V2_1::Endpoints
     private
 
     def deduce_render_representer
-      "::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
+      "::Bim::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
     end
   end
 end

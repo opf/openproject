@@ -44,16 +44,16 @@ module OpenProject::Bim
              } do
       project_module :bim do
         permission :view_ifc_models,
-                   { 'bim/ifc_models/ifc_models': %i[index show defaults] }
+                   {'bim/ifc_models/ifc_models': %i[index show defaults]}
         permission :manage_ifc_models,
-                   { 'bim/ifc_models/ifc_models': %i[index show destroy edit update create new] },
+                   {'bim/ifc_models/ifc_models': %i[index show destroy edit update create new]},
                    dependencies: %i[view_ifc_models]
 
         permission :view_linked_issues,
-                   { 'bim/bcf/issues': %i[index] },
+                   {'bim/bcf/issues': %i[index]},
                    dependencies: %i[view_work_packages]
         permission :manage_bcf,
-                   { 'bim/bcf/issues': %i[index upload prepare_import configure_import perform_import] },
+                   {'bim/bcf/issues': %i[index upload prepare_import configure_import perform_import]},
                    dependencies: %i[view_linked_issues
                                     view_work_packages
                                     add_work_packages
@@ -65,7 +65,7 @@ module OpenProject::Bim
 
       ::Redmine::MenuManager.map(:project_menu) do |menu|
         menu.push(:ifc_models,
-                  { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
+                  {controller: '/bim/ifc_models/ifc_models', action: 'defaults'},
                   caption: :'bim.label_bim',
                   param: :project_id,
                   after: :work_packages,
@@ -73,7 +73,7 @@ module OpenProject::Bim
                   badge: :label_new)
 
         menu.push :ifc_viewer_panels,
-                  { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
+                  {controller: '/bim/ifc_models/ifc_models', action: 'defaults'},
                   param: :project_id,
                   parent: :ifc_models,
                   partial: '/bim/ifc_models/ifc_models/panels'
@@ -83,7 +83,7 @@ module OpenProject::Bim
 
     assets %w(bim/bcf.css bim/ifc_viewer/generic.css)
 
-    patches %i[WorkPackage Type Journal RootSeeder]
+    patches %i[WorkPackage Type Journal RootSeeder Project]
 
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :BasicData, :RoleSeeder
@@ -158,7 +158,11 @@ module OpenProject::Bim
     end
 
     config.to_prepare do
-      require 'open_project/ifc_models/hooks'
+      require_relative 'hooks'
+
+      # The DesignPatch is not a typical method patch, as it replaces a constant and thus needs to be applied without the
+      # standard patch logic for plugins.
+      require_relative "patches/design_patch"
     end
 
     initializer 'bim.bcf.register_hooks' do
@@ -186,16 +190,16 @@ module OpenProject::Bim
 
     config.to_prepare do
       ::WorkPackage::Exporter
-        .register_for_list(:bcf, OpenProject::Bcf::BcfXml::Exporter)
+        .register_for_list(:bcf, OpenProject::Bim::BcfXml::Exporter)
 
-      ::Queries::Register.filter ::Query, OpenProject::Bcf::BcfIssueAssociatedFilter
-      ::Queries::Register.column ::Query, OpenProject::Bcf::QueryBcfThumbnailColumn
+      ::Queries::Register.filter ::Query, OpenProject::Bim::BcfIssueAssociatedFilter
+      ::Queries::Register.column ::Query, OpenProject::Bim::QueryBcfThumbnailColumn
 
       ::API::Root.class_eval do
         content_type :binary, 'application/octet-stream'
         default_format :binary
         version 'v1', using: :path do
-          mount ::API::BcfXml::V1::BcfXmlAPI
+          mount ::API::Bim::BcfXml::V1::BcfXmlAPI
         end
       end
     end

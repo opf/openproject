@@ -28,20 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfAPI::V2_1::Endpoints
+module Bim::Bcf::API::V2_1::Endpoints
   module ModifyMixin
     private
 
     def deduce_parse_service
-      Bcf::API::V2_1::ParseResourceParamsService
+      ::Bim::Bcf::API::V2_1::ParseResourceParamsService
     end
 
     def deduce_process_service
-      "::Bcf::#{deduce_backend_namespace}::#{update_or_create}Service".constantize
+      "::Bim::Bcf::#{deduce_backend_namespace}::#{update_or_create}Service".constantize
     end
 
     def deduce_in_and_out_representer
-      "::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
+      "::Bim::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
     end
 
     alias_method :deduce_parse_representer, :deduce_in_and_out_representer

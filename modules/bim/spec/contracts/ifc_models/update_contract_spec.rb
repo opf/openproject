@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe IFCModels::UpdateContract do
+describe IfcModels::UpdateContract do
   it_behaves_like 'ifc model contract' do
     let(:ifc_model) do
       FactoryBot.build_stubbed(:ifc_model,

@@ -28,22 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfAPI::V2_1
+module Bim::Bcf::API::V2_1
   class TopicsAPI < ::API::OpenProjectAPI
     resources :topics do
       helpers do
         def topics
-          Bcf::Issue.of_project(@project)
+          ::Bim::Bcf::Issue.of_project(@project)
         end
 
         def transform_attributes(attributes)
-          wp_attributes = Bcf::Issues::TransformAttributesService
+          wp_attributes = ::Bim::Bcf::Issues::TransformAttributesService
                             .new(@project)
                             .call(attributes)
                             .result
 
           attributes
-            .slice(*Bcf::Issue::SETTABLE_ATTRIBUTES)
+            .slice(*::Bim::Bcf::Issue::SETTABLE_ATTRIBUTES)
             .merge(wp_attributes)
         end
 
@@ -68,14 +68,14 @@ module Bim::BcfAPI::V2_1
         authorize :view_linked_issues, context: @project
       end
 
-      get &::Bcf::API::V2_1::Endpoints::Index
-             .new(model: Bcf::Issue,
+      get &::Bim::Bcf::API::V2_1::Endpoints::Index
+             .new(model: Bim::Bcf::Issue,
                   api_name: 'Topics',
                   scope: -> { topics })
              .mount
 
-      post &::Bcf::API::V2_1::Endpoints::Create
-             .new(model: Bcf::Issue,
+      post &::Bim::Bcf::API::V2_1::Endpoints::Create
+             .new(model: Bim::Bcf::Issue,
                   api_name: 'Topics',
                   params_modifier: ->(attributes) {
                     transform_attributes(attributes)
@@ -88,13 +88,13 @@ module Bim::BcfAPI::V2_1
           @issue = topics.find_by_uuid!(params[:topic_uuid])
         end
 
-        get &::Bcf::API::V2_1::Endpoints::Show
-              .new(model: Bcf::Issue,
+        get &::Bim::Bcf::API::V2_1::Endpoints::Show
+              .new(model: Bim::Bcf::Issue,
                    api_name: 'Topics')
               .mount
 
-        put &::Bcf::API::V2_1::Endpoints::Update
-               .new(model: Bcf::Issue,
+        put &::Bim::Bcf::API::V2_1::Endpoints::Update
+               .new(model: Bim::Bcf::Issue,
                     api_name: 'Topics',
                     params_modifier: ->(attributes) {
                       transform_attributes(attributes)
@@ -102,12 +102,12 @@ module Bim::BcfAPI::V2_1
                     })
                .mount
 
-        delete &::Bcf::API::V2_1::Endpoints::Delete
-                  .new(model: Bcf::Issue,
+        delete &::Bim::Bcf::API::V2_1::Endpoints::Delete
+                  .new(model: Bim::Bcf::Issue,
                        api_name: 'Topics')
                   .mount
 
-        mount Bcf::API::V2_1::Viewpoints::API
+        mount ::Bim::Bcf::API::V2_1::Viewpoints::API
       end
     end
   end

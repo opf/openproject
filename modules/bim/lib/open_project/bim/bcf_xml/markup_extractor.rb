@@ -3,7 +3,7 @@
 # manually. If we want to extract the entire markup,
 # this should be turned into a representable/xml decorator
 
-module OpenProject::Bcf::BcfXml
+module OpenProject::Bim::BcfXml
   class MarkupExtractor
     attr_reader :entry
     attr_accessor :markup, :doc

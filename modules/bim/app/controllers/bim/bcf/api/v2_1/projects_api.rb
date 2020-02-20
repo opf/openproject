@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfAPI::V2_1
+module Bim::Bcf::API::V2_1
   class ProjectsAPI < ::API::OpenProjectAPI
     resources :projects do
       helpers do
@@ -39,7 +39,7 @@ module Bim::BcfAPI::V2_1
         end
       end
 
-      get &::Bcf::API::V2_1::Endpoints::Index.new(model: Project,
+      get &::Bim::Bcf::API::V2_1::Endpoints::Index.new(model: Project,
                                                   scope: -> { visible_projects })
                                              .mount
 
@@ -49,14 +49,14 @@ module Bim::BcfAPI::V2_1
                      .find(params[:id])
         end
 
-        get &::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
-        put &::Bcf::API::V2_1::Endpoints::Update
+        get &::Bim::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
+        put &::Bim::Bcf::API::V2_1::Endpoints::Update
                .new(model: Project,
                     process_service: ::Projects::UpdateService)
                .mount
 
-        mount Bcf::API::V2_1::TopicsAPI
-        mount Bcf::API::V2_1::ProjectExtensions::API
+        mount ::Bim::Bcf::API::V2_1::TopicsAPI
+        mount ::Bim::Bcf::API::V2_1::ProjectExtensions::API
       end
     end
   end

@@ -36,22 +36,22 @@ module Bim::Bcf
   module API
     class Root < ::API::RootAPI
       format :json
-      formatter :json, API::Formatter.new
+      formatter :json, ::API::Formatter.new
 
       default_format :json
 
-      error_representer ::Bcf::API::V2_1::Errors::ErrorRepresenter, :json
-      error_formatter :json, ::Bcf::API::ErrorFormatter::Json
+      error_representer ::Bim::Bcf::API::V2_1::Errors::ErrorRepresenter, :json
+      error_formatter :json, ::Bim::Bcf::API::ErrorFormatter::Json
 
       authentication_scope OpenProject::Authentication::Scope::BCF_V2_1
 
       version '2.1', using: :path do
         # /auth
-        mount ::Bcf::API::V2_1::AuthAPI
+        mount ::Bim::Bcf::API::V2_1::AuthAPI
         # /current-user
-        mount ::Bcf::API::V2_1::CurrentUserAPI
+        mount ::Bim::Bcf::API::V2_1::CurrentUserAPI
         # /projects
-        mount ::Bcf::API::V2_1::ProjectsAPI
+        mount ::Bim::Bcf::API::V2_1::ProjectsAPI
       end
     end
   end

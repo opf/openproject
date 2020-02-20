@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Bcf::Issues::CreateService, type: :model do
+describe Bim::Bcf::Issues::CreateService, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', '<=': true)
@@ -80,7 +80,7 @@ describe Bcf::Issues::CreateService, type: :model do
   let!(:created_issue) do
     issue = FactoryBot.build_stubbed(:bcf_issue)
 
-    allow(Bcf::Issue)
+    allow(Bim::Bcf::Issue)
       .to receive(:new)
       .and_return(issue)
 
@@ -93,7 +93,7 @@ describe Bcf::Issues::CreateService, type: :model do
   let!(:set_attributes_service) do
     service = double('set_attributes_service_instance')
 
-    allow(Bcf::Issues::SetAttributesService)
+    allow(Bim::Bcf::Issues::SetAttributesService)
       .to receive(:new)
       .with(user: user,
             model: created_issue,

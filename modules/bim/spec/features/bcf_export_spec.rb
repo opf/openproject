@@ -59,7 +59,7 @@ describe 'work package export', type: :feature, js: true do
     ::DownloadedFile.wait_for_download_content
 
     # Check the downloaded file
-    OpenProject::Bcf::BcfXml::Importer.new(
+    OpenProject::Bim::BcfXml::Importer.new(
       ::DownloadedFile.download,
       project,
       current_user: current_user

@@ -29,7 +29,7 @@
 #++
 
 module Bim::Bcf
-  module Api
+  module API
     module ErrorFormatter
       module Json
         extend Grape::ErrorFormatter::Base

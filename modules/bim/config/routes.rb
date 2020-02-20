@@ -28,25 +28,25 @@
 
 OpenProject::Application.routes.draw do
   scope '', as: 'bcf' do
-    mount Bcf::API::Root => '/api/bcf'
+    mount ::Bim::Bcf::API::Root => '/api/bcf'
 
     scope 'projects/:project_id', as: 'project' do
-      resources :issues, controller: 'bcf/issues' do
+      resources :issues, controller: 'bim/bcf/issues' do
         get :upload, action: :upload, on: :collection
         post :prepare_import, action: :prepare_import, on: :collection
         post :configure_import, action: :configure_import, on: :collection
         post :import, action: :perform_import, on: :collection
       end
 
-      get 'bcf_issues', to: 'bcf/issues#redirect_to_bcf_issues_list', as: :work_packages
+      get 'bcf_issues', to: 'bim/bcf/issues#redirect_to_bcf_issues_list', as: :work_packages
     end
   end
 
   scope '', as: 'ifc_models' do
     scope 'projects/:project_id', as: 'project' do
-      resources :ifc_models, except: [:show], controller: 'ifc_models/ifc_models' do
+      resources :ifc_models, except: [:show], controller: 'bim/ifc_models/ifc_models' do
         collection do
-          get 'defaults(/*state)', action: :defaults
+          get 'defaults(/*state)', action: :defaults, as: 'defaults'
           get 'list(/*state)', action: :defaults
         end
 

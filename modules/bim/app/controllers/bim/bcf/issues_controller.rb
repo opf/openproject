@@ -143,7 +143,7 @@ module Bim
           raise(StandardError.new(I18n.t('bcf.exceptions.file_invalid')))
         end
 
-        @issues = ::Bcf::Issue
+        @issues = ::Bim::Bcf::Issue
           .includes(work_package: %i[status priority assigned_to])
           .where(uuid: @listing.map { |e| e[:uuid] }, project: @project)
         render 'bcf/issues/diff_on_work_packages'
@@ -200,7 +200,7 @@ module Bim
       end
 
       def build_importer
-        @importer = ::OpenProject::Bcf::BcfXml::Importer.new @bcf_xml_file, @project, current_user: current_user
+        @importer = ::OpenProject::Bim::BcfXml::Importer.new @bcf_xml_file, @project, current_user: current_user
       end
 
       def get_persisted_file

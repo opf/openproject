@@ -27,12 +27,12 @@
 #++
 
 FactoryBot.define do
-  factory :bcf_viewpoint, class: ::Bcf::Viewpoint do
+  factory :bcf_viewpoint, class: ::Bim::Bcf::Viewpoint do
     new_uuid = SecureRandom.uuid
     uuid { new_uuid }
     viewpoint_name { "full_viewpoint.bcfv" }
     json_viewpoint do
-      file = OpenProject::Bcf::Engine.root.join("spec/fixtures/viewpoints/#{viewpoint_name}.json")
+      file = OpenProject::Bim::Engine.root.join("spec/fixtures/viewpoints/#{viewpoint_name}.json")
       if file.readable?
         JSON.parse(file.read)
       else

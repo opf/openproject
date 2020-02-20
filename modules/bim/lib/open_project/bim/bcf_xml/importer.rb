@@ -2,7 +2,7 @@ require 'activerecord-import'
 require_relative 'issue_reader'
 require_relative 'aggregations'
 
-module OpenProject::Bcf::BcfXml
+module OpenProject::Bim::BcfXml
   class Importer
     attr_reader :file, :project, :current_user
 

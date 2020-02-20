@@ -1,4 +1,4 @@
-module Bcf
+module Bim::Bcf
   class Issue < ActiveRecord::Base
     include InitializeWithUuid
     include ::Concerns::VirtualAttribute
@@ -7,8 +7,8 @@ module Bcf
 
     belongs_to :work_package
     has_one :project, through: :work_package
-    has_many :viewpoints, foreign_key: :issue_id, class_name: "Bcf::Viewpoint", dependent: :destroy
-    has_many :comments,   foreign_key: :issue_id, class_name: "Bcf::Comment", dependent: :destroy
+    has_many :viewpoints, foreign_key: :issue_id, class_name: "Bim::Bcf::Viewpoint", dependent: :destroy
+    has_many :comments, foreign_key: :issue_id, class_name: "Bim::Bcf::Comment", dependent: :destroy
 
     after_update :invalidate_markup_cache
 

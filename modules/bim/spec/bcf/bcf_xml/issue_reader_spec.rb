@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::OpenProject::Bcf::BcfXml::IssueReader do
+describe ::OpenProject::Bim::BcfXml::IssueReader do
   let(:absolute_file_path) { "63E78882-7C6A-4BF7-8982-FC478AFB9C97/markup.bcf" }
   let(:type) { FactoryBot.create :type, name: 'Issue', is_standard: true, is_default: true }
   let(:project) do
@@ -87,7 +87,7 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
       .new(absolute_file_path, entry_stream)
   end
   let(:entry_stream) { StringIO.new(markup) }
-  let(:import_options) { OpenProject::Bcf::BcfXml::Importer::DEFAULT_IMPORT_OPTIONS }
+  let(:import_options) { OpenProject::Bim::BcfXml::Importer::DEFAULT_IMPORT_OPTIONS }
 
   subject do
     described_class.new(project,
@@ -112,7 +112,7 @@ describe ::OpenProject::Bcf::BcfXml::IssueReader do
         expect(bcf_issue.work_package.start_date).to eql(subject.extractor.creation_date.to_date)
       end
 
-      it 'BCF::Issue get initialized with the GUID form the XML file' do
+      it 'Bim::Bcf::Issue get initialized with the GUID form the XML file' do
         expect(bcf_issue.uuid).to eql("63E78882-7C6A-4BF7-8982-FC478AFB9C97")
       end
     end

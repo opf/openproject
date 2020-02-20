@@ -45,9 +45,9 @@ module ::OpenProject::Bim
 
     def where
       if associated?
-        ::Queries::Operators::All.sql_for_field(values, ::Bcf::Issue.table_name, 'id')
+        ::Queries::Operators::All.sql_for_field(values, ::Bim::Bcf::Issue.table_name, 'id')
       elsif not_associated?
-        ::Queries::Operators::None.sql_for_field(values, ::Bcf::Issue.table_name, 'id')
+        ::Queries::Operators::None.sql_for_field(values, ::Bim::Bcf::Issue.table_name, 'id')
       else
         raise 'Unsupported operator or value'
       end

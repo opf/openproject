@@ -1,5 +1,5 @@
 module Bim
-  module IFCModels
+  module IfcModels
     class BaseController < ApplicationController
     end
   end

@@ -31,10 +31,10 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe IFCModels::CreateContract do
+describe IfcModels::CreateContract do
   it_behaves_like 'ifc model contract' do
     let(:ifc_model) do
-      ::IFCModels::IFCModel.new(project: model_project,
+      ::Bim::IfcModels::IfcModel.new(project: model_project,
                                 title: model_title,
                                 uploader: model_user)
     end

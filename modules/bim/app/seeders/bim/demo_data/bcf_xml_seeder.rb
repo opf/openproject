@@ -52,7 +52,7 @@ module Bim
         }
 
         bcf_xml_file = File.new(File.join(Rails.root, 'modules/bim_seeder/files', filename))
-        importer = ::OpenProject::Bcf::BcfXml::Importer.new(bcf_xml_file, project, current_user: user)
+        importer = ::OpenProject::Bim::BcfXml::Importer.new(bcf_xml_file, project, current_user: user)
         importer.import!(import_options).flatten
       end
     end

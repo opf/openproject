@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfAPI::V2_1
+module Bim::Bcf::API::V2_1
   module ProjectExtensions
     class API < ::API::OpenProjectAPI
       get :extensions do

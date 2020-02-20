@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
   let(:operator) { '=' }
   let(:filter) do
-    ::OpenProject::Bcf::BcfIssueAssociatedFilter.create!(name: "bcf_issue_associated", operator: operator, values: values)
+    ::OpenProject::Bim::BcfIssueAssociatedFilter.create!(name: "bcf_issue_associated", operator: operator, values: values)
   end
 
   let(:representer) { described_class.new(filter) }

@@ -70,7 +70,7 @@ module API
                   query = Query.new_default(name: '_', project: project)
                   updated_query = ::API::V3::UpdateQueryFromV3ParamsService.new(query, User.current).call(params)
 
-                  exporter = ::OpenProject::Bcf::BcfXml::Exporter.new(updated_query.result)
+                  exporter = ::OpenProject::Bim::BcfXml::Exporter.new(updated_query.result)
                   header['Content-Disposition'] = "attachment; filename=\"#{exporter.bcf_filename}\""
                   env['api.format'] = :binary
                   exporter.list_from_api.read
@@ -85,7 +85,7 @@ module API
 
                   begin
                     file = params[:bcf_xml_file][:tempfile]
-                    importer = ::OpenProject::Bcf::BcfXml::Importer.new(file,
+                    importer = ::OpenProject::Bim::BcfXml::Importer.new(file,
                                                                         project,
                                                                         current_user: User.current)
                     importer.import!(import_options)

@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfAPI::V2_1
+module Bim::Bcf::API::V2_1
   module Viewpoints
     class API < ::API::OpenProjectAPI
       resources :viewpoints do
@@ -38,8 +38,8 @@ module Bim::BcfAPI::V2_1
             .pluck(:json_viewpoint)
         end
 
-        post &::Bcf::API::V2_1::Endpoints::Create
-                .new(model: Bcf::Viewpoint,
+        post &::Bim::Bcf::API::V2_1::Endpoints::Create
+                .new(model: Bim::Bcf::Viewpoint,
                      params_modifier: ->(attributes) {
                        {
                          json_viewpoint: attributes,
@@ -52,16 +52,16 @@ module Bim::BcfAPI::V2_1
           %i[/ selection coloring visibility].each do |key|
             namespace = key == :/ ? :Full : key.to_s.camelize
 
-            get key, &::Bcf::API::V2_1::Endpoints::Show
-              .new(model: Bcf::Viewpoint,
+            get key, &::Bim::Bcf::API::V2_1::Endpoints::Show
+              .new(model: Bim::Bcf::Viewpoint,
                    api_name: 'Viewpoints',
-                   render_representer: "::Bcf::API::V2_1::Viewpoints::#{namespace}Representer".constantize,
+                   render_representer: "::Bim::Bcf::API::V2_1::Viewpoints::#{namespace}Representer".constantize,
                    instance_generator: ->(*) { @issue.viewpoints.where(uuid: params[:viewpoint_uuid]) })
               .mount
           end
 
-          delete &::Bcf::API::V2_1::Endpoints::Delete
-                   .new(model: Bcf::Viewpoint,
+          delete &::Bim::Bcf::API::V2_1::Endpoints::Delete
+                   .new(model: Bim::Bcf::Viewpoint,
                         api_name: 'Viewpoints',
                         instance_generator: ->(*) { @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid]) })
                    .mount

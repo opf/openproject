@@ -133,7 +133,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
       end
 
       it 'deletes the viewpoint' do
-        expect(Bcf::Viewpoint.where(id: viewpoint.id)).not_to be_exist
+        expect(Bim::Bcf::Viewpoint.where(id: viewpoint.id)).not_to be_exist
       end
     end
 
@@ -253,7 +253,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
 
     it_behaves_like 'bcf api successful response' do
       let(:expected_body) do
-        new_viewpoint = Bcf::Viewpoint.last
+        new_viewpoint = Bim::Bcf::Viewpoint.last
 
         params
           .merge(guid: new_viewpoint.uuid)
@@ -263,10 +263,10 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
     end
 
     it 'creates the viewpoint with an attachment for the snapshot' do
-      expect(Bcf::Viewpoint.count)
+      expect(Bim::Bcf::Viewpoint.count)
         .to eql 2
 
-      expect(Bcf::Viewpoint.last.attachments.count)
+      expect(Bim::Bcf::Viewpoint.last.attachments.count)
         .to eql 1
     end
 

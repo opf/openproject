@@ -1,6 +1,6 @@
 require 'bigdecimal'
 
-module OpenProject::Bcf
+module OpenProject::Bim
   module BcfJson
     class ViewpointReader
       ROOT_NODE ||= 'VisualizationInfo'.freeze

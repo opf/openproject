@@ -1,5 +1,5 @@
 module Bim
-  module IFCModels
+  module IfcModels
     class RowCell < ::RowCell
       include ::IconsHelper
       include ::AvatarHelper

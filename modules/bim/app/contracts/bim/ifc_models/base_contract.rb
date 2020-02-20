@@ -27,7 +27,7 @@
 #++
 
 module Bim
-  module IFCModels
+  module IfcModels
     class BaseContract < ::ModelContract
       delegate :project,
                :new_record?,
@@ -38,7 +38,7 @@ module Bim
       attribute :project
 
       def self.model
-        ::IFCModels::IFCModel
+        ::Bim::IfcModels::IfcModel
       end
 
       def validate

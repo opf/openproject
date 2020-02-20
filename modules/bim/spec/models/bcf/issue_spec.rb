@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Bcf::Issue, type: :model do
+describe ::Bim::Bcf::Issue, type: :model do
   let(:type) { FactoryBot.create :type, name: "Issue [BCF]" }
   let(:work_package) { FactoryBot.create :work_package, type: type }
   let(:issue) { FactoryBot.create :bcf_issue, work_package: work_package }

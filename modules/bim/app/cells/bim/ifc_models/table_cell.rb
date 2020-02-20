@@ -1,5 +1,5 @@
 module Bim
-  module IFCModels
+  module IfcModels
     class TableCell < ::TableCell
       include ::IconsHelper
       columns :title, :default?, :created_at, :updated_at, :uploader, :processing
@@ -26,11 +26,11 @@ module Bim
 
       def headers
         [
-          ['title', caption: IFCModel.human_attribute_name(:title)],
-          ['is_default', caption: IFCModel.human_attribute_name(:is_default)],
-          ['created_at', caption: IFCModel.human_attribute_name(:created_at)],
-          ['updated_at', caption: IFCModel.human_attribute_name(:updated_at)],
-          ['uploader', caption: IFCModel.human_attribute_name(:uploader)],
+          ['title', caption: IfcModel.human_attribute_name(:title)],
+          ['is_default', caption: IfcModel.human_attribute_name(:is_default)],
+          ['created_at', caption: IfcModel.human_attribute_name(:created_at)],
+          ['updated_at', caption: IfcModel.human_attribute_name(:updated_at)],
+          ['uploader', caption: IfcModel.human_attribute_name(:uploader)],
           ['processing', caption: I18n.t('ifc_models.processing_state.label')]
         ]
       end

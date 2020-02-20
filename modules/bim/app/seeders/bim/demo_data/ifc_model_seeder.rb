@@ -71,7 +71,7 @@ module Bim
       end
 
       def create_model_container(project, user, title, default)
-        model_container = IFCModels::IFCModel.new
+        model_container = Bim::IfcModels::IfcModel.new
         model_container.title = title
         model_container.project = project
         model_container.uploader = user

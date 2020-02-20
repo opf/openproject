@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe IFCModels::CreateService do
+describe IfcModels::CreateService do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', '<=': true)
@@ -25,7 +25,7 @@ describe IFCModels::CreateService do
   let!(:created_model) do
     model = FactoryBot.build_stubbed(:ifc_model)
 
-    allow(IFCModels::IFCModel)
+    allow(Bim::IfcModels::IfcModel)
       .to receive(:new)
       .and_return(model)
 
@@ -38,7 +38,7 @@ describe IFCModels::CreateService do
   let!(:set_attributes_service) do
     service = double('set_attributes_service_instance')
 
-    allow(IFCModels::SetAttributesService)
+    allow(IfcModels::SetAttributesService)
       .to receive(:new)
       .with(user: user,
             model: created_model,
@@ -54,7 +54,7 @@ describe IFCModels::CreateService do
       allow(job)
         .to receive(:perform_later)
 
-      stub_const('IFCModels::IFCConversionJob', job)
+      stub_const('IfcModels::IfcConversionJob', job)
     end
   end
 

@@ -1,6 +1,6 @@
 require 'fileutils'
 
-module OpenProject::Bcf::BcfXml
+module OpenProject::Bim::BcfXml
   class Exporter < ::WorkPackage::Exporter::Base
     include Redmine::I18n
 

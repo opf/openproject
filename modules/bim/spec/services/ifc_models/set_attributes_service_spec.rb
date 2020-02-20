@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe IFCModels::SetAttributesService, type: :model do
+describe IfcModels::SetAttributesService, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:other_user) { FactoryBot.build_stubbed(:user) }
   let(:contract_class) do
@@ -109,7 +109,7 @@ describe IFCModels::SetAttributesService, type: :model do
 
     context 'for a new record' do
       let(:model) do
-        IFCModels::IFCModel.new
+        Bim::IfcModels::IfcModel.new
       end
 
       context 'with an ifc_attachment' do

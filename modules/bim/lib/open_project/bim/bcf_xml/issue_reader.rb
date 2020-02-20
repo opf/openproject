@@ -4,7 +4,7 @@
 # this should be turned into a representable/xml decorator
 require_relative 'file_entry'
 
-module OpenProject::Bcf::BcfXml
+module OpenProject::Bim::BcfXml
   class IssueReader
     attr_reader :zip, :entry, :issue, :extractor, :project, :user, :import_options
     attr_accessor :wp_last_updated_at, :is_update
@@ -92,7 +92,7 @@ module OpenProject::Bcf::BcfXml
     ## Get mapped and raw attributes from MarkupExtractor
     ## and return all values that are non-nil
     def work_package_attributes
-      attributes = ::Bcf::Issues::TransformAttributesService
+      attributes = ::Bim::Bcf::Issues::TransformAttributesService
                    .new(project)
                    .call(extractor_attributes.merge(import_options: import_options))
                    .result
@@ -200,11 +200,11 @@ module OpenProject::Bcf::BcfXml
     ##
     # Find existing issue or create new
     def find_or_initialize_issue
-      ::Bcf::Issue
+      ::Bim::Bcf::Issue
         .joins(:work_package)
         .where(uuid: topic_uuid, 'work_packages.project_id': @project.id)
         .references(:work_package).first ||
-        ::Bcf::Issue.new(uuid: topic_uuid)
+        ::Bim::Bcf::Issue.new(uuid: topic_uuid)
     end
 
     ##
@@ -233,7 +233,7 @@ module OpenProject::Bcf::BcfXml
     ##
     # Map the xml viewpoint as json
     def viewpoint_as_json(uuid, xml)
-      ::OpenProject::Bcf::BcfJson::ViewpointReader
+      ::OpenProject::Bim::BcfJson::ViewpointReader
         .new(uuid, xml)
         .result
     end

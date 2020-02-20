@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::OpenProject::Bcf::BcfXml::Importer do
+describe ::OpenProject::Bim::BcfXml::Importer do
   let(:filename) { 'MaximumInformation.bcf' }
   let(:file) do
     Rack::Test::UploadedFile.new(
@@ -95,7 +95,7 @@ describe ::OpenProject::Bcf::BcfXml::Importer do
     it 'creates 2 work packages' do
       subject.import!
 
-      expect(::Bcf::Issue.count).to be_eql 2
+      expect(::Bim::Bcf::Issue.count).to be_eql 2
       expect(WorkPackage.count).to be_eql 2
     end
   end

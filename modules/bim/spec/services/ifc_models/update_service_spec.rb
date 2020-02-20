@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe IFCModels::UpdateService do
+describe IfcModels::UpdateService do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', '<=': true)
@@ -39,7 +39,7 @@ describe IFCModels::UpdateService do
   let!(:set_attributes_service) do
     service = double('set_attributes_service_instance')
 
-    allow(IFCModels::SetAttributesService)
+    allow(IfcModels::SetAttributesService)
       .to receive(:new)
       .with(user: user,
             model: model,
@@ -55,7 +55,7 @@ describe IFCModels::UpdateService do
       allow(job)
         .to receive(:perform_later)
 
-      stub_const('IFCModels::IFCConversionJob', job)
+      stub_const('IfcModels::IfcConversionJob', job)
     end
   end
   let(:ifc_attachment) { FactoryBot.build_stubbed(:attachment) }

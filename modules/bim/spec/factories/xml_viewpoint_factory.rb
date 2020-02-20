@@ -31,7 +31,7 @@ FactoryBot.define do
     uuid { SecureRandom.uuid }
     viewpoint_name { "full_viewpoint.bcfv" }
     viewpoint do
-      file = OpenProject::Bcf::Engine.root.join("spec/fixtures/viewpoints/#{viewpoint_name}.xml")
+      file = OpenProject::Bim::Engine.root.join("spec/fixtures/viewpoints/#{viewpoint_name}.xml")
       if file.readable?
         file.read
       else

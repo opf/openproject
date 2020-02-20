@@ -102,17 +102,11 @@ PATH
       openproject-pdf_export
 
 PATH
-  remote: modules/bcf
+  remote: modules/bim
   specs:
-    openproject-bcf (1.0.0)
+    openproject-bim (1.0.0)
       activerecord-import
       rubyzip (~> 1.2)
-
-PATH
-  remote: modules/bim_seeder
-  specs:
-    openproject-bim_seeder (1.0.0)
-      openproject-bcf
 
 PATH
   remote: modules/boards
@@ -150,13 +144,6 @@ PATH
   remote: modules/grids
   specs:
     grids (1.0.0)
-
-PATH
-  remote: modules/ifc_models
-  specs:
-    openproject-ifc_models (1.0.0)
-      activerecord-import
-      rubyzip (~> 1.2)
 
 PATH
   remote: modules/ldap_groups
@@ -1046,14 +1033,12 @@ DEPENDENCIES
   openproject-auth_saml!
   openproject-avatars!
   openproject-backlogs!
-  openproject-bcf!
-  openproject-bim_seeder!
+  openproject-bim!
   openproject-boards!
   openproject-costs!
   openproject-documents!
   openproject-github_integration!
   openproject-global_roles!
-  openproject-ifc_models!
   openproject-ldap_groups!
   openproject-meeting!
   openproject-openid_connect!

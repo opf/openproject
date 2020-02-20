@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfAPI::V2_1::Endpoints
+module Bim::Bcf::API::V2_1::Endpoints
   class Update < API::Utilities::Endpoints::Update
     include ModifyMixin
 

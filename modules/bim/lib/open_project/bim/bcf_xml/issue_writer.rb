@@ -1,6 +1,6 @@
 ##
 # Creates or updates a BCF issue and markup from a work package
-module OpenProject::Bcf::BcfXml
+module OpenProject::Bim::BcfXml
   class IssueWriter < BaseWriter
     attr_reader :work_package, :issue, :markup_doc, :markup_node
 
@@ -231,7 +231,7 @@ module OpenProject::Bcf::BcfXml
     ##
     # Find existing issue or create new
     def find_or_initialize_issue
-      ::Bcf::Issue.find_or_initialize_by(work_package: work_package)
+      ::Bim::Bcf::Issue.find_or_initialize_by(work_package: work_package)
     end
   end
 end

@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :ifc_model, class: ::IFCModels::IFCModel do
+  factory :ifc_model, class: ::Bim::IfcModels::IfcModel do
     title { 'My IFC model' }
     project factory: :project
     uploader factory: :user

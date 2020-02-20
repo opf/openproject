@@ -43,7 +43,7 @@ module OpenProject::Bim::Patches::AggregatedJournalPatch
       aggregated_journals = super(journable, aggregated_journals, includes)
       if includes.include?(:bcf_comments)
         bcf_comments = if includes.include?(:bcf_comment)
-                         ::Bcf::Comment
+                         ::Bim::Bcf::Comment
                            .where(journal_id: journal_ids)
                            .all
                            .group_by(&:journal_id)

@@ -297,7 +297,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
     it 'deletes the Bcf Issue as well as the belonging Work Package' do
       expect(WorkPackage.where(id: work_package.id)).to match_array []
-      expect(Bcf::Issue.where(id: bcf_issue.id)).to match_array []
+      expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to match_array []
     end
 
     context 'lacking permission to manage bcf' do
@@ -307,7 +307,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
       it 'deletes neither the Work Package nor the Bcf Issue' do
         expect(WorkPackage.where(id: work_package.id)).to match_array [work_package]
-        expect(Bcf::Issue.where(id: bcf_issue.id)).to match_array [bcf_issue]
+        expect(Bim::Bcf::Issue.where(id: bcf_issue.id)).to match_array [bcf_issue]
       end
     end
   end
@@ -537,7 +537,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
     it_behaves_like 'bcf api successful response' do
       let(:expected_status) { 201 }
       let(:expected_body) do
-        issue = Bcf::Issue.last
+        issue = Bim::Bcf::Issue.last
         work_package = WorkPackage.last
 
         {
@@ -577,7 +577,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       it_behaves_like 'bcf api successful response' do
         let(:expected_status) { 201 }
         let(:expected_body) do
-          issue = Bcf::Issue.last
+          issue = Bim::Bcf::Issue.last
           work_package = WorkPackage.last
 
           {
@@ -678,7 +678,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
     it_behaves_like 'bcf api successful response' do
       let(:expected_body) do
-        issue = Bcf::Issue.last
+        issue = Bim::Bcf::Issue.last
         work_package = WorkPackage.last
 
         {

@@ -1,4 +1,4 @@
-module OpenProject::Bcf::Patches
+module OpenProject::Bim::Patches
   module Api::V3::ExportFormats
     def representation_formats
       super + [representation_format_bcf]

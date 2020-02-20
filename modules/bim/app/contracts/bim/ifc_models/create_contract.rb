@@ -27,7 +27,7 @@
 #++
 
 module Bim
-  module IFCModels
+  module IfcModels
     class CreateContract < BaseContract
     end
   end

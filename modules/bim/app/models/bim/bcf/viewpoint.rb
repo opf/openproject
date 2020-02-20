@@ -1,4 +1,4 @@
-module Bcf
+module Bim::Bcf
   class Viewpoint < ActiveRecord::Base
     include InitializeWithUuid
 
@@ -11,8 +11,8 @@ module Bcf
       where(uuid: uuid).exists?
     end
 
-    belongs_to :issue, foreign_key: :issue_id, class_name: "Bcf::Issue"
-    has_many :comments, foreign_key: :viewpoint_id, class_name: "Bcf::Comment"
+    belongs_to :issue, foreign_key: :issue_id, class_name: "Bim::Bcf::Issue"
+    has_many :comments, foreign_key: :viewpoint_id, class_name: "Bim::Bcf::Comment"
     delegate :project, :project_id, to: :issue, allow_nil: true
 
     validates :issue, presence: true

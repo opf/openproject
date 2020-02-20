@@ -28,10 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfAPI::V2_1
+module Bim::Bcf::API::V2_1
   class CurrentUserAPI < ::API::OpenProjectAPI
     resources :'current-user' do
-      get &::Bcf::API::V2_1::Endpoints::Show.new(model: User,
+      get &::Bim::Bcf::API::V2_1::Endpoints::Show.new(model: User,
                                                  instance_generator: ->(*) { current_user }).mount
     end
   end

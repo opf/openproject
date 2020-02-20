@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::OpenProject::Bcf::BcfXml::IssueWriter do
+describe ::OpenProject::Bim::BcfXml::IssueWriter do
   let(:project) { FactoryBot.create(:project) }
   let(:markup) do
     <<-MARKUP
@@ -174,7 +174,7 @@ describe ::OpenProject::Bcf::BcfXml::IssueWriter do
 
     it 'creates BCF comments for comments that were created within OP.' do
       expect(subject.at('/Markup/Comment[2]/Comment').content).to eql("Some note created in OP.")
-      expect(Bcf::Comment.count).to eql(2)
+      expect(Bim::Bcf::Comment.count).to eql(2)
     end
   end
 

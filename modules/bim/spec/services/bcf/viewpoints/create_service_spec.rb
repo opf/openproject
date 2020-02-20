@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Bcf::Viewpoints::CreateService, type: :model do
+describe Bim::Bcf::Viewpoints::CreateService, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', '<=': true)
@@ -63,7 +63,7 @@ describe Bcf::Viewpoints::CreateService, type: :model do
   let!(:created_viewpoint) do
     viewpoint = FactoryBot.build_stubbed(:bcf_viewpoint)
 
-    allow(Bcf::Viewpoint)
+    allow(Bim::Bcf::Viewpoint)
       .to receive(:new)
       .and_return(viewpoint)
 
@@ -76,7 +76,7 @@ describe Bcf::Viewpoints::CreateService, type: :model do
   let!(:set_attributes_service) do
     service = double('set_attributes_service_instance')
 
-    allow(Bcf::Viewpoints::SetAttributesService)
+    allow(Bim::Bcf::Viewpoints::SetAttributesService)
       .to receive(:new)
       .with(user: user,
             model: created_viewpoint,

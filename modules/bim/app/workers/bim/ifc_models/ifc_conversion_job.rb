@@ -1,6 +1,6 @@
 module Bim
-  module IFCModels
-    class IFCConversionJob < ::ApplicationJob
+  module IfcModels
+    class IfcConversionJob < ::ApplicationJob
       queue_as :ifc_conversion
 
       ##

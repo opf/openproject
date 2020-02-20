@@ -29,8 +29,8 @@
 #++
 
 module Bim
-  module IFCModels
-    class IFCModelsController < BaseController
+  module IfcModels
+    class IfcModelsController < BaseController
       helper_method :gon
 
       before_action :find_project_by_project_id, only: %i[index new create show defaults edit update destroy]
@@ -69,7 +69,7 @@ module Bim
           .to_h
           .reverse_merge(project: @project)
 
-        call = ::IFCModels::CreateService
+        call = ::Bim::IfcModels::CreateService
           .new(user: current_user)
           .call(combined_params)
 
@@ -89,7 +89,7 @@ module Bim
           .to_h
           .reverse_merge(project: @project)
 
-        call = ::IFCModels::UpdateService
+        call = ::Bim::IfcModels::UpdateService
           .new(user: current_user, model: @ifc_model)
           .call(combined_params)
 
@@ -120,12 +120,12 @@ module Bim
 
       def permitted_model_params
         params
-          .require(:ifc_models_ifc_model)
+          .require(:bim_ifc_models_ifc_model)
           .permit('title', 'ifc_attachment', 'is_default')
       end
 
       def find_ifc_model_object
-        @ifc_model = IFCModels::IFCModel.find_by(id: params[:id])
+        @ifc_model = Bim::IfcModels::IfcModel.find_by(id: params[:id])
       end
     end
   end

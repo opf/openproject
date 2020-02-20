@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe Bcf::Viewpoints::CreateContract do
+describe Bim::Bcf::Viewpoints::CreateContract do
   let(:viewpoint) do
-    Bcf::Viewpoint.new(uuid: viewpoint_uuid,
+    Bim::Bcf::Viewpoint.new(uuid: viewpoint_uuid,
                        issue: viewpoint_issue,
                        json_viewpoint: viewpoint_json_viewpoint)
   end

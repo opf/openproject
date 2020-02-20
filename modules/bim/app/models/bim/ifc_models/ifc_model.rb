@@ -1,6 +1,6 @@
 module Bim
-  module IFCModels
-    class IFCModel < ActiveRecord::Base
+  module IfcModels
+    class IfcModel < ActiveRecord::Base
       acts_as_attachable delete_permission: :manage_ifc_models, view_permission: :view_ifc_models
 
       belongs_to :project

@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Bcf::Viewpoints::SetAttributesService, type: :model do
+describe Bim::Bcf::Viewpoints::SetAttributesService, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
@@ -57,7 +57,7 @@ describe Bcf::Viewpoints::SetAttributesService, type: :model do
   end
   let(:call_attributes) { {} }
   let(:viewpoint) do
-    Bcf::Viewpoint.new
+    Bim::Bcf::Viewpoint.new
   end
 
   describe 'call' do

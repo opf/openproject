@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfAPI::V2_1::Endpoints
+module Bim::Bcf::API::V2_1::Endpoints
   class Delete < API::Utilities::Endpoints::Delete
     include ModifyMixin
 
@@ -40,11 +40,11 @@ module Bim::BcfAPI::V2_1::Endpoints
     private
 
     def render_representer
-      "::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
+      "::Bim::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
     end
 
     def deduce_process_service
-      "::Bcf::#{deduce_backend_namespace}::DeleteService".constantize
+      "::Bim::Bcf::#{deduce_backend_namespace}::DeleteService".constantize
     end
   end
 end
