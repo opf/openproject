@@ -183,15 +183,6 @@ You can slice 3D objects in all dimensions to get a view on the exact thing you 
 - Fixed: Missing warning message when deleting time entry (on My page) \[[#32268](https://community.openproject.com/wp/32268)\]
 - Fixed: Unclear which assigned role an admin has in a project \[[#32274](https://community.openproject.com/wp/32274)\]
 
-#### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
-
-Special thanks for reporting and finding bugs go to
-
-Alexander Seitz, Jonathan Roques, Adrian Nowak, Adam Vanko, Jason Culligan, Matthias Kramer, Andreas H., Jerry Tian, Stefan Endrullis, Kevin Jahns, Stefano Stucchi, Harald Holzmann, Werner K, Sébastien VITA
-
-
-
 
 ## How to try the OpenProject BIM Edition?
 
