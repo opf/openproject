@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ it:
     plugins:
       no_results_title_text: Al momento non vi sono plugin disponibili.
     custom_styles:
+      color_theme: "Tema a colori"
+      color_theme_custom: "(Personalizzato)"
+      colors:
+        alternative-color: "Alternativa"
+        content-link-color: "Collega font"
+        primary-color: "Primario"
+        primary-color-dark: "Primario (scuro)"
+        header-bg-color: "Sfondo intestazione"
+        header-item-bg-hover-color: "Sfondo intestazione al passaggio del mouse"
+        header-item-font-color: "Font intestazione"
+        header-item-font-hover-color: "Font intestazione al passaggio del mouse"
+        header-border-bottom-color: "Bordo intestazione"
+        main-menu-bg-color: "Sfondo del menu principale"
+        main-menu-bg-selected-background: "Menu principale quando selezionato"
+        main-menu-bg-hover-background: "Menu principale al passaggio del mouse"
+        main-menu-font-color: "Font del menu principale"
+        main-menu-selected-font-color: "Font del menu principale quando selezionato"
+        main-menu-hover-font-color: "Font del menu principale al passaggio del mouse"
+        main-menu-border-color: "Bordo del menu principale"
       custom_colors: "Colori personalizzati"
       customize: "Personalizza l'installazione di OpenProject con il tuo logo. Nota: Il logo sarà visibile pubblicamente."
       enterprise_notice: "Questa funzionalità è disponibile solo per chi si è iscritto alla Enterprise Edition, come ringraziamento speciale per il contributo finanziario allo sviluppo di OpenProject."
       manage_colors: "Modifica opzioni di selezione del colore"
       instructions:
-        alternative_color: "Colore forte, utilizzato di solito per far risaltare il tasto principale sullo schermo."
-        content_link_color: "Colore del carattere della maggior parte dei collegamenti."
-        primary_color: "Colore principale."
-        primary_color_dark: "In genere una versione più scura del colore principale utilizzato per effetti hover."
-        header_bg_color: "Colore di sfondo dell'intestazione."
-        header_item_bg_hover_color: "Colore dello sfondo degli elementi cliccabili nelle intestazioni al passaggio del mouse."
-        header_item_font_color: "Colore del carattere degli elementi cliccabili nelle intestazioni."
-        header_item_font_hover_color: "Colore del carattere degli elementi cliccabili nelle intestazioni al passaggio del mouse."
-        header_border_bottom_color: "Sottile linea sotto l'intestazione. Lascia vuoto questo campo se non vuoi nessuna linea."
-        main_menu_bg_color: "Colore di sfondo del menu a sinistra."
+        alternative-color: "Colore forte, utilizzato di solito per far risaltare il tasto principale sullo schermo."
+        content-link-color: "Colore del carattere della maggior parte dei collegamenti."
+        primary-color: "Colore principale."
+        primary-color-dark: "In genere una versione più scura del colore principale utilizzato per effetti hover."
+        header-item-bg-hover-color: "Colore dello sfondo degli elementi cliccabili nelle intestazioni al passaggio del mouse."
+        header-item-font-color: "Colore del carattere degli elementi cliccabili nelle intestazioni."
+        header-item-font-hover-color: "Colore del carattere degli elementi cliccabili nelle intestazioni al passaggio del mouse."
+        header-border-bottom-color: "Sottile linea sotto l'intestazione. Lascia vuoto questo campo se non vuoi nessuna linea."
+        main-menu-bg-color: "Colore di sfondo del menu a sinistra."
     enterprise:
       upgrade_to_ee: "Aggiorna ad Enterprise Edition"
       add_token: "Carica un token di assistenza per Enterprise Edition"
@@ -574,6 +592,10 @@ it:
         role:
           permissions:
             dependency_missing: "deve includere anche '%{dependency}' in quanto è selezionato '%{permission}'."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "è troppo alto: puoi registrare fino a 24 ore al giorno."
         work_package:
           is_not_a_valid_target_for_time_entries: "La macro-attività #%{id} non può essere utilizzata per riassegnare la cronologia."
           attributes:
@@ -723,6 +745,7 @@ it:
     type: "Tipo"
     updated_at: "Aggiornato il"
     updated_on: "Aggiornato il"
+    uploader: "Caricatore"
     user: "Utente"
     version: "Versione"
     work_package: "Macro-attività"
@@ -1008,9 +1031,8 @@ it:
         rename_groups: "Rinominazione di gruppi di proprietà"
       project_filters:
         description_html: "Le opzioni di filtraggio ed ordinamento dei campi personalizzati sono disponibili nella versione enterprise."
-  enumeration_activities: "Attività (monitoraggio tempi)"
+  enumeration_activities: "Attività di monitoraggio dei tempi"
   enumeration_work_package_priorities: "Priorità della macro-attività"
-  enumeration_system_activity: "Attività del sistema"
   enumeration_reported_project_statuses: "Stato di progetto segnalato"
   error_auth_source_sso_failed: "Single Sign-On (SSO) per l'utente '%{value}' non riuscita"
   error_can_not_archive_project: "Questo progetto non può essere archiviato: %{errors}"
@@ -1080,6 +1102,8 @@ it:
       pdf_with_descriptions: "PDF con descrizioni"
       pdf_with_descriptions_and_attachments: "PDF con descrizioni e allegati"
       pdf_with_attachments: "PDF con allegati"
+    image:
+      omitted: "Immagine non esportata."
   extraction:
     available:
       pdftotext: "Pdfatesto disponibile (opzionale)"
@@ -1660,15 +1684,19 @@ it:
   label_workflow_plural: "Flussi di lavoro"
   label_workflow_summary: "Sommario"
   label_x_closed_work_packages_abbr:
+    zero: "0 chiusi"
     one: "1 chiuso"
     other: "%{count} chiusi"
   label_x_comments:
+    zero: "nessun commento"
     one: "1 commento"
     other: "%{count} commenti"
   label_x_open_work_packages_abbr:
+    zero: "0 aperti"
     one: "1 aperto"
     other: "%{count} aperti"
   label_x_projects:
+    zero: "nessun progetto"
     one: "1 progetto"
     other: "%{count} progetti"
   label_year: "Anno"
@@ -2213,7 +2241,7 @@ it:
   text_destroy_with_associated: "Ci sono ulteriori oggetti associati con la/le macro-attività che devono essere eliminati. Tali oggetti sono dei seguenti tipi:"
   text_destroy_what_to_do: "Cosa vuoi fare?"
   text_diff_truncated: "... Questo diff è stato troncato perché supera la dimensione massima che può essere visualizzata."
-  text_email_delivery_not_configured: "L'invio di email non è configurato e le notifiche sono disabilitate.\nConfigura il tuo server SMTP nel file config/configuration.yml e riavvia l'applicazione per abilitare le nuove impostazioni."
+  text_email_delivery_not_configured: "Consegna email non configurata. Le notifiche sono state disabilitate.\nConfigura il tuo server SMTP per abilitarle."
   text_enumeration_category_reassign_to: "Riassegnali a questo valore:"
   text_enumeration_destroy_question: "%{count} oggetti sono assegnati a questo valore."
   text_file_repository_writable: "Cartella allegati scrivibile"
@@ -2507,6 +2535,17 @@ it:
     Raggiunto il limite di utente. Non puoi attivare altri utenti. Per favore<a href="%{upgrade_url}">aggiorna il tuo piano</a> o blocca i membri per consentire altri utenti.
   warning_user_limit_reached_instructions: >
     Raggiunto il limite di utenti (%{current}/%{max} utenti attivi). Si prega di contattare sales@openproject.com per aggiornare il tuo piano Enterprise Edition e aggiungere ulteriori utenti.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Mancata corrispondenza delle impostazioni di protocollo'
+      text_html: >
+        La tua applicazione è in esecuzione con le impostazioni del protocollo impostate a <code>%{set_protocol}</code>, ma la richiesta è una richiesta <code>%{actual_protocol}</code>. Ciò causerà degli errori! Vai nelle <a href="%{setting_path}">Impostazioni di sistema</a> e cambia l'impostazione "Protocollo" per correggerlo.
+    hostname_mismatch:
+      title: 'Mancata corrispondenza delle impostazioni del nome host'
+      text_html: >
+        La tua applicazione è in esecuzione con le impostazioni del nome host impostate a <code>%{set_hostname}</code>, ma la richiesta è un nome host <code>%{actual_hostname}</code>. Ciò causerà degli errori! Vai nelle <a href="%{setting_path}">Impostazioni di sistema</a> e modifica l'impostazione "Nome dell'Host" per correggerlo.
   menu_item: "Voce di menu"
   menu_item_setting: "Visibilità"
   wiki_menu_item_for: "Voce di menù per la pagina wiki \"%{title}\""

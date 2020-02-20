@@ -12,6 +12,7 @@ tr:
     exceptions:
       file_invalid: "BCF dosyası geçersiz"
     x_bcf_issues:
+      zero: 'BCF sorunu yok'
       one: 'Bir BCF sorunu'
       other: '%{count} BCF sorunu'
     bcf_xml:

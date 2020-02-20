@@ -29,7 +29,7 @@ class TextEditorField < EditField
     ckeditor.set_markdown text
   end
 
-  def clear
+  def clear(*)
     ckeditor.clear
   end
 

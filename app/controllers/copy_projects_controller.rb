@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -77,7 +77,7 @@ class CopyProjectsController < ApplicationController
   end
 
   def origin
-    params[:coming_from] == 'admin' ? projects_path : settings_project_path(@project.id)
+    params[:coming_from] == 'admin' ? projects_path : settings_generic_project_path(@project.id)
   end
 
   def enqueue_copy_job

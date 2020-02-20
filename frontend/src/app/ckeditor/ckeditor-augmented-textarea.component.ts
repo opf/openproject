@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
 import {Component, ElementRef, OnInit, OnDestroy, ViewChild, AfterContentInit, HostListener} from '@angular/core';
@@ -116,6 +116,10 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
   }
 
   public setup(editor:ICKEditorInstance) {
+    // Have a hacky way to access the editor from outside of angular.
+    // This is e.g. employed to set the text from outside to reuse the same editor for different languages.
+    this.$element.data('editor', editor);
+
     if (this.resource && this.resource.attachments) {
       this.setupAttachmentAddedCallback(editor);
       this.setupAttachmentRemovalSignal(editor);

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,10 +31,10 @@ require Rails.root.join('config/constants/project_activity')
 
 module Project::Activity
   def self.included(base)
-    base.send :extend, Scopes
+    base.send :extend, ActivityScopes
   end
 
-  module Scopes
+  module ActivityScopes
     def register_latest_project_activity(on:, chain: [], attribute:)
       Constants::ProjectActivity.register(on: on,
                                           chain: chain,

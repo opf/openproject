@@ -1,5 +1,5 @@
 tr:
-  export_to_excel: "Excel elektronik tablosu olarak dışa aktar"
+  export_to_excel: "XLS'yi dışa aktar"
   print_with_description: "Açıklama ile önizlemeyi yazdır"
   sentence_separator_or: "ya da"
   different_formats: Farklı biçimler

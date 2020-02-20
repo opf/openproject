@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module OpenProject::TextFormatting::Matchers
@@ -107,12 +107,12 @@ module OpenProject::TextFormatting::Matchers
           anchor = $5
           link_to h("#{matcher.project_prefix}#{matcher.prefix}:#{oid}"),
                   named_route(:entry_revision_project_repository,
-                                   action: 'entry',
-                                   project_id: project.identifier,
-                                   repo_path: path.to_s,
-                                   rev: rev,
-                                   anchor: anchor,
-                                   format: (matcher.prefix == 'export' ? 'raw' : nil)),
+                              action: 'entry',
+                              project_id: project.identifier,
+                              repo_path: path.to_s,
+                              rev: rev,
+                              anchor: anchor,
+                              format: (matcher.prefix == 'export' ? 'raw' : nil)),
                   class: (matcher.prefix == 'export' ? 'source download' : 'source')
         end
       end

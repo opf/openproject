@@ -1,0 +1,92 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= toolbar title: t('backlogs.definition_of_done'), html: { class: '-minimum-title' } do -%>
+  <%= render partial: 'projects/form/toolbar', locals: { form_name: "edit_project_#{@project.id}" } %>
+<% end %>
+
+<%= styled_form_tag({controller: '/projects', action: "project_done_statuses", id: @project}, id: "edit_project_#{@project.id}") do %>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="material_budget_items">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Status.model_name.human %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%=l('backlogs.work_package_is_closed')%>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for status in (Status.all || []) %>
+          <tr>
+            <td>
+              <%= status.name %>
+            </td>
+            <td style="text-align:left">
+              <% checkbox_id = status.name.parameterize.underscore %>
+              <%= styled_label_tag checkbox_id, l('backlogs.label_is_done_status', status_name: status.name), class: 'hidden-for-sighted' %>
+              <%= (styled_check_box_tag 'statuses[][status_id]', status.id.to_s, @statuses_done_for_project.include?(status.id), id: checkbox_id) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="generic-table--action-buttons">
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+</div>
+
+<% end %>
+
+<h3><%=l('backlogs.rebuild_positions')%></h3>
+
+<%= styled_form_tag(:controller => '/projects', :action => "rebuild_positions", :id => @project) do %>
+  <p><%= styled_button_tag l('backlogs.rebuild'), class: '-highlight' %></p>
+<% end %>

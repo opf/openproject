@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -151,6 +151,10 @@ module OpenProject
 
       # Show pending migrations as warning bar
       'show_pending_migrations_warning' => true,
+
+      # Show mismatched protocol/hostname warning
+      # in settings where they must differ this can be disabled
+      'show_setting_mismatch_warning' => true,
 
       # Render warning bars (pending migrations, deprecation, unsupported browsers)
       # Set to false to globally disable this for all users!

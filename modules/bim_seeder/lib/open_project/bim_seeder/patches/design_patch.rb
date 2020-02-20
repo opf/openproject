@@ -1,4 +1,4 @@
-require 'open_project/design'
+require 'open_project/custom_styles/design'
 
 module OpenProject::BimSeeder
   module Patches
@@ -14,7 +14,8 @@ module OpenProject::BimSeeder
           'main-menu-bg-color'                                   => "#0E2045",
           'main-menu-bg-selected-background'                     => "#3270DB",
           'main-menu-bg-hover-background'                        => "#163473",
-          'header-home-link-bg'                                  => '#{image-url("bim_seeder/logo_openproject_bim_big.png") no-repeat 20px 0}'
+          'header-home-link-bg'                                  => '#{image-url("bim_seeder/logo_openproject_bim_big.png") no-repeat 20px 0}',
+          'new-feature-teaser-image'                             => '#{image-url("bim_seeder/new_feature_teaser.jpg")}'
         }
       ).freeze
     end

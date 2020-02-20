@@ -1,5 +1,5 @@
 es:
-  export_to_excel: "Exportar como hoja de cálculo de Excel"
+  export_to_excel: "Exportar a XLS"
   print_with_description: "Vista previa de impresión con descripción"
   sentence_separator_or: "o bien"
   different_formats: Diferentes formatos

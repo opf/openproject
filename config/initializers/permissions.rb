@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,19 @@
 
 require 'open_project/access_control'
 
+def edit_project_hash
+  permissions = {
+    projects: %i[edit update custom_fields],
+    project_settings: [:show],
+    members: [:paginate_users]
+  }
+
+  ProjectSettingsHelper.project_settings_tabs.each do |node|
+    permissions["project_settings/#{node[:name]}"] = [:show]
+  end
+  permissions
+end
+
 OpenProject::AccessControl.map do |map|
   map.project_module nil, order: 100 do
     map.permission :view_project,
@@ -46,11 +59,7 @@ OpenProject::AccessControl.map do |map|
                    require: :loggedin
 
     map.permission :edit_project,
-                   {
-                     projects: %i[edit update custom_fields],
-                     project_settings: [:show],
-                     members: [:paginate_users]
-                   },
+                   edit_project_hash,
                    require: :member
 
     map.permission :select_project_modules,
@@ -67,7 +76,7 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :manage_versions,
                    {
-                     project_settings: [:show],
+                     "project_settings/versions": [:show],
                      versions: %i[new create edit update close_completed destroy]
                    },
                    require: :member
@@ -128,7 +137,7 @@ OpenProject::AccessControl.map do |map|
 
     # WorkPackage categories
     wpt.permission :manage_categories,
-                   { project_settings: [:show],
+                   { "project_settings/categories": [:show],
                      categories: %i[new create edit update destroy] },
                    require: :member
 
@@ -194,7 +203,7 @@ OpenProject::AccessControl.map do |map|
                     require: :loggedin
 
     time.permission :manage_project_activities,
-                    { project_enumerations: %i[update destroy] },
+                    { 'projects/time_entry_activities': %i[update] },
                     require: :member
   end
 

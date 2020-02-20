@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,8 @@ See docs/COPYRIGHT.rdoc for more details.
         data-locale="<%= I18n.locale %>"
         data-first-day-of-week="<%= locale_first_day_of_week %>"
         data-default-locale="<%= I18n.default_locale %>"
-        data-environment="<%= Rails.env %>"/>
+        data-environment="<%= Rails.env %>"
+        data-edition="<%= OpenProject::Configuration.edition %>"/>
   <meta name="current_menu_item" content="<%= current_menu_item %>"/>
   <% if Setting.demo_projects_available %><meta name="demo_projects_available" content="true"/><% end %>
   <% if Setting.boards_demo_data_available %><meta name="boards_demo_data_available" content="true"/><% end %>
@@ -118,6 +119,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </p>
   </div>
 </noscript>
+<notifications-container></notifications-container>
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
@@ -175,7 +177,6 @@ See docs/COPYRIGHT.rdoc for more details.
         </div>
       <% end %>
       <%= render_flash_messages %>
-      <notifications-container></notifications-container>
       <% if show_onboarding_modal? %>
         <section data-augmented-model-wrapper
                  data-modal-initialize-now="true"

@@ -1,5 +1,5 @@
 pl:
-  export_to_excel: "Wyeksportuj jako arkusz kalkulacyjny programu Excel"
+  export_to_excel: "Wyeksportuj XLS"
   print_with_description: "Podgląd wydruku z opisem"
   sentence_separator_or: "lub"
   different_formats: Odmienne formaty

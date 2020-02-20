@@ -22,3 +22,8 @@
     align-self: end
     &:before
       padding-left: 10px
+
+@include breakpoint(680px down)
+  .menu-blocks--container
+    grid-template: unset
+    grid-gap: 15px

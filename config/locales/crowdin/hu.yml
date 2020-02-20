@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ hu:
     plugins:
       no_results_title_text: Nem állnak rendelkezésre pluginek.
     custom_styles:
+      color_theme: "Színséma"
+      color_theme_custom: "(Egyéni)"
+      colors:
+        alternative-color: "Alternatíva"
+        content-link-color: "Link betűtípusa"
+        primary-color: "Elsődleges"
+        primary-color-dark: "Elsődleges (sötét)"
+        header-bg-color: "Fejléc háttér"
+        header-item-bg-hover-color: "Fejléc háttere, ha az egér rajta áll"
+        header-item-font-color: "Fejléc betűtípus"
+        header-item-font-hover-color: "Fejlés betűtípusa, ha az egér rajta áll"
+        header-border-bottom-color: "Fejléc kerete"
+        main-menu-bg-color: "Főmenü háttere"
+        main-menu-bg-selected-background: "Főmenü, ha ki van választva"
+        main-menu-bg-hover-background: "Főmenü, ha egér rajta"
+        main-menu-font-color: "Főmenü betűtipus"
+        main-menu-selected-font-color: "Főmenü betűtípusa, ha ki van választva"
+        main-menu-hover-font-color: "Főmenü betűtípusa, ha egér rajta"
+        main-menu-border-color: "Főmenü kerete"
       custom_colors: "Egyéni színek"
       customize: "Adjon meg saját logót az installált OpenProjecthez. Megjegyzés: Ez a logó nyilvánosan elérhető lesz."
       enterprise_notice: "Ez egy különleges \"Köszönöm!\" az OpenProject kifejlesztéséhez nyújtott pénzügyi hozzájárulásért, ami egy aprócska szolgáltatás a Vállalati Verziót használó előfizetők számára."
       manage_colors: "A színválasztás beállításainak módosítása"
       instructions:
-        alternative_color: "Erős akcentus színe, amelyet általában a képernyő fontos gombjához használnak."
-        content_link_color: "A legtöbb hivatkozás színe."
-        primary_color: "Fő szín."
-        primary_color_dark: "Általában az alap szín sötétebb verzióját használjuk a hover effekthez."
-        header_bg_color: "A fejléc háttérszíne."
-        header_item_bg_hover_color: "Kattintható fejléc háttérszíne egér hatására."
-        header_item_font_color: "Kattintható fejléc betűszíne."
-        header_item_font_hover_color: "Kattintható fejléc betűszíne egér hatására."
-        header_border_bottom_color: "Vékony vonal a fejléc alatt. Hagyja üresen, ha semmilyen vonalat nem szeretne."
-        main_menu_bg_color: "Baloldali menü háttérszíne."
+        alternative-color: "Kiemelt szín, tipikusan a képernyőn megjelenő legfontosabb gomb esetén."
+        content-link-color: "A legtöbb hivatkozás színe."
+        primary-color: "Fő szín."
+        primary-color-dark: "Általában az alap szín sötétebb verzióját használjuk a hover effekthez."
+        header-item-bg-hover-color: "Kattintható fejléc háttérszíne egér hatására."
+        header-item-font-color: "Kattintható fejléc betűszíne."
+        header-item-font-hover-color: "Kattintható fejléc betűszíne egér hatására."
+        header-border-bottom-color: "Vékony vonal a fejléc alatt. Hagyja üresen, ha semmilyen vonalat nem szeretne."
+        main-menu-bg-color: "Baloldali menü háttérszíne."
     enterprise:
       upgrade_to_ee: "Frissítés a Vállalati Verzióra"
       add_token: "Töltse fel a Vállalati Verzió támogatási tokenjét"
@@ -67,12 +85,12 @@ hu:
       no_results_content_text: Új autentikációs mód létrehozása
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      Ehhez az LDAP űrlaphoz az Ön LDAP / Acitive Directory beállításainak ismerete szükséges.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Részletes útmutatásért kérjük olvassa el a dokumentációt</a>.
     attribute_texts:
       name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
+      host: LDAP Kiszolgáló neve vagy IP címe
       login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
       generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
       admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
@@ -94,11 +112,10 @@ hu:
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
+    ldap_details: 'LDAP részletek'
     user_settings: 'Attribútum-leképezés'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      Az alábbi mezők a felhasználók létrehozásához kapcsolódnak LDAP bejegyzések alapján az OpenProject-ben, és ahhoz mely LDAP tulajdonságok lesznek felhasználva OpenProject felhasználó tulajdonságainak deffiniálásakor (tulajdonság társítás).
     tls_mode:
       plain: 'Egyik sem'
       simple_tls: 'Egyszerű_TLS'
@@ -321,7 +338,7 @@ hu:
         account: "Felhasználói fiók"
         attr_firstname: "Keresztnév attribútum"
         attr_lastname: "Vezetéknév attribútum"
-        attr_login: "Username attribute"
+        attr_login: "Felhasználónév attribútum"
         attr_mail: "Email attribútum"
         base_dn: "Base DN"
         host: "Host"
@@ -477,7 +494,7 @@ hu:
         could_not_be_copied: "nem lehet (teljesen) másolni."
         does_not_exist: "nem létezik."
         error_unauthorized: "lehet, hogy nem érhető el."
-        error_readonly: "was attempted to be written but is not writable."
+        error_readonly: "írása megkísérelve, de nem írható."
         empty: "nem lehet üres."
         even: "kell még."
         exclusion: "foglalt."
@@ -576,6 +593,10 @@ hu:
         role:
           permissions:
             dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "A  #%{id} feladatcsoport nem érvényes cél az idő bejegyzések ismételt hozzárendeléséhez."
           attributes:
@@ -707,7 +728,7 @@ hu:
     #kept for backwards compatibility
     issue: "Feladatcsoport"
     lastname: "Vezetéknév"
-    login: "Username"
+    login: "Felhasználónév"
     mail: "Email"
     name: "Név"
     password: "Jelszó"
@@ -725,6 +746,7 @@ hu:
     type: "Típus"
     updated_at: "Frissítve"
     updated_on: "Frissítve"
+    uploader: "Feltöltő"
     user: "Felhasználó"
     version: "Verzió"
     work_package: "Feladatcsoport"
@@ -1010,9 +1032,8 @@ hu:
         rename_groups: "Attribútum-csoportok átnevezése"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Tevékenységek (időkövetés)"
+  enumeration_activities: "Időnyilvántartási tevékenységek"
   enumeration_work_package_priorities: "Feladatcsoport fontosság"
-  enumeration_system_activity: "Rendszer tevékenység"
   enumeration_reported_project_statuses: "Projekt állapot beszámoló"
   error_auth_source_sso_failed: "Single Sign-On (SSO) a '%{value}' felhasználóval sikertelen"
   error_can_not_archive_project: "Ezt a projektet nem lehet archiválni: %{errors}"
@@ -1082,6 +1103,8 @@ hu:
       pdf_with_descriptions: "PDF leírásokkal"
       pdf_with_descriptions_and_attachments: "PDF leírásokkal és mellékletekkel"
       pdf_with_attachments: "PDF mellékletekkel"
+    image:
+      omitted: "Kép nem került exportálásra."
   extraction:
     available:
       pdftotext: "Pdftotext elérhető (opcionális)"
@@ -1662,15 +1685,19 @@ hu:
   label_workflow_plural: "A munkafolyamatok"
   label_workflow_summary: "Összegzés"
   label_x_closed_work_packages_abbr:
+    zero: "0 lezárt"
     one: "1 zárva"
     other: "%{count} zárva"
   label_x_comments:
+    zero: "nincsenek hozzászólások"
     one: "1 komment"
     other: "%{count} komment"
   label_x_open_work_packages_abbr:
+    zero: "0 nyitott"
     one: "1 nyitott"
     other: "%{count} nyitott"
   label_x_projects:
+    zero: "nincsenek projektek"
     one: "1 projekt"
     other: "%{count} projekt"
   label_year: "Év"
@@ -1921,7 +1948,7 @@ hu:
       title: Módosítsa a projekt azonosítóját
     archive:
       are_you_sure: "Biztosan szeretnéd arhiválni a projektet '%{name}'?"
-      archived: "Archived"
+      archived: "Archiválva"
   project_module_activity: "Tevékenység"
   project_module_forums: "Fórumok"
   project_module_calendar: "Naptár"
@@ -2214,7 +2241,7 @@ hu:
   text_destroy_with_associated: "További objektumok vannak hozzárendelve, a feladatcsoport(ok)hoz, amelyeket törölni kell. Ezek az objektumok a következők:"
   text_destroy_what_to_do: "Mit szeretne tenni?"
   text_diff_truncated: "... Ez a különbség csonkolva lett, mert meghaladja a maximálisan megjeleníthető méretet."
-  text_email_delivery_not_configured: "A beérkező email beállitások hiányoznak, az értesítések le vannak tiltva. Az SMTP-kiszolgáló konfigurálása a config/configuration.yml, és indítsa újra az alkalmazást, hogy érvényesítse az új  beállitásokat."
+  text_email_delivery_not_configured: "Email küldés nincs bekonfigurálva, és az értesítések ki vannak kapcsolva.\nÁllítsa be az SMTP szervert, hogy engedélyezze azokat."
   text_enumeration_category_reassign_to: "Újra hozzárendelve ehhez az értékhez:"
   text_enumeration_destroy_question: "%{count} objektum ehhez az értékhez van újra hozzárendelve."
   text_file_repository_writable: "A mellékletek könyvtára írható"
@@ -2227,8 +2254,8 @@ hu:
   text_work_package_category_destroy_question: "Egyes feladatcsoportok (%{count}) ehhez a kategóriához vannak társítva. Mit akarsz csinálni?"
   text_work_package_category_reassign_to: "A feladatcsoport ismételt hozzárendelése ehhez a kategóriához"
   text_work_package_updated: "feladatcsoport %{id} jelentés %{author} által készitve."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_added: "Hozzá lett adva megfigyelőként a %{id} munkacsomaghoz %{watcher_changer} által."
+  text_work_package_watcher_removed: "El lett távolítva a %{id} munkacsomag megfigyelői közül %{watcher_changer} által."
   text_work_packages_destroy_confirmation: "Biztosan törli a kijelölt feladatcsoportot?"
   text_work_packages_ref_in_commit_messages: "Viszonyítandó és elintézendő feladatcsoportok a véglegesítési üzenetekben"
   text_journal_added: "%{label} %{value} hozzáadva"
@@ -2508,6 +2535,17 @@ hu:
     Elérte a felhasználói korlátot. Nem aktiválhat további felhasználókat. Kérjük, <a href="%{upgrade_url}"> frissítse a licencét </a>, vagy blokkolja a további tagokat a felhasználók engedélyezéséhez.
   warning_user_limit_reached_instructions: >
     Elérte a felhasználói limitet (%{current}/%{max} aktív felhasználók). Kérjük, forduljon a sales@openproject.com címhez az Enterprise Edition licenc frissítésért és további felhasználók hozzáadásához.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protokol beállítási eltérés'
+      text_html: >
+        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+    hostname_mismatch:
+      title: 'Állomásnév beállítási eltérés'
+      text_html: >
+        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Menüpont"
   menu_item_setting: "Látható"
   wiki_menu_item_for: "Wikipage \"%{title}\" menüeleme"
@@ -2561,8 +2599,8 @@ hu:
         invalid_user_assigned_to_work_package: "A kiválasztott felhasználó '%{property}'-ként való beállítása nem engedélyezett ehhez a feladatcsoporthoz."
         start_date: "Kezdés dátuma nem állítható a szülő feladatcsoportokon."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "érvénytelen gzip: %{message}"
+        invalid_json: "érvénytelen json: %{message}"
     resources:
       schema: 'Séma'
   doorkeeper:
@@ -2625,7 +2663,7 @@ hu:
       wants_to_access_html: >
         This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
     scopes:
-      api_v3: "Full API v3 access"
+      api_v3: "Teljes API v2 hozzáférés"
       api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
     grants:
       created_date: "Approved on"

@@ -18,7 +18,7 @@ zh-CN:
     plural: Webhook
     resources:
       time_entry:
-        name: "Time entry"
+        name: "时间条目"
     outgoing:
       no_results_table: 尚未定义任何 Webhook。
       label_add_new: 添加新的 Webhook

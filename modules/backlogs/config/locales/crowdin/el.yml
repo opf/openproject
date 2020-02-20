@@ -1,17 +1,11 @@
 #-- copyright
-#OpenProject Backlogs Plugin
-#Copyright (C)2013-2014 the OpenProject Foundation (OPF)
-#Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
-#Copyright (C)2010-2011 friflaj
-#Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
-#Copyright (C)2009-2010 Mark Maglana
-#Copyright (C)2009 Joe Heck, Nate Lowrie
-#This program is free software; you can redistribute it and/or modify it under
-#the terms of the GNU General Public License version 3.
-#OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
-#The copyright follows:
-#Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
-#Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
 #as published by the Free Software Foundation; either version 2
@@ -23,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See doc/COPYRIGHT.rdoc for more details.
+#See docs/COPYRIGHT.rdoc for more details.
 #++
 #---
 el:
@@ -32,8 +26,8 @@ el:
       work_package:
         position: "Θέση"
         remaining_hours: "Υπολειπόμενες Ώρες"
-        remaining_time: "Υπολειπόμενες Ώρες"
-        story_points: "Story Points"
+        remaining_time: "Υπολειπόμενες ώρες"
+        story_points: "Πόντοι Ιστορίας"
         backlogs_work_package_type: "Τύπος backlog"
     errors:
       models:
@@ -52,11 +46,11 @@ el:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "πρέπει να είναι το ίδιο με την έκδοση ιστορίας του γονέα."
             parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
+              parent_child_relationship_across_projects: "δεν είναι έγκυρο επειδή το πακέτο εργασίας '%{work_package_name}' είναι μια εργασία backlog επομένως δεν μπορεί να έχει γονέα εκτός του τρέχοντος έργου."
   backlogs:
-    add_new_story: "New Story"
+    add_new_story: "Νέα Ιστορία"
     any: "οποιoδήποτε"
     backlog_settings: "Ρυθμίσεις backlog"
     burndown_graph: "Γράφημα Burndown"
@@ -65,47 +59,47 @@ el:
     close: "Κλείσιμο"
     column_width: "Πλάτος στήλης:"
     date: "Ημέρα"
-    definition_of_done: "Definition of Done"
+    definition_of_done: "Ορισμός των Ολοκληρωμένων"
     generating_chart: "Δημιουργία γραφήματος..."
     hours: "Ώρες"
     impediment: "Εμπόδιο"
-    label_versions_default_fold_state: "Show versions folded"
+    label_versions_default_fold_state: "Εμφάνιση συμπτυγμένων εκδόσεων"
     work_package_is_closed: "Το πακέτο εργασίας ολοκληρώνεται, όταν"
     label_is_done_status: "Η κατάσταση %{status_name} σημαίνει ολοκληρωμένη"
     no_burndown_data: "Δεν υπάρχουν διαθέσιμα δεδομένα burndown. Είναι απαραίτητο να έχετε ορίσει ημερομηνίες έναρξης και λήξης για το sprint."
-    points: "Σημεία"
-    positions_could_not_be_rebuilt: "Positions could not be rebuilt."
-    positions_rebuilt_successfully: "Positions rebuilt successfully."
+    points: "Πόντοι"
+    positions_could_not_be_rebuilt: "Οι θέσεις δεν ήταν δυνατό να ανοικοδομηθούν."
+    positions_rebuilt_successfully: "Οι θέσεις ξανακτίστηκαν επιτυχώς."
     properties: "Ιδιότητες"
     rebuild: "Ανοικοδόμηση"
-    rebuild_positions: "Rebuild positions"
-    remaining_hours: "Υπολειπόμενες Ώρες"
-    remaining_hours_ideal: "Remaining hours (ideal)"
-    show_burndown_chart: "Burndown Chart"
+    rebuild_positions: "Ανοικοδόμηση θέσεων"
+    remaining_hours: "Υπολειπόμενες ώρες"
+    remaining_hours_ideal: "Υπολοιπόμενες ώρες (ιδανικά)"
+    show_burndown_chart: "Διάγραμμα Burndown"
     story: "Ιστορία"
-    story_points: "Story Points"
-    story_points_ideal: "Story Points (ideal)"
-    task: "Καθήκον"
-    task_color: "Task color"
+    story_points: "Πόντοι Ιστορίας"
+    story_points_ideal: "Πόντοι Ιστορίας (ιδανικά)"
+    task: "Εργασία"
+    task_color: "Χρώμα εργασίας"
     unassigned: "Μη Αναθετημένο"
-    x_more: "%{count} περισσότερα..."
+    x_more: "%{count} ακόμα..."
   backlogs_active: "ενεργό"
   backlogs_any: "οποιoδήποτε"
   backlogs_card_specification: "Μέγεθος ετικέτας για εκτύπωση καρτών"
-  backlogs_inactive: "Project shows no activity"
+  backlogs_inactive: "Το έργο δεν φαίνεται να έχει δραστηριότητα"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Backlog προϊόντος"
   backlogs_product_backlog_is_empty: "Το backlog του προϊόντος είναι άδειο"
-  backlogs_product_backlog_unsized: "The top of the product backlog has unsized stories"
-  backlogs_sizing_inconsistent: "Story sizes vary against their estimates"
-  backlogs_sprint_notes_missing: "Closed sprints without retrospective/review notes"
-  backlogs_sprint_unestimated: "Closed or active sprints with unestimated stories"
-  backlogs_sprint_unsized: "Project has stories on active or recently closed sprints that were not sized"
+  backlogs_product_backlog_unsized: "Η κορυφή του backlog προϊόντων έχει μη εκτιμημένα μεγέθη ιστοριών"
+  backlogs_sizing_inconsistent: "Τα μεγέθη ιστοριών ποικίλλουν συγκριτικά με τις εκτιμήσεις τους"
+  backlogs_sprint_notes_missing: "Κλειστά sprints χωρίς αναδρομικές/αναθεωρημένες σημειώσεις"
+  backlogs_sprint_unestimated: "Κλειστά ή ενεργά sprints με μη εκτιμημένες ιστορίες"
+  backlogs_sprint_unsized: "Το έργο έχει ιστορίες σε sprints που είναι ενεργά ή που έκλεισαν πρόσφατα οι οποίες δεν έχουν εκτιμημένο μέγεθος"
   backlogs_sprints: "Sprints"
   backlogs_story: "Ιστορία"
-  backlogs_story_type: "Story types"
-  backlogs_task: "Καθήκον"
-  backlogs_task_type: "Task type"
+  backlogs_story_type: "Τύποι ιστορίας"
+  backlogs_task: "Εργασία"
+  backlogs_task_type: "Τύπος εργασίας"
   backlogs_velocity_missing: "Δεν ήταν δυνατός ο υπολογισμός ταχύτητας για αυτό το έργο"
   backlogs_velocity_varies: "Η ταχύτητα διαφέρει σημαντικά σε σχέση με τα sprints"
   backlogs_wiki_template: "Πρότυπο για τη σελίδα wiki του sprint"
@@ -113,60 +107,60 @@ el:
   backlogs_empty_action_text: "Για να ξεκινήσετε με τα backlogs, δημιουργήστε μια καινούργια έκδοση και αναθέστε την σε μια στήλη backlog."
   button_edit_wiki: "Επεξεργασία σελίδας wiki"
   error_intro_plural: "Παρουσιάστηκαν τα ακόλουθα σφάλματα:"
-  error_intro_singular: "The following error was encountered:"
-  error_outro: "Please correct the above errors before submitting again."
+  error_intro_singular: "Συναντήθηκε το ακόλουθο σφάλμα:"
+  error_outro: "Παρακαλούμε διορθώστε τα παραπάνω σφάλματα πριν το ξαναυποβάλλετε."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
   event_sprint_summary: "%{project}: %{summary}"
-  ideal: "ideal"
-  inclusion: "is not included in the list"
-  label_back_to_project: "Back to project page"
+  ideal: "ιδανικό"
+  inclusion: "δεν συμπεριλαμβάνεται στη λίστα"
+  label_back_to_project: "Επιστροφή στη σελίδα έργου"
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
-  label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
+  label_backlogs_unconfigured: "Δεν έχετε διαμορφώσει τα Backlogs ακόμη. Παρακαλούμε πηγαίνετε στο %{administration} > %{plugins}, έπειτα κάντε κλικ στον σύνδεσμο %{configure} για αυτό το πρόσθετο. Μόλις έχετε ορίσει τα πεδία, επιστρέψτε σε αυτή την σελίδα για να αρχίσετε να χρησιμοποιείτε το εργαλείο."
   label_blocks_ids: "Ταυτότητες μπλοκαρισμένων πακέτων εργασίας"
   label_burndown: "Burndown"
-  label_column_in_backlog: "Column in backlog"
-  label_hours: "hours"
-  label_work_package_hierarchy: "Work package Hierarchy"
-  label_master_backlog: "Master Backlog"
-  label_not_prioritized: "not prioritized"
-  label_points: "points"
-  label_points_burn_down: "Down"
+  label_column_in_backlog: "Στήλη στο backlog"
+  label_hours: "ώρες"
+  label_work_package_hierarchy: "Ιεραρχία πακέτου εργασίας"
+  label_master_backlog: "Κύριο Backlog"
+  label_not_prioritized: "δεν έχει προτεραιότητα"
+  label_points: "πόντοι"
+  label_points_burn_down: "Κάτω"
   label_points_burn_up: "Πάνω"
-  label_product_backlog: "product backlog"
-  label_select_all: "Select all"
+  label_product_backlog: "backlog προϊόντος"
+  label_select_all: "Επιλογή όλων"
   label_sprint_backlog: "sprint backlog"
-  label_sprint_cards: "Export cards"
-  label_sprint_impediments: "Sprint Impediments"
+  label_sprint_cards: "Εξαγωγή καρτών"
+  label_sprint_impediments: "Εμπόδια Sprint"
   label_sprint_name: "Sprint \"%{name}\""
-  label_sprint_velocity: "Velocity %{velocity}, based on %{sprints} sprints with an average %{days} days"
-  label_stories: "Stories"
-  label_stories_tasks: "Stories/Tasks"
-  label_task_board: "Task board"
+  label_sprint_velocity: "Ταχύτητα %{velocity}, με βάση τα %{sprints} sprints με μέσο όρο %{days} ημέρες"
+  label_stories: "Ιστορίες"
+  label_stories_tasks: "Ιστορίες/Εργασίες"
+  label_task_board: "Πίνακας εργασιών"
   label_version_setting: "Εκδόσεις"
   label_version: 'Έκδοση'
   label_webcal: "Τροφοδοσία Webcal"
   label_wiki: "Wiki"
-  permission_view_master_backlog: "View master backlog"
-  permission_view_taskboards: "View taskboards"
+  permission_view_master_backlog: "Εμφάνιση του κύριου backlog"
+  permission_view_taskboards: "Εμφάνιση πινάκων εργασίας"
   permission_update_sprints: "Ενημέρωση των sprints"
-  points_accepted: "points accepted"
-  points_committed: "points committed"
-  points_resolved: "points resolved"
-  points_to_accept: "points not accepted"
-  points_to_resolve: "points not resolved"
+  points_accepted: "πόντοι που έγιναν αποδεκτοί"
+  points_committed: "πόντοι που δεσμεύτηκαν"
+  points_resolved: "πόντοι που επιλύθηκαν"
+  points_to_accept: "πόντοι που δεν έγιναν αποδεκτοί"
+  points_to_resolve: "πόντοι που δεν επιλύθηκαν"
   project_module_backlogs: "Backlogs"
   rb_label_copy_tasks: "Αντιγραφή πακέτων εργασίας"
   rb_label_copy_tasks_all: "Όλα"
   rb_label_copy_tasks_none: "Κανένα"
   rb_label_copy_tasks_open: "Ανοιχτό"
-  rb_label_link_to_original: "Include link to original story"
+  rb_label_link_to_original: "Συμπερίληψη συνδέσμου για την αρχική ιστορία"
   remaining_hours: "υπολειπόμενες ώρες"
-  required_burn_rate_hours: "required burn rate (hours)"
-  required_burn_rate_points: "required burn rate (points)"
+  required_burn_rate_hours: "απαιτούμενο burn rate (ώρες)"
+  required_burn_rate_points: "απαιτούμενο burn rate (πόντοι)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"
-  version_settings_display_label: "Column in backlog"
+  version_settings_display_label: "Στήλη στο backlog"
   version_settings_display_option_left: "αριστερά"
   version_settings_display_option_none: "κανένα"
   version_settings_display_option_right: "δεξιά"

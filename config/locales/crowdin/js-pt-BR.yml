@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ pt-BR:
         inline: 'Destacar embutido:'
         entire_card_by: 'Todo cartão por'
       remove_from_list: 'Remover cartão da lista'
+    caption_rate_history: "Taxa histórica"
     clipboard:
       browser_error: "Seu navegador não suporta copiar para a área de transferência. Por favor, copie o texto selecionado manualmente."
       copied_successful: "Copiado com sucesso para área de transferência!"
@@ -170,6 +171,9 @@ pt-BR:
       cannot_save_changes_with_message: "Não foi possível salvar as alterações devido ao seguinte erro: %{error}"
       query_saving: "A visão não pode ser salva."
       embedded_table_loading: "A visão incorporada não pôde ser carregada: %{message}"
+    enumeration_activities: "Atividades (controle de tempo)"
+    enumeration_doc_categories: "Categorias de documento"
+    enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
     filter:
       description:
         text_open_filter: "Abra este filtro com a tecla 'ALT' e as teclas de seta."
@@ -191,6 +195,7 @@ pt-BR:
     general_text_yes: "sim"
     general_text_No: "Não"
     general_text_Yes: "Sim"
+    global_roles: Papéis globais
     hal:
       error:
         update_conflict_refresh: "Clique aqui para atualizar para a versão mais recente."
@@ -202,8 +207,15 @@ pt-BR:
       blocks:
         new_features:
           text_new_features: "Ler sobre os novos recursos e atualizações de produtos."
-          current_new_feature_html: "OpenProject contém uma nova <b>Página de visão geral</b> para <b>exibir informações importantes do projeto</b> e mostrar se ele está sob controle. </br> Você pode inserir vários novos widgets de estado, como: <ul><li>estado do projeto,</li> <li>visão geral do estado do pacote de trabalho,</li> <li>progresso da tarefa,</li> <li>tarefas atribuídas a usuários.</li></ul>"
-          learn_about: "Saiba mais sobre os novos widgets de estado"
+          learn_about: "Saiba mais sobre os novos recursos"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              O lançamento contém vários recursos e melhorias novos: <br><br> <ul> <li><b>Modelos de design</b> padrão para selecionar um tema claro ou escuro (recurso premium).</li> <li>Novo <b>widget de controle de tempo</b> para que a <i>Minha página</i> mostre o tempo gasto em um gráfico de barras.</li> <li><b>Exportações em XLS para relatórios de custos</b> e texto formatado em exportação de PDF dos pacotes de trabalho.</li> <li><b>Melhorias no design e na usabilidade</b>, como por exemplo nas abas e muito mais nas configurações de projeto e na administração.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              O OpenProject contém um <b>novo módulo IFC para integrar modelos 3D</b> em seu aplicativo de gestão de projeto, e para trabalhar em colaboração com a sua equipe sem instalar outros softwares ou licenças. <br><br> <ul> <li><b>Importe arquivos IFC</b> de modelos de construção para seu aplicativo OpenProject.</li> <li><b>Abra modelos Open 3D e visualize modelos de construção</b> em seu navegador.</li> <li><b>Trabalhe com vários arquivos IFC</b> facilmente com sua equipe no OpenProject, sem ter de instalar outros programas caros. </li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"
@@ -221,6 +233,7 @@ pt-BR:
     label_and: "e"
     label_ascending: "Ascendente"
     label_author: "Autor: %{user}"
+    label_avatar: "Imagem do perfil"
     label_between: "entre"
     label_board: "Quadro"
     label_board_locked: "Bloqueado"
@@ -234,6 +247,8 @@ pt-BR:
     label_deactivate: "Desativado"
     label_descending: "Decrescente"
     label_description: "Descrição"
+    label_details: "Detalhes"
+    label_display: "Display"
     label_cancel_comment: "Cancelar comentário"
     label_closed_work_packages: "fechado"
     label_collapse: "Recolher"
@@ -254,22 +269,29 @@ pt-BR:
     label_export: "Exportar"
     label_filename: "Arquivo"
     label_filesize: "Tamanho"
+    label_general: "Geral"
     label_greater_or_equal: ">="
     label_group: 'Grupo'
     label_group_by: "Agrupar por"
+    label_group_plural: "Grupos"
     label_hide_attributes: "Mostrar Menos"
     label_hide_column: "Ocultar coluna"
     label_hide_project_menu: "Recolher menu do projeto"
     label_in: "em"
     label_in_less_than: "em menos de"
     label_in_more_than: "em mais de"
+    label_incoming_emails: "E-mails recebidos"
+    label_information_plural: "Informações"
     label_import: "Importar"
     label_latest_activity: "Última atividade"
     label_last_updated_on: "Última atualização em"
     label_less_or_equal: "<="
     label_less_than_ago: "menos dias atrás"
     label_loading: "Carregando..."
+    label_mail_notification: "Notificações por e-mail"
     label_me: "eu"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Atas"
     label_menu_collapse: "recolher"
     label_menu_expand: "expandir"
     label_more_than_ago: "mais do que dias atrás"
@@ -290,12 +312,16 @@ pt-BR:
     label_previous: "Anterior"
     label_per_page: "Por página:"
     label_please_wait: "Por favor, aguarde"
+    label_project_plural: "Projetos"
     label_visibility_settings: "Configurações de visibilidade"
     label_quote_comment: "Citar este comentário"
+    label_recent: "Recente"
     label_reset: "Reiniciar"
     label_remove_column: "Remover coluna"
     label_remove_columns: "Remover colunas selecionadas"
     label_remove_row: "Remover linha"
+    label_report: "Relatório"
+    label_repository_plural: "Repositórios"
     label_save_as: "Salvar como"
     label_select_watcher: "Selecione um observador..."
     label_selected_filter_list: "Filtros selecionados"
@@ -306,6 +332,7 @@ pt-BR:
     label_sort_higher: "Mover para cima"
     label_sort_lower: "Mover para baixo"
     label_sorting: "Ordenação"
+    label_spent_time: "Tempo gasto"
     label_star_query: "Favorecido"
     label_press_enter_to_save: "Pressione enter para salvar."
     label_public_query: "Público"
@@ -314,7 +341,9 @@ pt-BR:
     label_subject: "Assunto"
     label_this_week: "esta semana"
     label_today: "hoje"
+    label_time_entry_plural: "Tempo gasto"
     label_up: "Acima"
+    label_user_plural: "Usuários"
     label_activity_show_only_comments: "Mostrar somente as atividades com comentários"
     label_activity_show_all: "Mostrar todas as atividades"
     label_total_progress: "%{percent}% Total de progresso"
@@ -356,6 +385,7 @@ pt-BR:
     label_wait: "Por favor, aguarde pela configuração..."
     label_upload_counter: "%{done} de %{count} de arquivos finalizados"
     label_validation_error: "O pacote de trabalho não pôde ser salvo devido aos seguintes erros:"
+    label_version_plural: "Versões"
     label_view_has_changed: "Esta visão tem alterações não salvas. Clique para salvá-las."
     help_texts:
       show_modal: 'Mostrar entrada para o texto de ajuda de atributos'
@@ -422,23 +452,22 @@ pt-BR:
         upgrade_to_ee_text: "Uau! Se você precisa deste recurso... você é um super profissional! Você se importaria de apoiar desenvolvedores de código aberto, tornando-se um cliente da versão Enterprise Edition?"
         more_information: "Mais informações"
         nevermind: "Deixa pra lá"
-        filter_types:
-          parent: "sendo filho de"
-          precedes: "anterior"
-          follows: "posterior"
-          relates: "relativo a"
-          duplicates: "duplicando"
-          duplicated: "Duplicado por"
-          blocks: "bloqueando"
-          blocked: "Bloqueado por"
-          partof: "sendo parte de"
-          includes: "incluindo"
-          requires: "exigindo"
-          required: "exigido por"
+      edit:
+        form_configuration: "Configuração do formulário"
+        projects: "Projetos"
+        settings: "Configurações"
     time_entry:
+      project: 'Projeto'
+      work_package: 'Pacote de trabalho'
+      work_package_required: 'É necessário selecionar primeiro um pacote de trabalho.'
       activity: 'Atividade'
       comment: 'Comentário'
+      duration: 'Duração'
+      spent_on: 'Data'
       hours: 'horas'
+      label: 'Entrada de tempo'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Autenticação de dois fatores'
     watchers:
       label_loading: carregando observadores...
       label_error_loading: Ocorreu um erro ao carregar os observadores
@@ -498,12 +527,14 @@ pt-BR:
     field_value_enter_prompt: "Insira um valor para '%{field}'"
     select2:
       input_too_short:
+        zero: "Por favor, insira mais caracteres"
         one: "Por favor, insira mais um caracter"
         other: "Por favor, insira {{count}} ou mais caracteres"
       load_more: "Carregando mais resultados..."
       no_matches: "Encontrado nenhum resultado"
       searching: "Pesquisando ..."
       selection_too_big:
+        zero: "Você não pode selecionar nenhum item"
         one: "Você pode selecionar somente um item"
         other: "Você pode selecionar somente {{limit}} itens"
     project_menu_details: "Detalhes"
@@ -756,8 +787,7 @@ pt-BR:
           relation_columns: 'Necessário ver as relações na lista de pacote de trabalho?'
           check_out_link: 'Confira a versão Enterprise Edition.'
         relation_filters:
-          first_part: "Exibir todos os pacotes de trabalho"
-          second_part: "o pacote de trabalho atual"
+          filter_work_packages_by_relation_type: 'Filtrar pacotes de trabalho por tipo de relação'
       tabs:
         overview: Visão geral
         activity: Atividade
@@ -843,6 +873,7 @@ pt-BR:
         one: "um pacote de trabalho filho"
         other: "%{count} pacotes de trabalho filhos"
       hour:
+        zero: "0 h"
         one: "1 h"
         other: "%{count} hs"
     zen_mode:

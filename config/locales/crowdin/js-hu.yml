@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ hu:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Díj előzmények"
     clipboard:
       browser_error: "A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja a kijelölt szöveget manuálisan."
       copied_successful: "A vágólapra másolás sikeres!"
@@ -170,6 +171,9 @@ hu:
       cannot_save_changes_with_message: "A következő hiba miatt nem sikerült menteni a módosításokat: %{error}"
       query_saving: "A nézetet nem sikerült menteni."
       embedded_table_loading: "A beágyazott nézet betöltése nem sikerült: %{message}"
+    enumeration_activities: "Tevékenységek (időkövetés)"
+    enumeration_doc_categories: "Dokumentum kategóriák"
+    enumeration_work_package_priorities: "Feladatcsoport fontosság"
     filter:
       description:
         text_open_filter: "A szűrő megnyitásához nyomja meg az \"ALT\" és a nyíl gombokat."
@@ -191,6 +195,7 @@ hu:
     general_text_yes: "igen"
     general_text_No: "Nem"
     general_text_Yes: "Igen"
+    global_roles: Globális szerepek
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -202,8 +207,15 @@ hu:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Aktivál"
     label_add_column_after: "Oszlop hozzáadása utána"
     label_add_column_before: "Oszlop hozzáadása előtte"
@@ -221,6 +233,7 @@ hu:
     label_and: "és"
     label_ascending: "Növekvő"
     label_author: "Szerző: %{user}"
+    label_avatar: "Avatar"
     label_between: "között"
     label_board: "Board"
     label_board_locked: "Zárolt"
@@ -234,6 +247,8 @@ hu:
     label_deactivate: "Kikapcsol"
     label_descending: "Csökkenő"
     label_description: "Leírás"
+    label_details: "Részletek"
+    label_display: "Megjelenítés"
     label_cancel_comment: "Megjegyzés törlése"
     label_closed_work_packages: "lezárt"
     label_collapse: "Collapse"
@@ -254,22 +269,29 @@ hu:
     label_export: "Exportálás"
     label_filename: "Fájl"
     label_filesize: "Méret"
+    label_general: "Általános"
     label_greater_or_equal: ">="
     label_group: 'Csoport'
     label_group_by: "Csoportosítás"
+    label_group_plural: "Csoportok"
     label_hide_attributes: "Kevesebb mutatása"
     label_hide_column: "Oszlop elrejtése"
     label_hide_project_menu: "Projekt menü összecsukás"
     label_in: "in"
     label_in_less_than: "kevesebb, mint"
     label_in_more_than: "több mint"
+    label_incoming_emails: "Bejövő e-mailek"
+    label_information_plural: "Információk"
     label_import: "Importálás"
     label_latest_activity: "Utolsó aktivitás"
     label_last_updated_on: "Utolsó frissítés"
     label_less_or_equal: "<="
     label_less_than_ago: "kevesebb, nappal ezelött"
     label_loading: "Betöltés..."
+    label_mail_notification: "Email értesítés"
     label_me: "Nekem"
+    label_meeting_agenda: "Napirend"
+    label_meeting_minutes: "Jegyzőkönyv"
     label_menu_collapse: "összecsuk"
     label_menu_expand: "kibont"
     label_more_than_ago: "több, nappal ezelőtt"
@@ -290,12 +312,16 @@ hu:
     label_previous: "Korábbi"
     label_per_page: "Oldalanként:"
     label_please_wait: "Kérem várjon"
+    label_project_plural: "Projektek"
     label_visibility_settings: "Láthatósági beállítások"
     label_quote_comment: "Hozzászólás idézése"
+    label_recent: "Recent"
     label_reset: "Visszaállít, reset"
     label_remove_column: "Oszlop eltávolítása"
     label_remove_columns: "Eltávolítja a kijelölt oszlopokat"
     label_remove_row: "Sor eltávolítása"
+    label_report: "Jelentés"
+    label_repository_plural: "Csomagtárolók"
     label_save_as: "Mentés másként"
     label_select_watcher: "Megfigyelők választása..."
     label_selected_filter_list: "Szűrők választása"
@@ -306,6 +332,7 @@ hu:
     label_sort_higher: "Mozgatás felfelé"
     label_sort_lower: "Mozgás lefelé"
     label_sorting: "Rendezés"
+    label_spent_time: "Eltöltött idő"
     label_star_query: "Kedvenc"
     label_press_enter_to_save: "Nyomjon Entert a mentéshez"
     label_public_query: "Nyilvános"
@@ -314,7 +341,9 @@ hu:
     label_subject: "Tárgy"
     label_this_week: "ezen a héten"
     label_today: "Ma"
+    label_time_entry_plural: "Eltöltött idő"
     label_up: "Fel"
+    label_user_plural: "Felhasználók"
     label_activity_show_only_comments: "Hozzászólással rendelkező tevékenységek mutatása"
     label_activity_show_all: "Minden tevékenység mutatása"
     label_total_progress: "%{percent}% a teljes folyamatban"
@@ -356,6 +385,7 @@ hu:
     label_wait: "Kérem, várjon a konfigurációra..."
     label_upload_counter: "%{done}/%{count} fájl feltöltve"
     label_validation_error: "A feladatcsoport a következő hibák miatt nem menthető:"
+    label_version_plural: "Verzió"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Attribútum-súgószöveg mutatása'
@@ -422,23 +452,22 @@ hu:
         upgrade_to_ee_text: "Hűha! Ha erre a funkcióra szükséged van, profi vagy! Támogatna minket, \"nyiltforrású\" fejlesztőket azzal, hogy Enterprise Edition ügyfelünk legyen?"
         more_information: "További információ"
         nevermind: "Mindegy"
-        filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
-          duplicated: "Ismétlődések szerint"
-          blocks: "blocking"
-          blocked: "Blokkolta"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projektek"
+        settings: "Beállítások"
     time_entry:
+      project: 'Projekt'
+      work_package: 'Feladatcsoport'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Tevékenység'
       comment: 'Vélemény'
+      duration: 'Időtartam'
+      spent_on: 'dátum'
       hours: 'órák'
+      label: 'Time entry'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Two-factor authentication'
     watchers:
       label_loading: megfigyelők betöltése...
       label_error_loading: Hiba történt a megfigyelők betöltése közben
@@ -498,12 +527,14 @@ hu:
     field_value_enter_prompt: "Adja meg az értéket a %{field} mezőhöz"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Kérjük, adjon meg egy további karaktert"
         other: "Kérjük, adjon meg {{count}} karaktert"
       load_more: "További eredmények betöltése..."
       no_matches: "Nincs találat"
       searching: "Keresés ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Csak egy elem választható"
         other: "Csak {{limit}} elem választható"
     project_menu_details: "Részletek"
@@ -756,8 +787,7 @@ hu:
           relation_columns: 'Szeretné látni a munkacsomag kapcsolatait?'
           check_out_link: 'Tekintse meg az Enterprise Edition-t!'
         relation_filters:
-          first_part: "Show all work packages"
-          second_part: "the current work package"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Áttekintés
         activity: Tevékenység
@@ -843,8 +873,9 @@ hu:
         one: "egy gyermek munkacsomag"
         other: "%{count} gyermek feladatcsoport"
       hour:
+        zero: "0 h"
         one: "1 h"
-        other: "%{count} h"
+        other: "%{count} ó"
     zen_mode:
       button_activate: 'Zen mód aktiválása'
       button_deactivate: 'Zen mód kikapcsolása'

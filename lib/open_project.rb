@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ require 'open_project/custom_field_format'
 require 'open_project/logging/log_delegator'
 require 'redmine/mime_type'
 require 'redmine/core_ext'
-require 'open_project/design'
+require 'open_project/custom_styles/design'
 require 'redmine/hook'
 require 'open_project/hooks'
 require 'redmine/plugin'

@@ -1,20 +1,13 @@
 #-- copyright
-# OpenProject Backlogs Plugin
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
-# Copyright (C)2013-2014 the OpenProject Foundation (OPF)
-# Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
-# Copyright (C)2010-2011 friflaj
-# Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
-# Copyright (C)2009-2010 Mark Maglana
-# Copyright (C)2009 Joe Heck, Nate Lowrie
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
 #
-# This program is free software; you can redistribute it and/or modify it under
-# the terms of the GNU General Public License version 3.
-#
-# OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
-# The copyright follows:
-# Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
-# Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -30,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module OpenProject::Backlogs::Patches::UpdateAncestorsServicePatch
@@ -43,14 +36,14 @@ module OpenProject::Backlogs::Patches::UpdateAncestorsServicePatch
 
     ##
     # Overrides method in original UpdateAncestorsService.
-    def inherit_from_leaves(ancestor:, leaves:, attributes:)
+    def inherit_attributes(ancestor, attributes)
       super
 
-      inherit_remaining_hours ancestor, leaves if inherit? attributes, :remaining_hours
+      inherit_remaining_hours(ancestor) if inherit?(attributes, :remaining_hours)
     end
 
-    def inherit_remaining_hours(ancestor, leaves)
-      ancestor.remaining_hours = all_remaining_hours(leaves).sum.to_f
+    def inherit_remaining_hours(ancestor)
+      ancestor.remaining_hours = all_remaining_hours(leaves_for_work_package(ancestor)).sum.to_f
       ancestor.remaining_hours = nil if ancestor.remaining_hours == 0.0
     end
 
@@ -58,12 +51,11 @@ module OpenProject::Backlogs::Patches::UpdateAncestorsServicePatch
       work_packages.map(&:remaining_hours).reject { |hours| hours.to_f.zero? }
     end
 
-
     def attributes_justify_inheritance?(attributes)
       super || attributes.include?(:remaining_hours)
     end
 
-    def selected_leaf_attributes
+    def selected_leaves_attributes
       super + [:remaining_hours]
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,23 +37,21 @@ describe 'form query configuration', type: :feature, js: true do
   let(:other_project) { FactoryBot.create :project, types: [type_task] }
   let!(:work_package) do
     FactoryBot.create :work_package,
-                      project: project,
-                      type: type_bug
+                      new_relation.merge(
+                        project: project,
+                        type: type_bug
+                      )
   end
-  let(:wp_relation_type) { :parent }
+  let(:wp_relation_type) { :children }
   let(:frontend_relation_type) { wp_relation_type }
-  let(:relation_target) { work_package }
+  let(:relation_target) { related_task }
   let(:new_relation) do
     relation = Hash.new
-    relation[wp_relation_type] = relation_target
+    relation[wp_relation_type] = [related_bug, related_task, related_task_other_project]
     relation
   end
   let!(:related_task) do
-    FactoryBot.create :work_package,
-                      new_relation.merge(
-                        project: project,
-                        type: type_task
-                      )
+    FactoryBot.create :work_package, project: project, type: type_task
   end
   let!(:unrelated_task) do
     FactoryBot.create :work_package, subject: 'Unrelated task', type: type_task, project: project
@@ -62,18 +60,10 @@ describe 'form query configuration', type: :feature, js: true do
     FactoryBot.create :work_package, subject: 'Unrelated bug', type: type_bug, project: project
   end
   let!(:related_task_other_project) do
-    FactoryBot.create :work_package,
-                      new_relation.merge(
-                        project: other_project,
-                        type: type_task
-                      )
+    FactoryBot.create :work_package, project: other_project, type: type_task
   end
   let!(:related_bug) do
-    FactoryBot.create :work_package,
-                      new_relation.merge(
-                        project: project,
-                        type: type_bug
-                      )
+    FactoryBot.create :work_package, project: project, type: type_bug
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -91,18 +81,18 @@ describe 'form query configuration', type: :feature, js: true do
     end
 
     it 'can save an empty query group' do
-      form.add_query_group('Empty test', :parent)
+      form.add_query_group('Empty test', :children)
       form.save_changes
       expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
       type_bug.reload
 
-      query_group = type_bug.attribute_groups.detect{ |x| x.is_a?(Type::QueryGroup) }
+      query_group = type_bug.attribute_groups.detect { |x| x.is_a?(Type::QueryGroup) }
       expect(query_group.attributes).to be_kind_of(::Query)
       expect(query_group.key).to eq('Empty test')
     end
 
     it 'loads the children from the table split view (Regression #28490)' do
-      form.add_query_group('Subtasks', :parent)
+      form.add_query_group('Subtasks', :children)
       # Save changed query
       form.save_changes
       expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
@@ -129,7 +119,7 @@ describe 'form query configuration', type: :feature, js: true do
       let(:wp_page) { Pages::FullWorkPackageCreate.new }
 
       it 'does not show a subgroup (Regression #29582)' do
-        form.add_query_group('Subtasks', :parent)
+        form.add_query_group('Subtasks', :children)
         # Save changed query
         form.save_changes
         expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
@@ -143,7 +133,7 @@ describe 'form query configuration', type: :feature, js: true do
     end
 
     it 'can modify and keep changed columns (Regression #27604)' do
-      form.add_query_group('Columns Test', :parent)
+      form.add_query_group('Columns Test', :children)
       form.edit_query_group('Columns Test')
 
       # Restrict filters to type_task
@@ -166,7 +156,7 @@ describe 'form query configuration', type: :feature, js: true do
       column_names = query.attributes.columns.map(&:name).sort
       expect(column_names).to eq %i[id subject]
 
-      form.add_query_group('Second query', :parent)
+      form.add_query_group('Second query', :children)
       form.edit_query_group('Second query')
 
       # Restrict filters to type_task

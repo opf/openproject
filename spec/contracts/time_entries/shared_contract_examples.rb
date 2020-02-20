@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,17 +46,60 @@ shared_examples_for 'time entry contract' do
   end
   let(:time_entry_project) { FactoryBot.build_stubbed(:project) }
   let(:time_entry_user) { current_user }
-  let(:time_entry_activity) { FactoryBot.build_stubbed(:time_entry_activity) }
+  let(:time_entry_activity) do
+    FactoryBot.build_stubbed(:time_entry_activity)
+  end
+  let(:time_entry_activity_active) { true }
   let(:time_entry_spent_on) { Date.today }
   let(:time_entry_hours) { 5 }
   let(:time_entry_comments) { "A comment" }
   let(:work_package_visible) { true }
+  let(:time_entry_day_sum) { 5 }
+  let(:activities_scope) do
+    scope = double('activities')
+
+    if (time_entry_activity)
+      allow(scope)
+        .to receive(:exists?)
+        .with(time_entry_activity.id)
+        .and_return(time_entry_activity_active)
+    end
+
+    scope
+  end
 
   before do
-    allow(time_entry_work_package)
-      .to receive(:visible?)
-      .with(current_user)
-      .and_return(work_package_visible)
+    if time_entry_work_package
+      allow(time_entry_work_package)
+        .to receive(:visible?)
+        .with(current_user)
+        .and_return(work_package_visible)
+    end
+
+    allow(TimeEntryActivity::Scopes::ActiveInProject)
+      .to receive(:fetch)
+      .and_return(TimeEntryActivity.none)
+
+    of_user_and_day_scope = double('of_user_and_day_scope')
+
+    allow(TimeEntry::Scopes::OfUserAndDay)
+      .to receive(:fetch)
+      .and_return(TimeEntry.none)
+
+    allow(TimeEntry::Scopes::OfUserAndDay)
+      .to receive(:fetch)
+      .with(time_entry.user, time_entry_spent_on, excluding: time_entry)
+      .and_return(of_user_and_day_scope)
+
+    allow(of_user_and_day_scope)
+      .to receive(:sum)
+      .with(:hours)
+      .and_return(time_entry_day_sum)
+
+    allow(TimeEntryActivity::Scopes::ActiveInProject)
+      .to receive(:fetch)
+      .with(time_entry_project)
+      .and_return(activities_scope)
   end
 
   def expect_valid(valid, symbols = {})
@@ -83,6 +126,12 @@ shared_examples_for 'time entry contract' do
     end
   end
 
+  context 'when the work_package is nil' do
+    let(:time_entry_work_package) { nil }
+
+    it_behaves_like 'is valid'
+  end
+
   context 'when the project is nil' do
     let(:time_entry_project) { nil }
 
@@ -96,6 +145,14 @@ shared_examples_for 'time entry contract' do
 
     it 'is invalid' do
       expect_valid(false, activity_id: %i(blank))
+    end
+  end
+
+  context 'if the activity is disabled in the project' do
+    let(:time_entry_activity_active) { false }
+
+    it 'is invalid' do
+      expect_valid(false, activity_id: %i(inclusion))
     end
   end
 
@@ -143,5 +200,31 @@ shared_examples_for 'time entry contract' do
     let(:time_entry_comments) { nil }
 
     it_behaves_like 'is valid'
+  end
+
+  context 'if more than 24 hours are booked for a day' do
+    let(:time_entry_day_sum) { 24 - time_entry_hours + 1 }
+
+    it 'is invalid' do
+      expect_valid(false, hours: %i(day_limit))
+    end
+  end
+
+  describe 'assignable_activities' do
+    context 'if no project is set' do
+      let(:time_entry_project) { nil }
+
+      it 'is empty' do
+        expect(contract.assignable_activities)
+          .to be_empty
+      end
+    end
+
+    context 'if a project is set' do
+      it 'returns all activities active in the project' do
+        expect(contract.assignable_activities)
+          .to eql activities_scope
+      end
+    end
   end
 end

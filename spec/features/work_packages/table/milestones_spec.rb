@@ -39,13 +39,12 @@ describe 'Inline editing milestones', js: true do
     start_date.expect_active!
     due_date.expect_inactive!
 
-    # Open both dates
+    # Open second date, closese first
     due_date.activate!
-    start_date.expect_active!
+    start_date.expect_inactive!
     due_date.expect_active!
 
-    # Close both with escape
-    start_date.cancel_by_escape
+    # Close with escape
     due_date.cancel_by_escape
 
     start_date.expect_inactive!

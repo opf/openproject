@@ -41,6 +41,7 @@
     text-decoration: none
     &:hover
       text-decoration: none
+
   li.tab-icon
     width: 5%
     .icon-context:before
@@ -63,24 +64,47 @@
   li:hover
     border-bottom-color: #DDDDDD
 
+  li.-disabled
+    cursor: default
+    pointer-events: none
+    border-bottom-width: 0
+    a
+      color: $tabs-font-color-disabled
+
+content-tabs
+  min-height: 73px
+  display: block
+
 .scrollable-tabs
   position: relative
   overflow: hidden
   box-sizing: content-box
   height: 40px
   border-bottom: 1px solid #DDDDDD
+  margin-bottom: 1rem
+
   .tabrow
     display: block
     overflow-x: auto
     white-space: nowrap
-    // Padding for hiding the scroll bar
-    padding-bottom: 17px
     height: 57px
     li
       display: inline-block
       padding-left: 1rem
       padding-right: 1rem
       font-size: 14px
+
+  &.-narrow
+    margin-bottom: 0
+    height: initial
+
+    .tabrow
+      height: initial
+      line-height: initial
+
+      li
+        line-height: initial
+        padding-bottom: 6px
 
 .scrollable-tabs--button
   display: block
@@ -102,3 +126,7 @@
   &:hover
     @include varprop(color, content-link-color)
     cursor: pointer
+
+.tab-content
+  .form--section
+    padding: 0

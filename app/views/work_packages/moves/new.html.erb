@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -77,6 +77,14 @@ See docs/COPYRIGHT.rdoc for more details.
                 <%= styled_select_tag('status_id',
                        content_tag('option', l(:label_no_change_option), value: '') +
                        options_from_collection_for_select(@available_statuses, :id, :name)) %>
+              </div>
+            </div>
+            <div class="form--field">
+              <label class="form--label" for='fixed_version_id'><%= WorkPackage.human_attribute_name(:version) %></label>
+              <div class="form--field-container">
+                <%= styled_select_tag('fixed_version_id',
+                                      content_tag('option', l(:label_no_change_option), value: '') +
+                                        version_options_for_select(@available_versions)) %>
               </div>
             </div>
             <div class="form--field">

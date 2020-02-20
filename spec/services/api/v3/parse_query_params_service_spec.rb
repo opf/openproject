@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -227,6 +227,16 @@ describe ::API::V3::ParseQueryParamsService,
             end
             let(:expected) do
               { filters: [{ field: 'subproject_id', operator: '=', values: %w(1 2) }] }
+            end
+          end
+
+          it_behaves_like 'transforms' do
+            let(:params) do
+              { filters: JSON::dump([{ 'subprojectId' => { 'operator' => '=',
+                                                           'values' => %w(a%26%23b 2) } }]) }
+            end
+            let(:expected) do
+              { filters: [{ field: 'subproject_id', operator: '=', values: %w(a&#b 2) }] }
             end
           end
 

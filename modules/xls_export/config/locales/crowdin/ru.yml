@@ -1,5 +1,5 @@
 ru:
-  export_to_excel: "Экспорт в таблицу Excel"
+  export_to_excel: "Экспорт XLS"
   print_with_description: "Предпросмотр печати с описанием"
   sentence_separator_or: "или"
   different_formats: Различные форматы

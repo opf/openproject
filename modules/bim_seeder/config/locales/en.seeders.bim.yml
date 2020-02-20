@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -550,6 +550,17 @@ en:
               - news
               - wiki
               - board_view
+              - ifc_models
+            ifc_models:
+              - file: 'hospital_architecture'
+                name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
+                default: true
+              - file: 'hospital_mechanical'
+                name: 'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
+                default: false
+              - file: 'hospital_structural'
+                name: 'Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)'
+                default: false
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -1032,6 +1043,17 @@ en:
               - work_package_tracking
               - bcf
               - board_view
+              - ifc_models
+            ifc_models:
+              - file: 'hospital_architecture'
+                name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
+                default: true
+              - file: 'hospital_mechanical'
+                name: 'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
+                default: false
+              - file: 'hospital_structural'
+                name: 'Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)'
+                default: false
             types:
               - :default_type_task
               - :default_type_milestone

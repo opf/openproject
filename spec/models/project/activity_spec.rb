@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -141,12 +141,12 @@ describe Project::Activity, type: :model do
     end
 
     it 'is the latest news update' do
-      news.update_attribute(:created_on, initial_time - 10.seconds)
-      news2.update_attribute(:created_on, initial_time - 20.seconds)
+      news.update_attribute(:updated_at, initial_time - 10.seconds)
+      news2.update_attribute(:updated_at, initial_time - 20.seconds)
       news.reload
       news2.reload
 
-      expect(latest_activity).to eql news.created_on
+      expect(latest_activity).to eql news.updated_at
     end
 
     it 'is the latest changeset update' do
@@ -180,7 +180,7 @@ describe Project::Activity, type: :model do
     it 'takes the time stamp of the latest activity across models' do
       work_package.update_attribute(:updated_at, initial_time - 10.seconds)
       wiki_content.update_attribute(:updated_on, initial_time - 20.seconds)
-      news.update_attribute(:created_on, initial_time - 30.seconds)
+      news.update_attribute(:updated_at, initial_time - 30.seconds)
       changeset.update_attribute(:committed_on, initial_time - 40.seconds)
       message.update_attribute(:updated_on, initial_time - 50.seconds)
 
@@ -219,9 +219,9 @@ describe Project::Activity, type: :model do
       # work_package
       # wiki_content
 
-      expect(latest_activity).to eql news.created_on
+      expect(latest_activity).to eql news.updated_at
 
-      news.update_attribute(:created_on, wiki_content.updated_on - 10.seconds)
+      news.update_attribute(:updated_at, wiki_content.updated_on - 10.seconds)
 
       # Order:
       # changeset
@@ -232,7 +232,7 @@ describe Project::Activity, type: :model do
 
       expect(latest_activity).to eql changeset.committed_on
 
-      changeset.update_attribute(:committed_on, news.created_on - 10.seconds)
+      changeset.update_attribute(:committed_on, news.updated_at - 10.seconds)
 
       # Order:
       # message

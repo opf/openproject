@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ tr:
     plugins:
       no_results_title_text: Şu anda kullanılabilir eklenti mevcut değil.
     custom_styles:
+      color_theme: "Renk teması"
+      color_theme_custom: "(Özel)"
+      colors:
+        alternative-color: "Alternatif"
+        content-link-color: "Bağlantı yazı tipi"
+        primary-color: "Birincil"
+        primary-color-dark: "Birincil (karanlık)"
+        header-bg-color: "Üstbilgi arka planı"
+        header-item-bg-hover-color: "Fareyle üzerine gelindiğinde başlık arka planı"
+        header-item-font-color: "Başlık yazı tipi"
+        header-item-font-hover-color: "Fareyle üzerine gelindiğinde başlık yazı tipi"
+        header-border-bottom-color: "Başlık kenarlığı"
+        main-menu-bg-color: "Ana menü arka planı"
+        main-menu-bg-selected-background: "Seçildiğinde ana menü"
+        main-menu-bg-hover-background: "Fareyle üzerine gelindiğinde ana menü"
+        main-menu-font-color: "Ana menü yazı tipi"
+        main-menu-selected-font-color: "Seçildiğinde ana menü yazı tipi"
+        main-menu-hover-font-color: "Fareyle üzerine gelindiğinde ana menü yazı tipi"
+        main-menu-border-color: "Ana menü kenarlığı"
       custom_colors: "Özel renkler"
       customize: "Kendi logonuuz ile OpenProject yüklemenizi özelleştirin. Not: Bu logo genel olarak erişilebilir olacaktır."
       enterprise_notice: "OpenProject'in geliştirilmesine finansal destek verenlere özel olarak 'Teşekkür ederiz!'. Bu küçük özellik sadece Enterprise Sürüm alan destekçilerimize özeldir."
       manage_colors: "Renk seçim seçeneklerini düzenle"
       instructions:
-        alternative_color: "Yüksek vurgulu renk, genellikle ekrandaki önemli tuşlarda kullanılır."
-        content_link_color: "Bir çok bağlantının yazı tipi rengi."
-        primary_color: "Ana renk."
-        primary_color_dark: "Daha etkili efektler için ana renklerin koyu versiyonu."
-        header_bg_color: "Başlığın arkaplan rengi."
-        header_item_bg_hover_color: "Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde kullanılacak arka plan rengi."
-        header_item_font_color: "Tıklanabilir başlık bileşenleri için yazı rengi."
-        header_item_font_hover_color: "Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde kullanılacak yazı rengi."
-        header_border_bottom_color: "Başlığının altında ince bir çizgi. Bu alanda herhangi bir hat istemiyorsanız boş bırakın."
-        main_menu_bg_color: "Sol taraftaki menünün arka plan rengi."
+        alternative-color: "Güçlü vurgu rengi, genellikle ekrandaki en önemli düğme için kullanılır."
+        content-link-color: "Bir çok bağlantının yazı tipi rengi."
+        primary-color: "Ana renk."
+        primary-color-dark: "Daha etkili efektler için ana renklerin koyu versiyonu."
+        header-item-bg-hover-color: "Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde kullanılacak arka plan rengi."
+        header-item-font-color: "Tıklanabilir başlık bileşenleri için yazı rengi."
+        header-item-font-hover-color: "Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde kullanılacak yazı rengi."
+        header-border-bottom-color: "Başlığının altında ince bir çizgi. Bu alanda herhangi bir hat istemiyorsanız boş bırakın."
+        main-menu-bg-color: "Sol taraftaki menünün arka plan rengi."
     enterprise:
       upgrade_to_ee: "Enterprise Edition sürümüne yükseltme"
       add_token: "Enterprise Editon versiyonu destek anahtarını yükleyin"
@@ -578,6 +596,10 @@ tr:
         role:
           permissions:
             dependency_missing: "'%'%{dependency}' seçili olduğundan,'%{permission}'  ı da eklemeniz gerekir."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "tarih başına maksimum 24 saat kaydedilebileceğinden çok yüksek."
         work_package:
           is_not_a_valid_target_for_time_entries: "İş paketi #%{id} zaman girdilerini yeniden atama için geçerli bir hedef değil."
           attributes:
@@ -727,6 +749,7 @@ tr:
     type: "Tür"
     updated_at: "Güncelleme tarihi"
     updated_on: "Güncelleme tarihi"
+    uploader: "Yükleyici"
     user: "Kullanıcı"
     version: "Sürüm"
     work_package: "İş paketi"
@@ -1012,9 +1035,8 @@ tr:
         rename_groups: "Öznitelik grubunun adını değiştirin"
       project_filters:
         description_html: "Özel alanlara filtre uygulama ve sıralama, kurumsal sürüm özelliğidir."
-  enumeration_activities: "Etkinlikler (zaman izleme)"
+  enumeration_activities: "Zaman izleme faaliyetleri"
   enumeration_work_package_priorities: "İş paketi öncelikleri"
-  enumeration_system_activity: "Sistem Etkinliği"
   enumeration_reported_project_statuses: "Bildirilen proje durumları"
   error_auth_source_sso_failed: "Çoklu oturum açma (SSO) için kullanıcı '%{value}' başarısız oldu"
   error_can_not_archive_project: "Bu proje arşivlenemiyor: %{errors}"
@@ -1084,6 +1106,8 @@ tr:
       pdf_with_descriptions: "Açıklamalı PDF"
       pdf_with_descriptions_and_attachments: "Ekler ve açıklamalarla birlikte PDF"
       pdf_with_attachments: "Eklerle birlikte PDF"
+    image:
+      omitted: "Görüntü dışa aktarılmadı."
   extraction:
     available:
       pdftotext: "Pdftotext kullanılabilir (isteğe bağlı)"
@@ -1664,15 +1688,19 @@ tr:
   label_workflow_plural: "İş Akışları"
   label_workflow_summary: "Özet"
   label_x_closed_work_packages_abbr:
+    zero: "0 kapalı"
     one: "1 kapatıldı"
     other: "%{count} kapatıldı"
   label_x_comments:
+    zero: "yorum yok"
     one: "1 yorum"
     other: "%{count} yorum"
   label_x_open_work_packages_abbr:
+    zero: "0 açık"
     one: "1 açık"
     other: "%{count} açık"
   label_x_projects:
+    zero: "proje yok"
     one: "1 proje"
     other: "%{count} proje"
   label_year: "Yıl"
@@ -2217,7 +2245,7 @@ tr:
   text_destroy_with_associated: "Silinecek iş paketleri ile birlikte ek nesne(ler) vardır. Bu nesneler aşağıdaki türdedir:"
   text_destroy_what_to_do: "Ne yapmak istiyorsun?"
   text_diff_truncated: "... Bu fark, görüntülenebilecek maksimum boyutu aştığı için kesildi."
-  text_email_delivery_not_configured: "E-posta dağıtımı yapılandırılmadı ve bildirimler devre dışı bırakıldı. SMTP sunucunuzu config / configuration.yml dosyasında yapılandırın ve bunları etkinleştirmek için uygulamayı yeniden başlatın."
+  text_email_delivery_not_configured: "E-posta teslimi yapılandırılmamış ve bildirimler devre dışı bırakılmış.\nSMTP sunucunuzu etkinleştirmek için yapılandırın."
   text_enumeration_category_reassign_to: "Onları şu değere yeniden atayın:"
   text_enumeration_destroy_question: "Bu değere %{count} nesneler atandı."
   text_file_repository_writable: "Ekler dizini yazılabilir"
@@ -2510,6 +2538,17 @@ tr:
     Kullanıcı limitine ulaşıldı. Daha fazla kullanıcıyı etkinleştiremezsiniz. Lütfen <a href="%{upgrade_url}"> planınızı yükseltin </a> veya ek kullanıcılara izin vermek için üyeleri engelleyin.
   warning_user_limit_reached_instructions: >
     Kullanıcı sınırınıza ulaştınız (%{current}/%{max} aktif kullanıcılar). Enterprise Edition planınızı yükseltmek ve ek kullanıcılar eklemek için lütfen sales@openproject.com adresine başvurun.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protokol ayarı uyuşmazlığı'
+      text_html: >
+        Uygulamanız, protokol ayarı <code>%{set_protocol}</code>,olarak ayarlanmış şekilde çalışıyor, ancak istek bir <code>%{actual_protocol}</code> isteğidir. Bu hatalarla sonuçlanacaktır! <a href="%{setting_path}"> Sistem ayarları </a> 'na gidin ve bunu düzeltmek için "Protokol" ayarını değiştirin.
+    hostname_mismatch:
+      title: 'Ana bilgisayar adı ayar uyuşmazlığı'
+      text_html: >
+        Uygulamanız, ana makine adı ayarı <code>%{set_hostname}</code> olarak ayarlanmış, ancak istek bir <code>%{actual_hostname}</code> ana bilgisayar adı. Bu hatalarla sonuçlanacaktır! <a href="%{setting_path}"> Sistem ayarları </a> 'na gidin ve bunu düzeltmek için "Ana makine adı" ayarını değiştirin.
   menu_item: "Menü seçeneği"
   menu_item_setting: "Görünürlük"
   wiki_menu_item_for: "Wikipage için menü öğesi \" %{title} \""

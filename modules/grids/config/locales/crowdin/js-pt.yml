@@ -37,6 +37,8 @@ pt:
         subprojects:
           title: 'Subprojetos'
           no_results: 'Nenhum subprojeto.'
+        time_entries_current_user:
+          title: 'O meu tempo gasto'
         time_entries_list:
           title: 'Tempo gasto (últimos 7 dias)'
           no_results: 'Não há entradas de tempo nos últimos 7 dias.'

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,11 +40,13 @@ Redmine::Activity.map do |activity|
                                    default: false
 end
 
+# TODO: replace by string based references to avoid stale
+# objects when reloading in dev mode.
 Project.register_latest_project_activity on: WorkPackage,
                                          attribute: :updated_at
 
 Project.register_latest_project_activity on: News,
-                                         attribute: :created_on
+                                         attribute: :updated_at
 
 Project.register_latest_project_activity on: Changeset,
                                          chain: Repository,

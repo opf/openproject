@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -130,11 +130,11 @@ module Components
         modal = ::Components::WorkPackages::TableConfigurationModal.new
 
         within find('.relation-filter-selector') do
-          select I18n.t("js.types.attribute_groups.filter_types.#{relation_filter}")
+          select I18n.t("js.relation_labels.#{relation_filter}")
 
           # While we are here, let's check that all relation filters are present.
           option_labels = %w[
-            parent
+            children
             precedes
             follows
             relates
@@ -146,7 +146,7 @@ module Components
             includes
             requires
             required
-          ].map { |filter_name| I18n.t("js.types.attribute_groups.filter_types.#{filter_name}") }
+          ].map { |filter_name| I18n.t("js.relation_labels.#{filter_name}") }
 
           option_labels.each do |label|
             expect(page).to have_text(label)

@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
 import {
@@ -76,7 +76,6 @@ import {OpenprojectRouterModule} from "core-app/modules/router/openproject-route
 import {OpenprojectWorkPackageRoutesModule} from "core-app/modules/work_packages/openproject-work-package-routes.module";
 import {BrowserModule} from "@angular/platform-browser";
 import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
-import {FullCalendarModule} from "ng-fullcalendar";
 import {OpenprojectBoardsModule} from "core-app/modules/boards/openproject-boards.module";
 import {OpenprojectGlobalSearchModule} from "core-app/modules/global_search/openproject-global-search.module";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
@@ -94,6 +93,8 @@ import {PreviewTriggerService} from "core-app/globals/global-listeners/preview-t
 import {OpenprojectOverviewModule} from "core-app/modules/overview/openproject-overview.module";
 import {OpenprojectMyPageModule} from "core-app/modules/my-page/openproject-my-page.module";
 import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-projects.module";
+import {OpenprojectIFCModelsModule} from "core-app/modules/ifc_models/openproject-ifc-models.module";
+import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
 
 @NgModule({
   imports: [
@@ -127,7 +128,6 @@ import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-p
 
     // Calendar module
     OpenprojectCalendarModule,
-    FullCalendarModule,
 
     // Dashboards
     OpenprojectDashboardsModule,
@@ -140,6 +140,9 @@ import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-p
 
     // Global Search
     OpenprojectGlobalSearchModule,
+
+    // IFC Models
+    OpenprojectIFCModelsModule,
 
     // Admin module
     OpenprojectAdminModule,
@@ -162,6 +165,7 @@ import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-p
     OpTitleService,
     UrlParamsHelperService,
     ProjectCacheService,
+    TimeEntryCacheService,
     FormsCacheService,
     UserCacheService,
     StatusCacheService,

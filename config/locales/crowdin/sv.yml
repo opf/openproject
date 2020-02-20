@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ sv:
     plugins:
       no_results_title_text: Det finns för närvarande inga tillgängliga plugins.
     custom_styles:
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
       custom_colors: "Anpassade färger"
       customize: "Anpassa din OpenProject-installation med din egna logotyp. OBS: Denna logotyp kommer att vara allmänt tillgänglig."
       enterprise_notice: "Som ett särskilt Tack! för det ekonomiska bidraget till utvecklingen av OpenProject, är denna lilla funktion endast tillgänglig för Enterprise Edition support-prenumeranter."
       manage_colors: "Redigera alternativ för valbara färger"
       instructions:
-        alternative_color: "Stark accentfärg som brukar användas för de viktigaste knapparna på skärmen."
-        content_link_color: "Teckenfärg på de flesta länkarna."
-        primary_color: "Huvudfärg."
-        primary_color_dark: "Vanligtvis en mörkare version av huvudfärgen som används för hover-effekter."
-        header_bg_color: "Bakgrundsfärg på sidhuvudet."
-        header_item_bg_hover_color: "Bakgrundsfärg på klickbara objekt i sidhuvudet när man hovrar med muspekaren."
-        header_item_font_color: "Teckenfärg på klickbara objekt i sidhuvudet."
-        header_item_font_hover_color: "Teckenfärg på klickbara objekt i sidhuvudet när man hovrar med muspekaren."
-        header_border_bottom_color: "Tunn linje under sidhuvudet. Lämna fältet tomt om du inte vill ha någon linje."
-        main_menu_bg_color: "Bakgrundsfärg på den vänstra sidomenyn."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "Teckenfärg på de flesta länkarna."
+        primary-color: "Huvudfärg."
+        primary-color-dark: "Vanligtvis en mörkare version av huvudfärgen som används för hover-effekter."
+        header-item-bg-hover-color: "Bakgrundsfärg på klickbara objekt i sidhuvudet när man hovrar med muspekaren."
+        header-item-font-color: "Teckenfärg på klickbara objekt i sidhuvudet."
+        header-item-font-hover-color: "Teckenfärg på klickbara objekt i sidhuvudet när man hovrar med muspekaren."
+        header-border-bottom-color: "Tunn linje under sidhuvudet. Lämna fältet tomt om du inte vill ha någon linje."
+        main-menu-bg-color: "Bakgrundsfärg på den vänstra sidomenyn."
     enterprise:
       upgrade_to_ee: "Uppgradera till Enterprise Edition"
       add_token: "Ladda upp en Enterprise Edition support-nyckel"
@@ -577,6 +595,10 @@ sv:
         role:
           permissions:
             dependency_missing: "måste också inkludera '%{dependency}' som '%{permission}' är vald."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbetspaket #%{id} är inte ett giltigt mål för omfördelning av tidrapporterna."
           attributes:
@@ -726,6 +748,7 @@ sv:
     type: "Typ"
     updated_at: "Uppdaterat den"
     updated_on: "Uppdaterat den"
+    uploader: "Uploader"
     user: "Användare"
     version: "Version"
     work_package: "Arbetspaket"
@@ -1011,9 +1034,8 @@ sv:
         rename_groups: "Byt namn på attributgrupper"
       project_filters:
         description_html: "Filtrering och sortering på anpassade fält är en funktion tillgänglig i Enterprise Edition."
-  enumeration_activities: "Aktiviteter (tidredovisning)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Arbetspaketsprioritering"
-  enumeration_system_activity: "Systemaktivitet"
   enumeration_reported_project_statuses: "Rapporterad projektstatus"
   error_auth_source_sso_failed: "Singelinloggning (SSO) för användaren '%{value}' misslyckades"
   error_can_not_archive_project: "Det här projektet kan inte arkiveras: %{errors}"
@@ -1083,6 +1105,8 @@ sv:
       pdf_with_descriptions: "PDF med beskrivningar"
       pdf_with_descriptions_and_attachments: "PDF med beskrivningar och bilagor"
       pdf_with_attachments: "PDF med bilagor"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext tillgängligt (tillval)"
@@ -1663,15 +1687,19 @@ sv:
   label_workflow_plural: "Arbetsflöden"
   label_workflow_summary: "Sammanfattning"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "en stängd"
     other: "%{count} stängda"
   label_x_comments:
+    zero: "no comments"
     one: "En kommentar"
     other: "%{count} kommentarer"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "en öppen"
     other: "%{count} öppnade"
   label_x_projects:
+    zero: "no projects"
     one: "Ett projekt"
     other: "%{count} projekt"
   label_year: "År"
@@ -2214,7 +2242,7 @@ sv:
   text_destroy_with_associated: "Det finns ytterligare objekt kopplade med det/de arbetspaket som ska tas bort. Dessa objekt är av följande typer:"
   text_destroy_what_to_do: "Vad vill du göra?"
   text_diff_truncated: "... Denna diff trunkerades eftersom den överskrider den maximala storleken som kan visas."
-  text_email_delivery_not_configured: "E-postleverans inte är konfigurerad och aviseringar är inaktiverade. Konfigurera din SMTP-server i config/configuration.yml och starta om applikationen för att aktivera dem."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Tilldela dem till detta värde:"
   text_enumeration_destroy_question: "%{count} objekt har tilldelats detta värde."
   text_file_repository_writable: "Katalog skrivbar för bifogade filer"
@@ -2507,6 +2535,17 @@ sv:
     Användargränsen har uppnåtts. Du kan inte aktivera fler användare. Vänligen <a href="%{upgrade_url}">uppgradera din plan</a> eller blockera medlemmar för att tillåta ytterligare användare.
   warning_user_limit_reached_instructions: >
     Du har nått din användargräns (%{current}/%{max} aktiva användare). Kontakta sales@openproject.com för att uppgradera din Enterprise Edition-plan och lägga till ytterligare användare.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protocol setting mismatch'
+      text_html: >
+        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+    hostname_mismatch:
+      title: 'Hostname setting mismatch'
+      text_html: >
+        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Menyalternativ"
   menu_item_setting: "Synlighet"
   wiki_menu_item_for: "Menyobjekt för wiki-sida \"%{title}\""

@@ -68,9 +68,8 @@ migrate() {
 	wait_for_postgres
 	pushd $APP_PATH >/dev/null
 	/etc/init.d/memcached start
-	bundle exec rake db:migrate db:seed db:structure:dump
+	bundle exec rake db:migrate db:seed
 	/etc/init.d/memcached stop
-	chown "$APP_USER.$APP_USER" db/structure.sql
 	popd >/dev/null
 }
 

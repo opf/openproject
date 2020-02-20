@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,23 +73,17 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     },
     author: {
       association: 'author',
-      sortable: ["lastname",
-                 "firstname",
-                 "id"],
+      sortable: %w(lastname firstname id),
       groupable: "#{WorkPackage.table_name}.author_id"
     },
     assigned_to: {
       association: 'assigned_to',
-      sortable: ["lastname",
-                 "firstname",
-                 "id"],
+      sortable: %w(lastname firstname id),
       groupable: "#{WorkPackage.table_name}.assigned_to_id"
     },
     responsible: {
       association: 'responsible',
-      sortable: ["lastname",
-                 "firstname",
-                 "id"],
+      sortable: %w(lastname firstname id),
       groupable: "#{WorkPackage.table_name}.responsible_id"
     },
     updated_at: {
@@ -103,24 +97,19 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     },
     fixed_version: {
       association: 'fixed_version',
-      sortable: ["name"],
-      default_order: 'desc',
+      sortable: %w(start_date effective_date name),
+      default_order: 'DESC',
+      null_handling: 'NULLS LAST',
       groupable: "#{WorkPackage.table_name}.fixed_version_id"
     },
     start_date: {
-      # Put empty start_dates in the far future rather than in the far past
-      sortable: ["CASE WHEN #{WorkPackage.table_name}.start_date IS NULL
-                  THEN 1
-                  ELSE 0 END",
-                 "#{WorkPackage.table_name}.start_date"]
+      sortable: "#{WorkPackage.table_name}.start_date",
+      null_handling: 'NULLS LAST'
     },
     due_date: {
       highlightable: true,
-      # Put empty due_dates in the far future rather than in the far past
-      sortable: ["CASE WHEN #{WorkPackage.table_name}.due_date IS NULL
-                  THEN 1
-                  ELSE 0 END",
-                 "#{WorkPackage.table_name}.due_date"]
+      sortable: "#{WorkPackage.table_name}.due_date",
+      null_handling: 'NULLS LAST'
     },
     estimated_hours: {
       sortable: "#{WorkPackage.table_name}.estimated_hours",

@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ module Pages
       end
 
       def visit_tab!(name)
-        visit settings_project_path(project, tab: name)
+        visit "/projects/#{project.identifier}/settings/#{name}"
       end
 
       # only notice is used as opposed to notification-box
@@ -89,7 +89,7 @@ module Pages
       private
 
       def path
-        settings_project_path(project)
+        settings_generic_project_path(project)
       end
     end
   end

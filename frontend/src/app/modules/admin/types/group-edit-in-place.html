@@ -11,5 +11,6 @@
     autoFocus
     [(ngModel)]="editedName"
     [attr.placeholder]="placeholder"
+    (blur)="saveEdition($event)"
     (keydown.escape)="reset()"
     (keydown.enter)="saveEdition($event)">

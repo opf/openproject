@@ -58,5 +58,13 @@ module ::TwoFactorAuthentication
     def manager
       ::OpenProject::TwoFactorAuthentication::TokenStrategyManager
     end
+
+    def default_breadcrumb
+      t('two_factor_authentication.settings.title')
+    end
+
+    def show_local_breadcrumb
+      true
+    end
   end
 end

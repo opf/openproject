@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,7 @@ describe WorkPackages::MovesController, type: :controller do
                                        view_work_packages
                                        add_work_packages
                                        edit_work_packages
+                                       assign_versions
                                        manage_subtasks)
   end
   let(:type) { FactoryBot.create :type }
@@ -316,6 +317,10 @@ describe WorkPackages::MovesController, type: :controller do
             expect(subject.status_id).to eq(work_package.status_id)
           end
 
+          it 'did not change the status' do
+            expect(subject.fixed_version_id).to eq(work_package.fixed_version_id)
+          end
+
           it 'did not change the assignee' do
             expect(subject.assigned_to_id).to eq(work_package.assigned_to_id)
           end
@@ -328,6 +333,7 @@ describe WorkPackages::MovesController, type: :controller do
         context "with changing the work package's attribute" do
           let(:start_date) { Date.today }
           let(:due_date) { Date.today + 1 }
+          let(:target_version) { FactoryBot.create(:version, project: target_project) }
           let(:target_user) do
             user = FactoryBot.create :user
 
@@ -349,6 +355,7 @@ describe WorkPackages::MovesController, type: :controller do
                    assigned_to_id: target_user.id,
                    responsible_id: target_user.id,
                    status_id: target_status,
+                   fixed_version_id: target_version.id,
                    start_date: start_date,
                    due_date: due_date
                  }
@@ -381,6 +388,12 @@ describe WorkPackages::MovesController, type: :controller do
           it 'did change the status' do
             subject.map(&:status_id).each do |id|
               expect(id).to eq(target_status.id)
+            end
+          end
+
+          it 'did change the version' do
+            subject.map(&:fixed_version_id).each do |id|
+              expect(id).to eq(target_version.id)
             end
           end
 

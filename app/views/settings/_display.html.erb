@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= styled_form_tag({action: 'edit', tab: 'display'}) do %>
+<%= styled_form_tag(general_settings_path(tab: 'display'), method: :patch) do %>
 
   <section class="form--section">
     <div class="form--field" id="setting_available_languages"><%= setting_multiselect :available_languages, all_lang_options_for_select(false) %></div>

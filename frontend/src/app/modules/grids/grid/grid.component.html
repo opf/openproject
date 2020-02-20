@@ -19,12 +19,15 @@
     <div class="grid--area-content widget-box"
          cdkDrag
          (cdkDragStarted)="drag.start(area)"
-         (cdkDragDropped)="drag.drop()">
+         (cdkDragDropped)="drag.drop()"
+         [cdkDragDisabled]="isMobileDevice">
 
       <span *ngIf="drag.isDraggable"
             class="grid--area-drag-handle
                    icon
-                   icon-drag-handle"
+                   icon-drag-handle
+                   hidden-for-mobile"
+            [hidden]="isMobileDevice"
             cdkDragHandle></span>
 
       <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area)"
@@ -47,7 +50,7 @@
 
   <!-- One grid area per cell (row x columns) -->
   <div *ngFor="let area of layout.gridAreas; trackBy: identifyGridArea;"
-       class="grid--area"
+       class="grid--area hidden-for-mobile"
        [ngClass] = "{'-drop-target': drag.currentlyDragging,
                      '-drop-only': drag.isDropOnlyArea(area),
                      '-resize-target': resize.isTarget(area),
@@ -62,15 +65,14 @@
        (mouseover)="layout.setMousedOverArea(area)"
        [cdkDropListData]="area"
        [cdkDropListConnectedTo]="layout.gridAreaIds">
-    <div class="grid--widget-add hidden-for-mobile"
-         *ngIf="layout.schema"
+    <div class="grid--widget-add"
          [title]="add.addText"
          (click)="add.widget(area)">
     </div>
   </div>
 
   <div *ngFor="let gap of layout.gridGaps; trackBy: identifyGridArea;"
-       class="grid--area -gap"
+       class="grid--area -gap hidden-for-mobile"
        [ngClass] = "{'-addable': add.isAddable(gap),
                      '-help-mode': layout.inHelpMode,
                      '-row': gap.isRow,
@@ -81,8 +83,7 @@
        [style.grid-column-end]="gap.gridEndColumn"
        [id]="gap.guid"
        (mouseover)="layout.setMousedOverArea(gap)">
-    <div class="grid--widget-add -gap hidden-for-mobile"
-         *ngIf="layout.schema"
+    <div class="grid--widget-add -gap"
          [title]="add.addText"
          (click)="add.widget(gap)">
     </div>

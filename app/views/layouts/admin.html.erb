@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,16 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%
+  parent_node = admin_first_level_menu_entry
   if local_assigns[:additional_breadcrumb].nil?
-    breadcrumb_paths(t(:label_administration), default_breadcrumb)
+    breadcrumb_paths(t(:label_administration),
+                     parent_node.name == :root ? nil : parent_node.caption,
+                     default_breadcrumb)
   else
-    breadcrumb_paths(t(:label_administration), default_breadcrumb, local_assigns[:additional_breadcrumb])
+    breadcrumb_paths(t(:label_administration),
+                     parent_node.name == :root ? nil : parent_node.caption,
+                     default_breadcrumb,
+                     local_assigns[:additional_breadcrumb])
   end
 %>
 

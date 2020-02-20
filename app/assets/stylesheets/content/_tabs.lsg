@@ -1,0 +1,49 @@
+# Scrollable tabs
+
+```
+<div class="scrollable-tabs">
+  <ul class="tabrow"">
+    <li class="selected"
+        tab-id="tab_1">
+      <a href="#scrollable-tabs?tab=tab_1">Tab 1</a>
+    </li>
+    <li tab-id="tab_2">
+      <a href="#scrollable-tabs?tab=tab_2">Tab 2</a>
+    </li>
+    <li tab-id="tab_3">
+      <a href="#scrollable-tabs?tab=tab_3">Tab 3</a>
+    </li>
+  </ul>
+  <div hidden="true" class="scrollable-tabs--button -left">
+    <span class="icon-arrow-left2"></span>
+  </div>
+  <div hidden="true" class="scrollable-tabs--button -right">
+    <span class="icon-arrow-right2"></span>
+  </div>
+</div>
+```
+
+The height of the tabs section can be reduced applying the `-narrow` modification class.
+
+```
+<div class="scrollable-tabs -narrow">
+  <ul class="tabrow"">
+    <li class="selected"
+        tab-id="tab_1">
+      <a href="#scrollable-tabs?tab=tab_1">Tab 1</a>
+    </li>
+    <li tab-id="tab_2">
+      <a href="#scrollable-tabs?tab=tab_2">Tab 2</a>
+    </li>
+    <li tab-id="tab_3">
+      <a href="#scrollable-tabs?tab=tab_3">Tab 3</a>
+    </li>
+  </ul>
+  <div hidden="true" class="scrollable-tabs--button -left">
+    <span class="icon-arrow-left2"></span>
+  </div>
+  <div hidden="true" class="scrollable-tabs--button -right">
+    <span class="icon-arrow-right2"></span>
+  </div>
+</div>
+```

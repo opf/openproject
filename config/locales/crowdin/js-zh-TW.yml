@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -41,7 +41,7 @@ zh-TW:
     button_back_to_list_view: "返回清單"
     button_cancel: "取消"
     button_close: "關閉"
-    button_change_project: "Change project"
+    button_change_project: "切換專案"
     button_check_all: "勾選全部"
     button_configure-form: "配置表單"
     button_confirm: "確認"
@@ -62,7 +62,7 @@ zh-TW:
     button_open_details: "開啟詳細檢視"
     button_close_details: "關閉詳細檢視"
     button_open_fullscreen: "開啟全螢幕檢視"
-    button_show_cards: "Show card view"
+    button_show_cards: "顯示卡片檢視"
     button_show_list: "Show list view"
     button_quote: "引言"
     button_save: "儲存"
@@ -75,11 +75,12 @@ zh-TW:
       title: '行事曆'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
-      add_new: 'Add new card'
+      add_new: '新增卡片'
       highlighting:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
+      remove_from_list: '從清單列表中移除'
+    caption_rate_history: "Rate history"
     clipboard:
       browser_error: "您的瀏覽器不支援複製到剪貼簿。請手動複製選取的文字。"
       copied_successful: "成功複製到剪貼簿上!"
@@ -170,6 +171,9 @@ zh-TW:
       cannot_save_changes_with_message: "由於以下錯誤, 無法保存所做的更改: %{error}"
       query_saving: "無法保存視圖。"
       embedded_table_loading: "無法載入嵌入視圖: %{message}"
+    enumeration_activities: "活動 (時間追蹤)"
+    enumeration_doc_categories: "文件類別"
+    enumeration_work_package_priorities: "工作項目優先等級"
     filter:
       description:
         text_open_filter: "使用 ALT 和方向鍵打開此篩選器。"
@@ -191,6 +195,7 @@ zh-TW:
     general_text_yes: "是"
     general_text_No: "否"
     general_text_Yes: "是"
+    global_roles: 全域角色
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -202,8 +207,15 @@ zh-TW:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "啟用"
     label_add_column_after: "在後面增加一欄"
     label_add_column_before: "在前面增加一欄"
@@ -221,10 +233,11 @@ zh-TW:
     label_and: "和"
     label_ascending: "昇冪"
     label_author: "作者: %{user}"
+    label_avatar: "Avatar"
     label_between: "介於"
-    label_board: "Board"
+    label_board: "面板"
     label_board_locked: "鎖定"
-    label_board_plural: "Boards"
+    label_board_plural: "看板"
     label_board_sticky: "附著"
     label_create: "建立"
     label_create_work_package: "建立新的工作項目"
@@ -234,6 +247,8 @@ zh-TW:
     label_deactivate: "停用"
     label_descending: "降冪"
     label_description: "說明"
+    label_details: "詳細資料"
+    label_display: "顯示"
     label_cancel_comment: "取消注釋"
     label_closed_work_packages: "已關閉"
     label_collapse: "折疊"
@@ -254,22 +269,29 @@ zh-TW:
     label_export: "匯出"
     label_filename: "檔案"
     label_filesize: "檔案大小"
+    label_general: "一般"
     label_greater_or_equal: ">="
     label_group: '群組'
     label_group_by: "分組依據"
+    label_group_plural: "群組"
     label_hide_attributes: "簡略"
     label_hide_column: "隱藏欄"
     label_hide_project_menu: "折疊專案選單"
     label_in: "在"
     label_in_less_than: "少於"
     label_in_more_than: "多於"
+    label_incoming_emails: "接收到的電子郵件"
+    label_information_plural: "資訊"
     label_import: "Import"
     label_latest_activity: "最新活動"
     label_last_updated_on: "最後更新於"
     label_less_or_equal: "<="
     label_less_than_ago: "少於幾天前"
     label_loading: "讀取中..."
+    label_mail_notification: "電子郵件通知"
     label_me: "我"
+    label_meeting_agenda: "會議大綱"
+    label_meeting_minutes: "會議記錄"
     label_menu_collapse: "收合"
     label_menu_expand: "展開"
     label_more_than_ago: "很多天之前"
@@ -290,12 +312,16 @@ zh-TW:
     label_previous: "上一個"
     label_per_page: "每頁："
     label_please_wait: "請稍候"
+    label_project_plural: "專案"
     label_visibility_settings: "可見度設定"
     label_quote_comment: "引述這個評論"
+    label_recent: "Recent"
     label_reset: "重置"
     label_remove_column: "移除欄"
     label_remove_columns: "移除所選欄"
     label_remove_row: "移除列"
+    label_report: "報表"
+    label_repository_plural: "Repositories"
     label_save_as: "保存為"
     label_select_watcher: "選擇一位關注者"
     label_selected_filter_list: "所選的篩選器"
@@ -306,6 +332,7 @@ zh-TW:
     label_sort_higher: "往上移動"
     label_sort_lower: "往下移動"
     label_sorting: "排序"
+    label_spent_time: "耗時"
     label_star_query: "喜好"
     label_press_enter_to_save: "按 Enter 即可儲存。"
     label_public_query: "公開"
@@ -314,7 +341,9 @@ zh-TW:
     label_subject: "主題"
     label_this_week: "本週"
     label_today: "今天"
+    label_time_entry_plural: "耗時"
     label_up: "向上"
+    label_user_plural: "使用者"
     label_activity_show_only_comments: "只顯示活動和其評論"
     label_activity_show_all: "顯示所有的活動"
     label_total_progress: "%{percent}%總進度"
@@ -322,7 +351,7 @@ zh-TW:
     label_updated_on: "更新於"
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "警告"
-    label_work_package: "Work package"
+    label_work_package: "工作項目"
     label_work_package_plural: "Work packages"
     label_watch: "監看"
     label_watch_work_package: "關注工作項目"
@@ -356,6 +385,7 @@ zh-TW:
     label_wait: "請等待配置..."
     label_upload_counter: "%{count} 個中的 %{done} 個文件已完成"
     label_validation_error: "由於下列錯誤，無法儲存工作包:"
+    label_version_plural: "版本"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: '顯示屬性說明文字項目'
@@ -422,23 +452,22 @@ zh-TW:
         upgrade_to_ee_text: "哇！如果您需要使用此功能，說明您非常專業！您是否願意成為企業版客戶來支持 OpenSource 開發人員？"
         more_information: "更多資訊"
         nevermind: "無視"
-        filter_types:
-          parent: "成為子級"
-          precedes: "前"
-          follows: "接著的"
-          relates: "相關於"
-          duplicates: "複製中..."
-          duplicated: "標示重複者"
-          blocks: "阻止"
-          blocked: "標示禁止者"
-          partof: "成為的一部分"
-          includes: "包括"
-          requires: "需要"
-          required: "被以下需要"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "專案"
+        settings: "設定"
     time_entry:
+      project: '專案'
+      work_package: '工作項目'
+      work_package_required: 'Requires selecting a work package first.'
       activity: '活動'
       comment: '評論'
+      duration: '時間長度'
+      spent_on: '日期'
       hours: '小時'
+      label: 'Time entry'
+    two_factor_authentication:
+      label_two_factor_authentication: '雙重身分驗證'
     watchers:
       label_loading: 正在載入關注者...
       label_error_loading: 而發生錯誤裝載的觀察家
@@ -498,11 +527,13 @@ zh-TW:
     field_value_enter_prompt: "輸入'%{field}'的值"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         other: "請再輸入{{count}} 個字元"
       load_more: "正在載入更多結果..."
       no_matches: "找不到符合項目"
       searching: "正在搜尋…"
       selection_too_big:
+        zero: "You cannot select any items"
         other: "您只能選擇 {{limit}} 個項目"
     project_menu_details: "詳細資料"
     sort:
@@ -565,9 +596,9 @@ zh-TW:
         in: "放大"
         out: "縮小"
         auto: "自動縮放"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
+        days: "日"
+        weeks: "週"
+        months: "月"
         quarters: "季"
         years: "年"
         slider: "縮放滑動器"
@@ -754,8 +785,7 @@ zh-TW:
           relation_columns: '需要檢視工作項目清單的關係嗎'
           check_out_link: '請查閱企業版'
         relation_filters:
-          first_part: "顯示所有工作包"
-          second_part: "當前工作包"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: 概要
         activity: 活動
@@ -783,7 +813,7 @@ zh-TW:
         page_settings: "重新命名視圖 ..."
         delete: "删除"
       filter: "篩選器"
-      unselected_title: "Work package"
+      unselected_title: "工作項目"
       search_query_label: "搜索保存的視圖"
       search_query_title: "點擊搜尋保存的視圖"
       placeholder_query_title: "為此視圖設置標題"
@@ -839,6 +869,7 @@ zh-TW:
       child_work_packages:
         other: "%{count} 個子工作項目"
       hour:
+        zero: "0 h"
         other: "%{count} h"
     zen_mode:
       button_activate: '啟動 zen 模式'

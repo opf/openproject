@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -245,52 +245,32 @@ describe 'API v3 time_entry resource', type: :request do
     end
 
     context 'filtering by global activity' do
-      let(:project_activity) do
-        FactoryBot.create(:time_entry_activity,
-                          parent: activity,
-                          project: project)
+      let(:activity) do
+        FactoryBot.create(:time_entry_activity)
       end
-      let(:other_project_activity) do
-        FactoryBot.create(:time_entry_activity,
-                          parent: activity,
-                          project: other_project)
-      end
-      let(:another_project_activity) do
-        FactoryBot.create(:time_entry_activity,
-                          parent: FactoryBot.create(:time_entry_activity),
-                          project: project)
-      end
-      let(:shared_activity) do
-        FactoryBot.create(:time_entry_activity,
-                          parent: nil)
+      let(:another_activity) do
+        FactoryBot.create(:time_entry_activity)
       end
       let!(:time_entry) do
         FactoryBot.create(:time_entry,
                           project: project,
                           work_package: work_package,
                           user: current_user,
-                          activity: project_activity)
+                          activity: activity)
       end
       let!(:other_time_entry) do
         FactoryBot.create(:time_entry,
                           project: other_project,
                           work_package: other_work_package,
                           user: current_user,
-                          activity: other_project_activity)
+                          activity: activity)
       end
       let!(:another_time_entry) do
         FactoryBot.create(:time_entry,
                           project: project,
                           work_package: work_package,
                           user: current_user,
-                          activity: another_project_activity)
-      end
-      let!(:shared_time_entry) do
-        FactoryBot.create(:time_entry,
-                          project: project,
-                          work_package: work_package,
-                          user: current_user,
-                          activity: shared_activity)
+                          activity: another_activity)
       end
 
       before do
@@ -306,17 +286,17 @@ describe 'API v3 time_entry resource', type: :request do
           {
             'activity_id' => {
               'operator' => '=',
-              'values' => [activity.id, shared_activity.id]
+              'values' => [activity.id]
             }
           }
         ]
 
-        "#{api_v3_paths.time_entries}?#{{ filters: filter.to_json }.to_query}&sortBy=#{[%w(id asc)].to_json}"
+        api_v3_paths.path_for(:time_entries, filters: filter, sort_by: [%w(id asc)])
       end
 
       it 'contains only the filtered time entries in the response' do
         expect(subject.body)
-          .to be_json_eql('3')
+          .to be_json_eql('2')
           .at_path('total')
 
         expect(subject.body)
@@ -326,10 +306,6 @@ describe 'API v3 time_entry resource', type: :request do
         expect(subject.body)
           .to be_json_eql(other_time_entry.id.to_json)
           .at_path('_embedded/elements/1/id')
-
-        expect(subject.body)
-          .to be_json_eql(shared_time_entry.id.to_json)
-          .at_path('_embedded/elements/2/id')
       end
     end
 
@@ -478,21 +454,20 @@ describe 'API v3 time_entry resource', type: :request do
       end
     end
 
-    context 'when sending an activity the project overrides' do
-      let(:project_activity) do
-        params = activity.attributes.except('id')
-        params['parent_id'] = activity.id
-        project.create_time_entry_activity_if_needed(params)
-
-        project.time_entry_activities.first
+    context 'if sending an activity the project disables' do
+      let(:disable_activity) do
+        TimeEntryActivitiesProject.insert activity_id: activity.id, project_id: project.id, active: false
       end
-      let(:additional_setup) { -> { project_activity } }
 
-      it 'creates the time entry with the project activity' do
-        new_entry = TimeEntry.first
+      let(:additional_setup) { -> { disable_activity } }
 
-        expect(new_entry.activity)
-          .to eql project_activity
+      it 'returns 422 and complains about the activity' do
+        expect(subject.status)
+          .to eql(422)
+
+        expect(subject.body)
+          .to be_json_eql("Activity is not set to one of the allowed values.".to_json)
+          .at_path("message")
       end
     end
 
@@ -572,22 +547,20 @@ describe 'API v3 time_entry resource', type: :request do
       end
     end
 
-    context 'when sending an activity the project overrides' do
-      let(:project_activity) do
-        params = activity.attributes.except('id')
-        params['parent_id'] = activity.id
-        project.create_time_entry_activity_if_needed(params)
-
-        project.time_entry_activities.first
+    context 'if sending an activity the project disables' do
+      let(:disable_activity) do
+        TimeEntryActivitiesProject.insert activity_id: activity.id, project_id: project.id, active: false
       end
 
-      let(:additional_setup) { -> { project_activity } }
+      let(:additional_setup) { -> { disable_activity } }
 
-      it 'creates the time entry with the project activity' do
-        time_entry.reload
+      it 'returns 422 and complains about the activity' do
+        expect(subject.status)
+          .to eql(422)
 
-        expect(time_entry.activity)
-          .to eql project_activity
+        expect(subject.body)
+          .to be_json_eql("Activity is not set to one of the allowed values.".to_json)
+          .at_path("message")
       end
     end
 

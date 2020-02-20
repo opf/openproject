@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -250,7 +250,7 @@ class AccountController < ApplicationController
   # When making changes here, also check MyController.change_password
   def change_password
     # Retrieve user_id from session
-    @user = User.find(flash[:_password_change_user_id])
+    @user = User.find(params[:password_change_user_id])
 
     change_password_flow(user: @user, params: params, show_user_name: true) do
       password_authentication(@user.login, params[:new_password])

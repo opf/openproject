@@ -1,0 +1,65 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= toolbar title: t(:label_custom_field_plural) , html: { class: '-minimum-title' } do -%>
+  <%= render partial: 'projects/form/toolbar', locals: { form_name: "modules-form" } %>
+
+  <% if current_user.admin? %>
+    <li class="toolbar-item -no-grow">
+      <%= link_to new_custom_field_path(type: 'WorkPackageCustomField'),
+                  { class: 'button -alt-highlight',
+                    aria: {label: t(:label_custom_field_new)},
+                    title: t(:label_custom_field_new)} do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= CustomField.model_name.human %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+
+<% if  @wp_custom_fields.any? %>
+  <%= labelled_tabular_form_for @project,
+                                url: { controller: '/projects', action: 'custom_fields', id: @project },
+                                method: :put,
+                                html: { id: 'modules-form' } do |form| %>
+
+    <%= render  partial: "projects/form/custom_fields",
+                locals: {
+                  project: @project,
+                  form: form,
+                  work_package_custom_fields: @wp_custom_fields
+                } %>
+
+    <div class="generic-table--action-buttons">
+      <%= form.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+    </div>
+  <% end %>
+<% else %>
+  <%= no_results_box custom_title: t('projects.settings.custom_fields.no_results_title_text') %>
+<% end %>

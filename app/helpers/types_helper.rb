@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,29 @@
 #++
 
 module ::TypesHelper
+  def types_tabs
+    [
+      {
+        name: 'settings',
+        partial: 'types/form/settings',
+        path: edit_type_tab_path(id: @type.id, tab: :settings),
+        label: 'types.edit.settings'
+      },
+      {
+        name: 'form_configuration',
+        partial: 'types/form/form_configuration',
+        path: edit_type_tab_path(id: @type.id, tab: :form_configuration),
+        label: 'types.edit.form_configuration'
+      },
+      {
+        name: 'projects',
+        partial: 'types/form/projects',
+        path: edit_type_tab_path(id: @type.id, tab: :projects),
+        label: 'types.edit.projects'
+      }
+    ]
+  end
+
   def icon_for_type(type)
     return unless type
 

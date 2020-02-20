@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ describe 'Deletion', type: :feature do
   let(:current_user) { FactoryBot.create :admin }
   let(:category) { FactoryBot.create :category }
   let(:categories_page) { CategoriesPage.new(category.project) }
-  let(:delete_button) { 'div#tab-content-categories a.icon-delete' }
+  let(:delete_button) { 'a.icon-delete' }
   let(:confirm_deletion_button) { 'input[type="submit"]' }
 
   before do allow(User).to receive(:current).and_return current_user end

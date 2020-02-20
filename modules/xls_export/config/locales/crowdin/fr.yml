@@ -1,5 +1,5 @@
 fr:
-  export_to_excel: "Exporter sous un tableur Excel"
+  export_to_excel: "Exporter XLS"
   print_with_description: "Imprimer l'aperçu avec une description"
   sentence_separator_or: "ou"
   different_formats: Formats différents

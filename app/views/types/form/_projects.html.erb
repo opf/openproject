@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,23 +31,22 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="grid-block wrap">
     <div class="grid-content small-12 large-6">
       <% if @projects.any? %>
-      <fieldset class="form--fieldset" id="type_project_ids">
-        <legend class="form--fieldset-legend" >
-          <%= t('types.edit.enabled_projects') %>
-        </legend>
-        <div>
-          <div class="form--fieldset-control">
-            <span class="form--fieldset-control-container">
-              (<%= check_all_links 'type_project_ids' %>)
-            </span>
-          </div>
-          <%= project_nested_ul(@projects) do |p|
-            content_tag('label',
-              check_box_tag('type[project_ids][]', p.id, @type.projects.include?(p), id: nil) +
-                ' ' + h(p), class: 'form--label-with-check-box')
-          end %>
-          <%= hidden_field_tag('type[project_ids][]', '', id: nil) %>
-        </div>
+        <fieldset class="form--fieldset" id="type_project_ids">
+          <legend class="form--fieldset-legend" >
+            <%= t('types.edit.enabled_projects') %>
+          </legend>
+            <div class="form--toolbar">
+              <span class="form--toolbar-item">
+                (<%= check_all_links 'type_project_ids' %>)
+              </span>
+            </div>
+            <%= project_nested_ul(@projects) do |p|
+              content_tag('label',
+                check_box_tag('type[project_ids][]', p.id, @type.projects.include?(p), id: nil) +
+                  ' ' + h(p), class: 'form--label-with-check-box')
+            end %>
+            <%= hidden_field_tag('type[project_ids][]', '', id: nil) %>
+        </fieldset>
       <% end %>
     </div>
   </div>

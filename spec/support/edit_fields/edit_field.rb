@@ -34,8 +34,12 @@ class EditField
     context.find "#{@selector} #{input_selector}"
   end
 
-  def clear
-    input_element.native.clear
+  def clear(with_backspace: false)
+    if with_backspace
+      input_element.set(' ', fill_options: { clear: :backspace })
+    else
+      input_element.native.clear
+    end
   end
 
   def expect_read_only
@@ -49,6 +53,11 @@ class EditField
 
   def expect_value(value)
     expect(input_element.value).to eq(value)
+  end
+
+  def expect_display_value(value)
+    expect(display_element)
+      .to have_content(value)
   end
 
   ##
@@ -222,8 +231,11 @@ class EditField
            'status',
            'project',
            'type',
-           'category'
+           'category',
+           'workPackage'
         'create-autocompleter'
+      when 'activity'
+        'activity-autocompleter'
       else
         :input
       end.to_s

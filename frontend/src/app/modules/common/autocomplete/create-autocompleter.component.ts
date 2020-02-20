@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,10 +23,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
 import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+
+export interface CreateAutocompleterValueOption {
+  name:string;
+  $href:string|null;
+}
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -34,13 +39,14 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {AddTagFn} from "@ng-select/ng-select/lib/ng-select.component";
+import { Subject } from 'rxjs';
 
 @Component({
   templateUrl: './create-autocompleter.component.html',
   selector: 'create-autocompleter'
 })
 export class CreateAutocompleterComponent implements AfterViewInit {
-  @Input() public availableValues:any[];
+  @Input() public availableValues:CreateAutocompleterValueOption[];
   @Input() public appendTo:string;
   @Input() public model:any;
   @Input() public required:boolean = false;
@@ -48,6 +54,8 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Input() public finishedLoading:boolean = false;
   @Input() public id:string = '';
   @Input() public classes:string = '';
+  @Input() public typeahead?:Subject<string>;
+  @Input() public hideSelected:boolean = false;
 
   @Output() public onChange = new EventEmitter<HalResource>();
   @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();
@@ -58,7 +66,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   @ViewChild('ngSelectComponent', {static: false}) public ngSelectComponent:NgSelectComponent;
 
-  public text:any = {
+  public text:{ [key:string]:string } = {
     add_new_action: this.I18n.t('js.label_create'),
   };
 

@@ -1,0 +1,102 @@
+.fc-view-container
+  overflow-x: auto
+
+  .fc-view
+    min-width: 800px
+
+  .fc-head
+    display: table-footer-group
+
+  .fc-event, .fc-bgevent
+    border-radius: 0
+    margin-right: 8px
+    margin-left: 8px
+
+  .fc-head-container
+    border-color: white
+
+  .fc-day-header
+    padding-top: 5px
+
+  .fc-widget-content
+    border-left-color: white
+
+    .fc-day
+      border-left: 0
+      border-right: 0
+
+  .fc-timeGrid-view .fc-day-grid .fc-row
+    min-height: 1em
+
+  .fc-timeGrid-view .fc-day-grid .fc-row .fc-content-skeleton
+    padding-bottom: 0
+
+  .fc-time-grid .fc-slats .fc-minor td
+    border-top: 0
+
+  .te-calendar--day-sum
+    border: none
+    background-color: initial
+    color: #000000
+    text-align: center
+    font-size: 0.875em
+    font-weight: bold
+    line-height: 22px
+    opacity: 1
+
+  .te-calendar--add-entry
+    text-align: center
+    font-weight: bold
+    opacity: 0
+    background: none
+    border: none
+    display: flex
+    align-items: center
+
+    &:hover
+      opacity: 1
+      transition: opacity 1s ease
+      background: #EAEAEA
+
+    .te-calendar--add-icon
+      color: black
+      width: 100%
+      font-weight: normal
+      font-size: 1.5rem
+
+    &.-prohibited
+      cursor: not-allowed
+
+      .te-calendar--add-icon
+        display: none
+
+  .te-calendar--time-entry
+    .fc-content
+      height: 100%
+
+    .fc-fadeout
+      position: relative
+      bottom: 2em
+      height: 2em
+      z-index: 5
+
+    &.-no-fadeout
+      .fc-fadeout
+        display: none
+
+  .fc-duration
+    border-right: 1px solid white
+    border-bottom: 1px solid white
+    margin-left: -1px
+    padding-left: 1px
+    display: inline-block
+    margin-right: 5px
+    padding-right: 5px
+    font-weight: bold
+
+.te-calendar--create-button
+  float: right
+  margin-right: 0
+  margin-top: 4px
+  height: 34px
+

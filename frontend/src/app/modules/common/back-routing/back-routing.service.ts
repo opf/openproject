@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,12 +23,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
 import {Injectable, Injector} from '@angular/core';
 import {StateService, Transition} from "@uirouter/core";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import {TransitionOptions} from "@uirouter/core/lib/transition/interface";
 
 interface BackRouteOptions {
   name:string;
@@ -52,7 +53,7 @@ export class BackRoutingService {
       this.$state.go('work-packages.list', this.$state.params);
     } else {
       if (this.keepTab.isDetailsState(this.backRoute.parent)) {
-        if(preferListOverSplit) {
+        if (preferListOverSplit) {
           this.$state.go('work-packages.list', this.$state.params);
         } else {
           this.$state.go(this.keepTab.currentDetailsState, this.$state.params);

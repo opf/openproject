@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -316,7 +316,7 @@ class ApplicationController < ActionController::Base
     is_authorized = AuthorizationService.new({ controller: ctrl, action: action }, context: context, global: global).call
 
     unless is_authorized
-      if @project && @project.archived?
+      if @project&.archived?
         render_403 message: :notice_not_authorized_archived_project
       else
         deny_access
@@ -586,6 +586,12 @@ class ApplicationController < ActionController::Base
     false
   end
   helper_method :show_local_breadcrumb
+
+  def admin_first_level_menu_entry
+    menu_item = admin_menu_item(current_menu_item)
+    menu_item.parent
+  end
+  helper_method :admin_first_level_menu_entry
 
   def check_session_lifetime
     if session_expired?

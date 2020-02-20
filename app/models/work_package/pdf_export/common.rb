@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +34,9 @@ module WorkPackage::PdfExport::Common
   include ActionView::Helpers::NumberHelper
   include CustomFieldsHelper
   include WorkPackage::PdfExport::ToPdfHelper
+  include OpenProject::TextFormatting
+
+  private
 
   def field_value(work_package, attribute)
     value = work_package.send(attribute)
@@ -63,72 +66,127 @@ module WorkPackage::PdfExport::Common
     @cell_padding ||= [2, 5, 2, 5]
   end
 
-  ##
-  # Creates a number of cell rows to show the description.
-  #
-  # The description is split into many smaller cells so that
-  # prawn-table does not go crazy with long texts causing
-  # empty pages in between.
-  #
-  # The fact that prawn-table can't handle multi-page table cells
-  # is a known, unsolved issue. Hence this workaround.
-  #
-  # @param description [String] The work package's description
-  # @param options [Hash] Allows changing the number of lines per cell
-  #                       through the :max_lines_per_cell option.
-  # @return [Array] An array of rows to be added to the work packages table.
-  def make_description(description, options = {})
-    lines = description.lines
-    max = options[:max_lines_per_cell] || max_lines_per_description_cell
-
-    if lines.size > max_lines_per_description_cell
-      cells = split_description lines, max: max, cell_options: Hash(options[:cell_options])
-
-      format_description_segments!(cells)
-    else
-      [make_single_description(description, Hash(options[:cell_options]))]
-    end
-  end
-
-  ##
-  # Formats the cells so that they appear to be one big cell.
-  def format_description_segments!(cells)
-    cells.first.padding[0] = cell_padding[0] # top padding
-    cells.last.padding[2] = cell_padding[2] # bottom padding
-    cells.last.borders = [:left, :right, :bottom]
-    cells
-  end
-
-  def split_description(lines, max: max_lines_per_description_cell, cell_options: {})
-    head = make_description_segment lines.take(max).join, cell_options
-
-    if lines.size > max
-      [head] + split_description(lines.drop(max), max: max, cell_options: cell_options)
-    else
-      [head]
-    end
-  end
-
-  def make_description_segment(description, options = {})
-    cell_options = {
-      borders: [:left, :right],
-      padding: [0, cell_padding[1], 0, cell_padding[3]]
+  def configure_markup
+    # Do not attempt to fetch images.
+    # Fetching images can cause errors e.g. a 403 is returned when attempting to fetch from aws with
+    # a no longer valid token.
+    # Such an error would cause the whole export to error.
+    pdf.markup_options = {
+      image: {
+        loader: ->(_src) { nil },
+        placeholder: "<i>[#{I18n.t('export.image.omitted')}]</i>"
+      }
     }
-
-    make_single_description description, cell_options.merge(options)
   end
 
-  def make_single_description(description, options = {})
-    cell_options = { colspan: description_colspan }
+  ##
+  # Writes the formatted work package description into the document.
+  #
+  # A border (without one on the top) is painted around the area painted by the description.
+  #
+  # @param work_package [WorkPackage] The work package for which the description is to be printed.
+  # @param label [boolean] Whether a label is to be printed in a column preceding the description.
+  def write_description!(work_package, label = true)
+    height = write_description_html!(work_package, label)
 
-    pdf.make_cell description, cell_options.merge(options)
+    data = make_description_label_row(label) +
+           make_description_border_rows(height, label)
+
+    pdf.table(data, column_widths: column_widths)
   end
 
-  def max_lines_per_description_cell
-    3
+  def write_description_html!(work_package, label)
+    float_with_height_indicator do
+      pdf.move_down(cell_padding[1])
+
+      pdf.indent(description_padding_left(label), cell_padding[3]) do
+        pdf.markup(formatted_description_text(work_package))
+      end
+    end
+  end
+
+  def float_with_height_indicator
+    former_position = new_position = current_y_position
+
+    pdf.float do
+      yield
+
+      new_position = current_y_position
+    end
+
+    position_diff(former_position, new_position)
+  end
+
+  def make_description_label_row(label)
+    if label
+      [[make_description_label, pdf.make_cell('', borders: [:right], colspan: description_colspan)].compact]
+    else
+      [[pdf.make_cell('', borders: %i[right left], colspan: description_colspan)]]
+    end
+  end
+
+  def description_padding_left(label)
+    if label
+      column_widths.first + cell_padding[1]
+    else
+      cell_padding[1]
+    end
+  end
+
+  def description_padding_right
+    cell_padding[3]
+  end
+
+  def formatted_description_text(work_package)
+    format_text(work_package.description.to_s, object: work_package, format: :html)
+  end
+
+  def make_description_border_rows(height, label)
+    border_row_height = 10
+
+    (height / border_row_height).ceil.times.map do |index|
+      make_description_border_row(border_row_height,
+                                  label,
+                                  index == (height / border_row_height).ceil - 1)
+    end
+  end
+
+  def make_description_border_row(border_row_height, label, last)
+    border_left = if label
+                    [:left]
+                  else
+                    %i[left right]
+                  end
+
+    border_right = [:right]
+
+    if last
+      border_left << :bottom
+      border_right << :bottom
+    end
+
+    if label
+      [pdf.make_cell('', height: border_row_height, borders: border_left, colspan: 1),
+       pdf.make_cell('', height: border_row_height, borders: border_right, colspan: description_colspan)]
+    else
+      [pdf.make_cell('', height: border_row_height, borders: border_left, colspan: description_colspan)]
+    end
+  end
+
+  def make_description_label
+    text = WorkPackage.human_attribute_name(:description) + ':'
+    pdf.make_cell(text, borders: [:left], font_style: :bold, padding: cell_padding)
   end
 
   def description_colspan
     raise NotImplementedError, 'to be implemented where included'
+  end
+
+  def current_y_position
+    OpenStruct.new y: pdf.y, page: pdf.page_number
+  end
+
+  def position_diff(position_a, position_b)
+    position_a.y - position_b.y + (position_b.page - position_a.page) * pdf.bounds.height
   end
 end

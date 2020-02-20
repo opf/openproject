@@ -1,11 +1,18 @@
 #-- copyright
-# OpenProject Costs Plugin
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
-# Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# version 3.
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,6 +22,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class Rate < ActiveRecord::Base
@@ -33,15 +42,7 @@ class Rate < ActiveRecord::Base
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  def self.clean_currency(value)
-    if value && value.is_a?(String)
-      value = value.strip
-      value.gsub!(I18n.t(:currency_delimiter), '') if value.include?(I18n.t(:currency_delimiter)) && value.include?(I18n.t(:currency_separator))
-      value.gsub(',', '.')
-    else
-      value
-    end
-  end
+  extend Costs::NumberHelper
 
   private
 
@@ -56,7 +57,7 @@ class Rate < ActiveRecord::Base
   end
 
   def update_costs
-    entry_class = self.is_a?(HourlyRate) ? TimeEntry : CostEntry
+    entry_class = is_a?(HourlyRate) ? TimeEntry : CostEntry
     entry_class.where(rate_id: id).each(&:update_costs!)
   end
 
@@ -65,10 +66,10 @@ class Rate < ActiveRecord::Base
 
     next_rate = self.next
     # get entries from the current project
-    entries = o.find_entries(valid_from, (next_rate.valid_from if next_rate))
+    entries = o.find_entries(valid_from, (next_rate&.valid_from))
 
     # and entries from subprojects that need updating (only applies to hourly_rates)
-    entries += o.orphaned_child_entries(valid_from, (next_rate.valid_from if next_rate))
+    entries += o.orphaned_child_entries(valid_from, (next_rate&.valid_from))
 
     o.update_entries(entries)
   end

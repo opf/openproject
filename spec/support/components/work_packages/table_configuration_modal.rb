@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -88,11 +88,11 @@ module Components
       end
 
       def expect_disabled_tab(name)
-        expect(page).to have_selector("#{selector} .tab-show.-disabled", text: name)
+        expect(page).to have_selector("#{selector} li.-disabled", text: name.upcase)
       end
 
       def selected_tab(name)
-        page.find("#{selector} .tab-show.selected", text: name)
+        page.find("#{selector} .tab-show.selected", text: name.upcase)
         page.find("#{selector} .tab-content[data-tab-name='#{name}']")
       end
 
@@ -102,7 +102,7 @@ module Components
         sleep 1
 
         retry_block do
-          find("#{selector} .tab-show", text: target, wait: 10).click
+          find("#{selector} .tab-show", text: target.upcase, wait: 10).click
           selected_tab(target)
         end
       end

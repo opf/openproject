@@ -1,0 +1,35 @@
+<!-- position: relative added in order for the loading indicator to be positioned correctly -->
+<div class="te-calendar--container loading-indicator--location"
+     [attr.data-indicator-name]="'table'"
+     style="position: relative">
+
+  <button class="button te-calendar--create-button"
+          [attr.aria-label]="text.logTime"
+          (click)="addEventToday()">
+    <op-icon icon-classes="button--icon icon-log_time"></op-icon>
+    <span class="button--text"
+          [textContent]="text.logTime"
+          aria-hidden="true"></span>
+  </button>
+
+  <full-calendar #ucCalendar
+                 [editable]="calendarEditable"
+                 [eventLimit]="calendarEventLimit"
+                 [locale]="calendarLocale"
+                 [fixedWeekCount]="calendarFixedWeekCount"
+                 [header]="calendarHeader"
+                 [defaultView]="calendarDefaultView"
+                 [firstDay]="calendarFirstDay"
+                 [contentHeight]="calendarContentHeight"
+                 [slotEventOverlap]="calendarSlotEventOverlap"
+                 [slotLabelInterval]="calendarSlotLabelInterval"
+                 [slotLabelFormat]="calendarSlotLabelFormat"
+                 [allDaySlot]="calendarAllDaySlot"
+                 [displayEventTime]="calendarDisplayEventTime"
+                 [minTime]="calendarMinTime"
+                 [maxTime]="calendarMaxTime"
+                 [events]="calendarEvents"
+                 [eventOverlap]="calendarEventOverlap"
+                 [plugins]="calendarPlugins">
+  </full-calendar>
+</div>

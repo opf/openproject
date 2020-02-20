@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
 import {AfterViewInit, Component, ElementRef, Injector, OnDestroy} from '@angular/core';
@@ -34,12 +34,12 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import * as moment from 'moment';
 import {Moment} from 'moment';
 import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {debounceTime, filter, map, takeUntil, withLatestFrom} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, map, skip, take, takeUntil, withLatestFrom} from 'rxjs/operators';
 import {
   calculateDaySpan,
   getPixelPerDayForZoomLevel,
   requiredPixelMarginLeft,
-  timelineElementCssClass,
+  timelineElementCssClass, timelineHeaderSelector,
   timelineMarkerSelectionStartClass,
   TimelineViewParameters,
   zoomLevelOrder
@@ -50,7 +50,6 @@ import {WorkPackageTimelineCellsRenderer} from "core-components/wp-table/timelin
 import {States} from "core-components/states.service";
 import {WorkPackagesTableController} from "core-components/wp-table/wp-table.directive";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import {WorkPackageTimelineState} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-timeline";
@@ -60,6 +59,11 @@ import {debugLog, timeOutput} from "core-app/helpers/debug_output";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {
+  LoadingIndicatorService,
+  withLoadingIndicator
+} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {combineLatest} from "rxjs";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -105,6 +109,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private wpRelations:WorkPackageRelationsService,
               private wpTableHierarchies:WorkPackageViewHierarchiesService,
               private halEvents:HalEventsService,
+              private loadingIndicator:LoadingIndicatorService,
               readonly I18n:I18nService) {
   }
 
@@ -122,55 +127,27 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     // Register this instance to the table
     this.wpTableDirective.registerTimeline(this, this.timelineBody[0]);
 
-    // Refresh on changes to work packages
-    this.updateOnWorkPackageChangesets();
-
-    // Refresh timeline rendering callback
-    this.setupRefreshListener();
-
     // Refresh on window resize events
     window.addEventListener('wp-resize.timeline', () => this.refreshRequest.putValue(undefined));
 
-    // Refresh timeline view after table rendered
-    this.querySpace.rendered.values$()
-      .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
-        filter(() => this.initialized)
-      )
-      .subscribe((orderedRows) => {
+    combineLatest([
+      this.querySpace.tableRendered.values$(),
+      this.refreshRequest.changes$(),
+      this.wpTableTimeline.live$()
+    ]).pipe(
+      untilComponentDestroyed(this),
+      takeUntil(this.querySpace.stopAllSubscriptions),
+      filter(() => this.initialized && this.wpTableTimeline.isVisible)
+    )
+      .subscribe(([orderedRows, changes, timelineState]) => {
         // Remember all visible rows in their order of appearance.
         this.workPackageIdOrder = orderedRows.filter(row => !row.hidden);
         this.refreshView();
       });
-
-    // Refresh timeline view when becoming visible
-    this.wpTableTimeline
-      .live$()
-      .pipe(
-        untilComponentDestroyed(this),
-        filter((timelineState:WorkPackageTimelineState) => timelineState.visible),
-      )
-      .subscribe((timelineState:WorkPackageTimelineState) => {
-        this.refreshRequest.putValue(undefined);
-      });
-  }
-
-  private setupRefreshListener() {
-    this.refreshRequest
-      .changes$()
-      .pipe(
-        untilComponentDestroyed(this),
-        debounceTime(250)
-      )
-      .subscribe(() => this.refreshView());
   }
 
   ngOnDestroy():void {
     // empty
-  }
-
-  workPackageInView(wpId:string):boolean {
-    return this.cellsRenderer.hasCell(wpId);
   }
 
   workPackageCells(wpId:string):WorkPackageTimelineCell[] {
@@ -205,7 +182,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   get initialized():boolean {
-    return this.workPackageTable && this.querySpace.rendered.hasValue();
+    return this.workPackageTable && this.querySpace.tableRendered.hasValue();
   }
 
   refreshView() {
@@ -237,28 +214,16 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       });
 
       // Calculate overflowing width to set to outer container
-      // required to match width in all child divs
-      const currentWidth = this.getParentScrollContainer().scrollWidth;
+      // required to match width in all child divs.
+      // The header is the only one reliable, as it already has the final width.
+      const currentWidth = this.$element.find(timelineHeaderSelector)[0].scrollWidth;
       this.outerContainer.width(currentWidth);
-    });
-  }
 
-  updateOnWorkPackageChangesets() {
-    this.states.workPackages.observeChange()
-      .pipe(
-        takeUntil(componentDestroyed(this)),
-        filter(() => this.initialized && this.wpTableTimeline.isVisible),
-        filter(([wpId, ]) => this.cellsRenderer.hasCell(wpId))
-      )
-      .subscribe(([wpId, ]) => {
-        const viewParamsChanged = this.calculateViewParams(this._viewParameters);
-        if (viewParamsChanged) {
-          this.refreshRequest.putValue(undefined);
-        } else {
-          // Refresh the single cell
-          this.cellsRenderer.refreshCellsFor(wpId);
-        }
+      // Mark rendering event in a timeout to give DOM some time
+      setTimeout(() => {
+        this.querySpace.timelineRendered.next(null);
       });
+    });
   }
 
   startAddRelationPredecessor(start:WorkPackageResource) {

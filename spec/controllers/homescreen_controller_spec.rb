@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,7 +70,7 @@ describe HomescreenController, type: :controller do
 
       it 'shows the news when available' do
         expect(News).to receive(:latest).with(any_args)
-          .and_return(FactoryBot.build_stubbed_list(:news, 5, created_on: Time.now))
+          .and_return(FactoryBot.build_stubbed_list(:news, 5, created_at: Time.now))
 
         get :index
         expect(response).to render_template(partial: 'homescreen/blocks/_news')

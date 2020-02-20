@@ -161,7 +161,11 @@ module OpenProject::Bcf::BcfXml
     ##
     # Helper to transform a hash into camelized keys
     def camelized(hash)
-      hash.transform_keys(&:camelize)
+      hash.transform_keys do |key|
+        # `camelize` uses the inflections of ActiveSupport. There we defined inflections for `IFC`. However, here we
+        # don't want that applied here. `ifc_foo` shall be converted to `IfcFoo` and not to `IFCFoo`.
+        key.camelize.gsub(/IFC/, 'Ifc')
+      end
     end
 
     ##

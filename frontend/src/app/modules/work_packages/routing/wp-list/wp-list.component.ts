@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
 import {ChangeDetectionStrategy, Component, OnDestroy} from "@angular/core";
@@ -48,7 +48,7 @@ import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-s
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
-    { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
+    {provide: HalResourceNotificationService, useClass: WorkPackageNotificationService},
     DragAndDropService,
     CausedUpdatesService
   ]
@@ -100,10 +100,9 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
     this.hasQueryProps = !!this.$state.params.query_props;
 
-    // Load query initially unless it already was loaded
-    if (!this.querySpace.initialized.hasValue()) {
-      this.loadCurrentQuery();
-    }
+    // If the query was loaded, reload invisibly
+    const isFirstLoad = !this.querySpace.initialized.hasValue();
+    this.refresh(isFirstLoad, isFirstLoad);
 
     // Load query on URL transitions
     this.updateQueryOnParamsChanges();
@@ -182,7 +181,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     if (query.persisted) {
       this.selectedTitle = query.name;
     } else {
-      this.selectedTitle =  this.wpStaticQueries.getStaticName(query);
+      this.selectedTitle = this.wpStaticQueries.getStaticName(query);
     }
 
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
@@ -197,13 +196,19 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     let promise:Promise<unknown>;
 
     if (firstPage) {
-      promise = this.loadCurrentQuery();
+      promise = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
     } else {
       promise = this.wpListService.reloadCurrentResultsList();
     }
 
     if (visibly) {
-      this.loadingIndicator = promise;
+      this.loadingIndicator = promise.then(() => {
+        if (this.wpTableTimeline.isVisible) {
+          return this.querySpace.timelineRendered.pipe(take(1)).toPromise();
+        } else {
+          return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
+        }
+      });
     }
 
     return promise;
@@ -245,7 +250,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       this.wpListChecksumService
         .executeIfOutdated(newId,
           newChecksum,
-          () => this.loadCurrentQuery());
+          () => this.refresh(true, true));
     });
   }
 
@@ -265,12 +270,4 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     this.loadingIndicatorService.table.promise = promise;
   }
 
-  protected loadCurrentQuery():Promise<unknown> {
-    return this.loadingIndicator =
-      this.wpListService
-        .loadCurrentQueryFromParams(this.projectIdentifier)
-        .then(() => {
-          this.querySpace.rendered.valuesPromise();
-        });
-  }
 }

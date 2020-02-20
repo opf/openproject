@@ -1,5 +1,5 @@
 it:
-  export_to_excel: "Esporta come foglio di calcolo Excel"
+  export_to_excel: "Esporta in XLS"
   print_with_description: "Stampa anteprima con descrizione"
   sentence_separator_or: "oppure"
   different_formats: Formati diversi

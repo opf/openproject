@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ es:
     plugins:
       no_results_title_text: No hay complementos disponibles.
     custom_styles:
+      color_theme: "Tema de color"
+      color_theme_custom: "(Personalizado)"
+      colors:
+        alternative-color: "Alternativo"
+        content-link-color: "Fuente de enlace"
+        primary-color: "Primario"
+        primary-color-dark: "Primario (oscuro)"
+        header-bg-color: "Fondo de encabezado"
+        header-item-bg-hover-color: "Fondo de encabezado al mantener el cursor"
+        header-item-font-color: "Fuente de encabezado"
+        header-item-font-hover-color: "Fuente de encabezado al mantener el cursor"
+        header-border-bottom-color: "Borde de encabezado"
+        main-menu-bg-color: "Fondo del menú principal"
+        main-menu-bg-selected-background: "Menú principal seleccionado"
+        main-menu-bg-hover-background: "Menú principal al mantener el cursor"
+        main-menu-font-color: "Fuente del menú principal"
+        main-menu-selected-font-color: "Fuente del menú principal seleccionado"
+        main-menu-hover-font-color: "Fuente del menú principal al mantener el cursor"
+        main-menu-border-color: "Borde del menú principal"
       custom_colors: "Colores personalizados"
       customize: "Personalice su versión de OpenProject con su propio logotipo. Tenga en cuenta que este logotipo estará visible al público."
       enterprise_notice: "Para agradecerle su contribución económica al desarrollo de OpenProject, esta insignificante función solo está disponible para los suscriptores que apoyan la versión corporativa."
       manage_colors: "Editar opciones de selección de colores"
       instructions:
-        alternative_color: "Color de fuerte contraste que se suele usar en los botones más importantes de la pantalla."
-        content_link_color: "Color de fuente de la mayoría de los enlaces."
-        primary_color: "Color principal."
-        primary_color_dark: "Se suelen usar colores más oscuros para la acción de pasar el ratón por encima."
-        header_bg_color: "Color de fondo del encabezado."
-        header_item_bg_hover_color: "Color de fondo de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
-        header_item_font_color: "Color de fuente de los elementos interactivos del encabezado."
-        header_item_font_hover_color: "Color de fuente de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
-        header_border_bottom_color: "Línea fina debajo del encabezado. Deje este campo vacío si no quiere que se muestre ninguna línea."
-        main_menu_bg_color: "Color de fondo del menú izquierdo."
+        alternative-color: "Color de énfasis intenso, que suele usarse para el botón más importante de una pantalla."
+        content-link-color: "Color de fuente de la mayoría de los enlaces."
+        primary-color: "Color principal."
+        primary-color-dark: "Se suelen usar colores más oscuros para la acción de pasar el ratón por encima."
+        header-item-bg-hover-color: "Color de fondo de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
+        header-item-font-color: "Color de fuente de los elementos interactivos del encabezado."
+        header-item-font-hover-color: "Color de fuente de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
+        header-border-bottom-color: "Línea fina debajo del encabezado. Deje este campo vacío si no quiere que se muestre ninguna línea."
+        main-menu-bg-color: "Color de fondo del menú izquierdo."
     enterprise:
       upgrade_to_ee: "Actualizar hasta versión corporativa"
       add_token: "Cargue el token de soporte de versión corporativa"
@@ -575,6 +593,10 @@ es:
         role:
           permissions:
             dependency_missing: "también es necesario incluir «%{dependency}», ya que está seleccionada la opción «%{permission}»."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "es demasiado alto, ya que solo puede registrarse un máximo de 24 horas por fecha."
         work_package:
           is_not_a_valid_target_for_time_entries: "Paquete de trabajo #%{id} no es un objetivo válido para reasignar las entradas de tiempo."
           attributes:
@@ -724,6 +746,7 @@ es:
     type: "Tipo"
     updated_at: "Actualizada el"
     updated_on: "Actualizada el"
+    uploader: "Cargador"
     user: "Usuario"
     version: "Versión"
     work_package: "Paquete de trabajo"
@@ -1009,9 +1032,8 @@ es:
         rename_groups: "Cambiar nombre de grupos de atributos"
       project_filters:
         description_html: "Filtrar y ordenar en campos personalizados es una característica de edición empresarial."
-  enumeration_activities: "Actividades (tiempo de seguimiento)"
+  enumeration_activities: "Actividades de seguimiento del tiempo"
   enumeration_work_package_priorities: "Prioridades del paquete de trabajo"
-  enumeration_system_activity: "Actividad del sistema"
   enumeration_reported_project_statuses: "Estatus del proyecto reportado"
   error_auth_source_sso_failed: "El intento de inicio de sesión único (SSO) para el usuario “%{value}” falló"
   error_can_not_archive_project: "Este proyecto no se puede archivar: %{errors}"
@@ -1081,6 +1103,8 @@ es:
       pdf_with_descriptions: "PDF con descripciones"
       pdf_with_descriptions_and_attachments: "PDF con descripción y archivos adjuntos"
       pdf_with_attachments: "PDF con adjuntos"
+    image:
+      omitted: "Imagen no exportada."
   extraction:
     available:
       pdftotext: "Pdftotext disponible (opcional)"
@@ -1661,15 +1685,19 @@ es:
   label_workflow_plural: "Flujos de trabajo"
   label_workflow_summary: "Resumen"
   label_x_closed_work_packages_abbr:
+    zero: "0 cerrados"
     one: "1 cerrado"
     other: "%{count} cerrados"
   label_x_comments:
+    zero: "sin comentarios"
     one: "un comentario"
     other: "%{count} comentarios"
   label_x_open_work_packages_abbr:
+    zero: "0 abiertos"
     one: "1 abierto"
     other: "%{count} abiertos"
   label_x_projects:
+    zero: "sin proyectos"
     one: "1 proyecto"
     other: "%{count} projectos"
   label_year: "Año"
@@ -2214,7 +2242,7 @@ es:
   text_destroy_with_associated: "Hay objetos adicionales asociados a los paquetes de trabajo que van a ser eliminados. Esos objetos son de los siguientes tipos:"
   text_destroy_what_to_do: "¿Qué quieres hacer?"
   text_diff_truncated: "... Esta diferencia se truncó porque excede el tamaño máximo que puede visualizarse."
-  text_email_delivery_not_configured: "No se ha configurado la entrega de correo electrónico y las notificaciones están deshabilitadas.\nConfigure el servidor SMTP en config/configuration.yml y reinicie la aplicación para habilitarlas."
+  text_email_delivery_not_configured: "No se ha configurado la entrega de correo electrónico y se han deshabilitado las notificaciones.\nConfigure el servidor SMTP para habilitarlas."
   text_enumeration_category_reassign_to: "Reasignarlos a este valor:"
   text_enumeration_destroy_question: "%{count} objetos asignados a este valor."
   text_file_repository_writable: "Directorio de adjuntos escribible"
@@ -2227,8 +2255,8 @@ es:
   text_work_package_category_destroy_question: "Algunos paquetes de trabajo (%{count}) están asignados a esta categoría. ¿Que desea hacer?"
   text_work_package_category_reassign_to: "Resignando paquetes de trabajo a esta categoria"
   text_work_package_updated: "Los paquetes de trabajo %{id} han sido actualizados por %{author}."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_added: "%{watcher_changer} le agregó como observador en el paquete de trabajo %{id}."
+  text_work_package_watcher_removed: "%{watcher_changer} le ha quitado como observador del paquete de trabajo %{id}."
   text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando y reparando paquetes de trabajo en mensajes de commit"
   text_journal_added: "%{label} %{value} añadido"
@@ -2507,6 +2535,17 @@ es:
     Alcanzado el límite de usuarios. No se puede activar ningún usuario más. <a href="%{upgrade_url}">actualice su plan</a> o bloquee miembros para permitir usuarios adicionales.
   warning_user_limit_reached_instructions: >
     Has alcanzado el límite de usuarios (%{current}/%{max} usuarios activos). Por favor, contacta con sales@openproject.com para mejorar tu plan a la edición Enterprise y añadir usuarios adicionales.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Error de coincidencia de configuración de protocolo'
+      text_html: >
+        La aplicación se ejecuta con el protocolo <code>%{set_protocol}</code>, pero el protocolo de la solicitud es <code>%{actual_protocol}</code>. Se producirán errores. Vaya a <a href="%{setting_path}">Ajustes de sistema</a> y cambie la configuración de «Protocolo» para corregir este problema.
+    hostname_mismatch:
+      title: 'Error de coincidencia de configuración de nombre de host'
+      text_html: >
+        La aplicación se ejecuta con el nombre de host <code>%{set_hostname}</code>, pero el nombre de host de la solicitud es <code>%{actual_hostname}</code>. Se producirán errores. Vaya a <a href="%{setting_path}">Ajustes de sistema</a> y cambie la configuración de «Nombre de host» para corregir este problema.
   menu_item: "Elemento de menú"
   menu_item_setting: "Visibilidad"
   wiki_menu_item_for: "Elemento de menú para wiki '%{title}'"
@@ -2560,8 +2599,8 @@ es:
         invalid_user_assigned_to_work_package: "El usuario elegido no tiene permiso para ser '%{property}' para este paquete de trabajo."
         start_date: "La fecha de inicio no puede ser establecida en paquetes de trabajo padres."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "es un archivo gzip no válido: %{message}"
+        invalid_json: "es un archivo JSON no válido: %{message}"
     resources:
       schema: 'Esquema'
   doorkeeper:

@@ -1,5 +1,5 @@
 ja:
-  export_to_excel: "Excelスプレッドシートとしてエクスポート"
+  export_to_excel: "Export XLS"
   print_with_description: "説明付きの印刷プレビュー"
   sentence_separator_or: "または"
   different_formats: 別の形式

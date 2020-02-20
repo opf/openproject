@@ -41,7 +41,7 @@ export class HierarchyTransformer {
       .updates$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions),
-        filter(() => this.querySpace.rendered.hasValue())
+        filter(() => this.querySpace.tableRendered.hasValue())
       )
       .subscribe((state:WorkPackageViewHierarchies) => {
 
@@ -57,7 +57,7 @@ export class HierarchyTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderHierarchyState(state:WorkPackageViewHierarchies) {
-    const rendered = this.querySpace.rendered.value!;
+    const rendered = this.querySpace.tableRendered.value!;
 
     // Show all hierarchies
     jQuery('[class^="__hierarchy-group-"]').removeClass((i:number, classNames:string):string => {
@@ -99,6 +99,6 @@ export class HierarchyTransformer {
     }
 
 
-    this.querySpace.rendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
+    this.querySpace.tableRendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
   }
 }

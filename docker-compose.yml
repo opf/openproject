@@ -1,30 +1,90 @@
-db:
-  image: mysql
-  volumes:
-    - ~/.docker-volumes/openproject/db:/var/lib/mysql
-  expose:
-    - "3306"
-  environment:
-    - MYSQL_ALLOW_EMPTY_PASSWORD=true
+version: "3.7"
 
-worker: &ruby
+networks:
+  frontend:
+  backend:
+
+volumes:
+  pgdata:
+  opdata:
+
+x-op-restart-policy: &restart_policy
+  restart: unless-stopped
+x-op-image: &image
   build: .
+  image: openproject/community:${TAG:-10}
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    - "RAILS_CACHE_STORE=memcache"
+    - "OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211"
+    - "OPENPROJECT_RAILS__RELATIVE__URL__ROOT=${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    - "DATABASE_URL=postgres://postgres:p4ssw0rd@db/openproject"
+    - "USE_PUMA=true"
+    # set to true to enable the email receiving feature. See ./docker/cron for more options
+    - "IMAP_ENABLED=false"
   volumes:
-    - .:/usr/src/app
-  links:
+    - "opdata:/var/openproject/assets"
+  depends_on:
     - db
-  environment:
-    - "RAILS_CACHE_STORE=file_store"
-  command: "./docker/worker"
+    - cache
 
-web:
-  <<: *ruby
-  ports:
-    - "8080:8080"
-  command: "./docker/web"
+services:
+  db:
+    image: postgres:10
+    <<: *restart_policy
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_PASSWORD=p4ssw0rd
+      - POSTGRES_DB=openproject
+    networks:
+      - backend
 
-frontend:
-  build: .
-  volumes:
-    - .:/usr/src/app
-  command: "./docker/webpack-watch"
+  cache:
+    image: memcached
+    <<: *restart_policy
+    networks:
+      - backend
+
+  proxy:
+    <<: *image
+    <<: *restart_policy
+    command: "./docker/proxy"
+    ports:
+      - "8080:80"
+    environment:
+      - APP_HOST=web
+      - "OPENPROJECT_RAILS__RELATIVE__URL__ROOT=${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    depends_on:
+      - web
+    networks:
+      - frontend
+
+  web:
+    <<: *app
+    command: "./docker/web"
+    networks:
+      - frontend
+      - backend
+
+  worker:
+    <<: *app
+    command: "./docker/worker"
+    networks:
+      - backend
+
+  cron:
+    <<: *app
+    command: "./docker/cron"
+    networks:
+      - backend
+
+  seeder:
+    <<: *app
+    command: "./docker/seeder"
+    restart: on-failure
+    networks:
+      - backend

@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +49,7 @@ describe ForumsController, type: :controller do
         end
 
         expect(response).to be_successful
-        expect(response).to render_template 'forums/show'
+        expect(response).to render_template 'forums/index'
         expect(assigns(:forums)).to be_present
         expect(assigns(:project)).to be_present
       end
@@ -113,12 +113,11 @@ describe ForumsController, type: :controller do
         end
       end
 
-      it 'should redirect to the settings page if successful' do
+      it 'should redirect to the index page if successful' do
         expect(response)
-          .to redirect_to controller: '/project_settings',
-                          action: 'show',
-                          id: project,
-                          tab: 'forums'
+          .to redirect_to controller: '/forums',
+                          action: 'index',
+                          project_id: project.id
       end
 
       it 'have a successful creation flash' do
@@ -178,7 +177,6 @@ describe ForumsController, type: :controller do
 
     describe '#higher' do
       let(:move_to) { 'higher' }
-      let(:redirect_url) { "http://test.host/projects/#{project.id}/settings/forums" }
 
       before do
         post 'move', params: { id: forum_2.id,
@@ -190,7 +188,12 @@ describe ForumsController, type: :controller do
 
       it do expect(response).to be_redirect end
 
-      it do expect(response).to redirect_to(redirect_url) end
+      it do
+        expect(response)
+          .to redirect_to controller: '/forums',
+                          action: 'index',
+                          project_id: project.id
+      end
     end
   end
 
@@ -213,11 +216,10 @@ describe ForumsController, type: :controller do
         end
       end
 
-      it 'should redirect to the settings page if successful' do
-        expect(response).to redirect_to controller: '/project_settings',
-                                        action: 'show',
-                                        id: forum.project,
-                                        tab: 'forums'
+      it 'should redirect to the index page if successful' do
+        expect(response).to redirect_to controller: '/forums',
+                                        action: 'index',
+                                        project_id: forum.project_id
       end
 
       it 'have a successful update flash' do

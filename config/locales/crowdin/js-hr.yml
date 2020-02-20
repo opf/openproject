@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ hr:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Povijest satnica"
     clipboard:
       browser_error: "Vaš izbornik ne podržava kopiranje u međuspremnik. Molim vas manualno kopirajte odabrani tekst."
       copied_successful: "Uspješno kopirano u međuspremnik!"
@@ -171,6 +172,9 @@ hr:
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
+    enumeration_activities: "Aktivnosti (vremensko praćenje)"
+    enumeration_doc_categories: "Kategorije dokumenata"
+    enumeration_work_package_priorities: "Prioriteti radnog paketa"
     filter:
       description:
         text_open_filter: "Otvorite ovaj filtar s 'ALT' i tipke sa strelicama."
@@ -192,6 +196,7 @@ hr:
     general_text_yes: "da"
     general_text_No: "Ne"
     general_text_Yes: "Da"
+    global_roles: Globalne role
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -203,8 +208,15 @@ hr:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Aktiviraj"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -222,6 +234,7 @@ hr:
     label_and: "i"
     label_ascending: "Uzlazno"
     label_author: "Autor: %{user}"
+    label_avatar: "Avatar"
     label_between: "između"
     label_board: "Board"
     label_board_locked: "Zaključano"
@@ -235,6 +248,8 @@ hr:
     label_deactivate: "Deaktivirajte"
     label_descending: "Silazno"
     label_description: "Opis"
+    label_details: "Pojedinosti"
+    label_display: "Prikaz"
     label_cancel_comment: "Odustani od komentara"
     label_closed_work_packages: "zaključen"
     label_collapse: "Prikaži sve"
@@ -255,22 +270,29 @@ hr:
     label_export: "Izvezi"
     label_filename: "Datoteka"
     label_filesize: "Veličina"
+    label_general: "Općenito"
     label_greater_or_equal: ">="
     label_group: 'Grupa'
     label_group_by: "Grupiraj po"
+    label_group_plural: "Grupe"
     label_hide_attributes: "Prikaži manje"
     label_hide_column: "Sakriti stupac"
     label_hide_project_menu: "Collapse project menu"
     label_in: "u"
     label_in_less_than: "u manje od"
     label_in_more_than: "u više od"
+    label_incoming_emails: "Dolazne poruke"
+    label_information_plural: "Informacija"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Zadnje ažuriranje"
     label_less_or_equal: "<="
     label_less_than_ago: "manje od dana"
     label_loading: "Učitavanje..."
+    label_mail_notification: "Obavijesti e-mailom"
     label_me: "ja"
+    label_meeting_agenda: "Dnevni red"
+    label_meeting_minutes: "Minute"
     label_menu_collapse: "sakriti"
     label_menu_expand: "proširiti"
     label_more_than_ago: "prije nekoliko dana"
@@ -291,12 +313,16 @@ hr:
     label_previous: "Prethodni"
     label_per_page: "Po stranici:"
     label_please_wait: "Molimo pričekajte"
+    label_project_plural: "Projekti"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Citirajte komentar"
+    label_recent: "Recent"
     label_reset: "Resetiraj"
     label_remove_column: "Remove column"
     label_remove_columns: "Izbriši odabrene stupce"
     label_remove_row: "Remove row"
+    label_report: "Izvješće"
+    label_repository_plural: "Repozitoriji"
     label_save_as: "Spremiti kao"
     label_select_watcher: "Odaberite nadglednika..."
     label_selected_filter_list: "Odabrani filteri"
@@ -307,6 +333,7 @@ hr:
     label_sort_higher: "Pomakni gore"
     label_sort_lower: "Pomakni dolje"
     label_sorting: "Sortiranje"
+    label_spent_time: "Utrošeno vrijeme"
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Javno"
@@ -315,7 +342,9 @@ hr:
     label_subject: "Predmet"
     label_this_week: "ovog tjedna"
     label_today: "danas"
+    label_time_entry_plural: "Utrošeno vrijeme"
     label_up: "Gore"
+    label_user_plural: "Korisnici"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
     label_total_progress: "%{percent}% ukupnog napretka"
@@ -357,6 +386,7 @@ hr:
     label_wait: "Konfiguraija je u tijeku, molim vas pričekajte..."
     label_upload_counter: "%{done} od %{count} datoteka je završeno s prijenosom"
     label_validation_error: "Nije moguće spremiti Radni paket zbog sljedećih pogreški:"
+    label_version_plural: "Verzije"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
@@ -423,23 +453,22 @@ hr:
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "Više informacija"
         nevermind: "Nevermind"
-        filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
-          duplicated: "duplicirano od"
-          blocks: "blocking"
-          blocked: "blokirano od"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projekti"
+        settings: "Postavke"
     time_entry:
+      project: 'Projekt'
+      work_package: 'Radni paket'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Aktivnost'
       comment: 'Komentar'
+      duration: 'Trajanje'
+      spent_on: 'Datum'
       hours: 'Sati'
+      label: 'Time entry'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Two-factor authentication'
     watchers:
       label_loading: učitavanje nadglednika...
       label_error_loading: Došlo je do pogreške tijekom učitavanja nadglednika
@@ -499,6 +528,7 @@ hr:
     field_value_enter_prompt: "Unesite vrijednost za '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Molim vas unesite još jedan znak"
         few: "Molim vas unesite još {{count}} znaka"
         other: "Molim vas unesite još {{count}} znaka"
@@ -506,6 +536,7 @@ hr:
       no_matches: "Nema pronađenih poveznica"
       searching: "Traženje ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Možete odabrati samo jedan element"
         few: "Možete odabrati samo {{limit}} elementa"
         other: "Možete odabrati samo {{limit}} elementa"
@@ -759,8 +790,7 @@ hr:
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
         relation_filters:
-          first_part: "Show all work packages"
-          second_part: "the current work package"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Pregled
         activity: Aktivnost
@@ -848,6 +878,7 @@ hr:
         few: "%{count} work package children"
         other: "%{count} work package children"
       hour:
+        zero: "0 h"
         one: "1 h"
         few: "%{count} h"
         other: "%{count} h"

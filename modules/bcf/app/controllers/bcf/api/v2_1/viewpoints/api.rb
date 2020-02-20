@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,12 +53,18 @@ module Bcf::API::V2_1
             namespace = key == :/ ? :Full : key.to_s.camelize
 
             get key, &::Bcf::API::V2_1::Endpoints::Show
-              .new(model: Bcf::Issue,
+              .new(model: Bcf::Viewpoint,
                    api_name: 'Viewpoints',
                    render_representer: "::Bcf::API::V2_1::Viewpoints::#{namespace}Representer".constantize,
                    instance_generator: ->(*) { @issue.viewpoints.where(uuid: params[:viewpoint_uuid]) })
               .mount
           end
+
+          delete &::Bcf::API::V2_1::Endpoints::Delete
+                   .new(model: Bcf::Viewpoint,
+                        api_name: 'Viewpoints',
+                        instance_generator: ->(*) { @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid]) })
+                   .mount
 
           get :bitmaps do
             raise NotImplementedError, 'Bitmaps are not yet implemented.'

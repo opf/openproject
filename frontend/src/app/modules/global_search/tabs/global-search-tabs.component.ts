@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,23 +23,20 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  Component,
-  OnDestroy,
-} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {Subscription} from "rxjs";
-import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
+import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
 
 export const globalSearchTabsSelector = 'global-search-tabs';
 
 @Component({
   selector: globalSearchTabsSelector,
-  templateUrl: '/app/modules/common/tabs/scrollable-tabs.component.html'
+  templateUrl: '/app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component.html'
 })
 
 export class GlobalSearchTabsComponent extends ScrollableTabsComponent implements OnDestroy {
@@ -63,6 +60,7 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
       .tabs$
       .subscribe((tabs) => {
         this.tabs = tabs;
+        this.tabs.map((tab) => tab.path = '#');
       });
   }
 

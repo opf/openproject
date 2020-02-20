@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,20 +23,23 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
 import {
+  SimpleResource,
   SimpleResourceCollection
 } from 'core-app/modules/common/path-helper/apiv3/path-resources';
-import {Apiv3NewsPaths} from "core-app/modules/common/path-helper/apiv3/news/apiv3-news-paths";
+import {Apiv3TimeEntryPaths} from "core-app/modules/common/path-helper/apiv3/time-entries/apiv3-time-entry-paths";
 
 export class Apiv3TimeEntriesPaths extends SimpleResourceCollection {
   constructor(basePath:string) {
     super(basePath, 'time_entries');
   }
 
-  public id(gridId:string|number) {
-    return new Apiv3NewsPaths(this.path, gridId);
+  public id(timeEntryId:string|number) {
+    return new Apiv3TimeEntryPaths(this.path, timeEntryId);
   }
+
+  public readonly form = new SimpleResource(this.path, 'form');
 }

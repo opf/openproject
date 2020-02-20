@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -302,7 +302,7 @@ describe User, 'allowed_to?' do
              w/ requesting a controller and action allowed by multiple permissions
              w/ the project being public
              w/ anonymous being allowed the action' do
-      let(:permission) { { controller: '/project_settings', action: 'show' } }
+      let(:permission) { { controller: '/project_settings/categories', action: 'show' } }
 
       before do
         project.public = true
@@ -560,7 +560,7 @@ describe User, 'allowed_to?' do
       end
 
       it 'should be true' do
-        expect(user.allowed_to?({ controller: '/project_settings', action: 'show' }, nil, global: true))
+        expect(user.allowed_to?({ controller: '/project_settings/categories', action: 'show' }, nil, global: true))
           .to be_truthy
       end
     end

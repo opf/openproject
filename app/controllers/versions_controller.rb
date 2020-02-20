@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,9 @@
 #++
 
 class VersionsController < ApplicationController
-  menu_item :roadmap
+  menu_item :roadmap, only: %i(index show)
+  menu_item :settings_versions
+
   model_object Version
   before_action :find_model_object, except: %i[index new create close_completed]
   before_action :find_project_from_association, except: %i[index new create close_completed]
@@ -41,9 +43,14 @@ class VersionsController < ApplicationController
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
     project_ids = @with_subprojects ? @project.self_and_descendants.map(&:id) : [@project.id]
 
-    @versions = @project.shared_versions || []
-    @versions += @project.rolled_up_versions.visible if @with_subprojects
-    @versions = @versions.uniq.sort
+    @versions = @project
+      .shared_versions
+
+    if @with_subprojects
+      @versions = @versions.or(@project.rolled_up_versions)
+    end
+
+    @versions = @versions.visible.order_by_newest_date.uniq.to_a
     @versions.reject! { |version| version.closed? || version.completed? } unless params[:completed]
 
     @issues_by_version = {}
@@ -103,7 +110,7 @@ class VersionsController < ApplicationController
     if request.put?
       @project.close_completed_versions
     end
-    redirect_to settings_project_path(tab: 'versions', id: @project)
+    redirect_to settings_versions_project_path(@project)
   end
 
   def destroy
@@ -116,13 +123,13 @@ class VersionsController < ApplicationController
       flash[:error] = call.errors.full_messages
     end
 
-    redirect_to settings_project_path(tab: 'versions', id: @project)
+    redirect_to settings_versions_project_path(@project)
   end
 
   private
 
   def redirect_back_or_version_settings
-    redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))
+    redirect_back_or_default(settings_versions_project_path(@project))
   end
 
   def find_project

@@ -1,11 +1,18 @@
 #-- copyright
-# ReportingEngine
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
-# Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# version 3.
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,6 +22,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Report::QueryUtils
@@ -25,6 +34,8 @@ module Report::QueryUtils
 
   delegate :quoted_false, :quoted_true, to: 'engine.reporting_connection'
   attr_writer :engine
+
+  include Costs::NumberHelper
 
   module PropagationHook
     include Report::QueryUtils
@@ -157,17 +168,6 @@ module Report::QueryUtils
   # @return [String] Sanitized statement.
   def sanitize_sql_for_conditions(statement)
     engine.send :sanitize_sql_for_conditions, statement
-  end
-
-  ##
-  # FIXME: This is redmine
-  # Generates string representation for a currency.
-  #
-  # @see CostRate.clean_currency
-  # @param [BigDecimal] value
-  # @return [String]
-  def clean_currency(value)
-    CostRate.clean_currency(value).to_f.to_s
   end
 
   ##

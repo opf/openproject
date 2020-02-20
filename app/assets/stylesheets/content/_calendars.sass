@@ -1,0 +1,31 @@
+
+// overrides for full-calendar so that it looks to belong into OpenProject
+full-calendar
+  .fc-toolbar
+    .fc-button
+      @extend .button
+      height: 34px
+
+      &.fc-today-button
+        margin-right: 0
+        margin-bottom: 0
+        margin-left: 0.5rem
+
+    // ensure to have higher specificity than above extend
+    .fc-button-group
+      .fc-button
+        margin-right: 0
+        margin-bottom: 0
+        padding: 0.4em 0.65em
+
+      .fc-button-active
+        @extend .button.-active
+
+  .fc-title
+    max-width: 100%
+    @include text-shortener(false)
+
+  .fc-header-toolbar
+    h2
+      @extend h2
+      font-size: 1.5rem

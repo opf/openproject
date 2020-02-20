@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,19 +49,6 @@ describe Version, type: :model do
   end
 
   context '#start_date' do
-    context 'with no value saved' do
-      it 'should be the date of the earlist issue' do
-        project = Project.find(1)
-        (v = Version.new.tap do |v|
-          v.attributes = { project: project, name: 'Progress' }
-        end).save!
-        add_work_package(v, estimated_hours: 10, start_date: '2010-03-01')
-        FactoryBot.create(:work_package, project: project, subject: 'not assigned', start_date: '2010-01-01')
-
-        assert_equal '2010-03-01', v.start_date.to_s
-      end
-    end
-
     context 'with a value saved' do
       it 'should be the value' do
         project = Project.find(1)
@@ -191,6 +178,7 @@ describe Version, type: :model do
     end
 
     it 'should be true if any of the issues are behind schedule' do
+      @version.update_attribute(:start_date, 7.days.ago.to_date)
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
         FactoryBot.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left

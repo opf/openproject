@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,34 +73,24 @@ class WorkPackages::UpdateAncestorsService
     parent = WorkPackage.find(previous_parent_id)
 
     ([parent] + parent.ancestors).each do |ancestor|
-      # pass :parent to force update of all inherited attributes
-      inherit_attributes(ancestor, %i(parent))
+      inherit_attributes!(ancestor)
     end.select(&:changed?)
+  end
+
+  def inherit_attributes!(ancestor)
+    # pass :parent to force update of all inherited attributes
+    inherit_attributes(ancestor, %i(parent))
   end
 
   def inherit_attributes(ancestor, attributes)
     return unless attributes_justify_inheritance?(attributes)
 
-    leaves = leaves_for_ancestor ancestor
-
-    inherit_from_leaves ancestor: ancestor, leaves: leaves, attributes: attributes
-  end
-
-  def leaves_for_ancestor(ancestor)
-    ancestor
-      .leaves
-      .select(selected_leaf_attributes)
-      .distinct(true) # Be explicit that this is a distinct (wrt ID) query
-      .includes(:status).to_a
-  end
-
-  def inherit_from_leaves(ancestor:, leaves:, attributes:)
-    inherit_done_ratio ancestor, leaves if inherit? attributes, :done_ratio
-    derive_estimated_hours ancestor, leaves if inherit? attributes, :estimated_hours
+    derive_estimated_hours(ancestor) if inherit?(attributes, :estimated_hours)
+    inherit_done_ratio(ancestor) if inherit?(attributes, :done_ratio)
   end
 
   def inherit?(attributes, attribute)
-    [attribute, :parent].any? { |attr| attributes.include? attr }
+    ([attribute, :parent, :parent_id] & attributes).any?
   end
 
   def set_journal_note(work_packages)
@@ -109,13 +99,13 @@ class WorkPackages::UpdateAncestorsService
     end
   end
 
-  def inherit_done_ratio(ancestor, leaves)
+  def inherit_done_ratio(ancestor)
     return if WorkPackage.done_ratio_disabled?
 
     return if WorkPackage.use_status_for_done_ratio? && ancestor.status && ancestor.status.default_done_ratio
 
     # done ratio = weighted average ratio of leaves
-    ratio = aggregate_done_ratio(leaves)
+    ratio = aggregate_done_ratio(ancestor)
 
     if ratio
       ancestor.done_ratio = ratio.round
@@ -124,10 +114,12 @@ class WorkPackages::UpdateAncestorsService
 
   ##
   # done ratio = weighted average ratio of leaves
-  def aggregate_done_ratio(leaves)
+  def aggregate_done_ratio(work_package)
+    leaves = leaves_for_work_package(work_package)
+
     leaves_count = leaves.size
 
-    if leaves_count > 0
+    if leaves_count.positive?
       average = average_estimated_hours(leaves)
       progress = done_ratio_sum(leaves, average) / (average * leaves_count)
 
@@ -150,7 +142,7 @@ class WorkPackages::UpdateAncestorsService
   def done_ratio_sum(leaves, average_estimated_hours)
     # Do not take into account estimated_hours when it is either nil or set to 0.0
     summands = leaves.map do |leaf|
-      estimated_hours = if leaf.estimated_hours.to_f > 0
+      estimated_hours = if leaf.estimated_hours.to_f.positive?
                           leaf.estimated_hours
                         else
                           average_estimated_hours
@@ -168,17 +160,51 @@ class WorkPackages::UpdateAncestorsService
     summands.sum
   end
 
-  def derive_estimated_hours(ancestor, leaves)
-    ancestor.derived_estimated_hours = not_zero all_estimated_hours(leaves, derived: true).sum.to_f
+  def derive_estimated_hours(work_package)
+    descendants = descendants_for_work_package(work_package)
+
+    work_package.derived_estimated_hours = not_zero(all_estimated_hours(descendants).sum.to_f)
+  end
+
+  def descendants_for_work_package(work_package)
+    @descendants ||= Hash.new do |hash, wp|
+      hash[wp] = related_for_work_package(wp, :descendants)
+    end
+
+    @descendants[work_package]
+  end
+
+  def leaves_for_work_package(work_package)
+    @leaves ||= Hash.new do |hash, wp|
+      hash[wp] = related_for_work_package(wp, :leaves).each do |leaf|
+        # Mimick work package by implementing the closed? interface
+        leaf.send(:'closed?=', leaf.is_closed)
+      end
+    end
+
+    @leaves[work_package]
+  end
+
+  def related_for_work_package(work_package, relation_type)
+    scope = work_package
+            .send(relation_type)
+
+    if send("#{relation_type}_joins")
+      scope = scope.joins(send("#{relation_type}_joins"))
+    end
+
+    scope
+      .pluck(*send("selected_#{relation_type}_attributes"))
+      .map { |p| OpenStruct.new(send("selected_#{relation_type}_attributes").zip(p).to_h) }
   end
 
   def not_zero(value)
     value unless value.zero?
   end
 
-  def all_estimated_hours(work_packages, derived: false)
+  def all_estimated_hours(work_packages)
     work_packages
-      .map { |wp| (derived && wp.derived_estimated_hours) || wp.estimated_hours }
+      .map(&:estimated_hours)
       .reject { |hours| hours.to_f.zero? }
   end
 
@@ -207,7 +233,20 @@ class WorkPackages::UpdateAncestorsService
     (%i(estimated_hours done_ratio parent parent_id status status_id) & attributes).any?
   end
 
-  def selected_leaf_attributes
-    %i(id done_ratio derived_estimated_hours estimated_hours status_id)
+  def selected_descendants_attributes
+    # By having the id in here, we can avoid DISTINCT queries sqashing duplicate values
+    %i(id estimated_hours)
+  end
+
+  def descendants_joins
+    nil
+  end
+
+  def selected_leaves_attributes
+    %i(id done_ratio derived_estimated_hours estimated_hours is_closed)
+  end
+
+  def leaves_joins
+    :status
   end
 end

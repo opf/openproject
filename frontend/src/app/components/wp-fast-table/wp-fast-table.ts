@@ -56,7 +56,7 @@ export class WorkPackageTable {
   }
 
   public get renderedRows() {
-    return this.querySpace.rendered.getValueOr([]);
+    return this.querySpace.tableRendered.getValueOr([]);
   }
 
   public findRenderedRow(classIdentifier:string):[number, RenderedWorkPackage] {
@@ -103,14 +103,19 @@ export class WorkPackageTable {
    * all elements.
    */
   public redrawTableAndTimeline() {
-    const renderPass = this.performRenderPass();
+    const renderPass = this.performRenderPass(false);
 
     // Insert timeline body
     requestAnimationFrame(() => {
+      this.tbody.innerHTML = '';
       this.timelineBody.innerHTML = '';
+      this.tbody.appendChild(renderPass.tableBody);
       this.timelineBody.appendChild(renderPass.timeline.timelineBody);
 
-      this.querySpace.rendered.putValue(renderPass.result);
+      // Mark rendering event in a timeout to let DOM process
+      setTimeout(() =>
+        this.querySpace.tableRendered.putValue(renderPass.result)
+      );
     });
   }
 
@@ -119,7 +124,7 @@ export class WorkPackageTable {
    */
   public redrawTable() {
     const renderPass = this.performRenderPass();
-    this.querySpace.rendered.putValue(renderPass.result);
+    this.querySpace.tableRendered.putValue(renderPass.result);
   }
 
   /**
@@ -151,16 +156,22 @@ export class WorkPackageTable {
   }
 
 
-  private performRenderPass() {
+  /**
+   * Perform the render pass
+   * @param insert whether to insert the result (set to false for timeline)
+   */
+  private performRenderPass(insert:boolean = true) {
     this.portalCleanupService.clear();
     this.editing.reset();
     const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
 
     // Insert table body
-    requestAnimationFrame(() => {
-      this.tbody.innerHTML = '';
-      this.tbody.appendChild(renderPass.tableBody);
-    });
+    if (insert) {
+      requestAnimationFrame(() => {
+        this.tbody.innerHTML = '';
+        this.tbody.appendChild(renderPass.tableBody);
+      });
+    }
 
     return renderPass;
   }

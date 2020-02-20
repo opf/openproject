@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,8 +54,9 @@ describe ::API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering' do
       let(:project2) { FactoryBot.build_stubbed(:project) }
 
       before do
-        allow(activity)
-          .to receive_message_chain(:activated_projects, :visible)
+        allow(::Project::Scopes::VisibleWithActivatedTimeActivity)
+          .to receive(:fetch)
+          .with(activity)
           .and_return([project1,
                        project2])
       end

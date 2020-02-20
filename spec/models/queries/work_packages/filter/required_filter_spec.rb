@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ describe Queries::WorkPackages::Filter::RequiredFilter, type: :model do
     let(:class_key) { :required }
 
     it_behaves_like 'filter for relation' do
-      let(:relation_type) { :requires }
+      let(:relation_type) { :required_by }
     end
   end
 end

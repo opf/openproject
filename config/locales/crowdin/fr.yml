@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ fr:
     plugins:
       no_results_title_text: Il n'y a actuellement aucun plugin disponible.
     custom_styles:
+      color_theme: "Thème de couleur"
+      color_theme_custom: "(Personnalisé)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Police des liens"
+        primary-color: "Principale"
+        primary-color-dark: "Principale (sombre)"
+        header-bg-color: "Fond de l'en-tête"
+        header-item-bg-hover-color: "Fond d’en-tête au survol"
+        header-item-font-color: "Police de l'en-tête"
+        header-item-font-hover-color: "Police d'en-tête au survol"
+        header-border-bottom-color: "Bordure de l'en-tête"
+        main-menu-bg-color: "Arrière-plan du menu principal"
+        main-menu-bg-selected-background: "Menu principal quand sélectionné"
+        main-menu-bg-hover-background: "Menu principal au survol"
+        main-menu-font-color: "Police du menu principal"
+        main-menu-selected-font-color: "Police du menu principal lorsque sélectionné"
+        main-menu-hover-font-color: "Police du menu principal au survol"
+        main-menu-border-color: "Bordure du menu principal"
       custom_colors: "Couleurs personnalisées"
       customize: "Personnalisez votre installation OpenProject avec votre propre logo. Remarque : Ce logo sera accessible publiquement."
       enterprise_notice: "En tant que remerciement spécial pour leur contribution financière au développement d'OpenProject, cette fonctionnalité n’est disponible que pour les titulaires d'une version Enterprise."
       manage_colors: "Modifier les options du sélecteur de couleur"
       instructions:
-        alternative_color: "Couleur d'accentuation, habituellement utilisée pour le bouton le plus important à l'écran."
-        content_link_color: "Couleur de la police de la plupart des liens."
-        primary_color: "Couleur principale."
-        primary_color_dark: "Habituellement, un ton plus sombre de la couleur principale utilisée pour les effets de mise en évidence."
-        header_bg_color: "Couleur de l'arrière-plan de l’en-tête."
-        header_item_bg_hover_color: "Couleur d’arrière-plan des éléments de l’en-tête survolées par la souris."
-        header_item_font_color: "Couleur de la police des éléments de l’en-tête cliquables."
-        header_item_font_hover_color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
-        header_border_bottom_color: "Ligne mince sous l’en-tête. Laissez ce champ vide si vous ne voulez pas de ligne."
-        main_menu_bg_color: "Couleur d’arrière-plan du menu de gauche."
+        alternative-color: "Couleur d'accentuation, habituellement utilisée pour le bouton le plus important à l'écran."
+        content-link-color: "Couleur de la police de la plupart des liens."
+        primary-color: "Couleur principale."
+        primary-color-dark: "Habituellement, un ton plus sombre de la couleur principale utilisée pour les effets de mise en évidence."
+        header-item-bg-hover-color: "Couleur d’arrière-plan des éléments de l’en-tête survolées par la souris."
+        header-item-font-color: "Couleur de la police des éléments de l’en-tête cliquables."
+        header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
+        header-border-bottom-color: "Ligne mince sous l’en-tête. Laissez ce champ vide si vous ne voulez pas de ligne."
+        main-menu-bg-color: "Couleur d’arrière-plan du menu de gauche."
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
@@ -577,6 +595,10 @@ fr:
         role:
           permissions:
             dependency_missing: "doit également inclure '%{dependency}' car'%{permission}' est sélectionné."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "est trop élevé car un maximum de 24 heures peut être enregistré par date."
         work_package:
           is_not_a_valid_target_for_time_entries: "Le lot de travaux #%{id} n'est pas une cible valide pour réaffecter les entrées de temps."
           attributes:
@@ -726,6 +748,7 @@ fr:
     type: "Type"
     updated_at: "Mis à jour le"
     updated_on: "Mis à jour le"
+    uploader: "Téléversé par"
     user: "Utilisateur"
     version: "Version"
     work_package: "Lot de travaux"
@@ -1011,9 +1034,8 @@ fr:
         rename_groups: "Renommer les groupes d’attributs"
       project_filters:
         description_html: "Filtrer et trier sur les champs personnalisés est une fonctionnalité de l'édition entreprise."
-  enumeration_activities: "Activités (suivi de temps)"
+  enumeration_activities: "Activités de suivi du temps"
   enumeration_work_package_priorities: "Priorités du Lot de Travaux"
-  enumeration_system_activity: "Activité du système"
   enumeration_reported_project_statuses: "Statuts de projet signalés"
   error_auth_source_sso_failed: "Single Sign-On (SSO) pour l’utilisateur '%{value}' a échoué"
   error_can_not_archive_project: "Ce projet ne peut être archivé : %{errors}"
@@ -1083,6 +1105,8 @@ fr:
       pdf_with_descriptions: "PDF avec descriptions"
       pdf_with_descriptions_and_attachments: "PDF avec descriptions et pièces jointes"
       pdf_with_attachments: "PDF avec pièces jointes"
+    image:
+      omitted: "Image non exportée."
   extraction:
     available:
       pdftotext: "Pdftotext disponible (optionnel)"
@@ -1663,15 +1687,19 @@ fr:
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
   label_x_closed_work_packages_abbr:
+    zero: "0 clôturé"
     one: "1 clôturé"
     other: "%{count} clôturé(s)"
   label_x_comments:
+    zero: "aucun commentaire"
     one: "1 commentaire"
     other: "%{count} commentaires"
   label_x_open_work_packages_abbr:
+    zero: "0 ouvert"
     one: "un ouvert"
     other: "%{count} ouverts"
   label_x_projects:
+    zero: "aucun projet"
     one: "1 projet"
     other: "%{count} projets"
   label_year: "Année"
@@ -2216,7 +2244,7 @@ fr:
   text_destroy_with_associated: "Il y a des objéts supplémentaires associés à ce(s) Lot(s) de Travaux qui doivent être supprimés. Ces objets sont des types suivants:"
   text_destroy_what_to_do: "Que voulez-vous faire?"
   text_diff_truncated: "... Cette « diff » a été tronquée car elle dépasse la taille maximale d'affichage."
-  text_email_delivery_not_configured: "L'envoi de courriel n'est pas configuré et les notifications sont désactivées.\nConfigurez votre serveur SMTP dans config/configuration.yml et redémarrez l'application pour appliquer les changements."
+  text_email_delivery_not_configured: "L'envoi d'e-mails n'est pas configuré et les notifications sont désactivées.\nConfigurer votre serveur SMTP pour les activer."
   text_enumeration_category_reassign_to: "Les réassigner à cette valeur:"
   text_enumeration_destroy_question: "%{count} objéts sont assignés à cette valeur."
   text_file_repository_writable: "Répertoire des pièces jointes accessible en écriture"
@@ -2509,6 +2537,17 @@ fr:
     Limite d'utilisateur atteinte. Vous ne pouvez plus activer d'autres utilisateurs. Veuillez <a href="%{upgrade_url}">mettre à jour votre plan</a> ou bloquez des membres pour permettre d'autres utilisateurs.
   warning_user_limit_reached_instructions: >
     Vous avez atteint votre limite d'utilisateurs (%{current}/%{max} utilisateurs actifs). Veuillez contacter sales@openproject.com pour mettre à jour votre plan Enterprise Edition et ajouter des utilisateurs supplémentaires.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Incompatibilité des paramètres de protocole'
+      text_html: >
+        Votre application est en cours d'exécution avec sa configuration de protocole définie sur <code>%{set_protocol}</code>, mais la requête est une requête <code>%{actual_protocol}</code> . Cela causera des erreurs ! Allez dans <a href="%{setting_path}">Paramètres système</a> et modifiez le paramètre « Protocole » pour corriger cela.
+    hostname_mismatch:
+      title: 'Incompatibilité des paramètres du nom d''hôte'
+      text_html: >
+        Votre application est en cours d'exécution avec son nom d'hôte défini sur <code>%{set_hostname}</code>, mais la requête est un nom d'hôte <code>%{actual_hostname}</code> . Cela causera des erreurs ! Allez dans <a href="%{setting_path}">Paramètres système</a> et modifiez le paramètre « Nom d'hôte » pour corriger cela.
   menu_item: "Éléments de menu"
   menu_item_setting: "Visibilité"
   wiki_menu_item_for: "Élément de menu pour wikipage « %{title} »"

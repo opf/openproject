@@ -1,5 +1,5 @@
 zh-TW:
-  export_to_excel: "Export as Excel spreadsheet"
+  export_to_excel: "Export XLS"
   print_with_description: "Print preview with description"
   sentence_separator_or: "或者"
   different_formats: Different formats

@@ -23,7 +23,7 @@ export class SelectionTransformer {
               public readonly table:WorkPackageTable) {
 
     // Focus a single selection when active
-    this.querySpace.rendered.values$()
+    this.querySpace.tableRendered.values$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions)
       )

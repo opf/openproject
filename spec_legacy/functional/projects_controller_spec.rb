@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -292,7 +292,7 @@ describe ProjectsController, type: :controller do
             issue_custom_field_ids: ['']
           }
         }
-    assert_redirected_to '/projects/ecookbook/settings'
+    assert_redirected_to '/projects/ecookbook/settings/generic'
     project = Project.find(1)
     assert_equal 'Test changed name', project.name
   end

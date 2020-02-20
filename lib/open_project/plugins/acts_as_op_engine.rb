@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -206,8 +206,8 @@ module OpenProject::Plugins
 
       ##
       # Add a tab entry to an extensible tab
-      def add_tab_entry(key, name:, partial:, label:, only_if: nil)
-        ::OpenProject::Ui::ExtensibleTabs.add(key, name: name, partial: partial, label: label, only_if: only_if)
+      def add_tab_entry(key, name:, partial:, path:, label:, only_if: nil)
+        ::OpenProject::Ui::ExtensibleTabs.add(key, name: name, partial: partial, path: path, label: label, only_if: only_if)
       end
 
       def add_api_path(path_name, &block)

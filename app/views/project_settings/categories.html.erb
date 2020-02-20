@@ -1,0 +1,107 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= toolbar title: t(:label_work_package_category_plural) do -%>
+  <% if current_user.allowed_to?(:manage_categories, @project)  %>
+    <li class="toolbar-item">
+      <%= link_to_if_authorized({ controller: '/categories', action: 'new', project_id: @project },
+                                { aria: { label: t(:label_work_package_category_new) },
+                                  title: t(:label_work_package_category_new),
+                                  class: 'button -alt-highlight'}) do %>
+        <%= op_icon('icon-add button--icon') %>
+        <span class="button--text"><%= t('activerecord.models.category') %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+
+<% if @project.categories.any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Category.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Category.human_attribute_name(:assigned_to) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th><div class="generic-table--empty-header"></div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for category in @project.categories %>
+            <% unless category.new_record? %>
+              <tr>
+                <td><%=h(category.name) %></td>
+                <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
+                <td class="buttons">
+                  <%= link_to_if_authorized '',
+                                            { controller: '/categories', action: 'edit', id: category },
+                                            class: 'icon icon-edit',
+                                            title: t(:button_edit) %>
+                  <%= link_to_if_authorized '',
+                                            { controller: '/categories', action: 'destroy', id: category },
+                                            data: { confirm: l(:text_are_you_sure) },
+                                            method: :delete,
+                                            class: 'icon icon-delete',
+                                            title: t(:button_delete) %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+<% else %>
+  <%= no_results_box action_url: new_project_category_path(@project),
+                     display_action: authorize_for('categories', 'new'),
+                     custom_title: t('projects.settings.categories.no_results_title_text'),
+                     custom_action_text: t('projects.settings.categories.no_results_content_text') %>
+<% end %>

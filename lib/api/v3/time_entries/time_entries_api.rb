@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,11 @@ module API
           get &::API::V3::Utilities::Endpoints::Index.new(model: TimeEntry).mount
           post &::API::V3::Utilities::Endpoints::Create.new(model: TimeEntry).mount
 
+          mount ::API::V3::TimeEntries::CreateFormAPI
+          mount ::API::V3::TimeEntries::Schemas::TimeEntrySchemaAPI
+          mount ::API::V3::TimeEntries::AvailableProjectsAPI
+          mount ::API::V3::TimeEntries::AvailableWorkPackagesOnCreateAPI
+
           route_param :id, type: Integer, desc: 'Time entry ID' do
             after_validation do
               @time_entry = TimeEntry
@@ -44,9 +49,11 @@ module API
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: TimeEntry).mount
-
             patch &::API::V3::Utilities::Endpoints::Update.new(model: TimeEntry).mount
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: TimeEntry).mount
+
+            mount ::API::V3::TimeEntries::UpdateFormAPI
+            mount ::API::V3::TimeEntries::AvailableWorkPackagesOnEditAPI
           end
 
           mount ::API::V3::TimeEntries::TimeEntriesActivityAPI

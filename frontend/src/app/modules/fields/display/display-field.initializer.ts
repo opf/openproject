@@ -1,6 +1,6 @@
 // -- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2020 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See doc/COPYRIGHT.rdoc for more details.
+// See docs/COPYRIGHT.rdoc for more details.
 // ++
 
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
@@ -47,6 +47,8 @@ import {UserDisplayField} from "core-app/modules/fields/display/field-types/user
 import {MultipleUserFieldModule} from "core-app/modules/fields/display/field-types/multiple-user-display-field.module";
 import {WorkPackageIdDisplayField} from "core-app/modules/fields/display/field-types/wp-id-display-field.module";
 import {ProjectStatusDisplayField} from "core-app/modules/fields/display/field-types/project-status-display-field.module";
+import {PlainFormattableDisplayField} from "core-app/modules/fields/display/field-types/plain-formattable-display-field.module";
+import {LinkedWorkPackageDisplayField} from "core-app/modules/fields/display/field-types/linked-work-package-display-field.module";
 
 export function initializeCoreDisplayFields(displayFieldService:DisplayFieldService) {
   return () => {
@@ -62,6 +64,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(TypeDisplayField, 'type', ['Type'])
       .addFieldType(ResourceDisplayField, 'resource', [
         'Project',
+        'TimeEntriesActivity',
         'Version',
         'Category',
         'CustomOption'])
@@ -73,13 +76,15 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(DateTimeDisplayField, 'datetime', ['DateTime'])
       .addFieldType(BooleanDisplayField, 'boolean', ['Boolean'])
       .addFieldType(ProgressDisplayField, 'progress', ['percentageDone'])
-      .addFieldType(WorkPackageDisplayField, 'work_package', ['WorkPackage'])
+      .addFieldType(LinkedWorkPackageDisplayField, 'work_package', ['WorkPackage'])
       .addFieldType(IdDisplayField, 'id', ['id'])
       .addFieldType(ProjectStatusDisplayField, 'project_status', ['ProjectStatus'])
       .addFieldType(UserDisplayField, 'user', ['User']);
 
     displayFieldService
         .addSpecificFieldType('WorkPackage', WorkPackageIdDisplayField, 'id', ['id'])
-        .addSpecificFieldType('WorkPackage', WorkPackageSpentTimeDisplayField, 'spentTime', ['spentTime']);
+        .addSpecificFieldType('WorkPackage', WorkPackageSpentTimeDisplayField, 'spentTime', ['spentTime'])
+        .addSpecificFieldType('TimeEntry', PlainFormattableDisplayField, 'comment', ['comment'])
+        .addSpecificFieldType('TimeEntry', WorkPackageDisplayField, 'work_package', ['workPackage']);
   };
 }

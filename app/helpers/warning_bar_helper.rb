@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module WarningBarHelper
@@ -33,6 +33,20 @@ module WarningBarHelper
     current_user.admin? &&
       OpenProject::Configuration.show_pending_migrations_warning? &&
       OpenProject::Database.migrations_pending?
+  end
+
+  def render_host_and_protocol_mismatch?
+    current_user.admin? &&
+      OpenProject::Configuration.show_setting_mismatch_warning? &&
+      (setting_protocol_mismatched? || setting_hostname_mismatched?)
+  end
+
+  def setting_protocol_mismatched?
+    (request.ssl? && Setting.protocol == 'http') || (!request.ssl? && Setting.protocol == 'https')
+  end
+
+  def setting_hostname_mismatched?
+    Setting.host_name.gsub(/:\d+$/, '') != request.host
   end
 
   ##

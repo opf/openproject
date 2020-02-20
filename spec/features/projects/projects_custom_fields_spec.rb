@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ describe 'Projects custom fields', type: :feature do
     let(:editor) { ::Components::WysiwygEditor.new ".form--field.custom_field_#{custom_field.id}" }
 
     scenario 'allows settings the project boolean CF (regression #26313)', js: true do
-      visit settings_project_path(id: project.id)
+      visit settings_generic_project_path(project.id)
 
       # expect CF, description and status description ckeditor
       expect(page).to have_selector('.op-ckeditor--wrapper', count: 3)
@@ -88,7 +88,7 @@ describe 'Projects custom fields', type: :feature do
     end
 
     scenario 'allows settings the project boolean CF (regression #26313)', js: true do
-      visit settings_project_path(id: project.id)
+      visit settings_generic_project_path(project.id)
       expect(page).to have_no_checked_field identifier
       check identifier
 

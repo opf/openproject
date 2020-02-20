@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,8 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
       FactoryBot.create(:work_package, project: project)
     end
   end
-  shared_let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_viewpoint, work_package: work_package) }
+
+  let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_viewpoint, work_package: work_package) }
 
   let(:viewpoint) { bcf_issue.viewpoints.first }
   let(:viewpoint_json) { viewpoint.json_viewpoint }
@@ -114,6 +115,62 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
     end
   end
 
+  describe 'DELETE /api/bcf/2.1/projects/:project_id/topics/:uuid/viewpoints/:uuid' do
+    let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints/#{viewpoint.uuid}" }
+    let(:current_user) { create_user }
+
+    before do
+      login_as(current_user)
+      bcf_issue
+      delete path
+    end
+
+    shared_examples "successfully deletes the viewpoint" do
+      it_behaves_like 'bcf api successful response' do
+        let(:expected_status) { 204 }
+        let(:expected_body) { nil }
+        let(:no_content) { true }
+      end
+
+      it 'deletes the viewpoint' do
+        expect(Bcf::Viewpoint.where(id: viewpoint.id)).not_to be_exist
+      end
+    end
+
+    context "no BCF comment holds a reference to that viewpoint" do
+      it_behaves_like "successfully deletes the viewpoint"
+    end
+
+    context "one BCF comment holds a reference to that viewpoint" do
+      let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_comment, work_package: work_package) }
+      let(:comment) { bcf_issue.comments.first }
+
+      it "nullifies the comment's reference to the viewpoint" do
+        expect(comment.viewpoint).to be_nil
+      end
+
+      it_behaves_like "successfully deletes the viewpoint"
+    end
+
+    context 'lacking permission to see project' do
+      let(:current_user) { non_member_user }
+
+      it_behaves_like 'bcf api not found response'
+    end
+
+    context 'lacking permission to delete' do
+      let(:current_user) { view_only_user }
+
+      it_behaves_like 'bcf api not allowed response'
+    end
+
+    context 'invalid uuid' do
+      let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints/#{viewpoint.uuid}1" }
+
+      it_behaves_like 'bcf api not found response'
+    end
+  end
+
   %w[selection coloring visibility].each do |section|
     describe "GET /api/bcf/2.1/projects/:project_id/topics/:uuid/viewpoints/:uuid/#{section}" do
       let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints/#{viewpoint.uuid}/#{section}" }
@@ -140,7 +197,6 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
     context 'when snapshot present' do
       before do
         login_as(current_user)
-        bcf_issue
         get path
       end
 

@@ -117,12 +117,26 @@ puts "Importing database ..."
 
 mysql_url.query = nil
 mysql_url.scheme = "mysql"
-_, pgloader_status = run "#{pgloader_path} --with \"preserve index names\" --verbose #{mysql_url} #{db_url}", record_output: false
+_, pgloader_status = run "#{pgloader_path} --verbose #{mysql_url} #{db_url}", record_output: false
 
 if pgloader_status != 0
   puts "\nFailed to import MySQL database into Postgres. See above."
 
   exit 1
+end
+
+mysql_db_name = mysql_url.path.sub("/", "")
+if mysql_db_name != 'public'
+  puts "Renaming to public schema"
+  rename_schema_cmd = "PGPASSWORD=#{db_password} psql -o /dev/stdout -U #{db_user} -h #{db_host} -p #{db_port} -d #{db_name} -c \"DROP schema public; ALTER schema #{mysql_db_name} RENAME to public;\""
+  check_output, check_status = run rename_schema_cmd, silent: false
+
+  if check_status != 0
+    puts check_output
+    puts "Failed to rename schema #{mysql_db_name} to public. See above."
+
+    exit 1
+  end
 end
 
 check_fulltext_cmd = "PGPASSWORD=#{db_password} psql -o /dev/stdout -U #{db_user} -h #{db_host} -p #{db_port} -d #{db_name} -c \"select 'true' from schema_migrations where version = '20180122135443'\""

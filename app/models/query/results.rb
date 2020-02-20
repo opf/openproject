@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -142,7 +142,7 @@ class ::Query::Results
   end
 
   def sort_criteria_array
-    criteria = SortHelper::SortCriteria.new
+    criteria = ::Query::SortCriteria.new query.sortable_columns
     criteria.available_criteria = aliased_sorting_by_column_name
     criteria.criteria = query.sort_criteria
     criteria.map_each { |criteria| criteria.map { |raw| Arel.sql raw } }

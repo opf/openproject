@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,23 @@
 module TimelogHelper
   include ApplicationHelper
 
+  def time_entry_tabs
+    [
+      {
+        name: 'details',
+        partial: 'timelog/time_entry_tab',
+        path: polymorphic_time_entries_path(@issue || @project),
+        label: :label_details
+      },
+      {
+        name: 'report',
+        partial: 'time_entries/reports/reports_tab',
+        path: polymorphic_time_entries_report_path(@issue || @project),
+        label: :label_report
+      }
+    ]
+  end
+
   # Returns a collection of activities for a select field.  time_entry
   # is optional and will be used to check if the selected TimeEntryActivity
   # is active.
@@ -37,9 +54,9 @@ module TimelogHelper
     project ||= @project
     activities =
       if project.nil?
-        TimeEntryActivity.shared.active
+        TimeEntryActivity.all.active
       else
-        project.activities
+        TimeEntryActivity::Scopes::ActiveInProject.fetch(project)
       end
 
     activities.map do |a|

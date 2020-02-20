@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ nl:
         inline: 'Markeer inline:'
         entire_card_by: 'Gehele kaart door'
       remove_from_list: 'Verwijder kaart uit lijst'
+    caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer de geselecteerde tekst handmatig."
       copied_successful: "Met succes gekopieerd naar het klembord!"
@@ -171,6 +172,9 @@ nl:
       cannot_save_changes_with_message: "Uw wijzigingen vanwege de volgende fout niet opslaan: %{error}"
       query_saving: "Het overzicht kon niet bewaard worden."
       embedded_table_loading: "De ingesloten weergave kon niet worden geladen: %{message}"
+    enumeration_activities: "Activiteiten (tijdregistratie)"
+    enumeration_doc_categories: "Document categories"
+    enumeration_work_package_priorities: "Werkpakket prioriteiten"
     filter:
       description:
         text_open_filter: "Open dit filter met de 'ALT'-knop en toetsenbord pijlen."
@@ -192,6 +196,7 @@ nl:
     general_text_yes: "Ja"
     general_text_No: "Nee"
     general_text_Yes: "Ja"
+    global_roles: Globale functies
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -203,8 +208,15 @@ nl:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Activeren"
     label_add_column_after: "Kolom toevoegen"
     label_add_column_before: "Kolom invoegen"
@@ -222,6 +234,7 @@ nl:
     label_and: "en"
     label_ascending: "Oplopend"
     label_author: "Auteur: %{user}"
+    label_avatar: "Avatar"
     label_between: "tussen"
     label_board: "Bord"
     label_board_locked: "Vergrendeld"
@@ -235,6 +248,8 @@ nl:
     label_deactivate: "Deactiveren"
     label_descending: "Aflopend"
     label_description: "Omschrijving"
+    label_details: "Details"
+    label_display: "Weergave"
     label_cancel_comment: "Annuleer reactie"
     label_closed_work_packages: "gesloten"
     label_collapse: "Samenvouwen"
@@ -255,22 +270,29 @@ nl:
     label_export: "Exporteren"
     label_filename: "Bestand"
     label_filesize: "Grootte"
+    label_general: "Algemeen"
     label_greater_or_equal: ">="
     label_group: 'Groep'
     label_group_by: "Groeperen op"
+    label_group_plural: "Groepen"
     label_hide_attributes: "Toon minder"
     label_hide_column: "Verberg kolom"
     label_hide_project_menu: "Project menu samenvouwen"
     label_in: "in"
     label_in_less_than: "in minder dan"
     label_in_more_than: "in meer dan"
+    label_incoming_emails: "Inkomende e-mails"
+    label_information_plural: "Informatie"
     label_import: "Import"
     label_latest_activity: "Laatste Activiteit"
     label_last_updated_on: "Laatst geüpdatet op"
     label_less_or_equal: "<="
     label_less_than_ago: "minder dan dagen geleden"
     label_loading: "Laden..."
+    label_mail_notification: "E-mailnotificaties"
     label_me: "ik"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Minuten"
     label_menu_collapse: "samenvouwen"
     label_menu_expand: "uitbreiden"
     label_more_than_ago: "meer dan dagen geleden"
@@ -291,12 +313,16 @@ nl:
     label_previous: "Vorige"
     label_per_page: "Per pagina:"
     label_please_wait: "Een ogenblik geduld"
+    label_project_plural: "Projecten"
     label_visibility_settings: "Zichtbaarheidsinstellingen"
     label_quote_comment: "Citeer dit commentaar"
+    label_recent: "Recent"
     label_reset: "Herstel"
     label_remove_column: "Kolom verwijderen"
     label_remove_columns: "Verwijder geselecteerde kolommen"
     label_remove_row: "Rij verwijderen"
+    label_report: "Rapport"
+    label_repository_plural: "Repositories"
     label_save_as: "Opslaan als"
     label_select_watcher: "Kies een toezichter..."
     label_selected_filter_list: "Geselecteerde filters"
@@ -307,6 +333,7 @@ nl:
     label_sort_higher: "Omhoog"
     label_sort_lower: "Omlaag"
     label_sorting: "Sortering"
+    label_spent_time: "Bestede tijd"
     label_star_query: "Favoriet"
     label_press_enter_to_save: "Druk op Enter om te bewaren."
     label_public_query: "Publiek"
@@ -315,7 +342,9 @@ nl:
     label_subject: "Onderwerp"
     label_this_week: "deze week"
     label_today: "vandaag"
+    label_time_entry_plural: "Bestede tijd"
     label_up: "Omhoog"
+    label_user_plural: "Gebruikers"
     label_activity_show_only_comments: "Geef alleen activiteiten met commentaar weer"
     label_activity_show_all: "Geef alle activiteiten weer"
     label_total_progress: "%{percent}% totale vooruitgang"
@@ -357,6 +386,7 @@ nl:
     label_wait: "Moment geduld a.u.b. voor configuratie..."
     label_upload_counter: "%{done} van %{count} bestanden afgerond"
     label_validation_error: "Het werkpakket kon niet worden opgeslagen vanwege de volgende fouten:"
+    label_version_plural: "Versies"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Toon kenmerk help tekstinvoer'
@@ -423,23 +453,22 @@ nl:
         upgrade_to_ee_text: "Wow! Als u deze functie nodig heeft bent u een super pro! Zou u de opensource ontwikkelaars willen ondersteunen door een licentie te nemen op de enterprice edition?"
         more_information: "Meer informatie"
         nevermind: "Geen aandacht"
-        filter_types:
-          parent: "onderliggend van"
-          precedes: "voorafgaand aan"
-          follows: "volgende"
-          relates: "met betrekking tot"
-          duplicates: "dupliceren"
-          duplicated: "gedupliceerd door"
-          blocks: "blokkeren"
-          blocked: "vergrendeld door"
-          partof: "die deel uitmaken van"
-          includes: "inclusief"
-          requires: "vereisen"
-          required: "vereist door"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projecten"
+        settings: "Instellingen"
     time_entry:
+      project: 'Project'
+      work_package: 'Werkpakket'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Activiteit'
       comment: 'Commentaar'
+      duration: 'Duur'
+      spent_on: 'Datum'
       hours: 'Uren'
+      label: 'Time entry'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Twee-factor-authenticatie'
     watchers:
       label_loading: volgers worden geladen...
       label_error_loading: Er is een fout opgetreden tijdens het laden van de volgers
@@ -499,12 +528,14 @@ nl:
     field_value_enter_prompt: "Breng een waarde in voor veld '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Voeg {{count}} extra karakter toe"
         other: "Voeg {{count}} extra karakters toe"
       load_more: "Meer resultaten laden ..."
       no_matches: "Geen overeenkomsten gevonden"
       searching: "Bezig met zoeken ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Je kunt maar {{limit}} onderdeel selecteren"
         other: "Je kunt maar {{limit}} onderdelen selecteren"
     project_menu_details: "Details"
@@ -757,8 +788,7 @@ nl:
           relation_columns: 'Nodig om te zien van betrekkingen in de pakketlijst werk?'
           check_out_link: 'Bekijk de Enterprise Edition.'
         relation_filters:
-          first_part: "Bekijk alle werkpakketten"
-          second_part: "her huidige werkpakket"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Overzicht
         activity: Activiteit
@@ -844,6 +874,7 @@ nl:
         one: "één onderliggend werkpakket"
         other: "%{count} werkpakket kinderen"
       hour:
+        zero: "0 h"
         one: "1 h"
         other: "%{count} h"
     zen_mode:

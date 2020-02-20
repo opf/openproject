@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -174,7 +174,7 @@ describe UserMailer, type: :mailer do
     it_behaves_like 'mail is sent'
 
     it 'should link to the latest version diff page' do
-      expect(ActionMailer::Base.deliveries.first.body.encoded).to include 'diff/2'
+      expect(ActionMailer::Base.deliveries.first.body.encoded).to include 'diff/1'
     end
 
     it_behaves_like 'does only send mails to author if permitted'

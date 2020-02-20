@@ -1,15 +1,12 @@
 #-- copyright
-# OpenProject Documents Plugin
-#
-# Former OpenProject Core functionality extracted into a plugin.
-#
-# Copyright (C) 2009-2014 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -36,7 +33,6 @@ describe ::API::V3::Documents::DocumentRepresenter, 'rendering' do
 
   let(:document) do
     FactoryBot.build_stubbed(:document,
-                             created_on: Time.now,
                              description: 'Some description') do |document|
       allow(document)
         .to receive(:project)
@@ -100,8 +96,13 @@ describe ::API::V3::Documents::DocumentRepresenter, 'rendering' do
     end
 
     it_behaves_like 'has UTC ISO 8601 date and time' do
-      let(:date) { document.created_on }
+      let(:date) { document.created_at }
       let(:json_path) { 'createdAt' }
+    end
+
+    it_behaves_like 'has UTC ISO 8601 date and time' do
+      let(:date) { document.updated_at }
+      let(:json_path) { 'updatedAt' }
     end
 
     it_behaves_like 'API V3 formattable', 'description' do
@@ -115,7 +116,7 @@ describe ::API::V3::Documents::DocumentRepresenter, 'rendering' do
     it 'has project embedded' do
       expect(subject)
         .to be_json_eql(project.name.to_json)
-              .at_path('_embedded/project/name')
+        .at_path('_embedded/project/name')
     end
   end
 end

@@ -1,8 +1,8 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,12 +50,27 @@ module API
           }
         end
 
+        link :update do
+          next unless update_allowed?
+
+          {
+            href: api_v3_paths.time_entry_form(represented.id),
+            method: :post
+          }
+        end
+
         link :delete do
           next unless update_allowed?
 
           {
             href: api_v3_paths.time_entry(represented.id),
             method: :delete
+          }
+        end
+
+        link :schema do
+          {
+            href: api_v3_paths.time_entry_schema
           }
         end
 
@@ -70,11 +85,7 @@ module API
         property :hours,
                  exec_context: :decorator,
                  getter: ->(*) do
-                   datetime_formatter.format_duration_from_hours(represented.hours)
-                 end,
-                 setter: ->(fragment:, **) do
-                   represented.hours = datetime_formatter.parse_duration_to_hours(fragment,
-                                                                                  'hours')
+                   datetime_formatter.format_duration_from_hours(represented.hours) if represented.hours
                  end
 
         date_time_property :created_on,
@@ -92,14 +103,6 @@ module API
         associated_resource :activity,
                             representer: TimeEntriesActivityRepresenter,
                             v3_path: :time_entries_activity,
-                            getter: associated_resource_default_getter(:authoritativ_activity, TimeEntriesActivityRepresenter),
-                            link: ->(*) {
-                              activity = represented.authoritativ_activity
-                              {
-                                href: api_v3_paths.time_entries_activity(activity.id),
-                                title: activity.name
-                              }
-                            },
                             setter: ->(fragment:, **) {
                               ::API::Decorators::LinkObject
                                 .new(represented,
@@ -122,6 +125,12 @@ module API
 
         def current_user_allowed_to(permission, context:)
           current_user.allowed_to?(permission, context)
+        end
+
+        def hours=(value)
+          represented.hours = datetime_formatter.parse_duration_to_hours(value,
+                                                                         'hours',
+                                                                         allow_nil: true)
         end
       end
     end

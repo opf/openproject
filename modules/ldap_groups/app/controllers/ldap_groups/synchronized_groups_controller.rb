@@ -77,7 +77,15 @@ module LdapGroups
     end
 
     def default_breadcrumb
-      t('ldap_groups.synchronized_groups.plural')
+      if action_name == 'index'
+        t('ldap_groups.synchronized_groups.plural')
+      else
+        ActionController::Base.helpers.link_to(t('ldap_groups.synchronized_groups.plural'), ldap_groups_synchronized_groups_path)
+      end
+    end
+
+    def show_local_breadcrumb
+      true
     end
   end
 end

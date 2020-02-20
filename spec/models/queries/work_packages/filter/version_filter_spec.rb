@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,11 +40,11 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
     before do
       if project
         allow(project)
-          .to receive_message_chain(:shared_versions)
+          .to receive_message_chain(:shared_versions, :order_by_newest_date)
           .and_return [version]
       else
         allow(Version)
-          .to receive_message_chain(:visible, :systemwide)
+          .to receive_message_chain(:visible, :systemwide, :order_by_newest_date)
           .and_return [version]
       end
     end
@@ -57,7 +57,7 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
 
         it 'is false if the value does not exist as a version' do
           allow(project)
-            .to receive_message_chain(:shared_versions)
+            .to receive_message_chain(:shared_versions, :order_by_newest_date)
             .and_return []
 
           expect(instance).to_not be_valid
@@ -73,7 +73,7 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
 
         it 'is false if the value does not exist as a version' do
           allow(Version)
-            .to receive_message_chain(:visible, :systemwide)
+            .to receive_message_chain(:visible, :systemwide, :order_by_newest_date)
             .and_return []
 
           expect(instance).to_not be_valid

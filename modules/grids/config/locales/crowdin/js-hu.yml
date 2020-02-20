@@ -37,6 +37,8 @@ hu:
         subprojects:
           title: 'Alprojektek'
           no_results: 'No subprojects.'
+        time_entries_current_user:
+          title: 'My spent time'
         time_entries_list:
           title: 'Eltöltött idő (elmúlt 7 nap)'
           no_results: 'Az elmúlt 7 napra nincs bejegyzés.'

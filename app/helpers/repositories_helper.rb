@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 
 module RepositoriesHelper
   def settings_repository_tab_path
-    settings_project_path(@project, tab: 'repository')
+    settings_repository_project_path(@project)
   end
 
   def format_revision(revision)
@@ -249,10 +249,9 @@ module RepositoriesHelper
                scm_options(repository),
                class: 'form--select repositories--remote-select',
                data: {
-                 url: url_for(controller: '/project_settings',
+                 url: url_for(controller: '/project_settings/repository',
                               action: 'show',
-                              tab: 'repository',
-                              project_id: @project.id),
+                              id: @project.id),
                },
                disabled: (repository && !repository.new_record?)
               )

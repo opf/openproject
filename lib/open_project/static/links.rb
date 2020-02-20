@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -98,7 +98,7 @@ module OpenProject
               label: 'homescreen.links.glossary'
             },
             shortcuts: {
-              href: 'https://www.openproject.org/help/keyboard-shortcuts-access-keys/',
+              href: 'https://docs.openproject.org/user-guide/keyboard-shortcuts-access-keys/',
               label: 'homescreen.links.shortcuts'
             },
             forums: {
@@ -122,7 +122,7 @@ module OpenProject
               label: 'homescreen.links.blog'
             },
             release_notes: {
-              href: 'https://www.openproject.org/release-notes/',
+              href: 'https://docs.openproject.org/release-notes/',
               label: :label_release_notes
             },
             data_privacy: {
@@ -130,7 +130,7 @@ module OpenProject
               label: :label_privacy_policy
             },
             report_bug: {
-              href: 'https://www.openproject.org/development/report-a-bug/',
+              href: 'https://docs.openproject.org/development/report-a-bug/',
               label: :label_report_bug
             },
             roadmap: {
@@ -161,7 +161,7 @@ module OpenProject
               href: 'https://www.rubydoc.info/gems/net-ldap/Net/LDAP#constructor_details',
             },
             security_badge_documentation: {
-              href: 'https://github.com/opf/openproject/blob/dev/docs/configuration/configuration.md#security-badge'
+              href: 'https://docs.openproject.org/system-admin-guide/information/#security-badge'
             }
           }
         end

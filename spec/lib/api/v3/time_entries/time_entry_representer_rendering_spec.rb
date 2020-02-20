@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
                              spent_on: Date.today,
                              created_on: DateTime.now - 6.hours,
                              updated_on: DateTime.now - 3.hours,
-                             hours: 5,
+                             hours: hours,
                              activity: activity,
                              project: project,
                              user: user)
@@ -47,6 +47,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
   let(:activity) { FactoryBot.build_stubbed(:time_entry_activity) }
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:current_user) { user }
+  let(:hours) { 5 }
   let(:permissions) do
     [:edit_time_entries]
   end
@@ -98,26 +99,9 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
       let(:title) { activity.name }
     end
 
-    context 'for a non shared (project specific) activity' do
-      let(:activity) do
-        activity = FactoryBot.build_stubbed(:time_entry_activity,
-                                            project: project,
-                                            parent: parent_activity)
-        allow(activity)
-          .to receive(:root)
-          .and_return(parent_activity)
-
-        activity
-      end
-      let(:parent_activity) do
-        FactoryBot.build_stubbed(:time_entry_activity)
-      end
-
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'activity' }
-        let(:href) { api_v3_paths.time_entries_activity parent_activity.id }
-        let(:title) { parent_activity.name }
-      end
+    it_behaves_like 'has an untitled link' do
+      let(:link) { 'schema' }
+      let(:href) { api_v3_paths.time_entry_schema }
     end
 
     context 'custom value' do
@@ -163,6 +147,12 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
       end
 
       it_behaves_like 'has an untitled link' do
+        let(:link) { 'update' }
+        let(:href) { api_v3_paths.time_entry_form(time_entry.id) }
+        let(:method) { :post }
+      end
+
+      it_behaves_like 'has an untitled link' do
         let(:link) { 'delete' }
         let(:href) { api_v3_paths.time_entry(time_entry.id) }
         let(:method) { :delete }
@@ -173,6 +163,10 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
       let(:permissions) { [] }
       it_behaves_like 'has no link' do
         let(:link) { 'updateImmediately' }
+      end
+
+      it_behaves_like 'has no link' do
+        let(:link) { 'update' }
       end
 
       it_behaves_like 'has no link' do
@@ -234,8 +228,18 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
       let(:value) { time_entry.spent_on }
     end
 
-    it_behaves_like 'property', :hours do
-      let(:value) { 'PT5H' }
+    context 'hours' do
+      it_behaves_like 'property', :hours do
+        let(:value) { 'PT5H' }
+      end
+
+      context 'if hours are nil' do
+        let(:hours) { nil }
+
+        it_behaves_like 'property', :hours do
+          let(:value) { nil }
+        end
+      end
     end
 
     it_behaves_like 'datetime property', :createdAt do

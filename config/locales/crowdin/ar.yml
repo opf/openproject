@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ ar:
     plugins:
       no_results_title_text: لا يوجد حالياً أية إضافات متاحة.
     custom_styles:
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
       custom_colors: "تخصيص الألوان"
       customize: "عدل مشروعك الخاص بالشعار الذي تريده.ملاحظه:هذا الشعار سوف يكون مرئي لجميع المستخدمين"
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
       manage_colors: "Edit color select options"
       instructions:
-        alternative_color: "Strong accent color, typically used for most the important button on a screen."
-        content_link_color: "Font color of most of the links."
-        primary_color: "Main color."
-        primary_color_dark: "Typically a darker version of the main color used for hover effects."
-        header_bg_color: "Background color of the header."
-        header_item_bg_hover_color: "Background color of clickable header items when hovered with the mouse."
-        header_item_font_color: "Font color of clickable header items."
-        header_item_font_hover_color: "Font color of clickable header items when hovered with the mouse."
-        header_border_bottom_color: "Thin line under the header. Leave this field empty if you don't want any line."
-        main_menu_bg_color: "Left side menu's background color."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "Font color of most of the links."
+        primary-color: "Main color."
+        primary-color-dark: "Typically a darker version of the main color used for hover effects."
+        header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
+        header-item-font-color: "Font color of clickable header items."
+        header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
+        header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
+        main-menu-bg-color: "Left side menu's background color."
     enterprise:
       upgrade_to_ee: "Upgrade to Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
@@ -582,6 +600,10 @@ ar:
         role:
           permissions:
             dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "مجموعة العمل #%{id} ليست هدفًا صالحًا لإعادة تعيين إدخالات الوقت."
           attributes:
@@ -743,6 +765,7 @@ ar:
     type: "النّوع"
     updated_at: "تم التحديث بتاريخ"
     updated_on: "تم التحديث بتاريخ"
+    uploader: "Uploader"
     user: "المستخدم"
     version: "الإصدار"
     work_package: "مجموعة العمل"
@@ -1076,9 +1099,8 @@ ar:
         rename_groups: "Rename attributes groups"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "الأنشطة (تتبع الوقت)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "أولويات مجموعة العمل"
-  enumeration_system_activity: "نشاط النظام"
   enumeration_reported_project_statuses: "حالة للمشروع المبلغ عنه"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
@@ -1148,6 +1170,8 @@ ar:
       pdf_with_descriptions: "PDF مع مواصفات"
       pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
       pdf_with_attachments: "PDF with attachments"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"
@@ -1728,6 +1752,7 @@ ar:
   label_workflow_plural: "تدفقات العمل"
   label_workflow_summary: "مُلخّص"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     zero: "%{count} مغلق"
     one: "1 مغلقة"
     two: "%{count} مغلق"
@@ -1735,6 +1760,7 @@ ar:
     many: "%{count} مغلق"
     other: "%{count} مغلق"
   label_x_comments:
+    zero: "no comments"
     zero: "%{count} تعليقات"
     one: "1 comment"
     two: "%{count} تعليقات"
@@ -1742,6 +1768,7 @@ ar:
     many: "%{count} تعليقات"
     other: "%{count} تعليقات"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     zero: "%{count} مفتوح"
     one: "1 open"
     two: "%{count} مفتوح"
@@ -1749,6 +1776,7 @@ ar:
     many: "%{count} مفتوح"
     other: "%{count} مفتوح"
   label_x_projects:
+    zero: "no projects"
     zero: "%{count} مشاريع"
     one: "1 project"
     two: "%{count} مشاريع"
@@ -2299,7 +2327,7 @@ ar:
   text_destroy_with_associated: "وهناك كائنات إضافية مرتبطة مع الحزمة (الحزم) العمل الموجودة المراد حذفها. هذه الكائنات من الأنواع التالية: "
   text_destroy_what_to_do: "ماذا تريد أن تفعل؟"
   text_diff_truncated: "... تم اقتطاعه لأنه يتجاوز الحد الأقصى للحجم التي يمكن عرضها."
-  text_email_delivery_not_configured: "لم يتم تكوين تسليم البريد الإلكتروني و تم تعطيل إعلامات. كون ملقم SMTP الخاص بك في config/configuration.yml وإعادة تشغيل التطبيق لتمكينها."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "إعادة تعيينهم إلى هذه القيمة:"
   text_enumeration_destroy_question: "يتم تعيين الكائنات %{count} لهذه القيمة."
   text_file_repository_writable: "مرفقات دليل قابل للكتابة"
@@ -2601,6 +2629,17 @@ ar:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protocol setting mismatch'
+      text_html: >
+        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+    hostname_mismatch:
+      title: 'Hostname setting mismatch'
+      text_html: >
+        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "عناصر القائمة"
   menu_item_setting: "الظهور"
   wiki_menu_item_for: "عنصر القائمة \"%{title}\""

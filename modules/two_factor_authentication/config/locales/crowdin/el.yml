@@ -14,7 +14,7 @@ el:
         two_factor_authentication/device/sms:
           attributes:
             phone_number:
-              error_phone_number_format: "must be of format +XX XXXXXXXXX"
+              error_phone_number_format: "πρέπει να έχει μορφή + XX XXXXXXXXX"
     models:
       two_factor_authentication/device: "Συσκευή 2FA"
       two_factor_authentication/device/sms: "Κινητό Τηλέφωνο"
@@ -40,11 +40,11 @@ el:
     text_otp_delivery_message_voice: "Ο %{app_title} κωδικός πρόσβασης μια χρήσης σας είναι %{pause} %{token}. %{pause} Επαναλαμβάνω: %{pause} %{token}"
     text_enter_2fa: 'Παρακαλούμε εισάγετε τον κωδικό πρόσβασης μιας χρήσης από την συσκευή σας.'
     text_2fa_enabled: 'Κατά κάθε σύνδεση, θα σας ζητείται να εισάγετε ένα OPT token από την προεπιλεγμένη 2FA συσκευή σας.'
-    text_2fa_disabled: 'Για να ενεργοποιήσετε την ταυτοποίηση δύο παραγόντων, χρησιμοποιείστε το παραπάνω κουμπί για να καταχωρήσετε μια καινούργια 2FA συσκευή.'
+    text_2fa_disabled: 'Για να ενεργοποιήσετε την ταυτοποίηση δύο παραγόντων, χρησιμοποιήστε το παραπάνω κουμπί για να καταχωρήσετε μια καινούργια 2FA συσκευή.'
     login:
       enter_backup_code_title: Εισάγετε τον κωδικό αντιγράφων ασφαλείας
       enter_backup_code_text: Παρακαλούμε εισάγετε έναν έγκυρο κωδικό αντιγράφων ασφαλείας από την λίστα κωδικών σε περίπτωση που δεν έχετε πια πρόσβαση στις καταχωρημένες συσκευές 2FA.
-      other_device: 'Χρησιμοποιείστε μια διαφορετική συσκευή ή κωδικό αντιγράφων ασφαλείας'
+      other_device: 'Χρησιμοποιήστε μια διαφορετική συσκευή ή κωδικό αντιγράφων ασφαλείας'
     settings:
       title: 'Ρυθμίσεις 2FA'
       current_configuration: 'Τρέχουσα διαμόρφωση'
@@ -61,15 +61,15 @@ el:
       failed_to_save_settings: 'Αποτυχία ενημέρωσης των ρυθμίσεων 2FA: %{message}'
     admin:
       self_edit_path: 'Για να προσθέσετε ή να τροποποιήσετε τις δικές σας συσκευές 2FA, παρακαλούμε πηγαίνετε στο %{self_edit_link}'
-      self_edit_link_name: 'Ταυτοποίηση δύο παραγόντων στη σελίδα λογαριασμούς σας'
+      self_edit_link_name: 'Ταυτοποίηση δύο παραγόντων στη σελίδα λογαριασμού σας'
       self_edit_forbidden: 'Δεν μπορείτε να επεξεργαστείτε τις δικές σας συσκευές 2FA σε αυτό το μονοπάτι. Αντί αυτού πηγαίνετε στο Ο Λογαριασμός μου > Ταυτοποίηση δύο παραγόντων.'
       no_devices_for_user: 'Δεν έχουν καταχωρηθεί συσκευές 2FA για αυτόν τον χρήστη.'
       all_devices_deleted: 'Όλες οι συσκευές 2FA αυτού του χρήστη έχουν διαγραφεί'
       delete_all_are_you_sure: 'Είστε βέβαιοι ότι θέλετε να διαγράψετε όλες τις 2FA συσκευές αυτού του χρήστη;'
       button_delete_all_devices: 'Διαγραφή καταχωρημένων συσκευών 2FA'
       button_register_mobile_phone_for_user: 'Καταχώρηση κινητού τηλεφώνου'
-      text_2fa_enabled: 'Κατά κάθε σύνδεση, θα ζητείται σε αυτό τον χρήστη να εισάγει ένα OPT token από την προεπιλεγμένη 2FA συσκευή του.'
-      text_2fa_disabled: "Ο χρήστης δεν έχει ορίσει μια συσκευή 2FA μέσω του 'Σελίδα του λογαριασμού μου'"
+      text_2fa_enabled: 'Κατά κάθε σύνδεση, θα ζητείται από αυτόν τον χρήστη να εισάγει ένα OPT token από την προεπιλεγμένη 2FA συσκευή του.'
+      text_2fa_disabled: "Ο χρήστης δεν έχει ορίσει μια συσκευή 2FA μέσω της σελίδας 'Ο λογαριασμός μου'"
     upsale:
       title: 'Η ταυτοποίηση δύο παραγόντων είναι λειτουργία έκδοσης επιχειρήσεων'
       description: 'Ενδυναμώστε τους μηχανισμούς εσωτερικής και εξωτερικής ταυτοποίησης με ένα δεύτερο παράγοντα.'
@@ -79,13 +79,13 @@ el:
       plural: Κωδικοί αντιγράφων ασφαλείας
       your_codes: για τον %{app_name} λογαριασμό σας %{login}
       overview_description: |
-        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
-        Use the following button to generate a new set of backup codes.
+        Αν δεν μπορείτε να αποκτήσετε πρόσβαση στις συσκευές δύο παραγόντων σας, μπορείτε να χρησιμοποιήσετε έναν κωδικό αντιγράφων ασφαλείας για να ανακτήσετε και πάλι πρόσβαση στο λογαριασμό σας.
+        Χρησιμοποιήστε το παρακάτω κουμπί για να δημιουργήσετε ένα νέο σύνολο κωδικών αντιγράφων ασφαλείας.
       generate:
-        title: Generate backup codes
+        title: Δημιουργήστε κωδικούς αντιγράφων ασφαλείας
         keep_safe_as_password: 'Σημαντικό! Χειριστείτε αυτούς τους κωδικούς σαν κωδικούς πρόσβασης.'
         keep_safe_warning: 'Μπορείτε είτε να τους αποθηκεύσετε στον διαχειριστή κωδικών πρόσβασης σας ή να εκτυπώσετε αυτή τη σελίδα και να την τοποθετήσετε σε ασφαλές μέρος.'
-        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
+        regenerate_warning: 'Προειδοποίηση: Εάν έχετε δημιουργήσει κωδικούς ασφαλείας πριν, θα ακυρωθούν και δεν θα λειτουργούν πλέον.'
     devices:
       add_new: 'Προσθέστε νέα συσκευή 2FA'
       register: 'Καταχώρηση συσκευής'
@@ -109,11 +109,11 @@ el:
       not_existing: 'Δεν έχουν καταχωρηθεί συσκευές 2FA για τον λογαριασμό σας.'
       request_2fa: Παρακαλούμε εισάγετε τον κωδικό από το %{device_name} για επιβεβαιώσετε την ταυτότητα σας.
       totp:
-        title: 'Χρησιμοποιείστε ταυτοποιητή βασισμένο σε εφαρμογή'
+        title: 'Χρησιμοποιήστε ταυτοποιητή βασισμένο σε εφαρμογή'
         provisioning_uri: 'Provisioning URI'
         secret_key: 'Κρυφό κλειδί'
         time_based: 'Βασισμένο σε χρόνο'
-        account: 'Account name / Issuer'
+        account: 'Όνομα λογαριασμού / Εκδότης'
         setup: |
           Για να δημιουργήσετε μια ταυτοποίηση δύο παραγόντων με το Google Authenticator, κατεβάστε την εφαρμογή από το Apple App store ή to Google Play Store. Αφού ανοίξετε την εφαρμογή, μπορείτε να σαρώσετε τους ακόλουθους QR κωδικούς για να καταχωρήσετε τη συσκευή σας.
         question_cannot_scan: |
@@ -123,7 +123,7 @@ el:
         description: |
           Καταχωρήστε μια εφαρμογή ταυτοποίησης για να τη χρησιμοποιείτε στο OpenProject με πρότυπο ταυτοποίησης κωδικού μιας χρήσης βασισμένο σε χρόνο. Συχνά παραδείγματα είναι το Google Authenticator ή Authy.
       sms:
-        title: 'Χρησιμοποιείστε το κινητό τηλέφωνο σας'
+        title: 'Χρησιμοποιήστε το κινητό τηλέφωνο σας'
         redacted_identifier: 'Κινητό τηλέφωνο (%{redacted_number})'
         request_2fa_identifier: '%{redacted_identifier}, σας στείλαμε ένα κωδικό ταυτοποίησης μέσω %{delivery_channel}'
         description: |
@@ -142,7 +142,7 @@ el:
     mobile_transmit_notification: "Ένας κωδικός μιας χρήσης στάλθηκε στο κινητό τηλέφωνο σας."
     label_two_factor_authentication: 'Ταυτοποίηση δύο παραγόντων'
     forced_registration:
-      required_to_add_device: 'Μια ενεργή πολιτική ασφαλείας απαιτεί να ενεργοποιήσετε την ταυτοποίηση δύο παραγόντων. Παρακαλούμε χρησιμοποιείστε την ακόλουθη φόρμα για να καταχωρήσετε μια συσκευή.'
+      required_to_add_device: 'Μια ενεργή πολιτική ασφαλείας απαιτεί να ενεργοποιήσετε την ταυτοποίηση δύο παραγόντων. Παρακαλούμε χρησιμοποιήστε την ακόλουθη φόρμα για να καταχωρήσετε μια συσκευή.'
     remember:
       active_session_notice: >
         Ο λογαριασμός σας έχει ένα ενεργό cookie απομνημόνευσης που είναι έγκυρο μέχρι %{expires_on}. Αυτό το cookie σας επιτρέπει να συνδέεστε στο λογαριασμό σας χωρίς δεύτερο παράγοντα μέχρι εκείνη την στιγμή.
@@ -164,9 +164,9 @@ el:
   button_continue: 'Συνέχεια'
   button_make_default: 'Ορισμός ως προεπιλογή'
   label_unverified_phone: "Το κινητό τηλέφωνο δεν έχει επαληθευτεί ακόμη"
-  notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
+  notice_phone_number_format: "Καταχωρίστε τον αριθμό με την ακόλουθη μορφή: + XX XXXXXXXX."
   text_otp_not_receive: "Άλλες μέθοδοι επαλήθευσης"
-  text_send_otp_again: "Αποστολή ξανά του κωδικού πρόσβασης μιας χρήσης μέχρι:"
+  text_send_otp_again: "Αποστολή ξανά του κωδικού πρόσβασης μιας χρήσης μέσω:"
   button_resend_otp_form: "Αποστολή ξανά"
   button_otp_by_voice: "Φωνητική κλήση"
   button_otp_by_sms: "SMS"

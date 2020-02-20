@@ -1,15 +1,12 @@
 #-- copyright
-# OpenProject Documents Plugin
-#
-# Former OpenProject Core functionality extracted into a plugin.
-#
-# Copyright (C) 2009-2014 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 require File.dirname(__FILE__) + '/../spec_helper'
 
@@ -101,16 +98,16 @@ describe Document do
     it "without attachments, the updated-on-date is taken from the document's date" do
       document = FactoryBot.create(:document, project: project)
       expect(document.attachments).to be_empty
-      expect(document.created_on).to eql document.updated_on
+      expect(document.created_at).to eql document.updated_at
     end
   end
 
   describe "acts as event" do
     let(:now) { Time.zone.now }
-    let(:document) {
+    let(:document) do
       FactoryBot.build(:document,
-                                       created_on: now)
-    }
+                       created_at: now)
+    end
 
     it { expect(document.event_datetime.to_i).to eq(now.to_i) }
   end

@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ pl:
         inline: 'Wyróżniaj w treści:'
         entire_card_by: 'Cała karta do'
       remove_from_list: 'Usuń kartę z listy'
+    caption_rate_history: "Historia stawek"
     clipboard:
       browser_error: "Twoja przeglądarka nie obsługuje kopiowania do schowka. Skopiuj tekst ręcznie."
       copied_successful: "Skopiowano do schowka!"
@@ -171,6 +172,9 @@ pl:
       cannot_save_changes_with_message: "Nie można zapisać zmian ze względu na następujący błąd: %{error}"
       query_saving: "Nie można zapisać widoku."
       embedded_table_loading: "Nie można załadować osadzonego widoku: %{message}"
+    enumeration_activities: "Działania"
+    enumeration_doc_categories: "Kategoria dokumentu"
+    enumeration_work_package_priorities: "Priorytety pakietów roboczych"
     filter:
       description:
         text_open_filter: "Otwórz filtr klawiszami strzałek przytrzymując klawisz 'ALT'."
@@ -192,6 +196,7 @@ pl:
     general_text_yes: "tak"
     general_text_No: "Nie"
     general_text_Yes: "Tak"
+    global_roles: Role ogólne
     hal:
       error:
         update_conflict_refresh: "Kliknij tutaj, aby odświeżyć pakiet roboczy i zaktualizować go do najnowszej wersji."
@@ -203,8 +208,15 @@ pl:
       blocks:
         new_features:
           text_new_features: "Przeczytaj o nowych funkcjach i aktualizacjach produktów."
-          current_new_feature_html: "OpenProject zawiera nową <b>stronę Przegląd</b>, <b>służącą do wyświetlania istotnych informacji o projekcie</b> i pokazującą, czy projekt przebiega prawidłowo. </br> Można wstawić różne nowe widżety stanu, takie jak: <ul><li>stan projektu,</li> <li>przegląd stanu pakietu roboczego,</li> <li>pozstęp zadania,</li> <li>zadania przypisane do użytkowników.</li></ul>"
-          learn_about: "Dowiedz się więcej o nowych widżetach stanu"
+          learn_about: "Dowiedz się więcej o nowych funkcjach"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              Ta wersja zawiera różne nowe funkcje i ulepszenia: <br><br> <ul> <li>Domyślne <b>szablony projektów</b>, umożliwiające wybranie jasnego lub ciemnego motywu (funkcja premium).</li> <li>Nowy <b>widżet śledzenia czasu</b> w obszarze <i>Moja strona</i>, umożliwiające pokazywanie spędzonego czasu na wykresie słupkowym.</li> <li><b>Eksport raportów kosztów do plików XLS</b> i tekst sformatowany w pliku PDF eksportu pakietów roboczych.</li> <li><b>Ulepszony wygląd i cechy użytkowe</b>, tj. karty i inne elementy w obszarach ustawień projektu i administracji.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject zawiera <b>nowy moduł IFC do integracji modeli 3D</b> z aplikacją do zarządzania projektami oraz do pracy zespołowej nad tymi plikami z Twoim zespołem bez konieczności instalacji osobnego, kosztownego oprogramowania lub licencji. <br><br> <ul> <li><b>Import plików IFC</b> modeli budynków do aplikacji OpenProject.</li> <li><b>Otwieranie modeli 3D i wizualizowanie modeli budynków</b> w przeglądarce.</li> <li>Łatwa <b>praca nad wieloma plikami IFC</b> z zespołem bezpośrednio w OpenProject bez konieczności instalacji osobnego, kosztownego oprogramowania. </li> </ul>
     label_activate: "Aktywuj"
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
@@ -222,6 +234,7 @@ pl:
     label_and: "i"
     label_ascending: "Rosnąco"
     label_author: "Autor: %{user}"
+    label_avatar: "Awatar"
     label_between: "pomiędzy"
     label_board: "Tablica"
     label_board_locked: "Zablokowany"
@@ -235,6 +248,8 @@ pl:
     label_deactivate: "Wyłącz"
     label_descending: "Malejąco"
     label_description: "Opis"
+    label_details: "Szczegóły"
+    label_display: "Wyświetlanie"
     label_cancel_comment: "Anuluj komentarz"
     label_closed_work_packages: "Zamknięte"
     label_collapse: "Zwiń"
@@ -255,22 +270,29 @@ pl:
     label_export: "Eksportuj"
     label_filename: "Plik"
     label_filesize: "Rozmiar"
+    label_general: "Ogólne"
     label_greater_or_equal: "≥"
     label_group: 'Grupa'
     label_group_by: "Grupuj według"
+    label_group_plural: "Grupy"
     label_hide_attributes: "Pokaż mniej"
     label_hide_column: "Ukryj kolumnę"
     label_hide_project_menu: "Zwiń menu projektu"
     label_in: "w"
     label_in_less_than: "w mniej niż"
     label_in_more_than: "w ponad"
+    label_incoming_emails: "Przychodzące e-maile"
+    label_information_plural: "Informacje"
     label_import: "Importuj"
     label_latest_activity: "Ostatnia aktywność"
     label_last_updated_on: "Ostatnia aktualizacja"
     label_less_or_equal: "≤"
     label_less_than_ago: "mniej niż dni temu"
     label_loading: "Ładowanie..."
+    label_mail_notification: "Powiadomienia e-mail"
     label_me: "ja"
+    label_meeting_agenda: "Plan spotkania"
+    label_meeting_minutes: "Protokół ze spotkania"
     label_menu_collapse: "Zwiń"
     label_menu_expand: "Rozwiń"
     label_more_than_ago: "Więcej niż dni temu"
@@ -291,12 +313,16 @@ pl:
     label_previous: "Poprzedni"
     label_per_page: "Na stronie:"
     label_please_wait: "Zaczekaj"
+    label_project_plural: "Projekty"
     label_visibility_settings: "Ustawienia widoczności"
     label_quote_comment: "Cytuj komentarz"
+    label_recent: "Najnowsze"
     label_reset: "Reset"
     label_remove_column: "Usuń kolumnę"
     label_remove_columns: "Usuń zaznaczone kolumny"
     label_remove_row: "Usuń wiersz"
+    label_report: "Raport"
+    label_repository_plural: "Repozytoria"
     label_save_as: "Zapisz jako"
     label_select_watcher: "Wybierz obserwatora..."
     label_selected_filter_list: "Wybrane filtry"
@@ -307,6 +333,7 @@ pl:
     label_sort_higher: "Przenieś wyżej"
     label_sort_lower: "Przenieś niżej"
     label_sorting: "Sortowanie"
+    label_spent_time: "Czas pracy"
     label_star_query: "Dodane do ulubionych"
     label_press_enter_to_save: "Aby zapisać, naciśnij Enter."
     label_public_query: "Publiczny"
@@ -315,7 +342,9 @@ pl:
     label_subject: "Temat"
     label_this_week: "ten tydzień"
     label_today: "dzisiaj"
+    label_time_entry_plural: "Czas pracy"
     label_up: "W górę"
+    label_user_plural: "Użytkownicy"
     label_activity_show_only_comments: "Wyświetl aktywności tylko z komentarzami"
     label_activity_show_all: "Wyświetl wszystkie aktywności"
     label_total_progress: "%{percent}% Całkowitego postępu"
@@ -357,6 +386,7 @@ pl:
     label_wait: "Proszę poczekaj na zakończenie konfiguracji..."
     label_upload_counter: "%{done} z %{count} plików ukończono"
     label_validation_error: "Zadania nie mogą być zapisane z powodu błędów:"
+    label_version_plural: "Wersje"
     label_view_has_changed: "Ten widok zawiera niezapisane zmiany. Kliknij, aby je zapisać."
     help_texts:
       show_modal: 'Pokaż atrybut wpisu tekstu pomocy'
@@ -423,23 +453,22 @@ pl:
         upgrade_to_ee_text: "Znakomicie! Jeśli potrzebujesz tej funkcji, jesteś prawdziwym pro! Możesz wesprzesz nas jako deweloperów OpenSource, zostając klientem edycji Enterprise."
         more_information: "Więcej informacji"
         nevermind: "Nieważne"
-        filter_types:
-          parent: "będące elementem podrzędnym elementu"
-          precedes: "poprzedzające"
-          follows: "następujące po"
-          relates: "powiązane z"
-          duplicates: "duplikujące"
-          duplicated: "Powielone przez"
-          blocks: "blokujące"
-          blocked: "Zablokowane przez"
-          partof: "będące częścią"
-          includes: "zawierające"
-          requires: "wymagające"
-          required: "wymagane przez"
+      edit:
+        form_configuration: "Konfiguracja formularza"
+        projects: "Projekty"
+        settings: "Ustawienia"
     time_entry:
+      project: 'Projekt'
+      work_package: 'Zadanie'
+      work_package_required: 'Wymaga wybrania najpierw pakietu roboczego.'
       activity: 'Działanie'
       comment: 'Komentarz'
+      duration: 'Czas trwania'
+      spent_on: 'Data'
       hours: 'Godziny'
+      label: 'Wpis czasu'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'
     watchers:
       label_loading: ładowanie obserwatorów...
       label_error_loading: Wystąpił błąd podczas ładowania obserwatorów.
@@ -499,6 +528,7 @@ pl:
     field_value_enter_prompt: "Wprowadź wartość dla '%{field}'"
     select2:
       input_too_short:
+        zero: "Wprowadź więcej znaków"
         one: "Wprowadź jeszcze jeden znak"
         few: "Proszę wpisać jeszcze {{count}} znaków"
         many: "Proszę wpisać jeszcze {{count}} znaków"
@@ -507,6 +537,7 @@ pl:
       no_matches: "Nie znaleziono dopasowań"
       searching: "Wyszukiwanie ..."
       selection_too_big:
+        zero: "Nie możesz wybrać elementów"
         one: "Możesz wybrać tylko jeden element"
         few: "Możesz wybrać tylko {{limit}} elementy"
         many: "Możesz wybrać tylko {{limit}} elementy"
@@ -761,8 +792,7 @@ pl:
           relation_columns: 'Chcesz zobaczyć relacje w tej liście pakietów roboczych?'
           check_out_link: 'Sprawdź wersję Enterprise.'
         relation_filters:
-          first_part: "Pokaż wszystkie pakiety robocze"
-          second_part: "bieżący pakiet roboczy"
+          filter_work_packages_by_relation_type: 'Filtruj pakiety robocze według typu relacji'
       tabs:
         overview: Przegląd
         activity: Działanie
@@ -852,6 +882,7 @@ pl:
         many: "%{count} potomnych pakietów roboczych"
         other: "%{count} potomnych pakietów roboczych"
       hour:
+        zero: "0 h"
         one: "1 h"
         few: "%{count} h"
         many: "%{count} h"

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,11 +41,8 @@ OpenProject::Application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
-  # File watcher
-  # using ActiveSupport::EventedFileUpdateChecker depends on listen which depends on fsevent
-  # which seems to be prone to creating zombie process (+200 of them) which can cause
-  # the process limit (on mac) to be reached which causes the system to need a reboot.
-  config.file_watcher = ActiveSupport::FileUpdateChecker
+  # Asynchronous file watcher
+  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local

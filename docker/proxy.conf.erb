@@ -3,9 +3,11 @@
   DocumentRoot <%= ENV.fetch('APP_PATH') %>/public
 
   ProxyRequests off
+  ProxyPreserveHost On
 
-  <Location />
-    ProxyPass http://127.0.0.1:8080/ retry=0
-    ProxyPassReverse http://127.0.0.1:8080/
+  <% location = ENV.fetch("OPENPROJECT_RAILS__RELATIVE__URL__ROOT", "").chomp("/") %>
+  <Location <%= location == "" ? "/" : location %>>
+    ProxyPass http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8080<%= location %>/ retry=0
+    ProxyPassReverse http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8080<%= location %>/
   </Location>
 </VirtualHost>

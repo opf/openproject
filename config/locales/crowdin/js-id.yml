@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -80,6 +80,7 @@ id:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Histori rate"
     clipboard:
       browser_error: "Browser Anda tidak mendukung menyalin ke clipboard. Harap menyalin teks yang dipilih secara manual."
       copied_successful: "Berhasil disalin ke clipboard!"
@@ -171,6 +172,9 @@ id:
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
+    enumeration_activities: "Activity (pelacakan waktu)"
+    enumeration_doc_categories: "Kategori dokumen"
+    enumeration_work_package_priorities: "Paket-Penugasan prioritas"
     filter:
       description:
         text_open_filter: "Buka filter ini dengan 'ALT' dan tombol panah."
@@ -192,6 +196,7 @@ id:
     general_text_yes: "yes"
     general_text_No: "No"
     general_text_Yes: "Yes"
+    global_roles: Peran global
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -203,8 +208,15 @@ id:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Aktifkan"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -222,6 +234,7 @@ id:
     label_and: "dan"
     label_ascending: "Askending"
     label_author: "Author: %{user}"
+    label_avatar: "Avatar"
     label_between: "antara"
     label_board: "Board"
     label_board_locked: "Locked"
@@ -235,6 +248,8 @@ id:
     label_deactivate: "Nonaktifkan"
     label_descending: "Deskending"
     label_description: "Deskripsi"
+    label_details: "Detil"
+    label_display: "Tampilkan"
     label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "berakhir"
     label_collapse: "Tampilkan"
@@ -255,22 +270,29 @@ id:
     label_export: "Ekspor"
     label_filename: "File"
     label_filesize: "Size"
+    label_general: "Umum"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Pengelompokan"
+    label_group_plural: "Grup"
     label_hide_attributes: "Show less"
     label_hide_column: "Sembunyikan kolom"
     label_hide_project_menu: "Collapse project menu"
     label_in: "dalam"
     label_in_less_than: "kurang dari"
     label_in_more_than: "lebih dari"
+    label_incoming_emails: "Email masuk"
+    label_information_plural: "Informasi"
     label_import: "Impor"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Terakhir diupdate pada"
     label_less_or_equal: "<="
     label_less_than_ago: "kemarin lusa"
     label_loading: "Loading..."
+    label_mail_notification: "Notifikasi email"
     label_me: "saya"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Laporan"
     label_menu_collapse: "runtuh"
     label_menu_expand: "expand"
     label_more_than_ago: "lusa yang lalu"
@@ -291,12 +313,16 @@ id:
     label_previous: "Sebelumnya"
     label_per_page: "Per halaman:"
     label_please_wait: "Please wait"
+    label_project_plural: "Project"
     label_visibility_settings: "Seting penampakan"
     label_quote_comment: "Quote this comment"
+    label_recent: "Recent"
     label_reset: "Reset"
     label_remove_column: "Remove column"
     label_remove_columns: "Hapus kolom terpilih"
     label_remove_row: "Remove row"
+    label_report: "Laporan"
+    label_repository_plural: "Repositori"
     label_save_as: "Simpan sebagai"
     label_select_watcher: "Pilih pemantau..."
     label_selected_filter_list: "Filter terpilih"
@@ -307,6 +333,7 @@ id:
     label_sort_higher: "Naikkan"
     label_sort_lower: "Pindahkan ke bawah"
     label_sorting: "Mengurutkan"
+    label_spent_time: "Durasi"
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Publik"
@@ -315,7 +342,9 @@ id:
     label_subject: "Perihal"
     label_this_week: "minggu ini"
     label_today: "hari ini"
+    label_time_entry_plural: "Durasi"
     label_up: "Naik"
+    label_user_plural: "User"
     label_activity_show_only_comments: "Tampilkan hanya aktivitas bersama komentar"
     label_activity_show_all: "Tampilkan semua aktivitas"
     label_total_progress: "%{percent}% total progres"
@@ -357,6 +386,7 @@ id:
     label_wait: "Mohon menunggu..."
     label_upload_counter: "%{done} dari %{count} file selesai"
     label_validation_error: "Proses penyimpanan work package gagal. Kesalahan yang terjadi:"
+    label_version_plural: "Versi"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Tampilkan atribut-atribut teks bantuan yang dimasukkan'
@@ -423,23 +453,22 @@ id:
         upgrade_to_ee_text: "Wow! Kalau Anda membutuhkan fitur ini, Anda adalah profesional yang super! Bersediakah Anda mendukung kami, pengembang OpenSource, untuk menjadi pelanggan Edisi Perusahaan?"
         more_information: "Informasi lebih lanjut"
         nevermind: "Tidak masalah"
-        filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
-          duplicated: "disalin oleh"
-          blocks: "blocking"
-          blocked: "diblokir oleh"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Project"
+        settings: "Pengaturan"
     time_entry:
+      project: 'Project'
+      work_package: 'Paket-Penugasan'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Activity'
       comment: 'Komentar'
+      duration: 'Durasi'
+      spent_on: 'Tanggal'
       hours: 'Jam'
+      label: 'Time entry'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Autentikasi dua faktor'
     watchers:
       label_loading: memuat pengamat...
       label_error_loading: An error occurred while loading the watchers
@@ -499,11 +528,13 @@ id:
     field_value_enter_prompt: "Masukkan nilai untuk '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         other: "Please enter {{count}} more characters"
       load_more: "Memuat hasil lebih banyak..."
       no_matches: "Tak ditemukan yang cocok"
       searching: "Mencari ..."
       selection_too_big:
+        zero: "You cannot select any items"
         other: "Anda hanya dapat memilih {{limit}} item"
     project_menu_details: "Detil"
     sort:
@@ -755,8 +786,7 @@ id:
           relation_columns: 'Apakah perlu untuk melihat hubungan dalam daftar paker kerja?'
           check_out_link: 'Periksa edisi Perusahaan.'
         relation_filters:
-          first_part: "Show all work packages"
-          second_part: "the current work package"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Tinjauan
         activity: Activity
@@ -840,6 +870,7 @@ id:
       child_work_packages:
         other: "Paket kerja %{count} turunan"
       hour:
+        zero: "0 h"
         other: "%{count} h"
     zen_mode:
       button_activate: 'Mengaktifkan modus zen'

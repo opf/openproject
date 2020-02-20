@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,5 +31,5 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= labelled_tabular_form_for [@project, @forum] do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
   <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
-  <%= link_to t(:button_cancel), project_forum_path(@project, @forum), class: 'button -with-icon icon-cancel' %>
+  <%= link_to t(:button_cancel), project_forums_path(@project), class: 'button -with-icon icon-cancel' %>
 <% end %>

@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -36,31 +36,12 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= breadcrumb_toolbar @type.name %>
 </div>
 
-<div class="tabs">
-  <ul>
-    <li>
-      <%= link_to t("types.edit.settings"),
-                  edit_type_tab_path(id: @type.id, tab: :settings),
-                  class: "#{'selected' if @tab == "settings" }"  %>
-    </li>
-    <li>
-      <%= link_to t("types.edit.form_configuration"),
-                  edit_type_tab_path(id: @type.id, tab: :form_configuration),
-                  class: "#{'selected' if @tab == 'form_configuration' }"  %>
-    </li>
-    <li>
-      <%= link_to t("types.edit.projects"),
-                  edit_type_tab_path(id: @type.id, tab: :projects),
-                  class: "#{'selected' if @tab == 'projects' }"  %>
-    </li>
-  </ul>
-</div>
+<%= form_for @type,
+             url: update_type_tab_path(id: @type.id, tab: @tab),
+             builder: TabularFormBuilder,
+             lang: current_language do |f| %>
+
+  <%= render_tabs types_tabs, f %>
+<% end %>
 
 <%= error_messages_for 'type' %>
-
-<%= form_for @type,
-            url: update_type_tab_path(id: @type.id, tab: @tab),
-            builder: TabularFormBuilder,
-            lang: current_language do |f| %>
-  <%= render partial: "types/form/#{@tab}", locals: { f: f } %>
-<% end %>

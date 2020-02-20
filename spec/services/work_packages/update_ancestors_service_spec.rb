@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::UpdateAncestorsService, type: :model do
+describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
   let(:user) { FactoryBot.create :user }
   let(:estimated_hours) { [nil, nil, nil] }
   let(:done_ratios) { [0, 0, 0] }
@@ -67,10 +67,10 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     let(:children) do
       (statuses.size - 1).downto(0).map do |i|
         FactoryBot.create :work_package,
-                           parent: parent,
-                           status: statuses[i] == :open ? open_status : closed_status,
-                           estimated_hours: estimated_hours[i],
-                           done_ratio: done_ratios[i]
+                          parent: parent,
+                          status: statuses[i] == :open ? open_status : closed_status,
+                          estimated_hours: estimated_hours[i],
+                          done_ratio: done_ratios[i]
       end
     end
     let(:parent) { FactoryBot.create :work_package, status: open_status }
@@ -199,10 +199,10 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     end
     let!(:sibling) do
       FactoryBot.create :work_package,
-                         parent: parent,
-                         status: sibling_status,
-                         estimated_hours: sibling_estimated_hours,
-                         done_ratio: sibling_done_ratio
+                        parent: parent,
+                        status: sibling_status,
+                        estimated_hours: sibling_estimated_hours,
+                        done_ratio: sibling_done_ratio
     end
 
     let!(:work_package) do
@@ -265,58 +265,79 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     end
     let!(:parent) do
       FactoryBot.create :work_package,
-                         parent: grandparent
+                        parent: grandparent
     end
     let!(:work_package) do
       FactoryBot.create :work_package,
-                         status: status,
-                         estimated_hours: estimated_hours,
-                         done_ratio: done_ratio
+                        status: status,
+                        estimated_hours: estimated_hours,
+                        done_ratio: done_ratio
     end
 
-    subject do
-      work_package.parent = parent
-      work_package.save!
-      work_package.parent_id_was
+    shared_examples_for 'updates the attributes within the new hierarchy' do
+      before do
+        subject
+      end
 
-      described_class
-        .new(user: user,
-             work_package: work_package)
-        .call(%i(parent))
+      it 'is successful' do
+        expect(subject)
+          .to be_success
+      end
+
+      it 'returns the new ancestors in the dependent results' do
+        expect(subject.dependent_results.map(&:result))
+          .to match_array [parent, grandparent]
+      end
+
+      it 'updates the done_ratio of the new parent' do
+        expect(parent.reload(select: :done_ratio).done_ratio)
+          .to eql done_ratio
+      end
+
+      it 'updates the estimated_hours of the new parent' do
+        expect(parent.reload(select: :derived_estimated_hours).derived_estimated_hours)
+          .to eql estimated_hours
+      end
+
+      it 'updates the done_ratio of the new grandparent' do
+        expect(grandparent.reload(select: :done_ratio).done_ratio)
+          .to eql done_ratio
+      end
+
+      it 'updates the estimated_hours of the new grandparent' do
+        expect(grandparent.reload(select: :derived_estimated_hours).derived_estimated_hours)
+          .to eql estimated_hours
+      end
     end
 
-    before do
-      subject
+    context 'if setting the parent' do
+      subject do
+        work_package.parent = parent
+        work_package.save!
+        work_package.parent_id_was
+
+        described_class
+          .new(user: user,
+               work_package: work_package)
+          .call(%i(parent))
+      end
+
+      it_behaves_like 'updates the attributes within the new hierarchy'
     end
 
-    it 'is successful' do
-      expect(subject)
-        .to be_success
-    end
+    context 'if setting the parent_id' do
+      subject do
+        work_package.parent_id = parent.id
+        work_package.save!
+        work_package.parent_id_was
 
-    it 'returns the new ancestors in the dependent results' do
-      expect(subject.dependent_results.map(&:result))
-        .to match_array [parent, grandparent]
-    end
+        described_class
+          .new(user: user,
+               work_package: work_package)
+          .call(%i(parent_id))
+      end
 
-    it 'updates the done_ratio of the new parent' do
-      expect(parent.reload(select: :done_ratio).done_ratio)
-        .to eql done_ratio
-    end
-
-    it 'updates the estimated_hours of the new parent' do
-      expect(parent.reload(select: :derived_estimated_hours).derived_estimated_hours)
-        .to eql estimated_hours
-    end
-
-    it 'updates the done_ratio of the new grandparent' do
-      expect(grandparent.reload(select: :done_ratio).done_ratio)
-        .to eql done_ratio
-    end
-
-    it 'updates the estimated_hours of the new grandparent' do
-      expect(grandparent.reload(select: :derived_estimated_hours).derived_estimated_hours)
-        .to eql estimated_hours
+      it_behaves_like 'updates the attributes within the new hierarchy'
     end
   end
 end

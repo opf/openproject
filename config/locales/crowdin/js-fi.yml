@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -29,16 +29,16 @@ fi:
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
-        single: "Select \"%{name}\""
-      remove: "Remove %{name}"
-      active: "Active %{label} %{name}"
+        multi: "Add \"%{name}\"Lisää"
+        single: "Select \"%{name}\"Valitse"
+      remove: "Remove %{name} Poista"
+      active: "Active %{label} %{name} Aktiivinen"
     close_popup_title: "Sulje ponnahdus-ikkuna"
     close_filter_title: "Sulje suodatin"
     close_form_title: "Sulje lomake"
     button_add_watcher: "Lisää seuraaja"
     button_back: "Takaisin"
-    button_back_to_list_view: "Back to list view"
+    button_back_to_list_view: "Takaisin listaan"
     button_cancel: "Peruuta"
     button_close: "Sulje"
     button_change_project: "Change project"
@@ -54,7 +54,7 @@ fi:
     button_duplicate: "Kahdenna"
     button_edit: "Muokkaa"
     button_filter: "Suodata"
-    button_advanced_filter: "Advanced filter"
+    button_advanced_filter: "Edistynyt suodatin"
     button_list_view: "Luettelonäkymä"
     button_show_view: "Koko näytön tila"
     button_log_time: "Kirjaa lokiin aika"
@@ -80,6 +80,7 @@ fi:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
+    caption_rate_history: "Tuntihinnan historia"
     clipboard:
       browser_error: "Selaimesi ei tue kopiointia leikepöydälle. Kopioi valittu teksti manuaalisesti."
       copied_successful: "Onnistuneesti kopioitu leikepöydälle!"
@@ -171,6 +172,9 @@ fi:
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
+    enumeration_activities: "Historia (ajan seuranta)"
+    enumeration_doc_categories: "Tiedostoluokat"
+    enumeration_work_package_priorities: "Work package priorities"
     filter:
       description:
         text_open_filter: "Avaa suodatin \"Alt\"-näppäintä ja nuolinäppäimiä käyttämällä."
@@ -192,6 +196,7 @@ fi:
     general_text_yes: "kyllä"
     general_text_No: "Ei"
     general_text_Yes: "Kyllä"
+    global_roles: Yleiset roolit
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -203,8 +208,15 @@ fi:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Aktivoi"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -222,6 +234,7 @@ fi:
     label_and: "and"
     label_ascending: "Nouseva"
     label_author: "Tekijä: %{user}"
+    label_avatar: "Avatar"
     label_between: "between"
     label_board: "Board"
     label_board_locked: "Lukittu"
@@ -235,6 +248,8 @@ fi:
     label_deactivate: "Poistaa käytöstä"
     label_descending: "Laskeva"
     label_description: "Kuvaus"
+    label_details: "Yksityiskohdat"
+    label_display: "Näytä"
     label_cancel_comment: "Peruuta kommentti"
     label_closed_work_packages: "suljettu"
     label_collapse: "Pienennä"
@@ -255,22 +270,29 @@ fi:
     label_export: "Vie"
     label_filename: "Tiedosto"
     label_filesize: "Koko"
+    label_general: "Yleinen"
     label_greater_or_equal: ">="
     label_group: 'Ryhmä'
     label_group_by: "Ryhmittely"
+    label_group_plural: "Ryhmät"
     label_hide_attributes: "Näytä vähemmän"
     label_hide_column: "Piilota sarake"
     label_hide_project_menu: "Collapse project menu"
     label_in: "tässä"
     label_in_less_than: "pienempi kuin"
     label_in_more_than: "suurempi kuin"
+    label_incoming_emails: "Saapuvat sähköpostiviestit"
+    label_information_plural: "Tieto"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Viimeisin päivitys"
     label_less_or_equal: "<="
     label_less_than_ago: "vähemmän kuin päivää sitten"
     label_loading: "Lataa..."
+    label_mail_notification: "Sähköposti-ilmoitukset"
     label_me: "minä"
+    label_meeting_agenda: "Esityslista"
+    label_meeting_minutes: "Pöytäkirja"
     label_menu_collapse: "pienennä"
     label_menu_expand: "laajenna"
     label_more_than_ago: "enemän kuin päivää sitten"
@@ -291,12 +313,16 @@ fi:
     label_previous: "Edellinen"
     label_per_page: "Sivulla:"
     label_please_wait: "Odota hetki"
+    label_project_plural: "Projektit"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Lainaa tämä kommentti"
+    label_recent: "Recent"
     label_reset: "Nollaus"
     label_remove_column: "Remove column"
     label_remove_columns: "Poista valitut sarakkeet"
     label_remove_row: "Remove row"
+    label_report: "Raportti"
+    label_repository_plural: "Tietovarastot"
     label_save_as: "Tallenna nimellä"
     label_select_watcher: "Valitse seuraaja..."
     label_selected_filter_list: "Valitut suodattimet"
@@ -307,6 +333,7 @@ fi:
     label_sort_higher: "Siirrä ylös"
     label_sort_lower: "Siirrä alas"
     label_sorting: "Lajittelu"
+    label_spent_time: "Käytetty aika"
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Julkinen"
@@ -315,7 +342,9 @@ fi:
     label_subject: "Aihe"
     label_this_week: "tällä viikolla"
     label_today: "tänään"
+    label_time_entry_plural: "Käytetty aika"
     label_up: "Ylös"
+    label_user_plural: "Käyttäjät"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
     label_total_progress: "%{percent} % eteneminen"
@@ -357,6 +386,7 @@ fi:
     label_wait: "Odota kokoonpanoa..."
     label_upload_counter: "%{done} tiedostoa %{count} tiedostosta valmiina"
     label_validation_error: "Työpakettia ei voitu tallentaa seuraavien virheiden vuoksi:"
+    label_version_plural: "Versiot"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
@@ -423,23 +453,22 @@ fi:
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "Lisätietoja"
         nevermind: "Nevermind"
-        filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
-          duplicated: "kaksoiskappale"
-          blocks: "blocking"
-          blocked: "estänyt"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "Projektit"
+        settings: "Asetukset"
     time_entry:
+      project: 'Projekti'
+      work_package: 'Työpaketti'
+      work_package_required: 'Requires selecting a work package first.'
       activity: 'Aktiviteetti'
       comment: 'Kommentti'
+      duration: 'Kesto'
+      spent_on: 'Päivä'
       hours: 'Tunnit'
+      label: 'Time entry'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Kaksivaiheinen tunnistautuminen'
     watchers:
       label_loading: ladataan seuraajia...
       label_error_loading: Virhe ladattaessa seuraajia
@@ -499,12 +528,14 @@ fi:
     field_value_enter_prompt: "Syötä arvo kenttään \"%{field}\""
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Kirjoita vielä yksi merkki"
         other: "Kirjoita {{count}} lisää merkkiä"
       load_more: "Ladataan lisää tuloksia..."
       no_matches: "Vastaavuuksia ei löydy"
       searching: "Etsitään..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Voit valita vain yhden kohteen"
         other: "Voit valita vain {{limit}} kohdetta"
     project_menu_details: "Yksityiskohdat"
@@ -757,8 +788,7 @@ fi:
           relation_columns: 'Täytyy nähdä suhteet toimia paketti lista?'
           check_out_link: 'Check out the Enterprise Edition.'
         relation_filters:
-          first_part: "Show all work packages"
-          second_part: "the current work package"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Yleiskatsaus
         activity: Aktiviteetti
@@ -844,6 +874,7 @@ fi:
         one: "one child work package"
         other: "%{count} work package children"
       hour:
+        zero: "0 h"
         one: "1 h"
         other: "%{count} h"
     zen_mode:

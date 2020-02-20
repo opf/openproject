@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% html_title l(:label_administration), l(:label_enumerations) %>
-<%= toolbar title: l(:label_enumerations) %>
-<% Enumeration.descendants.each do |klass| %>
-  <h3 class="-no-border"><%= l(klass::OptionName) %></h3>
+<% html_title t(:label_administration), t(:label_enumerations) %>
+<%= toolbar title: t(:label_enumerations) %>
+<% Enumeration.subclasses.each do |klass| %>
+  <h3 class="-no-border"><%= t(klass::OptionName) %></h3>
   <%= cell ::Enumerations::TableCell, klass.shared %>
 <% end %>

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -104,6 +104,10 @@ module Redmine::MenuManager::MenuController
 
   def project_menu_item(name)
     Redmine::MenuManager.items(:project_menu).detect { |i| i.name.to_s == name.to_s }
+  end
+
+  def admin_menu_item(name)
+    Redmine::MenuManager.items(:admin_menu).detect { |i| i.name.to_s == name.to_s }
   end
 
   def user_allowed_to_access_item?(project, item)

@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ zh-TW:
     plugins:
       no_results_title_text: 目前沒有外掛可以使用
     custom_styles:
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
       custom_colors: "自訂顏色"
       customize: "使用自己的logo自訂 OpenProject 安裝。注意: 此logo將可公開存取。"
       enterprise_notice: "作為對為開發 OpenProject 提供財力支持的訂閱者的特別“感謝”，這項小功能僅限企業版支持訂閱者使用。"
       manage_colors: "編輯顏色選擇選項"
       instructions:
-        alternative_color: "濃重的主題色，通常用於螢幕上最重要的按鈕。"
-        content_link_color: "大部分連結的文字顏色"
-        primary_color: "主要顏色"
-        primary_color_dark: "通常深色的主顏色用於 hover 特效。"
-        header_bg_color: "標頭的背景顏色"
-        header_item_bg_hover_color: "當滑鼠移動到可點選的標題項目的背景顏色"
-        header_item_font_color: "可點擊的標題項目的文字顏色"
-        header_item_font_hover_color: "當滑鼠移動到可點選的標題項目的文字顏色"
-        header_border_bottom_color: "標題下方的細線。如果你不想要任何線段，請保持此欄位空白。"
-        main_menu_bg_color: "左側選單的背景顏色"
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "大部分連結的文字顏色"
+        primary-color: "主要顏色"
+        primary-color-dark: "通常深色的主顏色用於 hover 特效。"
+        header-item-bg-hover-color: "當滑鼠移動到可點選的標題項目的背景顏色"
+        header-item-font-color: "可點擊的標題項目的文字顏色"
+        header-item-font-hover-color: "當滑鼠移動到可點選的標題項目的文字顏色"
+        header-border-bottom-color: "標題下方的細線。如果你不想要任何線段，請保持此欄位空白。"
+        main-menu-bg-color: "左側選單的背景顏色"
     enterprise:
       upgrade_to_ee: "升級到企業版"
       add_token: "上傳企業版support token"
@@ -357,12 +375,12 @@ zh-TW:
         active_user_count_restriction: "最大活動使用者數"
       grids/grid:
         page: "頁面"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        row_count: "列數"
+        column_count: "欄數："
+        widgets: "小工具"
       relation:
         delay: "延時"
-        from: "Work package"
+        from: "工作項目"
         to: "相關的工作項目"
       status:
         is_closed: "工作項目關閉"
@@ -532,7 +550,7 @@ zh-TW:
         enterprise_token:
           unreadable: "無法讀取，確定是一個 support token?"
         grids/grid:
-          overlaps: 'overlap.'
+          overlaps: '重疊'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
         parse_schema_filter_params_service:
@@ -577,6 +595,10 @@ zh-TW:
         role:
           permissions:
             dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "工作項目 #%{id} 不是重新分配時間項目有效的目標"
           attributes:
@@ -661,7 +683,7 @@ zh-TW:
       wiki: "維基"
       wiki_page: "維基頁面"
       workflow: "工作流程"
-      work_package: "Work package"
+      work_package: "工作項目"
       'doorkeeper/application': "Oauth 應用程式"
   errors:
     header_invalid_fields: "以下的欄位有問題:"
@@ -703,7 +725,7 @@ zh-TW:
     is_for_all: "對所有的專案"
     is_public: "公開"
     #kept for backwards compatibility
-    issue: "Work package"
+    issue: "工作項目"
     lastname: "姓："
     login: "Username"
     mail: "電子郵件"
@@ -723,9 +745,10 @@ zh-TW:
     type: "類型"
     updated_at: "更新於"
     updated_on: "更新於"
+    uploader: "Uploader"
     user: "使用者"
     version: "版本"
-    work_package: "Work package"
+    work_package: "工作項目"
   button_add: "增加"
   button_add_member: 新增成員
   button_add_watcher: "新增監看者"
@@ -996,9 +1019,8 @@ zh-TW:
         rename_groups: "重新命名屬性群组"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "活動 (時間追蹤)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "工作項目優先等級"
-  enumeration_system_activity: "系統活動"
   enumeration_reported_project_statuses: "報告的專案狀態"
   error_auth_source_sso_failed: "單一登入 (SSO) 使用者 '%{value}' 失敗"
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
@@ -1057,7 +1079,7 @@ zh-TW:
     reply: 已回覆
     time_entry: '已編輯時間日誌'
     wiki_page: '維基頁面已編輯'
-    work_package_closed: 'Work Package closed'
+    work_package_closed: '工作項目關閉'
     work_package_edit: '工作項目已編輯'
     work_package_note: '工作項目註記已新增'
   export:
@@ -1065,9 +1087,11 @@ zh-TW:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF with descriptions"
+      pdf_with_descriptions: "有說明的 PDF 檔"
       pdf_with_descriptions_and_attachments: "帶有說明和附件的 pdf"
       pdf_with_attachments: "帶有附件的 pdf"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Pdftotext 可用 (非必要)"
@@ -1607,7 +1631,7 @@ zh-TW:
   label_view_diff: "檢視差異"
   label_view_revisions: "檢視修訂"
   label_watched_work_packages: "監看的工作項目"
-  label_what_is_this: "What is this?"
+  label_what_is_this: "這是什麼？"
   label_week: "週"
   label_wiki_content_added: "維基頁面已新增"
   label_wiki_content_updated: "維基頁面已更新"
@@ -1626,7 +1650,7 @@ zh-TW:
   label_wiki_show_new_page_link: "顯示子功能表 '新增子頁面'"
   label_wiki_show_submenu_item: "呈現於子功能表的 "
   label_wiki_start: "開始頁面"
-  label_work_package: "Work package"
+  label_work_package: "工作項目"
   label_work_package_added: "工作項目已新增"
   label_work_package_attachments: "工作項目附件"
   label_work_package_category_new: "新增類別"
@@ -1648,12 +1672,16 @@ zh-TW:
   label_workflow_plural: "工作流程"
   label_workflow_summary: "大綱"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     other: "%{count} 個已結案"
   label_x_comments:
+    zero: "no comments"
     other: "%{count} 個評論"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     other: "%{count} 個未完成"
   label_x_projects:
+    zero: "no projects"
     other: "%{count} 個專案"
   label_year: "年份"
   label_yesterday: "昨天"
@@ -2195,7 +2223,7 @@ zh-TW:
   text_destroy_with_associated: "還有其他物件與要刪除的工作項目有關聯。這些物件具有以下類型:"
   text_destroy_what_to_do: "您想要做什麼？"
   text_diff_truncated: "... 此差異被截斷, 因為它超出了可以顯示的最大大小。"
-  text_email_delivery_not_configured: "未配置電子郵件傳遞, 而且通知未啟用。在配置或configuration.yml中配置 SMTP 伺服器，並且重新啟動應用程式以啟用它們。"
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "重新指定為這個值:"
   text_enumeration_destroy_question: "%{count} 個物件被賦予此值。"
   text_file_repository_writable: "附件目錄可寫"
@@ -2418,9 +2446,9 @@ zh-TW:
     zoom:
       in: "放大"
       out: "縮小"
-      days: "Days"
-      weeks: "Weeks"
-      months: "Months"
+      days: "日"
+      weeks: "週"
+      months: "月"
       quarters: "季"
       years: "年"
   title_remove_and_delete_user: 從專案移除已被邀請的使用者別且刪除他/她
@@ -2487,6 +2515,17 @@ zh-TW:
     達到用戶限制。 您無法再激活任何用戶。 請<a href="%{upgrade_url}">升級您的計劃</a>或阻止會員以允許其他用戶。
   warning_user_limit_reached_instructions: >
     您達到了用戶限制（%{current}/%{max}活躍用戶）。 請聯係sales@openproject.com以升級Enterprise Edition計劃並添加其他用戶。
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protocol setting mismatch'
+      text_html: >
+        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+    hostname_mismatch:
+      title: 'Hostname setting mismatch'
+      text_html: >
+        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "選單項目"
   menu_item_setting: "可見度"
   wiki_menu_item_for: "Wikipage \"%{title}\" 的功能表項目"
@@ -2597,7 +2636,7 @@ zh-TW:
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
     authorization_dialog:
-      authorize: "Authorize"
+      authorize: "授權"
       cancel: "Cancel and deny authorization."
       prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
       title: "Authorize %{application_name}"

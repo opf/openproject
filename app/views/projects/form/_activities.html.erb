@@ -1,6 +1,6 @@
 <%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,73 +27,25 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<fieldset class="form--fieldset" id="project_types">
-  <legend class="form--fieldset-legend"><%=l(:label_enabled_project_activities)%></legend>
-
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table">
-        <colgroup>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <% TimeEntryActivity.new.available_custom_fields.each do |value| %>
-              <col highlight-col>
-          <% end %>
-          </colgroup>
-          <thead>
-            <tr>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= Enumeration.human_attribute_name(:active) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= Enumeration.human_attribute_name(:name) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= l(:enumeration_system_activity) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <% @project.activities(true).each do |enumeration| %>
-           <%= fields_for "enumerations[#{enumeration.id}]", enumeration do |ff| %>
-              <tr>
-                <td>
-                  <%= label_tag "enumerations_#{enumeration.id}_active", "#{h(enumeration.name)} #{l(:description_active)}", class: "hidden-for-sighted" %>
-                  <%= ff.check_box :active %>
-                </td>
-                <td>
-                  <%= ff.hidden_field :parent_id, value: enumeration.id unless enumeration.project %>
-                  <%= h(enumeration) %>
-                </td>
-                <td><%= checked_image !enumeration.project %></td>
-              </tr>
-            <% end %>
-          <% end %>
-        </table>
-        
+<% TimeEntryActivity
+   .includes(:time_entry_activities_projects)
+   .order(:name)
+   .each do |activity| %>
+  <div class="form--field">
+    <%= styled_label_tag "time_entry_activities_project_#{activity.id}_active", activity.name %>
+    <div class="form--field-container" >
+      <%= hidden_field_tag "time_entry_activities_project[][activity_id]",
+                           activity.id %>
+      <%= styled_check_box_tag "time_entry_activities_project[][active]",
+                               1,
+                               activity.active_in_project?(@project),
+                               id: "time_entry_activities_project_#{activity.id}_active" %>
     </div>
   </div>
-  <% if withControlls == true %>
-    <div class="generic-table--action-buttons">
-      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-    </div>
-  <% end %>
-</fieldset>
+<% end %>
+
+<% if withControlls == true %>
+  <div class="generic-table--action-buttons">
+    <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  </div>
+<% end %>

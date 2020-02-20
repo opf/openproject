@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.0.2'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 6.0.1'
+gem 'rails', '~> 6.0.2'
 gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
@@ -119,13 +119,13 @@ gem 'rack-protection', '~> 2.0.0'
 gem 'rack-attack', '~> 6.1.0'
 
 # CSP headers
-gem 'secure_headers', '~> 6.1.1'
+gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
 gem 'browser', '~> 2.6.1'
 
 # Providing health checks
-gem 'okcomputer', '~> 1.17.3'
+gem 'okcomputer', '~> 1.18.1'
 
 gem 'gon', '~> 6.2.1'
 
@@ -137,7 +137,7 @@ gem 'lograge', '~> 0.10.0'
 gem 'airbrake', '~> 9.4.3', require: false
 
 gem 'prawn', '~> 2.2'
-gem 'prawn-table', '~> 0.2.2'
+gem 'prawn-markup', '~> 0.2.1'
 
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
@@ -215,7 +215,7 @@ group :test do
   gem 'capybara', '~> 3.29.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
-  gem 'webdrivers', '~> 4.1.2', require: false
+  gem 'webdrivers', '~> 4.2.0', require: false
   gem 'selenium-webdriver', '~> 3.14'
 
   gem 'fuubar', '~> 2.3.2'
@@ -234,6 +234,8 @@ group :ldap do
 end
 
 group :development do
+  gem 'listen', '~> 3.2.1' # Use for event-based reloaders
+
   gem 'faker'
   gem 'letter_opener'
   gem 'livingstyleguide', '~> 2.1.0'
@@ -274,7 +276,7 @@ end
 gem 'bootsnap', '~> 1.4.5', require: false
 
 # API gems
-gem 'grape', '~> 1.2.3'
+gem 'grape', '~> 1.3.0'
 
 gem 'reform', '~> 2.2.0'
 gem 'reform-rails', '~> 0.1.7'

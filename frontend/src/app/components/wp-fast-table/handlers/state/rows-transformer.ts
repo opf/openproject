@@ -42,7 +42,7 @@ export class RowsTransformer {
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions.asObservable()),
         filter(() => {
-          let rendered = this.querySpace.rendered.getValueOr([]);
+          let rendered = this.querySpace.tableRendered.getValueOr([]);
           return rendered && rendered.length > 0;
         })
       )

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -210,9 +210,24 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-enumerations'
 
   menu.push :settings,
-            { controller: '/settings' },
+            { controller: '/settings', action: 'show' },
             caption: :label_system_settings,
             icon: 'icon2 icon-settings2'
+
+  menu.push :email,
+            { controller: '/admin/mail_notifications', action: 'show' },
+            caption: :'attributes.mail',
+            icon: 'icon2 icon-mail1'
+
+  menu.push :mail_notifications,
+            { controller: '/admin/mail_notifications', action: 'show' },
+            caption: :'activerecord.attributes.user.mail_notification',
+            parent: :email
+
+  menu.push :incoming_mails,
+            { controller: '/admin/incoming_mails', action: 'show' },
+            caption: :label_incoming_emails,
+            parent: :email
 
   menu.push :authentication,
             { controller: '/authentication', action: 'authentication_settings' },
@@ -336,7 +351,6 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :forums,
             { controller: '/forums', action: 'index', id: nil },
             param: :project_id,
-            if: Proc.new { |p| p.forums.any? },
             caption: :label_forum_plural,
             icon: 'icon2 icon-ticket-note'
 
@@ -362,8 +376,18 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-group'
 
   menu.push :settings,
-            { controller: '/project_settings', action: 'show' },
+            { controller: '/project_settings/generic', action: 'show' },
             caption: :label_project_settings,
             last: true,
-            icon: 'icon2 icon-settings2'
+            icon: 'icon2 icon-settings2',
+            allow_deeplink: true
+
+  ProjectSettingsHelper.project_settings_tabs.each do |node|
+    menu.push :"settings_#{node[:name]}",
+              node[:action],
+              caption: node[:label],
+              parent: :settings,
+              last: node[:last],
+              if: node[:if]
+  end
 end

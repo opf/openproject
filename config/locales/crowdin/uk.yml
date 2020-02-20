@@ -1,6 +1,6 @@
 #-- copyright
-#OpenProject is a project management system.
-#Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -28,21 +28,39 @@ uk:
     plugins:
       no_results_title_text: Наразі немає доступних плагінів.
     custom_styles:
+      color_theme: "Color theme"
+      color_theme_custom: "(Custom)"
+      colors:
+        alternative-color: "Alternative"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
       custom_colors: "Кольори за власними вподобаннями"
       customize: "Налаштуйте установку OpenProject за допомогою власного логотипу. Примітка: Цей логотип буде загальнодоступним."
       enterprise_notice: "Як особливий «Спасибі!» для їхнього фінансового внеску в розвиток OpenProject, ця маленька функція доступна лише для абонентів підтримки Enterprise Edition."
       manage_colors: "Редагувати параметри вибору кольору"
       instructions:
-        alternative_color: "Сильний колір акценту, як правило, використовується для більшості важливих кнопок на екрані."
-        content_link_color: "Колір шрифту більшості посилань."
-        primary_color: "Основний колір."
-        primary_color_dark: "Зазвичай темний варіант основного кольору, який використовується для ефектів наведення."
-        header_bg_color: "Колір фону заголовка."
-        header_item_bg_hover_color: "Колір фону в заголовках інтерактивних елементів під курсором миші."
-        header_item_font_color: "Колір шрифту в заголовках інтерактивних елементів."
-        header_item_font_hover_color: "Колір шрифту в заголовках інтерактивних елементів під курсором миші."
-        header_border_bottom_color: "Тонка лінія під заголовком. Залиште це поле порожнім, якщо ви не хочете будь-якої лінії."
-        main_menu_bg_color: "Колір фону меню зліва."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "Колір шрифту більшості посилань."
+        primary-color: "Основний колір."
+        primary-color-dark: "Зазвичай темний варіант основного кольору, який використовується для ефектів наведення."
+        header-item-bg-hover-color: "Колір фону в заголовках інтерактивних елементів під курсором миші."
+        header-item-font-color: "Колір шрифту в заголовках інтерактивних елементів."
+        header-item-font-hover-color: "Колір шрифту в заголовках інтерактивних елементів під курсором миші."
+        header-border-bottom-color: "Тонка лінія під заголовком. Залиште це поле порожнім, якщо ви не хочете будь-якої лінії."
+        main-menu-bg-color: "Колір фону меню зліва."
     enterprise:
       upgrade_to_ee: "Оновлення до Enterprise Edition"
       add_token: "Завантажте маркер підтримки для Enterprise Edition"
@@ -580,6 +598,10 @@ uk:
         role:
           permissions:
             dependency_missing: "потрібно також вказати '%{dependency}' оскільки вибрано '%{permission}'."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
         work_package:
           is_not_a_valid_target_for_time_entries: "Робочий пакет #%{id} не є дійсною ціллю для перепризначення записів часу."
           attributes:
@@ -735,6 +757,7 @@ uk:
     type: "Тип"
     updated_at: "Оновлене"
     updated_on: "Оновлене"
+    uploader: "Uploader"
     user: "Користувач"
     version: "Версія"
     work_package: "Пакет робіт"
@@ -1044,9 +1067,8 @@ uk:
         rename_groups: "Перейменувати групи атрибутів"
       project_filters:
         description_html: "Фільтрування та сортування по власних полях доступне тільки у корпоративній версії."
-  enumeration_activities: "Дії (облік часу)"
+  enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Пріоритети робочого пакету"
-  enumeration_system_activity: "Системна активність"
   enumeration_reported_project_statuses: "Повідомлення про статус проекту"
   error_auth_source_sso_failed: "Єдиний вхід (SSO) для користувача %{value} не вдалося "
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
@@ -1116,6 +1138,8 @@ uk:
       pdf_with_descriptions: "PDF з описами"
       pdf_with_descriptions_and_attachments: "PDF з описами та додатками"
       pdf_with_attachments: "PDF з вкладеннями"
+    image:
+      omitted: "Image not exported."
   extraction:
     available:
       pdftotext: "Доступний текст PDF (необов'язково)"
@@ -1696,21 +1720,25 @@ uk:
   label_workflow_plural: "Робочі процеси"
   label_workflow_summary: "Резюме"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 закрита"
     few: "%{count} закритих"
     many: "%{count} закритих"
     other: "%{count} закритих"
   label_x_comments:
+    zero: "no comments"
     one: "1 коментар"
     few: "Коментарів: %{count}"
     many: "Коментарів: %{count}"
     other: "Коментарів: %{count}"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "1 відкрита"
     few: "%{count} відкритих"
     many: "%{count} відкритих"
     other: "%{count} відкритих"
   label_x_projects:
+    zero: "no projects"
     one: "1 проект"
     few: "%{count} проектів"
     many: "%{count} проектів"
@@ -2259,7 +2287,7 @@ uk:
   text_destroy_with_associated: "Існують додаткові об'єкти, асоційовані з робочими пакетами, які потрібно видалити. Ці об'єкти мають наступні типи:"
   text_destroy_what_to_do: "Що ти хочеш зробити?"
   text_diff_truncated: "... Це порівняння (diff) було скорочене, оскільки воно перевищує максимальний розмір, який можна відобразити."
-  text_email_delivery_not_configured: "Параметри роботи з поштовим сервером не налаштовані і функція сповіщення по email не активна.\nНалаштувати параметри для Вашого SMTP-сервера Ви можете в файлі config/configuration.yml. Для застосування змін перезапустіть програму."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Надати їм наступне значення:"
   text_enumeration_destroy_question: "%{count} об'єктам призначено дане значення."
   text_file_repository_writable: "Папка вкладень доступна для запису"
@@ -2556,6 +2584,17 @@ uk:
     Досягнуто обмеження користувача. Не можна активувати більше користувачів. Будь ласка <a href="%{upgrade_url}"> оновіть свій план </a> або заблокувати учасників для додаткових користувачів.
   warning_user_limit_reached_instructions: >
     Ви досягли обмеження користувача (%{current}/%{max} активних користувачів). Зверніться до sales@openproject.com, щоб оновити план Enterprise Edition і додати додаткових користувачів.
+  0: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protocol setting mismatch'
+      text_html: >
+        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+    hostname_mismatch:
+      title: 'Hostname setting mismatch'
+      text_html: >
+        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Пункт меню"
   menu_item_setting: "Видимість"
   wiki_menu_item_for: "Пункт меню для вікі-сторінки %{title}"

@@ -1,5 +1,5 @@
 pt:
-  export_to_excel: "Exportar como folha Excel"
+  export_to_excel: "Exportar XLS"
   print_with_description: "Imprimir visualização com descrição"
   sentence_separator_or: "ou"
   different_formats: Diferentes formatos

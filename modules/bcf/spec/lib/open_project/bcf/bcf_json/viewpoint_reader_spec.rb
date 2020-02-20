@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2019 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,5 +71,17 @@ describe OpenProject::Bcf::BcfJson::ViewpointReader do
     it_behaves_like 'has components selection'
 
     it_behaves_like 'matches the JSON counterpart'
+  end
+
+  describe 'with empty XML nodes' do
+    let_it_be(:xml_viewpoint) do
+      FactoryBot.build_stubbed :xml_viewpoint, viewpoint_name: 'empty_nodes.bcfv'
+    end
+
+    it 'ignores empty nodes' do
+      expect(subject['lines']).to be_nil
+      expect(subject['clipping_planes']).to be_nil
+      expect(subject.dig('components', 'coloring')).to be_nil
+    end
   end
 end

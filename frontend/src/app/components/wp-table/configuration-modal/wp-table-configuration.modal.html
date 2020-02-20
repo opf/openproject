@@ -19,22 +19,19 @@
     </ng-container>
 
     <div *ngIf="!!tabPortalHost"
-         class="tabs--container">
-      <ul>
-        <li *ngFor="let tab of availableTabs">
+         class="content--tabs scrollable-tabs">
+      <ul class="tabrow">
+        <li *ngFor="let tab of availableTabs"
+            [ngClass]="{ 'selected': currentTab && tab.name === currentTab.name, '-disabled': tab.disableBecause != null }">
           <a class="tab-show"
              role="button"
-             [ngClass]="{ '-disabled': tab.disableBecause != null, 'selected': currentTab && tab.name === currentTab.name }"
+             [ngClass]="{ 'selected': currentTab && tab.name === currentTab.name }"
              [attr.title]="tab.disableBecause || tab.title"
              [textContent]="tab.title"
              (click)="switchTo(tab.name)"
              href>
           </a>
       </ul>
-      <div class="tabs-buttons" style="display:none;">
-        <button class="tab-left icon-context icon-arrow-left4"></button>
-        <button class="tab-right icon-context icon-arrow-right5"></button>
-      </div>
     </div>
 
     <div class="tab-content" #tabContentOutlet></div>

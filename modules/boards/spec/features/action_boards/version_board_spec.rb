@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -213,7 +213,7 @@ describe 'Version action board', type: :feature, js: true do
       board_page.add_list_with_new_value 'Completely new version'
       board_page.expect_list 'Completely new version'
 
-      visit settings_project_path(project, tab: 'versions')
+      visit settings_versions_project_path(project)
       expect(page).to have_content 'Completely new version'
       expect(page).to have_content 'Closed version'
 

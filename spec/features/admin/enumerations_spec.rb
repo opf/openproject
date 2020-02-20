@@ -1,6 +1,6 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Enumerations', type: :feature do
-  let(:admin)  { FactoryBot.create(:admin) }
+  let(:admin) { FactoryBot.create(:admin) }
 
   before do
     login_as(admin)
@@ -37,7 +37,7 @@ describe 'Enumerations', type: :feature do
   end
 
   it 'contains all defined enumerations' do
-    Enumeration.descendants.each do |enumeration|
+    Enumeration.subclasses.each do |enumeration|
       expect(page).to have_selector('h3', text: I18n.t(enumeration::OptionName))
       expect(page).to have_link(I18n.t(:label_enumeration_new),
                                 href: new_enumeration_path(type: enumeration.name))
