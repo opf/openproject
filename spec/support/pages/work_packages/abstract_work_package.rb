@@ -30,14 +30,11 @@ require 'support/pages/page'
 
 module Pages
   class AbstractWorkPackage < Page
-    attr_reader :project, :work_package, :type_field_selector, :subject_field_selector
+    attr_reader :project, :work_package
 
     def initialize(work_package, project = nil)
       @work_package = work_package
       @project = project
-
-      @type_field_selector = '.inline-edit--container.type'
-      @subject_field_selector = '.inline-edit--container.subject'
     end
 
     def visit_tab!(tab)
@@ -273,12 +270,12 @@ module Pages
     end
 
     def select_type(type)
-      find(@type_field_selector + ' option', text: type.name.upcase).select_option
+      find('.inline-edit--container.type option', text: type.name.upcase).select_option
     end
 
     def subject_field
-      expect(page).to have_selector(@subject_field_selector + ' input', wait: 10)
-      find(@subject_field_selector + ' input')
+      expect(page).to have_selector('.inline-edit--container.subject input', wait: 10)
+      find('.inline-edit--container.subject input')
     end
 
     private

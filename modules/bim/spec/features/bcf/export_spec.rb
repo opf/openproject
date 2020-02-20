@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe 'work package export', type: :feature, js: true do
+describe 'bcf export', type: :feature, js: true do
   let(:status) { FactoryBot.create(:status, name: 'New', is_default: true) }
   let(:closed_status) { FactoryBot.create(:closed_status, name: 'Closed') }
   let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }

@@ -34,7 +34,6 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {ChangeDetectionStrategy} from "@angular/core";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 

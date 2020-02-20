@@ -27,10 +27,12 @@
 // ++
 import {Ng2StateDeclaration, UIRouter} from '@uirouter/angular';
 import {IFCViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
-import {BCFContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
+import {BCFListContainerComponent} from "core-app/modules/ifc_models/bcf/list-container/bcf-list-container.component";
 import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.component";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
+import {WorkPackageNewSplitViewComponent} from "core-components/wp-new/wp-new-split-view.component";
+import {BCFNewSplitComponent} from "core-app/modules/ifc_models/bcf/new-split/bcf-new-split.component";
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -54,7 +56,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       viewRoute: 'bim.space.defaults',
     },
     views: {
-      list: { component: BCFContainerComponent }
+      list: { component: BCFListContainerComponent }
     }
   },
   {
@@ -66,7 +68,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     },
     views: {
       viewer: { component: IFCViewerComponent },
-      list: { component: BCFContainerComponent }
+      list: { component: BCFListContainerComponent }
     }
   },
   {
@@ -83,6 +85,18 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     }
   },
   {
+    name: 'bim.space.defaults.new',
+    url: '/new?{type:[0-9]+}',
+    component: IFCViewerPageComponent,
+    reloadOnSearch: false,
+    views: {
+      viewer: { component: IFCViewerComponent },
+      // Retarget and by that override the grandparent views
+      // https://ui-router.github.io/guide/views#relative-parent-state
+      'list@^.^': { component: BCFNewSplitComponent }
+    }
+  },
+  {
     name: 'bim.space.show',
     url: '/{model_id:[0-9]+}',
     component: IFCViewerPageComponent,
@@ -91,7 +105,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     },
     views: {
       viewer: { component: IFCViewerComponent },
-      list: { component: BCFContainerComponent }
+      list: { component: BCFListContainerComponent }
     }
   },
   {

@@ -164,6 +164,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageSingleCardComponent} from "core-components/wp-card-view/wp-single-card/wp-single-card.component";
 import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-changeset';
+import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 
 
 @NgModule({
@@ -471,6 +472,12 @@ import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-
     // Modals
     WpTableConfigurationModalComponent,
     WpTableConfigurationFiltersTab,
+
+    // Needed so that e.g. IFC can access it.
+    WorkPackageCreateButtonComponent,
+    WorkPackageTypeStatusComponent,
+    WorkPackageEditActionsBarComponent,
+    WorkPackageSingleViewComponent
   ]
 })
 export class OpenprojectWorkPackagesModule {

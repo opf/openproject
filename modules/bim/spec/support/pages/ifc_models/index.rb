@@ -27,6 +27,7 @@
 #++
 
 require 'support/pages/page'
+require 'support/pages/work_packages/concerns/work_package_by_button_creator'
 
 module Pages
   module IfcModels

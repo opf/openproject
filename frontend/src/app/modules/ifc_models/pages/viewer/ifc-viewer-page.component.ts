@@ -1,7 +1,8 @@
 import {Component, Injector, HostBinding, ChangeDetectionStrategy} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {GonService} from "core-app/modules/common/gon/gon.service";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
+import {GonService} from "core-app/modules/common/gon/gon.service";
+import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 
 @Component({
   templateUrl: './ifc-viewer-page.component.html',
@@ -19,6 +20,7 @@ export class IFCViewerPageComponent extends WorkPackagesViewBase {
 
   constructor(readonly paths:PathHelperService,
               readonly gon:GonService,
+              readonly wpCreate:WorkPackageCreateService,
               readonly injector:Injector) {
     super(injector);
   }
@@ -48,6 +50,15 @@ export class IFCViewerPageComponent extends WorkPackagesViewBase {
 
   public get manageAllowed() {
     return this.gonIFC.permissions.manage;
+  }
+
+  public get createState() {
+    return 'bim.space.defaults.new';
+  }
+
+  public get createAllowed() {
+    // TODO: get info from query space to see if creation is allowed
+    return true;
   }
 
   private get gonIFC() {

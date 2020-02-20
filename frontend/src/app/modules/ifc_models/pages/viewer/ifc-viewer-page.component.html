@@ -5,9 +5,18 @@
         </h2>
     </div>
     <ul class="toolbar-items">
+
+      <li class="toolbar-item">
+        <wp-create-button
+          [allowed]="createAllowed"
+          [stateName]="createState">
+        </wp-create-button>
+      </li>
+
       <li class="toolbar-item">
         <bim-view-toggle-button></bim-view-toggle-button>
       </li>
+
       <li class="toolbar-item"
           *ngIf="manageAllowed">
         <a class="button"
@@ -18,9 +27,11 @@
                 aria-hidden="true"></span>
         </a>
       </li>
+
       <li class="toolbar-item hidden-for-mobile">
         <zen-mode-toggle-button></zen-mode-toggle-button>
       </li>
+
     </ul>
   </div>
 </div>

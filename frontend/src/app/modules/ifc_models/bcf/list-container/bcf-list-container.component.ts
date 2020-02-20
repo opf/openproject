@@ -7,9 +7,9 @@ import { StateService } from '@uirouter/core';
 import {GonService} from "core-app/modules/common/gon/gon.service";
 
 @Component({
-  templateUrl: './bcf-container.component.html'
+  templateUrl: './bcf-list-container.component.html'
 })
-export class BCFContainerComponent {
+export class BCFListContainerComponent {
   public queryProps:{ [key:string]:any };
   public configuration:WorkPackageTableConfigurationObject = {
     actionsColumnEnabled: false,
