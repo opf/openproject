@@ -6,7 +6,7 @@ tr:
     label_show_defaults: 'Varsayılanları göster'
     label_default_ifc_models: 'Varsayılan IFC modelleri'
     label_edit_defaults: 'Varsayılanları düzenle'
-    label_manage_models: 'Modelleri yönetin'
+    label_manage_models: 'Manage models'
     no_defaults_warning:
       title: 'Bu proje için varsayılan olarak IFC modeli ayarlanmadı.'
       check_1: 'En az bir IFC modeli yüklediğinizi kontrol edin.'
