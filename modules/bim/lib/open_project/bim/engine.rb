@@ -83,13 +83,18 @@ module OpenProject::Bim
 
     assets %w(bim/bcf.css bim/ifc_viewer/generic.css)
 
-    patches %i[WorkPackage Type Journal]
+    patches %i[WorkPackage Type Journal RootSeeder]
 
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
     patch_with_namespace :Journal, :AggregatedJournal
     patch_with_namespace :API, :V3, :Activities, :ActivitiesSharedHelpers
+
+    patch_with_namespace :DemoData, :QueryBuilder
+    patch_with_namespace :DemoData, :ProjectSeeder
+    patch_with_namespace :DemoData, :WorkPackageSeeder
+    patch_with_namespace :DemoData, :WorkPackageBoardSeeder
 
     extend_api_response(:v3, :work_packages, :work_package) do
       property :bcf,
