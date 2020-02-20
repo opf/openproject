@@ -32,7 +32,7 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
 import {IFCViewerComponent} from './ifc-viewer/ifc-viewer.component';
 import {IFC_ROUTES, uiRouterIFCConfiguration} from "core-app/modules/ifc_models/openproject-ifc-models.routes";
 import {IfcViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
-import {IfcSplitPageComponent} from "core-app/modules/ifc_models/pages/split/ifc-split-page.component";
+import {BcfContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
 import {BimViewToggleDropdownDirective} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle-dropdown.directive";
 import {BimViewToggleComponent} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle.component";
 
@@ -50,7 +50,7 @@ import {BimViewToggleComponent} from "core-app/modules/ifc_models/view-toggle/bi
   declarations: [
     // Pages
     IfcViewerPageComponent,
-    IfcSplitPageComponent,
+    BcfContainerComponent,
 
     // View selector
     BimViewToggleComponent,

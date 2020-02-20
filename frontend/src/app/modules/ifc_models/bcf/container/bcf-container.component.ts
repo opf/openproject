@@ -7,10 +7,10 @@ import { StateService } from '@uirouter/core';
 import {GonService} from "core-app/modules/common/gon/gon.service";
 
 @Component({
-  templateUrl: './ifc-split-page.component.html',
-  styleUrls: ['./ifc-split-page.component.sass']
+  templateUrl: './bcf-container.component.html',
+  styleUrls: ['./bcf-container.component.sass']
 })
-export class IfcSplitPageComponent {
+export class BcfContainerComponent {
   public queryProps:{ [key:string]:any };
   public configuration:WorkPackageTableConfigurationObject = {
     actionsColumnEnabled: false,

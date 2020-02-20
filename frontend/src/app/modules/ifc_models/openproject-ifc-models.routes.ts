@@ -27,7 +27,7 @@
 // ++
 import {Ng2StateDeclaration, UIRouter} from '@uirouter/angular';
 import {IfcViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
-import {IfcSplitPageComponent} from "core-app/modules/ifc_models/pages/split/ifc-split-page.component";
+import {BcfContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
 import {ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
 import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.component";
 
@@ -44,7 +44,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     url: '/list',
     component: IfcViewerPageComponent,
     views: {
-      right: { component: IfcSplitPageComponent }
+      right: { component: BcfContainerComponent }
     }
   },
   {
@@ -61,7 +61,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     component: IfcViewerPageComponent,
     views: {
       left: { component: IFCViewerComponent },
-      right: { component: IfcSplitPageComponent }
+      right: { component: BcfContainerComponent }
     }
   },
   {
@@ -78,7 +78,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     component: IfcViewerPageComponent,
     views: {
       left: { component: IFCViewerComponent },
-      right: { component: IfcSplitPageComponent }
+      right: { component: BcfContainerComponent }
     }
   },
 ];
