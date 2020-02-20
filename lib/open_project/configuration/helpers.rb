@@ -80,7 +80,7 @@ module OpenProject
       ##
       # Whether we're running a bim edition
       def bim?
-        ENV['OPENPROJECT_EDITION'] == 'bim'
+        self.edition == 'bim'
       end
 
       ##
