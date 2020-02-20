@@ -54,7 +54,7 @@ class CustomStylesController < ApplicationController
   end
 
   def update
-    @custom_style = CustomStyle.current
+    @custom_style = CustomStyle.current || CustomStyle.create!
     if @custom_style.update(custom_style_params)
       redirect_to custom_style_path
     else
@@ -121,7 +121,7 @@ class CustomStylesController < ApplicationController
   end
 
   def set_logo(logo)
-    CustomStyle.current.update(theme_logo: logo)
+    (CustomStyle.current || CustomStyle.create!).update(theme_logo: logo)
   end
 
   def set_colors(variable_params)
@@ -144,7 +144,7 @@ class CustomStylesController < ApplicationController
   def set_theme(params)
     theme = ActionController::Parameters.new(theme: params[:theme] || '').permit(:theme)
 
-    @custom_style = CustomStyle.current
+    @custom_style = (CustomStyle.current || CustomStyle.create!)
     @custom_style.update(theme)
   end
 
