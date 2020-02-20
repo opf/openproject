@@ -90,9 +90,18 @@ module OpenProject
       end
 
       def available_project_modules
-        @available_project_modules ||= (
-          @permissions.map(&:project_module) + @project_modules_without_permissions
-        ).uniq.compact
+        @available_project_modules ||= begin
+          (@permissions.map(&:project_module) + @project_modules_without_permissions)
+            .uniq
+            .compact
+            .reject { |name| disabled_project_modules.include? name }
+        end
+      end
+
+      def disabled_project_modules
+        @disabled_project_modules ||= modules
+          .select { |entry| entry[:if].respond_to?(:call) && !entry[:if].call }
+          .map { |entry| entry[:name].to_sym }
       end
 
       def modules_permissions(modules)

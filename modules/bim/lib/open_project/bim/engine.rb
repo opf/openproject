@@ -42,7 +42,8 @@ module OpenProject::Bim
                default: {
                }
              } do
-      project_module :bim do
+      project_module(:bim,
+                     if: ->(*) { OpenProject::Configuration.bim? }) do
         permission :view_ifc_models,
                    {'bim/ifc_models/ifc_models': %i[index show defaults]}
         permission :manage_ifc_models,
