@@ -16,7 +16,7 @@ release_date: 2020-02-20
 
 We released OpenProject 10.4. The new release of the open source project management software contains a new time tracking widget for the My page which facilitates visualizing and logging time spent on your tasks. Additionally, cost reports can now be exported to Excel.
 
-Cloud and Enterprise Edition users can now choose between the default OpenProject theme, a light theme and a dark theme. This provides a good starting point for further customization.
+Cloud and Enterprise Edition users can now choose between the default OpenProject theme, a light theme and a dark theme. This provides a good starting point for further design customization.
 
 Read below to get a detailed overview of what is new in OpenProject 10.4.
 
@@ -26,7 +26,7 @@ Tracking your own time is a lot easier with OpenProject 10.4. The release replac
 
 The tasks you worked on are color-coded. Therefore, you see right away which tasks you spent the most time on in the current week. Viewing or changing your logged hours is also a lot easier - simply drag and drop the time block to the correct day to make a change.
 
-![Spent time widget on My Page](https://www.openproject.org/wp-content/uploads/2020/02/Spent-time_My-page-1024x628.png)
+![My spent time widget My page](Spent-time_My-page.png)
 
 ### Export cost reports to Excel
 
@@ -34,7 +34,7 @@ Having the ability to export cost reports was one of the most requested features
 
 The Excel spreadsheet lists the tracked time, cost, as well as the different cost types. This makes it very easy to perform further computations or to forward the data to someone else, e.g. your accounting department.
 
-![Export cost report to Excel](https://www.openproject.org/wp-content/uploads/2020/02/Export-cost-report-1024x710.png)
+![Export cost reports](Export-cost-report-1536x1065.png)
 
 ### Light and dark theme for OpenProject (Premium feature)
 
@@ -42,7 +42,7 @@ Cloud and Enterprise Edition users can now easily customize the look and feel of
 
 These themes are optimized and fulfill accessibility requirements. You can further customize them by starting with one of the default themes and adjusting individual colors based on your needs.
 
-![Light and dark theme](https://www.openproject.org/wp-content/uploads/2020/02/Default_theme-1024x722.png)
+![Light and dark theme](Default_theme-1536x1082.png)
 
 ### Updated menus for project and system administration
 
@@ -50,7 +50,7 @@ The menus in the project and system administration are updated with OpenProject 
 
 The other tabs menus have been updated to a modern layout. Additionally, the email settings have moved out into their own menu item in the system administration.
 
-![Layout project admin settings](https://www.openproject.org/wp-content/uploads/2020/02/Layout_Project-admin-settings-1024x483.png)
+![Layout admin settings](Layout_Project-admin-settings-1536x724.png)
 
 ## OpenProject 10.4 BIM Edition for construction project management
 
@@ -60,15 +60,17 @@ OpenProject contains a new IFC file model viewer to integrate 3D models in the I
 
 Import of 3D building models directly in your OpenProject application. The supported format is IFC files.
 
-![OpenProject BIM upload IFC files](https://www.openproject.org/wp-content/uploads/2020/02/OpenProject-BIM_upload-IFC-model.png)
+![OpenProject-BIM_upload-IFC-model](OpenProject-BIM_upload-IFC-model.png)
 
 ### Manage multiple IFC models in OpenProject
 
 In OpenProject you can now manage multiple building models in IFC format in parallel. **Browse through multiple models at the same time** and selectively activate models such as architecture and heating, ventilation and air conditioning (HVAC). Set "default" models to be displayed.
 
-![manage IFC models](https://www.openproject.org/wp-content/uploads/2020/02/OpenProject-BIM-manage-IFC-models.png)
+![OpenProject-BIM-manage-IFC-models](OpenProject-BIM-manage-IFC-models.png)
 
-![OpenProject BIM structural](https://www.openproject.org/wp-content/uploads/2020/02/OPenPoject-BIM_structural.png)
+![OpenPoject-BIM_structural](OpenPoject-BIM_structural.png)
+
+
 
 ### IFC viewer integrated in OpenProject
 
@@ -76,19 +78,19 @@ OpenProject 10.4 supports to open 3D **models** **and** **visualize** **building
 
 View full 3D objects in OpenProject in IFC format. Select and display the model in total, for objects, classes and storeys for the building.
 
-![IFC 3D viewer](https://www.openproject.org/wp-content/uploads/2020/02/OpenProject-BIM_IFC-viewer.png)
+![OpenProject-BIM_IFC-viewer](OpenProject-BIM_IFC-viewer.png)
 
 ### **Switch between 3D and 2D view** for your building model in OpenProject.
 
 You can change between a 3D view or 2D view of the building model in OpenProject.
 
-![2D view IFC viewer](https://www.openproject.org/wp-content/uploads/2020/02/OPenPoject-BIM_2D.png)
+![OpenPoject-BIM_2D](OpenPoject-BIM_2D.png)
 
 ### Slice objects to get exact view
 
 You can slice 3D objects in all dimensions to get a view on the exact thing you need.
 
-![OpenProject BIM - IFC slice objects](https://www.openproject.org/wp-content/uploads/2020/02/OpenProject-BIM_slice-objects.gif)
+![OpenProject-BIM_slice-objects](OpenProject-BIM_slice-objects.gif)
 
 
 
@@ -183,22 +185,6 @@ You can slice 3D objects in all dimensions to get a view on the exact thing you 
 - Fixed: Missing warning message when deleting time entry (on My page) \[[#32268](https://community.openproject.com/wp/32268)\]
 - Fixed: Unclear which assigned role an admin has in a project \[[#32274](https://community.openproject.com/wp/32274)\]
 
-
-## How to try the OpenProject BIM Edition?
-
-Try out OpenProject BIM 10.4. right away, create a free trial instance for the [OpenProject BIM Edition.](https://start.openproject.com/go/bim)
-
- 
-
-## What is on the Roadmap?
-
-We are continuously developing new features for OpenProject. For the upcoming BIM specific release we are focusing on more building industry specific features and integrations, i.e.
-
-- Revit integration to OpenProject.
-- Further advanced BCF management.
-
-
-
 ## Installation and Updates
 
 To use OpenProject 10.4 right away, create an instance on [OpenProject.org.](https://start.openproject.com/)
@@ -208,15 +194,39 @@ Here you can find the [Installation guidelines](https://docs.openproject.org/ins
 
 Want to upgrade from a Community version to try out the light or dark theme? [Get a 14 days free trial token.](https://www.openproject.org/enterprise-edition/)
 
+
+
+## How to try the OpenProject BIM Edition?
+
+Try out OpenProject BIM 10.4. right away, create a free trial instance for the [OpenProject BIM Edition.](https://start.openproject.com/go/bim)
+
+ 
+
+## What is on the Roadmap?
+
+We are continuously developing new features for OpenProject. The next release will include improved scheduling in the Gantt chart.
+Take a look at the [release timeline](https://community.openproject.com/projects/openproject/work_packages?query_id=918) to see the upcoming features and releases.
+
+For the upcoming BIM specific release we are focusing on more building industry specific features and integrations, i.e.
+
+- Revit integration to OpenProject.
+- Further advanced BCF management.
+
+
+
 ## Migrating to OpenProject 10.4
 
 Follow the [upgrade guide for the packaged installation or Docker installation](https://docs.openproject.org/installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 10.4.
 
 We update hosted OpenProject environments (Cloud Edition) automatically.
 
+
+
 ## Support
 
 You will find useful information in the OpenProject [FAQ]() or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
+
+
 
 ## Credits
 
