@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= toolbar title: IfcModels::IfcModel.model_name.human %>
+<%= toolbar title: Bim::IfcModels::IfcModel.model_name.human %>
 
 <%= labelled_tabular_form_for @ifc_model, url: ifc_models_project_ifc_model_path(@project, @ifc_model), method: 'PATCH' do |f| -%>
   <%= error_messages_for_contract @ifc_model, @errors %>

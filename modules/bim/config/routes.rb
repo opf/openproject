@@ -51,7 +51,7 @@ OpenProject::Application.routes.draw do
         end
 
         member do
-          get 'show(/*state)', action: :show
+          get '(/*state)', action: :show
         end
       end
     end
