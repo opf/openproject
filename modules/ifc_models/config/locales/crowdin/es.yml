@@ -6,7 +6,6 @@ es:
     label_show_defaults: 'Mostrar valores predeterminados'
     label_default_ifc_models: 'Modelos IFC predeterminados'
     label_edit_defaults: 'Editar valores predeterminados'
-    label_manage_models: 'Administrar modelos'
     no_defaults_warning:
       title: 'No se ha definido ningún modelo IFC como predeterminado para este proyecto.'
       check_1: 'Asegúrese de que ha cargado como mínimo un modelo IFC.'

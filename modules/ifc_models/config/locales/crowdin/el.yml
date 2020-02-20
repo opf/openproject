@@ -6,7 +6,6 @@ el:
     label_show_defaults: 'Εμφάνιση προεπιλογών'
     label_default_ifc_models: 'Προεπιλεγμένα μοντέλα IFC'
     label_edit_defaults: 'Επεξεργασία προεπιλογών'
-    label_manage_models: 'Διαχείριση μοντέλων'
     no_defaults_warning:
       title: 'Δεν έχει οριστεί μοντέλο IFC ως προεπιλογή για αυτό το έργο.'
       check_1: 'Ελέγξτε ότι έχετε μεταφορτώσει τουλάχιστον ένα μοντέλο IFC.'

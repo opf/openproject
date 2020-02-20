@@ -1,0 +1,6 @@
+tr:
+  js:
+    ifc_models:
+      models:
+        default: 'Varsayılan IFC modelleri'
+        manage: 'Manage models'

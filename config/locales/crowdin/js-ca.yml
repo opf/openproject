@@ -29,22 +29,22 @@ ca:
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
-        single: "Select \"%{name}\""
-      remove: "Remove %{name}"
-      active: "Active %{label} %{name}"
+        multi: "Afegir \"%{name}\""
+        single: "Seleccionar\"%{name}\""
+      remove: "Eliminar %{name}"
+      active: "Activar %{label} %{name}"
     close_popup_title: "Tanca el popup"
-    close_filter_title: "Close filter"
-    close_form_title: "Close form"
+    close_filter_title: "Tancar filtre"
+    close_form_title: "Tancar formulari"
     button_add_watcher: "Afegir observador"
     button_back: "Endarrere"
-    button_back_to_list_view: "Back to list view"
+    button_back_to_list_view: "Tornar al llistat"
     button_cancel: "Cancel·la"
     button_close: "Tancar"
     button_change_project: "Change project"
     button_check_all: "Marcar-ho tot"
-    button_configure-form: "Configure form"
-    button_confirm: "Confirm"
+    button_configure-form: "Configurar formulari"
+    button_confirm: "Confirmar"
     button_continue: "Continue"
     button_copy: "Copiar"
     button_custom-fields: "Camps personalitzats"
@@ -54,13 +54,13 @@ ca:
     button_duplicate: "Duplicar"
     button_edit: "Editar"
     button_filter: "Filtre"
-    button_advanced_filter: "Advanced filter"
+    button_advanced_filter: "Filtres avançats"
     button_list_view: "Vista de llista"
     button_show_view: "Vista de pantalla completa"
     button_log_time: "Temps de registre"
     button_more: "Més"
     button_open_details: "Obrir vista detallada"
-    button_close_details: "Close details view"
+    button_close_details: "Tancar vista detallada"
     button_open_fullscreen: "Obrir vista a pantalla completa"
     button_show_cards: "Show card view"
     button_show_list: "Show list view"
@@ -107,10 +107,10 @@ ca:
     description_selected_columns: "Columnes seleccionades"
     description_subwork_package: "Fill del paquet de treball #%{id}"
     editor:
-      preview: 'Toggle preview mode'
-      source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: 'Failed to initialize CKEditor!'
+      preview: 'Canviar el mode de vista previ'
+      source_code: 'Canviar al mode de font Markdown'
+      error_saving_failed: 'Guardar el document ha fallat amb el següent error: %{error}'
+      error_initialization_failed: 'Ha fallat inicialitzar CKEditor!'
       mode:
         manual: 'Switch to Markdown source'
         wysiwyg: 'Switch to WYSIWYG editor'
