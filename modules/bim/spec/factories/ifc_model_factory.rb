@@ -34,7 +34,7 @@ FactoryBot.define do
     is_default { true }
     ifc_attachment do
       Rack::Test::UploadedFile.new(
-        File.join(Rails.root, "modules/ifc_models/spec/fixtures/files/minimal.ifc"),
+        File.join(Rails.root, "modules/bim/spec/fixtures/files/minimal.ifc"),
         'application/binary'
       )
     end
@@ -47,14 +47,14 @@ FactoryBot.define do
 
       xkt_attachment do
         Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/ifc_models/spec/fixtures/files/minimal.xkt"),
+          File.join(Rails.root, "modules/bim/spec/fixtures/files/minimal.xkt"),
           'application/binary'
         )
       end
 
       metadata_attachment do
         Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/ifc_models/spec/fixtures/files/minimal.json"),
+          File.join(Rails.root, "modules/bim/spec/fixtures/files/minimal.json"),
           'application/json'
         )
       end

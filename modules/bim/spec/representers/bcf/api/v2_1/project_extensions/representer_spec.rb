@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../shared_examples'
 
-describe Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
+describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
   let(:type_task) { FactoryBot.build_stubbed :type_task, name: 'My BCF type' }
   let(:status) { FactoryBot.build_stubbed(:status) }
   let(:user) { FactoryBot.build_stubbed(:user) }

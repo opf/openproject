@@ -26,8 +26,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfIssues
-  class DeleteContract < ::DeleteContract
-    delete_permission :manage_bcf
+module Bim::Bcf
+  module Issues
+    class DeleteContract < ::DeleteContract
+      delete_permission :manage_bcf
+    end
   end
 end

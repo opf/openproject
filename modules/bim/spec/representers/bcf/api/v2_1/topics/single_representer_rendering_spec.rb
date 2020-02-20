@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../shared_examples'
 
-describe Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
+describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
   let(:assignee) { FactoryBot.build_stubbed(:user) }

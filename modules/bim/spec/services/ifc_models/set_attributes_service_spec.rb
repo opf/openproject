@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe IfcModels::SetAttributesService, type: :model do
+describe Bim::IfcModels::SetAttributesService, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:other_user) { FactoryBot.build_stubbed(:user) }
   let(:contract_class) do

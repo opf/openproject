@@ -26,7 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfIssues
-  class UpdateContract < BaseContract
+module Bim::Bcf
+  module Issues
+    class UpdateContract < BaseContract
+    end
   end
 end

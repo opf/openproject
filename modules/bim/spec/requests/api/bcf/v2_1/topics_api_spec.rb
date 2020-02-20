@@ -70,7 +70,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
   let(:project) do
     FactoryBot.create(:project,
-                      enabled_module_names: %i[bcf work_package_tracking])
+                      enabled_module_names: %i[bim work_package_tracking])
   end
   let(:assignee) { FactoryBot.create(:user) }
   let(:work_package) do

@@ -36,7 +36,7 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
   shared_let(:type_task) { FactoryBot.create :type_task }
   shared_let(:status) { FactoryBot.create :default_status }
   shared_let(:priority) { FactoryBot.create :default_priority }
-  shared_let(:project) { FactoryBot.create(:project, enabled_module_names: [:bcf], types: [type_task]) }
+  shared_let(:project) { FactoryBot.create(:project, enabled_module_names: [:bim], types: [type_task]) }
   subject(:response) { last_response }
 
   let(:path) { "/api/bcf/2.1/projects/#{project.id}/extensions" }

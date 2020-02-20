@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe IfcModels::IfcConversionJob, type: :job do
+describe Bim::IfcModels::IfcConversionJob, type: :job do
   let(:model) { FactoryBot.build :ifc_model }
   subject { described_class.perform_now(model) }
 

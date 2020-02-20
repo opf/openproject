@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../shared_examples'
 
-describe Bcf::API::V2_1::Users::SingleRepresenter, 'rendering' do
+describe Bim::Bcf::API::V2_1::Users::SingleRepresenter, 'rendering' do
   let(:user) { FactoryBot.build_stubbed(:user) }
 
   let(:instance) { described_class.new(user) }

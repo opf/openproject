@@ -32,7 +32,7 @@ describe ::OpenProject::Bim::BcfXml::Importer do
   let(:filename) { 'MaximumInformation.bcf' }
   let(:file) do
     Rack::Test::UploadedFile.new(
-      File.join(Rails.root, "modules/bcf/spec/fixtures/files/#{filename}"),
+      File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
       'application/octet-stream'
     )
   end

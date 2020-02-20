@@ -47,7 +47,7 @@ describe 'BCF 2.1 projects resource', type: :request, content_type: :json do
     FactoryBot.create(:user)
   end
 
-  let(:project) { FactoryBot.create(:project, enabled_module_names: [:bcf]) }
+  let(:project) { FactoryBot.create(:project, enabled_module_names: [:bim]) }
   subject(:response) { last_response }
 
   describe 'GET /api/bcf/2.1/projects/:project_id' do

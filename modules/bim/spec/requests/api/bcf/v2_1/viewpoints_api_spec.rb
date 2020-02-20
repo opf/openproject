@@ -37,7 +37,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
 
   shared_let(:project) do
     FactoryBot.create(:project,
-                      enabled_module_names: [:bcf])
+                      enabled_module_names: [:bim])
   end
 
   shared_let(:view_only_user) do

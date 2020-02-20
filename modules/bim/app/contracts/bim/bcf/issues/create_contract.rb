@@ -26,9 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfIssues
-  class CreateContract < BaseContract
-    attribute :uuid
-    attribute :work_package
+module Bim::Bcf
+  module Issues
+    class CreateContract < BaseContract
+      attribute :uuid
+      attribute :work_package
+    end
   end
 end

@@ -28,22 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfConcerns
-  module ManageBcfGuarded
-    extend ActiveSupport::Concern
+module Bim::Bcf
+  module Concerns
+    module ManageBcfGuarded
+      extend ActiveSupport::Concern
 
-    included do
-      def validate
-        validate_user_allowed_to_manage
+      included do
+        def validate
+          validate_user_allowed_to_manage
 
-        super
-      end
+          super
+        end
 
-      private
+        private
 
-      def validate_user_allowed_to_manage
-        unless model.project && user.allowed_to?(:manage_bcf, model.project)
-          errors.add :base, :error_unauthorized
+        def validate_user_allowed_to_manage
+          unless model.project && user.allowed_to?(:manage_bcf, model.project)
+            errors.add :base, :error_unauthorized
+          end
         end
       end
     end

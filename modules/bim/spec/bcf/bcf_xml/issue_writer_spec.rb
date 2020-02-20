@@ -132,7 +132,7 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
   end
 
   def valid_markup?(doc)
-    schema = Nokogiri::XML::Schema(File.read(File.join(Rails.root, 'modules/bcf/spec/bcf/bcf_xml/markup.xsd')))
+    schema = Nokogiri::XML::Schema(File.read(File.join(Rails.root, 'modules/bim/spec/bcf/bcf_xml/markup.xsd')))
     errors = schema.validate(doc)
     if errors.empty?
       true

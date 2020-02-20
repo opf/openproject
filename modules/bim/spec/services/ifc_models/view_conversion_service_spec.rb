@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe IfcModels::ViewConverterService do
+describe Bim::IfcModels::ViewConverterService do
   let(:model) { FactoryBot.build :ifc_model }
   subject { described_class.new(model) }
 

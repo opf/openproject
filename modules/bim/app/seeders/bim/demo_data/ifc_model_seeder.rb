@@ -92,7 +92,7 @@ module Bim
       end
 
       def get_file(name, ending)
-        path = 'modules/bim_seeder/files/ifc_models/' + name + '/'
+        path = 'modules/bim/files/ifc_models/' + name + '/'
         file_name = name + ending
         return unless File.exist?(path + file_name)
 

@@ -51,7 +51,7 @@ module Bim
           non_members_action:    'anonymize'
         }
 
-        bcf_xml_file = File.new(File.join(Rails.root, 'modules/bim_seeder/files', filename))
+        bcf_xml_file = File.new(File.join(Rails.root, 'modules/bim/files', filename))
         importer = ::OpenProject::Bim::BcfXml::Importer.new(bcf_xml_file, project, current_user: user)
         importer.import!(import_options).flatten
       end

@@ -28,10 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Bim::BcfIssues
-  class BaseContract < ::ModelContract
-    include Bcf::Concerns::ManageBcfGuarded
+module Bim::Bcf
+  module Issues
+    class BaseContract < ::ModelContract
+      include ::Bim::Bcf::Concerns::ManageBcfGuarded
 
-    attribute :index
+      attribute :index
+    end
   end
 end

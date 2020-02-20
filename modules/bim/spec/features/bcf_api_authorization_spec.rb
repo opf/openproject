@@ -32,7 +32,7 @@ describe 'authorization for BCF api', type: :feature, js: true do
   let!(:user) { FactoryBot.create(:admin) }
   let(:client_secret) { app.plaintext_secret }
   let(:scope) { 'bcf_v2_1' }
-  let!(:project) { FactoryBot.create(:project) }
+  let!(:project) { FactoryBot.create(:project, enabled_module_names: [:bim]) }
 
   def oauth_path(client_id)
     "/oauth/authorize?response_type=code&client_id=#{client_id}&redirect_uri=urn:ietf:wg:oauth:2.0:oob&scope=#{scope}"

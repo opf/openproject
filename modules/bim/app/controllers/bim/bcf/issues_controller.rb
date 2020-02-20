@@ -146,11 +146,11 @@ module Bim
         @issues = ::Bim::Bcf::Issue
           .includes(work_package: %i[status priority assigned_to])
           .where(uuid: @listing.map { |e| e[:uuid] }, project: @project)
-        render 'bcf/issues/diff_on_work_packages'
+        render 'bim/bcf/issues/diff_on_work_packages'
       end
 
       def render_config_invalid_people
-        render 'bcf/issues/configure_invalid_people'
+        render 'bim/bcf/issues/configure_invalid_people'
       end
 
       def render_config_invalid_people?
@@ -158,7 +158,7 @@ module Bim
       end
 
       def render_config_unknown_types
-        render 'bcf/issues/configure_unknown_types'
+        render 'bim/bcf/issues/configure_unknown_types'
       end
 
       def render_config_unknown_types?
@@ -166,7 +166,7 @@ module Bim
       end
 
       def render_config_unknown_statuses
-        render 'bcf/issues/configure_unknown_statuses'
+        render 'bim/bcf/issues/configure_unknown_statuses'
       end
 
       def render_config_unknown_statuses?
@@ -178,12 +178,12 @@ module Bim
       end
 
       def render_config_unknown_priorities
-        render 'bcf/issues/configure_unknown_priorities'
+        render 'bim/bcf/issues/configure_unknown_priorities'
       end
 
       def render_config_unknown_mails
         @roles = Role.givable
-        render 'bcf/issues/configure_unknown_mails'
+        render 'bim/bcf/issues/configure_unknown_mails'
       end
 
       def render_config_unknown_mails?
@@ -192,7 +192,7 @@ module Bim
 
       def render_config_non_members
         @roles = Role.givable
-        render 'bcf/issues/configure_non_members'
+        render 'bim/bcf/issues/configure_non_members'
       end
 
       def render_config_non_members?

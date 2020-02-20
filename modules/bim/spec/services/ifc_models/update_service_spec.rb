@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe IfcModels::UpdateService do
+describe Bim::IfcModels::UpdateService do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', '<=': true)
@@ -39,7 +39,7 @@ describe IfcModels::UpdateService do
   let!(:set_attributes_service) do
     service = double('set_attributes_service_instance')
 
-    allow(IfcModels::SetAttributesService)
+    allow(Bim::IfcModels::SetAttributesService)
       .to receive(:new)
       .with(user: user,
             model: model,
