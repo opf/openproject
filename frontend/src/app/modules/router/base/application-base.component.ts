@@ -34,7 +34,7 @@ export const appBaseSelector = 'openproject-base';
 @Component({
   selector: appBaseSelector,
   template: `
-    <div class="openproject-base--ui-view">
+    <div class="openproject-base--ui-view" wp-isolated-query-space>
       <ui-view></ui-view>
     </div>
   `
