@@ -31,7 +31,7 @@
 # The contract allows for setting the default status ignoring status transitions.
 # It is required so that put requests can set the status to the default status if the status property
 # is omitted.
-module Bim::BcfWorkPackages
+module Bim::Bcf::WorkPackages
   class UpdateContract < ::WorkPackages::UpdateContract
     def self.model
       ::WorkPackage
