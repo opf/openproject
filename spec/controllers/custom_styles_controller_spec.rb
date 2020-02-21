@@ -115,29 +115,59 @@ describe CustomStylesController, type: :controller do
         }
       end
 
-      before do
-        with_enterprise_token(:define_custom_style)
+      context 'with an existing CustomStyle' do
+        before do
+          with_enterprise_token(:define_custom_style)
 
-        expect(CustomStyle).to receive(:current).and_return(custom_style)
-        expect(custom_style).to receive(:update).and_return(valid)
+          expect(CustomStyle).to receive(:current).and_return(custom_style)
+          expect(custom_style).to receive(:update).and_return(valid)
 
-        post :update, params: params
-      end
+          post :update, params: params
+        end
 
-      context 'valid custom_style input' do
-        let(:valid) { true }
+        context 'valid custom_style input' do
+          let(:valid) { true }
 
-        it 'redirects to show' do
-          expect(response).to redirect_to action: :show
+          it 'redirects to show' do
+            expect(response).to redirect_to action: :show
+          end
+        end
+
+        context 'invalid custom_style input' do
+          let(:valid) { false }
+
+          it 'renders with error' do
+            expect(response).not_to be_redirect
+            expect(response).to render_template 'custom_styles/show'
+          end
         end
       end
 
-      context 'invalid custom_style input' do
-        let(:valid) { false }
+      context 'without an existing CustomStyle' do
+        before do
+          with_enterprise_token(:define_custom_style)
 
-        it 'renders with error' do
-          expect(response).not_to be_redirect
-          expect(response).to render_template 'custom_styles/show'
+          expect(CustomStyle).to receive(:create!).and_return(custom_style)
+          expect(custom_style).to receive(:update).and_return(valid)
+
+          post :update, params: params
+        end
+
+        context 'valid custom_style input' do
+          let(:valid) { true }
+
+          it 'redirects to show' do
+            expect(response).to redirect_to action: :show
+          end
+        end
+
+        context 'invalid custom_style input' do
+          let(:valid) { false }
+
+          it 'renders with error' do
+            expect(response).not_to be_redirect
+            expect(response).to render_template 'custom_styles/show'
+          end
         end
       end
     end
