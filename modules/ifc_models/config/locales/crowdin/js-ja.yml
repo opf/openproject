@@ -2,5 +2,5 @@ ja:
   js:
     ifc_models:
       models:
-        default: 'Default IFC models'
-        manage: 'Manage models'
+        default: 'デフォルトのIFCモデル'
+        manage: 'モデルの管理'
