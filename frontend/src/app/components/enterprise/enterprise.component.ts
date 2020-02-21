@@ -40,7 +40,7 @@ export class EnterpriseComponent {
   public text = {
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
     button_book: this.I18n.t('js.admin.enterprise.upsale.button_book_now'),
-    button_quote: this.I18n.t('js.admin.enterprise.upsale.button_quote')
+    link_quote: this.I18n.t('js.admin.enterprise.upsale.link_quote')
   };
 
   constructor(protected I18n:I18nService,

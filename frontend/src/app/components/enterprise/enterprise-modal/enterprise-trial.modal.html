@@ -90,7 +90,8 @@
                   <div class="form--check-box-container">
                     <input type="checkbox"
                            class="form--check-box"
-                           formControlName="newsletter_consent">
+                           formControlName="newsletter_consent"
+                           (change)="receiveNewsletter($event)">
                   </div>
                   <span>I want to receive the OpenProject
                     <a href="https://www.openproject.com/newsletter/" target="_blank">
@@ -118,7 +119,20 @@
         </div>
 
         <div *ngIf="status === 'startTrial'">
-          <p>Onboarding</p>
+          <h2>Get an overview</h2>
+          <div class="onboarding--video-block">
+            <div class="onboarding--video-text">
+              <span>Get a quick overview of project management and team collaboration with OpenProject.</span>
+            </div>
+            <div class="onboarding--video iframe-target-wrapper">
+              <iframe frameborder="0"
+                      height="400"
+                      width="100%"
+                      allowfullscreen=""
+                      src="https://player.vimeo.com/video/163426858?autoplay=1">
+              </iframe>
+            </div>
+          </div>
         </div>
       </div>
 

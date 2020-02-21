@@ -194,7 +194,7 @@ en:
         upsale:
           button_start_trial: 'Start free trial'
           button_book_now: 'Book now'
-          button_quote: 'Get a quote'
+          link_quote: 'Get a quote'
           become_hero: "Become a hero!"
           benefits:
             high_security: "High security features"

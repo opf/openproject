@@ -230,6 +230,12 @@ export class EnterpriseTrialModal extends OpModalComponent {
       });
   }
 
+  public receiveNewsletter(event:any) {
+    if (event.target.checked) {
+      // subscribe to newsletter
+    }
+  }
+
   public closeModal(event:any) {
     // cancel all actions (e.g. an already send request)
     this.cancelled = true;
