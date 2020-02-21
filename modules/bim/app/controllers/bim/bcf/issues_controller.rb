@@ -32,7 +32,6 @@ module Bim
   module Bcf
     class IssuesController < BaseController
       include PaginationHelper
-      include BcfWorkPackagesFilterHelper
 
       before_action :find_project_by_project_id
       before_action :authorize
