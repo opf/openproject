@@ -34,7 +34,7 @@ module Bim::Bcf
       private
 
       def before_perform(params)
-        wp_call = WorkPackages::CreateService
+        wp_call = ::WorkPackages::CreateService
           .new(user: user)
           .call(params)
 
