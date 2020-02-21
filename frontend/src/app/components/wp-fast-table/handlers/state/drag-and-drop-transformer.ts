@@ -31,10 +31,7 @@ export class DragAndDropTransformer {
   @InjectField() private readonly wpCacheService:WorkPackageCacheService;
   @InjectField() private readonly wpListService:WorkPackagesListService;
   @InjectField() private readonly dragActionRegistry:TableDragActionsRegistryService;
-
-  // Inject optional
-  private readonly dragService:DragAndDropService|null = this.injector.get(DragAndDropService, null);
-
+  @InjectField(DragAndDropService, null) private readonly dragService:DragAndDropService|null;
 
   constructor(public readonly injector:Injector,
               public table:WorkPackageTable) {

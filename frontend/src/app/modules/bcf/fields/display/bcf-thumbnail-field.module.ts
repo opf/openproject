@@ -28,9 +28,10 @@
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class BcfThumbnailDisplayField extends DisplayField {
-  protected pathHelper:PathHelperService = this.$injector.get(PathHelperService);
+  @InjectField() pathHelper:PathHelperService;
 
   public render(element:HTMLElement, displayText:string):void {
     if (_.get(this, 'resource.bcf.viewpoints[0]')) {
