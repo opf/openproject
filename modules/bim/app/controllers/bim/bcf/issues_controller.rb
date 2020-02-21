@@ -86,7 +86,7 @@ module Bim
       end
 
       def redirect_to_bcf_issues_list
-        redirect_to project_work_packages_bcf_issues_path(@project)
+        redirect_to project_work_packages_path(@project)
       end
 
       private

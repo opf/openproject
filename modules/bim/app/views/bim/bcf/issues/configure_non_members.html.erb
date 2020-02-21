@@ -21,7 +21,7 @@
       </div>
       <br/>
       <%= link_to t(:button_cancel),
-                  project_work_packages_bcf_issues_path(@project),
+                  project_work_packages_path(@project),
                   class: 'button' %>
     <% end %>
   <% else %>
@@ -32,7 +32,7 @@
     </div>
     <br/>
     <%= link_to t(:button_cancel),
-                project_work_packages_bcf_issues_path(@project),
+                project_work_packages_path(@project),
                 class: 'button' %>
   <% end %>
 <% end %>
