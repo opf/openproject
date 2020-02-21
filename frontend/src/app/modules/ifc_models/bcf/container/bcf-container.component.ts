@@ -7,17 +7,9 @@ import { StateService } from '@uirouter/core';
 import {GonService} from "core-app/modules/common/gon/gon.service";
 
 @Component({
-  templateUrl: './ifc-index-page.component.html',
-  styleUrls: ['./ifc-index-page.component.sass']
+  templateUrl: './bcf-container.component.html'
 })
-export class IFCIndexPageComponent {
-  public text = {
-    title: this.i18n.t('js.ifc_models.models.default'),
-    manage: this.i18n.t('js.ifc_models.models.manage'),
-    delete: this.i18n.t('js.button_delete'),
-    edit: this.i18n.t('js.button_edit'),
-    areYouSure: this.i18n.t('js.text_are_you_sure')
-  };
+export class BCFContainerComponent {
   public queryProps:{ [key:string]:any };
   public configuration:WorkPackageTableConfigurationObject = {
     actionsColumnEnabled: false,
@@ -40,26 +32,6 @@ export class IFCIndexPageComponent {
     this.applyFilters();
   }
 
-  public get title() {
-    if (this.state.current.name === 'bim_defaults') {
-      return this.i18n.t('js.ifc_models.models.default');
-    } else {
-      return this.gonIFC['models'][0]['name'];
-    }
-  }
-
-  public get projectIdentifier() {
-    return this.currentProject.identifier!;
-  }
-
-  public get manageIFCPath() {
-    return this.paths.ifcModelsPath(this.projectIdentifier);
-  }
-
-  public get manageAllowed() {
-    return this.gonIFC.permissions.manage;
-  }
-
   private applyFilters() {
     // TODO: Limit to project
     this.filters.push({
@@ -75,9 +47,5 @@ export class IFCIndexPageComponent {
       sortBy: JSON.stringify([['updatedAt', 'desc']]),
       showHierarchies: false
     };
-  }
-
-  private get gonIFC() {
-    return (this.gon.get('ifc_models') as any)
   }
 }

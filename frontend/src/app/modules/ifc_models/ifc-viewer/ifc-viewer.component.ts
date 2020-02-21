@@ -28,8 +28,7 @@
 
 /// <reference path="../xeokit/xeokit.d.ts" />
 
-import {Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {Component, ElementRef, OnInit} from '@angular/core';
 
 import {XeokitServer} from "../xeokit/xeokit-server";
 import {GonService} from "core-app/modules/common/gon/gon.service";

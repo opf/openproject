@@ -22,13 +22,10 @@
   </div>
 </div>
 
-<div class="ifc-view--viewer-container">
-  <ifc-viewer></ifc-viewer>
+<div class="ifc-model-viewer--container"
+     ui-view="viewer">
 </div>
 
-<div class="ifc-view--table-container" wp-isolated-query-space>
-  <wp-embedded-table [queryProps]="queryProps"
-                     [configuration]="configuration"
-                     [externalHeight]="true">
-  </wp-embedded-table>
+<div class="bcf-table--container"
+     ui-view="list">
 </div>

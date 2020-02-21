@@ -31,7 +31,6 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
   readonly urlParamsHelper:UrlParamsHelperService = this.injector.get(UrlParamsHelperService);
   readonly loadingIndicatorService:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
   readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
-  readonly currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
   readonly cdRef = this.injector.get(ChangeDetectorRef);
 
   ngOnInit() {
@@ -58,16 +57,12 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     }
   }
 
-  get projectIdentifier() {
-    let identifier:string|null = null;
-
+  public get projectIdentifier() {
     if (this.configuration.projectContext) {
-      identifier = this.currentProject.identifier;
+      return this.currentProject.identifier || undefined;
     } else {
-      identifier = this.configuration.projectIdentifier;
+      return this.configuration.projectIdentifier || undefined;
     }
-
-    return identifier || undefined;
   }
 
   public buildQueryProps() {
