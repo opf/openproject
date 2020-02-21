@@ -26,7 +26,7 @@ ca:
       loading: "Carregant ..."
     attachments:
       draggable_hint: |
-        Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+        Arrossega al editor per a pujar una imatge o referenciar un adjunt. Els camps tancats del editor seguiran oberts mentre se segueixi arrossegant.
     autocomplete_select:
       placeholder:
         multi: "Afegir \"%{name}\""
@@ -112,47 +112,47 @@ ca:
       error_saving_failed: 'Guardar el document ha fallat amb el següent error: %{error}'
       error_initialization_failed: 'Ha fallat inicialitzar CKEditor!'
       mode:
-        manual: 'Switch to Markdown source'
-        wysiwyg: 'Switch to WYSIWYG editor'
+        manual: 'Canviar a la font Markdown'
+        wysiwyg: 'Canviar a l''editor WYSIWYG'
       macro:
         child_pages:
-          button: 'Links to child pages'
-          include_parent: 'Include parent'
-          text: '[Placeholder] Links to child pages of'
+          button: 'Enllaços a pagines filles'
+          include_parent: 'Afegir pare'
+          text: '[Placeholder] Enllaçar a pàgines filles de'
           page: 'Pàgina wiki'
-          this_page: 'this page'
+          this_page: 'aquesta pàgina'
           hint: |
-            Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
+            Deixar aquest camp buit a la llista de pagines filles de la pagina actual. Si vols referenciar a una pagina diferent, indica el seu títol o slug.
         code_block:
-          button: 'Insert code snippet'
-          title: 'Insert / edit Code snippet'
-          language: 'Formatting language'
-          language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
+          button: 'Inserir un fragment de codi'
+          title: 'Inserir / editar un fragment de codi'
+          language: 'Llenguatge de format'
+          language_hint: 'Introdueix el llenguatge de format que serà utilitzat per a ressaltar (si està suportat).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Chose macro'
+          chose_macro: 'Escollir macro'
         toc: 'Table of contents'
-        toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
+        toolbar_help: 'Faci clic per seleccionar el widget i mostrar la barra d''eines. Faci doble clic per a editar el widget'
         wiki_page_include:
-          button: 'Include content of another wiki page'
-          text: '[Placeholder] Included wiki page of'
+          button: 'Incloure contingut a una altra pàgina wiki'
+          text: '[Placeholder] Incloure pàgina wiki de'
           page: 'Pàgina wiki'
-          not_set: '(Page not yet set)'
+          not_set: '(Pagina encara no establida)'
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            Incloure el contingut d'una altra pàgina wiki especificant el seu títol o logo.
+            Pot incloure la pàgina wiki d'un altre projecte separant-les en dos punts com al següent exemple.
         work_package_button:
-          button: 'Insert create work package button'
-          type: 'Work package type'
-          button_style: 'Use button style'
-          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
-          without_type: 'Create work package'
-          with_type: 'Create work package (Type: %{typename})'
+          button: 'Inserir botó de crear paquet de treball'
+          type: 'Tipus de paquet de treball'
+          button_style: 'Utilitzar botó d''estil'
+          button_style_hint: 'Opcional: marca per fer que la macro aparegui com a botó, no com enllaç.'
+          without_type: 'Crear paquet de treball'
+          with_type: 'Crear paquet de treball (Tipus: %{typename})'
         embedded_table:
-          button: 'Embed work package table'
-          text: '[Placeholder] Embedded work package table'
+          button: 'Incrustar la taula del paquet de treball'
+          text: '[Placeholder] Taula de paquet de treball incrustada'
         embedded_calendar:
-          text: '[Placeholder] Embedded calendar'
+          text: '[Placeholder] Calendari incrustat'
     admin:
       type_form:
         custom_field: 'Camp personalitzat'
@@ -166,12 +166,12 @@ ca:
     custom_actions:
       date:
         specific: 'en'
-        current_date: 'Current date'
+        current_date: 'Data actual'
     error:
       internal: "S'ha produït un error intern."
-      cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
-      query_saving: "The view could not be saved."
-      embedded_table_loading: "The embedded view could not be loaded: %{message}"
+      cannot_save_changes_with_message: "No s'han pogut guardar els seus canvis per causa del següent error: %{error}"
+      query_saving: "No s'ha pogut desar la vista."
+      embedded_table_loading: "La vista incrustada no s'ha pogut carregar: %{message}"
     enumeration_activities: "Activitats (seguidor de temps)"
     enumeration_doc_categories: "Document categories"
     enumeration_work_package_priorities: "Prioritats dels paquets de treball"
@@ -181,17 +181,17 @@ ca:
         text_close_filter: "Per seleccionar una entrada tregui el focus prement per exemple entrar. Per deixar sense filtrar seleccioneu la primera entrada (buida)."
       noneElement: "(cap)"
       time_zone_converted:
-        two_values: "%{from} - %{to} in your local time."
-        only_start: "From %{from} in your local time."
-        only_end: "Till %{to} in your local time."
+        two_values: "%{from} - %{to} en el seu temps local."
+        only_start: "Des de %{from} en el seu temps local."
+        only_end: "Fins %{to} en el seu temps local."
       value_spacer: "-"
       sorting:
         criteria:
           one: "Primer criteri d'ordenació"
           two: "Segon criteri d'ordenació"
           three: "Tercer criteri d'ordenació"
-      upsale_for_more: "For more advanced filters, check out the"
-      upsale_link: 'Enterprise Edition.'
+      upsale_for_more: "Per a filtres més avançats, revisi a"
+      upsale_link: 'Edició Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -218,13 +218,13 @@ ca:
             current_new_feature_html: >
               OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Activar"
-    label_add_column_after: "Add column after"
-    label_add_column_before: "Add column before"
-    label_add_columns: "Add columns"
+    label_add_column_after: "Afegir columna desprès"
+    label_add_column_before: "Afegir columna abans"
+    label_add_columns: "Afegir columna"
     label_add_comment: "Afegeix un comentari"
-    label_add_comment_title: "Comment and type @ to notify other people"
-    label_add_row_after: "Add row after"
-    label_add_row_before: "Add row before"
+    label_add_comment_title: "Comenti i escrigui @ per a notificar altres persones"
+    label_add_row_after: "Afegir fila desprès"
+    label_add_row_before: "Afegir fila abans"
     label_add_selected_columns: "Afegir columnes seleccionades"
     label_added_by: "afegit per"
     label_added_time_by: "Afegit per %{author} %{age}"
@@ -242,7 +242,7 @@ ca:
     label_board_sticky: "Fixa't"
     label_create: "Crear"
     label_create_work_package: "Crear paquet de treball nou"
-    label_created_by: "Created by"
+    label_created_by: "Creat per"
     label_date: "Data"
     label_date_with_format: "Introduïu el %{date_attribute} amb el format següent: %{format}"
     label_deactivate: "Desactivar"
@@ -261,12 +261,12 @@ ca:
     label_contains: "conté"
     label_created_on: "creat el"
     label_edit_comment: "Editar aquest comentari"
-    label_edit_status: "Edit the status of the work package"
+    label_edit_status: "Editar l'estat del paquet de treball"
     label_equals: "és"
     label_expand: "Expandir"
     label_expanded: "expandit"
     label_expand_all: "Expandeix tot"
-    label_expand_project_menu: "Expand project menu"
+    label_expand_project_menu: "Expandir menú de projecte"
     label_export: "Exportar"
     label_filename: "Fitxer"
     label_filesize: "Mida"
@@ -277,14 +277,14 @@ ca:
     label_group_plural: "Grups"
     label_hide_attributes: "Mostrar menys"
     label_hide_column: "Amagar columna"
-    label_hide_project_menu: "Collapse project menu"
+    label_hide_project_menu: "Contrau menú de projecte"
     label_in: "en"
     label_in_less_than: "en menys de"
     label_in_more_than: "en més de"
     label_incoming_emails: "Correu electrònics d'entrada"
     label_information_plural: "Informació"
     label_import: "Import"
-    label_latest_activity: "Latest activity"
+    label_latest_activity: "Última activitat"
     label_last_updated_on: "La darrera actualització el"
     label_less_or_equal: "<="
     label_less_than_ago: "fa menys de"
@@ -307,35 +307,35 @@ ca:
     label_not_equals: "no és"
     label_on: "en"
     label_open_menu: "Obrir menú"
-    label_open_context_menu: "Open context menu"
+    label_open_context_menu: "Obre el menú de contextual"
     label_open_work_packages: "obrir"
     label_password: "Contrasenya"
     label_previous: "Anterior"
     label_per_page: "Per pàgina:"
     label_please_wait: "Espereu, si us plau"
     label_project_plural: "Projectes"
-    label_visibility_settings: "Visibility settings"
+    label_visibility_settings: "Opcions de visualització"
     label_quote_comment: "Citar aquest comentari"
     label_recent: "Recent"
     label_reset: "Restablir"
-    label_remove_column: "Remove column"
+    label_remove_column: "Eliminar columna"
     label_remove_columns: "Treure les columnes seleccionades"
-    label_remove_row: "Remove row"
+    label_remove_row: "Eliminar fila"
     label_report: "Informe"
     label_repository_plural: "Repositoris"
     label_save_as: "Desa com a"
     label_select_watcher: "Seleccioneu un vigilant..."
     label_selected_filter_list: "Filtres seleccionats"
     label_show_attributes: "Mostrar tots els atributs"
-    label_show_in_menu: "Show view in menu"
+    label_show_in_menu: "Mostrar vista al menú"
     label_sort_by: "Ordena per"
     label_sorted_by: "ordenat per"
     label_sort_higher: "Mou amunt"
     label_sort_lower: "Mou cap avall"
     label_sorting: "Ordenació"
     label_spent_time: "Temps invertit"
-    label_star_query: "Favored"
-    label_press_enter_to_save: "Press enter to save."
+    label_star_query: "Favorit"
+    label_press_enter_to_save: "Pitja enter per guardar."
     label_public_query: "Públic"
     label_sum: "Suma"
     label_sum_for: "Suma de"
@@ -345,8 +345,8 @@ ca:
     label_time_entry_plural: "Temps invertit"
     label_up: "Amunt"
     label_user_plural: "Usuaris"
-    label_activity_show_only_comments: "Show activities with comments only"
-    label_activity_show_all: "Show all activities"
+    label_activity_show_only_comments: "Mostra només activitats amb comentaris"
+    label_activity_show_all: "Mostra totes les activitats"
     label_total_progress: "%{percent}% Progrés total"
     label_total_amount: "Total: %{amount}"
     label_updated_on: "actualitzat el"
@@ -362,7 +362,7 @@ ca:
     label_unwatch: "Deixa de Seguir"
     label_unwatch_work_package: "Deixa de seguir paquet de treball"
     label_uploaded_by: "Pujat per"
-    label_default_queries: "Default views"
+    label_default_queries: "Vistes per defecte"
     label_starred_queries: "Favorite views"
     label_global_queries: "Public views"
     label_custom_queries: "Private views"
@@ -710,7 +710,7 @@ ca:
         versionName: "Versió"
         version: "Versió"
       default_queries:
-        latest_activity: "Latest activity"
+        latest_activity: "Última activitat"
         created_by_me: "Created by me"
         assigned_to_me: "Assigned to me"
         recently_created: "Recently created"

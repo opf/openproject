@@ -3,4 +3,4 @@ el:
     ifc_models:
       models:
         default: 'Προεπιλεγμένα μοντέλα IFC'
-        manage: 'Manage models'
+        manage: 'Διαχείριση μοντέλων'
