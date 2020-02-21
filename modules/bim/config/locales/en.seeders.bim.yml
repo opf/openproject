@@ -550,7 +550,7 @@ en:
               - news
               - wiki
               - board_view
-              - ifc_models
+              - bim
             ifc_models:
               - file: 'hospital_architecture'
                 name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
@@ -1041,9 +1041,8 @@ en:
               name: Timeline
             modules:
               - work_package_tracking
-              - bcf
+              - bim
               - board_view
-              - ifc_models
             ifc_models:
               - file: 'hospital_architecture'
                 name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
