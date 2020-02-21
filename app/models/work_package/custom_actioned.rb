@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module WorkPackage::CustomActions
+module WorkPackage::CustomActioned
   extend ActiveSupport::Concern
 
   included do

@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module WorkPackage::TimeEntries
+module WorkPackage::TimeEntriesCleaner
   extend ActiveSupport::Concern
 
   def self.included(base)

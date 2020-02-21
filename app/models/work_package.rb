@@ -33,11 +33,11 @@ class WorkPackage < ActiveRecord::Base
   include WorkPackage::SchedulingRules
   include WorkPackage::StatusTransitions
   include WorkPackage::AskBeforeDestruction
-  include WorkPackage::TimeEntries
+  include WorkPackage::TimeEntriesCleaner
   include WorkPackage::Ancestors
   prepend WorkPackage::Parent
   include WorkPackage::TypedDagDefaults
-  include WorkPackage::CustomActions
+  include WorkPackage::CustomActioned
   include WorkPackage::Hooks
 
   include OpenProject::Journal::AttachmentHelper
