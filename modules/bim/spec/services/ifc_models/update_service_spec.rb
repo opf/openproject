@@ -55,7 +55,7 @@ describe Bim::IfcModels::UpdateService do
       allow(job)
         .to receive(:perform_later)
 
-      stub_const('IfcModels::IfcConversionJob', job)
+      stub_const('Bim::IfcModels::IfcConversionJob', job)
     end
   end
   let(:ifc_attachment) { FactoryBot.build_stubbed(:attachment) }

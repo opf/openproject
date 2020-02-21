@@ -44,14 +44,10 @@ OpenProject::Application.routes.draw do
 
   scope '', as: 'ifc_models' do
     scope 'projects/:project_id', as: 'project' do
-      resources :ifc_models, except: [:show], controller: 'bim/ifc_models/ifc_models' do
+      resources :ifc_models, controller: 'bim/ifc_models/ifc_models' do
         collection do
-          get 'defaults(/*state)', action: :defaults, as: 'defaults'
-          get 'list(/*state)', action: :defaults
-        end
-
-        member do
-          get '(/*state)', action: :show
+          get 'defaults', action: :defaults, as: 'defaults'
+          get 'list', action: :defaults
         end
       end
     end

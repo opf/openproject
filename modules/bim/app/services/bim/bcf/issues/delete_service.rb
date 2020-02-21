@@ -39,7 +39,7 @@ module Bim::Bcf
         # is destroyed.
         model.project
 
-        wp_call = WorkPackages::DeleteService
+        wp_call = ::WorkPackages::DeleteService
           .new(user: user,
                model: associated_wp.reload)
           .call(params)

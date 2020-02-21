@@ -147,8 +147,8 @@ module Pages
 
       def change_model_name(model_name, new_name)
         expect(page).to have_selector('input[type="file"]')
-        expect(page).to have_field('ifc_models_ifc_model[title]', with: model_name)
-        fill_in 'ifc_models_ifc_model[title]', with: new_name
+        expect(page).to have_field('bim_ifc_models_ifc_model[title]', with: model_name)
+        fill_in 'bim_ifc_models_ifc_model[title]', with: new_name
       end
     end
   end

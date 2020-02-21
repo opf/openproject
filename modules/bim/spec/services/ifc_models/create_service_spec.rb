@@ -54,7 +54,7 @@ describe Bim::IfcModels::CreateService do
       allow(job)
         .to receive(:perform_later)
 
-      stub_const('IfcModels::IfcConversionJob', job)
+      stub_const('Bim::IfcModels::IfcConversionJob', job)
     end
   end
 

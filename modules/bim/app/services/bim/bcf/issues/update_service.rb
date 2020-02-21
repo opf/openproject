@@ -37,7 +37,7 @@ module Bim::Bcf
         wp_call = ::WorkPackages::UpdateService
           .new(model: model.work_package,
                user: user,
-               contract_class: Bcf::WorkPackages::UpdateContract)
+               contract_class: ::WorkPackages::UpdateContract)
           .call(params)
 
         if wp_call.success?

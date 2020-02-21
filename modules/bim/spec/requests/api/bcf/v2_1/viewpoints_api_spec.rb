@@ -296,7 +296,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
       end
 
       it_behaves_like 'bcf api unprocessable response' do
-        let(:message) { I18n.t('activerecord.errors.models.bcf/viewpoint.snapshot_type_unsupported') }
+        let(:message) { I18n.t('activerecord.errors.models.bim/bcf/viewpoint.snapshot_type_unsupported') }
       end
     end
 
@@ -313,7 +313,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
       end
 
       it_behaves_like 'bcf api unprocessable response' do
-        let(:message) { I18n.t('activerecord.errors.models.bcf/viewpoint.snapshot_data_blank') }
+        let(:message) { I18n.t('activerecord.errors.models.bim/bcf/viewpoint.snapshot_data_blank') }
       end
     end
 
@@ -327,8 +327,8 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
       it_behaves_like 'bcf api unprocessable response' do
         let(:message) do
           [I18n.t('api_v3.errors.multiple_errors'),
-           I18n.t('activerecord.errors.models.bcf/viewpoint.index_not_integer'),
-           I18n.t('activerecord.errors.models.bcf/viewpoint.bitmaps_not_writable')].join(" ")
+           I18n.t('activerecord.errors.models.bim/bcf/viewpoint.index_not_integer'),
+           I18n.t('activerecord.errors.models.bim/bcf/viewpoint.bitmaps_not_writable')].join(" ")
         end
       end
     end

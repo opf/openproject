@@ -38,7 +38,7 @@ module Bim::Bcf::API::V2_1::Endpoints
     end
 
     def postprocess_errors(call)
-      Bcf::API::V2_1::Errors::ErrorMapper.map(super)
+      ::Bim::Bcf::API::V2_1::Errors::ErrorMapper.map(super)
     end
   end
 end

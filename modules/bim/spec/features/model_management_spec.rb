@@ -31,7 +31,7 @@ require 'spec_helper'
 require_relative '../support/pages/ifc_models/index'
 
 describe 'model management', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project }
+  let(:project) { FactoryBot.create :project, enabled_module_names: [:bim] }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models]) }
 

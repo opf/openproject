@@ -84,7 +84,7 @@ module Bim::Bcf::API::V2_1
              }
 
     def to_hash(*)
-      topic_authorization = Bcf::API::V2_1::Topics::AuthorizationRepresenter
+      topic_authorization = ::Bim::Bcf::API::V2_1::Topics::AuthorizationRepresenter
                             .new(represented)
 
       super.merge(topic_authorization.to_hash)
