@@ -93,17 +93,3 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     }
   },
 ];
-
-export function uiRouterIFCConfiguration(uiRouter:UIRouter) {
-  uiRouter.urlService.rules
-    .when(
-      new RegExp("^/projects/(.*)/ifc_models/defaults$"),
-      match => `/projects/${match[1]}/ifc_models/defaults/`
-    );
-
-  uiRouter.urlService.rules
-    .when(
-      new RegExp("^/projects/(.*)/ifc_models/([0-9]+)$"),
-      match => `/projects/${match[1]}/ifc_models/${match[2]}/`
-    );
-}
