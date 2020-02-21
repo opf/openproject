@@ -25,15 +25,10 @@
   </div>
 </div>
 
-<div class="ifc-view--split-container">
-  <div class="ifc-view--viewer-container"
-       [ngClass]="{ '-active': viewerActive }"
-       ui-view="left">
-  </div>
+<div class="ifc-view--viewer-container"
+     ui-view="viewer">
+</div>
 
-  <div class="ifc-view--table-container"
-       [ngClass]="{ '-active': tableActive }"
-       ui-view="right"
-       wp-isolated-query-space>
-  </div>
+<div class="ifc-view--table-container"
+     ui-view="list">
 </div>

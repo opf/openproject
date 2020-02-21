@@ -26,10 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 import {Ng2StateDeclaration, UIRouter} from '@uirouter/angular';
-import {IfcViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
-import {BcfContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
-import {ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
+import {IFCViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
+import {BCFContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
 import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.component";
+import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
+import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -37,48 +38,58 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     parent: 'root',
     url: '/ifc_models',
     abstract: true,
-    component: IfcViewerPageComponent
+    component: WorkPackagesBaseComponent
   },
   {
-    name: 'bim.list',
+    name: 'bim.space',
+    url: '',
+    abstract: true,
+    component: IFCViewerPageComponent
+  },
+  {
+    name: 'bim.space.list',
     url: '/list',
-    component: IfcViewerPageComponent,
+    component: IFCViewerPageComponent,
     views: {
-      right: { component: BcfContainerComponent }
+      list: { component: BCFContainerComponent }
     }
   },
   {
-    name: 'bim.defaults',
+    name: 'bim.space.defaults',
     url: '/defaults',
-    component: IfcViewerPageComponent,
+    component: IFCViewerPageComponent,
     views: {
-      left: { component: IFCViewerComponent }
+      viewer: { component: IFCViewerComponent },
+      list: { component: BCFContainerComponent }
     }
   },
   {
-    name: 'bim.defaults.split',
-    url: '/split',
-    component: IfcViewerPageComponent,
+    name: 'bim.space.defaults.model',
+    url: '/model',
+    component: IFCViewerPageComponent,
     views: {
-      left: { component: IFCViewerComponent },
-      right: { component: BcfContainerComponent }
+      // Retarget and by that override the grandparent views
+      // https://ui-router.github.io/guide/views#relative-parent-state
+      'list@^.^': { component: EmptyComponent }
     }
   },
   {
-    name: 'bim.show',
+    name: 'bim.space.show',
     url: '/{model_id:[0-9]+}',
-    component: IfcViewerPageComponent,
+    component: IFCViewerPageComponent,
     views: {
-      left: { component: IfcViewerPageComponent }
+      viewer: { component: IFCViewerComponent },
+      list: { component: BCFContainerComponent }
     }
   },
   {
-    name: 'bim.show.split',
-    url: '/split',
-    component: IfcViewerPageComponent,
+    name: 'bim.space.show.model',
+    url: '/model',
+    component: IFCViewerPageComponent,
     views: {
-      left: { component: IFCViewerComponent },
-      right: { component: BcfContainerComponent }
+      // Retarget and by that override the grandparent views
+      // https://ui-router.github.io/guide/views#relative-parent-state
+      'list@^.^': { component: EmptyComponent }
     }
   },
 ];

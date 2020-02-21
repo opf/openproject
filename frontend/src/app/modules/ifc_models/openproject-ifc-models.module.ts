@@ -31,10 +31,11 @@ import {UIRouterModule} from '@uirouter/angular';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {IFCViewerComponent} from './ifc-viewer/ifc-viewer.component';
 import {IFC_ROUTES, uiRouterIFCConfiguration} from "core-app/modules/ifc_models/openproject-ifc-models.routes";
-import {IfcViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
-import {BcfContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
+import {IFCViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
+import {BCFContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
 import {BimViewToggleDropdownDirective} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle-dropdown.directive";
 import {BimViewToggleComponent} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle.component";
+import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
 
 @NgModule({
   imports: [
@@ -49,8 +50,11 @@ import {BimViewToggleComponent} from "core-app/modules/ifc_models/view-toggle/bi
   ],
   declarations: [
     // Pages
-    IfcViewerPageComponent,
-    BcfContainerComponent,
+    IFCViewerPageComponent,
+
+    // Regions of pages
+    EmptyComponent,
+    BCFContainerComponent,
 
     // View selector
     BimViewToggleComponent,

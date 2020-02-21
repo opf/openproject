@@ -69,15 +69,16 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
           linkText: this.I18n.t('js.ifc_models.views.' + key),
           onClick: (evt:any) => {
             switch (key) {
+              // TODO: actually make switching states work
+              // TODO: differentiate between defaults and single model
               case bimListViewIdentifier:
-                this.state.go('bim.list');
+                this.state.go('bim.space.list');
                 break;
               case bimViewerViewIdentifier:
-                // TODO use correct route
-                this.state.go('bim.defaults');
+                this.state.go('bim.space.default.model');
                 break;
               case bimSplitViewIdentifier:
-                this.state.go('bim.defaults.split');
+                this.state.go('bim.space.default');
                 break;
             }
 

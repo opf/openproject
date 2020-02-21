@@ -56,6 +56,7 @@ import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-even
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
@@ -85,6 +86,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService = this.injector.get(WorkPackageViewDisplayRepresentationService);
   readonly halEvents:HalEventsService = this.injector.get(HalEventsService);
   readonly deviceService:DeviceService = this.injector.get(DeviceService);
+  readonly currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
 
 
   constructor(protected injector:Injector) {
@@ -158,6 +160,10 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
             }
           });
       });
+  }
+
+  public get projectIdentifier() {
+    return this.currentProject.identifier || undefined;
   }
 
   /**

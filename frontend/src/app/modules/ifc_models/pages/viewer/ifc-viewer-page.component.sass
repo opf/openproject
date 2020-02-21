@@ -4,22 +4,23 @@
   display: grid
   grid-template-columns: 1fr 500px
   grid-template-rows: 60px calc(100% - 60px)
-  grid-template-areas: "header header" "ifc-model ifc-model"
   grid-column-gap: 10px
+
+  &.-split
+    grid-template-areas: "header header" "viewer list"
+
+  &.-viewer
+    grid-template-areas: "header header" "viewer viewer"
+
+  &.-list
+    grid-template-areas: "header header" "list list"
 
   .toolbar-container
     grid-area: header
 
-  .ifc-view--split-container
-    grid-area: ifc-model
+  .ifc-view--viewer-container
+    grid-area: viewer
     position: relative
-    overflow: hidden
-    display: flex
 
-  .ifc-view--viewer-container,
   .ifc-view--table-container
-    display: none
-
-    &.-active
-      display: block
-      flex: 1
+    grid-area: list

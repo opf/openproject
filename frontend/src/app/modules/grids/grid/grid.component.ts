@@ -5,7 +5,6 @@ import {Component,
   Input,
   HostListener} from "@angular/core";
 import {GridResource} from "app/modules/hal/resources/grid-resource";
-import {debugLog} from "app/helpers/debug_output";
 import {DomSanitizer} from "@angular/platform-browser";
 import {GridWidgetsService} from "app/modules/grids/widgets/widgets.service";
 import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";

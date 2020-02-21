@@ -85,12 +85,12 @@ export class BimViewToggleComponent implements OnInit, OnDestroy {
   }
 
   private detectView() {
-    if (this.state.current.name === 'bim.list') {
+    if (this.state.current.name === 'bim.space.list') {
       this.view = bimListViewIdentifier;
-    } else if (this.state.includes('bim.**.split')) {
-      this.view = bimSplitViewIdentifier;
-    } else {
+    } else if (this.state.includes('bim.**.model')) {
       this.view = bimViewerViewIdentifier;
+    } else {
+      this.view = bimSplitViewIdentifier;
     }
   }
 
