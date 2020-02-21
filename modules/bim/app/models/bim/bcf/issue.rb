@@ -1,5 +1,7 @@
 module Bim::Bcf
   class Issue < ActiveRecord::Base
+    self.table_name = :bcf_issues
+
     include InitializeWithUuid
     include ::Concerns::VirtualAttribute
 

@@ -1,5 +1,7 @@
 module Bim::Bcf
   class Viewpoint < ActiveRecord::Base
+    self.table_name = :bcf_viewpoints
+
     include InitializeWithUuid
 
     acts_as_attachable view_permission: :view_linked_issues,

@@ -1,5 +1,7 @@
 module Bim::Bcf
   class Comment < ActiveRecord::Base
+    self.table_name = :bcf_comments
+
     include InitializeWithUuid
 
     belongs_to :journal
