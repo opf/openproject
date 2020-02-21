@@ -43,5 +43,4 @@
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'OAuth'
   inflect.acronym 'OpenID'
-  inflect.acronym 'IFC'
 end

@@ -1,6 +1,0 @@
-es:
-  js:
-    ifc_models:
-      models:
-        default: 'Modelos IFC predeterminados'
-        manage: 'Manage models'

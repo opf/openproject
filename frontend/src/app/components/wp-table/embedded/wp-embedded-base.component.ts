@@ -33,7 +33,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
   @InjectField() loadingIndicatorService:LoadingIndicatorService;
   @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
   @InjectField() currentProject:CurrentProjectService;
-  @InjectField() readonly cdRef:ChangeDetectorRef;
+  @InjectField() cdRef:ChangeDetectorRef;
 
   ngOnInit() {
     super.ngOnInit();
@@ -59,16 +59,12 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     }
   }
 
-  get projectIdentifier() {
-    let identifier:string|null = null;
-
+  public get projectIdentifier() {
     if (this.configuration.projectContext) {
-      identifier = this.currentProject.identifier;
+      return this.currentProject.identifier || undefined;
     } else {
-      identifier = this.configuration.projectIdentifier;
+      return this.configuration.projectIdentifier || undefined;
     }
-
-    return identifier || undefined;
   }
 
   public buildQueryProps() {

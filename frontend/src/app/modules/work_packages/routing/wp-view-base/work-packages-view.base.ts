@@ -57,6 +57,7 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
@@ -86,6 +87,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   @InjectField() wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService;
   @InjectField() halEvents:HalEventsService;
   @InjectField() deviceService:DeviceService;
+  @InjectField() currentProject:CurrentProjectService;
 
 
   constructor(public injector:Injector) {
@@ -159,6 +161,10 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
             }
           });
       });
+  }
+
+  public get projectIdentifier() {
+    return this.currentProject.identifier || undefined;
   }
 
   /**

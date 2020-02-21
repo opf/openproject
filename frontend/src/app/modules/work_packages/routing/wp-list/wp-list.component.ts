@@ -84,9 +84,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   /** Determine when query is initially loaded */
   tableInformationLoaded = false;
 
-  /** Project identifier of the list */
-  projectIdentifier = this.$state.params['projectPath'] || null;
-
   /** An overlay over the table shown for example when the filters are invalid */
   showResultOverlay = false;
 
