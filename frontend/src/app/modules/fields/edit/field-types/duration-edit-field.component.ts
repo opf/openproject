@@ -30,6 +30,7 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
 import * as moment from 'moment';
 import {Component} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   template: `
@@ -46,7 +47,7 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
   `
 })
 export class DurationEditFieldComponent extends EditFieldComponent {
-  readonly TimezoneService:TimezoneService = this.injector.get(TimezoneService);
+  @InjectField() TimezoneService:TimezoneService;
 
   public parser(value:any) {
     if (!isNaN(value)) {

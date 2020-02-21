@@ -18,15 +18,16 @@ import {PERMITTED_CONTEXT_MENU_ACTIONS} from "core-components/op-context-menu/wp
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 import {StateService} from "@uirouter/core";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
-  protected states = this.injector.get(States);
-  protected wpRelationsHierarchyService = this.injector.get(WorkPackageRelationsHierarchyService);
-  protected opModalService:OpModalService = this.injector.get(OpModalService);
-  protected $state:StateService = this.injector.get(StateService);
-  protected wpTableSelection = this.injector.get(WorkPackageViewSelectionService);
-  protected WorkPackageContextMenuHelper = this.injector.get(WorkPackageContextMenuHelperService);
+  @InjectField() protected states:States;
+  @InjectField() protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService;
+  @InjectField() protected opModalService:OpModalService;
+  @InjectField() protected $state:StateService;
+  @InjectField() protected wpTableSelection:WorkPackageViewSelectionService;
+  @InjectField() protected WorkPackageContextMenuHelper:WorkPackageContextMenuHelperService;
 
   protected workPackage = this.states.workPackages.get(this.workPackageId).value!;
   protected selectedWorkPackages = this.getSelectedWorkPackages();
@@ -37,7 +38,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   );
   protected items = this.buildItems();
 
-  constructor(protected injector:Injector,
+  constructor(public injector:Injector,
               protected workPackageId:string,
               protected $element:JQuery,
               protected additionalPositionArgs:any = {},
@@ -46,7 +47,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   }
 
   public get locals():OpContextMenuLocalsMap {
-    return { contextMenuId: 'work-package-context-menu', items: this.items};
+    return {contextMenuId: 'work-package-context-menu', items: this.items};
   }
 
   public positionArgs(evt:JQuery.TriggeredEvent) {
@@ -84,7 +85,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
   private deleteSelectedWorkPackages() {
     let selected = this.getSelectedWorkPackages();
-    this.opModalService.show(WpDestroyModal, this.injector, { workPackages: selected });
+    this.opModalService.show(WpDestroyModal, this.injector, {workPackages: selected});
   }
 
   private editSelectedWorkPackages(link:any) {
@@ -159,7 +160,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
           this.$state.go(
             'work-packages.show',
-            { workPackageId: this.workPackageId }
+            {workPackageId: this.workPackageId}
           );
           return true;
         }

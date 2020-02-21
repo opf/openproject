@@ -34,9 +34,10 @@ import {EditFieldComponent} from "../edit-field.component";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 import {SelectAutocompleterRegisterService} from "app/modules/fields/edit/field-types/select-autocompleter-register.service";
-import { from } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import {from} from 'rxjs';
+import {tap, map} from 'rxjs/operators';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export interface ValueOption {
   name:string;
@@ -47,8 +48,9 @@ export interface ValueOption {
   templateUrl: './select-edit-field.component.html'
 })
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
-  public selectAutocompleterRegister = this.injector.get(SelectAutocompleterRegisterService);
-  public halNotification = this.injector.get(HalResourceNotificationService);
+  @InjectField() selectAutocompleterRegister:SelectAutocompleterRegisterService;
+  @InjectField() halNotification:HalResourceNotificationService;
+  @InjectField() halSorting:HalResourceSortingService;
 
   public availableOptions:any[];
   public valueOptions:ValueOption[];
@@ -58,8 +60,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public appendTo:any = null;
   private hiddenOverflowContainer = '.__hidden_overflow_container';
-
-  public halSorting:HalResourceSortingService;
 
   protected _autocompleterComponent:CreateAutocompleterComponent;
 
@@ -73,7 +73,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   };
 
   protected initialize() {
-    this.halSorting = this.injector.get(HalResourceSortingService);
     this.text = {
       requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
       placeholder: this.I18n.t('js.placeholders.default')
@@ -160,7 +159,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
         }
       }),
       map(collection => {
-        if (collection.count === undefined || collection.total === undefined || (!query && collection.total === collection.count) || !this.value)  {
+        if (collection.count === undefined || collection.total === undefined || (!query && collection.total === collection.count) || !this.value) {
           return collection.elements;
         } else {
           return collection.elements.concat([this.value]);

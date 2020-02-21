@@ -12,6 +12,7 @@ import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resou
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 import {distinctUntilChanged, take, withLatestFrom, map} from "rxjs/operators";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -29,12 +30,12 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   /** Inform about loaded query */
   @Output() public onQueryLoaded = new EventEmitter<QueryResource>();
 
-  readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
-  readonly opModalService:OpModalService = this.injector.get(OpModalService);
-  readonly tableActionsService:OpTableActionsService = this.injector.get(OpTableActionsService);
-  readonly wpTableTimeline:WorkPackageViewTimelineService = this.injector.get(WorkPackageViewTimelineService);
-  readonly wpTablePagination:WorkPackageViewPaginationService = this.injector.get(WorkPackageViewPaginationService);
-  readonly QueryFormDm:QueryFormDmService = this.injector.get(QueryFormDmService);
+  @InjectField() QueryDm:QueryDmService;
+  @InjectField() opModalService:OpModalService;
+  @InjectField() tableActionsService:OpTableActionsService;
+  @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
+  @InjectField() wpTablePagination:WorkPackageViewPaginationService;
+  @InjectField() QueryFormDm:QueryFormDmService;
 
   // Cache the form promise
   private formPromise:Promise<QueryFormResource>|undefined;
@@ -64,7 +65,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
         distinctUntilChanged(),
         untilComponentDestroyed(this),
         withLatestFrom(this.querySpace.query.values$())
-    ).subscribe(([_, query]) => {
+      ).subscribe(([_, query]) => {
       this.loadingIndicator = this.QueryDm
         .loadResults(query, this.wpTablePagination.paginationObject)
         .then((query) => this.initializeStates(query));
@@ -101,7 +102,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
 
         // Disable compact mode when timeline active
         if (this.wpTableTimeline.isVisible) {
-          this.configuration = { ...this.configuration, compactTableStyle: false };
+          this.configuration = {...this.configuration, compactTableStyle: false};
         }
       });
   }
@@ -157,7 +158,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       .catch((error) => {
         this.error = this.I18n.t(
           'js.error.embedded_table_loading',
-          { message: _.get(error, 'message', error) }
+          {message: _.get(error, 'message', error)}
         );
         this.onError.emit(error);
       });

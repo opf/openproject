@@ -43,20 +43,21 @@ import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class WorkPackageSingleViewBase implements OnDestroy {
 
-  public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
-  public states:States = this.injector.get(States);
-  public I18n:I18nService = this.injector.get(I18nService);
-  public keepTab:KeepTabService = this.injector.get(KeepTabService);
-  public PathHelper:PathHelperService = this.injector.get(PathHelperService);
-  protected halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
-  protected wpTableFocus:WorkPackageViewFocusService = this.injector.get(WorkPackageViewFocusService);
-  protected notificationService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
-  protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
-  protected authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
-  protected cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
+  @InjectField() wpCacheService:WorkPackageCacheService;
+  @InjectField() states:States;
+  @InjectField() I18n:I18nService;
+  @InjectField() keepTab:KeepTabService;
+  @InjectField() PathHelper:PathHelperService;
+  @InjectField() halEditing:HalResourceEditingService;
+  @InjectField() wpTableFocus:WorkPackageViewFocusService;
+  @InjectField() notificationService:WorkPackageNotificationService;
+  @InjectField() projectCacheService:ProjectCacheService;
+  @InjectField() authorisationService:AuthorisationService;
+  @InjectField() cdRef:ChangeDetectorRef;
 
   // Static texts
   public text:any = {};
@@ -68,7 +69,7 @@ export class WorkPackageSingleViewBase implements OnDestroy {
   public focusAnchorLabel:string;
   public showStaticPagePath:string;
 
-  readonly titleService:OpTitleService = this.injector.get(OpTitleService);
+  @InjectField() readonly titleService:OpTitleService;
 
   constructor(public injector:Injector, protected workPackageId:string) {
     this.initializeTexts();
@@ -118,8 +119,8 @@ export class WorkPackageSingleViewBase implements OnDestroy {
     this.projectCacheService
       .require(this.workPackage.project.idFromLink)
       .then(() => {
-      this.projectIdentifier = this.workPackage.project.identifier;
-    });
+        this.projectIdentifier = this.workPackage.project.identifier;
+      });
 
     // Set authorisation data
     this.authorisationService.initModelAuth('work_package', this.workPackage.$links);

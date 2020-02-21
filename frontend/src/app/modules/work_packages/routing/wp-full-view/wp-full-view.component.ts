@@ -38,6 +38,7 @@ import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
 import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -46,7 +47,6 @@ import {BackRoutingService} from "core-app/modules/common/back-routing/back-rout
   host: { 'class': 'work-packages-page--ui-view' }
 })
 export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase implements OnInit {
-
   // Watcher properties
   public isWatched:boolean;
   public displayWatchButton:boolean;
@@ -64,14 +64,9 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   public actionsAvailable:any;
   public triggerMoreMenuAction:Function;
 
-  public backRoutingService:BackRoutingService = this.injector.get(BackRoutingService);
-
   constructor(public injector:Injector,
-              public states:States,
-              public firstRoute:FirstRouteService,
-              public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageViewSelectionService,
-              public wpTableFocus:WorkPackageViewFocusService,
+              public backRoutingService:BackRoutingService,
               readonly $state:StateService) {
     super(injector, $state.params['workPackageId']);
   }

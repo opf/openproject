@@ -130,13 +130,13 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
      * Return an updated AttachmentCollectionResource.
      */
     public uploadAttachments(files:UploadFile[]):Promise<{ response:HalResource, uploadUrl:string }[]> {
-      const { uploads, finished } = this.performUpload(files);
+      const {uploads, finished} = this.performUpload(files);
 
       const message = I18n.t('js.label_upload_notification');
       const notification = this.NotificationsService.addAttachmentUpload(message, uploads);
 
       return finished
-        .then((result:{response:HalResource, uploadUrl:string }[]) => {
+        .then((result:{ response:HalResource, uploadUrl:string }[]) => {
           setTimeout(() => this.NotificationsService.remove(notification), 700);
 
           this.attachments.count += result.length;
@@ -153,7 +153,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
           if (error.error instanceof ErrorEvent) {
             // A client-side or network error occurred.
-            message = this.I18n.t('js.error_attachment_upload', { error: error });
+            message = this.I18n.t('js.error_attachment_upload', {error: error});
           } else if (_.get(error, 'error._type') === 'Error') {
             message = error.error.message;
           } else {
@@ -185,14 +185,23 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     }
 
     public $initialize(source:any) {
-      this.NotificationsService = this.injector.get(NotificationsService);
-      this.halNotification = this.injector.get( HalResourceNotificationService);
-      this.opFileUpload = this.injector.get(OpenProjectFileUploadService);
-      this.pathHelper = this.injector.get(PathHelperService);
+      if (!this.NotificationsService) {
+        this.NotificationsService = this.injector.get(NotificationsService);
+      }
+      if (!this.halNotification) {
+        this.halNotification = this.injector.get(HalResourceNotificationService);
+      }
+      if (!this.opFileUpload) {
+        this.opFileUpload = this.injector.get(OpenProjectFileUploadService);
+      }
+
+      if (!this.pathHelper) {
+        this.pathHelper = this.injector.get(PathHelperService);
+      }
 
       super.$initialize(source);
 
-      let attachments = this.attachments || { $source: {}, elements: [] };
+      let attachments = this.attachments || {$source: {}, elements: []};
       this.attachments = new AttachmentCollectionResource(
         this.injector,
         attachments,
