@@ -12,6 +12,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewBase implements AfterViewInit {
   @Input('configuration') protected providedConfiguration:WorkPackageTableConfigurationObject;
@@ -25,13 +26,14 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
 
   protected initialized:boolean = false;
 
-  readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
-  readonly querySpace:IsolatedQuerySpace  = this.injector.get(IsolatedQuerySpace);
-  readonly I18n:I18nService = this.injector.get(I18nService);
-  readonly urlParamsHelper:UrlParamsHelperService = this.injector.get(UrlParamsHelperService);
-  readonly loadingIndicatorService:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
-  readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
-  readonly cdRef = this.injector.get(ChangeDetectorRef);
+  @InjectField() QueryDm:QueryDmService;
+  @InjectField() querySpace:IsolatedQuerySpace;
+  @InjectField() I18n:I18nService;
+  @InjectField() urlParamsHelper:UrlParamsHelperService;
+  @InjectField() loadingIndicatorService:LoadingIndicatorService;
+  @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
+  @InjectField() currentProject:CurrentProjectService;
+  @InjectField() cdRef:ChangeDetectorRef;
 
   ngOnInit() {
     super.ngOnInit();

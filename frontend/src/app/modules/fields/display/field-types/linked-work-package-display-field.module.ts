@@ -30,6 +30,7 @@ import {StateService} from '@uirouter/core';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {UiStateLinkBuilder} from "core-components/wp-fast-table/builders/ui-state-link-builder";
 import {WorkPackageDisplayField} from "core-app/modules/fields/display/field-types/work-package-display-field.module";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
 
@@ -38,8 +39,8 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
     none: this.I18n.t('js.filter.noneElement')
   };
 
-  private $state:StateService = this.$injector.get(StateService);
-  private keepTab:KeepTabService = this.$injector.get(KeepTabService);
+  @InjectField() $state:StateService;
+  @InjectField() keepTab:KeepTabService;
 
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
 

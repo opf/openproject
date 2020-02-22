@@ -30,10 +30,12 @@ import {DisplayField} from "core-app/modules/fields/display/display-field.module
 import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
 import {DomPortalOutlet} from "@angular/cdk/portal";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class UserDisplayField extends DisplayField {
-  public userDisplayPortal = this.$injector.get(UserFieldPortalService);
-  public portalCleanup = this.$injector.get(PortalCleanupService);
+  @InjectField() userDisplayPortal:UserFieldPortalService;
+  @InjectField() portalCleanup:PortalCleanupService;
+
   public outlet:DomPortalOutlet;
 
   public get value() {

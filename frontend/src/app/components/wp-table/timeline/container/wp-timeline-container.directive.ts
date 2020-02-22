@@ -64,15 +64,13 @@ import {
   withLoadingIndicator
 } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {combineLatest} from "rxjs";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   selector: 'wp-timeline-container',
   templateUrl: './wp-timeline-container.html'
 })
 export class WorkPackageTimelineTableController implements AfterViewInit, OnDestroy {
-
-  private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
-
   private $element:JQuery;
 
   public workPackageTable:WorkPackageTable;
@@ -91,7 +89,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   public timelineBody:JQuery;
 
-  private selectionParams:{ notification:INotification | null } = {
+  private selectionParams:{ notification:INotification|null } = {
     notification: null
   };
 
@@ -109,7 +107,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private wpRelations:WorkPackageRelationsService,
               private wpTableHierarchies:WorkPackageViewHierarchiesService,
               private halEvents:HalEventsService,
-              private loadingIndicator:LoadingIndicatorService,
+              private querySpace:IsolatedQuerySpace,
               readonly I18n:I18nService) {
   }
 
@@ -262,6 +260,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     const nonVisibleDaysLeft = Math.floor(scrollLeft / this.viewParameters.pixelPerDay);
     return this.viewParameters.dateDisplayStart.clone().add(nonVisibleDaysLeft, 'days');
   }
+
   getLastDayInViewport() {
     const outerContainer = this.getParentScrollContainer();
     const scrollLeft = outerContainer.scrollLeft;

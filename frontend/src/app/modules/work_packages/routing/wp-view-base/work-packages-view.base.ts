@@ -56,40 +56,41 @@ import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-even
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
-  readonly $state:StateService = this.injector.get(StateService);
-  readonly states:States = this.injector.get(States);
-  readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
-  readonly authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
-  readonly wpTableColumns:WorkPackageViewColumnsService = this.injector.get(WorkPackageViewColumnsService);
-  readonly wpTableHighlighting:WorkPackageViewHighlightingService = this.injector.get(WorkPackageViewHighlightingService);
-  readonly wpTableSortBy:WorkPackageViewSortByService = this.injector.get(WorkPackageViewSortByService);
-  readonly wpTableGroupBy:WorkPackageViewGroupByService = this.injector.get(WorkPackageViewGroupByService);
-  readonly wpTableFilters:WorkPackageViewFiltersService = this.injector.get(WorkPackageViewFiltersService);
-  readonly wpTableSum:WorkPackageViewSumService = this.injector.get(WorkPackageViewSumService);
-  readonly wpTableTimeline:WorkPackageViewTimelineService = this.injector.get(WorkPackageViewTimelineService);
-  readonly wpTableHierarchies:WorkPackageViewHierarchiesService = this.injector.get(WorkPackageViewHierarchiesService);
-  readonly wpTablePagination:WorkPackageViewPaginationService = this.injector.get(WorkPackageViewPaginationService);
-  readonly wpTableOrder:WorkPackageViewOrderService = this.injector.get(WorkPackageViewOrderService);
-  readonly wpListService:WorkPackagesListService = this.injector.get(WorkPackagesListService);
-  readonly wpListChecksumService:WorkPackagesListChecksumService = this.injector.get(WorkPackagesListChecksumService);
-  readonly loadingIndicatorService:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
-  readonly $transitions:TransitionService = this.injector.get(TransitionService);
-  readonly I18n:I18nService = this.injector.get(I18nService);
-  readonly wpStaticQueries:WorkPackageStaticQueriesService = this.injector.get(WorkPackageStaticQueriesService);
-  readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
-  readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
-  readonly cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
-  readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService = this.injector.get(WorkPackageViewDisplayRepresentationService);
-  readonly halEvents:HalEventsService = this.injector.get(HalEventsService);
-  readonly deviceService:DeviceService = this.injector.get(DeviceService);
-  readonly currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
+  @InjectField() $state:StateService;
+  @InjectField() states:States;
+  @InjectField() querySpace:IsolatedQuerySpace;
+  @InjectField() authorisationService:AuthorisationService;
+  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @InjectField() wpTableHighlighting:WorkPackageViewHighlightingService;
+  @InjectField() wpTableSortBy:WorkPackageViewSortByService;
+  @InjectField() wpTableGroupBy:WorkPackageViewGroupByService;
+  @InjectField() wpTableFilters:WorkPackageViewFiltersService;
+  @InjectField() wpTableSum:WorkPackageViewSumService;
+  @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
+  @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
+  @InjectField() wpTablePagination:WorkPackageViewPaginationService;
+  @InjectField() wpTableOrder:WorkPackageViewOrderService;
+  @InjectField() wpListService:WorkPackagesListService;
+  @InjectField() wpListChecksumService:WorkPackagesListChecksumService;
+  @InjectField() loadingIndicatorService:LoadingIndicatorService;
+  @InjectField() $transitions:TransitionService;
+  @InjectField() I18n:I18nService;
+  @InjectField() wpStaticQueries:WorkPackageStaticQueriesService;
+  @InjectField() QueryDm:QueryDmService;
+  @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
+  @InjectField() cdRef:ChangeDetectorRef;
+  @InjectField() wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService;
+  @InjectField() halEvents:HalEventsService;
+  @InjectField() deviceService:DeviceService;
+  @InjectField() currentProject:CurrentProjectService;
 
 
-  constructor(protected injector:Injector) {
+  constructor(public injector:Injector) {
   }
 
   ngOnInit() {

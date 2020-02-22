@@ -39,6 +39,8 @@ import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routin
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-scroll";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   selector: 'wp-list',
@@ -53,6 +55,9 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
   ]
 })
 export class WorkPackagesListComponent extends WorkPackagesViewBase implements OnDestroy {
+  @InjectField() titleService:OpTitleService;
+  @InjectField() bcfDetectorService:BcfDetectorService;
+
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
     'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
@@ -85,8 +90,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   /** Switch between list and card view */
   private _showListView:boolean = true;
 
-  private readonly titleService:OpTitleService = this.injector.get(OpTitleService);
-  private readonly bcfDetectorService:BcfDetectorService = this.injector.get(BcfDetectorService);
   public readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
     dragAndDropEnabled: true
   };
