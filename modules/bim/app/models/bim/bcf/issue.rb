@@ -3,7 +3,7 @@ module Bim::Bcf
     self.table_name = :bcf_issues
 
     include InitializeWithUuid
-    include ::Concerns::VirtualAttribute
+    include VirtualAttribute
 
     SETTABLE_ATTRIBUTES = %i[stage labels index reference_links bim_snippet].freeze
 

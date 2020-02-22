@@ -27,7 +27,7 @@
 #++
 
 class Meeting < ActiveRecord::Base
-  include Concerns::VirtualAttribute
+  include VirtualAttribute
 
   self.table_name = 'meetings'
 

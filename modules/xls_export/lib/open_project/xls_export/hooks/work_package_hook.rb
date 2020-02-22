@@ -1,5 +1,5 @@
-module PrintableIssues
-  class IssueHook < Redmine::Hook::ViewListener
+module OpenProject::XlsExport::Hooks
+  class WorkPackageHook < Redmine::Hook::ViewListener
     def link_to_xls(context, label, options = {})
       url = {
         project_id: context[:project],

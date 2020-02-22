@@ -29,7 +29,7 @@
 #++
 
 class Admin::MailNotificationsController < ApplicationController
-  include Concerns::AdminSettingsUpdater
+  include AdminSettingsUpdater
 
   current_menu_item [:show] do
     :mail_notifications

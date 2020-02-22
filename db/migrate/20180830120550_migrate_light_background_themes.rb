@@ -55,7 +55,7 @@ class MigrateLightBackgroundThemes < ActiveRecord::Migration[5.1]
         main-menu-bg-hover-background
         main-menu-hover-font-color
         main-menu-border-color ).each do |variable_name|
-      return false unless OpenProject::Design.customizable_variables.include? variable_name
+      return false unless OpenProject::CustomStyles::Design.customizable_variables.include? variable_name
     end
 
     # Never ever overwrite variables that were already set.

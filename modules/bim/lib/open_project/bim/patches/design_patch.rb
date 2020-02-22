@@ -3,7 +3,7 @@ require 'open_project/custom_styles/design'
 module OpenProject::Bim
   module Patches
     module DesignPatch
-      DEFAULTS = OpenProject::Design::DEFAULTS.merge(
+      DEFAULTS = OpenProject::CustomStyles::Design::DEFAULTS.merge(
         {
           'primary-color'                                        => "#3270DB",
           'primary-color-dark'                                   => "#163473",
@@ -22,5 +22,5 @@ module OpenProject::Bim
   end
 end
 
-OpenProject::Design.send(:remove_const, 'DEFAULTS')
-OpenProject::Design.const_set('DEFAULTS', OpenProject::Bim::Patches::DesignPatch::DEFAULTS)
+OpenProject::CustomStyles::Design.send(:remove_const, 'DEFAULTS')
+OpenProject::CustomStyles::Design.const_set('DEFAULTS', OpenProject::Bim::Patches::DesignPatch::DEFAULTS)

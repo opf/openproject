@@ -28,7 +28,7 @@
 
 module Versions
   class BaseContract < ::ModelContract
-    include Concerns::AssignableValuesContract
+    include AssignableValuesContract
 
     def self.model
       Version

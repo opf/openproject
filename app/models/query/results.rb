@@ -32,7 +32,7 @@ require_dependency 'query/group_by'
 require_dependency 'query/sums'
 
 class ::Query::Results
-  include ::Query::Grouping
+  include ::Query::GroupBy
   include ::Query::Sums
   include Redmine::I18n
 

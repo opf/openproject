@@ -31,7 +31,7 @@ require 'open_project/scm/adapters'
 require 'pathname'
 
 module OpenProject
-  module Scm
+  module SCM
     module Adapters
       class Base
         include CheckoutInstructions
@@ -62,7 +62,7 @@ module OpenProject
         def available?
           check_availability!
           true
-        rescue Exceptions::ScmError => e
+        rescue Exceptions::SCMError => e
           logger.error("Failed to retrieve availability of repository: #{e.message}")
           false
         end

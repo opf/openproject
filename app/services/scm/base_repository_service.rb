@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Scm::BaseRepositoryService
+class SCM::BaseRepositoryService
   def initialize(repository)
     self.repository = repository
   end

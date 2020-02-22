@@ -66,7 +66,7 @@ module OpenProject::Bim
 
       ::Redmine::MenuManager.map(:project_menu) do |menu|
         menu.push(:ifc_models,
-                  {controller: '/bim/ifc_models/ifc_models', action: 'defaults'},
+                  { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
                   caption: :'bim.label_bim',
                   param: :project_id,
                   after: :work_packages,
@@ -74,13 +74,14 @@ module OpenProject::Bim
                   badge: :label_new)
 
         menu.push :ifc_viewer_panels,
-                  {controller: '/bim/ifc_models/ifc_models', action: 'defaults'},
+                  { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
                   param: :project_id,
                   parent: :ifc_models,
                   partial: '/bim/ifc_models/ifc_models/panels'
       end
-
     end
+
+    class_inflection_override('v2_1' => 'V2_1')
 
     assets %w(bim/bcf.css bim/ifc_viewer/generic.css)
 
@@ -119,7 +120,7 @@ module OpenProject::Bim
     extend_api_response(:v3, :work_packages, :work_package_collection) do
       require_relative 'patches/api/v3/export_formats'
 
-      prepend Patches::Api::V3::ExportFormats
+      prepend Patches::API::V3::ExportFormats
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do

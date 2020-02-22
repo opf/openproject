@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe DesignColor, type: :model do
-  let(:default_primary) { ::OpenProject::Design.variables['primary-color'] }
+  let(:default_primary) { ::OpenProject::CustomStyles::Design.variables['primary-color'] }
   let(:primary_color) { FactoryBot.create :"design_color_primary-color" }
 
   describe "#defaults" do

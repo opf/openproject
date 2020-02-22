@@ -29,7 +29,7 @@
 #++
 
 module OpenProject
-  module Scm
+  module SCM
     class Manager
       class << self
         def registered

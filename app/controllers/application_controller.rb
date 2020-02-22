@@ -658,5 +658,5 @@ class ApplicationController < ActionController::Base
   # http://simonecarletti.com/blog/2011/04/understanding-ruby-and-rails-lazy-load-hooks/
   ActiveSupport.run_load_hooks(:application_controller, self)
 
-  prepend Concerns::AuthSourceSSO
+  prepend AuthSourceSSO
 end
