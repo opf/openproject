@@ -341,7 +341,7 @@ ca:
         account: "Compte"
         attr_firstname: "Atribut Nom"
         attr_lastname: "Atribut Cognom"
-        attr_login: "Username attribute"
+        attr_login: "Atribut Nom d'usuari"
         attr_mail: "Atribut de Correu electrònic"
         base_dn: "Base DN"
         host: "Servidor"
@@ -731,7 +731,7 @@ ca:
     #kept for backwards compatibility
     issue: "Paquet de treball"
     lastname: "Cognom"
-    login: "Username"
+    login: "Nom d'usuari"
     mail: "Correu electrònic"
     name: "Nom"
     password: "Contrasenya"

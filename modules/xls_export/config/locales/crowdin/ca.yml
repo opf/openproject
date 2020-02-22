@@ -1,5 +1,5 @@
 ca:
-  export_to_excel: "Export XLS"
+  export_to_excel: "Exporta a XLS"
   print_with_description: "Print preview with description"
   sentence_separator_or: "o"
   different_formats: Different formats

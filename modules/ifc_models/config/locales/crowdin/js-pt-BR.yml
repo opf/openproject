@@ -3,4 +3,4 @@ pt-BR:
     ifc_models:
       models:
         default: 'Modelos IFC padrão'
-        manage: 'Manage models'
+        manage: 'Gerenciar modelos'

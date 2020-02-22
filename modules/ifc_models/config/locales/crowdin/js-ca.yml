@@ -3,4 +3,4 @@ ca:
     ifc_models:
       models:
         default: 'Default IFC models'
-        manage: 'Manage models'
+        manage: 'Gestionar models'

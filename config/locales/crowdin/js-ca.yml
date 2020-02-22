@@ -363,21 +363,21 @@ ca:
     label_unwatch_work_package: "Deixa de seguir paquet de treball"
     label_uploaded_by: "Pujat per"
     label_default_queries: "Vistes per defecte"
-    label_starred_queries: "Favorite views"
-    label_global_queries: "Public views"
-    label_custom_queries: "Private views"
+    label_starred_queries: "Vistes preferides"
+    label_global_queries: "Vistes públiques"
+    label_custom_queries: "Vistes privades"
     label_columns: "Columnes"
     label_attachments: Arxius
     label_drop_files: Arrossegueu els fitxers aquí
     label_drop_files_hint: o feu clic per afegir arxius
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
-    label_add_attachments: "Add attachments"
-    label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
+    label_drop_folders_hint: No podeu pujar carpetes com a adjunt. Si us plau, seleccioneu arxius únics.
+    label_add_attachments: "Afegir adjunts"
+    label_formattable_attachment_hint: "Adjuntar i enllaça arxius arrossegant-los en aquest camp, o enganxant des del porta-papers."
     label_remove_file: "Suprimir %{fileName}"
     label_remove_watcher: "Treure l'observador %{name}"
     label_remove_all_files: Elimina tots els arxius
     label_add_description: "Afegiu una descripció per a %{file}"
-    label_upload_notification: "Uploading files..."
+    label_upload_notification: "Carregant Arxius..."
     label_work_package_upload_notification: "Pujada d'arxius per al paquet de treball #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Es pujaran aquests fitxers:"
@@ -389,19 +389,19 @@ ca:
     label_version_plural: "Versions"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
-      show_modal: 'Show attribute help text entry'
+      show_modal: 'Mostrar l''entrada de text per a l''ajuda d''atributs'
     onboarding:
       buttons:
-        skip: 'Skip'
+        skip: 'Omet'
         next: 'Següent'
-        got_it: 'Got it'
+        got_it: 'D''acord'
       steps:
         help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>Members</b> to join your project.'
+        members: 'Convidi nous <b>Membres</b> per afegir-se al seu projecte.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
-        sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
-        welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
-        wiki: 'Within the <b>Wiki</b> you can document and share knowledge together with your team.'
+        sidebar_arrow: "Amb la fletxa vostè pot navegar enrrere cap al <b>Menu principal</b> del projecte."
+        welcome: 'Realitzi un tour de tres minuts per aprendre els <b> aspectes més importants</b>. <br>Recomanem completar les passes fins el final. Podrà recomençar el tour en qualsevol moment.'
+        wiki: 'Dintre del <b>Wiki</b> pot documentar i compartir el coneixement amb el seu equip.'
         backlogs:
           overview: "Manage your work in the <b>Backlogs</b> view. <br> On the right you have the Product Backlog or a Bug Backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop and add them to a sprint."
           task_board_arrow: 'To see your <b>Task board</b>, open the Sprint drop-down...'
@@ -436,8 +436,8 @@ ca:
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
-      context: 'Project context'
-      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
+      context: 'Context de projecte'
+      work_package_belongs_to: 'Aquest paquet de treball pertany al projecte %{projectname}.'
       click_to_switch_context: 'Open this work package in that project.'
       autocompleter:
         label: 'Project autocompletion'
@@ -466,7 +466,7 @@ ca:
       duration: 'Durada'
       spent_on: 'Data'
       hours: 'Hores'
-      label: 'Time entry'
+      label: 'Entrada de temps'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
