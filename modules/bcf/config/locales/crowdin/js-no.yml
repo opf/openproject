@@ -1,0 +1,6 @@
+#English strings go here
+"no":
+  js:
+    bcf:
+      import: 'Import'
+      export: 'Eksportèr'

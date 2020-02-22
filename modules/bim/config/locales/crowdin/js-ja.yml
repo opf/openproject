@@ -4,3 +4,11 @@ ja:
     bcf:
       import: 'インポート'
       export: '外部出力'
+    ifc_models:
+      models:
+        default: 'デフォルトのIFCモデル'
+        manage: 'モデルの管理'
+      views:
+        list: 'List only'
+        viewer: 'Viewer only'
+        split: 'Viewer and list'

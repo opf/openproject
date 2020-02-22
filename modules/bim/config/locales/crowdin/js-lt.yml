@@ -4,3 +4,11 @@ lt:
     bcf:
       import: 'Importuoti'
       export: 'Eksportuoti'
+    ifc_models:
+      models:
+        default: 'Default IFC models'
+        manage: 'Manage models'
+      views:
+        list: 'List only'
+        viewer: 'Viewer only'
+        split: 'Viewer and list'

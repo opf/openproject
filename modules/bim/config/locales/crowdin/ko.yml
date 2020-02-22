@@ -1,5 +1,7 @@
 #English strings go here for Rails i18n
 ko:
+  bim:
+    label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'BCF 항목 가져오기 실패'
@@ -66,9 +68,21 @@ ko:
       bcf_v2_1: "BCF v2.1 API에 대한 전체 액세스"
       bcf_v2_1_text: "애플리케이션은 사용자를 대신하여 작업을 수행하기 위해 OpenProject BCF API v2.1에 대한 전체 읽기 및 쓰기 액세스 권한을 받습니다."
   activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC model"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC 파일"
+        is_default: "기본 모델"
+        attachments: "IFC 파일"
     errors:
       models:
-        bcf/viewpoint:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "ifc 파일이 첨부되지 않았습니다."
+              invalid_ifc_file: "제공된 파일은 유효한 IFC 파일이 아닙니다."
+        bim/bcf/viewpoint:
           bitmaps_not_writable: "비트맵은 아직 구현되지 않았기 때문에 쓰기 가능하지 않습니다."
           index_not_integer: "색인이 정수가 아닙니다."
           invalid_clipping_planes: "clipping_planes가 잘못되었습니다."
@@ -81,3 +95,31 @@ ko:
           snapshot_type_unsupported: "snapshot_type은 'png' 또는 'jpg'여야 합니다."
           snapshot_data_blank: "snapshot_data를 제공해야 합니다."
           unsupported_key: "지원되지 않는 json 속성이 포함되어 있습니다."
+  ifc_models:
+    label_ifc_models: 'IFC 모델'
+    label_new_ifc_model: '새 IFC 모델'
+    label_show_defaults: '기본값 표시'
+    label_default_ifc_models: '기본 IFC 모델'
+    label_edit_defaults: '기본값 편집'
+    no_defaults_warning:
+      title: '이 프로젝트에 대해 기본값으로 설정된 IFC 모델이 없습니다.'
+      check_1: '하나 이상의 IFC 모델을 업로드했는지 확인하세요.'
+      check_2: '하나 이상의 IFC 모델이 "기본값"으로 설정되었는지 확인하세요.'
+    no_results: "이 프로젝트에서 업로드된 IFC 모델이 없습니다."
+    processing_state:
+      label: '처리 중입니까?'
+      in_progress: '진행 중'
+      completed: '완료'
+    processing_notice:
+      processing_default: '다음 기본 IFC 모델이 아직 처리 중이므로 사용 가능하지 않습니다.'
+    flash_messages:
+      upload_successful: '업로드에 성공했습니다. 이제 처리되고 몇 분 후 사용 가능하게 됩니다.'
+    conversion:
+      missing_commands: "다음 IFC 컨버터 명령이 이 시스템에서 누락되었습니다: %{names}"
+  project_module_ifc_models: "IFC 모델"
+  permission_view_ifc_models: "IFC 모델 보기"
+  permission_manage_ifc_models: "IFC 모델 가져오기 및 관리"
+  extraction:
+    available:
+      ifc_convert: "IFC 변환 파이프라인 사용 가능"
+

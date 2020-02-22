@@ -4,3 +4,11 @@ zh-CN:
     bcf:
       import: '导入'
       export: '导出'
+    ifc_models:
+      models:
+        default: '默认 IFC 模型'
+        manage: 'Manage models'
+      views:
+        list: 'List only'
+        viewer: 'Viewer only'
+        split: 'Viewer and list'

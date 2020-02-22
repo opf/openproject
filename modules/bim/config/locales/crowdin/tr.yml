@@ -1,5 +1,7 @@
 #English strings go here for Rails i18n
 tr:
+  bim:
+    label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'BCF konularının başarısız ithalatı'
@@ -67,9 +69,21 @@ tr:
       bcf_v2_1: "BCF v2.1 API'sine tam erişim"
       bcf_v2_1_text: "Uygulama, sizin adınıza işlem yapmak için OpenProject BCF API v2.1'e tam okuma ve yazma erişimi alacaktır."
   activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC model"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC dosyası"
+        is_default: "Varsayılan model"
+        attachments: "IFC dosyası"
     errors:
       models:
-        bcf/viewpoint:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "İfc dosyası eklenmedi."
+              invalid_ifc_file: "Sağlanan dosya geçerli bir IFC dosyası değil."
+        bim/bcf/viewpoint:
           bitmaps_not_writable: "bitmap'ler henüz uygulanmadığı için yazılamaz."
           index_not_integer: "dizin bir tamsayı değil."
           invalid_clipping_planes: "kırpma düzlemleri geçersiz."
@@ -82,3 +96,31 @@ tr:
           snapshot_type_unsupported: "anlık görüntü türünün 'png' veya 'jpg' olması gerekir."
           snapshot_data_blank: "anlık görüntü verilerinin sağlanması gerekir."
           unsupported_key: "Desteklenmeyen bir json özelliği dahil edilmiştir."
+  ifc_models:
+    label_ifc_models: 'IFC modelleri'
+    label_new_ifc_model: 'Yeni IFC modeli'
+    label_show_defaults: 'Varsayılanları göster'
+    label_default_ifc_models: 'Varsayılan IFC modelleri'
+    label_edit_defaults: 'Varsayılanları düzenle'
+    no_defaults_warning:
+      title: 'Bu proje için varsayılan olarak IFC modeli ayarlanmadı.'
+      check_1: 'En az bir IFC modeli yüklediğinizi kontrol edin.'
+      check_2: 'En az bir IFC modelinin "Varsayılan" olarak ayarlandığını kontrol edin.'
+    no_results: "Bu projeye hiç IFC modeli yüklenmedi."
+    processing_state:
+      label: 'İşleme?'
+      in_progress: 'Devam eden'
+      completed: 'Tamamlandı'
+    processing_notice:
+      processing_default: 'Aşağıdaki varsayılan IFC modelleri hala işlenmektedir ve bu nedenle henüz kullanılamamaktadır:'
+    flash_messages:
+      upload_successful: 'Yükleme başarılı. Şimdi işlenecek ve birkaç dakika içinde kullanıma hazır olacak.'
+    conversion:
+      missing_commands: "Bu sistemde aşağıdaki IFC dönüştürücü komutları eksik: %{names}"
+  project_module_ifc_models: "IFC modelleri"
+  permission_view_ifc_models: "IFC modellerini görüntüle"
+  permission_manage_ifc_models: "IFC modellerini içe aktarma ve yönetme"
+  extraction:
+    available:
+      ifc_convert: "IFC dönüşüm hattı mevcut"
+

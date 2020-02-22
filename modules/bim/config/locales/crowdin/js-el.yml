@@ -4,3 +4,11 @@ el:
     bcf:
       import: 'Εισαγωγή'
       export: 'Εξαγωγή'
+    ifc_models:
+      models:
+        default: 'Προεπιλεγμένα μοντέλα IFC'
+        manage: 'Διαχείριση μοντέλων'
+      views:
+        list: 'List only'
+        viewer: 'Viewer only'
+        split: 'Viewer and list'

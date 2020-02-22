@@ -38,7 +38,7 @@ ca:
           title: 'Subprojectes'
           no_results: 'No subprojects.'
         time_entries_current_user:
-          title: 'My spent time'
+          title: 'El meu temps invertit'
         time_entries_list:
           title: 'Temps invertit (últims 7 dies)'
           no_results: 'Sense entrades de temps per als últims 7 dies.'

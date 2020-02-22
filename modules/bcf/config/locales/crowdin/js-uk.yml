@@ -1,0 +1,6 @@
+#English strings go here
+uk:
+  js:
+    bcf:
+      import: 'Імпортувати'
+      export: 'Експорт'

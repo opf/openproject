@@ -1,5 +1,7 @@
 #English strings go here for Rails i18n
 es:
+  bim:
+    label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'No se pudieron importar los temas de BCF'
@@ -67,9 +69,21 @@ es:
       bcf_v2_1: "Acceso completo a la BCF v2.1 API"
       bcf_v2_1_text: "La aplicación recibirá acceso completo de lectura y escritura al proyecto abierto BCF API v2.1 para realizar acciones en su nombre."
   activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC model"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "Archivo IFC"
+        is_default: "Modelo predeterminado"
+        attachments: "Archivo IFC"
     errors:
       models:
-        bcf/viewpoint:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "No se adjuntó ningún archivo IFC."
+              invalid_ifc_file: "El archivo proporcionado no es un archivo IFC válido."
+        bim/bcf/viewpoint:
           bitmaps_not_writable: "«bitmaps» no permite la escritura, ya que aún no se ha implementado."
           index_not_integer: "«index» no es un entero."
           invalid_clipping_planes: "«clipping_planes» no es válido."
@@ -82,3 +96,31 @@ es:
           snapshot_type_unsupported: "«snapshot_type» tiene que ser «png» o «jpg»."
           snapshot_data_blank: "«snapshot_data» tiene que especificarse."
           unsupported_key: "Se ha incluido una propiedad JSON no admitida."
+  ifc_models:
+    label_ifc_models: 'Modelos IFC'
+    label_new_ifc_model: 'Nuevo modelo IFC'
+    label_show_defaults: 'Mostrar valores predeterminados'
+    label_default_ifc_models: 'Modelos IFC predeterminados'
+    label_edit_defaults: 'Editar valores predeterminados'
+    no_defaults_warning:
+      title: 'No se ha definido ningún modelo IFC como predeterminado para este proyecto.'
+      check_1: 'Asegúrese de que ha cargado como mínimo un modelo IFC.'
+      check_2: 'Asegúrese de que se haya definido como mínimo un modelo IFC como «Predeterminado».'
+    no_results: "No se ha cargado ningún modelo IFC en este proyecto."
+    processing_state:
+      label: '¿Procesándose?'
+      in_progress: 'En progreso'
+      completed: 'Completado'
+    processing_notice:
+      processing_default: 'Los modelos IFC predeterminados aún se están procesando y, por lo tanto, no están disponibles:'
+    flash_messages:
+      upload_successful: 'Carga completada correctamente. Ahora se procesarán y estarán listos para usarse en un par de minutos.'
+    conversion:
+      missing_commands: "Faltan los siguientes comandos del convertidor de IFC en este sistema: %{names}"
+  project_module_ifc_models: "Modelos IFC"
+  permission_view_ifc_models: "Ver modelos IFC"
+  permission_manage_ifc_models: "Importar y administrar modelos IFC"
+  extraction:
+    available:
+      ifc_convert: "Canalización de conversión de IFC disponible"
+

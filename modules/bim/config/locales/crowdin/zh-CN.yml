@@ -1,5 +1,7 @@
 #English strings go here for Rails i18n
 zh-CN:
+  bim:
+    label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: '导入 BCF 主题失败'
@@ -66,9 +68,21 @@ zh-CN:
       bcf_v2_1: "BCF v2.1 API 的完全访问权限"
       bcf_v2_1_text: "应用程序将获得 OpenProject BCF API v2.1 的完全读写访问权限来代表您执行操作。"
   activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC model"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC 文件"
+        is_default: "默认模型"
+        attachments: "IFC 文件"
     errors:
       models:
-        bcf/viewpoint:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "未附加 IFC 文件。"
+              invalid_ifc_file: "提供的文件不是有效的 IFC 文件。"
+        bim/bcf/viewpoint:
           bitmaps_not_writable: "位图不可写，因为它尚未实现。"
           index_not_integer: "索引不是整数。"
           invalid_clipping_planes: "clipping_planes 无效。"
@@ -81,3 +95,31 @@ zh-CN:
           snapshot_type_unsupported: "snapshot_type 需要为“png”或“jpg”。"
           snapshot_data_blank: "需要提供 snapshot_data。"
           unsupported_key: "包含不受支持的 json 属性。"
+  ifc_models:
+    label_ifc_models: 'IFC 模型'
+    label_new_ifc_model: '新 IFC 模型'
+    label_show_defaults: '显示默认值'
+    label_default_ifc_models: '默认 IFC 模型'
+    label_edit_defaults: '编辑默认值'
+    no_defaults_warning:
+      title: '此项目未设置 IFC 模型作为默认值。'
+      check_1: '检查您已至少上传一个 IFC 模型。'
+      check_2: '检查至少有一个 IFC 模型设置为“默认”。'
+    no_results: "尚未在此项目中上传 IFC 模型。"
+    processing_state:
+      label: '正在处理？'
+      in_progress: '正在处理'
+      completed: '已完成'
+    processing_notice:
+      processing_default: '以下默认 IFC 模型仍在处理，因此不可用：'
+    flash_messages:
+      upload_successful: '上传成功。现在它将进行处理，将在几分钟后可用。'
+    conversion:
+      missing_commands: "此系统上缺少以下 IFC 转换器命令：%{names}"
+  project_module_ifc_models: "IFC 模型"
+  permission_view_ifc_models: "查看 IFC 模型"
+  permission_manage_ifc_models: "导入和管理 IFC 模型"
+  extraction:
+    available:
+      ifc_convert: "有可用的 IFC 转换管道"
+

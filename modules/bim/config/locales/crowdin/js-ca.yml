@@ -4,3 +4,11 @@ ca:
     bcf:
       import: 'Import'
       export: 'Exportar'
+    ifc_models:
+      models:
+        default: 'Default IFC models'
+        manage: 'Gestionar models'
+      views:
+        list: 'List only'
+        viewer: 'Viewer only'
+        split: 'Viewer and list'

@@ -1,0 +1,6 @@
+#English strings go here
+hr:
+  js:
+    bcf:
+      import: 'Import'
+      export: 'Izvezi'

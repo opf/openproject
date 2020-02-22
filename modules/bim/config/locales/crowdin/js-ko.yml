@@ -4,3 +4,11 @@ ko:
     bcf:
       import: '가져오기'
       export: '내보내기'
+    ifc_models:
+      models:
+        default: '기본 IFC 모델'
+        manage: 'Manage models'
+      views:
+        list: 'List only'
+        viewer: 'Viewer only'
+        split: 'Viewer and list'

@@ -1,5 +1,7 @@
 #English strings go here for Rails i18n
 de:
+  bim:
+    label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Fehler beim Import von BCF-Themen'
@@ -67,9 +69,21 @@ de:
       bcf_v2_1: "Voller Zugriff auf die BCF v2.1 API"
       bcf_v2_1_text: "Die Anwendung erhält vollen Lese- und Schreibzugriff auf die OpenProject-API, um Aktionen in Ihrem Namen durchzuführen."
   activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC model"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "IFC-Datei"
+        is_default: "Standardmodell"
+        attachments: "IFC-Datei"
     errors:
       models:
-        bcf/viewpoint:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Keine IFC Datei angehängt."
+              invalid_ifc_file: "Die angegebene Datei ist keine gültige IFC-Datei."
+        bim/bcf/viewpoint:
           bitmaps_not_writable: "bitmaps ist noch nicht schreibbar, da es noch nicht implementiert wurde."
           index_not_integer: "index ist keine natürliche Zahl."
           invalid_clipping_planes: "clipping_planes ist ungültig."
@@ -82,3 +96,31 @@ de:
           snapshot_type_unsupported: "snapshot_type muss entweder 'png' oder 'jpg' sein."
           snapshot_data_blank: "snapshot_data muss angegeben werden."
           unsupported_key: "Eine nicht unterstützte JSON-Eigenschaft ist enthalten."
+  ifc_models:
+    label_ifc_models: 'IFC-Modelle'
+    label_new_ifc_model: 'Neues IFC-Modell'
+    label_show_defaults: 'Standard-Modelle anzeigen'
+    label_default_ifc_models: 'Standard IFC-Modelle'
+    label_edit_defaults: 'Standard-Modelle bearbeiten'
+    no_defaults_warning:
+      title: 'Es wurde kein IFC-Modell als Standard für dieses Projekt festgelegt.'
+      check_1: 'Überprüfen Sie, dass Sie mindestens ein IFC-Modell hochgeladen haben.'
+      check_2: 'Überprüfen Sie, dass mindestens ein IFC-Modell als "Standard" gesetzt ist.'
+    no_results: "Es wurden keine IFC-Modelle in diesem Projekt hochgeladen."
+    processing_state:
+      label: 'Verarbeitung?'
+      in_progress: 'In Bearbeitung'
+      completed: 'Abgeschlossen'
+    processing_notice:
+      processing_default: 'Die folgenden Standard-IFC-Modelle werden noch verarbeitet und sind daher noch nicht verfügbar:'
+    flash_messages:
+      upload_successful: 'Upload erfolgreich. Es wird nun bearbeitet und kann in ein paar Minuten verwendet werden.'
+    conversion:
+      missing_commands: "Die folgenden IFC-Konverterbefehle fehlen auf diesem System: %{names}"
+  project_module_ifc_models: "IFC-Modelle"
+  permission_view_ifc_models: "Neues IFC-Modell"
+  permission_manage_ifc_models: "IFC-Modelle importieren und verwalten"
+  extraction:
+    available:
+      ifc_convert: "IFC Konvertierungs-Pipeline verfügbar"
+

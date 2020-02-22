@@ -1,5 +1,7 @@
 #English strings go here for Rails i18n
 pt:
+  bim:
+    label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'A importação de tópicos BCF falhou'
@@ -67,9 +69,21 @@ pt:
       bcf_v2_1: "Acesso total à API BCF v2.1"
       bcf_v2_1_text: "A aplicação receberá acesso completo de leitura e escrita à API OpenProject BCF v2.1 para executar ações em seu nome."
   activerecord:
+    models:
+      bim/ifc_models/ifc_model: "IFC model"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "Ficheiro IFC"
+        is_default: "Modelo padrão"
+        attachments: "Ficheiro IFC"
     errors:
       models:
-        bcf/viewpoint:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Nenhum ficheiro ifc em anexo."
+              invalid_ifc_file: "O ficheiro fornecido não é um ficheiro IFC válido."
+        bim/bcf/viewpoint:
           bitmaps_not_writable: "Os bitmaps não são graváveis pois ainda não estão implementados."
           index_not_integer: "o índice não é um numero inteiro."
           invalid_clipping_planes: "clipping_planes é inválido."
@@ -82,3 +96,31 @@ pt:
           snapshot_type_unsupported: "snapshot_type tem de ser 'png' ou 'jpg'."
           snapshot_data_blank: "snapshot_data tem de ser fornecida."
           unsupported_key: "Está incluída uma propriedade json não suportada."
+  ifc_models:
+    label_ifc_models: 'Modelos IFC'
+    label_new_ifc_model: 'Novo modelo IFC'
+    label_show_defaults: 'Mostrar padrões'
+    label_default_ifc_models: 'Modelos IFC padrão'
+    label_edit_defaults: 'Editar padrões'
+    no_defaults_warning:
+      title: 'Não foi definido nenhum modelo IFC como padrão para este projeto.'
+      check_1: 'Verifique se carregou pelo menos um modelo IFC.'
+      check_2: 'Verifique se pelo menos um modelo IFC está definido como "Padrão".'
+    no_results: "Não foi carregado neste projeto nenhum modelo IFC."
+    processing_state:
+      label: 'A processar?'
+      in_progress: 'A decorrer'
+      completed: 'Concluído'
+    processing_notice:
+      processing_default: 'Os seguintes modelos IFC padrão ainda estão a ser processados, e como tal, ainda não estão disponíveis:'
+    flash_messages:
+      upload_successful: 'Carregamento bem-sucedido. Agora será processado e estará pronto para utilização dentro de alguns minutos.'
+    conversion:
+      missing_commands: "Os seguintes comandos de conversor IFC estão ausentes deste sistema: %{names}"
+  project_module_ifc_models: "Modelos IFC"
+  permission_view_ifc_models: "Ver modelos IFC"
+  permission_manage_ifc_models: "Importar e gerir modelos IFC"
+  extraction:
+    available:
+      ifc_convert: "Está disponível um canal de conversão IFC"
+
