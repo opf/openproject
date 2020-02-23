@@ -30,15 +30,15 @@ lt:
           no_results: 'Projektui nenurodyti savi laukai.'
         project_status:
           title: 'Projekto būsena'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
+          on_track: 'Teisingame kelyje'
+          off_track: 'Pasiklydęs'
+          at_risk: 'Rizikingas'
           not_set: 'Nenustatyta'
         subprojects:
           title: 'Sub-projektai'
           no_results: 'Nėra su-projektų.'
         time_entries_current_user:
-          title: 'My spent time'
+          title: 'Mano sugaištas laikas'
         time_entries_list:
           title: 'Sugaišta laiko (per paskutines 7 dienas)'
           no_results: 'Nėra laiko įrašų per paskutines 7 dienas.'
