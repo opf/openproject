@@ -36,9 +36,13 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'bim',
     parent: 'root',
-    url: '/ifc_models',
+    url: '/ifc_models?query_props',
     abstract: true,
-    component: WorkPackagesBaseComponent
+    component: WorkPackagesBaseComponent,
+    params: {
+      // Use custom encoder/decoder that ensures validity of URL string
+      query_props: {type: 'opQueryString', dynamic: true}
+    }
   },
   {
     name: 'bim.space',
