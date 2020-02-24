@@ -33,7 +33,7 @@ import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-v
 @Component({
   selector: 'ifc-viewer',
   template: `
-    <div class="ifc-model-viewer--container">
+    <div class="ifc-model-viewer--container xeokit-busy-modal-backdrop">
       <div class="ifc-model-viewer--toolbar-container"></div>
       <canvas class="ifc-model-viewer--model-canvas"></canvas>
     </div>
@@ -59,7 +59,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
         explorerElement: jQuery(".ifc-model-viewer--tree-panel")[0], // Left panel
         toolbarElement: element.find(".ifc-model-viewer--toolbar-container")[0], // Toolbar
         navCubeCanvasElement: element.find(".ifc-model-viewer--nav-cube-canvas")[0],
-        sectionPlanesOverviewCanvasElement: element.find(".ifc-model-viewer--section-planes-overview-canvas")[0]
+        busyModelBackdropElement: document.querySelector(".xeokit-busy-modal-backdrop")
       },
       this.Gon.get('ifc_models', 'projects') as any[]
     );
