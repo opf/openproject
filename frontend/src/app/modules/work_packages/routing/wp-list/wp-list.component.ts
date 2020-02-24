@@ -39,7 +39,7 @@ import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routin
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-scroll";
+import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
@@ -51,12 +51,14 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
     {provide: HalResourceNotificationService, useClass: WorkPackageNotificationService},
     DragAndDropService,
-    CausedUpdatesService
+    CausedUpdatesService,
+    QueryParamListenerService
   ]
 })
 export class WorkPackagesListComponent extends WorkPackagesViewBase implements OnDestroy {
   @InjectField() titleService:OpTitleService;
   @InjectField() bcfDetectorService:BcfDetectorService;
+  @InjectField() queryParamListener:QueryParamListenerService;
 
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -104,7 +106,9 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     this.refresh(isFirstLoad, isFirstLoad);
 
     // Load query on URL transitions
-    this.updateQueryOnParamsChanges();
+    this.queryParamListener.observe$.pipe().subscribe(() => {
+      this.refresh(true, true);
+    });
 
     // Mark tableInformationLoaded when initially loading done
     this.setupInformationLoadedListener();
@@ -137,7 +141,8 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   ngOnDestroy():void {
     super.ngOnDestroy();
     this.unRegisterTitleListener();
-    this.removeTransitionSubscription();
+    // ToDo
+    //this.removeTransitionSubscription();
   }
 
   public setAnchorToNextElement() {
@@ -227,30 +232,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
   public bcfActivated() {
     return this.bcfDetectorService.isBcfActivated;
-  }
-
-  protected updateQueryOnParamsChanges() {
-    // Listen for param changes
-    this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
-      let options = transition.options();
-      const params = transition.params('to');
-      this.hasQueryProps = !!params.query_props;
-
-      let newChecksum = this.wpListService.getCurrentQueryProps(params);
-      let newId:string = params.query_id ? params.query_id.toString() : null;
-
-      this.cdRef.detectChanges();
-
-      // Avoid performing any changes when we're going to reload
-      if (options.reload || (options.custom && options.custom.notify === false)) {
-        return true;
-      }
-
-      this.wpListChecksumService
-        .executeIfOutdated(newId,
-          newChecksum,
-          () => this.refresh(true, true));
-    });
   }
 
   protected setupInformationLoadedListener() {
