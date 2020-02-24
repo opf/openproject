@@ -3,4 +3,4 @@ ru:
     ifc_models:
       models:
         default: 'Модели IFC по умолчанию'
-        manage: 'Manage models'
+        manage: 'Управление моделями'

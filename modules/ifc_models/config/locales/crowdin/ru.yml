@@ -6,7 +6,7 @@ ru:
     label_show_defaults: 'Показать значения по умолчанию'
     label_default_ifc_models: 'Модели IFC по умолчанию'
     label_edit_defaults: 'Изменить значения по умолчанию'
-    label_manage_models: 'Manage models'
+    label_manage_models: 'Управление моделями'
     no_defaults_warning:
       title: 'Для этого проекта нет моделей IFC по умолчанию.'
       check_1: 'Убедитесь, что вы загрузили хотя бы одну модель IFC.'

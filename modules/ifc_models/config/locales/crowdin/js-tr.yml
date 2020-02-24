@@ -3,4 +3,4 @@ tr:
     ifc_models:
       models:
         default: 'Varsayılan IFC modelleri'
-        manage: 'Manage models'
+        manage: 'Modelleri yönetin'
