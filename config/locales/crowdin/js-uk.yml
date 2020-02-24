@@ -350,7 +350,7 @@ uk:
     label_total_progress: "%{percent}% загального прогресу"
     label_total_amount: "Всього: %{amount}"
     label_updated_on: "оновлено"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(значення, отримане від дітей)"
     label_warning: "Попередження"
     label_work_package: "Пакет робіт"
     label_work_package_plural: "Пакет робіт"
