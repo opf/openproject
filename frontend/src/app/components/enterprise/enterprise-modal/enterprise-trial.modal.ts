@@ -117,8 +117,8 @@ export class EnterpriseTrialModal extends OpModalComponent {
     this.text = _.defaults(this.options.text, this.text);
   }
 
+  // checks if form is valid and submits it
   public onSubmit() {
-    // check if form is valid and handle input errors
     if (this.enterpriseTrialForm.valid) {
       this.enterpriseTrialForm.addControl('_type', new FormControl('enterprise-trial'));
 
@@ -126,15 +126,20 @@ export class EnterpriseTrialModal extends OpModalComponent {
     }
   }
 
-  public sendForm(form:FormGroup) {
+  // sends POST request with form object
+  // receives an enterprise trial link to access a token
+  private sendForm(form:FormGroup) {
+    const delay = 5000; // wait 5s until next request
+    const retries = 60; // keep trying for 5 minutes
     const trialPath = 'https://augur.openproject-edge.com/public/v1/trials';
-    // POST /public/v1/trials/ (send POST with form object)
+
+    // POST /public/v1/trials/
     this.http.post(trialPath, form)
       .toPromise()
       .then((enterpriseTrial:any) => {
         this.trialLink = enterpriseTrial._links.self.href;
 
-        this.confirmMailAddress();
+        this.retryConfirmation(delay, retries);
       })
       .catch((error:HttpErrorResponse) => {
         // mail is invalid or user already created a trial
@@ -147,7 +152,8 @@ export class EnterpriseTrialModal extends OpModalComponent {
       });
   }
 
-  public confirmMailAddress() {
+  // gets a token from the trial link if user confirmed mail
+  private getToken() {
     // 2) GET /public/v1/trials/:id
     this.http
       .get<any>(this.baseUrlAugur + this.trialLink)
@@ -161,20 +167,10 @@ export class EnterpriseTrialModal extends OpModalComponent {
       .catch((error:HttpErrorResponse) => {
         // returns error 422 while waiting of confirmation
         if (error.status === 422 && error.error.identifier === 'waiting_for_email_verification') {
-          // open next modal window
-          // status waiting
+          // open next modal window -> status waiting
           this.status = 'mailSubmitted';
-
           // get resend button link
           this.resendLink = error.error._links.resend.href;
-
-          // TODO add limit for retrying
-          setTimeout( () => {
-            // retry as long as modal is open and action is not cancelled
-            if (!this.cancelled) {
-              this.confirmMailAddress();
-            }
-          }, 5000);
         } else if (_.get(error, 'error._type') === 'Error') {
           this.notificationsService.addWarning(error.error.message);
         } else {
@@ -184,31 +180,63 @@ export class EnterpriseTrialModal extends OpModalComponent {
       });
   }
 
-  // TODO
+  // saves received token in controller
   private saveToken(token:string) {
     // POST /admin/enterprise (params[:enterprise_token][:encoded_token])
     // -> if token is new (token_retrieved: false) save token in ruby controller
     this.http.post(this.pathHelper.api.v3.appBasePath + '/admin/enterprise', { enterprise_token: { encoded_token: token } }, { withCredentials: true })
       .toPromise()
       .then((res:any) => {
-        // TODO: needs clarification: show token to copy?
         console.log('saveToken() success: ', res);
       })
       .catch((error:HttpErrorResponse) => {
         console.log('saveToken() failed: ', error.error);
+        this.notificationsService.addWarning(error.error.description || I18n.t('js.error.internal'));
       });
   }
 
-  // TODO: needs specification
+  // retries request while waiting for mail confirmation
+  private retryConfirmation(delay:number, retries:number) {
+    if (this.cancelled || this.confirmed) {
+      // stop if action was cancelled or confirmation link was clicked
+      return;
+    } else if (retries === 0) {
+      // action timed out -> show message
+      this.cancelled = true;
+    } else {
+      // retry as long as limit isn't reached
+      this.getToken();
+      setTimeout( () => {
+        this.retryConfirmation(delay, retries - 1);
+      }, delay);
+    }
+  }
+
+  // TODO: add enterprise onboarding youtube video
   public startEnterpriseTrial() {
     // open onboarding modal
     this.status = 'startTrial';
-    console.log(this.status);
-    // on continue:
-    // this.closeModal();
-    // reload page to show enterprise trial
   }
 
+  // resends mail if resend link has been clicked
+  public resendMail() {
+    this.http.post(this.baseUrlAugur + this.resendLink, {})
+      .toPromise()
+      .then((enterpriseTrial:any) => {
+        console.log('Mail has been resent.');
+        this.notificationsService.addSuccess('Mail has been resent. Please check your mails and click the confirmation link provided.');
+
+        this.cancelled = false;
+        this.retryConfirmation(5000, 6);
+      })
+      .catch((error:HttpErrorResponse) => {
+        console.log('An Error occured: ', error);
+        this.notificationsService.addWarning('Could not resend mail.');
+      });
+  }
+
+  // checks if mail is valid after input field was edited by the user
+  // displays message for user
   public checkMailField() {
     if (this.enterpriseTrialForm.value.email !== '' && this.enterpriseTrialForm.controls.email.errors) {
       this.errorMsg = 'Invalid e-mail address';
@@ -217,30 +245,11 @@ export class EnterpriseTrialModal extends OpModalComponent {
     }
   }
 
-  public resendMail() {
-    this.http.post(this.baseUrlAugur + this.resendLink, {})
-      .toPromise()
-      .then((enterpriseTrial:any) => {
-        console.log('Mail has been resent.');
-        this.notificationsService.addSuccess('Mail has been resent. Please check your mails and click the confirmation link provided.');
-      })
-      .catch((error:HttpErrorResponse) => {
-        console.log('An Error occured: ', error);
-        this.notificationsService.addWarning('Could not resend mail.');
-      });
-  }
-
-  public receiveNewsletter(event:any) {
-    if (event.target.checked) {
-      // subscribe to newsletter
-    }
-  }
-
   public closeModal(event:any) {
     // cancel all actions (e.g. an already send request)
     this.cancelled = true;
     this.closeMe(event);
-    // refresh page to show trial
+    // refresh page to show enterprise trial
     if (this.status === 'startTrial' || this.confirmed) {
       window.location.reload();
     }

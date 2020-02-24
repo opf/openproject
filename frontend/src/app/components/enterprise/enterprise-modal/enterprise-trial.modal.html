@@ -90,8 +90,7 @@
                   <div class="form--check-box-container">
                     <input type="checkbox"
                            class="form--check-box"
-                           formControlName="newsletter_consent"
-                           (change)="receiveNewsletter($event)">
+                           formControlName="newsletter_consent">
                   </div>
                   <span>I want to receive the OpenProject
                     <a href="https://www.openproject.com/newsletter/" target="_blank">
@@ -111,6 +110,7 @@
             <span *ngIf="!confirmed; else confirmedStatus" class="status--waiting">
               email sent - waiting for confirmation
               <a id="resend-link" (click)="resendMail()">{{ text.resend }}</a>
+              <p *ngIf="cancelled">Sorry, something went wrong. Please try to resend mail.</p>
             </span>
             <ng-template #confirmedStatus>
               <span class="status--confirmed">confirmed ✓</span>

@@ -26,9 +26,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 class EnterprisesController < ApplicationController
+  include EnterpriseTrialHelper
+
   layout 'admin'
   menu_item :enterprise
 
+  before_action :augur_content_security_policy
+  before_action :chargebee_content_security_policy
   before_action :require_admin
   before_action :check_user_limit, only: [:show]
 

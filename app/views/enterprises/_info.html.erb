@@ -26,16 +26,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<span hidden><%= augur_content_security_policy %></span>
+<% content_for :header_tags do %>
+  <script src="https://js.chargebee.com/v2/chargebee.js"
+          data-cb-site="openproject-enterprise-test">
+  </script>
+<% end %>
 
 <p>
-  <b><%= t('js.admin.enterprise.upsale.become_hero') %></b><br> <%= t('js.admin.enterprise.upsale.you_contribute') %>
+  <b><%= t('js.admin.enterprise.upsale.become_hero') %></b><br>
+  <%= t('js.admin.enterprise.upsale.you_contribute') %>
 </p>
 
 <enterprise></enterprise>
 
 <div class="info-boxes upsale-benefits">
-  <h2>What are the benefits</h2>
+  <h2><%= t('homescreen.blocks.upsale.description') %></h2>
   <div class="info-boxes--container">
     <div class="info-boxes--item">
       <%= image_tag "https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2017/06/icon-security-features.png",
