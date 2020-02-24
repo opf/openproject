@@ -8,6 +8,7 @@ import {GonService} from "core-app/modules/common/gon/gon.service";
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
+import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 
 @Component({
   templateUrl: './bcf-container.component.html',
@@ -18,6 +19,7 @@ import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 export class BCFContainerComponent implements OnInit {
   @InjectField() public queryParamListener:QueryParamListenerService;
   @InjectField() public wpListService:WorkPackagesListService;
+  @InjectField() public urlParamsHelper:UrlParamsHelperService;
 
   public queryProps:{ [key:string]:any };
 
@@ -30,7 +32,6 @@ export class BCFContainerComponent implements OnInit {
     showFilterButton: false,
     isCardView: true
   };
-  private filters:any[] = [];
 
   constructor(readonly state:StateService,
               readonly i18n:I18nService,
@@ -42,19 +43,16 @@ export class BCFContainerComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.wpListService.loadCurrentQueryFromParams( this.currentProject.identifier!).then(() => {
-        this.queryProps = this.state.params.query_props || this.defaultQueryProps();
-        this.cdRef.detectChanges();
-    });
+    this.refresh();
 
     this.queryParamListener.observe$.pipe().subscribe((queryProps) => {
-      this.queryProps = queryProps;
-      this.cdRef.detectChanges();
+      this.refresh(this.urlParamsHelper.buildV3GetQueryFromJsonParams(queryProps));
     });
   }
 
   private defaultQueryProps() {
-    this.filters.push({
+    let filters = [];
+    filters.push({
       status: {
         operator: 'o',
         values: []
@@ -63,9 +61,15 @@ export class BCFContainerComponent implements OnInit {
 
     return {
       'columns[]': ['id', 'subject'],
-      filters: JSON.stringify(this.filters),
+      filters: JSON.stringify(filters),
       sortBy: JSON.stringify([['updatedAt', 'desc']]),
       showHierarchies: false
     };
+  }
+
+  public refresh(queryProps:{ [key:string]:any }|undefined = undefined) {
+    this.wpListService.loadCurrentQueryFromParams(this.currentProject.identifier!);
+    this.queryProps = queryProps || this.state.params.query_props || this.defaultQueryProps();
+    this.cdRef.detectChanges();
   }
 }
