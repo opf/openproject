@@ -8,19 +8,17 @@
      [attr.aria-label]="text.query_has_changed_click_to_save"
      [attr.title]="text.query_has_changed_click_to_save">
     <span aria-hidden="true" class="icon icon-save"></span>
-  </a>
+  </a> 
+
   <input #editableTitleInput
   id="inputTextID"
-  [ngStyle]="{'width.px': width}"
+  [style.width.pt]="selectedTitle.length > 5 ? (selectedTitle.length + 3)*5 : (selectedTitle.length + 4)*5"
          type="text"
          aria-required="true"
          [attr.name]="selectableTitleIdentifier"
          [focus]="this.initialFocus || undefined"
          (focus)="onFocus($event)"
          (blur)="onBlur()"
-         (paste)="resizeInput($event)"
-         (cut)="resizeInput($event)"
-         (input)="resizeInput($event)"
          (keydown.escape)="reset($event)"
          (keydown.enter)="save($event)"
          [attr.placeholder]="text.input_placeholder"
@@ -31,10 +29,8 @@
          />
 </div>
 
-
 <h2 *ngIf="!editable"
     [attr.title]="selectedTitle"
     [ngClass]="{ '-disabled': disabled, '-small': smallHeader }"
     class="editable-toolbar-title--fixed"> {{ selectedTitle | slice:0:50 }}
 </h2>
-<div #hiddenDiv class="calWidth">{{ hiddenText }}</div>
