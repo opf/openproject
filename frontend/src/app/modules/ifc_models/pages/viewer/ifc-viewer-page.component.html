@@ -5,7 +5,8 @@
         </h2>
     </div>
     <ul class="toolbar-items">
-      <li class="toolbar-item">
+      <li class="toolbar-item"
+          *ngIf="filterAllowed">
         <wp-filter-button>
         </wp-filter-button>
       </li>

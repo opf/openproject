@@ -3,12 +3,17 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 
+const listStateName:string = 'list';
+const viewerStateName:string = 'viewer';
+const splitStateName:string = 'split';
+
 @Component({
   templateUrl: './ifc-viewer-page.component.html',
   styleUrls: ['./ifc-viewer-page.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IFCViewerPageComponent extends WorkPackagesViewBase {
+
   text = {
     title: this.I18n.t('js.ifc_models.models.default'),
     manage: this.I18n.t('js.ifc_models.models.manage'),
@@ -25,13 +30,7 @@ export class IFCViewerPageComponent extends WorkPackagesViewBase {
 
   @HostBinding('class')
   get gridTemplateAreas() {
-    if (this.$state.includes('bim.space.list')) {
-      return '-list';
-    } else if (this.$state.includes('bim.space.*.model')) {
-      return '-viewer';
-    } else {
-      return '-split';
-    }
+    return '-' + this.currentViewerState();
   }
 
   public get title() {
@@ -50,6 +49,10 @@ export class IFCViewerPageComponent extends WorkPackagesViewBase {
     return this.gonIFC.permissions.manage;
   }
 
+  public get filterAllowed():boolean {
+    return this.currentViewerState() !== viewerStateName;
+  }
+
   private get gonIFC() {
     return (this.gon.get('ifc_models') as any);
   }
@@ -62,5 +65,15 @@ export class IFCViewerPageComponent extends WorkPackagesViewBase {
     // TODO: do something useful
     return this.loadingIndicator =
       this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
+  }
+
+  private currentViewerState() {
+    if (this.$state.includes('bim.space.list')) {
+      return listStateName;
+    } else if (this.$state.includes('bim.space.*.model')) {
+      return viewerStateName;
+    } else {
+      return splitStateName;
+    }
   }
 }
