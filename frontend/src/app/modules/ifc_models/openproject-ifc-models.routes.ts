@@ -31,6 +31,7 @@ import {BCFContainerComponent} from "core-app/modules/ifc_models/bcf/container/b
 import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.component";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
+import {BcfSingleViewComponent} from "core-app/modules/ifc_models/bcf/single-view/bcf-single-view.component";
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -88,5 +89,17 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       'content-right@^': { component: EmptyComponent },
       'content-left': { component: IFCViewerComponent }
     }
-  }
+  },
+  {
+    name: 'bim.space.split.single_bcf',
+    url: '/details/{workPackageId:[0-9]+}',
+    component: IFCViewerPageComponent,
+    reloadOnSearch: false,
+    views: {
+      viewer: { component: IFCViewerComponent },
+      // Retarget and by that override the grandparent views
+      // https://ui-router.github.io/guide/views#relative-parent-state
+      'list@^.^': { component: BcfSingleViewComponent }
+    }
+  },
 ];
