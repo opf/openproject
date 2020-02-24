@@ -1,0 +1,14 @@
+#English strings go here
+hu:
+  js:
+    bcf:
+      import: 'Importálás'
+      export: 'Exportálás'
+    ifc_models:
+      models:
+        default: 'Default IFC models'
+        manage: 'Manage models'
+      views:
+        list: 'List only'
+        viewer: 'Viewer only'
+        split: 'Viewer and list'

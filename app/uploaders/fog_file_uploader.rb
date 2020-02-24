@@ -27,7 +27,6 @@
 #++
 
 require 'carrierwave/storage/fog'
-require 'open_project/patches/carrierwave'
 
 class FogFileUploader < CarrierWave::Uploader::Base
   include FileUploader

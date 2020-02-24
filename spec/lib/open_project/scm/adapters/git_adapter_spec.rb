@@ -29,14 +29,14 @@
 
 require 'spec_helper'
 
-describe OpenProject::Scm::Adapters::Git do
+describe OpenProject::SCM::Adapters::Git do
   shared_examples "git adapter specs" do
     let(:protocol) { "" }
     let(:url) { protocol + Rails.root.join('/tmp/does/not/exist.git').to_s }
     let(:config) { {} }
     let(:encoding) { nil }
     let(:adapter) {
-      OpenProject::Scm::Adapters::Git.new(
+      OpenProject::SCM::Adapters::Git.new(
         url,
         nil,
         nil,
@@ -91,12 +91,12 @@ describe OpenProject::Scm::Adapters::Git do
           expect(Dir.exists?(url)).to be false
           expect(adapter).not_to be_available
           expect { adapter.check_availability! }
-            .to raise_error(OpenProject::Scm::Exceptions::ScmUnavailable)
+            .to raise_error(OpenProject::SCM::Exceptions::SCMUnavailable)
         end
 
         it 'should raise a meaningful error if shell output fails' do
           expect { adapter.check_availability! }
-            .to raise_error(OpenProject::Scm::Exceptions::ScmUnavailable)
+            .to raise_error(OpenProject::SCM::Exceptions::SCMUnavailable)
         end
       end
     end
@@ -113,7 +113,7 @@ describe OpenProject::Scm::Adapters::Git do
         shared_examples 'check_availibility raises empty' do
           it do
             expect { adapter.check_availability! }
-              .to raise_error(OpenProject::Scm::Exceptions::ScmEmpty)
+              .to raise_error(OpenProject::SCM::Exceptions::SCMEmpty)
           end
         end
 
@@ -392,7 +392,7 @@ describe OpenProject::Scm::Adapters::Git do
                 latin1_path = entries[1].path
 
                 expect { adapter.entries(latin1_path, '1ca7f5ed') }
-                  .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
+                  .to raise_error(OpenProject::SCM::Exceptions::CommandFailed)
               end
             end
 
@@ -428,7 +428,7 @@ describe OpenProject::Scm::Adapters::Git do
         describe '.annotate' do
           it 'should annotate a regular file' do
             annotate = adapter.annotate('sources/watchers_controller.rb')
-            expect(annotate).to be_kind_of(OpenProject::Scm::Adapters::Annotate)
+            expect(annotate).to be_kind_of(OpenProject::SCM::Adapters::Annotate)
             expect(annotate.lines.length).to eq(41)
             expect(annotate.lines[4].strip).to eq('# This program is free software; '\
                                                   'you can redistribute it and/or')
@@ -460,10 +460,10 @@ describe OpenProject::Scm::Adapters::Git do
 
           it 'should raise for an invalid path' do
             expect { adapter.annotate('does_not_exist.txt') }
-              .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
+              .to raise_error(OpenProject::SCM::Exceptions::CommandFailed)
 
             expect { adapter.annotate('/path/outside/repository') }
-              .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
+              .to raise_error(OpenProject::SCM::Exceptions::CommandFailed)
           end
 
           it 'should return nil for binary path' do
@@ -484,7 +484,7 @@ describe OpenProject::Scm::Adapters::Git do
 
           it 'raises an exception for an invalid file' do
             expect { adapter.cat('doesnotexiss') }
-              .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
+              .to raise_error(OpenProject::SCM::Exceptions::CommandFailed)
           end
         end
 

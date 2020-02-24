@@ -36,11 +36,10 @@
 
   TopMenu.prototype = $.extend(TopMenu.prototype, {
     setup: function () {
-      var self = this;
       this.hover = false;
       this.menuIsOpen = false;
       this.withHeadingFoldOutAtBorder();
-      this.setupDropdownHoverAndClick();
+      this.setupDropdownClick();
       this.registerEventHandlers();
       this.closeOnBodyClick();
       this.accessibility();
@@ -97,11 +96,11 @@
 
     closeOnBodyClick: function () {
       var self = this;
-      $('html').click(function() {
-        if (self.menuIsOpen) {
+      document.getElementById('wrapper').addEventListener('click', function (evt) {
+        if (self.menuIsOpen && !self.openDropdowns()[0].contains(evt.target)) {
           self.closing();
         }
-      });
+      },  true);
     },
 
     openDropdowns: function () {
@@ -125,7 +124,7 @@
       }
     },
 
-    setupDropdownHoverAndClick: function () {
+    setupDropdownClick: function () {
       var self = this;
       this.dropdowns().each(function (ix, it) {
         $(it).click(function () {

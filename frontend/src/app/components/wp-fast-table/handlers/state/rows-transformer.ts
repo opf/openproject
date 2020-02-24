@@ -7,13 +7,14 @@ import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routin
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {debugLog} from "core-app/helpers/debug_output";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class RowsTransformer {
 
-  public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
-  public wpTableSortBy = this.injector.get(WorkPackageViewSortByService);
-  public wpTableOrder = this.injector.get(WorkPackageViewOrderService);
-  public states:States = this.injector.get(States);
+  @InjectField() querySpace:IsolatedQuerySpace;
+  @InjectField() wpTableSortBy:WorkPackageViewSortByService;
+  @InjectField() wpTableOrder:WorkPackageViewOrderService;
+  @InjectField() states:States;
 
   constructor(public readonly injector:Injector,
               public table:WorkPackageTable) {

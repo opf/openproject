@@ -1,4 +1,4 @@
-module API::V3::CostsAPIUserPermissionCheck
+module API::V3::CostsApiUserPermissionCheck
   def overall_costs_visible?
     (user_has_time_entry_permissions? && user_has_hourly_rate_permissions?) ||
       (user_has_cost_entry_permissions? && user_has_cost_rates_permission?)

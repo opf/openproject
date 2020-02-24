@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.feature 'Work package navigation', js: true, selenium: true do
   let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project, name: 'Some project') }
+  let(:project) { FactoryBot.create(:project, name: 'Some project', enabled_module_names: [:work_package_tracking]) }
   let(:work_package) { FactoryBot.build(:work_package, project: project) }
   let(:global_html_title) { ::Components::HtmlTitle.new }
   let(:project_html_title) { ::Components::HtmlTitle.new project }

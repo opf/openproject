@@ -27,8 +27,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module WorkPackage::PdfExport::ToPdfHelper
+module WorkPackage::PDFExport::ToPdfHelper
   def get_pdf(language)
-    ::WorkPackage::PdfExport::View.new(current_language)
+    ::WorkPackage::PDFExport::View.new(current_language)
   end
 end

@@ -49,6 +49,7 @@ import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {InputState} from "reactivestates";
 import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -125,17 +126,16 @@ export class WorkPackageBaseResource extends HalResource {
   public attachments:AttachmentCollectionResource;
 
   public overriddenSchema:SchemaResource|undefined = undefined;
-  readonly I18n:I18nService = this.injector.get(I18nService);
-  readonly states:States = this.injector.get(States);
-  readonly wpActivity = this.injector.get(WorkPackagesActivityService);
-  readonly workPackageDmService = this.injector.get(WorkPackageDmService);
-  readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
-  readonly schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
-  readonly NotificationsService:NotificationsService = this.injector.get(NotificationsService);
-  readonly workPackageNotificationService:WorkPackageNotificationService = this.injector.get(
-    WorkPackageNotificationService);
-  readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
-  readonly opFileUpload:OpenProjectFileUploadService = this.injector.get(OpenProjectFileUploadService);
+  @InjectField() I18n:I18nService;
+  @InjectField() tates:States;
+  @InjectField() wpActivity:WorkPackagesActivityService;
+  @InjectField() workPackageDmService:WorkPackageDmService;
+  @InjectField() wpCacheService:WorkPackageCacheService;
+  @InjectField() schemaCacheService:SchemaCacheService;
+  @InjectField() NotificationsService:NotificationsService;
+  @InjectField() workPackageNotificationService:WorkPackageNotificationService;
+  @InjectField() pathHelper:PathHelperService;
+  @InjectField() opFileUpload:OpenProjectFileUploadService;
 
   readonly attachmentsBackend = true;
 
@@ -166,7 +166,7 @@ export class WorkPackageBaseResource extends HalResource {
    */
   public subjectWithId(truncateSubject:number = 40):string {
     const id = this.isNew ? '' : ` (#${this.id})`;
-    const subject = _.truncate(this.subject, { length: truncateSubject });
+    const subject = _.truncate(this.subject, {length: truncateSubject});
 
     return `${subject}${id}`;
   }
@@ -290,7 +290,7 @@ export class WorkPackageBaseResource extends HalResource {
   public $initialize(source:any) {
     super.$initialize(source);
 
-    let attachments:any = this.attachments || { $source: {}, elements: [] };
+    let attachments:any = this.attachments || {$source: {}, elements: []};
     this.attachments = new AttachmentCollectionResource(
       this.injector,
       // Attachments MAY be an array if we're building from a form
@@ -344,7 +344,7 @@ export class WorkPackageBaseResource extends HalResource {
 
     // If there is a parent, its view has to be updated as well
     if (newValue.parent) {
-        this.wpCacheService.require(newValue.parent.id!, true);
+      this.wpCacheService.require(newValue.parent.id!, true);
     }
 
     this.wpCacheService.updateWorkPackage(newValue as any);

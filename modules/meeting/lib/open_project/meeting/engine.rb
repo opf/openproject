@@ -67,7 +67,7 @@ module OpenProject::Meeting
       end
 
       Redmine::Activity.map do |activity|
-        activity.register :meetings, class_name: 'Activity::MeetingActivityProvider', default: false
+        activity.register :meetings, class_name: 'Activities::MeetingActivityProvider', default: false
       end
     end
 

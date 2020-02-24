@@ -1,0 +1,25 @@
+*:host
+  height: 100%
+  overflow: hidden
+  display: grid
+  grid-template-columns: 1fr 500px
+  grid-template-rows: 60px calc(100% - 60px)
+  grid-column-gap: 10px
+
+  &.-split
+    grid-template-areas: "header header" "viewer list"
+
+  &.-viewer
+    grid-template-areas: "header header" "viewer viewer"
+
+  &.-list
+    grid-template-areas: "header header" "list list"
+
+  .toolbar-container
+    grid-area: header
+
+  .ifc-model-viewer--container
+    grid-area: viewer
+
+  .bcf-table--container
+    grid-area: list

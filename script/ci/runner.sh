@@ -38,12 +38,6 @@
 
 set -e
 
-if [ "$4" = "bim" ]; then
-  export OPENPROJECT_EDITION="$4";
-else
-  unset OPENPROJECT_EDITION
-fi
-
 # Use the current HEAD as input to the seed
 export CI_SEED=$(git rev-parse HEAD | tr -d 'a-z' | cut -b 1-5 | tr -d '0')
 # Do not assume to have the angular cli running to serve assets. They are provided

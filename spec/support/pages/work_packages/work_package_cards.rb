@@ -43,6 +43,12 @@ module Pages
       end
     end
 
+    def expect_work_package_not_listed(*work_packages)
+      work_packages.each do |wp|
+        expect(page).not_to have_selector("wp-single-card[data-work-package-id='#{wp.id}']")
+      end
+    end
+
     def expect_work_package_order(*ids)
       retry_block do
         rows = page.all 'wp-single-card'

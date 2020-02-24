@@ -1,0 +1,26 @@
+@import "layout/colors"
+@import "layout/drop_down"
+
+.xeokit-context-menu
+  @extend .dropdown
+  visibility: visible
+  border: none !important
+  box-shadow: none !important
+
+  &> ul
+    @extend .dropdown-menu
+    border-color: rgba(0, 0, 0, 0.2) !important
+    box-shadow:  1px 4px rgba(0, 0, 0, 0.15) !important
+
+
+    li
+      @extend .menu-item
+      border-bottom-color: rgba(0, 0, 0, 0.2) !important
+
+  LI.disabled
+    color: #999999
+    cursor: default !important
+
+    &:hover
+      background-color: initial !important
+      color: #999999 !important

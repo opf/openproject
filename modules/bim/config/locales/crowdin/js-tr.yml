@@ -1,0 +1,14 @@
+#English strings go here
+tr:
+  js:
+    bcf:
+      import: 'İçeri Aktar'
+      export: 'Dışarı aktar'
+    ifc_models:
+      models:
+        default: 'Varsayılan IFC modelleri'
+        manage: 'Manage models'
+      views:
+        list: 'List only'
+        viewer: 'Viewer only'
+        split: 'Viewer and list'

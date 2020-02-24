@@ -61,10 +61,8 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   private registeredFields = input<string[]>();
   private unregisterListener:Function;
 
-  constructor(protected readonly injector:Injector,
+  constructor(public readonly injector:Injector,
               protected readonly elementRef:ElementRef,
-              protected readonly halEditing:HalResourceEditingService,
-              protected readonly halNotification:HalResourceNotificationService,
               protected readonly $transitions:TransitionService,
               protected readonly ConfigurationService:ConfigurationService,
               protected readonly editingPortalService:EditingPortalService,

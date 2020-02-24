@@ -32,6 +32,7 @@ import {
   FormattableEditFieldComponent,
   formattableFieldTemplate
 } from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   template: formattableFieldTemplate
@@ -39,7 +40,7 @@ import {
 export class WorkPackageCommentFieldComponent extends FormattableEditFieldComponent implements OnInit {
   public isBusy:boolean = false;
 
-  public ConfigurationService:ConfigurationService = this.injector.get(ConfigurationService);
+  @InjectField() public ConfigurationService:ConfigurationService;
 
   public get name() {
     return 'comment';

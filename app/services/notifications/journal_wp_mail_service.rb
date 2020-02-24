@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Notifications::JournalWPMailService
+class Notifications::JournalWpMailService
   class << self
     include Notifications::JournalNotifier
 

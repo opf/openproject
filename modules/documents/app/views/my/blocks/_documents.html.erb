@@ -40,6 +40,6 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= render(partial: 'documents/document',
            collection:  Document
                         .limit(10)
-                        .order("#{Document.table_name}.created_on DESC")
+                        .order("#{Document.table_name}.created_at DESC")
                         .where("#{Document.table_name}.project_id in (#{project_ids.join(',')})")
                         .includes(:project)) unless project_ids.empty? %>

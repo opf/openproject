@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Concerns::AssignableCustomFieldValues
+module AssignableCustomFieldValues
   extend ActiveSupport::Concern
 
   included do

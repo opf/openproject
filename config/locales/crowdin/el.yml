@@ -1815,7 +1815,7 @@ el:
   notice_locking_conflict: "Οι πληροφορίες ενημερώθηκαν από τουλάχιστον έναν ακόμα χρήστη στο εν τω μεταξύ."
   notice_locking_conflict_additional_information: "Η ενημέρωση(-εις) προήλθαν από %{users}."
   notice_locking_conflict_reload_page: "Παρακαλούμε ανανεώστε αυτή τη σελίδα, αναθεωρήστε τις αλλαγές και εφαρμόστε ξανά τις αλλαγές."
-  notice_member_added: Προστέθηκε το %{name} στο έργο.
+  notice_member_added: Προστέθηκε ο %{name} στο έργο.
   notice_members_added: Προστέθηκαν %{number} χρήστες στο έργο.
   notice_member_removed: "Αφαιρέθηκε ο χρήστης %{user} από το έργο."
   notice_member_deleted: "Ο χρήστης %{user} έχει αφαιρεθεί από το έργο και διαγράφηκε."

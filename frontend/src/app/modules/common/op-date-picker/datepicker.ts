@@ -52,6 +52,7 @@ export class DatePicker {
       showWeeks: true,
       changeMonth: true,
       changeYear: true,
+      closeText: I18n.t('js.button_confirm'),
       dateFormat: this.datepickerFormat,
       defaultDate: this.timezoneService.formattedISODate(this.date),
       showButtonPanel: true

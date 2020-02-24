@@ -53,7 +53,7 @@ module OpenProject::Documents
       Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')
 
       Redmine::Activity.map do |activity|
-        activity.register :documents, class_name: 'Activity::DocumentActivityProvider', default: false
+        activity.register :documents, class_name: 'Activities::DocumentActivityProvider', default: false
       end
 
       Redmine::Search.register :documents
@@ -91,11 +91,6 @@ module OpenProject::Documents
       require_dependency 'document_category'
       require_dependency 'document_category_custom_field'
 
-      # Have to apply this one by hand and not via op_engine patches method
-      # becauses the op_engine method does not allow for patching something
-      # in the lib/open_project directory. Bummer.
-      require_relative 'patches/text_formatting_patch'
-      require_dependency 'open_project/documents/patches/text_formatting_patch'
       ::OpenProject::Documents::Patches::ColonSeparatorPatch.mixin!
       ::OpenProject::Documents::Patches::HashSeparatorPatch.mixin!
 

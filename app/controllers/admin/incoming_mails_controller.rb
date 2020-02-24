@@ -29,7 +29,7 @@
 #++
 
 class Admin::IncomingMailsController < ApplicationController
-  include Concerns::AdminSettingsUpdater
+  include AdminSettingsUpdater
 
   current_menu_item [:show] do
     :incoming_mails

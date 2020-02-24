@@ -31,7 +31,7 @@
 class WorkPackagesController < ApplicationController
   include QueriesHelper
   include PaginationHelper
-  include Concerns::Layout
+  include Layout
 
   accept_key_auth :index, :show
 

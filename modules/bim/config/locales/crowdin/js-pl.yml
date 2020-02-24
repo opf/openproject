@@ -1,0 +1,14 @@
+#English strings go here
+pl:
+  js:
+    bcf:
+      import: 'Importuj'
+      export: 'Eksportuj'
+    ifc_models:
+      models:
+        default: 'Domyślne modele IFC'
+        manage: 'Manage models'
+      views:
+        list: 'List only'
+        viewer: 'Viewer only'
+        split: 'Viewer and list'

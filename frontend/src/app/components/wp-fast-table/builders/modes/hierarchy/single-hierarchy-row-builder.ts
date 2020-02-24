@@ -9,6 +9,7 @@ import {
   hierarchyRootClass
 } from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
@@ -18,8 +19,8 @@ export const hierarchyBaseIndentation = 25;
 
 export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   // Injected
-  public wpTableHierarchies = this.injector.get(WorkPackageViewHierarchiesService);
-  public states = this.injector.get(States);
+  @InjectField() public wpTableHierarchies:WorkPackageViewHierarchiesService;
+  @InjectField() public states:States;
 
   // Retain a map of hierarchy elements present in the table
   // with at least a visible child
@@ -134,7 +135,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   /**
    * Build the hierarchy indicator at the given indentation level.
    */
-  private buildHierarchyIndicator(workPackage:WorkPackageResource, jRow:JQuery | null, level:number):HTMLElement {
+  private buildHierarchyIndicator(workPackage:WorkPackageResource, jRow:JQuery|null, level:number):HTMLElement {
     const hierarchyIndicator = document.createElement('span');
     const collapsed = this.wpTableHierarchies.collapsed(workPackage.id!);
     const indicatorWidth = hierarchyBaseIndentation + (hierarchyIndentation * level) + 'px';

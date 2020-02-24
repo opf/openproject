@@ -34,7 +34,6 @@ describe ::API::V3::News::NewsRepresenter, 'rendering' do
   let(:news) do
     FactoryBot.build_stubbed(:news,
                              project: project,
-                             created_on: Time.now,
                              author: user)
   end
   let(:project) { FactoryBot.build_stubbed(:project) }
@@ -85,8 +84,13 @@ describe ::API::V3::News::NewsRepresenter, 'rendering' do
     end
 
     it_behaves_like 'has UTC ISO 8601 date and time' do
-      let(:date) { news.created_on }
+      let(:date) { news.created_at }
       let(:json_path) { 'createdAt' }
+    end
+
+    it_behaves_like 'has UTC ISO 8601 date and time' do
+      let(:date) { news.updated_at }
+      let(:json_path) { 'updatedAt' }
     end
 
     it_behaves_like 'API V3 formattable', 'description' do

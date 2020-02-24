@@ -32,10 +32,12 @@ import {PortalCleanupService} from "core-app/modules/fields/display/display-port
 import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
 import {DomPortalOutlet} from "@angular/cdk/portal";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class MultipleUserFieldModule extends ResourcesDisplayField {
-  public userDisplayPortal = this.$injector.get(UserFieldPortalService);
-  public portalCleanup = this.$injector.get(PortalCleanupService);
+  @InjectField() userDisplayPortal:UserFieldPortalService;
+  @InjectField() portalCleanup:PortalCleanupService;
+
   public outlet:DomPortalOutlet;
 
   public render(element:HTMLElement, displayText:string):void {

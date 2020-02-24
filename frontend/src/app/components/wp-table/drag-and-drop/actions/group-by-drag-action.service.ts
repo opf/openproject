@@ -8,13 +8,14 @@ import {locatePredecessorBySelector} from "core-components/wp-fast-table/helpers
 import {groupIdentifier} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class GroupByDragActionService extends TableDragActionService {
 
-  private wpTableGroupBy = this.injector.get(WorkPackageViewGroupByService);
-  private halEditing = this.injector.get<HalResourceEditingService>(HalResourceEditingService);
-  private halEvents = this.injector.get<HalEventsService>(HalEventsService);
-  private halNotification = this.injector.get(HalResourceNotificationService);
+  @InjectField() wpTableGroupBy:WorkPackageViewGroupByService;
+  @InjectField() halEditing:HalResourceEditingService;
+  @InjectField() halEvents:HalEventsService;
+  @InjectField() halNotification:HalResourceNotificationService;
 
   public get applies() {
     return this.wpTableGroupBy.isEnabled;
@@ -35,7 +36,7 @@ export class GroupByDragActionService extends TableDragActionService {
     changeset.projectedResource[this.groupedAttribute!] = groupedValue;
     return this.halEditing
       .save(changeset)
-      .then((saved) => this.halEvents.push(saved.resource, { eventType: 'updated' }))
+      .then((saved) => this.halEvents.push(saved.resource, {eventType: 'updated'}))
       .catch(e => this.halNotification.handleRawError(e, workPackage));
   }
 

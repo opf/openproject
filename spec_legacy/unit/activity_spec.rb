@@ -28,7 +28,7 @@
 #++
 require_relative '../legacy_spec_helper'
 
-describe Activity, type: :model do
+describe Redmine::Activity, type: :model do
   fixtures :all
 
   before do

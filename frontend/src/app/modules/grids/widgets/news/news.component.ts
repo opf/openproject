@@ -98,7 +98,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   private get newsDmParams() {
-    let params:DmListParameter = { sortBy: [['created_on', 'desc']],
+    let params:DmListParameter = { sortBy: [['created_at', 'desc']],
                                    pageSize: 3 };
 
     if (this.currentProject.id) {

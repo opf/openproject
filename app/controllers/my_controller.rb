@@ -29,8 +29,8 @@
 #++
 
 class MyController < ApplicationController
-  include Concerns::PasswordConfirmation
-  include Concerns::UserPasswordChange
+  include PasswordConfirmation
+  include Accounts::UserPasswordChange
   include ActionView::Helpers::TagHelper
 
   layout 'my'
@@ -91,7 +91,7 @@ class MyController < ApplicationController
   # Create a new feeds key
   def generate_rss_key
     if request.post?
-      token = Token::Rss.create!(user: current_user)
+      token = Token::RSS.create!(user: current_user)
       flash[:info] = [
         t('my.access_token.notice_reset_token', type: 'RSS').html_safe,
         content_tag(:strong, token.plain_value),
@@ -108,7 +108,7 @@ class MyController < ApplicationController
   # Create a new API key
   def generate_api_key
     if request.post?
-      token = Token::Api.create!(user: current_user)
+      token = Token::API.create!(user: current_user)
       flash[:info] = [
         t('my.access_token.notice_reset_token', type: 'API').html_safe,
         content_tag(:strong, token.plain_value),

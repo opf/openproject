@@ -49,11 +49,12 @@ export class OPContextMenuService {
     });
 
     // Listen to any click and close the active context menu
-    jQuery(window).on('click', (evt:JQuery.TriggeredEvent) => {
-      if (this.active && evt.button !== 2 && !this.portalHostElement.contains(evt.target as Element)) {
-        this.close();
+    const that = this;
+    document.getElementById('wrapper')!.addEventListener('click', function(evt:Event) {
+      if (that.active &&  !that.portalHostElement.contains(evt.target as Element)) {
+        that.close();
       }
-    });
+    },  true);
   }
 
   /**

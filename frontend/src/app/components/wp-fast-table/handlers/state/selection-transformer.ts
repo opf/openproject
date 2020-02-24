@@ -11,13 +11,14 @@ import {
   WorkPackageViewSelectionService,
   WorkPackageViewSelectionState
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class SelectionTransformer {
 
-  public wpTableSelection:WorkPackageViewSelectionService = this.injector.get(WorkPackageViewSelectionService);
-  public wpTableFocus:WorkPackageViewFocusService = this.injector.get(WorkPackageViewFocusService);
-  public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
-  public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
+  @InjectField() public wpTableSelection:WorkPackageViewSelectionService;
+  @InjectField() public wpTableFocus:WorkPackageViewFocusService;
+  @InjectField() public querySpace:IsolatedQuerySpace;
+  @InjectField() public FocusHelper:FocusHelperService;
 
   constructor(public readonly injector:Injector,
               public readonly table:WorkPackageTable) {
@@ -49,7 +50,9 @@ export class SelectionTransformer {
       });
 
 
-    this.wpTableSelection.registerSelectAllListener(() => { return table.renderedRows; });
+    this.wpTableSelection.registerSelectAllListener(() => {
+      return table.renderedRows;
+    });
     this.wpTableSelection.registerDeselectAllListener();
   }
 

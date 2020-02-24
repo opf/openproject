@@ -111,7 +111,7 @@ describe RepositoriesController, type: :controller do
     before do
       allow(repository.scm)
         .to receive(:check_availability!)
-        .and_raise(OpenProject::Scm::Exceptions::ScmEmpty)
+        .and_raise(OpenProject::SCM::Exceptions::SCMEmpty)
     end
 
     context 'with #show' do

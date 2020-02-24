@@ -30,7 +30,7 @@
 
 module BaseServices
   class BaseContracted
-    include Concerns::Contracted
+    include Contracted
     include Shared::ServiceContext
 
     attr_reader :user

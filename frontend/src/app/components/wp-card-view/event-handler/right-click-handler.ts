@@ -7,13 +7,14 @@ import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {WorkPackageViewContextMenu} from "core-components/op-context-menu/wp-context-menu/wp-view-context-menu.directive";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class CardRightClickHandler implements CardEventHandler {
 
   // Injections
-  public wpTableSelection:WorkPackageViewSelectionService = this.injector.get(WorkPackageViewSelectionService);
-  public wpCardView:WorkPackageCardViewService = this.injector.get(WorkPackageCardViewService);
-  public opContextMenu:OPContextMenuService = this.injector.get(OPContextMenuService);
+  @InjectField() wpTableSelection:WorkPackageViewSelectionService;
+  @InjectField() wpCardView:WorkPackageCardViewService;
+  @InjectField() opContextMenu:OPContextMenuService;
 
   constructor(public readonly injector:Injector,
               card:WorkPackageCardViewComponent) {

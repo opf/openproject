@@ -29,7 +29,7 @@
 ##
 # Acts as a filter for actions that require password confirmation to have
 # passed before it may be accessed.
-module Concerns::PasswordConfirmation
+module PasswordConfirmation
   def check_password_confirmation
     return true unless password_confirmation_required?
 

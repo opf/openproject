@@ -27,9 +27,9 @@
 #++
 
 
-module OpenProject::PdfExport::ExportCard
+module OpenProject::PDFExport::ExportCard
   class GroupElement
-    include OpenProject::PdfExport::Exceptions
+    include OpenProject::PDFExport::Exceptions
 
     def initialize(pdf, orientation, config, work_package)
       @pdf = pdf

@@ -28,10 +28,11 @@
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class DurationDisplayField extends DisplayField {
+  @InjectField() timezoneService:TimezoneService;
 
-  private timezoneService:TimezoneService = this.$injector.get(TimezoneService);
   private derivedText = this.I18n.t('js.label_value_derived_from_children');
 
   public get valueString() {
