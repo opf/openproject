@@ -5,6 +5,10 @@
         </h2>
     </div>
     <ul class="toolbar-items">
+      <li class="toolbar-item">
+        <wp-filter-button>
+        </wp-filter-button>
+      </li>
       <li class="toolbar-item"
           *ngIf="manageAllowed">
         <a class="button"
@@ -21,6 +25,8 @@
     </ul>
   </div>
 </div>
+
+<filter-container></filter-container>
 
 <div class="ifc-model-viewer--container"
      ui-view="viewer">
