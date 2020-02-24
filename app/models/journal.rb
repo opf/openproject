@@ -46,6 +46,7 @@ class Journal < ActiveRecord::Base
 
   has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :destroy
   has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :destroy
+  has_many :work_package_journals, class_name: 'Journal::WorkPackageJournal', dependent: :destroy
 
   after_create :save_data, if: :data
   after_save :save_data, :touch_journable

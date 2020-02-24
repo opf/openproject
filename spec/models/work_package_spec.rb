@@ -316,7 +316,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'associated journals' do
-      subject { Journal.find_by(journable_id: work_package.id) }
+      subject { Journal.find_by(journable_id: work_package.id, journable_type: 'WorkPackage') }
 
       it { is_expected.to be_nil }
     end

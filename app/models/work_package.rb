@@ -769,6 +769,6 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def associated_journals
-    journals.where(journable_type: ['Aggregated', 'Attachable', 'WorkPackage'])
+    journals.where(journable_type: 'WorkPackage', journable_id: id)
   end
 end
