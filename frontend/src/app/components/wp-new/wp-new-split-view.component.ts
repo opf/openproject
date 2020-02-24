@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.controller';
+import {WorkPackageCreateComponent} from 'core-components/wp-new/wp-create.component';
 import {Component} from '@angular/core';
 
 @Component({
   selector: 'wp-new-split-view',
   templateUrl: './wp-new-split-view.html'
 })
-export class WorkPackageNewSplitViewComponent extends WorkPackageCreateController {
+export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent {
   public successState:string = 'work-packages.list.details';
 }

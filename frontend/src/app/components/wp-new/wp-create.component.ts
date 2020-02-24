@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Injectable, Injector, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Injector, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -34,24 +34,20 @@ import {States} from '../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageCreateService} from './wp-create.service';
 import {takeUntil} from 'rxjs/operators';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {CurrentUserService} from "core-app/components/user/current-user.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
-
-@Injectable()
-export class WorkPackageCreateController implements OnInit, OnDestroy {
+export abstract class WorkPackageCreateComponent implements OnInit, OnDestroy {
   public successState:string;
+  public cancelState:string = 'work-packages.list';
   public newWorkPackage:WorkPackageResource;
   public parentWorkPackage:WorkPackageResource;
   public change:WorkPackageChangeset;
@@ -86,6 +82,36 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   public ngOnInit() {
     this.closeEditFormWhenNewWorkPackageSaved();
 
+    this.showForm();
+  }
+
+  public ngOnDestroy() {
+    // Nothing to do
+  }
+
+  public switchToFullscreen() {
+    this.$state.go('work-packages.new', this.$state.params);
+  }
+
+  public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
+    let {savedResource, isInitial} = params;
+
+    // Shouldn't this always be true in create controller?
+    // Close all edit fields when saving
+    if (isInitial && this.editForm && this.editForm.editMode) {
+      this.editForm.stop();
+    }
+
+    if (this.successState) {
+      this.$state.go(this.successState, {workPackageId: savedResource.id})
+        .then(() => {
+          this.wpViewFocus.updateFocus(savedResource.id!);
+          this.notificationService.showSave(savedResource, isInitial);
+        });
+    }
+  }
+
+  protected showForm() {
     this
       .createdWorkPackage()
       .then((changeset:WorkPackageChangeset) => {
@@ -128,39 +154,13 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
       });
   }
 
-  public ngOnDestroy() {
-    // Nothing to do
-  }
-
-  public switchToFullscreen() {
-    this.$state.go('work-packages.new', this.$state.params);
-  }
-
-  public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
-    let {savedResource, isInitial} = params;
-
-    // Shouldn't this always be true in create controller?
-    // Close all edit fields when saving
-    if (isInitial && this.editForm && this.editForm.editMode) {
-      this.editForm.stop();
-    }
-
-    if (this.successState) {
-      this.$state.go(this.successState, {workPackageId: savedResource.id})
-        .then(() => {
-          this.wpViewFocus.updateFocus(savedResource.id!);
-          this.notificationService.showSave(savedResource, isInitial);
-        });
-    }
-  }
-
   protected setTitle() {
     this.titleService.setFirstPart(this.I18n.t('js.work_packages.create.title'));
   }
 
   public cancelAndBackToList() {
     this.wpCreate.cancelCreation();
-    this.$state.go('work-packages.list', this.$state.params);
+    this.$state.go(this.cancelState, this.$state.params);
   }
 
   protected createdWorkPackage() {

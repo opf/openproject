@@ -269,10 +269,6 @@ module Pages
       find('#types-context-menu .menu-item', text: type.name.upcase, wait: 10).click
     end
 
-    def select_type(type)
-      find('.inline-edit--container.type option', text: type.name.upcase).select_option
-    end
-
     def subject_field
       expect(page).to have_selector('.inline-edit--container.subject input', wait: 10)
       find('.inline-edit--container.subject input')

@@ -38,6 +38,7 @@ import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component"
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {BCFListContainerComponent} from "core-app/modules/ifc_models/bcf/list-container/bcf-list-container.component";
 import {BCFNewSplitComponent} from "core-app/modules/ifc_models/bcf/new-split/bcf-new-split.component";
+import {IFCViewerService} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.service";
 
 @NgModule({
   imports: [
@@ -47,6 +48,9 @@ import {BCFNewSplitComponent} from "core-app/modules/ifc_models/bcf/new-split/bc
     UIRouterModule.forChild({
       states: IFC_ROUTES
     })
+  ],
+  providers: [
+    IFCViewerService
   ],
   declarations: [
     // Pages

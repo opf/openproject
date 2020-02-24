@@ -61,6 +61,10 @@ module Pages
           .to have_current_path(path)
       end
 
+      def container
+        find("bcf-new-split")
+      end
+
       private
 
       def default?

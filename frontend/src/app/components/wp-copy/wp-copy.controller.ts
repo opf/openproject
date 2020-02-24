@@ -28,7 +28,7 @@
 
 import {take} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.controller';
+import {WorkPackageCreateComponent} from 'core-components/wp-new/wp-create.component';
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
@@ -37,7 +37,7 @@ import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changes
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
-export class WorkPackageCopyController extends WorkPackageCreateController {
+export class WorkPackageCopyController extends WorkPackageCreateComponent {
   private __initialized_at:Number;
   private copiedWorkPackageId:string;
 

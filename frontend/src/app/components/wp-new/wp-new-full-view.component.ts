@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.controller';
+import {WorkPackageCreateComponent} from 'core-components/wp-new/wp-create.component';
 import {Component} from '@angular/core';
 
 @Component({
@@ -34,6 +34,6 @@ import {Component} from '@angular/core';
   host: { 'class': 'work-packages-page--ui-view' },
   templateUrl: './wp-new-full-view.html'
 })
-export class WorkPackageNewFullViewComponent extends WorkPackageCreateController {
+export class WorkPackageNewFullViewComponent extends WorkPackageCreateComponent {
   public successState:string = 'work-packages.show';
 }

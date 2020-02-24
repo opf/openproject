@@ -3,7 +3,9 @@ require 'spec_helper'
 require_relative '../../support/pages/ifc_models/show_default'
 
 describe 'Create BCF', type: :feature, js: true, with_mail: false do
-  let(:project) { FactoryBot.create :project, types: [type] }
+  let(:project) do
+    FactoryBot.create(:project, types: [type, type_with_cf], work_package_custom_fields: [integer_cf])
+  end
   let(:index_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:permissions) { %i[view_ifc_models manage_ifc_models add_work_packages view_work_packages] }
   let!(:status) { FactoryBot.create(:default_status) }
@@ -21,6 +23,12 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
                       uploader: user)
   end
   let(:type) { FactoryBot.create(:type) }
+  let(:type_with_cf) do
+    FactoryBot.create(:type, custom_fields: [integer_cf])
+  end
+  let(:integer_cf) do
+    FactoryBot.create(:int_wp_custom_field)
+  end
 
   before do
     login_as(user)
@@ -34,6 +42,15 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
       create_page.expect_current_path
 
       create_page.subject_field.set(subject)
+
+      # switch the type
+      type_field = create_page.edit_field(:type)
+      type_field.activate!
+      type_field.set_value type_with_cf.name
+
+      cf_field = create_page.edit_field(:"customField#{integer_cf.id}")
+      cf_field.set_value(815)
+
       create_page.save!
 
       # TODO: adapt notification message
@@ -44,34 +61,10 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
       work_package = WorkPackage.last
 
       index_page.expect_work_package_listed(work_package)
-
-
-      #index_page.model_listed true, model.title
-      #index_page.add_model_allowed true
-      #index_page.edit_model_allowed model.title, true
-      #index_page.delete_model_allowed model.title, true
-
-      #index_page.edit_model model.title, 'My super cool new name'
-      #index_page.delete_model 'My super cool new name'
     end
   end
 
   context 'without create permission' do
     let(:permissions) { %i[view_ifc_models manage_ifc_models] }
-
-    #it 'I can see, but not edit models' do
-    #  index_page.model_listed true, model.title
-    #  index_page.add_model_allowed false
-    #  index_page.edit_model_allowed model.title, false
-    #  index_page.delete_model_allowed model.title, false
-    #end
-
-    #it 'I can see single models and the defaults' do
-    #  index_page.model_listed true, model.title
-    #  index_page.show_model model
-
-    #  index_page.model_listed true, model.title
-    #  index_page.show_defaults
-    #end
   end
 end
