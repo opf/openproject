@@ -106,7 +106,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
       evt.stopPropagation();
     });
   }
-  
+
   ngOnChanges(changes:SimpleChanges):void {
     if (changes.inputTitle) {
       this.selectedTitle = changes.inputTitle.currentValue;
