@@ -87,6 +87,7 @@ module OpenProject::Bim
 
     patches %i[WorkPackage Type Journal RootSeeder Project]
 
+    patch_with_namespace :OpenProject, :CustomStyles, :Design
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
@@ -161,10 +162,6 @@ module OpenProject::Bim
 
     config.to_prepare do
       require_relative 'hooks'
-
-      # The DesignPatch is not a typical method patch, as it replaces a constant and thus needs to be applied without the
-      # standard patch logic for plugins.
-      require_relative "patches/design_patch"
     end
 
     initializer 'bim.bcf.register_hooks' do
