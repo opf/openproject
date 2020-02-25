@@ -5,10 +5,16 @@ module OpenProject::Bim::Patches::ProjectSeederPatch
 
   module InstanceMethods
     def project_data_seeders(project, key)
-      [
-        ::Bim::DemoData::BcfXmlSeeder.new(project, key),
-        ::Bim::DemoData::IfcModelSeeder.new(project, key)
-      ] + super(project, key)
+      data = super
+
+      if OpenProject::Configuration.bim?
+        [
+          ::Bim::DemoData::BcfXmlSeeder.new(project, key),
+          ::Bim::DemoData::IfcModelSeeder.new(project, key)
+        ] + data
+      else
+        data
+      end
     end
 
     def seed_settings
