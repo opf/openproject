@@ -59,11 +59,10 @@ export class IFCViewerPageComponent extends WorkPackagesViewBase {
   }
 
   protected set loadingIndicator(promise:Promise<unknown>) {
-    // TODO: do something useful
+    this.loadingIndicatorService.indicator('ifc-table-container').promise = promise;
   }
 
   public refresh(visibly:boolean, firstPage:boolean):Promise<unknown> {
-    // TODO: do something useful
     return this.loadingIndicator =
       this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
   }
