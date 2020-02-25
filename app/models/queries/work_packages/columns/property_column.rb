@@ -97,7 +97,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     },
     fixed_version: {
       association: 'fixed_version',
-      sortable: %w(start_date effective_date),
+      sortable: %w(start_date effective_date name),
       default_order: 'DESC',
       null_handling: 'NULLS LAST',
       groupable: "#{WorkPackage.table_name}.fixed_version_id"
