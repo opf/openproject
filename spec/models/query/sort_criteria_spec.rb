@@ -77,7 +77,8 @@ describe ::Query::SortCriteria, type: :model, with_mail: false do
 
       it 'adds the order handling' do
         expect(subject.length).to eq 2
-        expect(subject.first).to eq ['start_date DESC NULLS LAST', 'effective_date DESC NULLS LAST']
+        expect(subject.first)
+          .to eq ['start_date DESC NULLS LAST', 'effective_date DESC NULLS LAST', 'name DESC NULLS LAST']
         expect(subject.last).to eq ['work_packages.start_date NULLS LAST']
       end
     end

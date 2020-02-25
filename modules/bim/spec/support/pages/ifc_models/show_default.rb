@@ -80,6 +80,15 @@ module Pages
         end
       end
 
+      def switch_view(value)
+        page.find('#bim-view-toggle-button').click
+        page.find('.menu-item', text: value).click
+      end
+
+      def expect_view_toggle_at(value)
+        expect(page).to have_selector('#bim-view-toggle-button', text: value)
+      end
+
       private
 
       def toolbar_items
