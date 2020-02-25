@@ -40,25 +40,23 @@ Redmine::Activity.map do |activity|
                                    default: false
 end
 
-# TODO: replace by string based references to avoid stale
-# objects when reloading in dev mode.
-Project.register_latest_project_activity on: WorkPackage,
+Project.register_latest_project_activity on: 'WorkPackage',
                                          attribute: :updated_at
 
-Project.register_latest_project_activity on: News,
+Project.register_latest_project_activity on: 'News',
                                          attribute: :updated_at
 
-Project.register_latest_project_activity on: Changeset,
-                                         chain: Repository,
+Project.register_latest_project_activity on: 'Changeset',
+                                         chain: 'Repository',
                                          attribute: :committed_on
 
-Project.register_latest_project_activity on: WikiContent,
-                                         chain: [Wiki, WikiPage],
+Project.register_latest_project_activity on: 'WikiContent',
+                                         chain: %w(Wiki WikiPage),
                                          attribute: :updated_on
 
-Project.register_latest_project_activity on: Message,
-                                         chain: Forum,
+Project.register_latest_project_activity on: 'Message',
+                                         chain: 'Forum',
                                          attribute: :updated_on
 
-Project.register_latest_project_activity on: TimeEntry,
+Project.register_latest_project_activity on: 'TimeEntry',
                                          attribute: :updated_on
