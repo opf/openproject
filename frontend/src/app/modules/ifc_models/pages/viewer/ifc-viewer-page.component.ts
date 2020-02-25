@@ -1,11 +1,11 @@
-import {Component, Injector, HostBinding, ChangeDetectionStrategy} from "@angular/core";
+import {ChangeDetectionStrategy, Component, HostBinding, Injector} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
-
-const listStateName:string = 'list';
-const viewerStateName:string = 'viewer';
-const splitStateName:string = 'split';
+import {
+  bimViewerViewIdentifier, BimViewService
+} from "core-app/modules/ifc_models/view-toggle/bim-view.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   templateUrl: './ifc-viewer-page.component.html',
@@ -13,6 +13,7 @@ const splitStateName:string = 'split';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IFCViewerPageComponent extends WorkPackagesViewBase {
+  @InjectField() bimView:BimViewService;
 
   text = {
     title: this.I18n.t('js.ifc_models.models.default'),
@@ -30,7 +31,7 @@ export class IFCViewerPageComponent extends WorkPackagesViewBase {
 
   @HostBinding('class')
   get gridTemplateAreas() {
-    return '-' + this.currentViewerState();
+    return '-' + this.bimView.currentViewerState();
   }
 
   public get title() {
@@ -50,7 +51,7 @@ export class IFCViewerPageComponent extends WorkPackagesViewBase {
   }
 
   public get filterAllowed():boolean {
-    return this.currentViewerState() !== viewerStateName;
+    return this.bimView.currentViewerState() !== bimViewerViewIdentifier;
   }
 
   private get gonIFC() {
@@ -65,15 +66,5 @@ export class IFCViewerPageComponent extends WorkPackagesViewBase {
     // TODO: do something useful
     return this.loadingIndicator =
       this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
-  }
-
-  private currentViewerState() {
-    if (this.$state.includes('bim.space.list')) {
-      return listStateName;
-    } else if (this.$state.includes('bim.space.*.model')) {
-      return viewerStateName;
-    } else {
-      return splitStateName;
-    }
   }
 }

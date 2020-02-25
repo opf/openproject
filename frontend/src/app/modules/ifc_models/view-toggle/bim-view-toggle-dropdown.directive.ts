@@ -30,13 +30,13 @@ import {OPContextMenuService} from "core-components/op-context-menu/op-context-m
 import {Directive, ElementRef} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {StateService} from "@uirouter/core";
 import {
   bimListViewIdentifier,
   bimSplitViewIdentifier,
-  bimViewerViewIdentifier
-} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle.component";
-import {StateService} from "@uirouter/core";
-import {BimViewService} from "core-app/modules/ifc_models/view-toggle/bim-view.service";
+  bimViewerViewIdentifier,
+  BimViewService
+} from "core-app/modules/ifc_models/view-toggle/bim-view.service";
 
 @Directive({
   selector: '[bimViewDropdown]'
