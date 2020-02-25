@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Injector, OnInit} from "@angular/core";
+import {ChangeDetectorRef, Component, Injector, OnDestroy, OnInit} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
@@ -9,6 +9,7 @@ import {QueryParamListenerService} from "core-components/wp-query/query-param-li
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
   templateUrl: './bcf-container.component.html',
@@ -16,7 +17,7 @@ import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper
     QueryParamListenerService
   ]
 })
-export class BCFContainerComponent implements OnInit {
+export class BCFContainerComponent implements OnInit, OnDestroy {
   @InjectField() public queryParamListener:QueryParamListenerService;
   @InjectField() public wpListService:WorkPackagesListService;
   @InjectField() public urlParamsHelper:UrlParamsHelperService;
@@ -45,9 +46,17 @@ export class BCFContainerComponent implements OnInit {
   ngOnInit():void {
     this.refresh();
 
-    this.queryParamListener.observe$.pipe().subscribe((queryProps) => {
-      this.refresh(this.urlParamsHelper.buildV3GetQueryFromJsonParams(queryProps));
-    });
+    this.queryParamListener
+      .observe$
+      .pipe(
+        untilComponentDestroyed(this)
+      ).subscribe((queryProps) => {
+        this.refresh(this.urlParamsHelper.buildV3GetQueryFromJsonParams(queryProps));
+      });
+  }
+
+  ngOnDestroy():void {
+    this.queryParamListener.removeQueryChangeListener();
   }
 
   private defaultQueryProps() {

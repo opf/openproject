@@ -39,6 +39,7 @@ export class QueryParamListenerService {
   readonly $transitions:TransitionService = this.injector.get(TransitionService);
 
   public observe$ = new Subject<any>();
+  public queryChangeListener:Function;
 
   constructor(readonly injector:Injector) {
     this.listenForQueryParamsChanged();
@@ -46,10 +47,9 @@ export class QueryParamListenerService {
 
   public listenForQueryParamsChanged():any {
     // Listen for param changes
-    return this.$transitions.onSuccess({}, (transition):any => {
+    return this.queryChangeListener = this.$transitions.onSuccess({}, (transition):any => {
       let options = transition.options();
       const params = transition.params('to');
-      //this.hasQueryProps = !!params.query_props;
 
       let newChecksum = this.wpListService.getCurrentQueryProps(params);
       let newId:string = params.query_id ? params.query_id.toString() : null;
@@ -66,5 +66,9 @@ export class QueryParamListenerService {
             this.observe$.next(newChecksum);
           });
     });
+  }
+
+  public removeQueryChangeListener() {
+    this.queryChangeListener();
   }
 }

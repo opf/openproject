@@ -100,15 +100,23 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     super.ngOnInit();
 
     this.hasQueryProps = !!this.$state.params.query_props;
+    this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
+      const params = transition.params('to');
+      this.hasQueryProps = !!params.query_props;
+    });
 
     // If the query was loaded, reload invisibly
     const isFirstLoad = !this.querySpace.initialized.hasValue();
     this.refresh(isFirstLoad, isFirstLoad);
 
     // Load query on URL transitions
-    this.queryParamListener.observe$.pipe().subscribe(() => {
-      this.refresh(true, true);
-    });
+    this.queryParamListener
+      .observe$
+      .pipe(
+        untilComponentDestroyed(this)
+      ).subscribe(() => {
+        this.refresh(true, true);
+      });
 
     // Mark tableInformationLoaded when initially loading done
     this.setupInformationLoadedListener();
@@ -141,8 +149,8 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   ngOnDestroy():void {
     super.ngOnDestroy();
     this.unRegisterTitleListener();
-    // ToDo
-    //this.removeTransitionSubscription();
+    this.removeTransitionSubscription();
+    this.queryParamListener.removeQueryChangeListener();
   }
 
   public setAnchorToNextElement() {

@@ -37,6 +37,7 @@ import {
   bimViewerViewIdentifier,
   BimViewService
 } from "core-app/modules/ifc_models/view-toggle/bim-view.service";
+import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
 
 @Directive({
   selector: '[bimViewDropdown]'
@@ -46,7 +47,8 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
               readonly opContextMenu:OPContextMenuService,
               readonly bimView:BimViewService,
               readonly I18n:I18nService,
-              readonly state:StateService) {
+              readonly state:StateService,
+              readonly wpFiltersService:WorkPackageFiltersService) {
 
     super(elementRef, opContextMenu);
   }
@@ -73,6 +75,11 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
           hidden: key === current,
           linkText: this.bimView.text[key],
           onClick: () => {
+            // Close filter section
+            if (this.wpFiltersService.visible) {
+              this.wpFiltersService.toggleVisibility();
+            }
+
             switch (key) {
               case bimListViewIdentifier:
                 this.state.go('bim.space.list');
