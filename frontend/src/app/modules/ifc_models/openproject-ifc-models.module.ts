@@ -33,7 +33,10 @@ import {IFCViewerComponent} from './ifc-viewer/ifc-viewer.component';
 import {IFC_ROUTES} from "core-app/modules/ifc_models/openproject-ifc-models.routes";
 import {IFCViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
 import {BCFContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
+import {BimViewToggleDropdownDirective} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle-dropdown.directive";
+import {BimViewToggleComponent} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle.component";
 import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
+import {BimViewService} from "core-app/modules/ifc_models/view-toggle/bim-view.service";
 
 @NgModule({
   imports: [
@@ -43,8 +46,6 @@ import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component"
       states: IFC_ROUTES
     })
   ],
-  providers: [
-  ],
   declarations: [
     // Pages
     IFCViewerPageComponent,
@@ -52,6 +53,10 @@ import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component"
     // Regions of pages
     EmptyComponent,
     BCFContainerComponent,
+
+    // View selector
+    BimViewToggleComponent,
+    BimViewToggleDropdownDirective,
 
     IFCViewerComponent
   ],
