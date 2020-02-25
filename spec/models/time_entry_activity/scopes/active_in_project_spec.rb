@@ -31,7 +31,8 @@
 require 'spec_helper'
 
 describe TimeEntryActivity::Scopes::ActiveInProject, type: :model do
-  let(:activity) { FactoryBot.create(:time_entry_activity) }
+  let!(:activity) { FactoryBot.create(:time_entry_activity) }
+  let!(:other_activity) { FactoryBot.create(:time_entry_activity) }
   let(:project) { FactoryBot.create(:project) }
   let(:other_project) { FactoryBot.create(:project) }
 
@@ -42,7 +43,7 @@ describe TimeEntryActivity::Scopes::ActiveInProject, type: :model do
       context 'with the activity being active' do
         it 'includes the activity' do
           is_expected
-            .to match_array [activity]
+            .to match_array [activity, other_activity]
         end
       end
 
@@ -53,7 +54,7 @@ describe TimeEntryActivity::Scopes::ActiveInProject, type: :model do
 
         it 'excludes the activity' do
           is_expected
-            .to be_empty
+            .to match_array([other_activity])
         end
       end
     end
@@ -65,7 +66,7 @@ describe TimeEntryActivity::Scopes::ActiveInProject, type: :model do
 
       it 'includes the activity' do
         is_expected
-          .to match_array [activity]
+          .to match_array [activity, other_activity]
       end
 
       context 'with the activity being inactive' do
@@ -75,7 +76,7 @@ describe TimeEntryActivity::Scopes::ActiveInProject, type: :model do
 
         it 'includes the activity' do
           is_expected
-            .to match_array [activity]
+            .to match_array [activity, other_activity]
         end
       end
     end
@@ -87,7 +88,7 @@ describe TimeEntryActivity::Scopes::ActiveInProject, type: :model do
 
       it 'includes the activity' do
         is_expected
-          .to match_array [activity]
+          .to match_array [activity, other_activity]
       end
     end
 
@@ -98,7 +99,18 @@ describe TimeEntryActivity::Scopes::ActiveInProject, type: :model do
 
       it 'excludes the activity' do
         is_expected
-          .to be_empty
+          .to match_array [other_activity]
+      end
+
+      context 'with a project configuration configured to true but for a different project' do
+        before do
+          activity.time_entry_activities_projects.create(project: other_project, active: true)
+        end
+
+        it 'excludes the activity' do
+          is_expected
+            .to match_array [other_activity]
+        end
       end
     end
   end
