@@ -42,6 +42,11 @@ module Pages
           find('.add-work-package:not([disabled])', text: 'Create').click
         end
 
+        def expect_wp_create_button_disabled
+          expect(page)
+            .to have_selector('.add-work-package[disabled]', text: 'Create')
+        end
+
         def expect_type_available_for_create(type)
           click_wp_create_button
 

@@ -8,6 +8,7 @@
 
       <li class="toolbar-item">
         <wp-create-button
+          *ngIf="queryLoaded"
           [allowed]="createAllowed"
           [stateName]="createState">
         </wp-create-button>

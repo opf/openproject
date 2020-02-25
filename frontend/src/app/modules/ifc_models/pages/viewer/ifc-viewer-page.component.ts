@@ -20,7 +20,6 @@ export class IFCViewerPageComponent extends WorkPackagesViewBase {
 
   constructor(readonly paths:PathHelperService,
               readonly gon:GonService,
-              readonly wpCreate:WorkPackageCreateService,
               readonly injector:Injector) {
     super(injector);
   }
@@ -57,8 +56,7 @@ export class IFCViewerPageComponent extends WorkPackagesViewBase {
   }
 
   public get createAllowed() {
-    // TODO: get info from query space to see if creation is allowed
-    return true;
+    return this.authorisationService.can('work_packages', 'createWorkPackage');
   }
 
   private get gonIFC() {

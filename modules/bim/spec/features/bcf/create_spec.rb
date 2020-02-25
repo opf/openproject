@@ -64,7 +64,11 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
     end
   end
 
-  context 'without create permission' do
-    let(:permissions) { %i[view_ifc_models manage_ifc_models] }
+  context 'without create work package permission' do
+    let(:permissions) { %i[view_ifc_models manage_ifc_models view_work_packages] }
+
+    it 'has the create button disabled' do
+      index_page.expect_wp_create_button_disabled
+    end
   end
 end

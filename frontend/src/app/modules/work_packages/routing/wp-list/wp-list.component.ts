@@ -81,9 +81,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   unRegisterTitleListener:Function;
   removeTransitionSubscription:Function;
 
-  /** Determine when query is initially loaded */
-  tableInformationLoaded = false;
-
   /** An overlay over the table shown for example when the filters are invalid */
   showResultOverlay = false;
 
@@ -105,9 +102,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
     // Load query on URL transitions
     this.updateQueryOnParamsChanges();
-
-    // Mark tableInformationLoaded when initially loading done
-    this.setupInformationLoadedListener();
 
     // Update title on entering this state
     this.unRegisterTitleListener = this.$transitions.onSuccess({to: 'work-packages.list'}, () => {
@@ -251,18 +245,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
           newChecksum,
           () => this.refresh(true, true));
     });
-  }
-
-  protected setupInformationLoadedListener() {
-    this
-      .querySpace
-      .initialized
-      .values$()
-      .pipe(take(1))
-      .subscribe(() => {
-        this.tableInformationLoaded = true;
-        this.cdRef.detectChanges();
-      });
   }
 
   protected set loadingIndicator(promise:Promise<unknown>) {

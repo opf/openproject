@@ -10,7 +10,7 @@
       </editable-toolbar-title>
 
       <ul class="toolbar-items hide-when-print"
-          *ngIf="tableInformationLoaded">
+          *ngIf="queryLoaded">
         <li class="toolbar-item">
           <wp-create-button
             [allowed]="allowed('work_packages', 'createWorkPackage')"
@@ -77,7 +77,7 @@
            *ngIf="showResultOverlay && showListView"></div>
 
       <!-- TABLE + TIMELINE horizontal split -->
-      <wp-table *ngIf="tableInformationLoaded && showListView"
+      <wp-table *ngIf="queryLoaded && showListView"
                 [projectIdentifier]="projectIdentifier"
                 [configuration]="wpTableConfiguration"
                 class="work-packages-split-view--tabletimeline-content"></wp-table>
@@ -90,7 +90,7 @@
 
       <!-- Footer -->
       <div class="work-packages-split-view--tabletimeline-footer hide-when-print"
-           *ngIf="tableInformationLoaded">
+           *ngIf="queryLoaded">
         <wp-table-pagination></wp-table-pagination>
       </div>
     </div>
