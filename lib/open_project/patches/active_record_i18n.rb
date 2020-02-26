@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,27 +26,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require "reform/form/active_model/validations"
+module ActiveRecord
+  class Base
+    include Redmine::I18n
 
-Reform::Form.class_eval do
-  include Reform::Form::ActiveModel::Validations
-end
-
-Reform::Contract.class_eval do
-  include Reform::Form::ActiveModel::Validations
-end
-
-Reform::Form::ActiveModel::Validations::Validator.class_eval do
-  ##
-  # use activerecord as the base scope instead of 'activemodel' to be compatible
-  # to the messages we have already stored
-  def self.i18n_scope
-    :activerecord
+    def self.human_attribute_name(attr, options = {})
+      attr = attr.to_s.gsub(/_id\z/, '')
+      super
+    end
   end
-end
-
-require 'reform/contract'
-
-class Reform::Form::ActiveModel::Errors
-  prepend OpenProject::Patches::Reform
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,19 +25,6 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-
-require 'active_record'
-
-module ActiveRecord
-  class Base
-    include Redmine::I18n
-
-    def self.human_attribute_name(attr, options = {})
-      attr = attr.to_s.gsub(/_id\z/, '')
-      super
-    end
-  end
-end
 
 module ActionView
   module Helpers
@@ -138,8 +123,6 @@ module ActionView
   end
 end
 
-ActionView::Base.send :include, ActionView::Helpers::AccessibleErrors
-
 ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   if html_tag.include?('<label')
     html_tag.to_s
@@ -148,16 +131,4 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   end
 end
 
-# Patch acts_as_list before any class includes the module
-require 'open_project/patches/acts_as_list'
-
-# Patch String to have some helper methods
-require 'open_project/patches/string'
-
-# Patch Array to have some helper methods
-require 'open_project/patches/array'
-
-# Patch carrierwave to support custom access key validity (to be removed once carrierwave is bumped to 2)
-require 'open_project/patches/carrierwave'
-
-require 'open_project/patches/reform'
+ActionView::Base.send :include, ActionView::Helpers::AccessibleErrors

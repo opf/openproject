@@ -28,7 +28,7 @@
 
 require 'representable'
 
-module OpenProject::RepresentablePatch
+module OpenProject::Patches::Representable
   def self.included(base)
     base.class_eval do
       def self.as_strategy=(strategy)
@@ -50,6 +50,6 @@ module OpenProject::RepresentablePatch
   end
 end
 
-unless Representable::Decorator.included_modules.include?(OpenProject::RepresentablePatch)
-  Representable::Decorator.send(:include, OpenProject::RepresentablePatch)
+unless Representable::Decorator.included_modules.include?(OpenProject::Patches::Representable)
+  Representable::Decorator.send(:include, OpenProject::Patches::Representable)
 end
