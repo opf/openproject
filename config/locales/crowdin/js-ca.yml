@@ -173,7 +173,7 @@ ca:
       query_saving: "No s'ha pogut desar la vista."
       embedded_table_loading: "La vista incrustada no s'ha pogut carregar: %{message}"
     enumeration_activities: "Activitats (seguidor de temps)"
-    enumeration_doc_categories: "Document categories"
+    enumeration_doc_categories: "Categories de documents"
     enumeration_work_package_priorities: "Prioritats dels paquets de treball"
     filter:
       description:
@@ -396,33 +396,33 @@ ca:
         next: 'Següent'
         got_it: 'D''acord'
       steps:
-        help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
+        help_menu: 'Al menú d''<b>Ajuda</b> vostè trobarà una guia d''usuari i material adicional de suport. <br>Gaudeixi de la seva feina amb OpenProject!'
         members: 'Convidi nous <b>Membres</b> per afegir-se al seu projecte.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
         sidebar_arrow: "Amb la fletxa vostè pot navegar enrrere cap al <b>Menu principal</b> del projecte."
         welcome: 'Realitzi un tour de tres minuts per aprendre els <b> aspectes més importants</b>. <br>Recomanem completar les passes fins el final. Podrà recomençar el tour en qualsevol moment.'
         wiki: 'Dintre del <b>Wiki</b> pot documentar i compartir el coneixement amb el seu equip.'
         backlogs:
-          overview: "Manage your work in the <b>Backlogs</b> view. <br> On the right you have the Product Backlog or a Bug Backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop and add them to a sprint."
-          task_board_arrow: 'To see your <b>Task board</b>, open the Sprint drop-down...'
-          task_board_select: '... and select the <b>Task board</b> entry.'
-          task_board: "The <b>Task board</b> visualizes the progress for this sprint. Add new tasks or impediments with the + icon next to a user story. Via drag'n'drop you can update the status."
+          overview: "Gestioni el seu treball a la vista <b>Backlogs</b>. <br> A la dreta té el \"Product Backlog\" o \"Bug Backlog\", a l'esquerra tindrà els respectius esprints. Aquí pot crear <b>èpiques, histories d'usuàries, i bugs</b>, prioritzar arrossegant i afegir-los a un esprint."
+          task_board_arrow: 'Per veure el seu <b>Tauler de tasques</b>, obri el desplegable Esprint...'
+          task_board_select: '... i seleccioni l''entrada <b>Tauler de tasca</b>.'
+          task_board: "Al <b>Tauler de tasca</b> visualitza el progrés d'aquest esprint. Afegeixi noves tasques o problemes amb la icona + al costat de la història d'usuari. Arrossegant podrà actualitzar l'estatus."
         boards:
           overview: 'Manage your work within an intuitive <b>Boards</b> view.'
           lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
           add: 'Click the + will <b>add a new card</b> to the list within a Board.'
           drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
         wp:
-          toggler: "Now let's have a look at the <b>Work package</b> section, which gives you a more detailed view of your work."
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, features, milestones, bugs, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
-          full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
-          back_button: 'With the arrow you can navigate back to the work package list.'
-          create_button: 'The <b>Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> to create a timeline for your project.'
-          timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
+          toggler: "Ara fem un cop d'ull a la secció <b>Paquets de treball</b>, la qual ens dona una vista més detallada de la seva feina."
+          list: 'Aquesta es la llista <b>Paquet de treball</b> amb el treball important dintre del seu projecte, com tasques, característiques, fites, errors i mes. <br> Pot crear o editar un paquet de treball directament dintre d''aquesta llista. Per a veure els seus detalls pot fer doble clic en una fila.'
+          full_view: 'Dintre de <b>Detalls de paquet de treball</b> trobarà tota la informació rellevant, com la descripció, estat i prioritats, activitats, dependències o comentaris.'
+          back_button: 'Amb la fletxa pot navegar enrrere cap a la llista de paquets de treball.'
+          create_button: 'El botó <b>Crear</b> afegirà un nou paquet de treball al seu projecte.'
+          timeline_button: 'Pot activar el <b>Gràfic Gantt</b> per a crear una línia de temps al seu projecte.'
+          timeline: 'Aquí pot editar el seu pla de projecte. Crear noves fases, fites i afegir dependències. Tots els membres poden veure i actualitzar l''últim pla en qualsevol moment.'
     password_confirmation:
-      field_description: 'You need to enter your account password to confirm this change.'
-      title: 'Confirm your password to continue'
+      field_description: 'Necessita introduir la contrasenya del seu compte per a confirmar aquest canvi.'
+      title: 'Confirmi la seva contrasenya per continuar'
     pagination:
       no_other_page: "Es troba en el l'únic full."
       pages:
@@ -430,29 +430,29 @@ ca:
         previous: "Tornar a la pàgina anterior"
     placeholders:
       default: '-'
-      subject: 'Enter subject here'
+      subject: 'Introdueixi el títol aquí'
       selection: 'Si us plau, selecciona'
-      relation_description: 'Click to add description for this relation'
+      relation_description: 'Cliqui per afegir una descripció per aquesta relació'
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
       context: 'Context de projecte'
       work_package_belongs_to: 'Aquest paquet de treball pertany al projecte %{projectname}.'
-      click_to_switch_context: 'Open this work package in that project.'
+      click_to_switch_context: 'Obrir aquest paquet de treball d''aquell projecte.'
       autocompleter:
-        label: 'Project autocompletion'
+        label: 'Autoemplenament del projecte'
     text_are_you_sure: "N'esteu segur?"
     types:
       attribute_groups:
-        error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
-        error_no_table_configured: "Please configure a table for %{group}."
-        reset_title: "Reset form configuration"
+        error_duplicate_group_name: "El nom %{group} ja està en ús. Els noms de Grup han de ser únics."
+        error_no_table_configured: "Si us plau, configuri una taula per a %{group}."
+        reset_title: "Reiniciar la configuració del formulari"
         confirm_reset: >
-          Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
+          Compte: Esta segur que vol reiniciar la configuració del formulari? Això retornarà als atributs als grups per defecte i des-habilitarà TOTS els camps personalitzats.
         upgrade_to_ee: "Actualitza a l'Enterprise Edition"
-        upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
+        upgrade_to_ee_text: "Ostres! Si necessita aquesta característica es un súper pro! L'importaria donar suport als desenvolupadors d'OpenSource convertint-se en un client de la versió Enterprise?"
         more_information: "More information"
-        nevermind: "Nevermind"
+        nevermind: "No importa"
       edit:
         form_configuration: "Form Configuration"
         projects: "Projectes"
@@ -475,7 +475,7 @@ ca:
       label_search_watchers: Cercar vigilants
       label_add: Afegir observadors
       label_discard: Descartar la selecció
-      typeahead_placeholder: Search for possible watchers
+      typeahead_placeholder: Cercar possibles vigilants
     relation_labels:
       parent: "Pare"
       children: "Fills"
@@ -486,31 +486,31 @@ ca:
       blocked: "Bloquejat per"
       precedes: "Precedeix"
       follows: "Segueix"
-      includes: "Includes"
-      partof: "Part of"
-      requires: "Requires"
-      required: "Required by"
-      relation_type: "relation type"
+      includes: "Inclou"
+      partof: "Part de"
+      requires: "Requereix"
+      required: "Requerit per"
+      relation_type: "tipus de relació"
     relations_hierarchy:
       parent_headline: "Pare"
-      hierarchy_headline: "Hierarchy"
+      hierarchy_headline: "Jerarquia"
       children_headline: "Fills"
     relation_buttons:
-      set_parent: "Set parent"
+      set_parent: "Establir pare"
       change_parent: "Canviar pare"
-      remove_parent: "Remove parent"
+      remove_parent: "Eliminar pare"
       hierarchy_indent: "Indent hierarchy"
       hierarchy_outdent: "Outdent hierarchy"
-      group_by_wp_type: "Group by work package type"
-      group_by_relation_type: "Group by relation type"
-      add_parent: "Add existing parent"
-      add_new_child: "Create new child"
-      create_new: "Create new"
-      add_existing: "Add existing"
-      add_existing_child: "Add existing child"
-      remove_child: "Remove child"
-      add_new_relation: "Create new relation"
-      add_existing_relation: "Add existing relation"
+      group_by_wp_type: "Agrupar per tipus de paquet de treball"
+      group_by_relation_type: "Agrupar per tipus de relació"
+      add_parent: "Afegir pare existent"
+      add_new_child: "Crear nou fill"
+      create_new: "Crear nou"
+      add_existing: "Afegir existent"
+      add_existing_child: "Afegir fill existent"
+      remove_child: "Eliminar fill"
+      add_new_relation: "Crea una nova relació"
+      add_existing_relation: "Afegir relació existent"
       update_description: "Set or update description of this relation"
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
@@ -763,7 +763,7 @@ ca:
         default: "per defecte"
         display_settings: 'Display settings'
         default_mode: "Flat list"
-        hierarchy_mode: "Hierarchy"
+        hierarchy_mode: "Jerarquia"
         hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
         display_sums_hint: "Display sums of all summable attributes in a row below the table results."
         show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
