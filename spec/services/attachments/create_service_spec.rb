@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AddAttachmentService do
+describe Attachments::CreateService do
   let(:user) { FactoryBot.create(:user) }
   let(:work_package) { FactoryBot.create(:work_package) }
   let(:container) { work_package }
@@ -36,10 +36,10 @@ describe AddAttachmentService do
 
   subject { described_class.new(work_package, author: user) }
 
-  describe '#add_attachment' do
+  describe '#call' do
     def call_tested_method
-      subject.add_attachment uploaded_file: FileHelpers.mock_uploaded_file(name: 'foobar.txt'),
-                             description: description
+      subject.call uploaded_file: FileHelpers.mock_uploaded_file(name: 'foobar.txt'),
+                   description: description
     end
 
     shared_examples 'successful creation' do

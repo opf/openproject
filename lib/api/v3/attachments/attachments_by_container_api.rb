@@ -79,11 +79,11 @@ module API
                                                                    file[:type],
                                                                    file_name: metadata.file_name.to_s
 
-            service = AddAttachmentService.new(container, author: current_user)
+            service = Attachments::CreateService.new(container, author: current_user)
 
             with_handled_create_errors do
-              service.add_attachment uploaded_file: uploaded_file,
-                                     description: metadata.description
+              service.call uploaded_file: uploaded_file,
+                           description: metadata.description
             end
           end
 

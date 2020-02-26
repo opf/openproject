@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddAttachmentService
+class Attachments::CreateService
   attr_reader :container, :author
 
   def initialize(container, author:)
@@ -39,7 +39,7 @@ class AddAttachmentService
   # In case the container supports it, a journal will be written.
   #
   # An ActiveRecord::RecordInvalid error is raised if any record can't be saved.
-  def add_attachment(uploaded_file:, description:)
+  def call(uploaded_file:, description:)
     attachment = Attachment.new(file: uploaded_file,
                                 container: container,
                                 description: description,
