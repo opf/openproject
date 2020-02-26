@@ -137,7 +137,7 @@ import {WorkPackageChildrenQueryComponent} from "core-components/wp-relations/em
 import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
 import {WorkPackageRelationQueryComponent} from "core-components/wp-relations/embedded/relations/wp-relation-query.component";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
-import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/wp-list/wp-list.component";
+import {WorkPackagePartitionedViewPage} from "core-app/modules/work_packages/routing/wp-list/wp-list.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
 import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachments-upload/attachments-upload.component';
@@ -226,7 +226,7 @@ import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-
   declarations: [
     // Routing
     WorkPackagesBaseComponent,
-    WorkPackagesListComponent,
+    WorkPackagePartitionedViewPage,
 
     // Query injector isolation
     WorkPackageIsolatedQuerySpaceDirective,
@@ -398,7 +398,7 @@ import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-
 
     // View representations
     WorkPackagesBaseComponent,
-    WorkPackagesListComponent,
+    WorkPackagePartitionedViewPage,
 
     WorkPackagesGridComponent,
 

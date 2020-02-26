@@ -55,7 +55,7 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
     QueryParamListenerService
   ]
 })
-export class WorkPackagesListComponent extends WorkPackagesViewBase implements OnDestroy {
+export class WorkPackagePartitionedViewPage extends WorkPackagesViewBase implements OnDestroy {
   @InjectField() titleService:OpTitleService;
   @InjectField() bcfDetectorService:BcfDetectorService;
   @InjectField() queryParamListener:QueryParamListenerService;
