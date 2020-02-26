@@ -51,29 +51,11 @@
   height: 100%
 
 .work-packages-list-view--container
-  // Flexbox for the toolbar, filters and work package split view
-  display: flex
-  flex-direction: column
-  height: 100%
-
   > .toolbar-container
     margin-top: 5px
 
   input[type="text"].toolbar--editable-toolbar
     font-size: 24px
-
-  .work-packages--filters-optional-container
-    // not flex-item
-    height: auto
-    overflow: auto
-    flex-shrink: 0
-
-// Outer Flex container for (table+timeline)|details
-.work-packages-split-view
-  flex: 1 1 auto
-  display: flex
-  // Required for correctly scrolling the inner containers
-  overflow: hidden
 
   // Match both rows and timeline specifically
   tr.row-hovered,

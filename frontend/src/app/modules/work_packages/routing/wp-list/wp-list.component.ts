@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, Component, OnDestroy} from "@angular/core";
+import {ChangeDetectionStrategy, Component, HostBinding, OnDestroy} from "@angular/core";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpTitleService} from "core-components/html/op-title.service";
@@ -95,6 +95,11 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   public readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
     dragAndDropEnabled: true
   };
+
+  // ToDo: Return correct value
+  public currentPartition():string {
+    return '-split';
+  }
 
   ngOnInit() {
     super.ngOnInit();

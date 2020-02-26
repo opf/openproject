@@ -42,6 +42,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   @Input() elementClass:string;
   @Input() resizeEvent:string;
   @Input() localStorageKey:string;
+  @Input() resizeStyle:'flexBasis'|'width' = 'flexBasis';
 
   private resizingElement:HTMLElement;
   private elementFlex:number;
@@ -66,12 +67,15 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     this.elementFlex = localStorageValue ? parseInt(localStorageValue,
       10) : this.resizingElement.offsetWidth;
 
+    // ToDo:
+    // Rename variables to width
+
     // This case only happens when the timeline is loaded but not displayed.
     // Therefor the flexbasis will be set to 50%, just in px
     if (this.elementFlex === 0 && this.resizingElement.parentElement) {
       this.elementFlex = this.resizingElement.parentElement.offsetWidth / 2;
     }
-    this.resizingElement.style.flexBasis = this.elementFlex + 'px';
+    this.resizingElement.style[this.resizeStyle] = this.elementFlex + 'px';
 
     // Wait until dom content is loaded and initialize column layout
     // Otherwise function will be executed with empty list
@@ -99,7 +103,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // Reset the style when killing this directive, otherwise the style remains
-    this.resizingElement.style.flexBasis = null;
+    this.resizingElement.style[this.resizeStyle] = '';
   }
 
   @HostListener('mousedown', ['$event'])
@@ -187,7 +191,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     this.applyColumnLayout(element, newValue);
 
     // Set new width
-    element.style.flexBasis = newValue + 'px';
+    element.style[this.resizeStyle] = newValue + 'px';
   }
 
   private applyColumnLayout(element:HTMLElement, newWidth:number) {

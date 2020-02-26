@@ -1,4 +1,5 @@
-<div class="work-packages-list-view--container">
+<div class="work-packages-list-view--container"
+      [ngClass]="currentPartition()">
   <div class="toolbar-container -editable">
     <div class="toolbar">
       <editable-toolbar-title [title]="selectedTitle"
@@ -68,7 +69,6 @@
   </accessible-by-keyboard>
 
   <!-- (TABLE + TIMELINE) + DETAILS view -->
-  <div class="work-packages-split-view">
 
     <!-- (TABLE + TIMELINE) and FOOTER vertical split-->
     <div class="work-packages-split-view--tabletimeline-side loading-indicator--location"
@@ -97,5 +97,4 @@
 
     <!-- Details view -->
     <div class="work-packages-split-view--details-side" ui-view></div>
-  </div>
 </div>

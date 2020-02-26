@@ -15,3 +15,30 @@
     // Ensure the WP cards span the complete width on mobile
     // --> Move scrollbar out of visible area
     min-width: calc(100vw + 10px)
+
+.work-packages-list-view--container
+  height: 100%
+  overflow: hidden
+  display: grid
+  grid-template-columns: 1fr auto
+  grid-template-rows: 60px auto minmax(200px, 1fr)
+  grid-column-gap: 10px
+
+  &.-split
+    grid-template-areas: "header header" "filter filter" "content-left content-right"
+  &.-right-only
+    grid-template-areas: "header header" "filter filter" "content-right content-right"
+  &.-left-only
+    grid-template-areas: "header header" "filter filter" "content-left content-left"
+
+  .toolbar-container
+    grid-area: header
+
+  filter-container
+    grid-area: filter
+
+  .work-packages-split-view--tabletimeline-side
+    grid-area: content-left
+
+  .work-packages-split-view--details-side
+    grid-area: content-right
