@@ -35,10 +35,10 @@ import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-
 import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
 import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
 import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
-import {WorkPackagePartitionedViewPage} from "core-app/modules/work_packages/routing/wp-list/wp-list.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
+import {WorkPackagePartitionedViewPageComponent} from "core-app/modules/work_packages/routing/wp-partitioned-view-page/wp-partitioned-view-page.component";
 
 const menuItemClass = 'work-packages-menu-item';
 
@@ -133,7 +133,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'work-packages.list',
     url: '',
-    component: WorkPackagePartitionedViewPage,
+    component: WorkPackagePartitionedViewPageComponent,
     reloadOnSearch: false,
     data: {
       bodyClasses: 'router--work-packages-list-view',

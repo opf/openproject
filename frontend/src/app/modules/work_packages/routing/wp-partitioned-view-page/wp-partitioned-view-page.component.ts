@@ -43,9 +43,9 @@ import {QueryParamListenerService} from "core-components/wp-query/query-param-li
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
-  selector: 'wp-list',
-  templateUrl: './wp.list.component.html',
-  styleUrls: ['./wp-list.component.sass'],
+  selector: 'wp-partitioned-view-page',
+  templateUrl: './wp-partitioned-view-page.component.html',
+  styleUrls: ['./wp-partitioned-view-page.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
@@ -55,7 +55,7 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
     QueryParamListenerService
   ]
 })
-export class WorkPackagePartitionedViewPage extends WorkPackagesViewBase implements OnDestroy {
+export class WorkPackagePartitionedViewPageComponent extends WorkPackagesViewBase implements OnDestroy {
   @InjectField() titleService:OpTitleService;
   @InjectField() bcfDetectorService:BcfDetectorService;
   @InjectField() queryParamListener:QueryParamListenerService;
