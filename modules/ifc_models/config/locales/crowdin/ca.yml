@@ -27,7 +27,7 @@ ca:
   permission_manage_ifc_models: "Importar i gestionar models IFC"
   extraction:
     available:
-      ifc_convert: "IFC conversion pipeline available"
+      ifc_convert: "Tub de conversió a IFC disponible"
   activerecord:
     attributes:
       ifc_models/ifc_model:
