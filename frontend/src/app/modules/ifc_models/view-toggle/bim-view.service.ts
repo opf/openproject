@@ -75,14 +75,18 @@ export class BimViewService implements OnDestroy {
     return this.view.getValueOr(bimSplitViewIdentifier);
   }
 
-  private detectView() {
+  public currentViewerState():BimViewState {
     if (this.state.current.name === 'bim.space.list') {
-      this.view.putValue(bimListViewIdentifier);
+      return bimListViewIdentifier;
     } else if (this.state.includes('bim.**.model')) {
-      this.view.putValue(bimViewerViewIdentifier);
+      return bimViewerViewIdentifier;
     } else {
-      this.view.putValue(bimSplitViewIdentifier);
+      return bimSplitViewIdentifier;
     }
+  }
+
+  private detectView() {
+    this.view.putValue(this.currentViewerState());
   }
 
   ngOnDestroy() {

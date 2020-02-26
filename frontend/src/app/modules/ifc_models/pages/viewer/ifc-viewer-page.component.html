@@ -5,6 +5,11 @@
         </h2>
     </div>
     <ul class="toolbar-items">
+      <li class="toolbar-item"
+          *ngIf="filterAllowed">
+        <wp-filter-button>
+        </wp-filter-button>
+      </li>
       <li class="toolbar-item">
         <bim-view-toggle-button></bim-view-toggle-button>
       </li>
@@ -25,10 +30,13 @@
   </div>
 </div>
 
+<filter-container></filter-container>
+
 <div class="ifc-model-viewer--container"
      ui-view="viewer">
 </div>
 
-<div class="bcf-table--container"
+<div class="bcf-table--container loading-indicator--location"
+     data-indicator-name="ifc-table-container"
      ui-view="list">
 </div>

@@ -30,13 +30,14 @@ import {OPContextMenuService} from "core-components/op-context-menu/op-context-m
 import {Directive, ElementRef} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {StateService} from "@uirouter/core";
 import {
   bimListViewIdentifier,
   bimSplitViewIdentifier,
-  bimViewerViewIdentifier
-} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle.component";
-import {StateService} from "@uirouter/core";
-import {BimViewService} from "core-app/modules/ifc_models/view-toggle/bim-view.service";
+  bimViewerViewIdentifier,
+  BimViewService
+} from "core-app/modules/ifc_models/view-toggle/bim-view.service";
+import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
 
 @Directive({
   selector: '[bimViewDropdown]'
@@ -46,7 +47,8 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
               readonly opContextMenu:OPContextMenuService,
               readonly bimView:BimViewService,
               readonly I18n:I18nService,
-              readonly state:StateService) {
+              readonly state:StateService,
+              readonly wpFiltersService:WorkPackageFiltersService) {
 
     super(elementRef, opContextMenu);
   }
@@ -73,6 +75,11 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
           hidden: key === current,
           linkText: this.bimView.text[key],
           onClick: () => {
+            // Close filter section
+            if (this.wpFiltersService.visible) {
+              this.wpFiltersService.toggleVisibility();
+            }
+
             switch (key) {
               case bimListViewIdentifier:
                 this.state.go('bim.space.list');

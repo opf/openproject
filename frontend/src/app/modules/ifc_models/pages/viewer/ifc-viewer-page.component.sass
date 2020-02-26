@@ -3,17 +3,17 @@
   overflow: hidden
   display: grid
   grid-template-columns: 1fr 500px
-  grid-template-rows: 60px calc(100% - 60px)
+  grid-template-rows: 60px auto minmax(200px, 1fr)
   grid-column-gap: 10px
 
   &.-split
-    grid-template-areas: "header header" "viewer list"
+    grid-template-areas: "header header" "filter filter" "viewer list"
 
   &.-viewer
-    grid-template-areas: "header header" "viewer viewer"
+    grid-template-areas: "header header" "filter filter" "viewer viewer"
 
   &.-list
-    grid-template-areas: "header header" "list list"
+    grid-template-areas: "header header" "filter filter" "list list"
 
   .toolbar-container
     grid-area: header
@@ -23,3 +23,6 @@
 
   .bcf-table--container
     grid-area: list
+
+  filter-container
+    grid-area: filter

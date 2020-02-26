@@ -31,10 +31,6 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {BimViewService} from "core-app/modules/ifc_models/view-toggle/bim-view.service";
 
 
-export const bimListViewIdentifier = 'list';
-export const bimViewerViewIdentifier = 'viewer';
-export const bimSplitViewIdentifier = 'split';
-
 @Component({
   template: `
     <ng-container *ngIf="(view$ | async) as current">
