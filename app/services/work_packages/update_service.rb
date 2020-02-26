@@ -43,7 +43,7 @@ class WorkPackages::UpdateService
   end
 
   def call(send_notifications: true, **attributes)
-    in_context(send_notifications) do
+    in_context(model, send_notifications) do
       update(attributes)
     end
   end

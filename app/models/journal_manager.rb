@@ -45,14 +45,6 @@ class JournalManager
       @send_notification = true
     end
 
-    def with_advisory_lock_transaction(container)
-      ActiveRecord::Base.transaction do
-        container.class.with_advisory_lock("create_journal_on_#{container.class.name}_#{container.id}") do
-          yield
-        end
-      end
-    end
-
     private
 
     def merge_reference_journals_by_id(new_journals, old_journals, id_key, value)
@@ -261,6 +253,7 @@ class JournalManager
     journable.journals.select(&:new_record?)
 
     journal.save!
+
     journal
   end
 

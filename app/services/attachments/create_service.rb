@@ -40,7 +40,7 @@ class Attachments::CreateService
   #
   # An ActiveRecord::RecordInvalid error is raised if any record can't be saved.
   def call(uploaded_file:, description:)
-    if container.respond_to? :add_journal
+    if JournalManager.journalized?(container)
       save_journalized(uploaded_file, description)
     else
       save_unjournalized(uploaded_file, description)
@@ -50,7 +50,7 @@ class Attachments::CreateService
   private
 
   def save_journalized(uploaded_file, description)
-    JournalManager.with_advisory_lock_transaction(container) do
+    OpenProject::Mutex.with_advisory_lock_transaction(container) do
       # Get the latest attachments to ensure having them all for journalization.
       # A different worker might have added attachments in the meantime, e.g when bulk uploading
       container.attachments.reload

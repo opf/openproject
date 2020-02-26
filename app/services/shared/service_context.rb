@@ -30,12 +30,28 @@
 
 module Shared
   module ServiceContext
-    def in_context(send_notifications)
+    private
+
+    def in_context(model, send_notifications, &block)
+      if model
+        in_mutex_context(model, send_notifications, &block)
+      else
+        in_user_context(send_notifications, &block)
+      end
+    end
+
+    def in_mutex_context(model, send_notifications, &block)
+      OpenProject::Mutex.with_advisory_lock_transaction(model) do
+        in_user_context(send_notifications, &block)
+      end
+    end
+
+    def in_user_context(send_notifications)
       result = nil
 
       ActiveRecord::Base.transaction do
         User.execute_as user do
-          JournalManager.with_send_notifications send_notifications do
+          JournalManager.with_send_notifications(send_notifications) do
             result = yield
 
             if result.failure?
