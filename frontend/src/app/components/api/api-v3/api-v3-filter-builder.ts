@@ -51,14 +51,15 @@ export class ApiV3FilterBuilder {
     return JSON.stringify(this.filters);
   }
 
-  public toParams():string {
+  public toParams(mergeParams:{[key:string]:string} = {}):string {
     let transformedFilters:string[] = [];
 
     transformedFilters = this.filters.map((filter:ApiV3Filter) => {
       return this.serializeFilter(filter);
     });
 
-    return `filters=${encodeURI(`[${transformedFilters.join(',')}]`)}`;
+    let params = { filters: `[${transformedFilters.join(",")}]`, ...mergeParams }
+    return new URLSearchParams(params).toString();
   }
 
   private serializeFilter(filter:ApiV3Filter) {
