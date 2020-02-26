@@ -35,9 +35,12 @@ export class IsolatedQuerySpace extends StatesGroup {
   collapsedGroups = input<{ [identifier:string]:boolean }>();
 
   // State to be updated when the table is up to date
-  rendered = input<RenderedWorkPackage[]>();
+  tableRendered = input<RenderedWorkPackage[]>();
 
-  renderedWorkPackages:State<RenderedWorkPackage[]> = derive(this.rendered, $ => $.pipe(
+  // Event to be raised when the timeline is up to date
+  timelineRendered = new Subject<null>();
+
+  renderedWorkPackages:State<RenderedWorkPackage[]> = derive(this.tableRendered, $ => $.pipe(
     map(rows => rows.filter(row => !!row.workPackageId)))
   );
 

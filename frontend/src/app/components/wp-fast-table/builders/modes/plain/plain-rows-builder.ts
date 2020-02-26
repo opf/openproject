@@ -5,11 +5,12 @@ import {PrimaryRenderPass} from '../../primary-render-pass';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
 import {RowsBuilder} from '../rows-builder';
 import {PlainRenderPass} from './plain-render-pass';
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class PlainRowsBuilder extends RowsBuilder {
 
   // Injections
-  public I18n:I18nService = this.injector.get(I18nService);
+  @InjectField() public I18n:I18nService;
 
   // The group expansion state
   constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {

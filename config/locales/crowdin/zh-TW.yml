@@ -1672,12 +1672,16 @@ zh-TW:
   label_workflow_plural: "工作流程"
   label_workflow_summary: "大綱"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     other: "%{count} 個已結案"
   label_x_comments:
+    zero: "no comments"
     other: "%{count} 個評論"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     other: "%{count} 個未完成"
   label_x_projects:
+    zero: "no projects"
     other: "%{count} 個專案"
   label_year: "年份"
   label_yesterday: "昨天"
@@ -2219,7 +2223,7 @@ zh-TW:
   text_destroy_with_associated: "還有其他物件與要刪除的工作項目有關聯。這些物件具有以下類型:"
   text_destroy_what_to_do: "您想要做什麼？"
   text_diff_truncated: "... 此差異被截斷, 因為它超出了可以顯示的最大大小。"
-  text_email_delivery_not_configured: "未配置電子郵件傳遞, 而且通知未啟用。在配置或configuration.yml中配置 SMTP 伺服器，並且重新啟動應用程式以啟用它們。"
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "重新指定為這個值:"
   text_enumeration_destroy_question: "%{count} 個物件被賦予此值。"
   text_file_repository_writable: "附件目錄可寫"

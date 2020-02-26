@@ -42,6 +42,7 @@ import {WorkPackageTimelineTableController} from '../container/wp-timeline-conta
 import {timelineElementCssClass, TimelineViewParameters} from '../wp-timeline';
 import {TimelineRelationElement, workPackagePrefix} from './timeline-relation-element';
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 const DEBUG_DRAW_RELATION_LINES_WITH_COLOR = false;
 
@@ -82,7 +83,7 @@ function newSegment(vp:TimelineViewParameters,
 })
 export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
 
-  private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
+  @InjectField() querySpace:IsolatedQuerySpace;
 
   private container:JQuery;
 
@@ -262,10 +263,10 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
     const targetX = endCell.getMarginLeftOfLeftSide() + endCell.getPaddingLeftForIncomingRelationLines();
 
     // Vertical direction
-    const directionY:'toUp' | 'toDown' = idxFrom < idxTo ? 'toDown' : 'toUp';
+    const directionY:'toUp'|'toDown' = idxFrom < idxTo ? 'toDown' : 'toUp';
 
     // Horizontal direction
-    const directionX:'toLeft' | 'beneath' | 'toRight' =
+    const directionX:'toLeft'|'beneath'|'toRight' =
       targetX > startX ? 'toRight' : targetX < startX ? 'toLeft' : 'beneath';
 
     // start

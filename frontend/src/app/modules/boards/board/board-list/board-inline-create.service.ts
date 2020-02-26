@@ -39,7 +39,7 @@ import {GonService} from "core-app/modules/common/gon/gon.service";
 @Injectable()
 export class BoardInlineCreateService extends WorkPackageInlineCreateService implements OnDestroy {
 
-  constructor(protected readonly injector:Injector,
+  constructor(readonly injector:Injector,
               protected readonly querySpace:IsolatedQuerySpace,
               protected readonly halResourceService:HalResourceService,
               protected readonly pathHelperService:PathHelperService,

@@ -652,7 +652,7 @@ describe SysController, type: :controller do
             let(:last_updated) { 2.days.ago }
 
             it 'updates the storage' do
-              expect(::Scm::StorageUpdaterJob).to receive(:perform_later)
+              expect(::SCM::StorageUpdaterJob).to receive(:perform_later)
               request_storage
             end
           end
@@ -661,7 +661,7 @@ describe SysController, type: :controller do
             let(:last_updated) { 10.minutes.ago }
 
             it 'does not update to storage' do
-              expect(::Scm::StorageUpdaterJob).not_to receive(:perform_later)
+              expect(::SCM::StorageUpdaterJob).not_to receive(:perform_later)
               request_storage
             end
           end
@@ -671,7 +671,7 @@ describe SysController, type: :controller do
             let(:last_updated) { 10.minutes.ago }
 
             it 'does update to storage' do
-              expect(::Scm::StorageUpdaterJob).to receive(:perform_later)
+              expect(::SCM::StorageUpdaterJob).to receive(:perform_later)
               request_storage
             end
           end

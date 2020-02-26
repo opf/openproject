@@ -18,12 +18,13 @@ Users can book their time or units spent on an activity within a project directl
 </div>
 
 
-| Feature                                                      | Documentation for                                       |
-| ------------------------------------------------------------ | ------------------------------------------------------- |
-| [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work packages?                       |
-| [Logging time via commit message](#logging-time-via-a-commit message) | How to log time via a commit message to a work package? |
-| [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package?              |
-| [Delete time entries](#delte-time-entires)                   | how to delete time entries logged to a work package?    |
+| Feature                                                      | Documentation for                                            |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work packages?                            |
+| [Logging time via commit message](#logging-time-via-a-commit message) | How to log time via a commit message to a work package?      |
+| [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package?                   |
+| [Delete time entries](#delte-time-entires)                   | How to delete time entries logged to a work package?         |
+| [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage? |
 
 ## Logging time in the work package view
 
@@ -78,5 +79,12 @@ In the list of time entries, click on the **Delete** icon next to a time entry t
 
 ## Track labor costs
 
-In order to track labor costs, you need to [define an hourly rate](../cost-tracking/#hourly-rate) in your user profile first.
+In order to track labor costs, you need to [define an hourly rate](../cost-tracking/#hourly-rate) in your user profile first. The labor costs will then be calculated automatically  based on your hours booked and your hourly rate.
 
+## Spent time widget on the My Page
+
+You can easily track spent time in the **spent time widget on the MyPage** and get an overview about all your activities during a week.
+
+See more information about the My spent time widget on the [MyPage](../../../getting-started/my-page/#my-spent-time-widget).
+
+![spent time widget](image-20200211160311662.png)

@@ -30,12 +30,12 @@
 class AccountController < ApplicationController
   include CustomFieldsHelper
   include OmniauthHelper
-  include Concerns::OmniauthLogin
-  include Concerns::RedirectAfterLogin
-  include Concerns::AuthenticationStages
-  include Concerns::UserConsent
-  include Concerns::UserLimits
-  include Concerns::UserPasswordChange
+  include Accounts::OmniauthLogin
+  include Accounts::RedirectAfterLogin
+  include Accounts::AuthenticationStages
+  include Accounts::UserConsent
+  include Accounts::UserLimits
+  include Accounts::UserPasswordChange
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
@@ -250,7 +250,7 @@ class AccountController < ApplicationController
   # When making changes here, also check MyController.change_password
   def change_password
     # Retrieve user_id from session
-    @user = User.find(flash[:_password_change_user_id])
+    @user = User.find(params[:password_change_user_id])
 
     change_password_flow(user: @user, params: params, show_user_name: true) do
       password_authentication(@user.login, params[:new_password])

@@ -28,31 +28,31 @@ ca:
     plugins:
       no_results_title_text: Actualment no hi ha plugins disponibles.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Color del tema"
+      color_theme_custom: "(Personalitza)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "Alternatiu"
+        content-link-color: "Font enllaçada"
+        primary-color: "Primari"
+        primary-color-dark: "Primari (fosc)"
+        header-bg-color: "Fons de capçalera"
+        header-item-bg-hover-color: "Fons de capçalera en l'aire"
+        header-item-font-color: "Font de capçalera"
+        header-item-font-hover-color: "Font de capçalera en l'aire"
+        header-border-bottom-color: "Vora de capçalera"
+        main-menu-bg-color: "Fons del menú principal"
+        main-menu-bg-selected-background: "Menú principal un cop seleccionat"
+        main-menu-bg-hover-background: "Menú principal en l'aire"
+        main-menu-font-color: "Font del menú principal"
+        main-menu-selected-font-color: "Font del menú principal un cop seleccionat"
+        main-menu-hover-font-color: "Font del menú principal en l'aire"
+        main-menu-border-color: "Vora del menú principal"
       custom_colors: "Colors personalitzats"
       customize: "Adapteu la vostra instal·lació d'OpenProject amb el vostre logo. Nota: aquest logo serà accessible públicament."
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
       manage_colors: "Edita les opcions de selecció de colors"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Color d'accent fort, típicament utilitzat per al botó més important de la pantalla."
         content-link-color: "Color de lletra de la majoria dels enllaços."
         primary-color: "Color principal."
         primary-color-dark: "Typically a darker version of the main color used for hover effects."
@@ -341,7 +341,7 @@ ca:
         account: "Compte"
         attr_firstname: "Atribut Nom"
         attr_lastname: "Atribut Cognom"
-        attr_login: "Username attribute"
+        attr_login: "Atribut Nom d'usuari"
         attr_mail: "Atribut de Correu electrònic"
         base_dn: "Base DN"
         host: "Servidor"
@@ -599,7 +599,7 @@ ca:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "es massa gran ja que com a màxim 24 hores per dia poden ser registrades."
         work_package:
           is_not_a_valid_target_for_time_entries: "Treball paquet #%{id} no és un objectiu vàlid per a reassignar les entrades de temps."
           attributes:
@@ -731,7 +731,7 @@ ca:
     #kept for backwards compatibility
     issue: "Paquet de treball"
     lastname: "Cognom"
-    login: "Username"
+    login: "Nom d'usuari"
     mail: "Correu electrònic"
     name: "Nom"
     password: "Contrasenya"
@@ -749,7 +749,7 @@ ca:
     type: "Tipus"
     updated_at: "Actualitzat el"
     updated_on: "Actualitzat el"
-    uploader: "Uploader"
+    uploader: "Puja"
     user: "Usuari"
     version: "Versió"
     work_package: "Paquet de treball"
@@ -1035,7 +1035,7 @@ ca:
         rename_groups: "Rename attributes groups"
       project_filters:
         description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "Activitats de rastrejament del temps"
   enumeration_work_package_priorities: "Prioritats dels paquets de treball"
   enumeration_reported_project_statuses: "Estats de projecte notificats"
   error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
@@ -1107,7 +1107,7 @@ ca:
       pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
       pdf_with_attachments: "PDF with attachments"
     image:
-      omitted: "Image not exported."
+      omitted: "Imatge no exportada."
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"
@@ -1688,15 +1688,19 @@ ca:
   label_workflow_plural: "Fluxos de treball"
   label_workflow_summary: "Resum"
   label_x_closed_work_packages_abbr:
+    zero: "0 tancats"
     one: "1 tancat"
     other: "%{count} tancats"
   label_x_comments:
+    zero: "sense comentaris"
     one: "1 comentari"
     other: "%{count} comentaris"
   label_x_open_work_packages_abbr:
+    zero: "0 oberts"
     one: "1 obert"
     other: "%{count} oberts"
   label_x_projects:
+    zero: "sense projectes"
     one: "1 projecte"
     other: "%{count} projectes"
   label_year: "Any"
@@ -2239,7 +2243,7 @@ ca:
   text_destroy_with_associated: "Hi ha objectes addicionals associats amb el(s) paquet(s) de treball que es suprimiran. Aquests objectes són dels tipus següents:"
   text_destroy_what_to_do: "Què voleu fer?"
   text_diff_truncated: "... Aquestes diferències s'han truncat perquè excedeixen la mida màxima que es pot mostrar."
-  text_email_delivery_not_configured: "El lliurament per correu electrònic no està configurat i les notificacions estan inhabilitades.\nConfigureu el servidor SMTP a config/configuration.yml i reinicieu l'aplicació per habilitar-lo."
+  text_email_delivery_not_configured: "L'entrega de correu electrònic no està configurada, i les notificacions estan desactivades.\nConfiguri el seu servidor SMTP per a habilitar-les."
   text_enumeration_category_reassign_to: "Torna a assignar-los a aquest valor:"
   text_enumeration_destroy_question: "objectes %{count} estan assignades a aquest valor."
   text_file_repository_writable: "Es pot escriure en el repositori de fitxers adjunts"
@@ -2537,13 +2541,13 @@ ca:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Incongruència en els paràmetres del protocol'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        La seva aplicació s'executa amb configuració de protocol establerta a <code>%{set_protocol}</code>, però la sol·licitud es <code>%{actual_protocol}</code>. Això donarà errors! Vagi a <a href="%{setting_path}">System settings</a> i canviï els paràmetres de "Protocol" per a corregir-ho.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Incongruència en els paràmetres del hostname'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        La seva aplicació s'executa amb configuració de nom de host establerta a <code>%{set_hostname}</code>, però la sol·licitud es <code>%{actual_hostname}</code>. Això donarà errors! Vagi a <a href="%{setting_path}">System settings</a> i canviï els paràmetres de "Nom de host" per a corregir-ho.
   menu_item: "Element de menú"
   menu_item_setting: "Visibilitat"
   wiki_menu_item_for: "Element de menú per a la pàgina wiki \"%{title}\""

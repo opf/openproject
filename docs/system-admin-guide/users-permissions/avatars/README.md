@@ -14,5 +14,5 @@ You can choose whether to allow user Gravatar or enable to upload custom avatars
 
 The Avatars can be configured via the [user profile](../users).
 
-![Avatars](image-20200115173409850.png)
+![OpenProject avatars](image-20200211142213576.png)
 

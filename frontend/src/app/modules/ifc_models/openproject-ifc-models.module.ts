@@ -25,21 +25,44 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-
 import {NgModule} from "@angular/core";
-import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer.component";
+import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
+import {UIRouterModule} from '@uirouter/angular';
+import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
+import {IFCViewerComponent} from './ifc-viewer/ifc-viewer.component';
+import {IFC_ROUTES} from "core-app/modules/ifc_models/openproject-ifc-models.routes";
+import {IFCViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
+import {BCFContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
+import {BimViewToggleDropdownDirective} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle-dropdown.directive";
+import {BimViewToggleComponent} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle.component";
+import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
+import {BimViewService} from "core-app/modules/ifc_models/view-toggle/bim-view.service";
 
 @NgModule({
-  providers: [
+  imports: [
+    OpenprojectCommonModule,
+    OpenprojectWorkPackagesModule,
+    UIRouterModule.forChild({
+      states: IFC_ROUTES
+    })
   ],
   declarations: [
+    // Pages
+    IFCViewerPageComponent,
+
+    // Regions of pages
+    EmptyComponent,
+    BCFContainerComponent,
+
+    // View selector
+    BimViewToggleComponent,
+    BimViewToggleDropdownDirective,
+
     IFCViewerComponent
   ],
   exports: [
-    IFCViewerComponent
   ],
   entryComponents: [
-    IFCViewerComponent
   ]
 })
 export class OpenprojectIFCModelsModule {

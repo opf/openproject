@@ -1687,15 +1687,19 @@ sv:
   label_workflow_plural: "Arbetsflöden"
   label_workflow_summary: "Sammanfattning"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "en stängd"
     other: "%{count} stängda"
   label_x_comments:
+    zero: "no comments"
     one: "En kommentar"
     other: "%{count} kommentarer"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "en öppen"
     other: "%{count} öppnade"
   label_x_projects:
+    zero: "no projects"
     one: "Ett projekt"
     other: "%{count} projekt"
   label_year: "År"
@@ -2238,7 +2242,7 @@ sv:
   text_destroy_with_associated: "Det finns ytterligare objekt kopplade med det/de arbetspaket som ska tas bort. Dessa objekt är av följande typer:"
   text_destroy_what_to_do: "Vad vill du göra?"
   text_diff_truncated: "... Denna diff trunkerades eftersom den överskrider den maximala storleken som kan visas."
-  text_email_delivery_not_configured: "E-postleverans inte är konfigurerad och aviseringar är inaktiverade. Konfigurera din SMTP-server i config/configuration.yml och starta om applikationen för att aktivera dem."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Tilldela dem till detta värde:"
   text_enumeration_destroy_question: "%{count} objekt har tilldelats detta värde."
   text_file_repository_writable: "Katalog skrivbar för bifogade filer"

@@ -27,12 +27,10 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require_dependency 'user'
-require_dependency 'principal'
 
 module OAuth
   class PersistApplicationService
-    include Concerns::Contracted
+    include Contracted
 
     attr_reader :application, :current_user
 
@@ -40,7 +38,7 @@ module OAuth
       @application = model
       @current_user = user
 
-      self.contract_class = Oauth::ApplicationContract
+      self.contract_class = OAuth::ApplicationContract
     end
 
     def call(attributes)

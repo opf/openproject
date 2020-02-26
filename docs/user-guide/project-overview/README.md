@@ -87,7 +87,7 @@ Display the latest project news in the news widget on the project overview page.
 
 The project description widgets adds the project description to your project overview. 
 
-The description can be added or changed in the [project settings](../projects/).
+The description can be added or changed in the [project settings](../projects/project-settings).
 
 ![project description widget](image-20191112143652698.png)
 
@@ -95,7 +95,7 @@ The description can be added or changed in the [project settings](../projects/).
 
 The project details widget displays all custom fields for projects, e.g. project owner, project due date, project number, or any other custom field for this project.
 
-The custom fields can be adapted in the [project settings](../project-settings/). As a system administrator you can [create new custom fields for projects](../../system-admin-guide/custom-fields/custom-fields-projects/).
+The custom fields can be adapted in the [project settings](../projects/project-settings/). As a system administrator you can [create new custom fields for projects](../../system-admin-guide/custom-fields/custom-fields-projects/).
 
 ![project details widget](image-20191112144557906.png)
 

@@ -26,25 +26,25 @@ ca:
       loading: "Carregant ..."
     attachments:
       draggable_hint: |
-        Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+        Arrossega al editor per a pujar una imatge o referenciar un adjunt. Els camps tancats del editor seguiran oberts mentre se segueixi arrossegant.
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
-        single: "Select \"%{name}\""
-      remove: "Remove %{name}"
-      active: "Active %{label} %{name}"
+        multi: "Afegir \"%{name}\""
+        single: "Seleccionar\"%{name}\""
+      remove: "Eliminar %{name}"
+      active: "Activar %{label} %{name}"
     close_popup_title: "Tanca el popup"
-    close_filter_title: "Close filter"
-    close_form_title: "Close form"
+    close_filter_title: "Tancar filtre"
+    close_form_title: "Tancar formulari"
     button_add_watcher: "Afegir observador"
     button_back: "Endarrere"
-    button_back_to_list_view: "Back to list view"
+    button_back_to_list_view: "Tornar al llistat"
     button_cancel: "Cancel·la"
     button_close: "Tancar"
     button_change_project: "Change project"
     button_check_all: "Marcar-ho tot"
-    button_configure-form: "Configure form"
-    button_confirm: "Confirm"
+    button_configure-form: "Configurar formulari"
+    button_confirm: "Confirmar"
     button_continue: "Continue"
     button_copy: "Copiar"
     button_custom-fields: "Camps personalitzats"
@@ -54,13 +54,13 @@ ca:
     button_duplicate: "Duplicar"
     button_edit: "Editar"
     button_filter: "Filtre"
-    button_advanced_filter: "Advanced filter"
+    button_advanced_filter: "Filtres avançats"
     button_list_view: "Vista de llista"
     button_show_view: "Vista de pantalla completa"
     button_log_time: "Temps de registre"
     button_more: "Més"
     button_open_details: "Obrir vista detallada"
-    button_close_details: "Close details view"
+    button_close_details: "Tancar vista detallada"
     button_open_fullscreen: "Obrir vista a pantalla completa"
     button_show_cards: "Show card view"
     button_show_list: "Show list view"
@@ -107,52 +107,52 @@ ca:
     description_selected_columns: "Columnes seleccionades"
     description_subwork_package: "Fill del paquet de treball #%{id}"
     editor:
-      preview: 'Toggle preview mode'
-      source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      error_initialization_failed: 'Failed to initialize CKEditor!'
+      preview: 'Canviar el mode de vista previ'
+      source_code: 'Canviar al mode de font Markdown'
+      error_saving_failed: 'Guardar el document ha fallat amb el següent error: %{error}'
+      error_initialization_failed: 'Ha fallat inicialitzar CKEditor!'
       mode:
-        manual: 'Switch to Markdown source'
-        wysiwyg: 'Switch to WYSIWYG editor'
+        manual: 'Canviar a la font Markdown'
+        wysiwyg: 'Canviar a l''editor WYSIWYG'
       macro:
         child_pages:
-          button: 'Links to child pages'
-          include_parent: 'Include parent'
-          text: '[Placeholder] Links to child pages of'
+          button: 'Enllaços a pagines filles'
+          include_parent: 'Afegir pare'
+          text: '[Placeholder] Enllaçar a pàgines filles de'
           page: 'Pàgina wiki'
-          this_page: 'this page'
+          this_page: 'aquesta pàgina'
           hint: |
-            Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
+            Deixar aquest camp buit a la llista de pagines filles de la pagina actual. Si vols referenciar a una pagina diferent, indica el seu títol o slug.
         code_block:
-          button: 'Insert code snippet'
-          title: 'Insert / edit Code snippet'
-          language: 'Formatting language'
-          language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
+          button: 'Inserir un fragment de codi'
+          title: 'Inserir / editar un fragment de codi'
+          language: 'Llenguatge de format'
+          language_hint: 'Introdueix el llenguatge de format que serà utilitzat per a ressaltar (si està suportat).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Chose macro'
+          chose_macro: 'Escollir macro'
         toc: 'Table of contents'
-        toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
+        toolbar_help: 'Faci clic per seleccionar el widget i mostrar la barra d''eines. Faci doble clic per a editar el widget'
         wiki_page_include:
-          button: 'Include content of another wiki page'
-          text: '[Placeholder] Included wiki page of'
+          button: 'Incloure contingut a una altra pàgina wiki'
+          text: '[Placeholder] Incloure pàgina wiki de'
           page: 'Pàgina wiki'
-          not_set: '(Page not yet set)'
+          not_set: '(Pagina encara no establida)'
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            Incloure el contingut d'una altra pàgina wiki especificant el seu títol o logo.
+            Pot incloure la pàgina wiki d'un altre projecte separant-les en dos punts com al següent exemple.
         work_package_button:
-          button: 'Insert create work package button'
-          type: 'Work package type'
-          button_style: 'Use button style'
-          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
-          without_type: 'Create work package'
-          with_type: 'Create work package (Type: %{typename})'
+          button: 'Inserir botó de crear paquet de treball'
+          type: 'Tipus de paquet de treball'
+          button_style: 'Utilitzar botó d''estil'
+          button_style_hint: 'Opcional: marca per fer que la macro aparegui com a botó, no com enllaç.'
+          without_type: 'Crear paquet de treball'
+          with_type: 'Crear paquet de treball (Tipus: %{typename})'
         embedded_table:
-          button: 'Embed work package table'
-          text: '[Placeholder] Embedded work package table'
+          button: 'Incrustar la taula del paquet de treball'
+          text: '[Placeholder] Taula de paquet de treball incrustada'
         embedded_calendar:
-          text: '[Placeholder] Embedded calendar'
+          text: '[Placeholder] Calendari incrustat'
     admin:
       type_form:
         custom_field: 'Camp personalitzat'
@@ -166,14 +166,14 @@ ca:
     custom_actions:
       date:
         specific: 'en'
-        current_date: 'Current date'
+        current_date: 'Data actual'
     error:
       internal: "S'ha produït un error intern."
-      cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
-      query_saving: "The view could not be saved."
-      embedded_table_loading: "The embedded view could not be loaded: %{message}"
+      cannot_save_changes_with_message: "No s'han pogut guardar els seus canvis per causa del següent error: %{error}"
+      query_saving: "No s'ha pogut desar la vista."
+      embedded_table_loading: "La vista incrustada no s'ha pogut carregar: %{message}"
     enumeration_activities: "Activitats (seguidor de temps)"
-    enumeration_doc_categories: "Document categories"
+    enumeration_doc_categories: "Categories de documents"
     enumeration_work_package_priorities: "Prioritats dels paquets de treball"
     filter:
       description:
@@ -181,17 +181,17 @@ ca:
         text_close_filter: "Per seleccionar una entrada tregui el focus prement per exemple entrar. Per deixar sense filtrar seleccioneu la primera entrada (buida)."
       noneElement: "(cap)"
       time_zone_converted:
-        two_values: "%{from} - %{to} in your local time."
-        only_start: "From %{from} in your local time."
-        only_end: "Till %{to} in your local time."
+        two_values: "%{from} - %{to} en el seu temps local."
+        only_start: "Des de %{from} en el seu temps local."
+        only_end: "Fins %{to} en el seu temps local."
       value_spacer: "-"
       sorting:
         criteria:
           one: "Primer criteri d'ordenació"
           two: "Segon criteri d'ordenació"
           three: "Tercer criteri d'ordenació"
-      upsale_for_more: "For more advanced filters, check out the"
-      upsale_link: 'Enterprise Edition.'
+      upsale_for_more: "Per a filtres més avançats, revisi a"
+      upsale_link: 'Edició Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -208,16 +208,23 @@ ca:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Activar"
-    label_add_column_after: "Add column after"
-    label_add_column_before: "Add column before"
-    label_add_columns: "Add columns"
+    label_add_column_after: "Afegir columna desprès"
+    label_add_column_before: "Afegir columna abans"
+    label_add_columns: "Afegir columna"
     label_add_comment: "Afegeix un comentari"
-    label_add_comment_title: "Comment and type @ to notify other people"
-    label_add_row_after: "Add row after"
-    label_add_row_before: "Add row before"
+    label_add_comment_title: "Comenti i escrigui @ per a notificar altres persones"
+    label_add_row_after: "Afegir fila desprès"
+    label_add_row_before: "Afegir fila abans"
     label_add_selected_columns: "Afegir columnes seleccionades"
     label_added_by: "afegit per"
     label_added_time_by: "Afegit per %{author} %{age}"
@@ -235,7 +242,7 @@ ca:
     label_board_sticky: "Fixa't"
     label_create: "Crear"
     label_create_work_package: "Crear paquet de treball nou"
-    label_created_by: "Created by"
+    label_created_by: "Creat per"
     label_date: "Data"
     label_date_with_format: "Introduïu el %{date_attribute} amb el format següent: %{format}"
     label_deactivate: "Desactivar"
@@ -254,12 +261,12 @@ ca:
     label_contains: "conté"
     label_created_on: "creat el"
     label_edit_comment: "Editar aquest comentari"
-    label_edit_status: "Edit the status of the work package"
+    label_edit_status: "Editar l'estat del paquet de treball"
     label_equals: "és"
     label_expand: "Expandir"
     label_expanded: "expandit"
     label_expand_all: "Expandeix tot"
-    label_expand_project_menu: "Expand project menu"
+    label_expand_project_menu: "Expandir menú de projecte"
     label_export: "Exportar"
     label_filename: "Fitxer"
     label_filesize: "Mida"
@@ -270,14 +277,14 @@ ca:
     label_group_plural: "Grups"
     label_hide_attributes: "Mostrar menys"
     label_hide_column: "Amagar columna"
-    label_hide_project_menu: "Collapse project menu"
+    label_hide_project_menu: "Contrau menú de projecte"
     label_in: "en"
     label_in_less_than: "en menys de"
     label_in_more_than: "en més de"
     label_incoming_emails: "Correu electrònics d'entrada"
     label_information_plural: "Informació"
     label_import: "Import"
-    label_latest_activity: "Latest activity"
+    label_latest_activity: "Última activitat"
     label_last_updated_on: "La darrera actualització el"
     label_less_or_equal: "<="
     label_less_than_ago: "fa menys de"
@@ -300,34 +307,35 @@ ca:
     label_not_equals: "no és"
     label_on: "en"
     label_open_menu: "Obrir menú"
-    label_open_context_menu: "Open context menu"
+    label_open_context_menu: "Obre el menú de contextual"
     label_open_work_packages: "obrir"
     label_password: "Contrasenya"
     label_previous: "Anterior"
     label_per_page: "Per pàgina:"
     label_please_wait: "Espereu, si us plau"
     label_project_plural: "Projectes"
-    label_visibility_settings: "Visibility settings"
+    label_visibility_settings: "Opcions de visualització"
     label_quote_comment: "Citar aquest comentari"
+    label_recent: "Recent"
     label_reset: "Restablir"
-    label_remove_column: "Remove column"
+    label_remove_column: "Eliminar columna"
     label_remove_columns: "Treure les columnes seleccionades"
-    label_remove_row: "Remove row"
+    label_remove_row: "Eliminar fila"
     label_report: "Informe"
     label_repository_plural: "Repositoris"
     label_save_as: "Desa com a"
     label_select_watcher: "Seleccioneu un vigilant..."
     label_selected_filter_list: "Filtres seleccionats"
     label_show_attributes: "Mostrar tots els atributs"
-    label_show_in_menu: "Show view in menu"
+    label_show_in_menu: "Mostrar vista al menú"
     label_sort_by: "Ordena per"
     label_sorted_by: "ordenat per"
     label_sort_higher: "Mou amunt"
     label_sort_lower: "Mou cap avall"
     label_sorting: "Ordenació"
     label_spent_time: "Temps invertit"
-    label_star_query: "Favored"
-    label_press_enter_to_save: "Press enter to save."
+    label_star_query: "Favorit"
+    label_press_enter_to_save: "Pitja enter per guardar."
     label_public_query: "Públic"
     label_sum: "Suma"
     label_sum_for: "Suma de"
@@ -337,8 +345,8 @@ ca:
     label_time_entry_plural: "Temps invertit"
     label_up: "Amunt"
     label_user_plural: "Usuaris"
-    label_activity_show_only_comments: "Show activities with comments only"
-    label_activity_show_all: "Show all activities"
+    label_activity_show_only_comments: "Mostra només activitats amb comentaris"
+    label_activity_show_all: "Mostra totes les activitats"
     label_total_progress: "%{percent}% Progrés total"
     label_total_amount: "Total: %{amount}"
     label_updated_on: "actualitzat el"
@@ -354,22 +362,22 @@ ca:
     label_unwatch: "Deixa de Seguir"
     label_unwatch_work_package: "Deixa de seguir paquet de treball"
     label_uploaded_by: "Pujat per"
-    label_default_queries: "Default views"
-    label_starred_queries: "Favorite views"
-    label_global_queries: "Public views"
-    label_custom_queries: "Private views"
+    label_default_queries: "Vistes per defecte"
+    label_starred_queries: "Vistes preferides"
+    label_global_queries: "Vistes públiques"
+    label_custom_queries: "Vistes privades"
     label_columns: "Columnes"
     label_attachments: Arxius
     label_drop_files: Arrossegueu els fitxers aquí
     label_drop_files_hint: o feu clic per afegir arxius
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
-    label_add_attachments: "Add attachments"
-    label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
+    label_drop_folders_hint: No podeu pujar carpetes com a adjunt. Si us plau, seleccioneu arxius únics.
+    label_add_attachments: "Afegir adjunts"
+    label_formattable_attachment_hint: "Adjuntar i enllaça arxius arrossegant-los en aquest camp, o enganxant des del porta-papers."
     label_remove_file: "Suprimir %{fileName}"
     label_remove_watcher: "Treure l'observador %{name}"
     label_remove_all_files: Elimina tots els arxius
     label_add_description: "Afegiu una descripció per a %{file}"
-    label_upload_notification: "Uploading files..."
+    label_upload_notification: "Carregant Arxius..."
     label_work_package_upload_notification: "Pujada d'arxius per al paquet de treball #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
     label_files_to_upload: "Es pujaran aquests fitxers:"
@@ -381,40 +389,40 @@ ca:
     label_version_plural: "Versions"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
-      show_modal: 'Show attribute help text entry'
+      show_modal: 'Mostrar l''entrada de text per a l''ajuda d''atributs'
     onboarding:
       buttons:
-        skip: 'Skip'
+        skip: 'Omet'
         next: 'Següent'
-        got_it: 'Got it'
+        got_it: 'D''acord'
       steps:
-        help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>Members</b> to join your project.'
+        help_menu: 'Al menú d''<b>Ajuda</b> vostè trobarà una guia d''usuari i material adicional de suport. <br>Gaudeixi de la seva feina amb OpenProject!'
+        members: 'Convidi nous <b>Membres</b> per afegir-se al seu projecte.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
-        sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
-        welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
-        wiki: 'Within the <b>Wiki</b> you can document and share knowledge together with your team.'
+        sidebar_arrow: "Amb la fletxa vostè pot navegar enrrere cap al <b>Menu principal</b> del projecte."
+        welcome: 'Realitzi un tour de tres minuts per aprendre els <b> aspectes més importants</b>. <br>Recomanem completar les passes fins el final. Podrà recomençar el tour en qualsevol moment.'
+        wiki: 'Dintre del <b>Wiki</b> pot documentar i compartir el coneixement amb el seu equip.'
         backlogs:
-          overview: "Manage your work in the <b>Backlogs</b> view. <br> On the right you have the Product Backlog or a Bug Backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop and add them to a sprint."
-          task_board_arrow: 'To see your <b>Task board</b>, open the Sprint drop-down...'
-          task_board_select: '... and select the <b>Task board</b> entry.'
-          task_board: "The <b>Task board</b> visualizes the progress for this sprint. Add new tasks or impediments with the + icon next to a user story. Via drag'n'drop you can update the status."
+          overview: "Gestioni el seu treball a la vista <b>Backlogs</b>. <br> A la dreta té el \"Product Backlog\" o \"Bug Backlog\", a l'esquerra tindrà els respectius esprints. Aquí pot crear <b>èpiques, histories d'usuàries, i bugs</b>, prioritzar arrossegant i afegir-los a un esprint."
+          task_board_arrow: 'Per veure el seu <b>Tauler de tasques</b>, obri el desplegable Esprint...'
+          task_board_select: '... i seleccioni l''entrada <b>Tauler de tasca</b>.'
+          task_board: "Al <b>Tauler de tasca</b> visualitza el progrés d'aquest esprint. Afegeixi noves tasques o problemes amb la icona + al costat de la història d'usuari. Arrossegant podrà actualitzar l'estatus."
         boards:
           overview: 'Manage your work within an intuitive <b>Boards</b> view.'
           lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
           add: 'Click the + will <b>add a new card</b> to the list within a Board.'
           drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
         wp:
-          toggler: "Now let's have a look at the <b>Work package</b> section, which gives you a more detailed view of your work."
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, features, milestones, bugs, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
-          full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
-          back_button: 'With the arrow you can navigate back to the work package list.'
-          create_button: 'The <b>Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> to create a timeline for your project.'
-          timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
+          toggler: "Ara fem un cop d'ull a la secció <b>Paquets de treball</b>, la qual ens dona una vista més detallada de la seva feina."
+          list: 'Aquesta es la llista <b>Paquet de treball</b> amb el treball important dintre del seu projecte, com tasques, característiques, fites, errors i mes. <br> Pot crear o editar un paquet de treball directament dintre d''aquesta llista. Per a veure els seus detalls pot fer doble clic en una fila.'
+          full_view: 'Dintre de <b>Detalls de paquet de treball</b> trobarà tota la informació rellevant, com la descripció, estat i prioritats, activitats, dependències o comentaris.'
+          back_button: 'Amb la fletxa pot navegar enrrere cap a la llista de paquets de treball.'
+          create_button: 'El botó <b>Crear</b> afegirà un nou paquet de treball al seu projecte.'
+          timeline_button: 'Pot activar el <b>Gràfic Gantt</b> per a crear una línia de temps al seu projecte.'
+          timeline: 'Aquí pot editar el seu pla de projecte. Crear noves fases, fites i afegir dependències. Tots els membres poden veure i actualitzar l''últim pla en qualsevol moment.'
     password_confirmation:
-      field_description: 'You need to enter your account password to confirm this change.'
-      title: 'Confirm your password to continue'
+      field_description: 'Necessita introduir la contrasenya del seu compte per a confirmar aquest canvi.'
+      title: 'Confirmi la seva contrasenya per continuar'
     pagination:
       no_other_page: "Es troba en el l'únic full."
       pages:
@@ -422,42 +430,29 @@ ca:
         previous: "Tornar a la pàgina anterior"
     placeholders:
       default: '-'
-      subject: 'Enter subject here'
+      subject: 'Introdueixi el títol aquí'
       selection: 'Si us plau, selecciona'
-      relation_description: 'Click to add description for this relation'
+      relation_description: 'Cliqui per afegir una descripció per aquesta relació'
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
-      context: 'Project context'
-      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
-      click_to_switch_context: 'Open this work package in that project.'
+      context: 'Context de projecte'
+      work_package_belongs_to: 'Aquest paquet de treball pertany al projecte %{projectname}.'
+      click_to_switch_context: 'Obrir aquest paquet de treball d''aquell projecte.'
       autocompleter:
-        label: 'Project autocompletion'
+        label: 'Autoemplenament del projecte'
     text_are_you_sure: "N'esteu segur?"
     types:
       attribute_groups:
-        error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
-        error_no_table_configured: "Please configure a table for %{group}."
-        reset_title: "Reset form configuration"
+        error_duplicate_group_name: "El nom %{group} ja està en ús. Els noms de Grup han de ser únics."
+        error_no_table_configured: "Si us plau, configuri una taula per a %{group}."
+        reset_title: "Reiniciar la configuració del formulari"
         confirm_reset: >
-          Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
+          Compte: Esta segur que vol reiniciar la configuració del formulari? Això retornarà als atributs als grups per defecte i des-habilitarà TOTS els camps personalitzats.
         upgrade_to_ee: "Actualitza a l'Enterprise Edition"
-        upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
+        upgrade_to_ee_text: "Ostres! Si necessita aquesta característica es un súper pro! L'importaria donar suport als desenvolupadors d'OpenSource convertint-se en un client de la versió Enterprise?"
         more_information: "More information"
-        nevermind: "Nevermind"
-        filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
-          duplicated: "duplicat per"
-          blocks: "blocking"
-          blocked: "bloquejats per"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
+        nevermind: "No importa"
       edit:
         form_configuration: "Form Configuration"
         projects: "Projectes"
@@ -471,7 +466,7 @@ ca:
       duration: 'Durada'
       spent_on: 'Data'
       hours: 'Hores'
-      label: 'Time entry'
+      label: 'Entrada de temps'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -480,7 +475,7 @@ ca:
       label_search_watchers: Cercar vigilants
       label_add: Afegir observadors
       label_discard: Descartar la selecció
-      typeahead_placeholder: Search for possible watchers
+      typeahead_placeholder: Cercar possibles vigilants
     relation_labels:
       parent: "Pare"
       children: "Fills"
@@ -491,31 +486,31 @@ ca:
       blocked: "Bloquejat per"
       precedes: "Precedeix"
       follows: "Segueix"
-      includes: "Includes"
-      partof: "Part of"
-      requires: "Requires"
-      required: "Required by"
-      relation_type: "relation type"
+      includes: "Inclou"
+      partof: "Part de"
+      requires: "Requereix"
+      required: "Requerit per"
+      relation_type: "tipus de relació"
     relations_hierarchy:
       parent_headline: "Pare"
-      hierarchy_headline: "Hierarchy"
+      hierarchy_headline: "Jerarquia"
       children_headline: "Fills"
     relation_buttons:
-      set_parent: "Set parent"
+      set_parent: "Establir pare"
       change_parent: "Canviar pare"
-      remove_parent: "Remove parent"
+      remove_parent: "Eliminar pare"
       hierarchy_indent: "Indent hierarchy"
       hierarchy_outdent: "Outdent hierarchy"
-      group_by_wp_type: "Group by work package type"
-      group_by_relation_type: "Group by relation type"
-      add_parent: "Add existing parent"
-      add_new_child: "Create new child"
-      create_new: "Create new"
-      add_existing: "Add existing"
-      add_existing_child: "Add existing child"
-      remove_child: "Remove child"
-      add_new_relation: "Create new relation"
-      add_existing_relation: "Add existing relation"
+      group_by_wp_type: "Agrupar per tipus de paquet de treball"
+      group_by_relation_type: "Agrupar per tipus de relació"
+      add_parent: "Afegir pare existent"
+      add_new_child: "Crear nou fill"
+      create_new: "Crear nou"
+      add_existing: "Afegir existent"
+      add_existing_child: "Afegir fill existent"
+      remove_child: "Eliminar fill"
+      add_new_relation: "Crea una nova relació"
+      add_existing_relation: "Afegir relació existent"
       update_description: "Set or update description of this relation"
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
@@ -533,12 +528,14 @@ ca:
     field_value_enter_prompt: "Introduïu un valor per a '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Si us plau, introduïu un caràcter més"
         other: "Introduïu {{count}} caràcters més"
       load_more: "Carregant més resultats..."
       no_matches: "No hi ha coincidències"
       searching: "Cercant ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Només podeu seleccionar un element"
         other: "Només podeu seleccionar {{limit}} elements"
     project_menu_details: "Detalls"
@@ -713,7 +710,7 @@ ca:
         versionName: "Versió"
         version: "Versió"
       default_queries:
-        latest_activity: "Latest activity"
+        latest_activity: "Última activitat"
         created_by_me: "Created by me"
         assigned_to_me: "Assigned to me"
         recently_created: "Recently created"
@@ -766,7 +763,7 @@ ca:
         default: "per defecte"
         display_settings: 'Display settings'
         default_mode: "Flat list"
-        hierarchy_mode: "Hierarchy"
+        hierarchy_mode: "Jerarquia"
         hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
         display_sums_hint: "Display sums of all summable attributes in a row below the table results."
         show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
@@ -791,8 +788,7 @@ ca:
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
         relation_filters:
-          first_part: "Show all work packages"
-          second_part: "the current work package"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Visió general
         activity: Activitat
@@ -878,6 +874,7 @@ ca:
         one: "one child work package"
         other: "%{count} work package children"
       hour:
+        zero: "0 h"
         one: "1 h"
         other: "%{count} h"
     zen_mode:

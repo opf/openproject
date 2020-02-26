@@ -35,6 +35,8 @@ module Report::QueryUtils
   delegate :quoted_false, :quoted_true, to: 'engine.reporting_connection'
   attr_writer :engine
 
+  include Costs::NumberHelper
+
   module PropagationHook
     include Report::QueryUtils
 
@@ -166,17 +168,6 @@ module Report::QueryUtils
   # @return [String] Sanitized statement.
   def sanitize_sql_for_conditions(statement)
     engine.send :sanitize_sql_for_conditions, statement
-  end
-
-  ##
-  # FIXME: This is redmine
-  # Generates string representation for a currency.
-  #
-  # @see CostRate.clean_currency
-  # @param [BigDecimal] value
-  # @return [String]
-  def clean_currency(value)
-    CostRate.clean_currency(value).to_f.to_s
   end
 
   ##

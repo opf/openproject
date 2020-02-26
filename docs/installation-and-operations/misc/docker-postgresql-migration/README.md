@@ -1,28 +1,20 @@
 # Migrating your Docker OpenProject database to PostgreSQL
 
-TODO: review
-
-This guide will migrate your docker-based MySQL installation to a PostgreSQL installation using [pgloader](https://github.com/dimitri/pgloader). 
+This guide will migrate your all-in-one docker-based MySQL installation to a PostgreSQL installation using [pgloader](https://github.com/dimitri/pgloader). 
 
 ## Backing up
 
-Before beginning the migration, please ensure you have created a backup of your current installation. Please follow our [backup and restore documentation](https://www.openproject.org/operations/backup/backup-guide-docker-installation/) for Docker-based installations.
-
-
+Before beginning the migration, please ensure you have created a backup of your current installation. Please follow our [backup and restore guides](../../operation) for Docker-based installations.
 
 ## Built-in migration script
 
 The Dockerfile comes with a built-in PostgreSQL migration script that will auto-run and inform you what to do.
-
-
 
 ### Set up a PostgreSQL database
 
 Depending on your usage, you may want to set up an external PostgreSQL database to provide the container with connection details just like you did for MySQL.
 
 In any case, you may also use the internally configured PostgreSQL instance of the docker container by using the DATABASE_URL ` postgres://openproject:openproject@127.0.0.1/openproject`
-
-
 
 **Installing a PostgreSQL database outside docker**
 
@@ -110,7 +102,6 @@ docker run -it \
   -e DATABASE_URL="postgresql://openproject:<PASSWORD>@localhost:5432/openproject" \
   openproject/community:latest
 ```
-
 
 
 This will perform all necessary steps to perform the migration. Afterwards, simply remove the `MYSQL_DATABASE_URL`environment variable again and start your container as usual.

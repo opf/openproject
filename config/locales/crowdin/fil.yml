@@ -1688,15 +1688,19 @@ fil:
   label_workflow_plural: "Daloy ng trabaho"
   label_workflow_summary: "Buod"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "Isa ang isinara"
     other: "%{count} ang isinara"
   label_x_comments:
+    zero: "no comments"
     one: "Isang komento"
     other: "%{count} mga komento"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "Isa ang bukas"
     other: "%{count} ang bukas"
   label_x_projects:
+    zero: "no projects"
     one: "Isang proyekto"
     other: "%{count} mga proyekto"
   label_year: "Taon"
@@ -2239,7 +2243,7 @@ fil:
   text_destroy_with_associated: "Mayroong karagdagang mga bagay naka-associaye sa work packGe na maaring burahin. Yung mga bagay ay ang mga sumusunod na uri:"
   text_destroy_what_to_do: "Ano gusto mong gawin?"
   text_diff_truncated: "... Itong diff ay naka-truncatw dahil ito ay lamps na sa pinakamataas na laki na maaring ipakita."
-  text_email_delivery_not_configured: "Ang email na pagpapadala ay hindi natukoy, at mga abiso ay hindi pinagana.\nI-configure ang iyong SMTP sever sa config/configuration.yml at i-restart muli ang aplikasyon upang paganahin ang mga ito."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Italaga sila ssa halaga na ito:"
   text_enumeration_destroy_question: "Ang %{count} mga bagay ay nakatalaga sa halaga na ito."
   text_file_repository_writable: "Paglalakip ng direktoryong masusulatan"

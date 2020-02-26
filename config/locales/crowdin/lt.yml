@@ -28,31 +28,31 @@ lt:
     plugins:
       no_results_title_text: Nėra jokių pasiekiamų plėtinių.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Spalvų tema"
+      color_theme_custom: "(Pasirinktinis)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "Alternatyva"
+        content-link-color: "Nuorodų šriftas"
+        primary-color: "Pagrindinė"
+        primary-color-dark: "Pagrindinė (tamsi)"
+        header-bg-color: "Antraštės fonas"
+        header-item-bg-hover-color: "Atraštės fonas užvedus pelę"
+        header-item-font-color: "Antraštės šriftas"
+        header-item-font-hover-color: "Antraštės šriftas užvažiavus pele"
+        header-border-bottom-color: "Antraštės kraštinės"
+        main-menu-bg-color: "Pagrindinio meniu fonas"
+        main-menu-bg-selected-background: "Pagrindinis meniu kai pasirinktas"
+        main-menu-bg-hover-background: "Pagrindinis meniu užvažiavus pele"
+        main-menu-font-color: "Pagrindinio meniu šriftas"
+        main-menu-selected-font-color: "Pagrindinio meniu šriftas, kai pasirinktas"
+        main-menu-hover-font-color: "Pagrindinio meniu šriftas užvažiavus pele"
+        main-menu-border-color: "Pagrindinio meniu kraštinės"
       custom_colors: "Pasirinktinės spalvos"
       customize: "Suasmeninkite savo OpenProject įdiegtį su savo logotipu. Pastaba: šis logotipas bus matomas viešai."
       enterprise_notice: "Kaip specialus „AČIŪ!“ už finansinę paramą kuriant OpenProject, ši mažytė funkcija galima naudoti tik „Enterprise Edition“ paramos prenumeratoriams."
       manage_colors: "Redaguoti spalvos pasirinkimo variantus"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Stipri, akį rėžianti spalva įprastai naudojama svarbiausiam mygtukui ekrane."
         content-link-color: "Šrifto spalva daugeliui nuorodų."
         primary-color: "Pagrindinė spalva."
         primary-color-dark: "Įprastai tamsesnė pagrindinės spalvos atmaina naudojama sklandymo efektui sukurti."
@@ -85,38 +85,36 @@ lt:
       no_results_content_text: Sukurti naują autentifikacijos būdą
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      Ši LDAP forma reikalauja jūsų LDAP / Active Directory tvarkos žinojimo.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Detalios instrukcijos pateiktos dokumentacijoje</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      name: LDAP prisijungimui suteiktas pavadinimas
+      host: LDAP serverio vardas arba IP adresas
+      login_map: LDAP atributo, kuris naudojamas vienareikšmiškai nustatyti besijungiantį asmenį, pavadinimas. Dažniausiai tai būna `uid` arba `samAccountName`.
+      generic_map: LDAP atributo pavadinimas, kuris bus susietas su OpenProject atributu `%{attribute}`
+      admin_map_html: "Pasirinktinis: LDAP atributas, kuris <strong>jei bus nustatytas</strong> pažymi, kad vartotojas yra OpenProject administratorius. Jei abejojate, palikite tuščią."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Įveskite sisteminio vartotojo, naudojamos tik skaitymo teisėmis jugtis prie LDAP, DN.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        Pavyzdžiui: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Įveskite sisteminio vartotojo, kuris jungsis prie LDAP, slaptažodį
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Įveskite submedžio, kuriame OpenProject ieškos vartotojų ir grupių šaknies DN (Base DN).
+        OpenProject ieškos vartotojų tik šio submedžio ribose.
+        Pavyzdys: ou=users,dc=example,dc=com
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Jei pažymėsite šį lauką, OpenProject automatiškai sukurs naujus vartotojus pagal LDAP informaciją, kai tik šie vartotojai pirmą kartą prisijungs prie OpenProject.
+        Nežymėkite šio lauko, jei norite, kad tik jau sukurti vartotojai galėtų prisijungti pasinaudodami LDAP!
     connection_encryption: 'Jungties šifravimas'
-    system_account: 'System account'
+    system_account: 'Sistemos paskyra'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+      OpenProject reikia tik-skaitymui skirto sisteminio vartotojo kitų vartotojų ir grupių patikrinimui jūsų LDAP medyje.
+      Šioje sekcijoje prašome pateikti tokio vartotojo kredencialus.
+    ldap_details: 'LDAP duomenys'
+    user_settings: 'Atributų surišimas'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      Žemiau esantys laukai yra naudojami nustatyti kaip OpenProject vartotojai yra kuriami pagal LDAP įrašus ir kokie LDAP atributai yra naudojami nustatyti kuriuos OpenProject vartotojo atributus (atributų surišimas).
     tls_mode:
       plain: 'joks'
       simple_tls: 'simple_tls'
@@ -401,11 +399,11 @@ lt:
         work_packages: "Darbų paketai"
       project/status:
         code: 'Būsena'
-        explanation: 'Status description'
+        explanation: 'Būsenos aprašymas'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'Teisingame kelyje'
+          at_risk: 'Rizikingas'
+          off_track: 'Pasiklydęs'
       query:
         column_names: "Stulpeliai"
         relations_to_type_column: "Ryšiai su %{type}"
@@ -497,8 +495,8 @@ lt:
         confirmation: "nesutampa su %{attribute}."
         could_not_be_copied: "negalima (pilnai) nukopijuoti."
         does_not_exist: "neegzistuoja."
-        error_unauthorized: "may not be accessed."
-        error_readonly: "was attempted to be written but is not writable."
+        error_unauthorized: "negali būti pasiektas."
+        error_readonly: "bandytas įrašyti, bet įrašyti nebuvo galima."
         empty: "negali būti tuščia."
         even: "turi būti lyginis."
         exclusion: "yra rezervuotas."
@@ -600,7 +598,7 @@ lt:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "yra per didelis nes maksimum 24 valandos gali būti užregistruotos per parą."
         work_package:
           is_not_a_valid_target_for_time_entries: "Darbų paketas #%{id} nėra tinkamas laiko įrašų perskirstymo pasirinkimas."
           attributes:
@@ -756,7 +754,7 @@ lt:
     type: "Tipas"
     updated_at: "Atnaujinta"
     updated_on: "Atnaujinta"
-    uploader: "Uploader"
+    uploader: "Įkėlėjas"
     user: "Vartotojas"
     version: "Versija"
     work_package: "Darbų paketas"
@@ -1065,8 +1063,8 @@ lt:
         add_groups: "Pridėti naujas atributų grupes"
         rename_groups: "Pervadinti atributų grupes"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Time tracking activities"
+        description_html: "Filtravimas ir rikiavimas pagal pritaikytus laukus yra tik Enterprise edition galimybė."
+  enumeration_activities: "Laiko sekimo veiklos"
   enumeration_work_package_priorities: "Darbų paketo prioritetai"
   enumeration_reported_project_statuses: "Pranešta projekto būsena"
   error_auth_source_sso_failed: "Bendroji autentifikacija (SSO) vartotojui „%{value}“ nepavyko"
@@ -1138,7 +1136,7 @@ lt:
       pdf_with_descriptions_and_attachments: "PDF su aprašymais ir priedais"
       pdf_with_attachments: "PDF su priedais"
     image:
-      omitted: "Image not exported."
+      omitted: "Paveiksliukas neeksportuotas."
   extraction:
     available:
       pdftotext: "Pdf-į-tekstą pasiekiamas (pasirinktinai)"
@@ -1719,21 +1717,25 @@ lt:
   label_workflow_plural: "Darbų eigos"
   label_workflow_summary: "Santrauka"
   label_x_closed_work_packages_abbr:
+    zero: "0 uždarytų"
     one: "1 uždarytas"
     few: "%{count} uždaryti (-as, -ų)"
     many: "%{count} uždaryti (-as, -ų)"
     other: "%{count} uždaryti (-as, -ų)"
   label_x_comments:
+    zero: "nėra komentarų"
     one: "1 komentatas"
     few: "%{count} komentarai (-as, -ų)"
     many: "%{count} komentarai (-as, -ų)"
     other: "%{count} komentarai (-as, -ų)"
   label_x_open_work_packages_abbr:
+    zero: "0 atvirų"
     one: "1 atidarytas"
     few: "%{count} atidaryti (-as, -ų)"
     many: "%{count} atidaryti (-as, -ų)"
     other: "%{count} atidaryti (-as, -ų)"
   label_x_projects:
+    zero: "nėra projektų"
     one: "1 projektas"
     few: "%{count} projektai (-as, -ų)"
     many: "%{count} projektai (-as, -ų)"
@@ -1989,7 +1991,7 @@ lt:
       title: Pakeisti projekto identifikatorių
     archive:
       are_you_sure: "Ar Jūs tikrai norite suarchyvuoti projektą '%{name}'?"
-      archived: "Archived"
+      archived: "Suarchyvuotas"
   project_module_activity: "Veikla"
   project_module_forums: "Forumai"
   project_module_calendar: "Kalendorius"
@@ -2280,7 +2282,7 @@ lt:
   text_destroy_with_associated: "Yra papildomų objektų, kurie susieti su darbų paketu(-ais), kurie ketinami ištrinti.\nTie objektai yra šių tipų:"
   text_destroy_what_to_do: "Ką norite daryti?"
   text_diff_truncated: "... Šis diff'as sutrauktas, nes viršija maksimalų rodomų eilučių skaičių."
-  text_email_delivery_not_configured: "El.pašto siuntimas nesukonfigūruotas ir perspėjimai neaktyvūs.\nSukonfigūruokite savo SMTP serverį byloje config/configuration.yml ir perleiskite programą norėdami pritaikyti pakeitimus."
+  text_email_delivery_not_configured: "El. laiškų pristatymas yra nesukonfigūruotas, dėl to pranešimai yra išjungti.\nSukonfigūruokite prisijungimą prie SMTP serverio pranešimų įjungimui."
   text_enumeration_category_reassign_to: "Priskirti juos šiai reikšmei:"
   text_enumeration_destroy_question: "%{count} objektai(-ų) priskirti(-ų) šiai reikšmei."
   text_file_repository_writable: "Į priedų saugyklą rašyti galima"
@@ -2293,8 +2295,8 @@ lt:
   text_work_package_category_destroy_question: "Kai kurie darbų paketai (%{count}) yra paskirti šiai kategorijai. Ką jūs norite daryti?"
   text_work_package_category_reassign_to: "Iš naujo priskirti darbų paketus šiai kategorijai"
   text_work_package_updated: "%{author} atnaujino darbų paketą %{id}."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_added: "Jūs buvote vartotojo %{watcher_changer} pridėtas kaip stebėtojas į darbų paketą %{id}."
+  text_work_package_watcher_removed: "%{watcher_changer} pašalino jus iš darbų paketo %{id} stebėtojų."
   text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
   text_work_packages_ref_in_commit_messages: "Darbų paketų susiejimas ir taisymas pavedimų žinutėse"
   text_journal_added: "%{label} %{value} pridėtas"
@@ -2581,13 +2583,13 @@ lt:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Neatitinka protokolų nustatymai'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Jūsų programa veikia su protokolų nustatymo reikšme <code>%{set_protocol}</code>, tačiau užklausa atėjo per protokolą <code>%{actual_protocol}</code>. Tai lems klaidas! Eikite į <a href="%{setting_path}">Sistemos nustatymus</a> ir pakeiskite „Protokolo“ nustatymus.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Neatitinka serverio vardo nustatymai'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        Jūsų programa veikia su serverio vardo reikšme <code>%{set_hostname}</code>, tačiau užklausa atėjo į <code>%{actual_hostname}</code>. Tai lems klaidas! Eikite į <a href="%{setting_path}">Sistemos nustatymus</a> ir pakeiskite „Serverio vardas“ nustatymus.
   menu_item: "Meniu punktas"
   menu_item_setting: "Matomumas"
   wiki_menu_item_for: "Meniu punktas wiki puslapiui „%{title}“"
@@ -2641,8 +2643,8 @@ lt:
         invalid_user_assigned_to_work_package: "Pasirinktas vartotojas negali būti '%{property}' šiam darbų paketui."
         start_date: "Pradžios data negali būti nustatyta tėviniams darbų paketams."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "yra neteisingas gzip: %{message}"
+        invalid_json: "yra neteisingas json: %{message}"
     resources:
       schema: 'Schema'
   doorkeeper:
@@ -2652,7 +2654,7 @@ lt:
       messages:
         #Common error messages
         invalid_request: 'Užklausoje trūksta privalomo parametro, yra nepalaikoma parametro reikšmė arba jis kažkaip kitaip netinkamas.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "Paprašytas peradresavimo URI yra netinkamas arba neatitinka kliento peradresavimo URI."
         unauthorized_client: 'Klientui neleidžiama vykdyti šios užklausos naudojant šį metodą.'
         access_denied: 'Resurso savininkas arba autorizacijos serveris neleido užklausos.'
         invalid_scope: 'Užklausos apimtis yra netinkama, nežinoma arba blogai suformuota.'
@@ -2690,7 +2692,7 @@ lt:
         redirect_uri_html: >
           Leidžiami URL, kur gali būti peradresuojami autorizuoti naudotojai. Po vieną įrašą eilutėje. <br/> Jei jūs registruojate darbastalio aplikaciją, naudokite šį URL.
         confidential: "Patikrinkite, ar bus naudojama aplikacija, kurioje kliento paslaptis gali likti konfidenciali. Mobilios aplikacijos ir Vieno puslapio aplikacijos laikomos nekonfidencialiomis."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
+        scopes: "Pažymėkite programos sritis, kurioms norite suteikti prieigą. Kai jokia sritis nėra pažymėta, api_v3 yra leidžiama."
         client_credential_user_id: "Neprivalomas naudotojo ID, naudojamas kai klientai naudoja šią aplikaciją. Palikite tuščią, jei norite leisti tik viešą prieigą"
         register_intro: "Jei kuriate OAuth API kliento aplikaciją skirtą OpenProject, jūs galite registruoti ją visiems naudotojams naudojant šią formą."
         default_scopes: ""
@@ -2705,8 +2707,8 @@ lt:
       wants_to_access_html: >
         Šiai aplikacijai reikia prieigos prie jūsų OpenProject paskyros. <br/> <strong>Ji paprašė tokių teisių:</strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Pilna API v3 prieiga"
+      api_v3_text: "Aplikacija gaus pilną skaitymo ir rašymo prieigą prie OpenProject API v3 vykdyti veiksmus jūsų vardu."
     grants:
       created_date: "Patvirtinimo data"
       scopes: "Leidimai"

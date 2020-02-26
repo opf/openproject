@@ -14,6 +14,9 @@ module ::Recaptcha
     # Require authenticated user from the core to be present
     before_action :require_authenticated_user
 
+    # Skip if user is admin
+    before_action :skip_if_admin
+
     # Skip if user has confirmed already
     before_action :skip_if_user_verified
 
@@ -86,6 +89,12 @@ module ::Recaptcha
 
     def skip_if_disabled
       if recaptcha_settings[:recaptcha_type] == ::OpenProject::Recaptcha::TYPE_DISABLED
+        complete_stage_redirect
+      end
+    end
+
+    def skip_if_admin
+      if @authenticated_user&.admin?
         complete_stage_redirect
       end
     end

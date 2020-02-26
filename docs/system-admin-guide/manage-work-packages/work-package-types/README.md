@@ -19,7 +19,7 @@ You will see a list of all work package types in the system.
 2. Click the arrows (up or down) to change the order how work package types should be displayed, e.g. in the list when creating new work packages or when changing the type.
 3. Delete work package types.
 
-![Sys-admin-work-package-types-list](Sys-admin-work-package-types-list-1579179143954.png)
+![System-admin-work-packages-types](System-admin-work-packages-types.png)
 
 ## Create new work package type
 
@@ -27,8 +27,8 @@ Click the green **+ Type** button to add a new work package type in the system, 
 
 1. Give the new work package type a **name** that easily identifies what kind of work should be tracked.
 2. Choose whether the type should be displayed in the [roadmap](../../../user-guide/roadmap/) by default.
-3. Select if the work package type should be **active in new projects by default**. This way work package types will not need to be [activated in the project settings](../../../user-guide/project-settings/work-package-types/) but will be available for every project.
-4. Choose a **color** from the drow-down list which should be used for this work package type in the Gantt chart. You can configure new colors [here](../../colors).
+3. Choose a **color** from the drow-down list which should be used for this work package type in the Gantt chart. You can configure new colors [here](../../colors).
+4. Select if the work package type should be **active in new projects by default**. This way work package types will not need to be [activated in the project settings](../../../user-guide/projects/project-settings/work-package-types/) but will be available for every project.
 5. Choose whether the type should be a **milestone**, e.g. displayed as a milestone in the Gantt chart with the same start and finish date.
 6. You can **copy a [workflow](../work-package-workflows)** from an existing type.
 7. You can enter a **default text for the work package description field**, which always be shown when creating new work package from this type. This way, you can easily create work package templates, e.g. for risk management or bug tracking which already contain certain required information in the description.
@@ -82,6 +82,6 @@ The embedded related work package table in the work package form will look like 
 Under -> *Administration* -> *Work packages* -> *Types* on the tab **Projects** you can select for which projects this work package type should be activated. 
 
 The **Activated for new projects by default** setting in the Types will only activate this type for new projects. For existing projects, the type needs to be activated manually. 
-This can be also configured in the [project settings](../../../user-guide/project-settings).
+This can be also configured in the [project settings](../../../user-guide/projects/project-settings).
 
 ![activate projects for work package types](image-20200116150513323.png)

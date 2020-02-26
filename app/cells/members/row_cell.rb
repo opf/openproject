@@ -39,12 +39,13 @@ module Members
     end
 
     def roles
-      label =
-        if principal&.admin?
-          I18n.t(:label_member_all_admin)
-        else
-          h member.roles.sort.collect(&:name).join(', ')
-        end
+      label = h member.roles.sort.collect(&:name).join(', ')
+
+      if principal&.admin?
+        label << tag(:br)
+        label << I18n.t(:label_member_all_admin)
+      end
+
       span = content_tag "span", label, id: "member-#{member.id}-roles"
 
       if may_update?

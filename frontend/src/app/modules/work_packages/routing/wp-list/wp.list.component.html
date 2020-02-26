@@ -85,7 +85,7 @@
       <!-- GRID representation of the WP -->
       <div *ngIf="!showListView"
            class="work-packages--card-view-container">
-        <wp-grid></wp-grid>
+        <wp-grid [configuration]="wpTableConfiguration"></wp-grid>
       </div>
 
       <!-- Footer -->

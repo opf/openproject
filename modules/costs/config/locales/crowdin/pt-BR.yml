@@ -104,9 +104,6 @@ pt-BR:
   caption_set_rate: "Fixar taxa atual"
   caption_show_locked: "Mostrar tipos bloqueados"
   cost_objects_title: "Orçamentos"
-  label_cost_type_plural: "Tipos de custo"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "Data para nova taxa"
   events:
     cost_object: "Orçamento editado"
@@ -124,6 +121,7 @@ pt-BR:
   label_cost_plural: "Custos"
   label_cost_report: "Relatório de custos"
   label_cost_type_specific: "Orçamento #%{id}: %{name}"
+  label_cost_type_plural: "Tipos de custo"
   label_costs_per_page: "Custos por página"
   label_currency: "Moeda"
   label_currency_format: "Formato de moeda"

@@ -34,9 +34,7 @@ module OpenProject::Costs::Patches::NumberToCurrencyConverterPatch
   module InstanceMethods
     def i18n_opts
       super.merge(unit: ERB::Util.h(Setting.plugin_openproject_costs['costs_currency']),
-                  format: ERB::Util.h(Setting.plugin_openproject_costs['costs_currency_format']),
-                  delimiter: I18n.t(:currency_delimiter),
-                  separator: I18n.t(:currency_separator))
+                  format: ERB::Util.h(Setting.plugin_openproject_costs['costs_currency_format']))
     end
   end
 end

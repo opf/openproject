@@ -1688,15 +1688,19 @@
   label_workflow_plural: "Arbeidsflyt"
   label_workflow_summary: "Sammendrag"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     one: "1 lukket"
     other: "%{count} stengt"
   label_x_comments:
+    zero: "no comments"
     one: "%{count} kommentar"
     other: "%{count} kommentarer"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     one: "%{count} åpen"
     other: "%{count} åpne"
   label_x_projects:
+    zero: "no projects"
     one: "%{count} prosjekt"
     other: "%{count} prosjekter"
   label_year: "År"
@@ -2241,7 +2245,7 @@
   text_destroy_with_associated: "Det er andre objekter tilknyttet arbeidspakken(e) som er i ferd med å bli slettet. Disse objektene er av følgende typer:"
   text_destroy_what_to_do: "Hva vil du gjøre?"
   text_diff_truncated: "... Denne diff ble forkortet fordi den overstiger maksimalgrensen for hva som kan vises."
-  text_email_delivery_not_configured: "E-postlevering er ikke konfigurert, og varslinger er deaktivert.\nDu kan konfigurere SMTP-oppsettet i config/configuration.yml og restarte applikasjonen for å aktivere."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Endre dem til denne verdien:"
   text_enumeration_destroy_question: "%{count} objekter er knyttet til denne verdien."
   text_file_repository_writable: "Vedleggsmappen er skrivbar"

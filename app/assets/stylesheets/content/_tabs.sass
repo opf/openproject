@@ -41,6 +41,7 @@
     text-decoration: none
     &:hover
       text-decoration: none
+
   li.tab-icon
     width: 5%
     .icon-context:before
@@ -63,6 +64,13 @@
   li:hover
     border-bottom-color: #DDDDDD
 
+  li.-disabled
+    cursor: default
+    pointer-events: none
+    border-bottom-width: 0
+    a
+      color: $tabs-font-color-disabled
+
 content-tabs
   min-height: 73px
   display: block
@@ -74,6 +82,7 @@ content-tabs
   height: 40px
   border-bottom: 1px solid #DDDDDD
   margin-bottom: 1rem
+
   .tabrow
     display: block
     overflow-x: auto
@@ -84,6 +93,18 @@ content-tabs
       padding-left: 1rem
       padding-right: 1rem
       font-size: 14px
+
+  &.-narrow
+    margin-bottom: 0
+    height: initial
+
+    .tabrow
+      height: initial
+      line-height: initial
+
+      li
+        line-height: initial
+        padding-bottom: 6px
 
 .scrollable-tabs--button
   display: block

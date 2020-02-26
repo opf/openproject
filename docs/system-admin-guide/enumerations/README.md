@@ -38,6 +38,6 @@ You will then be able to name the value, activate it and choose if it should be 
 
 ![Sys-admin-enumerations](Sys-admin-enumerations.png)
 
-**Note**: To activate the [Activities (for time tracking)](../../user-guide/project-settings/activities-time-tracking) in a certain project, navigate to -> *Project settings* -> *Activities (time tracking)*.
+**Note**: To activate the [Activities (for time tracking)](../../user-guide/projects/project-settings/activities-time-tracking) in a certain project, navigate to -> *Project settings* -> *Activities (time tracking)*.
 </div>
 

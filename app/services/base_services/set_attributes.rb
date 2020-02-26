@@ -30,7 +30,7 @@
 
 module BaseServices
   class SetAttributes
-    include Concerns::Contracted
+    include Contracted
 
     def initialize(user:, model:, contract_class:, contract_options: {})
       self.user = user

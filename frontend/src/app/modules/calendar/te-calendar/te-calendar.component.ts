@@ -5,7 +5,6 @@ import * as moment from "moment";
 import { Moment } from 'moment';
 import {StateService} from "@uirouter/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import timeGrid from '@fullcalendar/timegrid';
 import { EventInput, EventApi, Duration, View } from '@fullcalendar/core';
@@ -24,6 +23,7 @@ import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.serv
 import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
+import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -44,6 +44,7 @@ interface CalendarMoveEvent {
 const TIME_ENTRY_CLASS_NAME = 'te-calendar--time-entry';
 const DAY_SUM_CLASS_NAME = 'te-calendar--day-sum';
 const ADD_ENTRY_CLASS_NAME = 'te-calendar--add-entry';
+const ADD_ICON_CLASS_NAME = 'te-calendar--add-icon';
 const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
 
 @Component({
@@ -101,7 +102,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
               private element:ElementRef,
               readonly i18n:I18nService,
               readonly injector:Injector,
-              readonly notificationsService:NotificationsService,
+              readonly notifications:HalResourceNotificationService,
               private sanitizer:DomSanitizer,
               private configuration:ConfigurationService,
               private timezone:TimezoneService,
@@ -270,26 +271,25 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
 
   protected sumEntry(date:Moment, duration:number) {
     return {
-      title: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
       start: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 0.5) - 0.5, 'h').format(),
       end: date.clone().add(this.maxHour - Math.min(((duration + 0.05) * this.scaleRatio), this.maxHour - 0.5), 'h').format(),
-      classNames: DAY_SUM_CLASS_NAME
+      classNames: DAY_SUM_CLASS_NAME,
+      rendering: 'background' as 'background',
+      sum: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) })
     };
   }
 
   protected addEntry(date:Moment, duration:number) {
     let classNames = [ADD_ENTRY_CLASS_NAME];
-    let title = '+';
 
     if (duration >= 24) {
        classNames.push(ADD_ENTRY_PROHIBITED_CLASS_NAME);
-       title = '';
     }
 
     return {
-      title: title,
       start: date.clone().format(),
       end: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 1) - 0.5, 'h').format(),
+      rendering: "background" as 'background',
       classNames: classNames
     };
   }
@@ -352,7 +352,9 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   private moveEvent(event:CalendarMoveEvent) {
     let entry = event.event.extendedProps.entry;
 
-    entry.spentOn = moment(event.event.start!).format('YYYY-MM-DD');
+    // Use end instead of start as when dragging, the event might be too long and would thus be start
+    // on the day before by fullcalendar.
+    entry.spentOn = moment(event.event.end!).format('YYYY-MM-DD');
 
     this
       .timeEntryDm
@@ -360,7 +362,8 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
       .then(event => {
         this.updateEventSet(event, 'update');
       })
-      .catch(() => {
+      .catch((e) => {
+        this.notifications.handleRawError(e);
         event.revert();
       });
   }
@@ -397,6 +400,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
           collection.elements.splice(foundIndex, 1);
           break;
         case 'create':
+          this.timeEntryCache.updateValue(event.id!, event);
           collection.elements.push(event);
           break;
       }
@@ -406,6 +410,9 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   private alterEventEntry(event:CalendarViewEvent) {
+    this.appendAddIcon(event);
+    this.appendSum(event);
+
     if (!event.event.extendedProps.entry) {
       return;
     }
@@ -413,6 +420,23 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
     this.addTooltip(event);
     this.prependDuration(event);
     this.appendFadeout(event);
+  }
+
+  private appendAddIcon(event:CalendarViewEvent) {
+    if (!event.el.classList.contains(ADD_ENTRY_CLASS_NAME)) {
+      return;
+    }
+
+    let addIcon = document.createElement('div');
+    addIcon.classList.add(ADD_ICON_CLASS_NAME);
+    addIcon.innerText = '+';
+    event.el.append(addIcon);
+  }
+
+  private appendSum(event:CalendarViewEvent) {
+    if (event.event.extendedProps.sum) {
+      event.el.append(event.event.extendedProps.sum);
+    }
   }
 
   private addTooltip(event:CalendarViewEvent) {
@@ -509,7 +533,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
             <span class="tooltip--map--value">${this.sanitizedValue(entry.activity.name)}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.duration')}:</span>
+            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.hours')}:</span>
             <span class="tooltip--map--value">${this.timezone.formattedDuration(entry.hours)}</span>
           </li>
           <li class="tooltip--map--item">

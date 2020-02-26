@@ -1685,15 +1685,19 @@ el:
   label_workflow_plural: "Ροές εργασίας"
   label_workflow_summary: "Περίληψη"
   label_x_closed_work_packages_abbr:
+    zero: "0 κλειστά"
     one: "1 κλειστό"
     other: "%{count} κλειστά"
   label_x_comments:
+    zero: "κανένα σχόλιο"
     one: "1 σχόλιο"
     other: "%{count} σχόλια"
   label_x_open_work_packages_abbr:
+    zero: "0 ανοικτά"
     one: "1 ανοικτό"
     other: "%{count} ανοικτά"
   label_x_projects:
+    zero: "κανένα έργο"
     one: "1 έργο"
     other: "%{count} έργα"
   label_year: "Έτος"
@@ -1811,7 +1815,7 @@ el:
   notice_locking_conflict: "Οι πληροφορίες ενημερώθηκαν από τουλάχιστον έναν ακόμα χρήστη στο εν τω μεταξύ."
   notice_locking_conflict_additional_information: "Η ενημέρωση(-εις) προήλθαν από %{users}."
   notice_locking_conflict_reload_page: "Παρακαλούμε ανανεώστε αυτή τη σελίδα, αναθεωρήστε τις αλλαγές και εφαρμόστε ξανά τις αλλαγές."
-  notice_member_added: Προστέθηκε το %{name} στο έργο.
+  notice_member_added: Προστέθηκε ο %{name} στο έργο.
   notice_members_added: Προστέθηκαν %{number} χρήστες στο έργο.
   notice_member_removed: "Αφαιρέθηκε ο χρήστης %{user} από το έργο."
   notice_member_deleted: "Ο χρήστης %{user} έχει αφαιρεθεί από το έργο και διαγράφηκε."
@@ -1962,7 +1966,7 @@ el:
     active_or_archived: "Ενεργό ή αρχειοθετημένο"
     assigned_to_role: "Ρόλος ανάθεσης"
     member_of_group: "Ομάδα ανάθεσης"
-    assignee_or_group: "Ανάθεση ή ομάδα"
+    assignee_or_group: "Ανάθεση σε ή ανήκει σε ομάδα"
     subproject_id: "Υποέργο"
     name_or_identifier: "Όνομα ή αναγνωριστικό"
   repositories:
@@ -2237,8 +2241,8 @@ el:
   text_destroy: "Διαγραφή"
   text_destroy_with_associated: "Υπάρχουν επιπλέον αντικείμενα μαζί με το πακέτο εργασίας που πρόκειται να διαγραφεί. Τα αντικείμενα αυτά είναι των παρακάτω τύπων:"
   text_destroy_what_to_do: "Τι θέλετε να κάνετε;"
-  text_diff_truncated: "... Αυτό το diff ήταν περικομμένο επειδή υπερβαίνει το μέγιστο μέγεθος που μπορεί να εμφανιστεί."
-  text_email_delivery_not_configured: "Η παράδοσης email δεν έχει διαμορφωθεί και οι ειδοποιήσεις είναι απενεργοποιημένες. Διαμορφώστε τον SMTP διακομιστή στο config/configuration.yml και επανεκκινήστε την εφαρμογή για να τα ενεργοποιήσετε."
+  text_diff_truncated: "... Αυτό το diff περικόπηκε επειδή υπερβαίνει το μέγιστο μέγεθος που μπορεί να εμφανιστεί."
+  text_email_delivery_not_configured: "Η διανομή email δεν είναι διαμορφωμένη και οι ειδοποιήσεις είναι απενεργοποιημένες.\nΔιαμορφώστε τον SMTP εξυπηρετητή για τις ενεργοποιήσετε."
   text_enumeration_category_reassign_to: "Επανεκχώρηση τους σε αυτή την τιμή:"
   text_enumeration_destroy_question: "%{count} αντικείμενα έχουν ανατεθεί σε αυτή την τιμή."
   text_file_repository_writable: "Εγγράψιμος κατάλογος συνημμένων"
@@ -2535,13 +2539,13 @@ el:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Δεν ταιριάζουν οι ρυθμίσεις πρωτοκόλλου'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Οι εφαρμογή τρέχει με τη ρύθμιση πρωτοκόλλου ορισμένη σε <code>%{set_protocol}</code>, αλλά το αίτημα είναι ένα <code>%{actual_protocol}</code> αίτημα. Αυτό θα έχει ως αποτέλεσμα σφάλματα! Πηγαίνετε στις <a href="%{setting_path}">Ρυθμίσεις Συστήματος</a> και αλλάξτε τη ρύθμιση "Πρωτόκολλο" για να το διορθώσετε.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Δεν ταιριάζουν οι ρυθμίσεις ονόματος εξυπηρετητή'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        Οι εφαρμογή τρέχει με τη ρύθμιση ονόματος εξυπηρετητή ορισμένη σε <code>%{set_hostname}</code>, αλλά το αίτημα είναι ένα <code>%{actual_hostname}</code> όνομα εξυπηρετητή. Αυτό θα έχει ως αποτέλεσμα σφάλματα! Πηγαίνετε στις <a href="%{setting_path}">Ρυθμίσεις Συστήματος</a> και αλλάξτε τη ρύθμιση "Όνομα Εξυπηρετητή" για να το διορθώσετε.
   menu_item: "Αντικείμενο μενού"
   menu_item_setting: "Ορατότητα"
   wiki_menu_item_for: "Αντικείμενο μενού για την σελίδα wiki \"%{title}\""
@@ -2614,13 +2618,13 @@ el:
         server_error: 'Ο διακομιστής ταυτοποίησης συνάντησε μια απροσδόκητη κατάσταση η οποία τον απέτρεψε από την ολοκλήρωση του αιτήματος.'
         temporarily_unavailable: 'Ο διακομιστής ταυτοποίησης δεν μπορεί να διαχειριστεί το αίτημα αυτή τη στιγμή λόγω προσωρινής υπερφόρτωσης ή συντήρησης του διακομιστή.'
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
-        resource_owner_authenticator_not_configured: 'Ο κάτοχος του πόρου απέτυχε εξαιτίας της μη ρύθμισης του Doorkeeper.configure.resource_owner_authenticator.'
+        credential_flow_not_configured: 'Η ροή κατόχου του πόρου πιστοποιητικών κωδικών πρόσβασης απέτυχε λόγω της μη ρύθμισης του Doorkeeper.configure.resource_owner_from_credentials.'
+        resource_owner_authenticator_not_configured: 'Η αναζήτηση του κατόχου του πόρου απέτυχε εξαιτίας της μη ρύθμισης του Doorkeeper.configure.resource_owner_authenticator.'
         admin_authenticator_not_configured: 'Η πρόσβαση στον πίνακα διαχείρισης απαγορεύεται επειδή το Doorkeeper.configure.admin_authenticator δεν είναι διαμορφωμένο.'
         #Access grant errors
         unsupported_response_type: 'Ο διακομιστής ταυτοποίησης δεν υποστηρίζει αυτό τον τύπο απόκρισης.'
         #Access token errors
-        invalid_client: 'Ο έλεγχος ταυτότητας με τον πελάτη απέτυχε λόγω άγνωστου πελάτη, χωρίς έλεγχο ταυτότητας πελάτη ή με μη υποστηριζόμενη μέθοδο ελέγχου ταυτότητας.'
+        invalid_client: 'Η ταυτοποίηση πελάτη απέτυχε λόγω άγνωστου πελάτη, έλλειψης ταυτοποίησης πελάτη ή μη υποστηριζόμενης μεθόδου ταυτοποίησης.'
         invalid_grant: 'Η χορηγούμενη επιχορήγηση εξουσιοδότησης είναι άκυρη, έχει λήξει, ανακληθεί, δεν αντιστοιχεί στο URI ανακατεύθυνσης που χρησιμοποιήθηκε στην αίτηση εξουσιοδότησης ή έχει εκδοθεί σε άλλο πελάτη.'
         unsupported_grant_type: 'Ο τύπος χορήγησης ταυτοποίησης δεν υποστηρίζεται από τον εξυπηρετητή ταυτοποίησης.'
         invalid_token:

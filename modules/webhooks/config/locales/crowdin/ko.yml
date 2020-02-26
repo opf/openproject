@@ -18,7 +18,7 @@ ko:
     plural: Webhook
     resources:
       time_entry:
-        name: "Time entry"
+        name: "시간 입력"
     outgoing:
       no_results_table: 아직 정의된 Webhook이 없습니다.
       label_add_new: 새로운 Webhook 추가

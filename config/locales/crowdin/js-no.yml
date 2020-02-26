@@ -208,8 +208,15 @@
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Aktiver"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -309,6 +316,7 @@
     label_project_plural: "Prosjekter"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Quote this comment"
+    label_recent: "Recent"
     label_reset: "Nullstill"
     label_remove_column: "Remove column"
     label_remove_columns: "Fjern valgte kolonner"
@@ -445,19 +453,6 @@
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "Mer informasjon"
         nevermind: "Nevermind"
-        filter_types:
-          parent: "being child of"
-          precedes: "preceding"
-          follows: "following"
-          relates: "relating to"
-          duplicates: "duplicating"
-          duplicated: "duplisert av"
-          blocks: "blocking"
-          blocked: "blokkert av"
-          partof: "being part of"
-          includes: "including"
-          requires: "requiring"
-          required: "required by"
       edit:
         form_configuration: "Form Configuration"
         projects: "Prosjekter"
@@ -533,12 +528,14 @@
     field_value_enter_prompt: "Angi en verdi for '%{field}'"
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Angi mer enn {{count}} tegn"
         other: "Vennligst skriv {{count}} flere tegn"
       load_more: "Laster inn flere resultater..."
       no_matches: "Ingen treff"
       searching: "Søker ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Du kan bare velge ett element"
         other: "Du kan bare velge {{limit}} elementer"
     project_menu_details: "Detaljer"
@@ -791,8 +788,7 @@
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
         relation_filters:
-          first_part: "Show all work packages"
-          second_part: "the current work package"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Oversikt
         activity: Aktivitet
@@ -878,6 +874,7 @@
         one: "one child work package"
         other: "%{count} work package children"
       hour:
+        zero: "0 h"
         one: "1 h"
         other: "%{count} h"
     zen_mode:

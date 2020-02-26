@@ -70,7 +70,7 @@ if [[ ! "$SKIP_STEP_1" = "true" ]]; then
   echo
   echo "1.3) Starting OpenProject 8"
   if [[ ! `docker ps | grep $OP8_CONTAINER` ]]; then
-    docker run -d --name $OP8_CONTAINER openproject/community:8 # can use `run -it` directly because the image doesn't support it yet in version 8
+    docker run -d --name $OP8_CONTAINER openproject/community:8-mysql # can use `run -it` directly because the image doesn't support it yet in version 8
     if [[ $? -gt 0 ]]; then exit 1; fi
     echo "  OpenProject started"
   else
@@ -196,15 +196,39 @@ else
   echo "  migration SUCCESSFUL!"
 fi
 
+echo
+echo "2.3) Moving dangling tables from $DATABASE to public"
+
+read -r -d '' MOVE_SCHEMA_FN <<EOF
+CREATE OR REPLACE FUNCTION move_schema_to_public(old_schema varchar) RETURNS void LANGUAGE plpgsql VOLATILE AS
+\$\$
+DECLARE
+    row record;
+BEGIN
+    FOR row IN SELECT tablename FROM pg_tables WHERE schemaname = quote_ident(old_schema)
+    LOOP
+        EXECUTE 'ALTER TABLE ' || quote_ident(old_schema) || '.' || quote_ident(row.tablename) || ' SET SCHEMA public;';
+    END LOOP;
+END;
+\$\$;
+EOF
+
 docker exec -e PGPASSWORD=postgres -it migrate8to10 psql \
   -h $DOCKER_HOST_IP \
   -p $POSTGRES_PORT \
   -U postgres \
   -d $DATABASE \
-  -c "${MOVE_SCHEMA_FN}; SELECT * FROM move_schema_to_public('$DATABASE');"
+  -c "$(echo $MOVE_SCHEMA_FN); SELECT * FROM move_schema_to_public('$DATABASE');"
+
+if [[ $? -gt 0 ]]; then
+  echo "  Could not move tables from $DATABASE to public. You may have to do this yourself."
+  exit 1
+else
+  echo "  Moved tables from $DATABASE to public"
+fi
 
 echo
-echo "2.3) Dumping migrated database to $DATABASE-migrated.sql"
+echo "2.4) Dumping migrated database to $DATABASE-migrated.sql"
 
 # using the running docker image to dump the database to ensure we use the same
 # postgres client version and also so that a postgres client is not necessary to run this script

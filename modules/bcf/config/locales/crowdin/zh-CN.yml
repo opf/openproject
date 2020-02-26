@@ -12,6 +12,7 @@ zh-CN:
     exceptions:
       file_invalid: "BCF 文件无效"
     x_bcf_issues:
+      zero: '无 BCF 问题'
       other: '%{count} 个 BCF 问题'
     bcf_xml:
       xml_file: 'BCF XML 文件'
@@ -62,21 +63,21 @@ zh-CN:
   permission_manage_bcf: "导入和管理 BCF 问题"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "BCF v2.1 API 的完全访问权限"
+      bcf_v2_1_text: "应用程序将获得 OpenProject BCF API v2.1 的完全读写访问权限来代表您执行操作。"
   activerecord:
     errors:
       models:
         bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
-          invalid_components: "components is invalid."
-          invalid_lines: "lines is invalid."
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
-          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
-          no_json: "Is not a well structured json."
-          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
-          snapshot_data_blank: "snapshot_data needs to be provided."
-          unsupported_key: "An unsupported json property is included."
+          bitmaps_not_writable: "位图不可写，因为它尚未实现。"
+          index_not_integer: "索引不是整数。"
+          invalid_clipping_planes: "clipping_planes 无效。"
+          invalid_components: "组件无效。"
+          invalid_lines: "行无效。"
+          invalid_orthogonal_camera: "orthogonal_camera 无效。"
+          invalid_perspective_camera: "perspective_camera 无效。"
+          mismatching_guid: "json_viewpoint 中的 guid 与模型的 guid 不匹配。"
+          no_json: "不是一个结构良好的 json。"
+          snapshot_type_unsupported: "snapshot_type 需要为“png”或“jpg”。"
+          snapshot_data_blank: "需要提供 snapshot_data。"
+          unsupported_key: "包含不受支持的 json 属性。"

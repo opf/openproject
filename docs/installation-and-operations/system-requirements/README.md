@@ -23,12 +23,13 @@ The [package-based installation](../installation/packaged) requires one of the f
 
 | Distribution (**64 bits only**) |
 | ------------------------------- |
-| CentOS/RHEL 7.x                 |
-| Debian 9 Stretch                |
-| Debian 10 Stretch               |
-| Suse Linux Enterprise Server 12 |
-| Ubuntu 16.04 Xenial Xerus       |
 | Ubuntu 18.04 Bionic Beaver      |
+| Ubuntu 16.04 Xenial Xerus       |
+| Debian 10 Buster                |
+| Debian 9 Stretch                |
+| CentOS/RHEL 8.x                 |
+| CentOS/RHEL 7.x                 |
+| Suse Linux Enterprise Server 12 |
 
 The [docker-based installation](../installation/docker) requires a system with Docker installed. Please see the [official Docker page](https://docs.docker.com/install/) for the list of supported systems.
 

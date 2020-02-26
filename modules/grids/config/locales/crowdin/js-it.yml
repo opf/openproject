@@ -38,7 +38,7 @@ it:
           title: 'Sotto-progetti'
           no_results: 'Nessun sotto-progetto.'
         time_entries_current_user:
-          title: 'My spent time'
+          title: 'Il mio tempo trascorso'
         time_entries_list:
           title: 'Tempo trascorso (ultimi 7 giorni)'
           no_results: 'Nessuna voce sul tempo per gli ultimi 7 giorni.'

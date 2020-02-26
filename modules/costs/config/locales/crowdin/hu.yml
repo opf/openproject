@@ -104,9 +104,6 @@ hu:
   caption_set_rate: "Aktuális díj beállítása"
   caption_show_locked: "Zárolt nemek mutatása"
   cost_objects_title: "Költségvetések"
-  label_cost_type_plural: "Költségtípusok"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "Új díj dátuma"
   events:
     cost_object: "Szerkesztett költségvetés"
@@ -124,6 +121,7 @@ hu:
   label_cost_plural: "Költségek"
   label_cost_report: "Költség jelentés"
   label_cost_type_specific: "Költségvetés #%{id}: %{name}"
+  label_cost_type_plural: "Költségtípusok"
   label_costs_per_page: "Költések oldalanként"
   label_currency: "Pénznem"
   label_currency_format: "Pénznem formátuma"

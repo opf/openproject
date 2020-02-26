@@ -28,31 +28,31 @@ it:
     plugins:
       no_results_title_text: Al momento non vi sono plugin disponibili.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Tema a colori"
+      color_theme_custom: "(Personalizzato)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "Alternativa"
+        content-link-color: "Collega font"
+        primary-color: "Primario"
+        primary-color-dark: "Primario (scuro)"
+        header-bg-color: "Sfondo intestazione"
+        header-item-bg-hover-color: "Sfondo intestazione al passaggio del mouse"
+        header-item-font-color: "Font intestazione"
+        header-item-font-hover-color: "Font intestazione al passaggio del mouse"
+        header-border-bottom-color: "Bordo intestazione"
+        main-menu-bg-color: "Sfondo del menu principale"
+        main-menu-bg-selected-background: "Menu principale quando selezionato"
+        main-menu-bg-hover-background: "Menu principale al passaggio del mouse"
+        main-menu-font-color: "Font del menu principale"
+        main-menu-selected-font-color: "Font del menu principale quando selezionato"
+        main-menu-hover-font-color: "Font del menu principale al passaggio del mouse"
+        main-menu-border-color: "Bordo del menu principale"
       custom_colors: "Colori personalizzati"
       customize: "Personalizza l'installazione di OpenProject con il tuo logo. Nota: Il logo sarà visibile pubblicamente."
       enterprise_notice: "Questa funzionalità è disponibile solo per chi si è iscritto alla Enterprise Edition, come ringraziamento speciale per il contributo finanziario allo sviluppo di OpenProject."
       manage_colors: "Modifica opzioni di selezione del colore"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Colore forte, utilizzato di solito per far risaltare il tasto principale sullo schermo."
         content-link-color: "Colore del carattere della maggior parte dei collegamenti."
         primary-color: "Colore principale."
         primary-color-dark: "In genere una versione più scura del colore principale utilizzato per effetti hover."
@@ -595,7 +595,7 @@ it:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "è troppo alto: puoi registrare fino a 24 ore al giorno."
         work_package:
           is_not_a_valid_target_for_time_entries: "La macro-attività #%{id} non può essere utilizzata per riassegnare la cronologia."
           attributes:
@@ -745,7 +745,7 @@ it:
     type: "Tipo"
     updated_at: "Aggiornato il"
     updated_on: "Aggiornato il"
-    uploader: "Uploader"
+    uploader: "Caricatore"
     user: "Utente"
     version: "Versione"
     work_package: "Macro-attività"
@@ -1031,7 +1031,7 @@ it:
         rename_groups: "Rinominazione di gruppi di proprietà"
       project_filters:
         description_html: "Le opzioni di filtraggio ed ordinamento dei campi personalizzati sono disponibili nella versione enterprise."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "Attività di monitoraggio dei tempi"
   enumeration_work_package_priorities: "Priorità della macro-attività"
   enumeration_reported_project_statuses: "Stato di progetto segnalato"
   error_auth_source_sso_failed: "Single Sign-On (SSO) per l'utente '%{value}' non riuscita"
@@ -1103,7 +1103,7 @@ it:
       pdf_with_descriptions_and_attachments: "PDF con descrizioni e allegati"
       pdf_with_attachments: "PDF con allegati"
     image:
-      omitted: "Image not exported."
+      omitted: "Immagine non esportata."
   extraction:
     available:
       pdftotext: "Pdfatesto disponibile (opzionale)"
@@ -1684,15 +1684,19 @@ it:
   label_workflow_plural: "Flussi di lavoro"
   label_workflow_summary: "Sommario"
   label_x_closed_work_packages_abbr:
+    zero: "0 chiusi"
     one: "1 chiuso"
     other: "%{count} chiusi"
   label_x_comments:
+    zero: "nessun commento"
     one: "1 commento"
     other: "%{count} commenti"
   label_x_open_work_packages_abbr:
+    zero: "0 aperti"
     one: "1 aperto"
     other: "%{count} aperti"
   label_x_projects:
+    zero: "nessun progetto"
     one: "1 progetto"
     other: "%{count} progetti"
   label_year: "Anno"
@@ -2237,7 +2241,7 @@ it:
   text_destroy_with_associated: "Ci sono ulteriori oggetti associati con la/le macro-attività che devono essere eliminati. Tali oggetti sono dei seguenti tipi:"
   text_destroy_what_to_do: "Cosa vuoi fare?"
   text_diff_truncated: "... Questo diff è stato troncato perché supera la dimensione massima che può essere visualizzata."
-  text_email_delivery_not_configured: "L'invio di email non è configurato e le notifiche sono disabilitate.\nConfigura il tuo server SMTP nel file config/configuration.yml e riavvia l'applicazione per abilitare le nuove impostazioni."
+  text_email_delivery_not_configured: "Consegna email non configurata. Le notifiche sono state disabilitate.\nConfigura il tuo server SMTP per abilitarle."
   text_enumeration_category_reassign_to: "Riassegnali a questo valore:"
   text_enumeration_destroy_question: "%{count} oggetti sono assegnati a questo valore."
   text_file_repository_writable: "Cartella allegati scrivibile"
@@ -2535,13 +2539,13 @@ it:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Mancata corrispondenza delle impostazioni di protocollo'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        La tua applicazione è in esecuzione con le impostazioni del protocollo impostate a <code>%{set_protocol}</code>, ma la richiesta è una richiesta <code>%{actual_protocol}</code>. Ciò causerà degli errori! Vai nelle <a href="%{setting_path}">Impostazioni di sistema</a> e cambia l'impostazione "Protocollo" per correggerlo.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Mancata corrispondenza delle impostazioni del nome host'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        La tua applicazione è in esecuzione con le impostazioni del nome host impostate a <code>%{set_hostname}</code>, ma la richiesta è un nome host <code>%{actual_hostname}</code>. Ciò causerà degli errori! Vai nelle <a href="%{setting_path}">Impostazioni di sistema</a> e modifica l'impostazione "Nome dell'Host" per correggerlo.
   menu_item: "Voce di menu"
   menu_item_setting: "Visibilità"
   wiki_menu_item_for: "Voce di menù per la pagina wiki \"%{title}\""

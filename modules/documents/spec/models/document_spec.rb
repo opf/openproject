@@ -98,16 +98,16 @@ describe Document do
     it "without attachments, the updated-on-date is taken from the document's date" do
       document = FactoryBot.create(:document, project: project)
       expect(document.attachments).to be_empty
-      expect(document.created_on).to eql document.updated_on
+      expect(document.created_at).to eql document.updated_at
     end
   end
 
   describe "acts as event" do
     let(:now) { Time.zone.now }
-    let(:document) {
+    let(:document) do
       FactoryBot.build(:document,
-                                       created_on: now)
-    }
+                       created_at: now)
+    end
 
     it { expect(document.event_datetime.to_i).to eq(now.to_i) }
   end

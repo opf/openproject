@@ -208,8 +208,15 @@ ko:
       blocks:
         new_features:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
-          current_new_feature_html: "OpenProject에는 <b>중요 프로젝트 정보를 표시하고</b> 프로젝트가 정상 상태인지 나타내는 새로운 <b>요약 페이지</b>가 포함되어 있습니다. </br> 사용자는 다양한 새로운 상태 위젯을 삽입할 수 있습니다. 예: <ul><li>프로젝트 상태,</li> <li>작업 패키지 상태 개요,</li> <li>작업 진행률,</li> <li>사용자에게 할당된 작업.</li></ul>"
-          learn_about: "새로운 상태 위젯에 대해 자세히 알아보기"
+          learn_about: "새로운 기능에 대해 자세히 알아보기"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              이 릴리스에는 다양한 새로운 기능과 개선 기능이 포함되어 있습니다. <br><br> <ul> <li>라이트 또는 다크 테마(프리미엄 기능)를 선택할 수 있는 기본 <b>디자인 템플릿</b>.</li> <li>바 차트에서 소요 시간을 표시하는 <i>내 페이지</i>의 새로운 <b>시간 추적 위젯</b>.</li> <li><b>비용 보고서에 대한 XLS 내보내기</b> 및 작업 패키지의 PDF 내보내기에서 서식 지정 텍스트.</li> <li><b>디자인 및 유용성 향상</b>(프로젝트 설정 및 관리의 탭 등).</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject에는 프로젝트 관리 애플리케이션에 <b>3D 모델을 통합하고</b> 고가의 별도 소프트웨어 또는 라이선스를 설치하지 않고도 팀과 이러한 파일로 공동 작업할 수 있는 새로운 IFC 모듈이 포함되어 있습니다. <br><br> <ul> <li>OpenProject 애플리케이션으로 빌딩 모델의 <b>IFC 파일 가져오기</b>.</li> <li>사용자 브라우저에서 <b>3D 모델을 열고 빌딩 모델 시각화</b>.</li> <li>고가의 별도 소프트웨어를 설치하지 않고도 OpenProject에서 바로 손쉽게 <b>여러 IFC 파일로 팀과 작업</b>. </li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -309,6 +316,7 @@ ko:
     label_project_plural: "프로젝트"
     label_visibility_settings: "표시 여부 설정"
     label_quote_comment: "코멘트 인용"
+    label_recent: "최근"
     label_reset: "재설정"
     label_remove_column: "열 제거"
     label_remove_columns: "선택된 열 제거"
@@ -445,33 +453,20 @@ ko:
         upgrade_to_ee_text: "와우! 만약 이 기능이 필요하다면 당신은 진짜 프로입니다! Enterprise Edition 고객이 되어서 OpenSource 개발자들을 지원할 생각이 있나요?"
         more_information: "더보기"
         nevermind: "신경쓰지 마세요"
-        filter_types:
-          parent: "다음의 자식:"
-          precedes: "이전"
-          follows: "다음"
-          relates: "관련"
-          duplicates: "복제"
-          duplicated: "복제한 사용자"
-          blocks: "차단"
-          blocked: "차단한 사용자"
-          partof: "다음의 일부:"
-          includes: "포함"
-          requires: "요구"
-          required: "다음에 의해 요구됨:"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "양식 구성"
         projects: "프로젝트"
         settings: "설정"
     time_entry:
       project: '프로젝트'
       work_package: '작업 패키지'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: '먼저 작업 패키지를 선택해야 합니다.'
       activity: '활동'
       comment: '코멘트'
       duration: '기간'
       spent_on: '날짜'
       hours: '시간'
-      label: 'Time entry'
+      label: '시간 입력'
     two_factor_authentication:
       label_two_factor_authentication: '2단계 인증'
     watchers:
@@ -533,11 +528,13 @@ ko:
     field_value_enter_prompt: "'%{field}'에 대 한 값을 입력하세요."
     select2:
       input_too_short:
+        zero: "문자를 더 입력하세요"
         other: "{{count}} 이상의 글자를 입력해 주십시오."
       load_more: "더 많은 결과를 불러오고 있습니다 ..."
       no_matches: "조건에 맞는 결과가 없습니다."
       searching: "찾는 중 ..."
       selection_too_big:
+        zero: "어느 항목도 선택할 수 없습니다"
         other: "{{limit}}개만 선택하실 수 있습니다."
     project_menu_details: "세부 정보"
     sort:
@@ -789,8 +786,7 @@ ko:
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'
           check_out_link: 'Enterprise Edition을 체크아웃하세요.'
         relation_filters:
-          first_part: "모든 작업 패키지 표시"
-          second_part: "현재 작업 패키지"
+          filter_work_packages_by_relation_type: '관계 유형별 작업 패키지 필터링'
       tabs:
         overview: 요약
         activity: 활동
@@ -874,6 +870,7 @@ ko:
       child_work_packages:
         other: "%{count}개의 작업 패키지 자식"
       hour:
+        zero: "0 h"
         other: "%{count}시간"
     zen_mode:
       button_activate: 'Zen 모드 활성화'

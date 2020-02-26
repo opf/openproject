@@ -208,8 +208,15 @@ sk:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Aktivovať"
     label_add_column_after: "Pridať stĺpec po"
     label_add_column_before: "Pridať stĺpec pred"
@@ -309,6 +316,7 @@ sk:
     label_project_plural: "Projekty"
     label_visibility_settings: "Nastavenia viditeľnosti"
     label_quote_comment: "Citovať tento komentár"
+    label_recent: "Recent"
     label_reset: "Vynulovať"
     label_remove_column: "Odstrániť stĺpec"
     label_remove_columns: "Odstrániť vybraté stĺpce"
@@ -445,19 +453,6 @@ sk:
         upgrade_to_ee_text: "Wow! Ak potrebujete túto funkciu, ste super profesionál! Mohli by ste podporiť vývojárov Open Source tým, že sa staneme klientom Enterprise Edition?"
         more_information: "Viac informácií"
         nevermind: "Nie ďakujem"
-        filter_types:
-          parent: "podradený"
-          precedes: "predchádzajúci"
-          follows: "následujúci"
-          relates: "súvisiace s"
-          duplicates: "duplicitné"
-          duplicated: "zduplikoval"
-          blocks: "blokuje"
-          blocked: "zablokované používateľom"
-          partof: "sú zahrnuté v"
-          includes: "vrátane"
-          requires: "vyžaduje"
-          required: "požadované"
       edit:
         form_configuration: "Form Configuration"
         projects: "Projekty"
@@ -533,6 +528,7 @@ sk:
     field_value_enter_prompt: "Zadajte hodnotu pre \"%{field}\""
     select2:
       input_too_short:
+        zero: "Please enter more characters"
         one: "Zadajte ešte minimálne jeden znak"
         few: "Zadajte ešte minimálne {{count}} znakov"
         many: "Zadajte ešte minimálne {{count}} znakov"
@@ -541,6 +537,7 @@ sk:
       no_matches: "Nenašli sa žiadne záznamy"
       searching: "Vyhľadávanie ..."
       selection_too_big:
+        zero: "You cannot select any items"
         one: "Môžete vybrať maximálne 1 položku"
         few: "Môžete vybrať maximálne {{limit}} položku"
         many: "Môžete vybrať maximálne {{limit}} položku"
@@ -795,8 +792,7 @@ sk:
           relation_columns: 'Potrebujete vidieť vzťahy v zozname pracovných balíčkov?'
           check_out_link: 'Pozrite si verziu Enterprise.'
         relation_filters:
-          first_part: "Zobraziť všetky pracovné balíčky"
-          second_part: "aktuálny pracovný balíček"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Prehľad
         activity: Činnosť
@@ -886,6 +882,7 @@ sk:
         many: "%{count} podradených pracovných balíčkov"
         other: "%{count} podradených pracovných balíčkov"
       hour:
+        zero: "0 h"
         one: "1 h"
         few: "%{count} h"
         many: "%{count} h"

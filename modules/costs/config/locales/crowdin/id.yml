@@ -103,9 +103,6 @@ id:
   caption_set_rate: "Set rate saat ini"
   caption_show_locked: "Tampilkan tipe yang terkunci"
   cost_objects_title: "Budget"
-  label_cost_type_plural: "Jenis biaya"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "Tanggal berlaku rate"
   events:
     cost_object: "Buget telah di-edit"
@@ -123,6 +120,7 @@ id:
   label_cost_plural: "Biaya"
   label_cost_report: "Laporan biaya"
   label_cost_type_specific: "Budget #%{id}: %{name}"
+  label_cost_type_plural: "Jenis biaya"
   label_costs_per_page: "Tampilan biaya perhalaman"
   label_currency: "Mata Uang"
   label_currency_format: "Format mata uang"

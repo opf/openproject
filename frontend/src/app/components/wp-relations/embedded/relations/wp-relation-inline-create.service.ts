@@ -34,13 +34,13 @@ import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {RelationResource} from "core-app/modules/hal/resources/relation-resource";
 import {WpRelationInlineCreateServiceInterface} from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Injectable()
 export class WpRelationInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface, OnDestroy {
+  @InjectField() wpRelations:WorkPackageRelationsService;
 
-  protected readonly wpRelations:WorkPackageRelationsService = this.injector.get(WorkPackageRelationsService);
-
-  constructor(protected readonly injector:Injector) {
+  constructor(public injector:Injector) {
     super(injector);
   }
 

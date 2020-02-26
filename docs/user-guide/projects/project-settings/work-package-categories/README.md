@@ -16,7 +16,7 @@ You can manage these work package categories in the -> *Project settings* -> *Wo
 
 Press the green **+ Category** button to create a new category for a project.
 
-![User-guide-project-settings-work-package-categories](User-guide-project-settings-work-package-categories.png)
+![User-guide-project-settings-work-package-categories](User-guide-project-settings-work-package-categories-1581425056359.png)
 
 You can enter the following information.
 

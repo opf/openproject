@@ -1,0 +1,12 @@
+<%= stylesheet_link_tag 'bim/bcf.css' %>
+<%= toolbar title: t('bcf.bcf_xml.import_title') %>
+
+<%= styled_form_tag({ action: :configure_import }, multipart: true, method: :post, class: '-vertical') do %>
+  <%= render partial: 'import_errors', locals: { error_message: t('bcf.bcf_xml.import.invalid_types_found'),
+                                                 error_objects: @importer.aggregations.unknown_types,
+                                                 error_default_text: t('bcf.bcf_xml.import.no_type_provided')} %>
+  <%= render partial: 'import_solution', locals: { solution_select_id: 'unknown_types_chose_ids',
+                                                   hidden_field_identifier: 'unknown_types_action',
+                                                   solution_text: t('bcf.bcf_xml.import.import_types_as'),
+                                                   solution_options: Type.all.collect { |type| [type.name, type.id] }} %>
+<% end %>

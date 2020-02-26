@@ -104,9 +104,6 @@ fi:
   caption_set_rate: "Aseta nykyinen tuntihinta"
   caption_show_locked: "Näytä lukitut tyypit"
   cost_objects_title: "Budjetit"
-  label_cost_type_plural: "Kustannusten tyypit"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "Uuden tuntinnan päivämäärä"
   events:
     cost_object: "Budjettia muokattu"
@@ -124,6 +121,7 @@ fi:
   label_cost_plural: "Kustannukset"
   label_cost_report: "Kustannusraportti"
   label_cost_type_specific: "Budjetti #%{id}: %{name}"
+  label_cost_type_plural: "Kustannusten tyypit"
   label_costs_per_page: "Kustannuksia sivulla"
   label_currency: "Valuutta"
   label_currency_format: "Valuuttamuotoilu"

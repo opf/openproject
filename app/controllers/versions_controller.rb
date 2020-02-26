@@ -43,9 +43,14 @@ class VersionsController < ApplicationController
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
     project_ids = @with_subprojects ? @project.self_and_descendants.map(&:id) : [@project.id]
 
-    @versions = @project.shared_versions || []
-    @versions += @project.rolled_up_versions.visible if @with_subprojects
-    @versions = @versions.uniq.sort
+    @versions = @project
+      .shared_versions
+
+    if @with_subprojects
+      @versions = @versions.or(@project.rolled_up_versions)
+    end
+
+    @versions = @versions.visible.order_by_newest_date.uniq.to_a
     @versions.reject! { |version| version.closed? || version.completed? } unless params[:completed]
 
     @issues_by_version = {}

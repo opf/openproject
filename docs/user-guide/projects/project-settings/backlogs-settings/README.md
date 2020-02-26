@@ -18,7 +18,7 @@ Choose the status which should be treated as done.
 
 Press the blue **Save** button to apply your changes.
 
-![definition of done](image-20200127152832013.png)
+![manage backlogs settings](image-20200211134305495.png)
 
 The **Rebuild positions button** for the backlogs re-calculates the position of a work package in the product backlog.
 

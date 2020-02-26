@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,13 +29,11 @@
 #++
 
 class SettingsController < ApplicationController
-  layout 'admin'
+  include AdminSettingsUpdater
 
   helper_method :gon
 
-  before_action :require_admin
-
-  current_menu_item [:index, :edit] do
+  current_menu_item [:show] do
     :settings
   end
 
@@ -45,29 +44,13 @@ class SettingsController < ApplicationController
     :settings
   end
 
-  def index
-    edit
-    render action: 'edit'
-  end
+  def show
+    @options = {}
+    @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
 
-  def edit
-    @notifiables = Redmine::Notifiable.all
-    if request.post? && params[:settings]
-      Settings::UpdateService
-        .new(user: current_user)
-        .call(settings: permitted_params.settings.to_h)
+    @guessed_host = request.host_with_port.dup
 
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to action: 'edit', tab: params[:tab]
-    else
-      @options = {}
-      @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
-      @deliveries = ActionMailer::Base.perform_deliveries
-
-      @guessed_host = request.host_with_port.dup
-
-      @custom_style = CustomStyle.current || CustomStyle.new
-    end
+    @custom_style = CustomStyle.current || CustomStyle.new
   end
 
   def plugin
@@ -89,7 +72,7 @@ class SettingsController < ApplicationController
       plugin = Redmine::Plugin.find(params[:id])
       plugin.name
     else
-      l(:label_system_settings)
+      t(:label_system_settings)
     end
   end
 

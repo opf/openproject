@@ -29,7 +29,7 @@
 #++
 require 'spec_helper'
 
-describe Notifications::JournalWPMailService do
+describe Notifications::JournalWpMailService do
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:author) do
@@ -337,7 +337,7 @@ end
 
 describe 'initialization' do
   it 'subscribes the listener' do
-    expect(Notifications::JournalWPMailService).to receive(:call)
+    expect(Notifications::JournalWpMailService).to receive(:call)
 
     OpenProject::Notifications.send(
       OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,

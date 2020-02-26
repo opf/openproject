@@ -42,23 +42,23 @@ updating to the newest version.
   - Fixed:
     <span class="explanatory-dictionary-highlight" data-definition="explanatory-dictionary-definition-37">Repository</span>
     unfolding directory tree not working properly
-    \[[\#28613](whttps:/community.openproject.com/wp/28613)\]
+    \[[\#28613](https://community.openproject.com/wp/28613)\]
   - Fixed: Memory leak in repeated work package form requests
-    \[[\#28611](wphttps://community.openproject.com/wp/28611)\]
+    \[[\#28611](https://community.openproject.com/wp/28611)\]
   - Fixed: Login dropdown labels were styled as buttons on hover
     \[[\#28616](https://community.openproject.com/wp/28616)\]
   - Fixed: Editing work package after submission with
     add\_work\_packages permission 
-    \[[\#28580](whttps://community.openproject.com/wp/28580)\]
+    \[[\#28580](https://community.openproject.com/wp/28580)\]
   - Fixed: Fast click on subsequent query elements in the sidebar result
     in invalid table
-    \[[\#28539](whttps://community.openproject.com/wp/28539)\]
+    \[[\#28539](https://community.openproject.com/wp/28539)\]
   - Fixed: Two scrollbars in activity comments on narrow browser windows
-    \[[\#28553](https://community.openproject.om/wp/28553)
+    \[[\#28553](https://community.openproject.com/wp/28553)
   - Fixed: Can’t upload attachments on comments with add\_work\_packages
-    permission \[[\#28541](https://community.openproject.om/wp/28541)\]
+    permission \[[\#28541](https://community.openproject.com/wp/28541)\]
   - Fixed: Collapsing views on global work package page removes entries
-    \[[\#28584](whttps://community.openproject.com/wp/28584)\]
+    \[[\#28584](https://community.openproject.com/wp/28584)\]
   - Improved: Restored status column on subelements table of a work
     package \[[\#28526](https://community.openproject.com/wp/28526)\]
   - Fixed:

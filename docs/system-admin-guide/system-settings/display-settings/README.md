@@ -14,7 +14,7 @@ You can configure display settings in OpenProject. Under System settings on the 
 
 Choose the languages which you want to activate for your system. Those languages which you will check will appear in the language settings of the user profiles and can be set for the system.
 
-![available languages](image-20200123100856639.png)
+![available languages](image-20200211152304023.png)
 
 At the moment there are more than 30 languages available.
 <div>

@@ -20,7 +20,7 @@ Navigate to -> *Administration* -> *Budgets* -> *Settings* to define settings fo
 2. **Specify the format of the currency**, if the number should be before or after the currency, e.g. 10 EUR, or $ 10.
 3. Press the blue **Apply** button to save your changes.
 
-![Sys-admin-configure-costs](Sys-admin-configure-costs.png)
+![System-admin-guide-budgets](System-admin-guide-budgets.png)
 
 ## Create and manage cost types
 
@@ -30,7 +30,7 @@ Navigate to -> *Administration* -> *Budgets* -> *Cost types* to create and manag
 
 Click the green **+ Cost type** button to create a new cost type.
 
-![Sys-admin-budgets-create-cost-types](Sys-admin-budgets-create-cost-types.png)
+![System-admin-guide-cost-types](System-admin-guide-cost-types.png)
 
 You can set the following options:
 

@@ -200,9 +200,12 @@ describe Sprint, type: :model do
         @sprint3 = FactoryBot.create(:sprint, name: 'sprint3', project: project, start_date: Date.today + 1.day, effective_date: Date.today + 2.days)
       end
 
-      it { expect(Sprint.order_by_date[0]).to eql @sprint3 }
-      it { expect(Sprint.order_by_date[1]).to eql @sprint2 }
-      it { expect(Sprint.order_by_date[2]).to eql @sprint1 }
+      it 'sorts the dates correctly', :aggregate_failures do
+        expect(Sprint.order_by_date[0]).to eql @sprint3
+        expect(Sprint.order_by_date[1]).to eql @sprint2
+        expect(Sprint.order_by_date[2]).to eql @sprint1
+      end
+
     end
 
     describe '#apply_to' do

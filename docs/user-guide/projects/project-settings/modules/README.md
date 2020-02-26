@@ -12,7 +12,7 @@ To **activate or deactivate modules** in a project select a project from the sel
 
 Setting a check mark next to a project module, the module will be enabled in the project and a new menu item will appear in the project menu.
 
-![enable modules](image-20200127135759829.png)
+![project settings modules](image-20200211133438083.png)
 
 Visit our [user guide](../../) overview to choose an explanation of the different modules in OpenProject.
 

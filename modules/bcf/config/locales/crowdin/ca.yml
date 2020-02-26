@@ -12,6 +12,7 @@ ca:
     exceptions:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
+      zero: 'Sense problemes BCF'
       one: 'One BCF issue'
       other: '%{count} BCF issues'
     bcf_xml:

@@ -208,8 +208,15 @@ zh-CN:
       blocks:
         new_features:
           text_new_features: "了解新功能和产品更新。"
-          current_new_feature_html: "OpenProject 包含一个新的<b>概览页面</b>，用于<b>显示重要的项目信息</b>并显示该项目是否按计划进行。</br> 您可以插入各种新的状态微件，例如：<ul><li>项目状态、</li><li>工作包状态概览、</li><li>任务进度、</li><li>分配给用户的任务。</li></ul>"
-          learn_about: "详细了解新的状态微件"
+          learn_about: "详细了解新功能"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              该版本包含各种新功能和改进：<br><br> <ul> <li>默认<b>设计模板</b>，用于选择浅色或深色主题（高级功能）。</li> <li><i>我的页面</i>新增<b>时间跟踪微件</b>，在条形图中显示花费的时间。</li> <li><b>以 XLS 导出费用报告</b>和工作包 PDF 导出结果中的格式化文本。</li> <li><b>改进了设计和实用性</b>，在项目设置和管理中添加了更多选项卡。</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject 包含<b>一个新的 IFC 模块</b>，可用于将 3D 模型集成到您的项目管理应用程序中以及与您的团队合作处理这些文件，而无需单独安装昂贵的软件或许可证。<br><br> <ul> <li><b>将构建模型的 IFC 文件导入</b>您的 OpenProject 应用程序。</li> <li>在您的浏览器中<b>打开 3D 模型并可视化构建模型</b>。</li> <li>直接在 OpenProject 中轻松地与您的团队<b>合作处理多个 IFC 文件</b>，无需单独安装昂贵的软件。</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
@@ -309,6 +316,7 @@ zh-CN:
     label_project_plural: "项目"
     label_visibility_settings: "可见性设置"
     label_quote_comment: "引用这个评论"
+    label_recent: "最近"
     label_reset: "重置"
     label_remove_column: "删除列"
     label_remove_columns: "删除选定的列"
@@ -445,33 +453,20 @@ zh-CN:
         upgrade_to_ee_text: "哇！如果您需要使用此功能，说明您非常专业！您是否愿意成为企业版客户来支持 OpenSource 开发人员？"
         more_information: "更多信息"
         nevermind: "我愿意"
-        filter_types:
-          parent: "父级"
-          precedes: "前导"
-          follows: "跟随"
-          relates: "关于"
-          duplicates: "复制"
-          duplicated: "复制于"
-          blocks: "阻止"
-          blocked: "阻止于"
-          partof: "属于"
-          includes: "包括"
-          requires: "要求"
-          required: "要求于"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "表单配置"
         projects: "项目"
         settings: "设置"
     time_entry:
       project: '项目'
       work_package: '工作包'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: '需要先选择一个工作包。'
       activity: '活动'
       comment: '评论'
       duration: '持续时间'
       spent_on: '日期'
       hours: '小时'
-      label: 'Time entry'
+      label: '时间条目'
     two_factor_authentication:
       label_two_factor_authentication: '双重身份验证'
     watchers:
@@ -533,11 +528,13 @@ zh-CN:
     field_value_enter_prompt: "为'%{field}'输入值"
     select2:
       input_too_short:
+        zero: "请输入更多字符。"
         other: "请再输入{{count}} 个字符"
       load_more: "正在加载更多的结果..."
       no_matches: "未找到匹配项"
       searching: "正在搜索..."
       selection_too_big:
+        zero: "您无法选择任何项"
         other: "您可以只选择 {{limit}} 个条目"
     project_menu_details: "详细信息"
     sort:
@@ -789,8 +786,7 @@ zh-CN:
           relation_columns: '需要查看工作包列表中的关系吗？'
           check_out_link: '签出企业版。'
         relation_filters:
-          first_part: "显示所有工作包"
-          second_part: "当前工作包"
+          filter_work_packages_by_relation_type: '按关系类型筛选工作包'
       tabs:
         overview: 概述
         activity: 活动
@@ -874,6 +870,7 @@ zh-CN:
       child_work_packages:
         other: "%{count} 子工作包"
       hour:
+        zero: "0 h"
         other: "%{count} 小时"
     zen_mode:
       button_activate: '激活 zen 模式'

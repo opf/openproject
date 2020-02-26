@@ -30,7 +30,7 @@
 
 module TimeEntries
   class UpdateContract < BaseContract
-    include Concerns::UnchangedProject
+    include UnchangedProject
 
     def validate
       unless user_allowed_to_update?

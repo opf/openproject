@@ -26,9 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::PdfExport::ExportCard
+module OpenProject::PDFExport::ExportCard
   class RowElement
-    include OpenProject::PdfExport::Exceptions
+    include OpenProject::PDFExport::Exceptions
 
     def initialize(pdf, orientation, config, work_package)
       @pdf = pdf

@@ -52,7 +52,7 @@ ru:
   backlogs:
     add_new_story: "Новая история"
     any: "любой"
-    backlog_settings: "Настройки бэклогов"
+    backlog_settings: "Настройки Backlogs"
     burndown_graph: "Диаграмма выгорания задач"
     card_paper_size: "Размер бумаги для печати карточек"
     chart_options: "Параметры диаграммы"

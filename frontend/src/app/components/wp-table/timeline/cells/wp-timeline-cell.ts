@@ -40,6 +40,7 @@ import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';
@@ -53,25 +54,25 @@ export const classNameHideOnHover = 'hide-on-hover';
 
 export class WorkPackageCellLabels {
 
-  constructor(public readonly center:HTMLDivElement | null,
+  constructor(public readonly center:HTMLDivElement|null,
               public readonly left:HTMLDivElement,
-              public readonly leftHover:HTMLDivElement | null,
+              public readonly leftHover:HTMLDivElement|null,
               public readonly right:HTMLDivElement,
-              public readonly rightHover:HTMLDivElement | null,
+              public readonly rightHover:HTMLDivElement|null,
               public readonly farRight:HTMLDivElement) {
   }
 
 }
 
 export class WorkPackageTimelineCell {
-  readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
-  readonly halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
-  readonly halEvents:HalEventsService = this.injector.get(HalEventsService);
-  readonly notificationService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
-  readonly states:States = this.injector.get(States);
-  readonly loadingIndicator:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
+  @InjectField() wpCacheService:WorkPackageCacheService;
+  @InjectField() halEditing:HalResourceEditingService;
+  @InjectField() halEvents:HalEventsService;
+  @InjectField() notificationService:WorkPackageNotificationService;
+  @InjectField() states:States;
+  @InjectField() loadingIndicator:LoadingIndicatorService;
 
-  private wpElement:HTMLDivElement | null = null;
+  private wpElement:HTMLDivElement|null = null;
 
   private elementShape:string;
 
@@ -133,7 +134,7 @@ export class WorkPackageTimelineCell {
     const cell = this.cellElement;
 
     if (!cell.length) {
-      return Promise.reject();
+      return Promise.reject('uninitialized');
     }
 
     const wasRendered = this.wpElement !== null && body.contains(this.wpElement);
@@ -190,17 +191,19 @@ export class WorkPackageTimelineCell {
     const renderer = this.cellRenderer(renderInfo.workPackage);
 
     // Render initial element if necessary
-    this.lazyInit(renderer, renderInfo).then(() => {
-      // Render the upgrade from renderInfo
-      const shouldBeDisplayed = renderer.update(
-        this.wpElement as HTMLDivElement,
-        this.labels,
-        renderInfo);
+    this.lazyInit(renderer, renderInfo)
+      .then(() => {
+        // Render the upgrade from renderInfo
+        const shouldBeDisplayed = renderer.update(
+          this.wpElement as HTMLDivElement,
+          this.labels,
+          renderInfo);
 
-      if (!shouldBeDisplayed) {
-        this.clear();
-      }
-    });
+        if (!shouldBeDisplayed) {
+          this.clear();
+        }
+      })
+      .catch(() => null);
   }
 
 }

@@ -175,7 +175,7 @@ class Report::Operator
 
     new '=n', label: :label_equals do
       def modify(query, field, value)
-        query.where "#{field} = #{clean_currency(value)}"
+        query.where "#{field} = #{parse_number_string(value)}"
         query
       end
     end

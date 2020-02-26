@@ -1,14 +1,12 @@
 # Migrating your packaged OpenProject installation to another environment
 
-TODO: review
-
 **Note:** this guide only applies if you've installed OpenProject using our DEB/RPM packages.
 
 Migrating your OpenProject packaged installation to another host or environment is trivial and may be combined with, e.g., minor or major package upgrades due to our migration system.
 
 ## Backing up
 
-To create a dump of all your data in the old installation, please follow our [backup and restore documentation](https://www.openproject.org/operations/backup/backup-guide-packaged-installation/) for our packaged installation.
+To create a dump of all your data in the old installation, please follow our [backup and restore guides](../../operation) for our packaged installation.
 
 This guide should leave you with a set of archives that you should manually move to your new environment:
 
@@ -16,8 +14,6 @@ This guide should leave you with a set of archives that you should manually move
 - **Attachments**: attachments-\<timestamp>.tar.gz
 - **Custom env configuration**: conf-\<timestamp>.tar.gz
 - **Repositories**: svn- and git-\<timestamp>.tar.gz
-
-
 
 ## Migration
 

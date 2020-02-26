@@ -96,7 +96,7 @@ class ExportCardConfiguration < ActiveRecord::Base
     end
   end
 
-  include OpenProject::PdfExport::Exceptions
+  include OpenProject::PDFExport::Exceptions
 
   validates :name, presence: true
   validates :rows, rows_yaml: true

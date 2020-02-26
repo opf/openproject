@@ -44,8 +44,6 @@ sudo openproject run ruby -v
 
 ## Scaling the number of web workers
 
-TODO: review
-
 Note: Depending on your free RAM on your system, we recommend you raise the default number of web processes. The default from 9.0.3 onwards is 4 web processes. Each worker will take roughly 300-400MB RAM.
 
 We recommend at least 4 web processes. Please check your current web processes count with:
@@ -62,4 +60,8 @@ sudo openproject config:set OPENPROJECT_WEB_WORKERS=number
 
 Where `number` is a positive number between 1 and `round(AVAILABLE_RAM * 1.5)`.
 
-After changing these values, call `sudo openproject configure` to apply it to the web server.
+After changing these values, simply restart the web process:
+
+```bash
+sudo openproject restart web
+```

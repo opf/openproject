@@ -104,9 +104,6 @@ tr:
   caption_set_rate: "Güncel oranı ayarla"
   caption_show_locked: "Kilitli türleri göster"
   cost_objects_title: "Bütçeler"
-  label_cost_type_plural: "Maliyet türleri"
-  currency_delimiter: ","
-  currency_separator: "."
   description_date_for_new_rate: "Yeni oran için tarih"
   events:
     cost_object: "Düzenlenmiş bütçe"
@@ -124,6 +121,7 @@ tr:
   label_cost_plural: "Ücretler"
   label_cost_report: "Maliyet raporu"
   label_cost_type_specific: "Bütçe #% {id}:% {name}%{id}%{name}"
+  label_cost_type_plural: "Maliyet türleri"
   label_costs_per_page: "Her sayfa için maliyet"
   label_currency: "Kur"
   label_currency_format: "Para biriminin biçimi"

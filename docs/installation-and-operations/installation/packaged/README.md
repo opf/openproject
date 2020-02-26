@@ -26,14 +26,15 @@ The package will:
 
 The package is available for the following Linux distributions:
 
-| Distribution (**64 bits only**) |
-| ------------------------------- |
-| CentOS/RHEL 7.x                 |
-| Debian 9 Stretch                |
-| Debian 10 Stretch               |
-| Suse Linux Enterprise Server 12 |
-| Ubuntu 16.04 Xenial Xerus       |
-| Ubuntu 18.04 Bionic Beaver      |
+| Distribution (**64 bits only**)             |
+| ------------------------------------------- |
+| [Ubuntu 18.04 Bionic Beaver](#ubuntu-1804)  |
+| [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
+| [Debian 10 Buster](#debian-10)              |
+| [Debian 9 Stretch](#debian-9)               |
+| [CentOS/RHEL 8.x](#el-8)                    |
+| [CentOS/RHEL 7.x](#el-7)                    |
+| [Suse Linux Enterprise Server 12](#sles-12) |
 
 Please ensure that you are running on a 64bit system before proceeding with the installation. You can check by running the `uname -i` command on the target server and verifying that it outputs `x86_64`:
 
@@ -42,7 +43,10 @@ $ uname -i
 x86_64
 ```
 
-Also, please note that the packaged installation works best when running on a dedicated server or virtual machine, as we cannot ensure that the components installed and configured by the OpenProject installer will work on systems that have been already customized.
+<div class="alert alert-info" role="alert">
+**Important note:** Please note that the packaged installation works best when running on a dedicated server or virtual machine, as we cannot ensure that the components installed and configured by the OpenProject installer will work on systems that have been already customized. If you must install OpenProject on a server where other software is running, or with an already configured Apache or NginX server, then you should have a look at the Docker-based installation instead.
+
+</div>
 
 ## Ubuntu 18.04
 
@@ -140,6 +144,34 @@ sudo apt-get install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
+<a name="el-8"></a>
+
+## CentOS 8 / RHEL 8
+
+Add the OpenProject package source:
+
+```bash
+sudo wget -O /etc/yum.repos.d/openproject.repo \
+  https://dl.packager.io/srv/opf/openproject/stable/10/installer/el/8.repo
+```
+
+Download the OpenProject package:
+
+```bash
+sudo yum install openproject
+```
+
+Note: if the package manager refuses to install OpenProject due to the package `epel-release` not being found, you should add the EPEL repository manually, and then relaunch the command above:
+
+```bash
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+sudo yum install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+<a name="el-7"></a>
+
 ## CentOS 7 / RHEL 7
 
 Add the OpenProject package source:
@@ -206,7 +238,7 @@ sudo openproject configure
 
 The first dialog in the wizard allows you to choose an option for the PostgreSQL database connection: 
 
-![01-postgres](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/01-postgres.png?raw=true)
+![01-postgres](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/01-postgres.png)
 
 The dialog allows you to choose from three options:
 
@@ -236,27 +268,27 @@ OpenProject comes with an internal ruby application server, but this server only
 
 This wizard step allows you to auto-install an Apache2 web server to function as that proxy.
 
-![02a-apache](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/02a-apache.png?raw=true)
+![02a-apache](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02a-apache.png)
 
 The available options are:
 
 ### **Install Apache2 web server** (default)
 
 We recommend that you let OpenProject install and configure the outer web server, in which case we will install an Apache2 web server with a VirtualHost listening to the domain name you specify, optionally providing SSL/TLS termination.
-  
+
 In case you select to auto-install Apache2, multiple dialogs will request the parameters for setting it up:
 
 **Domain name**
 
 Enter the fully qualified domain where your OpenProject installation will be reached at. This will become the `ServerName` of your apache VirtualHost and is also used to generate full links from OpenProject, such as in emails.
 
-![02b-hostname](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/02b-hostname.png?raw=true)
+![02b-hostname](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02b-hostname.png)
 
 **Server path prefix**
 
 If you wish to install OpenProject under a server path prefix, such as `yourdomain.example.com/openproject`, please specify that prefix here with a leading slash. For example: `/openproject`. If OpenProject should respond to `http(s)://yourdomain.example.com` as specified in the previous dialog, simply leave this dialog empty and confirm by pressing `ENTER`.
 
-![02c-prefix](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/02c-prefix.png?raw=true)
+![02c-prefix](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02c-prefix.png)
 
 **SSL/TLS configuration**
 
@@ -268,7 +300,7 @@ In that case, you will be shown three additional dialogs to enter the certificat
 2. The absolute SSL private key path
 3. The path to the Certificate Authority bundle for the certificate (optional, leave empty unless needed)
 
-![02d-ssl](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/02d-ssl.png?raw=true)
+![02d-ssl](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02d-ssl.png)
 
 
 ### **Skip** (not recommended)
@@ -285,13 +317,13 @@ If you have selected to auto-install an Apache2 web server, you will be asked wh
 
 For more information, [see our help on repositories](https://www.openproject.org/help/repository/)
 
-![03-repos](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/03-repos.png?raw=true)
+![03-repos](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/03-repos.png)
 
 ## Step 4: Outgoing email configuration
 
 OpenProject requires a setup for sending outgoing emails for notifications, such as updates on work packages, password resets, or other notifications you and your users receive.
 
-![04-mail](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/04-mail.png?raw=true)
+![04-mail](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/04-mail.png)
 
 The wizard supports the following options:
 
@@ -313,13 +345,13 @@ Does not set up mail configuration. You can configure the mail setup in OpenProj
 
 The wizard will ask you for an administrative email address so that it can create the administrator account with that email for the initial login. Enter your email address to have it tied to the admin account.
 
-![05-admin](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/05-admin.png?raw=true)
+![05-admin](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/05-admin.png)
 
 ## Step 6: Memcached server
 
 OpenProject heavily relies on caching, which is why the wizard suggests you to install a local memcached server the OpenProject instances can connect to. You should always set this to `install` unless you have a reason to configure another caching mechanism - for example when configuring multiple shared instances of OpenProject.
 
-![06-cache](https://github.com/opf/openproject/blob/dev/docs/installation/packaged/screenshots/06-cache.png?raw=true)
+![06-cache](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/06-cache.png)
 
 ## Result
 

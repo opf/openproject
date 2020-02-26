@@ -13,7 +13,7 @@ The user settings sections covers general settings, such as the default language
 
 User settings are accessibly by administrators from the OpenProject administration.
 
-![image-20191104162935680](image-20191104162935680.png)
+![user and permissions settings](image-20200211140959585.png)
 
 | Feature                                     | Documentation for          |
 | ------------------------------------------- | -------------------------- |

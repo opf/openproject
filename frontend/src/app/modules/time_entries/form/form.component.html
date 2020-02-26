@@ -5,7 +5,10 @@
   (onSaved)="signalModifiedEntry($event)">
   <div class="attributes-map">
 
-    <div class="attributes-map--key -required" [textContent]="text.attributes.spentOn"></div>
+    <div class="attributes-map--key"
+               [ngClass]="{'-required': isRequired('spentOn')}"
+               [textContent]="text.attributes.spentOn">
+    </div>
     <div class="attributes-map--value">
       <editable-attribute-field [resource]="entry"
                                 [wrapperClasses]="'-tiny'"
@@ -13,7 +16,10 @@
       </editable-attribute-field>
     </div>
 
-    <div class="attributes-map--key -required" [textContent]="text.attributes.hours"></div>
+    <div class="attributes-map--key"
+         [ngClass]="{'-required': isRequired('hours')}"
+         [textContent]="text.attributes.hours">
+    </div>
     <div class="attributes-map--value">
       <editable-attribute-field [resource]="entry"
                                 [wrapperClasses]="'-tiny'"
@@ -21,14 +27,20 @@
       </editable-attribute-field>
     </div>
 
-    <div class="attributes-map--key -required" [textContent]="text.attributes.workPackage"></div>
+    <div class="attributes-map--key"
+         [ngClass]="{'-required': isRequired('workPackage')}"
+         [textContent]="text.attributes.workPackage">
+    </div>
     <div class="attributes-map--value">
       <editable-attribute-field [resource]="entry"
                                 [fieldName]="'workPackage'">
       </editable-attribute-field>
     </div>
 
-    <div class="attributes-map--key -required" [textContent]="text.attributes.activity"></div>
+    <div class="attributes-map--key"
+         [ngClass]="{'-required': isRequired('activity')}"
+         [textContent]="text.attributes.activity">
+    </div>
     <div class="attributes-map--value">
       <editable-attribute-field *ngIf="workPackageSelected"
                                 [resource]="entry"
@@ -39,7 +51,10 @@
       </i>
     </div>
 
-    <div class="attributes-map--key" [textContent]="text.attributes.comment"></div>
+    <div class="attributes-map--key"
+         [ngClass]="{'-required': isRequired('comment')}"
+         [textContent]="text.attributes.comment">
+    </div>
     <div class="attributes-map--value">
       <editable-attribute-field [resource]="entry"
                                 [fieldName]="'comment'">
@@ -47,7 +62,10 @@
     </div>
 
     <ng-container *ngFor="let cf of customFields">
-      <div class="attributes-map--key" [textContent]="cf.label"></div>
+      <div class="attributes-map--key"
+           [ngClass]="{'-required': isRequired(cf.key)}"
+           [textContent]="cf.label">
+      </div>
       <div class="attributes-map--value">
         <editable-attribute-field [resource]="entry"
                                   [fieldName]="cf.key">

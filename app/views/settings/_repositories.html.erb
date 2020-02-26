@@ -26,7 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= styled_form_tag({action: 'edit', tab: 'repositories'}) do %>
+
+<%= styled_form_tag(general_settings_path(tab: 'repositories'), method: :patch) do %>
   <section class="form--section">
     <div class="form--field">
       <%= setting_check_box :autofetch_changesets %>
@@ -64,10 +65,10 @@ See docs/COPYRIGHT.rdoc for more details.
       </span>
     </div>
     <%
-    available_scms = OpenProject::Scm::Manager.registered
+    available_scms = OpenProject::SCM::Manager.registered
       .map {|vendor, klass| [klass.vendor_name, vendor.to_s] }
 
-    manageable_scms = OpenProject::Scm::Manager.manageable
+    manageable_scms = OpenProject::SCM::Manager.manageable
       .map {|vendor, klass| [klass.vendor_name, vendor.to_s, { disabled: !klass.enabled? }]}
     %>
     <div class="form--field">

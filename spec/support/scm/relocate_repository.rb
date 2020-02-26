@@ -1,6 +1,6 @@
 shared_examples_for 'repository can be relocated' do |vendor|
   let(:job_call) do
-    ::Scm::RelocateRepositoryJob.perform_now repository
+    ::SCM::RelocateRepositoryJob.perform_now repository
   end
   let(:project) { FactoryBot.build :project }
   let(:repository) {

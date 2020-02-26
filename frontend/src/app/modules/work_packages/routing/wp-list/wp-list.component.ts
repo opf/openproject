@@ -40,6 +40,7 @@ import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-t
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-scroll";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   selector: 'wp-list',
@@ -48,12 +49,15 @@ import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-s
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
-    { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
+    {provide: HalResourceNotificationService, useClass: WorkPackageNotificationService},
     DragAndDropService,
     CausedUpdatesService
   ]
 })
 export class WorkPackagesListComponent extends WorkPackagesViewBase implements OnDestroy {
+  @InjectField() titleService:OpTitleService;
+  @InjectField() bcfDetectorService:BcfDetectorService;
+
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
     'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
@@ -80,17 +84,12 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   /** Determine when query is initially loaded */
   tableInformationLoaded = false;
 
-  /** Project identifier of the list */
-  projectIdentifier = this.$state.params['projectPath'] || null;
-
   /** An overlay over the table shown for example when the filters are invalid */
   showResultOverlay = false;
 
   /** Switch between list and card view */
   private _showListView:boolean = true;
 
-  private readonly titleService:OpTitleService = this.injector.get(OpTitleService);
-  private readonly bcfDetectorService:BcfDetectorService = this.injector.get(BcfDetectorService);
   public readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
     dragAndDropEnabled: true
   };
@@ -100,10 +99,9 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
     this.hasQueryProps = !!this.$state.params.query_props;
 
-    // Load query initially unless it already was loaded
-    if (!this.querySpace.initialized.hasValue()) {
-      this.loadCurrentQuery();
-    }
+    // If the query was loaded, reload invisibly
+    const isFirstLoad = !this.querySpace.initialized.hasValue();
+    this.refresh(isFirstLoad, isFirstLoad);
 
     // Load query on URL transitions
     this.updateQueryOnParamsChanges();
@@ -182,7 +180,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     if (query.persisted) {
       this.selectedTitle = query.name;
     } else {
-      this.selectedTitle =  this.wpStaticQueries.getStaticName(query);
+      this.selectedTitle = this.wpStaticQueries.getStaticName(query);
     }
 
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
@@ -197,13 +195,19 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     let promise:Promise<unknown>;
 
     if (firstPage) {
-      promise = this.loadCurrentQuery();
+      promise = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
     } else {
       promise = this.wpListService.reloadCurrentResultsList();
     }
 
     if (visibly) {
-      this.loadingIndicator = promise;
+      this.loadingIndicator = promise.then(() => {
+        if (this.wpTableTimeline.isVisible) {
+          return this.querySpace.timelineRendered.pipe(take(1)).toPromise();
+        } else {
+          return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
+        }
+      });
     }
 
     return promise;
@@ -245,7 +249,7 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
       this.wpListChecksumService
         .executeIfOutdated(newId,
           newChecksum,
-          () => this.loadCurrentQuery());
+          () => this.refresh(true, true));
     });
   }
 
@@ -265,12 +269,4 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     this.loadingIndicatorService.table.promise = promise;
   }
 
-  protected loadCurrentQuery():Promise<unknown> {
-    return this.loadingIndicator =
-      this.wpListService
-        .loadCurrentQueryFromParams(this.projectIdentifier)
-        .then(() => {
-          this.querySpace.rendered.valuesPromise();
-        });
-  }
 }

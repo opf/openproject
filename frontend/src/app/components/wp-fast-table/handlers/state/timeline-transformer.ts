@@ -4,14 +4,15 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import {WorkPackageTimelineState} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-timeline";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class TimelineTransformer {
 
-  public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
-  public wpTableTimeline = this.injector.get(WorkPackageViewTimelineService);
+  @InjectField() public querySpace:IsolatedQuerySpace;
+  @InjectField() public wpTableTimeline:WorkPackageViewTimelineService;
 
-  constructor(private readonly injector:Injector,
-              private readonly table:WorkPackageTable) {
+  constructor(readonly injector:Injector,
+              readonly table:WorkPackageTable) {
 
     this.wpTableTimeline
       .live$()

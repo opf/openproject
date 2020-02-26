@@ -33,7 +33,7 @@ OpenProject::Notifications.subscribe('journal_created') do |payload|
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-  Notifications::JournalWPMailService.call(payload[:journal], payload[:send_mail])
+  Notifications::JournalWpMailService.call(payload[:journal], payload[:send_mail])
 end
 
 OpenProject::Notifications.subscribe('watcher_added') do |payload|

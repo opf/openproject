@@ -1752,6 +1752,7 @@ ar:
   label_workflow_plural: "تدفقات العمل"
   label_workflow_summary: "مُلخّص"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     zero: "%{count} مغلق"
     one: "1 مغلقة"
     two: "%{count} مغلق"
@@ -1759,6 +1760,7 @@ ar:
     many: "%{count} مغلق"
     other: "%{count} مغلق"
   label_x_comments:
+    zero: "no comments"
     zero: "%{count} تعليقات"
     one: "1 comment"
     two: "%{count} تعليقات"
@@ -1766,6 +1768,7 @@ ar:
     many: "%{count} تعليقات"
     other: "%{count} تعليقات"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     zero: "%{count} مفتوح"
     one: "1 open"
     two: "%{count} مفتوح"
@@ -1773,6 +1776,7 @@ ar:
     many: "%{count} مفتوح"
     other: "%{count} مفتوح"
   label_x_projects:
+    zero: "no projects"
     zero: "%{count} مشاريع"
     one: "1 project"
     two: "%{count} مشاريع"
@@ -2323,7 +2327,7 @@ ar:
   text_destroy_with_associated: "وهناك كائنات إضافية مرتبطة مع الحزمة (الحزم) العمل الموجودة المراد حذفها. هذه الكائنات من الأنواع التالية: "
   text_destroy_what_to_do: "ماذا تريد أن تفعل؟"
   text_diff_truncated: "... تم اقتطاعه لأنه يتجاوز الحد الأقصى للحجم التي يمكن عرضها."
-  text_email_delivery_not_configured: "لم يتم تكوين تسليم البريد الإلكتروني و تم تعطيل إعلامات. كون ملقم SMTP الخاص بك في config/configuration.yml وإعادة تشغيل التطبيق لتمكينها."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "إعادة تعيينهم إلى هذه القيمة:"
   text_enumeration_destroy_question: "يتم تعيين الكائنات %{count} لهذه القيمة."
   text_file_repository_writable: "مرفقات دليل قابل للكتابة"

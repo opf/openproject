@@ -208,8 +208,15 @@ es:
       blocks:
         new_features:
           text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
-          current_new_feature_html: "OpenProject tiene una nueva <b>página de información general</b> para <b>mostrar información importante sobre el proyecto</b> e indicar si se completará según lo previsto. </br> Puede insertar nuevos widgets de estado, como: <ul><li>estado del proyecto,</li> <li>información general sobre el estado del paquete de trabajo,</li> <li>progreso de la tarea,</li> <li>tareas asignadas a usuarios.</li></ul>"
-          learn_about: "Más información sobre los nuevos widgets de estado"
+          learn_about: "Más información sobre las nuevas características"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              Esta versión contiene nuevas características y mejoras: <br><br> <ul> <li><b>Plantillas de diseño</b> predeterminadas para seleccionar un tema claro u oscuro (característica de pago).</li> <li>Nuevo <b>widget de seguimiento del tiempo</b> para <i>Mi página</i>, donde se muestra el tiempo invertido en un gráfico de barras.</li> <li><b>Exportación a XLS de informes de costes</b> y texto con formato al exportar a PDF paquetes de trabajo.</li> <li><b>Mejoras de diseño y usabilidad</b> (como pestañas y más) en la configuración del proyecto y en el área de administración.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject tiene un <b>nuevo módulo IFC para integrar modelos 3D</b> en su aplicación de gestión de proyectos y trabajar de forma colaborativa en esos archivos con los miembros de su equipo, sin tener que instalar costosos programas adicionales ni usar más licencias. <br><br> <ul> <li><b>Importe archivos IFC</b> de modelos de edificios en su aplicación de OpenProject.</li> <li><b>Abra modelos 3D y visualice modelos de edificios</b> en el navegador.</li> <li> <b>Trabaje en varios archivos IFC</b> fácilmente con su equipo directamente en OpenProject, sin tener que instalar costosos programas adicionales. </li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
@@ -309,6 +316,7 @@ es:
     label_project_plural: "Proyectos"
     label_visibility_settings: "Configuración de visibilidad"
     label_quote_comment: "Citar este comentario"
+    label_recent: "Recientes"
     label_reset: "Reiniciar"
     label_remove_column: "Eliminar columna"
     label_remove_columns: "Eliminar columnas seleccionadas"
@@ -445,27 +453,14 @@ es:
         upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡es un usuario experto! ¿Le importaría apoyar a los desarrolladores de OpenSource convirtiéndose en un cliente de la versión corporativa?"
         more_information: "Más información"
         nevermind: "No importa"
-        filter_types:
-          parent: "es un elemento secundario de"
-          precedes: "anterior"
-          follows: "posterior"
-          relates: "relacionado con"
-          duplicates: "duplicado"
-          duplicated: "duplicado por"
-          blocks: "bloqueo"
-          blocked: "bloqueado por"
-          partof: "pertenece a"
-          includes: "incluido"
-          requires: "requiere"
-          required: "requerido por"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Configuración del formulario"
         projects: "Proyectos"
         settings: "Configuración"
     time_entry:
       project: 'Proyecto'
       work_package: 'Paquete de trabajo'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Es necesario seleccionar primero un paquete de trabajo.'
       activity: 'Actividad'
       comment: 'Comentario'
       duration: 'Duración'
@@ -533,12 +528,14 @@ es:
     field_value_enter_prompt: "Introduzca un valor para '%{field}'"
     select2:
       input_too_short:
+        zero: "Escriba más caracteres"
         one: "Por favor introduzca un carácter más"
         other: "Por favor, ingrese {{count}} caracteres más"
       load_more: "Cargando mas resultados ..."
       no_matches: "No se encontraron coincidencias"
       searching: "Buscando ..."
       selection_too_big:
+        zero: "No se puede seleccionar ningún elemento"
         one: "Solo puede seleccionar un objeto"
         other: "Solo puede seleccionar {{limit}} objetos"
     project_menu_details: "Detalles"
@@ -791,8 +788,7 @@ es:
           relation_columns: '¿Necesita ver las relaciones en la lista del paquete de trabajo?'
           check_out_link: 'Vea la versión Enterprise Edition.'
         relation_filters:
-          first_part: "Mostrar todos los paquetes de trabajo"
-          second_part: "el paquete de trabajo actual"
+          filter_work_packages_by_relation_type: 'Filtrar paquetes de trabajo por tipo de relación'
       tabs:
         overview: Resumen
         activity: Actividad
@@ -878,6 +874,7 @@ es:
         one: "un paquete de trabajo secundario"
         other: "%{count} paquetes de trabajo secundarios"
       hour:
+        zero: "0 h"
         one: "1 h"
         other: "%{count} h"
     zen_mode:

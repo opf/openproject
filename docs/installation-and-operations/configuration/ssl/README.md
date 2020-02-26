@@ -14,16 +14,14 @@ SSL configuration can be applied on the first installation, or at any time by re
 sudo openproject reconfigure
 ```
 
-You will be prompted with the same dialogs than on the [initial configuration](#TODO) guide. This assumes that you select the **install** option when the **server/autoinstall** dialog appears, and that you have certificate and key files available on your server at a path you know.
-
-[initial_configuration]: ../installation/packaged/#install-apache2-web-server-default
+You will be prompted with the same dialogs than on the [initial configuration](../../installation/packaged/#step-2-apache2-web-server) guide. This assumes that you select the **install** option when the **server/autoinstall** dialog appears, and that you have certificate and key files available on your server at a path you know.
 
 ## Docker-based installation
 
 The current Docker image does not support SSL by default. Usually you would
 already have an existing Apache or NginX server on your host, with SSL
 configured, which you could use to set up a simple ProxyPass rule to direct
-traffic to the container.
+traffic to the container. Or one of the myriad of other tools (e.g. Traefik) offered by the Docker community to handle this aspect.
 
 If you really want to enable SSL from within the container, you could try
 mounting a custom apache2 directory when you launch the container with `-v

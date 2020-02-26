@@ -11,12 +11,12 @@ keywords: members
 
 
 
-| Feature                           | Documentation for                                        |
-| --------------------------------- | -------------------------------------------------------- |
-| [Add members](#add-members)       | Add existing members or invite new members to a project. |
-| [Remove members](#remove-members) | Remove members from a project.                           |
-|                                   |                                                          |
-|                                   |                                                          |
+| Feature                                         | Documentation for                                            |
+| ----------------------------------------------- | ------------------------------------------------------------ |
+| [Add members](#add-members)                     | How to add existing members or invite new members to a project? |
+| [Remove members](#remove-members)               | How to remove members from a project?                        |
+| [Roles and permissions](#roles-and-permissions) | How to manage roles and permissions for members?             |
+| [Groups](#groups)                               | How to add members to a groups and add groups to a project?  |
 
 ## Add members
 
@@ -33,7 +33,6 @@ To remove members from a project, [select the project](../projects/#select-a-pro
 Members will have different roles with different permissions in a project. To find out how to [configure roles and permissions](../../system-admin-guide/#roles-permissions).
 
 <div class="glossary">A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's or group's name and the role(s) the user should assume in the project.</div>
-
 ## Groups
 
-Members can be added to groups. Find out how to [create and manage groups](../../system-admin-guide/#groups) in OpenProject.
+Members can be added to groups. A group can be added to a project. With this, all members will be have the corresponding role in this project. Find out how to [create and manage groups](../../system-admin-guide/#groups) in OpenProject.

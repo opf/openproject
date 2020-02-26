@@ -1,4 +1,4 @@
-# Installation and Operation Guides
+# Installation and Operations Guides
 
 This section concerns the installation and operation of OpenProject (Community and Enterprise editions).
 
@@ -8,7 +8,7 @@ This section concerns the installation and operation of OpenProject (Community a
 | ----------- | :---------- |
 | [System requirements](system-requirements) | Learn the minimum configuration required to run OpenProject |
 | [Installation](installation/) | How to install OpenProject |
-| [Operation & Maintenance](operation/) | Guides on how to configure, backup, upgrade, and monitor your OpenProject installation |
+| [Operations & Maintenance](operation/) | Guides on how to configure, backup, upgrade, and monitor your OpenProject installation |
 | [Advanced configuration](configuration/) | Guides on how to perform advanced configuration of your OpenProject installation |
 | [Other](misc/) | Guides on infrequent operations such as MySQL to PostgreSQL migration |
 

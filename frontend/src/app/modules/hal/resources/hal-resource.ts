@@ -31,6 +31,7 @@ import {HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
 import {Injector} from '@angular/core';
 import {States} from 'core-components/states.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export interface HalResourceClass<T extends HalResource = HalResource> {
   new(injector:Injector,
@@ -61,8 +62,8 @@ export class HalResource {
   // This is required for attributes to be correctly mapped according to their configuration.
   public $halType:string;
 
-  protected readonly states:States = this.injector.get(States);
-  protected readonly I18n:I18nService = this.injector.get(I18nService);
+  @InjectField() states:States;
+  @InjectField() I18n:I18nService;
 
   /**
    * Constructs and initializes the HalResource. For this, the halResoureFactory is required.
@@ -86,7 +87,7 @@ export class HalResource {
     this.$initialize($source);
   }
 
-  public static getEmptyResource(self:{ href:string | null } = {href: null}):any {
+  public static getEmptyResource(self:{ href:string|null } = {href: null}):any {
     return {_links: {self: self}};
   }
 
@@ -131,7 +132,7 @@ export class HalResource {
    *  - The embedded ID is actually set
    *  - The self link is terminated by a number.
    */
-  public get id():string | null {
+  public get id():string|null {
     if (this.$source.id) {
       return this.$source.id.toString();
     }
@@ -144,7 +145,7 @@ export class HalResource {
     return null;
   }
 
-  public set id(val:string | null) {
+  public set id(val:string|null) {
     this.$source.id = val;
   }
 
@@ -216,18 +217,18 @@ export class HalResource {
   /**
    * Alias for $href.
    */
-  public get href():string | null {
+  public get href():string|null {
     return this.$link.href;
   }
 
-  public get $href():string | null {
+  public get $href():string|null {
     return this.$link.href;
   }
 
   /**
    * Return the associated state to this HAL resource, if any.
    */
-  public get state():InputState<this> | null {
+  public get state():InputState<this>|null {
     return null;
   }
 

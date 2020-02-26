@@ -1671,12 +1671,16 @@ id:
   label_workflow_plural: "Alur kerja"
   label_workflow_summary: "Ringkasan"
   label_x_closed_work_packages_abbr:
+    zero: "0 closed"
     other: "%{count} tertutup"
   label_x_comments:
+    zero: "no comments"
     other: "%{count} komentar"
   label_x_open_work_packages_abbr:
+    zero: "0 open"
     other: "%{count} terbuka"
   label_x_projects:
+    zero: "no projects"
     other: "%{count} proyek"
   label_year: "Tahun"
   label_yesterday: "kemarin"
@@ -2217,7 +2221,7 @@ id:
   text_destroy_with_associated: "Ada tambahan objek terasosiasi dengan Work Package yang akan dihapus. Objek tersebut adalah Tipe :"
   text_destroy_what_to_do: "Apa yang ingin Anda lakukan?"
   text_diff_truncated: "... diff ini telah dipotong karena melebihi batas maks. yang dapat ditampilkan."
-  text_email_delivery_not_configured: "Pengiriman email belum dikonfigurasi, dan notifikasi dinonaktifkan. Konfigurasikan SMTP server Anda di config/configuration.yml dan restart aplikasi untuk mengaktifkan."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
   text_enumeration_category_reassign_to: "Atur kembali ke nilai ini:"
   text_enumeration_destroy_question: "%{count} objek telah diperuntukkan untuk nilai ini."
   text_file_repository_writable: "Lampiran direktori bisa ditulisi"
