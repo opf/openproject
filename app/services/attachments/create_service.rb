@@ -40,29 +40,44 @@ class Attachments::CreateService
   #
   # An ActiveRecord::RecordInvalid error is raised if any record can't be saved.
   def call(uploaded_file:, description:)
-    attachment = Attachment.new(file: uploaded_file,
-                                container: container,
-                                description: description,
-                                author: author)
-    save attachment
-
-    attachment
+    if container.respond_to? :add_journal
+      save_journalized(uploaded_file, description)
+    else
+      save_unjournalized(uploaded_file, description)
+    end
   end
 
   private
 
-  def save(attachment)
-    ActiveRecord::Base.transaction do
-      attachment.save!
+  def save_journalized(uploaded_file, description)
+    JournalManager.with_advisory_lock_transaction(container) do
+      # Get the latest attachments to ensure having them all for journalization.
+      # A different worker might have added attachments in the meantime, e.g when bulk uploading
+      container.attachments.reload
+      attachment = build_attachment(uploaded_file, description)
 
-      add_journal if container.respond_to? :add_journal
+      add_journal
+      save_container
+
+      attachment
+    end
+  end
+
+  def save_unjournalized(uploaded_file, description)
+    build_attachment(uploaded_file, description).tap do
+      save_container
     end
   end
 
   def add_journal
-    # reload to get the newly added attachment
-    container.attachments.reload
     container.add_journal author
+  end
+
+  def build_attachment(uploaded_file, description)
+    container.attachments.build(file: uploaded_file, description: description, author: author)
+  end
+
+  def save_container
     # We allow invalid containers to be saved as
     # adding the attachments does not change the validity of the container
     # but without that leeway, the user needs to fix the container before
