@@ -9,6 +9,6 @@ el:
         default: 'Προεπιλεγμένα μοντέλα IFC'
         manage: 'Διαχείριση μοντέλων'
       views:
-        list: 'List only'
-        viewer: 'Viewer only'
-        split: 'Viewer and list'
+        list: 'Λίστα μόνο'
+        viewer: 'Θεατές μόνο'
+        split: 'Θεατές και λίστα'
