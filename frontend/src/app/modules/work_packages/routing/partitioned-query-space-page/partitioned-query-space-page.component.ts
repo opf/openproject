@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ComponentRef, HostBinding, OnDestroy, OnInit} from "@angular/core";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpTitleService} from "core-components/html/op-title.service";
@@ -41,6 +41,15 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {ComponentType} from "@angular/cdk/overlay";
+
+export interface ToolbarButtonComponentDefinition {
+  component:ComponentType<any>;
+  containerClasses?:string;
+  show?:() => boolean;
+  inputs?:{[inputName:string]:any};
+  outputs?:{[outputName:string]:Function};
+}
 
 @Component({
   selector: 'partitioned-query-space-page',
@@ -86,7 +95,11 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   tableInformationLoaded = false;
 
   /** An overlay over the table shown for example when the filters are invalid */
+  // TODO DOES NOT PROPAGATE
   showResultOverlay = false;
+
+  /** The toolbar buttons to render */
+  toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [];
 
   // ToDo: Return correct value
   public currentPartition():string {
@@ -194,7 +207,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     }
   }
 
-  public refresh(visibly:boolean = false, firstPage:boolean = false):Promise<unknown> {
+  refresh(visibly:boolean = false, firstPage:boolean = false):Promise<unknown> {
     let promise:Promise<unknown>;
 
     if (firstPage) {
@@ -223,5 +236,4 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   protected set loadingIndicator(promise:Promise<unknown>) {
     this.loadingIndicatorService.table.promise = promise;
   }
-
 }

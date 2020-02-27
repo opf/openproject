@@ -33,7 +33,19 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
+import {
+  PartitionedQuerySpacePageComponent,
+  ToolbarButtonComponentDefinition
+} from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
+import {WorkPackageCreateButtonComponent} from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
+import {WorkPackageFilterButtonComponent} from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
+import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
+import {WorkPackageDetailsViewButtonComponent} from "core-components/wp-buttons/wp-details-view-button/wp-details-view-button.component";
+import {WorkPackageTimelineButtonComponent} from "core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component";
+import {BcfImportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-import-button.component";
+import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-export-button.component";
+import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
+import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
 
 @Component({
   selector: 'wp-view-page',
@@ -54,18 +66,51 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
 
   transitionListenerState = 'work-packages.partitioned.list';
 
+  toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
+    {
+      component: WorkPackageCreateButtonComponent,
+      inputs: {
+        stateName: "work-packages.partitioned.list.new",
+        allowed: ['createWorkPackage']
+      }
+    },
+    {
+      component: BcfImportButtonComponent,
+      show: () => this.bcfDetectorService.isBcfActivated
+    },
+    {
+      component: BcfExportButtonComponent,
+      show: () => this.bcfDetectorService.isBcfActivated
+    },
+    {
+      component: WorkPackageFilterButtonComponent
+    },
+    {
+      component: WorkPackageViewToggleButton,
+      containerClasses: 'hidden-for-mobile'
+    },
+    {
+      component: WorkPackageDetailsViewButtonComponent,
+      containerClasses: 'hidden-for-mobile'
+    },
+    {
+      component: WorkPackageTimelineButtonComponent,
+      containerClasses: 'hidden-for-mobile -no-spacing'
+    },
+    {
+      component: ZenModeButtonComponent,
+      containerClasses: 'hidden-for-mobile'
+    },
+    {
+      component: WorkPackageSettingsButtonComponent
+    }
+  ];
+
   ngOnInit() {
     super.ngOnInit();
     this.text.button_settings = this.I18n.t('js.button_settings');
   }
 
-  public allowed(model:string, permission:string) {
-    return this.authorisationService.can(model, permission);
-  }
-
-  public bcfActivated() {
-    return this.bcfDetectorService.isBcfActivated;
-  }
   protected additionalLoadingTime():Promise<unknown> {
     if (this.wpTableTimeline.isVisible) {
       return this.querySpace.timelineRendered.pipe(take(1)).toPromise();

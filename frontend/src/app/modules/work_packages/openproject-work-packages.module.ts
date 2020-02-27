@@ -166,6 +166,8 @@ import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-
 import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
 import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
 import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
+import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
+import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
 
 
 @NgModule({
@@ -233,6 +235,7 @@ import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routi
 
     // WP list side
     WorkPackageListViewComponent,
+    WorkPackageSettingsButtonComponent,
 
     // Query injector isolation
     WorkPackageIsolatedQuerySpaceDirective,
@@ -386,6 +389,15 @@ import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routi
   entryComponents: [
     // List view
     WorkPackageListViewComponent,
+
+    // List view toolbar
+    WorkPackageCreateButtonComponent,
+    WorkPackageTimelineButtonComponent,
+    WorkPackageFilterButtonComponent,
+    WorkPackageDetailsViewButtonComponent,
+    WorkPackageViewToggleButton,
+    ZenModeButtonComponent,
+    WorkPackageSettingsButtonComponent,
 
     // Split view
     WorkPackageSplitViewComponent,

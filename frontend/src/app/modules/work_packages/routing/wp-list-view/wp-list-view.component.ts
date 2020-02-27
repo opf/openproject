@@ -89,7 +89,7 @@ export class WorkPackageListViewComponent implements OnInit, OnDestroy {
 
   constructor(private I18n:I18nService,
               private querySpace:IsolatedQuerySpace,
-              private wpView:WorkPackageViewPageComponent,
+              readonly wpView:WorkPackageViewPageComponent,
               private deviceService:DeviceService,
               private CurrentProject:CurrentProjectService,
               private wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,

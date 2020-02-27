@@ -59,6 +59,8 @@ import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-exp
     BcfExportButtonComponent
   ],
   entryComponents: [
+    BcfImportButtonComponent,
+    BcfExportButtonComponent
   ]
 })
 export class OpenprojectBcfModule {

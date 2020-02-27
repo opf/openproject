@@ -12,49 +12,16 @@
 
       <ul class="toolbar-items hide-when-print"
           *ngIf="tableInformationLoaded">
-        <li class="toolbar-item">
-          <wp-create-button
-            [allowed]="allowed('work_packages', 'createWorkPackage')"
-            stateName="work-packages.partitioned.list.new">
-          </wp-create-button>
-        </li>
-        <li class="toolbar-item"
-            *ngIf="bcfActivated()">
-          <bcf-import-button></bcf-import-button>
-        </li>
-        <li class="toolbar-item"
-            *ngIf="bcfActivated()">
-          <bcf-export-button></bcf-export-button>
-        </li>
-        <li class="toolbar-item">
-          <wp-filter-button>
-          </wp-filter-button>
-        </li>
-        <li class="toolbar-item hidden-for-mobile">
-          <wp-view-toggle-button>
-          </wp-view-toggle-button>
-        </li>
-        <li class="toolbar-item hidden-for-mobile">
-          <wp-details-view-button>
-          </wp-details-view-button>
-        </li>
-        <li class="toolbar-item hidden-for-mobile -no-spacing">
-          <wp-timeline-toggle-button>
-          </wp-timeline-toggle-button>
-        </li>
-        <li class="toolbar-item hidden-for-mobile">
-          <zen-mode-toggle-button>
-          </zen-mode-toggle-button>
-        </li>
-        <li class="toolbar-item">
-          <button id="work-packages-settings-button"
-                  title="{{ text.button_settings }}"
-                  class="button last work-packages-settings-button toolbar-icon"
-                  opSettingsContextMenu
-                  opSettingsContextMenu-query="query">
-            <op-icon icon-classes="button--icon icon-show-more"></op-icon>
-          </button>
-        </li>
+
+        <ng-container *ngFor="let definition of toolbarButtonComponents">
+          <li class="toolbar-item" *ngIf="!definition.show || definition.show()" [ngClass]="definition.containerClasses">
+            <ndc-dynamic [ndcDynamicComponent]="definition.component"
+                         [ndcDynamicInputs]="definition.inputs"
+                         [ndcDynamicInjector]="injector"
+                         [ndcDynamicOutputs]="definition.outputs">
+            </ndc-dynamic>
+          </li>
+        </ng-container>
       </ul>
     </div>
   </div>
