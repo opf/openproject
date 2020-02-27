@@ -69,7 +69,7 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
         imageArrowsAutoHide: true,
         image: false,
         thumbnailsArrowsAutoHide: false,
-        thumbnailsAutoHide: true,
+        thumbnailsAutoHide: false,
         thumbnailsMargin: 5,
         thumbnailMargin: 5,
         previewDownload: true,
@@ -97,7 +97,7 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       {
         breakpoint: 800,
         width: '100%',
-        height: '300px',
+        height: '90px',
         imagePercent: 80,
         thumbnailsPercent: 20,
         thumbnailsMargin: 5,
@@ -107,7 +107,7 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       // max-width 400
       {
         breakpoint: 400,
-        height: '200px',
+        height: '90px',
       }
     ];
 
