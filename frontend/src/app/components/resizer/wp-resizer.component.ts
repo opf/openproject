@@ -63,9 +63,8 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     this.resizingElement = <HTMLElement>document.getElementsByClassName(this.elementClass)[0];
 
     // Get initial width from local storage and apply
-    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
-    this.elementFlex = localStorageValue ? parseInt(localStorageValue,
-      10) : this.resizingElement.offsetWidth;
+    let localStorageValue = this.parseLocalStorageValue();
+    this.elementFlex = localStorageValue || this.resizingElement.offsetWidth;
 
     // ToDo:
     // Rename variables to width
@@ -136,9 +135,9 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   @HostListener('window:touchend', ['$event'])
   private handleTouchEnd(e:MouseEvent) {
     window.removeEventListener('touchmove', this.mouseMoveHandler);
-    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
+    let localStorageValue = this.parseLocalStorageValue();
     if (localStorageValue) {
-      this.elementFlex = parseInt(localStorageValue, 10);
+      this.elementFlex = localStorageValue;
     }
   }
 
@@ -157,9 +156,9 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     // Take care at the end that the elementFlex-Value is the same as the actual value
     // When the mouseup is outside the container these values will differ
     // which will cause problems at the next movement start
-    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
+    let localStorageValue = this.parseLocalStorageValue();
     if (localStorageValue) {
-      this.elementFlex = parseInt(localStorageValue, 10);
+      this.elementFlex = localStorageValue;
     }
 
     this.moving = false;
@@ -169,6 +168,17 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     window.dispatchEvent(event);
 
     return false;
+  }
+
+  private parseLocalStorageValue():number|undefined {
+    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
+    let number = parseInt(localStorageValue || '', 10);
+
+    if (typeof number === 'number' && number !== NaN) {
+      return number;
+    }
+
+    return undefined;
   }
 
   private resizeElement(element:HTMLElement, e:MouseEvent) {
