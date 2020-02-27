@@ -55,6 +55,8 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
+import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 @Component({
   selector: 'wp-list-view',
@@ -67,11 +69,6 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
   ]
 })
 export class WorkPackageListViewComponent implements OnInit, OnDestroy {
-  /** An overlay over the table shown for example when the filters are invalid */
-  @Input() showResultOverlay:boolean;
-
-  /** Current project identifier */
-  @Input() projectIdentifier:string|undefined;
 
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -79,11 +76,11 @@ export class WorkPackageListViewComponent implements OnInit, OnDestroy {
     'button_settings': this.I18n.t('js.button_settings')
   };
 
-  /** Determine when query is initially loaded */
-  tableInformationLoaded = false;
-
   /** Switch between list and card view */
   showListView:boolean = true;
+
+  /** Determine when query is initially loaded */
+  tableInformationLoaded = false;
 
   /** */
   readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
@@ -92,13 +89,14 @@ export class WorkPackageListViewComponent implements OnInit, OnDestroy {
 
   constructor(private I18n:I18nService,
               private querySpace:IsolatedQuerySpace,
+              private wpView:WorkPackageViewPageComponent,
               private deviceService:DeviceService,
+              private CurrentProject:CurrentProjectService,
               private wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
               private cdRef:ChangeDetectorRef) {
   }
 
   ngOnInit() {
-
     // Mark tableInformationLoaded when initially loading done
     this.setupInformationLoadedListener();
 
@@ -110,10 +108,10 @@ export class WorkPackageListViewComponent implements OnInit, OnDestroy {
       this.cdRef.detectChanges();
     });
   }
+
   ngOnDestroy():void {
     // Nothing to do
   }
-
   protected setupInformationLoadedListener() {
     this
       .querySpace
@@ -125,4 +123,5 @@ export class WorkPackageListViewComponent implements OnInit, OnDestroy {
         this.cdRef.detectChanges();
       });
   }
+
 }

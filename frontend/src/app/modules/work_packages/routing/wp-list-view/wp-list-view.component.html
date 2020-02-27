@@ -1,10 +1,10 @@
 <!-- (TABLE + TIMELINE) and FOOTER vertical split-->
 <div class="result-overlay"
-     *ngIf="showResultOverlay && showListView"></div>
+     *ngIf="wpView.showResultOverlay && showListView"></div>
 
 <!-- TABLE + TIMELINE horizontal split -->
 <wp-table *ngIf="tableInformationLoaded && showListView"
-          [projectIdentifier]="projectIdentifier"
+          [projectIdentifier]="CurrentProject.identifier"
           [configuration]="wpTableConfiguration"
           class="work-packages-split-view--tabletimeline-content"></wp-table>
 

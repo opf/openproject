@@ -106,6 +106,9 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     const isFirstLoad = !this.querySpace.initialized.hasValue();
     this.refresh(isFirstLoad, isFirstLoad);
 
+    // Mark tableInformationLoaded when initially loading done
+    this.setupInformationLoadedListener();
+
     // Load query on URL transitions
     this.queryParamListener
       .observe$
@@ -127,6 +130,18 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     ).subscribe((query) => {
       this.onQueryUpdated(query);
     });
+  }
+
+  protected setupInformationLoadedListener() {
+    this
+      .querySpace
+      .initialized
+      .values$()
+      .pipe(take(1))
+      .subscribe(() => {
+        this.tableInformationLoaded = true;
+        this.cdRef.detectChanges();
+      });
   }
 
   protected onQueryUpdated(query:QueryResource) {

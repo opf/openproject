@@ -38,8 +38,8 @@ import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/rout
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
-import {WorkPackagePartitionedViewPageComponent} from "core-app/modules/work_packages/routing/wp-partitioned-view-page/wp-partitioned-view-page.component";
 import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
+import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
 
 const menuItemClass = 'work-packages-menu-item';
 
@@ -133,7 +133,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'work-packages.partitioned',
-    component: WorkPackagePartitionedViewPageComponent,
+    component: WorkPackageViewPageComponent,
     url: '',
   },
   {

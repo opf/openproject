@@ -36,9 +36,12 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
 
 @Component({
-  selector: 'partitioned-view-page',
-  templateUrl: './partitioned-view-page.component.html',
-  styleUrls: ['./partitioned-view-page.component.sass'],
+  selector: 'wp-view-page',
+  templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  styleUrls: [
+    // Absolute paths do not work for styleURLs :-(
+    '../partitioned-query-space-page/partitioned-query-space-page.component.sass'
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
@@ -48,7 +51,6 @@ import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages
 })
 export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {
   @InjectField() bcfDetectorService:BcfDetectorService;
-
 
   transitionListenerState = 'work-packages.partitioned.list';
 
