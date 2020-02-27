@@ -325,7 +325,7 @@ If you have a separate server that is terminating SSL and only forwarding/proxyi
 
 
 
-### Skip** (not recommended)
+### Skip (not recommended)
 
 The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listeing at `localhost:6000` by proxying.
 
