@@ -36,7 +36,8 @@ import {BcfImportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-imp
 import {BcfDetectorService} from "core-app/modules/bcf/helper/bcf-detector.service";
 import {BcfPathHelperService} from "core-app/modules/bcf/helper/bcf-path-helper.service";
 import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-export-button.component";
-
+import {BcfAddViewpointButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-add-viewpoint-button.component";
+import {RevitBridgeService} from "core-app/modules/bcf/services/revit-bridge.service";
 
 @NgModule({
   imports: [
@@ -46,17 +47,20 @@ import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-exp
   providers: [
     { provide: APP_INITIALIZER, useFactory: initializeBcfDisplayFields, deps: [DisplayFieldService], multi: true },
     BcfDetectorService,
-    BcfPathHelperService
+    BcfPathHelperService,
+    RevitBridgeService
   ],
   declarations: [
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
-    BcfExportButtonComponent
+    BcfExportButtonComponent,
+    BcfAddViewpointButtonComponent
   ],
   exports: [
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
-    BcfExportButtonComponent
+    BcfExportButtonComponent,
+    BcfAddViewpointButtonComponent
   ],
   entryComponents: [
   ]

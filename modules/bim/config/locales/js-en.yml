@@ -4,6 +4,8 @@ en:
     bcf:
       import: 'Import'
       export: 'Export'
+      viewpoint: 'Viewpoint'
+      add_viewpoint: 'Add viewpoint'
     ifc_models:
       models:
         default: 'Default IFC models'
