@@ -44,7 +44,7 @@ export class NotificationComponent implements OnInit {
 
   public text = {
     close_popup: this.I18n.t('js.close_popup_title'),
-  }
+  };
 
   public type:NotificationType;
   public uploadCount = 0;
