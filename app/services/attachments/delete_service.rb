@@ -26,34 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module BaseServices
-  class Delete < BaseContracted
-    attr_accessor :model
-
-    def initialize(user:, model:, contract_class: nil, contract_options: {})
-      self.model = model
-      super(user: user, contract_class: contract_class, contract_options: contract_options)
+class Attachments::DeleteService < ::BaseServices::Delete
+  def call(params = nil)
+    in_context(model.container || model) do
+      perform(params)
     end
+  end
 
-    def persist(service_result)
-      service_result = super(service_result)
+  private
 
-      unless destroy(service_result.result)
-        service_result.errors = service_result.result.errors
-        service_result.success = false
-      end
-
-      service_result
-    end
-
-    def destroy(object)
-      object.destroy
-    end
-
-    protected
-
-    def default_contract_class
-      "#{namespace}::DeleteContract".constantize
+  def destroy(attachment)
+    if attachment.container
+      attachment.container.attachments.delete(attachment)
+    else
+      super
     end
   end
 end

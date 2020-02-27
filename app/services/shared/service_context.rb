@@ -32,7 +32,7 @@ module Shared
   module ServiceContext
     private
 
-    def in_context(model, send_notifications, &block)
+    def in_context(model, send_notifications = true, &block)
       if model
         in_mutex_context(model, send_notifications, &block)
       else
@@ -40,13 +40,13 @@ module Shared
       end
     end
 
-    def in_mutex_context(model, send_notifications, &block)
+    def in_mutex_context(model, send_notifications = true, &block)
       OpenProject::Mutex.with_advisory_lock_transaction(model) do
         in_user_context(send_notifications, &block)
       end
     end
 
-    def in_user_context(send_notifications)
+    def in_user_context(send_notifications = true)
       result = nil
 
       ActiveRecord::Base.transaction do

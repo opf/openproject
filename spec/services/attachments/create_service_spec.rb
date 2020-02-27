@@ -34,7 +34,7 @@ describe Attachments::CreateService do
   let(:container) { work_package }
   let(:description) { 'a fancy description' }
 
-  subject { described_class.new(work_package, author: user) }
+  subject { described_class.new(container, author: user) }
 
   describe '#call' do
     def call_tested_method
@@ -50,12 +50,12 @@ describe Attachments::CreateService do
       end
 
       it 'adds the attachment to the WP' do
-        work_package.reload
-        expect(work_package.attachments).to include Attachment.first
+        container.reload
+        expect(container.attachments).to include Attachment.first
       end
 
       it 'adds a journal entry on the WP' do
-        expect(work_package.journals.count).to eq 2 # 1 for WP creation + 1 for the attachment
+        expect(container.journals.count).to eq 2 # 1 for WP creation + 1 for the attachment
       end
     end
 
@@ -76,6 +76,20 @@ describe Attachments::CreateService do
       end
 
       it_behaves_like 'successful creation'
+    end
+
+    context "uncontainered" do
+      let(:container) { nil }
+
+      before do
+        call_tested_method
+      end
+
+      it 'saves the attachment' do
+        attachment = Attachment.first
+        expect(attachment.filename).to eq 'foobar.txt'
+        expect(attachment.description).to eq description
+      end
     end
 
     context 'invalid attachment', with_settings: { attachment_max_size: 0 } do

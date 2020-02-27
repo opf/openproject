@@ -40,21 +40,24 @@ class Attachments::CreateService
   #
   # An ActiveRecord::RecordInvalid error is raised if any record can't be saved.
   def call(uploaded_file:, description:)
-    if JournalManager.journalized?(container)
-      save_journalized(uploaded_file, description)
+    if container.nil?
+      create_attachment(uploaded_file, description)
+    elsif JournalManager.journalized?(container)
+      create_journalized(uploaded_file, description)
     else
-      save_unjournalized(uploaded_file, description)
+      create_unjournalized(uploaded_file, description)
     end
   end
 
   private
 
-  def save_journalized(uploaded_file, description)
+  def create_journalized(uploaded_file, description)
     OpenProject::Mutex.with_advisory_lock_transaction(container) do
+      attachment = create_attachment(uploaded_file, description)
       # Get the latest attachments to ensure having them all for journalization.
-      # A different worker might have added attachments in the meantime, e.g when bulk uploading
+      # We just created an attachment and a different worker might have added attachments
+      # in the meantime, e.g when bulk uploading.
       container.attachments.reload
-      attachment = build_attachment(uploaded_file, description)
 
       add_journal
       save_container
@@ -63,14 +66,24 @@ class Attachments::CreateService
     end
   end
 
-  def save_unjournalized(uploaded_file, description)
-    build_attachment(uploaded_file, description).tap do
+  def create_unjournalized(uploaded_file, description)
+    create_attachment(uploaded_file, description).tap do
       save_container
     end
   end
 
   def add_journal
     container.add_journal author
+  end
+
+  def create_attachment(uploaded_file, description)
+    attachment = Attachment.new(file: uploaded_file,
+                                container: container,
+                                description: description,
+                                author: author)
+
+    attachment.save!
+    attachment
   end
 
   def build_attachment(uploaded_file, description)
