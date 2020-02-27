@@ -40,6 +40,8 @@ import {BcfAddViewpointButtonComponent} from "core-app/modules/bcf/bcf-buttons/b
 import {RevitBridgeService} from "core-app/modules/bcf/services/revit-bridge.service";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {OpenProjectHeaderInterceptor} from "core-app/modules/hal/http/openproject-header-interceptor";
+import {ModelViewerService} from "core-app/modules/bcf/services/model-viewer.service";
+import {XeokitBridgeService} from "core-app/modules/bcf/services/xeokit-bridge.service";
 
 @NgModule({
   imports: [
@@ -52,7 +54,9 @@ import {OpenProjectHeaderInterceptor} from "core-app/modules/hal/http/openprojec
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     BcfDetectorService,
     BcfPathHelperService,
-    RevitBridgeService
+    ModelViewerService,
+    RevitBridgeService,
+    XeokitBridgeService
   ],
   declarations: [
     BcfWpSingleViewComponent,

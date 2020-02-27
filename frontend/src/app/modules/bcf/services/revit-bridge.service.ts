@@ -1,12 +1,16 @@
+import {ViewerBridgeServiceInterface} from "core-app/modules/bcf/services/viewer-bridge.service";
+
 declare global {
   interface Window { RevitBridge:any; }
 }
 
-import {HostListener, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Subject} from "rxjs";
+import {distinctUntilChanged, filter, first} from "rxjs/operators";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Injectable()
-export class RevitBridgeService {
+export class RevitBridgeService implements ViewerBridgeServiceInterface {
   private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:string }>();
   public revitMessageReceived$ = this.revitMessageReceivedSource.asObservable();
   private _trackingIdNumber = 0;
@@ -27,6 +31,20 @@ export class RevitBridgeService {
         this.hookUpRevitListener();
       });
     }
+  }
+
+  public getViewpoint():Promise<any> {
+    const trackingId = this.newTrackingId();
+
+    this.sendMessageToRevit('ViewpointGenerationRequest', trackingId, '');
+
+    return this.revitMessageReceived$
+      .pipe(
+        distinctUntilChanged(),
+        filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
+        first()
+      )
+      .toPromise();
   }
 
   public sendMessageToRevit(messageType:string, trackingId:string, messagePayload?:any) {

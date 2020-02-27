@@ -29,13 +29,9 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {BcfPathHelperService} from "core-app/modules/bcf/helper/bcf-path-helper.service";
-import {RevitBridgeService} from "core-app/modules/bcf/services/revit-bridge.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {distinctUntilChanged, filter} from "rxjs/operators";
-import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {ModelViewerService} from "core-app/modules/bcf/services/model-viewer.service";
 
 @Component({
   template: `
@@ -56,23 +52,13 @@ export class BcfAddViewpointButtonComponent implements OnInit, OnDestroy {
 
   constructor(readonly I18n:I18nService,
               readonly currentProject:CurrentProjectService,
-              readonly revitBridgeService:RevitBridgeService,
+              readonly modelViewerService:ModelViewerService,
               readonly httpClient:HttpClient) {
   }
 
   public handleClick() {
     console.log("handleClick");
-    const trackingId = this.revitBridgeService.newTrackingId();
-
-    this.revitBridgeService.sendMessageToRevit('ViewpointGenerationRequest', trackingId, '');
-
-    this.revitBridgeService.revitMessageReceived$
-      .pipe(
-        distinctUntilChanged(),
-        filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
-        untilComponentDestroyed(this)
-      )
-      .subscribe(message => this.saveViewpoint(message));
+    this.modelViewerService.getViewpoint().then((message) => this.saveViewpoint(message));
   }
 
   private saveViewpoint(message:any):void {
@@ -96,7 +82,7 @@ export class BcfAddViewpointButtonComponent implements OnInit, OnDestroy {
           responseType: 'json'
         }
       ).subscribe((data) => {
-        console.log("Response of posting viewpiont", data);
+        console.log("Response of posting viewpoint", data);
       });
   }
 
