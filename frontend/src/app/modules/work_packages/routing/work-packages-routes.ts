@@ -39,6 +39,7 @@ import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/rout
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {WorkPackagePartitionedViewPageComponent} from "core-app/modules/work_packages/routing/wp-partitioned-view-page/wp-partitioned-view-page.component";
+import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
 
 const menuItemClass = 'work-packages-menu-item';
 
@@ -48,7 +49,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     parent: 'root',
     component: WorkPackagesBaseComponent,
     url: '/work_packages?query_id&query_props&start_onboarding_tour',
-    redirectTo: 'work-packages.list',
+    redirectTo: 'work-packages.partitioned.list',
     data: {
       bodyClasses: 'router--work-packages-base',
       menuItem: menuItemClass
@@ -131,44 +132,57 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     }
   },
   {
-    name: 'work-packages.list',
-    url: '',
+    name: 'work-packages.partitioned',
     component: WorkPackagePartitionedViewPageComponent,
+    url: '',
+  },
+  {
+    name: 'work-packages.partitioned.list',
+    url: '',
     reloadOnSearch: false,
+    views: {
+      'content-left': { component: WorkPackageListViewComponent }
+    },
     data: {
       bodyClasses: 'router--work-packages-list-view',
       menuItem: menuItemClass
     }
   },
   {
-    name: 'work-packages.list.new',
+    name: 'work-packages.partitioned.list.new',
     url: '/create_new?type&parent_id',
-    component: WorkPackageNewSplitViewComponent,
+    views: {
+      'content-right@^.^': { component: WorkPackageNewSplitViewComponent }
+    },
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
       bodyClasses: 'router--work-packages-split-view-new',
       menuItem: menuItemClass,
-      parent: 'work-packages.list'
+      parent: 'work-packages.partitioned.list'
     },
   },
   {
-    name: 'work-packages.list.copy',
+    name: 'work-packages.partitioned.list.copy',
     url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
-    component: WorkPackageCopySplitViewComponent,
+    views: {
+      'content-right@^.^': { component: WorkPackageCopySplitViewComponent }
+    },
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
       bodyClasses: 'router--work-packages-split-view',
       menuItem: menuItemClass,
-      parent: 'work-packages.list'
+      parent: 'work-packages.partitioned.list'
     },
   },
   {
-    name: 'work-packages.list.details',
-    redirectTo: 'work-packages.list.details.overview',
+    name: 'work-packages.partitioned.list.details',
+    redirectTo: 'work-packages.partitioned.list.details.overview',
     url: '/details/{workPackageId:[0-9]+}',
-    component: WorkPackageSplitViewComponent,
+    views: {
+      'content-right@^.^': { component: WorkPackageSplitViewComponent }
+    },
     reloadOnSearch: false,
     params: {
       focus: {
@@ -182,47 +196,47 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     },
   },
   {
-    name: 'work-packages.list.details.overview',
+    name: 'work-packages.partitioned.list.details.overview',
     url: '/overview',
     component: WorkPackageOverviewTabComponent,
     data: {
-      parent: 'work-packages.list.details',
+      parent: 'work-packages.partitioned.list.details',
       menuItem: menuItemClass
     }
   },
   {
-    name: 'work-packages.list.details.activity',
+    name: 'work-packages.partitioned.list.details.activity',
     url: '/activity',
     component: WorkPackageActivityTabComponent,
     data: {
-      parent: 'work-packages.list.details',
+      parent: 'work-packages.partitioned.list.details',
       menuItem: menuItemClass
     }
   },
   {
-    name: 'work-packages.list.details.activity.details',
+    name: 'work-packages.partitioned.list.details.activity.details',
     url: '/activity/details/#{activity_no:\d+}',
     component: WorkPackageActivityTabComponent,
     data: {
-      parent: 'work-packages.list.details',
+      parent: 'work-packages.partitioned.list.details',
       menuItem: menuItemClass
     }
   },
   {
-    name: 'work-packages.list.details.relations',
+    name: 'work-packages.partitioned.list.details.relations',
     url: '/relations',
     component: WorkPackageRelationsTabComponent,
     data: {
-      parent: 'work-packages.list.details',
+      parent: 'work-packages.partitioned.list.details',
       menuItem: menuItemClass
     }
   },
   {
-    name: 'work-packages.list.details.watchers',
+    name: 'work-packages.partitioned.list.details.watchers',
     url: '/watchers',
     component: WorkPackageWatchersTabComponent,
     data: {
-      parent: 'work-packages.list.details',
+      parent: 'work-packages.partitioned.list.details',
       menuItem: menuItemClass
     }
   },

@@ -50,8 +50,6 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
     {provide: HalResourceNotificationService, useClass: WorkPackageNotificationService},
-    DragAndDropService,
-    CausedUpdatesService,
     QueryParamListenerService
   ]
 })
@@ -127,7 +125,7 @@ export class WorkPackagePartitionedViewPageComponent extends WorkPackagesViewBas
     this.setupInformationLoadedListener();
 
     // Update title on entering this state
-    this.unRegisterTitleListener = this.$transitions.onSuccess({to: 'work-packages.list'}, () => {
+    this.unRegisterTitleListener = this.$transitions.onSuccess({to: 'work-packages.partitioned.list'}, () => {
       if (this.selectedTitle) {
         this.titleService.setFirstPart(this.selectedTitle);
       }
@@ -204,7 +202,7 @@ export class WorkPackagePartitionedViewPageComponent extends WorkPackagesViewBas
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
 
     // Update the title if we're in the list state alone
-    if (this.$state.current.name === 'work-packages.list') {
+    if (this.$state.current.name === 'work-packages.partitioned.list') {
       this.titleService.setFirstPart(this.selectedTitle);
     }
   }

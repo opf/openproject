@@ -15,7 +15,7 @@
         <li class="toolbar-item">
           <wp-create-button
             [allowed]="allowed('work_packages', 'createWorkPackage')"
-            stateName="work-packages.list.new">
+            stateName="work-packages.partitioned.list.new">
           </wp-create-button>
         </li>
         <li class="toolbar-item"
@@ -68,33 +68,13 @@
     <span [textContent]="text.jump_to_pagination"></span>
   </accessible-by-keyboard>
 
-  <!-- (TABLE + TIMELINE) + DETAILS view -->
+  <!-- Left content view -->
+  <div class="work-packages-partitioned-page--content-left loading-indicator--location"
+       data-indicator-name="table"
+       ui-view="content-left">
+  </div>
 
-    <!-- (TABLE + TIMELINE) and FOOTER vertical split-->
-    <div class="work-packages-split-view--tabletimeline-side loading-indicator--location"
-         data-indicator-name="table">
-      <div class="result-overlay"
-           *ngIf="showResultOverlay && showListView"></div>
-
-      <!-- TABLE + TIMELINE horizontal split -->
-      <wp-table *ngIf="tableInformationLoaded && showListView"
-                [projectIdentifier]="projectIdentifier"
-                [configuration]="wpTableConfiguration"
-                class="work-packages-split-view--tabletimeline-content"></wp-table>
-
-      <!-- GRID representation of the WP -->
-      <div *ngIf="!showListView"
-           class="work-packages--card-view-container">
-        <wp-grid [configuration]="wpTableConfiguration"></wp-grid>
-      </div>
-
-      <!-- Footer -->
-      <div class="work-packages-split-view--tabletimeline-footer hide-when-print"
-           *ngIf="tableInformationLoaded">
-        <wp-table-pagination></wp-table-pagination>
-      </div>
-    </div>
-
-    <!-- Details view -->
-    <div class="work-packages-split-view--details-side" ui-view></div>
+  <!-- Right content view -->
+  <div class="work-packages-split-view--details-side"
+       ui-view="content-right"></div>
 </div>

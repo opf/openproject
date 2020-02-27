@@ -160,7 +160,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
 
   public cancelAndBackToList() {
     this.wpCreate.cancelCreation();
-    this.$state.go('work-packages.list', this.$state.params);
+    this.$state.go('work-packages.partitioned.list', this.$state.params);
   }
 
   protected createdWorkPackage() {

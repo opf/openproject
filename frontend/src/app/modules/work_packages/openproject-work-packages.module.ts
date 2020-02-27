@@ -164,6 +164,7 @@ import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changes
 import {WorkPackageSingleCardComponent} from "core-components/wp-card-view/wp-single-card/wp-single-card.component";
 import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-changeset';
 import {WorkPackagePartitionedViewPageComponent} from "core-app/modules/work_packages/routing/wp-partitioned-view-page/wp-partitioned-view-page.component";
+import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
 
 
 @NgModule({
@@ -227,6 +228,9 @@ import {WorkPackagePartitionedViewPageComponent} from "core-app/modules/work_pac
     // Routing
     WorkPackagesBaseComponent,
     WorkPackagePartitionedViewPageComponent,
+
+    // WP list side
+    WorkPackageListViewComponent,
 
     // Query injector isolation
     WorkPackageIsolatedQuerySpaceDirective,
@@ -378,6 +382,9 @@ import {WorkPackagePartitionedViewPageComponent} from "core-app/modules/work_pac
     WorkPackageViewToggleButton,
   ],
   entryComponents: [
+    // List view
+    WorkPackageListViewComponent,
+
     // Split view
     WorkPackageSplitViewComponent,
 
