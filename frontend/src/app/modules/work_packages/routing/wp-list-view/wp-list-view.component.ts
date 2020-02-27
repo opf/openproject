@@ -64,6 +64,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
   host: { 'class': 'work-packages-split-view--tabletimeline-side' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
     DragAndDropService,
     CausedUpdatesService
   ]
