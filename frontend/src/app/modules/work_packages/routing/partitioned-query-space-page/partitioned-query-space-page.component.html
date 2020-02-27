@@ -61,13 +61,6 @@
 
   <filter-container (filtersCompleted)="updateResultVisibility($event)"></filter-container>
 
-  <accessible-by-keyboard
-    linkClass="hidden-for-sighted skip-navigation-link"
-    [linkAriaLabel]="text.text_jump_to_pagination"
-    (execute)="setAnchorToNextElement()">
-    <span [textContent]="text.jump_to_pagination"></span>
-  </accessible-by-keyboard>
-
   <!-- Left content view -->
   <div class="work-packages-partitioned-page--content-left loading-indicator--location"
        data-indicator-name="table"

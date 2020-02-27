@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, Component, HostBinding, OnDestroy} from "@angular/core";
+import {ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit} from "@angular/core";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpTitleService} from "core-components/html/op-title.service";
@@ -43,9 +43,9 @@ import {QueryParamListenerService} from "core-components/wp-query/query-param-li
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
-  selector: 'wp-partitioned-view-page',
-  templateUrl: './wp-partitioned-view-page.component.html',
-  styleUrls: ['./wp-partitioned-view-page.component.sass'],
+  selector: 'partitioned-query-space-page',
+  templateUrl: './partitioned-query-space-page.component.html',
+  styleUrls: ['./partitioned-query-space-page.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
@@ -53,16 +53,17 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
     QueryParamListenerService
   ]
 })
-export class WorkPackagePartitionedViewPageComponent extends WorkPackagesViewBase implements OnDestroy {
+export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase implements OnInit, OnDestroy {
   @InjectField() titleService:OpTitleService;
-  @InjectField() bcfDetectorService:BcfDetectorService;
   @InjectField() queryParamListener:QueryParamListenerService;
 
-  text = {
+  text:{[key:string]:string} = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
     'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
-    'button_settings': this.I18n.t('js.button_settings')
   };
+
+  /** Transition state to listen for query changes */
+  transitionListenerState:string;
 
   /** Whether the title can be edited */
   titleEditingEnabled:boolean;
@@ -86,13 +87,6 @@ export class WorkPackagePartitionedViewPageComponent extends WorkPackagesViewBas
 
   /** An overlay over the table shown for example when the filters are invalid */
   showResultOverlay = false;
-
-  /** Switch between list and card view */
-  private _showListView:boolean = true;
-
-  public readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
-    dragAndDropEnabled: true
-  };
 
   // ToDo: Return correct value
   public currentPartition():string {
@@ -121,11 +115,8 @@ export class WorkPackagePartitionedViewPageComponent extends WorkPackagesViewBas
         this.refresh(true, true);
       });
 
-    // Mark tableInformationLoaded when initially loading done
-    this.setupInformationLoadedListener();
-
     // Update title on entering this state
-    this.unRegisterTitleListener = this.$transitions.onSuccess({to: 'work-packages.partitioned.list'}, () => {
+    this.unRegisterTitleListener = this.$transitions.onSuccess({to: this.transitionListenerState}, () => {
       if (this.selectedTitle) {
         this.titleService.setFirstPart(this.selectedTitle);
       }
@@ -134,19 +125,16 @@ export class WorkPackagePartitionedViewPageComponent extends WorkPackagesViewBas
     this.querySpace.query.values$().pipe(
       untilComponentDestroyed(this)
     ).subscribe((query) => {
-      // Update the title whenever the query changes
-      this.updateTitle(query);
-      this.currentQuery = query;
-
-      // Update the visible representation
-      if (this.deviceService.isMobile || this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation) {
-        this.showListView = false;
-      } else {
-        this.showListView = true;
-      }
-
-      this.cdRef.detectChanges();
+      this.onQueryUpdated(query);
     });
+  }
+
+  protected onQueryUpdated(query:QueryResource) {
+    // Update the title whenever the query changes
+    this.updateTitle(query);
+    this.currentQuery = query;
+
+    this.cdRef.detectChanges();
   }
 
   ngOnDestroy():void {
@@ -154,22 +142,6 @@ export class WorkPackagePartitionedViewPageComponent extends WorkPackagesViewBas
     this.unRegisterTitleListener();
     this.removeTransitionSubscription();
     this.queryParamListener.removeQueryChangeListener();
-  }
-
-  public setAnchorToNextElement() {
-    // Skip to next when visible, otherwise skip to previous
-    const selectors = '#pagination--next-link, #pagination--prev-link, #pagination-empty-text';
-    const visibleLink = jQuery(selectors)
-      .not(':hidden')
-      .first();
-
-    if (visibleLink.length) {
-      visibleLink.focus();
-    }
-  }
-
-  public allowed(model:string, permission:string) {
-    return this.authorisationService.can(model, permission);
   }
 
   public saveQueryFromTitle(val:string) {
@@ -218,43 +190,19 @@ export class WorkPackagePartitionedViewPageComponent extends WorkPackagesViewBas
 
     if (visibly) {
       this.loadingIndicator = promise.then(() => {
-        if (this.wpTableTimeline.isVisible) {
-          return this.querySpace.timelineRendered.pipe(take(1)).toPromise();
-        } else {
-          return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
-        }
+        return this.additionalLoadingTime();
       });
     }
 
     return promise;
   }
 
+  protected additionalLoadingTime():Promise<unknown> {
+    return Promise.resolve();
+  }
+
   public updateResultVisibility(completed:boolean) {
     this.showResultOverlay = !completed;
-  }
-
-  public set showListView(val:boolean) {
-    this._showListView = val;
-  }
-
-  public get showListView():boolean {
-    return this._showListView;
-  }
-
-  public bcfActivated() {
-    return this.bcfDetectorService.isBcfActivated;
-  }
-
-  protected setupInformationLoadedListener() {
-    this
-      .querySpace
-      .initialized
-      .values$()
-      .pipe(take(1))
-      .subscribe(() => {
-        this.tableInformationLoaded = true;
-        this.cdRef.detectChanges();
-      });
   }
 
   protected set loadingIndicator(promise:Promise<unknown>) {

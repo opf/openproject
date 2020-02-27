@@ -163,8 +163,9 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageSingleCardComponent} from "core-components/wp-card-view/wp-single-card/wp-single-card.component";
 import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-changeset';
-import {WorkPackagePartitionedViewPageComponent} from "core-app/modules/work_packages/routing/wp-partitioned-view-page/wp-partitioned-view-page.component";
 import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
+import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
+import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
 
 
 @NgModule({
@@ -227,7 +228,8 @@ import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routi
   declarations: [
     // Routing
     WorkPackagesBaseComponent,
-    WorkPackagePartitionedViewPageComponent,
+    PartitionedQuerySpacePageComponent,
+    WorkPackageViewPageComponent,
 
     // WP list side
     WorkPackageListViewComponent,
@@ -405,8 +407,6 @@ import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routi
 
     // View representations
     WorkPackagesBaseComponent,
-    WorkPackagePartitionedViewPageComponent,
-
     WorkPackagesGridComponent,
 
     // WP new
