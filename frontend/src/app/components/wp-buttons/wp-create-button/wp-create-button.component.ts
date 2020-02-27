@@ -62,14 +62,16 @@ export class WorkPackageCreateButtonComponent implements OnInit, OnDestroy {
     this.projectIdentifier = this.currentProject.identifier;
     // Created for interface compliance
 
-
+    // Find the first permission that is allowed
     this.authorisationService
       .observeUntil(componentDestroyed(this))
       .subscribe(() => {
-        this.allowed = this
+        this.allowed = !!this
           .allowedWhen
-          .filter(value => this.authorisationService.can('work_packages', value))
-          .length === this.allowedWhen.length;
+          .find(combined => {
+            let [module, permission] = combined.split('.');
+            return this.authorisationService.can(module, permission);
+          });
       });
   }
 
