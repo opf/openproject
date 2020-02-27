@@ -37,6 +37,7 @@ import {BimViewToggleDropdownDirective} from "core-app/modules/ifc_models/view-t
 import {BimViewToggleComponent} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle.component";
 import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
 import {BimViewService} from "core-app/modules/ifc_models/view-toggle/bim-view.service";
+import {IFCViewerService} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.service";
 
 @NgModule({
   imports: [
@@ -45,6 +46,9 @@ import {BimViewService} from "core-app/modules/ifc_models/view-toggle/bim-view.s
     UIRouterModule.forChild({
       states: IFC_ROUTES
     })
+  ],
+  providers: [
+    IFCViewerService
   ],
   declarations: [
     // Pages
