@@ -57,10 +57,12 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 
 @Component({
   selector: 'wp-list-view',
   templateUrl: './wp-list-view.component.html',
+  styleUrls: ['./wp-list-view.component.sass'],
   host: { 'class': 'work-packages-split-view--tabletimeline-side' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -83,6 +85,9 @@ export class WorkPackageListViewComponent implements OnInit, OnDestroy {
   /** Determine when query is initially loaded */
   tableInformationLoaded = false;
 
+  /** Whether we should render a blocked view */
+  showResultOverlay$ = this.wpViewFilters.incomplete$;
+
   /** */
   readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
     dragAndDropEnabled: true
@@ -90,7 +95,7 @@ export class WorkPackageListViewComponent implements OnInit, OnDestroy {
 
   constructor(private I18n:I18nService,
               private querySpace:IsolatedQuerySpace,
-              readonly wpView:WorkPackageViewPageComponent,
+              private wpViewFilters:WorkPackageViewFiltersService,
               private deviceService:DeviceService,
               private CurrentProject:CurrentProjectService,
               private wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,

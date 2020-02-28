@@ -1,6 +1,5 @@
-<!-- (TABLE + TIMELINE) and FOOTER vertical split-->
 <div class="result-overlay"
-     *ngIf="wpView.showResultOverlay && showListView"></div>
+     *ngIf="(showResultOverlay$ | async) && showListView"></div>
 
 <!-- TABLE + TIMELINE horizontal split -->
 <wp-table *ngIf="tableInformationLoaded && showListView"

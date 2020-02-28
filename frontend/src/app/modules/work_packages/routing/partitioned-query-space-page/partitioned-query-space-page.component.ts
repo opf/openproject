@@ -94,10 +94,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   /** Determine when query is initially loaded */
   tableInformationLoaded = false;
 
-  /** An overlay over the table shown for example when the filters are invalid */
-  // TODO DOES NOT PROPAGATE
-  showResultOverlay = false;
-
   /** The toolbar buttons to render */
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [];
 
@@ -246,10 +242,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   protected additionalLoadingTime():Promise<unknown> {
     return Promise.resolve();
-  }
-
-  public updateResultVisibility(completed:boolean) {
-    this.showResultOverlay = !completed;
   }
 
   protected set loadingIndicator(promise:Promise<unknown>) {
