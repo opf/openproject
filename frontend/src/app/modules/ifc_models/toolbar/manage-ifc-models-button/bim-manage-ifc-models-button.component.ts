@@ -38,8 +38,8 @@ import {IfcModelsDataService} from "core-app/modules/ifc_models/pages/viewer/ifc
        [href]="manageIFCPath">
       <op-icon icon-classes="button--icon icon-settings2"></op-icon>
       <span class="button--text"
-            - [textContent]="text.manage"
-            - aria-hidden="true"></span>
+            [textContent]="text.manage"
+            aria-hidden="true"></span>
     </a>
 
   `,

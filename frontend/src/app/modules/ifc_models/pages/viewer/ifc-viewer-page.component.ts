@@ -19,6 +19,7 @@ import {BimViewToggleButtonComponent} from "core-app/modules/ifc_models/toolbar/
 import {IfcModelsDataService} from "core-app/modules/ifc_models/pages/viewer/ifc-models-data.service";
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {BimManageIfcModelsButtonComponent} from "core-app/modules/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -57,6 +58,9 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     {
       component: ZenModeButtonComponent,
       containerClasses: 'hidden-for-mobile'
+    },
+    {
+      component: BimManageIfcModelsButtonComponent
     }
   ];
 
@@ -88,6 +92,8 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
   updateTitle(query?:QueryResource) {
     if (this.bimView.current === bimListViewIdentifier) {
       super.updateTitle(query);
+    } else if (this.bimView.isSingleModel) {
+      this.selectedTitle = this.ifcData.models[0].name;
     } else {
       this.selectedTitle = this.I18n.t('js.ifc_models.models.default');
     }

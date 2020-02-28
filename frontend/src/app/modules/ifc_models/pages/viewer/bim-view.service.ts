@@ -86,6 +86,10 @@ export class BimViewService implements OnDestroy {
     }
   }
 
+  public get isSingleModel():boolean {
+    return this.state.includes('bim.**.show');
+  }
+
   private detectView() {
     this._state.putValue(this.currentViewerState());
   }

@@ -66,6 +66,7 @@ import {BimManageIfcModelsButtonComponent} from "core-app/modules/ifc_models/too
     // Toolbar,
     BimViewToggleButtonComponent,
     BimViewToggleButtonComponent,
+    BimManageIfcModelsButtonComponent,
   ]
 })
 export class OpenprojectIFCModelsModule {
