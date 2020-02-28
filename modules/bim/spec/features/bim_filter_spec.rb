@@ -84,13 +84,8 @@ describe 'BIM filter spec', type: :feature, js: true do
       filters.set_operator('Status', 'closed', nil)
       filters.expect_filter_count 1
 
-      # Otherwise the check for the loading indicator is done
-      # before it is even shown and the next steps will fail
-      sleep 0.5
-      loading_indicator_saveguard
-
-      card_view.expect_work_package_not_listed wp1
       card_view.expect_work_package_listed wp2
+      card_view.expect_work_package_not_listed wp1
 
       # Using the browser back will reload the filter and the work packages
       page.go_back
@@ -109,25 +104,19 @@ describe 'BIM filter spec', type: :feature, js: true do
       filters.set_operator('Status', 'closed', nil)
       filters.expect_filter_count 1
 
-      # Otherwise the check for the loading indicator is done
-      # before it is even shown and the next steps will fail
-      sleep 0.5
-      loading_indicator_saveguard
-
-      card_view.expect_work_package_not_listed wp1
       card_view.expect_work_package_listed wp2
+      card_view.expect_work_package_not_listed wp1
 
       # Reload and the filter is still correctly applied
       page.driver.browser.navigate.refresh
-      loading_indicator_saveguard
 
       filters.expect_loaded
       filters.expect_filter_count 1
       filters.open
       filters.expect_filter_by('Status', 'closed', nil)
 
-      card_view.expect_work_package_not_listed wp1
       card_view.expect_work_package_listed wp2
+      card_view.expect_work_package_not_listed wp1
     end
   end
 end
