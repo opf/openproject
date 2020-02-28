@@ -111,7 +111,7 @@ This code of conduct is adapted from the [Contributor Covenant](http://contribut
 
 If you want to contribute to OpenProject, please make sure to accept our Contributor License Agreement first. The contributor license agreement documents the rights granted by contributors to OpenProject. 
 
-[The Contributor License Agreement can be accepted here.](http://openproject.org/contributor-license-agreement/)
+[Read and accept the Contributor License Agreement here.](http://openproject.org/contributor-license-agreement/)
 
 # Additional resources
 
