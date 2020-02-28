@@ -32,7 +32,7 @@ require_relative '../support/pages/ifc_models/index'
 require_relative '../support/pages/ifc_models/show_default'
 
 describe 'show default model', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
+  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:show_default_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models view_work_packages manage_ifc_models]) }
