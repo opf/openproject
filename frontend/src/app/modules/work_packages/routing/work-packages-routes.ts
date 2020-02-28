@@ -135,6 +135,10 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     name: 'work-packages.partitioned',
     component: WorkPackageViewPageComponent,
     url: '',
+    data: {
+      // This has to be empty to avoid inheriting the parent bodyClasses
+      bodyClasses: ''
+    }
   },
   {
     name: 'work-packages.partitioned.list',
