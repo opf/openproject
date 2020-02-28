@@ -26,20 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {
-  WorkPackageViewDisplayRepresentationService,
-  wpDisplayCardRepresentation,
-  wpDisplayListRepresentation, wpDisplayRepresentation
-} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import {combineLatest, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {StateService, TransitionService} from "@uirouter/core";
 import {input} from "reactivestates";
 import {OpenprojectIFCModelsModule} from "core-app/modules/ifc_models/openproject-ifc-models.module";
+import {takeUntil} from "rxjs/operators";
 
 
 export const bimListViewIdentifier = 'list';
@@ -48,9 +41,9 @@ export const bimSplitViewIdentifier = 'split';
 
 export type BimViewState = 'list'|'viewer'|'split';
 
-@Injectable({ providedIn: OpenprojectIFCModelsModule })
+@Injectable({providedIn: OpenprojectIFCModelsModule})
 export class BimViewService implements OnDestroy {
-  public view = input<BimViewState>();
+  private _state = input<BimViewState>();
 
   public text:any = {
     list: this.I18n.t('js.ifc_models.views.list'),
@@ -71,12 +64,20 @@ export class BimViewService implements OnDestroy {
     });
   }
 
+  get view$():Observable<BimViewState> {
+    return this._state.values$();
+  }
+
+  public observeUntil(unsubscribe:Observable<any>) {
+    return this.view$.pipe(takeUntil(unsubscribe));
+  }
+
   get current():BimViewState {
-    return this.view.getValueOr(bimSplitViewIdentifier);
+    return this._state.getValueOr(bimSplitViewIdentifier);
   }
 
   public currentViewerState():BimViewState {
-    if (this.state.current.name === 'bim.space.list') {
+    if (this.state.current.name === 'bim.partitioned.list') {
       return bimListViewIdentifier;
     } else if (this.state.includes('bim.**.model')) {
       return bimViewerViewIdentifier;
@@ -86,7 +87,7 @@ export class BimViewService implements OnDestroy {
   }
 
   private detectView() {
-    this.view.putValue(this.currentViewerState());
+    this._state.putValue(this.currentViewerState());
   }
 
   ngOnDestroy() {

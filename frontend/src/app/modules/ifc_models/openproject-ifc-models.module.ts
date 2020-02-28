@@ -33,10 +33,10 @@ import {IFCViewerComponent} from './ifc-viewer/ifc-viewer.component';
 import {IFC_ROUTES} from "core-app/modules/ifc_models/openproject-ifc-models.routes";
 import {IFCViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
 import {BCFContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
-import {BimViewToggleDropdownDirective} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle-dropdown.directive";
-import {BimViewToggleComponent} from "core-app/modules/ifc_models/view-toggle/bim-view-toggle.component";
 import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
-import {BimViewService} from "core-app/modules/ifc_models/view-toggle/bim-view.service";
+import {BimViewToggleButtonComponent} from "core-app/modules/ifc_models/toolbar/view-toggle/bim-view-toggle-button.component";
+import {BimViewToggleDropdownDirective} from "core-app/modules/ifc_models/toolbar/view-toggle/bim-view-toggle-dropdown.directive";
+import {BimManageIfcModelsButtonComponent} from "core-app/modules/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
 
 @NgModule({
   imports: [
@@ -54,15 +54,18 @@ import {BimViewService} from "core-app/modules/ifc_models/view-toggle/bim-view.s
     EmptyComponent,
     BCFContainerComponent,
 
-    // View selector
-    BimViewToggleComponent,
+    // Toolbar
+    BimManageIfcModelsButtonComponent,
+    BimViewToggleButtonComponent,
     BimViewToggleDropdownDirective,
 
     IFCViewerComponent
   ],
-  exports: [
-  ],
+  exports: [],
   entryComponents: [
+    // Toolbar,
+    BimViewToggleButtonComponent,
+    BimViewToggleButtonComponent,
   ]
 })
 export class OpenprojectIFCModelsModule {

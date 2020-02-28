@@ -64,8 +64,6 @@ import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-
 export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {
   @InjectField() bcfDetectorService:BcfDetectorService;
 
-  transitionListenerState = 'work-packages.partitioned.list';
-
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageCreateButtonComponent,
@@ -117,5 +115,9 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     } else {
       return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
     }
+  }
+
+  protected shouldUpdateHtmlTitle():boolean {
+    return this.$state.current.name === 'work-packages.partitioned.list';
   }
 }

@@ -42,6 +42,7 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {ComponentType} from "@angular/cdk/overlay";
+import {Ng2StateDeclaration} from "@uirouter/angular";
 
 export interface ToolbarButtonComponentDefinition {
   component:ComponentType<any>;
@@ -50,6 +51,8 @@ export interface ToolbarButtonComponentDefinition {
   inputs?:{[inputName:string]:any};
   outputs?:{[outputName:string]:Function};
 }
+
+export type ViewPartitionState = '-split'|'-left-only'|'-right-only';
 
 @Component({
   selector: 'partitioned-query-space-page',
@@ -70,9 +73,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
     'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
   };
-
-  /** Transition state to listen for query changes */
-  transitionListenerState:string;
 
   /** Whether the title can be edited */
   titleEditingEnabled:boolean;
@@ -101,18 +101,22 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   /** The toolbar buttons to render */
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [];
 
-  // ToDo: Return correct value
-  public currentPartition():string {
-    return '-split';
-  }
+  /** Whether filtering is allowed */
+  filterAllowed:boolean = true;
+
+  /** We need to pass the correct partition state to the view to manage the grid */
+  currentPartition:ViewPartitionState = '-split';
 
   ngOnInit() {
     super.ngOnInit();
 
     this.hasQueryProps = !!this.$state.params.query_props;
+    this.setPartition(this.$state.current);
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
       const params = transition.params('to');
+      const toState = transition.to();
       this.hasQueryProps = !!params.query_props;
+      this.setPartition(toState);
     });
 
     // If the query was loaded, reload invisibly
@@ -132,8 +136,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       });
 
     // Update title on entering this state
-    this.unRegisterTitleListener = this.$transitions.onSuccess({to: this.transitionListenerState}, () => {
-      if (this.selectedTitle) {
+    this.unRegisterTitleListener = this.$transitions.onSuccess( {}, () => {
+      if (this.shouldUpdateHtmlTitle() && this.selectedTitle) {
         this.titleService.setFirstPart(this.selectedTitle);
       }
     });
@@ -143,6 +147,16 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     ).subscribe((query) => {
       this.onQueryUpdated(query);
     });
+  }
+
+  /**
+   * We need to set the current partition to the grid to ensure
+   * either side gets expanded to full width if we're not in '-split' mode.
+   *
+   * @param state The current or entering state
+   */
+  protected setPartition(state:Ng2StateDeclaration) {
+    this.currentPartition = state.data.partition || '-split';
   }
 
   protected setupInformationLoadedListener() {
@@ -202,7 +216,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
 
     // Update the title if we're in the list state alone
-    if (this.$state.current.name === 'work-packages.partitioned.list') {
+    if (this.shouldUpdateHtmlTitle()) {
       this.titleService.setFirstPart(this.selectedTitle);
     }
   }
@@ -235,5 +249,9 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   protected set loadingIndicator(promise:Promise<unknown>) {
     this.loadingIndicatorService.table.promise = promise;
+  }
+
+  protected shouldUpdateHtmlTitle():boolean {
+    return true;
   }
 }
