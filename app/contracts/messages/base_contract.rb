@@ -28,26 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Attachments
-  module SetReplacements
-    extend ActiveSupport::Concern
+module Messages
+  class BaseContract < ::ModelContract
+    include Attachments::ValidateReplacements
 
-    included do
-      private
-
-      def set_attributes(attributes)
-        set_attachments_attributes(attributes)
-
-        super
-      end
-
-      def set_attachments_attributes(attributes)
-        attachment_ids = attributes.delete(:attachment_ids)
-
-        return unless attachment_ids
-
-        model.attachments_replacements = Attachment.where(id: attachment_ids)
-      end
+    def self.model
+      Message
     end
+
+    attribute :forum_id
+    attribute :parent_id
+    attribute :subject
+    attribute :content
+    attribute :last_reply
+    attribute :locked
+    attribute :sticky
   end
 end

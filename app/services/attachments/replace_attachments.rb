@@ -29,24 +29,20 @@
 #++
 
 module Attachments
-  module SetReplacements
+  module ReplaceAttachments
     extend ActiveSupport::Concern
 
     included do
       private
 
       def set_attributes(attributes)
-        set_attachments_attributes(attributes)
+        call = super
 
-        super
-      end
+        if call.success?
+          call.result.attachments = call.result.attachments_replacements if call.result.attachments_replacements
+        end
 
-      def set_attachments_attributes(attributes)
-        attachment_ids = attributes.delete(:attachment_ids)
-
-        return unless attachment_ids
-
-        model.attachments_replacements = Attachment.where(id: attachment_ids)
+        call
       end
     end
   end

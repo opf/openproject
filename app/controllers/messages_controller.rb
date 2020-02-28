@@ -62,24 +62,20 @@ class MessagesController < ApplicationController
 
   # new topic
   def new
-    @message = Message.new.tap do |m|
-      m.author = User.current
-      m.forum = @forum
-    end
+    Messages::SetAttributesService
+      .new(user: current_user,
+           model: Message.new,
+           contract_class: NoopContract)
+      .call(forum: @forum)
+      .result
   end
 
   # Create a new topic
   def create
-    @message = Message.new.tap do |m|
-      m.author = User.current
-      m.forum = @forum
-    end
+    call = create_message(@forum)
+    @message = call.result
 
-    @message.attributes = permitted_params.message(@message)
-    @message.attach_files(permitted_params.attachments.to_h)
-
-    if @message.save
-      render_attachment_warning_if_needed(@message)
+    if call.success?
       call_hook(:controller_messages_new_after_save, params: params, message: @message)
 
       redirect_to topic_path(@message)
@@ -92,15 +88,12 @@ class MessagesController < ApplicationController
   def reply
     @topic = @message.root
 
-    @reply = Message.new
-    @reply.author = User.current
-    @reply.forum = @forum
-    @reply.attributes = permitted_params.reply
-    @reply.attach_files(permitted_params.attachments.to_h)
+    call = create_message(@forum)
+    @reply = call.result
 
-    @topic.children << @reply
-    unless @reply.new_record?
-      render_attachment_warning_if_needed(@reply)
+    if call.success?
+      @topic.children << @reply
+
       call_hook(:controller_messages_reply_after_save, params: params, message: @reply)
     end
     redirect_to topic_path(@topic, r: @reply)
@@ -109,19 +102,19 @@ class MessagesController < ApplicationController
   # Edit a message
   def edit
     return render_403 unless @message.editable_by?(User.current)
+
     @message.attributes = permitted_params.message(@message)
   end
 
   # Edit a message
   def update
+    # TODO: move into contract
     return render_403 unless @message.editable_by?(User.current)
 
-    @message.attributes = permitted_params.message(@message)
-    @message.attach_files(permitted_params.attachments.to_h)
+    call = update_message(@message)
 
-    if @message.save
-      render_attachment_warning_if_needed(@message)
-      flash[:notice] = l(:notice_successful_update)
+    if call.success?
+      flash[:notice] = t(:notice_successful_update)
       @message.reload
       redirect_to topic_path(@message.root, r: (@message.parent_id && @message.id))
     else
@@ -131,9 +124,11 @@ class MessagesController < ApplicationController
 
   # Delete a messages
   def destroy
+    # TODO: move into contract
     return render_403 unless @message.destroyable_by?(User.current)
+
     @message.destroy
-    flash[:notice] = l(:notice_successful_delete)
+    flash[:notice] = t(:notice_successful_delete)
     redirect_target = if @message.parent.nil?
                         { controller: '/forums', action: 'show', project_id: @project, id: @forum }
                       else
@@ -154,6 +149,36 @@ class MessagesController < ApplicationController
     respond_to do |format|
       format.json { render json: { subject: subject, content: content } }
       format.any { head :not_acceptable }
+    end
+  end
+
+  private
+
+  def update_message(message)
+    Messages::UpdateService
+      .new(user: current_user,
+           model: message)
+      .call(permitted_params.message(@project)
+            .merge(attachment_params))
+  end
+
+  def create_message(forum)
+    params = permitted_params.message(forum.project)
+               .merge(forum: forum)
+               .merge(attachment_params)
+
+    Messages::CreateService
+      .new(user: current_user)
+      .call(params)
+  end
+
+  def attachment_params
+    attachment_params = permitted_params.attachments.to_h
+
+    if attachment_params.any?
+      { attachment_ids: attachment_params.values.map(&:values).flatten }
+    else
+      {}
     end
   end
 end

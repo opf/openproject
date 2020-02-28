@@ -28,25 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Attachments
-  module SetReplacements
-    extend ActiveSupport::Concern
+# TODO: This is but a stub
+module Messages
+  class SetAttributesService < ::BaseServices::SetAttributes
+    include Attachments::SetReplacements
 
-    included do
-      private
+    private
 
-      def set_attributes(attributes)
-        set_attachments_attributes(attributes)
+    def set_default_attributes(*)
+      set_default_author
+    end
 
-        super
-      end
-
-      def set_attachments_attributes(attributes)
-        attachment_ids = attributes.delete(:attachment_ids)
-
-        return unless attachment_ids
-
-        model.attachments_replacements = Attachment.where(id: attachment_ids)
+    def set_default_author
+      change_by_system do
+        model.author = user
       end
     end
   end

@@ -28,25 +28,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Attachments
-  module SetReplacements
-    extend ActiveSupport::Concern
+require 'spec_helper'
+require_relative './shared_contract_examples'
 
-    included do
-      private
-
-      def set_attributes(attributes)
-        set_attachments_attributes(attributes)
-
-        super
+describe Messages::UpdateContract do
+  it_behaves_like 'message contract' do
+    let(:message) do
+      FactoryBot.build_stubbed(:message).tap do |message|
+        message.forum = message_forum
+        message.parent = message_parent
+        message.subject = message_subject
+        message.content = message_content
+        message.last_reply = message_last_reply
+        message.locked = message_locked
+        message.sticky = message_sticky
       end
+    end
+    subject(:contract) { described_class.new(message, current_user) }
 
-      def set_attachments_attributes(attributes)
-        attachment_ids = attributes.delete(:attachment_ids)
-
-        return unless attachment_ids
-
-        model.attachments_replacements = Attachment.where(id: attachment_ids)
+    context 'if the author is changed' do
+      it 'is invalid' do
+        message.author = other_user
+        expect_valid(false, author_id: %i(error_readonly))
       end
     end
   end

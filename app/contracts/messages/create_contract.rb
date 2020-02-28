@@ -28,26 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Attachments
-  module SetReplacements
-    extend ActiveSupport::Concern
-
-    included do
-      private
-
-      def set_attributes(attributes)
-        set_attachments_attributes(attributes)
-
-        super
-      end
-
-      def set_attachments_attributes(attributes)
-        attachment_ids = attributes.delete(:attachment_ids)
-
-        return unless attachment_ids
-
-        model.attachments_replacements = Attachment.where(id: attachment_ids)
-      end
-    end
+# TODO: This is but a stub
+module Messages
+  class CreateContract < BaseContract
   end
 end
