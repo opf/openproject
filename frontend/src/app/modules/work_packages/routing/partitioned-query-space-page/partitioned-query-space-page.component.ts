@@ -137,9 +137,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
     // Update title on entering this state
     this.unRegisterTitleListener = this.$transitions.onSuccess( {}, () => {
-      if (this.shouldUpdateHtmlTitle() && this.selectedTitle) {
-        this.titleService.setFirstPart(this.selectedTitle);
-      }
+      this.updateTitle(this.querySpace.query.value);
     });
 
     this.querySpace.query.values$().pipe(
@@ -206,7 +204,14 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   }
 
 
-  updateTitle(query:QueryResource) {
+  updateTitle(query?:QueryResource) {
+
+    // Too early for loaded query
+    if (!query) {
+      return;
+    }
+
+
     if (query.persisted) {
       this.selectedTitle = query.name;
     } else {

@@ -10,10 +10,15 @@ import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-exp
 import {WorkPackageFilterButtonComponent} from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
 import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {componentDestroyed} from "ng2-rx-componentdestroyed";
-import {bimViewerViewIdentifier, BimViewService} from "core-app/modules/ifc_models/pages/viewer/bim-view.service";
+import {
+  bimListViewIdentifier,
+  bimViewerViewIdentifier,
+  BimViewService
+} from "core-app/modules/ifc_models/pages/viewer/bim-view.service";
 import {BimViewToggleButtonComponent} from "core-app/modules/ifc_models/toolbar/view-toggle/bim-view-toggle-button.component";
 import {IfcModelsDataService} from "core-app/modules/ifc_models/pages/viewer/ifc-models-data.service";
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -72,12 +77,23 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
       });
   }
 
-  public get title() {
-    if (this.$state.includes('bim.space.defaults')) {
-      return this.I18n.t('js.ifc_models.models.default');
+  /**
+   * We disable using the query title for now,
+   * but this might be useful later.
+   *
+   * To re-enable query titles, remove this function.
+   *
+   * @param _query
+   */
+  updateTitle(query?:QueryResource) {
+    if (this.bimView.current === bimListViewIdentifier) {
+      super.updateTitle(query);
     } else {
-      return this.ifcData.models[0]['name'];
+      this.selectedTitle = this.I18n.t('js.ifc_models.models.default');
     }
+
+    // For now, disable any editing
+    this.titleEditingEnabled = false;
   }
 
   /** We do not have a mapping for html title in this module yet */
