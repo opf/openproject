@@ -49,7 +49,8 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
       component: BcfExportButtonComponent,
     },
     {
-      component: WorkPackageFilterButtonComponent
+      component: WorkPackageFilterButtonComponent,
+      show: () => this.bimView.currentViewerState() !== bimViewerViewIdentifier
     },
     {
       component: BimViewToggleButtonComponent,
