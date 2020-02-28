@@ -39,10 +39,12 @@ import {BimViewToggleDropdownDirective} from "core-app/modules/ifc_models/toolba
 import {BimManageIfcModelsButtonComponent} from "core-app/modules/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
 import {IFCViewerService} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.service";
 import {BcfSingleViewComponent} from "core-app/modules/ifc_models/bcf/single-view/bcf-single-view.component";
+import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 
 @NgModule({
   imports: [
     OpenprojectCommonModule,
+    OpenprojectFieldsModule,
     OpenprojectWorkPackagesModule,
     UIRouterModule.forChild({
       states: IFC_ROUTES
@@ -64,7 +66,6 @@ import {BcfSingleViewComponent} from "core-app/modules/ifc_models/bcf/single-vie
     BimViewToggleButtonComponent,
     BimViewToggleDropdownDirective,
 
-    BCFNewSplitComponent,
     BcfSingleViewComponent,
     IFCViewerComponent
   ],

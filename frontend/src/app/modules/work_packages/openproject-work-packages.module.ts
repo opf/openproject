@@ -487,6 +487,19 @@ import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-
     WorkPackageIsolatedGraphQuerySpaceDirective,
     QueryFiltersComponent,
 
+    // Needed so that e.g. IFC can access it.
+    WorkPackageCreateButtonComponent,
+    WorkPackageTypeStatusComponent,
+    WorkPackageEditActionsBarComponent,
+    WorkPackageSingleViewComponent,
+    WpResizerDirective,
+    WorkPackageBreadcrumbComponent,
+    WorkPackageBreadcrumbParentComponent,
+    WorkPackageSplitViewToolbarComponent,
+    WorkPackageSubjectComponent,
+    WorkPackageWatchersCountComponent,
+    WorkPackageRelationsCountComponent,
+
     // Modals
     WpTableConfigurationModalComponent,
     WpTableConfigurationFiltersTab,

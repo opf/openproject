@@ -32,6 +32,10 @@ import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer/ifc-vie
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
 import {BcfSingleViewComponent} from "core-app/modules/ifc_models/bcf/single-view/bcf-single-view.component";
+import {WorkPackageOverviewTabComponent} from "core-components/wp-single-view-tabs/overview-tab/overview-tab.component";
+import {WorkPackageActivityTabComponent} from "core-components/wp-single-view-tabs/activity-panel/activity-tab.component";
+import {WorkPackageRelationsTabComponent} from "core-components/wp-single-view-tabs/relations-tab/relations-tab.component";
+import {WorkPackageWatchersTabComponent} from "core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component";
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -90,16 +94,55 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       'content-left': { component: IFCViewerComponent }
     }
   },
+
+  /**
+   * BCF SINGLE VIEW
+   */
+
   {
-    name: 'bim.space.split.single_bcf',
+    name: 'bim.partitioned.split.single_bcf',
     url: '/details/{workPackageId:[0-9]+}',
-    component: IFCViewerPageComponent,
+    redirectTo: 'bim.partitioned.split.single_bcf.overview',
     reloadOnSearch: false,
+    data: {
+      partition: '-split'
+    },
     views: {
-      viewer: { component: IFCViewerComponent },
       // Retarget and by that override the grandparent views
       // https://ui-router.github.io/guide/views#relative-parent-state
-      'list@^.^': { component: BcfSingleViewComponent }
+      'content-right@^.^': { component: BcfSingleViewComponent }
+    }
+  },
+  {
+    name: 'bim.partitioned.split.single_bcf.overview',
+    url: '/overview',
+    component: WorkPackageOverviewTabComponent,
+    data: {
+      parent: 'bim.partitioned.split.single_bcf'
+    }
+  },
+  {
+    name: 'bim.partitioned.split.single_bcf.activity',
+    url: '/activity',
+    component: WorkPackageActivityTabComponent,
+    data: {
+      parent: 'bim.partitioned.split.single_bcf'
+    }
+  },
+  {
+    name: 'bim.partitioned.split.single_bcf.relations',
+    url: '/relations',
+    component: WorkPackageRelationsTabComponent,
+    data: {
+      parent: 'bim.partitioned.split.single_bcf'
+    }
+  },
+  {
+    name: 'bim.partitioned.split.single_bcf.watchers',
+    url: '/watchers',
+    component: WorkPackageWatchersTabComponent,
+    data: {
+      parent: 'bim.partitioned.split.single_bcf'
     }
   },
 ];
