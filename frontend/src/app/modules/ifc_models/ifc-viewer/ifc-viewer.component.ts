@@ -26,12 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-/// <reference path="../xeokit/xeokit.d.ts" />
+import {Component, ElementRef, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
 
-import {ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
-
-import {XeokitServer} from "../xeokit/xeokit-server";
 import {GonService} from "core-app/modules/common/gon/gon.service";
+import {IFCViewerService} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.service";
 
 @Component({
   selector: 'ifc-viewer',
@@ -49,46 +47,26 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   private viewerUI:any;
 
   constructor(private Gon:GonService,
-              private elementRef:ElementRef) {
+              private elementRef:ElementRef,
+              private ifcViewer:IFCViewerService) {
   }
 
   ngOnInit():void {
     const element = jQuery(this.elementRef.nativeElement as HTMLElement);
 
-    import('@xeokit/xeokit-viewer/dist/main').then((XeokitViewerModule:any) => {
-      let server = new XeokitServer();
-      this.viewerUI = new XeokitViewerModule.BIMViewer(server, {
+    this.ifcViewer.newViewer(
+      {
         canvasElement: element.find(".ifc-model-viewer--model-canvas")[0], // WebGL canvas
         explorerElement: jQuery(".ifc-model-viewer--tree-panel")[0], // Left panel
         toolbarElement: element.find(".ifc-model-viewer--toolbar-container")[0], // Toolbar
         navCubeCanvasElement: element.find(".ifc-model-viewer--nav-cube-canvas")[0],
         sectionPlanesOverviewCanvasElement: element.find(".ifc-model-viewer--section-planes-overview-canvas")[0]
-      });
-
-      this.viewerUI.on("queryPicked", (event:any) => {
-        const entity = event.entity; // Entity
-        const metaObject = event.metaObject; // MetaObject
-        alert(`Query result:\n\nObject ID = ${entity.id}\nIFC type = "${metaObject.type}"`);
-      });
-
-      this.viewerUI.loadProject(this.Gon.get('ifc_models', 'projects') as any [0]["id"]);
-    });
+      },
+      this.Gon.get('ifc_models', 'projects') as any[]
+    );
   }
 
   ngOnDestroy():void {
-    if (!this.viewerUI) {
-      return;
-    }
-
-    this.viewerUI._bcfViewpointsPlugin.destroy();
-    this.viewerUI._canvasContextMenu.destroy();
-    this.viewerUI._objectContextMenu.destroy();
-
-    while (this.viewerUI.viewer._plugins.length > 0) {
-      const plugin = this.viewerUI.viewer._plugins[0];
-      plugin.destroy();
-    }
-
-    this.viewerUI.viewer.scene.destroy();
+    this.ifcViewer.destroy();
   }
 }

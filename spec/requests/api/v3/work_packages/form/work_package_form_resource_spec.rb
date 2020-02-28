@@ -517,8 +517,8 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
             describe 'version' do
               let(:path) { '_embedded/payload/_links/version/href' }
-              let(:target_version) { FactoryBot.create(:version, project: project, name: 'zzzz') }
-              let(:other_version) { FactoryBot.create(:version, project: project, name: 'aaaa') }
+              let(:target_version) { FactoryBot.create(:version, project: project, start_date: Date.today - 2.days) }
+              let(:other_version) { FactoryBot.create(:version, project: project, start_date: Date.today - 1.day) }
               let(:version_link) { api_v3_paths.version target_version.id }
               let(:version_parameter) { { _links: { version: { href: version_link } } } }
               let(:params) { valid_params.merge(version_parameter) }
