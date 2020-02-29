@@ -1,5 +1,6 @@
 #-- encoding: UTF-8
 #-- copyright
+
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
 #
@@ -39,11 +40,11 @@ module Queries::Operators
         .join("%")
 
       # In the code below COALESCE does not make sense:
-      # if the field is NULL, then the only query value which matches 
+      # if the field is NULL, then the only query value which matches
       # sql with coalesce is an empty string,
       # but then, such filters matches all the rows
       #  "COALESCE(LOWER(#{db_table}.#{db_field}), '') LIKE " +
-      
+
       "LOWER(#{db_table}.#{db_field}) LIKE " +
         "'%#{like_query}%'"
     end

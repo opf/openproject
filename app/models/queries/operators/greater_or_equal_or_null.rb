@@ -1,5 +1,6 @@
 #-- encoding: UTF-8
 #-- copyright
+
 # OpenProject is a project management system.
 # Copyright (C) 2012-2020 the OpenProject Foundation (OPF)
 #
@@ -31,7 +32,6 @@ module Queries::Operators
   class GreaterOrEqualOrNull < GreaterOrEqual
     label 'greater_or_equal_or_null'
     set_symbol '>=?'
-    set_allow_unset true
 
     def self.sql_for_field(values, db_table, db_field)
       "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} >= #{values.first.to_f})"
