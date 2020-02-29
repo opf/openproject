@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::CustomFieldFilter,
-         'with contains filter (Regression test #28348)',
+         'with greater_or_equal_or_null and less_or_equal_or_null',
          type: :model do
 
   let(:cf_accessor) { "cf_#{custom_field.id}" }
@@ -44,28 +44,21 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter,
                       work_package_custom_fields: [custom_field]
   end
   let(:custom_field) do
-    FactoryBot.create(:text_issue_custom_field, name: 'LongText')
+    FactoryBot.create(:integer_issue_custom_field, name: 'NotRequiredInt')
   end
   let(:type) { FactoryBot.create(:type_standard, custom_fields: [custom_field]) }
 
-  let!(:wp_contains) do
+  let!(:wp_5) do
     FactoryBot.create :work_package,
                       type: type,
                       project: project,
-                      custom_values: { custom_field.id => 'foo' }
+                      custom_values: { custom_field.id => 5 }
   end
-  let!(:wp_not_contains) do
+  let!(:wp_8) do
     FactoryBot.create :work_package,
                       type: type,
                       project: project,
-                      custom_values: { custom_field.id => 'bar' }
-  end
-
-  let!(:wp_empty) do
-    FactoryBot.create :work_package,
-                      type: type,
-                      project: project,
-                      custom_values: { custom_field.id => '' }
+                      custom_values: { custom_field.id => 8 }
   end
 
   let!(:wp_nil) do
@@ -77,43 +70,84 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter,
 
   subject { WorkPackage.where(instance.where) }
 
-  describe 'contains' do
-    let(:operator) { '~' }
-    let(:values) { %w(foo) }
+  describe '>=? 2' do
+    let(:operator) { '>=?' }
+    let(:values) { 2 }
 
-    it 'returns the one matching work package' do
+    it 'returns three matching work package' do
       is_expected
-        .to match_array [wp_contains]
+        .to match_array [wp_5, wp_8, wp_nil]
     end
   end
 
-  describe 'not contains' do
-    let(:operator) { '!~' }
-    let(:values) { %w(foo) }
-
-    it 'returns the three non-matching work package' do
-      is_expected
-        .to match_array [wp_not_contains, wp_empty, wp_nil]
-    end
-  end
-
-  describe 'contains ""' do
-    let(:operator) { '~' }
-    let(:values) { "" }
+  describe '>=? 5' do
+    let(:operator) { '>=?' }
+    let(:values) { 5 }
 
     it 'returns three matching work packages' do
       is_expected
-        .to match_array [wp_contains, wp_not_contains, wp_empty]
+        .to match_array [wp_5, wp_8, wp_nil]
     end
   end
 
-  describe 'not contains ""' do
-    let(:operator) { '!~' }
-    let(:values) { "" }
+  describe '>=? 7' do
+    let(:operator) { '>=?' }
+    let(:values) { 7 }
 
-    it 'returns no work package' do
+    it 'returns two matching work packages' do
       is_expected
-        .to match_array []
+        .to match_array [wp_8, wp_nil]
     end
   end
+
+  describe '>=? 9' do
+    let(:operator) { '>=?' }
+    let(:values) { 9 }
+
+    it 'returns one matching work package' do
+      is_expected
+        .to match_array [wp_nil]
+    end
+  end
+
+  describe '<=? 2' do
+    let(:operator) { '<=?' }
+    let(:values) { 2 }
+
+    it 'returns one matching work package' do
+      is_expected
+        .to match_array [wp_nil]
+    end
+  end
+
+  describe '<=? 5' do
+    let(:operator) { '<=?' }
+    let(:values) { 5 }
+
+    it 'returns two matching work packages' do
+      is_expected
+        .to match_array [wp_5, wp_nil]
+    end
+  end
+
+  describe '<=? 7' do
+    let(:operator) { '<=?' }
+    let(:values) { 7 }
+
+    it 'returns two matching work packages' do
+      is_expected
+        .to match_array [wp_5, wp_nil]
+    end
+  end
+
+  describe '<=? 9' do
+    let(:operator) { '<=?' }
+    let(:values) { 9 }
+
+    it 'returns three matching work packages' do
+      is_expected
+        .to match_array [wp_5, wp_8, wp_nil]
+    end
+  end
+
 end

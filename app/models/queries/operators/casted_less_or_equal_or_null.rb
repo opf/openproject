@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# OpenProject is a project management system.
+# Copyright (C) 2012-2020 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,28 +24,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
 module Queries::Operators
-  class Contains < Base
-    label 'contains'
-    set_symbol '~'
+  class CastedLessOrEqualOrNull < CastedLessOrEqual
+    label 'less_or_equal_or_null'
+    set_symbol '<=?'
+    set_allow_unset true
 
     def self.sql_for_field(values, db_table, db_field)
-      like_query =
-        values.first.split(/\s+/)
-        .map { |substr| connection.quote_string(substr.downcase) }
-        .join("%")
-
-      # In the code below COALESCE does not make sense:
-      # if the field is NULL, then the only query value which matches 
-      # sql with coalesce is an empty string,
-      # but then, such filters matches all the rows
-      #  "COALESCE(LOWER(#{db_table}.#{db_field}), '') LIKE " +
-      
-      "LOWER(#{db_table}.#{db_field}) LIKE " +
-        "'%#{like_query}%'"
+      "(#{db_table}.#{db_field} IS NULL " +
+        "OR #{db_table}.#{db_field} = '' " +
+        "OR CAST(#{db_table}.#{db_field} AS decimal(60,4)) <= #{values.first.to_f})"
     end
   end
 end

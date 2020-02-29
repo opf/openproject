@@ -30,7 +30,9 @@
 module Queries::Operators
   operators = [
     Queries::Operators::GreaterOrEqual,
+    Queries::Operators::GreaterOrEqualOrNull,
     Queries::Operators::LessOrEqual,
+    Queries::Operators::LessOrEqualOrNull,
     Queries::Operators::Equals,
     Queries::Operators::NotEquals,
     Queries::Operators::None,

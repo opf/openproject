@@ -312,6 +312,7 @@ en:
     label_filesize: "Size"
     label_general: "General"
     label_greater_or_equal: ">="
+    label_greater_or_equal_or_null: "none or >="
     label_group: 'Group'
     label_group_by: "Group by"
     label_group_plural: "Groups"
@@ -327,6 +328,7 @@ en:
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Last updated on"
     label_less_or_equal: "<="
+    label_less_or_equal_or_null: "none or <="
     label_less_than_ago: "less than days ago"
     label_loading: "Loading..."
     label_mail_notification: "Email notifications"

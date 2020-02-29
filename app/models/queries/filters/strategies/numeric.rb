@@ -31,7 +31,7 @@
 module Queries::Filters::Strategies
   module Numeric
     def self.included(base)
-      base.supported_operators = ['=', '!', '>=', '<=', '!*', '*']
+      base.supported_operators = ['=', '!', '>=', '<=', '!*', '*', '>=?', '<=?']
       base.default_operator = '='
     end
 

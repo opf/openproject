@@ -272,6 +272,7 @@ lt:
     label_filesize: "Dydis"
     label_general: "Bendra"
     label_greater_or_equal: ">="
+    label_greater_or_equal_or_null: "nenustatytas arba >="
     label_group: 'Grupė'
     label_group_by: "Grupuoti pagal"
     label_group_plural: "Grupės"
@@ -287,6 +288,7 @@ lt:
     label_latest_activity: "Paskutinė veikla"
     label_last_updated_on: "Paskiausias atnaujinimas"
     label_less_or_equal: "<="
+    label_less_or_equal_or_null: "nenustatytas arba <="
     label_less_than_ago: "mažiau nei prieš dieną"
     label_loading: "Įkeliama..."
     label_mail_notification: "El. pašto priminimai"

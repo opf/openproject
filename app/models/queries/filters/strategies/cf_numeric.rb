@@ -38,6 +38,8 @@ module Queries::Filters::Strategies
       super_value['*'] = Queries::Operators::AllAndNonBlank
       super_value['>='] = Queries::Operators::CastedGreaterOrEqual
       super_value['<='] = Queries::Operators::CastedLessOrEqual
+      super_value['>=?'] = Queries::Operators::CastedGreaterOrEqualOrNull
+      super_value['<=?'] = Queries::Operators::CastedLessOrEqualOrNull
 
       super_value
     end
