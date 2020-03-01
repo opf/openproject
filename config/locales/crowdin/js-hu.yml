@@ -233,7 +233,7 @@ hu:
     label_and: "és"
     label_ascending: "Növekvő"
     label_author: "Szerző: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Profilkép"
     label_between: "között"
     label_board: "Board"
     label_board_locked: "Zárolt"
