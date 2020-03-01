@@ -61,6 +61,7 @@ vi:
         header-item-font-hover-color: "Màu sắc của tiêu đề được thay đổi khi đưa chuột đến"
         header-border-bottom-color: "Dòng ngắt trang, chỗ này sẽ bỏ trống nếu bạn không muốn hiễn thị"
         main-menu-bg-color: "Màu nền của trình đơn ở bên trái."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Upgrade to Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"

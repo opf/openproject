@@ -61,6 +61,7 @@ da:
         header-item-font-hover-color: "Tekst-farve på knapper i headeren, når musen føres over."
         header-border-bottom-color: "Tynd linje under headeren. Efterlad dette felt tomt hvis du ikke ønsker en linje."
         main-menu-bg-color: "Baggrundsfarve på venstre sidemenu."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Opgradér til Enterprise Edition"
       add_token: "Upload en Enterprise Edition support-token"
