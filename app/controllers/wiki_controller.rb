@@ -115,7 +115,6 @@ class WikiController < ApplicationController
     @page.attach_files(permitted_params.attachments.to_h)
 
     if @page.save
-      render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
       flash[:notice] = l(:notice_successful_create)
       redirect_to_show
@@ -192,7 +191,6 @@ class WikiController < ApplicationController
     @content.add_journal User.current, params['content']['comments']
 
     if @page.save_with_content
-      render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_show
