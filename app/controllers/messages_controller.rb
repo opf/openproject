@@ -56,7 +56,7 @@ class MessagesController < ApplicationController
                      .page(page)
                      .per_page(per_page_param)
 
-    @reply = Message.new(subject: "RE: #{@message.subject}", parent: @topic)
+    @reply = Message.new(subject: "RE: #{@message.subject}", parent: @topic, forum: @topic.forum)
     render action: 'show', layout: !request.xhr?
   end
 
@@ -88,11 +88,11 @@ class MessagesController < ApplicationController
   def reply
     @topic = @message.root
 
-    call = create_message(@forum)
+    call = create_reply(@forum, @topic)
     @reply = call.result
 
     if call.success?
-      @topic.children << @reply
+      #@topic.children << @reply
 
       call_hook(:controller_messages_reply_after_save, params: params, message: @reply)
     end
@@ -162,14 +162,18 @@ class MessagesController < ApplicationController
             .merge(attachment_params))
   end
 
-  def create_message(forum)
-    params = permitted_params.message(forum.project)
+  def create_message(forum, message_params = permitted_params.message(forum.project))
+    params = message_params
                .merge(forum: forum)
                .merge(attachment_params)
 
     Messages::CreateService
       .new(user: current_user)
       .call(params)
+  end
+
+  def create_reply(forum, parent)
+    create_message(forum, permitted_params.reply.merge(parent: parent))
   end
 
   def attachment_params
