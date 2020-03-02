@@ -54,6 +54,7 @@ end
 
 # Instruct zeitwerk to ignore all the engine gems' lib initialization files
 Rails.autoloaders.main.ignore(Rails.root.join('modules/*/lib/openproject-*.rb'))
+Rails.autoloaders.main.ignore(Rails.root.join('vendor/plugins/*/lib/openproject-*.rb'))
 Rails.autoloaders.main.ignore(Rails.root.join('lib/plugins'))
 Rails.autoloaders.main.ignore(Rails.root.join('lib/generators'))
 Rails.autoloaders.main.ignore(Bundler.bundle_path.join('**/*.rb'))
