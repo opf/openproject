@@ -510,7 +510,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
       name +=  ` - ${this.workPackageName(entry)}`;
     }
 
-    return this.sanitizedValue(name) || '-';
+    return name || '-';
   }
 
   private workPackageName(entry:TimeEntryResource) {
