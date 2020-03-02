@@ -92,8 +92,6 @@ class MessagesController < ApplicationController
     @reply = call.result
 
     if call.success?
-      #@topic.children << @reply
-
       call_hook(:controller_messages_reply_after_save, params: params, message: @reply)
     end
     redirect_to topic_path(@topic, r: @reply)
