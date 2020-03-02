@@ -1,5 +1,5 @@
 hu:
-  export_to_excel: "Export XLS"
+  export_to_excel: "Exportálás XLS fáljba"
   print_with_description: "Nyomtatási előnézet leírással"
   sentence_separator_or: "vagy"
   different_formats: Más formátumok

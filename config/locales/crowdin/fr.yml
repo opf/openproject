@@ -61,7 +61,6 @@ fr:
         header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
         header-border-bottom-color: "Ligne mince sous l’en-tête. Laissez ce champ vide si vous ne voulez pas de ligne."
         main-menu-bg-color: "Couleur d’arrière-plan du menu de gauche."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"

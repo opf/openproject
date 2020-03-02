@@ -61,7 +61,6 @@ nl:
         header-item-font-hover-color: "De achtergrondkleur van klikbare header items wanneer deze aangewezen worden door de muis."
         header-border-bottom-color: "Dunne lijn onder de kop. Laat dit veld leeg als u geen lijn wilt."
         main-menu-bg-color: "De kleur van de achtergrond van de linkerzijde menu's."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Upgrade naar Enterprise Edition"
       add_token: "Uploadeneen Enterprise Edition ondersteuningstoken"

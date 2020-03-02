@@ -61,7 +61,6 @@ id:
         header-item-font-hover-color: "Warna font \"item header\" yang bisa di klik ketika ditunjuk dengan mouse."
         header-border-bottom-color: "Garis tipis di bawah header. Biarkan filed ini kosong jika Anda tidak ingin garis apapun."
         main-menu-bg-color: "Warna latar belakang menu sisi kiri."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Tingkatkan ke edisi enterprise"
       add_token: "Unggah sebuah token bantuan edisi enterprise"

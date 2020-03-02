@@ -61,7 +61,6 @@ ru:
         header-item-font-hover-color: "Цвет шрифта в заголовках интерактивных элементов под курсором мыши."
         header-border-bottom-color: "Тонкая линия под заголовком. Оставьте это поле пустым, если вы не хотите любой линии."
         main-menu-bg-color: "Цвет фона меню слева."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Обновите до корпоративной версии"
       add_token: "Загрузите маркер поддержки корпоративной версии"

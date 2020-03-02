@@ -1,10 +1,10 @@
 hu:
   js:
     grid:
-      add_widget: 'Add widget'
-      remove: 'Remove widget'
+      add_widget: 'Widget hozzáadása'
+      remove: 'Widget eltávolítása'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
+        text: "Néhány kütyü, például a munkacsomag-grafikon-kütyü, csak a"
         link: 'enterprise edition.'
       widgets:
         custom_text:
@@ -14,31 +14,31 @@ hu:
           no_results: 'Még nincs dokumentum.'
         members:
           title: 'Tagok'
-          no_results: 'No visible members.'
+          no_results: 'Nincsenek látható tagok.'
           view_all_members: 'Az összes tag megtekintése'
           add: 'Tag'
-          too_many: 'Displaying %{count} of %{total} members.'
+          too_many: 'Megjelenítve %{count} tag %{total} az összesből.'
         news:
           title: 'Hírek'
           at: '-kor'
           no_results: 'Semmi új jelenteni való.'
         project_description:
           title: 'Projekt leírása'
-          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+          no_results: "Még nem írt leírást. Az egyik megtalálható a 'Projekt beállításai' részben."
         project_details:
           title: 'Projekt részletei'
-          no_results: 'No custom fields have been defined for projects.'
+          no_results: 'A projektekhez nem definiáltak egyedi mezőket.'
         project_status:
           title: 'Projekt állapot'
           on_track: 'Terv szerint'
           off_track: 'Kisiklott'
           at_risk: 'Veszélyben'
-          not_set: 'Not set'
+          not_set: 'Nincs beállítva'
         subprojects:
           title: 'Alprojektek'
-          no_results: 'No subprojects.'
+          no_results: "Nincsenek alprojektek\n"
         time_entries_current_user:
-          title: 'My spent time'
+          title: 'Eltöltött idő rögzítése'
         time_entries_list:
           title: 'Eltöltött idő (elmúlt 7 nap)'
           no_results: 'Az elmúlt 7 napra nincs bejegyzés.'
@@ -51,11 +51,11 @@ hu:
         work_packages_watched:
           title: 'Megfigyelt munkacsomagok'
         work_packages_table:
-          title: 'Work packages table'
+          title: 'Munka-csomag tábla'
         work_packages_graph:
-          title: 'Work packages graph'
+          title: 'Munka-csomag grafikon'
         work_packages_calendar:
           title: 'Naptár'
         work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
+          title: 'Munkacsomag áttekintés'
+          placeholder: 'Kattints ide, hogy szerkeszthess…'
