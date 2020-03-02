@@ -31,7 +31,7 @@ RB.EditableInplace = (function ($) {
 
     displayEditor: function (editor) {
       this.$.addClass("editing");
-      editor.find(".editor").bind('keypress', this.handleKeypress).bind('keyup', this.handleKeyup);
+      editor.find(".editor").bind('keydown', this.handleKeydown);
     },
 
     getEditor: function () {
@@ -44,34 +44,22 @@ RB.EditableInplace = (function ($) {
       return editor;
     },
 
-    // For detecting Enter
-    handleKeypress: function (e) {
+    // For detecting Enter and ESC
+    handleKeydown: function (e) {
+      console.log("kd");
       var j, that;
 
       j = $(this).parents('.model').first();
       that = j.data('this');
 
-      // 13 is the key code of Enter
+      // 13 is the key code of Enter, 27 of ESC.
       if (e.which === 13) {
         that.saveEdits();
-      } else {
+      } else if (e.which === 27) {
+        that.cancelEdit();
+      } {
         return true;
       }
     },
-
-    // For detecting ESC
-    handleKeyup: function (e) {
-      var j, that;
-
-      j = $(this).parents('.model').first();
-      that = j.data('this');
-
-      // 27 is the key code of Esc
-      if (e.which === 27) {
-        that.cancelEdit();
-      } else {
-        return true;
-      }
-    }
   });
 }(jQuery));
