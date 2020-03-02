@@ -26,13 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.controller';
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
-  selector: 'wp-new-split-view',
-  templateUrl: './wp-new-split-view.html'
+  templateUrl: './wp-settings-button.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkPackageNewSplitViewComponent extends WorkPackageCreateController {
-  public successState:string = 'work-packages.partitioned.list.details';
+export class WorkPackageSettingsButtonComponent {
+  public text = {
+    'button_settings': this.I18n.t('js.button_settings')
+  };
+
+  constructor(readonly I18n:I18nService) {
+  }
 }

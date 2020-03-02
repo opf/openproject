@@ -110,7 +110,7 @@ export class WorkPackageRelationsHierarchyService {
     workPackage.project.$load()
       .then(() => {
         const args = [
-          'work-packages.list.new',
+          'work-packages.partitioned.list.new',
           {
             parent_id: workPackage.id
           }

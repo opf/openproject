@@ -26,13 +26,33 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.controller';
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {BimViewService} from "core-app/modules/ifc_models/pages/viewer/bim-view.service";
+
 
 @Component({
-  selector: 'wp-new-split-view',
-  templateUrl: './wp-new-split-view.html'
+  template: `
+    <ng-container *ngIf="(view$ | async) as current">
+      <button class="button"
+              id="bim-view-toggle-button"
+              bimViewDropdown>
+        <span class="button--text"
+              aria-hidden="true"
+              [textContent]="bimView.text[current]">
+        </span>
+        <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+      </button>
+    </ng-container>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'bim-view-toggle-button'
 })
-export class WorkPackageNewSplitViewComponent extends WorkPackageCreateController {
-  public successState:string = 'work-packages.partitioned.list.details';
+export class BimViewToggleButtonComponent {
+
+  view$ = this.bimView.view$;
+
+  constructor(readonly I18n:I18nService,
+              readonly bimView:BimViewService) {
+  }
 }

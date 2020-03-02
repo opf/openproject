@@ -133,7 +133,11 @@ export function initializeUiRouterListeners(injector:Injector) {
     // component
     let wpBase = document.querySelector(appBaseSelector);
 
-    // Apply classes from bodyClasses in each state definition
+    // Uncomment to trace route changes
+    // const uiRouter = injector.get(UIRouter);
+    // uiRouter.trace.enable();
+
+      // Apply classes from bodyClasses in each state definition
     // This was defined as onEnter, onExit functions in each state before
     // but since AOT doesn't allow anonymous functions, we can't re-use them now.
     // The transition will only return the target state on `transition.to()`,
@@ -164,7 +168,7 @@ export function initializeUiRouterListeners(injector:Injector) {
       const toState = transition.to();
 
       // Remove start_onboarding_tour param if set
-      if (toParams.start_onboarding_tour && toState.name !== 'work-packages.list') {
+      if (toParams.start_onboarding_tour && toState.name !== 'work-packages.partitioned.list') {
         const paramsCopy = Object.assign({}, transition.params());
         paramsCopy.start_onboarding_tour = undefined;
         return $state.target(transition.to(), paramsCopy);

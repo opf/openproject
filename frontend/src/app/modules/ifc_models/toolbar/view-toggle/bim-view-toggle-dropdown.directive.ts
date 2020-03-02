@@ -31,13 +31,13 @@ import {Directive, ElementRef} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {StateService} from "@uirouter/core";
+
+import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
 import {
-  bimListViewIdentifier,
-  bimSplitViewIdentifier,
+  bimListViewIdentifier, bimSplitViewIdentifier,
   bimViewerViewIdentifier,
   BimViewService
-} from "core-app/modules/ifc_models/view-toggle/bim-view.service";
-import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
+} from "core-app/modules/ifc_models/pages/viewer/bim-view.service";
 
 @Directive({
   selector: '[bimViewDropdown]'
@@ -82,7 +82,7 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
 
             switch (key) {
               case bimListViewIdentifier:
-                this.state.go('bim.space.list');
+                this.state.go('bim.partitioned.list');
                 break;
               case bimViewerViewIdentifier:
                 this.state.go(viewRoute + '.model');

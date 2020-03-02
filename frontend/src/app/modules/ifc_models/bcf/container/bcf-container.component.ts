@@ -13,9 +13,6 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
   templateUrl: './bcf-container.component.html',
-  providers: [
-    QueryParamListenerService
-  ]
 })
 export class BCFContainerComponent implements OnInit, OnDestroy {
   @InjectField() public queryParamListener:QueryParamListenerService;

@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, Component, OnDestroy} from "@angular/core";
+import {ChangeDetectionStrategy, Component, ComponentRef, HostBinding, OnDestroy, OnInit} from "@angular/core";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpTitleService} from "core-components/html/op-title.service";
@@ -41,29 +41,37 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {ComponentType} from "@angular/cdk/overlay";
+import {Ng2StateDeclaration} from "@uirouter/angular";
+
+export interface ToolbarButtonComponentDefinition {
+  component:ComponentType<any>;
+  containerClasses?:string;
+  show?:() => boolean;
+  inputs?:{[inputName:string]:any};
+  outputs?:{[outputName:string]:Function};
+}
+
+export type ViewPartitionState = '-split'|'-left-only'|'-right-only';
 
 @Component({
-  selector: 'wp-list',
-  templateUrl: './wp.list.component.html',
-  styleUrls: ['./wp-list.component.sass'],
+  selector: 'partitioned-query-space-page',
+  templateUrl: './partitioned-query-space-page.component.html',
+  styleUrls: ['./partitioned-query-space-page.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
     {provide: HalResourceNotificationService, useClass: WorkPackageNotificationService},
-    DragAndDropService,
-    CausedUpdatesService,
     QueryParamListenerService
   ]
 })
-export class WorkPackagesListComponent extends WorkPackagesViewBase implements OnDestroy {
+export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase implements OnInit, OnDestroy {
   @InjectField() titleService:OpTitleService;
-  @InjectField() bcfDetectorService:BcfDetectorService;
   @InjectField() queryParamListener:QueryParamListenerService;
 
-  text = {
+  text:{[key:string]:string} = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
     'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
-    'button_settings': this.I18n.t('js.button_settings')
   };
 
   /** Whether the title can be edited */
@@ -86,28 +94,33 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   /** Determine when query is initially loaded */
   tableInformationLoaded = false;
 
-  /** An overlay over the table shown for example when the filters are invalid */
-  showResultOverlay = false;
+  /** The toolbar buttons to render */
+  toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [];
 
-  /** Switch between list and card view */
-  private _showListView:boolean = true;
+  /** Whether filtering is allowed */
+  filterAllowed:boolean = true;
 
-  public readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
-    dragAndDropEnabled: true
-  };
+  /** We need to pass the correct partition state to the view to manage the grid */
+  currentPartition:ViewPartitionState = '-split';
 
   ngOnInit() {
     super.ngOnInit();
 
     this.hasQueryProps = !!this.$state.params.query_props;
+    this.setPartition(this.$state.current);
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
       const params = transition.params('to');
+      const toState = transition.to();
       this.hasQueryProps = !!params.query_props;
+      this.setPartition(toState);
     });
 
     // If the query was loaded, reload invisibly
     const isFirstLoad = !this.querySpace.initialized.hasValue();
     this.refresh(isFirstLoad, isFirstLoad);
+
+    // Mark tableInformationLoaded when initially loading done
+    this.setupInformationLoadedListener();
 
     // Load query on URL transitions
     this.queryParamListener
@@ -118,32 +131,46 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
         this.refresh(true, true);
       });
 
-    // Mark tableInformationLoaded when initially loading done
-    this.setupInformationLoadedListener();
-
     // Update title on entering this state
-    this.unRegisterTitleListener = this.$transitions.onSuccess({to: 'work-packages.list'}, () => {
-      if (this.selectedTitle) {
-        this.titleService.setFirstPart(this.selectedTitle);
-      }
+    this.unRegisterTitleListener = this.$transitions.onSuccess( {}, () => {
+      this.updateTitle(this.querySpace.query.value);
     });
 
     this.querySpace.query.values$().pipe(
       untilComponentDestroyed(this)
     ).subscribe((query) => {
-      // Update the title whenever the query changes
-      this.updateTitle(query);
-      this.currentQuery = query;
-
-      // Update the visible representation
-      if (this.deviceService.isMobile || this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation) {
-        this.showListView = false;
-      } else {
-        this.showListView = true;
-      }
-
-      this.cdRef.detectChanges();
+      this.onQueryUpdated(query);
     });
+  }
+
+  /**
+   * We need to set the current partition to the grid to ensure
+   * either side gets expanded to full width if we're not in '-split' mode.
+   *
+   * @param state The current or entering state
+   */
+  protected setPartition(state:Ng2StateDeclaration) {
+    this.currentPartition = state.data.partition || '-split';
+  }
+
+  protected setupInformationLoadedListener() {
+    this
+      .querySpace
+      .initialized
+      .values$()
+      .pipe(take(1))
+      .subscribe(() => {
+        this.tableInformationLoaded = true;
+        this.cdRef.detectChanges();
+      });
+  }
+
+  protected onQueryUpdated(query:QueryResource) {
+    // Update the title whenever the query changes
+    this.updateTitle(query);
+    this.currentQuery = query;
+
+    this.cdRef.detectChanges();
   }
 
   ngOnDestroy():void {
@@ -151,22 +178,6 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     this.unRegisterTitleListener();
     this.removeTransitionSubscription();
     this.queryParamListener.removeQueryChangeListener();
-  }
-
-  public setAnchorToNextElement() {
-    // Skip to next when visible, otherwise skip to previous
-    const selectors = '#pagination--next-link, #pagination--prev-link, #pagination-empty-text';
-    const visibleLink = jQuery(selectors)
-      .not(':hidden')
-      .first();
-
-    if (visibleLink.length) {
-      visibleLink.focus();
-    }
-  }
-
-  public allowed(model:string, permission:string) {
-    return this.authorisationService.can(model, permission);
   }
 
   public saveQueryFromTitle(val:string) {
@@ -189,7 +200,14 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
   }
 
 
-  updateTitle(query:QueryResource) {
+  updateTitle(query?:QueryResource) {
+
+    // Too early for loaded query
+    if (!query) {
+      return;
+    }
+
+
     if (query.persisted) {
       this.selectedTitle = query.name;
     } else {
@@ -199,12 +217,12 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
 
     // Update the title if we're in the list state alone
-    if (this.$state.current.name === 'work-packages.list') {
+    if (this.shouldUpdateHtmlTitle()) {
       this.titleService.setFirstPart(this.selectedTitle);
     }
   }
 
-  public refresh(visibly:boolean = false, firstPage:boolean = false):Promise<unknown> {
+  refresh(visibly:boolean = false, firstPage:boolean = false):Promise<unknown> {
     let promise:Promise<unknown>;
 
     if (firstPage) {
@@ -215,47 +233,22 @@ export class WorkPackagesListComponent extends WorkPackagesViewBase implements O
 
     if (visibly) {
       this.loadingIndicator = promise.then(() => {
-        if (this.wpTableTimeline.isVisible) {
-          return this.querySpace.timelineRendered.pipe(take(1)).toPromise();
-        } else {
-          return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
-        }
+        return this.additionalLoadingTime();
       });
     }
 
     return promise;
   }
 
-  public updateResultVisibility(completed:boolean) {
-    this.showResultOverlay = !completed;
-  }
-
-  public set showListView(val:boolean) {
-    this._showListView = val;
-  }
-
-  public get showListView():boolean {
-    return this._showListView;
-  }
-
-  public bcfActivated() {
-    return this.bcfDetectorService.isBcfActivated;
-  }
-
-  protected setupInformationLoadedListener() {
-    this
-      .querySpace
-      .initialized
-      .values$()
-      .pipe(take(1))
-      .subscribe(() => {
-        this.tableInformationLoaded = true;
-        this.cdRef.detectChanges();
-      });
+  protected additionalLoadingTime():Promise<unknown> {
+    return Promise.resolve();
   }
 
   protected set loadingIndicator(promise:Promise<unknown>) {
     this.loadingIndicatorService.table.promise = promise;
   }
 
+  protected shouldUpdateHtmlTitle():boolean {
+    return true;
+  }
 }

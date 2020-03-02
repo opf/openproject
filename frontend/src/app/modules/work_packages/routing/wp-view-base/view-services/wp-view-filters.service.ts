@@ -32,7 +32,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {combine, InputState} from 'reactivestates';
+import {combine, input, InputState} from 'reactivestates';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
 import {QueryFilterInstanceSchemaResource} from "core-app/modules/hal/resources/query-filter-instance-schema-resource";
@@ -61,6 +61,8 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     'subjectOrId'
   ];
 
+  /** Flag state to determine whether the filters are incomplete */
+  private incomplete = input<boolean>(false);
 
   constructor(protected readonly states:States,
               readonly querySpace:IsolatedQuerySpace) {
@@ -82,7 +84,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   }
 
   /**
-   * Return whether rth
+   * Return whether the filters are empty
    */
   public get isEmpty() {
     const value = this.lastUpdatedState.value;
@@ -92,6 +94,12 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   public get availableState():InputState<QueryFilterInstanceSchemaResource[]> {
     return this.states.queries.filters;
   }
+
+  /** Return whether the filters the user is working on are incomplete */
+  public get incomplete$() {
+    return this.incomplete.values$();
+  }
+
 
   /**
    * Add a filter instantiation from the set of available filter schemas
@@ -216,6 +224,11 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     return undefined;
   }
 
+  update(value:QueryFilterInstanceResource[]) {
+    super.update(value);
+    this.incomplete.putValue(false);
+  }
+
   /**
    * Returns the live filter instance for the given ID, or undefined
    * if it does not exist.
@@ -283,9 +296,8 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   public replaceIfComplete(newState:QueryFilterInstanceResource[]) {
     if (this.isComplete(newState)) {
       this.update(newState);
-      return true;
     } else {
-      return false;
+      this.incomplete.putValue(true);
     }
   }
 

@@ -137,7 +137,6 @@ import {WorkPackageChildrenQueryComponent} from "core-components/wp-relations/em
 import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
 import {WorkPackageRelationQueryComponent} from "core-components/wp-relations/embedded/relations/wp-relation-query.component";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
-import {WorkPackagesListComponent} from "core-app/modules/work_packages/routing/wp-list/wp-list.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
 import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachments-upload/attachments-upload.component';
@@ -164,6 +163,11 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageSingleCardComponent} from "core-components/wp-card-view/wp-single-card/wp-single-card.component";
 import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-changeset';
+import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
+import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
+import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
+import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
+import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
 
 
 @NgModule({
@@ -226,7 +230,12 @@ import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-
   declarations: [
     // Routing
     WorkPackagesBaseComponent,
-    WorkPackagesListComponent,
+    PartitionedQuerySpacePageComponent,
+    WorkPackageViewPageComponent,
+
+    // WP list side
+    WorkPackageListViewComponent,
+    WorkPackageSettingsButtonComponent,
 
     // Query injector isolation
     WorkPackageIsolatedQuerySpaceDirective,
@@ -378,6 +387,18 @@ import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-
     WorkPackageViewToggleButton,
   ],
   entryComponents: [
+    // List view
+    WorkPackageListViewComponent,
+
+    // List view toolbar
+    WorkPackageCreateButtonComponent,
+    WorkPackageTimelineButtonComponent,
+    WorkPackageFilterButtonComponent,
+    WorkPackageDetailsViewButtonComponent,
+    WorkPackageViewToggleButton,
+    ZenModeButtonComponent,
+    WorkPackageSettingsButtonComponent,
+
     // Split view
     WorkPackageSplitViewComponent,
 
@@ -398,8 +419,6 @@ import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-
 
     // View representations
     WorkPackagesBaseComponent,
-    WorkPackagesListComponent,
-
     WorkPackagesGridComponent,
 
     // WP new
