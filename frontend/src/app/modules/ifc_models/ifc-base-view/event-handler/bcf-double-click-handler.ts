@@ -2,10 +2,10 @@ import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card
 import {StateService} from "@uirouter/core";
 import {CardClickHandler} from "core-components/wp-card-view/event-handler/click-handler";
 
-export class BcfClickHandler extends CardClickHandler {
+export class BcfDoubleClickHandler extends CardClickHandler {
 
   public get EVENT() {
-    return 'click.cardView.card';
+    return 'dblclick.cardView.card';
   }
 
   public get SELECTOR() {
@@ -33,9 +33,7 @@ export class BcfClickHandler extends CardClickHandler {
     }
 
     const state = this.injector.get(StateService);
-    const current = state.current;
 
-    // TODO do not use defaults
     state.go('.single_bcf', { workPackageId: wpId });
 
     return false;

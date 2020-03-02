@@ -36,6 +36,10 @@ import {WorkPackageOverviewTabComponent} from "core-components/wp-single-view-ta
 import {WorkPackageActivityTabComponent} from "core-components/wp-single-view-tabs/activity-panel/activity-tab.component";
 import {WorkPackageRelationsTabComponent} from "core-components/wp-single-view-tabs/relations-tab/relations-tab.component";
 import {WorkPackageWatchersTabComponent} from "core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component";
+import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-view-routes.template";
+import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
+
+
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -94,56 +98,12 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       'content-left': { component: IFCViewerComponent }
     }
   },
-
   /**
    * BCF SINGLE VIEW
    */
-
-  {
-    name: 'bim.partitioned.split.single_bcf',
-    url: '/details/{workPackageId:[0-9]+}',
-    redirectTo: 'bim.partitioned.split.single_bcf.overview',
-    reloadOnSearch: false,
-    data: {
-      bodyClasses: 'router--work-packages-partitioned-split-view',
-      partition: '-split'
-    },
-    views: {
-      // Retarget and by that override the grandparent views
-      // https://ui-router.github.io/guide/views#relative-parent-state
-      'content-right@^.^': { component: BcfSingleViewComponent }
-    }
-  },
-  {
-    name: 'bim.partitioned.split.single_bcf.overview',
-    url: '/overview',
-    component: WorkPackageOverviewTabComponent,
-    data: {
-      parent: 'bim.partitioned.split.single_bcf'
-    }
-  },
-  {
-    name: 'bim.partitioned.split.single_bcf.activity',
-    url: '/activity',
-    component: WorkPackageActivityTabComponent,
-    data: {
-      parent: 'bim.partitioned.split.single_bcf'
-    }
-  },
-  {
-    name: 'bim.partitioned.split.single_bcf.relations',
-    url: '/relations',
-    component: WorkPackageRelationsTabComponent,
-    data: {
-      parent: 'bim.partitioned.split.single_bcf'
-    }
-  },
-  {
-    name: 'bim.partitioned.split.single_bcf.watchers',
-    url: '/watchers',
-    component: WorkPackageWatchersTabComponent,
-    data: {
-      parent: 'bim.partitioned.split.single_bcf'
-    }
-  },
+  ...makeSplitViewRoutes(
+    'bim.prtitioned.list',
+    undefined,
+    BcfSingleViewComponent
+  )
 ];
