@@ -31,7 +31,6 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {Observable} from "rxjs";
 import {StateService, TransitionService} from "@uirouter/core";
 import {input} from "reactivestates";
-import {OpenprojectIFCModelsModule} from "core-app/modules/ifc_models/openproject-ifc-models.module";
 import {takeUntil} from "rxjs/operators";
 
 
@@ -41,7 +40,7 @@ export const bimSplitViewIdentifier = 'split';
 
 export type BimViewState = 'list'|'viewer'|'split';
 
-@Injectable({providedIn: OpenprojectIFCModelsModule})
+@Injectable()
 export class BimViewService implements OnDestroy {
   private _state = input<BimViewState>();
 

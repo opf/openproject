@@ -38,6 +38,8 @@ import {BimViewToggleButtonComponent} from "core-app/modules/ifc_models/toolbar/
 import {BimViewToggleDropdownDirective} from "core-app/modules/ifc_models/toolbar/view-toggle/bim-view-toggle-dropdown.directive";
 import {BimManageIfcModelsButtonComponent} from "core-app/modules/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
 import {IFCViewerService} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.service";
+import {BimViewService} from "core-app/modules/ifc_models/pages/viewer/bim-view.service";
+import {IfcModelsDataService} from "core-app/modules/ifc_models/pages/viewer/ifc-models-data.service";
 
 @NgModule({
   imports: [
@@ -48,7 +50,9 @@ import {IFCViewerService} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewe
     })
   ],
   providers: [
-    IFCViewerService
+    IFCViewerService,
+    BimViewService,
+    IfcModelsDataService
   ],
   declarations: [
     // Pages
