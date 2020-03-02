@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,30 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'representable'
+module OpenProject::Patches::ActionViewHelpersAssetTagHelperPatch
+  def auto_discovery_link_tag(type = :rss, url_options = {}, tag_options = {})
+    return if (type == :atom) && Setting.table_exists? && !Setting.feeds_enabled?
 
-module OpenProject::RepresentablePatch
-  def self.included(base)
-    base.class_eval do
-      def self.as_strategy=(strategy)
-        raise 'The :as_strategy option should respond to #call?' unless strategy.respond_to?(:call)
-
-        @as_strategy = strategy
-      end
-
-      def self.as_strategy
-        @as_strategy
-      end
-
-      def self.property(name, options = {}, &block)
-        options = { as: as_strategy.call(name.to_s) }.merge(options) if as_strategy
-
-        super
-      end
-    end
+    super
   end
 end
 
-unless Representable::Decorator.included_modules.include?(OpenProject::RepresentablePatch)
-  Representable::Decorator.send(:include, OpenProject::RepresentablePatch)
-end
+ActionView::Helpers::AssetTagHelper.prepend(OpenProject::Patches::ActionViewHelpersAssetTagHelperPatch)

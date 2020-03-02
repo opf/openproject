@@ -351,7 +351,7 @@ module OpenProject::Costs
     end
 
     initializer 'costs.register_latest_project_activity' do
-      Project.register_latest_project_activity on: ::CostObject,
+      Project.register_latest_project_activity on: 'CostObject',
                                                attribute: :updated_on
     end
 
