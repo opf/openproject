@@ -65,11 +65,11 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     name: 'bim.partitioned.list',
     url: '/list',
     data: {
-      partition: '-right-only'
+      partition: '-left-only'
     },
     reloadOnSearch: false,
     views: {
-      'content-right': { component: BCFContainerComponent }
+      'content-left': { component: BCFContainerComponent }
     }
   },
   {
@@ -98,12 +98,17 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       'content-left': { component: IFCViewerComponent }
     }
   },
-  /**
-   * BCF SINGLE VIEW
-   */
+  // BCF single view for list
   ...makeSplitViewRoutes(
     'bim.partitioned.list',
     undefined,
     BcfSingleViewComponent
+  ),
+  // BCF single view for split
+  ...makeSplitViewRoutes(
+    'bim.partitioned.split',
+    undefined,
+    BcfSingleViewComponent
   )
 ];
+

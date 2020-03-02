@@ -34,7 +34,7 @@ export class BcfDoubleClickHandler extends CardClickHandler {
 
     const state = this.injector.get(StateService);
 
-    state.go('.single_bcf', { workPackageId: wpId });
+    state.go('.details', { workPackageId: wpId });
 
     return false;
   }

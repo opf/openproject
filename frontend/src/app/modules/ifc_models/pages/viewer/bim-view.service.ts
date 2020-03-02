@@ -77,7 +77,7 @@ export class BimViewService implements OnDestroy {
   }
 
   public currentViewerState():BimViewState {
-    if (this.state.current.name === 'bim.partitioned.list') {
+    if (this.state.includes('bim.partitioned.list')) {
       return bimListViewIdentifier;
     } else if (this.state.includes('bim.**.model')) {
       return bimViewerViewIdentifier;
