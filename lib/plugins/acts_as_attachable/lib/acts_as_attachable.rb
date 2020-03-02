@@ -29,8 +29,10 @@
 module Redmine
   module Acts
     module Attachable
-      def self.included(base)
-        base.extend ClassMethods
+      extend ActiveSupport::Concern
+
+      included do
+        extend ClassMethods
       end
 
       def self.attachables
@@ -51,6 +53,8 @@ module Redmine
           attr_accessor :attachments_replacements,
                         :attachments_claimed
           send :include, Redmine::Acts::Attachable::InstanceMethods
+
+          OpenProject::Deprecation.deprecate_method self, :attach_files
         end
 
         private
@@ -157,9 +161,10 @@ module Redmine
               (persisted? && allowed_to_on_attachment?(user, self.class.attachable_options[:add_on_persisted_permission]))
           end
 
-          # TODO: Check if we can remove this.
-          # If the attachments where only added via the Attachments::CreateService, it would be thread safe.
           # Bulk attaches a set of files to an object
+          # @deprecated
+          # Either use the already existing Attachments::CreateService or
+          # write/extend Services for the attached to object.
           def attach_files(attachments)
             return unless attachments&.is_a?(Hash)
 

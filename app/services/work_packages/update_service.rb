@@ -28,6 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+# TODO: use default update base class
 class WorkPackages::UpdateService
   include ::WorkPackages::Shared::UpdateAncestors
   include ::Shared::ServiceContext
