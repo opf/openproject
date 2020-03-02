@@ -175,7 +175,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'router--work-packages-split-view',
+      bodyClasses: 'router--work-packages-partitioned-split-view',
       menuItem: menuItemClass,
       parent: 'work-packages.partitioned.list'
     },
@@ -195,7 +195,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       }
     },
     data: {
-      bodyClasses: 'router--work-packages-split-view',
+      bodyClasses: 'router--work-packages-partitioned-split-view',
       menuItem: menuItemClass
     },
   },

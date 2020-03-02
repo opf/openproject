@@ -105,6 +105,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     redirectTo: 'bim.partitioned.split.single_bcf.overview',
     reloadOnSearch: false,
     data: {
+      bodyClasses: 'router--work-packages-partitioned-split-view',
       partition: '-split'
     },
     views: {
