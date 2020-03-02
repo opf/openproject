@@ -61,7 +61,6 @@ fil:
         header-item-font-hover-color: "Ang kulay ng font ng madaling pinduting mga aytem kung naka-hover gamit ang mouse."
         header-border-bottom-color: "Manipis na kinya sa ibaba ng header. Iwanan itong patlang walang laman kung ayaw mo sa kahit anong linya."
         main-menu-bg-color: "Kabilang kaliwa ang kulay ng pagpipiliang nakapalibot na kulay."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "I-upgrade sa Enterprise Edition"
       add_token: "I-upload ang isang Enterprise Edition support token"

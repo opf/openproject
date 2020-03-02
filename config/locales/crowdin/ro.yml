@@ -61,7 +61,6 @@ ro:
         header-item-font-hover-color: "Culoarea fontului pentru elementele selectabile din antet când cursorul se află deasupra lor."
         header-border-bottom-color: "Linia de sub antet. Lăsați acest câmp gol dacă nu doriți această linie."
         main-menu-bg-color: "Culoarea de fundal pentru meniul din partea stângă."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Achiziționați versiunea Enterprise"
       add_token: "Upload an Enterprise Edition support token"

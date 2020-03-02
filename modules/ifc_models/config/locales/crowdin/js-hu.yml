@@ -2,5 +2,5 @@ hu:
   js:
     ifc_models:
       models:
-        default: 'Default IFC models'
-        manage: 'Manage models'
+        default: 'Alapértelmezett IFC modell'
+        manage: 'Kezelje a modelleket'

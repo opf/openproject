@@ -61,7 +61,6 @@ zh-CN:
         header-item-font-hover-color: "鼠标悬停时可点击标题的特定颜色。"
         header-border-bottom-color: "页眉下方法细线。如果你不想看到，将其留白。"
         main-menu-bg-color: "左菜单的背景色。"
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "升级到企业版"
       add_token: "上传企业版支持令牌"

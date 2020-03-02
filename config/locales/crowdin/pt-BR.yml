@@ -61,7 +61,6 @@ pt-BR:
         header-item-font-hover-color: "Cor da fonte dos itens clicáveis do cabeçalho ao passar o mouse sobre eles."
         header-border-bottom-color: "Linha fina sob o cabeçalho. Deixe este campo vazio se não quiser nenhuma linha."
         main-menu-bg-color: "Cor de fundo do menu esquerdo."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Atualizar para a versão Enterprise Edition"
       add_token: "Fazer upload de um token de suporte Enterprise Edition"
