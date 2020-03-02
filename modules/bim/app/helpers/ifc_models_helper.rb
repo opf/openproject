@@ -34,9 +34,9 @@ module IfcModelsHelper
     all_converted_models = converted_ifc_models(all_models)
     shown_models = []
 
-    if (params[:models])
+    if params[:models]
       all_converted_models.map do |ifc_model|
-        model_id = ifc_model.id.to_s
+        model_id = ifc_model.id
         shown_models << model_id if JSON.parse(params[:models]).include?(model_id)
       end
     end

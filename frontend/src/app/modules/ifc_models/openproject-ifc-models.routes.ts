@@ -36,25 +36,26 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'bim',
     parent: 'root',
-    url: '/ifc_models?query_props',
+    url: '/bcf?query_props&models',
     abstract: true,
     component: WorkPackagesBaseComponent,
-    redirectTo: 'bim.partitioned.defaults',
+    redirectTo: 'bim.partitioned.split',
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
-      query_props: {type: 'opQueryString', dynamic: true}
+      query_props: {type: 'opQueryString', dynamic: true},
+      models: {type: 'opQueryString', dynamic: true}
     }
   },
   {
     name: 'bim.partitioned',
     url: '',
-    component: IFCViewerPageComponent
+    component: IFCViewerPageComponent,
+    redirectTo: 'bim.partitioned.split',
   },
   {
     name: 'bim.partitioned.list',
     url: '/list',
     data: {
-      viewRoute: 'bim.partitioned.defaults',
       partition: '-right-only'
     },
     reloadOnSearch: false,
@@ -63,10 +64,9 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     }
   },
   {
-    name: 'bim.partitioned.defaults',
-    url: '/defaults',
+    name: 'bim.partitioned.split',
+    url: '/split',
     data: {
-      viewRoute: 'bim.partitioned.defaults',
       partition: '-split'
     },
     reloadOnSearch: false,
@@ -76,44 +76,17 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     }
   },
   {
-    name: 'bim.partitioned.defaults.model',
+    name: 'bim.partitioned.model',
     url: '/model',
     data: {
-      viewRoute: 'bim.partitioned.defaults',
       partition: '-left-only'
     },
     reloadOnSearch: false,
     views: {
       // Retarget and by that override the grandparent views
-      // https://ui-router.github.io/guide/views#relative-parent-state
-      'content-right@^.^': { component: EmptyComponent }
+      // https://ui-router.github.io/guide/views#relative-parent-state{
+      'content-right@^': { component: EmptyComponent },
+      'content-left': { component: IFCViewerComponent }
     }
-  },
-  {
-    name: 'bim.partitioned.show',
-    url: '/{model_id:[0-9]+}',
-    data: {
-      viewRoute: 'bim.partitioned.show',
-      partition: '-split'
-    },
-    reloadOnSearch: false,
-    views: {
-      'content-left': { component: IFCViewerComponent },
-      'content-right': { component: BCFContainerComponent }
-    }
-  },
-  {
-    name: 'bim.partitioned.show.model',
-    url: '/model',
-    data: {
-      viewRoute: 'bim.partitioned.show',
-      partition: '-left-only'
-    },
-    reloadOnSearch: false,
-    views: {
-      // Retarget and by that override the grandparent views
-      // https://ui-router.github.io/guide/views#relative-parent-state
-      'content-right@^.^': { component: EmptyComponent }
-    }
-  },
+  }
 ];
