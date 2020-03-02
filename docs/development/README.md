@@ -107,7 +107,11 @@ This code of conduct is adapted from the [Contributor Covenant](http://contribut
 
 
 
+## OpenProject Contributor License Agreement (CLA) 
 
+If you want to contribute to OpenProject, please make sure to accept our Contributor License Agreement first. The contributor license agreement documents the rights granted by contributors to OpenProject. 
+
+[Read and accept the Contributor License Agreement here.](http://openproject.org/contributor-license-agreement/)
 
 # Additional resources
 
@@ -119,3 +123,4 @@ This code of conduct is adapted from the [Contributor Covenant](http://contribut
 * [Running Tests](running-tests)
 * [API Documentation](/api/)
 * [Report a Bug](report-a-bug)
+

@@ -70,87 +70,127 @@ describe 'work package export', type: :feature do
   end
 
   before do
-    work_packages_page.visit_index
-    filters.expect_filter_count 1
-    filters.open
-
     # render the CSV as plain text so we can run expectations against the output
     expect_any_instance_of(WorkPackagesController)
       .to receive(:send_data) do |receiver, serialized_work_packages, _opts|
-        receiver.render plain: serialized_work_packages
-      end
+      receiver.render plain: serialized_work_packages
+    end
   end
 
   after do
     DownloadedFile::clear_downloads
   end
 
-  it 'shows all work packages with the default filters', js: true, retry: 2 do
-    export!
+  context 'with default filter' do
 
-    expect(subject).to have_text(wp_1.description)
-    expect(subject).to have_text(wp_2.description)
-    expect(subject).to have_text(wp_3.description)
-    expect(subject).to have_text(wp_4.description)
+    before do
+      work_packages_page.visit_index
+      filters.expect_filter_count 1
+      filters.open
+    end
 
-    # results are ordered by ID (asc) and not grouped by type
-    expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A B A)
+    it 'shows all work packages with the default filters', js: true, retry: 2 do
+      export!
+
+      expect(subject).to have_text(wp_1.description)
+      expect(subject).to have_text(wp_2.description)
+      expect(subject).to have_text(wp_3.description)
+      expect(subject).to have_text(wp_4.description)
+
+      # results are ordered by ID (asc) and not grouped by type
+      expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A B A)
+    end
+
+    it 'shows all work packages grouped by ', js: true, retry: 2 do
+      group_by.enable_via_menu 'Type'
+
+      wp_table.expect_work_package_listed(wp_1)
+      wp_table.expect_work_package_listed(wp_2)
+      wp_table.expect_work_package_listed(wp_3)
+      wp_table.expect_work_package_listed(wp_4)
+
+      export!
+
+      expect(subject).to have_text(wp_1.description)
+      expect(subject).to have_text(wp_2.description)
+      expect(subject).to have_text(wp_3.description)
+      expect(subject).to have_text(wp_4.description)
+
+      # grouped by type
+      expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A A B)
+    end
+
+    it 'shows only the work package with the right progress if filtered this way',
+       js: true, retry: 2 do
+      filters.add_filter_by 'Progress (%)', 'is', ['25'], 'percentageDone'
+
+      sleep 1
+      loading_indicator_saveguard
+
+      wp_table.expect_work_package_listed(wp_1)
+      wp_table.ensure_work_package_not_listed!(wp_2, wp_3)
+
+      export!
+
+      expect(subject).to have_text(wp_1.description)
+      expect(subject).not_to have_text(wp_2.description)
+      expect(subject).not_to have_text(wp_3.description)
+    end
+
+    it 'shows only work packages of the filtered type', js: true, retry: 2 do
+      filters.add_filter_by 'Type', 'is', wp_3.type.name
+
+      expect(page).to have_no_content(wp_2.description) # safeguard
+
+      export!
+
+      expect(subject).not_to have_text(wp_1.description)
+      expect(subject).not_to have_text(wp_2.description)
+      expect(subject).to have_text(wp_3.description)
+    end
+
+    it 'exports selected columns', js: true, retry: 2 do
+      columns.add 'Progress (%)'
+
+      export!
+
+      expect(subject).to have_text('Progress (%)')
+      expect(subject).to have_text('25')
+    end
   end
 
-  it 'shows all work packages grouped by ', js: true, retry: 2 do
-    group_by.enable_via_menu 'Type'
+  describe 'with a manually sorted query', js: true do
+    let(:query) do
+      FactoryBot.create :query,
+                        user: current_user,
+                        project: project
+    end
 
-    wp_table.expect_work_package_listed(wp_1)
-    wp_table.expect_work_package_listed(wp_2)
-    wp_table.expect_work_package_listed(wp_3)
-    wp_table.expect_work_package_listed(wp_4)
+    before do
+      ::OrderedWorkPackage.create(query: query, work_package: wp_4, position: 0)
+      ::OrderedWorkPackage.create(query: query, work_package: wp_1, position: 1)
+      ::OrderedWorkPackage.create(query: query, work_package: wp_2, position: 2)
+      ::OrderedWorkPackage.create(query: query, work_package: wp_3, position: 3)
 
-    export!
+      query.add_filter('manual_sort', 'ow', [])
+      query.sort_criteria = [[:manual_sorting, 'asc']]
+      query.save!
+    end
 
-    expect(subject).to have_text(wp_1.description)
-    expect(subject).to have_text(wp_2.description)
-    expect(subject).to have_text(wp_3.description)
-    expect(subject).to have_text(wp_4.description)
+    it 'returns the correct number of work packages' do
+      wp_table.visit_query query
+      wp_table.expect_work_package_listed(wp_1, wp_2, wp_3, wp_4)
+      wp_table.expect_work_package_order(wp_4, wp_1, wp_2, wp_3)
 
-    # grouped by type
-    expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A A B)
-  end
+      export!
 
-  it 'shows only the work package with the right progress if filtered this way',
-     js: true, retry: 2 do
-    filters.add_filter_by 'Progress (%)', 'is', ['25'], 'percentageDone'
+      expect(subject).to have_text(wp_1.description)
+      expect(subject).to have_text(wp_2.description)
+      expect(subject).to have_text(wp_3.description)
+      expect(subject).to have_text(wp_4.description)
 
-    sleep 1
-    loading_indicator_saveguard
-
-    wp_table.expect_work_package_listed(wp_1)
-    wp_table.ensure_work_package_not_listed!(wp_2, wp_3)
-
-    export!
-
-    expect(subject).to have_text(wp_1.description)
-    expect(subject).not_to have_text(wp_2.description)
-    expect(subject).not_to have_text(wp_3.description)
-  end
-
-  it 'shows only work packages of the filtered type', js: true, retry: 2 do
-    filters.add_filter_by 'Type', 'is', wp_3.type.name
-
-    expect(page).to have_no_content(wp_2.description) # safeguard
-
-    export!
-
-    expect(subject).not_to have_text(wp_1.description)
-    expect(subject).not_to have_text(wp_2.description)
-    expect(subject).to have_text(wp_3.description)
-  end
-
-  it 'exports selected columns', js: true, retry: 2 do
-    columns.add 'Progress (%)'
-
-    export!
-
-    expect(subject).to have_text('Progress (%)')
-    expect(subject).to have_text('25')
+      # results are ordered by ID (asc) and not grouped by type
+      expect(subject.scan(/WorkPackage No\. \d+,/)).to eq [wp_4, wp_1, wp_2, wp_3].map { |wp| wp.subject + ',' }
+    end
   end
 end

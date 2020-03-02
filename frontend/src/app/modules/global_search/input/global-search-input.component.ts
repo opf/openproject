@@ -216,7 +216,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     return Highlighting.inlineClass('status', statusId);
   }
 
-
   // return all project scope items and all items which contain the search term
   public customSearchFn(term:string, item:any):boolean {
     return item.id === undefined || item.subject.toLowerCase().indexOf(term.toLowerCase()) !== -1;
@@ -233,8 +232,6 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
       query = query.replace(/^#/, '');
       idOnly = true;
     }
-
-    query = encodeURIComponent(query);
 
     let href:string = this.PathHelperService.api.v3.wpBySubjectOrId(query, idOnly);
 
