@@ -165,6 +165,10 @@ module Redmine
           # @deprecated
           # Either use the already existing Attachments::CreateService or
           # write/extend Services for the attached to object.
+          # The service should rely on the attachments_replacements variable.
+          # See:
+          # * app/services/attachments/set_replacements.rb
+          # * app/services/attachments/replace_attachments.rb
           def attach_files(attachments)
             return unless attachments&.is_a?(Hash)
 
@@ -216,7 +220,8 @@ module Redmine
 
           def memoize_attachment_for_claiming(attachment_hash)
             self.attachments_claimed ||= []
-            self.attachments_claimed << Attachment.find(attachment_hash['id'])
+            attachment = Attachment.find(attachment_hash['id'])
+            self.attachments_claimed << attachment unless id && attachment.container_id == id
           end
 
           def validate_attachments_claimable
