@@ -102,7 +102,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
    * BCF SINGLE VIEW
    */
   ...makeSplitViewRoutes(
-    'bim.prtitioned.list',
+    'bim.partitioned.list',
     undefined,
     BcfSingleViewComponent
   )
