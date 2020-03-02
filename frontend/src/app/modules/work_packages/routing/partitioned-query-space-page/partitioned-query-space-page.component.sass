@@ -1,0 +1,39 @@
+@import "helpers"
+
+
+.work-packages--card-view-container
+  width: 100%
+  overflow: auto
+  padding-bottom: 5px
+  @include styled-scroll-bar
+
+  @media screen and (max-width: 659px)
+    // Ensure the WP cards span the complete width on mobile
+    // --> Move scrollbar out of visible area
+    min-width: calc(100vw + 10px)
+
+.work-packages-partitioned-query-space--container
+  height: 100%
+  overflow: hidden
+  display: grid
+  grid-template-columns: 1fr auto
+  grid-template-rows: auto auto minmax(200px, 1fr)
+
+  &.-split
+    grid-template-areas: "header header" "filter filter" "content-left content-right"
+  &.-right-only
+    grid-template-areas: "header header" "filter filter" "content-right content-right"
+  &.-left-only
+    grid-template-areas: "header header" "filter filter" "content-left content-left"
+
+  .toolbar-container
+    grid-area: header
+
+  filter-container
+    grid-area: filter
+
+  .work-packages-partitioned-page--content-left
+    grid-area: content-left
+
+  .work-packages-partitioned-page--content-right
+    grid-area: content-right

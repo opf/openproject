@@ -1,4 +1,4 @@
-import {Inject, Injectable, Injector} from '@angular/core';
+import {Inject, Injectable, Injector, Optional} from '@angular/core';
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {States} from "core-components/states.service";
@@ -24,7 +24,6 @@ export class WorkPackageCardDragAndDropService {
   /** A reference to the component in use, to have access to the current input variables */
   public cardView:WorkPackageCardViewComponent;
 
-  public readonly dragService = this.injector.get(DragAndDropService, null);
 
   public constructor(readonly states:States,
                      readonly injector:Injector,
@@ -33,6 +32,7 @@ export class WorkPackageCardDragAndDropService {
                      readonly notificationService:WorkPackageNotificationService,
                      readonly wpCacheService:WorkPackageCacheService,
                      readonly currentProject:CurrentProjectService,
+                     @Optional() readonly dragService:DragAndDropService,
                      readonly wpInlineCreate:WorkPackageInlineCreateService) {
 
   }

@@ -52,3 +52,28 @@ module OpenProject
     end
   end
 end
+
+require "reform/form/active_model/validations"
+
+Reform::Form.class_eval do
+  include Reform::Form::ActiveModel::Validations
+end
+
+Reform::Contract.class_eval do
+  include Reform::Form::ActiveModel::Validations
+end
+
+Reform::Form::ActiveModel::Validations::Validator.class_eval do
+  ##
+  # use activerecord as the base scope instead of 'activemodel' to be compatible
+  # to the messages we have already stored
+  def self.i18n_scope
+    :activerecord
+  end
+end
+
+require 'reform/contract'
+
+class Reform::Form::ActiveModel::Errors
+  prepend OpenProject::Patches::Reform
+end

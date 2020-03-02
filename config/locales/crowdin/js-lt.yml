@@ -199,8 +199,8 @@ lt:
     global_roles: Globalios rolės
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "Spauskite čia resurso atnaujinimui iki naujausios versijos."
+        edit_prohibited: "%{attribute} redagavimas šiam resursui yra blokuojamas. Arba šis atributas atsiradęs iš ryšių (pvz., vaiko ryšio), arba jis nėra galimas konfigūruoti."
         format:
           date: "%{attribute} nėra tinkama data - YYYY-MM-DD tikimasi."
         general: "Įvyko klaida."
@@ -208,8 +208,15 @@ lt:
       blocks:
         new_features:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          learn_about: "Sužinokite apie naujas galimybes"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              Šioje laidoje yra naujų galimybių ir patobulinimų: <br><br> <ul> <li>Numatytos šviesaus ir tamaus <b>vaizdo temos</b> (EE galimybė).</li> <li>Naujas <b>laiko sekimo įrankis</b> skirtas <i>Mano puslapyje</i> parodyti sugaištą laiką kaip stulpelinę diagramą.</li> <li><b>XLS elsportas sąnaudų raportams</b> ir formatuotas tekstas darbo paketų PDF eksporte.</li> <li><b>Pagerintas dizainas ir vartojamumas</b>, t.y. lapeliai ir daugiau projekto nustatymuose ir administravime.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject turi <b>naują IFC modulį, leidžiantį integruoti 3D modelius</b> į projekto valdymo programą ir bendrai dirbti su tais failais be brangių programų ir licenzijų instaliavimo. <br><br> <ul> <li><b>Importuoti IFC filus</b> arba pastatų modelius į jūsų OpenProject programą.</li> <li><b>Atidaryti 3D modelius ir pavaizduoti pastatų modelius</b> jūsų naršyklėje.</li> <li> Lengvai <b>dirbti su keliais IFC failais</b> kartu su jūsų komanda tiesiai OpenProject neinstaliuojant atskiros brangios programinės įrangos.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -309,6 +316,7 @@ lt:
     label_project_plural: "Projektai"
     label_visibility_settings: "Matomumo nustatymai"
     label_quote_comment: "Cituoti šį komentarą"
+    label_recent: "Paskutiniai"
     label_reset: "Nustatyti iš naujo"
     label_remove_column: "Išimti stulpelį"
     label_remove_columns: "Pašalinti pažymėtus stulpelius"
@@ -445,33 +453,20 @@ lt:
         upgrade_to_ee_text: "Vau! Jei Jums reikia šios funkcijos, esate super pro! Ar nenorėtumėte paremti mus, OpenSource (atviro kodo) kūrėjus, tapdami Enterprise Edition klientu?"
         more_information: "Daugiau informacijos"
         nevermind: "Nekreipti dėmesio"
-        filter_types:
-          parent: "yra vaikas"
-          precedes: "eina prieš"
-          follows: "eina po"
-          relates: "susieta su"
-          duplicates: "dubliuoja"
-          duplicated: "dubliuojasi su"
-          blocks: "blokuoja"
-          blocked: "blokuojamas"
-          partof: "yra dalis"
-          includes: "įskaitant"
-          requires: "reikalauja"
-          required: "reikalingas"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Formos konfigūracija"
         projects: "Projektai"
         settings: "Nustatymai"
     time_entry:
       project: 'Projektas'
       work_package: 'Darbų paketas'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Reikia pirma pasirinkti darbo paketą.'
       activity: 'Veikla'
       comment: 'Komentaras'
       duration: 'Trukmė'
       spent_on: 'Data'
       hours: 'Valandų'
-      label: 'Time entry'
+      label: 'Laiko įrašas'
     two_factor_authentication:
       label_two_factor_authentication: 'Dviejų veiksnių autentikavimas'
     watchers:
@@ -533,7 +528,7 @@ lt:
     field_value_enter_prompt: "Įveskite \"%{field}\" reikšmę "
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "Prašau įvesti daugiau simbolių"
         one: "Įveskite dar vieną simbolį"
         few: "Prašome įvesti dar {{count}} simbolius (-į, -ių)"
         many: "Prašome įvesti dar {{count}} simbolius (-į, -ių)"
@@ -542,7 +537,7 @@ lt:
       no_matches: "Atitikmenų nerasta"
       searching: "Ieškoma ..."
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "Negalite pasirinkti jokių elementų"
         one: "Jūs galite pasirinkti tik vieną elementą"
         few: "Jūs galite pasirinkti tik {{limit}} elementus (-ą, -ų)"
         many: "Jūs galite pasirinkti tik {{limit}} elementus (-ą, -ų)"
@@ -732,7 +727,7 @@ lt:
         label_content: "Paspauskite čia, kad praleistumėte meniu ir pereitumėte prie turinio"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Redagavimui spustelėkite..."
       query:
         column_names: "Stulpeliai"
         group_by: "Grupuoti rezultatus pagal"
@@ -797,8 +792,7 @@ lt:
           relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'
           check_out_link: 'Patikrinkite Enterprise Edition.'
         relation_filters:
-          first_part: "Visi darbų paketai"
-          second_part: "dabartinis darbų paketas"
+          filter_work_packages_by_relation_type: 'Filtruokite darbo paketus pagal sąryšio tipą'
       tabs:
         overview: Peržiūra
         activity: Veikla

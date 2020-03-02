@@ -99,7 +99,7 @@ describe('WorkPackageViewIndentation service', function() {
     });
 
     it('Cannot indent when is first index', () => {
-      querySpace.rendered.putValue([
+      querySpace.tableRendered.putValue([
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' }
       ]);
@@ -109,7 +109,7 @@ describe('WorkPackageViewIndentation service', function() {
     });
 
     it('Can indent as second when it has no ancestors', () => {
-      querySpace.rendered.putValue([
+      querySpace.tableRendered.putValue([
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
       ]);
@@ -119,7 +119,7 @@ describe('WorkPackageViewIndentation service', function() {
     });
 
     it('Cannot indent when possible but hierarchy disabled', () => {
-      querySpace.rendered.putValue([
+      querySpace.tableRendered.putValue([
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
       ]);
@@ -132,7 +132,7 @@ describe('WorkPackageViewIndentation service', function() {
     });
 
     it('Can not indent with a predecessor that is an ancestor already', () => {
-      querySpace.rendered.putValue([
+      querySpace.tableRendered.putValue([
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
       ]);
@@ -142,7 +142,7 @@ describe('WorkPackageViewIndentation service', function() {
     });
 
     it('Can indent with a predecessor that is NOT an ancestor already', () => {
-      querySpace.rendered.putValue([
+      querySpace.tableRendered.putValue([
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
@@ -177,7 +177,7 @@ describe('WorkPackageViewIndentation service', function() {
 
   describe('indent', () => {
     it('Can indent with a predecessor that is NOT an ancestor already', (done) => {
-      querySpace.rendered.putValue([
+      querySpace.tableRendered.putValue([
         { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
@@ -195,7 +195,7 @@ describe('WorkPackageViewIndentation service', function() {
     });
 
     it('Can indent with a predecessor that shares an ancestor chain', (done) => {
-      querySpace.rendered.putValue([
+      querySpace.tableRendered.putValue([
         { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
@@ -213,7 +213,7 @@ describe('WorkPackageViewIndentation service', function() {
     });
 
     it('Can indent with a predecessor that shares an ancestor chain', (done) => {
-      querySpace.rendered.putValue([
+      querySpace.tableRendered.putValue([
         { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
@@ -233,7 +233,7 @@ describe('WorkPackageViewIndentation service', function() {
 
   describe('outdent', () => {
     it('will outdent to the previous last ancestorId', (done) => {
-      querySpace.rendered.putValue([
+      querySpace.tableRendered.putValue([
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
@@ -246,7 +246,7 @@ describe('WorkPackageViewIndentation service', function() {
     });
 
     it('will outdent to null in case of ancestorIds.length < 2', (done) => {
-      querySpace.rendered.putValue([
+      querySpace.tableRendered.putValue([
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 

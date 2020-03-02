@@ -208,8 +208,15 @@ pt:
       blocks:
         new_features:
           text_new_features: "Leia sobre novos recursos e atualizações de produtos."
-          current_new_feature_html: "O OpenProject contém uma nova página de <b>visão geral</b> para <b>mostrar informações importantes do projeto</b> e mostrar se o projeto está sob controlo. </br> Pode inserir vários novos widgets de estado, tais como: <ul><li>estado do projeto,</li> <li>visão geral do estado do pacote de trabalho,</li> <li>progresso de tarefas,</li> <li>tarefas atribuídas aos utilizadores.</li></ul>"
-          learn_about: "Saiba mais sobre os novos widgets de estado"
+          learn_about: "Saiba mais sobre os novos recursos"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              O lançamento contém novos recursos e variadas melhorias: <br><br> <ul> <li><b>Modelos de design</b> padrão para selecionar um tema claro ou escuro (recurso premium).</li> <li>Novo <b>widget de controlo do tempo</b> para <i>A minha página</i> mostrar num gráfico de barras o tempo gasto.</li> <li><b>Esportação em XLS para relatórios de custos</b> e texto formatado na exportação em PDF dos pacotes de trabalho.</li> <li><b>Melhorias no design e na utilização</b>, como por exemplo nas abas e muito mais nas configurações de projeto e na administração.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              O OpenProject contém um <b>novo módulo IFC para integrar modelos 3D</b> na sua aplicação de gestão de projeto, e para trabalhar em colaboração com a sua equipa sem instalar outros softwares ou licenças. <br><br> <ul> <li><b>Importar ficheiros IFC</b> de construção de modelos para a sua aplicação OpenProject.</li> <li><b>Abrir modelos Open 3D e visualizar modelos de construção</b> no seu navegador.</li> <li><b>Trabalhe com vários ficheiros IFC</b> facilmente com a sua equipa no OpenProject, sem ter de instalar programas separados e dispendiosos. </li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna após"
     label_add_column_before: "Adicionar coluna antes"
@@ -309,6 +316,7 @@ pt:
     label_project_plural: "Projetos"
     label_visibility_settings: "Configurações de visibilidade"
     label_quote_comment: "Citar este comentário"
+    label_recent: "Recentes"
     label_reset: "Reiniciar"
     label_remove_column: "Remover coluna"
     label_remove_columns: "Remover colunas selecionadas"
@@ -445,33 +453,20 @@ pt:
         upgrade_to_ee_text: "Uau! Se precisa desta funcionalidade é porque é um utilizador especializado! Gostaria de apoiar os desenvolvedores de OpenSource, tornando-se num cliente da versão Enterprise Edition?"
         more_information: "Mais informação"
         nevermind: "Não, obrigado"
-        filter_types:
-          parent: "sendo filho de"
-          precedes: "anterior"
-          follows: "seguinte"
-          relates: "relativo a"
-          duplicates: "a duplicar"
-          duplicated: "duplicado por"
-          blocks: "a bloquear"
-          blocked: "bloqueado por"
-          partof: "sendo parte de"
-          includes: "incluindo"
-          requires: "a necessitar"
-          required: "exigido por"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Configuração do formulário"
         projects: "Projetos"
         settings: "Definições"
     time_entry:
       project: 'Projecto'
       work_package: 'Pacote de trabalho'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Requer que selecione um pacote de trabalho primeiro.'
       activity: 'Atividade'
       comment: 'Comentario'
       duration: 'Duração'
       spent_on: 'Data'
       hours: 'Horas'
-      label: 'Time entry'
+      label: 'Entrada de hora'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticação de dois fatores'
     watchers:
@@ -533,14 +528,14 @@ pt:
     field_value_enter_prompt: "Insira um valor para '%{field}'"
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "Por favor, insira mais caracteres"
         one: "Por favor, insira um ou mais carateres"
         other: "Por favor, insira mais {{count}} carateres"
       load_more: "A carregar mais resultados ..."
       no_matches: "Nenhuma correspondência encontrada"
       searching: "A procurar..."
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "Não pode selecionar nenhum item"
         one: "Só pode selecionar um item"
         other: "Só pode selecionar {{limit}} itens"
     project_menu_details: "Detalhes"
@@ -793,8 +788,7 @@ pt:
           relation_columns: 'Precisa de ver as relações na lista do pacote de trabalho?'
           check_out_link: 'Experimente a versão Enterprise Edition.'
         relation_filters:
-          first_part: "Mostrar todos os pacotes de trabalho"
-          second_part: "o pacote de trabalho atual"
+          filter_work_packages_by_relation_type: 'Filtrar pacotes de trabalho por tipo de relação'
       tabs:
         overview: Sinopse
         activity: Atividade

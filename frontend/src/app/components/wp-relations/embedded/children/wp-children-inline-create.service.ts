@@ -36,7 +36,7 @@ import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations
 @Injectable()
 export class WpChildrenInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface, OnDestroy {
 
-  constructor(protected readonly injector:Injector,
+  constructor(readonly injector:Injector,
               protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService) {
     super(injector);
   }

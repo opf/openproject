@@ -8,6 +8,7 @@ import {ProgressTextDisplayField} from "core-app/modules/fields/display/field-ty
 import {MultipleLinesUserFieldModule} from "core-app/modules/fields/display/field-types/multiple-lines-user-display-field.module";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
@@ -19,8 +20,8 @@ export const cellEmptyPlaceholder = '-';
 
 export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
-  readonly displayFieldService:DisplayFieldService = this.injector.get(DisplayFieldService);
-  readonly I18n:I18nService = this.injector.get(I18nService);
+  @InjectField() displayFieldService:DisplayFieldService;
+  @InjectField() I18n:I18nService;
 
   /** We cache the previously used fields to avoid reinitialization */
   private fieldCache:{ [key:string]:DisplayField } = {};
@@ -194,7 +195,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
   private getDefaultPlaceholder(fieldSchema:IFieldSchema):string {
     if (fieldSchema.type === 'Formattable') {
-      return this.I18n.t('js.work_packages.placeholders.formattable', { name: fieldSchema.name });
+      return this.I18n.t('js.work_packages.placeholders.formattable', {name: fieldSchema.name});
     }
 
     return cellEmptyPlaceholder;

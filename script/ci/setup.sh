@@ -45,12 +45,6 @@ run() {
 
 run "bash $(dirname $0)/db_setup.sh"
 
-if [ "$2" = "bim" ]; then
-  export OPENPROJECT_EDITION="$2";
-else
-  unset OPENPROJECT_EDITION
-fi
-
 # run migrations for mysql or postgres
 if [ $1 != 'npm' ]; then
   run "bundle exec rake db:migrate"

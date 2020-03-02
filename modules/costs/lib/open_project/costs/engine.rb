@@ -88,7 +88,7 @@ module OpenProject::Costs
            icon: 'icon2 icon-budget'
 
       Redmine::Activity.map do |activity|
-        activity.register :cost_objects, class_name: 'Activity::CostObjectActivityProvider', default: false
+        activity.register :cost_objects, class_name: 'Activities::CostObjectActivityProvider', default: false
       end
     end
 
@@ -157,7 +157,7 @@ module OpenProject::Costs
     extend_api_response(:v3, :work_packages, :work_package) do
       include Redmine::I18n
       include ActionView::Helpers::NumberHelper
-      prepend API::V3::CostsAPIUserPermissionCheck
+      prepend API::V3::CostsApiUserPermissionCheck
 
       link :logCosts,
            cache_if: -> {
@@ -351,15 +351,12 @@ module OpenProject::Costs
     end
 
     initializer 'costs.register_latest_project_activity' do
-      Project.register_latest_project_activity on: ::CostObject,
+      Project.register_latest_project_activity on: 'CostObject',
                                                attribute: :updated_on
     end
 
     config.to_prepare do
-      require 'open_project/costs/patches/members_patch'
-      OpenProject::Costs::Members.mixin!
-
-      require 'open_project/costs/patches/work_package_patch'
+      OpenProject::Costs::Patches::MembersPatch.mixin!
       OpenProject::Costs::Patches::WorkPackagePatch.mixin!
 
       # loading the class so that acts_as_journalized gets registered

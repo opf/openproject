@@ -28,31 +28,31 @@ zh-CN:
     plugins:
       no_results_title_text: 目前没有插件可用。
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "颜色主题"
+      color_theme_custom: "（自定义）"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "备用"
+        content-link-color: "链接字体"
+        primary-color: "主要"
+        primary-color-dark: "主要（深色）"
+        header-bg-color: "标题背景"
+        header-item-bg-hover-color: "悬停时的标题背景"
+        header-item-font-color: "标题字体"
+        header-item-font-hover-color: "悬停时的标题字体"
+        header-border-bottom-color: "标题边框"
+        main-menu-bg-color: "主菜单背景"
+        main-menu-bg-selected-background: "选择时的主菜单"
+        main-menu-bg-hover-background: "悬停时的主菜单"
+        main-menu-font-color: "主菜单字体"
+        main-menu-selected-font-color: "选择时的主菜单字体"
+        main-menu-hover-font-color: "悬停时的主菜单字体"
+        main-menu-border-color: "主菜单边框"
       custom_colors: "自定义颜色"
       customize: "使用您自己的徽标自定义 OpenProject 安装。注：此徽标可公开查看。"
       enterprise_notice: "作为对为开发 OpenProject 提供财力支持的订阅者的特别“感谢”，这项小功能仅限企业版支持订阅者使用。"
       manage_colors: "编辑颜色选择选项"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "强烈的颜色，通常用于屏幕上最重要的按钮。"
         content-link-color: "大多数链接的特定颜色。"
         primary-color: "主颜色。"
         primary-color-dark: "通常深色的主颜色用于悬浮效果。"
@@ -85,38 +85,36 @@ zh-CN:
       no_results_content_text: 创建一个新的身份验证模式
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      此 LDAP 表单需要您具备 LDAP / Active Directory 设置的技术知识。
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">请访问我们的文档了解详细说明</a>。
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      name: LDAP 连接的任意名称
+      host: LDAP 主机名或 IP 地址
+      login_map: LDAP 中用于识别唯一用户登录名的属性键。通常是 `uid` 或 `samAccountName`。
+      generic_map: LDAP 中用于映射到 OpenProject `%{attribute}` 属性的属性键
+      admin_map_html: "可选：LDAP 中将 OpenProject 用户标记为管理员的属性键（<strong>如存在</strong>）。如有疑问，请留空。"
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        输入系统用户用于只读访问的 DN。
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        示例：uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: 输入系统用户的绑定密码
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        输入 LDAP 中您希望 OpenProject 查找用户和组的子树的基本 DN。
+        OpenProject 将仅在此子树中筛选提供的用户名。
+        示例：ou=users,dc=example,dc=com
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        如果选中此框，OpenProject 将在新用户首次向 OpenProject 验证身份时从其 LDAP 条目创建这些用户。
+        不选中此框则会仅允许 OpenProject 中的现有帐户通过 LDAP 验证身份！
     connection_encryption: '连接加密'
-    system_account: 'System account'
+    system_account: '系统帐户'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+      OpenProject 需要通过系统帐户获取只读权限来查找您的 LDAP 树中的用户和组。
+      请在下一部分中为该系统用户指定绑定凭据。
+    ldap_details: 'LDAP 详细信息'
+    user_settings: '属性映射'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      以下字段与在 OpenProject 中从 LDAP 条目创建用户的方式有关并决定用于定义 OpenProject 用户属性的 LDAP 属性（属性映射）。
     tls_mode:
       plain: '无'
       simple_tls: 'simple_tls'
@@ -494,8 +492,8 @@ zh-CN:
         confirmation: "不匹配 %{attribute}。"
         could_not_be_copied: "不能 (完全) 复制。"
         does_not_exist: "不存在。"
-        error_unauthorized: "may not be accessed."
-        error_readonly: "was attempted to be written but is not writable."
+        error_unauthorized: "无法访问。"
+        error_readonly: "曾尝试被写入，但不可写。"
         empty: "不能为空。"
         even: "必须是偶数。"
         exclusion: "是保留关键字。"
@@ -597,7 +595,7 @@ zh-CN:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "过高，因为每天最多可以记录 24 小时。"
         work_package:
           is_not_a_valid_target_for_time_entries: "工作包 #%{id} 不是重新分配时间条目的有效目标。"
           attributes:
@@ -744,7 +742,7 @@ zh-CN:
     type: "类型"
     updated_at: "更新于"
     updated_on: "更新于"
-    uploader: "Uploader"
+    uploader: "上载程序"
     user: "用户"
     version: "版本"
     work_package: "工作包"
@@ -1017,8 +1015,8 @@ zh-CN:
         add_groups: "添加新属性群组"
         rename_groups: "重命名属性群组"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Time tracking activities"
+        description_html: "对自定义字段进行筛选和排序是企业版功能。"
+  enumeration_activities: "时间跟踪活动"
   enumeration_work_package_priorities: "工作包优先级"
   enumeration_reported_project_statuses: "报告的项目状态"
   error_auth_source_sso_failed: "用户 \"%{value}\" 的单次登录 (SSO) 失败"
@@ -1090,7 +1088,7 @@ zh-CN:
       pdf_with_descriptions_and_attachments: "带有描述和附件的 PDF 文件"
       pdf_with_attachments: "带有附件的 PDF 文件"
     image:
-      omitted: "Image not exported."
+      omitted: "图像未导出。"
   extraction:
     available:
       pdftotext: "Pdftotext 可用 (可选)"
@@ -1671,16 +1669,16 @@ zh-CN:
   label_workflow_plural: "工作流"
   label_workflow_summary: "摘要"
   label_x_closed_work_packages_abbr:
-    zero: "0 closed"
+    zero: "0 个已关闭"
     other: "%{count} 个已关闭"
   label_x_comments:
-    zero: "no comments"
+    zero: "没有注释"
     other: "%{count} 条评论"
   label_x_open_work_packages_abbr:
-    zero: "0 open"
+    zero: "0 个已打开"
     other: "%{count} 个待处理"
   label_x_projects:
-    zero: "no projects"
+    zero: "没有项目"
     other: "%{count} 个项目"
   label_year: "年"
   label_yesterday: "昨天"
@@ -1929,7 +1927,7 @@ zh-CN:
       title: 更改项目的标识符
     archive:
       are_you_sure: "是否确定想要存档项目 '%{name}'？"
-      archived: "Archived"
+      archived: "已存档"
   project_module_activity: "活动"
   project_module_forums: "论坛"
   project_module_calendar: "日历"
@@ -2220,7 +2218,7 @@ zh-CN:
   text_destroy_with_associated: "有额外的对象关联到要删除的工作包。这些对象是以下类型："
   text_destroy_what_to_do: "你想做什么？"
   text_diff_truncated: "...这个比较被截断，因为它超出了可显示的最大大小。"
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
+  text_email_delivery_not_configured: "电子邮件传送未配置，通知已禁用。\n配置您的 SMTP 服务器将其启用。"
   text_enumeration_category_reassign_to: "重新分配以此值："
   text_enumeration_destroy_question: "%{count} 个对象被分配到该值。"
   text_file_repository_writable: "附件目录可写"
@@ -2233,8 +2231,8 @@ zh-CN:
   text_work_package_category_destroy_question: "一些工作包 (%{count}) 被分配到这个类别。你想做什么？"
   text_work_package_category_reassign_to: "重新分配工作包到此类别"
   text_work_package_updated: "工作包 %{id} 已经被 %{author} 更新。"
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_added: "%{watcher_changer} 已将您添加为工作包 %{id} 的一个关注者。"
+  text_work_package_watcher_removed: "%{watcher_changer} 已将您从工作包 %{id} 的关注者中移除。"
   text_work_packages_destroy_confirmation: "确实要删除所选的工作包吗?"
   text_work_packages_ref_in_commit_messages: "引用和修复工作包中提交消息"
   text_journal_added: "%{label} %{value} 已添加"
@@ -2515,13 +2513,13 @@ zh-CN:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: '协议设置不匹配'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        您的应用程序正在运行，并且协议设置为 <code>%{set_protocol}</code>，但请求的协议是 <code>%{actual_protocol}</code>。这将导致错误！转到<a href="%{setting_path}">系统设置</a>并更改“协议”设置以纠正。
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: '主机名设置不匹配'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        您的应用程序正在运行，并且主机名设置为 <code>%{set_hostname}</code>，但请求是 <code>%{actual_hostname}</code>。这将导致错误！转到<a href="%{setting_path}">系统设置</a>并更改“主机名”设置以纠正。
   menu_item: "菜单项"
   menu_item_setting: "可见性"
   wiki_menu_item_for: "wiki页面” %{title} “的菜单项"
@@ -2575,8 +2573,8 @@ zh-CN:
         invalid_user_assigned_to_work_package: "所选的用户不允许为此工作包的 '%{property}'。"
         start_date: "不能在父工作包中设置开始日期。"
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "是无效的 gzip：%{message}"
+        invalid_json: "是无效的 json：%{message}"
     resources:
       schema: '方案'
   doorkeeper:
@@ -2624,7 +2622,7 @@ zh-CN:
         redirect_uri_html: >
           授权的用户可以重定向到的允许 URL。每行一个条目。<br/>如果您注册的是桌面应用程序，请使用以下 URL。
         confidential: "检查在客户端密钥可以保密的地方是否使用应用程序。原生移动应用和单页应用被假定为非机密。"
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
+        scopes: "选择您希望应用程序授予权限的范围。如果不选择任何范围，将假定 api_v3。"
         client_credential_user_id: "在客户端使用此应用程序时要冒充的可选用户 ID。留空可以仅允许公开访问"
         register_intro: "如果您正在为 OpenProject 开发 OAuth API 客户端应用程序，则可以使用此表单注册，供所有用户使用。"
         default_scopes: ""
@@ -2639,8 +2637,8 @@ zh-CN:
       wants_to_access_html: >
         此应用程序请求访问您的 OpenProject 帐户。<br/> <strong>它请求了以下权限：</strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "API v3 完全访问权限"
+      api_v3_text: "应用程序将获得 OpenProject API v3 的完全读写访问权限来代表您执行操作。"
     grants:
       created_date: "批准日期"
       scopes: "权限"

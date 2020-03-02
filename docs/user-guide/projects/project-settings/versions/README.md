@@ -8,11 +8,11 @@ keywords: manage versions
 ---
 # Manage versions
 
-Versions will be used, e.g. for roadmap planning to track certain product versions or releases. Work packages can be assigned to a version. They will be displayed in the [Roadmap](../../roadmap).
+Versions will be used, e.g. for roadmap planning to track certain product versions or releases. Work packages can be assigned to a version. They will be displayed in the [Roadmap](../../../roadmap).
 
 Also, version will  be used to enable the Backlogs module, i.e. to create a product backlog and sprints in OpenProject.
 
-[Read here how to create a new backlogs version](../../backlogs/manage-sprints).
+[Read here how to create a new backlogs version](../../../backlogs-scrum/manage-sprints).
 
 ## Create a new version
 
@@ -28,7 +28,7 @@ You can configure the following information.
 4. Choose a **wiki page** that you want to open directly from a version in the Roadmap.
 5. Set a **start date and finish date** for the version.
 6. Choose whether the version shall be **shared** with other projects, e.g. in the project hierarchy or subprojects.
-7. Select a **column in backlogs view**. This is only required if you use the versions to manage your [Scrum backlog](../../backlogs-scrum).
+7. Select a **column in backlogs view**. This is only required if you use the versions to manage your [Scrum backlog](../../../backlogs-scrum).
 8. Press the blue **Create** button to save your changes.
 
 ![User-guide-project-settings-create-version](User-guide-project-settings-create-version.png)

@@ -28,12 +28,13 @@ The package is available for the following Linux distributions:
 
 | Distribution (**64 bits only**)             |
 | ------------------------------------------- |
-| [CentOS/RHEL 7.x](#centos/rhel-7-x)         |
-| [Debian 9 Stretch](#debian-9)               |
+| [Ubuntu 18.04 Bionic Beaver](#ubuntu-1804)  |
+| [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
 | [Debian 10 Buster](#debian-10)              |
+| [Debian 9 Stretch](#debian-9)               |
+| [CentOS/RHEL 8.x](#el-8)                    |
+| [CentOS/RHEL 7.x](#el-7)                    |
 | [Suse Linux Enterprise Server 12](#sles-12) |
-| [Ubuntu 16.04 Xenial Xerus](#ubuntu-16-04)  |
-| [Ubuntu 18.04 Bionic Beaver](#ubuntu-18-04) |
 
 Please ensure that you are running on a 64bit system before proceeding with the installation. You can check by running the `uname -i` command on the target server and verifying that it outputs `x86_64`:
 
@@ -142,6 +143,34 @@ sudo apt-get install openproject
 ```
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+<a name="el-8"></a>
+
+## CentOS 8 / RHEL 8
+
+Add the OpenProject package source:
+
+```bash
+sudo wget -O /etc/yum.repos.d/openproject.repo \
+  https://dl.packager.io/srv/opf/openproject/stable/10/installer/el/8.repo
+```
+
+Download the OpenProject package:
+
+```bash
+sudo yum install openproject
+```
+
+Note: if the package manager refuses to install OpenProject due to the package `epel-release` not being found, you should add the EPEL repository manually, and then relaunch the command above:
+
+```bash
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+sudo yum install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+<a name="el-7"></a>
 
 ## CentOS 7 / RHEL 7
 
@@ -274,7 +303,29 @@ In that case, you will be shown three additional dialogs to enter the certificat
 ![02d-ssl](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02d-ssl.png)
 
 
-### **Skip** (not recommended)
+
+**External SSL/TLS termination**
+
+<div class="alert alert-warning" role="alert">
+
+If you terminate SSL externally before the request hits the OpenProject server, you need to follow the following instructions to avoid errors in routing. If you want to use SSL on the server running OpenProject, skip this section.
+
+</div>
+
+If you have a separate server that is terminating SSL and only forwarding/proxying to the OpenProject server, you must select "No" in this dialog. However, there are some parameters you need to put into your outer configuration.
+
+- If you're proxying to the openproject server, you need to forward the HOST header to the internal server. This ensures that the host name of the outer request gets forwarded to the internal server. Otherwise you might see redirects in your browser to the internal host that OpenProject is running on.
+  - In Apache2, set the `ProxyPreserveHost On`directive 
+  - In NginX, use the following value: `proxy_set_header X-Forwarded-Host $host:$server_port;`
+- If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https`header to let OpenProject know that the request is HTTPS, even though its been terminated earlier in the request on the outer server.
+  - In Apache2, use `RequestHeader set "X-Forwarded-Proto" https`
+  - In Nginx, use `proxy_set_header X-Forwarded-Proto https;`
+
+- Finally, to let OpenProject know that it should create links with 'https' when no request is available (for example, when sending emails), you need to set the following setting: `openproject config:set SERVER_PROTOCOL_FORCE_HTTPS="true"` followed by an `openproject configure`. This ensures that OpenProject responds correctly with secure cookies even though it was not configured for https in the server configuration.
+
+
+
+### Skip (not recommended)
 
 The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listeing at `localhost:6000` by proxying.
 

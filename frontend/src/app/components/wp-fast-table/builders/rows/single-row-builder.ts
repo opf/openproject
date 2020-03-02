@@ -15,6 +15,7 @@ import {
   internalContextMenuColumn,
   internalSortColumn
 } from "core-components/wp-fast-table/builders/internal-sort-columns";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -24,9 +25,9 @@ export const commonRowClassName = 'wp--row';
 export class SingleRowBuilder {
 
   // Injections
-  public wpTableSelection = this.injector.get(WorkPackageViewSelectionService);
-  public wpTableColumns = this.injector.get(WorkPackageViewColumnsService);
-  public I18n:I18nService = this.injector.get(I18nService);
+  @InjectField() wpTableSelection:WorkPackageViewSelectionService;
+  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @InjectField() I18n:I18nService;
 
   // Cell builder instance
   protected cellBuilder = new CellBuilder(this.injector);

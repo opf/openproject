@@ -9,10 +9,10 @@ module ::TwoFactorAuthentication
       before_action :find_device, except: [:new, :index, :register]
 
       # Remmeber token functionality
-      include ::TwoFactorAuthentication::Concerns::RememberToken
+      include ::TwoFactorAuthentication::RememberToken
 
       # Password confirmation helpers and actions
-      include ::Concerns::PasswordConfirmation
+      include PasswordConfirmation
       before_action :check_password_confirmation,
                     only: [:make_default, :destroy]
 

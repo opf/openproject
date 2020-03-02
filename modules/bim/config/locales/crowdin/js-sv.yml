@@ -1,0 +1,14 @@
+#English strings go here
+sv:
+  js:
+    bcf:
+      import: 'Importera'
+      export: 'Exportera'
+    ifc_models:
+      models:
+        default: 'Default IFC models'
+        manage: 'Manage models'
+      views:
+        list: 'List only'
+        viewer: 'Viewer only'
+        split: 'Viewer and list'

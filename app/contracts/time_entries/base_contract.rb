@@ -28,12 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
-
 module TimeEntries
   class BaseContract < ::ModelContract
-    include Concerns::AssignableValuesContract
-    include Concerns::AssignableCustomFieldValues
+    include AssignableValuesContract
+    include AssignableCustomFieldValues
 
     delegate :work_package,
              :project,

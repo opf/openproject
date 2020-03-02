@@ -107,7 +107,7 @@ module OpenProject::Reporting
     config.to_prepare do
       require_dependency 'report/walker'
       require_dependency 'report/transformer'
-      require_dependency 'widget/entry_table'
+      require_dependency 'widget/table/entry_table'
       require_dependency 'widget/settings_patch'
       require_dependency 'cost_query/group_by'
     end

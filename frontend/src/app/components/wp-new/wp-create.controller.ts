@@ -67,11 +67,11 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
 
   @ViewChild(EditFormComponent) private editForm:EditFormComponent|undefined;
 
-  constructor(protected readonly $transition:Transition,
+  constructor(public readonly injector:Injector,
+              protected readonly $transition:Transition,
               protected readonly $state:StateService,
               protected readonly I18n:I18nService,
               protected readonly titleService:OpTitleService,
-              protected readonly injector:Injector,
               protected readonly notificationService:WorkPackageNotificationService,
               protected readonly states:States,
               protected readonly wpCreate:WorkPackageCreateService,
@@ -161,7 +161,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
 
   public cancelAndBackToList() {
     this.wpCreate.cancelCreation();
-    this.$state.go('work-packages.list', this.$state.params);
+    this.$state.go('work-packages.partitioned.list', this.$state.params);
   }
 
   protected createdWorkPackage() {

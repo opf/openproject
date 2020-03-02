@@ -32,6 +32,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {DeviceService} from "app/modules/common/browser/device.service";
 import {Injector} from "@angular/core";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Injectable()
 export class MainMenuToggleService {
@@ -40,7 +41,8 @@ export class MainMenuToggleService {
   private elementWidth:number;
   private readonly localStorageKey:string = 'openProject-mainMenuWidth';
   private readonly defaultWidth:number = 230;
-  private readonly currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
+
+  @InjectField() currentProject:CurrentProjectService;
 
   private global = (window as any);
   private htmlNode = document.getElementsByTagName('html')[0];
@@ -59,7 +61,7 @@ export class MainMenuToggleService {
   private resizeSubscription$:Subscription;
 
   constructor(protected I18n:I18nService,
-              protected injector:Injector,
+              public injector:Injector,
               readonly deviceService:DeviceService) {
   }
 
@@ -107,7 +109,7 @@ export class MainMenuToggleService {
     // Set focus on first visible main menu item.
     // This needs to be called after AngularJS has rendered the menu, which happens some when after(!) we leave this
     // method here. So we need to set the focus after a timeout.
-    setTimeout(function() {
+    setTimeout(function () {
       jQuery('#main-menu [class*="-menu-item"]:visible').first().focus();
     }, 500);
   }
@@ -121,7 +123,8 @@ export class MainMenuToggleService {
   public closeWhenOnMobile():void {
     if (this.deviceService.isMobile) {
       this.closeMenu()
-    };
+    }
+    ;
   }
 
   private setToggleTitle():void {
@@ -186,6 +189,6 @@ export class MainMenuToggleService {
   }
 
   private get isGlobalPage():boolean {
-    return this.currentProject.id? false : true;
+    return this.currentProject.id ? false : true;
   }
 }

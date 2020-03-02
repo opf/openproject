@@ -28,14 +28,10 @@
 
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {StateService} from '@uirouter/core';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {Component, Injector, OnInit} from '@angular/core';
 import {WorkPackageViewSelectionService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import {States} from 'core-components/states.service';
-import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
 import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 
@@ -46,7 +42,6 @@ import {BackRoutingService} from "core-app/modules/common/back-routing/back-rout
   host: { 'class': 'work-packages-page--ui-view' }
 })
 export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase implements OnInit {
-
   // Watcher properties
   public isWatched:boolean;
   public displayWatchButton:boolean;
@@ -64,14 +59,9 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   public actionsAvailable:any;
   public triggerMoreMenuAction:Function;
 
-  public backRoutingService:BackRoutingService = this.injector.get(BackRoutingService);
-
   constructor(public injector:Injector,
-              public states:States,
-              public firstRoute:FirstRouteService,
-              public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageViewSelectionService,
-              public wpTableFocus:WorkPackageViewFocusService,
+              public backRoutingService:BackRoutingService,
               readonly $state:StateService) {
     super(injector, $state.params['workPackageId']);
   }

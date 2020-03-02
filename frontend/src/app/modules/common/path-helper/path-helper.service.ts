@@ -54,6 +54,10 @@ export class PathHelperService {
     }
   }
 
+  public ifcModelsPath(projectIdentifier:string) {
+    return this.staticBase + `/projects/${projectIdentifier}/ifc_models`;
+  }
+
   public highlightingCssPath() {
     return this.staticBase + '/highlighting/styles';
   }

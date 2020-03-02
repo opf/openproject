@@ -12,7 +12,7 @@ ko:
     exceptions:
       file_invalid: "잘못된 BCF 파일"
     x_bcf_issues:
-      zero: 'No BCF issues'
+      zero: 'BCF 이슈 없음'
       other: '%{count}개 BCF 이슈'
     bcf_xml:
       xml_file: 'BCF XML 파일'
@@ -63,21 +63,21 @@ ko:
   permission_manage_bcf: "BCF 이슈 가져오기 및 관리"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "BCF v2.1 API에 대한 전체 액세스"
+      bcf_v2_1_text: "애플리케이션은 사용자를 대신하여 작업을 수행하기 위해 OpenProject BCF API v2.1에 대한 전체 읽기 및 쓰기 액세스 권한을 받습니다."
   activerecord:
     errors:
       models:
         bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
-          invalid_components: "components is invalid."
-          invalid_lines: "lines is invalid."
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
-          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
-          no_json: "Is not a well structured json."
-          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
-          snapshot_data_blank: "snapshot_data needs to be provided."
-          unsupported_key: "An unsupported json property is included."
+          bitmaps_not_writable: "비트맵은 아직 구현되지 않았기 때문에 쓰기 가능하지 않습니다."
+          index_not_integer: "색인이 정수가 아닙니다."
+          invalid_clipping_planes: "clipping_planes가 잘못되었습니다."
+          invalid_components: "구성 요소가 잘못되었습니다."
+          invalid_lines: "라인이 잘못되었습니다."
+          invalid_orthogonal_camera: "orthogonal_camera가 잘못되었습니다."
+          invalid_perspective_camera: "perspective_camera가 잘못되었습니다."
+          mismatching_guid: "json_viewpoint의 guid가 모델의 guid와 일치하지 않습니다."
+          no_json: "- 제대로 구조화된 json이 아닙니다."
+          snapshot_type_unsupported: "snapshot_type은 'png' 또는 'jpg'여야 합니다."
+          snapshot_data_blank: "snapshot_data를 제공해야 합니다."
+          unsupported_key: "지원되지 않는 json 속성이 포함되어 있습니다."

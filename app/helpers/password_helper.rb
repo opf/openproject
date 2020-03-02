@@ -28,7 +28,7 @@
 #++
 
 module PasswordHelper
-  include Concerns::PasswordConfirmation
+  include PasswordConfirmation
 
   ##
   # Decorate the form_for helper with the request-for-confirmation directive

@@ -33,16 +33,17 @@ import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {DeviceService} from "app/modules/common/browser/device.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   selector: 'main-menu-toggle',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div *ngIf="this.currentProject.id !== null || this.deviceService.isMobile" id="main-menu-toggle"
-        aria-haspopup="true"
-        [attr.title]="toggleTitle"
-        (accessibleClick)="toggleService.toggleNavigation($event)"
-        tabindex="0">
+         aria-haspopup="true"
+         [attr.title]="toggleTitle"
+         (accessibleClick)="toggleService.toggleNavigation($event)"
+         tabindex="0">
       <a icon="icon-hamburger">
         <i class="icon-hamburger" aria-hidden="true"></i>
       </a>
@@ -52,12 +53,12 @@ import {DeviceService} from "app/modules/common/browser/device.service";
 
 export class MainMenuToggleComponent implements OnInit, OnDestroy {
   toggleTitle:string = "";
-  currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
+  @InjectField() currentProject:CurrentProjectService;
 
   constructor(readonly toggleService:MainMenuToggleService,
               readonly cdRef:ChangeDetectorRef,
               readonly deviceService:DeviceService,
-              protected injector:Injector) {
+              readonly injector:Injector) {
   }
 
   ngOnInit() {
@@ -68,7 +69,7 @@ export class MainMenuToggleComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         untilComponentDestroyed(this)
       )
-      .subscribe( setToggleTitle => {
+      .subscribe(setToggleTitle => {
         this.toggleTitle = setToggleTitle;
         this.cdRef.detectChanges();
       });
@@ -79,4 +80,4 @@ export class MainMenuToggleComponent implements OnInit, OnDestroy {
   }
 }
 
-DynamicBootstrapper.register({ selector: 'main-menu-toggle', cls: MainMenuToggleComponent  });
+DynamicBootstrapper.register({selector: 'main-menu-toggle', cls: MainMenuToggleComponent});

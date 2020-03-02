@@ -17,6 +17,9 @@ targets:
     <<: *debian9
   ubuntu-18.04:
     <<: *debian9
+  centos-8:
+   dependencies:
+      - epel-release
   centos-7:
    dependencies:
       - epel-release

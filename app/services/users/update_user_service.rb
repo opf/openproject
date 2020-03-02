@@ -29,7 +29,7 @@
 
 module Users
   class UpdateUserService
-    include Concerns::Contracted
+    include Contracted
 
     attr_accessor :current_user, :user
 

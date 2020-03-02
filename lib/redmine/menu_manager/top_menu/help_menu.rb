@@ -26,9 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'concerns/omniauth_login'
-require 'open_project/static/links'
-
 module Redmine::MenuManager::TopMenu::HelpMenu
   def render_help_top_menu_node(item = help_menu_item)
     cache_key = ['help_top_menu_node',

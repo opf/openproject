@@ -51,7 +51,7 @@ describe CustomActions::UpdateService do
   let(:contract) do
     contract_instance = double('contract instance')
 
-    allow(CustomActions::CUContract)
+    allow(CustomActions::CuContract)
       .to receive(:new)
       .with(action)
       .and_return(contract_instance)

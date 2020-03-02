@@ -28,7 +28,7 @@
 #++
 
 class SearchController < ApplicationController
-  include Concerns::Layout
+  include Layout
 
   before_action :find_optional_project,
                 :prepare_tokens,

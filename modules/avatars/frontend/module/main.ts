@@ -38,7 +38,7 @@ export function initializeAvatarsPlugin(injector:Injector) {
       ];
     });
 
-  }
+  };
 }
 
 @NgModule({

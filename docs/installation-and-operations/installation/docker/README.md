@@ -133,3 +133,115 @@ docker run -d --env-file path/to/file ...
 ```
 
 For more advanced configuration, please have a look at the [Advanced configuration](../../configuration) section.
+
+### Apache Reverse Proxy Setup
+
+Often there will be an existing web server through which you want to make OpenProject acccessible.
+There are two ways to run OpenProject. We'll cover each configuration in a separate of the following sections.
+
+For both configurations the following Apache mods are required:
+
+* proxy
+* proxy_http
+* rewrite
+* ssl (optional)
+
+In each case you will create a file `/usr/local/apache2/conf/sites/openproject.conf`
+with the contents as described in the respective sections.
+
+Both configuration examples are based on the following assumptions:
+
+* the site is accessed via https
+* certificate and key are located under `/etc/ssl/crt/server.{crt, key}`
+* the OpenProject docker container's port 80 is mapped to the docker host's port 8080
+
+*Important:* Once OpenProject is running make sure to also set the host name and protocol
+accordingly under Administration -> System Settings.
+
+#### 1) Virtual host root
+
+The default scenario is to have OpenProject serve the whole virtual host.
+This requires no further configuration for the docker container beyond what is
+described above.
+
+Assuming the desired *server name* is `openproject.example.com` the configuration
+will look like this:
+
+```
+<VirtualHost *:80>
+    ServerName openproject.example.com
+
+    RewriteEngine on
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^/?(.*)$ https://%{SERVER_NAME}/$1 [R,L]
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName openproject.example.com
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/crt/server.crt
+    SSLCertificateKeyFile /etc/ssl/crt//server.key
+
+    RewriteEngine on
+    RewriteRule "^$" "/" [R,L]
+
+    ProxyRequests off
+
+    <Location "/">
+      RequestHeader set X-Forwarded-Proto 'https'
+
+      ProxyPreserveHost On
+      ProxyPass http://127.0.0.1:8080/
+      ProxyPassReverse http://127.0.0.1:8080/
+    </Location>
+</VirtualHost>
+```
+
+#### 2) Location (subdirectory)
+
+Let's assume you want OpenProject to run on your host with the *server name* `example.com`
+under the *subdirectory* `/openproject`.
+
+If you want to run OpenProject in a subdirectory on your server, first you will
+need to configure OpenProject accordingly by adding the following options to the `docker run` call:
+
+```
+-e OPENPROJECT_RAILS__RELATIVE__URL__ROOT=/openproject \
+-e OPENPROJECT_RAILS__FORCE__SSL=true \
+```
+
+The `force ssl` option can be left out if you are not using HTTPS.
+
+The apache configuration for this configuration then looks like this:
+
+```
+<VirtualHost *:80>
+    ServerName example.com
+
+    RewriteEngine on
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^/?(openproject.*)$ https://%{SERVER_NAME}/$1 [R,L]
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName example.com
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/crt/server.crt
+    SSLCertificateKeyFile /etc/ssl/crt/server.key
+
+    RewriteEngine on
+    RewriteRule "^/openproject$" "/openproject/" [R,L]
+
+    ProxyRequests off
+
+    <Location "/openproject/">
+      RequestHeader set X-Forwarded-Proto 'https'
+
+      ProxyPreserveHost On
+      ProxyPass http://127.0.0.1:8080/openproject/
+      ProxyPassReverse http://127.0.0.1:8080/openproject/
+    </Location>
+</VirtualHost>
+```

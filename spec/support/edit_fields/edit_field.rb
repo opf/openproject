@@ -34,8 +34,12 @@ class EditField
     context.find "#{@selector} #{input_selector}"
   end
 
-  def clear
-    input_element.native.clear
+  def clear(with_backspace: false)
+    if with_backspace
+      input_element.set(' ', fill_options: { clear: :backspace })
+    else
+      input_element.native.clear
+    end
   end
 
   def expect_read_only

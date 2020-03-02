@@ -34,9 +34,10 @@ import {EditFieldComponent} from "../edit-field.component";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 import {SelectAutocompleterRegisterService} from "app/modules/fields/edit/field-types/select-autocompleter-register.service";
-import { from } from 'rxjs';
-import { tap, map, skip } from 'rxjs/operators';
+import {from} from 'rxjs';
+import {tap, map} from 'rxjs/operators';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export interface ValueOption {
   name:string;
@@ -47,23 +48,22 @@ export interface ValueOption {
   templateUrl: './select-edit-field.component.html'
 })
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
-  public selectAutocompleterRegister = this.injector.get(SelectAutocompleterRegisterService);
-  public halNotification = this.injector.get(HalResourceNotificationService);
+  @InjectField() selectAutocompleterRegister:SelectAutocompleterRegisterService;
+  @InjectField() halNotification:HalResourceNotificationService;
+  @InjectField() halSorting:HalResourceSortingService;
 
   public availableOptions:any[];
   public valueOptions:ValueOption[];
   protected valuesLoaded = false;
 
-  public text:{ requiredPlaceholder:string, placeholder:string };
+  public text:{ [key:string]:string };
 
   public appendTo:any = null;
   private hiddenOverflowContainer = '.__hidden_overflow_container';
 
-  public halSorting:HalResourceSortingService;
+  protected _autocompleterComponent:CreateAutocompleterComponent;
 
-  private _autocompleterComponent:CreateAutocompleterComponent;
-
-  public referenceOutputs = {
+  public referenceOutputs:{ [key:string]:Function } = {
     onCreate: (newElement:HalResource) => this.onCreate(newElement),
     onChange: (value:HalResource) => this.onChange(value),
     onKeydown: (event:JQuery.TriggeredEvent) => this.handler.handleUserKeydown(event, true),
@@ -73,7 +73,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   };
 
   protected initialize() {
-    this.halSorting = this.injector.get(HalResourceSortingService);
     this.text = {
       requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
       placeholder: this.I18n.t('js.placeholders.default')
@@ -128,7 +127,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   private setValues(availableValues:HalResource[]) {
-    this.availableOptions = this.halSorting.sort(availableValues);
+    this.availableOptions = this.sortValues(availableValues);
     this.addEmptyOption();
     this.valueOptions = this.availableOptions.map(el => this.mapAllowedValue(el));
   }
@@ -150,7 +149,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   protected loadValuesFromBackend(query?:string) {
     return from(
-      this.schema.allowedValues.$link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>
+      this.allowedValuesFetch(query)
     ).pipe(
       tap(collection => {
         // if it is an unpaginated collection or if we get all possible entries when fetching with a blank
@@ -160,7 +159,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
         }
       }),
       map(collection => {
-        if (collection.count === undefined || collection.total === undefined || (!query && collection.total === collection.count) || !this.value)  {
+        if (collection.count === undefined || collection.total === undefined || (!query && collection.total === collection.count) || !this.value) {
           return collection.elements;
         } else {
           return collection.elements.concat([this.value]);
@@ -169,6 +168,10 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       tap(elements => this.setValues(elements)),
       map(() => this.valueOptions)
     );
+  }
+
+  protected allowedValuesFetch(query?:string) {
+    return this.schema.allowedValues.$link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>;
   }
 
   private addValue(val:HalResource) {
@@ -234,6 +237,10 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   protected isRequired() {
     return this.schema.required;
+  }
+
+  protected sortValues(availableValues:HalResource[]) {
+    return this.halSorting.sort(availableValues);
   }
 
   protected mapAllowedValue(value:HalResource):ValueOption {

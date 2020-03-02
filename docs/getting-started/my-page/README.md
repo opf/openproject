@@ -57,9 +57,11 @@ For a **detailed explanation of the widgets**, visit the section in the [project
 
 To track spent time, [add the **My spent time** widget](#add-widget) in the My Page.
 
+You can directly create new time entries by clicking on the day, change the date with drag and drop, edit or remove time entries.
+
 Watch the short video to see how to activate the spent time widget, add spent time, edit spent time (e.g. change the date or work packages or change the time booked) and delete spent time.
 
-![Spent-time-widget](Spent-time-widget.gif)
+![my-spent-time-widget](my-spent-time-widget.gif)
 
 ### Change position of the widgets
 

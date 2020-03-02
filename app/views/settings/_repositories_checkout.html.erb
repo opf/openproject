@@ -1,6 +1,6 @@
 <fieldset class="form--fieldset">
   <legend class="form--fieldset-legend"><%= t('repositories.checkout.instructions') %></legend>
-  <% OpenProject::Scm::Manager.registered.each do |vendor, klass| %>
+  <% OpenProject::SCM::Manager.registered.each do |vendor, klass| %>
       <% vendor = vendor.to_s %>
       <% setting_base = "settings[repository_checkout_data][#{vendor}]" %>
       <% enabled = Setting.repository_checkout_data[vendor]['enabled'].to_i > 0 %>

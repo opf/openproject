@@ -232,16 +232,6 @@ describe ::API::V3::ParseQueryParamsService,
 
           it_behaves_like 'transforms' do
             let(:params) do
-              { filters: JSON::dump([{ 'subprojectId' => { 'operator' => '=',
-                                                           'values' => %w(a%26%23b 2) } }]) }
-            end
-            let(:expected) do
-              { filters: [{ field: 'subproject_id', operator: '=', values: %w(a&#b 2) }] }
-            end
-          end
-
-          it_behaves_like 'transforms' do
-            let(:params) do
               { filters: JSON::dump([{ 'watcher' => { 'operator' => '=',
                                                       'values' => %w(1 2) } }]) }
             end

@@ -99,6 +99,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {WorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/wp-autocompleter.component";
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
+import {TimeEntryWorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/te-work-package-autocompleter.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -147,6 +148,7 @@ export function bootstrapModule(injector:Injector) {
     DynamicModule.withComponents([
       VersionAutocompleterComponent,
       WorkPackageAutocompleterComponent,
+      TimeEntryWorkPackageAutocompleterComponent,
       CreateAutocompleterComponent]),
   ],
   exports: [
@@ -281,6 +283,7 @@ export function bootstrapModule(injector:Injector) {
     CreateAutocompleterComponent,
     VersionAutocompleterComponent,
     WorkPackageAutocompleterComponent,
+    TimeEntryWorkPackageAutocompleterComponent,
 
     HomescreenNewFeaturesBlockComponent,
     BoardVideoTeaserModalComponent

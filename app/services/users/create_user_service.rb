@@ -32,7 +32,7 @@ require 'concerns/user_invitation'
 
 module Users
   class CreateUserService
-    include Concerns::Contracted
+    include Contracted
 
     attr_reader :current_user
 

@@ -79,6 +79,7 @@ module API
       def calculate_resulting_params(provided_params)
         calculate_default_params.merge(provided_params.slice('offset', 'pageSize').symbolize_keys).tap do |params|
           if query.manually_sorted?
+            params[:query_id] = query.id
             params[:offset] = 1
             params[:pageSize] = Setting.forced_single_page_size
           else

@@ -47,8 +47,8 @@ module API
 
         formattable_property :description
 
-        date_time_property :created_on,
-                           as: 'createdAt'
+        date_time_property :created_at
+        date_time_property :updated_at
 
         associated_resource :project,
                             link: ->(*) do

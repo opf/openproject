@@ -435,7 +435,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     const opts = {reload: true};
 
     this.$state.go(
-      'work-packages.list',
+      'work-packages.partitioned.list',
       params,
       opts
     );
@@ -464,7 +464,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     }
 
     const params = this.getQueryParams(item);
-    return this.$state.href('work-packages.list', params);
+    return this.$state.href('work-packages.partitioned.list', params);
   }
 
   private highlightSelected(item:IAutocompleteItem) {

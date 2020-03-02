@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
+module OpenProject::CustomStyles
   class Design
     DEFAULTS = {
       'primary-color'                                        => "#1A67A3",
@@ -174,6 +174,7 @@ module OpenProject
       'table-row-hierarchies-row-font-color'                 => "#6C7A89",
       'table-header-border-color'                            => "#D7D7D7",
       'table-header-shadow-color'                            => "#DDDDDD",
+      'tabs-font-color-disabled'                             => "$gray-dark",
       'loading-indicator-bg-color'                           => "$body-background",
       'loading-indicator-bg-opacity'                         => "0.8",
       'loading-indicator-spinner-color'                      => "$primary-color",
@@ -245,16 +246,16 @@ module OpenProject
     ##
     # Return the value after resolving all variables to values.
     def self.resolved_variables
-      resolved_variables = DEFAULTS.dup
+      resolved_variables = variables.dup
 
-      DEFAULTS.each do |var_name, value|
+      variables.each do |var_name, value|
         resolved_variables[var_name] = resolve_value(value)
       end
       resolved_variables
     end
 
     def self.resolve_value(variable_value)
-      variable_value.gsub(VARIABLE_NAME_RGX) { resolve_value(DEFAULTS[$1]) }
+      variable_value.gsub(VARIABLE_NAME_RGX) { resolve_value(variables[$1]) }
     end
 
     ##

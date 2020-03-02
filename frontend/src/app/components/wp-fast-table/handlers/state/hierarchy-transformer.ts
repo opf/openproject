@@ -12,11 +12,12 @@ import {
 import {indicatorCollapsedClass} from "core-components/wp-fast-table/builders/modes/hierarchy/single-hierarchy-row-builder";
 import {tableRowClassName} from "core-components/wp-fast-table/builders/rows/single-row-builder";
 import {WorkPackageViewHierarchies} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-hierarchies";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class HierarchyTransformer {
 
-  public wpTableHierarchies = this.injector.get(WorkPackageViewHierarchiesService);
-  public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
+  @InjectField() public wpTableHierarchies:WorkPackageViewHierarchiesService;
+  @InjectField() public querySpace:IsolatedQuerySpace;
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
@@ -41,7 +42,7 @@ export class HierarchyTransformer {
       .updates$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions),
-        filter(() => this.querySpace.rendered.hasValue())
+        filter(() => this.querySpace.tableRendered.hasValue())
       )
       .subscribe((state:WorkPackageViewHierarchies) => {
 
@@ -57,7 +58,7 @@ export class HierarchyTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderHierarchyState(state:WorkPackageViewHierarchies) {
-    const rendered = this.querySpace.rendered.value!;
+    const rendered = this.querySpace.tableRendered.value!;
 
     // Show all hierarchies
     jQuery('[class^="__hierarchy-group-"]').removeClass((i:number, classNames:string):string => {
@@ -99,6 +100,6 @@ export class HierarchyTransformer {
     }
 
 
-    this.querySpace.rendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
+    this.querySpace.tableRendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
   }
 }

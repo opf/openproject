@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackage::PdfExport::View
+class WorkPackage::PDFExport::View
 
   include Prawn::View
   include Redmine::I18n

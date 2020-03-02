@@ -13,7 +13,7 @@ export class WorkPackageCardViewService {
   }
 
   public get renderedCards() {
-    return this.querySpace.rendered.getValueOr([]);
+    return this.querySpace.tableRendered.getValueOr([]);
   }
 
   public findRenderedCard(classIdentifier:string):number {
@@ -23,7 +23,7 @@ export class WorkPackageCardViewService {
   }
 
   public updateRenderedCardsValues(workPackages:WorkPackageResource[]) {
-    this.querySpace.rendered.putValue(
+    this.querySpace.tableRendered.putValue(
       workPackages.map((wp) => {
         return {
           classIdentifier: this.classIdentifier(wp),

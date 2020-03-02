@@ -1685,19 +1685,19 @@ el:
   label_workflow_plural: "Ροές εργασίας"
   label_workflow_summary: "Περίληψη"
   label_x_closed_work_packages_abbr:
-    zero: "0 closed"
+    zero: "0 κλειστά"
     one: "1 κλειστό"
     other: "%{count} κλειστά"
   label_x_comments:
-    zero: "no comments"
+    zero: "κανένα σχόλιο"
     one: "1 σχόλιο"
     other: "%{count} σχόλια"
   label_x_open_work_packages_abbr:
-    zero: "0 open"
+    zero: "0 ανοικτά"
     one: "1 ανοικτό"
     other: "%{count} ανοικτά"
   label_x_projects:
-    zero: "no projects"
+    zero: "κανένα έργο"
     one: "1 έργο"
     other: "%{count} έργα"
   label_year: "Έτος"
@@ -1815,7 +1815,7 @@ el:
   notice_locking_conflict: "Οι πληροφορίες ενημερώθηκαν από τουλάχιστον έναν ακόμα χρήστη στο εν τω μεταξύ."
   notice_locking_conflict_additional_information: "Η ενημέρωση(-εις) προήλθαν από %{users}."
   notice_locking_conflict_reload_page: "Παρακαλούμε ανανεώστε αυτή τη σελίδα, αναθεωρήστε τις αλλαγές και εφαρμόστε ξανά τις αλλαγές."
-  notice_member_added: Προστέθηκε το %{name} στο έργο.
+  notice_member_added: Προστέθηκε ο %{name} στο έργο.
   notice_members_added: Προστέθηκαν %{number} χρήστες στο έργο.
   notice_member_removed: "Αφαιρέθηκε ο χρήστης %{user} από το έργο."
   notice_member_deleted: "Ο χρήστης %{user} έχει αφαιρεθεί από το έργο και διαγράφηκε."

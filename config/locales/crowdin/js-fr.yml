@@ -208,8 +208,15 @@ fr:
       blocks:
         new_features:
           text_new_features: "En savoir plus sur les nouvelles fonctionnalités et les mises à jour des produits."
-          current_new_feature_html: "OpenProject contient une nouvelle <b>page d'aperçu</b> pour <b>afficher les informations importantes du projet</b> et montrer si le projet est sur la bonne voie. </br> Vous pouvez insérer divers widgets de statut, comme : <ul><li>statut du projet,</li> <li> aperçu du statut du lot de travaux,</li> <li>progression de tâches,</li> <li>tâches assignées aux utilisateurs.</li></ul>"
-          learn_about: "En savoir plus sur les nouveaux widgets de statut"
+          learn_about: "En savoir plus sur les nouvelles fonctionnalités"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              La version contient diverses nouvelles fonctionnalités et améliorations : <br><br> <ul> <li><b>Modèles de design</b> par défaut pour sélectionner un thème clair ou sombre (fonctionnalité premium).</li> <li>Nouveau <b>widget de suivi du temps</b> pour <i>Ma page</i> pour afficher le temps passé sur un diagramme à barres.</li> <li><b>Exportations XLS pour les rapports de coûts</b> et texte formaté dans l'exportation PDF des lots de travaux.</li> <li><b>Amélioration du design et de la facilité d'utilisation</b>, par ex. onglets et plus dans les paramètres et l'administration du projet.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contient un <b>nouveau module IFC pour intégrer des modèles 3D</b> dans votre application de gestion de projet et pour travailler en collaboration avec ces fichiers avec votre équipe sans installation de logiciels ou licences coûteux supplémentaires. <br><br> <ul> <li><b>Importez les fichiers IFC</b>des modèles de bâtiment dans votre application OpenProject.</li> <li><b>Ouvrez des modèles 3D et visualisez les modèles de bâtiment</b> dans votre navigateur.</li> <li> Vous pouvez facilement <b>travailler sur plusieurs fichiers IFC</b> avec votre équipe directement dans OpenProject sans installer de logiciel supplémentaire coûteux. </li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne au-dessus"
     label_add_column_before: "Ajouter une colonne avant"
@@ -309,6 +316,7 @@ fr:
     label_project_plural: "Projets"
     label_visibility_settings: "Paramètres de visibilité"
     label_quote_comment: "Citer ce commentaire"
+    label_recent: "Récent"
     label_reset: "Réinitialiser"
     label_remove_column: "Supprimer la colonne"
     label_remove_columns: "Enlever les colonnes sélectionnées"
@@ -445,19 +453,6 @@ fr:
         upgrade_to_ee_text: "Waouh ! Si vous avez besoin de cette fonctionnalité, vous êtes un véritable pro ! Cela vous dérangerait-il de soutenir les développeurs Open Source en devenant un client de la Version Enterprise ?"
         more_information: "Plus d'informations"
         nevermind: "Peu importe"
-        filter_types:
-          parent: "étant enfant de"
-          precedes: "précédant"
-          follows: "suivant"
-          relates: "en relation avec"
-          duplicates: "dupliquant"
-          duplicated: "Dupliqué par"
-          blocks: "bloquant"
-          blocked: "bloqué par"
-          partof: "faisant partie de"
-          includes: "incluant"
-          requires: "requérant"
-          required: "requis par"
       edit:
         form_configuration: "Configuration du formulaire"
         projects: "Projets"
@@ -465,7 +460,7 @@ fr:
     time_entry:
       project: 'Projet'
       work_package: 'Lot de travaux'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Nécessite d''abord la sélection d''un lot de travaux.'
       activity: 'Activité'
       comment: 'Commentaire'
       duration: 'Durée'
@@ -533,14 +528,14 @@ fr:
     field_value_enter_prompt: "Saisissez une valeur pour « %{field} »"
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "Veuillez saisir plus de caractères"
         one: "Veuillez saisir un caractère supplémentaire"
         other: "Veuillez saisir {{count}} caractères supplémentaires"
       load_more: "Chargement de plus de résultats ..."
       no_matches: "Pas de correspondances trouvées"
       searching: "Recherche…"
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "Vous ne pouvez sélectionner aucun élément"
         one: "Vous pouvez seulement sélectionner un élément"
         other: "Vous pouvez seulement sélectionner {{limit}} éléments"
     project_menu_details: "Détails"
@@ -793,8 +788,7 @@ fr:
           relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'
           check_out_link: 'Découvrez l’édition entreprise.'
         relation_filters:
-          first_part: "Afficher tous les lots de travaux"
-          second_part: "le package de travail actuel"
+          filter_work_packages_by_relation_type: 'Filtrer les lots de travaux par type de relation'
       tabs:
         overview: Vue globale
         activity: Activité

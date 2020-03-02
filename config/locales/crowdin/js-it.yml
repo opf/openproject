@@ -208,8 +208,15 @@ it:
       blocks:
         new_features:
           text_new_features: "Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti."
-          current_new_feature_html: "OpenProject contiene un nuovo <b>quadro di controllo</b> per <b>visualizzare importanti informazioni sul progetto</b> e mostrare se il progetto è in linea con le previsioni. </br> Puoi inserire vari nuovi widget di stato, come: <ul><li>stato del progetto,</li> <li>panoramica dello stato delle macro-attività,</li> <li>progresso delle attività,</li> <li>attività assegnate agli utenti.</li></ul>"
-          learn_about: "Ulteriori informazioni sui nuovi widget di stato"
+          learn_about: "Scopri di più sulle nuove funzionalità"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              La versione contiene varie nuove caratteristiche e miglioramenti: <br><br> <ul> <li><b>Modelli di design</b> predefiniti per selezionare un tema chiaro o scuro (funzione premium).</li> <li>Nuovo <b>widget di monitoraggio del tempo</b> in <i>La Mia Pagina</i> per mostrare il tempo speso in un grafico a barre.</li> <li><b>Esportazioni XLS per rapporti di costo</b> e testo formattato nell'esportazione di macro-attività in PDF.</li> <li><b>Design e usabilità migliorate</b>, come nelle schede, nelle impostazioni e nell'amministrazione del progetto.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contiene un <b>nuovo modulo IFC per integrare modelli 3D</b> nell'applicazione di gestione del progetto e lavorare in collaborazione con questi file con il tuo team senza dover installare software o licenze costose separatamente. <br><br> <ul> <li><b>Importa i file IFC</b> dei modelli all'interno della tua applicazione OpenProject.</li> <li><b>Apri modelli 3D aperti e visualizza i modelli delle costruzioni</b> nel tuo browser.</li> <li> Lavora facilmente <b>con più file IFC alla volta</b> con il tuo team direttamente in OpenProject senza l'installazione di software separati e costosi. </li> </ul>
     label_activate: "Attiva"
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"
@@ -309,6 +316,7 @@ it:
     label_project_plural: "Progetti"
     label_visibility_settings: "Impostazioni di visibilità"
     label_quote_comment: "Annota questo commento"
+    label_recent: "Recenti"
     label_reset: "Reimposta"
     label_remove_column: "Rimuovi colonna"
     label_remove_columns: "Rimuovi le colonne selezionate"
@@ -445,27 +453,14 @@ it:
         upgrade_to_ee_text: "Wow! Se hai bisogno di questa funzionalità sei un vero professionista! Ti andrebbe di aiutare noi sviluppatori OpenSource diventando un cliente Enterprise Edition?"
         more_information: "Altre informazioni"
         nevermind: "Lascia stare"
-        filter_types:
-          parent: "essere figlio di"
-          precedes: "precedente"
-          follows: "seguente"
-          relates: "in relazione a"
-          duplicates: "duplicazione"
-          duplicated: "duplicato da"
-          blocks: "blocco"
-          blocked: "bloccato da"
-          partof: "essere parte di"
-          includes: "compreso"
-          requires: "che richiedono"
-          required: "richiesto dalla"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Configurazione del modulo"
         projects: "Progetti"
         settings: "Impostazioni"
     time_entry:
       project: 'Progetto'
       work_package: 'Macro-attività'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Richiede prima di selezionare una macro-attività.'
       activity: 'Attività'
       comment: 'Commento'
       duration: 'Durata'
@@ -533,14 +528,14 @@ it:
     field_value_enter_prompt: "Inserisci un valore per '%{field}'"
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "Inserisci altri caratteri"
         one: "Inserisci un altro carattere"
         other: "Inserisci altri {{count}} caratteri"
       load_more: "Carica altri risultati ..."
       no_matches: "Nessuna corrispondenza trovata"
       searching: "Ricerca in corso ..."
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "Non puoi selezionare altri elementi"
         one: "Puoi selezionare solo un elemento"
         other: "Puoi selezionare solo {{limit}} elementi"
     project_menu_details: "Dettagli"
@@ -793,8 +788,7 @@ it:
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'
           check_out_link: 'Scopri Enterprise Edition.'
         relation_filters:
-          first_part: "Visualizza tutti i pacchetti di lavoro"
-          second_part: "l'attuale pacchetto di lavoro"
+          filter_work_packages_by_relation_type: 'Filtra le macro-attività per tipo di relazione'
       tabs:
         overview: Panoramica
         activity: Attività
@@ -880,7 +874,7 @@ it:
         one: "una macro-attività subordinata"
         other: "%{count} macro-attività subordinate"
       hour:
-        zero: "0 h"
+        zero: "0 o"
         one: "1 o"
         other: "%{count} o"
     zen_mode:

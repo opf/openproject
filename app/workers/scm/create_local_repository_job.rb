@@ -34,12 +34,12 @@
 # We envision a repository management wrapper that covers transactional
 # creation and deletion of repositories BOTH on the database and filesystem.
 # Until then, a synchronous process is more failsafe.
-class Scm::CreateLocalRepositoryJob < ApplicationJob
+class SCM::CreateLocalRepositoryJob < ApplicationJob
 
   def self.ensure_not_existing!(repository)
     # Cowardly refusing to override existing local repository
     if File.directory?(repository.root_url)
-      raise OpenProject::Scm::Exceptions::ScmError.new(
+      raise OpenProject::SCM::Exceptions::SCMError.new(
         I18n.t('repositories.errors.exists_on_filesystem')
       )
     end

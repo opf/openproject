@@ -134,7 +134,7 @@ you will need to adjust that package source.
 
 ### Upgrade notes for OpenProject 7.x to 8.x
 
-These following points are some known issues around the update to 8.0. It does not contain the entire list of changes. To see all changes, [please browse the release notes](https://www.openproject.org/release-notes/openproject-8-0/).
+These following points are some known issues around the update to 8.0. It does not contain the entire list of changes. To see all changes, [please browse the release notes](https://docs.openproject.org/release-notes/8-0-0/).
 
 #### Upgrades in NPM may result in package inconsistencies
 

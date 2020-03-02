@@ -28,31 +28,31 @@ de:
     plugins:
       no_results_title_text: Zur Zeit stehen keine Plugins zur Verfügung.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Farbschema"
+      color_theme_custom: "(Benutzerdefiniert)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "Alternativ"
+        content-link-color: "Link-Schriftfarbe"
+        primary-color: "Primär"
+        primary-color-dark: "Primär (dunkel)"
+        header-bg-color: "Hintergrund der Kopfzeile"
+        header-item-bg-hover-color: "Hintergrund der Kopfzeile bei Hover"
+        header-item-font-color: "Textfarbe der Kopfzeile"
+        header-item-font-hover-color: "Textfarbe der Kopfzeile bei Hover"
+        header-border-bottom-color: "Rahmenfarbe der Kopfzeile"
+        main-menu-bg-color: "Hintergrundfarbe des Hauptmenüs"
+        main-menu-bg-selected-background: "Hintergrundfarbe des Hauptmenüs bei Auswahl"
+        main-menu-bg-hover-background: "Hintergrundfarbe des Hauptmenüs bei Hover"
+        main-menu-font-color: "Schriftfarbe des Hauptmenüs"
+        main-menu-selected-font-color: "Schriftfarbe des Hauptmenüs bei Auswahl"
+        main-menu-hover-font-color: "Schriftfarbe des Hauptmenüs bei Hover"
+        main-menu-border-color: "Rahmenfarbe des Hauptmenüs"
       custom_colors: "Benutzerdefinierte Farben"
       customize: "Verpassen Sie Ihrer OpenProject Installation ein eigenes Logo. Hinweis: Das Logo ist ohne Authentifizierung einsehbar."
       enterprise_notice: "Als ein besonderes Dankeschön für Ihre finanzielle Unterstützung in der Entwicklung von OpenProject ist diese Funktionalität nur in Verknüpfung mit einem Enterprise-Edition Abonnement verfügbar."
       manage_colors: "Farbauswahloptionen bearbeiten"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Starken Akzentfarbe, wird normalerweise für die wichtigste Schaltfläche auf dem Bildschirm verwendet."
         content-link-color: "Schriftfarbe der meisten Links."
         primary-color: "Hauptfarbe."
         primary-color-dark: "In der Regel wird eine dunklere Version der Hauptfarbe für Hover-Effekte verwendet."
@@ -100,23 +100,21 @@ de:
         Beispiel: uid=openproject,ou=system,dc=example,dc=com
       system_user_password: Geben Sie das Bind-Passwort des Systembenutzers ein
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Geben Sie den Basis-DN des Unterbaums in LDAP ein, in dem OpenProject nach Benutzern und Gruppen suchen soll.
+        OpenProject filtert nur nach angegebenen Benutzernamen in diesem Unterbaum.
+        Beispiel: ou=users,dc=example,dc=com
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Wenn Sie dieses Häkchen setzen, erstellt OpenProject automatisch neue Benutzer aus ihren zugehörigen LDAP-Einträgen, wenn sie sich zuerst mit OpenProject anmelden.
+        Lassen Sie sie deaktiviert, um nur existierenden Konten in OpenProject die Authentifizierung über LDAP zu ermöglichen!
     connection_encryption: 'Verbindungsverschlüsselung'
-    system_account: 'System account'
+    system_account: 'Systemkonto'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+      OpenProject benötigt lesenden Zugriff über ein LDAP Systemkonto, um Benutzer und Gruppen in Ihrem LDAP-Baum zu suchen.
+      Bitte geben Sie die Anmeldedaten für den Systembenutzer im folgenden Abschnitt an.
+    ldap_details: 'LDAP-Details'
+    user_settings: 'Zuordnen von Attributen'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      Die folgenden Felder beziehen sich darauf, wie Benutzer in OpenProject aus LDAP-Einträgen erstellt werden und welche LDAP-Attribute verwendet werden, um die Attribute eines OpenProject-Benutzers (Attributzuordnung) zu definieren.
     tls_mode:
       plain: 'keine'
       simple_tls: 'simple_tls'
@@ -495,7 +493,7 @@ de:
         could_not_be_copied: "konnten nicht (vollständig) kopiert werden."
         does_not_exist: "existiert nicht."
         error_unauthorized: "kann nicht zugegriffen werden."
-        error_readonly: "was attempted to be written but is not writable."
+        error_readonly: "wurde versucht zu beschreiben, ist aber nicht beschreibbar."
         empty: "muss ausgefüllt werden."
         even: "muss gerade sein."
         exclusion: "ist nicht verfügbar."
@@ -597,7 +595,7 @@ de:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "ist zu hoch, da maximal 24 Stunden pro Tag protokolliert werden können."
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge."
           attributes:
@@ -747,7 +745,7 @@ de:
     type: "Typ"
     updated_at: "Aktualisiert am"
     updated_on: "Aktualisiert am"
-    uploader: "Uploader"
+    uploader: "Bereitgestellt von"
     user: "Benutzer"
     version: "Version"
     work_package: "Arbeitspaket"
@@ -1033,7 +1031,7 @@ de:
         rename_groups: "Attributgruppen umbenennen"
       project_filters:
         description_html: "Filtern und Sortieren auf benutzerdefinierten Feldern ist eine Funktion der Enterprise Edition."
-  enumeration_activities: "Time tracking activities"
+  enumeration_activities: "Aktivitäten für Zeiterfassung"
   enumeration_work_package_priorities: "Arbeitspaket-Prioritäten"
   enumeration_reported_project_statuses: "Gemeldeter Projekt-Status"
   error_auth_source_sso_failed: "Single Sign-On (SSO) für Nutzer '%{value}' fehlgeschlagen"
@@ -1105,7 +1103,7 @@ de:
       pdf_with_descriptions_and_attachments: "PDF mit Beschreibungen und Anhängen"
       pdf_with_attachments: "PDF mit Anhängen"
     image:
-      omitted: "Image not exported."
+      omitted: "Bild nicht exportiert."
   extraction:
     available:
       pdftotext: "Pdftotext verfügbar (optional)"
@@ -1686,19 +1684,19 @@ de:
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Zusammenfassung"
   label_x_closed_work_packages_abbr:
-    zero: "0 closed"
+    zero: "keine geschlossen"
     one: "1 geschlossen"
     other: "%{count} geschlossen"
   label_x_comments:
-    zero: "no comments"
+    zero: "Keine Kommentare"
     one: "1 Kommentar"
     other: "%{count} Kommentare"
   label_x_open_work_packages_abbr:
-    zero: "0 open"
+    zero: "Keine offenen"
     one: "1 offen"
     other: "%{count} offen"
   label_x_projects:
-    zero: "no projects"
+    zero: "Keine Projekte"
     one: "1 Projekt"
     other: "%{count} Projekte"
   label_year: "Jahr"
@@ -1950,7 +1948,7 @@ de:
       title: Projektkennung ändern
     archive:
       are_you_sure: "Sind Sie sicher, dass Sie das Projekt '%{name}' archivieren wollen?"
-      archived: "Archived"
+      archived: "Archiviert"
   project_module_activity: "Aktivität"
   project_module_forums: "Foren"
   project_module_calendar: "Kalender"
@@ -2243,7 +2241,7 @@ de:
   text_destroy_with_associated: "Es sind weitere Datenobjekte mit den bzw. dem zu löschenden Arbeitpaket(en) verbunden. Es handelt sich dabei um Objekte der folgenden Typen:"
   text_destroy_what_to_do: "Was soll mit den Objekten geschehen?"
   text_diff_truncated: "... Dieser Diff wurde abgeschnitten, weil er die maximale Anzahl anzuzeigender Zeilen überschreitet."
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
+  text_email_delivery_not_configured: "E-Mail-Zustellung ist nicht konfiguriert und Benachrichtigungen sind deaktiviert.\nKonfigurieren Sie Ihren SMTP-Server, um sie zu aktivieren."
   text_enumeration_category_reassign_to: "Die Objekte stattdessen diesem Wert zuordnen:"
   text_enumeration_destroy_question: "%{count} Objekte sind diesem Wert zugeordnet."
   text_file_repository_writable: "Verzeichnis für Dateien beschreibbar"
@@ -2256,8 +2254,8 @@ de:
   text_work_package_category_destroy_question: "Einige Arbeitspakete (%{count}) sind dieser Kategorie zugeordnet. Was möchten Sie tun?"
   text_work_package_category_reassign_to: "Arbeitspakete dieser Kategorie zuordnen"
   text_work_package_updated: "Arbeitspaket %{id} wurde von %{author} aktualisiert."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_added: "Sie wurden von %{watcher_changer} als Beobachter für das Arbeitspaket %{id} eingetragen."
+  text_work_package_watcher_removed: "Sie wurden von den Beobachtern des Arbeitspakets %{id} von %{watcher_changer} entfernt."
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
@@ -2540,13 +2538,13 @@ de:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Einstellung des Web-Protokolls stimmt nicht überein'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Ihre Anwendung läuft mit der Web-Protokoll-Einstellung auf <code>%{set_protocol}</code>, aber die Anfrage ist eine <code>%{actual_protocol}</code> Anfrage. Dies führt zu Fehlern! Gehen Sie zu <a href="%{setting_path}">Systemeinstellungen</a> und ändern Sie die Einstellung "Protokoll", um dies zu korrigieren.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Einstellung des Hostnamens stimmt nicht überein'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        Ihre Anwendung läuft mit Hostname <code>%{set_hostname}</code>, aber laut Anfrage ist der Hostname <code>%{actual_hostname}</code>. Dies führt zu Fehlern! Gehen Sie zu <a href="%{setting_path}">Systemeinstellungen</a> und ändern Sie die Einstellung "Hostname" um dies zu korrigieren.
   menu_item: "Menüpunkt"
   menu_item_setting: "Sichtbarkeit"
   wiki_menu_item_for: "Menüpunkt für die Wikiseite \"%{title}\""
@@ -2600,8 +2598,8 @@ de:
         invalid_user_assigned_to_work_package: "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
         start_date: "Das Startdatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "ist ungültiges gzip-Archiv: %{message}"
+        invalid_json: "ist ungültiges JSON: %{message}"
     resources:
       schema: 'Schema'
   doorkeeper:
@@ -2649,7 +2647,7 @@ de:
         redirect_uri_html: >
           Die erlaubten URLs auf welche autorisierte Benutzer weitergeleitet werden können. Ein Eintrag pro Zeile. <br/> Wenn Sie eine Desktop-Anwendung registrieren, verwenden Sie die folgende URL.
         confidential: "Überprüfen Sie, ob die Anwendung verwendet wird, wo das Client-Geheimnis vertraulich gehalten werden kann. Native mobile Apps und Single Page Apps sind nicht vertraulich."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
+        scopes: "Überprüfen Sie die Bereiche, auf die die Anwendung Zugriff gewähren soll. Wenn kein Geltungsbereich ausgewählt ist, wird api_v3 angenommen."
         client_credential_user_id: "Optionaler Nutzer, der bei der Nutzung dieser Anwendung verkörpert wird. Leer lassen, um nur öffentlichen Zugriff zu erlauben"
         register_intro: "Wenn Sie eine OAuth API-Client-Anwendung für OpenProject entwickeln, können Sie es mit diesem Formular für alle Benutzer registrieren."
         default_scopes: ""
@@ -2664,8 +2662,8 @@ de:
       wants_to_access_html: >
         Diese Anwendung bittet um Zugriff auf Ihr OpenProject-Konto. <br/> <strong>Es hat folgende Berechtigungen angefordert:</strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Vollständiger API(v3)-Zugriff"
+      api_v3_text: "Die Anwendung erhält vollen Lese- und Schreibzugriff auf die OpenProject API v3, um Aktionen in Ihrem Namen durchzuführen."
     grants:
       created_date: "Genehmigt am"
       scopes: "Berechtigungen"

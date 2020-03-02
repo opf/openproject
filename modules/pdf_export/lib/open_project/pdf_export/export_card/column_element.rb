@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::PdfExport::ExportCard
+module OpenProject::PDFExport::ExportCard
   class ColumnElement
     def initialize(pdf, property_name, config, orientation, work_package)
       @pdf = pdf

@@ -40,6 +40,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export const globalSearchTitleSelector = 'global-search-title';
 
@@ -53,7 +54,7 @@ export class GlobalSearchTitleComponent implements OnDestroy {
   @Input() public projectScope:string;
   @Input() public searchTitle:string;
 
-  private currentProjectService:CurrentProjectService = this.injector.get(CurrentProjectService);
+  @InjectField() private currentProjectService:CurrentProjectService;
 
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.title.all_projects'),
@@ -66,26 +67,26 @@ export class GlobalSearchTitleComponent implements OnDestroy {
               readonly cdRef:ChangeDetectorRef,
               readonly globalSearchService:GlobalSearchService,
               readonly I18n:I18nService,
-              protected injector:Injector) {
+              readonly injector:Injector) {
   }
 
   ngOnInit() {
     // Listen on changes of search input value and project scope
     combineLatest(
-        this.globalSearchService.searchTerm$,
-        this.globalSearchService.projectScope$
+      this.globalSearchService.searchTerm$,
+      this.globalSearchService.projectScope$
     )
-    .pipe(
-      distinctUntilChanged(),
-      untilComponentDestroyed(this)
-    )
-    .subscribe(([newSearchTerm, newProjectScope]) => {
-      this.searchTerm = newSearchTerm;
-      this.project = this.projectText(newProjectScope);
-      this.searchTitle = `${this.text.search_for} ${this.searchTerm} ${this.project === '' ? '' : this.text.in} ${this.project}`;
+      .pipe(
+        distinctUntilChanged(),
+        untilComponentDestroyed(this)
+      )
+      .subscribe(([newSearchTerm, newProjectScope]) => {
+        this.searchTerm = newSearchTerm;
+        this.project = this.projectText(newProjectScope);
+        this.searchTitle = `${this.text.search_for} ${this.searchTerm} ${this.project === '' ? '' : this.text.in} ${this.project}`;
 
-      this.cdRef.detectChanges();
-    });
+        this.cdRef.detectChanges();
+      });
   }
 
   ngOnDestroy() {

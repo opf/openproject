@@ -135,7 +135,7 @@ describe 'layouts/base', type: :view do
 
     it 'renders main favicon' do
       expect(rendered).to have_selector(
-        "link[type='image/x-icon'][href*='#{OpenProject::Design.favicon_asset_path}']",
+        "link[type='image/x-icon'][href*='#{OpenProject::CustomStyles::Design.favicon_asset_path}']",
         visible: false
       )
     end

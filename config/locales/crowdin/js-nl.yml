@@ -208,8 +208,15 @@ nl:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          current_new_feature_html: "OpenProject contains a new <b>Overview page</b> to <b>display important project information</b> and show whether the project is on track. </br> You can insert various new status widgets, such as: <ul><li>project status,</li> <li>overview of work package status,</li> <li>task progress,</li> <li>tasks assigned to users.</li></ul>"
-          learn_about: "Learn more about the new status widgets"
+          learn_about: "Learn more about the new features"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Activeren"
     label_add_column_after: "Kolom toevoegen"
     label_add_column_before: "Kolom invoegen"
@@ -309,6 +316,7 @@ nl:
     label_project_plural: "Projecten"
     label_visibility_settings: "Zichtbaarheidsinstellingen"
     label_quote_comment: "Citeer dit commentaar"
+    label_recent: "Recent"
     label_reset: "Herstel"
     label_remove_column: "Kolom verwijderen"
     label_remove_columns: "Verwijder geselecteerde kolommen"
@@ -445,19 +453,6 @@ nl:
         upgrade_to_ee_text: "Wow! Als u deze functie nodig heeft bent u een super pro! Zou u de opensource ontwikkelaars willen ondersteunen door een licentie te nemen op de enterprice edition?"
         more_information: "Meer informatie"
         nevermind: "Geen aandacht"
-        filter_types:
-          parent: "onderliggend van"
-          precedes: "voorafgaand aan"
-          follows: "volgende"
-          relates: "met betrekking tot"
-          duplicates: "dupliceren"
-          duplicated: "gedupliceerd door"
-          blocks: "blokkeren"
-          blocked: "vergrendeld door"
-          partof: "die deel uitmaken van"
-          includes: "inclusief"
-          requires: "vereisen"
-          required: "vereist door"
       edit:
         form_configuration: "Form Configuration"
         projects: "Projecten"
@@ -793,8 +788,7 @@ nl:
           relation_columns: 'Nodig om te zien van betrekkingen in de pakketlijst werk?'
           check_out_link: 'Bekijk de Enterprise Edition.'
         relation_filters:
-          first_part: "Bekijk alle werkpakketten"
-          second_part: "her huidige werkpakket"
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Overzicht
         activity: Activiteit

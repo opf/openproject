@@ -28,31 +28,31 @@ ko:
     plugins:
       no_results_title_text: 사용 가능한 플러그인이 없습니다.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "컬러 테마"
+      color_theme_custom: "(사용자 지정)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "대안"
+        content-link-color: "링크 글꼴"
+        primary-color: "기본"
+        primary-color-dark: "기본(진함)"
+        header-bg-color: "헤더 배경"
+        header-item-bg-hover-color: "가리킬 때 헤더 배경"
+        header-item-font-color: "헤더 글꼴"
+        header-item-font-hover-color: "가리킬 때 헤더 글꼴"
+        header-border-bottom-color: "헤더 테두리"
+        main-menu-bg-color: "기본 메뉴 배경"
+        main-menu-bg-selected-background: "선택할 때 기본 메뉴"
+        main-menu-bg-hover-background: "가리킬 때 기본 메뉴"
+        main-menu-font-color: "기본 메뉴 글꼴"
+        main-menu-selected-font-color: "선택할 때 기본 메뉴 글꼴"
+        main-menu-hover-font-color: "가리킬 때 기본 메뉴 글꼴"
+        main-menu-border-color: "기본 메뉴 테두리"
       custom_colors: "사용자 정의 색상"
       customize: "당신만의 로고로 당신의 OpenProject 설치를 커스텀하세요. 참고: 이 로고는 공개적으로 접근 가능합니다."
       enterprise_notice: "OpenProject 개발에의 재정적인 후원에 대한 특별한 감사로 이 작은 기능은 Enterprise Edition 후원자에게만 지원됩니다."
       manage_colors: "색상 선택 옵션 편집"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "강한 강조 색은 일반적으로 화면의 가장 중요한 버튼에 사용됩니다."
         content-link-color: "대부분 링크의 글꼴색입니다."
         primary-color: "주 색상"
         primary-color-dark: "일반적으로 메인 색상의 어두운 버전은 호버 효과에 사용됩니다."
@@ -85,38 +85,38 @@ ko:
       no_results_content_text: 새 사용인증 모드 생성
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      이 LDAP 양식을 사용하려면 LDAP / Active Directory 설정에 대한 기술 지식이 필요합니다.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">자세한 지침은 설명서를 참조하세요</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      name: LDAP 연결의 임의 이름
+      host: LDAP 호스트 이름 또는 IP 주소
+      login_map: 고유한 사용자 로그인을 식별하는 데 사용되는 LDAP의 특성 키입니다. 일반적으로 `uid` 또는 `samAccountName`입니다.
+      generic_map: OpenProject `%{attribute}` 특성에 매핑되는 LDAP의 특성 키
+      admin_map_html: "선택 사항: <strong>있는 경우</strong> LDAP의 속성 키는 OpenProject 사용자를 관리자로 표시합니다. 확실하지 않은 경우 비워 두세요."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        읽기 전용 액세스에 사용되는 시스템 사용자의 DN을 입력하세요.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        예: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: 시스템 사용자의 바인딩 암호 입력
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        OpenProject가 사용자 및 그룹을 검색할 LDAP 하위 트리의 기본 DN을 입력하세요.
+        OpenProject는 이 하위 트리에서 제공된 사용자 이름만 필터링합니다.
+        예: ou=users,dc=example,dc=com
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        이 확인란을 선택하면 OpenProject로 처음 인증할 때 OpenProject가 LDAP 항목에서
+        자동으로 새 사용자를 만듭니다.
+        OpenProject의 기존 계정만 LDAP를 통해 인증할 수 있게 하려면 이 확인란을 선택하지 마세요!
     connection_encryption: '연결 암호화'
-    system_account: 'System account'
+    system_account: '시스템 계정'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+      OpenProject는 LDAP 트리에서 사용자 및 그룹을 찾기 위해 시스템 계정을 통한 읽기 전용 액세스 권한을 필요로 합니다.
+      다음 섹션에서 해당 시스템 사용자의 바인딩 자격 증명을 지정하세요.
+    ldap_details: 'LDAP 세부 정보'
+    user_settings: '특성 매핑'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      다음 필드는 LDAP 항목에서 OpenProject에 사용자를 생성하는 방법 및
+      OpenProject 사용자의 특성을 정의하기 위해 사용되는 LDAP 특성(특성 매핑)과 관련이 있습니다.
     tls_mode:
       plain: '없음'
       simple_tls: '단순 TLS'
@@ -494,8 +494,8 @@ ko:
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
         could_not_be_copied: "은(는) (완전히) 복제될 수 없습니다."
         does_not_exist: "존재하지 않음"
-        error_unauthorized: "may not be accessed."
-        error_readonly: "was attempted to be written but is not writable."
+        error_unauthorized: "액세스하지 못할 수 있습니다."
+        error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
         empty: "비워둘 수 없습니다."
         even: "에 짝수를 입력해 주세요"
         exclusion: "예약됨"
@@ -597,7 +597,7 @@ ko:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "하루 최대 24시간을 기록할 수 있으므로 너무 높습니다."
         work_package:
           is_not_a_valid_target_for_time_entries: "작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른 대상이 아닙니다."
           attributes:
@@ -744,7 +744,7 @@ ko:
     type: "타입"
     updated_at: "업데이트 날짜"
     updated_on: "업데이트 날짜"
-    uploader: "Uploader"
+    uploader: "업로더"
     user: "사용자"
     version: "버전"
     work_package: "작업 패키지"
@@ -1017,8 +1017,8 @@ ko:
         add_groups: "새로운 특성 그룹 추가"
         rename_groups: "특성 그룹 이름 바꾸기"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
-  enumeration_activities: "Time tracking activities"
+        description_html: "사용자 지정 필드의 필터링 및 정렬은 엔터프라이즈 버전의 기능입니다."
+  enumeration_activities: "시간 추적 활동"
   enumeration_work_package_priorities: "작업 패키지 우선 순위"
   enumeration_reported_project_statuses: "보고된 프로젝트 상태"
   error_auth_source_sso_failed: "사용자 '%{value}'에 대한 Single Sign-On(SSO) 실패"
@@ -1090,7 +1090,7 @@ ko:
       pdf_with_descriptions_and_attachments: "PDF와 설명 및 첨부 파일"
       pdf_with_attachments: "PDF와 첨부 파일"
     image:
-      omitted: "Image not exported."
+      omitted: "이미지를 내보내지 못했습니다."
   extraction:
     available:
       pdftotext: "Pdftotext 사용 가능(선택적)"
@@ -1671,16 +1671,16 @@ ko:
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
   label_x_closed_work_packages_abbr:
-    zero: "0 closed"
+    zero: "0개 닫힘"
     other: "1개 닫힘\n%{count}개 닫힘"
   label_x_comments:
-    zero: "no comments"
+    zero: "코멘트 없음"
     other: "1개 코멘트\n%{count}개 코멘트"
   label_x_open_work_packages_abbr:
-    zero: "0 open"
+    zero: "0개 열림"
     other: "1개 열림\n%{count}개 열림"
   label_x_projects:
-    zero: "no projects"
+    zero: "프로젝트 없음"
     other: "1개 프로젝트\n%{count}개 프로젝트"
   label_year: "년"
   label_yesterday: "어제"
@@ -1930,7 +1930,7 @@ ko:
       title: 프로젝트의 식별자 변경
     archive:
       are_you_sure: "프로젝트 '%{name}'을(를) 보관하시겠습니까?"
-      archived: "Archived"
+      archived: "보관됨"
   project_module_activity: "활동"
   project_module_forums: "포럼"
   project_module_calendar: "달력"
@@ -2221,7 +2221,7 @@ ko:
   text_destroy_with_associated: "삭제할 작업 패키지와 연결된 추가 개체가 있습니다. 이러한 개체의 유형은 다음과 같습니다."
   text_destroy_what_to_do: "어떤 작업을 수행하시겠습니까?"
   text_diff_truncated: "... 이 차이점은 표시할 수 있는 최대 크기를 초과하므로 잘렸습니다."
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
+  text_email_delivery_not_configured: "이메일 배달이 구성되지 않았고, 알림이 비활성화되었습니다.\nSMTP 서버를 구성하여 활성화하세요."
   text_enumeration_category_reassign_to: "이 값에 해당 항목 다시 할당:"
   text_enumeration_destroy_question: "%{count}개 개체가 이 값에 할당되었습니다."
   text_file_repository_writable: "첨부 파일 디렉터리 쓰기 가능"
@@ -2234,8 +2234,8 @@ ko:
   text_work_package_category_destroy_question: "일부 작업 패키지(%{count}개)가 이 카테고리에 할당되어 있습니다. 어떻게 하시겠습니까?"
   text_work_package_category_reassign_to: "이 카테고리에 작업 패키지 다시 할당"
   text_work_package_updated: "작업 패키지 %{id}은(는) %{author}에 의해 업데이트되었습니다."
-  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
-  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_added: "사용자는 %{watcher_changer}에 의해 작업 패키지 %{id}의 주시자로 추가되었습니다."
+  text_work_package_watcher_removed: "사용자는 %{watcher_changer}에 의해 작업 패키지 %{id}의 주시자에서 제거되었습니다."
   text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
   text_work_packages_ref_in_commit_messages: "커밋 메시지의 작업 패키지 참조 또는 수정"
   text_journal_added: "%{label} %{value} 추가됨"
@@ -2517,13 +2517,13 @@ ko:
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: '프로토콜 설정 불일치'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        해당 애플리케이션이 <code>%{set_protocol}</code>(으)로 지정된 프로토콜 설정으로 실행되고 있지만, 이 요청은 <code>%{actual_protocol}</code> 요청입니다. 이로 인해 오류가 발생하게 됩니다! <a href="%{setting_path}">시스템 설정</a>으로 이동하고 "프로토콜" 설정을 변경하여 이 오류를 수정하세요.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: '호스트 이름 설정 불일치'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        해당 애플리케이션이 <code>%{set_hostname}</code>(으)로 지정된 호스트 이름 설정으로 실행되고 있지만, 이 요청은 <code>%{actual_hostname}</code> 호스트 이름입니다. 이로 인해 오류가 발생하게 됩니다! <a href="%{setting_path}">시스템 설정</a>으로 이동하고 "호스트 이름" 설정을 변경하여 이 오류를 수정하세요.
   menu_item: "메뉴 항목"
   menu_item_setting: "표시 여부"
   wiki_menu_item_for: "위키 페이지 \"%{title}\"에 대한 메뉴 항목"
@@ -2577,8 +2577,8 @@ ko:
         invalid_user_assigned_to_work_package: "선택한 사용자는 이 작업 패키지에 대해 '%{property}' 허가되지 않았습니다."
         start_date: "시작 날짜는 부모 작업 패키지에서 설정할 수 없습니다."
       eprops:
-        invalid_gzip: "is invalid gzip: %{message}"
-        invalid_json: "is invalid json: %{message}"
+        invalid_gzip: "- 잘못된 gzip입니다: %{message}"
+        invalid_json: "- 잘못된 json입니다: %{message}"
     resources:
       schema: '스키마'
   doorkeeper:
@@ -2626,7 +2626,7 @@ ko:
         redirect_uri_html: >
           허용된 URL 인증 사용자로 리디렉션될 수 있습니다. 라인별로 하나의 항목이 있습니다. <br/> 데스크톱 애플리케이션을 등록하려면 다음 URL을 사용하세요.
         confidential: "클라이언트 비밀번호를 기밀로 유지할 수 있는 위치에서 애플리케이션이 사용되는지 여부를 확인합니다. 네이티브 모바일 앱과 싱글 페이지 앱은 기밀로 간주되지 않습니다."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
+        scopes: "애플리케이션이 액세스 권한을 부여할 범위를 확인하세요. 범위를 확인하지 않으면 api_v3로 가정됩니다."
         client_credential_user_id: "클라이언트가 이 애플리케이션을 사용할 때 가장하기 위한 선택적 사용자 ID입니다. 공용 액세스만 허용하려면 비워두세요."
         register_intro: "OpenProject용 OAuth API 클라이언트 애플리케이션을 개발할 경우 이 양식을 사용하여 모든 사용자가 사용할 수 있도록 등록할 수 있습니다."
         default_scopes: ""
@@ -2641,8 +2641,8 @@ ko:
       wants_to_access_html: >
         이 애플리케이션은 사용자의 OpenProject 계정에 대한 액세스 권한을 요청합니다. <br/> <strong>다음과 같은 사용 권한을 요청했습니다:</strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "전체 API v3 액세스"
+      api_v3_text: "애플리케이션은 사용자를 대신하여 작업을 수행하기 위해 OpenProject API v3에 대한 전체 읽기 및 쓰기 액세스 권한을 받습니다."
     grants:
       created_date: "승인:"
       scopes: "권한"

@@ -65,7 +65,7 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
   }
 
   public get documentsUrl() {
-    let orders = JSON.stringify([['created_on', 'desc']]);
+    let orders = JSON.stringify([['updated_at', 'desc']]);
 
     let url = `${this.pathHelper.api.v3.apiV3Base}/documents?sortBy=${orders}&pageSize=10`;
 

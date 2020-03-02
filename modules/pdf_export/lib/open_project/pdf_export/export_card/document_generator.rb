@@ -28,7 +28,7 @@
 
 require 'prawn'
 
-module OpenProject::PdfExport::ExportCard
+module OpenProject::PDFExport::ExportCard
   require "open_project/pdf_export/export_card/model_display/work_package_display"
   class DocumentGenerator
 
@@ -58,7 +58,7 @@ module OpenProject::PdfExport::ExportCard
         :bottom_margin => 0,
         :page_size => page_size)
 
-      view = ::WorkPackage::PdfExport::View.new(I18n.locale)
+      view = ::WorkPackage::PDFExport::View.new(I18n.locale)
       view.register_fonts! @pdf
       @pdf.set_font @pdf.font('NotoSans')
 
@@ -106,7 +106,7 @@ module OpenProject::PdfExport::ExportCard
 
     def patch_models
       # Note: Can't seem to patch the models when initializing for reasons which I don't understand
-      WorkPackage.send(:include, WorkPackageDisplay)
+      WorkPackage.send(:include, OpenProject::PDFExport::ExportCard::ModelDisplay::WorkPackageDisplay)
     end
   end
 end

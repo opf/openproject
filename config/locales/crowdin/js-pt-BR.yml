@@ -207,8 +207,15 @@ pt-BR:
       blocks:
         new_features:
           text_new_features: "Ler sobre os novos recursos e atualizações de produtos."
-          current_new_feature_html: "OpenProject contém uma nova <b>Página de visão geral</b> para <b>exibir informações importantes do projeto</b> e mostrar se ele está sob controle. </br> Você pode inserir vários novos widgets de estado, como: <ul><li>estado do projeto,</li> <li>visão geral do estado do pacote de trabalho,</li> <li>progresso da tarefa,</li> <li>tarefas atribuídas a usuários.</li></ul>"
-          learn_about: "Saiba mais sobre os novos widgets de estado"
+          learn_about: "Saiba mais sobre os novos recursos"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              O lançamento contém vários recursos e melhorias novos: <br><br> <ul> <li><b>Modelos de design</b> padrão para selecionar um tema claro ou escuro (recurso premium).</li> <li>Novo <b>widget de controle de tempo</b> para que a <i>Minha página</i> mostre o tempo gasto em um gráfico de barras.</li> <li><b>Exportações em XLS para relatórios de custos</b> e texto formatado em exportação de PDF dos pacotes de trabalho.</li> <li><b>Melhorias no design e na usabilidade</b>, como por exemplo nas abas e muito mais nas configurações de projeto e na administração.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              O OpenProject contém um <b>novo módulo IFC para integrar modelos 3D</b> em seu aplicativo de gestão de projeto, e para trabalhar em colaboração com a sua equipe sem instalar outros softwares ou licenças. <br><br> <ul> <li><b>Importe arquivos IFC</b> de modelos de construção para seu aplicativo OpenProject.</li> <li><b>Abra modelos Open 3D e visualize modelos de construção</b> em seu navegador.</li> <li><b>Trabalhe com vários arquivos IFC</b> facilmente com sua equipe no OpenProject, sem ter de instalar outros programas caros. </li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"
@@ -308,6 +315,7 @@ pt-BR:
     label_project_plural: "Projetos"
     label_visibility_settings: "Configurações de visibilidade"
     label_quote_comment: "Citar este comentário"
+    label_recent: "Recente"
     label_reset: "Reiniciar"
     label_remove_column: "Remover coluna"
     label_remove_columns: "Remover colunas selecionadas"
@@ -444,27 +452,14 @@ pt-BR:
         upgrade_to_ee_text: "Uau! Se você precisa deste recurso... você é um super profissional! Você se importaria de apoiar desenvolvedores de código aberto, tornando-se um cliente da versão Enterprise Edition?"
         more_information: "Mais informações"
         nevermind: "Deixa pra lá"
-        filter_types:
-          parent: "sendo filho de"
-          precedes: "anterior"
-          follows: "posterior"
-          relates: "relativo a"
-          duplicates: "duplicando"
-          duplicated: "Duplicado por"
-          blocks: "bloqueando"
-          blocked: "Bloqueado por"
-          partof: "sendo parte de"
-          includes: "incluindo"
-          requires: "exigindo"
-          required: "exigido por"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Configuração do formulário"
         projects: "Projetos"
         settings: "Configurações"
     time_entry:
       project: 'Projeto'
       work_package: 'Pacote de trabalho'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'É necessário selecionar primeiro um pacote de trabalho.'
       activity: 'Atividade'
       comment: 'Comentário'
       duration: 'Duração'
@@ -532,14 +527,14 @@ pt-BR:
     field_value_enter_prompt: "Insira um valor para '%{field}'"
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "Por favor, insira mais caracteres"
         one: "Por favor, insira mais um caracter"
         other: "Por favor, insira {{count}} ou mais caracteres"
       load_more: "Carregando mais resultados..."
       no_matches: "Encontrado nenhum resultado"
       searching: "Pesquisando ..."
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "Você não pode selecionar nenhum item"
         one: "Você pode selecionar somente um item"
         other: "Você pode selecionar somente {{limit}} itens"
     project_menu_details: "Detalhes"
@@ -792,8 +787,7 @@ pt-BR:
           relation_columns: 'Necessário ver as relações na lista de pacote de trabalho?'
           check_out_link: 'Confira a versão Enterprise Edition.'
         relation_filters:
-          first_part: "Exibir todos os pacotes de trabalho"
-          second_part: "o pacote de trabalho atual"
+          filter_work_packages_by_relation_type: 'Filtrar pacotes de trabalho por tipo de relação'
       tabs:
         overview: Visão geral
         activity: Atividade

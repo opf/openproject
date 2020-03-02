@@ -1,0 +1,12 @@
+<%= stylesheet_link_tag 'bim/bcf.css' %>
+<%= toolbar title: t('bcf.bcf_xml.import_title') %>
+
+<%= styled_form_tag({ action: :configure_import }, multipart: true, method: :post, class: '-vertical') do %>
+  <%= render partial: 'import_errors', locals: { error_message: t('bcf.bcf_xml.import.invalid_statuses_found'),
+                                                 error_objects: @importer.aggregations.unknown_statuses,
+                                                 error_default_text: t('bcf.bcf_xml.import.no_status_provided')} %>
+  <%= render partial: 'import_solution', locals: { solution_select_id: 'unknown_statuses_chose_ids',
+                                                   hidden_field_identifier: 'unknown_statuses_action',
+                                                   solution_text: t('bcf.bcf_xml.import.import_statuses_as'),
+                                                   solution_options: Status.all.collect { |status| [status.name, status.id] }} %>
+<% end %>

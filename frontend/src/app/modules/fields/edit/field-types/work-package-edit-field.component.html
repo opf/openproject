@@ -6,7 +6,7 @@
                                    disabled: inFlight,
                                    typeahead: requests.input$,
                                    id: handler.htmlId,
-                                   finishedLoading: true,
+                                   finishedLoading: requests.loading$,
                                    hideSelected: true,
                                    classes: 'inline-edit--field ' + handler.fieldName }"
              [ndcDynamicOutputs]="referenceOutputs">
