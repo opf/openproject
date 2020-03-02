@@ -34,7 +34,7 @@ class XeokitServer {
       name: projectData[0].name,
       models: window.gon.ifc_models.models,
       viewerContent: {
-        modelsLoaded: window.gon.ifc_models.default_models
+        modelsLoaded: window.gon.ifc_models.shown_models
       },
       viewerConfigs: {
         saoEnabled: true // Needs to be enabled by default if we want to use it selectively on the available models.
