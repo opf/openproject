@@ -52,7 +52,7 @@ export class BimManageIfcModelsButtonComponent {
     manage: this.I18n.t('js.ifc_models.models.manage'),
   };
 
-  manageAllowed = this.ifcData.manageAllowed;
+  manageAllowed = this.ifcData.allowed('manage_ifc_models');
   manageIFCPath = this.ifcData.manageIFCPath;
 
   constructor(readonly I18n:I18nService,

@@ -9,7 +9,8 @@ module IfcModelsHelper
       xkt_attachment_ids: gon_ifc_model_xkt_attachment_ids(all_converted_models),
       metadata_attachment_ids: gon_ifc_model_metadata_attachment_ids(all_converted_models),
       permissions: {
-        manage: User.current.allowed_to?(:manage_ifc_models, @project)
+        manage_ifc_models: User.current.allowed_to?(:manage_ifc_models, @project),
+        manage_bcf: User.current.allowed_to?(:manage_bcf, @project),
       }
     }
   end
