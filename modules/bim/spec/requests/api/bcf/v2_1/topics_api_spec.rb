@@ -678,11 +678,10 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
     it_behaves_like 'bcf api successful response' do
       let(:expected_body) do
-        issue = Bim::Bcf::Issue.last
-        work_package = WorkPackage.last
+        work_package.reload
 
         {
-          guid: issue&.uuid,
+          guid: bcf_issue&.uuid,
           topic_type: type.name,
           topic_status: status.name,
           priority: priority.name,
