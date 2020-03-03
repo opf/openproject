@@ -46,7 +46,6 @@ RB.EditableInplace = (function ($) {
 
     // For detecting Enter and ESC
     handleKeydown: function (e) {
-      console.log("kd");
       var j, that;
 
       j = $(this).parents('.model').first();
@@ -57,9 +56,9 @@ RB.EditableInplace = (function ($) {
         that.saveEdits();
       } else if (e.which === 27) {
         that.cancelEdit();
-      } {
+      } else {
         return true;
       }
-    },
+    }
   });
 }(jQuery));
