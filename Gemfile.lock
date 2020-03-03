@@ -624,7 +624,7 @@ GEM
     newrelic_rpm (6.6.0.358)
     nio4r (2.5.2)
     no_proxy_fix (0.1.2)
-    nokogiri (1.10.8)
+    nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     nokogumbo (2.0.1)
       nokogiri (~> 1.8, >= 1.8.4)
