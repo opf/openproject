@@ -149,7 +149,8 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     },
     data: {
       bodyClasses: 'router--work-packages-list-view',
-      menuItem: menuItemClass
+      menuItem: menuItemClass,
+      partition: '-left-only'
     }
   },
   {
