@@ -550,7 +550,7 @@ GEM
     interception (0.5)
     ipaddress (0.8.3)
     iso8601 (0.12.1)
-    jaro_winkler (1.5.3)
+    jaro_winkler (1.5.4)
     jmespath (1.4.0)
     jquery-tablesorter (1.27.0)
       railties (~> 6.0.0, >= 3.2)
@@ -647,10 +647,10 @@ GEM
       validate_url
       webfinger (>= 1.0.1)
     openproject-token (1.0.2)
-    parallel (1.17.0)
+    parallel (1.19.1)
     parallel_tests (2.29.2)
       parallel
-    parser (2.6.4.0)
+    parser (2.7.0.4)
       ast (~> 2.4.0)
     passenger (6.0.2)
       rack
@@ -783,6 +783,7 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     retriable (3.1.2)
+    rexml (3.2.4)
     rinku (2.0.4)
     roar (1.1.0)
       representable (~> 3.0.0)
@@ -811,11 +812,12 @@ GEM
     rspec-retry (0.6.1)
       rspec-core (> 3.3)
     rspec-support (3.9.0)
-    rubocop (0.74.0)
+    rubocop (0.80.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
-      parser (>= 2.6)
+      parser (>= 2.7.0.1)
       rainbow (>= 2.2.2, < 4.0)
+      rexml
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.7)
     ruby-duration (3.2.3)
@@ -905,7 +907,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
-    unicode-display_width (1.6.0)
+    unicode-display_width (1.6.1)
     unicorn (5.5.1)
       kgio (~> 2.6)
       raindrops (~> 0.7)
