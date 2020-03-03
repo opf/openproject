@@ -148,7 +148,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       'content-left': { component: WorkPackageListViewComponent }
     },
     data: {
-      bodyClasses: 'router--work-packages-list-view',
+      bodyClasses: 'router--work-packages-partitioned-split-view',
       menuItem: menuItemClass
     }
   },
@@ -161,7 +161,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'router--work-packages-split-view-new',
+      bodyClasses: 'router--work-packages-partitioned-split-view-new',
       menuItem: menuItemClass,
       parent: 'work-packages.partitioned.list'
     },

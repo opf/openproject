@@ -122,8 +122,9 @@ export abstract class WorkPackageCreateComponent implements OnInit, OnDestroy {
         this.setTitle();
 
         if (this.stateParams['parent_id']) {
-          this.newWorkPackage.parent =
-            {href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path};
+          this.newWorkPackage.parent = {
+            href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path
+          };
         }
 
         // Load the parent simply to display the type name :-/
