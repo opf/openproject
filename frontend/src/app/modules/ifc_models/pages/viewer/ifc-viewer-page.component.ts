@@ -19,6 +19,7 @@ import {IfcModelsDataService} from "core-app/modules/ifc_models/pages/viewer/ifc
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BimManageIfcModelsButtonComponent} from "core-app/modules/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
+import {WorkPackageCreateButtonComponent} from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -41,6 +42,13 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
   };
 
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
+    {
+      component: WorkPackageCreateButtonComponent,
+      inputs: {
+      stateName: "bim.partitioned.split.new",
+        allowed: ['work_packages.createWorkPackage', 'work_package.copy']
+      }
+    },
     {
       component: BcfImportButtonComponent,
     },
@@ -101,17 +109,5 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
 
     // For now, disable any editing
     this.titleEditingEnabled = false;
-  }
-
-  public get createState() {
-    return 'bim.space.defaults.new';
-  }
-
-  public get createAllowed() {
-    return this.authorisationService.can('work_packages', 'createWorkPackage');
-  }
-
-  private get gonIFC() {
-    return (this.gon.get('ifc_models') as any);
   }
 }
