@@ -34,6 +34,7 @@ import {BcfSingleViewComponent} from "core-app/modules/ifc_models/bcf/single-vie
 import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-view-routes.template";
 import {BCFNewSplitComponent} from "core-app/modules/ifc_models/bcf/new-split/bcf-new-split.component";
 import {BcfListContainerComponent} from "core-app/modules/ifc_models/bcf/list-container/bcf-list-container.component";
+import {menuItemClass} from "core-app/modules/work_packages/routing/work-packages-routes";
 
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
@@ -64,19 +65,20 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     },
     reloadOnSearch: false,
     views: {
-      'content-left': { component: BcfListContainerComponent }
+      'content-left': {component: BcfListContainerComponent}
     }
   },
   {
     name: 'bim.partitioned.split',
     url: '/split',
     data: {
-      partition: '-split'
+      partition: '-split',
+      bodyClasses: 'router--work-packages-partitioned-split-view'
     },
     reloadOnSearch: false,
     views: {
-      'content-left': { component: IFCViewerComponent },
-      'content-right': { component: BcfListContainerComponent }
+      'content-left': {component: IFCViewerComponent},
+      'content-right': {component: BcfListContainerComponent}
     }
   },
   {
@@ -89,8 +91,8 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     views: {
       // Retarget and by that override the grandparent views
       // https://ui-router.github.io/guide/views#relative-parent-state{
-      'content-right@^': { component: EmptyComponent },
-      'content-left': { component: IFCViewerComponent }
+      'content-right@^': {component: EmptyComponent},
+      'content-left': {component: IFCViewerComponent}
     }
   },
   // BCF single view for list
@@ -109,10 +111,16 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     name: 'bim.partitioned.split.new',
     url: '/new?{type:[0-9]+}',
     reloadOnSearch: false,
+    data: {
+      partition: '-split',
+      allowMovingInEditMode: true,
+      bodyClasses: 'router--work-packages-partitioned-split-view-new',
+      parent: 'bim.partitioned.split'
+    },
     views: {
       // Retarget and by that override the grandparent views
       // https://ui-router.github.io/guide/views#relative-parent-state
-      'list@^.^': { component: BCFNewSplitComponent }
+      'content-right@^.^': {component: BCFNewSplitComponent}
     }
   },
 ];
