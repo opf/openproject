@@ -61,6 +61,7 @@ ja:
         header-item-font-hover-color: "クリック可能なヘッダー項目にマウスを置いたときのフォント色。"
         header-border-bottom-color: "ヘッダーの下の細い線。線を引きたくない場合は、このフィールドを空にしてください。"
         main-menu-bg-color: "左サイドメニューの背景色。"
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"

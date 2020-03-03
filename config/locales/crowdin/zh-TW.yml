@@ -61,6 +61,7 @@ zh-TW:
         header-item-font-hover-color: "當滑鼠移動到可點選的標題項目的文字顏色"
         header-border-bottom-color: "標題下方的細線。如果你不想要任何線段，請保持此欄位空白。"
         main-menu-bg-color: "左側選單的背景顏色"
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "升級到企業版"
       add_token: "上傳企業版support token"
