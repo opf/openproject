@@ -61,6 +61,7 @@ uk:
         header-item-font-hover-color: "Колір шрифту в заголовках інтерактивних елементів під курсором миші."
         header-border-bottom-color: "Тонка лінія під заголовком. Залиште це поле порожнім, якщо ви не хочете будь-якої лінії."
         main-menu-bg-color: "Колір фону меню зліва."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Оновлення до Enterprise Edition"
       add_token: "Завантажте маркер підтримки для Enterprise Edition"

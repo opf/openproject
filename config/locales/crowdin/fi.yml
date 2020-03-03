@@ -61,6 +61,7 @@ fi:
         header-item-font-hover-color: "Fontin väri klikattava otsikko eriä kun leijui hiirellä."
         header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
         main-menu-bg-color: "Left side menu's background color."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Päivitä yritysversioon"
       add_token: "Upload an Enterprise Edition support token"
