@@ -44,8 +44,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 
 @Component({
-  templateUrl: './wp-button-macro.modal.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './wp-button-macro.modal.html'
 })
 export class WpButtonMacroModal extends OpModalComponent implements AfterViewInit {
 

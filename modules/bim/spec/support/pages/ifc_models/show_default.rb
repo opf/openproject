@@ -101,7 +101,7 @@ module Pages
       end
 
       def create_page_class_instance(type)
-        create_page_class.new(project, type_id: type.id)
+        create_page_class.new(project: project, type_id: type.id)
       end
 
       def create_page_class

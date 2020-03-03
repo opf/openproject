@@ -34,35 +34,27 @@ module Pages
     class CreateSplit < ::Pages::AbstractWorkPackageCreate
       attr_accessor :project,
                     :model_id,
-                    :type_id
+                    :type_id,
+                    :view_route
 
-      def initialize(project, model_id: nil, type_id: nil)
+      def initialize(project:, model_id: nil, type_id: nil)
         super(project: project)
         self.model_id = model_id
         self.type_id = type_id
+        self.view_route = :split
       end
 
       def path
-        path = if default?
-                 defaults_ifc_models_project_ifc_models_path(project)
-               else
-                 ifc_models_project_ifc_model(project, id: model_id)
-               end + '/new'
-
-        query = if type_id
-                  "?type=#{type_id}"
-                end
-
-        path + query
+        bcf_project_frontend_path(project, "#{view_route}/create_new")
       end
 
       def expect_current_path
         expect(page)
-          .to have_current_path(path)
+          .to have_current_path(path, ignore_query: true)
       end
 
       def container
-        find("bcf-new-split")
+        find("wp-new-split-view")
       end
 
       private
