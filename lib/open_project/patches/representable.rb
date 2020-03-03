@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,27 +26,30 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require "reform/form/active_model/validations"
+require 'representable'
 
-Reform::Form.class_eval do
-  include Reform::Form::ActiveModel::Validations
-end
+module OpenProject::Patches::Representable
+  def self.included(base)
+    base.class_eval do
+      def self.as_strategy=(strategy)
+        raise 'The :as_strategy option should respond to #call?' unless strategy.respond_to?(:call)
 
-Reform::Contract.class_eval do
-  include Reform::Form::ActiveModel::Validations
-end
+        @as_strategy = strategy
+      end
 
-Reform::Form::ActiveModel::Validations::Validator.class_eval do
-  ##
-  # use activerecord as the base scope instead of 'activemodel' to be compatible
-  # to the messages we have already stored
-  def self.i18n_scope
-    :activerecord
+      def self.as_strategy
+        @as_strategy
+      end
+
+      def self.property(name, options = {}, &block)
+        options = { as: as_strategy.call(name.to_s) }.merge(options) if as_strategy
+
+        super
+      end
+    end
   end
 end
 
-require 'reform/contract'
-
-class Reform::Form::ActiveModel::Errors
-  prepend OpenProject::Patches::Reform
+unless Representable::Decorator.included_modules.include?(OpenProject::Patches::Representable)
+  Representable::Decorator.send(:include, OpenProject::Patches::Representable)
 end

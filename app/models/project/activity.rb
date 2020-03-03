@@ -43,11 +43,11 @@ module Project::Activity
 
     def latest_project_activity
       @latest_project_activity ||=
-        Constants::ProjectActivity.registered.map { |params|
-          build_latest_project_activity_for(on: params[:on],
-                                            chain: params[:chain],
+        Constants::ProjectActivity.registered.map do |params|
+          build_latest_project_activity_for(on: params[:on].constantize,
+                                            chain: Array(params[:chain]).map(&:constantize),
                                             attribute: params[:attribute])
-        }
+        end
     end
 
     def with_latest_activity

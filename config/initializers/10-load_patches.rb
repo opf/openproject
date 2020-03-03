@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,14 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-if Rails.env.development?
-  ActiveSupport::Dependencies.explicitly_unloadable_constants << 'API'
+# Do not place any patches within this file. Add a file to lib/open_project/patches
 
-  api_files = Dir[Rails.root.join('lib', 'api', '**', '*.rb')]
-  api_reloader = ActiveSupport::FileUpdateChecker.new(api_files) do
-    Rails.application.reload_routes!
-  end
-  ActiveSupport::Reloader.to_prepare do
-    api_reloader.execute_if_updated
-  end
+# Whatever ruby file is placed in lib/open_project/patches is required
+Dir.glob(File.expand_path("../../../lib/open_project/patches/*.rb", __FILE__)).each do |path|
+  require path
 end

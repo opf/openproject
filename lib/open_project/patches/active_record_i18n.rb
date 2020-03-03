@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,12 +26,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::ActionViewHelpersAssetTagHelperPatch
-  def auto_discovery_link_tag(type = :rss, url_options = {}, tag_options = {})
-    return if (type == :atom) && Setting.table_exists? && !Setting.feeds_enabled?
+module ActiveRecord
+  class Base
+    include Redmine::I18n
 
-    super
+    def self.human_attribute_name(attr, options = {})
+      attr = attr.to_s.gsub(/_id\z/, '')
+      super
+    end
   end
 end
-
-ActionView::Helpers::AssetTagHelper.prepend(OpenProject::ActionViewHelpersAssetTagHelperPatch)

@@ -236,7 +236,11 @@ class Attachment < ActiveRecord::Base
       .pluck(:container_type)
       .compact
       .select do |container_class|
-      container_class.constantize.attachment_tsv_extracted?
+      klass = container_class.constantize
+
+      klass.respond_to?(:attachment_tsv_extracted?) && klass.attachment_tsv_extracted?
+    rescue NameError
+      false
     end
   end
 

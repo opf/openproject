@@ -90,7 +90,7 @@ module OpenProject::Meeting
     end
 
     initializer 'meeting.register_latest_project_activity' do
-      Project.register_latest_project_activity on: ::Meeting,
+      Project.register_latest_project_activity on: 'Meeting',
                                                attribute: :updated_at
     end
 
