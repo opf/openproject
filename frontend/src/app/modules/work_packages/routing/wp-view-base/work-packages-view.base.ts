@@ -92,6 +92,9 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   /** Determine when query is initially loaded */
   queryLoaded = false;
 
+  /** Remember explicitly when this component was destroyed */
+  destroyed = false;
+
   constructor(public injector:Injector) {
   }
 
@@ -107,7 +110,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   }
 
   ngOnDestroy():void {
-    // Nothing to do
+    this.destroyed = true;
   }
 
   private setupQueryObservers() {
@@ -228,7 +231,10 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
       .querySpace
       .initialized
       .values$()
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        filter(() => !this.destroyed)
+      )
       .subscribe(() => {
         this.queryLoaded = true;
         this.cdRef.detectChanges();
