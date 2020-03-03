@@ -56,7 +56,7 @@ Copy the generated key. You can now configure the necessary webhook in Github.
 
 ### Github
 
-In Github you have to setup a webhook in each repository to be integrated with OpenProject.
+In Github you have to set up a webhook in each repository to be integrated with OpenProject.
 
 ![Create the webhook in Github](create-github-webhook.png)
 
@@ -70,4 +70,4 @@ Now you need the API key you copied earlier. Append it to the *Payload URL* as a
 https://myopenproject.com/webhooks/github?api_key=42
 ```
 
-Now the integration is setup on both sides and you can use it.
+Now the integration is set up on both sides and you can use it.
