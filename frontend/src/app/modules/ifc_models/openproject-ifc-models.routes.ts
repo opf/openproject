@@ -30,11 +30,9 @@ import {IFCViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/i
 import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.component";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
-import {BcfSingleViewComponent} from "core-app/modules/ifc_models/bcf/single-view/bcf-single-view.component";
 import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-view-routes.template";
-import {BCFNewSplitComponent} from "core-app/modules/ifc_models/bcf/new-split/bcf-new-split.component";
 import {BcfListContainerComponent} from "core-app/modules/ifc_models/bcf/list-container/bcf-list-container.component";
-import {menuItemClass} from "core-app/modules/work_packages/routing/work-packages-routes";
+import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
@@ -99,29 +97,13 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   ...makeSplitViewRoutes(
     'bim.partitioned.list',
     undefined,
-    BcfSingleViewComponent
+    WorkPackageSplitViewComponent
   ),
   // BCF single view for split
   ...makeSplitViewRoutes(
     'bim.partitioned.split',
     undefined,
-    BcfSingleViewComponent
+    WorkPackageSplitViewComponent
   ),
-  {
-    name: 'bim.partitioned.split.new',
-    url: '/new?{type:[0-9]+}',
-    reloadOnSearch: false,
-    data: {
-      partition: '-split',
-      allowMovingInEditMode: true,
-      bodyClasses: 'router--work-packages-partitioned-split-view-new',
-      parent: 'bim.partitioned.split'
-    },
-    views: {
-      // Retarget and by that override the grandparent views
-      // https://ui-router.github.io/guide/views#relative-parent-state
-      'content-right@^.^': {component: BCFNewSplitComponent}
-    }
-  },
 ];
 

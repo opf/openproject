@@ -49,6 +49,9 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 })
 export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase implements OnInit {
 
+  /** Reference to the base route e.g., work-packages.partitioned.list or bim.partitioned.split */
+  private baseRoute:string = this.$state.current.data.baseRoute;
+
   constructor(public injector:Injector,
               public states:States,
               public firstRoute:FirstRouteService,
@@ -67,7 +70,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
     if (!focusedWP) {
       // Focus on the work package if we're the first route
-      const isFirstRoute = this.firstRoute.name === 'work-packages.partitioned.list.details.overview';
+      const isFirstRoute = this.firstRoute.name === `${this.baseRoute}.details.overview`;
       const isSameID = this.firstRoute.params && wpId === this.firstRoute.params.workPackageI;
       this.wpTableFocus.updateFocus(wpId, (isFirstRoute && isSameID));
     } else {
@@ -84,7 +87,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
       )
       .subscribe(newId => {
         const idSame = wpId.toString() === newId.toString();
-        if (!idSame && this.$state.includes('work-packages.partitioned.list.details')) {
+        if (!idSame && this.$state.includes(`${this.baseRoute}.details.overview`)) {
           this.$state.go(
             (this.$state.current.name as string),
             {workPackageId: newId, focus: false}
@@ -95,7 +98,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
 
   public close() {
-    this.$state.go('work-packages.partitioned.list', this.$state.params);
+    this.$state.go(this.baseRoute, this.$state.params);
   }
 
   public switchToFullscreen() {

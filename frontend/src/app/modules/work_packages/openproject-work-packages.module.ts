@@ -509,7 +509,8 @@ import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-
     WorkPackageCreateButtonComponent,
     WorkPackageTypeStatusComponent,
     WorkPackageEditActionsBarComponent,
-    WorkPackageSingleViewComponent
+    WorkPackageSingleViewComponent,
+    WorkPackageSplitViewComponent
   ]
 })
 export class OpenprojectWorkPackagesModule {

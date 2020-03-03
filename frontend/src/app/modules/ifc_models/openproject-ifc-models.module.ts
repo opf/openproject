@@ -37,7 +37,6 @@ import {BimViewToggleButtonComponent} from "core-app/modules/ifc_models/toolbar/
 import {BimViewToggleDropdownDirective} from "core-app/modules/ifc_models/toolbar/view-toggle/bim-view-toggle-dropdown.directive";
 import {BimManageIfcModelsButtonComponent} from "core-app/modules/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
 import {IFCViewerService} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.service";
-import {BcfSingleViewComponent} from "core-app/modules/ifc_models/bcf/single-view/bcf-single-view.component";
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {BCFNewSplitComponent} from "core-app/modules/ifc_models/bcf/new-split/bcf-new-split.component";
 import {BcfListContainerComponent} from "core-app/modules/ifc_models/bcf/list-container/bcf-list-container.component";
@@ -67,7 +66,6 @@ import {BcfListContainerComponent} from "core-app/modules/ifc_models/bcf/list-co
     BimViewToggleButtonComponent,
     BimViewToggleDropdownDirective,
 
-    BcfSingleViewComponent,
     BCFNewSplitComponent,
     IFCViewerComponent
   ],

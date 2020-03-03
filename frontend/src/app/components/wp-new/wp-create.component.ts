@@ -47,7 +47,7 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 
 export abstract class WorkPackageCreateComponent implements OnInit, OnDestroy {
   public successState:string;
-  public cancelState:string = 'work-packages.list';
+  public cancelState:string = this.$state.current.data.baseRoute;
   public newWorkPackage:WorkPackageResource;
   public parentWorkPackage:WorkPackageResource;
   public change:WorkPackageChangeset;

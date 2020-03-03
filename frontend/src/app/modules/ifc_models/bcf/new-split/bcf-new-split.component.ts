@@ -37,8 +37,8 @@ import {IFCViewerService} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewe
   templateUrl: './bcf-new-split.component.html'
 })
 export class BCFNewSplitComponent extends WorkPackageCreateComponent {
-  public successState:string = 'bim.partitioned.split.details';
-  public cancelState:string = 'bim.partitioned.split';
+  public successState:string = '^.details';
+  public cancelState:string = '^';
 
   @InjectField()
   readonly viewer:IFCViewerService;

@@ -35,5 +35,5 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent {
-  public successState:string = 'work-packages.partitioned.list.details';
+  public successState:string = this.$state.current.data.baseRoute + '.details';
 }

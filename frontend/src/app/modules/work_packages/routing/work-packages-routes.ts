@@ -153,20 +153,6 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     }
   },
   {
-    name: 'work-packages.partitioned.list.new',
-    url: '/create_new?type&parent_id',
-    views: {
-      'content-right@^.^': { component: WorkPackageNewSplitViewComponent }
-    },
-    reloadOnSearch: false,
-    data: {
-      allowMovingInEditMode: true,
-      bodyClasses: 'router--work-packages-partitioned-split-view-new',
-      menuItem: menuItemClass,
-      parent: 'work-packages.partitioned.list'
-    },
-  },
-  {
     name: 'work-packages.partitioned.list.copy',
     url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
     views: {

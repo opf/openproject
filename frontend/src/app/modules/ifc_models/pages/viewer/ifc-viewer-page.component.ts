@@ -45,7 +45,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     {
       component: WorkPackageCreateButtonComponent,
       inputs: {
-      stateName: "bim.partitioned.split.new",
+      stateName: ".new",
         allowed: ['work_packages.createWorkPackage', 'work_package.copy']
       }
     },
