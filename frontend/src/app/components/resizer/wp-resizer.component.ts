@@ -114,6 +114,14 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
       this.moving = true;
 
+      // In case we dragged the resizer farther than the element can actually grow,
+      // we reset it to the actual width at the start of the new resizing
+      let localStorageValue = this.parseLocalStorageValue();
+      let actualElementWidth = this.resizingElement.offsetWidth;
+      if (localStorageValue && localStorageValue > actualElementWidth) {
+        this.elementWidth = actualElementWidth;
+      }
+
       // Necessary to encapsulate this to be able to remove the eventlistener later
       this.mouseMoveHandler = this.resizeElement.bind(this, this.resizingElement);
 
