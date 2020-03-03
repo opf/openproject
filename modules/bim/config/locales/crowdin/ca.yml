@@ -70,19 +70,19 @@ ca:
       bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "Model IFC"
     attributes:
       bim/ifc_models/ifc_model:
-        ifc_attachment: "IFC file"
-        is_default: "Default model"
-        attachments: "IFC file"
+        ifc_attachment: "Fitxer IFC"
+        is_default: "Model predeterminat"
+        attachments: "Fitxer IFC"
     errors:
       models:
         bim/ifc_models/ifc_model:
           attributes:
             base:
-              ifc_attachment_missing: "No ifc file attached."
-              invalid_ifc_file: "The provided file is not a valid IFC file."
+              ifc_attachment_missing: "Sense fitxer IFC adjunt."
+              invalid_ifc_file: "El fitxer aportat no es un IFC vàlid."
         bim/bcf/viewpoint:
           bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
           index_not_integer: "index is not an integer."
@@ -97,30 +97,30 @@ ca:
           snapshot_data_blank: "snapshot_data needs to be provided."
           unsupported_key: "An unsupported json property is included."
   ifc_models:
-    label_ifc_models: 'IFC models'
-    label_new_ifc_model: 'New IFC model'
-    label_show_defaults: 'Show defaults'
-    label_default_ifc_models: 'Default IFC models'
-    label_edit_defaults: 'Edit defaults'
+    label_ifc_models: 'Models IFC'
+    label_new_ifc_model: 'Nou model IFC'
+    label_show_defaults: 'Mostra els predeterminats'
+    label_default_ifc_models: 'Models IFC predeterminats'
+    label_edit_defaults: 'Editar els predeterminats'
     no_defaults_warning:
-      title: 'No IFC model was set as default for this project.'
-      check_1: 'Check that you have uploaded at least one IFC model.'
-      check_2: 'Check that at least one IFC model is set to "Default".'
-    no_results: "No IFC models have been uploaded in this project."
+      title: 'No hi ha model IFC predeterminat per aquest projecte.'
+      check_1: 'Revisi que ha pujat com a mínim un model IFC.'
+      check_2: 'Revisi que com a mínim un model IFC s''ha establert com a "Predeterminat".'
+    no_results: "No s'han pujat models IFC en aquest projecte."
     processing_state:
-      label: 'Processing?'
+      label: 'En procés?'
       in_progress: 'En progrés'
-      completed: 'Completed'
+      completed: 'Completat'
     processing_notice:
       processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
     flash_messages:
       upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
     conversion:
       missing_commands: "The following IFC converter commands are missing on this system: %{names}"
-  project_module_ifc_models: "IFC models"
-  permission_view_ifc_models: "View IFC models"
-  permission_manage_ifc_models: "Import and manage IFC models"
+  project_module_ifc_models: "Models IFC"
+  permission_view_ifc_models: "Veure models IFC"
+  permission_manage_ifc_models: "Importar i gestionar models IFC"
   extraction:
     available:
-      ifc_convert: "IFC conversion pipeline available"
+      ifc_convert: "Tub de conversió a IFC disponible"
 

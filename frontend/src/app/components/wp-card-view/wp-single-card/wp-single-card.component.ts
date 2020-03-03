@@ -75,7 +75,7 @@ export class WorkPackageSingleCardComponent implements OnDestroy, OnInit {
     let classIdentifier = this.classIdentifier(wp);
     this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
     this.$state.go(
-      'work-packages.list.details',
+      '.details',
       {workPackageId: wp.id!}
     );
   }

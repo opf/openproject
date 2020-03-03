@@ -41,7 +41,7 @@ module Pages
       end
 
       def path
-        defaults_ifc_models_project_ifc_models_path(project)
+        defaults_bcf_project_ifc_models_path(project)
       end
 
       def finished_loading
@@ -71,16 +71,18 @@ module Pages
         tabs = ['Models', 'Objects', 'Classes', 'Storeys']
 
         tabs.each do |tab|
-          expect(page).to (visible ? have_selector(selector, text: tab) : have_no_selector(selector, text: tab))
+          element_visible? visible, selector, tab
         end
       end
 
       def page_shows_a_toolbar(visible)
-        selector = '.toolbar-item'
-
         toolbar_items.each do |button|
-          expect(page).to (visible ? have_selector(selector, text: button) : have_no_selector(selector, text: button))
+          element_visible? visible, '.toolbar-item', button
         end
+      end
+
+      def page_shows_a_filter_button(visible)
+        element_visible? visible, '.toolbar-item', 'Filter'
       end
 
       def switch_view(value)
@@ -104,6 +106,10 @@ module Pages
 
       def create_page_class
         Pages::BCF::CreateSplit
+      end
+
+      def element_visible?(visible, selector, name)
+        expect(page).to (visible ? have_selector(selector, text: name) : have_no_selector(selector, text: name))
       end
     end
   end

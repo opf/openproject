@@ -46,7 +46,6 @@ OkComputer::CheckCollection.new('full').tap do |collection|
   OkComputer::Registry.default_collection.register 'full', collection
 end
 
-
 # Check if authentication required
 authentication_password = OpenProject::Configuration.health_checks_authentication_password
 if authentication_password.present?

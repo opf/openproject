@@ -6,9 +6,9 @@ hu:
       export: 'Exportálás'
     ifc_models:
       models:
-        default: 'Default IFC models'
-        manage: 'Manage models'
+        default: 'Alapértelmezett IFC modell'
+        manage: 'Kezelje a modelleket'
       views:
-        list: 'List only'
-        viewer: 'Viewer only'
-        split: 'Viewer and list'
+        list: 'Csak lista'
+        viewer: 'Csak megtekintés'
+        split: 'Megtekintés és lista'

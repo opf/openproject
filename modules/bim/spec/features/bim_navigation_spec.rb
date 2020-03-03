@@ -30,6 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/ifc_models/show'
 require_relative '../support/pages/ifc_models/show_default'
+require_relative '../support/pages/ifc_models/bcf_details_page'
 
 describe 'BIM navigation spec', type: :feature, js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
@@ -49,6 +50,7 @@ describe 'BIM navigation spec', type: :feature, js: true do
   end
 
   let(:card_view) { ::Pages::WorkPackageCards.new(project) }
+  let(:details_view) { ::Pages::BcfDetailsPage.new(work_package, project) }
 
 
   shared_examples 'can switch from split to viewer to list-only' do
@@ -65,7 +67,7 @@ describe 'BIM navigation spec', type: :feature, js: true do
         model_page.finished_loading
       end
 
-      it 'can switch from split to viewer only to list' do
+      it 'can switch between the different view modes' do
         # Should be at split view
         model_page.model_viewer_visible true
         model_page.model_viewer_shows_a_toolbar true
@@ -73,6 +75,17 @@ describe 'BIM navigation spec', type: :feature, js: true do
         model_page.sidebar_shows_viewer_menu true
         expect(page).to have_selector('.wp-cards-container')
         card_view.expect_work_package_listed work_package
+
+        # Go to single view
+        wp_card = card_view.card(work_package)
+        page.driver.browser.action.double_click(wp_card.native).perform
+
+        details_view.ensure_page_loaded
+        details_view.expect_subject
+        details_view.switch_to_tab tab: 'Activity'
+        details_view.expect_tab 'Activity'
+        details_view.close
+        details_view.expect_closed
 
         # Go to viewer only
         model_page.switch_view 'Viewer only'
@@ -86,6 +99,17 @@ describe 'BIM navigation spec', type: :feature, js: true do
         model_page.model_viewer_visible false
         expect(page).to have_selector('.wp-cards-container')
         card_view.expect_work_package_listed work_package
+
+        # Go to single view
+        wp_card = card_view.card(work_package)
+        page.driver.browser.action.double_click(wp_card.native).perform
+
+        details_view.ensure_page_loaded
+        details_view.expect_subject
+        details_view.switch_to_tab tab: 'Activity'
+        details_view.expect_tab 'Activity'
+        details_view.close
+        details_view.expect_closed
       end
     end
   end

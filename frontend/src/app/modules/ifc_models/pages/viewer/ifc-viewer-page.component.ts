@@ -1,54 +1,106 @@
-import {Component, Injector, HostBinding, ChangeDetectionStrategy} from "@angular/core";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
+import {ChangeDetectionStrategy, Component, Injector} from "@angular/core";
 import {GonService} from "core-app/modules/common/gon/gon.service";
-import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
+import {
+  PartitionedQuerySpacePageComponent,
+  ToolbarButtonComponentDefinition
+} from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
+import {BcfImportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-import-button.component";
+import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-export-button.component";
+import {WorkPackageFilterButtonComponent} from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
+import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
+import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {
+  bimListViewIdentifier,
+  bimViewerViewIdentifier,
+  BimViewService
+} from "core-app/modules/ifc_models/pages/viewer/bim-view.service";
+import {BimViewToggleButtonComponent} from "core-app/modules/ifc_models/toolbar/view-toggle/bim-view-toggle-button.component";
+import {IfcModelsDataService} from "core-app/modules/ifc_models/pages/viewer/ifc-models-data.service";
+import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {BimManageIfcModelsButtonComponent} from "core-app/modules/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
 
 @Component({
-  templateUrl: './ifc-viewer-page.component.html',
-  styleUrls: ['./ifc-viewer-page.component.sass'],
+  templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  styleUrls: [
+    // Absolute paths do not work for styleURLs :-(
+    '../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass'
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    QueryParamListenerService
+  ]
 })
-export class IFCViewerPageComponent extends WorkPackagesViewBase {
+export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
+
   text = {
     title: this.I18n.t('js.ifc_models.models.default'),
-    manage: this.I18n.t('js.ifc_models.models.manage'),
     delete: this.I18n.t('js.button_delete'),
     edit: this.I18n.t('js.button_edit'),
     areYouSure: this.I18n.t('js.text_are_you_sure')
   };
 
-  constructor(readonly paths:PathHelperService,
+  toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
+    {
+      component: BcfImportButtonComponent,
+    },
+    {
+      component: BcfExportButtonComponent,
+    },
+    {
+      component: WorkPackageFilterButtonComponent,
+      show: () => this.bimView.currentViewerState() !== bimViewerViewIdentifier
+    },
+    {
+      component: BimViewToggleButtonComponent,
+      containerClasses: 'hidden-for-mobile'
+    },
+    {
+      component: ZenModeButtonComponent,
+      containerClasses: 'hidden-for-mobile'
+    },
+    {
+      component: BimManageIfcModelsButtonComponent
+    }
+  ];
+
+  constructor(readonly ifcData:IfcModelsDataService,
+              readonly bimView:BimViewService,
               readonly gon:GonService,
               readonly injector:Injector) {
     super(injector);
   }
 
-  @HostBinding('class')
-  get gridTemplateAreas() {
-    if (this.$state.includes('bim.space.list')) {
-      return '-list';
-    } else if (this.$state.includes('bim.space.*.model')) {
-      return '-viewer';
+  ngOnInit() {
+    super.ngOnInit();
+
+    this
+      .bimView
+      .observeUntil(componentDestroyed(this))
+      .subscribe((view) => {
+        this.filterAllowed = view !== bimViewerViewIdentifier;
+      });
+  }
+
+  /**
+   * We disable using the query title for now,
+   * but this might be useful later.
+   *
+   * To re-enable query titles, remove this function.
+   *
+   * @param _query
+   */
+  updateTitle(query?:QueryResource) {
+    if (this.bimView.current === bimListViewIdentifier) {
+      super.updateTitle(query);
+    } else if (this.ifcData.isSingleModel()) {
+      this.selectedTitle = this.ifcData.models[0].name;
     } else {
-      return '-split';
+      this.selectedTitle = this.I18n.t('js.ifc_models.models.default');
     }
-  }
 
-  public get title() {
-    if (this.$state.includes('bim.space.defaults')) {
-      return this.I18n.t('js.ifc_models.models.default');
-    } else {
-      return this.gonIFC['models'][0]['name'];
-    }
-  }
-
-  public get manageIFCPath() {
-    return this.paths.ifcModelsPath(this.projectIdentifier!);
-  }
-
-  public get manageAllowed() {
-    return this.gonIFC.permissions.manage;
+    // For now, disable any editing
+    this.titleEditingEnabled = false;
   }
 
   public get createState() {
@@ -61,15 +113,5 @@ export class IFCViewerPageComponent extends WorkPackagesViewBase {
 
   private get gonIFC() {
     return (this.gon.get('ifc_models') as any);
-  }
-
-  protected set loadingIndicator(promise:Promise<unknown>) {
-    // TODO: do something useful
-  }
-
-  public refresh(visibly:boolean, firstPage:boolean):Promise<unknown> {
-    // TODO: do something useful
-    return this.loadingIndicator =
-      this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
   }
 }

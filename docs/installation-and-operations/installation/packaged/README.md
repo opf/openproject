@@ -303,7 +303,29 @@ In that case, you will be shown three additional dialogs to enter the certificat
 ![02d-ssl](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02d-ssl.png)
 
 
-### **Skip** (not recommended)
+
+**External SSL/TLS termination**
+
+<div class="alert alert-warning" role="alert">
+
+If you terminate SSL externally before the request hits the OpenProject server, you need to follow the following instructions to avoid errors in routing. If you want to use SSL on the server running OpenProject, skip this section.
+
+</div>
+
+If you have a separate server that is terminating SSL and only forwarding/proxying to the OpenProject server, you must select "No" in this dialog. However, there are some parameters you need to put into your outer configuration.
+
+- If you're proxying to the openproject server, you need to forward the HOST header to the internal server. This ensures that the host name of the outer request gets forwarded to the internal server. Otherwise you might see redirects in your browser to the internal host that OpenProject is running on.
+  - In Apache2, set the `ProxyPreserveHost On`directive 
+  - In NginX, use the following value: `proxy_set_header X-Forwarded-Host $host:$server_port;`
+- If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https`header to let OpenProject know that the request is HTTPS, even though its been terminated earlier in the request on the outer server.
+  - In Apache2, use `RequestHeader set "X-Forwarded-Proto" https`
+  - In Nginx, use `proxy_set_header X-Forwarded-Proto https;`
+
+- Finally, to let OpenProject know that it should create links with 'https' when no request is available (for example, when sending emails), you need to set the following setting: `openproject config:set SERVER_PROTOCOL_FORCE_HTTPS="true"` followed by an `openproject configure`. This ensures that OpenProject responds correctly with secure cookies even though it was not configured for https in the server configuration.
+
+
+
+### Skip (not recommended)
 
 The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listeing at `localhost:6000` by proxying.
 

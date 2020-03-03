@@ -34,5 +34,5 @@ import {Component} from '@angular/core';
   templateUrl: './wp-new-split-view.html'
 })
 export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent {
-  public successState:string = 'work-packages.list.details';
+  public successState:string = 'work-packages.partitioned.list.details';
 }

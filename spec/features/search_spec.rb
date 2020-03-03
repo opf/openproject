@@ -48,7 +48,9 @@ describe 'Search', type: :feature, js: true do
 
   let(:query) { 'Subject' }
 
-  let(:params) { [project, { q: query }] }
+  let(:params) { [project, {q: query}] }
+
+  let(:run_visit) { true }
 
   def expect_range(a, b)
     (a..b).each do |n|
@@ -84,7 +86,7 @@ describe 'Search', type: :feature, js: true do
 
     login_as user
 
-    visit search_path(*params)
+    visit search_path(*params) if run_visit
   end
 
   describe 'autocomplete' do
@@ -139,7 +141,7 @@ describe 'Search', type: :feature, js: true do
 
   describe 'work package search' do
     context 'search in all projects' do
-      let(:params) { [project, { q: query, work_packages: 1 }] }
+      let(:params) { [project, {q: query, work_packages: 1}] }
 
       context 'custom fields not searchable' do
         let(:searchable) { false }
@@ -170,8 +172,8 @@ describe 'Search', type: :feature, js: true do
       context 'custom fields searchable' do
         it "finds WP global custom fields" do
           select_autocomplete(page.find('.top-menu-search--input'),
-                                    query: "text",
-                                    select_text: "In all projects ↵")
+                              query: "text",
+                              select_text: "In all projects ↵")
           table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.expect_work_package_subject(work_packages[1].subject)
@@ -335,6 +337,47 @@ describe 'Search', type: :feature, js: true do
         click_on 'Previous', match: :first
         expect_range 14, 23
       end
+    end
+  end
+
+  describe 'params escaping' do
+    let(:wp_1) { FactoryBot.create :work_package, subject: "Foo && Bar", project: project }
+    let(:wp_2) { FactoryBot.create :work_package, subject: "Foo # Bar", project: project }
+    let(:wp_3) { FactoryBot.create :work_package, subject: "Foo &# Bar", project: project }
+    let!(:work_packages) { [wp_1, wp_2, wp_3] }
+    let(:global_search) { ::Components::GlobalSearch.new }
+    let(:table) { Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container')) }
+
+    let(:run_visit) { false }
+
+    before do
+      visit home_path
+    end
+
+    it 'properly transmits parameters used in URL query' do
+      global_search.search "Foo &"
+      # Bug in ng-select causes highlights to break up entities
+      global_search.find_option "Foo &amp;&amp; Bar"
+      global_search.find_option "Foo &amp;# Bar"
+      global_search.submit_in_global_scope
+
+      table.ensure_work_package_not_listed! wp_2
+      table.expect_work_package_listed(wp_1, wp_3)
+
+      global_search.search "# Bar"
+      global_search.find_option "Foo # Bar"
+      global_search.find_option "Foo &# Bar"
+      global_search.submit_in_global_scope
+      table.ensure_work_package_not_listed! wp_1
+      table.expect_work_package_listed(wp_2)
+
+      global_search.search "&"
+      # Bug in ng-select causes highlights to break up entities
+      global_search.find_option "Foo &amp;&amp; Bar"
+      global_search.find_option "Foo &amp;# Bar"
+      global_search.submit_in_global_scope
+      table.ensure_work_package_not_listed! wp_2
+      table.expect_work_package_listed(wp_1, wp_3)
     end
   end
 end

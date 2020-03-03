@@ -27,22 +27,26 @@
 // ++
 
 import {StateService} from '@uirouter/core';
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {componentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
   selector: 'wp-create-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-create-button.html'
 })
-export class WorkPackageCreateButtonComponent implements OnInit {
+export class WorkPackageCreateButtonComponent implements OnInit, OnDestroy {
+  @Input('allowed') allowedWhen:string[];
   @Input('stateName') stateName:string;
-  @Input('allowed') allowed:boolean;
-  public projectIdentifier:string|null;
-  public types:any;
 
-  public text = {
+  allowed:boolean;
+  projectIdentifier:string|null;
+  types:any;
+
+  text = {
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
     createButton: this.I18n.t('js.label_work_package'),
     explanation: this.I18n.t('js.label_create_work_package')
@@ -50,19 +54,36 @@ export class WorkPackageCreateButtonComponent implements OnInit {
 
   constructor(readonly $state:StateService,
               readonly currentProject:CurrentProjectService,
+              readonly authorisationService:AuthorisationService,
               readonly I18n:I18nService) {
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.projectIdentifier = this.currentProject.identifier;
     // Created for interface compliance
+
+    // Find the first permission that is allowed
+    this.authorisationService
+      .observeUntil(componentDestroyed(this))
+      .subscribe(() => {
+        this.allowed = !!this
+          .allowedWhen
+          .find(combined => {
+            let [module, permission] = combined.split('.');
+            return this.authorisationService.can(module, permission);
+          });
+      });
   }
 
-  public createWorkPackage() {
+  ngOnDestroy():void {
+    // Nothing to do
+  }
+
+  createWorkPackage() {
     this.$state.go(this.stateName, {projectPath: this.projectIdentifier});
   }
 
-  public isDisabled() {
+  isDisabled() {
     return !this.allowed || this.$state.includes('**.new');
   }
 }

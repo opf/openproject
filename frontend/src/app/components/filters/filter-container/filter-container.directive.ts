@@ -44,7 +44,6 @@ export class WorkPackageFilterContainerComponent implements OnInit, OnDestroy {
   @Input('showFilterButton') showFilterButton:boolean = false;
   @Input('filterButtonText') filterButtonText:string = I18n.t('js.button_filter');
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
-  @Output() public filtersCompleted = new DebouncedEventEmitter<boolean>(componentDestroyed(this));
 
   public visible$:Observable<Boolean>;
   public filters = this.wpTableFilters.current;
@@ -74,8 +73,7 @@ export class WorkPackageFilterContainerComponent implements OnInit, OnDestroy {
   }
 
   public replaceIfComplete(filters:QueryFilterInstanceResource[]) {
-    let complete = this.wpTableFilters.replaceIfComplete(filters);
-    this.filtersCompleted.emit(complete);
+    this.wpTableFilters.replaceIfComplete(filters);
     this.filtersChanged.emit(this.filters);
   }
 }

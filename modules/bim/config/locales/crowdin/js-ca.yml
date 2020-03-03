@@ -6,7 +6,7 @@ ca:
       export: 'Exportar'
     ifc_models:
       models:
-        default: 'Default IFC models'
+        default: 'Models IFC predeterminats'
         manage: 'Gestionar models'
       views:
         list: 'List only'

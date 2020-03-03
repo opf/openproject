@@ -61,6 +61,7 @@ sk:
         header-item-font-hover-color: "Farba písma kliknuteľnej hlavičky pri umiestnení kurzora nad hlavičku."
         header-border-bottom-color: "Hrúbka čiary pod hlavičkou. Nechajte toto pole prázdne ak nechcete žiadnu čiaru."
         main-menu-bg-color: "Farba pozadia ľavého menu."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Upgrade na Enterprise Edition"
       add_token: "Nahrajte token podpory Enterprise Edition"

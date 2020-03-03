@@ -34,7 +34,7 @@ module Bim
       helper_method :gon
 
       before_action :find_project_by_project_id, only: %i[index new create show defaults edit update destroy]
-      before_action :find_ifc_model_object, except: %i[index new create]
+      before_action :find_ifc_model_object, only: %i[edit update destroy]
       before_action :find_all_ifc_models, only: %i[show defaults index]
 
       before_action :authorize
@@ -53,13 +53,16 @@ module Bim
       def edit;
       end
 
-      def show;
+      def show
+        frontend_redirect params[:id].to_i
       end
 
       def defaults
         @default_ifc_models = @ifc_models.defaults
 
-        if @default_ifc_models.empty?
+        if @default_ifc_models.exists?
+          frontend_redirect @default_ifc_models.pluck(:id).uniq
+        else
           redirect_to action: :index
         end
       end
@@ -111,11 +114,15 @@ module Bim
 
       private
 
+      def frontend_redirect(model_ids)
+        redirect_to bcf_project_frontend_path(models: JSON.dump(Array(model_ids)))
+      end
+
       def find_all_ifc_models
         @ifc_models = @project
           .ifc_models
           .includes(:attachments)
-          .order('created_at ASC')
+          .order("#{IfcModels::IfcModel.table_name}.created_at ASC")
       end
 
       def permitted_model_params

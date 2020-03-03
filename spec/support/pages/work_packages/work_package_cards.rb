@@ -39,7 +39,7 @@ module Pages
 
     def expect_work_package_listed(*work_packages)
       work_packages.each do |wp|
-        expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp.id}']")
+        expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp.id}']", wait: 10)
       end
     end
 

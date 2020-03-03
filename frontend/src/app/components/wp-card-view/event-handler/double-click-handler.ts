@@ -41,11 +41,16 @@ export class CardDblClickHandler implements CardEventHandler {
       return true;
     }
 
+    this.handleWorkPackage(wpId);
+
+    return false;
+  }
+
+  protected handleWorkPackage(wpId:string) {
     this.$state.go(
       'work-packages.show',
       {workPackageId: wpId}
     );
-    return false;
   }
 }
 

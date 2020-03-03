@@ -44,12 +44,35 @@ export class CardClickHandler implements CardEventHandler {
     // Locate the card from event
     let element = target.closest('wp-single-card');
     let wpId = element.data('workPackageId');
-    let classIdentifier = element.data('classIdentifier');
 
     if (!wpId) {
       return true;
     }
 
+    this.handleWorkPackage(wpId, element, evt);
+
+    return false;
+  }
+
+
+  protected handleWorkPackage(wpId:any, element:JQuery, evt:JQuery.TriggeredEvent) {
+    this.setSelection(wpId, element, evt);
+
+    // open work package on mobile after first click
+    this.openFullViewOnMobile(wpId);
+  }
+
+  protected openFullViewOnMobile(wpId:string) {
+    if (this.deviceService.isMobile) {
+      this.$state.go(
+        'work-packages.show',
+        {workPackageId: wpId}
+      );
+    }
+  }
+
+  protected setSelection(wpId:string, element:JQuery, evt:JQuery.TriggeredEvent) {
+    let classIdentifier = element.data('classIdentifier');
     let index = this.wpCardView.findRenderedCard(classIdentifier);
 
     // Update single selection if no modifier present
@@ -71,15 +94,6 @@ export class CardClickHandler implements CardEventHandler {
     // not matter what other card are (de-)selected below.
     // Thus save that card for the details view button.
     this.wpTableFocus.updateFocus(wpId);
-
-    // open work package on mobile after first click
-    if (this.deviceService.isMobile) {
-      this.$state.go(
-        'work-packages.show',
-        {workPackageId: wpId}
-      );
-    }
-
-    return false;
   }
+
 }

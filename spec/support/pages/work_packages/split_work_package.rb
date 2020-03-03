@@ -43,15 +43,19 @@ module Pages
       FullWorkPackage.new(work_package, project)
     end
 
-    def closed?
+    def expect_closed
       expect(page).to have_no_selector(@selector)
+    end
+
+    def close
+      find('.work-packages--details-close-icon').click
     end
 
     def container
       find(@selector)
     end
 
-    private
+    protected
 
     def path(tab = 'overview')
       state = "#{work_package.id}/#{tab}"

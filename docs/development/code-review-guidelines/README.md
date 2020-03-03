@@ -41,15 +41,15 @@ Every developer and reviewer should read the Rails Security Guide.
 ## Changelog
 
 - All changes made to the OpenProject software are managed and documented via work packages in the [OpenProject project](https://community.openproject.org/projects/openproject/).
-- The [Roadmap view](https://www.openproject.org/projects/openproject/roadmap) gives a corresponding overview.
+- The [Roadmap view](https://community.openproject.com/projects/openproject/roadmap) gives a corresponding overview.
 - To prevent inconsistencies and avoid redundant work there is no additional change log in the source code.
 
 ## Other
 
-- For external contributions: Check whether the author has signed a Contributor License Agreement and kindly ask for it if not
-- Copyright notice: When new files are added, make sure they contain the OpenProject copyright notice (copy from any file in OpenProject)
-- Adding Gems: When adding gems, make sure not only the Gemfile is updated, but also the Gemfile.lock
-- No trailing whitespace
+- For external contributions: Check whether the author has signed a [Contributor License Agreement](../development/#openproject-contributor-license-agreement-cla) and kindly ask for it if not.
+- Copyright notice: When new files are added, make sure they contain the OpenProject copyright notice (copy from any file in OpenProject).
+- Adding Gems: When adding gems, make sure not only the Gemfile is updated, but also the Gemfile.lock.
+- No trailing whitespace.
 - [Single newline at the end of a file](http://stackoverflow.com/questions/729692/why-should-files-end-with-a-newline).
 
 ## Readability
