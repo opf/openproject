@@ -533,7 +533,7 @@ GEM
     hashdiff (1.0.0)
     hashery (2.1.2)
     hashie (3.6.0)
-    html-pipeline (2.12.0)
+    html-pipeline (2.12.3)
       activesupport (>= 2)
       nokogiri (>= 1.4)
     htmldiff (0.0.1)
