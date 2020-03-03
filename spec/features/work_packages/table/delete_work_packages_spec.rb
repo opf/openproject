@@ -55,7 +55,7 @@ describe 'Delete work package', js: true do
       end
 
       it 'should close the split view' do
-        split_view.closed?
+        split_view.expect_closed
         wp_table.expect_current_path
       end
     end

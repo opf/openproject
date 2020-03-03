@@ -56,6 +56,9 @@ import {ComponentType} from "@angular/cdk/overlay";
  * foo.bar.details.relations
  * foo.bar.details.watchers
  *
+ * NOTE: All parameters here must either be `export const` or literal strings,
+ * otherwise AOT will not be able to look them up. This might result in missing routes.
+ *
  * @param baseRoute The base route to mount under
  * @param component The split view component to mount
  */

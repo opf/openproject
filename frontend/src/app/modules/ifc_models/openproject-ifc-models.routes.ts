@@ -25,20 +25,14 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {Ng2StateDeclaration, UIRouter} from '@uirouter/angular';
+import {Ng2StateDeclaration} from '@uirouter/angular';
 import {IFCViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
 import {BCFContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
 import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.component";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
 import {BcfSingleViewComponent} from "core-app/modules/ifc_models/bcf/single-view/bcf-single-view.component";
-import {WorkPackageOverviewTabComponent} from "core-components/wp-single-view-tabs/overview-tab/overview-tab.component";
-import {WorkPackageActivityTabComponent} from "core-components/wp-single-view-tabs/activity-panel/activity-tab.component";
-import {WorkPackageRelationsTabComponent} from "core-components/wp-single-view-tabs/relations-tab/relations-tab.component";
-import {WorkPackageWatchersTabComponent} from "core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component";
 import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-view-routes.template";
-import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
-
 
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [

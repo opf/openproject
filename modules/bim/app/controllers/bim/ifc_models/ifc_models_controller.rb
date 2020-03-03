@@ -34,7 +34,7 @@ module Bim
       helper_method :gon
 
       before_action :find_project_by_project_id, only: %i[index new create show defaults edit update destroy]
-      before_action :find_ifc_model_object, only: %i[edit]
+      before_action :find_ifc_model_object, only: %i[edit update destroy]
       before_action :find_all_ifc_models, only: %i[show defaults index]
 
       before_action :authorize
@@ -54,7 +54,7 @@ module Bim
       end
 
       def show
-        frontend_redirect params[:id]
+        frontend_redirect params[:id].to_i
       end
 
       def defaults

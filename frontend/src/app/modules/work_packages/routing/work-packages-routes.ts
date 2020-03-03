@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
 import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
 import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
@@ -42,7 +41,7 @@ import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routi
 import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
 import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-view-routes.template";
 
-const menuItemClass = 'work-packages-menu-item';
+export const menuItemClass = 'work-packages-menu-item';
 
 export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -182,7 +181,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     },
   },
   ...makeSplitViewRoutes(
-    'work-packages.prtitioned.list',
+    'work-packages.partitioned.list',
     menuItemClass,
     WorkPackageSplitViewComponent
   )
