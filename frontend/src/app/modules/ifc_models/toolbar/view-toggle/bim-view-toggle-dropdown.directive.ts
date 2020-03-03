@@ -85,10 +85,10 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
                 this.state.go('bim.partitioned.list');
                 break;
               case bimViewerViewIdentifier:
-                this.state.go(viewRoute + '.model');
+                this.state.go('bim.partitioned.model');
                 break;
               case bimSplitViewIdentifier:
-                this.state.go(viewRoute);
+                this.state.go('bim.partitioned.split');
                 break;
             }
 

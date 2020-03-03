@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
-# OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# OpenProject is a project management system.
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +28,44 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'show_default'
-
-module Pages
+module Bim
   module IfcModels
-    class Show < ::Pages::IfcModels::ShowDefault
-      attr_accessor :id
+    class IfcViewerController < BaseController
+      helper_method :gon
 
-      def initialize(project, id)
-        super(project)
-        self.id = id
-      end
+      before_action :find_project_by_project_id
+      before_action :authorize
+      before_action :find_all_ifc_models
+      before_action :set_default_models
+      before_action :parse_showing_models
+
+      menu_item :ifc_models
+
+
+      def show; end
 
       private
 
-      def path
-        bcf_project_ifc_model_path(project, id)
+      def parse_showing_models
+        @shown_model_ids =
+          if params[:models]
+            JSON.parse(params[:models])
+          else
+            []
+          end
+
+        @shown_ifc_models = @ifc_models.select { |model| @shown_model_ids.include?(model.id) }
+      end
+
+      def find_all_ifc_models
+        @ifc_models = @project
+          .ifc_models
+          .includes(:attachments)
+          .order('created_at ASC')
+      end
+
+      def set_default_models
+        @default_ifc_models = @ifc_models.where(is_default: true)
       end
     end
   end

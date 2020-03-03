@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
 import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
 import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
@@ -40,8 +39,9 @@ import {Ng2StateDeclaration} from "@uirouter/angular";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
 import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
+import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-view-routes.template";
 
-const menuItemClass = 'work-packages-menu-item';
+export const menuItemClass = 'work-packages-menu-item';
 
 export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -175,75 +175,16 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     data: {
       allowMovingInEditMode: true,
-      bodyClasses: 'router--work-packages-split-view',
+      bodyClasses: 'router--work-packages-partitioned-split-view',
       menuItem: menuItemClass,
       parent: 'work-packages.partitioned.list'
     },
   },
-  {
-    name: 'work-packages.partitioned.list.details',
-    redirectTo: 'work-packages.partitioned.list.details.overview',
-    url: '/details/{workPackageId:[0-9]+}',
-    views: {
-      'content-right@^.^': { component: WorkPackageSplitViewComponent }
-    },
-    reloadOnSearch: false,
-    params: {
-      focus: {
-        dynamic: true,
-        value: true
-      }
-    },
-    data: {
-      bodyClasses: 'router--work-packages-split-view',
-      menuItem: menuItemClass
-    },
-  },
-  {
-    name: 'work-packages.partitioned.list.details.overview',
-    url: '/overview',
-    component: WorkPackageOverviewTabComponent,
-    data: {
-      parent: 'work-packages.partitioned.list.details',
-      menuItem: menuItemClass
-    }
-  },
-  {
-    name: 'work-packages.partitioned.list.details.activity',
-    url: '/activity',
-    component: WorkPackageActivityTabComponent,
-    data: {
-      parent: 'work-packages.partitioned.list.details',
-      menuItem: menuItemClass
-    }
-  },
-  {
-    name: 'work-packages.partitioned.list.details.activity.details',
-    url: '/activity/details/#{activity_no:\d+}',
-    component: WorkPackageActivityTabComponent,
-    data: {
-      parent: 'work-packages.partitioned.list.details',
-      menuItem: menuItemClass
-    }
-  },
-  {
-    name: 'work-packages.partitioned.list.details.relations',
-    url: '/relations',
-    component: WorkPackageRelationsTabComponent,
-    data: {
-      parent: 'work-packages.partitioned.list.details',
-      menuItem: menuItemClass
-    }
-  },
-  {
-    name: 'work-packages.partitioned.list.details.watchers',
-    url: '/watchers',
-    component: WorkPackageWatchersTabComponent,
-    data: {
-      parent: 'work-packages.partitioned.list.details',
-      menuItem: menuItemClass
-    }
-  },
+  ...makeSplitViewRoutes(
+    'work-packages.partitioned.list',
+    menuItemClass,
+    WorkPackageSplitViewComponent
+  )
   // Avoid lazy-loading the routes for now
   // {
   //   name: 'work-packages.calendar.**',

@@ -13,7 +13,7 @@ module Bim
       end
 
       def inline_create_link
-        link_to(new_ifc_models_project_ifc_model_path,
+        link_to(new_bcf_project_ifc_model_path,
                 class: 'wp-inline-create--add-link',
                 title: I18n.t('ifc_models.label_new_ifc_model')) do
           op_icon('icon icon-add')

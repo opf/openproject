@@ -93,7 +93,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
   updateTitle(query?:QueryResource) {
     if (this.bimView.current === bimListViewIdentifier) {
       super.updateTitle(query);
-    } else if (this.bimView.isSingleModel) {
+    } else if (this.ifcData.isSingleModel()) {
       this.selectedTitle = this.ifcData.models[0].name;
     } else {
       this.selectedTitle = this.I18n.t('js.ifc_models.models.default');

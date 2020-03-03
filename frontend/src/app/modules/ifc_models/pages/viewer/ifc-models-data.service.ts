@@ -4,13 +4,27 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
+export interface IFCPermissionMap {
+  manage:boolean;
+}
+
+export interface IFCGonDefinition {
+  models:IfcModelDefinition[];
+  shown_models:number[];
+  projects:{ id:string, name:string }[];
+  xkt_attachment_ids:{ [id:number]:number };
+  metadata_attachment_ids:{ [id:number]:number };
+  permissions:IFCPermissionMap;
+}
+
 export interface IfcModelDefinition {
   name:string;
-  id:string;
+  id:number;
+  default:boolean;
   saoEnabled:boolean;
 }
 
-@Injectable({ providedIn: OpenprojectIFCModelsModule })
+@Injectable({providedIn: OpenprojectIFCModelsModule})
 export class IfcModelsDataService {
 
   constructor(readonly paths:PathHelperService,
@@ -19,7 +33,21 @@ export class IfcModelsDataService {
   }
 
   public get models():IfcModelDefinition[] {
-    return this.gonIFC['models'];
+    return this.gonIFC.models;
+  }
+
+  public get shownModels():number[] {
+    return this.gonIFC.shown_models;
+  }
+
+  public isSingleModel() {
+    return this.shownModels.length === 1;
+  }
+
+  public isDefaults():boolean {
+    return !this
+      .models
+      .find(item => item.default && this.shownModels.indexOf(item.id) === -1);
   }
 
   public get manageIFCPath() {
@@ -30,7 +58,7 @@ export class IfcModelsDataService {
     return this.gonIFC.permissions.manage;
   }
 
-  private get gonIFC() {
-    return (this.gon.get('ifc_models') as any);
+  private get gonIFC():IFCGonDefinition {
+    return (this.gon.get('ifc_models') as IFCGonDefinition);
   }
 }

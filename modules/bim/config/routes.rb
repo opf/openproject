@@ -38,20 +38,14 @@ OpenProject::Application.routes.draw do
         post :import, action: :perform_import, on: :collection
       end
 
-      get 'bcf_issues', to: 'bim/bcf/issues#redirect_to_bcf_issues_list', as: :work_packages
-    end
-  end
 
-  scope '', as: 'ifc_models' do
-    scope 'projects/:project_id', as: 'project' do
+      # IFC viewer frontend
+      get 'bcf(/*state)', to: 'bim/ifc_models/ifc_viewer#show', as: :frontend
+
+      # IFC model management
       resources :ifc_models, controller: 'bim/ifc_models/ifc_models' do
         collection do
-          get 'defaults(/*state)', action: :defaults, as: :defaults
-          get 'list(/*state)', action: :defaults, as: :list
-        end
-
-        member do
-          get '/*(?!edit)', action: :show
+          get :defaults
         end
       end
     end

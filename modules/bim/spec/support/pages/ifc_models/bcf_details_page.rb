@@ -26,23 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'show_default'
+require 'support/pages/work_packages/split_work_package'
 
 module Pages
-  module IfcModels
-    class Show < ::Pages::IfcModels::ShowDefault
-      attr_accessor :id
+  class BcfDetailsPage < Pages::SplitWorkPackage
+    protected
 
-      def initialize(project, id)
-        super(project)
-        self.id = id
-      end
-
-      private
-
-      def path
-        bcf_project_ifc_model_path(project, id)
-      end
+    def path(tab = 'overview')
+      bcf_project_frontend_path project, "split/details/#{work_package.id}/#{tab}"
     end
   end
 end
