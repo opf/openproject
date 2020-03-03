@@ -57,7 +57,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
         FROM
           time_entries te_source
         INNER JOIN enumerations ON te_source.activity_id = enumerations.id AND enumerations.parent_id IS NOT NULL AND enumerations.type = 'TimeEntryActivity'
-        WHERE 
+        WHERE
           te_sink.id = te_source.id
       SQL
     )
@@ -67,7 +67,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
     ActiveRecord::Base.connection.exec_query(
       <<-SQL
         UPDATE
-         time_entries te_sink 
+         time_entries te_sink
         SET
           activity_id = COALESCE(child.id, root.id)
         FROM
