@@ -14,6 +14,8 @@
 // This is different to how we style #content else where.
 .controller-bim\/ifc_models\/ifc_viewer
   overflow: hidden
+  @include extended-content--right
+  @include extended-content--bottom
 
   &.action-show
     #content
@@ -47,6 +49,7 @@
   position: relative
   width: 100%
   height: 100%
+  padding-bottom: 10px
 
 .ifc-model-viewer--model-canvas
   width: 100%
