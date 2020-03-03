@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Injector, OnDestroy, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
@@ -17,7 +17,8 @@ import {BcfCardViewHandlerRegistry} from "core-app/modules/ifc_models/ifc-base-v
   templateUrl: './bcf-container.component.html',
   providers: [
     { provide: WorkPackageViewHandlerToken, useValue: BcfCardViewHandlerRegistry }
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BCFContainerComponent implements OnInit, OnDestroy {
   @InjectField() public queryParamListener:QueryParamListenerService;
