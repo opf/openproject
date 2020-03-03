@@ -16,24 +16,20 @@
   height: 100%
   overflow: hidden
   display: grid
-  grid-template-columns: 1fr auto
+  grid-template-columns: 1fr
   grid-template-rows: auto auto minmax(200px, 1fr)
 
-  &.-split
-    grid-template-areas: "header header" "filter filter" "content-left content-right"
   &.-right-only
-    grid-template-areas: "header header" "filter filter" "content-right content-right"
+    .work-packages-partitioned-page--content-left
+      display: none
+
   &.-left-only
-    grid-template-areas: "header header" "filter filter" "content-left content-left"
+    .work-packages-partitioned-page--content-right
+      display: none
 
-  .toolbar-container
-    grid-area: header
-
-  filter-container
-    grid-area: filter
+  .work-packages-partitioned-page--content-container
+    display: flex
 
   .work-packages-partitioned-page--content-left
-    grid-area: content-left
-
-  .work-packages-partitioned-page--content-right
-    grid-area: content-right
+    flex: 1
+    min-width: 580px
