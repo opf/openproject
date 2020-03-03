@@ -115,7 +115,7 @@ gem 'rack-protection', '~> 2.0.0'
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 6.1.0'
+gem 'rack-attack', '~> 6.2.2'
 
 # CSP headers
 gem 'secure_headers', '~> 6.3.0'
