@@ -31,6 +31,7 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {ProjectCacheService} from "core-components/projects/project-cache.service";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import * as URI from 'urijs';
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   public text = {

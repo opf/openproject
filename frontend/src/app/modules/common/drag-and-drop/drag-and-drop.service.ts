@@ -122,7 +122,7 @@ export class DragAndDropService implements OnDestroy {
         const member = this.getMember(container);
         return member ? member.moves(el, container, handle, sibling) : false;
       },
-      accepts:(el:any, container:any) => {
+      accepts: (el:any, container:any) => {
         const member = this.getMember(container);
         return (member && member.accepts) ? member.accepts(el, container) : true;
       },
@@ -160,7 +160,7 @@ export class DragAndDropService implements OnDestroy {
       }
     });
 
-    this.drake.on('drop', async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) => {
+    this.drake.on('drop', async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement) => {
       try {
         await this.handleDrop(el, target, source, sibling);
       } catch (e) {

@@ -80,9 +80,6 @@ require('../../vendor/select2/select2.min.js');
 
 require('moment-timezone/builds/moment-timezone-with-data.min.js');
 
-require('expose-loader?URI!URIjs');
-require('URIjs/src/URITemplate');
-
 require("expose-loader?I18n!../vendor/i18n");
 
 // Localization for fullcalendar
