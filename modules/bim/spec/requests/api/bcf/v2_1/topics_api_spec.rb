@@ -109,6 +109,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
     it_behaves_like 'bcf api successful response' do
       let(:expected_body) do
+        work_package.reload
         [
           {
             "assigned_to": assignee.mail,
