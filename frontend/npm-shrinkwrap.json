@@ -605,7 +605,7 @@
         },
         "minimist": {
           "version": "1.2.0",
-          "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
+          "resolved": "http://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
           "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ="
         },
         "require-main-filename": {
@@ -3164,23 +3164,22 @@
       }
     },
     "@uirouter/angular": {
-      "version": "4.0.0",
-      "resolved": "https://registry.npmjs.org/@uirouter/angular/-/angular-4.0.0.tgz",
-      "integrity": "sha512-m5zlIfGoM0V42ZWymrmjR8r46rmT/wX5A8O8nF3sxxQpPkmvdbgl+WfWp3lI8DQlOZw2jR/I8W2j8CQckwTyxQ==",
+      "version": "6.0.1",
+      "resolved": "https://registry.npmjs.org/@uirouter/angular/-/angular-6.0.1.tgz",
+      "integrity": "sha512-7UU3rv1rY0oobL3gUpeJ8QpazbgcDxG1JomBvzE7kYyxkVNBZ3rDhPRbzXTniaUXC2J56CEBE9PMtXNPDSxPyQ==",
       "requires": {
-        "@uirouter/core": "5.0.23",
-        "@uirouter/rx": "0.5.0"
+        "tslib": "^1.9.0"
       }
     },
     "@uirouter/core": {
-      "version": "5.0.23",
-      "resolved": "https://registry.npmjs.org/@uirouter/core/-/core-5.0.23.tgz",
-      "integrity": "sha512-rwFOH++z/KY8y+h0IOpQ5uC8Nim6E0EBCQrIjhVCr+XKYXgpK+VdtuOLFdogvbJ3AAi5Z7ei00qdEr7Did5CAg=="
+      "version": "6.0.4",
+      "resolved": "https://registry.npmjs.org/@uirouter/core/-/core-6.0.4.tgz",
+      "integrity": "sha512-TQ9XOzZY+jmWKkU4993MAEBIy7Bs3kijDzj+A6RHR8gq/3UoQm3Q/l1igfao5GZyBjid7eRVeipPK14ovCYQ3g=="
     },
     "@uirouter/rx": {
-      "version": "0.5.0",
-      "resolved": "https://registry.npmjs.org/@uirouter/rx/-/rx-0.5.0.tgz",
-      "integrity": "sha512-SHX1b8u8MW/7L6vFrKSRc5g5u/RgLakGMfdTeVQMSC84fc2yW7VDWNuGJhA8jiOTNKvzscuwvC02dxOgKcwrjg=="
+      "version": "0.6.5",
+      "resolved": "https://registry.npmjs.org/@uirouter/rx/-/rx-0.6.5.tgz",
+      "integrity": "sha512-srGdX+BAVTfpZ1Kl7tvdEN1ss8yctKO4YrGyy9E/4s80bGFp4KMe9Qf2L3UHn0iugBZlX7Nbmp305AQSzWXYrw=="
     },
     "@webassemblyjs/ast": {
       "version": "1.8.5",
