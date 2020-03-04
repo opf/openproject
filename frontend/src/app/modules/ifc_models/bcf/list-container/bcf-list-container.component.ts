@@ -14,13 +14,13 @@ import {WorkPackageViewHandlerToken} from "core-app/modules/work_packages/routin
 import {BcfCardViewHandlerRegistry} from "core-app/modules/ifc_models/ifc-base-view/event-handler/bcf-card-view-handler-registry";
 
 @Component({
-  templateUrl: './bcf-container.component.html',
+  templateUrl: './bcf-list-container.component.html',
   providers: [
     { provide: WorkPackageViewHandlerToken, useValue: BcfCardViewHandlerRegistry }
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BCFContainerComponent implements OnInit, OnDestroy {
+export class BcfListContainerComponent implements OnInit, OnDestroy {
   @InjectField() public queryParamListener:QueryParamListenerService;
   @InjectField() public wpListService:WorkPackagesListService;
   @InjectField() public urlParamsHelper:UrlParamsHelperService;

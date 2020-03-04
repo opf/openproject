@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,20 +26,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Meeting::Patches
-  module TextileConverterPatch
-    extend ActiveSupport::Concern
+require 'support/pages/page'
+require 'support/pages/work_packages/abstract_work_package_create'
 
-    included do
-      prepend(Patch)
-    end
+module Pages
+  module BCF
+    class CreateSplit < ::Pages::AbstractWorkPackageCreate
+      attr_accessor :project,
+                    :model_id,
+                    :type_id,
+                    :view_route
 
-    module Patch
-      def models_to_convert
-        super.merge(
-          ::MeetingContent => [:text],
-          ::Journal::MeetingContentJournal => [:text]
-        )
+      def initialize(project:, model_id: nil, type_id: nil)
+        super(project: project)
+        self.model_id = model_id
+        self.type_id = type_id
+        self.view_route = :split
+      end
+
+      def path
+        bcf_project_frontend_path(project, "#{view_route}/create_new")
+      end
+
+      def expect_current_path
+        expect(page)
+          .to have_current_path(path, ignore_query: true)
+      end
+
+      def container
+        find("wp-new-split-view")
+      end
+
+      private
+
+      def default?
+        model_id.nil?
       end
     end
   end

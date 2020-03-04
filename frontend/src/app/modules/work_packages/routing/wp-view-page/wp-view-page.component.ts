@@ -46,6 +46,7 @@ import {BcfImportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-imp
 import {BcfExportButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-export-button.component";
 import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'wp-view-page',
@@ -66,7 +67,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     {
       component: WorkPackageCreateButtonComponent,
       inputs: {
-        stateName: "work-packages.partitioned.list.new",
+        stateName$: of("work-packages.partitioned.list.new"),
         allowed: ['work_packages.createWorkPackage']
       }
     },

@@ -27,10 +27,13 @@
 #++
 
 require 'support/pages/page'
+require_relative '../bcf/create_split'
 
 module Pages
   module IfcModels
-    class ShowDefault < ::Pages::Page
+    class ShowDefault < ::Pages::WorkPackageCards
+      include ::Pages::WorkPackages::Concerns::WorkPackageByButtonCreator
+
       attr_accessor :project
 
       def initialize(project)
@@ -95,6 +98,14 @@ module Pages
 
       def toolbar_items
         ['Manage models']
+      end
+
+      def create_page_class_instance(type)
+        create_page_class.new(project: project, type_id: type.id)
+      end
+
+      def create_page_class
+        Pages::BCF::CreateSplit
       end
 
       def element_visible?(visible, selector, name)

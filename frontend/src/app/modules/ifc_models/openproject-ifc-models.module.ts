@@ -32,14 +32,14 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
 import {IFCViewerComponent} from './ifc-viewer/ifc-viewer.component';
 import {IFC_ROUTES} from "core-app/modules/ifc_models/openproject-ifc-models.routes";
 import {IFCViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
-import {BCFContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
 import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
 import {BimViewToggleButtonComponent} from "core-app/modules/ifc_models/toolbar/view-toggle/bim-view-toggle-button.component";
 import {BimViewToggleDropdownDirective} from "core-app/modules/ifc_models/toolbar/view-toggle/bim-view-toggle-dropdown.directive";
 import {BimManageIfcModelsButtonComponent} from "core-app/modules/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
 import {IFCViewerService} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.service";
-import {BcfSingleViewComponent} from "core-app/modules/ifc_models/bcf/single-view/bcf-single-view.component";
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
+import {BCFNewSplitComponent} from "core-app/modules/ifc_models/bcf/new-split/bcf-new-split.component";
+import {BcfListContainerComponent} from "core-app/modules/ifc_models/bcf/list-container/bcf-list-container.component";
 
 @NgModule({
   imports: [
@@ -59,14 +59,14 @@ import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-field
 
     // Regions of pages
     EmptyComponent,
-    BCFContainerComponent,
+    BcfListContainerComponent,
 
     // Toolbar
     BimManageIfcModelsButtonComponent,
     BimViewToggleButtonComponent,
     BimViewToggleDropdownDirective,
 
-    BcfSingleViewComponent,
+    BCFNewSplitComponent,
     IFCViewerComponent
   ],
   exports: [],

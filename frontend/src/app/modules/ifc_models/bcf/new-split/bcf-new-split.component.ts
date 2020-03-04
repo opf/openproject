@@ -26,31 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Injector, OnInit} from '@angular/core';
-import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
-import {StateService} from "@uirouter/core";
+import {WorkPackageCreateComponent} from 'core-components/wp-new/wp-create.component';
+import {Component} from '@angular/core';
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {IFCViewerService} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.service";
 
 @Component({
-  selector: 'bcf-single-view',
-  templateUrl: '/app/modules/work_packages/routing/wp-split-view/wp-split-view.html'
+  selector: 'bcf-new-split',
+  templateUrl: './bcf-new-split.component.html'
 })
-export class BcfSingleViewComponent extends WorkPackageSingleViewBase implements OnInit {
+export class BCFNewSplitComponent extends WorkPackageCreateComponent {
+  public successState:string = '^.details';
+  public cancelState:string = '^';
 
-  constructor(public injector:Injector,
-              readonly $state:StateService) {
-    super(injector, $state.params['workPackageId']);
+  @InjectField()
+  readonly viewer:IFCViewerService;
+
+  public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
+    super.onSaved(params);
   }
-
-  ngOnInit():void {
-    this.observeWorkPackage();
-  }
-
-  public close() {
-    this.$state.go('^.^');
-  }
-
-  public switchToFullscreen() {
-    this.$state.go(this.keepTab.currentShowState, this.$state.params);
-  }
-
 }

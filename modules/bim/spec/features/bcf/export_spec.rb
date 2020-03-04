@@ -26,12 +26,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
-require_relative '../support/pages/ifc_models/show_default'
+require_relative '../../support/pages/ifc_models/show_default'
 
-describe 'work package export', type: :feature, js: true do
+describe 'bcf export', type: :feature, js: true do
   let(:status) { FactoryBot.create(:status, name: 'New', is_default: true) }
   let(:closed_status) { FactoryBot.create(:closed_status, name: 'Closed') }
-  let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
+  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
 
   let!(:open_work_package) { FactoryBot.create(:work_package, project: project, subject: 'Open WP', status: status) }
   let!(:closed_work_package) { FactoryBot.create(:work_package, project: project, subject: 'Closed WP', status: closed_status) }

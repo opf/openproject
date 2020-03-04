@@ -27,12 +27,12 @@
 // ++
 import {Ng2StateDeclaration} from '@uirouter/angular';
 import {IFCViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
-import {BCFContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
 import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.component";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
-import {BcfSingleViewComponent} from "core-app/modules/ifc_models/bcf/single-view/bcf-single-view.component";
 import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-view-routes.template";
+import {BcfListContainerComponent} from "core-app/modules/ifc_models/bcf/list-container/bcf-list-container.component";
+import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
@@ -59,50 +59,54 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     name: 'bim.partitioned.list',
     url: '/list',
     data: {
+      newRoute: 'bim.partitioned.list.new',
       partition: '-left-only'
     },
     reloadOnSearch: false,
     views: {
-      'content-left': { component: BCFContainerComponent }
+      'content-left': {component: BcfListContainerComponent}
     }
   },
   {
     name: 'bim.partitioned.split',
     url: '/split',
     data: {
-      partition: '-split'
+      partition: '-split',
+      newRoute: 'bim.partitioned.split.new',
+      bodyClasses: 'router--work-packages-partitioned-split-view'
     },
     reloadOnSearch: false,
     views: {
-      'content-left': { component: IFCViewerComponent },
-      'content-right': { component: BCFContainerComponent }
+      'content-left': {component: IFCViewerComponent},
+      'content-right': {component: BcfListContainerComponent}
     }
   },
   {
     name: 'bim.partitioned.model',
     url: '/model',
     data: {
-      partition: '-left-only'
+      partition: '-left-only',
+      newRoute: 'bim.partitioned.split.new',
     },
     reloadOnSearch: false,
     views: {
       // Retarget and by that override the grandparent views
       // https://ui-router.github.io/guide/views#relative-parent-state{
-      'content-right@^': { component: EmptyComponent },
-      'content-left': { component: IFCViewerComponent }
+      'content-right@^': {component: EmptyComponent},
+      'content-left': {component: IFCViewerComponent}
     }
   },
   // BCF single view for list
   ...makeSplitViewRoutes(
     'bim.partitioned.list',
     undefined,
-    BcfSingleViewComponent
+    WorkPackageSplitViewComponent
   ),
   // BCF single view for split
   ...makeSplitViewRoutes(
     'bim.partitioned.split',
     undefined,
-    BcfSingleViewComponent
-  )
+    WorkPackageSplitViewComponent
+  ),
 ];
 

@@ -46,6 +46,7 @@ import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-packag
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
@@ -60,10 +61,11 @@ export class WorkPackageCreateService implements OnDestroy {
               protected hooks:HookService,
               protected wpCacheService:WorkPackageCacheService,
               protected halResourceService:HalResourceService,
-              protected readonly querySpace:IsolatedQuerySpace,
+              protected querySpace:IsolatedQuerySpace,
+              protected authorisationService:AuthorisationService,
               protected halEditing:HalResourceEditingService,
               protected workPackageDmService:WorkPackageDmService,
-              protected readonly halEvents:HalEventsService) {
+              protected halEvents:HalEventsService) {
 
   this.halEditing
       .comittedChanges
@@ -179,6 +181,7 @@ export class WorkPackageCreateService implements OnDestroy {
     }
 
     return changePromise.then((change:WorkPackageChangeset) => {
+      this.authorisationService.initModelAuth('work_package', change.pristineResource);
       this.halEditing.updateValue(newWorkPackageHref, change);
       this.wpCacheService.updateWorkPackage(change.pristineResource);
 
