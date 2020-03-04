@@ -1137,6 +1137,8 @@ zh-CN:
       blog: "OpenProject 博客"
       forums: "社区论坛"
       newsletter: "安全警报/通信"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: '配置指南'
   instructions_after_registration: "只要您的帐户已被激活您可以点击 %{signin} 登录。"
@@ -2529,6 +2531,7 @@ zh-CN:
     您正在删除唯一的主wiki菜单项。您现在需要选择一个wiki页面生成新的主项目。若要删除wiki，wiki模块可以由管理员停用。
   wiki_menu_item_delete_not_permitted: 不能删除唯一 wiki 页面的 wiki 菜单项。
   query_menu_item_for: "查询\"%{title}\"的菜单项"
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _自动更新由于改变子工作包 %{child} 内的值_

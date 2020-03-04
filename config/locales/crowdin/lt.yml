@@ -1185,6 +1185,8 @@ lt:
       blog: "OpenProject blogas"
       forums: "Bendruomenės forumas"
       newsletter: "Saugos įspėjimai / Naujienos"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Konfigūravimo vadovas'
   instructions_after_registration: "Galėsite prisijungti, kai tik jūsų paskyra bus aktyvuota paspaudžiant %{signin}."
@@ -2599,6 +2601,7 @@ lt:
     Jūs ketinate šalinti tik pagrindinį wiki meniu punktą. Jūs dabar turėsite pasirinkti wiki puslapį, kuriam naujas pagrindinis punktas bus sugeneruotas. Jei norite ištrinti wiki, wiki modulį gali išjungti projekto administratoriai.
   wiki_menu_item_delete_not_permitted: Wiki meniu punktas, kuris priklauso vieninteliam wiki puslapiui, negali būti ištrintas.
   query_menu_item_for: "Meniu punktas užklausai „%{title}“"
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Automatiškai atnaujinta keičiant reikšmes vaiko darbų pakete %{child}_

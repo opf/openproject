@@ -1186,6 +1186,8 @@ pl:
       blog: "Blog OpenProject"
       forums: "Forum społeczności"
       newsletter: "Powiadomienia bezpieczeństwa / Newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Przewodnik po konfiguracji'
   instructions_after_registration: "Możesz się zalogować w momencie gdy Twoje konto zostanie aktywowane poprzez kliknięcie %{signin}."
@@ -2600,6 +2602,7 @@ pl:
     Usuwasz jedyny główny element menu wiki. Teraz musisz wybrać stronę wiki dla których zostanie wygenerowany nowy główny element. Aby usunąć wpis, moduł wiki może zostać dezaktywowany poprzez administratorów projektu.
   wiki_menu_item_delete_not_permitted: Nie można usunąć elementu menu dla jedynej strony wiki.
   query_menu_item_for: "Element menu dla zapytania \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Zaktualizowane automatycznie przez zmianę wartości wewnątrz podrzędnego pakietu roboczego %{child}_

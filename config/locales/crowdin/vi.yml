@@ -1142,6 +1142,8 @@ vi:
       blog: "OpenProject blog"
       forums: "Diễn đàn cộng đồng"
       newsletter: "Security alerts / Newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Configuration guide'
   instructions_after_registration: "Bạn có thể đăng nhập ngay sau khi tài khoản của bạn đã được kích hoạt bằng cách nhấn vào %{signin}."
@@ -2537,6 +2539,7 @@ vi:
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
   query_menu_item_for: "Menu item for query \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Updated automatically by changing values within child work package %{child}_

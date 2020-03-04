@@ -28,31 +28,31 @@ ja:
     plugins:
       no_results_title_text: 現在利用可能なプラグインはありません。
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "カラーテーマ"
+      color_theme_custom: "（カスタム）"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "代替"
+        content-link-color: "リンクの色"
+        primary-color: "プライマリ"
+        primary-color-dark: "プライマリ（ダーク）"
+        header-bg-color: "ヘッダの背景"
+        header-item-bg-hover-color: "ホバー時のヘッダの背景"
+        header-item-font-color: "ヘッダのフォント"
+        header-item-font-hover-color: "ホバー時のヘッダのフォント"
+        header-border-bottom-color: "ヘッダの枠線"
+        main-menu-bg-color: "メインメニューの背景"
+        main-menu-bg-selected-background: "選択時のメインメニュー"
+        main-menu-bg-hover-background: "ホバー時のメインメニュー"
+        main-menu-font-color: "メインメニューのフォント"
+        main-menu-selected-font-color: "選択時のメインメニューのフォント"
+        main-menu-hover-font-color: "ホバー時のメインメニューのフォント"
+        main-menu-border-color: "メインメニューの枠線"
       custom_colors: "カスタム色"
       customize: "独自のロゴでOpenProject のインストールをカスタマイズします。注: このロゴは一般公開されます。"
       enterprise_notice: "OpenProject開発の金融面への貢献として、特に '感謝します!' この小さな機能はエンタープライズ版サポート購入者のみ利用できます。"
       manage_colors: "色の選択オプションを編集"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "強力なアクセントカラー。通常、画面の最も重要なボタンに使用されます。"
         content-link-color: "大部分のリンクのフォント色。"
         primary-color: "メインの色。"
         primary-color-dark: "ホバー効果に使用する、メインの色の暗いバージョンです。"
@@ -61,7 +61,7 @@ ja:
         header-item-font-hover-color: "クリック可能なヘッダー項目にマウスを置いたときのフォント色。"
         header-border-bottom-color: "ヘッダーの下の細い線。線を引きたくない場合は、このフィールドを空にしてください。"
         main-menu-bg-color: "左サイドメニューの背景色。"
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: テーマを変更した場合、カスタムスタイルが上書きされ、失われます。本当に続けますか？
     enterprise:
       upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
@@ -1138,6 +1138,8 @@ ja:
       blog: "OpenProject ブログ"
       forums: "コミュニティ フォーラム"
       newsletter: "セキュリティアラート / ニュースレター"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: '設定ガイド'
   instructions_after_registration: "%{signin}をクリックして、アカウントが有効された後にログインできます。"
@@ -2534,6 +2536,7 @@ ja:
     唯一の主なＷｉｋｉメニュー項目が削除されます。新しい主要項目が生成するためにＷｉｋｉページを選択する必要があります。Ｗｉｋｉを削除するには、プロジェクト管理者によってＷｉｋｉモジュールを無効にすることができます。
   wiki_menu_item_delete_not_permitted: 唯一のＷｉｋｉページにあるＷｉｋｉメニュー項目は削除できません。
   query_menu_item_for: "クエリ\"%{title}\"のメニュー項目"
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _子作業項目%{child}の変更による自動更新されました_

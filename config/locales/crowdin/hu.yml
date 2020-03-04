@@ -1153,6 +1153,8 @@ hu:
       blog: "OpenProject blog"
       forums: "Közösségi fórum"
       newsletter: "Biztonsági figyelmeztetések / hírlevél"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Konfigurációs útmutató'
   instructions_after_registration: "Be tud jelentkezni, amint fiókját aktiválta ide %{signin} kattintva."
@@ -2555,6 +2557,7 @@ hu:
     Csak a fő wiki menüelemet törölted. Most ki kell választani egy wiki oldalt, amelyre egy új fő menüelem jön létre. Ha törli a wiki oldalakat a projekt adminisztrátor tudja letiltani a wiki modult.
   wiki_menu_item_delete_not_permitted: A wiki menüpontjában egyetlen wiki oldalt nem lehet törölni.
   query_menu_item_for: "Menüpont lekérdezés \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       Automatikusan frissíti a változó értékeken belöl a gyermek feladatcsoport %{child} alapján

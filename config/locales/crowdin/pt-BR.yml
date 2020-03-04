@@ -1155,6 +1155,8 @@ pt-BR:
       blog: "Blog do OpenProject"
       forums: "Fórum da Comunidade"
       newsletter: "Alertas de segurança / Newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Guia de configuração'
   instructions_after_registration: "Você pode entrar, assim que a sua conta for ativada clicando %{signin}."
@@ -2557,6 +2559,7 @@ pt-BR:
     Você está excluindo somente o item de menu principal da wiki. Você agora tem que escolher uma página wiki para que um novo item principal seja gerado. Para excluir a wiki, o módulo wiki deve ser desativado pelos administradores do projeto.
   wiki_menu_item_delete_not_permitted: O item de menu da página wiki é único e não pode ser excluído.
   query_menu_item_for: "Item de menu para consulta \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Atualizado automaticamente por alterações de valores dentro do pacote de trabalho filho %{child}_

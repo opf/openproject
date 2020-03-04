@@ -1152,6 +1152,8 @@ de:
       blog: "OpenProject Blog"
       forums: "Community Forum"
       newsletter: "Sicherheitswarnungen / Newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Konfigurationsanleitung'
   instructions_after_registration: "Sie können sich anmelden, sobald Ihr Konto aktiviert wurde, indem Sie auf %{signin} klicken."
@@ -2554,6 +2556,7 @@ de:
     Der einzige Wiki-Hauptmenüpunkt wird gelöscht. Sie müssen nun eine Wikiseite auswählen, für die ein neuer Menüpunkt erzeugt wird. Um das Wiki zu entfernen kann das Wiki Modul durch Projektadministratoren deaktiviert werden.
   wiki_menu_item_delete_not_permitted: Der Wiki-Menüpunkt der einzigen Wiki-Seite kann nicht gelöscht werden.
   query_menu_item_for: "Menüpunkt für die Suche \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Automatisch durch die Änderungen in Unteraufgabe %{child} aktualisiert_

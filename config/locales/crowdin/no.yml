@@ -1156,6 +1156,8 @@
       blog: "OpenProject blogg"
       forums: "Brukerforum"
       newsletter: "Security alerts / Newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Configuration guide'
   instructions_after_registration: "Du kan logge inn ved å trykke på %{signin} så fort kontoen din er aktivert."
@@ -2559,6 +2561,7 @@
     Du er i ferd med å slette det eneste wiki-menyelementet. Du må velge en wiki-side som skal brukes for generering av et nytt hovedelement. For å slette hele wikien må wiki-modulen deaktiveres av en prosjektadministrator.
   wiki_menu_item_delete_not_permitted: Menyelementet til den eneste wiki-siden kan ikke slettes.
   query_menu_item_for: "Menyelement for spørringen \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Oppdatert automatisk ved å endre verdier i underordnet arbeidspakke %{child}_

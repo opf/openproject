@@ -1156,6 +1156,8 @@ fil:
       blog: "Blog ng OpenProject"
       forums: "Komunidad forum"
       newsletter: "Mga alertong seguridad/ Newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Gabay ng kumpigurasyon'
   instructions_after_registration: "Maari kang mag-sign in sa lalong madaling panahon bilang ang iyong akwant ay naka-aktibo sa pamamagitan ng pagpipindut%{signin}."
@@ -2557,6 +2559,7 @@ fil:
     Ikay ay nagtatanggal sa tanging pangunahing aytem sa wiki na pagpipilian. Ikaw ay pwede nang makapili ng isang pahinang wiki kung saan ang isang bagong pangunahing aytem ay magiging buo. Para matanggal ang wiki ang modyul na wiki ay hindi aktibo sa pamamagitan ng mga administrador sa proyekto.
   wiki_menu_item_delete_not_permitted: Ang wiki na aytem na pagpipilian sa pahinang wiki lamang ay hindi maibura.
   query_menu_item_for: "Aytem na pagpipilian sa query \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Awtomatikong nai-update sa pamamagitan ng pagbabago sa mga halaga sa loob ng pambatang gawain na pakete %{child}_

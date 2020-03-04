@@ -1188,6 +1188,8 @@ sk:
       blog: "OpenProject blog"
       forums: "Komunitné fórum"
       newsletter: "Bezpečnostné upozornenia / Newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Sprievodca konfiguráciou'
   instructions_after_registration: "Môžete prihlásiť ihneď potom, ako váš účet bude aktivovaný. Akciu iniciujete kliknutí na %{signin}."
@@ -2605,6 +2607,7 @@ sk:
     Modul pre odstránenie wiki môže byť deaktivovaný správcami projektu.
   wiki_menu_item_delete_not_permitted: Položku ponuky wiki na stránke s jednou wiki nemožno odstrániť.
   query_menu_item_for: "Položka menu pre dopyt \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Modifikované automaticky z dôvodu zmeny hodnôt v rámci podradeného pracovného balíčka %{child}_

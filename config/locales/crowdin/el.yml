@@ -1153,6 +1153,8 @@ el:
       blog: "OpenProject blog"
       forums: "Φόρουμ κοινότητας"
       newsletter: "Ειδοποιήσεις ασφάλεια / Ενημερωτικό δελτίο"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Οδηγός διαμόρφωσης'
   instructions_after_registration: "Μπορείτε να συνδεθείτε μόλις ο λογαριασμός σας ενεργοποιηθεί κάνοντας κλικ στο %{signin}."
@@ -2555,6 +2557,7 @@ el:
     Πρόκειται να διαγράψετε το μόνο κύριο αντικείμενο του μενού. Τώρα πρέπει να επιλέξετε μία σελίδα wiki για την οποία θα δημιουργηθεί ένα καινούργιο κύριο αντικείμενο. Για να διαγράψετε το wiki, πρέπει να απενεργοποιηθεί η ενότητα wiki από τους διαχειριστές έργου.
   wiki_menu_item_delete_not_permitted: Το αντικείμενο μενού wiki της μοναδικής σελίδας wiki δεν μπορεί να διαγραφεί.
   query_menu_item_for: "Αντικείμενο μενού για την αναζήτηση \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Ενημερώθηκε αυτόματα με την αλλαγή των τιμών μέσα στα πακέτα εργασίας-παιδιά %{child}_

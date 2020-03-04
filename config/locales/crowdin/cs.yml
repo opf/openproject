@@ -1188,6 +1188,8 @@ cs:
       blog: "OpenProject blog"
       forums: "Komunitní fórum"
       newsletter: "Bezpečnostní upozornění / newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Konfigurační manuál'
   instructions_after_registration: "Můžete se přihlásit hned poté, co bude váš účet aktivovaný kliknutím na %{signin}."
@@ -2603,6 +2605,7 @@ cs:
     Odstraňujete jedinou hlavní položku nabídky wiki. Nyní musíte vybrat wiki stránku, pro kterou bude vytvořena nová hlavní položka. Pro odstranění wiki může být wiki modul deaktivován administrátorem projektu.
   wiki_menu_item_delete_not_permitted: Položku wiki menu jediné wiki stránky nelze odstranit.
   query_menu_item_for: "Položka nabídky pro dotaz \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Automaticky aktualizováno změnou hodnot v podřazeném pracovním balíčku %{child}_

@@ -1139,6 +1139,8 @@ ko:
       blog: "OpenProject 블로그"
       forums: "커뮤니티 포럼"
       newsletter: "보안 알림/뉴스레터"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: '구성 가이드'
   instructions_after_registration: "%{signin}을(를) 클릭하여 계정이 활성화되면 바로 로그인할 수 있습니다."
@@ -2533,6 +2535,7 @@ ko:
     유일한 기본 위키 메뉴 항목을 삭제하려고 합니다. 이제 새로운 기본 항목이 생성될 위키 페이지를 선택해야 합니다. 위키를 삭제하기 위해 프로젝트 관리자가 위키 모듈을 비활성화할 수 있습니다.
   wiki_menu_item_delete_not_permitted: 유일한 위키 페이지의 위키 메뉴 항목은 삭제할 수 없습니다.
   query_menu_item_for: "쿼리 \"%{title}\"에 대한 메뉴 항목"
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _자식 작업 패키지 %{child} 내에서 값을 변경하여 자동으로 업데이트됨_

@@ -1139,6 +1139,8 @@ id:
       blog: "OpenProject blog"
       forums: "Community forum"
       newsletter: "Peringatan keamanan / Jurnal berkala"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Petunjuk Konfigurasi'
   instructions_after_registration: "Anda dapat login setelah akun Anda diaktifkan, klik %{signin}."
@@ -2533,6 +2535,7 @@ id:
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
   query_menu_item_for: "Menu item for query \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Update otomatis dengan merubah nilai dari turunan Paket-Penugasan %{child}_
