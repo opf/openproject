@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
-require_relative '../support/pages/ifc_models/show_default'
+require_relative '../../support/pages/ifc_models/show_default'
 
 describe 'bcf export', type: :feature, js: true do
   let(:status) { FactoryBot.create(:status, name: 'New', is_default: true) }
