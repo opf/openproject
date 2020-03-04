@@ -64,7 +64,7 @@ export function makeSplitViewRoutes(baseRoute:string,
       redirectTo: baseRoute + '.details.overview',
       reloadOnSearch: false,
       data: {
-        bodyClasses: 'router--work-packages-partitioned-split-view',
+        bodyClasses: 'router--work-packages-partitioned-split-view-details',
         menuItem: menuItemClass,
         // Remember the base route so we can route back to it anywhere
         baseRoute: baseRoute,
