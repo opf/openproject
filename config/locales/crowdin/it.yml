@@ -1152,6 +1152,8 @@ it:
       blog: "Blog di OpenProject"
       forums: "Forum della Comunità"
       newsletter: "Avvisi di sicurezza / Notizie"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Guida di configurazione'
   instructions_after_registration: "Puoi accedere non appena il tuo account è stato attivato cliccando %{signin}."
@@ -2555,6 +2557,7 @@ it:
     Stai eliminando la sola voce del menù principale della wiki. Ora devi scegliere una pagina wiki per il quale verrà generata una nuova voce di menù. Per eliminare la wiki, il modulo wiki può essere disattivato dagli amministratori del progetto.
   wiki_menu_item_delete_not_permitted: La voce di menù wiki dell'unica pagina wiki non può essere eliminata.
   query_menu_item_for: "Voce di menù per la query \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Aggiornata automaticamente cambiando i valori all'interno della macro-attività figlia %{child}_

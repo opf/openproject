@@ -1155,6 +1155,8 @@ fr:
       blog: "Blog OpenProject"
       forums: "Forum de la communauté"
       newsletter: "Alertes de sécurité / Lettre d’information"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Guide de configuration'
   instructions_after_registration: "Vous pouvez vous authentifier tant que votre compte a été activé en cliquant sur %{signin}."
@@ -2557,6 +2559,7 @@ fr:
     Vous êtes en train de supprimer l'élement principal du menu wiki. Vous devez maintenant choisir une page wiki pour laquelle un nouvel élément principal sera créé. Pour supprimer le wiki, le module wiki peut être désactivé par les administrateurs du projet.
   wiki_menu_item_delete_not_permitted: L'élement du menu wiki de la seule page wiki ne peut être supprimé.
   query_menu_item_for: "Élément de menu pour question « %{title} »"
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Mis à jour automatiquement en changeant les valeurs dans le lot de travaux enfant %{child}_

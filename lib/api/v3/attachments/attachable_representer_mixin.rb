@@ -60,14 +60,7 @@ module API
                    uncacheable: true
 
           def attachments
-            attachments = represented.attachments.includes(:container).to_a
-
-            # Concat any claimed attachments on this resource
-            # (e.g., when new an coming back from backend with an error)
-            claimed = represented.attachments_claimed
-            attachments.concat(claimed) unless claimed.nil?
-
-            ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachments,
+            ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachment_set,
                                                                         attachments_by_resource,
                                                                         current_user: current_user)
           end
@@ -76,6 +69,22 @@ module API
             path = "attachments_by_#{_type.singularize.underscore}"
 
             api_v3_paths.send(path, represented.id)
+          end
+
+          def attachment_set
+            # Depending on the way attachments are handled we have three different cases:
+            # * The attachments are replaced completely (but are not yet persisted)
+            # * Additional attachments will be added to the container (but are not yet persisted)
+            # * We only have the already persisted attachments
+            #
+            # The first two cases can happen e.g., when new and coming back from backend with an error.
+            if represented.attachments_replacements
+              represented.attachments_replacements
+            elsif represented.attachments_claimed
+              represented.attachments.concat(represented.attachments_claimed)
+            else
+              represented.attachments
+            end
           end
         end
       end

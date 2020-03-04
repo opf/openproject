@@ -1220,6 +1220,8 @@ ar:
       blog: "مدونة أوبِن بروجِكت"
       forums: "منتدى المجتمع"
       newsletter: "Security alerts / Newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Configuration guide'
   instructions_after_registration: "يمكنك تسجيل الدخول بمجرد أن تم تنشيط الحساب الخاص بك عن طريق النقر فوق %{signin}."
@@ -2649,6 +2651,7 @@ ar:
     يتم حذف عنصر القائمة Wiki الرئيسي فقط. لديك الآن لاختيار صفحة wiki التي سيتم إنشاء عنصر جديد الرئيسي. لحذف صفحة wiki يمكن إلغاء تنشيط الوحدة النمطية Wiki بواسطة المسؤولين عن المشروع.
   wiki_menu_item_delete_not_permitted: لا يمكن حذف عنصر القائمة ويكي لصفحة wiki فقط.
   query_menu_item_for: "عنصر القائمة للاستعلام \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       محدث تلقائياً بتغيير القيم داخل حزمة العمل الفرعية %{child}_

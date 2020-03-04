@@ -1188,6 +1188,8 @@ uk:
       blog: "Openproject блог"
       forums: "Форум спільноти"
       newsletter: "Сигнали безпеки / Інформаційний бюлетень"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Посібник з налаштування'
   instructions_after_registration: "Ви можете ввійти, як тільки ваш обліковий запис активується, натиснувши %{signin}."
@@ -2604,6 +2606,7 @@ uk:
     Ви видаляєте лише головний пункт меню вікі. Тепер ви повинні вибрати вікі-сторінку, для якої буде створено новий головний елемент. Щоб видалити вікі, модуль wiki може бути відключений адміністраторами проекту.
   wiki_menu_item_delete_not_permitted: Пункт меню вікі лише з вікі-сторінки не можна видалити.
   query_menu_item_for: "Пункт меню для запиту %{title}"
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Поповнюється автоматично шляхом зміни значень у робочому пакеті для дітей %{child} _

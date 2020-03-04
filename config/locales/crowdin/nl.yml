@@ -1156,6 +1156,8 @@ nl:
       blog: "OpenProject blog"
       forums: "Gemeenschapsforum"
       newsletter: "Beveiligingswaarschuwingen / nieuwsbrief"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Configuratiegids'
   instructions_after_registration: "U kan inloggen zodra uw account geactiveerd is door te klikken op %{signin}."
@@ -2557,6 +2559,7 @@ nl:
     U verwijdert het alleen het hoofd wiki menu-item. Je moet nu kiezen van een wiki-pagina waarvoor een nieuw belangrijkste item zal worden gegenereerd. Als u de wiki wilt verwijderen, kan de wiki module worden gedeactiveerd door project beheerders.
   wiki_menu_item_delete_not_permitted: De wiki menu-item van de enige wikipagina kan niet worden verwijderd.
   query_menu_item_for: "Menu-item voor query \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Automatisch geüpdatet door het veranderen van waarden binnen onderliggend werk pakket %{child}_

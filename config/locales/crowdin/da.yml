@@ -1156,6 +1156,8 @@ da:
       blog: "OpenProject blog"
       forums: "Community forum"
       newsletter: "Security alerts / Newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Configuration guide'
   instructions_after_registration: "Du kan logge ind så snart din konto er blevet aktiveret ved at klikke %{signin}."
@@ -2557,6 +2559,7 @@ da:
     Du er ved at slette det eneste overordnede punkt på wiki-menuen. Du skal nu vælge en wiki-side, udfra hvilken der kan dannes et nyt hovedpunkt. Hvis du vil slette wikien helt kan wiki-modulet deaktiveres af projektadministratorer.
   wiki_menu_item_delete_not_permitted: Menupunktet til den eneste wiki-side kan ikke slettes.
   query_menu_item_for: "Menupunkt for forespørgsel \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Updateret automatisk ved at ændre værdier i underordnet arbejdspakke %{child} _

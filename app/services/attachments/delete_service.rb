@@ -26,47 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddAttachmentService
-  attr_reader :container, :author
-
-  def initialize(container, author:)
-    @container = container
-    @author = author
-  end
-
-  ##
-  # Adds and saves the uploaded file as attachment of the given container.
-  # In case the container supports it, a journal will be written.
-  #
-  # An ActiveRecord::RecordInvalid error is raised if any record can't be saved.
-  def add_attachment(uploaded_file:, description:)
-    attachment = Attachment.new(file: uploaded_file,
-                                container: container,
-                                description: description,
-                                author: author)
-    save attachment
-
-    attachment
+class Attachments::DeleteService < ::BaseServices::Delete
+  def call(params = nil)
+    in_context(model.container || model) do
+      perform(params)
+    end
   end
 
   private
 
-  def save(attachment)
-    ActiveRecord::Base.transaction do
-      attachment.save!
-
-      add_journal if container.respond_to? :add_journal
+  def destroy(attachment)
+    if attachment.container
+      attachment.container.attachments.delete(attachment)
+    else
+      super
     end
-  end
-
-  def add_journal
-    # reload to get the newly added attachment
-    container.attachments.reload
-    container.add_journal author
-    # We allow invalid containers to be saved as
-    # adding the attachments does not change the validity of the container
-    # but without that leeway, the user needs to fix the container before
-    # the attachment can be added.
-    container.save!(validate: false)
   end
 end

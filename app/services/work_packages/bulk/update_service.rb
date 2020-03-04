@@ -43,7 +43,7 @@ module WorkPackages
 
       def call(params:)
         self.permitted_params = PermittedParams.new(params, user)
-        in_context(true) do
+        in_user_context do
           bulk_update(params)
         end
       end

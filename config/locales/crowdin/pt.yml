@@ -1154,6 +1154,8 @@ pt:
       blog: "Blog de OpenProject"
       forums: "Fórum da Comunidade"
       newsletter: "Alertas de segurança / Boletim informativo"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Guia de configuração'
   instructions_after_registration: "Pode iniciar a sessão assim que a sua conta for ativada ao clicar em %{signin}."
@@ -2555,6 +2557,7 @@ pt:
     Está a apagar o único item de menu wiki principal. Tem agora que escolher uma página wiki para gerar um novo item principal. Para apagar o wiki, o módulo wiki pode ser desativado pelos administradores do projeto.
   wiki_menu_item_delete_not_permitted: O item de menu wiki da página wiki únicã não pode ser apagado.
   query_menu_item_for: "Item de menu para consulta \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Atualizado automaticamente através da alteração de valor na tarefa %{child}_

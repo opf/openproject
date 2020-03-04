@@ -68,7 +68,6 @@ class DocumentsController < ApplicationController
     @document.attach_files(permitted_params.attachments.to_h)
 
     if @document.save
-      render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_documents_path(@project)
     else
@@ -85,7 +84,6 @@ class DocumentsController < ApplicationController
     @document.attach_files(permitted_params.attachments.to_h)
 
     if @document.save
-      render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: 'show', id: @document
     else
@@ -103,9 +101,8 @@ class DocumentsController < ApplicationController
     attachments = @document.attachments.select(&:new_record?)
 
     @document.save
-    render_attachment_warning_if_needed(@document)
-
     saved_attachments = attachments.select(&:persisted?)
+
     if saved_attachments.present? && Setting.notified_events.include?('document_added')
       users = saved_attachments.first.container.recipients
       users.each do |user|
