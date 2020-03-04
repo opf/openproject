@@ -39,7 +39,7 @@ FactoryBot.define do
       )
     end
 
-    factory :ifc_model_converted do
+    factory :ifc_model_minimal_converted do
       sequence(:title) { |n| "Converted IFC model #{n}" }
       project factory: :project
       uploader factory: :user

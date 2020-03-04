@@ -44,7 +44,7 @@ describe 'BIM navigation spec', type: :feature, js: true do
   end
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_converted,
+    FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user)
   end

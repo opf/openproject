@@ -19,7 +19,7 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
   end
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_converted,
+    FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user)
   end
