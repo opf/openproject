@@ -68,7 +68,7 @@ drwxr-xr-x 6 openproject openproject    4096 Nov 19 21:00 ..
 -rw-r----- 1 openproject openproject     112 Nov 19 21:00 svn-repositories-20191119210038.tar.gz
 ```
 
-We will need the most recently created (but before the migration to 10.4) file following the schema `postgresql-dump-<TIMESTAMP>.pgdump`.
+We will need the most recently created (but created before the migration to 10.4) file following the schema `postgresql-dump-<TIMESTAMP>.pgdump`.
 
 Using that file we can then restore the database to the newly created database (called `openproject_backup` in our example). **In the following steps, ensure that you do not restore to the currently running database**. 
 
@@ -89,13 +89,13 @@ That command will restore the contents of the backup file into the auxillary dat
 The script that fixes the time entries can then be called:
 
 ```bash
-$ BACKUP_DATABASE_URL=postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<new_dbname> sudo openproject run bundle exec rails openproject:reassign_time_entry_activities
+$ BACKUP_DATABASE_URL="postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<new_dbname>" sudo openproject run bundle exec rails openproject:reassign_time_entry_activities
 ```
 
 Example
 
 ```bash
-$ BACKUP_DATABASE_URL=postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject_backup sudo openproject run bundle exec rails openproject:reassign_time_entry_activities
+$ BACKUP_DATABASE_URL="postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject_backup" sudo openproject run bundle exec rails openproject:reassign_time_entry_activities
 ```
 
 The script will then print out the number of time entries it has fixed.
