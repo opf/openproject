@@ -47,9 +47,9 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 import * as URI from 'urijs';
 
 @Directive()
-@Injectable()
-export class WorkPackageCreateController implements OnInit, OnDestroy {
+export class WorkPackageCreateComponent implements OnInit, OnDestroy {
   public successState:string;
+  public cancelState:string = this.$state.current.data.baseRoute;
   public newWorkPackage:WorkPackageResource;
   public parentWorkPackage:WorkPackageResource;
   public change:WorkPackageChangeset;
@@ -84,6 +84,36 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   public ngOnInit() {
     this.closeEditFormWhenNewWorkPackageSaved();
 
+    this.showForm();
+  }
+
+  public ngOnDestroy() {
+    // Nothing to do
+  }
+
+  public switchToFullscreen() {
+    this.$state.go('work-packages.new', this.$state.params);
+  }
+
+  public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
+    let {savedResource, isInitial} = params;
+
+    // Shouldn't this always be true in create controller?
+    // Close all edit fields when saving
+    if (isInitial && this.editForm && this.editForm.editMode) {
+      this.editForm.stop();
+    }
+
+    if (this.successState) {
+      this.$state.go(this.successState, {workPackageId: savedResource.id})
+        .then(() => {
+          this.wpViewFocus.updateFocus(savedResource.id!);
+          this.notificationService.showSave(savedResource, isInitial);
+        });
+    }
+  }
+
+  protected showForm() {
     this
       .createdWorkPackage()
       .then((changeset:WorkPackageChangeset) => {
@@ -94,8 +124,9 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
         this.setTitle();
 
         if (this.stateParams['parent_id']) {
-          this.newWorkPackage.parent =
-            {href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path};
+          this.newWorkPackage.parent = {
+            href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path
+          };
         }
 
         // Load the parent simply to display the type name :-/
@@ -126,39 +157,13 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
       });
   }
 
-  public ngOnDestroy() {
-    // Nothing to do
-  }
-
-  public switchToFullscreen() {
-    this.$state.go('work-packages.new', this.$state.params);
-  }
-
-  public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
-    let {savedResource, isInitial} = params;
-
-    // Shouldn't this always be true in create controller?
-    // Close all edit fields when saving
-    if (isInitial && this.editForm && this.editForm.editMode) {
-      this.editForm.stop();
-    }
-
-    if (this.successState) {
-      this.$state.go(this.successState, {workPackageId: savedResource.id})
-        .then(() => {
-          this.wpViewFocus.updateFocus(savedResource.id!);
-          this.notificationService.showSave(savedResource, isInitial);
-        });
-    }
-  }
-
   protected setTitle() {
     this.titleService.setFirstPart(this.I18n.t('js.work_packages.create.title'));
   }
 
   public cancelAndBackToList() {
     this.wpCreate.cancelCreation();
-    this.$state.go('work-packages.partitioned.list', this.$state.params);
+    this.$state.go(this.cancelState, this.$state.params);
   }
 
   protected createdWorkPackage() {

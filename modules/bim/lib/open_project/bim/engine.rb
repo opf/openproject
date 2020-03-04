@@ -45,7 +45,10 @@ module OpenProject::Bim
       project_module(:bim,
                      if: ->(*) { OpenProject::Configuration.bim? }) do
         permission :view_ifc_models,
-                   {'bim/ifc_models/ifc_models': %i[index show defaults]}
+                   {
+                     'bim/ifc_models/ifc_models': %i[index show defaults],
+                     'bim/ifc_models/ifc_viewer': %i[show]
+                   }
         permission :manage_ifc_models,
                    {'bim/ifc_models/ifc_models': %i[index show destroy edit update create new]},
                    dependencies: %i[view_ifc_models]

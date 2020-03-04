@@ -26,7 +26,7 @@
           <li class="toolbar-item hidden-for-mobile">
             <wp-create-button
               [allowed]="['work_package.addChild', 'work_package.copy']"
-              stateName="work-packages.new">
+              [stateName$]="stateName$">
             </wp-create-button>
           </li>
           <li class="toolbar-item" *ngIf="displayWatchButton">

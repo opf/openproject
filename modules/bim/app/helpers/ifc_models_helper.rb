@@ -1,15 +1,16 @@
 module IfcModelsHelper
-  def provision_gon_for_ifc_model(all_models, models_to_load = [])
+  def provision_gon_for_ifc_model(all_models, shown_models)
     all_converted_models = converted_ifc_models(all_models)
 
     gon.ifc_models = {
-      models: gon_ifc_model_models(all_converted_models, models_to_load),
-      default_models: gon_ifc_default_models(all_converted_models, models_to_load),
+      models: gon_ifc_model_models(all_converted_models),
+      shown_models: gon_ifc_shown_models(all_converted_models, shown_models),
       projects: [{id: @project.identifier, name: @project.name}],
       xkt_attachment_ids: gon_ifc_model_xkt_attachment_ids(all_converted_models),
       metadata_attachment_ids: gon_ifc_model_metadata_attachment_ids(all_converted_models),
       permissions: {
-        manage: User.current.allowed_to?(:manage_ifc_models, @project)
+        manage_ifc_models: User.current.allowed_to?(:manage_ifc_models, @project),
+        manage_bcf: User.current.allowed_to?(:manage_bcf, @project),
       }
     }
   end
@@ -18,26 +19,23 @@ module IfcModelsHelper
     ifc_models.select(&:converted?)
   end
 
-  def gon_ifc_model_models(all_models, models_to_load)
+  def gon_ifc_model_models(all_models)
     all_converted_models = converted_ifc_models(all_models)
 
     all_converted_models.map do |ifc_model|
       {
         id: ifc_model.id,
         name: ifc_model.title,
-        saoEnabled: models_to_load.include?(ifc_model)
+        default: ifc_model.is_default,
+        saoEnabled: ifc_model.is_default
       }
     end
   end
 
-  def gon_ifc_default_models(all_models, models_to_load)
-    all_converted_models = converted_ifc_models(all_models)
-    default_models = []
-
-    all_converted_models.map do |ifc_model|
-      default_models << ifc_model.id.to_s if models_to_load.include?(ifc_model)
-    end
-    default_models
+  def gon_ifc_shown_models(all_models, shown_models)
+    converted_ifc_models(all_models)
+      .select { |model| shown_models.include?(model.id) }
+      .map(&:id)
   end
 
   def gon_ifc_model_xkt_attachment_ids(models)

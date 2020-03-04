@@ -150,7 +150,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
    * @param state The current or entering state
    */
   protected setPartition(state:Ng2StateDeclaration) {
-    this.currentPartition = state.data.partition || '-split';
+    this.currentPartition = (state.data && state.data.partition) ? state.data.partition : '-split';
   }
 
   protected setupInformationLoadedListener() {

@@ -61,6 +61,7 @@ pt:
         header-item-font-hover-color: "Cor da fonte de itens do cabeçalho clicáveis quando se passa com o rato por cima."
         header-border-bottom-color: "Linha fina sob o cabeçalho. Deixe este campo vazio se não deseja qualquer linha."
         main-menu-bg-color: "Cor de fundo do menu do lado esquerdo."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Atualizar para a versão Enterprise"
       add_token: "Carregar um token de suporte da versão Enterprise"
@@ -1153,6 +1154,8 @@ pt:
       blog: "Blog de OpenProject"
       forums: "Fórum da Comunidade"
       newsletter: "Alertas de segurança / Boletim informativo"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Guia de configuração'
   instructions_after_registration: "Pode iniciar a sessão assim que a sua conta for ativada ao clicar em %{signin}."
@@ -2554,6 +2557,7 @@ pt:
     Está a apagar o único item de menu wiki principal. Tem agora que escolher uma página wiki para gerar um novo item principal. Para apagar o wiki, o módulo wiki pode ser desativado pelos administradores do projeto.
   wiki_menu_item_delete_not_permitted: O item de menu wiki da página wiki únicã não pode ser apagado.
   query_menu_item_for: "Item de menu para consulta \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Atualizado automaticamente através da alteração de valor na tarefa %{child}_

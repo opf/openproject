@@ -61,6 +61,7 @@ fi:
         header-item-font-hover-color: "Fontin väri klikattava otsikko eriä kun leijui hiirellä."
         header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
         main-menu-bg-color: "Left side menu's background color."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Päivitä yritysversioon"
       add_token: "Upload an Enterprise Edition support token"
@@ -1155,6 +1156,8 @@ fi:
       blog: "OpenProject blogi"
       forums: "Keskustelupalsta"
       newsletter: "Suojausvaroitukset / uutiskirje"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Configuration guide'
   instructions_after_registration: "Heti kun tilisi on aktivoitu voit kirjatua painamalla %{signin}."
@@ -2558,6 +2561,7 @@ fi:
     Sinä olet poistat vain tärkeimmät wiki valikosta. Sinun täytyy nyt valita wiki sivu joista tärkein uusi kohde luodaan. Poistaa wiki wiki moduuli voidaan kytkeä pois päältä hankkeen ylläpitäjät.
   wiki_menu_item_delete_not_permitted: Wiki valikosta vain wiki sivu voi olla Poistetaan.
   query_menu_item_for: "Menu item for query \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Päivitetty automaattisesti muutoksella joka tapahtui alityöpaketissa %{child}_

@@ -163,6 +163,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageSingleCardComponent} from "core-components/wp-card-view/wp-single-card/wp-single-card.component";
 import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-changeset';
+import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
 import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
 import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
@@ -399,9 +400,29 @@ import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-
     WorkPackageIsolatedGraphQuerySpaceDirective,
     QueryFiltersComponent,
 
+    // Needed so that e.g. IFC can access it.
+    WorkPackageCreateButtonComponent,
+    WorkPackageTypeStatusComponent,
+    WorkPackageEditActionsBarComponent,
+    WorkPackageSingleViewComponent,
+    WpResizerDirective,
+    WorkPackageBreadcrumbComponent,
+    WorkPackageBreadcrumbParentComponent,
+    WorkPackageSplitViewToolbarComponent,
+    WorkPackageSubjectComponent,
+    WorkPackageWatchersCountComponent,
+    WorkPackageRelationsCountComponent,
+
     // Modals
     WpTableConfigurationModalComponent,
     WpTableConfigurationFiltersTab,
+
+    // Needed so that e.g. IFC can access it.
+    WorkPackageCreateButtonComponent,
+    WorkPackageTypeStatusComponent,
+    WorkPackageEditActionsBarComponent,
+    WorkPackageSingleViewComponent,
+    WorkPackageSplitViewComponent
   ]
 })
 export class OpenprojectWorkPackagesModule {

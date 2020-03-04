@@ -1,4 +1,4 @@
-import {Injector} from '@angular/core';
+import {InjectionToken, Injector} from '@angular/core';
 
 export interface WorkPackageViewEventHandler<T> {
   /** Event name to register **/
@@ -13,6 +13,12 @@ export interface WorkPackageViewEventHandler<T> {
   /** Event scope method */
   eventScope(view:T):JQuery;
 }
+
+export interface WorkPackageViewHandlerClass<T> {
+  new(injector:Injector):WorkPackageViewEventHandler<any>;
+}
+
+export const WorkPackageViewHandlerToken = new InjectionToken<WorkPackageViewEventHandler<any>>('CardEventHandler');
 
 /**
  * Abstract view handler registry for globally handling arbitrary event on the

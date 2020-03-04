@@ -26,12 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {StateService} from '@uirouter/core';
-import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {StateService, TransitionService} from '@uirouter/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'wp-create-button',
@@ -40,11 +41,13 @@ import {componentDestroyed} from "ng2-rx-componentdestroyed";
 })
 export class WorkPackageCreateButtonComponent implements OnInit, OnDestroy {
   @Input('allowed') allowedWhen:string[];
-  @Input('stateName') stateName:string;
+  @Input('stateName$') stateName$:Observable<string>;
 
   allowed:boolean;
+  disabled:boolean
   projectIdentifier:string|null;
   types:any;
+  transitionUnregisterFn:Function;
 
   text = {
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
@@ -55,7 +58,9 @@ export class WorkPackageCreateButtonComponent implements OnInit, OnDestroy {
   constructor(readonly $state:StateService,
               readonly currentProject:CurrentProjectService,
               readonly authorisationService:AuthorisationService,
-              readonly I18n:I18nService) {
+              readonly transition:TransitionService,
+              readonly I18n:I18nService,
+              readonly cdRef:ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -72,18 +77,20 @@ export class WorkPackageCreateButtonComponent implements OnInit, OnDestroy {
             let [module, permission] = combined.split('.');
             return this.authorisationService.can(module, permission);
           });
+
+        this.updateDisabledState();
       });
+
+
+    this.transitionUnregisterFn = this.transition.onSuccess({}, this.updateDisabledState.bind(this));
   }
 
   ngOnDestroy():void {
-    // Nothing to do
+    this.transitionUnregisterFn();
   }
 
-  createWorkPackage() {
-    this.$state.go(this.stateName, {projectPath: this.projectIdentifier});
-  }
-
-  isDisabled() {
-    return !this.allowed || this.$state.includes('**.new');
+  private updateDisabledState() {
+    this.disabled = !this.allowed || this.$state.includes('**.new');
+    this.cdRef.detectChanges();
   }
 }

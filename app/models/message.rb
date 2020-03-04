@@ -97,10 +97,13 @@ class Message < ActiveRecord::Base
                       end
   end
 
+  # TODO: move into create contract
   def update_last_reply_in_parent
     if parent
-      parent.reload.update_attribute(:last_reply_id, id)
+      parent.reload
+      parent.update_attribute(:last_reply_id, id)
     end
+
     forum.reset_counters!
   end
 

@@ -74,9 +74,9 @@ module Redmine::Acts::Journalized
 
       add_journal = journals.empty? || JournalManager.changed?(self) || !@journal_notes.empty?
 
-      journal = JournalManager.add_journal! self, @journal_user, @journal_notes if add_journal
-
       if add_journal
+        journal = JournalManager.add_journal!(self, @journal_user, @journal_notes)
+
         OpenProject::Notifications.send('journal_created',
                                         journal: journal,
                                         send_notification: JournalManager.send_notification)

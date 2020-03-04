@@ -61,6 +61,7 @@ hr:
         header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
         header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
         main-menu-bg-color: "Left side menu's background color."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Nadogradnja na izdanje Enterprise"
       add_token: "Upload an Enterprise Edition support token"
@@ -1171,6 +1172,8 @@ hr:
       blog: "OpenProject blog"
       forums: "Forum Zajednice"
       newsletter: "Security alerts / Newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Vodič za konfiguraciju'
   instructions_after_registration: "Nakon uspješne aktivacije, kliknite %{signin} za prijavu u sustav."
@@ -2581,6 +2584,7 @@ hr:
     Izbrisati će te samo glavnu stavku wiki izbornika. U sljdećem koraku morate izabrati wiki stranicu za koju će se generirati nova stavka. Za brisanje wiki stranice, wiki modul mora biti deaktiviran od strane administratora projekta.
   wiki_menu_item_delete_not_permitted: Wiki stavka izbornika jedine wiki stranice ne može biti izbrisana.
   query_menu_item_for: "Stavka izbornika za upit \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Ažuriraj automatski tako da promijenite vrijednosti zajedno s podređenim radnim paketom %{child}_

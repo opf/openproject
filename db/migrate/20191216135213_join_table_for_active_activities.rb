@@ -42,7 +42,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
         DELETE FROM enumerations
         USING enumerations AS enums
         LEFT OUTER JOIN projects on enums.project_id = projects.id
-        WHERE enums.id = enumerations.id AND enums.type='TimeEntryActivity' AND projects.id IS NULL AND enums.project_id IS NOT NULL
+        WHERE enums.id = enumerations.id AND enums.type = 'TimeEntryActivity' AND projects.id IS NULL AND enums.project_id IS NOT NULL
       SQL
     )
   end
@@ -50,10 +50,15 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
   def link_time_entries_to_root_activities
     ActiveRecord::Base.connection.exec_query(
       <<-SQL
-        UPDATE time_entries SET activity_id = enumerations.parent_id
+        UPDATE
+          time_entries te_sink
+        SET
+          activity_id = enumerations.parent_id
         FROM
-        time_entries te
-        INNER JOIN enumerations ON te.activity_id = enumerations.id AND enumerations.parent_id IS NOT NULL AND enumerations.type = 'TimeEntryActivity'
+          time_entries te_source
+        INNER JOIN enumerations ON te_source.activity_id = enumerations.id AND enumerations.parent_id IS NOT NULL AND enumerations.type = 'TimeEntryActivity'
+        WHERE
+          te_sink.id = te_source.id
       SQL
     )
   end
@@ -61,11 +66,16 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
   def link_time_entries_to_project_activities
     ActiveRecord::Base.connection.exec_query(
       <<-SQL
-        UPDATE time_entries SET activity_id = COALESCE(child.id, root.id)
+        UPDATE
+         time_entries te_sink
+        SET
+          activity_id = COALESCE(child.id, root.id)
         FROM
-        time_entries te
-        INNER JOIN enumerations root ON te.activity_id = root.id AND root.type = 'TimeEntryActivity'
+          time_entries te_source
+        INNER JOIN enumerations root ON te_source.activity_id = root.id AND root.type = 'TimeEntryActivity'
         LEFT OUTER JOIN enumerations child ON child.parent_id = root.id
+        WHERE
+          te_source.id = te_sink.id
     SQL
     )
   end

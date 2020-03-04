@@ -61,6 +61,7 @@ es:
         header-item-font-hover-color: "Color de fuente de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
         header-border-bottom-color: "Línea fina debajo del encabezado. Deje este campo vacío si no quiere que se muestre ninguna línea."
         main-menu-bg-color: "Color de fondo del menú izquierdo."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Actualizar hasta versión corporativa"
       add_token: "Cargue el token de soporte de versión corporativa"
@@ -1152,6 +1153,8 @@ es:
       blog: "Blog de OpenProject"
       forums: "Foro de la comunidad"
       newsletter: "Alertas de seguridad / boletín"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Guía de configuración'
   instructions_after_registration: "Podras entrar tan pronto como tu cuenta halla sido activada haciendo clic sobre %{signin}."
@@ -2554,6 +2557,7 @@ es:
     Usted esta eliminando el único elemento de menú wiki principal. Ahora tiene que elegir un wiki para el cual un nuevo elemento de menú principal será generado. Para eliminar el wiki, éste módulo puede ser desactivado por los administradores del proyecto.
   wiki_menu_item_delete_not_permitted: El único elemento de menú de la única página wiki no puede ser eliminado.
   query_menu_item_for: "Elemento de menu para consulta \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Actualizado automáticamente cambiando los valores en el paquete de trabajo hijo %{child}_

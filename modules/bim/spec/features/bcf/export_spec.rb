@@ -26,11 +26,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
+require_relative '../../support/pages/ifc_models/show_default'
 
-describe 'work package export', type: :feature, js: true do
+describe 'bcf export', type: :feature, js: true do
   let(:status) { FactoryBot.create(:status, name: 'New', is_default: true) }
   let(:closed_status) { FactoryBot.create(:closed_status, name: 'Closed') }
-  let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
+  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
 
   let!(:open_work_package) { FactoryBot.create(:work_package, project: project, subject: 'Open WP', status: status) }
   let!(:closed_work_package) { FactoryBot.create(:work_package, project: project, subject: 'Closed WP', status: closed_status) }
@@ -39,7 +40,14 @@ describe 'work package export', type: :feature, js: true do
 
   let(:current_user) { FactoryBot.create :admin }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let!(:model) do
+    FactoryBot.create(:ifc_model_converted,
+                      project: project,
+                      uploader: current_user)
+  end
+
+  let(:model_page) { ::Pages::IfcModels::ShowDefault.new project }
+  let(:wp_cards) { ::Pages::WorkPackageCards.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   before do
@@ -67,9 +75,9 @@ describe 'work package export', type: :feature, js: true do
   end
 
   it 'can export the open and closed BCF issues (Regression #30953)' do
-    wp_table.visit!
-    wp_table.expect_work_package_listed open_work_package
-    wp_table.ensure_work_package_not_listed! closed_work_package
+    model_page.visit!
+    wp_cards.expect_work_package_listed open_work_package
+    wp_cards.expect_work_package_not_listed closed_work_package
     filters.expect_filter_count 1
 
     # Expect only the open issue
@@ -82,7 +90,7 @@ describe 'work package export', type: :feature, js: true do
     filters.remove_filter 'status'
     filters.expect_filter_count 0
 
-    wp_table.expect_work_package_listed open_work_package, closed_work_package
+    wp_cards.expect_work_package_listed open_work_package, closed_work_package
 
     # Download again
     extractor_list = export_into_bcf_extractor

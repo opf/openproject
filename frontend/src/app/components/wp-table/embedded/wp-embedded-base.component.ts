@@ -51,7 +51,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
   }
 
   ngOnDestroy():void {
-    super.ngOnInit();
+    super.ngOnDestroy();
   }
 
   ngOnChanges(changes:SimpleChanges) {

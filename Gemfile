@@ -50,8 +50,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 
 gem 'will_paginate', '~> 3.1.7'
 
-# Replace once friendly_id release supports rails 6
-gem 'friendly_id', git: 'https://github.com/norman/friendly_id', ref: '67422c04e1bfed4207b2a04826bc67ec0e231ce7'
+gem 'friendly_id', '~> 5.3.0'
 
 gem 'acts_as_list', '~> 0.9.9'
 gem 'acts_as_tree', '~> 2.9.0'
@@ -104,19 +103,19 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 
 gem 'bcrypt', '~> 3.1.6'
 
-gem 'multi_json', '~> 1.13.1'
-gem 'oj', '~> 3.9.1'
+gem 'multi_json', '~> 1.14.1'
+gem 'oj', '~> 3.10.2'
 
 gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.4'
 
-gem 'rack-protection', '~> 2.0.0'
+gem 'rack-protection', '~> 2.0.8'
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 6.1.0'
+gem 'rack-attack', '~> 6.2.2'
 
 # CSP headers
 gem 'secure_headers', '~> 6.3.0'
@@ -127,7 +126,7 @@ gem 'browser', '~> 2.6.1'
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
 
-gem 'gon', '~> 6.2.1'
+gem 'gon', '~> 6.3.2'
 
 # Lograge to provide sane and non-verbose logging
 gem 'lograge', '~> 0.10.0'
@@ -153,9 +152,9 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'autoprefixer-rails', '~> 9.4.5'
+gem 'autoprefixer-rails', '~> 9.7.4'
 gem 'bourbon', '~> 6.0.0'
-gem 'i18n-js', '~> 3.2.0'
+gem 'i18n-js', '~> 3.6.0'
 gem 'sassc-rails', '~> 2.1.0'
 gem 'sprockets', '~> 3.7.0'
 
@@ -284,11 +283,15 @@ gem 'roar', '~> 1.1.0'
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
-    gem 'pg', '~> 1.1.0'
+    gem 'pg', '~> 1.2.2'
   end
 
   # Support application loading when no database exists yet.
   gem 'activerecord-nulldb-adapter', '~> 0.4.0'
+
+  # Have application level locks on the database to have a mutex shared between workers/hosts.
+  # We e.g. emply this to safeguard the creation of journals.
+  gem 'with_advisory_lock', '~> 4.6.0'
 end
 
 group :opf_plugins do

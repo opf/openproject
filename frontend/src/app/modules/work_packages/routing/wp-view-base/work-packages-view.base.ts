@@ -31,7 +31,7 @@ import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {filter, map, withLatestFrom} from 'rxjs/operators';
+import {filter, map, withLatestFrom, take} from 'rxjs/operators';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
@@ -90,6 +90,11 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   @InjectField() deviceService:DeviceService;
   @InjectField() currentProject:CurrentProjectService;
 
+  /** Determine when query is initially loaded */
+  queryLoaded = false;
+
+  /** Remember explicitly when this component was destroyed */
+  destroyed = false;
 
   constructor(public injector:Injector) {
   }
@@ -100,10 +105,13 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
     // Listen for refresh changes
     this.setupRefreshObserver();
+
+    // Mark tableInformationLoaded when initially loading done
+    this.setupQueryLoadedListener();
   }
 
   ngOnDestroy():void {
-    // Nothing to do
+    this.destroyed = true;
   }
 
   private setupQueryObservers() {
@@ -217,5 +225,20 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
     }
 
     return false;
+  }
+
+  protected setupQueryLoadedListener() {
+    this
+      .querySpace
+      .initialized
+      .values$()
+      .pipe(
+        take(1),
+        filter(() => !this.destroyed)
+      )
+      .subscribe(() => {
+        this.queryLoaded = true;
+        this.cdRef.detectChanges();
+      });
   }
 }

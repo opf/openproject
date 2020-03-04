@@ -25,95 +25,88 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {Ng2StateDeclaration, UIRouter} from '@uirouter/angular';
+import {Ng2StateDeclaration} from '@uirouter/angular';
 import {IFCViewerPageComponent} from "core-app/modules/ifc_models/pages/viewer/ifc-viewer-page.component";
-import {BCFContainerComponent} from "core-app/modules/ifc_models/bcf/container/bcf-container.component";
 import {IFCViewerComponent} from "core-app/modules/ifc_models/ifc-viewer/ifc-viewer.component";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {EmptyComponent} from "core-app/modules/ifc_models/empty/empty-component";
+import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-view-routes.template";
+import {BcfListContainerComponent} from "core-app/modules/ifc_models/bcf/list-container/bcf-list-container.component";
+import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
+
 
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'bim',
     parent: 'root',
-    url: '/ifc_models?query_props',
+    url: '/bcf?query_props&models',
     abstract: true,
     component: WorkPackagesBaseComponent,
-    redirectTo: 'bim.partitioned.defaults',
+    redirectTo: 'bim.partitioned.split',
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
-      query_props: {type: 'opQueryString', dynamic: true}
+      query_props: {type: 'opQueryString', dynamic: true},
+      models: {type: 'opQueryString', dynamic: true}
     }
   },
   {
     name: 'bim.partitioned',
     url: '',
-    component: IFCViewerPageComponent
+    component: IFCViewerPageComponent,
+    redirectTo: 'bim.partitioned.split',
   },
   {
     name: 'bim.partitioned.list',
     url: '/list',
     data: {
-      viewRoute: 'bim.partitioned.defaults',
-      partition: '-right-only'
-    },
-    reloadOnSearch: false,
-    views: {
-      'content-right': { component: BCFContainerComponent }
-    }
-  },
-  {
-    name: 'bim.partitioned.defaults',
-    url: '/defaults',
-    data: {
-      viewRoute: 'bim.partitioned.defaults',
-      partition: '-split'
-    },
-    reloadOnSearch: false,
-    views: {
-      'content-left': { component: IFCViewerComponent },
-      'content-right': { component: BCFContainerComponent }
-    }
-  },
-  {
-    name: 'bim.partitioned.defaults.model',
-    url: '/model',
-    data: {
-      viewRoute: 'bim.partitioned.defaults',
+      newRoute: 'bim.partitioned.list.new',
       partition: '-left-only'
     },
     reloadOnSearch: false,
     views: {
-      // Retarget and by that override the grandparent views
-      // https://ui-router.github.io/guide/views#relative-parent-state
-      'content-right@^.^': { component: EmptyComponent }
+      'content-left': {component: BcfListContainerComponent}
     }
   },
   {
-    name: 'bim.partitioned.show',
-    url: '/{model_id:[0-9]+}',
+    name: 'bim.partitioned.split',
+    url: '/split',
     data: {
-      viewRoute: 'bim.partitioned.show',
-      partition: '-split'
+      partition: '-split',
+      newRoute: 'bim.partitioned.split.new',
+      bodyClasses: 'router--work-packages-partitioned-split-view'
     },
     reloadOnSearch: false,
     views: {
-      'content-left': { component: IFCViewerComponent },
-      'content-right': { component: BCFContainerComponent }
+      'content-left': {component: IFCViewerComponent},
+      'content-right': {component: BcfListContainerComponent}
     }
   },
   {
-    name: 'bim.partitioned.show.model',
+    name: 'bim.partitioned.model',
     url: '/model',
     data: {
-      viewRoute: 'bim.partitioned.show',
-      partition: '-left-only'
+      partition: '-left-only',
+      newRoute: 'bim.partitioned.split.new',
     },
     reloadOnSearch: false,
     views: {
       // Retarget and by that override the grandparent views
-      // https://ui-router.github.io/guide/views#relative-parent-state
-      'content-right@^.^': { component: EmptyComponent }
+      // https://ui-router.github.io/guide/views#relative-parent-state{
+      'content-right@^': {component: EmptyComponent},
+      'content-left': {component: IFCViewerComponent}
     }
   },
+  // BCF single view for list
+  ...makeSplitViewRoutes(
+    'bim.partitioned.list',
+    undefined,
+    WorkPackageSplitViewComponent
+  ),
+  // BCF single view for split
+  ...makeSplitViewRoutes(
+    'bim.partitioned.split',
+    undefined,
+    WorkPackageSplitViewComponent
+  ),
 ];
+

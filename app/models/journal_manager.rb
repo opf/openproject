@@ -253,6 +253,7 @@ class JournalManager
     journable.journals.select(&:new_record?)
 
     journal.save!
+
     journal
   end
 

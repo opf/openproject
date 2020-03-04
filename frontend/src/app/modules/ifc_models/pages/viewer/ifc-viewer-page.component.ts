@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, Injector} from "@angular/core";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {
   PartitionedQuerySpacePageComponent,
@@ -20,6 +19,9 @@ import {IfcModelsDataService} from "core-app/modules/ifc_models/pages/viewer/ifc
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BimManageIfcModelsButtonComponent} from "core-app/modules/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
+import {WorkPackageCreateButtonComponent} from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
+import {StateService, TransitionService} from "@uirouter/core";
+import {BehaviorSubject, Subject} from "rxjs";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -41,12 +43,24 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     areYouSure: this.I18n.t('js.text_are_you_sure')
   };
 
+  newRoute$ = new BehaviorSubject<string>(this.state.current.data.newRoute);
+  transitionUnsubscribeFn:Function;
+
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
+      component: WorkPackageCreateButtonComponent,
+      inputs: {
+      stateName$: this.newRoute$,
+        allowed: ['work_packages.createWorkPackage', 'work_package.copy']
+      }
+    },
+    {
       component: BcfImportButtonComponent,
+      show: () => this.ifcData.allowed('manage_bcf')
     },
     {
       component: BcfExportButtonComponent,
+      show: () => this.ifcData.allowed('manage_bcf')
     },
     {
       component: WorkPackageFilterButtonComponent,
@@ -61,12 +75,16 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
       containerClasses: 'hidden-for-mobile'
     },
     {
-      component: BimManageIfcModelsButtonComponent
+      component: BimManageIfcModelsButtonComponent,
+      show: () => this.ifcData.allowed('manage_ifc_models')
     }
   ];
 
   constructor(readonly ifcData:IfcModelsDataService,
+              readonly state:StateService,
               readonly bimView:BimViewService,
+              readonly transition:TransitionService,
+              readonly gon:GonService,
               readonly injector:Injector) {
     super(injector);
   }
@@ -80,6 +98,17 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
       .subscribe((view) => {
         this.filterAllowed = view !== bimViewerViewIdentifier;
       });
+
+    // Keep the new route up to date depending on where we move to
+    this.transitionUnsubscribeFn = this.transition.onSuccess({}, ()  => {
+      this.newRoute$.next(this.state.current.data.newRoute);
+    });
+  }
+
+  ngOnDestroy():void {
+    super.ngOnDestroy();
+
+
   }
 
   /**
@@ -93,7 +122,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
   updateTitle(query?:QueryResource) {
     if (this.bimView.current === bimListViewIdentifier) {
       super.updateTitle(query);
-    } else if (this.bimView.isSingleModel) {
+    } else if (this.ifcData.isSingleModel()) {
       this.selectedTitle = this.ifcData.models[0].name;
     } else {
       this.selectedTitle = this.I18n.t('js.ifc_models.models.default');
@@ -101,10 +130,5 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
 
     // For now, disable any editing
     this.titleEditingEnabled = false;
-  }
-
-  /** We do not have a mapping for html title in this module yet */
-  protected shouldUpdateHtmlTitle():boolean {
-    return false;
   }
 }

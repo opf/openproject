@@ -10,7 +10,7 @@ module Bim
           model.title
         else
           link_to model.title,
-                  ifc_models_project_ifc_model_path(model.project, model)
+                  bcf_project_ifc_model_path(model.project, model)
         end
       end
 
@@ -53,7 +53,7 @@ module Bim
 
       def delete_link
         link_to '',
-                ifc_models_project_ifc_model_path(model.project, model),
+                bcf_project_ifc_model_path(model.project, model),
                 class: 'icon icon-delete',
                 data: { confirm: I18n.t(:text_are_you_sure) },
                 method: :delete
@@ -61,7 +61,7 @@ module Bim
 
       def edit_link
         link_to '',
-                edit_ifc_models_project_ifc_model_path(model.project, model),
+                edit_bcf_project_ifc_model_path(model.project, model),
                 class: 'icon icon-edit',
                 accesskey: accesskey(:edit)
       end
