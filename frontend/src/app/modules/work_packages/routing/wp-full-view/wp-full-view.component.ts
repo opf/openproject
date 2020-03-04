@@ -34,6 +34,7 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {WorkPackageViewSelectionService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
 import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
+import {of} from "rxjs";
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -58,6 +59,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   public permittedActions:any;
   public actionsAvailable:any;
   public triggerMoreMenuAction:Function;
+
+  stateName$ = of('work-packages.new');
 
   constructor(public injector:Injector,
               public wpTableSelection:WorkPackageViewSelectionService,

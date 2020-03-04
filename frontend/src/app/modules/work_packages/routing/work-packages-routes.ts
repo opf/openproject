@@ -31,7 +31,6 @@ import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-t
 import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
 import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-full-view.component';
 import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
-import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
 import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
 import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
@@ -92,6 +91,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackagesFullViewComponent,
     data: {
       bodyClasses: 'router--work-packages-full-view',
+      newRoute: 'work-packages.new',
       menuItem: menuItemClass
     }
   },
