@@ -32,6 +32,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'wp-create-button',
@@ -40,7 +41,7 @@ import {componentDestroyed} from "ng2-rx-componentdestroyed";
 })
 export class WorkPackageCreateButtonComponent implements OnInit, OnDestroy {
   @Input('allowed') allowedWhen:string[];
-  @Input('stateName') stateName:string;
+  @Input('stateName$') stateName$:Observable<string>;
 
   allowed:boolean;
   disabled:boolean
@@ -86,10 +87,6 @@ export class WorkPackageCreateButtonComponent implements OnInit, OnDestroy {
 
   ngOnDestroy():void {
     this.transitionUnregisterFn();
-  }
-
-  createWorkPackage() {
-    this.$state.go(this.stateName, {projectPath: this.projectIdentifier});
   }
 
   private updateDisabledState() {

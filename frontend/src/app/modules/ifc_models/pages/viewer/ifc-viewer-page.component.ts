@@ -20,7 +20,8 @@ import {QueryParamListenerService} from "core-components/wp-query/query-param-li
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BimManageIfcModelsButtonComponent} from "core-app/modules/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
 import {WorkPackageCreateButtonComponent} from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
-import {StateService} from "@uirouter/core";
+import {StateService, TransitionService} from "@uirouter/core";
+import {BehaviorSubject, Subject} from "rxjs";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -42,11 +43,14 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     areYouSure: this.I18n.t('js.text_are_you_sure')
   };
 
+  newRoute$ = new BehaviorSubject<string>(this.state.current.data.newRoute);
+  transitionUnsubscribeFn:Function;
+
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageCreateButtonComponent,
       inputs: {
-      stateName: this.state.current.data.newRoute || 'bim.partitioned.split.new',
+      stateName$: this.newRoute$,
         allowed: ['work_packages.createWorkPackage', 'work_package.copy']
       }
     },
@@ -79,6 +83,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
   constructor(readonly ifcData:IfcModelsDataService,
               readonly state:StateService,
               readonly bimView:BimViewService,
+              readonly transition:TransitionService,
               readonly gon:GonService,
               readonly injector:Injector) {
     super(injector);
@@ -93,6 +98,17 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
       .subscribe((view) => {
         this.filterAllowed = view !== bimViewerViewIdentifier;
       });
+
+    // Keep the new route up to date depending on where we move to
+    this.transitionUnsubscribeFn = this.transition.onSuccess({}, ()  => {
+      this.newRoute$.next(this.state.current.data.newRoute);
+    });
+  }
+
+  ngOnDestroy():void {
+    super.ngOnDestroy();
+
+
   }
 
   /**

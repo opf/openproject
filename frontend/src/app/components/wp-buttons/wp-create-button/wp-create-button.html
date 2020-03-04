@@ -4,7 +4,7 @@
           [attr.aria-label]="text.explanation"
           opTypesCreateDropdown
           [projectIdentifier]="projectIdentifier"
-          [stateName]="stateName"
+          [stateName]="stateName$ | async"
           [dropdownActive]="allowed">
     <op-icon icon-classes="button--icon icon-add"></op-icon>
     <span class="button--text"
