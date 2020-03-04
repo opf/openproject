@@ -149,7 +149,8 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     },
     data: {
       bodyClasses: 'router--work-packages-partitioned-split-view',
-      menuItem: menuItemClass
+      menuItem: menuItemClass,
+      partition: '-left-only'
     }
   },
   {
@@ -163,7 +164,8 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       allowMovingInEditMode: true,
       bodyClasses: 'router--work-packages-partitioned-split-view',
       menuItem: menuItemClass,
-      parent: 'work-packages.partitioned.list'
+      parent: 'work-packages.partitioned.list',
+      partition: '-split'
     },
   },
   ...makeSplitViewRoutes(

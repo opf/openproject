@@ -5,7 +5,8 @@ import {GonService} from "core-app/modules/common/gon/gon.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 export interface IFCPermissionMap {
-  manage:boolean;
+  manage_ifc_models:boolean;
+  manage_bcf:boolean;
 }
 
 export interface IFCGonDefinition {
@@ -54,8 +55,8 @@ export class IfcModelsDataService {
     return this.paths.ifcModelsPath(this.currentProjectService.identifier!);
   }
 
-  public get manageAllowed() {
-    return this.gonIFC.permissions.manage;
+  public allowed(permission:keyof IFCPermissionMap):boolean {
+    return !!this.gonIFC.permissions[permission];
   }
 
   private get gonIFC():IFCGonDefinition {

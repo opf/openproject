@@ -61,6 +61,11 @@ module Pages
         end
       end
 
+      def bcf_buttons(allowed)
+        expect(page).to have_conditional_selector(allowed, '.toolbar-item', text: 'Import')
+        expect(page).to have_conditional_selector(allowed, '.toolbar-item', text: 'Export')
+      end
+
       def edit_model_allowed(model_name, allowed)
         row = find_model_table_row model_name
         within row do
@@ -100,8 +105,6 @@ module Pages
         expect_correct_page_loaded '.ifc-model-viewer--container'
 
         expect(page).to have_selector('.editable-toolbar-title--fixed', text: model.title)
-
-        visit!
       end
 
       def show_defaults
@@ -110,8 +113,6 @@ module Pages
         expect_correct_page_loaded '.ifc-model-viewer--container'
 
         expect(page).to have_selector('.editable-toolbar-title--fixed', text: 'Default IFC models')
-
-        visit!
       end
 
       private

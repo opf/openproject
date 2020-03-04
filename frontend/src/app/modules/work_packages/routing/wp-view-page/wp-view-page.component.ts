@@ -62,8 +62,6 @@ import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-
   ]
 })
 export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {
-  @InjectField() bcfDetectorService:BcfDetectorService;
-
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageCreateButtonComponent,
@@ -71,14 +69,6 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
         stateName: "work-packages.partitioned.list.new",
         allowed: ['work_packages.createWorkPackage']
       }
-    },
-    {
-      component: BcfImportButtonComponent,
-      show: () => this.bcfDetectorService.isBcfActivated
-    },
-    {
-      component: BcfExportButtonComponent,
-      show: () => this.bcfDetectorService.isBcfActivated
     },
     {
       component: WorkPackageFilterButtonComponent
