@@ -225,7 +225,7 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 3.1', require: nil
 
-  gem 'parallel_tests', '~> 2.29.2'
+  gem 'parallel_tests', '~> 2.31'
 end
 
 group :ldap do
@@ -265,7 +265,7 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.4.9.2'
 
   # Dangerfile scanner on travis and locally
-  gem 'danger', '~> 6.1.0'
+  gem 'danger', '~> 6.3.1'
 
   # Brakeman scanner
   gem 'brakeman', '~> 4.6.1'
