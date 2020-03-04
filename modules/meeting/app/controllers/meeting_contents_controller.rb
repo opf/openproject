@@ -67,7 +67,6 @@ class MeetingContentsController < ApplicationController
     if @content.save
       flash[:notice] = l(:notice_successful_update)
       redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
-    else
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception

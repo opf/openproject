@@ -289,6 +289,10 @@ platforms :mri, :mingw, :x64_mingw do
 
   # Support application loading when no database exists yet.
   gem 'activerecord-nulldb-adapter', '~> 0.4.0'
+
+  # Have application level locks on the database to have a mutex shared between workers/hosts.
+  # We e.g. emply this to safeguard the creation of journals.
+  gem 'with_advisory_lock', '~> 4.6.0'
 end
 
 group :opf_plugins do

@@ -240,6 +240,7 @@ describe PermittedParams, type: :model do
 
     context 'with instance passed' do
       let(:instance) { double('message', project: double('project')) }
+      let(:project) { double('project') }
       let(:allowed_params) do
         { 'subject' => 'value',
           'content' => 'value',
@@ -253,10 +254,10 @@ describe PermittedParams, type: :model do
       end
 
       before do
-        allow(user).to receive(:allowed_to?).with(:edit_messages, instance.project).and_return(true)
+        allow(user).to receive(:allowed_to?).with(:edit_messages, project).and_return(true)
       end
 
-      subject { PermittedParams.new(hash, user).message(instance).to_h }
+      subject { PermittedParams.new(hash, user).message(project).to_h }
 
       it do
         expect(subject).to eq(allowed_params)

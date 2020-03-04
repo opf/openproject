@@ -54,13 +54,13 @@ describe TimeEntries::DeleteContract do
 
   let(:time_entry) do
     FactoryBot.build_stubbed(:time_entry,
-                              project: time_entry_project,
-                              work_package: time_entry_work_package,
-                              user: time_entry_user,
-                              activity: time_entry_activity,
-                              spent_on: time_entry_spent_on,
-                              hours: time_entry_hours,
-                              comments: time_entry_comments)
+                             project: time_entry_project,
+                             work_package: time_entry_work_package,
+                             user: time_entry_user,
+                             activity: time_entry_activity,
+                             spent_on: time_entry_spent_on,
+                             hours: time_entry_hours,
+                             comments: time_entry_comments)
   end
 
   before do

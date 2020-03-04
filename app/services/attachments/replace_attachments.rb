@@ -28,19 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-ActionController::Renderers.add :csv do |obj, options|
-  filename = options[:filename] || 'data'
-  str = obj.respond_to?(:to_csv) ? obj.to_csv : obj.to_s
-  charset = "charset=#{l(:general_csv_encoding).downcase}"
+module Attachments
+  module ReplaceAttachments
+    extend ActiveSupport::Concern
 
-  data = send_data str,
-                   type: "#{Mime[:csv]}; header=present; #{charset};",
-                   disposition: "attachment; filename=#{filename}"
+    included do
+      private
 
-  # For some reasons, the content-type header
-  # does only contain the charset if the response
-  # is manipulated like this.
-  response.content_type += ''
+      def set_attributes(attributes)
+        call = super
 
-  data
+        if call.success?
+          call.result.attachments = call.result.attachments_replacements if call.result.attachments_replacements
+        end
+
+        call
+      end
+    end
+  end
 end

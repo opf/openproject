@@ -28,19 +28,44 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-ActionController::Renderers.add :csv do |obj, options|
-  filename = options[:filename] || 'data'
-  str = obj.respond_to?(:to_csv) ? obj.to_csv : obj.to_s
-  charset = "charset=#{l(:general_csv_encoding).downcase}"
+require 'spec_helper'
 
-  data = send_data str,
-                   type: "#{Mime[:csv]}; header=present; #{charset};",
-                   disposition: "attachment; filename=#{filename}"
+shared_examples_for 'message contract' do
+  let(:current_user) do
+    FactoryBot.build_stubbed(:user) do |user|
+      allow(user)
+        .to receive(:allowed_to?) do |permission, permission_project|
+        permissions.include?(permission) && message_project == permission_project
+      end
+    end
+  end
+  let(:reply_message) { FactoryBot.build_stubbed(:message) }
+  let(:other_user) { FactoryBot.build_stubbed(:user) }
+  let(:message_forum) do
+    FactoryBot.build_stubbed(:forum)
+  end
+  let(:message_project) { FactoryBot.build_stubbed(:project) }
+  let(:message_parent) { FactoryBot.build_stubbed(:message) }
+  let(:message_subject) { "Subject" }
+  let(:message_content) { "A content" }
+  let(:message_author) { other_user }
+  let(:message_last_reply) { reply_message }
+  let(:message_locked) { true }
+  let(:message_sticky) { true }
 
-  # For some reasons, the content-type header
-  # does only contain the charset if the response
-  # is manipulated like this.
-  response.content_type += ''
+  def expect_valid(valid, symbols = {})
+    expect(contract.validate).to eq(valid)
 
-  data
+    symbols.each do |key, arr|
+      expect(contract.errors.symbols_for(key)).to match_array arr
+    end
+  end
+
+  shared_examples 'is valid' do
+    it 'is valid' do
+      expect_valid(true)
+    end
+  end
+
+  it_behaves_like 'is valid'
 end

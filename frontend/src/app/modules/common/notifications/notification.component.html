@@ -20,7 +20,7 @@
           </a>
           <span [textContent]="uploadText"></span>
         </div>
-        <div *ngIf="show || !canBeHidden()">
+        <div [ngClass]="{ '-hidden': !show && canBeHidden() }">
           <ul class="notification-box--uploads" *ngIf="data && data.length > 0">
             <notifications-upload-progress
                 *ngFor="let upload of data"
