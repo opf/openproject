@@ -157,7 +157,10 @@ export class ApiV3Paths {
       // Containing the that substring:
       filters.add('name', '~', [term]);
     }
-    return this.apiV3Base + '/principals' + '?' + filters.toParams() + encodeURI('&sortBy=[["name","asc"]]&offset=1&pageSize=10');
+
+    return this.apiV3Base +
+      '/principals?' +
+      filters.toParams({ sortBy: '[["name","asc"]]', offset: '1', pageSize: '10' });
   }
 
   public wpBySubjectOrId(term:string, idOnly:boolean = false) {
@@ -169,6 +172,8 @@ export class ApiV3Paths {
       filters.add('subjectOrId', '**', [term]);
     }
 
-    return this.apiV3Base + '/work_packages' + '?' + filters.toParams() + encodeURI('&sortBy=[["updatedAt","desc"]]&offset=1&pageSize=10');
+    return this.apiV3Base +
+      '/work_packages?' +
+      filters.toParams({ sortBy: '[["updatedAt","desc"]]', offset: '1', pageSize: '10' });
   }
 }

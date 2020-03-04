@@ -74,7 +74,7 @@ el:
     rebuild: "Ανοικοδόμηση"
     rebuild_positions: "Ανοικοδόμηση θέσεων"
     remaining_hours: "Υπολειπόμενες ώρες"
-    remaining_hours_ideal: "Υπολοιπόμενες ώρες (ιδανικά)"
+    remaining_hours_ideal: "Υπολειπόμενες ώρες (ιδανικά)"
     show_burndown_chart: "Διάγραμμα Burndown"
     story: "Ιστορία"
     story_points: "Πόντοι Ιστορίας"

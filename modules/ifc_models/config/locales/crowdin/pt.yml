@@ -6,7 +6,7 @@ pt:
     label_show_defaults: 'Mostrar padrões'
     label_default_ifc_models: 'Modelos IFC padrão'
     label_edit_defaults: 'Editar padrões'
-    label_manage_models: 'Gerir modelos'
+    label_manage_models: 'Manage models'
     no_defaults_warning:
       title: 'Não foi definido nenhum modelo IFC como padrão para este projeto.'
       check_1: 'Verifique se carregou pelo menos um modelo IFC.'

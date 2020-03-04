@@ -59,17 +59,7 @@ module API
               AttachmentRepresenter.new(@attachment, embed_links: true, current_user: current_user)
             end
 
-            delete do
-              raise API::Errors::Unauthorized unless @attachment.deletable?(current_user)
-
-              if @attachment.container
-                @attachment.container.attachments.delete(@attachment)
-              else
-                @attachment.destroy
-              end
-
-              status 204
-            end
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: Attachment).mount
 
             namespace :content do
               helpers ::API::Helpers::AttachmentRenderer

@@ -42,7 +42,7 @@ module BaseServices
     end
 
     def call(params = nil)
-      in_context(false) do
+      in_context(model, true) do
         perform(params)
       end
     end

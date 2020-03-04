@@ -61,6 +61,7 @@ cs:
         header-item-font-hover-color: "Barva pozadí klikacích položek záhlaví při najetí myší."
         header-border-bottom-color: "Tenký řádek pod záhlavím. Ponechte toto pole prázdné, pokud nechcete žádný řádek."
         main-menu-bg-color: "Barva pozadí levého menu."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Upgradovat na Enterprise Edition"
       add_token: "Nahrát podpůrný token Enterprise Edition"
@@ -1187,6 +1188,8 @@ cs:
       blog: "OpenProject blog"
       forums: "Komunitní fórum"
       newsletter: "Bezpečnostní upozornění / newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Konfigurační manuál'
   instructions_after_registration: "Můžete se přihlásit hned poté, co bude váš účet aktivovaný kliknutím na %{signin}."
@@ -2602,6 +2605,7 @@ cs:
     Odstraňujete jedinou hlavní položku nabídky wiki. Nyní musíte vybrat wiki stránku, pro kterou bude vytvořena nová hlavní položka. Pro odstranění wiki může být wiki modul deaktivován administrátorem projektu.
   wiki_menu_item_delete_not_permitted: Položku wiki menu jediné wiki stránky nelze odstranit.
   query_menu_item_for: "Položka nabídky pro dotaz \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Automaticky aktualizováno změnou hodnot v podřazeném pracovním balíčku %{child}_

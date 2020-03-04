@@ -38,12 +38,16 @@ module BaseServices
     def persist(service_result)
       service_result = super(service_result)
 
-      unless service_result.result.destroy
+      unless destroy(service_result.result)
         service_result.errors = service_result.result.errors
         service_result.success = false
       end
 
       service_result
+    end
+
+    def destroy(object)
+      object.destroy
     end
 
     protected

@@ -1,0 +1,6 @@
+ko:
+  js:
+    ifc_models:
+      models:
+        default: '기본 IFC 모델'
+        manage: 'Manage models'

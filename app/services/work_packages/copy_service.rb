@@ -43,7 +43,7 @@ class WorkPackages::CopyService
   end
 
   def call(send_notifications: true, **attributes)
-    in_context(send_notifications) do
+    in_context(work_package) do
       copy(attributes, send_notifications)
     end
   end

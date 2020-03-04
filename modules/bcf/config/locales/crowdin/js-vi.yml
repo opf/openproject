@@ -1,0 +1,6 @@
+#English strings go here
+vi:
+  js:
+    bcf:
+      import: 'Import'
+      export: 'Xuất'

@@ -1,0 +1,6 @@
+el:
+  js:
+    ifc_models:
+      models:
+        default: 'Προεπιλεγμένα μοντέλα IFC'
+        manage: 'Διαχείριση μοντέλων'

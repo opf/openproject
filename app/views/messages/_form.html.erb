@@ -28,11 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= error_messages_for 'message' %>
 <% replying ||= false %>
-<% representer_object = if replying
-                          f.object.parent
-                        else
-                          f.object
-                        end %>
+<% representer_object = f.object %>
 <% resource = message_attachment_representer(representer_object) %>
 
 <div class="form--field -required">

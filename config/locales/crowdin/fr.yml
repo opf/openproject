@@ -61,6 +61,7 @@ fr:
         header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
         header-border-bottom-color: "Ligne mince sous l’en-tête. Laissez ce champ vide si vous ne voulez pas de ligne."
         main-menu-bg-color: "Couleur d’arrière-plan du menu de gauche."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
@@ -1154,6 +1155,8 @@ fr:
       blog: "Blog OpenProject"
       forums: "Forum de la communauté"
       newsletter: "Alertes de sécurité / Lettre d’information"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Guide de configuration'
   instructions_after_registration: "Vous pouvez vous authentifier tant que votre compte a été activé en cliquant sur %{signin}."
@@ -2556,6 +2559,7 @@ fr:
     Vous êtes en train de supprimer l'élement principal du menu wiki. Vous devez maintenant choisir une page wiki pour laquelle un nouvel élément principal sera créé. Pour supprimer le wiki, le module wiki peut être désactivé par les administrateurs du projet.
   wiki_menu_item_delete_not_permitted: L'élement du menu wiki de la seule page wiki ne peut être supprimé.
   query_menu_item_for: "Élément de menu pour question « %{title} »"
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Mis à jour automatiquement en changeant les valeurs dans le lot de travaux enfant %{child}_

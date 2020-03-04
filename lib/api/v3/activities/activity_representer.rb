@@ -68,7 +68,18 @@ module API
                  render_nil: true
 
         formattable_property :notes,
-                             as: :comment
+                             as: :comment,
+                             getter: ->(*) {
+                               text = if empty?
+                                        "_#{I18n.t(:'journals.changes_retracted')}_"
+                                      else
+                                        represented.notes
+                                      end
+
+                               ::API::Decorators::Formattable.new(text,
+                                                                  object: represented,
+                                                                  plain: false)
+                             }
 
         property :details,
                  exec_context: :decorator,
@@ -80,15 +91,16 @@ module API
                    formattables.map { |d| { format: 'custom', raw: d[0], html: d[1] } }
                  },
                  render_nil: true
+
         property :version, render_nil: true
 
         date_time_property :created_at
 
         def _type
-          if represented.notes.blank?
-            'Activity'
-          else
+          if empty? || represented.notes.present?
             'Activity::Comment'
+          else
+            'Activity'
           end
         end
 
@@ -104,6 +116,10 @@ module API
 
         def render_details(journal, no_html: false)
           journal.details.map { |d| journal.render_detail(d, no_html: no_html) }
+        end
+
+        def empty?
+          represented.get_changes.empty? && represented.notes.empty?
         end
       end
     end

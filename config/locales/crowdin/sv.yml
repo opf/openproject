@@ -61,6 +61,7 @@ sv:
         header-item-font-hover-color: "Teckenfärg på klickbara objekt i sidhuvudet när man hovrar med muspekaren."
         header-border-bottom-color: "Tunn linje under sidhuvudet. Lämna fältet tomt om du inte vill ha någon linje."
         main-menu-bg-color: "Bakgrundsfärg på den vänstra sidomenyn."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Uppgradera till Enterprise Edition"
       add_token: "Ladda upp en Enterprise Edition support-nyckel"
@@ -1154,6 +1155,8 @@ sv:
       blog: "OpenProject blogg"
       forums: "Community forum"
       newsletter: "Säkerhetsnotifieringar / Nyhetsbrev"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Konfigurationsguide'
   instructions_after_registration: "Du kan logga in så snart ditt konto har aktiverats genom att klicka på %{signin}."
@@ -2554,6 +2557,7 @@ sv:
     Du tar bort det enda huvudobjektet i wiki menyn. Du måste nu välja en wikisida för vilket ett nytt huvudobjekt kommer att genereras. För att radera wikin inaktiverar projektadministratören wiki-modulen.
   wiki_menu_item_delete_not_permitted: Menyalternativet wiki på den enda wiki-sidan kan inte tas bort.
   query_menu_item_for: "Menyalternativet för frågan \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Uppdateras automatiskt genom att ändra värdena för underarbetspaket %{child} _
