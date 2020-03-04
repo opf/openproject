@@ -44,9 +44,11 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: BcfImportButtonComponent,
+      show: () => this.ifcData.allowed('manage_bcf')
     },
     {
       component: BcfExportButtonComponent,
+      show: () => this.ifcData.allowed('manage_bcf')
     },
     {
       component: WorkPackageFilterButtonComponent,
@@ -61,7 +63,8 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
       containerClasses: 'hidden-for-mobile'
     },
     {
-      component: BimManageIfcModelsButtonComponent
+      component: BimManageIfcModelsButtonComponent,
+      show: () => this.ifcData.allowed('manage_ifc_models')
     }
   ];
 
