@@ -31,14 +31,10 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
     FactoryBot.create(:int_wp_custom_field)
   end
 
-  before do
-    login_as(user)
-    index_page.visit!
-  end
-
-  context 'with all permissions' do
-    it 'can create a new bcf work package on split page' do
+  shared_examples 'bcf details creation' do
+    it 'can create a new bcf work package' do
       create_page = index_page.create_wp_by_button(type)
+      create_page.view_route = view_route
 
       create_page.expect_current_path
 
@@ -66,31 +62,54 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
       split_page.close
       split_page.expect_closed
 
-      expect(page).to have_current_path /\/bcf\/split$/, ignore_query: true
+      expect(page).to have_current_path /bcf\/#{Regexp.escape(view_route)}$/, ignore_query: true
+    end
+  end
+
+  before do
+    login_as(user)
+  end
+
+  context 'with all permissions' do
+    context 'on the split page' do
+      let(:view_route) { 'split' }
+      before do
+        index_page.visit!
+      end
+
+      it_behaves_like 'bcf details creation'
     end
 
-    it 'can create on the list view' do
-      index_page.switch_view 'List'
+    context 'on the split page switching to list' do
+      let(:view_route) { 'list' }
+      before do
+        index_page.visit!
+        index_page.switch_view 'List'
+        expect(page).to have_current_path /\/bcf\/list$/, ignore_query: true
+      end
 
-      create_page = index_page.create_wp_by_button(type)
-      create_page.view_route = :list
-      create_page.expect_current_path
-      create_page.subject_field.set(subject)
-      create_page.save!
+      it_behaves_like 'bcf details creation'
+    end
 
-      index_page.expect_and_dismiss_notification(
-        message: 'Successful creation. Click here to open this work package in fullscreen view.'
-      )
+    context 'starting on the list page' do
+      let(:view_route) { 'list' }
+      before do
+        visit bcf_project_frontend_path(project, "list")
+        expect(page).to have_current_path /\/bcf\/list$/, ignore_query: true
+      end
 
-      work_package = WorkPackage.last
-      split_page = ::Pages::SplitWorkPackage.new(work_package, project)
-      split_page.ensure_page_loaded
-      split_page.expect_subject
+      it_behaves_like 'bcf details creation'
+    end
 
-      split_page.close
-      split_page.expect_closed
+    context 'starting on the details page of an existing work package' do
+      let(:work_package) { FactoryBot.create :work_package, project: project }
+      let(:view_route) { 'split' }
+      before do
+        visit bcf_project_frontend_path(project, "split/details/#{work_package.id}")
+        expect(page).to have_current_path /\/bcf\/split\/details/, ignore_query: true
+      end
 
-      expect(page).to have_current_path /\/bcf\/list$/, ignore_query: true
+      it_behaves_like 'bcf details creation'
     end
   end
 
@@ -98,6 +117,7 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
     let(:permissions) { %i[view_ifc_models manage_ifc_models view_work_packages] }
 
     it 'has the create button disabled' do
+      index_page.visit!
       index_page.expect_wp_create_button_disabled
     end
   end
