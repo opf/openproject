@@ -20,6 +20,7 @@ import {QueryParamListenerService} from "core-components/wp-query/query-param-li
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BimManageIfcModelsButtonComponent} from "core-app/modules/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
 import {WorkPackageCreateButtonComponent} from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
+import {StateService} from "@uirouter/core";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -45,7 +46,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     {
       component: WorkPackageCreateButtonComponent,
       inputs: {
-      stateName: ".new",
+      stateName: this.state.current.data.newRoute || 'bim.partitioned.split.new',
         allowed: ['work_packages.createWorkPackage', 'work_package.copy']
       }
     },
@@ -76,6 +77,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
   ];
 
   constructor(readonly ifcData:IfcModelsDataService,
+              readonly state:StateService,
               readonly bimView:BimViewService,
               readonly gon:GonService,
               readonly injector:Injector) {

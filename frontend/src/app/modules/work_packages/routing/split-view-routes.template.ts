@@ -68,7 +68,8 @@ export function makeSplitViewRoutes(baseRoute:string,
         menuItem: menuItemClass,
         // Remember the base route so we can route back to it anywhere
         baseRoute: baseRoute,
-        partition: '-split'
+        partition: '-split',
+        newRoute: baseRoute + '.new',
       },
       views: {
         // Retarget and by that override the grandparent views
