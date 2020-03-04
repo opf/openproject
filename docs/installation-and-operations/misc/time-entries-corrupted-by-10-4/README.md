@@ -26,6 +26,8 @@ But the reader might deduce the steps neccessary to restore accordingly for a cu
 
 As a result of this step, a second database, not the database OpenProject is currently connecting to, will contain the data of the backup.
 
+### 1.1 Get necessary database information
+
 First, connect to the OpenProject server and get the necessary details about your current database:
 
 ```bash
@@ -40,6 +42,8 @@ $ openproject config:get DATABASE_URL
 postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject
 ```
 
+### 1.2 Create auxillary database
+
 Using this connection string, the following command will create the database the backup will be restored to (named `openproject_backup` in this example):
 
 ```bash
@@ -53,6 +57,20 @@ Example:
 $ psql "postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject" -c 'CREATE DATABASE openproject_backup'
 CREATE DATABASE
 ```
+
+The command above might not work for some installations. In that case the following is a viable alternative:
+
+```bash
+$ su postgres -c createdb -O <dbusernamer> openproject_backup
+```
+
+Example:
+
+```bash
+$ su postgres -c createdb -O openproject openproject_backup
+```
+
+### 1.3 Restore backup to auxillary database
 
 Next, that newly created database will receive the data from a backup file which typically can be found in `/var/db/openproject/backup`
 
