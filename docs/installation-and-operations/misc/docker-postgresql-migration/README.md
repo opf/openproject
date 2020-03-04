@@ -64,7 +64,7 @@ To run the migration part of the image, you will have to provide two environment
 Note down or copy the current MySQL `DATABASE_URL`
 
 ```bash
-# Will look something something of the kind
+# Will look something of the kind
 # mysql2://user:password@localhost:3306/dbname
 
 # Pass into the container but replace mysql2 with mysql!

@@ -34,7 +34,7 @@ The command will create backup files in the following location on your system:
 /var/db/openproject/backup
 ```
 
-The content of that directory should look very similar to the following (depending on your database engine, you will see either a `mysql-dump-<date>.sql.gz` or a `postgresql-dump-<date>.pgdump` file).
+The content of that directory should look very similar to the following.
 
 ```bash
 root@ip-10-0-0-228:/home/admin# ls -al /var/db/openproject/backup/
