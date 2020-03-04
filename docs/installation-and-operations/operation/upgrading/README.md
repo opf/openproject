@@ -6,7 +6,11 @@ sidebar_navigation:
 
 # Upgrading your OpenProject installation
 
-In the rest of this guide, we assume that you have taken the necessary steps to [backup](../backing-up) your OpenProject installation before upgrading.
+<div class="alert alert-warning" role="alert">
+
+**Note**: In the rest of this guide, we assume that you have taken the necessary steps to [backup](../backing-up) your OpenProject installation before upgrading.
+
+</div>
 
 ## Package-based installation (DEB/RPM)
 
