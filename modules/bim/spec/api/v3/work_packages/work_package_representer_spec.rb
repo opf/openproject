@@ -54,7 +54,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   end
 
   before(:each) do
-    allow(User).to receive(:current).and_return user
+    login_as user
   end
 
   subject(:generated) { representer.to_json }
