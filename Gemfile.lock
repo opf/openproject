@@ -284,7 +284,7 @@ GEM
       zeitwerk (~> 2.2)
     acts_as_list (0.9.19)
       activerecord (>= 3.0)
-    acts_as_tree (2.9.0)
+    acts_as_tree (2.9.1)
       activerecord (>= 3.0.0)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
