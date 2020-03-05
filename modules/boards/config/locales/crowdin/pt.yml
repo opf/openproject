@@ -1,0 +1,7 @@
+#English strings go here
+pt:
+  permission_show_board_views: "Ver quadros"
+  permission_manage_board_views: "Gerir quadros"
+  project_module_board_view: "Quadros"
+  boards:
+    label_boards: "Quadros"

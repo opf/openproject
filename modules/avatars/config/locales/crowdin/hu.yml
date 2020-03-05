@@ -1,0 +1,40 @@
+#English strings go here
+hu:
+  label_avatar: "Profilkép"
+  label_avatar_plural: "Profilképek"
+  label_current_avatar: "Jelenlegi profilkép"
+  label_choose_avatar: "Válaszd ki a profilkép fájlt!"
+  message_avatar_uploaded: "Profilkép csere sikeres"
+  error_image_upload: "Hiba a kép mentése közben"
+  error_image_size: "Fájl túl nagy"
+  button_change_avatar: "Profilkép módosítása"
+  are_you_sure_delete_avatar: "Biztos, hogy törölni szeretnéd a profillképedet?"
+  avatar_deleted: "Sikeres profilkép törlés."
+  unable_to_delete_avatar: "A profilkép nem törölhető."
+  wrong_file_format: "Megengedett fájlformátum jpg, png, gif."
+  empty_file_error: "Válassz ki létező képet! (jpg, png, gif)"
+  avatars:
+    label_avatar: "Profilkép"
+    label_gravatar: 'gravatar'
+    label_current_avatar: 'Jelenlegi profilkép'
+    label_local_avatar: 'Profilkép beállítás'
+    text_current_avatar: |
+      Ez a kép legyen a profilképem.
+    text_upload_instructions: |
+      Töltse fel saját, 128 x 128  pixel méretű, profilképét. A nagyobb fájlokat átméretezik és kivágják, hogy megfeleljenek.
+      Feltöltés előtt megjelenik a profilkép előnézete, miután kiválasztott egy képet.
+    text_change_gravatar_html: 'Add hozzá a profilképet az email címhez. %{gravatar_url}.'
+    text_your_local_avatar: |
+      Az OpenProject megengedi, hogy feltölts egy saját profilképet.
+    text_local_avatar_over_gravatar: |
+      Ha beállítasz egyet, az felülírja az eddigit.
+    text_your_current_gravatar: |
+      Az OpenProject használja a gravatárt, ha regisztrált, vagy egy alapértelmezett képet vagy ikont, ha létezik.
+      A jelenlegi grafika a következő:
+    settings:
+      enable_gravatars: 'Profil képek engedélyezése'
+      gravatar_default: "Alapértelmezett Gravatar kép"
+      enable_local_avatars: 'Engedélyezd a felhasználói profilképek használatát!'
+
+
+

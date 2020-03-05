@@ -1,0 +1,14 @@
+tr:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Sayfa"
+        row_count: "Satır sayısı"
+        column_count: "Sütun sayısı"
+        widgets: "Araçlar"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'üst üste gelmek.'
+          outside: 'Grup dışında görünmektedir.'
+          end_before_start: 'son değerin başlangıç değerinden daha büyük olması gerekir.'

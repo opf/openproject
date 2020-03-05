@@ -1,0 +1,7 @@
+#English strings go here
+sv:
+  permission_show_board_views: "Visa tavlor"
+  permission_manage_board_views: "Hantera tavlor"
+  project_module_board_view: "Tavlor"
+  boards:
+    label_boards: "Tavlor"

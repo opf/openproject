@@ -1,0 +1,19 @@
+uk:
+  logout_warning: >
+    Ви вийшли з системи. Вміст будь-якої форми, яку ви надішлете, може бути втрачено. Спробуйте, [увійти].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Ім’я
+        display_name: Відображуване ім'я
+        identifier: Ідентифікатор
+        secret: Таємний код
+        scope: Область використання
+  openid_connect:
+    menu_title: Постачальники OpenID
+    providers:
+      label_add_new: Додати нового постачальника OpenID
+      label_edit: Редагувати OpenID провайдера %{name}
+      no_results_table: Ще не додано жодного постачальника.
+      plural: Постачальники OpenID
+      singular: OpenID постачальник

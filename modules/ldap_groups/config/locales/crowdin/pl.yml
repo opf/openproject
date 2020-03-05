@@ -1,0 +1,38 @@
+pl:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        entry: 'Identyfikator wpisu'
+        auth_source: 'Połączenie LDAP'
+    models:
+      ldap_groups/synchronized_group: 'Synchronizowana grupa LDAP'
+  ldap_groups:
+    label_menu_item: 'Synchronizacja grupy LDAP'
+    label_group_key: 'Klucz filtru grupy LDAP'
+    settings:
+      group_key: 'Atrybut grupy LDAP'
+      group_key_text: 'Nazwa atrybutu LDAP używana do identyfikacji grup.'
+      group_base: 'Baza grupy LDAP'
+      group_base_text: 'Baza grupy LDAP używana do wyszukiwania wpisów grupy.'
+    synchronized_groups:
+      add_new: 'Dodaj synchronizowaną grupę LDAP'
+      destroy:
+        title: 'Usuń synchronizowaną grupę %{name}'
+        confirmation: "W przypadku kontynuacji usunięta zostanie synchronizowana grupa %{name} i wszyscy użytkownicy (%{users_count}) synchronizowani za jej pośrednictwem."
+        info: "Uwaga: nie zostanie usunięta sama grupa OpenProject ani członkowie dodani poza tą synchronizacją LDAP."
+        verification: "Wprowadź nazwę grupy %{name}, aby potwierdzić usunięcie."
+      help_text_html: |
+        Ten moduł umożliwia skonfigurowanie synchronizacji między grupami LDAP i OpenProject.
+        Zależy to od tego, czy grupy LDAP muszą do pracy z OpenProject używać ustawionego atrybutu <em>groupOfNames / memberOf</em>.
+        <br/>
+        Grupy są synchronizowane co godzinę przy użyciu zadania cron.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Zapoznaj się z naszą dokumentacją na ten temat</a>.
+      no_results: 'Nie znaleziono żadnych synchronizowanych grup.'
+      no_members: 'Ta grupa nie ma jeszcze synchronizowanych członków.'
+      plural: 'Synchronizowane grupy LDAP'
+      singular: 'Synchronizowana grupa LDAP'
+      form:
+        auth_source_text: 'Wybierz tryb uwierzytelniania LDAP, który ma być używany.'
+        entry_text: 'Określ identyfikator grupy LDAP.'
+        group_text: 'Wybierz istniejącą grupę OpenProject, z którą będą synchronizowani członkowie grupy LDAP'
+

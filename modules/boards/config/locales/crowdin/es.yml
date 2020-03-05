@@ -1,0 +1,7 @@
+#English strings go here
+es:
+  permission_show_board_views: "Ver paneles"
+  permission_manage_board_views: "Administrar paneles"
+  project_module_board_view: "Tableros"
+  boards:
+    label_boards: "Tableros"

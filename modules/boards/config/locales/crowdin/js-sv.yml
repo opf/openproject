@@ -1,0 +1,46 @@
+#English strings go here
+sv:
+  js:
+    boards:
+      label_unnamed_board: 'Namnlös tavla'
+      label_unnamed_list: 'Namnlös lista'
+      label_board_type: 'Typ av tavla'
+      upsale:
+        teaser_text: 'Förbättra din agila projektledning med denna flexibla styrelsevy. Skapa så många tavlor som du vill för allt du vill hålla reda på.'
+        upgrade_to_ee_text: 'Tavlor är en Enterprise funktion. Vänligen uppgradera till en betald plan.'
+        upgrade: 'Uppgradera nu'
+        personal_demo: 'Få en personlig demo'
+      lists:
+        delete: 'Ta bort lista'
+      version:
+        is_locked: 'Version är låst. Inga objekt kan läggas till i denna version.'
+        is_closed: 'Version är stängd. Inga objekt kan läggas till i denna version.'
+        close_version: 'Stäng version'
+        open_version: 'Öppen version'
+        lock_version: 'Lås version'
+        unlock_version: 'Lås upp version'
+        edit_version: 'Redigera version'
+        show_version: 'Visa version'
+        locked: 'Låst'
+        closed: 'Stängt'
+      new_board: 'Ny tavla'
+      add_list: 'Lägg till lista'
+      add_card: 'Lägg till kort'
+      error_attribute_not_writable: "Kan inte flytta arbetspaketet, %{attribute} är inte skrivbar."
+      error_loading_the_list: "Fel vid inläsning av listan: %{error_message}"
+      error_permission_missing: "Behörigheten att skapa offentliga frågor saknas"
+      click_to_remove_list: "Klicka för att ta bort denna lista"
+      board_type:
+        free: 'Grundläggande tavla'
+        free_text: >
+          Skapa en tavla där du fritt kan skapa listor och beställa dina arbetspaket inuti. Flyttar arbetspaket mellan listorna ändrar inte själva arbetspaketet.
+        action: 'Åtgärdstavla'
+        action_by_attribute: 'Åtgärdstavla (%{attribute})'
+        action_text: >
+          Skapa en tavla med filtrerade listor på ett enda attribut. Flytta arbetspaket till andra listor kommer att uppdatera deras attribut.
+        select_attribute: "Åtgärdsattribut"
+      configuration_modal:
+        title: 'Konfigurera denna tavla'
+        display_settings:
+          card_mode: "Visa som kort"
+          table_mode: "Visa som tabell"

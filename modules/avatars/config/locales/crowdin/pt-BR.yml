@@ -1,0 +1,40 @@
+#English strings go here
+pt-BR:
+  label_avatar: "Imagem do perfil"
+  label_avatar_plural: "Imagens do perfil"
+  label_current_avatar: "Imagem atual do perfil"
+  label_choose_avatar: "Escolher arquivo com Imagem do Perfil"
+  message_avatar_uploaded: "Imagem do perfil alterada com sucesso."
+  error_image_upload: "Erro ao salvar a imagem."
+  error_image_size: "A imagem é muito grande."
+  button_change_avatar: "Alterar Imagem do perfil"
+  are_you_sure_delete_avatar: "Tem certeza que deseja excluir sua Imagem do perfil?"
+  avatar_deleted: "Imagem do perfil excluída com sucesso."
+  unable_to_delete_avatar: "A Imagem do perfil não pode ser excluída."
+  wrong_file_format: "Formatos permitidos são jpg, png, gif"
+  empty_file_error: "Por favor, envie uma imagem válida (jpg, png, gif)"
+  avatars:
+    label_avatar: "Imagem do perfil"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Imagem atual do perfil'
+    label_local_avatar: 'Imagem do perfil personalizada'
+    text_current_avatar: |
+      A imagem a seguir mostra a imagem atual do perfil.
+    text_upload_instructions: |
+      Carregue sua própria imagem do perfil com 128 x 128 pixels. Arquivos maiores serão redimensionados e cortados.
+      Uma visualização da sua imagem do perfil será exibida antes de carregar, uma vez que você tenha selecionado uma imagem.
+    text_change_gravatar_html: 'Para alterar ou adicionar o Gravatar para seu endereço de e-mail, vá para %{gravatar_url}.'
+    text_your_local_avatar: |
+      O OpenProject permite que você envie uma imagem do perfil personalizada.
+    text_local_avatar_over_gravatar: |
+      Se você definir uma, esta imagem do perfil personalizada será usada em precedência sobre o gravatar acima.
+    text_your_current_gravatar: |
+      Se você registrou um, o OpenProject usa seu gravatar, ou uma imagem ou ícone padrão.
+      O gravatar atual é o seguinte:
+    settings:
+      enable_gravatars: 'Habilitar Gravatar para o usuário'
+      gravatar_default: "Imagem Gravatar padrão"
+      enable_local_avatars: 'Habilitar Imagem do perfil personalizada'
+
+
+

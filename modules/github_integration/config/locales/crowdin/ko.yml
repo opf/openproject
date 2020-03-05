@@ -1,0 +1,31 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ko:
+  github_integration:
+    pull_request_opened_comment: >
+      **PR 열림:** [%{repository}](%{repository_url})에 대한 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})이(가) [%{github_user}](%{github_user_url})님에 의해 열렸습니다.
+    pull_request_closed_comment: >
+      **PR 닫힘:** [%{repository}](%{repository_url})에 대한 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})이(가) [%{github_user}](%{github_user_url})님에 의해 닫혔습니다.
+    pull_request_merged_comment: >
+      **PR 병합됨:** [%{repository}](%{repository_url})에 대한 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})이(가) [%{github_user}](%{github_user_url})님에 의해 병합되었습니다.
+    pull_request_referenced_comment: >
+      **PR에서 참조됨:** [%{github_user}](%{github_user_url})님이 [%{repository}](%{repository_url})의 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})에서 이 작업 패키지를 참조했습니다.

@@ -1,0 +1,59 @@
+el:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'Payload URL'
+        secret: 'Κρυφή υπογραφή'
+        events: 'Συμβάντα'
+        projects: 'Ενεργοποιημένα έργα'
+      webhooks/log:
+        event_name: 'Όνομα συμβάντος'
+        url: 'Payload URL'
+        response_code: 'Κωδικός απόκρισης'
+        response_body: 'Απόκριση'
+    models:
+      webhooks/outgoing_webhook: "Εξερχόμενο webhook"
+  webhooks:
+    singular: Webhook
+    plural: Webhooks
+    resources:
+      time_entry:
+        name: "Καταχώρηση χρόνου"
+    outgoing:
+      no_results_table: Δεν έχουν οριστεί webhooks ακόμη.
+      label_add_new: Προσθήκη νέου webhook
+      label_edit: Επεξεργασία webhook
+      label_event_resources: Πόροι συμβάντος
+      events:
+        created: "Δημιουργήθηκε"
+        updated: "Ενημερωμένο"
+      status:
+        enabled: 'Το webhook είναι ενεργό'
+        disabled: 'Το webhook είναι ανενεργό'
+        enabled_text: 'Το webhook θα εκπέμπει payloads για τα συμβάντα που έχουν οριστεί παρακάτω.'
+        disabled_text: 'Κάντε κλικ στο κουμπί επεξεργασίας για να ενεργοποιήσετε το webhook.'
+      deliveries:
+        no_results_table: Δεν έχουν γίνει διανομές για αυτό το webhook.
+        title: 'Πρόσφατες διανομές'
+        time: 'Χρόνος παράδοσης'
+      form:
+        introduction: >
+          Στείλτε ένα αίτημα POST στην παρακάτω διεύθυνση payload URL για οποιοδήποτε γεγονός στο έργο που έχετε εγγραφεί. Το payload θα αντιστοιχεί στην αναπαράσταση APIv3 του αντικειμένου που τροποποιείται.
+        apiv3_doc_url: Για περισσότερες πληροφορίες, επισκεφθείτε την τεκμηρίωση API
+        description:
+          placeholder: 'Προαιρετική περιγραφή για το webhook.'
+        enabled:
+          description: >
+            Όταν επιλεχθεί, το webhook θα ενεργοποιείται στα επιλεγμένα συμβάντα. Κάντε αποεπιλογή για να απενεργοποιήσετε το webhook.
+        events:
+          title: 'Ενεργοποιημένα συμβάντα'
+        project_ids:
+          title: 'Ενεργοποιημένα έργα'
+          description: 'Επιλέξτε για ποια έργα θα εκτελείται αυτό το webhook.'
+          all: 'Όλα τα έργα'
+          selected: 'Μόνο επιλεγμένα έργα'
+        selected_project_ids:
+          title: 'Επιλεγμένα έργα'
+        secret:
+          description: >
+            Αν οριστεί, αυτή η κρυφή τιμή χρησιμοποιείται από το OpenProject για να υπογράψει το webhook payload.

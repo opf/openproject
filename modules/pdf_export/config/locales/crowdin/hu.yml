@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+hu:
+  error_can_not_delete_export_card_configuration: "Ez az elrendezés nem törölhető."
+  error_can_not_change_name_of_default_configuration: "Az alapértelmezett elrendezés neve nem módosítható."
+  label_backlogs_export_card_config_select: "Export kártya elrendezés kiválasztása"
+  label_backlogs_export_card_export: "Exportálás"
+  label_export_card_configuration_new: "Új export kártya elrendezés"
+  label_export_card_configuration: "Export kártya elrendezés"
+  label_export_card_configuration_plural: "Export kártya elrendezések"
+  label_export_card_activate: "Aktivál"
+  label_export_card_deactivate: "Deaktiválás"
+  notice_export_card_configuration_activated: "Beállítás sikeresen aktiválva"
+  notice_export_card_configuration_deactivated: "Beállítás sikeresen deaktiválva"
+  error_can_not_activate_export_card_configuration: "Ez az elrendezés nem aktiválható"
+  error_can_not_deactivate_export_card_configuration: "Ez az elrendezés nem deaktiválható"
+  validation_error_required_keys_not_present: "Szükséges kulcs(ok) nincs(enek) jelen:"
+  validation_error_yaml_is_badly_formed: "nincs érvényes YAML formátuma."
+  validation_error_uknown_key: "Ismeretlen kulcs:"
+  yaml_error: "YAML hiba:"
+  help_link_rows_format: "Sor formázása"
+  export_config_per_page: "Oldalanként"
+  export_config_page_size: "Oldal mérete"
+  export_config_orientation: "Tájolás"
+  export_config_rows: "Sorok"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "Sorok"
+        per_page: "Oldalanként"
+        page_size: "Oldal mérete"
+        orientation: "Tájolás"

@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ar:
+  error_can_not_delete_export_card_configuration: "لا يمكن حذف هذا التنسيق."
+  error_can_not_change_name_of_default_configuration: "لا يمكن تغيير اسم الترتيب الافتراضي."
+  label_backlogs_export_card_config_select: "قُم باختيار تنسيق بطاقة التصدير"
+  label_backlogs_export_card_export: "تصدير"
+  label_export_card_configuration_new: "تنسيق بطاقة التصدير الجديد"
+  label_export_card_configuration: "تنسيق بطاقة التصدير"
+  label_export_card_configuration_plural: "تنسيقات بطاقة التصدير"
+  label_export_card_activate: "تفعيل"
+  label_export_card_deactivate: "تعطيل"
+  notice_export_card_configuration_activated: "تم تفعيل التنسيق بنجاح"
+  notice_export_card_configuration_deactivated: "تم تعطيل التنسيق بنجاح"
+  error_can_not_activate_export_card_configuration: "هذا التنسيق لا يمكن تفعيله"
+  error_can_not_deactivate_export_card_configuration: "هذا التنسق لا يمكن تعطيله"
+  validation_error_required_keys_not_present: "مطلوب مفتاح(مفاتيح) غير موجودة:"
+  validation_error_yaml_is_badly_formed: "ليس له تصميم YAML صالح."
+  validation_error_uknown_key: "مفتاح غير معروف:"
+  yaml_error: "خطأ YAML:"
+  help_link_rows_format: "تنسيق الصفوف"
+  export_config_per_page: "في كل صفحة"
+  export_config_page_size: "حجم الصفحة"
+  export_config_orientation: "الاتجاه"
+  export_config_rows: "الصفوف"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "الصفوف"
+        per_page: "في كل صفحة"
+        page_size: "حجم الصفحة"
+        orientation: "الاتجاه"

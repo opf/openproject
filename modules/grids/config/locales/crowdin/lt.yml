@@ -1,0 +1,14 @@
+lt:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Puslapis"
+        row_count: "Eilučių skaičius"
+        column_count: "Stulpelių skaičius"
+        widgets: "Valdikliai"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'persidengia.'
+          outside: 'yra už tinklelio.'
+          end_before_start: 'pabaigos reikšmė turi būti didesnė už pradžios reikšmę.'

@@ -1,0 +1,38 @@
+#English strings go here
+el:
+  label_avatar: "Άβαταρ"
+  label_avatar_plural: "Άβαταρ"
+  label_current_avatar: "Τρέχον Άβαταρ"
+  label_choose_avatar: "Επιλέξτε Άβαταρ από αρχείο"
+  message_avatar_uploaded: "Το άβαταρ άλλαξε με επιτυχία."
+  error_image_upload: "Σφάλμα κατά την αποθήκευση της εικόνας."
+  error_image_size: "Η εικόνα είναι πολύ μεγάλη."
+  button_change_avatar: "Αλλαγή άβαταρ"
+  are_you_sure_delete_avatar: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το άβαταρ σας;"
+  avatar_deleted: "Το άβαταρ διαγράφηκε με επιτυχία."
+  unable_to_delete_avatar: "Δεν ήταν δυνατή η διαγραφή του άβαταρ."
+  wrong_file_format: "Οι επιτρεπόμενες μορφές είναι jpg, png, gif"
+  empty_file_error: "Παρακαλούμε ανεβάστε μια έγκυρη εικόνα (jpg, png, gif)"
+  avatars:
+    label_avatar: "Άβαταρ"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Τρέχον άβαταρ'
+    label_local_avatar: 'Προσαρμοσμένο άβαταρ'
+    text_current_avatar: |
+      Η ακόλουθη εικόνα δείχνει το τρέχον άβαταρ.
+    text_upload_instructions: |
+      Ανεβάστε το δικό σας προσαρμοσμένο άβαταρ σε 128 με 128 pixels. Σε μεγαλύτερα αρχεία θα αλλαχθεί το μέγεθος τους και θα περικοπούν για να ταιριάζουν. Μια προεπισκόπηση του άβαταρ σας θα εμφανιστεί πριν το ανέβασμα, μόλις επιλέξετε μια εικόνα.
+    text_change_gravatar_html: 'Για να αλλάξετε ή να προσθέσετε ένα Gravatar για την διεύθυνση email σας, πηγαίνετε στο %{gravatar_url}.'
+    text_your_local_avatar: |
+      Το OpenProject σας επιτρέπει να ανεβάσετε το δικό σας προσαρμοσμένο άβαταρ.
+    text_local_avatar_over_gravatar: |
+      Αν το ορίσετε, αυτό το προσαρμοσμένο άβαταρ θα χρησιμοποιείται με προτεραιότητα έναντι του παραπάνω gravatar.
+    text_your_current_gravatar: |
+      Το OpenProject χρησιμοποιεί το gravatar σας αν έχετε ορίσει ένα ή μια προεπιλεγμένη εικόνα ή εικονίδιο αν υπάρχει. Το τρέχον gravatar είναι το ακόλουθο:
+    settings:
+      enable_gravatars: 'Ενεργοποίηση gravatar χρήστη'
+      gravatar_default: "Προεπιλεγμένη εικόνα Gravatar"
+      enable_local_avatars: 'Ενεργοποίηση προσαρμοσμένων άβαταρ χρήστη'
+
+
+

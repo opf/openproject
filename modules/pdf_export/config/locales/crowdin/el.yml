@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+el:
+  error_can_not_delete_export_card_configuration: "Αυτό το αρχείο ρυθμίσεων δεν μπορεί να διαγραφεί."
+  error_can_not_change_name_of_default_configuration: "Το όνομα του προεπιλεγμένου αρχείου ρυθμίσεων δεν μπορεί να αλλάξει."
+  label_backlogs_export_card_config_select: "Επιλέξτε διαμόρφωση εξαγωγής κάρτας"
+  label_backlogs_export_card_export: "Εξαγωγή"
+  label_export_card_configuration_new: "Νέες ρυθμίσεις εξαγωγής κάρτας"
+  label_export_card_configuration: "Ρύθμιση Εξαγωγής Κάρτας"
+  label_export_card_configuration_plural: "Ρυθμίσεις Εξαγωγής Κάρτας"
+  label_export_card_activate: "Ενεργοποίηση"
+  label_export_card_deactivate: "Απενεργοποίηση"
+  notice_export_card_configuration_activated: "Οι ρυθμίσεις ενεργοποιήθηκαν επιτυχώς"
+  notice_export_card_configuration_deactivated: "Οι ρυθμίσεις απενεργοποιήθηκαν επιτυχώς"
+  error_can_not_activate_export_card_configuration: "Αυτό το αρχείο ρυθμίσεων δεν μπορεί να ενεργοποιηθεί"
+  error_can_not_deactivate_export_card_configuration: "Αυτό το αρχείο ρυθμίσεων δεν μπορεί να απενεργοποιηθεί"
+  validation_error_required_keys_not_present: "Τα απαιτούμενα κλειδιά δεν υπάρχουν:"
+  validation_error_yaml_is_badly_formed: "δεν έχει έγκυρη μορφή YAML."
+  validation_error_uknown_key: "Άγνωστο κλειδί:"
+  yaml_error: "Σφάλμα YAML:"
+  help_link_rows_format: "Μορφοποίηση Σειρών"
+  export_config_per_page: "Ανά σελίδα"
+  export_config_page_size: "Μέγεθος σελίδας"
+  export_config_orientation: "Προσανατολισμός"
+  export_config_rows: "Σειρές"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "Σειρές"
+        per_page: "Ανά σελίδα"
+        page_size: "Μέγεθος σελίδας"
+        orientation: "Προσανατολισμός"

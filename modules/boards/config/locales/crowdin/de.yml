@@ -1,0 +1,7 @@
+#English strings go here
+de:
+  permission_show_board_views: "Boards anzeigen"
+  permission_manage_board_views: "Boards verwalten"
+  project_module_board_view: "Boards"
+  boards:
+    label_boards: "Boards"

@@ -1,0 +1,7 @@
+#English strings go here
+ru:
+  permission_show_board_views: "Просмотр досок"
+  permission_manage_board_views: "Управление досками"
+  project_module_board_view: "Доски"
+  boards:
+    label_boards: "Доски"

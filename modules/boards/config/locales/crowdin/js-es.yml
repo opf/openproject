@@ -1,0 +1,46 @@
+#English strings go here
+es:
+  js:
+    boards:
+      label_unnamed_board: 'Panel sin nombre'
+      label_unnamed_list: 'Lista sin nombre'
+      label_board_type: 'Tipo de panel'
+      upsale:
+        teaser_text: 'Mejore su administración de proyectos ágiles con esta vista flexible de paneles. Cree tantos paneles como prefiera para cualquier elemento del que quiera realizar un seguimiento.'
+        upgrade_to_ee_text: 'Los paneles son una característica de la versión Enterprise. Actualice a un plan de pago.'
+        upgrade: 'Actualizar ahora'
+        personal_demo: 'Obtener una demostración personal'
+      lists:
+        delete: 'Eliminar lista'
+      version:
+        is_locked: 'La versión está bloqueada. No se pueden agregar elementos a esta versión.'
+        is_closed: 'La versión está cerrada. No se pueden agregar elementos a esta versión.'
+        close_version: 'Cerrar versión'
+        open_version: 'Abrir versión'
+        lock_version: 'Bloquear versión'
+        unlock_version: 'Desbloquear versión'
+        edit_version: 'Editar versión'
+        show_version: 'Mostrar versión'
+        locked: 'Bloqueado'
+        closed: 'Cerrado'
+      new_board: 'Nuevo panel'
+      add_list: 'Agregar lista'
+      add_card: 'Agregar tarjeta'
+      error_attribute_not_writable: "No se puede mover el paquete de trabajo porque %{attribute} no permite la escritura."
+      error_loading_the_list: "Error al cargar la lista: %{error_message}"
+      error_permission_missing: "Falta el permiso para crear consultas públicas"
+      click_to_remove_list: "Haga clic para quitar esta lista"
+      board_type:
+        free: 'Panel básico'
+        free_text: >
+          Cree un panel donde pueda crear libremente listas y ordenar los paquetes de trabajo que contenga. Al mover los paquetes de trabajo entre las listas, no se cambia del paquete de trabajo en sí.
+        action: 'Panel de acciones'
+        action_by_attribute: 'Panel de acciones (%{attribute})'
+        action_text: >
+          Cree un panel con listas filtradas en un único atributo. Al mover los paquetes de trabajo a otras listas, se actualizará su atributo.
+        select_attribute: "Atributo de acción"
+      configuration_modal:
+        title: 'Configurar este panel'
+        display_settings:
+          card_mode: "Mostrar como tarjetas"
+          table_mode: "Mostrar como tabla"

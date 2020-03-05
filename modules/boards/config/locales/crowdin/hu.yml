@@ -1,0 +1,7 @@
+#English strings go here
+hu:
+  permission_show_board_views: "Táblák megtekintése"
+  permission_manage_board_views: "Táblák kezelése"
+  project_module_board_view: "Boards"
+  boards:
+    label_boards: "Boards"

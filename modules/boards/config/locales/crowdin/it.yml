@@ -1,0 +1,7 @@
+#English strings go here
+it:
+  permission_show_board_views: "Mostra schede"
+  permission_manage_board_views: "Gestisci schede"
+  project_module_board_view: "Schede"
+  boards:
+    label_boards: "Schede"

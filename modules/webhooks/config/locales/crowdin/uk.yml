@@ -1,0 +1,59 @@
+uk:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'Payload URL'
+        secret: 'Signature secret'
+        events: 'Події'
+        projects: 'Включені проекти'
+      webhooks/log:
+        event_name: 'Назва події'
+        url: 'Payload URL'
+        response_code: 'Код відповіді'
+        response_body: 'Відповідь'
+    models:
+      webhooks/outgoing_webhook: "Вихідний вебхук"
+  webhooks:
+    singular: Вебхук
+    plural: Вебхуки
+    resources:
+      time_entry:
+        name: "Time entry"
+    outgoing:
+      no_results_table: Немає доданих вебхуків.
+      label_add_new: Додати новий вебхук
+      label_edit: Редагувати вебхук
+      label_event_resources: Event resources
+      events:
+        created: "Створено"
+        updated: "Оновлено"
+      status:
+        enabled: 'Вебхук увімкнено'
+        disabled: 'Вебхук вимкнений'
+        enabled_text: 'The webhook will emit payloads for the defined events below.'
+        disabled_text: 'Click the edit button to activate the webhook.'
+      deliveries:
+        no_results_table: No deliveries have been made for this webhook.
+        title: 'Останні події'
+        time: 'Час доставки'
+      form:
+        introduction: >
+          Send a POST request to the payload URL below for any event in the project your subscribe. Payload will correspond to the APIv3 representation of the object being modified.
+        apiv3_doc_url: For more information, visit the API documentation
+        description:
+          placeholder: 'Optional description for the webhook.'
+        enabled:
+          description: >
+            When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
+        events:
+          title: 'Увімкнені події'
+        project_ids:
+          title: 'Включені проекти'
+          description: 'Select for which projects this webhook should be executed for.'
+          all: 'Всі проекти'
+          selected: 'Тільки обрані проекти'
+        selected_project_ids:
+          title: 'Вибрані проекти'
+        secret:
+          description: >
+            If set, this secret value is used by OpenProject to sign the webhook payload.

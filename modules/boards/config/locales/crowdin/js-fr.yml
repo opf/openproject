@@ -1,0 +1,46 @@
+#English strings go here
+fr:
+  js:
+    boards:
+      label_unnamed_board: 'Tableau sans nom'
+      label_unnamed_list: 'Liste sans nom'
+      label_board_type: 'Type de tableau'
+      upsale:
+        teaser_text: 'Améliorez votre gestion de projet agile avec cette vue des tableaux flexible. Créez autant de tableaux que vous voulez pour tout ce que vous souhaitez conserver.'
+        upgrade_to_ee_text: 'Les tableaux sont une fonctionnalité du plan Enterprise. Veuillez passer à un forfait payant.'
+        upgrade: 'Passer au plan supérieur'
+        personal_demo: 'Obtenir une démo personnelle'
+      lists:
+        delete: 'Supprimer la liste'
+      version:
+        is_locked: 'La version est verrouillée. Aucun élément ne peut être ajouté à cette version.'
+        is_closed: 'La version est fermée. Aucun élément ne peut être ajouté à cette version.'
+        close_version: 'Fermer la version'
+        open_version: 'Ouvrir la version'
+        lock_version: 'Verrouiller la version'
+        unlock_version: 'Déverrouiller la version'
+        edit_version: 'Éditer la version'
+        show_version: 'Afficher la version'
+        locked: 'Verrouillé'
+        closed: 'Clôturé'
+      new_board: 'Nouveau tableau'
+      add_list: 'Ajouter une liste'
+      add_card: 'Ajouter une carte'
+      error_attribute_not_writable: "Impossible de déplacer le lot de travaux, %{attribute} n'est pas modifiable."
+      error_loading_the_list: "Erreur lors du chargement de la liste : %{error_message}"
+      error_permission_missing: "La permission pour créer des requêtes publiques est manquante"
+      click_to_remove_list: "Cliquez pour supprimer cette liste"
+      board_type:
+        free: 'Tableau de base'
+        free_text: >
+          Créez un tableau dans lequel vous pouvez créer librement des listes et ordonner vos lots de travaux dans celles-ci. Déplacer des lots de travaux entre les listes ne modifie pas le lot de travaux en lui-même.
+        action: 'Tableau d''action'
+        action_by_attribute: 'Tableau d''action (%{attribute})'
+        action_text: >
+          Créez un tableau avec des listes filtrées sur un seul attribut. Déplacer des lots de travaux vers d'autres listes mettra à jour leur attribut.
+        select_attribute: "Attribut d'action"
+      configuration_modal:
+        title: 'Configurer ce tableau'
+        display_settings:
+          card_mode: "Affichage en cartes"
+          table_mode: "Affichage en tableau"

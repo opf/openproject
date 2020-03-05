@@ -1,0 +1,176 @@
+#English strings go here for Rails i18n
+uk:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: 'Ідентифікатор'
+        default: 'Використовувати за замовчуванням'
+      two_factor_authentication/device/sms:
+        phone_number: "Номер телефону"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: 'вже встановлено для іншого пристрою OTP.'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "має бути формату + XX XXXXXXXXX"
+    models:
+      two_factor_authentication/device: "2FA пристрій"
+      two_factor_authentication/device/sms: "Мобільний телефон"
+      two_factor_authentication/device/totp: "Програма-автентифікатор"
+  two_factor_authentication:
+    error_2fa_disabled: "Показ 2FA вимкнено."
+    error_no_device: "Для цього користувача не знайдено зареєстрованого пристрою 2FA, незважаючи на те, що для цього екземпляра потрібно."
+    error_no_matching_strategy: "Для цього користувача не доступна відповідна стратегія 2FA. Зверніться до свого адміністратора."
+    error_is_enforced_not_active: 'Помилка конфігурації: Двофакторна аутентифікація була застосована, але активних стратегій не існує.'
+    error_invalid_backup_code: 'Недійсний код резервного копіювання 2FA'
+    channel_unavailable: "Канал доставки %{channel} недоступний."
+    no_valid_phone_number: "Немає дійсного номера телефону."
+    label_pwd_confirmation: "Пароль"
+    notice_pwd_confirmation: "Потрібно підтвердити свій пароль після внесення змін до цих налаштувань."
+    label_device_type: "Тип пристрою"
+    label_default_device: "Пристрій за замовчуванням 2FA"
+    label_device: "2FA пристрій"
+    label_devices: "2FA пристрої"
+    label_one_time_password: 'Одноразовий пароль'
+    label_2fa_enabled: 'Двофакторна аутентифікація активна'
+    label_2fa_disabled: 'Двофакторна аутентифікація не активна'
+    text_otp_delivery_message_sms: "Ваш %{app_title}  одноразовий пароль %{token}"
+    text_otp_delivery_message_voice: "Ваш %{app_title}  одноразовий пароль:%{pause} %{token} %{pause}  Я повторюю: %{pause} %{token}"
+    text_enter_2fa: 'Please enter the one-time password from your device.'
+    text_2fa_enabled: 'Після кожного входу вам буде запропоновано ввести маркер OTP з пристрою 2FA за умовчанням.'
+    text_2fa_disabled: 'Щоб увімкнути двофакторну аутентифікацію, скористайтеся кнопкою вище для реєстрації нового пристрою 2FA. Якщо у вас вже є пристрій, потрібно зробити його стандартним.'
+    login:
+      enter_backup_code_title: Введіть резервний код
+      enter_backup_code_text: Введіть дійсний код резервного копіювання зі списку кодів, якщо ви більше не зможете отримати доступ до зареєстрованих пристроїв 2FA.
+      other_device: 'Використовуйте інший пристрій або резервний код'
+    settings:
+      title: 'Налаштування 2FA'
+      current_configuration: 'Поточна конфігурація'
+      label_active_strategies: 'Активні стратегії 2FA'
+      label_enforced: 'Здійснюйте 2FA'
+      label_remember: 'Запам''ятайте логін 2FA'
+      text_configuration: |
+        Примітка: Ці значення являють собою поточну конфігурацію в цілому. Ви не можете вимкнути налаштування, застосовані конфігурацією, або змінити поточні активні стратегії, оскільки вони вимагають перезавантаження сервера.
+      text_configuration_guide: Додаткову інформацію див. У посібнику з налаштування.
+      text_enforced: 'Увімкніть цей параметр, щоб примусити всіх користувачів зареєструвати пристрій 2FA під час наступного входу. Забороняється вимикати лише тоді, коли конфігурація не застосовується.'
+      text_remember: |
+        Встановіть значення, що перевищує нуль, щоб дозволити користувачам запам'ятовувати автентифікацію 2FA протягом заданого числа днів.
+        Протягом цього періоду їм не буде запропоновано повторно ввести його. Можна встановити лише тоді, коли конфігурація не застосовується.
+      error_invalid_settings: 'Вибрані стратегії 2FA недійсні'
+      failed_to_save_settings: 'Не вдалося оновити налаштування 2FA: %{message}'
+    admin:
+      self_edit_path: ' Щоб додати або змінити власні пристрої 2FA, перейдіть до %{self_edit_link}'
+      self_edit_link_name: 'Двофакторна аутентифікація на сторінці облікового запису'
+      self_edit_forbidden: 'На цьому шляху не можна редагувати власні пристрої 2FA. Замість цього перейдіть до розділу Мій обліковий запис> Двофакторна автентифікація.'
+      no_devices_for_user: 'Для цього користувача не було зареєстровано жодного пристрою 2FA.'
+      all_devices_deleted: 'Усі пристрої 2FA цього користувача видалено'
+      delete_all_are_you_sure: 'Дійсно видалити всі пристрої 2FA для цього користувача?'
+      button_delete_all_devices: 'Видалити зареєстровані пристрої 2FA'
+      button_register_mobile_phone_for_user: 'Зареєструйте мобільний телефон'
+      text_2fa_enabled: 'Після кожного входу користувачеві буде запропоновано ввести маркер OTP зі свого пристрою за умовчанням 2FA.'
+      text_2fa_disabled: "Користувач не налаштував пристрій 2FA через свою сторінку \"Мій обліковий запис\""
+    upsale:
+      title: 'Двофакторна аутентифікація - це функція підприємства'
+      description: 'Зміцнюйте свої внутрішні або зовнішні механізми аутентифікації другим фактором.'
+    backup_codes:
+      none_found: Для цього облікового запису не існує резервних кодів.
+      singular: Резервний код
+      plural: Резервні коди
+      your_codes: для вашого %{app_name} облікового запису %{login}
+      overview_description: |
+        Якщо ви не можете отримати доступ до своїх пристроїв із двома факторами, можна скористатися резервним кодом, щоб відновити доступ до свого облікового запису.
+        Використовуйте наступну кнопку, щоб створити новий набір резервних кодів.
+      generate:
+        title: Створити резервні коди
+        keep_safe_as_password: 'Важливо! Розглядайте ці коди як паролі.'
+        keep_safe_warning: 'Або збережіть їх у менеджері паролів, або роздрукуйте цю сторінку і помістіть у безпечне місце.'
+        regenerate_warning: 'Попередження: якщо раніше ви створили резервні коди, вони будуть визнані недійсними і більше не працюватимуть.'
+    devices:
+      add_new: 'Додайте новий пристрій 2FA'
+      register: 'Зареєструйте пристрій'
+      confirm_default: 'Підтвердьте зміну пристрою за умовчанням'
+      confirm_device: 'Підтвердьте пристрій'
+      confirm_now: 'Не підтверджено, натисніть тут, щоб активувати'
+      cannot_delete_default: 'Не вдається видалити стандартний пристрій'
+      make_default_are_you_sure: 'Ви впевнені, що хочете, щоб це пристрій 2FA було типовим?'
+      make_default_failed: 'Не вдалося оновити стандартний пристрій 2FA.'
+      deletion_are_you_sure: 'Дійсно видалити цей пристрій 2FA?'
+      registration_complete: 'Реєстрація 2FA пристрою завершена!'
+      registration_failed_token_invalid: 'Помилка реєстрації пристрою 2FA, маркер недійсний.'
+      registration_failed_update: 'Помилка реєстрації пристрою 2FA, маркер правильний, але пристрій не може бути оновлений.'
+      confirm_send_failed: 'Помилка підтвердження вашого пристрою 2FA.'
+      button_complete_registration: 'Завершіть реєстрацію 2FA'
+      text_confirm_to_complete_html: "Заповніть реєстрацію свого пристрою  <strong>%{identifier}</strong>  ввівши одноразовий пароль з пристрою за умовчанням."
+      text_confirm_to_change_default_html: "Підтвердьте, що ваш пристрій за умовчанням змінено на  <strong>%{new_identifier}</strong> ввівши одноразовий пароль з поточного пристрою за умовчанням."
+      text_identifier: 'За допомогою цього поля можна надати користувачеві власний ідентифікатор.'
+      failed_to_delete: 'Не вдалося видалити пристрій 2FA.'
+      is_default_cannot_delete: 'Пристрій позначено як типовий і його не можна видалити через активну політику безпеки. Перед видаленням позначте інший пристрій як стандартний.'
+      not_existing: 'Для вашого облікового запису не зареєстровано жодного пристрою 2FA.'
+      request_2fa: Введіть код із свого %{device_name} щоб підтвердити вашу особу.
+      totp:
+        title: 'Використовуйте автентифікатор на основі програм'
+        provisioning_uri: 'URI для забезпечення'
+        secret_key: 'Секретний ключ'
+        time_based: 'На основі часу'
+        account: 'Назва рахунку / емітент'
+        setup: |
+          Щоб налаштувати двофакторну аутентифікацію за допомогою Google Authenticator, завантажте програму з магазину Apple App або Google Play Store.
+          Після відкриття програми можна сканувати наступний QR-код, щоб зареєструвати пристрій.
+        question_cannot_scan: |
+          Неможливо сканувати код за допомогою вашої програми?
+        text_cannot_scan: |
+          Якщо ви не можете сканувати код, ви можете ввести його вручну, використовуючи такі відомості:
+        description: |
+          Зареєструйте аутентифікатор програми для використання з OpenProject, використовуючи одноразовий стандарт автентифікації паролів на основі часу.
+          Типовими прикладами є Google Authenticator або Authy.
+      sms:
+        title: 'Використовуйте свій мобільний телефон'
+        redacted_identifier: 'Мобільний пристрій %{redacted_number}'
+        request_2fa_identifier: '%{redacted_identifier}  ми надіслали вам код автентифікації через %{delivery_channel}'
+        description: |
+          Зареєструйте свій номер мобільного телефону для доставки одноразових паролів OpenProject.
+    sns:
+      delivery_failed: 'Помилка доставки SNS:'
+    message_bird:
+      sms_delivery_failed: 'Помилка доставки SMS MessageBird.'
+      voice_delivery_failed: 'Помилка голосового дзвінка MessageBird.'
+    restdt:
+      delivery_failed_with_code: 'Помилка доставки маркера. (Error code %{code})'
+    strategies:
+      totp: 'Програма-автентифікатор'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "На ваш мобільний телефон надіслано одноразовий пароль."
+    label_two_factor_authentication: 'Двофакторна аутентифікація'
+    forced_registration:
+      required_to_add_device: 'Активна політика безпеки вимагає активації двофакторної автентифікації. Щоб зареєструвати пристрій, скористайтеся наведеною нижче формою.'
+    remember:
+      active_session_notice: >
+        У вашому обліковому записі є активний файл cookie, до якого можна приєднатися %{expires_on}. Цей файл cookie дає змогу увійти до облікового запису без другого фактора до цього часу.
+      other_active_session_notice: У вашому обліковому записі є активний файл cookie на іншому сеансі.
+      label: 'Пам''ятайте'
+      clear_cookie: 'Натисніть тут, щоб видалити всі згадані 2FA сесії.'
+      cookie_removed: 'Усі згадані сеанси 2FA були видалені.'
+      dont_ask_again: "Створіть cookie, щоб запам'ятати автентифікацію 2FA на цьому клієнті %{days}  днів."
+  field_phone: "Мобільний телефон"
+  field_otp: "Одноразовий пароль"
+  notice_account_otp_invalid: "Недійсний одноразовий пароль."
+  notice_account_otp_expired: "Термін дії одноразового пароля закінчився."
+  notice_developer_strategy_otp: "Стратегія розробника створила наступний одноразовий пароль: %{token} (Channel: %{channel})"
+  notice_account_otp_send_failed: "Не вдалося надіслати одноразовий пароль."
+  notice_account_has_no_phone: "З вашим обліковим записом не пов’язано номер мобільного телефону."
+  label_expiration_hint: "%{date} або при виході з системи"
+  label_actions: 'Дії'
+  label_confirmed: 'Підтверджено'
+  button_continue: 'Продовжити'
+  button_make_default: 'Позначити за умовчанням'
+  label_unverified_phone: "Cell phone not yet verified"
+  notice_phone_number_format: "Введіть номер у такому форматі: + XX XXXXXXXX."
+  text_otp_not_receive: "Інші методи верифікації"
+  text_send_otp_again: "Повторно надіслати одноразовий пароль:"
+  button_resend_otp_form: "Повторно надіслати"
+  button_otp_by_voice: "Голосового виклику"
+  button_otp_by_sms: "смс"
+  label_otp_channel: "Канал доставки"

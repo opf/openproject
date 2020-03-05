@@ -1,0 +1,46 @@
+#English strings go here
+cs:
+  js:
+    boards:
+      label_unnamed_board: 'Nepojmenovaná tabule'
+      label_unnamed_list: 'Nepojmenovaný seznam'
+      label_board_type: 'Typ tabule'
+      upsale:
+        teaser_text: 'Zlepšete své agilní řízení projektů s tímto flexibilním zobrazením Boardů. Vytvořte tolik desek, kolik chcete pro cokoliv, co chcete sledovat.'
+        upgrade_to_ee_text: 'Board je funkce Enterprise. Proveďte upgrade na placený plán.'
+        upgrade: 'Upgradovat nyní'
+        personal_demo: 'Získejte osobní demo'
+      lists:
+        delete: 'Odstranit seznam'
+      version:
+        is_locked: 'Verze je uzamčena. Do této verze nelze přidat žádné položky.'
+        is_closed: 'Verze je uzavřena. Do této verze nemohou být přidány žádné položky.'
+        close_version: 'Zavřít verzi'
+        open_version: 'Otevřít verzi'
+        lock_version: 'Uzamknout verzi'
+        unlock_version: 'Odemknout verzi'
+        edit_version: 'Upravit verzi'
+        show_version: 'Zobrazit verzi'
+        locked: 'Uzamčeno'
+        closed: 'Uzavřený'
+      new_board: 'Nová tabule'
+      add_list: 'Přidat seznam'
+      add_card: 'Přidat kartu'
+      error_attribute_not_writable: "Pracovní balíček nelze přesunout, do %{attribute} nelze zapisovat."
+      error_loading_the_list: "Chyba při načítání seznamu: %{error_message}"
+      error_permission_missing: "Chybí oprávnění k vytvoření veřejných dotazů"
+      click_to_remove_list: "Kliknutím odstraníte tento seznam"
+      board_type:
+        free: 'Základní tabule'
+        free_text: >
+          Vytvořte tabuli, ve které můžete volně vytvářet seznamy a objednat své pracovní balíčky. Přesouvání pracovních balíčků mezi seznamy nemění samotný pracovní balíček.
+        action: 'Akční tabule'
+        action_by_attribute: 'Akční tabule (%{attribute})'
+        action_text: >
+          Vytvořte tabuli s filtrovanými seznamy na jednom atributu. Přesunutí pracovních balíčků do jiných seznamů aktualizuje jejich atribut.
+        select_attribute: "Atribut akce"
+      configuration_modal:
+        title: 'Konfigurovat tuto tabuli'
+        display_settings:
+          card_mode: "Zobrazit jako karty"
+          table_mode: "Zobrazit jako tabulku"

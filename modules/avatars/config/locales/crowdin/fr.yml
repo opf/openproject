@@ -1,0 +1,40 @@
+#English strings go here
+fr:
+  label_avatar: "Avatar"
+  label_avatar_plural: "Avatars"
+  label_current_avatar: "Avatar actuel"
+  label_choose_avatar: "Choisir un avatar depuis un fichier"
+  message_avatar_uploaded: "L'avatar a bien été changé."
+  error_image_upload: "Erreur lors de la sauvegarde de l'image."
+  error_image_size: "L'image est trop grande."
+  button_change_avatar: "Changer d'avatar"
+  are_you_sure_delete_avatar: "Êtes-vous sûr de vouloir supprimer votre avatar ?"
+  avatar_deleted: "L'avatar a bien été supprimé."
+  unable_to_delete_avatar: "L'avatar n'a pas pu être supprimé."
+  wrong_file_format: "Les formats autorisés sont Jpg, Png et Gif"
+  empty_file_error: "Veuillez téléverser une image valide (jpg, png, gif)"
+  avatars:
+    label_avatar: "Avatar"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Avatar actuel'
+    label_local_avatar: 'Avatar personnalisé'
+    text_current_avatar: |
+      L'image suivante montre l'avatar actuel.
+    text_upload_instructions: |
+      Téléchargez votre propre avatar personnalisé de 128 par 128 pixels. Les fichiers plus gros seront redimensionnés et recadrés pour correspondre.
+      Un aperçu de votre avatar sera affiché avant le téléchargement, une fois que vous aurez sélectionné une image.
+    text_change_gravatar_html: 'Pour changer ou ajouter un Gravatar pour votre adresse de courriel, allez à %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject vous permet de téléverser votre propre avatar personnalisé.
+    text_local_avatar_over_gravatar: |
+      Si vous en avez défini un, cet avatar personnalisé sera utilisé à la place du gravatar ci-dessus.
+    text_your_current_gravatar: |
+      OpenProject utilise votre gravatar si vous en possédez un, ou bien une image ou icône par défaut si celle-ci existe.
+      Le gravatar actuel est le suivant :
+    settings:
+      enable_gravatars: 'Activer les gravatars de l''utilisateur'
+      gravatar_default: "Image Gravatar par défaut"
+      enable_local_avatars: 'Activer les avatars personnalisés de l''utilisateur'
+
+
+

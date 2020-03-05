@@ -1,0 +1,46 @@
+#English strings go here
+hu:
+  js:
+    boards:
+      label_unnamed_board: 'Névtelen tábla'
+      label_unnamed_list: 'Névtelen lista'
+      label_board_type: 'Tábla típus'
+      upsale:
+        teaser_text: 'Javítsa az agilis projektmenedzsmentet ezzel a rugalmas táblák nézettel. Készítsen annyi táblát, amennyit csak akar, bármihez, amelyet nyomon követni szeretne.'
+        upgrade_to_ee_text: 'A táblák egy vállalati szolgáltatás. Kérjük, frissítsen Vállalati OpenProject licencre!'
+        upgrade: 'Frissítés most'
+        personal_demo: 'Személyes demo kérése'
+      lists:
+        delete: 'Törölt lista'
+      version:
+        is_locked: 'A verzió zárolva van. Nincs elem hozzáadva ehhez a verzióhoz.'
+        is_closed: 'A verzió le van zárva. Nincs az elem hozzáadva ehhez a verzióhoz.'
+        close_version: 'Zárt verzió'
+        open_version: 'Nyílt verzió'
+        lock_version: 'Lezárt verzió'
+        unlock_version: 'Feloldott verzió'
+        edit_version: 'Módosított verzió'
+        show_version: 'Verzió mutatása'
+        locked: 'Zárolt'
+        closed: 'Lezárva'
+      new_board: 'Új tábla'
+      add_list: 'Lista hozzáadása'
+      add_card: 'Kártya hozzáadása'
+      error_attribute_not_writable: "Nem mozgatható munkacsomag, %{attribute} nem írható."
+      error_loading_the_list: "Betöltési hiba: %{error_message}"
+      error_permission_missing: "Nincs jogosultság a publikus lekérdezés létrehozásához"
+      click_to_remove_list: "Kattints a lista eltávolításához"
+      board_type:
+        free: 'Alap tábla'
+        free_text: >
+          Hozzon létre egy táblát, amelyben szabadon létrehozhat listákat, és megrendelheti a munkacsomagokat. A munkacsomagok listák közötti mozgatása nem változtatja meg a munkacsomagot.
+        action: 'Akció tábla'
+        action_by_attribute: 'Akció tábla (%{attribute})'
+        action_text: >
+          Hozzon létre táblát szűrt listákkal egyetlen attribútumon. A munkacsomagok áthelyezése más listákra frissíti az attribútumot.
+        select_attribute: "Akció attribútum"
+      configuration_modal:
+        title: 'Konfiguráld a táblát'
+        display_settings:
+          card_mode: "megjelenítés kártyaként"
+          table_mode: "Megjelenítés táblaként"

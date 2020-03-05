@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+tr:
+  error_can_not_delete_export_card_configuration: "Konfigürasyon Silinemedi."
+  error_can_not_change_name_of_default_configuration: "Standart ayarların adı değiştirilemez."
+  label_backlogs_export_card_config_select: "Dışa aktarım Kart Ayarı Seçin"
+  label_backlogs_export_card_export: "Dışarı aktar"
+  label_export_card_configuration_new: "Yeni Dışa aktarım Kart Ayarı"
+  label_export_card_configuration: "Dışa aktarım Kart Ayarı"
+  label_export_card_configuration_plural: "Dışa aktarım Kart Ayarları"
+  label_export_card_activate: "Etkinleştir"
+  label_export_card_deactivate: "Devre dışı bırakın"
+  notice_export_card_configuration_activated: "Ayar başarılı olarak etkinleştirildi"
+  notice_export_card_configuration_deactivated: "Ayar başarılı olarak devre dışı bırakıldı"
+  error_can_not_activate_export_card_configuration: "Bu ayar etkinleştirilemez"
+  error_can_not_deactivate_export_card_configuration: "Bu ayar devre dışı bırakılamaz"
+  validation_error_required_keys_not_present: "Gerekli anahtar(lar) mevcut değil:"
+  validation_error_yaml_is_badly_formed: "geçerli bir YAML biçimine sahip değil."
+  validation_error_uknown_key: "Bilinmeyen anahtar:"
+  yaml_error: "YAML hatası:"
+  help_link_rows_format: "Satır Biçimlendirme"
+  export_config_per_page: "Sayfa başına"
+  export_config_page_size: "Sayfa boyutu"
+  export_config_orientation: "Yönlendirme"
+  export_config_rows: "Satırlar"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "Satırlar"
+        per_page: "Sayfa başına"
+        page_size: "Sayfa boyutu"
+        orientation: "Yönlendirme"

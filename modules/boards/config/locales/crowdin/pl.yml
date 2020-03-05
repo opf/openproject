@@ -1,0 +1,7 @@
+#English strings go here
+pl:
+  permission_show_board_views: "Wyświetl tablice"
+  permission_manage_board_views: "Zarządzaj tablicami"
+  project_module_board_view: "Tablice"
+  boards:
+    label_boards: "Tablice"

@@ -1,0 +1,61 @@
+zh-CN:
+  js:
+    grid:
+      add_widget: '添加微件'
+      remove: '移除微件'
+      upsale:
+        text: "某些微件（例如工作包图微件）仅适用于"
+        link: '企业版。'
+      widgets:
+        custom_text:
+          title: '自定义文本'
+        documents:
+          title: '文档'
+          no_results: '没有文档。'
+        members:
+          title: '成员'
+          no_results: '无可见成员。'
+          view_all_members: '查看所有成员'
+          add: '成员'
+          too_many: '正在显示 %{count} 个成员，总共 %{total} 个。'
+        news:
+          title: '新闻'
+          at: '位置：'
+          no_results: '没有新消息报告。'
+        project_description:
+          title: '项目描述'
+          no_results: "尚未写入任何描述。可以在“项目设置”中提供一个描述。"
+        project_details:
+          title: '项目详细信息'
+          no_results: '没有为项目定义自定义字段。'
+        project_status:
+          title: '项目状态'
+          on_track: '按计划进行'
+          off_track: '偏离计划'
+          at_risk: '有风险'
+          not_set: '未设置'
+        subprojects:
+          title: '子项目'
+          no_results: '无子项目。'
+        time_entries_current_user:
+          title: '我花费的时间'
+        time_entries_list:
+          title: '花费时间 (最近 7天)'
+          no_results: '过去7天没有时间记录。'
+        work_packages_accountable:
+          title: "我负责的工作包"
+        work_packages_assigned:
+          title: '分配给我的工作包'
+        work_packages_created:
+          title: '我创建的工作包'
+        work_packages_watched:
+          title: '由我汇报的工作包'
+        work_packages_table:
+          title: '工作包表'
+        work_packages_graph:
+          title: '工作包图'
+        work_packages_calendar:
+          title: '日历'
+        work_packages_overview:
+          title: '工作包概览'
+          placeholder: '点击以编辑…'

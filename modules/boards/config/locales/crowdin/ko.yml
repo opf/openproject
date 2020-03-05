@@ -1,0 +1,7 @@
+#English strings go here
+ko:
+  permission_show_board_views: "보드 보기"
+  permission_manage_board_views: "보드 관리"
+  project_module_board_view: "보드"
+  boards:
+    label_boards: "보드"

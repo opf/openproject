@@ -1,0 +1,14 @@
+el:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Σελίδα"
+        row_count: "Πλήθος γραμμών"
+        column_count: "Πλήθοςστηλών"
+        widgets: "Widgets"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'επικάλυψη.'
+          outside: 'είναι εκτός πλέγματος.'
+          end_before_start: 'η τελική τιμή πρέπει να είναι μεγαλύτερη από την αρχική τιμή.'

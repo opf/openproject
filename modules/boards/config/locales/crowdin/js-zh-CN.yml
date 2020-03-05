@@ -1,0 +1,46 @@
+#English strings go here
+zh-CN:
+  js:
+    boards:
+      label_unnamed_board: '未命名面板'
+      label_unnamed_list: '未命名列表'
+      label_board_type: '面板类型'
+      upsale:
+        teaser_text: '通过此灵活的面板视图改进您的敏捷项目管理。为您想要跟踪的一切创建任意数量的面板。'
+        upgrade_to_ee_text: '面板是企业版功能。请升级到付费计划。'
+        upgrade: '立即升级'
+        personal_demo: '获取个人演示'
+      lists:
+        delete: '删除列表'
+      version:
+        is_locked: '版本已锁定。无法向此版本添加项目。'
+        is_closed: '版本已关闭。无法向此版本添加项目。'
+        close_version: '关闭版本'
+        open_version: '打开版本'
+        lock_version: '锁定版本'
+        unlock_version: '解锁版本'
+        edit_version: '编辑版本'
+        show_version: '显示版本'
+        locked: '锁定'
+        closed: '已关闭'
+      new_board: '新建面板'
+      add_list: '添加列表'
+      add_card: '添加卡片'
+      error_attribute_not_writable: "无法移动工作包，%{attribute} 不可写。"
+      error_loading_the_list: "加载列表时出错：%{error_message}"
+      error_permission_missing: "缺少创建公共查询的权限"
+      click_to_remove_list: "点击以移除此列表"
+      board_type:
+        free: '基本面板'
+        free_text: >
+          创建一个可在其中自由创建列表和订购工作包的面板。在列表之间移动工作包不会更改工作包本身。
+        action: '操作面板'
+        action_by_attribute: '操作面板 (%{attribute})'
+        action_text: >
+          创建一个在单个属性上具有筛选列表的面板。将工作包移动到其他列表将更新其属性。
+        select_attribute: "操作属性"
+      configuration_modal:
+        title: '配置此面板'
+        display_settings:
+          card_mode: "显示为卡片"
+          table_mode: "显示为表"

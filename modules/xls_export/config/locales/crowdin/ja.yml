@@ -1,0 +1,13 @@
+ja:
+  export_to_excel: "XLS をエクスポート"
+  print_with_description: "説明付きの印刷プレビュー"
+  sentence_separator_or: "または"
+  different_formats: 別の形式
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "説明付きXLS"
+      xls_with_relations: "関係を含むXLS"
+  xls_export:
+    child_of: 次の子供
+    parent_of: 次の親

@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+hu:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Kérlek, várj...'
+    verify_account: "Fiók ellenőrzése..."
+    error_captcha: "Fiókját nem lehetett ellenőrizni. Vegye fel a kapcsolatot egy rendszergazdával."
+    settings:
+      website_key: 'Website kulcs'
+      website_key_text: 'Írja be az e domain reCAPTCHA adminisztrációs konzolján létrehozott webhelykulcsot.'
+      secret_key: 'Secret key'
+      secret_key_text: 'Írja be a reCAPTCHA adminisztrációs konzolon létrehozott titkos kulcsot.'
+      type: 'Használj reCAPTCHA'
+      type_disabled: 'Tiltsd reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        A reCAPTCHA egy ingyenes Google által nyújtott szolgáltatás, amely engedélyezhető az OpenProject példányához. Ha engedélyezve van, a captcha-űrlapot bejelentkezéskor jelenítik meg azoknak a felhasználóknak, akik még nem hitelesítették a captcha-t. <br/> Kérjük, olvassa el a következő linket, ahol további részleteket talál az reCAPTCHA-ról és azok verzióiról, valamint a webhely és a titkos kulcsok létrehozásáról: %{recaptcha_link}

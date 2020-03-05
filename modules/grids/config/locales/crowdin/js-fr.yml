@@ -1,0 +1,61 @@
+fr:
+  js:
+    grid:
+      add_widget: 'Ajouter un widget'
+      remove: 'Supprimer le widget'
+      upsale:
+        text: "Certains widgets, comme le widget graphique des lots de travaux, ne sont disponibles que dans"
+        link: 'la version Entreprise.'
+      widgets:
+        custom_text:
+          title: 'Texte personnalisé'
+        documents:
+          title: 'Documents'
+          no_results: 'Encore aucun document.'
+        members:
+          title: 'Membres'
+          no_results: 'Aucun membre visible.'
+          view_all_members: 'Afficher tous les membres'
+          add: 'Membre'
+          too_many: '%{count} membres sur %{total} affichés.'
+        news:
+          title: 'Actualités'
+          at: 'à'
+          no_results: 'Rien de nouveau à signaler.'
+        project_description:
+          title: 'Description du projet'
+          no_results: "Aucune description n'a encore été écrite. Vous pouvez en trouver une dans les \"Paramètres du projet\"."
+        project_details:
+          title: 'Détails du projet'
+          no_results: 'Aucun champ personnalisé n''a été défini pour les projets.'
+        project_status:
+          title: 'État du projet'
+          on_track: 'Sur la bonne voie'
+          off_track: 'Sur la mauvaise voie'
+          at_risk: 'À risque'
+          not_set: 'Non défini'
+        subprojects:
+          title: 'Sous-projets'
+          no_results: 'Aucun sous-projet.'
+        time_entries_current_user:
+          title: 'Mon temps passé'
+        time_entries_list:
+          title: 'Temps passé (7 derniers jours)'
+          no_results: 'Aucune entrée de temps pour les 7 derniers jours.'
+        work_packages_accountable:
+          title: "Lots de Travaux dont je suis responsable"
+        work_packages_assigned:
+          title: 'Lots de Travaux m''étant assignés'
+        work_packages_created:
+          title: 'Lots de travaux que j''ai créés'
+        work_packages_watched:
+          title: 'Lots de travaux que j''ai observés'
+        work_packages_table:
+          title: 'Tableau des lots de travaux'
+        work_packages_graph:
+          title: 'Graphique des lots de travaux'
+        work_packages_calendar:
+          title: 'Calendrier'
+        work_packages_overview:
+          title: 'Aperçu des lots de travaux'
+          placeholder: 'Cliquez pour éditer...'

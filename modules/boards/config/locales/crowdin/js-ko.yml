@@ -1,0 +1,46 @@
+#English strings go here
+ko:
+  js:
+    boards:
+      label_unnamed_board: '명명되지 않은 보드'
+      label_unnamed_list: '명명되지 않은 목록'
+      label_board_type: '보드 유형'
+      upsale:
+        teaser_text: '이 유연한 보드 보기에서 애자일 프로젝트 관리를 개선하십시오. 계속 추적하고 싶은 사항에 따라 원하는 만큼 보드를 생성하십시오.'
+        upgrade_to_ee_text: '보드는 Enterprise 기능입니다. 유료 플랜으로 업그레이드하십시오.'
+        upgrade: '지금 업그레이드'
+        personal_demo: '개인 데모 이용'
+      lists:
+        delete: '목록 삭제'
+      version:
+        is_locked: '버전이 잠겨 있습니다. 이 버전에 항목을 추가할 수 없습니다.'
+        is_closed: '버전이 닫혔습니다. 이 버전에 항목을 추가할 수 없습니다.'
+        close_version: '버전 닫기'
+        open_version: '버전 열기'
+        lock_version: '버전 잠금'
+        unlock_version: '버전 잠금 해제'
+        edit_version: '버전 편집'
+        show_version: '버전 표시'
+        locked: '잠김'
+        closed: '닫음'
+      new_board: '새로운 보드'
+      add_list: '목록 추가'
+      add_card: '카드 추가'
+      error_attribute_not_writable: "작업 패키지를 이동할 수 없습니다. %{attribute}은(는) 쓰기 가능하지 않습니다."
+      error_loading_the_list: "목록 로드 중 오류 발생: %{error_message}"
+      error_permission_missing: "공용 쿼리를 만들 수 있는 권한이 없습니다"
+      click_to_remove_list: "이 목록을 제거하려면 클릭"
+      board_type:
+        free: '기본 보드'
+        free_text: >
+          자유롭게 목록을 만들고 작업 패키지를 주문할 수 있는 보드를 생성하십시오. 목록 간에 작업 패키지를 이동해도 작업 패키지 자체는 변경되지 않습니다.
+        action: '작업 보드'
+        action_by_attribute: '작업 보드(%{attribute})'
+        action_text: >
+          단일 특성에서 필터가 적용한 목록을 사용하여 보드를 생성하십시오. 작업 패키지를 다른 목록으로 이동하면 해당 특성이 업데이트됩니다.
+        select_attribute: "작업 특성"
+      configuration_modal:
+        title: '이 보드 구성'
+        display_settings:
+          card_mode: "카드로 표시"
+          table_mode: "테이블로 표시"

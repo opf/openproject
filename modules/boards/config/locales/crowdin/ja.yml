@@ -1,0 +1,7 @@
+#English strings go here
+ja:
+  permission_show_board_views: "ボードの表示"
+  permission_manage_board_views: "ボードの管理"
+  project_module_board_view: "ボード"
+  boards:
+    label_boards: "ボード"

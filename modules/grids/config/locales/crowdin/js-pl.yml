@@ -1,0 +1,61 @@
+pl:
+  js:
+    grid:
+      add_widget: 'Dodaj widżet'
+      remove: 'Usuń widżet'
+      upsale:
+        text: "Niektóre widżety, takie jak widżet wykresu pakietu roboczego, są dostępne jedynie w wersji"
+        link: 'Enterprise Edition.'
+      widgets:
+        custom_text:
+          title: 'Tekst niestandardowy/użytkownika'
+        documents:
+          title: 'Dokumenty'
+          no_results: 'Nie ma jeszcze dokumentów.'
+        members:
+          title: 'Członkowie'
+          no_results: 'Brak widocznych członków.'
+          view_all_members: 'Zobacz wszystkich członków'
+          add: 'Członek'
+          too_many: 'Wyświetlanie %{count} z %{total} członków.'
+        news:
+          title: 'Aktualności'
+          at: 'w'
+          no_results: 'Utwórz nowy raport.'
+        project_description:
+          title: 'Opis projektu'
+          no_results: "Nie napisano jeszcze opisu. Można go podać w sekcji Ustawienia projektu."
+        project_details:
+          title: 'Szczegóły Projektu'
+          no_results: 'Nie zdefiniowano żadnych pól niestandardowych dla projektów.'
+        project_status:
+          title: 'Stan projektu'
+          on_track: 'Na ścieżce'
+          off_track: 'Poza ścieżką'
+          at_risk: 'Zagrożony'
+          not_set: 'Nie ustawione'
+        subprojects:
+          title: 'Podprojekty'
+          no_results: 'Brak podprojektów.'
+        time_entries_current_user:
+          title: 'Mój spędzony czas'
+        time_entries_list:
+          title: 'Poświęcony czas (ostatnie 7 dni)'
+          no_results: 'Brak zarejestrowanego czasu pracy w ostatnich 7 dniach.'
+        work_packages_accountable:
+          title: "Pakiety robocze, za które odpowiadam"
+        work_packages_assigned:
+          title: 'Zadania przypisane do mnie'
+        work_packages_created:
+          title: 'Pakiety robocze stworzone przeze mnie'
+        work_packages_watched:
+          title: 'Pakiety robocze obserwowane przeze mnie'
+        work_packages_table:
+          title: 'Tabela pakietów roboczych'
+        work_packages_graph:
+          title: 'Wykres pakietów roboczych'
+        work_packages_calendar:
+          title: 'Kalendarz'
+        work_packages_overview:
+          title: 'Przegląd pakietów roboczych'
+          placeholder: 'Kliknij, aby edytować...'

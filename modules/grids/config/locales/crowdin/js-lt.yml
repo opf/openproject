@@ -1,0 +1,61 @@
+lt:
+  js:
+    grid:
+      add_widget: 'Pridėti valdiklį'
+      remove: 'Išimti valdiklį'
+      upsale:
+        text: "Kai kurie valdikliai, pavyzdžiui darbo paketų grafo valdiklis, galimi tik "
+        link: '„Enterprise edition“.'
+      widgets:
+        custom_text:
+          title: 'Pritaikytas tekstas'
+        documents:
+          title: 'Dokumentai'
+          no_results: 'Dar nėra dokumentų.'
+        members:
+          title: 'Nariai'
+          no_results: 'Nėra matomų narių.'
+          view_all_members: 'Rodyti visus narius'
+          add: 'Narys'
+          too_many: 'Rodomi %{count} iš %{total} narių.'
+        news:
+          title: 'Naujienos'
+          at: '>'
+          no_results: 'Nėra jokių ataskaitų.'
+        project_description:
+          title: 'Projekto aprašymas'
+          no_results: "Dar neįrašytas aprašymas. Jį galima nurodyti „Projekto nustatymuose“."
+        project_details:
+          title: 'Projekto ypatybės'
+          no_results: 'Projektui nenurodyti savi laukai.'
+        project_status:
+          title: 'Projekto būsena'
+          on_track: 'Teisingame kelyje'
+          off_track: 'Pasiklydęs'
+          at_risk: 'Rizikingas'
+          not_set: 'Nenustatyta'
+        subprojects:
+          title: 'Sub-projektai'
+          no_results: 'Nėra su-projektų.'
+        time_entries_current_user:
+          title: 'Mano sugaištas laikas'
+        time_entries_list:
+          title: 'Sugaišta laiko (per paskutines 7 dienas)'
+          no_results: 'Nėra laiko įrašų per paskutines 7 dienas.'
+        work_packages_accountable:
+          title: "Darbo paketai, už kuriuos aš atsakingas"
+        work_packages_assigned:
+          title: 'Man priskirti darbų paketai'
+        work_packages_created:
+          title: 'Mano sukurti darbo paketai'
+        work_packages_watched:
+          title: 'Mano stebimi darbo paketai'
+        work_packages_table:
+          title: 'Darbo paketų lentelė'
+        work_packages_graph:
+          title: 'Darbo paketų grafas'
+        work_packages_calendar:
+          title: 'Kalendorius'
+        work_packages_overview:
+          title: 'Darbo paketų peržiūra'
+          placeholder: 'Spauskite keitimui...'

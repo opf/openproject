@@ -1,0 +1,14 @@
+zh-CN:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "页"
+        row_count: "行数"
+        column_count: "列数"
+        widgets: "小部件"
+    errors:
+      models:
+        grids/grid:
+          overlaps: '重叠.'
+          outside: '不在网格内。'
+          end_before_start: '结束值需要大于起始值。'

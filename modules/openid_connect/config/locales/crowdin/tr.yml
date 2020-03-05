@@ -1,0 +1,19 @@
+tr:
+  logout_warning: >
+    Çıkış yaptınız. Gönderdiğiniz herhangi bir formun içeriği kaybolabilir. Lütfen giriş yapın].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: İsim
+        display_name: Ekran adı
+        identifier: Tanımlayıcı
+        secret: Gizli
+        scope: kapsam
+  openid_connect:
+    menu_title: OpenID sağlayıcıları
+    providers:
+      label_add_new: Yeni bir OpenID sağlayıcı ekle
+      label_edit: OpenID sağlayıcıyı düzenle %{name}
+      no_results_table: Henüz bir sağlayıcı tanımlanmadı.
+      plural: OpenID sağlayıcıları
+      singular: OpenID sağlayıcı

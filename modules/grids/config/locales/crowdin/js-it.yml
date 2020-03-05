@@ -1,0 +1,61 @@
+it:
+  js:
+    grid:
+      add_widget: 'Aggiungi widget'
+      remove: 'Rimuovi widget'
+      upsale:
+        text: "Alcuni widget, come il widget del grafico di macro-attività, sono disponibili solo nella "
+        link: 'edizione Enterprise.'
+      widgets:
+        custom_text:
+          title: 'Testo personalizzato'
+        documents:
+          title: 'Documenti'
+          no_results: 'Nessun documento ancora.'
+        members:
+          title: 'Membri'
+          no_results: 'Nessun membro visibile.'
+          view_all_members: 'Visualizza tutti i membri'
+          add: 'Membro'
+          too_many: 'Visualizzazione di %{count} di %{total} membri.'
+        news:
+          title: 'Notizie'
+          at: 'a'
+          no_results: 'Niente di nuovo da segnalare.'
+        project_description:
+          title: 'Descrizione del progetto'
+          no_results: "Nessuna descrizione ancora scritta. Una può essere fornita nelle \"Impostazioni di progetto\"."
+        project_details:
+          title: 'Dettagli del progetto'
+          no_results: 'Nessun campo personalizzato è stato definito per i progetti.'
+        project_status:
+          title: 'Stato del progetto'
+          on_track: 'Nei limiti'
+          off_track: 'Fuori limite'
+          at_risk: 'A rischio'
+          not_set: 'Non impostato'
+        subprojects:
+          title: 'Sotto-progetti'
+          no_results: 'Nessun sotto-progetto.'
+        time_entries_current_user:
+          title: 'Il mio tempo trascorso'
+        time_entries_list:
+          title: 'Tempo trascorso (ultimi 7 giorni)'
+          no_results: 'Nessuna voce sul tempo per gli ultimi 7 giorni.'
+        work_packages_accountable:
+          title: "Macro-attività di cui sono responsabile del risultato"
+        work_packages_assigned:
+          title: 'Macro-attività assegnate a me'
+        work_packages_created:
+          title: 'Pacchetti di lavoro creati da me'
+        work_packages_watched:
+          title: 'Pacchetti di lavoro visti da me'
+        work_packages_table:
+          title: 'Tabella delle macro-attività'
+        work_packages_graph:
+          title: 'Grafico delle macro-attività'
+        work_packages_calendar:
+          title: 'Calendario'
+        work_packages_overview:
+          title: 'Panoramica delle macro-attività'
+          placeholder: 'Clicca per modificare ...'

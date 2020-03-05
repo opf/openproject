@@ -1,0 +1,7 @@
+#English strings go here
+lt:
+  permission_show_board_views: "Peržiūrėti lentas"
+  permission_manage_board_views: "Valdyti lentas"
+  project_module_board_view: "Lentos"
+  boards:
+    label_boards: "Lentos"

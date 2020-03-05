@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+pt:
+  error_can_not_delete_export_card_configuration: "Esta configuração não pode ser apagada."
+  error_can_not_change_name_of_default_configuration: "O nome da configuração padrão não pode ser alterado."
+  label_backlogs_export_card_config_select: "Selecione exportar configuração de cartão"
+  label_backlogs_export_card_export: "Exportar"
+  label_export_card_configuration_new: "Nova exportação de configuração de cartão"
+  label_export_card_configuration: "Exportar configuração de cartão"
+  label_export_card_configuration_plural: "Exportar configurações de cartão"
+  label_export_card_activate: "Ativar"
+  label_export_card_deactivate: "Desativar"
+  notice_export_card_configuration_activated: "Configuração ativada com sucesso"
+  notice_export_card_configuration_deactivated: "Configuração desativada com sucesso"
+  error_can_not_activate_export_card_configuration: "Esta configuração não pode ser ativada"
+  error_can_not_deactivate_export_card_configuration: "Esta configuração não pode ser desativada"
+  validation_error_required_keys_not_present: "A(s) chave(s) necessárias não estão presentes:"
+  validation_error_yaml_is_badly_formed: "não tem nenhum formato YAML válido."
+  validation_error_uknown_key: "Chave desconhecida:"
+  yaml_error: "Erro YAML:"
+  help_link_rows_format: "Formatação de linhas"
+  export_config_per_page: "Por página"
+  export_config_page_size: "Tamanho da página"
+  export_config_orientation: "Orientação"
+  export_config_rows: "Linhas"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "Linhas"
+        per_page: "Por página"
+        page_size: "Tamanho da página"
+        orientation: "Orientação"

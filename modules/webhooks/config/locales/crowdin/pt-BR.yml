@@ -1,0 +1,59 @@
+pt-BR:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'URL do payload'
+        secret: 'Assinatura secreta'
+        events: 'Eventos'
+        projects: 'Projetos habilitados'
+      webhooks/log:
+        event_name: 'Nome do evento'
+        url: 'URL do payload'
+        response_code: 'Código de resposta'
+        response_body: 'Resposta'
+    models:
+      webhooks/outgoing_webhook: "Webhook de saída"
+  webhooks:
+    singular: Webhook
+    plural: Webhooks
+    resources:
+      time_entry:
+        name: "Entrada de tempo"
+    outgoing:
+      no_results_table: Nenhum webhook definido.
+      label_add_new: Adicionar novo webhook
+      label_edit: Editar webhook
+      label_event_resources: Recursos do evento
+      events:
+        created: "Criado"
+        updated: "Atualizado"
+      status:
+        enabled: 'Webhook está habilitado'
+        disabled: 'Webhook está desativado'
+        enabled_text: 'O webhook emitirá payloads para os eventos definidos abaixo.'
+        disabled_text: 'Clique no botão editar para ativar o webhook.'
+      deliveries:
+        no_results_table: Não foram feitas entregas para este webhook.
+        title: 'Entregas recentes'
+        time: 'Tempo de entrega'
+      form:
+        introduction: >
+          Envie uma requisição POST para a URL do payload abaixo para qualquer evento no projeto inscrito. O payload corresponderá à representação APIv3 do objeto que está sendo modificado.
+        apiv3_doc_url: Para mais informações, visite a documentação da API
+        description:
+          placeholder: 'Descrição opcional para o webhook.'
+        enabled:
+          description: >
+            Quando marcado, o webhook irá acionar nos eventos selecionados. Desmarque para desativar o webhook.
+        events:
+          title: 'Eventos habilitados'
+        project_ids:
+          title: 'Projetos habilitados'
+          description: 'Selecione para quais projetos este webhook deve ser executado.'
+          all: 'Todos os projetos'
+          selected: 'Somente projetos selecionados'
+        selected_project_ids:
+          title: 'Projetos selecionados'
+        secret:
+          description: >
+            Se definido, este valor secreto é usado pelo OpenProject para assinar o payload webhook.
