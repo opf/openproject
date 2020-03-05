@@ -168,6 +168,7 @@ import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages
 import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
 import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
+import {WorkPackageCreateComponent} from "core-components/wp-new/wp-create.component";
 
 
 @NgModule({

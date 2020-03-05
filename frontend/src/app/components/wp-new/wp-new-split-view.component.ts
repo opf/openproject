@@ -27,7 +27,8 @@
 // ++
 
 import {WorkPackageCreateComponent} from 'core-components/wp-new/wp-create.component';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ViewChild} from '@angular/core';
+import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 
 @Component({
   selector: 'wp-new-split-view',

@@ -26,7 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Directive, Injectable, Injector, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Directive,
+  Injectable,
+  Injector,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -35,7 +44,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageCreateService} from './wp-create.service';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, takeWhile} from 'rxjs/operators';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -62,7 +71,10 @@ export class WorkPackageCreateComponent implements OnInit, OnDestroy {
     button_settings: this.I18n.t('js.button_settings')
   };
 
-  @ViewChild(EditFormComponent) private editForm:EditFormComponent|undefined;
+  @ViewChild(EditFormComponent, {static: false}) protected editForm:EditFormComponent;
+
+  /** Explicitly remember destroy state in this abstract base */
+  protected destroyed = false;
 
   constructor(public readonly injector:Injector,
               protected readonly $transition:Transition,
@@ -88,7 +100,8 @@ export class WorkPackageCreateComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    // Nothing to do
+    this.destroyed = true;
+    this.editForm.destroy();
   }
 
   public switchToFullscreen() {
@@ -98,11 +111,7 @@ export class WorkPackageCreateComponent implements OnInit, OnDestroy {
   public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
     let {savedResource, isInitial} = params;
 
-    // Shouldn't this always be true in create controller?
-    // Close all edit fields when saving
-    if (isInitial && this.editForm && this.editForm.editMode) {
-      this.editForm.stop();
-    }
+    this.editForm?.stop();
 
     if (this.successState) {
       this.$state.go(this.successState, {workPackageId: savedResource.id})
@@ -176,7 +185,9 @@ export class WorkPackageCreateComponent implements OnInit, OnDestroy {
   private closeEditFormWhenNewWorkPackageSaved() {
     this.wpCreate
       .onNewWorkPackage()
-      .pipe(untilComponentDestroyed(this))
+      .pipe(
+        takeWhile(() => !this.destroyed)
+      )
       .subscribe((wp:WorkPackageResource) => {
         this.onSaved({savedResource: wp, isInitial: true});
       });
