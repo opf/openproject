@@ -31,21 +31,24 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
-  let(:role) do
-    FactoryBot.create(:role, permissions: %i[view_linked_issues view_work_packages])
+  let(:project) do
+    work_package.project
   end
+  let(:permissions) { %i[view_linked_issues view_work_packages] }
   let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
+    FactoryBot.build_stubbed(:user).tap do |u|
+      allow(u)
+        .to receive(:allowed_to?) do |queried_permissison, queried_project|
+        queried_project == work_package.project &&
+          permissions.include?(queried_permissison)
+      end
+    end
   end
-  let!(:bcf_issue) do
-    FactoryBot.create(:bcf_issue_with_comment, work_package: work_package)
+  let(:bcf_issue) do
+    FactoryBot.build_stubbed(:bcf_issue_with_comment)
   end
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project_id: project.id)
+    FactoryBot.build_stubbed(:stubbed_work_package, bcf_issue: bcf_issue)
   end
   let(:representer) do
     described_class.new(work_package,
@@ -58,6 +61,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   end
 
   subject(:generated) { representer.to_json }
+
+  include_context 'eager loaded work package representer'
 
   describe 'with BCF issues' do
     it "contains viewpoints" do

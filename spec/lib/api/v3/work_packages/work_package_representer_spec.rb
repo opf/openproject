@@ -78,7 +78,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:available_custom_fields) { [] }
 
   before(:each) do
-    allow(User).to receive(:current).and_return current_user
+    login_as current_user
 
     allow(current_user)
       .to receive(:allowed_to?) do |permission, _context|
