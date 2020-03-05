@@ -26,19 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, NgModule} from '@angular/core';
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {BcfWpSingleViewComponent} from "core-app/modules/bim/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
-import {NgxGalleryModule} from "ngx-gallery";
-import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {initializeBcfDisplayFields} from "core-app/modules/bim/bcf/fields/display/bcf-display-field.initializer";
-import {BcfImportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf-import-button.component";
-import {BcfDetectorService} from "core-app/modules/bim/bcf/helper/bcf-detector.service";
-import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
-import {BcfExportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf-export-button.component";
+import {NgModule} from '@angular/core';
 import {OpenprojectBcfModule} from "core-app/modules/bim/bcf/openproject-bcf.module";
 import {OpenprojectIFCModelsModule} from "core-app/modules/bim/ifc_models/openproject-ifc-models.module";
-
 
 @NgModule({
   imports: [

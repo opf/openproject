@@ -34,7 +34,7 @@ import {PaginationService} from 'core-components/table-pagination/pagination-ser
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {ApiV3Filter, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UrlParamsHelperService {
 
   public constructor(public paginationService:PaginationService) {

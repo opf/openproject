@@ -89,7 +89,7 @@ export class LoadingIndicator {
   }
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LoadingIndicatorService {
 
   // Provide shortcut to the primarily used indicators

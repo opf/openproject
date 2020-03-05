@@ -38,7 +38,7 @@ interface BackRouteOptions {
   parent:string;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BackRoutingService {
   @InjectField() private $state:StateService;
   @InjectField() private keepTab:KeepTabService;

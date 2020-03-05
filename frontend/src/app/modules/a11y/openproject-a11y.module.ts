@@ -28,10 +28,9 @@
 
 
 import {FormsModule} from "@angular/forms";
-import {APP_INITIALIZER, NgModule} from "@angular/core";
+import {NgModule} from "@angular/core";
 import {AccessibleClickDirective} from "core-app/modules/a11y/accessible-click.directive";
 import {AccessibleByKeyboardComponent} from "core-app/modules/a11y/accessible-by-keyboard.component";
-import {initializeKeyboardShortcuts, KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-service";
 import {CommonModule} from "@angular/common";
 import {DoubleClickOrTapDirective} from "core-app/modules/a11y/double-click-or-tap.directive";
 
@@ -45,21 +44,13 @@ import {DoubleClickOrTapDirective} from "core-app/modules/a11y/double-click-or-t
     DoubleClickOrTapDirective,
     AccessibleByKeyboardComponent,
   ],
-  providers: [
-    KeyboardShortcutService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeyboardShortcuts,
-      deps: [KeyboardShortcutService],
-      multi: true
-    }
-  ],
   declarations: [
     AccessibleClickDirective,
     AccessibleByKeyboardComponent,
     DoubleClickOrTapDirective,
   ]
 })
-export class OpenprojectAccessibilityModule { }
+export class OpenprojectAccessibilityModule {
+}
 
 

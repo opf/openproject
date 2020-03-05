@@ -40,11 +40,13 @@ import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-v
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {BCFNewSplitComponent} from "core-app/modules/bim/ifc_models/bcf/new-split/bcf-new-split.component";
 import {BcfListContainerComponent} from "core-app/modules/bim/ifc_models/bcf/list-container/bcf-list-container.component";
+import {OpenprojectHalModule} from "core-app/modules/hal/openproject-hal.module";
 
 @NgModule({
   imports: [
     OpenprojectCommonModule,
     OpenprojectFieldsModule,
+    OpenprojectHalModule,
     OpenprojectWorkPackagesModule,
     UIRouterModule.forChild({
       states: IFC_ROUTES

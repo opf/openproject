@@ -7,7 +7,7 @@ import {OPContextMenuComponent} from "core-components/op-context-menu/op-context
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OPContextMenuService {
   public active:OpContextMenuHandler|null = null;
 

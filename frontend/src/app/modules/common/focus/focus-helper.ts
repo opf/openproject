@@ -28,7 +28,7 @@
 
 import {Injectable} from '@angular/core';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class FocusHelperService {
   private minimumOffsetForNewSwitchInMs = 100;
   private lastFocusSwitch = -this.minimumOffsetForNewSwitchInMs;

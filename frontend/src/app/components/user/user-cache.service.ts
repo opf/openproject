@@ -32,7 +32,7 @@ import {StateCacheService} from 'core-components/states/state-cache.service';
 import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
 import {States} from 'core-components/states.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserCacheService extends StateCacheService<UserResource>  {
 
   constructor(readonly states:States,

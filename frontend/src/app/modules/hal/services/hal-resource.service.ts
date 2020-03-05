@@ -60,7 +60,7 @@ export interface HTTPClientOptions {
   responseType:any;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HalResourceService {
 
   /**

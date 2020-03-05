@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
+import {Injector, NgModule} from '@angular/core';
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {UIRouterModule} from "@uirouter/angular";
 import {ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
@@ -45,12 +45,6 @@ import {
     } as any),
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeUiRouterListeners,
-      deps: [Injector],
-      multi: true
-    },
     FirstRouteService
   ],
   declarations: [
@@ -63,4 +57,7 @@ import {
   ]
 })
 export class OpenprojectRouterModule {
+  constructor(injector:Injector) {
+    initializeUiRouterListeners(injector);
+  }
 }
