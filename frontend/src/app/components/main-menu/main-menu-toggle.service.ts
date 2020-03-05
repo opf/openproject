@@ -34,7 +34,7 @@ import {DeviceService} from "app/modules/common/browser/device.service";
 import {Injector} from "@angular/core";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class MainMenuToggleService {
   public toggleTitle:string;
 

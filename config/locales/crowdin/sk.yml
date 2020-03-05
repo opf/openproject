@@ -271,10 +271,10 @@ sk:
       no_results_title_text: Momentálne neexistujú žiadne toky činností.
   work_packages:
     x_descendants:
-      one: 'One descendant work package'
-      few: '%{count} work package descendants'
-      many: '%{count} work package descendants'
-      other: '%{count} work package descendants'
+      one: 'Podradený pracovný balíček'
+      few: '%{count} podradené pracovné balíčky'
+      many: '%{count} podradených pracovných balíčkov'
+      other: '%{count} podradených pracovných balíčkov'
     bulk:
       could_not_be_saved: "Nasledujúce pracovné balíčky sa nepodarilo uložiť:"
     move:
@@ -2725,7 +2725,7 @@ sk:
       successful_application_revocation: "Zrušenie aplikácie %{application_name} bolo úspešné."
       none_given: "Žiadnym aplikáciám OAuth nebol udelený prístup k vášmu používateľskému účtu."
     x_active_tokens:
-      one: 'one active token'
+      one: 'jeden aktívny token'
       few: '%{count} aktívnych tokenov'
       many: '%{count} aktívnych tokenov'
       other: '%{count} aktívne tokeny'

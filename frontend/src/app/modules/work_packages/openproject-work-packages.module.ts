@@ -29,7 +29,7 @@
 import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
-import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
+import {Injector, NgModule} from '@angular/core';
 import {
   GroupDescriptor,
   WorkPackageSingleViewComponent
@@ -147,7 +147,7 @@ import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card
 import {WorkPackageIsolatedQuerySpaceDirective} from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {OpenprojectBcfModule} from "core-app/modules/bcf/openproject-bcf.module";
+import {OpenprojectBcfModule} from "core-app/modules/bim/bcf/openproject-bcf.module";
 import {WorkPackageRelationsAutocomplete} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
 import {CustomDateActionAdminComponent} from 'core-components/wp-custom-actions/date-action/custom-date-action-admin.component';
 import {WorkPackagesTableConfigMenu} from "core-components/wp-table/config-menu/config-menu.component";
@@ -162,8 +162,7 @@ import {WorkPackageEditActionsBarComponent} from "core-app/modules/common/edit-a
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {WorkPackageSingleCardComponent} from "core-components/wp-card-view/wp-single-card/wp-single-card.component";
-import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-changeset';
-import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
+import {TimeEntryChangeset} from 'core-app/components/time-entries/time-entry-changeset';
 import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
 import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
 import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
@@ -187,13 +186,6 @@ import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-
     OpenprojectProjectsModule,
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: OpenprojectWorkPackagesModule.bootstrapAttributeGroups,
-      deps: [Injector],
-      multi: true
-    },
-
     // Notification service
     WorkPackageNotificationService,
 
@@ -428,52 +420,52 @@ import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-
 export class OpenprojectWorkPackagesModule {
   static bootstrapAttributeGroupsCalled = false;
 
+  constructor(injector:Injector) {
+    OpenprojectWorkPackagesModule.bootstrapAttributeGroups(injector);
+  }
+
   // The static property prevents running the function
   // multiple times. This happens e.g. when the module is included
   // into a plugin's module.
   public static bootstrapAttributeGroups(injector:Injector) {
     if (this.bootstrapAttributeGroupsCalled) {
-      return () => {
-        // no op
-      };
+      return;
     }
 
     this.bootstrapAttributeGroupsCalled = true;
 
-    return () => {
-      const hookService = injector.get(HookService);
+    const hookService = injector.get(HookService);
 
-      hookService.register('attributeGroupComponent', (group:GroupDescriptor, workPackage:WorkPackageResource) => {
-        if (group.type === 'WorkPackageFormAttributeGroup') {
-          return WorkPackageFormAttributeGroupComponent;
-        } else if (!workPackage.isNew && group.type === 'WorkPackageFormChildrenQueryGroup') {
-          return WorkPackageChildrenQueryComponent;
-        } else if (!workPackage.isNew && group.type === 'WorkPackageFormRelationQueryGroup') {
-          return WorkPackageRelationQueryComponent;
-        } else {
+    hookService.register('attributeGroupComponent', (group:GroupDescriptor, workPackage:WorkPackageResource) => {
+      if (group.type === 'WorkPackageFormAttributeGroup') {
+        return WorkPackageFormAttributeGroupComponent;
+      } else if (!workPackage.isNew && group.type === 'WorkPackageFormChildrenQueryGroup') {
+        return WorkPackageChildrenQueryComponent;
+      } else if (!workPackage.isNew && group.type === 'WorkPackageFormRelationQueryGroup') {
+        return WorkPackageRelationQueryComponent;
+      } else {
+        return null;
+      }
+    });
+
+    hookService.register('workPackageAttachmentUploadComponent', (workPackage:WorkPackageResource) => {
+      return AttachmentsUploadComponent;
+    });
+
+    hookService.register('workPackageAttachmentListComponent', (workPackage:WorkPackageResource) => {
+      return AttachmentListComponent;
+    });
+
+    /** Return specialized work package changeset for editing service */
+    hookService.register('halResourceChangesetClass', (resource:HalResource) => {
+      switch (resource._type) {
+        case 'WorkPackage':
+          return WorkPackageChangeset;
+        case 'TimeEntry':
+          return TimeEntryChangeset;
+        default:
           return null;
-        }
-      });
-
-      hookService.register('workPackageAttachmentUploadComponent', (workPackage:WorkPackageResource) => {
-        return AttachmentsUploadComponent;
-      });
-
-      hookService.register('workPackageAttachmentListComponent', (workPackage:WorkPackageResource) => {
-        return AttachmentListComponent;
-      });
-
-      /** Return specialized work package changeset for editing service */
-      hookService.register('halResourceChangesetClass', (resource:HalResource) => {
-        switch (resource._type) {
-          case 'WorkPackage':
-            return WorkPackageChangeset;
-          case 'TimeEntry':
-            return TimeEntryChangeset;
-          default:
-            return null;
-        }
-      });
-    };
+      }
+    });
   }
 }

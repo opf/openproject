@@ -60,7 +60,25 @@ describe Bim::Bcf::API::V2_1::Viewpoints::SingleRepresenter, 'rendering' do
               "z" => 0.990215996212637
             },
             "field_of_view" => 60.0
-          }
+          },
+        "perspective_camera" => {
+          "camera_view_point" => {
+            "x" => 183.31539916992188,
+            "y" => -183.31539916992188,
+            "z" => 183.31539916992188
+          },
+          "camera_direction" => {
+            "x" => -0.5773502588272095,
+            "y" => 0.5773502588272095,
+            "z" => -0.5773502588272095
+          },
+          "camera_up_vector" => {
+            "x" => -1,
+            "y" => 1,
+            "z" => 1
+          },
+          "field_of_view" => 60
+        }
       )
   end
   let(:representer) { described_class.new(struct) }

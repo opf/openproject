@@ -42,7 +42,7 @@ import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-vi
 import {take} from "rxjs/operators";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
-import {BcfDetectorService} from "core-app/modules/bcf/helper/bcf-detector.service";
+import {BcfDetectorService} from "core-app/modules/bim/bcf/helper/bcf-detector.service";
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation

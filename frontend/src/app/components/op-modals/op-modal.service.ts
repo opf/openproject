@@ -14,7 +14,7 @@ import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OpModalService {
   public active:OpModalComponent|null = null;
 

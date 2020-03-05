@@ -46,7 +46,7 @@ import {UserCacheService} from "core-components/user/user-cache.service";
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
-import {ViewPointOriginal} from "core-app/modules/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
+import {ViewPointOriginal} from "core-app/modules/bim/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 

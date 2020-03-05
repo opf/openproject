@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
+import {Injector, NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {Ng2StateDeclaration, UIRouter, UIRouterModule} from "@uirouter/angular";
@@ -72,7 +72,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     },
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
-      query_props: { type: 'opQueryString', dynamic: true }
+      query_props: {type: 'opQueryString', dynamic: true}
     },
     redirectTo: 'boards.list',
     component: BoardsRootComponent
@@ -114,15 +114,13 @@ export function uiRouterBoardsConfiguration(uiRouter:UIRouter) {
 }
 
 export function registerBoardsModule(injector:Injector) {
-  return () => {
-    // Register action services
-    const registry = injector.get(BoardActionsRegistryService);
-    const statusAction = injector.get(BoardStatusActionService);
-    const versionAction = injector.get(BoardVersionActionService);
+  // Register action services
+  const registry = injector.get(BoardActionsRegistryService);
+  const statusAction = injector.get(BoardStatusActionService);
+  const versionAction = injector.get(BoardVersionActionService);
 
-    registry.add('status', statusAction);
-    registry.add('version', versionAction);
-  };
+  registry.add('status', statusAction);
+  registry.add('version', versionAction);
 }
 
 @NgModule({
@@ -150,12 +148,6 @@ export function registerBoardsModule(injector:Injector) {
     BoardStatusActionService,
     BoardVersionActionService,
     QueryUpdatedService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: registerBoardsModule,
-      deps: [Injector],
-      multi: true
-    },
   ],
   declarations: [
     BoardsIndexPageComponent,
@@ -176,5 +168,8 @@ export function registerBoardsModule(injector:Injector) {
   ]
 })
 export class OpenprojectBoardsModule {
+  constructor(injector:Injector) {
+    registerBoardsModule(injector);
+  }
 }
 

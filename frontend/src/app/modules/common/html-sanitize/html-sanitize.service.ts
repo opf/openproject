@@ -29,7 +29,7 @@
 import {Injectable, SecurityContext} from "@angular/core";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HTMLSanitizeService {
   public constructor(readonly sanitizer:DomSanitizer) { }
 

@@ -33,22 +33,26 @@ module Bim::Bcf
     class DeleteService < ::BaseServices::Delete
       private
 
-      def before_perform(params)
+      def after_validate(params, contract_call)
+        wp_call = work_package_delete_call(params)
+
+        if wp_call.success?
+          contract_call
+        else
+          wp_call
+        end
+      end
+
+      def work_package_delete_call(params)
         associated_wp = WorkPackage.find(model.work_package_id)
         # Load the project association as AR fails do do so once the work package
         # is destroyed.
         model.project
 
-        wp_call = ::WorkPackages::DeleteService
+        ::WorkPackages::DeleteService
           .new(user: user,
                model: associated_wp.reload)
           .call(params)
-
-        if wp_call.success?
-          super(params)
-        else
-          wp_call
-        end
       end
     end
   end
