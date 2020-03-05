@@ -778,7 +778,7 @@ GEM
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
       uber (< 0.2.0)
-    request_store (1.4.1)
+    request_store (1.5.0)
       rack (>= 1.4)
     responders (3.0.0)
       actionpack (>= 5.0)
@@ -1073,7 +1073,7 @@ DEPENDENCIES
   reform (~> 2.2.0)
   reform-rails (~> 0.1.7)
   reporting_engine!
-  request_store (~> 1.4.1)
+  request_store (~> 1.5.0)
   responders (~> 3.0)
   rest-client (~> 2.0)
   retriable (~> 3.1.1)
