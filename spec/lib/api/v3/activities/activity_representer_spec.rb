@@ -51,9 +51,6 @@ describe ::API::V3::Activities::ActivityRepresenter do
     end
   end
   let(:changes) { { subject: ["first subject", "second subject"] } }
-  let(:aggregated_journal) do
-    Journal::AggregatedJournal.new(journal)
-  end
   let(:permissions) { %i(edit_work_package_notes) }
   let(:representer) { described_class.new(journal, current_user: current_user) }
 

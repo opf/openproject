@@ -141,27 +141,22 @@ module OpenProject::Bim
     end
 
     extend_api_response(:v3, :activities, :activity) do
-      property :bcf_comment,
-               exec_context: :decorator,
-               getter: ->(*) {
-                 bcf_comment = represented.bcf_comment
-                 comment = {
-                   id: bcf_comment.id
-                 }
-                 if bcf_comment.viewpoint.present?
-                   comment[:viewpoint] = {
-                     snapshot: {
-                       id: bcf_comment.viewpoint.snapshot.id,
-                       file_name: bcf_comment.viewpoint.snapshot.filename
-                     }
-                   }
-                 end
+      include API::Bim::Utilities::PathHelper
 
-                 comment
-               },
-               if: ->(*) {
-                 represented.bcf_comment.present?
-               }
+      links :bcfViewpoints do
+        journable = represented.journable
+        next unless current_user_allowed_to(:view_linked_issues) && represented.bcf_comment.present? && journable.bcf_issue?
+
+        # There will only be one viewpoint per comment but we nevertheless return a collection here so that it is more
+        # similar to the work package representer.
+        Array(represented.bcf_comment.viewpoint).map do |viewpoint|
+          {
+            href: bcf_v2_1_paths.viewpoint(journable.project.identifier,
+                                           journable.bcf_issue.uuid,
+                                           viewpoint.uuid)
+          }
+        end
+      end
     end
 
     add_api_path :bcf_xml do |project_id|

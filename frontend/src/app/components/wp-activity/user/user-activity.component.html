@@ -38,8 +38,8 @@
       </accessible-by-keyboard>
     </div>
   </div>
-  <img *ngIf="bcfSnapshot"
-       [src]="PathHelper.attachmentDownloadPath(bcfSnapshot.id, bcfSnapshot.file_name)"
+  <img *ngIf="bcfSnapshotUrl"
+       [src]="bcfSnapshotUrl"
        class="activity-thumbnail">
   <div class="user-comment" >
     <div *ngIf="active" class="inplace-edit">

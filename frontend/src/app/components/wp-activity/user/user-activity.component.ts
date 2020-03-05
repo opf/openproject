@@ -73,8 +73,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   public isComment:boolean;
   public isBcfComment:boolean;
   public postedComment:SafeHtml;
-  // TODO: turn into HalResource
-  public bcfSnapshot:any;
 
   public focused = false;
 
@@ -107,9 +105,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.updateCommentText();
     this.isComment = this.activity._type === 'Activity::Comment';
     this.isBcfComment = this.activity._type === 'Activity::BcfComment';
-    if (this.isBcfComment && _.get(this.activity.bcfComment,  'viewpoint.snapshot')) {
-      this.bcfSnapshot = _.get(this.activity.bcfComment,  'viewpoint.snapshot');
-    }
 
     this.$element = jQuery(this.elementRef.nativeElement);
     this.reset();
@@ -160,6 +155,14 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   public quoteComment() {
     this.commentService.quoteEvents.next(this.quotedText(this.activity.comment.raw));
+  }
+
+  public get bcfSnapshotUrl() {
+    if (_.get(this.activity, 'bcfViewpoints[0]')) {
+      return `${_.get(this.activity, 'bcfViewpoints[0]').href}/snapshot`;
+    } else {
+      return null;
+    }
   }
 
   public async updateComment() {

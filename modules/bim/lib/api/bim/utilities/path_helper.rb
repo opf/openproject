@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -35,6 +36,7 @@ module API
 
         # rubocop:disable Naming/ClassAndModuleCamelCase
         class BCF2_1Path
+          # rubocop:enable Naming/ClassAndModuleCamelCase
           extend API::Utilities::UrlHelper
 
           # Determining the root_path on every url we want to render is
