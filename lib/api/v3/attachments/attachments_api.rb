@@ -65,7 +65,7 @@ module API
               helpers ::API::Helpers::AttachmentRenderer
 
               get do
-                respond_with_attachment @attachment
+                respond_with_attachment @attachment, cache_seconds: 1.year.to_i
               end
             end
           end
