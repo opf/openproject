@@ -114,6 +114,18 @@ module OpenProject::Bim
         }
       end
 
+      link :convertBCF,
+           cache_if: -> { current_user_allowed_to(:manage_bcf) } do
+        next if represented.bcf_issue?
+
+        {
+          href: bcf_v2_1_paths.topics(represented.project.identifier),
+          title: 'Convert to BCF',
+          payload: { reference_links: [api_v3_paths.work_package(represented.id)] },
+          method: :post
+        }
+      end
+
       links :bcfViewpoints,
             cache_if: -> { current_user_allowed_to(:view_linked_issues) } do
         next unless represented.bcf_issue?

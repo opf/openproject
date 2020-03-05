@@ -35,7 +35,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:project) do
     work_package.project
   end
-  let(:permissions) { %i[view_linked_issues view_work_packages] }
+  let(:permissions) { %i[view_linked_issues view_work_packages manage_bcf] }
   let(:user) do
     FactoryBot.build_stubbed(:user).tap do |u|
       allow(u)
@@ -134,6 +134,36 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             let(:link) { 'bcfViewpoints' }
           end
         end
+      end
+    end
+
+    describe 'convertBCF' do
+      let(:link) { 'convertBCF' }
+
+      context 'if no bcf issue is assigned yet' do
+        let(:bcf_topic) { nil }
+
+        it_behaves_like 'has a titled link' do
+          let(:title) { 'Convert to BCF' }
+          let(:href) { "/api/bcf/2.1/projects/#{project.identifier}/topics" }
+        end
+
+        it 'signalizes the payload' do
+          is_expected
+            .to be_json_eql({ "reference_links": ["/api/v3/work_packages/#{work_package.id}"] }.to_json)
+            .at_path('_links/convertBCF/payload')
+        end
+      end
+
+      context 'if a bcf issue is assigned' do
+        it_behaves_like 'has no link'
+      end
+
+      context 'if no bcf issue iss assigned but the user lacks permission' do
+        let(:bcf_topic) { nil }
+        let(:permissions) { %i[view_linked_issues view_work_packages] }
+
+        it_behaves_like 'has no link'
       end
     end
   end

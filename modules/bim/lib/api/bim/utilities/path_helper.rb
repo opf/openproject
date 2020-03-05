@@ -54,8 +54,12 @@ module API
             "#{root}projects/#{identifier}"
           end
 
+          def self.topics(project_identifier)
+            "#{project(project_identifier)}/topics"
+          end
+
           def self.topic(project_identifier, uuid)
-            "#{project(project_identifier)}/topics/#{uuid}"
+            "#{topics(project_identifier)}/#{uuid}"
           end
 
           def self.viewpoint(project_identifier, topic_uuid, viewpoint_topic)
