@@ -1,13 +1,8 @@
-import {Component, Injector, Input, OnDestroy, OnInit} from "@angular/core";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {StateService} from "@uirouter/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
+import { NgxGalleryOptions, NgxGalleryImage } from 'ngx-gallery';
 import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
-
-
-export type ViewPoint = { fullPath:string };
 
 @Component({
   selector: 'bcf-wp-single-view',
@@ -60,37 +55,32 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
 
   galleryImages:NgxGalleryImage[];
 
-  private _viewpoints:ViewPoint[];
+  private _viewpointUrls:string[];
 
-  public get viewpoints():ViewPoint[] {
-    return this._viewpoints;
+  public get viewpoints():string[] {
+    return this._viewpointUrls;
   }
 
-  public set viewpoints(viewPoints:ViewPoint[]) {
-    this._viewpoints = viewPoints;
+  public set viewpoints(viewPoints:string[]) {
+    this._viewpointUrls = viewPoints;
   }
 
   public text = {
   };
 
-  constructor(public readonly state:StateService,
-              private readonly I18n:I18nService,
-              private readonly injector:Injector,
-              private readonly pathHelper:PathHelperService) {
+  constructor(public readonly state:StateService) {
   }
 
   ngOnInit():void {
-    this.viewpoints = this.workPackage.bcfViewpoints.map((vp:HalLink):ViewPoint => {
-      return {
-        fullPath: `${vp.href}/snapshot`
-      };
+    this.viewpoints = this.workPackage.bcfViewpoints.map((vp:HalLink) => {
+      return `${vp.href}/snapshot`;
     });
 
-    this.galleryImages = this.viewpoints.map((vp:ViewPoint) => {
+    this.galleryImages = this.viewpoints.map(url => {
       return {
-        small:  vp.fullPath,
-        medium: vp.fullPath,
-        big:    vp.fullPath,
+        small:  url,
+        medium: url,
+        big:    url,
       };
     });
   }
