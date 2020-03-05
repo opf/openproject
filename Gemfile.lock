@@ -815,7 +815,7 @@ GEM
       rspec-expectations (~> 3.9)
       rspec-mocks (~> 3.9)
       rspec-support (~> 3.9)
-    rspec-retry (0.6.1)
+    rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.9.2)
     rubocop (0.80.1)
