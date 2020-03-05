@@ -192,7 +192,7 @@ group :test do
 
   gem 'cucumber', '~> 3.1.0'
   gem 'cucumber-rails', '~> 1.8.0', require: false
-  gem 'database_cleaner', '~> 1.6'
+  gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.9.0'
   gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
