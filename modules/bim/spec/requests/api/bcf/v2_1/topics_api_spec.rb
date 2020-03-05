@@ -156,6 +156,8 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
       it_behaves_like 'bcf api successful response' do
         let(:expected_body) do
+          work_package.reload
+
           [
             {
               "assigned_to": assignee.mail,
@@ -200,6 +202,8 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
     it_behaves_like 'bcf api successful response' do
       let(:expected_body) do
+        work_package.reload
+
         {
           "assigned_to": assignee.mail,
           "creation_author": work_package.author.mail,
@@ -250,6 +254,8 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
       it_behaves_like 'bcf api successful response' do
         let(:expected_body) do
+          work_package.reload
+
           {
             "assigned_to": assignee.mail,
             "creation_author": work_package.author.mail,
@@ -538,8 +544,8 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
     it_behaves_like 'bcf api successful response' do
       let(:expected_status) { 201 }
       let(:expected_body) do
-        issue = Bim::Bcf::Issue.last
-        work_package = WorkPackage.last
+        issue = Bim::Bcf::Issue.last.reload
+        work_package = WorkPackage.last.reload
 
         {
           guid: issue&.uuid,
@@ -578,8 +584,8 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       it_behaves_like 'bcf api successful response' do
         let(:expected_status) { 201 }
         let(:expected_body) do
-          issue = Bim::Bcf::Issue.last
-          work_package = WorkPackage.last
+          issue = Bim::Bcf::Issue.last.reload
+          work_package = WorkPackage.last.reload
 
           {
             guid: issue&.uuid,
