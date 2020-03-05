@@ -169,7 +169,7 @@ gem 'nokogiri', '~> 1.10.8'
 gem 'carrierwave', '~> 1.3.1'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.66.0'
+gem 'aws-sdk-core', '~> 3.90.1'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.48.0'
 
