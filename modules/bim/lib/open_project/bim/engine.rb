@@ -105,23 +105,6 @@ module OpenProject::Bim
     extend_api_response(:v3, :work_packages, :work_package) do
       include API::Bim::Utilities::PathHelper
 
-      property :bcf,
-               exec_context: :decorator,
-               getter: ->(*) {
-                 issue = represented.bcf_issue
-                 bcf = {}
-                 bcf[:viewpoints] = issue.viewpoints.map do |viewpoint|
-                   {
-                     id: viewpoint.snapshot.id,
-                     file_name: viewpoint.snapshot.filename
-                   }
-                 end
-                 bcf
-               },
-               if: ->(*) {
-                 represented.bcf_issue.present?
-               }
-
       link :bcfTopic,
            cache_if: -> { current_user_allowed_to(:view_linked_issues) } do
         next unless represented.bcf_issue?

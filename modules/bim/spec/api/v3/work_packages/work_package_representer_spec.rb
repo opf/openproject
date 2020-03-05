@@ -65,19 +65,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   include_context 'eager loaded work package representer'
 
-  describe 'with BCF issues' do
-    it "contains viewpoints" do
-      is_expected.to be_json_eql([
-        {
-          file_name: bcf_topic.viewpoints.first.attachments.first.filename,
-          id: bcf_topic.viewpoints.first.attachments.first.id
-        }
-      ].to_json)
-        .including('id')
-        .at_path('bcf/viewpoints/')
-    end
-  end
-
   describe '_links' do
     describe 'bcfTopic' do
       context 'if a topic is present' do
