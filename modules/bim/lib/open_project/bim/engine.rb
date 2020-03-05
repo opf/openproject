@@ -103,6 +103,8 @@ module OpenProject::Bim
     patch_with_namespace :DemoData, :WorkPackageBoardSeeder
 
     extend_api_response(:v3, :work_packages, :work_package) do
+      include API::Bim::Utilities::PathHelper
+
       property :bcf,
                exec_context: :decorator,
                getter: ->(*) {
@@ -119,6 +121,26 @@ module OpenProject::Bim
                if: ->(*) {
                  represented.bcf_issue.present?
                }
+
+      link :bcfTopic,
+           cache_if: -> { current_user_allowed_to(:view_linked_issues) } do
+        next unless represented.bcf_issue?
+
+        {
+          href: bcf_v2_1_paths.topic(represented.project.identifier, represented.bcf_issue.uuid)
+        }
+      end
+
+      links :bcfViewpoints,
+            cache_if: -> { current_user_allowed_to(:view_linked_issues) } do
+        next unless represented.bcf_issue?
+
+        represented.bcf_issue.viewpoints.map do |viewpoint|
+          {
+            href: bcf_v2_1_paths.viewpoint(represented.project.identifier, represented.bcf_issue.uuid, viewpoint.uuid)
+          }
+        end
+      end
     end
 
     extend_api_response(:v3, :work_packages, :work_package_collection) do

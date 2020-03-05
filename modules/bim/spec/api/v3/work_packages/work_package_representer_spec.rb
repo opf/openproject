@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
+  include API::Bim::Utilities::PathHelper
 
   let(:project) do
     work_package.project
@@ -44,11 +45,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
   end
-  let(:bcf_issue) do
+  let(:bcf_topic) do
     FactoryBot.build_stubbed(:bcf_issue_with_comment)
   end
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package, bcf_issue: bcf_issue)
+    FactoryBot.build_stubbed(:stubbed_work_package, bcf_issue: bcf_topic)
   end
   let(:representer) do
     described_class.new(work_package,
@@ -68,12 +69,85 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     it "contains viewpoints" do
       is_expected.to be_json_eql([
         {
-          file_name: bcf_issue.viewpoints.first.attachments.first.filename,
-          id: bcf_issue.viewpoints.first.attachments.first.id
+          file_name: bcf_topic.viewpoints.first.attachments.first.filename,
+          id: bcf_topic.viewpoints.first.attachments.first.id
         }
       ].to_json)
         .including('id')
         .at_path('bcf/viewpoints/')
+    end
+  end
+
+  describe '_links' do
+    describe 'bcfTopic' do
+      context 'if a topic is present' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'bcfTopic' }
+          let(:href) { "/api/bcf/2.1/projects/#{project.identifier}/topics/#{bcf_topic.uuid}" }
+        end
+      end
+
+      context 'if no topic is present' do
+        let(:bcf_topic) { nil }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'bcfTopic' }
+        end
+      end
+
+      context 'if permission is lacking' do
+        let(:permissions) { %i[view_work_packages] }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'bcfTopic' }
+        end
+      end
+    end
+
+    describe 'bcfViewpoints' do
+      context 'if a viewpoint is present' do
+        it_behaves_like 'has a link collection' do
+          let(:link) { 'bcfViewpoints' }
+          let(:hrefs) do
+            [
+              {
+                href: bcf_v2_1_paths.viewpoint(project.identifier, bcf_topic.uuid, bcf_topic.viewpoints[0].uuid)
+              }
+            ]
+          end
+        end
+
+        context 'if no topic is present' do
+          let(:bcf_topic) { nil }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'bcfViewpoints' }
+          end
+        end
+
+        context 'if no viewpoint is present' do
+          before do
+            allow(bcf_topic)
+              .to receive(:viewpoints)
+              .and_return []
+          end
+
+          it_behaves_like 'has a link collection' do
+            let(:link) { 'bcfViewpoints' }
+            let(:hrefs) do
+              []
+            end
+          end
+        end
+
+        context 'if permission is lacking' do
+          let(:permissions) { %i[view_work_packages] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'bcfViewpoints' }
+          end
+        end
+      end
     end
   end
 end
