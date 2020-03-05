@@ -141,7 +141,7 @@ gem 'prawn-markup', '~> 0.2.1'
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
 
-gem 'meta-tags', '~> 2.11.0'
+gem 'meta-tags', '~> 2.13.0'
 
 group :production do
   # we use dalli as standard memcache client
