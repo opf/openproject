@@ -7,7 +7,7 @@ import {UserFieldPortalComponent} from "core-app/modules/fields/display/display-
 import {createLocalInjector} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal.injector";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserFieldPortalService {
 
   constructor(private readonly appRef:ApplicationRef,

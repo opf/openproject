@@ -27,31 +27,23 @@
 // ++    Ng1FieldControlsWrapper,
 
 
-import {APP_INITIALIZER, Injector, NgModule} from "@angular/core";
+import {Injector, NgModule} from "@angular/core";
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {OpenProjectPluginContext} from "core-app/modules/plugins/plugin-context";
 import {debugLog} from "core-app/helpers/debug_output";
 
-/**
- * Create a plugin context to be used by other plugins and modules on the OP domain.
- *
- * @param {Injector} injector
- */
-export function initializePlugins(injector:Injector) {
-  return () => {
-    debugLog("Registering OpenProject plugin context");
-    const pluginContext = new OpenProjectPluginContext(injector);
-    window.OpenProject.pluginContext.putValue(pluginContext);
-  };
-
-}
 
 @NgModule({
   providers: [
     HookService,
-    { provide: APP_INITIALIZER, useFactory: initializePlugins, deps: [Injector], multi: true },
   ],
 })
-export class OpenprojectPluginsModule { }
+export class OpenprojectPluginsModule {
+  constructor(injector:Injector) {
+    debugLog("Registering OpenProject plugin context");
+    const pluginContext = new OpenProjectPluginContext(injector);
+    window.OpenProject.pluginContext.putValue(pluginContext);
+  }
+}
 
 

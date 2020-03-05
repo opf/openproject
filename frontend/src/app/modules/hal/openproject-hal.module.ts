@@ -28,9 +28,7 @@
 
 import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {
-  initializeHalResourceConfig
-} from 'core-app/modules/hal/services/hal-resource.config';
+import {initializeHalResourceConfig} from 'core-app/modules/hal/services/hal-resource.config';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
 import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
@@ -43,7 +41,6 @@ import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openproject-header-interceptor';
 import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
 import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.service';
-import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {TimeEntryDmService} from './dm-services/time-entry-dm.service';
 import {CommonModule} from "@angular/common";
@@ -52,7 +49,6 @@ import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.servic
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 import {QueryOrderDmService} from "core-app/modules/hal/dm-services/query-order-dm.service";
 import {MembershipDmService} from "core-app/modules/hal/dm-services/membership-dm.service";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-error-handler";
 
@@ -63,8 +59,6 @@ import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-erro
   ],
   providers: [
     { provide: ErrorHandler, useClass: HalAwareErrorHandler },
-    HalResourceService,
-    HalResourceSortingService,
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     { provide: APP_INITIALIZER, useFactory: initializeHalResourceConfig, deps: [HalResourceService], multi: true },
     ConfigurationDmService,
@@ -84,9 +78,7 @@ import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-erro
     UserDmService,
     StatusDmService,
     VersionDmService,
-
-    HalResourceNotificationService,
-    HalEventsService,
+    HalResourceNotificationService
   ]
 })
 export class OpenprojectHalModule { }

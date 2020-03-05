@@ -28,7 +28,7 @@
 
 import {Injectable} from "@angular/core";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CurrentUserService {
   public get isLoggedIn() {
     return this.userMeta.length > 0;

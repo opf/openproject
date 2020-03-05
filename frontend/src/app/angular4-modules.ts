@@ -93,8 +93,8 @@ import {PreviewTriggerService} from "core-app/globals/global-listeners/preview-t
 import {OpenprojectOverviewModule} from "core-app/modules/overview/openproject-overview.module";
 import {OpenprojectMyPageModule} from "core-app/modules/my-page/openproject-my-page.module";
 import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-projects.module";
-import {OpenprojectIFCModelsModule} from "core-app/modules/ifc_models/openproject-ifc-models.module";
 import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cache.service";
+import {KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-service";
 
 @NgModule({
   imports: [
@@ -141,9 +141,6 @@ import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cac
     // Global Search
     OpenprojectGlobalSearchModule,
 
-    // IFC Models
-    OpenprojectIFCModelsModule,
-
     // Admin module
     OpenprojectAdminModule,
 
@@ -153,44 +150,13 @@ import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cac
     LinkedPluginsModule,
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeServices,
-      deps: [Injector],
-      multi: true
-    },
-    // Provide a factory loaded for lazily loaded modules
-    // https://ui-router.github.io/guide/lazyloading#angular
-    { provide: NgModuleFactoryLoader, useClass: SystemJsNgModuleLoader },
-    OpTitleService,
-    UrlParamsHelperService,
-    ProjectCacheService,
-    TimeEntryCacheService,
-    FormsCacheService,
-    UserCacheService,
-    StatusCacheService,
-    VersionCacheService,
-    CurrentUserService,
     {provide: States, useValue: new States()},
+    { provide: APP_INITIALIZER, useFactory: initializeServices, deps: [Injector], multi: true },
     PaginationService,
     OpenProjectFileUploadService,
-    CurrentProjectService,
-    DeviceService,
     // Split view
     CommentService,
-    // Context menus
-    OPContextMenuService,
-    // OP Modals service
-    OpModalService,
     ConfirmDialogService,
-
-    // Main Menu
-    MainMenuToggleService,
-    MainMenuNavigationService,
-
-    // Augmenting Rails
-    ModalWrapperAugmentService,
-    PreviewTriggerService,
   ],
   declarations: [
     OpContextMenuTrigger,
@@ -231,6 +197,7 @@ import {TimeEntryCacheService} from "core-components/time-entries/time-entry-cac
   ]
 })
 export class OpenProjectModule {
+
   // noinspection JSUnusedGlobalSymbols
   ngDoBootstrap(appRef:ApplicationRef) {
 
@@ -255,8 +222,8 @@ export function initializeServices(injector:Injector) {
     const ExternalRelationQueryConfiguration = injector.get(ExternalRelationQueryConfigurationService);
     const ModalWrapper = injector.get(ModalWrapperAugmentService);
     const PreviewTrigger = injector.get(PreviewTriggerService);
-    const EditorMacros = injector.get(EditorMacrosService);
     const mainMenuNavigationService = injector.get(MainMenuNavigationService);
+    const keyboardShortcuts = injector.get(KeyboardShortcutService);
 
     mainMenuNavigationService.register();
 
@@ -264,6 +231,8 @@ export function initializeServices(injector:Injector) {
     ModalWrapper.setupListener();
 
     PreviewTrigger.setupListener();
+
+    keyboardShortcuts.register();
 
     // Setup query configuration listener
     ExternalQueryConfiguration.setupListener();

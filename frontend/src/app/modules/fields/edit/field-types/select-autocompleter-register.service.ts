@@ -35,7 +35,7 @@ interface SelectAutocompleterAssignment {
   component:string;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class SelectAutocompleterRegisterService {
   private _fields:SelectAutocompleterAssignment[] = [];
 
