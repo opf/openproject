@@ -12692,6 +12692,11 @@
       "resolved": "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz",
       "integrity": "sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c="
     },
+    "typedjson": {
+      "version": "1.5.1",
+      "resolved": "https://registry.npmjs.org/typedjson/-/typedjson-1.5.1.tgz",
+      "integrity": "sha512-0jVMTow6Z0O/ZkGK95U5a/QKnN4xkupxKDr2ljyReBAFpzIS3/sy9ltdqyuGIaaR60ezKHPf2AgybCbOJ1VhYw=="
+    },
     "typescript": {
       "version": "3.5.3",
       "resolved": "https://registry.npmjs.org/typescript/-/typescript-3.5.3.tgz",

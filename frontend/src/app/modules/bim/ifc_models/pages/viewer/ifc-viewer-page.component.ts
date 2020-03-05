@@ -22,6 +22,7 @@ import {BimManageIfcModelsButtonComponent} from "core-app/modules/bim/ifc_models
 import {WorkPackageCreateButtonComponent} from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
 import {StateService, TransitionService} from "@uirouter/core";
 import {BehaviorSubject, Subject} from "rxjs";
+import {BcfTopicApiService} from "core-app/modules/bim/bcf/api/endpoints/bcf-topic-api.service";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -91,6 +92,11 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
 
   ngOnInit() {
     super.ngOnInit();
+
+    const bcfTopics = this.injector.get(BcfTopicApiService);
+    bcfTopics
+      .get('4', "00efc0da-b4d5-4933-bcb6-e01513ee2bcc")
+      .subscribe((val) => console.warn(val));
 
     this
       .bimView

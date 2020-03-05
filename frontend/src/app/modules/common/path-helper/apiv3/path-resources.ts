@@ -1,15 +1,16 @@
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {ComponentType} from "@angular/cdk/overlay";
 
 export class SimpleResourceCollection<T extends SimpleResource = SimpleResource> {
   // Base path
   public readonly path:string;
 
-  constructor(protected basePath:string, segment:string) {
+  constructor(protected basePath:string, segment:string, protected resource:ComponentType<SimpleResource> = SimpleResource) {
     this.path = `${this.basePath}/${segment}`;
   }
 
   public id(id:string|number):T {
-    return new SimpleResource(this.path, id) as T;
+    return new this.resource(this.path, id) as T;
   }
 
   public optionalId(id?:string|number):this|T {
