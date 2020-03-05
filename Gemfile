@@ -129,7 +129,7 @@ gem 'okcomputer', '~> 1.18.1'
 gem 'gon', '~> 6.3.2'
 
 # Lograge to provide sane and non-verbose logging
-gem 'lograge', '~> 0.10.0'
+gem 'lograge', '~> 0.11.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
