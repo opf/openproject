@@ -116,7 +116,7 @@ module OpenProject::Bim
 
       link :convertBCF,
            cache_if: -> { current_user_allowed_to(:manage_bcf) } do
-        next if represented.bcf_issue?
+        next if represented.bcf_issue? || represented.project.nil?
 
         {
           href: bcf_v2_1_paths.topics(represented.project.identifier),
