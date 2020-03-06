@@ -27,19 +27,17 @@
 #++
 
 require 'spec_helper'
+require_relative '../../../support/bcf_topic_with_stubbed_comment'
 
 describe ::API::V3::Activities::ActivityRepresenter do
   include API::Bim::Utilities::PathHelper
 
-  let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |u|
-      allow(u)
-        .to receive(:allowed_to?) do |checked_permission, project|
-        project == work_package.project && permissions.include?(checked_permission)
-      end
-    end
-  end
+  include_context 'user with stubbed permissions'
+  include_context 'bcf_topic with stubbed comment'
   let(:other_user) { FactoryBot.build_stubbed(:user) }
+  let(:project) do
+    work_package.project
+  end
   let(:work_package) do
     journal.journable.tap do |wp|
       allow(wp)
@@ -61,15 +59,11 @@ describe ::API::V3::Activities::ActivityRepresenter do
     end
   end
   let(:changes) { { subject: ["first subject", "second subject"] } }
-  let(:bcf_topic) do
-    FactoryBot.build_stubbed(:bcf_issue_with_comment)
-  end
-  let(:bcf_comment) { bcf_topic.comments.first }
   let(:permissions) { %i(edit_work_package_notes view_linked_issues) }
-  let(:representer) { described_class.new(journal, current_user: current_user) }
+  let(:representer) { described_class.new(journal, current_user: user) }
 
   before do
-    login_as(current_user)
+    login_as(user)
   end
 
   subject(:generated) { representer.to_json }

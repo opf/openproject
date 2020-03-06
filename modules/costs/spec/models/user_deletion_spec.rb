@@ -154,7 +154,7 @@ describe User, '#destroy', type: :model do
   describe 'WHEN the user has a cost entry' do
     let(:work_package) { FactoryBot.create(:work_package) }
     let(:entry) {
-      FactoryBot.build(:cost_entry, user: user,
+      FactoryBot.create(:cost_entry, user: user,
                                      project: work_package.project,
                                      units: 100.0,
                                      spent_on: Date.today,
@@ -166,7 +166,7 @@ describe User, '#destroy', type: :model do
       FactoryBot.create(:member, project: work_package.project,
                                   user: user,
                                   roles: [FactoryBot.build(:role)])
-      entry.save!
+      entry
 
       user.destroy
 
