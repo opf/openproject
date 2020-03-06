@@ -270,12 +270,20 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
           expect(subject.status).to eq 200
         end
 
-        it 'has the necessary headers' do
+        it 'has the necessary headers for content and caching' do
           expect(subject.headers['Content-Disposition'])
             .to eql content_disposition
 
           expect(subject.headers['Content-Type'])
             .to eql mock_file.content_type
+
+          expect(subject.headers["Cache-Control"]).to eq "public, max-age=#{1.year.to_i}"
+          expect(subject.headers["Expires"]).to be_present
+
+          expires_time = Time.parse response.headers["Expires"]
+
+          expect(expires_time < Time.now.utc + 1.year.to_i).to be_truthy
+          expect(expires_time > Time.now.utc + 1.year.to_i - 60).to be_truthy
         end
 
         it 'sends the file in binary' do
@@ -323,6 +331,14 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
           expect(subject.status).to eq 302
           expect(subject.headers['Location'])
             .to eql external_url
+
+          expect(subject.headers["Cache-Control"]).to eq "public, max-age=#{1.year.to_i}"
+          expect(subject.headers["Expires"]).to be_present
+
+          expires_time = Time.parse response.headers["Expires"]
+
+          expect(expires_time < Time.now.utc + 1.year.to_i).to be_truthy
+          expect(expires_time > Time.now.utc + 1.year.to_i - 60).to be_truthy
         end
       end
     end

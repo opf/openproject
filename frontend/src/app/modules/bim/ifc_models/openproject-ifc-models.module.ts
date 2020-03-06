@@ -43,12 +43,14 @@ import {BcfListContainerComponent} from "core-app/modules/bim/ifc_models/bcf/lis
 import {OpenprojectHalModule} from "core-app/modules/hal/openproject-hal.module";
 import {BimViewService} from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
 import {IfcModelsDataService} from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
+import {OpenprojectBcfModule} from "core-app/modules/bim/bcf/openproject-bcf.module";
 
 @NgModule({
   imports: [
     OpenprojectCommonModule,
     OpenprojectFieldsModule,
     OpenprojectHalModule,
+    OpenprojectBcfModule,
     OpenprojectWorkPackagesModule,
     UIRouterModule.forChild({
       states: IFC_ROUTES

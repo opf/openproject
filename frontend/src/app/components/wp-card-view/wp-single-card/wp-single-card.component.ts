@@ -111,12 +111,8 @@ export class WorkPackageSingleCardComponent implements OnDestroy, OnInit {
   }
 
   public bcfSnapshotPath(wp:WorkPackageResource) {
-    let vp = _.get(wp, 'bcf.viewpoints[0]');
-    if (vp) {
-      return this.pathHelper.attachmentDownloadPath(vp.id, vp.file_name);
-    } else {
-      return null;
-    }
+    let vp = _.get(wp, 'bcfViewpoints[0]');
+    return vp ? `${vp.href}/snapshot` : null;
   }
 
   private isSelected(wp:WorkPackageResource):boolean {

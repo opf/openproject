@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
+import {Injector, NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {NgxGalleryModule} from "@kolkov/ngx-gallery";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
@@ -35,6 +35,7 @@ import {BcfDetectorService} from "core-app/modules/bim/bcf/helper/bcf-detector.s
 import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
 import {BcfExportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf-export-button.component";
 import {BcfThumbnailDisplayField} from "core-app/modules/bim/bcf/fields/display/bcf-thumbnail-field.module";
+import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
 import {BcfWpSingleViewComponent} from "core-app/modules/bim/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
 
 
@@ -44,6 +45,7 @@ import {BcfWpSingleViewComponent} from "core-app/modules/bim/bcf/bcf-wp-single-v
     NgxGalleryModule,
   ],
   providers: [
+    BcfApiService,
     BcfDetectorService,
     BcfPathHelperService
   ],
@@ -59,7 +61,7 @@ import {BcfWpSingleViewComponent} from "core-app/modules/bim/bcf/bcf-wp-single-v
   ]
 })
 export class OpenprojectBcfModule {
-  constructor(displayFieldService:DisplayFieldService) {
+  constructor(injector:Injector, displayFieldService:DisplayFieldService) {
     displayFieldService
       .addFieldType(BcfThumbnailDisplayField, 'bcfThumbnail', [
         'BCF Thumbnail'

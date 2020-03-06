@@ -24,7 +24,11 @@ module Bim::Bcf
     end
 
     def snapshot
-      attachments.find_by_description('snapshot')
+      if attachments.loaded?
+        attachments.detect { |a| a.description == 'snapshot' }
+      else
+        attachments.find_by_description('snapshot')
+      end
     end
 
     def snapshot=(file)

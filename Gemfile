@@ -43,12 +43,12 @@ gem 'rdoc', '>= 2.4.2'
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
 gem 'doorkeeper', '~> 5.3.1'
-gem 'request_store', '~> 1.4.1'
+gem 'request_store', '~> 1.5.0'
 
 gem 'warden', '~> 1.2'
 gem 'warden-basic_auth', '~> 0.2.1'
 
-gem 'will_paginate', '~> 3.1.7'
+gem 'will_paginate', '~> 3.3.0'
 
 gem 'friendly_id', '~> 5.3.0'
 
@@ -70,13 +70,13 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.20.1'
+gem 'commonmarker', '~> 0.21.0'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
 gem 'html-pipeline', '~> 2.12.0'
 # Tasklist parsing and renderer
-gem 'deckar01-task_list', '2.2.0'
+gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
@@ -129,7 +129,7 @@ gem 'okcomputer', '~> 1.18.1'
 gem 'gon', '~> 6.3.2'
 
 # Lograge to provide sane and non-verbose logging
-gem 'lograge', '~> 0.10.0'
+gem 'lograge', '~> 0.11.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
@@ -141,7 +141,7 @@ gem 'prawn-markup', '~> 0.2.1'
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
 
-gem 'meta-tags', '~> 2.11.0'
+gem 'meta-tags', '~> 2.13.0'
 
 group :production do
   # we use dalli as standard memcache client
@@ -169,9 +169,9 @@ gem 'nokogiri', '~> 1.10.8'
 gem 'carrierwave', '~> 1.3.1'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.66.0'
+gem 'aws-sdk-core', '~> 3.90.1'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.48.0'
+gem 'aws-sdk-s3', '~> 1.60.2'
 
 gem 'openproject-token', '~> 1.0.2'
 
@@ -188,11 +188,11 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 0.10.0'
+  gem 'test-prof', '~> 0.11.0'
 
   gem 'cucumber', '~> 3.1.0'
   gem 'cucumber-rails', '~> 1.8.0', require: false
-  gem 'database_cleaner', '~> 1.6'
+  gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.9.0'
   gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
@@ -211,7 +211,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.29.0'
+  gem 'capybara', '~> 3.31.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'webdrivers', '~> 4.2.0', require: false
@@ -219,7 +219,7 @@ group :test do
 
   gem 'fuubar', '~> 2.3.2'
   gem 'timecop', '~> 0.9.0'
-  gem 'webmock', '~> 3.7.2', require: false
+  gem 'webmock', '~> 3.8.2', require: false
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
@@ -259,7 +259,7 @@ group :development, :test do
   gem 'ruby-prof', require: false
   gem 'stackprof', require: false
 
-  gem 'pry-byebug', '~> 3.7.0', platforms: [:mri]
+  gem 'pry-byebug', '~> 3.8.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.0'
   gem 'pry-stack_explorer', '~> 0.4.9.2'

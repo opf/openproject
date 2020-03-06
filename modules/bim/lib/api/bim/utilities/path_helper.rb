@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,29 +29,46 @@
 #++
 
 module API
-  module V3
-    module Users
-      class UserAvatarAPI < ::API::OpenProjectAPI
-        helpers ::AvatarHelper
-        helpers ::API::Helpers::AttachmentRenderer
+  module Bim
+    module Utilities
+      module PathHelper
+        include API::Utilities::UrlHelper
 
-        get '/avatar' do
-          cache_seconds = @user == current_user ? nil : avatar_link_expires_in
+        # rubocop:disable Naming/ClassAndModuleCamelCase
+        class BCF2_1Path
+          # rubocop:enable Naming/ClassAndModuleCamelCase
+          extend API::Utilities::UrlHelper
 
-          if (local_avatar = local_avatar?(@user))
-            respond_with_attachment(local_avatar, cache_seconds: cache_seconds)
-          elsif avatar_manager.gravatar_enabled?
-            set_cache_headers!(cache_seconds)
-
-            redirect build_gravatar_image_url(@user)
-          else
-            status 404
+          # Determining the root_path on every url we want to render is
+          # expensive. As the root_path will not change within a
+          # request, we can cache the first response on each request.
+          def self.root_path
+            RequestStore.store[:cached_root_path] ||= super
           end
-        rescue StandardError => e
-          # Exceptions may happen due to invalid mails in the avatar builder
-          # but we ensure that a 404 is returned in that case for consistency
-          Rails.logger.error { "Failed to render #{@user&.id} avatar: #{e.message}" }
-          status 404
+
+          def self.root
+            "#{root_path}api/bcf/2.1/"
+          end
+
+          def self.project(identifier)
+            "#{root}projects/#{identifier}"
+          end
+
+          def self.topics(project_identifier)
+            "#{project(project_identifier)}/topics"
+          end
+
+          def self.topic(project_identifier, uuid)
+            "#{topics(project_identifier)}/#{uuid}"
+          end
+
+          def self.viewpoint(project_identifier, topic_uuid, viewpoint_topic)
+            "#{topic(project_identifier, topic_uuid)}/viewpoints/#{viewpoint_topic}"
+          end
+        end
+
+        def bcf_v2_1_paths
+          BCF2_1Path
         end
       end
     end

@@ -120,6 +120,18 @@ FactoryBot.define do
     end
 
     factory :bcf_issue_with_comment do
+      after(:stub) do |issue|
+        old_id = issue.id
+        issue.id = nil
+
+        attachment = FactoryBot.build_stubbed(:attachment, description: 'snapshot')
+        viewpoint = build_stubbed(:bcf_viewpoint, issue: issue, attachments: [attachment])
+
+        issue.viewpoints = [viewpoint]
+        issue.comments = [build_stubbed(:bcf_comment, issue: issue, viewpoint: viewpoint)]
+        issue.id = old_id
+      end
+
       after(:create) do |issue|
         viewpoint = create(:bcf_viewpoint, issue: issue)
         create(:bcf_comment, issue: issue, viewpoint: viewpoint)

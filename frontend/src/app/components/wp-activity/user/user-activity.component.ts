@@ -46,7 +46,6 @@ import {UserCacheService} from "core-components/user/user-cache.service";
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
-import {ViewPointOriginal} from "core-app/modules/bim/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
@@ -74,7 +73,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   public isComment:boolean;
   public isBcfComment:boolean;
   public postedComment:SafeHtml;
-  public bcfSnapshot:ViewPointOriginal;
 
   public focused = false;
 
@@ -107,9 +105,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.updateCommentText();
     this.isComment = this.activity._type === 'Activity::Comment';
     this.isBcfComment = this.activity._type === 'Activity::BcfComment';
-    if (this.isBcfComment && _.get(this.activity.bcfComment,  'viewpoint.snapshot')) {
-      this.bcfSnapshot = _.get(this.activity.bcfComment,  'viewpoint.snapshot');
-    }
 
     this.$element = jQuery(this.elementRef.nativeElement);
     this.reset();
@@ -160,6 +155,14 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   public quoteComment() {
     this.commentService.quoteEvents.next(this.quotedText(this.activity.comment.raw));
+  }
+
+  public get bcfSnapshotUrl() {
+    if (_.get(this.activity, 'bcfViewpoints[0]')) {
+      return `${_.get(this.activity, 'bcfViewpoints[0]').href}/snapshot`;
+    } else {
+      return null;
+    }
   }
 
   public async updateComment() {
