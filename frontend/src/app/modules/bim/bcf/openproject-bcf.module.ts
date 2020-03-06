@@ -36,7 +36,7 @@ import {BcfDetectorService} from "core-app/modules/bim/bcf/helper/bcf-detector.s
 import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
 import {BcfExportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf-export-button.component";
 import {BcfThumbnailDisplayField} from "core-app/modules/bim/bcf/fields/display/bcf-thumbnail-field.module";
-import {BcfTopicApiService} from "core-app/modules/bim/bcf/api/endpoints/bcf-topic-api.service";
+import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
 
 
 @NgModule({
@@ -45,6 +45,7 @@ import {BcfTopicApiService} from "core-app/modules/bim/bcf/api/endpoints/bcf-top
     NgxGalleryModule,
   ],
   providers: [
+    BcfApiService,
     BcfDetectorService,
     BcfPathHelperService
   ],

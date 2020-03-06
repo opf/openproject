@@ -21,8 +21,7 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BimManageIfcModelsButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
 import {WorkPackageCreateButtonComponent} from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
 import {StateService, TransitionService} from "@uirouter/core";
-import {BehaviorSubject, Subject} from "rxjs";
-import {BcfTopicApiService} from "core-app/modules/bim/bcf/api/endpoints/bcf-topic-api.service";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -51,7 +50,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     {
       component: WorkPackageCreateButtonComponent,
       inputs: {
-      stateName$: this.newRoute$,
+        stateName$: this.newRoute$,
         allowed: ['work_packages.createWorkPackage', 'work_package.copy']
       }
     },
@@ -93,11 +92,6 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
   ngOnInit() {
     super.ngOnInit();
 
-    const bcfTopics = this.injector.get(BcfTopicApiService);
-    bcfTopics
-      .get('4', "00efc0da-b4d5-4933-bcb6-e01513ee2bcc")
-      .subscribe((val) => console.warn(val));
-
     this
       .bimView
       .observeUntil(componentDestroyed(this))
@@ -106,15 +100,13 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
       });
 
     // Keep the new route up to date depending on where we move to
-    this.transitionUnsubscribeFn = this.transition.onSuccess({}, ()  => {
+    this.transitionUnsubscribeFn = this.transition.onSuccess({}, () => {
       this.newRoute$.next(this.state.current.data.newRoute);
     });
   }
 
   ngOnDestroy():void {
     super.ngOnDestroy();
-
-
   }
 
   /**
@@ -123,7 +115,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
    *
    * To re-enable query titles, remove this function.
    *
-   * @param _query
+   * @param query
    */
   updateTitle(query?:QueryResource) {
     if (this.bimView.current === bimListViewIdentifier) {

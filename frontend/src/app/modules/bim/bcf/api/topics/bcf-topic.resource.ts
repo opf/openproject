@@ -1,4 +1,4 @@
-import {jsonArrayMember, jsonMapMember, jsonMember, jsonObject} from "typedjson";
+import {jsonArrayMember, jsonMember, jsonObject} from "typedjson";
 import {Moment} from "moment";
 
 @jsonObject
