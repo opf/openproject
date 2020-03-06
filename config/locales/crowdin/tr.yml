@@ -61,7 +61,7 @@ tr:
         header-item-font-hover-color: "Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde kullanılacak yazı rengi."
         header-border-bottom-color: "Başlığının altında ince bir çizgi. Bu alanda herhangi bir hat istemiyorsanız boş bırakın."
         main-menu-bg-color: "Sol taraftaki menünün arka plan rengi."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Temayı değiştirmek size özel stilin üzerine yazacaktır. Tasarım daha sonra kaybolacak. Devam etmek istediğine emin misin?
     enterprise:
       upgrade_to_ee: "Enterprise Edition sürümüne yükseltme"
       add_token: "Enterprise Editon versiyonu destek anahtarını yükleyin"
@@ -1157,7 +1157,7 @@ tr:
       forums: "Topluluk forumu"
       newsletter: "Güvenlik uyarıları / haber bülteni"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "Geri çekildiği yerdeki değişiklikler."
   links:
     configuration_guide: 'Yapılandırma rehberi'
   instructions_after_registration: "%{signin} düğmesini tıklayarak hesabınız etkinleştirildiğinde hemen oturum açabilirsiniz."
