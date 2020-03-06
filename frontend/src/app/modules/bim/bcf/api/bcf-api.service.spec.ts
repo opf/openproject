@@ -31,9 +31,9 @@ import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
 import {BcfResourceCollectionPath, BcfResourcePath} from "core-app/modules/bim/bcf/api/bcf-path-resources";
 import {BcfTopicPaths} from "core-app/modules/bim/bcf/api/topics/bcf-topic.paths";
 
-fdescribe('BcfApiService', function () {
+describe('BcfApiService', function () {
   let service:BcfApiService;
-  
+
   beforeEach(async(() => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({

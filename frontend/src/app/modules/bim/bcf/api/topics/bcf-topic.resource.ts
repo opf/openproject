@@ -1,4 +1,5 @@
 import {jsonArrayMember, jsonMember, jsonObject} from "typedjson";
+import * as moment from "moment";
 import {Moment} from "moment";
 
 @jsonObject
@@ -58,7 +59,10 @@ export class BcfTopicResource {
   @jsonMember
   description:string;
 
-  @jsonMember({ deserializer: value => moment(value), serializer: (timestamp:Moment) => timestamp.format('YYYY-MM-DD') })
+  @jsonMember({
+    deserializer: value => moment(value),
+    serializer: (timestamp:Moment) => timestamp.format('YYYY-MM-DD')
+  })
   due_date:Moment;
 
   @jsonMember
