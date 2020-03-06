@@ -30,7 +30,11 @@
     margin-top: 10px
     // Take care that the shadow of the last element is still visible
     &:last-of-type
-      margin-bottom: 3px
+      margin-bottom: 5px
+
+  // Style shadow element while dragging
+  wp-single-card:host.gu-transit &
+    @include modifying--placeholder
 
 .wp-card--content:not(.-new)
   display: grid
