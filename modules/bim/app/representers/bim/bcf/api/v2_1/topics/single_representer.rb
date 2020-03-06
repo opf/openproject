@@ -98,7 +98,7 @@ module Bim::Bcf::API::V2_1
                  .journals
                  .max_by(&:version)
                  .user
-                 .mail
+                 &.mail
              }
 
     property :assignee,
