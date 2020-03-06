@@ -2,171 +2,77 @@
   <div class="op-modal--modal-container"
        data-indicator-name="modal"
        tabindex="0">
-      <div class="op-modal--modal-header">
-        <h3 *ngIf="!status"> {{ text.label_test_ee }}</h3>
-        <h3 *ngIf="status === 'mailSubmitted'">Confirmation of email-address</h3>
-        <h3 *ngIf="status === 'startTrial'">Next steps</h3>
-        <a *ngIf="showClose" class="op-modal--modal-close-button">
-          <i class="icon-close"
-             (click)="closeModal($event)"
-             [attr.title]="text.close_popup">
-          </i>
-        </a>
+    <div class="op-modal--modal-header">
+      <h3 *ngIf="!eeTrialService.status"> {{ text.label_test_ee }}</h3>
+      <h3 *ngIf="eeTrialService.status === 'mailSubmitted'">Confirmation of email-address</h3>
+      <h3 *ngIf="eeTrialService.status === 'startTrial'">Next steps</h3>
+      <a *ngIf="showClose" class="op-modal--modal-close-button">
+        <i class="icon-close"
+           (click)="closeModal($event)"
+           [attr.title]="text.close_popup">
+        </i>
+      </a>
+    </div>
+
+    <div class="op-modal--modal-body">
+      <!-- first modal window -->
+      <div *ngIf="!eeTrialService.status">
+        <enterprise-trial-form></enterprise-trial-form>
       </div>
-
-      <div class="op-modal--modal-body">
-        <div *ngIf="!status">
-          <form id="enterprise-trial-form" class="form" [formGroup]="enterpriseTrialForm">
-            <div class="form--field -wide-label -required">
-              <label class="form--label">{{ text.label_company }}</label>
-              <div class="form--field-container">
-                <div class="form--text-field-container">
-                  <input type="text"
-                         class="form--text-field"
-                         formControlName="company">
-                </div>
-              </div>
-            </div>
-            <div class="form--field -wide-label -required">
-              <label class="form--label">{{ text.label_first_name }}</label>
-              <div class="form--field-container">
-                <div class="form--text-field-container">
-                  <input type="text"
-                         class="form--text-field"
-                         formControlName="first_name">
-                </div>
-              </div>
-            </div>
-            <div class="form--field -wide-label -required">
-              <label class="form--label">{{ text.label_last_name }}</label>
-              <div class="form--field-container">
-                <div class="form--text-field-container">
-                  <input type="text"
-                         class="form--text-field"
-                         formControlName="last_name">
-                </div>
-              </div>
-            </div>
-            <div class="form--field -wide-label -required" [ngClass]="{ '-error': this.errorMsg }">
-              <label class="form--label">{{ text.label_email }}</label>
-              <div class="form--field-container">
-                <div class="form--text-field-container">
-                  <input type="email" class="form--text-field" formControlName="email" (blur)="checkMailField()">
-                </div>
-              </div>
-              <div *ngIf="this.errorMsg" class="form--field-instructions">{{ this.errorMsg }}</div>
-            </div>
-            <div class="form--field -wide-label -required">
-              <label class="form--label">{{ text.label_domain }}</label>
-              <div class="form--field-container">
-                <div class="form--text-field-container">
-                  <input type="text" class="form--text-field" formControlName="domain">
-                </div>
-              </div>
-            </div>
-            <div class="form--field -required">
-              <div class="form--field-container">
-                <label class="form--label-with-check-box -no-ellipsis">
-                  <div class="form--check-box-container">
-                    <input type="checkbox"
-                           class="form--check-box"
-                           formControlName="general_consent">
-                  </div>
-                  <span>I agree with the
-                    <a href="https://www.openproject.com/terms-of-service/" target="_blank">
-                      terms of service</a> and the
-                    <a href="https://www.openproject.com/legal-notice/" target="_blank">privacy policy</a>.
-                  </span>
-                    <span class="tooltip--right"
-                          data-tooltip="You already confirmed the terms of service when you created your OpenProject trial.">
-                    <i class="icon icon-info1"></i>
-                  </span>
-                </label>
-              </div>
-            </div>
-            <div class="form--field">
-              <div class="form--field-container">
-                <label class="form--label-with-check-box -no-ellipsis">
-                  <div class="form--check-box-container">
-                    <input type="checkbox"
-                           class="form--check-box"
-                           formControlName="newsletter_consent">
-                  </div>
-                  <span>I want to receive the OpenProject
-                    <a href="https://www.openproject.com/newsletter/" target="_blank">
-                      newsletter</a>.
-                  </span>
-                </label>
-              </div>
-            </div>
-          </form>
-          <p>{{ text.next_step }}</p>
-        </div>
-
-        <div *ngIf="status === 'mailSubmitted'">
-          <p>We sent you an email. Please click the confirmation link provided in this email.</p>
-          <p>
-            <span>Status: </span>
-            <span *ngIf="!confirmed; else confirmedStatus" class="status--waiting">
-              email sent - waiting for confirmation
-              <a id="resend-link" (click)="resendMail()">{{ text.resend }}</a>
-              <p *ngIf="cancelled">Sorry, something went wrong. Please try to resend mail.</p>
-            </span>
-            <ng-template #confirmedStatus>
-              <span class="status--confirmed">confirmed ✓</span>
-            </ng-template>
-          </p>
-        </div>
-
-        <div *ngIf="status === 'startTrial'">
-          <h2>Get an overview</h2>
-          <div class="onboarding--video-block">
-            <div class="onboarding--video-text">
-              <span>Get a quick overview of project management and team collaboration with OpenProject.</span>
-            </div>
-            <div class="onboarding--video iframe-target-wrapper">
-              <iframe frameborder="0"
-                      height="400"
-                      width="100%"
-                      allowfullscreen=""
-                      src="https://player.vimeo.com/video/163426858?autoplay=1">
-              </iframe>
-            </div>
+      <!-- second modal window -->
+      <div *ngIf="eeTrialService.status === 'mailSubmitted'">
+        <enterprise-trial-waiting></enterprise-trial-waiting>
+      </div>
+      <!-- third modal window -->
+      <div *ngIf="eeTrialService.status === 'startTrial'">
+        <h2>Get an overview</h2>
+        <div class="onboarding--video-block">
+          <div class="onboarding--video-text">
+            <span>Get a quick overview of project management and team collaboration with OpenProject.</span>
+          </div>
+          <div class="onboarding--video iframe-target-wrapper">
+            <iframe frameborder="0"
+                    height="400"
+                    width="100%"
+                    allowfullscreen=""
+                    src="https://player.vimeo.com/video/163426858?autoplay=1">
+            </iframe>
           </div>
         </div>
       </div>
-
-      <div class="op-modal--modal-footer">
-        <div *ngIf="!status; else mailSubmitted">
-          <button class="confirm-form-submit--continue button -highlight"
-                  (click)="onSubmit()"
-                  [disabled]="!enterpriseTrialForm.valid"
-                  [textContent]="text.button_submit"
-                  [attr.title]="text.button_submit"
-                  [hidden]="status === 'mailSubmitted'">
-          </button>
-          <button class="confirm-form-submit--cancel button"
-                  (click)="closeModal($event)"
-                  [textContent]="text.button_cancel"
-                  [attr.title]="text.button_cancel">
-          </button>
-        </div>
-        <ng-template #mailSubmitted>
-          <button class="confirm-form-submit--continue button -highlight"
-                  (click)="startEnterpriseTrial()"
-                  [textContent]="text.button_continue"
-                  [attr.title]="text.button_continue"
-                  [disabled]="!confirmed"
-                  [hidden]="status === 'startTrial'">
-          </button>
-          <button *ngIf="status === 'startTrial'"
-                  class="confirm-form-submit--continue button -highlight"
-                  (click)="closeModal($event)"
-                  [textContent]="text.button_continue"
-                  [attr.title]="text.button_continue">
-          </button>
-        </ng-template>
-      </div>
-
     </div>
+
+    <div class="op-modal--modal-footer">
+      <div *ngIf="!eeTrialService.status; else mailSubmitted">
+        <button class="confirm-form-submit--continue button -highlight"
+                (click)="onSubmit()"
+                [disabled]="!trialForm || trialForm.invalid"
+                [textContent]="text.button_submit"
+                [attr.title]="text.button_submit"
+                [hidden]="eeTrialService.status === 'mailSubmitted'">
+        </button>
+        <button class="confirm-form-submit--cancel button"
+                (click)="closeModal($event)"
+                [textContent]="text.button_cancel"
+                [attr.title]="text.button_cancel">
+        </button>
+      </div>
+      <ng-template #mailSubmitted>
+        <button class="confirm-form-submit--continue button -highlight"
+                (click)="startEnterpriseTrial()"
+                [textContent]="text.button_continue"
+                [attr.title]="text.button_continue"
+                [disabled]="!eeTrialService.confirmed"
+                [hidden]="eeTrialService.status === 'startTrial'">
+        </button>
+        <button *ngIf="eeTrialService.status === 'startTrial'"
+                class="confirm-form-submit--continue button -highlight"
+                (click)="closeModal($event)"
+                [textContent]="text.button_continue"
+                [attr.title]="text.button_continue">
+        </button>
+      </ng-template>
+    </div>
+
   </div>
+</div>

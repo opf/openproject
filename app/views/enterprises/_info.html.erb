@@ -32,12 +32,19 @@ See docs/COPYRIGHT.rdoc for more details.
   </script>
 <% end %>
 
-<p>
-  <b><%= t('js.admin.enterprise.upsale.become_hero') %></b><br>
-  <%= t('js.admin.enterprise.upsale.you_contribute') %>
-</p>
+<enterprise-base></enterprise-base>
 
-<enterprise></enterprise>
+<div class='upsale--actions'>
+  <a href="#"
+     class="button -highlight"
+     data-cb-type="checkout"
+     data-cb-plan-id="enterprise-edition---annual-user-license">
+    <%= t('admin.enterprise.book_now') %>
+  </a>
+  <a href="https://www.openproject.org/upgrade-enterprise-edition/" target="_blank">
+    <%= t('admin.enterprise.get_quote') %>
+  </a>
+</div>
 
 <div class="info-boxes upsale-benefits">
   <h2><%= t('homescreen.blocks.upsale.description') %></h2>

@@ -40,7 +40,11 @@ import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
 import {PasswordConfirmationModal} from "core-components/modals/request-for-confirmation/password-confirmation.modal";
+import {EnterpriseBaseComponent} from "core-components/enterprise/enterprise-base.component";
 import {EnterpriseTrialModal} from "core-components/enterprise/enterprise-modal/enterprise-trial.modal";
+import {EETrialFormComponent} from "core-components/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
+import {EETrialWaitingComponent} from "core-components/enterprise/enterprise-modal/enterprise-trial-waiting/ee-trial-waiting.component";
+import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {CommentService} from "core-components/wp-activity/comment-service";
@@ -141,6 +145,9 @@ import {OpenprojectMembersModule} from "core-app/modules/members/members.module"
     // Split view
     CommentService,
     ConfirmDialogService,
+
+    // Enterprise Edition
+    EnterpriseTrialService
   ],
   declarations: [
     OpContextMenuTrigger,
@@ -150,7 +157,12 @@ import {OpenprojectMembersModule} from "core-app/modules/members/members.module"
     DynamicContentModal,
     PasswordConfirmationModal,
     WpPreviewModal,
+
+    // Enterprise Edition
+    EnterpriseBaseComponent,
     EnterpriseTrialModal,
+    EETrialFormComponent,
+    EETrialWaitingComponent,
 
     // Main menu
     MainMenuResizerComponent,
@@ -162,6 +174,31 @@ import {OpenprojectMembersModule} from "core-app/modules/members/members.module"
     // Form configuration
     OpDragScrollDirective,
     ConfirmFormSubmitController,
+<<<<<<< HEAD
+=======
+  ],
+  entryComponents: [
+    // Project Auto completer
+    ProjectMenuAutocompleteComponent,
+
+    // Modals
+    DynamicContentModal,
+    ConfirmDialogModal,
+    PasswordConfirmationModal,
+    AttributeHelpTextModal,
+    WpPreviewModal,
+
+    // Enterprise Edition
+    EnterpriseBaseComponent,
+    EnterpriseTrialModal,
+    EETrialFormComponent,
+    EETrialWaitingComponent,
+
+    // Main menu
+    MainMenuResizerComponent,
+    MainMenuToggleComponent,
+    ConfirmFormSubmitController,
+>>>>>>> Adapt background page content to state too
   ]
 })
 export class OpenProjectModule {

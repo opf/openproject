@@ -31,28 +31,38 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {EnterpriseTrialModal} from "core-components/enterprise/enterprise-modal/enterprise-trial.modal";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
 
 @Component({
-  selector: 'enterprise',
-  templateUrl: './enterprise.component.html'
+  selector: 'enterprise-base',
+  templateUrl: './enterprise-base.component.html',
+  styleUrls: ['./enterprise-base.component.sass']
 })
-export class EnterpriseComponent {
+export class EnterpriseBaseComponent {
+
   public text = {
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
     button_book: this.I18n.t('js.admin.enterprise.upsale.button_book_now'),
-    link_quote: this.I18n.t('js.admin.enterprise.upsale.link_quote')
+    link_quote: this.I18n.t('js.admin.enterprise.upsale.link_quote'),
+    become_hero: this.I18n.t('js.admin.enterprise.upsale.become_hero'),
+    you_contribute: this.I18n.t('js.admin.enterprise.upsale.you_contribute'),
   };
 
   constructor(protected I18n:I18nService,
               protected opModalService:OpModalService,
-              readonly injector:Injector) {
+              readonly injector:Injector,
+              public eeTrialService:EnterpriseTrialService) {
   }
 
+
   public openTrialModal() {
+    // cancel request and open first modal window
+    this.eeTrialService.cancelled = true;
+    this.eeTrialService.status = undefined;
     this.opModalService.show(EnterpriseTrialModal, this.injector);
   }
 }
 
 DynamicBootstrapper.register({
-  selector: 'enterprise', cls: EnterpriseComponent
+  selector: 'enterprise-base', cls: EnterpriseBaseComponent
 });

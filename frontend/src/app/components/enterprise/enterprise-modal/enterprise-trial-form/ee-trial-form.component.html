@@ -1,0 +1,81 @@
+<form id="enterprise-trial-form" class="form" [formGroup]="trialForm">
+  <div class="form--field -wide-label -required">
+    <label class="form--label">{{ text.label_company }}</label>
+    <div class="form--field-container">
+      <div class="form--text-field-container">
+        <input type="text"
+               class="form--text-field"
+               formControlName="company">
+      </div>
+    </div>
+  </div>
+  <div class="form--field -wide-label -required">
+    <label class="form--label">{{ text.label_first_name }}</label>
+    <div class="form--field-container">
+      <div class="form--text-field-container">
+        <input type="text"
+               class="form--text-field"
+               formControlName="first_name">
+      </div>
+    </div>
+  </div>
+  <div class="form--field -wide-label -required">
+    <label class="form--label">{{ text.label_last_name }}</label>
+    <div class="form--field-container">
+      <div class="form--text-field-container">
+        <input type="text"
+               class="form--text-field"
+               formControlName="last_name">
+      </div>
+    </div>
+  </div>
+  <div class="form--field -wide-label -required" [ngClass]="{ '-error': eeTrialService.errorMsg }">
+    <label class="form--label">{{ text.label_email }}</label>
+    <div class="form--field-container">
+      <div class="form--text-field-container">
+        <input type="email" class="form--text-field" formControlName="email" (blur)="checkMailField()">
+      </div>
+    </div>
+    <div *ngIf="eeTrialService.errorMsg" class="form--field-instructions">{{ eeTrialService.errorMsg }}</div>
+  </div>
+  <div class="form--field -wide-label -required">
+    <label class="form--label">{{ text.label_domain }}</label>
+    <div class="form--field-container">
+      <div class="form--text-field-container">
+        <input type="text" class="form--text-field" formControlName="domain">
+      </div>
+    </div>
+  </div>
+  <div class="form--field -required">
+    <div class="form--field-container">
+      <label class="form--label-with-check-box -no-ellipsis">
+        <div class="form--check-box-container">
+          <input type="checkbox"
+                 class="form--check-box"
+                 formControlName="general_consent">
+        </div>
+        <span>I agree with the
+          <a href="https://www.openproject.com/terms-of-service/" target="_blank">
+            terms of service</a> and the
+          <a href="https://www.openproject.com/legal-notice/" target="_blank">privacy policy</a>.
+        </span>
+      </label>
+    </div>
+  </div>
+  <div class="form--field">
+    <div class="form--field-container">
+      <label class="form--label-with-check-box -no-ellipsis">
+        <div class="form--check-box-container">
+          <input type="checkbox"
+                 class="form--check-box"
+                 formControlName="newsletter_consent">
+        </div>
+        <span>I want to receive the OpenProject
+          <a href="https://www.openproject.com/newsletter/" target="_blank">
+            newsletter</a>.
+        </span>
+      </label>
+    </div>
+  </div>
+</form>
+<p>{{ text.next_step }}</p>
