@@ -40,17 +40,26 @@ module API
       # or by directly rendering the file
       #
       # @param attachment [Attachment] Attachment to be responded with.
-      # @param external_link_expires_in [ActiveSupport::Duration] Time after which link expires. Default is 5 minutes.
-      #                                                           Only applicable in case of external storage.
-      def respond_with_attachment(attachment, external_link_expires_in: nil)
+      # @param cache_seconds [integer] Time in seconds the cache headers signal the browser to cache the attachment.
+      #                                Defaults to no cache headers.
+      def respond_with_attachment(attachment, cache_seconds: nil)
+        if cache_seconds
+          set_cache_headers!(cache_seconds)
+        end
+
         if attachment.external_storage?
-          redirect attachment.external_url(expires_in: external_link_expires_in).to_s
+          redirect attachment.external_url(expires_in: cache_seconds).to_s
         else
           content_type attachment.content_type
           header['Content-Disposition'] = "#{attachment.content_disposition}; filename=#{attachment.filename}"
           env['api.format'] = :binary
           file attachment.diskfile.path
         end
+      end
+
+      def set_cache_headers!(seconds)
+        header "Cache-Control", "public, max-age=#{seconds}"
+        header "Expires", CGI.rfc1123_date(Time.now.utc + seconds)
       end
 
       def avatar_link_expires_in

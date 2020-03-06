@@ -1,13 +1,8 @@
-import {Component, Injector, Input, OnDestroy, OnInit} from "@angular/core";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {StateService} from "@uirouter/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
-
-
-export type ViewPointOriginal = { id:string, file_name:string };
-export type ViewPoint = { id:string, fileName:string, fullPath:string };
+import { NgxGalleryOptions, NgxGalleryImage } from 'ngx-gallery';
+import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 
 @Component({
   selector: 'bcf-wp-single-view',
@@ -18,93 +13,83 @@ export type ViewPoint = { id:string, fileName:string, fullPath:string };
 export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
   @Input() workPackage:WorkPackageResource;
 
-  galleryOptions:NgxGalleryOptions[];
+  galleryOptions:NgxGalleryOptions[] = [
+    {
+      width: '100%',
+      height: '400px',
+      thumbnailsColumns: 4,
+      imageAnimation: '',
+      previewAnimation: false,
+      previewCloseOnEsc: true,
+      previewKeyboardNavigation: true,
+      imageSize: 'contain',
+      imageArrowsAutoHide: true,
+      thumbnailsArrowsAutoHide: true,
+      thumbnailsAutoHide: true,
+      thumbnailsMargin: 5,
+      thumbnailMargin: 5,
+      previewDownload: true,
+      arrowPrevIcon: 'icon-arrow-left2',
+      arrowNextIcon: 'icon-arrow-right2',
+      closeIcon: 'icon-close',
+      downloadIcon: 'icon-download',
+      previewCloseOnClick: true,
+    },
+    // max-width 800
+    {
+      breakpoint: 800,
+      width: '100%',
+      height: '300px',
+      imagePercent: 80,
+      thumbnailsPercent: 20,
+      thumbnailsMargin: 5,
+      thumbnailMargin: 5,
+      imageSize: 'contain',
+    },
+    // max-width 400
+    {
+      breakpoint: 400,
+      height: '200px',
+    }
+  ];
+
   galleryImages:NgxGalleryImage[];
 
-  private _viewpoints:ViewPoint[];
+  private _viewpointUrls:string[];
 
-  public get viewpoints():ViewPoint[] {
-    return this._viewpoints;
+  public get viewpoints():string[] {
+    return this._viewpointUrls;
   }
 
-  public set viewpoints(viewPoints:ViewPoint[]) {
-    this._viewpoints = viewPoints;
+  public set viewpoints(viewPoints:string[]) {
+    this._viewpointUrls = viewPoints;
   }
 
   public text = {
   };
 
-  constructor(public readonly state:StateService,
-              private readonly I18n:I18nService,
-              private readonly injector:Injector,
-              private readonly pathHelper:PathHelperService) {
+  constructor(public readonly state:StateService) {
   }
 
   ngOnInit():void {
-    this.viewpoints = this.workPackage.bcf.viewpoints.map((vp:ViewPointOriginal):ViewPoint => {
-      return {
-        id:       vp.id,
-        fileName: vp.file_name,
-        fullPath: this.pathHelper.attachmentDownloadPath(vp.id, vp.file_name)
-      };
+    this.viewpoints = this.workPackage.bcfViewpoints.map((vp:HalLink) => {
+      return `${vp.href}/snapshot`;
     });
 
-    this.galleryOptions = [
-      {
-        width: '100%',
-        height: '400px',
-        thumbnailsColumns: 4,
-        imageAnimation: '',
-        previewAnimation: false,
-        previewCloseOnEsc: true,
-        previewKeyboardNavigation: true,
-        imageSize: 'contain',
-        imageArrowsAutoHide: true,
-        thumbnailsArrowsAutoHide: true,
-        thumbnailsAutoHide: true,
-        thumbnailsMargin: 5,
-        thumbnailMargin: 5,
-        previewDownload: true,
-        arrowPrevIcon: 'icon-arrow-left2',
-        arrowNextIcon: 'icon-arrow-right2',
-        closeIcon: 'icon-close',
-        downloadIcon: 'icon-download',
-        previewCloseOnClick: true,
-      },
-      // max-width 800
-      {
-        breakpoint: 800,
-        width: '100%',
-        height: '300px',
-        imagePercent: 80,
-        thumbnailsPercent: 20,
-        thumbnailsMargin: 5,
-        thumbnailMargin: 5,
-        imageSize: 'contain',
-      },
-      // max-width 400
-      {
-        breakpoint: 400,
-        height: '200px',
-      }
-    ];
-
-    this.galleryImages = this.viewpoints.map((vp:ViewPoint) => {
+    this.galleryImages = this.viewpoints.map(url => {
       return {
-        small:  vp.fullPath,
-        medium: vp.fullPath,
-        big:    vp.fullPath,
+        small:  url,
+        medium: url,
+        big:    url,
       };
     });
   }
 
   public galleryPreviewOpen():void {
-    console.log("preview open");
     jQuery('#top-menu')[0].style.zIndex = '10';
   }
 
   public galleryPreviewClose():void {
-    console.log("preview close");
     jQuery('#top-menu')[0].style.zIndex = '';
   }
 

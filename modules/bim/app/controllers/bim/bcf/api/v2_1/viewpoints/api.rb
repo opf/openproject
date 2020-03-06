@@ -28,7 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+# rubocop:disable Naming/ClassAndModuleCamelCase
 module Bim::Bcf::API::V2_1
+  # rubocop:enable Naming/ClassAndModuleCamelCase
   module Viewpoints
     class API < ::API::OpenProjectAPI
       # Avoid oj parsing numbers into BigDecimal
@@ -79,7 +81,7 @@ module Bim::Bcf::API::V2_1
             get do
               viewpoint = @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid])
               if snapshot = viewpoint.snapshot
-                respond_with_attachment snapshot
+                respond_with_attachment snapshot, cache_seconds: 1.year.to_i
               else
                 raise ActiveRecord::RecordNotFound
               end
