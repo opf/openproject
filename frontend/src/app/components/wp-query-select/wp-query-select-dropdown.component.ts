@@ -44,7 +44,6 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
@@ -75,9 +74,10 @@ interface IQueryAutocompleteJQuery extends JQuery {
   querycomplete(...args:any[]):void;
 }
 
+export const wpQuerySelectSelector = 'wp-query-select';
 
 @Component({
-  selector: 'wp-query-select',
+  selector: wpQuerySelectSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-query-select.template.html',
 })
@@ -539,5 +539,3 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
       });
   }
 }
-
-DynamicBootstrapper.register({selector: 'wp-query-select', cls: WorkPackageQuerySelectDropdownComponent});

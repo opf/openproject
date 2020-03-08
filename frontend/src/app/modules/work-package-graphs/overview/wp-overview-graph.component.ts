@@ -12,8 +12,10 @@ import {
   WpGraphQueryParams
 } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
 
+export const wpOverviewGraphSelector = 'wp-overview-graph';
+
 @Component({
-  selector: 'wp-overview-graph',
+  selector: wpOverviewGraphSelector,
   templateUrl: './wp-overview-graph.template.html',
   styleUrls: ['./wp-overview-graph.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -151,4 +153,4 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   }
 }
 
-DynamicBootstrapper.register({ selector: 'wp-overview-graph', cls: WorkPackageOverviewGraphComponent });
+

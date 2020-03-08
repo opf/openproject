@@ -26,9 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnDestroy, OnInit, Query} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
@@ -36,7 +35,6 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {StateService} from "@uirouter/core";
-import {WorkPackageStaticQueriesService} from "core-components/wp-query-select/wp-static-queries.service";
 
 @Component({
   template: `
@@ -87,5 +85,3 @@ export class BcfExportButtonComponent implements OnInit, OnDestroy {
     // Nothing to do
   }
 }
-
-DynamicBootstrapper.register({ selector: 'bcf-export-button', cls: BcfExportButtonComponent });

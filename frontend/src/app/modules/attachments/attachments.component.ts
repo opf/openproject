@@ -36,8 +36,10 @@ import {States} from 'core-components/states.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {filter, takeUntil} from 'rxjs/operators';
 
+export const attachmentsSelector = 'attachments';
+
 @Component({
-  selector: 'attachments',
+  selector: attachmentsSelector,
   templateUrl: './attachments.html'
 })
 export class AttachmentsComponent implements OnInit, OnDestroy {
@@ -99,5 +101,3 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
     return this.allowUploading || _.get(this.resource, 'attachments.count', 0) > 0;
   }
 }
-
-DynamicBootstrapper.register({ selector: 'attachments', cls: AttachmentsComponent, embeddable: true });

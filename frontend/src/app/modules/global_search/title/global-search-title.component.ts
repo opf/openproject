@@ -25,21 +25,13 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  ElementRef,
-  OnDestroy
-} from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy} from '@angular/core';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {Injector} from "@angular/core";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export const globalSearchTitleSelector = 'global-search-title';
@@ -111,8 +103,3 @@ export class GlobalSearchTitleComponent implements OnDestroy {
     }
   }
 }
-
-
-DynamicBootstrapper.register({
-  selector: globalSearchTitleSelector, cls: GlobalSearchTitleComponent
-});

@@ -59,7 +59,10 @@ import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
 import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
-import {ContentTabsComponent} from "core-app/modules/common/tabs/content-tabs/content-tabs.component";
+import {
+  ContentTabsComponent,
+  contentTabsSelector
+} from "core-app/modules/common/tabs/content-tabs/content-tabs.component";
 import {EditableToolbarTitleComponent} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
 import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
 import {EnterpriseBannerComponent} from "core-components/enterprise-banner/enterprise-banner.component";
@@ -83,6 +86,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {CurrentUserService} from "core-components/user/current-user.service";
 import {WorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/wp-autocompleter.component";
 import {TimeEntryWorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/te-work-package-autocompleter.component";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -273,5 +277,7 @@ export function bootstrapModule(injector:Injector) {
 export class OpenprojectCommonModule {
   constructor(injector:Injector) {
     bootstrapModule(injector);
+
+
   }
 }

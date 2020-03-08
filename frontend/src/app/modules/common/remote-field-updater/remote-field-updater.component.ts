@@ -29,10 +29,11 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {HttpClient} from '@angular/common/http';
-import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
+
+export const remoteFieldUpdaterSelector = 'remote-field-updater';
 
 @Component({
-  selector: 'remote-field-updater',
+  selector: remoteFieldUpdaterSelector,
   template: ''
 })
 export class RemoteFieldUpdaterComponent implements OnInit {
@@ -115,4 +116,3 @@ export class RemoteFieldUpdaterComponent implements OnInit {
   }
 }
 
-DynamicBootstrapper.register({ cls: RemoteFieldUpdaterComponent, selector: 'remote-field-updater'});

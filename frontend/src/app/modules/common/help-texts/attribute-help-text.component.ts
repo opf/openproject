@@ -40,10 +40,11 @@ import {
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {AttributeHelpTextModal} from 'core-app/modules/common/help-texts/attribute-help-text.modal';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+
+export const attributeHelpTextSelector = 'attribute-help-text';
 
 @Component({
-  selector: 'attribute-help-text',
+  selector: attributeHelpTextSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './attribute-help-text.component.html'
 })
@@ -111,4 +112,3 @@ export class AttributeHelpTextComponent implements OnInit {
   }
 }
 
-DynamicBootstrapper.register({ cls: AttributeHelpTextComponent, selector: 'attribute-help-text'});

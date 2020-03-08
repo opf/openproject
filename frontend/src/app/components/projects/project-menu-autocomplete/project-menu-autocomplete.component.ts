@@ -49,10 +49,12 @@ export interface IProjectMenuEntry {
 
 export type ProjectAutocompleteItem = IAutocompleteItem<IProjectMenuEntry>;
 
+export const projectMenuAutocompleteSelector = 'project-menu-autocomplete';
+
 @Component({
   templateUrl: './project-menu-autocomplete.template.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'project-menu-autocomplete'
+  selector: projectMenuAutocompleteSelector
 })
 export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<IProjectMenuEntry> implements OnInit {
   public text:any;
@@ -329,4 +331,3 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
   }
 }
 
-DynamicBootstrapper.register({selector: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent});

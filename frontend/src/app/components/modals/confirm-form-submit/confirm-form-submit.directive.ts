@@ -28,12 +28,13 @@
 
 import {ConfirmDialogService} from './../confirm-dialog/confirm-dialog.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Component, Directive, ElementRef, OnInit} from "@angular/core";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {Component, ElementRef, OnInit} from "@angular/core";
+
+export const confirmFormSubmitSelector = 'confirm-form-submit';
 
 @Component({
   template: '',
-  selector: 'confirm-form-submit'
+  selector: confirmFormSubmitSelector
 })
 export class ConfirmFormSubmitController implements OnInit {
 
@@ -85,6 +86,3 @@ export class ConfirmFormSubmitController implements OnInit {
       .catch(() => this.confirmed = false);
   }
 }
-
-// Register the element style for bootstrapping
-DynamicBootstrapper.register({ selector: 'confirm-form-submit', cls: ConfirmFormSubmitController });
