@@ -61,7 +61,7 @@ hu:
         header-item-font-hover-color: "Kattintható fejléc betűszíne egér hatására."
         header-border-bottom-color: "Vékony vonal a fejléc alatt. Hagyja üresen, ha semmilyen vonalat nem szeretne."
         main-menu-bg-color: "Baloldali menü háttérszíne."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: A téma megváltoztatása felülírja az egyéni stílust. A forma elvész. Biztos, hogy folytatni akarod?
     enterprise:
       upgrade_to_ee: "Frissítés a Vállalati Verzióra"
       add_token: "Töltse fel a Vállalati Verzió támogatási tokenjét"
@@ -1154,7 +1154,7 @@ hu:
       forums: "Közösségi fórum"
       newsletter: "Biztonsági figyelmeztetések / hírlevél"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "A módosítások visszavonásra kerültek."
   links:
     configuration_guide: 'Konfigurációs útmutató'
   instructions_after_registration: "Be tud jelentkezni, amint fiókját aktiválta ide %{signin} kattintva."
