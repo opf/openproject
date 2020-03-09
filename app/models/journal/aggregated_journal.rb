@@ -106,36 +106,24 @@ class Journal::AggregatedJournal
       # that our own row (master) would not already have been merged by its predecessor. If it is
       # (that means if we can find a valid predecessor), we drop our current row, because it will
       # already be present (in a merged form) in the row of our predecessor.
-
-      journal_sql = Journal
-                    .from("joined_journals #{table_name}")
-                    .joins(Arel.sql("LEFT OUTER JOIN joined_journals addition
-                                            ON #{sql_on_groups_belong_condition(table_name, 'addition')}"))
-                    .joins(Arel.sql("LEFT OUTER JOIN joined_journals predecessor
-                                       ON #{sql_on_groups_belong_condition('predecessor', table_name)}"))
-                    .where(Arel.sql('predecessor.id IS NULL'))
-                    .order(Arel.sql("COALESCE(addition.created_at, #{table_name}.created_at) ASC"))
-                    .order(Arel.sql("#{version_projection} ASC"))
-                    .select(Arel.sql("#{table_name}.journable_id,
-                             #{table_name}.journable_type,
-                             #{table_name}.user_id,
-                             #{table_name}.notes,
-                             #{table_name}.id \"notes_id\",
-                             #{table_name}.version \"notes_version\",
-                             #{table_name}.activity_type,
-                             COALESCE(addition.created_at, #{table_name}.created_at) \"created_at\",
-                             COALESCE(addition.id, #{table_name}.id) \"id\",
-                             #{version_projection} \"version\"")).to_sql
-
-      sql = <<~SQL
-        WITH joined_journals AS (
-          #{sql_rough_group(journable, until_version, journal_id)}
-        )
-
-        #{journal_sql}
-      SQL
-
-      Journal.find_by_sql(sql)
+      Journal.from("(#{sql_rough_group(journable, until_version, journal_id)}) #{table_name}")
+      .joins(Arel.sql("LEFT OUTER JOIN (#{sql_rough_group(journable, until_version, journal_id)}) addition
+                              ON #{sql_on_groups_belong_condition(table_name, 'addition')}"))
+      .joins(Arel.sql("LEFT OUTER JOIN (#{sql_rough_group(journable, until_version, journal_id)}) predecessor
+                         ON #{sql_on_groups_belong_condition('predecessor', table_name)}"))
+      .where(Arel.sql('predecessor.id IS NULL'))
+      .order(Arel.sql("COALESCE(addition.created_at, #{table_name}.created_at) ASC"))
+      .order(Arel.sql("#{version_projection} ASC"))
+      .select(Arel.sql("#{table_name}.journable_id,
+               #{table_name}.journable_type,
+               #{table_name}.user_id,
+               #{table_name}.notes,
+               #{table_name}.id \"notes_id\",
+               #{table_name}.version \"notes_version\",
+               #{table_name}.activity_type,
+               COALESCE(addition.created_at, #{table_name}.created_at) \"created_at\",
+               COALESCE(addition.id, #{table_name}.id) \"id\",
+               #{version_projection} \"version\""))
     end
 
     # Returns whether "notification-hiding" should be assumed for the given journal pair.
