@@ -41,7 +41,7 @@ describe 'bcf export', type: :feature, js: true do
   let(:current_user) { FactoryBot.create :admin }
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_converted,
+    FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: current_user)
   end

@@ -42,13 +42,13 @@ describe 'model management', type: :feature, js: true do
   end
 
   let(:model) do
-    FactoryBot.create(:ifc_model_converted,
+    FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user)
   end
 
   let(:model2) do
-    FactoryBot.create(:ifc_model_converted,
+    FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user)
   end

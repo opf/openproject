@@ -44,7 +44,7 @@ describe 'BIM navigation spec', type: :feature, js: true do
   end
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_converted,
+    FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user)
   end
@@ -77,8 +77,7 @@ describe 'BIM navigation spec', type: :feature, js: true do
         card_view.expect_work_package_listed work_package
 
         # Go to single view
-        wp_card = card_view.card(work_package)
-        page.driver.browser.action.double_click(wp_card.native).perform
+        card_view.open_full_screen_by_details(work_package)
 
         details_view.ensure_page_loaded
         details_view.expect_subject
@@ -101,8 +100,7 @@ describe 'BIM navigation spec', type: :feature, js: true do
         card_view.expect_work_package_listed work_package
 
         # Go to single view
-        wp_card = card_view.card(work_package)
-        page.driver.browser.action.double_click(wp_card.native).perform
+        card_view.open_full_screen_by_details(work_package)
 
         details_view.ensure_page_loaded
         details_view.expect_subject

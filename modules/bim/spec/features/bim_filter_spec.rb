@@ -42,7 +42,7 @@ describe 'BIM filter spec', type: :feature, js: true do
   let(:admin) { FactoryBot.create :admin }
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_converted,
+    FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: admin)
   end

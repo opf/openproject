@@ -1,0 +1,40 @@
+{
+  "guid": "{{UUID}}",
+  "perspective_camera": {
+    "camera_view_point": {
+      "x": -20.054248809814453,
+      "y": -23.360965728759766,
+      "z": 25.947437286376953
+    },
+    "camera_direction": {
+      "x": -0.5773502588272095,
+      "y": 0.5773502588272095,
+      "z": -0.5773502588272095
+    },
+    "camera_up_vector": {
+      "x": -1,
+      "y": 1,
+      "z": 1
+    },
+    "field_of_view": 60
+  },
+  "lines": [],
+  "bitmaps": [],
+  "clipping_planes": [],
+  "components": {
+    "visibility": {
+      "view_setup_hints": {
+        "spaces_visible": false,
+        "space_boundaries_visible": false,
+        "openings_visible": false
+      },
+      "exceptions": [{
+        "ifc_guid": "2I3GeLg8z6SuvsKrNeG9Oz",
+        "originating_system": "xeokit.io",
+        "authoring_tool_id": "xeokit.io"
+      }],
+      "default_visibility": false
+    },
+    "selection": []
+  }
+}

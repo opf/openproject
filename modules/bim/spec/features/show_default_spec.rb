@@ -44,7 +44,7 @@ describe 'show default model', type: :feature, js: true do
   end
 
   let(:model) do
-    FactoryBot.create(:ifc_model_converted,
+    FactoryBot.create(:ifc_model_minimal_converted,
                       is_default: model_is_default,
                       project: project,
                       uploader: user)
