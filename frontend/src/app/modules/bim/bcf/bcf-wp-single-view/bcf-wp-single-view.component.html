@@ -14,5 +14,8 @@
     </ngx-gallery>
   </div>
 
-  <bcf-add-viewpoint-button [workPackage]="workPackage"></bcf-add-viewpoint-button>
+  <a [title]="text.add_viewpoint" class="button" (click)="saveCurrentAsViewpoint()">
+    <op-icon icon-classes="button--icon icon-add"></op-icon>
+    <span class="button--text"> {{text.viewpoint}} </span>
+  </a>
 </div>

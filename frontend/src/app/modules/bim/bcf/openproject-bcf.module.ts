@@ -38,10 +38,25 @@ import {OpenProjectHeaderInterceptor} from "core-app/modules/hal/http/openprojec
 import {BcfDetectorService} from "core-app/modules/bim/bcf/helper/bcf-detector.service";
 import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import {viewerBridgeServiceFactory} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge-service.factory";
 import {BcfImportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
 import {BcfExportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
-import {BcfAddViewpointButtonComponent} from "core-app/modules/bim/bcf/bcf-gallery/bcf-add-viewpoint-button.component";
+import {RevitBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/revit-bridge.service";
+import {XeokitBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/xeokit-bridge.service";
+import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
+
+/**
+ * Determines based on the current user agent whether
+ * we're running in Revit or not.
+ *
+ * Depending on that, we use the IFC viewer service for showing/saving viewpoints.
+ */
+export const viewerBridgeServiceFactory = (injector:Injector) => {
+  if (window.navigator.userAgent.search('Revit') > -1) {
+    return new RevitBridgeService();
+  } else {
+    return new XeokitBridgeService(injector.get(IFCViewerService));
+  }
+};
 
 @NgModule({
   imports: [
@@ -53,19 +68,21 @@ import {BcfAddViewpointButtonComponent} from "core-app/modules/bim/bcf/bcf-galle
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     BcfDetectorService,
     BcfPathHelperService,
-    { provide: ViewerBridgeService, useFactory: viewerBridgeServiceFactory }
+    {
+      provide: ViewerBridgeService,
+      useFactory: viewerBridgeServiceFactory,
+      deps: [Injector]
+    }
   ],
   declarations: [
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
     BcfExportButtonComponent,
-    BcfAddViewpointButtonComponent
   ],
   exports: [
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
     BcfExportButtonComponent,
-    BcfAddViewpointButtonComponent
   ]
 })
 export class OpenprojectBcfModule {

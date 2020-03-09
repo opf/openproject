@@ -87,7 +87,9 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
   topicUUID:string;
 
   text = {
-    bcf: this.I18n.t('js.bcf.label_bcf')
+    bcf: this.I18n.t('js.bcf.label_bcf'),
+    viewpoint: this.I18n.t('js.bcf.viewpoint'),
+    add_viewpoint: this.I18n.t('js.bcf.add_viewpoint'),
   };
 
   constructor(readonly state:StateService,
@@ -137,7 +139,6 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       .viewpoints.id(viewpointUuid)
       .get()
       .subscribe(data => {
-        // TODO abstract from revit
         this.viewerBridge.showViewpoint(data);
       });
   }
@@ -150,7 +151,6 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       .topics.id(this.topicUUID)
       .viewpoints
       .post(viewpoint);
-
   }
 
   galleryPreviewOpen():void {

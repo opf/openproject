@@ -24,7 +24,7 @@ export class RevitBridgeService extends ViewerBridgeService {
 
   constructor() {
     super();
-   
+
     if (window.RevitBridge) {
       console.log("window.RevitBridge is already there, so let's hook up the Revit Listener");
       this.hookUpRevitListener();
@@ -48,7 +48,17 @@ export class RevitBridgeService extends ViewerBridgeService {
         filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
         first()
       )
-      .toPromise();
+      .toPromise()
+      .then((message) => {
+        let viewpointJson = JSON.parse(message.messagePayload);
+
+        viewpointJson.snapshot = {
+          snapshot_type: 'png',
+          snapshot_data: viewpointJson.snapshot
+        };
+
+        return viewpointJson;
+      });
   }
 
   showViewpoint(data:BcfViewpointInterface) {
