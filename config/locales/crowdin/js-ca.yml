@@ -511,14 +511,14 @@ ca:
       remove_child: "Eliminar fill"
       add_new_relation: "Crea una nova relació"
       add_existing_relation: "Afegir relació existent"
-      update_description: "Set or update description of this relation"
-      toggle_description: "Toggle relation description"
-      update_relation: "Click to change the relation type"
-      add_follower: "Add follower"
-      add_predecessor: "Add predecessor"
+      update_description: "Establir o actualitzar la descripció d'aquesta relació"
+      toggle_description: "Activar descripció de la relació"
+      update_relation: "Faci clic per a canviar el tipus de relació"
+      add_follower: "Afegir seguidor"
+      add_predecessor: "Afegir predecessor"
       remove: "Eliminar la relació"
-      save: "Save relation"
-      abort: "Abort"
+      save: "Guardar la relació"
+      abort: "Avortar"
     relations_autocomplete:
       placeholder: "Type to search"
       parent_placeholder: "Choose new parent or press escape to cancel."
@@ -540,10 +540,10 @@ ca:
         other: "Només podeu seleccionar {{limit}} elements"
     project_menu_details: "Detalls"
     sort:
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: 'sorting is disabled'
+      sorted_asc: 'Ordre ascendent aplicat,'
+      sorted_dsc: 'Ordre descendent aplicat,'
+      sorted_no: 'Sense ordre aplicat,'
+      sorting_disabled: 'ordenació des-habilitada'
       activate_asc: 'activate to apply an ascending sort'
       activate_dsc: 'activate to apply a descending sort'
       activate_no: 'activate to remove the sort'

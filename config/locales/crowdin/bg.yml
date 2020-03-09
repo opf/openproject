@@ -61,6 +61,7 @@ bg:
         header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
         header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
         main-menu-bg-color: "Left side menu's background color."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Upgrade to Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
@@ -1155,6 +1156,8 @@ bg:
       blog: "OpenProject блог"
       forums: "Форум на Общността"
       newsletter: "Security alerts / Newsletter"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Configuration guide'
   instructions_after_registration: "Можете да влезете веднага след като вашият акаунт е бил активиран като щракнете %{signin}."
@@ -2558,6 +2561,7 @@ bg:
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
   query_menu_item_for: "Menu item for query \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       _Updated automatically by changing values within child work package %{child}_

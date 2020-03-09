@@ -28,10 +28,11 @@
 
 import {Component, ElementRef} from "@angular/core";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+
+export const wpEmbeddedTableEntrySelector = 'macro.embedded-table';
 
 @Component({
-  selector: 'macro.embedded-table',
+  selector: wpEmbeddedTableEntrySelector,
   template: `
     <wp-embedded-table-entry [queryProps]="queryProps"
                              [configuration]="configuration">
@@ -55,6 +56,3 @@ export class EmbeddedTablesMacroComponent {
     this.queryProps = JSON.parse(element.dataset.queryProps);
   }
 }
-
-DynamicBootstrapper.register(
-  { selector: 'macro.embedded-table', cls: EmbeddedTablesMacroComponent, embeddable: true });

@@ -30,7 +30,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe LaborBudgetItem, type: :model do
   include Cost::PluginSpecHelper
-  let(:item) { FactoryBot.build(:labor_budget_item, cost_object: cost_object) }
+  let(:item) { FactoryBot.build(:labor_budget_item, cost_object: cost_object, user: user) }
   let(:cost_object) { FactoryBot.build(:variable_cost_object, project: project) }
   let(:user) { FactoryBot.create(:user) }
   let(:user2) { FactoryBot.create(:user) }

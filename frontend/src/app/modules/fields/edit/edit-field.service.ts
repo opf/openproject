@@ -34,6 +34,6 @@ export interface IEditFieldType extends IFieldType<EditFieldComponent> {
   new():EditFieldComponent;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class EditFieldService extends AbstractFieldService<EditFieldComponent, IEditFieldType> {
 }

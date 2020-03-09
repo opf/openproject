@@ -5,7 +5,7 @@
 //
 @media print
   // -------------------- Work Package views --------------------
-  .router--work-packages-list-view,
+  .router--work-packages-partitioned-split-view,
   .router--work-packages-full-view,
   .router--work-packages-full-create
     #wrapper
@@ -25,36 +25,35 @@
         overflow: visible !important
         position: relative
 
-        .work-packages-list-view--container
+        .work-packages-partitioned-query-space--container
           padding-left: 0
-          .work-packages-split-view
+
+          .work-packages-split-view--tabletimeline-side
+            .work-packages-split-view--tabletimeline-content
+              .wp-table--hierarchy-aditional-row,
+              tr.-checked,
+              .row-hovered
+                // Remove highlighting of first and selected rows:
+                background-color: transparent
+
+          .work-packages-tabletimeline--table-side
+            contain: initial // For printing in Chrome
             overflow: visible
 
-            .work-packages-split-view--tabletimeline-side
-              .work-packages-split-view--tabletimeline-content
-                .wp-table--hierarchy-aditional-row,
-                tr.-checked,
-                .row-hovered
-                  // Remove highlighting of first and selected rows:
-                  background-color: transparent
+            &:not(.-timeline-visible)
+              // Only repeat table header when only table visible and no
+              // timelines.
+              thead.-sticky th
+                position: initial
 
-            .work-packages-tabletimeline--table-side
-              contain: initial // For printing in Chrome
-              overflow: visible
+            &.-timeline-visible
+              // Do not show table on timelines print outs.
+              display: none
 
-              &:not(.-timeline-visible)
-                // Only repeat table header when only table visible and no
-                // timelines.
-                thead.-sticky th
-                  position: initial
-
-              &.-timeline-visible
-                // Do not show table on timelines print outs.
-                display: none
-
-            .work-packages-tabletimeline--timeline-side
-                contain: initial // For printing in Chrome
-                border-left: none
+          .work-packages-tabletimeline--timeline-side
+            contain: initial // For printing in Chrome
+            border-left: none
+            flex-basis: 100% !important
 
     .work-package-table--container,
     .generic-table--results-container
@@ -62,7 +61,7 @@
 
   // -------------------- Sepcial Rules for FF --------------------
   html.-browser-firefox
-    .router--work-packages-list-view,
+    .router--work-packages-partitioned-split-view,
     .router--work-packages-full-view,
     .router--work-packages-full-create
       #main
@@ -70,7 +69,7 @@
 
         #content-wrapper,
         #content
-          .work-packages-list-view--container
+          .work-packages-partitioned-query-space--container
             display: block
             .toolbar-container
               display: none

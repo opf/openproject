@@ -101,5 +101,3 @@ export class WorkPackageViewToggleButton implements OnInit, OnDestroy {
     }
   }
 }
-
-DynamicBootstrapper.register({ selector: 'wp-view-toggle-button', cls: WorkPackageViewToggleButton });

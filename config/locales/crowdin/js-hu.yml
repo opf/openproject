@@ -41,7 +41,7 @@ hu:
     button_back_to_list_view: "Vissza a lista nézethez"
     button_cancel: "Mégsem"
     button_close: "Bezár"
-    button_change_project: "Change project"
+    button_change_project: "Cseréld a projektet"
     button_check_all: "Az összes kijelölése"
     button_configure-form: "Űrlap beállítás"
     button_confirm: "Jóváhagy"
@@ -62,8 +62,8 @@ hu:
     button_open_details: "Részletes nézet megnyitása"
     button_close_details: "Részletes nézet bezárása"
     button_open_fullscreen: "Teljes képernyős nézet"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Mutatsd a card nézetet"
+    button_show_list: "Mutatsd a lista nézetet"
     button_quote: "Idéz"
     button_save: "Mentés"
     button_settings: "Beállítások"
@@ -73,7 +73,7 @@ hu:
     button_export-atom: "Atom letöltés"
     calendar:
       title: 'Naptár'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Összesen %{count} munkacsomag van, de csak %{max} jeleníthető meg.'
     card:
       add_new: 'Add new card'
       highlighting:
@@ -85,22 +85,22 @@ hu:
       browser_error: "A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja a kijelölt szöveget manuálisan."
       copied_successful: "A vágólapra másolás sikeres!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Diagram típus'
+      axis_criteria: 'Tengely kritérium'
+      modal_title: 'Munkacsomag grafikon beállítás'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
+        line: 'vonal'
+        horizontal_bar: 'Vízszintes oszlop'
+        bar: "oszlop\n"
+        pie: 'pie'
+        doughnut: 'Fánk'
         radar: 'Radar'
-        polar_area: 'Polar area'
+        polar_area: 'Poláris terület'
       tabs:
         graph_settings: 'Általános'
-        dataset: 'Dataset %{number}'
+        dataset: 'Adatbeállítás %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'A grafikon megjelenítéséhez szükséges adatokat nem lehetett betölteni. Hiányozhatnak a szükséges engedélyek.'
     description_available_columns: "Elérhető oszlopok"
     description_current_position: "You are here: "
     description_select_work_package: "Munkacsomag kiválasztás #%{id}"
@@ -159,7 +159,7 @@ hu:
         drag_to_activate: "Innen húzza a mezőket, hogy aktiválja"
         add_group: "Tulajdonságcsoport"
         add_table: "Táblázat hozzáadása a kapcsolódó munkacsomagokhoz"
-        edit_query: 'Edit query'
+        edit_query: 'Lekérdezés módosítása'
         new_group: 'Új csoport'
         reset_to_defaults: 'Alapbeállítások visszaállítása'
     custom_actions:
@@ -198,8 +198,8 @@ hu:
     global_roles: Globális szerepek
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "Kattintson ide, hogy a Feladatcsoportot legújabb verzióra történő frissítéséhez."
+        edit_prohibited: "A (z) %{attribute} attribútum nem szerkeszthető. Vagy azért mert ez valamelyik kapcsolatból származik (gyerekektől), vagy más okból nem módosítható."
         format:
           date: "A(z) %{attribute} nem felel meg az -ÉÉÉÉ-HH-NN- dátumformátumnak."
         general: "Hiba történt."
@@ -207,15 +207,15 @@ hu:
       blocks:
         new_features:
           text_new_features: "Read about new features and product updates."
-          learn_about: "Learn more about the new features"
+          learn_about: "Tudjon meg többet az új funkciókról"
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-4
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+              A kiadás különféle új funkciókat és fejlesztéseket tartalmaz: <br> <br> <ul> <li> Alapértelmezett <b> tervezősablonok </b> világos vagy sötét téma kiválasztásához (prémium szolgáltatás). </li> <li> Új <b> időkövetési widget </b> a <i> Saját oldal </i> számára, hogy az eltöltött időt sávdiagramban jelenítsék meg. </li> <li> <b> <SQLSX-export költségjelentésekhez </b> és formázott szöveg PDF formátumban a munkacsomagok exportálásakor. </li> <li> <b> Javítva a tervezés és a használhatóság </b> azaz a fülek és így tovább a projektbeállításokban és az adminisztrációban. </li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-4
             current_new_feature_html: >
-              OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
+              Az OpenProject tartalmaz egy <b> új IFC modult a 3D modellek integrálásához </b> a projektkezelő alkalmazásba, és ezekkel a fájlokkal együtt dolgozhat a csapatával, külön költséges szoftver vagy licencek telepítése nélkül. <br> <br> <ul> <li> <b> Építési modellek IFC fájljainak importálása </b> az OpenProject alkalmazásba. </li> <li> <b> Nyissa meg a 3D modelleket és megjelenítse az építési modelleket </b> > a böngészőjében. </li> <li> Könnyen <b> több IFC fájlt tud dolgozni </b> a csapattal közvetlenül az OpenProject programban, külön költséges szoftver telepítése nélkül. </li> </ul>
     label_activate: "Aktivál"
     label_add_column_after: "Oszlop hozzáadása utána"
     label_add_column_before: "Oszlop hozzáadása előtte"
@@ -233,7 +233,7 @@ hu:
     label_and: "és"
     label_ascending: "Növekvő"
     label_author: "Szerző: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Profilkép"
     label_between: "között"
     label_board: "Board"
     label_board_locked: "Zárolt"
@@ -315,7 +315,7 @@ hu:
     label_project_plural: "Projektek"
     label_visibility_settings: "Láthatósági beállítások"
     label_quote_comment: "Hozzászólás idézése"
-    label_recent: "Recent"
+    label_recent: "Friss"
     label_reset: "Visszaállít, reset"
     label_remove_column: "Oszlop eltávolítása"
     label_remove_columns: "Eltávolítja a kijelölt oszlopokat"
@@ -349,7 +349,7 @@ hu:
     label_total_progress: "%{percent}% a teljes folyamatban"
     label_total_amount: "Teljes: %{amount}"
     label_updated_on: "frissítve"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(érték származik a gyermekektől)"
     label_warning: "Figyelem"
     label_work_package: "Feladatcsoport"
     label_work_package_plural: "Munkacsomagok"
@@ -386,7 +386,7 @@ hu:
     label_upload_counter: "%{done}/%{count} fájl feltöltve"
     label_validation_error: "A feladatcsoport a következő hibák miatt nem menthető:"
     label_version_plural: "Verzió"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "Ez a nézet nem mentett változtatásokat tartalmaz. Kattintson a mentéshez."
     help_texts:
       show_modal: 'Attribútum-súgószöveg mutatása'
     onboarding:
@@ -453,19 +453,19 @@ hu:
         more_information: "További információ"
         nevermind: "Mindegy"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Ürlap beállítása"
         projects: "Projektek"
         settings: "Beállítások"
     time_entry:
       project: 'Projekt'
       work_package: 'Feladatcsoport'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Először ki kell választania egy munkacsomagot.'
       activity: 'Tevékenység'
       comment: 'Vélemény'
       duration: 'Időtartam'
       spent_on: 'dátum'
       hours: 'órák'
-      label: 'Time entry'
+      label: 'Belépési idő'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -498,8 +498,8 @@ hu:
       set_parent: "Set parent"
       change_parent: "Szülő módosítása"
       remove_parent: "Szülő eltávolítása"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "Behúzási hierarchia"
+      hierarchy_outdent: "Kihúzási hierarchia"
       group_by_wp_type: "Rendezés feladatcsoport típusai szerint"
       group_by_relation_type: "Rendezés kapcsolati típusok szerint"
       add_parent: "Meglévő szülő kapcsolat hozzáadása"
@@ -527,14 +527,14 @@ hu:
     field_value_enter_prompt: "Adja meg az értéket a %{field} mezőhöz"
     select2:
       input_too_short:
-        zero: "Please enter more characters"
+        zero: "Kérjük, írjon be további karaktereket"
         one: "Kérjük, adjon meg egy további karaktert"
         other: "Kérjük, adjon meg {{count}} karaktert"
       load_more: "További eredmények betöltése..."
       no_matches: "Nincs találat"
       searching: "Keresés ..."
       selection_too_big:
-        zero: "You cannot select any items"
+        zero: "Nem jelölt ki egy elemet sem!"
         one: "Csak egy elem választható"
         other: "Csak {{limit}} elem választható"
     project_menu_details: "Részletek"
@@ -629,7 +629,7 @@ hu:
       image: "Kép"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'A projekt tömeges megváltoztatása'
         edit: 'Tömeges szerkesztés'
         copy: 'Tömeges másolás'
         delete: 'Tömeges törlés'
@@ -655,7 +655,7 @@ hu:
       message_successful_show_in_fullscreen: "Ide kattintva a munkacsomag részletei teljes képernyős nézeten jeleníthetőek meg."
       message_view_spent_time: "Feladatcsoporttal töltött idő megjelenítése"
       message_work_package_read_only: "Ez Feladatcsomag ebben a státuszban zárolt. Nem lehet más attribútum segítségével megváltoztatni."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "A munkacsomag állapota nem írható, mivel a zárt állapotot és a zárt verziót hozzárendelték."
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
         title: 'Ide kattintva adhatsz új munkacsomagot a listához'
@@ -680,7 +680,7 @@ hu:
       no_results:
         title: Nincs megjelenítendő munkacsomag.
         description: Vagy nincs még ilyen munkacsomag, vagy a szűrők miatt nem jeleníthető meg.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Csak %{count} munkacsomag jeleníthető meg kézi rendezés módban. Kérjük, szűréssel csökkentse az eredményeket.
       property_groups:
         details: "Részletek"
         people: "Személyek"
@@ -722,7 +722,7 @@ hu:
         label_content: "Kattintson ide a menü átugrásához és a tartalom megtekintéséhez"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: kattints a módosításhoz!"
       query:
         column_names: "Oszlopok"
         group_by: "Csoport szintű eredmények"
@@ -740,9 +740,9 @@ hu:
         confirm_edit_cancel: "Biztosan meg kívánod szakítani a nézet nevének szerkesztését? Cím vissza lesz állítva a korábbi értékre."
         click_to_edit_query_name: "Kattints a nézet címének szerkesztéséhez"
         rename_query_placeholder: "A nézet neve"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Jelölje meg ezt a nézetet kedvencként, és adja hozzá a bal oldalon a mentett nézetek oldalsávjához."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Tegye közzé ezt a nézetet, lehetővé téve más felhasználók számára, hogy hozzáférjenek a nézethez. A „Nyilvános nézetek kezelése” engedéllyel rendelkező felhasználók módosíthatják vagy eltávolíthatják a nyilvános lekérdezéseket. Ez nem befolyásolja a munkacsomag-eredmények láthatóságát abban a nézetben, és engedélyüktől függően a felhasználók eltérő eredményeket láthatnak.
         errors:
           unretrievable_query: "Unable to retrieve view from URL"
           not_found: "Nincs ilyen nézet"
@@ -777,17 +777,17 @@ hu:
           priority: 'Fontosság'
           type: 'Típus'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Válassza ki a munkacsomagok rendezésének módját:'
+          automatic: 'Automatikus'
+          manually: 'Kézi'
+          warning: 'Az automatikus válogatás üzemmód aktiválásakor elveszíti korábbi rendezését.'
         columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Szeretné látni a munkacsomag kapcsolatait?'
           check_out_link: 'Tekintse meg az Enterprise Edition-t!'
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: 'A munkacsomagok szűrése relációs típus szerint'
       tabs:
         overview: Áttekintés
         activity: Tevékenység
@@ -873,8 +873,8 @@ hu:
         one: "egy gyermek munkacsomag"
         other: "%{count} gyermek feladatcsoport"
       hour:
-        zero: "0 h"
-        one: "1 h"
+        zero: "0 óra"
+        one: "1 óra"
         other: "%{count} ó"
     zen_mode:
       button_activate: 'Zen mód aktiválása'
@@ -890,6 +890,6 @@ hu:
         project_and_subprojects: "and all subprojects"
         search_for: "Search for"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Kártyák'
+      list: 'Tábla'
       timeline: 'Gantt'

@@ -28,24 +28,20 @@
 
 require 'spec_helper'
 
+require_relative '../../../support/bcf_topic_with_stubbed_comment'
+
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
+  include API::Bim::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
-  let(:role) do
-    FactoryBot.create(:role, permissions: %i[view_linked_issues view_work_packages])
+  let(:project) do
+    work_package.project
   end
-  let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_through_role: role)
-  end
-  let!(:bcf_issue) do
-    FactoryBot.create(:bcf_issue_with_comment, work_package: work_package)
-  end
+  include_context 'user with stubbed permissions'
+  include_context 'bcf_topic with stubbed comment'
+  let(:permissions) { %i[view_linked_issues view_work_packages manage_bcf] }
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project_id: project.id)
+    FactoryBot.build_stubbed(:stubbed_work_package, bcf_issue: bcf_topic)
   end
   let(:representer) do
     described_class.new(work_package,
@@ -54,25 +50,113 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   end
 
   before(:each) do
-    allow(User).to receive(:current).and_return user
+    login_as user
   end
 
   subject(:generated) { representer.to_json }
 
-  describe 'with BCF issues' do
-    it "contains viewpoints" do
-      is_expected.to be_json_eql(
-        {
-          uuid: bcf_issue.uuid,
-          viewpoints: [
-            {
-              uuid: bcf_issue.viewpoints.first.uuid,
-              snapshot_file_name: bcf_issue.viewpoints.first.attachments.first.filename,
-              snapshot_id: bcf_issue.viewpoints.first.attachments.first.id
-            }
-          ]
-        }.to_json
-      ).including('snapshot_id').at_path('bcf')
+  include_context 'eager loaded work package representer'
+
+  describe '_links' do
+    describe 'bcfTopic' do
+      context 'if a topic is present' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'bcfTopic' }
+          let(:href) { "/api/bcf/2.1/projects/#{project.identifier}/topics/#{bcf_topic.uuid}" }
+        end
+      end
+
+      context 'if no topic is present' do
+        let(:bcf_topic) { nil }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'bcfTopic' }
+        end
+      end
+
+      context 'if permission is lacking' do
+        let(:permissions) { %i[view_work_packages] }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'bcfTopic' }
+        end
+      end
+    end
+
+    describe 'bcfViewpoints' do
+      context 'if a viewpoint is present' do
+        it_behaves_like 'has a link collection' do
+          let(:link) { 'bcfViewpoints' }
+          let(:hrefs) do
+            [
+              {
+                href: bcf_v2_1_paths.viewpoint(project.identifier, bcf_topic.uuid, bcf_topic.viewpoints[0].uuid)
+              }
+            ]
+          end
+        end
+
+        context 'if no topic is present' do
+          let(:bcf_topic) { nil }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'bcfViewpoints' }
+          end
+        end
+
+        context 'if no viewpoint is present' do
+          before do
+            allow(bcf_topic)
+              .to receive(:viewpoints)
+              .and_return []
+          end
+
+          it_behaves_like 'has a link collection' do
+            let(:link) { 'bcfViewpoints' }
+            let(:hrefs) do
+              []
+            end
+          end
+        end
+
+        context 'if permission is lacking' do
+          let(:permissions) { %i[view_work_packages] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'bcfViewpoints' }
+          end
+        end
+      end
+    end
+
+    describe 'convertBCF' do
+      let(:link) { 'convertBCF' }
+
+      context 'if no bcf issue is assigned yet' do
+        let(:bcf_topic) { nil }
+
+        it_behaves_like 'has a titled link' do
+          let(:title) { 'Convert to BCF' }
+          let(:href) { "/api/bcf/2.1/projects/#{project.identifier}/topics" }
+        end
+
+        it 'signalizes the payload' do
+          is_expected
+            .to be_json_eql({ "reference_links": ["/api/v3/work_packages/#{work_package.id}"] }.to_json)
+            .at_path('_links/convertBCF/payload')
+        end
+      end
+
+      context 'if a bcf issue is assigned' do
+        it_behaves_like 'has no link'
+      end
+
+      context 'if no bcf issue iss assigned but the user lacks permission' do
+        let(:bcf_topic) { nil }
+        let(:permissions) { %i[view_linked_issues view_work_packages] }
+
+        it_behaves_like 'has no link'
+      end
     end
   end
 end

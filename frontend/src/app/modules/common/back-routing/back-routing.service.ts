@@ -38,7 +38,7 @@ interface BackRouteOptions {
   parent:string;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BackRoutingService {
   @InjectField() private $state:StateService;
   @InjectField() private keepTab:KeepTabService;
@@ -52,11 +52,11 @@ export class BackRoutingService {
     // Default: back to list
     // When coming from a deep link or a create form
     if (!this.backRoute || this.backRoute.name.includes('new')) {
-      this.$state.go('work-packages.list', this.$state.params);
+      this.$state.go('work-packages.partitioned.list', this.$state.params);
     } else {
       if (this.keepTab.isDetailsState(this.backRoute.parent)) {
         if (preferListOverSplit) {
-          this.$state.go('work-packages.list', this.$state.params);
+          this.$state.go('work-packages.partitioned.list', this.$state.params);
         } else {
           this.$state.go(this.keepTab.currentDetailsState, this.$state.params);
         }

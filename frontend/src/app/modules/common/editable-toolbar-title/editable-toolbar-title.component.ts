@@ -61,7 +61,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   @Output() public onSave = new EventEmitter<string>();
   @Output() public onEmptySubmit = new EventEmitter<void>();
 
-  @ViewChild('editableTitleInput', {static: false}) inputField?:ElementRef;
+  @ViewChild('editableTitleInput') inputField?:ElementRef;
 
   public selectedTitle:string;
   public selectableTitleIdentifier = selectableTitleIdentifier;

@@ -27,10 +27,11 @@
 //++
 
 import {Component, ElementRef, OnInit} from "@angular/core";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+
+export const persistentToggleSelector = 'persistent-toggle';
 
 @Component({
-  selector: 'persistent-toggle',
+  selector: persistentToggleSelector,
   template: ''
 })
 export class PersistentToggleComponent implements OnInit {
@@ -92,5 +93,3 @@ export class PersistentToggleComponent implements OnInit {
     }
   }
 }
-
-DynamicBootstrapper.register({ cls: PersistentToggleComponent, selector: 'persistent-toggle' });

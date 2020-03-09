@@ -46,7 +46,7 @@ module Attachments
 
         return unless attachment_ids
 
-        work_package.attachments_replacements = Attachment.where(id: attachment_ids)
+        model.attachments_replacements = Attachment.where(id: attachment_ids)
       end
     end
   end

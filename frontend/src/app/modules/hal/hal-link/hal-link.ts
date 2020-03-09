@@ -27,10 +27,11 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {HalResourceService, HTTPSupportedMethods} from 'core-app/modules/hal/services/hal-resource.service';
+import {HTTPSupportedMethods} from "core-app/modules/hal/http/http.interfaces";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
 export interface HalLinkInterface {
-  href:string | null;
+  href:string|null;
   method:HTTPSupportedMethods;
   title?:string;
   templated?:boolean;
@@ -51,7 +52,7 @@ export interface CallableHalLink extends HalLinkInterface {
 
 export class HalLink implements HalLinkInterface {
   constructor(public requestMethod:(method:HTTPSupportedMethods, href:string, data:any, headers:any) => Promise<HalResource>,
-              public href:string | null = null,
+              public href:string|null = null,
               public title:string = '',
               public method:HTTPSupportedMethods = 'get',
               public templated:boolean = false,
@@ -65,7 +66,7 @@ export class HalLink implements HalLinkInterface {
    */
   public static fromObject(halResourceService:HalResourceService, link:HalLinkInterface):HalLink {
     return new HalLink(
-  (method:HTTPSupportedMethods, href:string, data:any, headers:any) =>
+      (method:HTTPSupportedMethods, href:string, data:any, headers:any) =>
         halResourceService.request(method, href, data, headers).toPromise(),
       link.href,
       link.title,

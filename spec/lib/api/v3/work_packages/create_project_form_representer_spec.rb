@@ -33,18 +33,17 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:errors) { [] }
-  let(:work_package) {
-    FactoryBot.build(:work_package,
-                     id: 42,
-                     created_at: DateTime.now,
-                     updated_at: DateTime.now)
-  }
-  let(:current_user) {
-    FactoryBot.build(:user, member_in_project: work_package.project)
-  }
-  let(:representer) {
-    described_class.new(work_package, current_user: current_user, errors: errors)
-  }
+  let(:project) { work_package.project }
+  let(:permissions) { %i(edit_work_packages) }
+  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:work_package) do
+    FactoryBot.build_stubbed(:stubbed_work_package,
+                             type: type)
+  end
+  include_context 'user with stubbed permissions'
+  let(:representer) do
+    described_class.new(work_package, current_user: user, errors: errors)
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -114,12 +113,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
         end
 
         context 'user with insufficient permissions' do
-          let(:role) { FactoryBot.create(:role, permissions: []) }
-          let(:current_user) do
-            FactoryBot.build(:user,
-                             member_in_project: work_package.project,
-                             member_through_role: role)
-          end
+          let(:permissions) { [] }
 
           it do
             is_expected.not_to have_json_path('_links/commit/href')
@@ -128,11 +122,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
       end
 
       describe 'customFields' do
-        before do
-          allow(current_user).to receive(:allowed_to?).and_return(true)
-        end
-
-        context 'with project admin priviliges' do
+        shared_examples_for 'links to project custom field admin' do
           it 'has a link to set the custom fields for that project' do
             expected = {
               href: "/projects/#{work_package.project.identifier}/settings/custom_fields",
@@ -144,65 +134,30 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
           end
         end
 
-        context 'without project admin priviliges' do
-          before do
-            allow(current_user).to receive(:allowed_to?)
-              .with(:edit_project, work_package.project)
-              .and_return(false)
-          end
+        context 'with admin privileges' do
+          include_context 'user with stubbed permissions', admin: true
 
+          it_behaves_like 'links to project custom field admin'
+        end
+
+        context 'without project admin priviliges' do
           it 'has no link to set the custom fields for that project' do
             is_expected.to_not have_json_path('_links/customFields')
           end
         end
 
-        context 'with project and general admin priviliges' do
-          let(:current_user) { FactoryBot.build_stubbed(:admin) }
+        context 'with project admin privileges' do
+          let(:permissions) { [:edit_project] }
 
-          before do
-            allow(current_user).to receive(:allowed_to?)
-              .with(:edit_project, work_package.project)
-              .and_return(false)
-          end
-
-          it 'has a link to set the custom fields for that project' do
-            expected = {
-              href: "/projects/#{work_package.project.identifier}/settings/custom_fields",
-              type: "text/html",
-              title: "Custom fields"
-            }
-
-            is_expected
-              .to be_json_eql(expected.to_json)
-              .at_path('_links/customFields')
-          end
+          it_behaves_like 'links to project custom field admin'
         end
       end
 
       describe 'configureForm' do
-        before do
-          allow(current_user).to receive(:allowed_to?).and_return(true)
-        end
-
         context "as admin" do
-          let(:current_user) { FactoryBot.build_stubbed(:admin) }
+          include_context 'user with stubbed permissions', admin: true
 
           context 'with type' do
-            let(:type) { FactoryBot.build_stubbed(:type) }
-            let(:work_package) do
-              FactoryBot.build(:work_package,
-                               id: 42,
-                               created_at: DateTime.now,
-                               updated_at: DateTime.now,
-                               type: type)
-            end
-
-            before do
-              allow(current_user).to receive(:allowed_to?)
-                .with(:edit_project, work_package.project)
-                .and_return(false)
-            end
-
             it 'has a link to configure the form' do
               expected = {
                 href: "/types/#{type.id}/edit?tab=form_configuration",
@@ -217,10 +172,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
           end
 
           context 'without type' do
-            before do
-              allow(work_package).to receive(:type).and_return(nil)
-              allow(work_package).to receive(:type_id).and_return(nil)
-            end
+            let(:type) { nil }
 
             it 'has no link to configure the form' do
               is_expected.to_not have_json_path('_links/configureForm')

@@ -32,10 +32,10 @@ require_relative '../support/pages/ifc_models/index'
 require_relative '../support/pages/ifc_models/show_default'
 
 describe 'show default model', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: [:bim] }
+  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:show_default_page) { Pages::IfcModels::ShowDefault.new(project) }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models]) }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models view_work_packages manage_ifc_models]) }
 
   let(:user) do
     FactoryBot.create :user,
@@ -44,7 +44,7 @@ describe 'show default model', type: :feature, js: true do
   end
 
   let(:model) do
-    FactoryBot.create(:ifc_model_converted,
+    FactoryBot.create(:ifc_model_minimal_converted,
                       is_default: model_is_default,
                       project: project,
                       uploader: user)
@@ -54,6 +54,15 @@ describe 'show default model', type: :feature, js: true do
   before do
     login_as(user)
     model
+  end
+
+  context 'when the work package module not loaded' do
+    let(:project) { FactoryBot.create :project, enabled_module_names: [:bim] }
+
+    it 'shows an error loading the page' do
+      show_default_page.visit!
+      show_default_page.expect_notification(type: :error, message: 'Your view is erroneous and could not be processed')
+    end
   end
 
   context 'with everything ready' do

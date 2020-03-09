@@ -126,22 +126,19 @@ class CostObjectsController < ApplicationController
     @cost_object.project_id = @project.id
 
     # fixed_date must be set before material_budget_items and labor_budget_items
-    if params[:cost_object] && params[:cost_object][:fixed_date]
-      @cost_object.fixed_date = params[:cost_object].delete(:fixed_date)
-    else
-      @cost_object.fixed_date = Date.today
-    end
+    @cost_object.fixed_date = if params[:cost_object] && params[:cost_object][:fixed_date]
+                                params[:cost_object].delete(:fixed_date)
+                              else
+                                Date.today
+                              end
 
     @cost_object.attributes = permitted_params.cost_object
     @cost_object.attach_files(permitted_params.attachments.to_h)
 
     if @cost_object.save
-      render_attachment_warning_if_needed(@cost_object)
-
       flash[:notice] = t(:notice_successful_create)
       redirect_to(params[:continue] ? { action: 'new' } :
                       { action: 'show', id: @cost_object })
-      return
     else
       render action: 'new', layout: !request.xhr?
     end
@@ -172,8 +169,6 @@ class CostObjectsController < ApplicationController
     @cost_object.attach_files(permitted_params.attachments.to_h)
 
     if @cost_object.save
-      render_attachment_warning_if_needed(@cost_object)
-
       flash[:notice] = t(:notice_successful_update)
       redirect_to(params[:back_to] || { action: 'show', id: @cost_object })
     else

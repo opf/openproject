@@ -30,11 +30,12 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {HideSectionDefinition, HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
+export const addSectionDropdownSelector = 'add-section-dropdown';
+
 @Component({
-  selector: 'add-section-dropdown',
+  selector: addSectionDropdownSelector,
   templateUrl: './add-section-dropdown.component.html'
 })
 export class AddSectionDropdownComponent implements OnInit, OnDestroy {
@@ -78,5 +79,3 @@ export class AddSectionDropdownComponent implements OnInit, OnDestroy {
     this.hideSectionService.show(value);
   }
 }
-
-DynamicBootstrapper.register({ cls: AddSectionDropdownComponent, selector: 'add-section-dropdown'});

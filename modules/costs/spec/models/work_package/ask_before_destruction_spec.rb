@@ -57,12 +57,12 @@ describe WorkPackage, type: :model do
   let(:priority) { FactoryBot.create(:priority) }
   let(:cost_type) { FactoryBot.create(:cost_type) }
   let(:cost_entry) {
-    FactoryBot.build(:cost_entry, work_package: work_package,
+    FactoryBot.create(:cost_entry, work_package: work_package,
                                    project: work_package.project,
                                    cost_type: cost_type)
   }
   let(:cost_entry2) {
-    FactoryBot.build(:cost_entry, work_package: work_package2,
+    FactoryBot.create(:cost_entry, work_package: work_package2,
                                    project: work_package2.project,
                                    cost_type: cost_type)
   }
@@ -71,7 +71,7 @@ describe WorkPackage, type: :model do
     describe 'w/ the work package having a cost entry' do
       before do
         work_package
-        cost_entry.save!
+        cost_entry
       end
 
       it 'should be true' do
@@ -82,8 +82,8 @@ describe WorkPackage, type: :model do
     describe 'w/ two work packages having a cost entry' do
       before do
         work_package
-        cost_entry.save!
-        cost_entry2.save!
+        cost_entry
+        cost_entry2
       end
 
       it 'should be true' do
@@ -106,7 +106,7 @@ describe WorkPackage, type: :model do
     describe 'w/ the work package having a cost entry' do
       before do
         work_package
-        cost_entry.save!
+        cost_entry
       end
 
       it "should be have 'CostEntry' as class to address" do
@@ -129,7 +129,7 @@ describe WorkPackage, type: :model do
     before do
       work_package.save!
 
-      cost_entry.save!
+      cost_entry
     end
 
     describe 'w/o a cleanup beeing necessary' do

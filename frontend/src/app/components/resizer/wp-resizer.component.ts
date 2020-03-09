@@ -42,9 +42,10 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   @Input() elementClass:string;
   @Input() resizeEvent:string;
   @Input() localStorageKey:string;
+  @Input() resizeStyle:'flexBasis'|'width' = 'flexBasis';
 
   private resizingElement:HTMLElement;
-  private elementFlex:number;
+  private elementWidth:number;
   private oldPosition:number;
   private mouseMoveHandler:any;
   private element:HTMLElement;
@@ -62,21 +63,20 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     this.resizingElement = <HTMLElement>document.getElementsByClassName(this.elementClass)[0];
 
     // Get initial width from local storage and apply
-    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
-    this.elementFlex = localStorageValue ? parseInt(localStorageValue,
-      10) : this.resizingElement.offsetWidth;
+    let localStorageValue = this.parseLocalStorageValue();
+    this.elementWidth = localStorageValue || this.resizingElement.offsetWidth;
 
     // This case only happens when the timeline is loaded but not displayed.
     // Therefor the flexbasis will be set to 50%, just in px
-    if (this.elementFlex === 0 && this.resizingElement.parentElement) {
-      this.elementFlex = this.resizingElement.parentElement.offsetWidth / 2;
+    if (this.elementWidth === 0 && this.resizingElement.parentElement) {
+      this.elementWidth = this.resizingElement.parentElement.offsetWidth / 2;
     }
-    this.resizingElement.style.flexBasis = this.elementFlex + 'px';
+    this.resizingElement.style[this.resizeStyle] = this.elementWidth + 'px';
 
     // Wait until dom content is loaded and initialize column layout
     // Otherwise function will be executed with empty list
     jQuery(document).ready(() => {
-      this.applyColumnLayout(this.resizingElement, this.elementFlex);
+      this.applyColumnLayout(this.resizingElement, this.elementWidth);
     });
 
     // Add event listener
@@ -99,7 +99,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // Reset the style when killing this directive, otherwise the style remains
-    this.resizingElement.style.flexBasis = null;
+    this.resizingElement.style[this.resizeStyle] = '';
   }
 
   @HostListener('mousedown', ['$event'])
@@ -113,6 +113,14 @@ export class WpResizerDirective implements OnInit, OnDestroy {
       this.oldPosition = e.clientX;
 
       this.moving = true;
+
+      // In case we dragged the resizer farther than the element can actually grow,
+      // we reset it to the actual width at the start of the new resizing
+      let localStorageValue = this.parseLocalStorageValue();
+      let actualElementWidth = this.resizingElement.offsetWidth;
+      if (localStorageValue && localStorageValue > actualElementWidth) {
+        this.elementWidth = actualElementWidth;
+      }
 
       // Necessary to encapsulate this to be able to remove the eventlistener later
       this.mouseMoveHandler = this.resizeElement.bind(this, this.resizingElement);
@@ -132,9 +140,9 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   @HostListener('window:touchend', ['$event'])
   private handleTouchEnd(e:MouseEvent) {
     window.removeEventListener('touchmove', this.mouseMoveHandler);
-    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
+    let localStorageValue = this.parseLocalStorageValue();
     if (localStorageValue) {
-      this.elementFlex = parseInt(localStorageValue, 10);
+      this.elementWidth = localStorageValue;
     }
   }
 
@@ -150,12 +158,12 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     // Change cursor icon back
     document.body.style.cursor = 'auto';
 
-    // Take care at the end that the elementFlex-Value is the same as the actual value
+    // Take care at the end that the elementWidth-Value is the same as the actual value
     // When the mouseup is outside the container these values will differ
     // which will cause problems at the next movement start
-    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
+    let localStorageValue = this.parseLocalStorageValue();
     if (localStorageValue) {
-      this.elementFlex = parseInt(localStorageValue, 10);
+      this.elementWidth = localStorageValue;
     }
 
     this.moving = false;
@@ -165,6 +173,17 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     window.dispatchEvent(event);
 
     return false;
+  }
+
+  private parseLocalStorageValue():number|undefined {
+    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
+    let number = parseInt(localStorageValue || '', 10);
+
+    if (typeof number === 'number' && number !== NaN) {
+      return number;
+    }
+
+    return undefined;
   }
 
   private resizeElement(element:HTMLElement, e:MouseEvent) {
@@ -177,8 +196,8 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
     // Get new value depending on the delta
     // The resizingElement is not allowed to be smaller than 530px
-    this.elementFlex = this.elementFlex + delta;
-    let newValue = this.elementFlex < 530 ? 530 : this.elementFlex;
+    this.elementWidth = this.elementWidth + delta;
+    let newValue = this.elementWidth < 530 ? 530 : this.elementWidth;
 
     // Store item in local storage
     window.OpenProject.guardedLocalStorage(this.localStorageKey, String(newValue));
@@ -187,7 +206,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     this.applyColumnLayout(element, newValue);
 
     // Set new width
-    element.style.flexBasis = newValue + 'px';
+    element.style[this.resizeStyle] = newValue + 'px';
   }
 
   private applyColumnLayout(element:HTMLElement, newWidth:number) {

@@ -87,7 +87,7 @@ We want to keep the Pull request list as cleaned up as possible - we will aim cl
 
 ## Security
 
-If you notice a security issue in OpenProject, please send us a gpg encrypted email to security@openproject.com and describe the issue you found. Download our public gpg key [here](https://pgp.mit.edu/pks/lookup?op=get&search=0x7D669C6D47533958).
+If you notice a security issue in OpenProject, please send us a gpg encrypted email to security@openproject.com and describe the issue you found. Download our public gpg key BDCF E01E DE84 EA19 9AE1 72CE 7D66 9C6D 4753 3958 [here](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D47533958).
 
 Please include a description on how to reproduce the issue if possible. Our security team will get your email and will attempt to reproduce and fix the issue as soon as possible.
 
@@ -107,7 +107,11 @@ This code of conduct is adapted from the [Contributor Covenant](http://contribut
 
 
 
+## OpenProject Contributor License Agreement (CLA) 
 
+If you want to contribute to OpenProject, please make sure to accept our Contributor License Agreement first. The contributor license agreement documents the rights granted by contributors to OpenProject. 
+
+[Read and accept the Contributor License Agreement here.](http://openproject.org/contributor-license-agreement/)
 
 # Additional resources
 
@@ -119,3 +123,4 @@ This code of conduct is adapted from the [Contributor Covenant](http://contribut
 * [Running Tests](running-tests)
 * [API Documentation](/api/)
 * [Report a Bug](report-a-bug)
+

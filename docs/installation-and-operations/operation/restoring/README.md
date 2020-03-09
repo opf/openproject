@@ -63,7 +63,7 @@ tar xzf svn-repositories-20191119210038.tar.gz -C /var/db/openproject/svn
 
 Note: in this section, the `<dbusername>`, `<dbhost>` and `<dbname>` variables that appear below have to be replaced with
 the values that are contained in the `DATABASE_URL` setting of your
-installation. This setting can be seen by running:
+installation. 
 
 First, get the necessary details about your database:
 

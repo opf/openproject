@@ -14,7 +14,7 @@ ja:
     exceptions:
       file_invalid: "BCFファイルが無効"
     x_bcf_issues:
-      zero: 'No BCF issues'
+      zero: 'BCF チケットがありません'
       other: '%{count} BCFチケット'
     bcf_xml:
       xml_file: 'BCF XML ファイル'
@@ -69,7 +69,7 @@ ja:
       bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "IFCモデル"
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "IFCファイル"

@@ -109,7 +109,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       copiedFromWorkPackageId: selected[0].id
     };
 
-    this.$state.go('work-packages.list.copy', params);
+    this.$state.go('work-packages.partitioned.list.copy', params);
   }
 
   private getSelectedWorkPackages() {
@@ -171,7 +171,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
           disabled: false,
           icon: 'icon-view-split',
           class: 'detailsViewMenuItem',
-          href: this.$state.href('work-packages.list.details.overview', {workPackageId: this.workPackageId}),
+          href: this.$state.href('work-packages.partitioned.list.details.overview', {workPackageId: this.workPackageId}),
           linkText: I18n.t('js.button_open_details'),
           onClick: ($event:JQuery.TriggeredEvent) => {
             if (LinkHandling.isClickedWithModifier($event)) {
@@ -179,7 +179,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
             }
 
             this.$state.go(
-              'work-packages.list.details.overview',
+              'work-packages.partitioned.list.details.overview',
               {workPackageId: this.workPackageId}
             );
             return true;

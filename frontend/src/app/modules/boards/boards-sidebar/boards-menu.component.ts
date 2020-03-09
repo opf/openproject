@@ -3,14 +3,15 @@ import {Observable} from "rxjs";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
 import {map} from "rxjs/operators";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
+export const boardsMenuSelector = 'boards-menu';
+
 @Component({
-  selector: 'boards-menu',
+  selector: boardsMenuSelector,
   templateUrl: './boards-menu.component.html'
 })
 
@@ -51,4 +52,3 @@ export class BoardsMenuComponent implements OnInit {
     buttonArrowLeft.focus();
   }
 }
-DynamicBootstrapper.register({selector: 'boards-menu', cls: BoardsMenuComponent});

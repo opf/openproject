@@ -31,9 +31,9 @@ require 'spec_helper'
 require_relative '../support/pages/ifc_models/index'
 
 describe 'model management', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: [:bim] }
+  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models]) }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_bcf manage_ifc_models view_work_packages]) }
 
   let(:user) do
     FactoryBot.create :user,
@@ -42,15 +42,23 @@ describe 'model management', type: :feature, js: true do
   end
 
   let(:model) do
-    FactoryBot.create(:ifc_model_converted,
+    FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user)
   end
+
+  let(:model2) do
+    FactoryBot.create(:ifc_model_minimal_converted,
+                      project: project,
+                      uploader: user)
+  end
+
 
   context 'with all permissions' do
     before do
       login_as(user)
       model
+      model2
       index_page.visit!
     end
 
@@ -67,14 +75,17 @@ describe 'model management', type: :feature, js: true do
     it 'I can see single models and the defaults' do
       index_page.model_listed true, model.title
       index_page.show_model model
+      index_page.bcf_buttons true
 
+      index_page.visit!
       index_page.model_listed true, model.title
       index_page.show_defaults
+      index_page.bcf_buttons true
     end
   end
 
   context 'with only viewing permissions' do
-    let(:view_role) { FactoryBot.create(:role, permissions: %i[view_ifc_models]) }
+    let(:view_role) { FactoryBot.create(:role, permissions: %i[view_ifc_models view_work_packages]) }
     let(:view_user) do
       FactoryBot.create :user,
                         member_in_project: project,
@@ -84,6 +95,7 @@ describe 'model management', type: :feature, js: true do
     before do
       login_as(view_user)
       model
+      model2
       index_page.visit!
     end
 
@@ -98,6 +110,8 @@ describe 'model management', type: :feature, js: true do
       index_page.model_listed true, model.title
       index_page.show_model model
 
+      index_page.visit!
+      index_page.bcf_buttons false
       index_page.model_listed true, model.title
       index_page.show_defaults
     end

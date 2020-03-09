@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, OnDestroy, OnInit, Renderer2} from '@angular/core';
+import { ChangeDetectorRef, OnDestroy, OnInit, Renderer2, Directive } from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Title} from '@angular/platform-browser';
 import {GridInitializationService} from "core-app/modules/grids/grid/initialization.service";
@@ -8,6 +8,7 @@ import {GridAddWidgetService} from "core-app/modules/grids/grid/add-widget.servi
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
+@Directive()
 export abstract class GridPageComponent implements OnInit, OnDestroy {
   public text = { title: this.i18n.t(`js.${this.i18nNamespace()}.label`),
                   html_title: this.i18n.t(`js.${this.i18nNamespace()}.label`) };

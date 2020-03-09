@@ -50,12 +50,6 @@ import {GlobalSearchWorkPackagesEntryComponent} from "core-app/modules/global_se
     GlobalSearchWorkPackagesComponent,
     GlobalSearchTabsComponent,
     GlobalSearchTitleComponent,
-  ],
-  entryComponents: [
-    GlobalSearchInputComponent,
-    GlobalSearchWorkPackagesEntryComponent,
-    GlobalSearchTabsComponent,
-    GlobalSearchTitleComponent
   ]
 })
 export class OpenprojectGlobalSearchModule { }

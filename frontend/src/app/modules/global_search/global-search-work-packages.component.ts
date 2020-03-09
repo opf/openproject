@@ -155,6 +155,3 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
   }
 }
 
-DynamicBootstrapper.register({
-  selector: globalSearchWorkPackagesSelector, cls: GlobalSearchWorkPackagesComponent
-});

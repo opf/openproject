@@ -28,7 +28,7 @@
 
 FactoryBot.define do
   factory :ifc_model, class: ::Bim::IfcModels::IfcModel do
-    title { 'My IFC model' }
+    sequence(:title) { |n| "Unconverted IFC model #{n}" }
     project factory: :project
     uploader factory: :user
     is_default { true }
@@ -39,8 +39,8 @@ FactoryBot.define do
       )
     end
 
-    factory :ifc_model_converted do
-      title { 'My IFC model' }
+    factory :ifc_model_minimal_converted do
+      sequence(:title) { |n| "Converted IFC model #{n}" }
       project factory: :project
       uploader factory: :user
       is_default { true }

@@ -26,16 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {Subscription} from 'rxjs';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {ResizeDelta} from "core-app/modules/common/resizer/resizer.component";
 import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
 
+export const mainMenuResizerSelector = 'main-menu-resizer';
+
 @Component({
-  selector: 'main-menu-resizer',
+  selector: mainMenuResizerSelector,
   template: `
     <resizer class="main-menu--resizer"
              [customHandler]="true"
@@ -103,5 +104,3 @@ export class MainMenuResizerComponent implements OnInit, OnDestroy {
     window.dispatchEvent(event);
   }
 }
-
-DynamicBootstrapper.register({ selector: 'main-menu-resizer', cls: MainMenuResizerComponent  });

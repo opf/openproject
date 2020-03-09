@@ -339,8 +339,9 @@ class PermittedParams
   # `params.fetch` and not `require` because the update controller action associated
   # with this is doing multiple things, therefore not requiring a message hash
   # all the time.
-  def message(instance = nil)
-    if instance && current_user.allowed_to?(:edit_messages, instance.project)
+  def message(project = nil)
+    # TODO: Move this distinction into the contract where it belongs
+    if project && current_user.allowed_to?(:edit_messages, project)
       params.fetch(:message, {}).permit(:subject, :content, :forum_id, :locked, :sticky)
     else
       params.fetch(:message, {}).permit(:subject, :content, :forum_id)
@@ -367,6 +368,7 @@ class PermittedParams
             # We rely on enum being an integer, an id that is. This will blow up
             # otherwise, which is fine.
             next if params[:enumerations][enum][param].nil?
+
             whitelist[enum][param] = params[:enumerations][enum][param]
           end
         end

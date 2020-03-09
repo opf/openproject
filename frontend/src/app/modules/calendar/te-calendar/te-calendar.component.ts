@@ -60,7 +60,7 @@ const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
   ]
 })
 export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(FullCalendarComponent, { static: false }) ucCalendar:FullCalendarComponent;
+  @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
   @Output() entries = new EventEmitter<CollectionResource<TimeEntryResource>>();
@@ -510,7 +510,7 @@ export class TimeEntryCalendarComponent implements OnInit, OnDestroy, AfterViewI
       name +=  ` - ${this.workPackageName(entry)}`;
     }
 
-    return this.sanitizedValue(name) || '-';
+    return name || '-';
   }
 
   private workPackageName(entry:TimeEntryResource) {

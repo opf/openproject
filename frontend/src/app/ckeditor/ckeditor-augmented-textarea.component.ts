@@ -26,23 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnInit, OnDestroy, ViewChild, AfterContentInit, HostListener} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
 import {States} from 'core-components/states.service';
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil, filter} from 'rxjs/operators';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {filter, takeUntil} from 'rxjs/operators';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
 
 
+export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
+
 @Component({
-  selector: 'ckeditor-augmented-textarea',
+  selector: ckeditorAugmentedTextareaSelector,
   templateUrl: './ckeditor-augmented-textarea.html'
 })
 export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
@@ -214,9 +215,3 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
     });
   }
 }
-
-DynamicBootstrapper.register({
-  selector: 'ckeditor-augmented-textarea',
-  cls: CkeditorAugmentedTextareaComponent,
-  embeddable: true
-});

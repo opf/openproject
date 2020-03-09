@@ -253,11 +253,11 @@ export class TimelineCellRenderer {
 
   protected checkForActiveSelectionMode(renderInfo:RenderInfo, element:HTMLElement) {
     if (renderInfo.viewParams.activeSelectionMode) {
-      element.style.backgroundImage = null; // required! unable to disable "fade out bar" with css
+      element.style.backgroundImage = ''; // required! unable to disable "fade out bar" with css
 
       if (renderInfo.viewParams.selectionModeStart === '' + renderInfo.workPackage.id!) {
         jQuery(element).addClass(timelineMarkerSelectionStartClass);
-        element.style.background = null;
+        element.style.background = 'none';
       }
     }
   }

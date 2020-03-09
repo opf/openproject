@@ -35,6 +35,6 @@ import {WorkPackageCopyController} from 'core-components/wp-copy/wp-copy.control
   templateUrl: '../wp-new/wp-new-split-view.html'
 })
 export class WorkPackageCopySplitViewComponent extends WorkPackageCopyController {
-  public successState = 'work-packages.list.details';
+  public successState = 'work-packages.partitioned.list.details';
 }
 

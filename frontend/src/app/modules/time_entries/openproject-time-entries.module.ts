@@ -48,12 +48,6 @@ import {TimeEntryFormComponent} from "core-app/modules/time_entries/form/form.co
     TimeEntryEditModal,
     TimeEntryCreateModal,
     TimeEntryFormComponent
-  ],
-  entryComponents: [
-    TimeEntryEditModal,
-    TimeEntryCreateModal,
-  ],
-  exports: [
   ]
 })
 export class OpenprojectTimeEntriesModule {
