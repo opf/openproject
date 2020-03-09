@@ -1,10 +1,18 @@
-<h3 class="attributes-group header-text">BCF</h3>
-<div class="bcf--viewpoints">
-  <ngx-gallery [options]="galleryOptions"
-               [images]="galleryImages"
-               (previewOpen)="galleryPreviewOpen()"
-               (previewClose)="galleryPreviewClose()">
-  </ngx-gallery>
-</div>
+<div class="attributes-group description-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"
+          [textContent]="text.bcf"></h3>
+    </div>
+  </div>
 
-<bcf-add-viewpoint-button [workPackage]="workPackage"></bcf-add-viewpoint-button>
+  <div class="bcf--viewpoints">
+    <ngx-gallery [options]="galleryOptions"
+                 [images]="galleryImages"
+                 (previewOpen)="galleryPreviewOpen()"
+                 (previewClose)="galleryPreviewClose()">
+    </ngx-gallery>
+  </div>
+
+  <bcf-add-viewpoint-button [workPackage]="workPackage"></bcf-add-viewpoint-button>
+</div>

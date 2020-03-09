@@ -9,6 +9,7 @@ import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
 import {BcfViewpointPaths} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.paths";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {ModelViewerService} from "core-app/modules/bcf/services/model-viewer.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export type ViewPointOriginal = { uuid:string, snapshot_id:string, snapshot_file_name:string };
 export type ViewPoint = { snapshotId:string, snapshotFileName?:string, snapshotFullPath:string };
@@ -50,14 +51,14 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       downloadIcon: 'icon-download',
       thumbnailActions: [
         {
-          icon: 'icon-modules',
+          icon: 'icon-watched',
           onClick: this.setViewpoint.bind(this),
           titleText: 'Set viewpoint'
         }
       ],
       actions: [
         {
-          icon: 'icon-modules',
+          icon: 'icon-watched',
           onClick: this.setViewpoint.bind(this),
           titleText: 'Set viewpoint'
         }
@@ -84,7 +85,9 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
 
   viewpoints:ViewPoint[];
 
-  text = {};
+  text = {
+    bcf: this.I18n.t('js.bcf.label_bcf')
+  };
 
   constructor(readonly state:StateService,
               readonly pathHelper:PathHelperService,
@@ -92,7 +95,7 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
               readonly bcfApi:BcfApiService,
               readonly modelViewerService:ModelViewerService,
               readonly revitBridge:RevitBridgeService,
-  ) {
+              readonly I18n:I18nService) {
   }
 
   ngOnInit():void {
