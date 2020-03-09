@@ -24,7 +24,7 @@ export interface BCFLoadOptions {
 
 @Injectable()
 export class IFCViewerService {
-  private viewer:any;
+  private _viewer:any;
 
   public newViewer(elements:XeokitElements, projects:any[]) {
     import('@xeokit/xeokit-viewer/dist/main').then((XeokitViewerModule:any) => {
@@ -59,6 +59,14 @@ export class IFCViewerService {
 
     this.viewer.viewer.scene.destroy();
     this.viewer = undefined;
+  }
+
+  public get viewer() {
+    return this._viewer;
+  }
+
+  public set viewer(viewer:any) {
+    this._viewer = viewer;
   }
 
   public saveBCFViewpoint(options:BCFCreationOptions = {}):BcfViewpointInterface {
