@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {XeokitServer} from "core-app/modules/ifc_models/xeokit/xeokit-server";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -19,6 +20,8 @@ export interface BCFCreationOptions {
 export class IFCViewerService {
   private viewer:any;
 
+  public constructor(private readonly httpClient:HttpClient) {}
+
   public newViewer(elements:XeokitElements, projects:any[]) {
     import('@xeokit/xeokit-viewer/dist/main').then((XeokitViewerModule:any) => {
       let server = new XeokitServer();
@@ -33,6 +36,29 @@ export class IFCViewerService {
       viewerUI.loadProject(projects[0]["id"]);
 
       this.viewer = viewerUI;
+      setTimeout(() => {
+        const headers = new HttpHeaders().set("Content-Type", "application/json");
+        const vp = this.saveBCFViewpoint({
+          spacesVisible: true,
+          spaceBoundariesVisible: true,
+          openingsVisible: true
+        });
+        delete vp.bitmaps;
+
+        console.log("vp", vp);
+        this.httpClient
+          .post(
+            `/api/bcf/2.1/projects/demo-bcf-management-project/topics/00efc0da-b4d5-4933-bcb6-e01513ee2bcc/viewpoints`,
+            vp,
+            {
+              headers: headers,
+              withCredentials: true,
+              responseType: 'json'
+            }
+          ).subscribe((data) => {
+            console.log("Response of posting viewpoint", data);
+          });
+      }, 20000);
     });
   }
 
@@ -53,7 +79,7 @@ export class IFCViewerService {
     this.viewer.viewer.scene.destroy();
   }
 
-  public saveBCFViewpoint(options:BCFCreationOptions):JSON {
+  public saveBCFViewpoint(options:BCFCreationOptions):any {
     return this.viewer.saveBCFViewpoint(options);
   }
 }

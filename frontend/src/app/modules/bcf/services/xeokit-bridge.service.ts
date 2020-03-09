@@ -9,7 +9,7 @@ export class XeokitBridgeService implements ViewerBridgeServiceInterface {
   }
 
   public getViewpoint():Promise<any> {
-    // console.log("getViewpoint from XeokitViewerService.getViewer()", this.xeokitViewerService.getViewer());
+    console.log("getViewpoint from ifcViewerService.getViewer()", this.xeokitViewerService.getViewer());
     return new Promise((resolve, reject) => {});
   }
 }
