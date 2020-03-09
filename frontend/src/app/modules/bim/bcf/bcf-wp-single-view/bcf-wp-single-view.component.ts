@@ -7,8 +7,8 @@ import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
 import {BcfViewpointPaths} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.paths";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {ModelViewerService} from "core-app/modules/bcf/services/model-viewer.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 export type ViewPointOriginal = { uuid:string, snapshot_id:string, snapshot_file_name:string };
 export type ViewPoint = { snapshotId:string, snapshotFileName?:string, snapshotFullPath:string };
@@ -94,7 +94,7 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
               readonly pathHelper:PathHelperService,
               readonly currentProject:CurrentProjectService,
               readonly bcfApi:BcfApiService,
-              readonly modelViewerService:ModelViewerService,
+              readonly viewerBridge:ViewerBridgeService,
               readonly I18n:I18nService) {
   }
 
@@ -138,12 +138,12 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       .get()
       .subscribe(data => {
         // TODO abstract from revit
-        this.modelViewerService.showViewpoint(data);
+        this.viewerBridge.showViewpoint(data);
       });
   }
 
   async saveCurrentAsViewpoint() {
-    const viewpoint = await this.modelViewerService.getViewpoint();
+    const viewpoint = await this.viewerBridge.getViewpoint();
 
     this.bcfApi
       .projects.id(this.workPackage.project.idFromLink)

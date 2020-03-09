@@ -1,8 +1,8 @@
-import {ViewerBridgeServiceInterface} from "core-app/modules/bcf/services/viewer-bridge.service";
 import {Injectable} from '@angular/core';
 import {Subject} from "rxjs";
 import {distinctUntilChanged, filter, first} from "rxjs/operators";
 import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 declare global {
   interface Window {
@@ -11,7 +11,7 @@ declare global {
 }
 
 @Injectable()
-export class RevitBridgeService implements ViewerBridgeServiceInterface {
+export class RevitBridgeService extends ViewerBridgeService {
   private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:string }>();
   private _trackingIdNumber = 0;
   private _ready = false;
@@ -23,6 +23,8 @@ export class RevitBridgeService implements ViewerBridgeServiceInterface {
   }
 
   constructor() {
+    super();
+   
     if (window.RevitBridge) {
       console.log("window.RevitBridge is already there, so let's hook up the Revit Listener");
       this.hookUpRevitListener();

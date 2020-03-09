@@ -33,16 +33,15 @@ import {DisplayFieldService} from "core-app/modules/fields/display/display-field
 import {BcfThumbnailDisplayField} from "core-app/modules/bim/bcf/fields/display/bcf-thumbnail-field.module";
 import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
 import {BcfWpSingleViewComponent} from "core-app/modules/bim/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
-import {BcfAddViewpointButtonComponent} from "core-app/modules/bcf/bcf-buttons/bcf-add-viewpoint-button.component";
-import {RevitBridgeService} from "core-app/modules/bcf/services/revit-bridge.service";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {OpenProjectHeaderInterceptor} from "core-app/modules/hal/http/openproject-header-interceptor";
-import {ModelViewerService} from "core-app/modules/bcf/services/model-viewer.service";
-import {XeokitBridgeService} from "core-app/modules/bcf/services/xeokit-bridge.service";
 import {BcfDetectorService} from "core-app/modules/bim/bcf/helper/bcf-detector.service";
 import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
-import {BcfImportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf-import-button.component";
-import {BcfExportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf-export-button.component";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import {viewerBridgeServiceFactory} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge-service.factory";
+import {BcfImportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
+import {BcfExportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
+import {BcfAddViewpointButtonComponent} from "core-app/modules/bim/bcf/bcf-gallery/bcf-add-viewpoint-button.component";
 
 @NgModule({
   imports: [
@@ -54,9 +53,7 @@ import {BcfExportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     BcfDetectorService,
     BcfPathHelperService,
-    ModelViewerService,
-    RevitBridgeService,
-    XeokitBridgeService
+    { provide: ViewerBridgeService, useFactory: viewerBridgeServiceFactory }
   ],
   declarations: [
     BcfWpSingleViewComponent,

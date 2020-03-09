@@ -31,7 +31,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {ModelViewerService} from "core-app/modules/bcf/services/model-viewer.service";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Component({
   template: `
@@ -52,21 +52,19 @@ export class BcfAddViewpointButtonComponent implements OnInit, OnDestroy {
 
   constructor(readonly I18n:I18nService,
               readonly currentProject:CurrentProjectService,
-              readonly modelViewerService:ModelViewerService,
+              readonly viewerBridge:ViewerBridgeService,
               readonly httpClient:HttpClient) {
   }
 
   public handleClick() {
-    console.log("handleClick");
-    this.modelViewerService.getViewpoint().then((message) => this.saveViewpoint(message));
+    this.viewerBridge.getViewpoint().then((message) => this.saveViewpoint(message));
   }
 
   private saveViewpoint(message:any):void {
-    console.log('save viewpoint with', message);
-    var viewpointJson = message["messagePayload"];
+    let viewpointJson = message["messagePayload"];
 
     viewpointJson.snapshot = {
-	    snapshot_type: 'png',
+      snapshot_type: 'png',
       snapshot_data: viewpointJson.snapshot
     };
 
@@ -82,8 +80,8 @@ export class BcfAddViewpointButtonComponent implements OnInit, OnDestroy {
           responseType: 'json'
         }
       ).subscribe((data) => {
-        console.log("Response of posting viewpoint", data);
-      });
+      console.log("Response of posting viewpoint", data);
+    });
   }
 
 
