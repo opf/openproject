@@ -60,8 +60,13 @@ module Pages
     end
 
     def open_full_screen_by_doubleclick(work_package)
-      loading_indicator_saveguard
-      page.driver.browser.action.double_click(card(work_package).native).perform
+      retry_block do
+        loading_indicator_saveguard
+        page.driver.browser.action.double_click(card(work_package).native).perform
+
+        # Ensure we show the subject field
+        page.find('.work-packages--subject-type-row')
+      end
 
       Pages::FullWorkPackage.new(work_package, project)
     end
