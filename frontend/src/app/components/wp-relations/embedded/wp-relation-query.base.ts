@@ -27,7 +27,7 @@
 //++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {ViewChild} from "@angular/core";
+import { ViewChild, Directive } from "@angular/core";
 import {WorkPackageEmbeddedTableComponent} from "core-components/wp-table/embedded/wp-embedded-table.component";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
@@ -35,6 +35,7 @@ import {ErrorResource} from "core-app/modules/hal/resources/error-resource";
 import {query} from "@angular/animations";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
+@Directive()
 export abstract class WorkPackageRelationQueryBase {
   public workPackage:WorkPackageResource;
 
@@ -48,7 +49,7 @@ export abstract class WorkPackageRelationQueryBase {
   public hidden:boolean = false;
 
   /** Reference to the embedded table instance */
-  @ViewChild('embeddedTable', { static: false }) protected embeddedTable:WorkPackageEmbeddedTableComponent;
+  @ViewChild('embeddedTable') protected embeddedTable:WorkPackageEmbeddedTableComponent;
 
   constructor(protected queryUrlParamsHelper:UrlParamsHelperService) {
   }

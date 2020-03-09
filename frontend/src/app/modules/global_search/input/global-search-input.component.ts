@@ -335,6 +335,4 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 }
 
-DynamicBootstrapper.register({
-  selector: globalSearchSelector, cls: GlobalSearchInputComponent
-});
+

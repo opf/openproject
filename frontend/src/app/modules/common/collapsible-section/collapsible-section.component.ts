@@ -28,7 +28,6 @@
 
 
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 export const collapsibleSectionAugmentSelector = 'collapsible-section-augment';
 
@@ -62,5 +61,3 @@ export class CollapsibleSectionComponent implements OnInit {
     this.expanded = !this.expanded;
   }
 }
-
-DynamicBootstrapper.register({ selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent });

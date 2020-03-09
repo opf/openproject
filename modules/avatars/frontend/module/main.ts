@@ -35,9 +35,6 @@ import {HookService} from "../../hook-service";
     ],
     declarations: [
         AvatarUploadFormComponent
-    ],
-    entryComponents: [
-        AvatarUploadFormComponent
     ]
 })
 export class PluginModule {

@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, OnDestroy, OnInit} from '@angular/core';
+import { ChangeDetectorRef, OnDestroy, OnInit, Directive } from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
@@ -37,6 +37,7 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Transition} from "@uirouter/core";
 
+@Directive()
 export class ActivityPanelBaseController implements OnInit, OnDestroy {
   public workPackage:WorkPackageResource;
   public workPackageId:string;

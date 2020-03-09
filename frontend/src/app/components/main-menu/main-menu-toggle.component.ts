@@ -80,4 +80,3 @@ export class MainMenuToggleComponent implements OnInit, OnDestroy {
   }
 }
 
-DynamicBootstrapper.register({selector: 'main-menu-toggle', cls: MainMenuToggleComponent});

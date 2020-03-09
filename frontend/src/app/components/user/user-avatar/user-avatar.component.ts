@@ -41,8 +41,10 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
 
+export const userAvatarSelector = 'user-avatar';
+
 @Component({
-  selector: 'user-avatar',
+selector: userAvatarSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-avatar.component.html'
 })
@@ -105,4 +107,3 @@ export class UserAvatarComponent implements AfterViewInit {
   }
 }
 
-DynamicBootstrapper.register({ selector: 'user-avatar', cls: UserAvatarComponent  });

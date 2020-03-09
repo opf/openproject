@@ -165,15 +165,6 @@ export function registerBoardsModule(injector:Injector) {
     BoardListMenuComponent,
     BoardFilterComponent,
     VersionBoardHeaderComponent,
-  ],
-  entryComponents: [
-    BoardInlineAddAutocompleterComponent,
-    BoardsMenuComponent,
-    BoardConfigurationModal,
-    BoardHighlightingTabComponent,
-    NewBoardModalComponent,
-    AddListModalComponent,
-    VersionBoardHeaderComponent,
   ]
 })
 export class OpenprojectBoardsModule {

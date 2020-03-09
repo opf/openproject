@@ -102,24 +102,6 @@ import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/ed
     EditFormComponent,
     EditableAttributeFieldComponent,
     ProjectStatusEditFieldComponent,
-  ],
-  entryComponents: [
-    EditFormPortalComponent,
-    UserFieldPortalComponent,
-    BooleanEditFieldComponent,
-    DateEditFieldComponent,
-    DurationEditFieldComponent,
-    FloatEditFieldComponent,
-    IntegerEditFieldComponent,
-    FormattableEditFieldComponent,
-    PlainFormattableEditFieldComponent,
-    MultiSelectEditFieldComponent,
-    SelectEditFieldComponent,
-    TextEditFieldComponent,
-    WorkPackageEditFieldComponent,
-    TimeEntryWorkPackageEditFieldComponent,
-    EditableAttributeFieldComponent,
-    ProjectStatusEditFieldComponent,
   ]
 })
 export class OpenprojectFieldsModule {

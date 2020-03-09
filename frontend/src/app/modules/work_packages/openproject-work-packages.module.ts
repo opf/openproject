@@ -168,6 +168,7 @@ import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages
 import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
 import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
+import {WorkPackageCreateComponent} from "core-components/wp-new/wp-create.component";
 
 
 @NgModule({
@@ -378,94 +379,6 @@ import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-
     WorkPackageCardViewComponent,
     WorkPackageSingleCardComponent,
     WorkPackageViewToggleButton,
-  ],
-  entryComponents: [
-    // List view
-    WorkPackageListViewComponent,
-
-    // List view toolbar
-    WorkPackageCreateButtonComponent,
-    WorkPackageTimelineButtonComponent,
-    WorkPackageFilterButtonComponent,
-    WorkPackageDetailsViewButtonComponent,
-    WorkPackageViewToggleButton,
-    ZenModeButtonComponent,
-    WorkPackageSettingsButtonComponent,
-
-    // Split view
-    WorkPackageSplitViewComponent,
-
-    // Full view
-    WorkPackagesFullViewComponent,
-
-    // Single view tabs
-    WorkPackageActivityTabComponent,
-    WorkPackageRelationsTabComponent,
-    WorkPackageWatchersTabComponent,
-
-    // Single view
-    WorkPackageOverviewTabComponent,
-    WorkPackageCommentFieldComponent,
-
-    // Inline create
-    WpRelationInlineAddExistingComponent,
-
-    // View representations
-    WorkPackagesBaseComponent,
-    WorkPackagesGridComponent,
-
-    // WP new
-    WorkPackageNewFullViewComponent,
-    WorkPackageNewSplitViewComponent,
-
-    // WP copy
-    WorkPackageCopyFullViewComponent,
-    WorkPackageCopySplitViewComponent,
-
-    // Embedded table
-    WorkPackageEmbeddedTableComponent,
-    WorkPackageEmbeddedTableEntryComponent,
-
-    // External query configuration
-    ExternalQueryConfigurationComponent,
-    ExternalRelationQueryConfigurationComponent,
-
-    WorkPackageFormAttributeGroupComponent,
-    WorkPackageChildrenQueryComponent,
-    WorkPackageRelationQueryComponent,
-
-    WorkPackagesTableController,
-
-    // Modals
-    WpTableConfigurationModalComponent,
-    WpTableConfigurationRelationSelectorComponent,
-    WpTableConfigurationColumnsTab,
-    WpTableConfigurationDisplaySettingsTab,
-    WpTableConfigurationFiltersTab,
-    WpTableConfigurationSortByTab,
-    WpTableConfigurationTimelinesTab,
-    WpTableConfigurationHighlightingTab,
-    WpTableExportModal,
-    QuerySharingModal,
-    SaveQueryModal,
-    WpDestroyModal,
-
-    // Queries in menu
-    WorkPackageQuerySelectDropdownComponent,
-
-    // Relations tab (ng1 -> ng2)
-    WorkPackageRelationsHierarchyComponent,
-
-    // CKEditor macros which could not be included in the
-    // editor module to avoid circular dependencies
-    EmbeddedTablesMacroComponent,
-    WpButtonMacroModal,
-
-    // Card view
-    WorkPackageCardViewComponent,
-    WorkPackageSingleCardComponent,
-
-    CustomDateActionAdminComponent,
   ],
   exports: [
     WorkPackagesTableController,

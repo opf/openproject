@@ -62,15 +62,6 @@ import {CommonModule} from "@angular/common";
     WikiIncludePageMacroModal,
     CodeBlockMacroModal,
     ChildPagesMacroModal,
-  ],
-  entryComponents: [
-    // CKEditor and macros
-    CkeditorAugmentedTextareaComponent,
-
-    WikiIncludePageMacroModal,
-    CodeBlockMacroModal,
-    ChildPagesMacroModal,
-
   ]
 })
 export class OpenprojectEditorModule {

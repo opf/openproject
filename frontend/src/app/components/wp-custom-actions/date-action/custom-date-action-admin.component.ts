@@ -30,8 +30,11 @@ import {ApplicationRef, ChangeDetectorRef, Component, ElementRef, OnInit} from '
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
 
+
+export const customDateActionAdminSelector = 'custom-date-action-admin';
+
 @Component({
-  selector: 'custom-date-action-admin',
+  selector: customDateActionAdminSelector,
   templateUrl: './custom-date-action-admin.html'
 })
 export class CustomDateActionAdminComponent implements OnInit {
@@ -102,4 +105,4 @@ export class CustomDateActionAdminComponent implements OnInit {
   }
 }
 
-DynamicBootstrapper.register({ selector: 'custom-date-action-admin', cls: CustomDateActionAdminComponent });
+

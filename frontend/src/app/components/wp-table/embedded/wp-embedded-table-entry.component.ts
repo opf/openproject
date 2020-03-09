@@ -1,8 +1,9 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+
+export const wpTableEntrySelector = 'wp-embedded-table-entry';
 
 @Component({
-  selector: 'wp-embedded-table-entry',
+  selector: wpTableEntrySelector,
   template: `
     <ng-container wp-isolated-query-space>
       <wp-embedded-table [queryProps]="queryProps"
@@ -33,5 +34,3 @@ export class WorkPackageEmbeddedTableEntryComponent implements OnInit {
     this.configuration = JSON.parse(element.getAttribute('configuration')!);
   }
 }
-
-DynamicBootstrapper.register({ selector: 'wp-embedded-table-entry', cls: WorkPackageEmbeddedTableEntryComponent });

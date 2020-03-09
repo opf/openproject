@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {StateService} from "@uirouter/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import { NgxGalleryOptions, NgxGalleryImage } from 'ngx-gallery';
+import {NgxGalleryImage, NgxGalleryOptions} from '@kolkov/ngx-gallery';
 import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 
 @Component({

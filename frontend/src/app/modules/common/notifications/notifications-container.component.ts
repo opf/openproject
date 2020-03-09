@@ -32,6 +32,8 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
+export const notificationsContainerSelector = 'notifications-container';
+
 @Component({
   template: `
     <div class="notification-box--wrapper">
@@ -41,7 +43,7 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'notifications-container'
+  selector: notificationsContainerSelector
 })
 export class NotificationsContainerComponent implements OnInit, OnDestroy {
 
@@ -69,4 +71,4 @@ export class NotificationsContainerComponent implements OnInit, OnDestroy {
   }
 }
 
-DynamicBootstrapper.register({ selector: 'notifications-container', cls: NotificationsContainerComponent });
+

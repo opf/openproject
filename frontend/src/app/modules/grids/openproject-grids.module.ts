@@ -130,9 +130,6 @@ import {WidgetProjectStatusComponent} from "core-app/modules/grids/widgets/proje
 
     WidgetHeaderComponent,
   ],
-  entryComponents: [
-    AddGridWidgetModal,
-  ],
   exports: [
     GridComponent
   ]

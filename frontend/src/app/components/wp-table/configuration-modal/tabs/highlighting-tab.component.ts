@@ -25,8 +25,8 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
 
   public availableRowHighlightedAttributes:{name:string; value:HighlightingMode}[] = [];
 
-  @ViewChild('highlightedAttributesNgSelect', { static: false }) public highlightedAttributesNgSelect:NgSelectComponent;
-  @ViewChild('rowHighlightNgSelect', { static: false }) public rowHighlightNgSelect:NgSelectComponent;
+  @ViewChild('highlightedAttributesNgSelect') public highlightedAttributesNgSelect:NgSelectComponent;
+  @ViewChild('rowHighlightNgSelect') public rowHighlightNgSelect:NgSelectComponent;
 
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.highlighting'),

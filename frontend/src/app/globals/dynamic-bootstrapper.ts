@@ -56,9 +56,6 @@ export class DynamicBootstrapper {
    * Register an optional bootstrap component to be dynamically bootstrapped
    * whenever it occurs in the initially loaded DOM.
    *
-   * These elements MUST also be present in declarations and entryComponents of a module
-   * within our application module.
-   *
    * @param {OptionalBootstrapDefinition} definition
    */
   public static register(...defs:OptionalBootstrapDefinition[]) {

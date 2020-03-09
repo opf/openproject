@@ -41,6 +41,8 @@ import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-field
 import {BCFNewSplitComponent} from "core-app/modules/bim/ifc_models/bcf/new-split/bcf-new-split.component";
 import {BcfListContainerComponent} from "core-app/modules/bim/ifc_models/bcf/list-container/bcf-list-container.component";
 import {OpenprojectHalModule} from "core-app/modules/hal/openproject-hal.module";
+import {BimViewService} from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
+import {IfcModelsDataService} from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
 import {OpenprojectBcfModule} from "core-app/modules/bim/bcf/openproject-bcf.module";
 
 @NgModule({
@@ -55,7 +57,9 @@ import {OpenprojectBcfModule} from "core-app/modules/bim/bcf/openproject-bcf.mod
     })
   ],
   providers: [
-    IFCViewerService
+    IFCViewerService,
+    BimViewService,
+    IfcModelsDataService
   ],
   declarations: [
     // Pages
@@ -72,13 +76,6 @@ import {OpenprojectBcfModule} from "core-app/modules/bim/bcf/openproject-bcf.mod
 
     BCFNewSplitComponent,
     IFCViewerComponent
-  ],
-  exports: [],
-  entryComponents: [
-    // Toolbar,
-    BimViewToggleButtonComponent,
-    BimViewToggleButtonComponent,
-    BimManageIfcModelsButtonComponent,
   ]
 })
 export class OpenprojectIFCModelsModule {

@@ -8,6 +8,7 @@ import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-c
 import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
+import * as URI from 'urijs';
 
 interface ExportLink extends HalLink {
   identifier:string;

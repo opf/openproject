@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Injector, OnDestroy, OnInit} from '@angular/core';
+import { ChangeDetectorRef, Injector, OnDestroy, OnInit, Directive } from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
@@ -59,6 +59,7 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
+@Directive()
 export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
   @InjectField() $state:StateService;

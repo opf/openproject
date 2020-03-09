@@ -62,15 +62,6 @@ import * as ChartDataLabels from 'chartjs-plugin-datalabels';
     WorkPackageOverviewGraphComponent,
 
   ],
-  entryComponents: [
-    // Modals
-    WpGraphConfigurationModalComponent,
-    WpGraphConfigurationFiltersTab,
-    WpGraphConfigurationSettingsTab,
-
-    // Work package graphs on version page
-    WorkPackageOverviewGraphComponent,
-  ],
   exports: [
     // Modals
     WpGraphConfigurationModalComponent,
