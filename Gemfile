@@ -249,9 +249,9 @@ group :development, :test do
   gem 'thin', '~> 1.7.2'
 
   # Require factory_bot for usage with openproject plugins testing
-  gem 'factory_bot', '~> 4.8'
+  gem 'factory_bot', '~> 5.1.1'
   # require factory_bot_rails for convenience in core development
-  gem 'factory_bot_rails', '~> 4.8'
+  gem 'factory_bot_rails', '~> 5.1.1'
 
   # Tracing and profiling gems
   gem 'flamegraph', require: false

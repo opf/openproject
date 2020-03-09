@@ -28,6 +28,8 @@
 
 require 'spec_helper'
 
+require_relative '../../../support/bcf_topic_with_stubbed_comment'
+
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
   include API::Bim::Utilities::PathHelper
@@ -35,19 +37,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:project) do
     work_package.project
   end
+  include_context 'user with stubbed permissions'
+  include_context 'bcf_topic with stubbed comment'
   let(:permissions) { %i[view_linked_issues view_work_packages manage_bcf] }
-  let(:user) do
-    FactoryBot.build_stubbed(:user).tap do |u|
-      allow(u)
-        .to receive(:allowed_to?) do |queried_permissison, queried_project|
-        queried_project == work_package.project &&
-          permissions.include?(queried_permissison)
-      end
-    end
-  end
-  let(:bcf_topic) do
-    FactoryBot.build_stubbed(:bcf_issue_with_comment)
-  end
   let(:work_package) do
     FactoryBot.build_stubbed(:stubbed_work_package, bcf_issue: bcf_topic)
   end
