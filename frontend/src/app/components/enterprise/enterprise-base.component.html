@@ -5,48 +5,10 @@
 
 <div *ngIf="eeTrialService.status === 'mailSubmitted'">
   <enterprise-trial-waiting>
-    <div class="enterprise--active-token">
-      <div class="attributes-group">
-        <div class="attributes-key-value">
-          <div class="attributes-key-value--key">Subscriber</div>
-          <div class="attributes-key-value--value-container">
-            <div class="attributes-key-value--value -text">
-              <span>{{ eeTrialService.trialForm.first_name }}</span>
-            </div>
-          </div>
-          <div class="attributes-key-value--key">Email</div>
-          <div class="attributes-key-value--value-container">
-            <div class="attributes-key-value--value -text">
-              <span>{{ eeTrialService.trialForm.email }}</span>
-            </div>
-          </div>
-          <div class="attributes-key-value--key">Maximum active users</div>
-          <div class="attributes-key-value--value-container">
-            <div class="attributes-key-value--value -text">
-              <span>10</span>
-            </div>
-          </div>
-          <div class="attributes-key-value--key">Valid since</div>
-          <div class="attributes-key-value--value-container">
-            <div class="attributes-key-value--value -text">
-              <span>-</span>
-            </div>
-          </div>
-          <div class="attributes-key-value--key">Expires at</div>
-          <div class="attributes-key-value--value-container">
-            <div class="attributes-key-value--value -text">
-              <span>-</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <p><b>We are waiting for your confirmation.</b></p>
+    <enterprise-active-trial></enterprise-active-trial>
   </enterprise-trial-waiting>
-  <p class="confirmation-hint">
-    You did not receive a mail?
-    <a (click)="eeTrialService.resendMail()">Resend mail</a> or try with
-    <a (click)="openTrialModal()">another mail address.</a>
+  <p class="confirmation-hint">{{ text.mail_not_received }}
+    <a (click)="openTrialModal()">{{ text.try_another_mail }}.</a>
   </p>
 </div>
 

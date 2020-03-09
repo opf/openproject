@@ -39,13 +39,14 @@ import {EnterpriseTrialService} from "core-components/enterprise/enterprise-tria
   styleUrls: ['./enterprise-base.component.sass']
 })
 export class EnterpriseBaseComponent {
-
   public text = {
     button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
     button_book: this.I18n.t('js.admin.enterprise.upsale.button_book_now'),
     link_quote: this.I18n.t('js.admin.enterprise.upsale.link_quote'),
     become_hero: this.I18n.t('js.admin.enterprise.upsale.become_hero'),
     you_contribute: this.I18n.t('js.admin.enterprise.upsale.you_contribute'),
+    mail_not_received: this.I18n.t('js.admin.enterprise.trial.mail_not_received'),
+    try_another_mail: this.I18n.t('js.admin.enterprise.trial.try_another_mail')
   };
 
   constructor(protected I18n:I18nService,
@@ -53,7 +54,6 @@ export class EnterpriseBaseComponent {
               readonly injector:Injector,
               public eeTrialService:EnterpriseTrialService) {
   }
-
 
   public openTrialModal() {
     // cancel request and open first modal window

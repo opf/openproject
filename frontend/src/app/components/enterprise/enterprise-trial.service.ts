@@ -3,11 +3,19 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 
 
 @Injectable()
 export class EnterpriseTrialService {
+  private localStorageKey = 'openProject-enterprise-trial';
+
+  public text = {
+    resend_success: this.I18n.t('js.admin.enterprise.trial.resend_success'),
+    resend_warning: this.I18n.t('js.admin.enterprise.trial.resend_warning')
+  };
+
+  public savedUserData:any; // saved data in local storage
   public trialForm:FormGroup;
   public baseUrlAugur = 'https://augur.openproject-edge.com';
   public trialLink:string;
@@ -21,7 +29,15 @@ export class EnterpriseTrialService {
   constructor(readonly I18n:I18nService,
               protected http:HttpClient,
               readonly pathHelper:PathHelperService,
-              protected notificationsService:NotificationsService) {
+              protected notificationsService:NotificationsService,
+              readonly formBuilder:FormBuilder) {
+    this.savedUserData = window.OpenProject.guardedLocalStorage(this.localStorageKey);
+    // user has already submitted a valid mail and received a confirmation link
+    if (this.savedUserData) {
+      this.savedUserData = JSON.parse(this.savedUserData);
+      this.resendLink = this.savedUserData.resend_link;
+      this.status = 'mailSubmitted';
+    }
   }
 
   // sends POST request with form object
@@ -32,10 +48,9 @@ export class EnterpriseTrialService {
     const retries = 60; // keep trying for 5 minutes
 
     // POST /public/v1/trials/
-    this.http.post(this.baseUrlAugur + '/public/v1/trials', form)
+    this.http.post(this.baseUrlAugur + '/public/v1/trials', form.value)
       .toPromise()
       .then((enterpriseTrial:any) => {
-        console.log('Form successfully send: ', this.trialForm);
         this.trialLink = enterpriseTrial._links.self.href;
 
         this.retryConfirmation(delay, retries);
@@ -60,9 +75,12 @@ export class EnterpriseTrialService {
       .then((res:any) => {
         // show confirmed status and enable continue btn
         this.confirmed = true;
-        // returns token if mail was confirmed -> save token in backend
-        console.log('res.token_retrieved: ', res.token_retrieved);
-        this.saveToken(res.token);
+
+        // returns token if mail was confirmed
+        // -> if token is new (token_retrieved: false) save token in backend
+        if (!res.token_retrieved) {
+          this.saveToken(res.token);
+        }
       })
       .catch((error:HttpErrorResponse) => {
         // returns error 422 while waiting of confirmation
@@ -73,11 +91,19 @@ export class EnterpriseTrialService {
 
           // get resend button link
           this.resendLink = error.error._links.resend.href;
+
+          this.savedUserData = {
+            'subscriber': this.trialForm.value.first_name + ' ' + this.trialForm.value.last_name,
+            'email': this.trialForm.value.email,
+            'resend_link': this.resendLink
+          };
+          window.OpenProject.guardedLocalStorage(this.localStorageKey, JSON.stringify(this.savedUserData));
+
         } else if (_.get(error, 'error._type') === 'Error') {
           this.notificationsService.addWarning(error.error.message);
         } else {
           // backend returned an unsuccessful response code
-          this.notificationsService.addWarning(error.error);
+          this.notificationsService.addWarning(error.error || I18n.t('js.error.internal'));
         }
       });
   }
@@ -85,15 +111,13 @@ export class EnterpriseTrialService {
   // saves received token in controller
   private saveToken(token:string) {
     // POST /admin/enterprise (params[:enterprise_token][:encoded_token])
-    // -> if token is new (token_retrieved: false) save token in ruby controller
     this.http.post(this.pathHelper.api.v3.appBasePath + '/admin/enterprise', { enterprise_token: { encoded_token: token } }, { withCredentials: true })
       .toPromise()
       .then((res:any) => {
-        console.log('saveToken() success: ', res);
+        window.localStorage.removeItem(this.localStorageKey);
       })
       .catch((error:HttpErrorResponse) => {
-        console.log('saveToken() failed: ', error.error);
-        this.notificationsService.addWarning(error.error.description || I18n.t('js.error.internal'));
+        this.notificationsService.addWarning(error.error || I18n.t('js.error.internal'));
       });
   }
 
@@ -119,14 +143,13 @@ export class EnterpriseTrialService {
     this.http.post(this.baseUrlAugur + this.resendLink, {})
       .toPromise()
       .then((enterpriseTrial:any) => {
-        this.notificationsService.addSuccess('Mail has been resent. Please check your mails and click the confirmation link provided.');
+        this.notificationsService.addSuccess(this.text.resend_success);
 
         this.cancelled = false;
         this.retryConfirmation(5000, 60);
       })
       .catch((error:HttpErrorResponse) => {
-        console.log('An Error occured: ', error);
-        this.notificationsService.addWarning('Could not resend mail.');
+        this.notificationsService.addWarning(this.text.resend_warning);
       });
   }
 }

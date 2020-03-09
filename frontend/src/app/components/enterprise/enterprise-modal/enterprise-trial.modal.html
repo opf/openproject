@@ -3,9 +3,9 @@
        data-indicator-name="modal"
        tabindex="0">
     <div class="op-modal--modal-header">
-      <h3 *ngIf="!eeTrialService.status"> {{ text.label_test_ee }}</h3>
-      <h3 *ngIf="eeTrialService.status === 'mailSubmitted'">Confirmation of email-address</h3>
-      <h3 *ngIf="eeTrialService.status === 'startTrial'">Next steps</h3>
+      <h3 *ngIf="!eeTrialService.status"> {{ text.heading_test_ee }}</h3>
+      <h3 *ngIf="eeTrialService.status === 'mailSubmitted'">{{ text.heading_confirmation }}</h3>
+      <h3 *ngIf="eeTrialService.status === 'startTrial'">{{ text.heading_next_steps }}</h3>
       <a *ngIf="showClose" class="op-modal--modal-close-button">
         <i class="icon-close"
            (click)="closeModal($event)"
@@ -25,17 +25,16 @@
       </div>
       <!-- third modal window -->
       <div *ngIf="eeTrialService.status === 'startTrial'">
-        <h2>Get an overview</h2>
         <div class="onboarding--video-block">
           <div class="onboarding--video-text">
-            <span>Get a quick overview of project management and team collaboration with OpenProject.</span>
+            <span>{{ text.quick_overview }}</span>
           </div>
           <div class="onboarding--video iframe-target-wrapper">
             <iframe frameborder="0"
                     height="400"
                     width="100%"
                     allowfullscreen=""
-                    src="https://player.vimeo.com/video/163426858?autoplay=1">
+                    src="https://www.youtube.com/embed/zLMSydhFSkw?autoplay=1">
             </iframe>
           </div>
         </div>

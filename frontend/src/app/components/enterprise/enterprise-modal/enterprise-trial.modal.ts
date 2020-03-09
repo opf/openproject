@@ -27,24 +27,15 @@
 // ++
 
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild} from "@angular/core";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 import {OpModalComponent} from "app/components/op-modals/op-modal.component";
 import {OpModalLocalsToken} from "app/components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "app/components/op-modals/op-modal.types";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {EETrialFormComponent} from "core-components/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
 import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
 
 export interface EnterpriseTrialOptions {
-  text:{
-    title:string;
-    text:string;
-    button_continue?:string;
-    button_cancel?:string;
-  };
   closeByEscape?:boolean;
   showClose?:boolean;
   closeByDocument?:boolean;
@@ -74,31 +65,25 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
     button_cancel: this.I18n.t('js.modals.button_cancel'),
     button_continue: this.I18n.t('js.button_continue'),
     close_popup: this.I18n.t('js.close_popup_title'),
-    label_test_ee: this.I18n.t('js.admin.enterprise.trial.test_ee'),
+    heading_confirmation: this.I18n.t('js.admin.enterprise.trial.confirmation'),
+    heading_next_steps: this.I18n.t('js.admin.enterprise.trial.next_steps'),
+    heading_test_ee: this.I18n.t('js.admin.enterprise.trial.test_ee'),
     next_step: this.I18n.t('js.admin.enterprise.trial.next_step'),
-    resend: this.I18n.t('js.admin.enterprise.trial.resend_link'),
-    title: this.I18n.t('js.modals.form_submit.title'),
-    text: this.I18n.t('js.modals.form_submit.text'),
+    quick_overview: this.I18n.t('js.admin.enterprise.trial.quick_overview')
   };
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
-              protected http:HttpClient,
-              readonly pathHelper:PathHelperService,
-              protected notificationsService:NotificationsService,
               public eeTrialService:EnterpriseTrialService) {
     super(locals, cdRef, elementRef);
 
     // modal configuration
     this.options = locals.options || {};
-    this.closeOnEscape = _.defaultTo(this.options.closeByEscape, true);
+    this.closeOnEscape = _.defaultTo(this.options.closeByEscape, false);
     this.closeOnOutsideClick = _.defaultTo(this.options.closeByDocument, true);
     this.showClose = _.defaultTo(this.options.showClose, true);
-
-    // override default texts if any
-    this.text = _.defaults(this.options.text, this.text);
   }
 
   ngAfterViewInit() {
@@ -111,13 +96,12 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
       this.trialForm.addControl('_type', new FormControl('enterprise-trial'));
 
       this.eeTrialService.cancelled = false;
-      this.eeTrialService.sendForm(this.trialForm.value);
+      this.eeTrialService.sendForm(this.trialForm);
     }
   }
 
-  // TODO: add enterprise onboarding youtube video
   public startEnterpriseTrial() {
-    // open onboarding modal
+    // open onboarding modal screen
     this.eeTrialService.status = 'startTrial';
   }
 

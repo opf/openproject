@@ -26,23 +26,49 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef} from "@angular/core";
+import {Component, ElementRef, OnInit} from "@angular/core";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
-  selector: 'enterprise-trial-waiting',
-  templateUrl: './ee-trial-waiting.component.html',
-  styleUrls: ['./ee-trial-waiting.component.sass']
+  selector: 'enterprise-active-trial',
+  templateUrl: './ee-active-trial.component.html',
+  styleUrls: ['./ee-active-trial.component.sass']
 })
-export class EETrialWaitingComponent {
+export class EEActiveTrialComponent implements OnInit {
   public text = {
-    resend: this.I18n.t('js.admin.enterprise.trial.resend_link')
+    label_email: this.I18n.t('js.admin.enterprise.trial.label_email'),
+    label_expires_at: this.I18n.t('js.admin.enterprise.trial.label_expires_at'),
+    label_maximum_users: this.I18n.t('js.admin.enterprise.trial.label_maximum_users'),
+    label_starts_at: this.I18n.t('js.admin.enterprise.trial.label_starts_at'),
+    label_subscriber: this.I18n.t('js.admin.enterprise.trial.label_subscriber')
   };
+  public subscriber = this.elementRef.nativeElement.dataset['subscriber'];
+  public email = this.elementRef.nativeElement.dataset['email'];
+  public restrictions = this.elementRef.nativeElement.dataset['restrictions'];
+  public startsAt = this.elementRef.nativeElement.dataset['startsAt'];
+  public expiresAt = this.elementRef.nativeElement.dataset['expiresAt'];
 
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService,
               public eeTrialService:EnterpriseTrialService) {
   }
+
+  ngOnInit() {
+    // TODO iterate over all restrictions
+    console.log('restrictions: ', this.restrictions);
+    // trial is not active yet
+    if (!this.subscriber) {
+      this.subscriber = this.eeTrialService.savedUserData.subscriber;
+      this.email =  this.eeTrialService.savedUserData.email;
+      this.startsAt = '-';
+      this.expiresAt = '-';
+    }
+  }
 }
+
+DynamicBootstrapper.register({
+  selector: 'enterprise-active-trial', cls: EEActiveTrialComponent
+});
 

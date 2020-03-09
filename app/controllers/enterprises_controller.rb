@@ -33,6 +33,7 @@ class EnterprisesController < ApplicationController
 
   before_action :augur_content_security_policy
   before_action :chargebee_content_security_policy
+  before_action :youtube_content_security_policy
   before_action :require_admin
   before_action :check_user_limit, only: [:show]
 

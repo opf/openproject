@@ -56,6 +56,8 @@ export class EETrialFormComponent {
     label_email: this.I18n.t('js.admin.enterprise.trial.label_email'),
     label_domain: this.I18n.t('js.admin.enterprise.trial.label_domain'),
     next_step: this.I18n.t('js.admin.enterprise.trial.next_step'),
+    privacy_policy: this.I18n.t('js.admin.enterprise.trial.privacy_policy'),
+    terms_of_service: this.I18n.t('js.admin.enterprise.trial.terms_of_service')
   };
 
   constructor(readonly elementRef:ElementRef,

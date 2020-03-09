@@ -1,0 +1,38 @@
+<div class="enterprise--active-token">
+  <div class="attributes-group">
+    <div class="attributes-key-value">
+      <div class="attributes-key-value--key">{{ text.label_subscriber }}</div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>{{ subscriber }}</span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key">{{ text.label_email }}</div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>{{ email }}</span>
+        </div>
+      </div>
+      <!-- TODO % Hash(@current_token.restrictions).each do |key, value| %-->
+      <div class="attributes-key-value--key">{{ text.label_maximum_users}}</div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>10</span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key">{{ text.label_starts_at }}</div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>{{ startsAt }}</span>
+        </div>
+      </div>
+      <!-- only show if token expires -->
+      <div *ngIf="expiresAt" class="attributes-key-value--key">{{ text.label_expires_at }}</div>
+      <div *ngIf="expiresAt" class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>{{ expiresAt }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
