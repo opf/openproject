@@ -121,6 +121,7 @@ import {
   AttributeHelpTextComponent,
   attributeHelpTextSelector
 } from "core-app/modules/common/help-texts/attribute-help-text.component";
+import {MainMenuToggleComponent, mainMenuToggleSelector} from "core-components/main-menu/main-menu-toggle.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -151,6 +152,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: copyToClipboardSelector, cls: CopyToClipboardDirective },
   { selector: confirmFormSubmitSelector, cls: ConfirmFormSubmitController },
   { selector: mainMenuResizerSelector, cls: MainMenuResizerComponent },
+  { selector: mainMenuToggleSelector, cls: MainMenuToggleComponent },
   { selector: globalSearchSelector, cls: GlobalSearchInputComponent },
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
   { selector: enterpriseBannerSelector, cls: EnterpriseBannerBootstrapComponent },
