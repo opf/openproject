@@ -77,7 +77,7 @@ describe 'BIM navigation spec', type: :feature, js: true do
         card_view.expect_work_package_listed work_package
 
         # Go to single view
-        card_view.open_full_screen_by_doubleclick(work_package)
+        card_view.open_full_screen_by_details(work_package)
 
         details_view.ensure_page_loaded
         details_view.expect_subject
@@ -100,7 +100,7 @@ describe 'BIM navigation spec', type: :feature, js: true do
         card_view.expect_work_package_listed work_package
 
         # Go to single view
-        card_view.open_full_screen_by_doubleclick(work_package)
+        card_view.open_full_screen_by_details(work_package)
 
         details_view.ensure_page_loaded
         details_view.expect_subject

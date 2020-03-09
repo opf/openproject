@@ -71,6 +71,13 @@ module Pages
       Pages::FullWorkPackage.new(work_package, project)
     end
 
+    def open_full_screen_by_details(work_package)
+      element = card(work_package)
+      scroll_to_element(element)
+      element.hover
+      element.find('.wp-card--details-button').click
+    end
+
     def select_work_package(work_package)
       card(work_package).click
     end
