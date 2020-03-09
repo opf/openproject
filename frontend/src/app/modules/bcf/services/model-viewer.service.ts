@@ -1,7 +1,8 @@
-import {HostListener, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ViewerBridgeServiceInterface} from "core-app/modules/bcf/services/viewer-bridge.service";
 import {RevitBridgeService} from "core-app/modules/bcf/services/revit-bridge.service";
 import {XeokitBridgeService} from "core-app/modules/bcf/services/xeokit-bridge.service";
+import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 
 @Injectable()
 export class ModelViewerService {
@@ -21,7 +22,12 @@ export class ModelViewerService {
     }
   }
 
-  public getViewpoint():Promise<any> {
+  getViewpoint():Promise<any> {
     return this.modelViewer.getViewpoint();
+  }
+
+  showViewpoint(data:BcfViewpointInterface) {
+    this.modelViewer.showViewpoint(data);
+
   }
 }

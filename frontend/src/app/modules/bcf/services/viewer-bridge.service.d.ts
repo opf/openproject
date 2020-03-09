@@ -1,4 +1,7 @@
+import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
+
 export interface ViewerBridgeServiceInterface {
-  getViewpoint():any;
-  // setViewpoint() {};
+  getViewpoint():Promise<BcfViewpointInterface>;
+
+  showViewpoint(viewpoint:BcfViewpointInterface):void;
 }

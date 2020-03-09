@@ -2,7 +2,6 @@ import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {StateService} from "@uirouter/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {NgxGalleryImage, NgxGalleryOptions} from '@kolkov/ngx-gallery';
-import {RevitBridgeService} from "core-app/modules/bcf/services/revit-bridge.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
@@ -52,15 +51,15 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       thumbnailActions: [
         {
           icon: 'icon-watched',
-          onClick: this.setViewpoint.bind(this),
-          titleText: 'Set viewpoint'
+          onClick: this.showViewpoint.bind(this),
+          titleText: 'Show this viewpoint'
         }
       ],
       actions: [
         {
           icon: 'icon-watched',
-          onClick: this.setViewpoint.bind(this),
-          titleText: 'Set viewpoint'
+          onClick: this.showViewpoint.bind(this),
+          titleText: 'Show this viewpoint'
         }
       ]
     },
@@ -85,6 +84,8 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
 
   viewpoints:ViewPoint[];
 
+  topicUUID:string;
+
   text = {
     bcf: this.I18n.t('js.bcf.label_bcf')
   };
@@ -94,11 +95,13 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
               readonly currentProject:CurrentProjectService,
               readonly bcfApi:BcfApiService,
               readonly modelViewerService:ModelViewerService,
-              readonly revitBridge:RevitBridgeService,
               readonly I18n:I18nService) {
   }
 
   ngOnInit():void {
+    const topicHref = this.workPackage.bcfTopic.href;
+    this.topicUUID = this.bcfApi.parse(topicHref)!.id as string;
+
     this.viewpoints = this.workPackage.bcfViewpoints.map((vp:HalLink) => {
       const viewpointResource = this.bcfApi.parse(vp.href!) as BcfViewpointPaths;
 
@@ -122,23 +125,20 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
     // Nothing to do.
   }
 
-  setViewpoint(event:Event, index:number) {
-    console.log('Set viewpoint for index', index, event);
-    let viewpointUuid = this.workPackage.bcf.viewpoints[index]['uuid'];
-    console.log('Set viewpoint for UUID', viewpointUuid);
-
-    console.log("handleClick");
-    const trackingId = this.revitBridge.newTrackingId();
+  showViewpoint(event:Event, index:number) {
+    let viewpointHref = this.workPackage.bcfViewpoints[index].href;
+    let viewpoint = this.bcfApi.parse(viewpointHref)!;
+    let viewpointUuid = viewpoint.id as string;
 
     this
       .bcfApi
-      .projects.id(this.projectIdentifier)
-      .topics.id(this.topicUuid)
+      .projects.id(this.workPackage.project.idFromLink)
+      .topics.id(this.topicUUID)
       .viewpoints.id(viewpointUuid)
       .get()
       .subscribe(data => {
         // TODO abstract from revit
-        this.revitBridge.sendMessageToRevit('ShowViewpoint', trackingId, JSON.stringify(data));
+        this.modelViewerService.showViewpoint(data);
       });
   }
 
@@ -146,27 +146,18 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
     const viewpoint = await this.modelViewerService.getViewpoint();
 
     this.bcfApi
-      .projects.id(this.projectIdentifier)
-      .topics.id(this.topicUuid)
+      .projects.id(this.workPackage.project.idFromLink)
+      .topics.id(this.topicUUID)
       .viewpoints
       .post(viewpoint);
 
   }
 
-  // TODO remove
   galleryPreviewOpen():void {
     jQuery('#top-menu')[0].style.zIndex = '10';
   }
 
   galleryPreviewClose():void {
     jQuery('#top-menu')[0].style.zIndex = '';
-  }
-
-  private get projectIdentifier():string {
-    return this.currentProject.identifier!;
-  }
-
-  private get topicUuid():string {
-    return this.workPackage.bcf.uuid;
   }
 }
