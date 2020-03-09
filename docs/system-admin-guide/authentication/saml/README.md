@@ -31,46 +31,47 @@ The three options are mutually exclusive. I.e. if settings are already provided 
 
 In your OpenProject packaged installation, you can modify the `/opt/openproject/config/configuration.yml` file. This will contains the complete OpenProject configuration and can be extended to also contain metadata settings and connection details for your SSO identity provider.
 
-Everything belonging to the `saml` key will be made available to the plugin.
+Everything belonging to the `saml` key will be made available to the plugin. The first key below `saml` can be freely chosen (`my_saml` in the example).
 
 ```yaml
 production:
   # <-- other configuration -->
 
   saml:
-    name: "saml"
-    display_name: "My SSO"
-    # Use the default SAML icon
-    icon: "auth_provider-saml.png"
+    my_saml:
+      name: "saml"
+      display_name: "My SSO"
+      # Use the default SAML icon
+      icon: "auth_provider-saml.png"
 
-    # omniauth-saml config
-    assertion_consumer_service_url: "https:/<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
-    issuer: "https://<YOUR OPENPROJECT HOSTNAME>"
+      # omniauth-saml config
+      assertion_consumer_service_url: "https:/<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
+      issuer: "https://<YOUR OPENPROJECT HOSTNAME>"
 
-    # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here
-    #idp_cert: "-----BEGIN CERTIFICATE-----\n ..... SSL CERTIFICATE HERE ...-----END CERTIFICATE-----\n"
-    # Otherwise, the certificate fingerprint must be added
-    # Either `idp_cert` or `idp_cert_fingerprint` must be present!
-    idp_cert_fingerprint: "E7:91:B2:E1:...",
+      # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here
+      #idp_cert: "-----BEGIN CERTIFICATE-----\n ..... SSL CERTIFICATE HERE ...-----END CERTIFICATE-----\n"
+      # Otherwise, the certificate fingerprint must be added
+      # Either `idp_cert` or `idp_cert_fingerprint` must be present!
+      idp_cert_fingerprint: "E7:91:B2:E1:...",
 
-    # Replace with your single sign on URL
-    # For example: "https://sso.example.com/saml/singleSignOn"
-    idp_sso_target_url: "<YOUR SSO URL>"
-    # Replace with your single sign out URL
-    # or comment out
-    # For example: "https://sso.example.com/saml/proxySingleLogout"
-    idp_slo_target_url: "<YOUR SSO logout URL>"
+      # Replace with your single sign on URL
+      # For example: "https://sso.example.com/saml/singleSignOn"
+      idp_sso_target_url: "<YOUR SSO URL>"
+      # Replace with your single sign out URL
+      # or comment out
+      # For example: "https://sso.example.com/saml/proxySingleLogout"
+      idp_slo_target_url: "<YOUR SSO logout URL>"
 
-    # Attribute map in SAML
-    attribute_statements:
-      # What attribute in SAML maps to email (default: mail)
-      email: ['mail']
-      # What attribute in SAML maps to the user login (default: uid)
-      login: ['uid']
-      # What attribute in SAML maps to the first name (default: givenName)
-      first_name: ['givenName']
-      # What attribute in SAML maps to the last name (default: sn)
-      last_name: ['sn']
+      # Attribute map in SAML
+      attribute_statements:
+        # What attribute in SAML maps to email (default: mail)
+        email: ['mail']
+        # What attribute in SAML maps to the user login (default: uid)
+        login: ['uid']
+        # What attribute in SAML maps to the first name (default: givenName)
+        first_name: ['givenName']
+        # What attribute in SAML maps to the last name (default: sn)
+        last_name: ['sn']
 
   # <-- other configuration -->
 ```
