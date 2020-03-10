@@ -23,6 +23,21 @@ export type ViewPoint = { snapshotId:string, snapshotFullPath:string };
 export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
   @Input() workPackage:WorkPackageResource;
 
+  text = {
+    bcf: this.I18n.t('js.bcf.label_bcf'),
+    viewpoint: this.I18n.t('js.bcf.viewpoint'),
+    add_viewpoint: this.I18n.t('js.bcf.add_viewpoint'),
+    show_viewpoint: this.I18n.t('js.bcf.show_viewpoint'),
+  };
+
+  actions = [
+    {
+      icon: 'icon-watched',
+      onClick: this.showViewpoint.bind(this),
+      titleText: this.text.show_viewpoint
+    }
+  ];
+
   galleryOptions:NgxGalleryOptions[] = [
     {
       width: '100%',
@@ -50,20 +65,8 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       arrowNextIcon: 'icon-arrow-right2',
       closeIcon: 'icon-close',
       downloadIcon: 'icon-download',
-      thumbnailActions: [
-        {
-          icon: 'icon-watched',
-          onClick: this.showViewpoint.bind(this),
-          titleText: 'Show this viewpoint'
-        }
-      ],
-      actions: [
-        {
-          icon: 'icon-watched',
-          onClick: this.showViewpoint.bind(this),
-          titleText: 'Show this viewpoint'
-        }
-      ]
+      thumbnailActions: this.actions,
+      actions: this.actions,
     },
     // max-width 800
     {
@@ -82,15 +85,9 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
     }
   ];
 
-  galleryImages:NgxGalleryImage[];
+  galleryImages:NgxGalleryImage[] = [];
 
-  viewpoints:ViewPoint[];
-
-  text = {
-    bcf: this.I18n.t('js.bcf.label_bcf'),
-    viewpoint: this.I18n.t('js.bcf.viewpoint'),
-    add_viewpoint: this.I18n.t('js.bcf.add_viewpoint'),
-  };
+  viewpoints:ViewPoint[] = [];
 
   constructor(readonly state:StateService,
               readonly pathHelper:PathHelperService,

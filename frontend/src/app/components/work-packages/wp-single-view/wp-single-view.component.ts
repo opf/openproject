@@ -34,8 +34,7 @@ import {
   Injector,
   Input,
   OnDestroy,
-  OnInit,
-  Optional
+  OnInit
 } from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
@@ -135,7 +134,9 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   };
 
   protected firstTimeFocused:boolean = false;
-  public $element:JQuery;
+
+  $element:JQuery;
+  viewerBridge:ViewerBridgeService|null = this.injector.get(ViewerBridgeService, null);
 
   constructor(readonly I18n:I18nService,
               protected currentProject:CurrentProjectService,
@@ -150,8 +151,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected cdRef:ChangeDetectorRef,
               readonly elementRef:ElementRef,
               readonly cleanupService:PortalCleanupService,
-              readonly browserDetector:BrowserDetector,
-              @Optional() readonly viewerBridge:ViewerBridgeService) {
+              readonly browserDetector:BrowserDetector) {
   }
 
   public ngOnInit() {
