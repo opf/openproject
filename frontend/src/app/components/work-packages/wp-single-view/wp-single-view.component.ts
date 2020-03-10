@@ -27,14 +27,15 @@
 // ++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
   Injector,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
+  Optional
 } from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
@@ -47,7 +48,6 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {input, InputState} from 'reactivestates';
 import {DisplayFieldService} from 'core-app/modules/fields/display/display-field.service';
 import {DisplayField} from 'core-app/modules/fields/display/display-field.module';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
@@ -58,6 +58,7 @@ import {randomString} from "core-app/helpers/random-string";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 export interface FieldDescriptor {
   name:string;
@@ -149,7 +150,8 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected cdRef:ChangeDetectorRef,
               readonly elementRef:ElementRef,
               readonly cleanupService:PortalCleanupService,
-              readonly browserDetector:BrowserDetector) {
+              readonly browserDetector:BrowserDetector,
+              @Optional() readonly viewerBridge:ViewerBridgeService) {
   }
 
   public ngOnInit() {
@@ -192,7 +194,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     const resource = change.projectedResource;
 
     if (!resource.project) {
-      this.projectContext = {matches: false, href: null};
+      this.projectContext = { matches: false, href: null };
     } else {
       this.projectContext = {
         href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id!),

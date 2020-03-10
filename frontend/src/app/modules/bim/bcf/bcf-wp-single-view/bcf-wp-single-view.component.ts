@@ -9,9 +9,9 @@ import {BcfViewpointPaths} from "core-app/modules/bim/bcf/api/viewpoints/bcf-vie
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 
-export type ViewPointOriginal = { uuid:string, snapshot_id:string, snapshot_file_name:string };
-export type ViewPoint = { snapshotId:string, snapshotFileName?:string, snapshotFullPath:string };
+export type ViewPoint = { snapshotId:string, snapshotFullPath:string };
 
 @Component({
   selector: 'bcf-wp-single-view',
@@ -84,8 +84,6 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
 
   viewpoints:ViewPoint[];
 
-  topicUUID:string;
-
   text = {
     bcf: this.I18n.t('js.bcf.label_bcf'),
     viewpoint: this.I18n.t('js.bcf.viewpoint'),
@@ -97,19 +95,16 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
               readonly currentProject:CurrentProjectService,
               readonly bcfApi:BcfApiService,
               readonly viewerBridge:ViewerBridgeService,
+              readonly wpCache:WorkPackageCacheService,
               readonly I18n:I18nService) {
   }
 
   ngOnInit():void {
-    const topicHref = this.workPackage.bcfTopic.href;
-    this.topicUUID = this.bcfApi.parse(topicHref)!.id as string;
-
-    this.viewpoints = this.workPackage.bcfViewpoints.map((vp:HalLink) => {
+    this.viewpoints = (this.workPackage.bcfViewpoints || []).map((vp:HalLink) => {
       const viewpointResource = this.bcfApi.parse(vp.href!) as BcfViewpointPaths;
 
       return {
         snapshotId: viewpointResource.id,
-        /* snapshotFileName: vp.snapshot_file_name, TODO NEEDED? */
         snapshotFullPath: `${vp.href}/snapshot`
       } as ViewPoint;
     });
@@ -135,7 +130,7 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
     this
       .bcfApi
       .projects.id(this.workPackage.project.idFromLink)
-      .topics.id(this.topicUUID)
+      .topics.id(this.topicUUID!)
       .viewpoints.id(viewpointUuid)
       .get()
       .subscribe(data => {
@@ -145,14 +140,16 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
 
   async saveCurrentAsViewpoint() {
     const viewpoint = await this.viewerBridge.getViewpoint();
+    const uuid = this.topicUUID || await this.createBcfTopic();
 
     this.bcfApi
       .projects.id(this.workPackage.project.idFromLink)
-      .topics.id(this.topicUUID)
+      .topics.id(uuid)
       .viewpoints
       .post(viewpoint)
       .subscribe((result) => {
-        console.log(result);
+        // Update the work package to reload the viewpoint
+        this.wpCache.require(this.workPackage.id!, true);
       });
   }
 
@@ -162,5 +159,24 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
 
   galleryPreviewClose():void {
     jQuery('#top-menu')[0].style.zIndex = '';
+  }
+
+  private get topicUUID():string|null {
+    const topicHref:string|undefined = this.workPackage.bcfTopic?.href;
+
+    if (topicHref) {
+      return this.bcfApi.parse(topicHref)!.id as string;
+    }
+
+    return null;
+  }
+
+  private async createBcfTopic():Promise<string> {
+    return this.bcfApi
+      .projects.id(this.workPackage.project.idFromLink)
+      .topics
+      .post(this.workPackage.convertBCF.payload)
+      .toPromise()
+      .then(resource => resource.guid);
   }
 }

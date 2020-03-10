@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <div class="bcf--viewpoints">
+  <div class="bcf--viewpoints" *ngIf="galleryImages.length > 0">
     <ngx-gallery [options]="galleryOptions"
                  [images]="galleryImages"
                  (previewOpen)="galleryPreviewOpen()"
