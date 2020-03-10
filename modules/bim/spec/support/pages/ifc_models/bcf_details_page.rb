@@ -30,6 +30,22 @@ require 'support/pages/work_packages/split_work_package'
 
 module Pages
   class BcfDetailsPage < Pages::SplitWorkPackage
+    def expect_viewpoint_count(number)
+      expect(page).to have_selector('.ngx-gallery-thumbnail', count: number, wait: 10)
+    end
+
+    def next_viewpoint
+      page.find('.icon-arrow-right2.ngx-gallery-icon-content').click
+    end
+
+    def previous_viewpoint
+      page.find('.icon-arrow-left2.ngx-gallery-icon-content').click
+    end
+
+    def show_current_viewpoint
+      page.find('.icon-watched.ngx-gallery-icon-content').click
+    end
+
     protected
 
     def path(tab = 'overview')

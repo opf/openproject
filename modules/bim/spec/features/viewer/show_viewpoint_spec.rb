@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 require_relative '../../support/pages/ifc_models/show_default'
+require_relative '../../support/pages/ifc_models/bcf_details_page'
 
 describe 'Show viewpoint in model viewer', type: :feature, js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
@@ -47,30 +48,46 @@ describe 'Show viewpoint in model viewer', type: :feature, js: true do
 
   let(:show_model_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:card_view) { ::Pages::WorkPackageCards.new(project) }
+  let(:bcf_details) { ::Pages::BcfDetailsPage.new(work_package, project) }
+
+  shared_examples 'has the minimal viewpoint shown' do
+    it 'loads the minimal viewpoint in the viewer' do
+      show_model_page.select_sidebar_tab 'Objects'
+      show_model_page.expand_tree
+      show_model_page.expect_checked 'minimal'
+      show_model_page.all_checkboxes.each do |label, checkbox|
+        if label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035'
+          expect(checkbox.checked?).to eq(true)
+        else
+          expect(checkbox.checked?).to eq(false)
+        end
+      end
+    end
+  end
 
   before do
     login_as(user)
     show_model_page.visit!
     show_model_page.finished_loading
+    card_view.expect_work_package_listed work_package
   end
 
-  it 'loads the viewpoint in the viewer when clicking on the wp card' do
-    card_view.expect_work_package_listed work_package
-    card_view.select_work_package work_package
-
-    card_view.expect_work_package_selected work_package, true
-
-    # Idea: Check whether the storeys are correctly set and thus the viewpoint correctly loaded
-    # For convenience only, our viewpoint selected nothing, so no Storey should be selected
-    show_model_page.select_sidebar_tab 'Objects'
-    show_model_page.expand_tree
-    show_model_page.expect_checked 'minimal'
-    show_model_page.all_checkboxes.each do |label, checkbox|
-      if label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035'
-        expect(checkbox.checked?).to eq(true)
-      else
-        expect(checkbox.checked?).to eq(false)
-      end
+  context 'clicking on the card' do
+    before do
+      card_view.select_work_package work_package
+      card_view.expect_work_package_selected work_package, true
     end
+
+    it_behaves_like 'has the minimal viewpoint shown'
+  end
+
+  context 'when in details view' do
+    before do
+      card_view.open_full_screen_by_details work_package
+      bcf_details.expect_viewpoint_count 1
+      bcf_details.show_current_viewpoint
+    end
+
+    it_behaves_like 'has the minimal viewpoint shown'
   end
 end
