@@ -5,7 +5,12 @@ module OpenProject::Bim::Patches::RootSeederPatch
 
   module InstanceMethods
     def seed_basic_data
-      ::Bim::BasicDataSeeder.new.seed!
+      if OpenProject::Configuration.bim?
+        puts "*** Seeding basic data for bim edition"
+        ::Bim::BasicDataSeeder.new.seed!
+      else
+        super
+      end
     end
   end
 end

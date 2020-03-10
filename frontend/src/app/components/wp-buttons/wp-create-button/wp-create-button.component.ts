@@ -26,23 +26,30 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {StateService} from '@uirouter/core';
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {StateService, TransitionService} from '@uirouter/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'wp-create-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-create-button.html'
 })
-export class WorkPackageCreateButtonComponent implements OnInit {
-  @Input('stateName') stateName:string;
-  @Input('allowed') allowed:boolean;
-  public projectIdentifier:string|null;
-  public types:any;
+export class WorkPackageCreateButtonComponent implements OnInit, OnDestroy {
+  @Input('allowed') allowedWhen:string[];
+  @Input('stateName$') stateName$:Observable<string>;
 
-  public text = {
+  allowed:boolean;
+  disabled:boolean
+  projectIdentifier:string|null;
+  types:any;
+  transitionUnregisterFn:Function;
+
+  text = {
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
     createButton: this.I18n.t('js.label_work_package'),
     explanation: this.I18n.t('js.label_create_work_package')
@@ -50,19 +57,40 @@ export class WorkPackageCreateButtonComponent implements OnInit {
 
   constructor(readonly $state:StateService,
               readonly currentProject:CurrentProjectService,
-              readonly I18n:I18nService) {
+              readonly authorisationService:AuthorisationService,
+              readonly transition:TransitionService,
+              readonly I18n:I18nService,
+              readonly cdRef:ChangeDetectorRef) {
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.projectIdentifier = this.currentProject.identifier;
     // Created for interface compliance
+
+    // Find the first permission that is allowed
+    this.authorisationService
+      .observeUntil(componentDestroyed(this))
+      .subscribe(() => {
+        this.allowed = !!this
+          .allowedWhen
+          .find(combined => {
+            let [module, permission] = combined.split('.');
+            return this.authorisationService.can(module, permission);
+          });
+
+        this.updateDisabledState();
+      });
+
+
+    this.transitionUnregisterFn = this.transition.onSuccess({}, this.updateDisabledState.bind(this));
   }
 
-  public createWorkPackage() {
-    this.$state.go(this.stateName, {projectPath: this.projectIdentifier});
+  ngOnDestroy():void {
+    this.transitionUnregisterFn();
   }
 
-  public isDisabled() {
-    return !this.allowed || this.$state.includes('**.new');
+  private updateDisabledState() {
+    this.disabled = !this.allowed || this.$state.includes('**.new');
+    this.cdRef.detectChanges();
   }
 }

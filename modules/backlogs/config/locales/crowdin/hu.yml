@@ -52,7 +52,7 @@ hu:
   backlogs:
     add_new_story: "Új story"
     any: "bármely"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "Backlog beállítások"
     burndown_graph: "Burndown ábra"
     card_paper_size: "Papír méret kártya nyomtatáshoz"
     chart_options: "Chart options"

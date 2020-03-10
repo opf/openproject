@@ -11,7 +11,7 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {SentryReporter} from "core-app/sentry/sentry-reporter";
 window.ErrorReporter = new SentryReporter();
 
-require('./app/init-vendors');
+require('core-app/init-vendors');
 require('./app/init-globals');
 
 

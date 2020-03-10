@@ -1,8 +1,10 @@
-import {Component, OnInit, ElementRef} from "@angular/core";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {Component, ElementRef, OnInit} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
+export const enterpriseBannerSelector = 'enterprise-banner-bootstrap';
+
 @Component({
+  selector: enterpriseBannerSelector,
   template: `
     <enterprise-banner
       [textMessage]="textMessage"
@@ -28,5 +30,3 @@ export class EnterpriseBannerBootstrapComponent implements OnInit {
     this.referrer = $element.attr('referrer')!;
   }
 }
-
-DynamicBootstrapper.register({selector: 'enterprise-banner-bootstrap', cls: EnterpriseBannerBootstrapComponent});

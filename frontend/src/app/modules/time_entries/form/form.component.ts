@@ -64,6 +64,7 @@ export class TimeEntryFormComponent implements OnInit, OnDestroy {
   public signalModifiedEntry($event:{savedResource:HalResource, isInital:boolean}) {
     this.modifiedEntry.emit($event as {savedResource:TimeEntryResource, isInital:boolean});
   }
+
   public save() {
     return this.editForm.save();
   }

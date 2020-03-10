@@ -523,14 +523,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Renders a warning flash if obj has unsaved attachments
-  def render_attachment_warning_if_needed(obj)
-    unsaved_attachments = obj.attachments.select(&:new_record?)
-    if unsaved_attachments.any?
-      flash[:warning] = l(:warning_attachments_not_saved, unsaved_attachments.size)
-    end
-  end
-
   # Converts the errors on an ActiveRecord object into a common JSON format
   def object_errors_to_json(object)
     object.errors.map do |attribute, error|

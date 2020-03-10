@@ -19,7 +19,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   protected currentRawText:string;
   public customText:SafeHtml;
 
-  @ViewChild('displayContainer', { static: false }) readonly displayContainer:ElementRef;
+  @ViewChild('displayContainer') readonly displayContainer:ElementRef;
 
   constructor (protected i18n:I18nService,
                protected injector:Injector,

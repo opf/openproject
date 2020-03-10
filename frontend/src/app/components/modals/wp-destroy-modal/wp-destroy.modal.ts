@@ -143,7 +143,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
          * Otherwise we expect a redirect to where we came from,
          * since the WP in view (split/full) does not exist any more.
          */
-        if (this.$state.current.name !== 'work-packages.list') {
+        if (this.$state.current.name !== 'work-packages.partitioned.list') {
           this.backRoutingService.goBack(true);
         }
       })

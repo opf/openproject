@@ -45,7 +45,10 @@ module OpenProject::Bim
       project_module(:bim,
                      if: ->(*) { OpenProject::Configuration.bim? }) do
         permission :view_ifc_models,
-                   {'bim/ifc_models/ifc_models': %i[index show defaults]}
+                   {
+                     'bim/ifc_models/ifc_models': %i[index show defaults],
+                     'bim/ifc_models/ifc_viewer': %i[show]
+                   }
         permission :manage_ifc_models,
                    {'bim/ifc_models/ifc_models': %i[index show destroy edit update create new]},
                    dependencies: %i[view_ifc_models]
@@ -87,6 +90,7 @@ module OpenProject::Bim
 
     patches %i[WorkPackage Type Journal RootSeeder Project]
 
+    patch_with_namespace :OpenProject, :CustomStyles, :Design
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
@@ -99,22 +103,39 @@ module OpenProject::Bim
     patch_with_namespace :DemoData, :WorkPackageBoardSeeder
 
     extend_api_response(:v3, :work_packages, :work_package) do
-      property :bcf,
-               exec_context: :decorator,
-               getter: ->(*) {
-                 issue = represented.bcf_issue
-                 bcf = {}
-                 bcf[:viewpoints] = issue.viewpoints.map do |viewpoint|
-                   {
-                     id: viewpoint.snapshot.id,
-                     file_name: viewpoint.snapshot.filename
-                   }
-                 end
-                 bcf
-               },
-               if: ->(*) {
-                 represented.bcf_issue.present?
-               }
+      include API::Bim::Utilities::PathHelper
+
+      link :bcfTopic,
+           cache_if: -> { current_user_allowed_to(:view_linked_issues) } do
+        next unless represented.bcf_issue?
+
+        {
+          href: bcf_v2_1_paths.topic(represented.project.identifier, represented.bcf_issue.uuid)
+        }
+      end
+
+      link :convertBCF,
+           cache_if: -> { current_user_allowed_to(:manage_bcf) } do
+        next if represented.bcf_issue? || represented.project.nil?
+
+        {
+          href: bcf_v2_1_paths.topics(represented.project.identifier),
+          title: 'Convert to BCF',
+          payload: { reference_links: [api_v3_paths.work_package(represented.id)] },
+          method: :post
+        }
+      end
+
+      links :bcfViewpoints,
+            cache_if: -> { current_user_allowed_to(:view_linked_issues) } do
+        next unless represented.bcf_issue?
+
+        represented.bcf_issue.viewpoints.map do |viewpoint|
+          {
+            href: bcf_v2_1_paths.viewpoint(represented.project.identifier, represented.bcf_issue.uuid, viewpoint.uuid)
+          }
+        end
+      end
     end
 
     extend_api_response(:v3, :work_packages, :work_package_collection) do
@@ -132,27 +153,22 @@ module OpenProject::Bim
     end
 
     extend_api_response(:v3, :activities, :activity) do
-      property :bcf_comment,
-               exec_context: :decorator,
-               getter: ->(*) {
-                 bcf_comment = represented.bcf_comment
-                 comment = {
-                   id: bcf_comment.id
-                 }
-                 if bcf_comment.viewpoint.present?
-                   comment[:viewpoint] = {
-                     snapshot: {
-                       id: bcf_comment.viewpoint.snapshot.id,
-                       file_name: bcf_comment.viewpoint.snapshot.filename
-                     }
-                   }
-                 end
+      include API::Bim::Utilities::PathHelper
 
-                 comment
-               },
-               if: ->(*) {
-                 represented.bcf_comment.present?
-               }
+      links :bcfViewpoints do
+        journable = represented.journable
+        next unless current_user_allowed_to(:view_linked_issues) && represented.bcf_comment.present? && journable.bcf_issue?
+
+        # There will only be one viewpoint per comment but we nevertheless return a collection here so that it is more
+        # similar to the work package representer.
+        Array(represented.bcf_comment.viewpoint).map do |viewpoint|
+          {
+            href: bcf_v2_1_paths.viewpoint(journable.project.identifier,
+                                           journable.bcf_issue.uuid,
+                                           viewpoint.uuid)
+          }
+        end
+      end
     end
 
     add_api_path :bcf_xml do |project_id|
@@ -161,10 +177,6 @@ module OpenProject::Bim
 
     config.to_prepare do
       require_relative 'hooks'
-
-      # The DesignPatch is not a typical method patch, as it replaces a constant and thus needs to be applied without the
-      # standard patch logic for plugins.
-      require_relative "patches/design_patch"
     end
 
     initializer 'bim.bcf.register_hooks' do

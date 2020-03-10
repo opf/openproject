@@ -80,7 +80,7 @@ module API
       class_attribute :to_eager_load
       class_attribute :checked_permissions
 
-      def current_user_allowed_to(permission, context:)
+      def current_user_allowed_to(permission, context: represented.respond_to?(:project) ? represented.project : nil)
         current_user.allowed_to?(permission, context)
       end
 

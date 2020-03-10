@@ -9,6 +9,6 @@ ja:
         default: 'デフォルトのIFCモデル'
         manage: 'モデルの管理'
       views:
-        list: 'List only'
+        list: 'リストのみ'
         viewer: 'Viewer only'
         split: 'Viewer and list'

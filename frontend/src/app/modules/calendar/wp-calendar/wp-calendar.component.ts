@@ -33,7 +33,7 @@ interface CalendarViewEvent {
   selector: 'wp-calendar',
 })
 export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(FullCalendarComponent, { static: false }) ucCalendar:FullCalendarComponent;
+  @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
   static MAX_DISPLAYED = 100;

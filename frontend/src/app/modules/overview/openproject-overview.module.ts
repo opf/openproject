@@ -73,8 +73,6 @@ export function uiRouterOverviewConfiguration(uiRouter:UIRouter) {
   ],
   declarations: [
     OverviewComponent
-  ],
-  entryComponents: [
   ]
 })
 export class OpenprojectOverviewModule {

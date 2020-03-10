@@ -61,6 +61,7 @@ hu:
         header-item-font-hover-color: "Kattintható fejléc betűszíne egér hatására."
         header-border-bottom-color: "Vékony vonal a fejléc alatt. Hagyja üresen, ha semmilyen vonalat nem szeretne."
         main-menu-bg-color: "Baloldali menü háttérszíne."
+      theme_warning: A téma megváltoztatása felülírja az egyéni stílust. A forma elvész. Biztos, hogy folytatni akarod?
     enterprise:
       upgrade_to_ee: "Frissítés a Vállalati Verzióra"
       add_token: "Töltse fel a Vállalati Verzió támogatási tokenjét"
@@ -89,29 +90,29 @@ hu:
       <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Részletes útmutatásért kérjük olvassa el a dokumentációt</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
+      name: Az LDAP kapcsolat tetszőleges neve
       host: LDAP Kiszolgáló neve vagy IP címe
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      login_map: Az LDAP attribútumkulcsa, amelyet az egyedi felhasználói bejelentkezés azonosítására használnak. Ez általában `uid` vagy` samAccountName`.
+      generic_map: Az LDAP attribútumkulcsa, amely az OpenProject %{attribute} attribútumhoz van leképezve
+      admin_map_html: "Opcionális: Az LDAP attribútumkulcsa, amely a <strong> ha van </strong> jelöli az OpenProject felhasználó adminisztrátorát. Hagyja üresen ha kétséges."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Írja be az írásvédett hozzáféréshez használt rendszerfelhasználó DN-jét.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        Példa: uid = openproject, ou = rendszer, dc = példa, dc = com
+      system_user_password: Adja meg a rendszergazda bind jelszavát
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Írja be annak az alrésznek az alap DN-jét az LDAP-ban, amelyben az OpenProject felhasználókat és csoportokat szeretne keresni.
+        Az OpenProject csak ebben a részfában biztosítja a megadott felhasználóneveket.
+        Példa: ou = felhasználók, dc = példa, dc = com
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Ha bejelöli ezt a négyzetet, az OpenProject automatikusan új felhasználókat hoz létre az LDAP bejegyzéseikből
+        amikor először hitelesítenek az OpenProject segítségével.
+        Ha ezt nem jelöli, akkor az OpenProject már létező fiókjai csak az LDAP segítségével hitelesíthetők!
     connection_encryption: 'Kapcsolat titkosítása'
     system_account: 'Rendszer fiók'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
+      Az OpenProject csak olvasható hozzáférést igényel egy rendszerfiókon keresztül az LDAP-fában lévő felhasználók és csoportok kereséséhez.
+      A következő szakaszban adja meg a rendszerfelhasználó bind hitelesítő adatait.
     ldap_details: 'LDAP részletek'
     user_settings: 'Attribútum-leképezés'
     user_settings_legend: |
@@ -160,7 +161,7 @@ hu:
   concatenation:
     single: 'vagy'
   deprecations:
-    time_entries: "This time entries view is superseded by the 'Cost reports' module. This view now only supports exporting time entry information to csv. For interactive filtering, please activate the 'Cost reports' module in the project settings."
+    time_entries: "Az idei bejegyzések nézetét felváltja a 'Költségjelentések' modul. Ez a nézet csak az időbeviteli információk exportálását támogatja a csv-be. Az interaktív szűréshez kérjük, aktiválja a 'Költségjelentések' modult a projektbeállításokban."
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -559,7 +560,7 @@ hu:
               id_filter_required: "Egy \"id\" szűrő szükséges."
         project:
           archived_ancestor: 'A projektnek archívált őse van.'
-          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          foreign_wps_reference_version: 'Munkacsomagok nem leszármazottak a projektekben, a projekt vagy annak leszármazottainak referenciaverziói.'
           attributes:
             types:
               in_use_by_work_packages: "munkacsomagok használatban vannak: %{types}"
@@ -596,7 +597,7 @@ hu:
         time_entry:
           attributes:
             hours:
-              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+              day_limit: "túl magas, mivel dátumonként legfeljebb 24 óra naplózható."
         work_package:
           is_not_a_valid_target_for_time_entries: "A  #%{id} feladatcsoport nem érvényes cél az idő bejegyzések ismételt hozzárendeléséhez."
           attributes:
@@ -1031,7 +1032,7 @@ hu:
         add_groups: "Attribútum-csoport hozzáadása"
         rename_groups: "Attribútum-csoportok átnevezése"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Az egyedi mezők szűrése és rendezése vállalati kiadás funkció."
   enumeration_activities: "Időnyilvántartási tevékenységek"
   enumeration_work_package_priorities: "Feladatcsoport fontosság"
   enumeration_reported_project_statuses: "Projekt állapot beszámoló"
@@ -1123,7 +1124,7 @@ hu:
   general_text_yes: "igen"
   general_text_No: "Nem"
   general_text_Yes: "Igen"
-  general_text_true: "true"
+  general_text_true: "Igaz"
   general_text_false: "hamis"
   gui_validation_error: "1 hiba"
   gui_validation_error_plural: "%{count} hiba"
@@ -1152,6 +1153,8 @@ hu:
       blog: "OpenProject blog"
       forums: "Közösségi fórum"
       newsletter: "Biztonsági figyelmeztetések / hírlevél"
+  journals:
+    changes_retracted: "A módosítások visszavonásra kerültek."
   links:
     configuration_guide: 'Konfigurációs útmutató'
   instructions_after_registration: "Be tud jelentkezni, amint fiókját aktiválta ide %{signin} kattintva."
@@ -1618,7 +1621,7 @@ hu:
   label_used_by_types: "Használt típusok szerint"
   label_used_in_projects: "Használt projektek szerint"
   label_user: "Felhasználó"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Felhasználók és jogok"
   label_user_named: "Felhasználó: %{name}"
   label_user_activity: "%{value} tevékenység"
   label_user_anonymous: "Anonymous"
@@ -1631,7 +1634,7 @@ hu:
   label_user_new: "Új felhasználó"
   label_user_plural: "Felhasználók"
   label_user_search: "Felhasználó keresése"
-  label_user_settings: "User settings"
+  label_user_settings: "Felhasználói beállítások"
   label_version_new: "Új verzió"
   label_version_plural: "Verzió"
   label_version_sharing_descendants: "Az alprojektekkel rendelkező"
@@ -1649,7 +1652,7 @@ hu:
   label_wiki_content_added: "Wiki oldal hozzáadva"
   label_wiki_content_updated: "Wiki oldal frissítve"
   label_wiki_toc: "Tartalomjegyzék"
-  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_toc_empty: "A tartalomjegyzék üres, mivel nincs címsor."
   label_wiki_dont_show_menu_item: "Nem mutasd meg ezt a wikioldalt a projekt navigáció közben"
   label_wiki_edit: "Wiki szerkesztés"
   label_wiki_edit_plural: "Wiki szerkesztések"
@@ -1740,7 +1743,7 @@ hu:
     legacy_warning:
       timeline: 'Ez az örökölt idővonal makró eltávolításra került, és már nem áll rendelkezésre. A funkcionalitást beágyazott táblázat makróval helyettesítheti.'
     include_wiki_page:
-      removed: 'The macro does no longer exist.'
+      removed: 'A makro nem érvényes a továbbiakban'
     wiki_child_pages:
       errors:
         page_not_found: "Nem található a wiki oldal \"%{name}\"."
@@ -2115,13 +2118,13 @@ hu:
   setting_display_subprojects_work_packages: "Megjelenítendő alprojektek, feladatcsoportok a fő projekt alapértelmezett beállítása szerint"
   setting_emails_footer: "E-mailek lábléce"
   setting_emails_header: "E-mailek fejléce"
-  setting_email_login: "Use email as login"
+  setting_email_login: "Használd az e-mail címet a bejellentkezéshez"
   setting_enabled_scm: "SCM engedélyezve"
   setting_feeds_enabled: "Hírcsatornák engedélyezése"
   setting_feeds_limit: "Tartalom szintjének a korlátja"
   setting_file_max_size_displayed: "A szöveg fájl sorainak maximum mérete megjelenítéskor"
   setting_host_name: "Gazdagép neve"
-  setting_invitation_expiration_days: "Activation email expires after"
+  setting_invitation_expiration_days: "Az aktivációs email lejár ekkor"
   setting_work_package_done_ratio: "A feladatcsoport elkészült arányainak kiszámítása"
   setting_work_package_done_ratio_field: "A feladatcsoport mező használata"
   setting_work_package_done_ratio_status: "Használja a feladatcsoport állapotát"
@@ -2478,7 +2481,7 @@ hu:
     Új meghívó e-mail küldése egy új tokennel. Ez abban az esetben hasznos, ha a felhasználó nem érvényesítette meghívóját időben (lejárt a tokenje) vagy nem kapta meg az meghívó e-mailt. Aktív felhasználóknak is küldhetsz újra meghívót, ha meg akarják változtatni a bejelentkezési módjukat. Ebben az esetben a meghívó kiküldése után a felhasználók állapota 'Meghívva' lesz.
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      Ha engedélyezve van, a felhasználó nem tudja kiválasztani a bejelentkezést a regisztráció során. Ehelyett a megadott e-mail címet fogja bejelentkezésre használni. Az adminisztrátor továbbra is külön módosíthatja a bejelentkezést.
   queries:
     apply_filter: Előre beállított szűrő alkalmazása
   top_menu:
@@ -2541,11 +2544,11 @@ hu:
     protocol_mismatch:
       title: 'Protokol beállítási eltérés'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Az alkalmazás fut, amelynek protokollbeállítása <code>%{set_protocol} </code>, de a kérelem <code>%{actual_protocol} </code> kérés. Ez hibákat eredményez! Lépjen a <a href="%{setting_path}"> Rendszerbeállítások </a> pontra, és javítsa ki a "Protokoll" beállítást.
     hostname_mismatch:
-      title: 'Állomásnév beállítási eltérés'
+      title: 'Hosztnév beállítási eltérés'
       text_html: >
-        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+        Az alkalmazás fut a gazdagépnév beállításával <code>%{set_hostname} </code> -ra állítva, de a kérelem <code>%{actual_hostname} </code> gazdagépnév. Ez hibákat eredményez! Lépjen a <a href="%{setting_path}"> Rendszerbeállítások </a> pontra, és javítsa ki a "Gazdagép neve" beállítást.
   menu_item: "Menüpont"
   menu_item_setting: "Látható"
   wiki_menu_item_for: "Wikipage \"%{title}\" menüeleme"
@@ -2554,6 +2557,7 @@ hu:
     Csak a fő wiki menüelemet törölted. Most ki kell választani egy wiki oldalt, amelyre egy új fő menüelem jön létre. Ha törli a wiki oldalakat a projekt adminisztrátor tudja letiltani a wiki modult.
   wiki_menu_item_delete_not_permitted: A wiki menüpontjában egyetlen wiki oldalt nem lehet törölni.
   query_menu_item_for: "Menüpont lekérdezés \"%{title}\""
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       Automatikusan frissíti a változó értékeken belöl a gyermek feladatcsoport %{child} alapján
@@ -2648,7 +2652,7 @@ hu:
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
         confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
+        scopes: "Ellenőrizze azokat a hatóköröket, amelyekhez az alkalmazás hozzáférést biztosít. Ha nem ellenőrzi a hatókört, akkor az api_v3 feltételezzük."
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
@@ -2663,8 +2667,8 @@ hu:
       wants_to_access_html: >
         This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
     scopes:
-      api_v3: "Teljes API v2 hozzáférés"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Teljes API v3 hozzáférés"
+      api_v3_text: "Az alkalmazás teljes olvasási és írási hozzáférést kap az OpenProject API v3 verzióhoz az Ön nevében végzett műveletek elvégzéséhez."
     grants:
       created_date: "Approved on"
       scopes: "Jogosultságok"

@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+
 describe OpenProject::AccessControl do
   describe '.remove_modules_permissions' do
     let!(:all_former_permissions) { OpenProject::AccessControl.permissions }

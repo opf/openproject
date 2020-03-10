@@ -32,7 +32,7 @@ import {ConfigurationDmService} from "core-app/modules/hal/dm-services/configura
 import {ConfigurationResource} from "core-app/modules/hal/resources/configuration-resource";
 import * as moment from "moment";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ConfigurationService {
   // fetches configuration from the ApiV3 endpoint
   // TODO: this currently saves the request between page reloads,

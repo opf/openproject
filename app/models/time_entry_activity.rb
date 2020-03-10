@@ -50,18 +50,28 @@ class TimeEntryActivity < Enumeration
 
   def active_in_project?(project)
     teap = if time_entry_activities_projects.loaded?
-             time_entry_activities_projects.detect { |t| t.project_id == project.id }&.active?
+             detect_project_time_entry_activity_active_state(project)
            else
-             time_entry_activities_projects
-               .where(project_id: project.id)
-               .pluck(:active)
-               .first
+             pluck_project_time_entry_activity_active_state(project)
            end
 
-    teap.present? && teap
+    !teap.nil? && teap || teap.nil? && active?
   end
 
   def activated_projects
     Project::Scopes::ActivatedTimeActivity.fetch(self)
+  end
+
+  private
+
+  def detect_project_time_entry_activity_active_state(project)
+    time_entry_activities_projects.detect { |t| t.project_id == project.id }&.active?
+  end
+
+  def pluck_project_time_entry_activity_active_state(project)
+    time_entry_activities_projects
+      .where(project_id: project.id)
+      .pluck(:active)
+      .first
   end
 end

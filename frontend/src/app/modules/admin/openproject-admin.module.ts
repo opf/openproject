@@ -46,9 +46,6 @@ import {TypeFormQueryGroupComponent} from "core-app/modules/admin/types/query-gr
     TypeFormQueryGroupComponent,
     TypeFormConfigurationComponent,
     GroupEditInPlaceComponent
-  ],
-  entryComponents: [
-    TypeFormConfigurationComponent
   ]
 })
 export class OpenprojectAdminModule { }

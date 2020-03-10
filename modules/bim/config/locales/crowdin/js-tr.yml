@@ -7,8 +7,8 @@ tr:
     ifc_models:
       models:
         default: 'Varsayılan IFC modelleri'
-        manage: 'Manage models'
+        manage: 'Modelleri yönetin'
       views:
-        list: 'List only'
-        viewer: 'Viewer only'
-        split: 'Viewer and list'
+        list: 'Yalnızca liste'
+        viewer: 'Yalnızca görüntüleyici'
+        split: 'Görüntüleyici ve liste'

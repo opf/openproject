@@ -61,6 +61,7 @@ zh-TW:
         header-item-font-hover-color: "當滑鼠移動到可點選的標題項目的文字顏色"
         header-border-bottom-color: "標題下方的細線。如果你不想要任何線段，請保持此欄位空白。"
         main-menu-bg-color: "左側選單的背景顏色"
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "升級到企業版"
       add_token: "上傳企業版support token"
@@ -1139,6 +1140,8 @@ zh-TW:
       blog: "Openproject 部落格"
       forums: "社群論壇"
       newsletter: "安全警報 / 消息"
+  journals:
+    changes_retracted: "The changes where retracted."
   links:
     configuration_guide: '設定指南'
   instructions_after_registration: "帳號啟用後即可點擊 %{signin} 登入"
@@ -2534,6 +2537,7 @@ zh-TW:
     您正在刪除 wiki 唯一的主功能表項目。現在, 您必須選擇一個 wiki 頁面, 該網頁將生成一個新的主專案。要刪除 wiki, 可以由專案管理員停用 wiki 模組。
   wiki_menu_item_delete_not_permitted: 無法刪除 wiki 頁面的唯一 wiki 功能表項目。
   query_menu_item_for: "查詢 \"%{title}\" 的功能表項目"
+  #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
       通過更改子工作包中的值自動 _更新 %{child}_

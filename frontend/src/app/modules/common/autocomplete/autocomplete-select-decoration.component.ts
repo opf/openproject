@@ -26,11 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {NgSelectComponent} from "@ng-select/ng-select";
 
 type SelectItem = { label:string, value:string, selected?:boolean };
+
+export const autocompleteSelectDecorationSelector = 'autocomplete-select-decoration';
 
 @Component({
   template: `
@@ -48,10 +49,10 @@ type SelectItem = { label:string, value:string, selected?:boolean };
       </ng-template>
     </ng-select>
   `,
-  selector: 'autocomplete-select-decoration'
+  selector: autocompleteSelectDecorationSelector
 })
 export class AutocompleteSelectDecorationComponent implements OnInit {
-  @ViewChild(NgSelectComponent, { static: false }) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   public options:SelectItem[];
 
@@ -130,5 +131,3 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
       .remove();
   }
 }
-
-DynamicBootstrapper.register({selector: 'autocomplete-select-decoration', cls: AutocompleteSelectDecorationComponent});

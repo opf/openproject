@@ -27,10 +27,11 @@
 //++
 
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import * as URI from 'urijs';
 
 @Injectable()
 export class QueryFormDmService {

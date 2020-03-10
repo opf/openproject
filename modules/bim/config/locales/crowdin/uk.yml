@@ -24,7 +24,7 @@ uk:
       import_title: 'Імпортувати'
       export: 'Експорт'
       import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
+      import_failed: 'Не вдалося імпортувати файл BCF: %{error}'
       import_successful: 'Imported %{count} BCF issues'
       import_canceled: 'BCF-XML import canceled.'
       type_not_active: "The issue type is not activated for this project."
@@ -50,9 +50,9 @@ uk:
         import_priorities_as: 'Set all these priorities to'
         invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
         add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
+        no_type_provided: 'Тип не вказано'
+        no_status_provided: 'Cтатус не вказано'
+        no_priority_provided: 'Пріоритет не вказано'
         perform_description: "Do you want to import or update the issues listed above?"
         replace_with_system_user: 'Replace them with "System" user'
         import_as_system_user: 'Import them as "System" user.'
@@ -62,9 +62,9 @@ uk:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "Снапшот BCF"
   project_module_bcf: "BCF"
-  permission_view_linked_issues: "View BCF issues"
+  permission_view_linked_issues: "Проглянути BCF помилки"
   permission_manage_bcf: "Import and manage BCF issues"
   oauth:
     scopes:

@@ -27,7 +27,7 @@
 // ++
 
 import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
-import {NgModule, APP_INITIALIZER, Injector} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {WpGraphConfigurationModalComponent} from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
 import {WpGraphConfigurationFiltersTab} from "core-app/modules/work-package-graphs/configuration-modal/tabs/filters-tab.component";
@@ -48,14 +48,6 @@ import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 
     ChartsModule,
   ],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: registerChartPlugins,
-      deps: [Injector],
-      multi: true
-    },
-  ],
   declarations: [
     // Modals
     WpGraphConfigurationModalComponent,
@@ -70,15 +62,6 @@ import * as ChartDataLabels from 'chartjs-plugin-datalabels';
     WorkPackageOverviewGraphComponent,
 
   ],
-  entryComponents: [
-    // Modals
-    WpGraphConfigurationModalComponent,
-    WpGraphConfigurationFiltersTab,
-    WpGraphConfigurationSettingsTab,
-
-    // Work package graphs on version page
-    WorkPackageOverviewGraphComponent,
-  ],
   exports: [
     // Modals
     WpGraphConfigurationModalComponent,
@@ -89,15 +72,12 @@ import * as ChartDataLabels from 'chartjs-plugin-datalabels';
   ]
 })
 export class OpenprojectWorkPackageGraphsModule {
-}
-
-export function registerChartPlugins() {
-  return () => {
+  constructor() {
     // By this seemingly useless statement, the plugin is registered with Chart.
     // Simply importing it will have it removed probably by angular tree shaking
     // so it will not be active. The current default of the plugin is to be enabled
     // by default. This will be changed in the future:
     // https://github.com/chartjs/chartjs-plugin-datalabels/issues/42
     ChartDataLabels;
-  };
+  }
 }

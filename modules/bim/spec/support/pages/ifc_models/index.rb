@@ -27,6 +27,7 @@
 #++
 
 require 'support/pages/page'
+require 'support/pages/work_packages/concerns/work_package_by_button_creator'
 
 module Pages
   module IfcModels
@@ -38,7 +39,7 @@ module Pages
       end
 
       def path
-        ifc_models_project_ifc_models_path(project)
+        bcf_project_ifc_models_path(project)
       end
 
       def model_listed(listed, model_name)
@@ -51,13 +52,18 @@ module Pages
         if allowed
           click_toolbar_button 'IFC model'
 
-          expect_correct_page_loaded '.button[type="submit"]',
-                                     new_ifc_models_project_ifc_model_path(project)
+          expect_correct_page_loaded '.button[type="submit"]'
+          expect(page).to have_current_path new_bcf_project_ifc_model_path(project)
 
           visit!
         else
           expect(page).to have_no_selector('.button.-alt-highlight', text: 'IFC model')
         end
+      end
+
+      def bcf_buttons(allowed)
+        expect(page).to have_conditional_selector(allowed, '.toolbar-item', text: 'Import')
+        expect(page).to have_conditional_selector(allowed, '.toolbar-item', text: 'Export')
       end
 
       def edit_model_allowed(model_name, allowed)
@@ -81,7 +87,7 @@ module Pages
         click_on 'Save'
 
         model_listed true, new_name
-        expect(current_path).to eq ifc_models_project_ifc_models_path(project)
+        expect(current_path).to eq bcf_project_ifc_models_path(project)
       end
 
       def delete_model(model_name)
@@ -90,25 +96,23 @@ module Pages
         page.driver.browser.switch_to.alert.accept
 
         model_listed false, model_name
-        expect(current_path).to eq ifc_models_project_ifc_models_path(project)
+        expect(current_path).to eq bcf_project_ifc_models_path(project)
       end
 
       def show_model(model)
         click_model_link model.title
 
-        expect_correct_page_loaded '.ifc-model-viewer--container',
-                                   ifc_models_project_ifc_model_path(project, model)
+        expect_correct_page_loaded '.ifc-model-viewer--container'
 
-        visit!
+        expect(page).to have_selector('.editable-toolbar-title--fixed', text: model.title)
       end
 
       def show_defaults
         click_toolbar_button 'Show defaults'
 
-        expect_correct_page_loaded '.ifc-model-viewer--container',
-                                   defaults_ifc_models_project_ifc_models_path(project)
+        expect_correct_page_loaded '.ifc-model-viewer--container'
 
-        visit!
+        expect(page).to have_selector('.editable-toolbar-title--fixed', text: 'Default IFC models')
       end
 
       private
@@ -138,9 +142,8 @@ module Pages
         end
       end
 
-      def expect_correct_page_loaded(checked_selector, path)
+      def expect_correct_page_loaded(checked_selector)
         expect(page).to have_selector(checked_selector)
-        expect(current_path).to eql path
       end
 
       def change_model_name(model_name, new_name)

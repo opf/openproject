@@ -70,6 +70,9 @@ $table-timeline--compact-row-height: 28px
     .wp-cards-container.-horizontal
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
 
+    &.-with-resizer
+      padding-left: 10px
+
   &.-compact-tables
     .wp-table--row
       border-bottom: none !important
@@ -112,9 +115,6 @@ $table-timeline--compact-row-height: 28px
   .work-packages-tabletimeline--table-side.-timeline-visible
     max-width: 50%
     overflow-x: scroll
-
-  .pagination
-    padding-bottom: 0
 
 wp-query-group .wp-relations-create-button
   margin-left: -6px

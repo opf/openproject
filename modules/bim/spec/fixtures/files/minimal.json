@@ -12,19 +12,19 @@
       "id": "0hOGUplITAJP95dJaHmSyS",
       "name": "Default",
       "type": "IfcSite",
-      "parent": "0hOGUplITAJP95dJaHmSyU"
+      "parent": null
     },
     {
       "id": "0hOGUplITAJP95dJaHmSyV",
       "name": "",
       "type": "IfcBuilding",
-      "parent": "0hOGUplITAJP95dJaHmSyS"
+      "parent": null
     },
     {
       "id": "0hOGUplITAJP95dJdkAGth",
       "name": "0EG",
       "type": "IfcBuildingStorey",
-      "parent": "0hOGUplITAJP95dJaHmSyV"
+      "parent": null
     },
     {
       "id": "2mWJQJFvvAGPIr4kdVXqdT",
@@ -288,7 +288,7 @@
       "id": "0hOGUplITAJP95dJdkNbUT",
       "name": "1OG",
       "type": "IfcBuildingStorey",
-      "parent": "0hOGUplITAJP95dJaHmSyV"
+      "parent": null
     },
     {
       "id": "2I3GeLg8z6SuvsKrNeG9TS",
@@ -552,7 +552,7 @@
       "id": "0hOGUplITAJP95dJdkKB2G",
       "name": "2OG",
       "type": "IfcBuildingStorey",
-      "parent": "0hOGUplITAJP95dJaHmSyV"
+      "parent": null
     },
     {
       "id": "2I3GeLg8z6SuvsKrNeG9UH",
@@ -816,7 +816,7 @@
       "id": "0hOGUplITAJP95dJdkKB1h",
       "name": "3OG",
       "type": "IfcBuildingStorey",
-      "parent": "0hOGUplITAJP95dJaHmSyV"
+      "parent": null
     },
     {
       "id": "2I3GeLg8z6SuvsKrNeG9VF",
@@ -1080,7 +1080,7 @@
       "id": "0hOGUplITAJP95dJdkKB1Y",
       "name": "4OG",
       "type": "IfcBuildingStorey",
-      "parent": "0hOGUplITAJP95dJaHmSyV"
+      "parent": null
     },
     {
       "id": "2I3GeLg8z6SuvsKrNeG9Oz",

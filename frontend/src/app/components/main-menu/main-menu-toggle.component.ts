@@ -30,13 +30,14 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestr
 import {MainMenuToggleService} from './main-menu-toggle.service';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {DeviceService} from "app/modules/common/browser/device.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
+export const mainMenuToggleSelector = 'main-menu-toggle';
+
 @Component({
-  selector: 'main-menu-toggle',
+  selector: mainMenuToggleSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div *ngIf="this.currentProject.id !== null || this.deviceService.isMobile" id="main-menu-toggle"
@@ -80,4 +81,3 @@ export class MainMenuToggleComponent implements OnInit, OnDestroy {
   }
 }
 
-DynamicBootstrapper.register({selector: 'main-menu-toggle', cls: MainMenuToggleComponent});

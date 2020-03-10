@@ -1,197 +1,235 @@
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
   Exclude:
     - db/schema.rb
 
-AccessorMethodName:
+
+Layout/ConditionPosition:
   Enabled: false
 
-ActionFilter:
+Layout/DotPosition:
+    EnforcedStyle: leading
+
+Layout/LineLength:
+  Max: 130
+
+Layout/MultilineMethodCallIndentation:
   Enabled: false
 
-Alias:
+
+Lint/AmbiguousOperator:
   Enabled: false
 
-AndOr:
+Lint/AmbiguousRegexpLiteral:
   Enabled: false
 
-ArrayJoin:
+Lint/AssignmentInCondition:
   Enabled: false
 
-AsciiComments:
+Lint/DeprecatedClassMethods:
   Enabled: false
 
-AsciiIdentifiers:
+Lint/ElseLayout:
   Enabled: false
 
-Attr:
+Lint/FlipFlop:
   Enabled: false
 
-BlockLength:
+Lint/LiteralInInterpolation:
   Enabled: false
 
-BlockNesting:
+Lint/Loop:
   Enabled: false
 
-CaseEquality:
+Lint/ParenthesesAsGroupedExpression:
   Enabled: false
 
-CharacterLiteral:
+Lint/RequireParentheses:
   Enabled: false
 
-ClassAndModuleChildren:
+Lint/SuppressedException:
   Enabled: false
 
-ClassLength:
+Lint/UnderscorePrefixedVariableName:
   Enabled: false
 
-ClassVars:
+Lint/Void:
   Enabled: false
 
-CollectionMethods:
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/BlockNesting:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+
+Naming/AccessorMethodName:
+  Enabled: false
+
+Naming/AsciiIdentifiers:
+  Enabled: false
+
+Naming/FileName:
+  Enabled: false
+
+Naming/PredicateName:
+  ForbiddenPrefixes:
+    - is_
+
+
+Style/Alias:
+  Enabled: false
+
+Style/AndOr:
+  Enabled: false
+
+Style/ArrayJoin:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/Attr:
+  Enabled: false
+
+Style/CaseEquality:
+  Enabled: false
+
+Style/CharacterLiteral:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/ClassVars:
+  Enabled: false
+
+Style/CollectionMethods:
   PreferredMethods:
     find: detect
     reduce: inject
     collect: map
     find_all: select
 
-ColonMethodCall:
+Style/ColonMethodCall:
   Enabled: false
 
-CommentAnnotation:
+Style/CommentAnnotation:
   Enabled: false
 
-CyclomaticComplexity:
+Style/PreferredHashMethods:
   Enabled: false
 
-Delegate:
+Style/Documentation:
   Enabled: false
 
-PreferredHashMethods:
+Style/DoubleNegation:
   Enabled: false
 
-Documentation:
+Style/EachWithObject:
   Enabled: false
 
-DotPosition:
-  EnforcedStyle: leading
-
-DoubleNegation:
+Style/EmptyLiteral:
   Enabled: false
 
-EachWithObject:
+Style/Encoding:
   Enabled: false
 
-EmptyLiteral:
+Style/EvenOdd:
   Enabled: false
 
-Encoding:
+Style/FormatString:
   Enabled: false
 
-EvenOdd:
+Style/GlobalVars:
   Enabled: false
 
-FileName:
+Style/GuardClause:
   Enabled: false
 
-FlipFlop:
+Style/IfUnlessModifier:
   Enabled: false
 
-FormatString:
+Style/IfWithSemicolon:
   Enabled: false
 
-GlobalVars:
+Style/InlineComment:
   Enabled: false
 
-GuardClause:
+Style/Lambda:
   Enabled: false
 
-IfUnlessModifier:
+Style/LambdaCall:
   Enabled: false
 
-IfWithSemicolon:
+Style/LineEndConcatenation:
   Enabled: false
 
-InlineComment:
+Style/ModuleFunction:
   Enabled: false
 
-Lambda:
+Style/NegatedIf:
   Enabled: false
 
-LambdaCall:
+Style/NegatedWhile:
   Enabled: false
 
-LineEndConcatenation:
+Style/Next:
   Enabled: false
 
-LineLength:
-  Max: 130
-
-MethodLength:
+Style/NilComparison:
   Enabled: false
 
-Metrics/ModuleLength:
+Style/Not:
   Enabled: false
 
-ModuleFunction:
+Style/OneLineConditional:
   Enabled: false
 
-NegatedIf:
+Style/PercentLiteralDelimiters:
   Enabled: false
 
-NegatedWhile:
+Style/PerlBackrefs:
   Enabled: false
 
-Next:
+Style/Proc:
   Enabled: false
 
-NilComparison:
+Style/RaiseArgs:
   Enabled: false
 
-Not:
+Style/RegexpLiteral:
   Enabled: false
 
-NumericLiterals:
+Style/SelfAssignment:
   Enabled: false
 
-OneLineConditional:
+Style/SingleLineBlockParams:
   Enabled: false
 
-ParameterLists:
+Style/SingleLineMethods:
   Enabled: false
 
-PercentLiteralDelimiters:
+Style/SignalException:
   Enabled: false
 
-PerlBackrefs:
-  Enabled: false
-
-PredicateName:
-  NamePrefixBlacklist:
-    - is_
-
-Proc:
-  Enabled: false
-
-RaiseArgs:
-  Enabled: false
-
-RegexpLiteral:
-  Enabled: false
-
-SelfAssignment:
-  Enabled: false
-
-SingleLineBlockParams:
-  Enabled: false
-
-SingleLineMethods:
-  Enabled: false
-
-SignalException:
-  Enabled: false
-
-SpecialGlobalVars:
+Style/SpecialGlobalVars:
   Enabled: false
 
 # Forcing single quotes doesn't give any reasonable advantages. To the contrary:
@@ -204,22 +242,22 @@ SpecialGlobalVars:
 #
 # Ideally we would just use double quotes everywhere but since that would result
 # in innumerable rubocop offenses we will just disable this. Quote away.
-StringLiterals:
+Style/StringLiterals:
   Enabled: false
 
-TrivialAccessors:
+Style/TrivialAccessors:
   Enabled: false
 
-VariableInterpolation:
+Style/VariableInterpolation:
   Enabled: false
 
-WhenThen:
+Style/WhenThen:
   Enabled: false
 
-WhileUntilModifier:
+Style/WhileUntilModifier:
   Enabled: false
 
-WordArray:
+Style/WordArray:
   Enabled: false
 
 Style/FrozenStringLiteralComment:
@@ -228,50 +266,11 @@ Style/FrozenStringLiteralComment:
 Style/NumericLiterals:
   Enabled: false
 
-# Lint
+Style/HashEachMethods:
+  Enabled: true
 
-AmbiguousOperator:
-  Enabled: false
+Style/HashTransformKeys:
+  Enabled: true
 
-AmbiguousRegexpLiteral:
-  Enabled: false
-
-AssignmentInCondition:
-  Enabled: false
-
-ConditionPosition:
-  Enabled: false
-
-DeprecatedClassMethods:
-  Enabled: false
-
-ElseLayout:
-  Enabled: false
-
-HandleExceptions:
-  Enabled: false
-
-LiteralInCondition:
-  Enabled: false
-
-LiteralInInterpolation:
-  Enabled: false
-
-Loop:
-  Enabled: false
-
-ParenthesesAsGroupedExpression:
-  Enabled: false
-
-RequireParentheses:
-  Enabled: false
-
-UnderscorePrefixedVariableName:
-  Enabled: false
-
-Void:
-  Enabled: false
-
-Layout/MultilineMethodCallIndentation:
-  Enabled: false
-
+Style/HashTransformValues:
+  Enabled: true

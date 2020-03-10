@@ -61,7 +61,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
 
   // View container of the replacement used to initialize CKEditor5
   @ViewChild('opCkeditorReplacementContainer', { static: true }) opCkeditorReplacementContainer:ElementRef;
-  @ViewChild('codeMirrorPane', { static: false }) codeMirrorPane:ElementRef;
+  @ViewChild('codeMirrorPane') codeMirrorPane:ElementRef;
 
   // CKEditor instance once initialized
   public ckEditorInstance:ICKEditorInstance;

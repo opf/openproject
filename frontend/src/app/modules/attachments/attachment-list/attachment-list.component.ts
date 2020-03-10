@@ -26,10 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
-import {ElementRef} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {filter, takeUntil} from "rxjs/operators";
 import {componentDestroyed} from "ng2-rx-componentdestroyed";
@@ -136,8 +134,3 @@ export class AttachmentListComponent implements OnInit, OnDestroy {
       });
   }
 }
-
-DynamicBootstrapper.register({
-  selector: 'attachment-list',
-  cls: AttachmentListComponent
-});

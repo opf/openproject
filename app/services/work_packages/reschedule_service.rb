@@ -40,7 +40,7 @@ class WorkPackages::RescheduleService
   end
 
   def call(date)
-    in_context(true) do
+    in_context(work_package) do
       return if date.nil?
 
       update(date)

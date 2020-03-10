@@ -41,7 +41,7 @@ module Pages
       private
 
       def path
-        ifc_models_project_ifc_model_path(project, id)
+        bcf_project_ifc_model_path(project, id)
       end
     end
   end

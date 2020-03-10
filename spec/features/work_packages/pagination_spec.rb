@@ -49,7 +49,7 @@ RSpec.feature 'Work package pagination', js: true do
     scenario do
       expect(page).to have_content('All open')
 
-      within('.work-packages-list-view--container') do
+      within('.work-packages-partitioned-query-space--container') do
         expect(page).to     have_content(work_package_1.subject)
         expect(page).to_not have_content(work_package_2.subject)
       end
@@ -58,7 +58,7 @@ RSpec.feature 'Work package pagination', js: true do
         find('.pagination--item a', text: '2').click
       end
 
-      within('.work-packages-list-view--container') do
+      within('.work-packages-partitioned-query-space--container') do
         expect(page).to     have_content(work_package_2.subject)
         expect(page).to_not have_content(work_package_1.subject)
       end
@@ -67,7 +67,7 @@ RSpec.feature 'Work package pagination', js: true do
         find('.pagination--item a', text: '50').click
       end
 
-      within('.work-packages-list-view--container') do
+      within('.work-packages-partitioned-query-space--container') do
         expect(page).to have_content(work_package_1.subject)
         expect(page).to have_content(work_package_2.subject)
       end

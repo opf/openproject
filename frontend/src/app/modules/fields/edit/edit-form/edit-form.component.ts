@@ -94,7 +94,6 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   }
 
   ngOnDestroy() {
-    this.unregisterListener();
     this.destroy();
   }
 
@@ -104,6 +103,11 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     if (this.initializeEditMode) {
       this.start();
     }
+  }
+
+  destroy() {
+    this.unregisterListener();
+    super.destroy();
   }
 
   public async activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {

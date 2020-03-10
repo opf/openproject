@@ -39,6 +39,8 @@ import {NgSelectComponent} from "@ng-select/ng-select";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
+export const usersAutocompleterSelector = 'user-autocompleter';
+
 @Component({
   template: `
     <ng-select [items]="requests.output$ | async"
@@ -60,7 +62,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
       </ng-template>
     </ng-select>
   `,
-  selector: 'user-autocompleter'
+  selector: usersAutocompleterSelector
 })
 export class UserAutocompleterComponent implements OnInit {
   userTracker = (item:any) => item.href;
@@ -166,4 +168,3 @@ export class UserAutocompleterComponent implements OnInit {
   }
 }
 
-DynamicBootstrapper.register({selector: 'user-autocompleter', cls: UserAutocompleterComponent});

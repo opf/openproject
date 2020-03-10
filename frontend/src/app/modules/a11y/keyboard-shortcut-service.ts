@@ -79,6 +79,7 @@ export class KeyboardShortcutService {
   constructor(private readonly PathHelper:PathHelperService,
               private readonly FocusHelper:FocusHelperService,
               private readonly currentProject:CurrentProjectService) {
+    this.register();
   }
 
   /**
@@ -130,7 +131,7 @@ export class KeyboardShortcutService {
   clickLink(link:any) {
     var cancelled = false;
 
-    if (document.createEvent) {
+    if (!!document.createEvent) {
       var event = new MouseEvent('click', {
         view: window,
         bubbles: true,
@@ -191,6 +192,3 @@ export class KeyboardShortcutService {
   }
 }
 
-export function initializeKeyboardShortcuts(KeyboardShortcuts:KeyboardShortcutService) {
-  return () => KeyboardShortcuts.register();
-}

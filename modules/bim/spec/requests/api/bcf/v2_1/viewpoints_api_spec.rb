@@ -200,9 +200,17 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
         get path
       end
 
-      it 'responds with the attachment' do
+      it 'responds with the attachment with the appropriate content type and cache headers' do
         expect(subject.status).to eq 200
         expect(subject.headers['Content-Type']).to eq 'image/jpeg'
+
+        expect(subject.headers["Cache-Control"]).to eq "public, max-age=#{1.year.to_i}"
+        expect(subject.headers["Expires"]).to be_present
+
+        expires_time = Time.parse response.headers["Expires"]
+
+        expect(expires_time < Time.now.utc + 1.year.to_i).to be_truthy
+        expect(expires_time > Time.now.utc + 1.year.to_i - 60).to be_truthy
       end
     end
 
@@ -280,6 +288,49 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
       let(:current_user) { view_only_user }
 
       it_behaves_like 'bcf api not allowed response'
+    end
+
+    context 'providing a number for a perspective that might be transformed into a BigDecimal (by the Oj gem)' do
+      let(:params) do
+        FactoryBot
+          .attributes_for(:bcf_viewpoint)[:json_viewpoint]
+          .merge(
+            "perspective_camera" => {
+              "camera_view_point" => {
+                "x" => 183.31539916992188,
+                "y" => -183.31539916992188,
+                "z" => 183.31539916992188
+              },
+              "camera_direction" => {
+                "x" => -0.5773502588272095,
+                "y" => 0.5773502588272095,
+                "z" => -0.5773502588272095
+              },
+              "camera_up_vector" => {
+                "x" => -1,
+                "y" => 1,
+                "z" => 1
+              },
+              "field_of_view" => 60
+            }
+          ).except('bitmaps')
+      end
+
+      it_behaves_like 'bcf api successful response' do
+        let(:expected_body) do
+          new_viewpoint = Bim::Bcf::Viewpoint.last
+
+          params
+            .merge(guid: new_viewpoint.uuid)
+        end
+
+        let(:expected_status) { 201 }
+      end
+
+      it 'creates the viewpoint with an attachment for the snapshot' do
+        expect(Bim::Bcf::Viewpoint.count)
+          .to eql 2
+      end
     end
 
     context 'providing an invalid viewpoint json by having an invalid snapshot type' do

@@ -45,7 +45,8 @@ See docs/COPYRIGHT.rdoc for more details.
         </div>
       </div>
 
-      <button type="submit" class="button"><%= I18n.t(:button_save) %></button>
+      <%= styled_button_tag t(:button_save),
+                            data:({ confirm: t('admin.custom_styles.theme_warning') } if @current_theme.empty?) %>
     </fieldset>
   </section>
 <% end %>

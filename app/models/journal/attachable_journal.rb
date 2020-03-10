@@ -32,5 +32,3 @@ class Journal::AttachableJournal < Journal::BaseJournal
 
   belongs_to :attachment
 end
-
-::AttachableJournal = Journal::AttachableJournal

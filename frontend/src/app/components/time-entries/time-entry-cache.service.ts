@@ -34,7 +34,7 @@ import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TimeEntryCacheService extends StateCacheService<TimeEntryResource> {
 
   constructor(readonly states:States,

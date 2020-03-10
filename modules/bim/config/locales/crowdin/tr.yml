@@ -1,7 +1,7 @@
 #English strings go here for Rails i18n
 tr:
   bim:
-    label_bim: 'BIM'
+    label_bim: 'BIM: Bina Bilgi Modellemesi'
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'BCF konularının başarısız ithalatı'

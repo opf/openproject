@@ -38,7 +38,7 @@ ja:
           title: '子プロジェクト'
           no_results: '子プロジェクトはありません。'
         time_entries_current_user:
-          title: 'My spent time'
+          title: '自分の作業時間'
         time_entries_list:
           title: '経過時間(過去7日)'
           no_results: '過去7日間の時間エントリはありません。'

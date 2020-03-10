@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, ElementRef, Inject, InjectionToken, Injector, OnDestroy, OnInit} from "@angular/core";
+import { ChangeDetectorRef, ElementRef, Inject, InjectionToken, Injector, OnDestroy, OnInit, Directive } from "@angular/core";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
@@ -43,6 +43,7 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 
 export const editModeClassName = '-editing';
 
+@Directive()
 export abstract class EditFieldComponent extends Field implements OnInit, OnDestroy {
   /** Self reference */
   public self = this;

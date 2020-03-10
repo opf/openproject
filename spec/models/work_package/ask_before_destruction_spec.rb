@@ -45,30 +45,36 @@ describe WorkPackage, type: :model do
   let(:role) { FactoryBot.create(:role) }
   let(:role2) { FactoryBot.create(:role) }
   let(:member) do
-    FactoryBot.create(:member, principal: user,
-                                roles: [role])
+    FactoryBot.create(:member,
+                      principal: user,
+                      roles: [role])
   end
   let(:member2) do
-    FactoryBot.create(:member, principal: user,
-                                roles: [role2],
-                                project: work_package2.project)
+    FactoryBot.create(:member,
+                      principal: user,
+                      roles: [role2],
+                      project: work_package2.project)
   end
   let(:status) { FactoryBot.create(:status) }
   let(:priority) { FactoryBot.create(:priority) }
+  let(:time_entry_hours) { 10 }
   let(:time_entry) do
-    FactoryBot.build(:time_entry, work_package: work_package,
-                                   project: work_package.project)
+    FactoryBot.create(:time_entry,
+                      hours: time_entry_hours,
+                      work_package: work_package,
+                      project: work_package.project)
   end
   let(:time_entry2) do
-    FactoryBot.build(:time_entry, work_package: work_package2,
-                                   project: work_package2.project)
+    FactoryBot.create(:time_entry,
+                      work_package: work_package2,
+                      project: work_package2.project)
   end
 
   describe '#cleanup_action_required_before_destructing?' do
     describe 'w/ the work package having a time entry' do
       before do
         work_package
-        time_entry.save!
+        time_entry
       end
 
       it 'should be true' do
@@ -79,8 +85,8 @@ describe WorkPackage, type: :model do
     describe 'w/ two work packages having a time entry' do
       before do
         work_package
-        time_entry.save!
-        time_entry2.save!
+        time_entry
+        time_entry2
       end
 
       it 'should be true' do
@@ -103,7 +109,7 @@ describe WorkPackage, type: :model do
     describe 'w/ the work package having a time entry' do
       before do
         work_package
-        time_entry.save!
+        time_entry
       end
 
       it "should be have 'TimeEntry' as class to address" do
@@ -124,10 +130,9 @@ describe WorkPackage, type: :model do
 
   describe '#cleanup_associated_before_destructing_if_required' do
     before do
-      work_package.save!
+      work_package
 
-      time_entry.hours = 10
-      time_entry.save!
+      time_entry
     end
 
     describe 'w/o a cleanup beeing necessary' do
@@ -189,7 +194,6 @@ describe WorkPackage, type: :model do
 
     describe 'w/ "reassign" as action
               w/ reassigning to a valid work_package' do
-
       context 'with a single work package' do
         let(:action) do
           WorkPackage.cleanup_associated_before_destructing_if_required(work_package,
@@ -199,9 +203,9 @@ describe WorkPackage, type: :model do
         end
 
         before do
-          work_package2.save!
+          work_package2
           role2.add_permission! :edit_time_entries
-          member2.save!
+          member2
         end
 
         it 'should return true' do
@@ -232,7 +236,7 @@ describe WorkPackage, type: :model do
         end
 
         before do
-          work_package2.save!
+          work_package2
           role2.add_permission! :edit_time_entries
           role2.save!
           member2.save!
@@ -268,7 +272,7 @@ describe WorkPackage, type: :model do
       end
 
       before do
-        work_package2.save!
+        work_package2
       end
 
       it 'should return true' do

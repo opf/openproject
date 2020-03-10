@@ -8,7 +8,6 @@ import {DragulaService} from 'ng2-dragula';
 import {ConfirmDialogService} from 'core-components/modals/confirm-dialog/confirm-dialog.service';
 import {Drake} from 'dragula';
 import {GonService} from "core-app/modules/common/gon/gon.service";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {takeUntil} from "rxjs/operators";
 import {componentDestroyed} from "ng2-rx-componentdestroyed";
 
@@ -30,8 +29,10 @@ export interface TypeGroup {
   type:TypeGroupType;
 }
 
+export const adminTypeFormConfigurationSelector = 'admin-type-form-configuration';
+
 @Component({
-  selector: 'admin-type-form-configuration',
+  selector: adminTypeFormConfigurationSelector,
   templateUrl: './type-form-configuration.html',
   providers: [
     TypeBannerService,
@@ -212,4 +213,3 @@ export class TypeFormConfigurationComponent implements OnInit, OnDestroy {
   }
 }
 
-DynamicBootstrapper.register({cls: TypeFormConfigurationComponent, selector: 'admin-type-form-configuration'});

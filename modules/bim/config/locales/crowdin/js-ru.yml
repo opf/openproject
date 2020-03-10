@@ -7,8 +7,8 @@ ru:
     ifc_models:
       models:
         default: 'Модели IFC по умолчанию'
-        manage: 'Manage models'
+        manage: 'Управление моделями'
       views:
-        list: 'List only'
-        viewer: 'Viewer only'
-        split: 'Viewer and list'
+        list: 'Только для списка'
+        viewer: 'Только для просмотра'
+        split: 'Для просмотра и списка'

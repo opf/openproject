@@ -27,10 +27,13 @@
 #++
 
 require 'support/pages/page'
+require_relative '../bcf/create_split'
 
 module Pages
   module IfcModels
-    class ShowDefault < ::Pages::Page
+    class ShowDefault < ::Pages::WorkPackageCards
+      include ::Pages::WorkPackages::Concerns::WorkPackageByButtonCreator
+
       attr_accessor :project
 
       def initialize(project)
@@ -38,7 +41,7 @@ module Pages
       end
 
       def path
-        defaults_ifc_models_project_ifc_models_path(project)
+        defaults_bcf_project_ifc_models_path(project)
       end
 
       def finished_loading
@@ -68,22 +71,77 @@ module Pages
         tabs = ['Models', 'Objects', 'Classes', 'Storeys']
 
         tabs.each do |tab|
-          expect(page).to (visible ? have_selector(selector, text: tab) : have_no_selector(selector, text: tab))
+          element_visible? visible, selector, tab
+        end
+      end
+
+      def select_sidebar_tab(tab)
+        selector = '.xeokit-tab'
+        page.find(selector, text: tab).click
+      end
+
+      def expand_tree
+        page.all('.xeokit-tree-panel a.plus').map(&:click)
+      end
+
+      def expect_checked(label)
+        page
+          .find('.xeokit-tree-panel li span', text: label, wait: 10)
+          .sibling('input[type=checkbox]:checked')
+      end
+
+      def all_checkboxes
+        page
+          .all('.xeokit-tree-panel li span')
+          .map { |item| [item, item.sibling('input[type=checkbox]')] }
+      end
+
+      def expect_tree_panel_selected(selected, tab = 'Models')
+        within (".xeokit-#{tab.downcase}.xeokit-tree-panel") do
+          if selected
+            expect(page.find('input', match: :first)).to be_checked
+          else
+            expect(page.find('input', match: :first)).not_to be_checked
+          end
+
         end
       end
 
       def page_shows_a_toolbar(visible)
-        selector = '.toolbar-item'
-
         toolbar_items.each do |button|
-          expect(page).to (visible ? have_selector(selector, text: button) : have_no_selector(selector, text: button))
+          element_visible? visible, '.toolbar-item', button
         end
+      end
+
+      def page_shows_a_filter_button(visible)
+        element_visible? visible, '.toolbar-item', 'Filter'
+      end
+
+      def switch_view(value)
+        page.find('#bim-view-toggle-button').click
+        page.find('.menu-item', text: value).click
+      end
+
+      def expect_view_toggle_at(value)
+        expect(page).to have_selector('#bim-view-toggle-button', text: value)
       end
 
       private
 
       def toolbar_items
         ['Manage models']
+      end
+
+      def create_page_class_instance(type)
+        create_page_class.new(project: project, type_id: type.id)
+      end
+
+      def create_page_class
+        Pages::BCF::CreateSplit
+      end
+
+      def element_visible?(visible, selector, name)
+        expect(page).to (visible ? have_selector(selector, text: name) : have_no_selector(selector, text: name))
       end
     end
   end

@@ -52,7 +52,7 @@ ja:
   backlogs:
     add_new_story: "新しいストーリー"
     any: "全て"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "バックログの設定"
     burndown_graph: "バーンダウングラフ"
     card_paper_size: "カード印刷用の用紙サイズ"
     chart_options: "チャートオプション"

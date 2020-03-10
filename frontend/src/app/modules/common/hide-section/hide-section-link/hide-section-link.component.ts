@@ -30,8 +30,10 @@ import {Component, ElementRef, OnInit} from "@angular/core";
 import {HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
+export const hideSectionLinkSelector = 'hide-section-link';
+
 @Component({
-  selector: 'hide-section-link',
+  selector: hideSectionLinkSelector,
   templateUrl: './hide-section-link.component.html',
 })
 export class HideSectionLinkComponent implements OnInit {
@@ -51,6 +53,3 @@ export class HideSectionLinkComponent implements OnInit {
     return false;
   }
 }
-
-DynamicBootstrapper.register({ cls: HideSectionLinkComponent, selector: 'hide-section-link'});
-
