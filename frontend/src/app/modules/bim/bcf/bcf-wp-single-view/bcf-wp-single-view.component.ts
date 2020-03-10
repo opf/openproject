@@ -10,6 +10,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 export type ViewPoint = { snapshotId:string, snapshotFullPath:string };
 
@@ -101,22 +102,18 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
-    this.viewpoints = (this.workPackage.bcfViewpoints || []).map((vp:HalLink) => {
-      const viewpointResource = this.bcfApi.parse(vp.href!) as BcfViewpointPaths;
+    this.wpCache
+      .observe(this.workPackage.id!)
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(wp => {
+        this.workPackage = wp;
 
-      return {
-        snapshotId: viewpointResource.id,
-        snapshotFullPath: `${vp.href}/snapshot`
-      } as ViewPoint;
-    });
-
-    this.galleryImages = this.viewpoints.map(viewpoint => {
-      return {
-        small: viewpoint.snapshotFullPath,
-        medium: viewpoint.snapshotFullPath,
-        big: viewpoint.snapshotFullPath,
-      };
-    });
+        if (wp.bcfViewpoints) {
+          this.setViewpoints();
+        }
+      });
   }
 
   ngOnDestroy():void {
@@ -179,5 +176,24 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       .post(this.workPackage.convertBCF.payload)
       .toPromise()
       .then(resource => resource.guid);
+  }
+
+  private setViewpoints() {
+    this.viewpoints = this.workPackage.bcfViewpoints.map((vp:HalLink) => {
+      const viewpointResource = this.bcfApi.parse(vp.href!) as BcfViewpointPaths;
+
+      return {
+        snapshotId: viewpointResource.id,
+        snapshotFullPath: `${vp.href}/snapshot`
+      } as ViewPoint;
+    });
+
+    this.galleryImages = this.viewpoints.map(viewpoint => {
+      return {
+        small: viewpoint.snapshotFullPath,
+        medium: viewpoint.snapshotFullPath,
+        big: viewpoint.snapshotFullPath,
+      };
+    });
   }
 }

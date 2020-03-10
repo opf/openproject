@@ -26,10 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-require_relative '../support/pages/ifc_models/show'
-require_relative '../support/pages/ifc_models/show_default'
+require_relative '../spec_helper'
 
 describe 'model viewer', type: :feature, js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
@@ -50,6 +47,7 @@ describe 'model viewer', type: :feature, js: true do
   end
 
   let(:show_model_page) { Pages::IfcModels::Show.new(project, model.id) }
+  let(:model_tree) { ::Components::XeokitModelTree.new }
   let(:card_view) { ::Pages::WorkPackageCards.new(project) }
 
   context 'with all permissions' do
@@ -64,7 +62,7 @@ describe 'model viewer', type: :feature, js: true do
       show_model_page.model_viewer_visible true
       show_model_page.model_viewer_shows_a_toolbar true
       show_model_page.page_shows_a_toolbar true
-      show_model_page.sidebar_shows_viewer_menu true
+      model_tree.sidebar_shows_viewer_menu true
     end
 
     it 'shows a work package list as cards next to the viewer' do
@@ -91,7 +89,7 @@ describe 'model viewer', type: :feature, js: true do
       show_model_page.model_viewer_visible true
       show_model_page.model_viewer_shows_a_toolbar true
       show_model_page.page_shows_a_toolbar false
-      show_model_page.sidebar_shows_viewer_menu true
+      model_tree.sidebar_shows_viewer_menu true
     end
   end
 
@@ -116,7 +114,7 @@ describe 'model viewer', type: :feature, js: true do
       show_model_page.model_viewer_visible false
       show_model_page.model_viewer_shows_a_toolbar false
       show_model_page.page_shows_a_toolbar false
-      show_model_page.sidebar_shows_viewer_menu false
+      model_tree.sidebar_shows_viewer_menu false
     end
 
     it 'shows no work package list next to the viewer' do
