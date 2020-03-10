@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {StateService} from "@uirouter/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {NgxGalleryImage, NgxGalleryOptions} from '@kolkov/ngx-gallery';
@@ -16,7 +16,8 @@ export type ViewPoint = { snapshotId:string, snapshotFullPath:string };
 @Component({
   selector: 'bcf-wp-single-view',
   templateUrl: './bcf-wp-single-view.component.html',
-  styleUrls: ['./bcf-wp-single-view.component.sass']
+  styleUrls: ['./bcf-wp-single-view.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
   @Input() workPackage:WorkPackageResource;
