@@ -74,6 +74,7 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
         return {
           hidden: key === current,
           linkText: this.bimView.text[key],
+          icon: this.bimView.icon[key],
           onClick: () => {
             // Close filter section
             if (this.wpFiltersService.visible) {

@@ -84,7 +84,7 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
       let(:view_route) { 'list' }
       before do
         index_page.visit!
-        index_page.switch_view 'List'
+        index_page.switch_view 'Cards'
         expect(page).to have_current_path /\/bcf\/list$/, ignore_query: true
       end
 

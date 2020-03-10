@@ -45,9 +45,15 @@ export class BimViewService implements OnDestroy {
   private _state = input<BimViewState>();
 
   public text:any = {
-    list: this.I18n.t('js.ifc_models.views.list'),
+    list: this.I18n.t('js.views.card'),
     viewer: this.I18n.t('js.ifc_models.views.viewer'),
     split: this.I18n.t('js.ifc_models.views.split')
+  };
+
+  public icon:any = {
+    list: 'icon-view-card',
+    viewer: 'icon-modules',
+    split: 'icon-view-split2'
   };
 
   private transitionFn:Function;
