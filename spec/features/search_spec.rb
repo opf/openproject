@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Search', type: :feature, js: true do
+describe 'Search', type: :feature, js: true, with_settings: { per_page_options: '5' }, with_mail: false do
   include ::Components::NgSelectAutocompleteHelpers
   let(:project) { FactoryBot.create :project }
   let(:user) { FactoryBot.create :admin }
@@ -36,9 +36,9 @@ describe 'Search', type: :feature, js: true do
   let(:is_filter) { true }
 
   let!(:work_packages) do
-    (1..23).map do |n|
+    (1..12).map do |n|
       Timecop.freeze("2016-11-21 #{n}:00".to_datetime) do
-        subject = "Subject No. #{n}"
+        subject = "Subject No. #{n} WP"
         FactoryBot.create :work_package,
                           subject: subject,
                           project: project
@@ -48,13 +48,13 @@ describe 'Search', type: :feature, js: true do
 
   let(:query) { 'Subject' }
 
-  let(:params) { [project, {q: query}] }
+  let(:params) { [project, { q: query }] }
 
   let(:run_visit) { true }
 
   def expect_range(a, b)
     (a..b).each do |n|
-      expect(page.body).to include("No. #{n}")
+      expect(page.body).to include("No. #{n} WP")
       expect(page.body).to have_selector("a[href*='#{work_package_path(work_packages[n - 1].id)}']")
     end
   end
@@ -96,9 +96,9 @@ describe 'Search', type: :feature, js: true do
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: query)
       # Suggestions shall show latest WPs first.
-      expect(suggestions).to have_text('No. 23', wait: 10)
+      expect(suggestions).to have_text('No. 11 WP', wait: 10)
       #  and show maximum 10 suggestions.
-      expect(suggestions).to_not have_text('No. 10')
+      expect(suggestions).to_not have_text('No. 1 WP')
       # and unrelated work packages shall not get suggested
       expect(suggestions).to_not have_text(other_work_package.subject)
 
@@ -118,7 +118,7 @@ describe 'Search', type: :feature, js: true do
       # Typing a work package id shall find that work package
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
                                         query: first_wp.id.to_s)
-      expect(suggestions).to have_text('No. 1', wait: 10)
+      expect(suggestions).to have_text('No. 1 WP', wait: 10)
 
       # Typing a hash sign before an ID shall only suggest that work package and (no hits within the subject)
       suggestions = search_autocomplete(page.find('.top-menu-search--input'),
@@ -141,7 +141,7 @@ describe 'Search', type: :feature, js: true do
 
   describe 'work package search' do
     context 'search in all projects' do
-      let(:params) { [project, {q: query, work_packages: 1}] }
+      let(:params) { [project, { q: query, work_packages: 1 }] }
 
       context 'custom fields not searchable' do
         let(:searchable) { false }
@@ -213,10 +213,10 @@ describe 'Search', type: :feature, js: true do
         expect(page).to have_selector('[tab-id="work_packages"].selected')
 
         table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
-        table.expect_work_package_count(20) # 20 is the default page size.
+        table.expect_work_package_count(5) # because we set the page size to this
         # Expect order to be from newest to oldest.
-        table.expect_work_package_listed(*work_packages[3..23]) # This line ensures that the table is completely rendered.
-        table.expect_work_package_order(*work_packages[3..23].map { |wp| wp.id.to_s }.reverse)
+        table.expect_work_package_listed(*work_packages[7..12]) # This line ensures that the table is completely rendered.
+        table.expect_work_package_order(*work_packages[7..12].map { |wp| wp.id.to_s }.reverse)
 
         # Expect that "Advanced filters" can refine the search:
         filters.expect_closed
@@ -230,20 +230,20 @@ describe 'Search', type: :feature, js: true do
                               'subject')
         table.expect_work_package_listed(work_packages.last)
         filters.remove_filter('subject')
-        page.find('#filter-by-text-input').set(work_packages[9].subject)
-        table.expect_work_package_subject(work_packages[9].subject)
+        page.find('#filter-by-text-input').set(work_packages[5].subject)
+        table.expect_work_package_subject(work_packages[5].subject)
         table.ensure_work_package_not_listed!(work_packages.last)
 
         # Expect that changing the advanced filters will not affect the global search input.
         expect(global_search.input.value).to eq query
 
         # Expect that a fresh global search will reset the advanced filters, i.e. that they are closed
-        global_search.search work_packages[10].subject, submit_with_enter: true
+        global_search.search work_packages[6].subject, submit_with_enter: true
 
-        expect(page).to have_text "Search for \"#{work_packages[10].subject}\" in #{project.name}"
+        expect(page).to have_text "Search for \"#{work_packages[6].subject}\" in #{project.name}"
 
-        table.ensure_work_package_not_listed!(work_packages[9])
-        table.expect_work_package_subject(work_packages[10].subject)
+        table.ensure_work_package_not_listed!(work_packages[5])
+        table.expect_work_package_subject(work_packages[6].subject)
 
         filters.expect_closed
         # ...and that advanced filter shall have copied the global search input value.
@@ -309,14 +309,14 @@ describe 'Search', type: :feature, js: true do
   describe 'pagination' do
     context 'project wide search' do
       it 'works' do
-        expect_range 14, 23
+        expect_range 3, 12
 
         click_on 'Next', match: :first
-        expect_range 4, 13
+        expect_range 1, 2
         expect(current_path).to match "/projects/#{project.identifier}/search"
 
         click_on 'Previous', match: :first
-        expect_range 14, 23
+        expect_range 3, 12
         expect(current_path).to match "/projects/#{project.identifier}/search"
       end
     end
@@ -329,13 +329,13 @@ describe 'Search', type: :feature, js: true do
       end
 
       it 'works' do
-        expect_range 14, 23
+        expect_range 3, 12
 
         click_on 'Next', match: :first
-        expect_range 4, 13
+        expect_range 1, 2
 
         click_on 'Previous', match: :first
-        expect_range 14, 23
+        expect_range 3, 12
       end
     end
   end
