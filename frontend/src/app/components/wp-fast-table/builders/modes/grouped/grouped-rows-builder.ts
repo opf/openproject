@@ -87,7 +87,8 @@ export class GroupedRowsBuilder extends RowsBuilder {
       }
 
       // Set expansion state of contained rows
-      const affected = jQuery(`.${groupedRowClassName(groupIndex)}`);
+      const affected = jQuery(this.workPackageTable.tableAndTimelineContainer)
+                        .find(`.${groupedRowClassName(groupIndex)}`);;
       affected.toggleClass(collapsedRowClass, !!group.collapsed);
 
       // Update the hidden section of the rendered state
