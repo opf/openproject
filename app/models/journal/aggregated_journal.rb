@@ -82,11 +82,11 @@ class Journal::AggregatedJournal
         predecessors[journable_key] << journal
       end
 
-      aggregated_journals = raw_journals.map { |journal|
+      aggregated_journals = raw_journals.map do |journal|
         journable_key = [journal.journable_type, journal.journable_id]
 
         Journal::AggregatedJournal.new(journal, predecessor: predecessors[journable_key].shift)
-      }
+      end
 
       preload_associations(journable, aggregated_journals, includes)
 
@@ -182,24 +182,31 @@ class Journal::AggregatedJournal
       conditions = additional_conditions(journable, until_version, journal_id)
 
       "SELECT predecessor.*, #{sql_group_counter} AS group_number
-      FROM journals predecessor
+      FROM #{sql_rough_group_nukleous(journable)} predecessor
       #{sql_rough_group_join(conditions[:join_conditions])}
       #{sql_rough_group_where(conditions[:where_conditions])}
       #{sql_rough_group_order}"
+    end
+
+    def sql_rough_group_nukleous(journable)
+      if journable
+        <<~SQL
+          (SELECT * from journals
+          WHERE journals.journable_id = #{journable.id}
+          AND journals.journable_type = '#{journable.class.name}')
+        SQL
+      else
+        "journals"
+      end
     end
 
     def additional_conditions(journable, until_version, journal_id)
       where_conditions = ''
       join_conditions = ''
 
-      if journable
-        where_conditions += " AND predecessor.journable_type = '#{journable.class.name}' AND
-                                  predecessor.journable_id = #{journable.id}"
-
-        if until_version
-          where_conditions += " AND predecessor.version <= #{until_version}"
-          join_conditions += "AND successor.version <= #{until_version}"
-        end
+      if journable && until_version
+        where_conditions += " AND predecessor.version <= #{until_version}"
+        join_conditions += "AND successor.version <= #{until_version}"
       end
 
       if journal_id
