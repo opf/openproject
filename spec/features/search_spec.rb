@@ -45,6 +45,35 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       end
     end
   end
+  let(:custom_field_text_value) { 'cf text value' }
+  let!(:custom_field_text) do
+    FactoryBot.create(:text_wp_custom_field,
+                      is_filter: is_filter,
+                      searchable: searchable).tap do |custom_field|
+      project.work_package_custom_fields << custom_field
+      work_packages.first.type.custom_fields << custom_field
+
+      FactoryBot.create(:work_package_custom_value,
+                        custom_field: custom_field,
+                        customized: work_packages[0],
+                        value: custom_field_text_value)
+    end
+  end
+  let(:custom_field_string_value) { 'cf string value' }
+  let!(:custom_field_string) do
+    FactoryBot.create(:string_wp_custom_field,
+                      is_for_all: true,
+                      is_filter: is_filter,
+                      searchable: searchable).tap do |custom_field|
+      custom_field.save
+      work_packages.first.type.custom_fields << custom_field
+
+      FactoryBot.create(:work_package_custom_value,
+                        custom_field: custom_field,
+                        customized: work_packages[1],
+                        value: custom_field_string_value)
+    end
+  end
 
   let(:query) { 'Subject' }
 
@@ -60,28 +89,6 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
   end
 
   before do
-    custom_field_text = FactoryBot.create(:text_wp_custom_field,
-                                          is_filter: is_filter,
-                                          searchable: searchable)
-    project.work_package_custom_fields << custom_field_text
-    work_packages.first.type.custom_fields << custom_field_text
-
-    custom_field_string = FactoryBot.create(:string_wp_custom_field,
-                                            is_for_all: true,
-                                            is_filter: is_filter,
-                                            searchable: searchable)
-    custom_field_string.save
-    work_packages.first.type.custom_fields << custom_field_string
-
-    FactoryBot.create(:work_package_custom_value,
-                      custom_field: custom_field_text,
-                      customized: work_packages[0],
-                      value: "long text")
-
-    FactoryBot.create(:work_package_custom_value,
-                      custom_field: custom_field_string,
-                      customized: work_packages[1],
-                      value: "short text")
     project.reload
 
     login_as user
@@ -172,7 +179,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       context 'custom fields searchable' do
         it "finds WP global custom fields" do
           select_autocomplete(page.find('.top-menu-search--input'),
-                              query: "text",
+                              query: "string",
                               select_text: "In all projects ↵")
           table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
           table.ensure_work_package_not_listed!(work_packages[0])
@@ -234,6 +241,15 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
         table.expect_work_package_subject(work_packages[5].subject)
         table.ensure_work_package_not_listed!(work_packages.last)
 
+        # clearing the text filter and searching by a just a custom field works
+        page.find('#filter-by-text-input').set('')
+        filters.add_filter_by(custom_field_string.name,
+                              'is',
+                              [custom_field_string_value],
+                              "customField#{custom_field_string.id}")
+
+        table.expect_work_package_subject(work_packages[1].subject)
+
         # Expect that changing the advanced filters will not affect the global search input.
         expect(global_search.input.value).to eq query
 
@@ -263,11 +279,11 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
         # Expect to find custom field values
         # ...for type: text
-        global_search.search "long text", submit_with_enter: true
+        global_search.search custom_field_text_value, submit_with_enter: true
         table.ensure_work_package_not_listed! work_packages[1]
         table.expect_work_package_subject(work_packages[0].subject)
         # ... for type: string
-        global_search.search "short text", submit_with_enter: true
+        global_search.search custom_field_string_value, submit_with_enter: true
         table.ensure_work_package_not_listed! work_packages[0]
         table.expect_work_package_subject(work_packages[1].subject)
 
