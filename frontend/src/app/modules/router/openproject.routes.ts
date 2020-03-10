@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {StateDeclaration, StateService, Transition, TransitionService, UIRouter, UrlService} from '@uirouter/core';
+import {StateDeclaration, StateService, Transition, TransitionService, UIRouter} from '@uirouter/core';
 import {INotification, NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
@@ -44,12 +44,18 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     params: {
       // value: null makes the parameter optional
       // squash: true avoids duplicate slashes when the parameter is not provided
-      projectPath: {type: 'path', value: null, squash: true},
-      projects: {type: 'path', value: null, squash: true},
+      projectPath: { type: 'path', value: null, squash: true },
+      projects: { type: 'path', value: null, squash: true },
 
       // Allow passing of flash messages after routes load
-      flash_message: {dynamic: true, value: null, inherit: false}
+      flash_message: { dynamic: true, value: null, inherit: false }
     }
+  },
+  {
+    name: 'boards.**',
+    parent: 'root',
+    url: '/boards',
+    loadChildren: () => import('../boards/openproject-boards.module').then(m => m.OpenprojectBoardsModule)
   },
   {
     name: 'bim.**',
@@ -182,8 +188,8 @@ export function initializeUiRouterListeners(injector:Injector) {
     const projectIdentifier = toParams.projectPath || currentProject.identifier;
     if (!toParams.projects && projectIdentifier) {
       const newParams = _.clone(toParams);
-      _.assign(newParams, {projectPath: projectIdentifier, projects: 'projects'});
-      return $state.target(toState, newParams, {location: 'replace'});
+      _.assign(newParams, { projectPath: projectIdentifier, projects: 'projects' });
+      return $state.target(toState, newParams, { location: 'replace' });
     }
 
     // Abort the transition and move to the url instead
@@ -198,7 +204,7 @@ export function initializeUiRouterListeners(injector:Injector) {
       const path = window.location.pathname;
       const target = stateService.href(toState, toParams);
 
-      if (path !== target) {
+      if (target && path !== target) {
         window.location.href = target;
         return false;
       }

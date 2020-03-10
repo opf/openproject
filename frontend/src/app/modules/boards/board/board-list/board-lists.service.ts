@@ -11,7 +11,7 @@ import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BoardListsService {
 
   private readonly v3 = this.pathHelper.api.v3;
@@ -31,8 +31,10 @@ export class BoardListsService {
 
     return this.QueryFormDm
       .loadWithParams(
-        {pageSize: 0,
-                filters: filterJson},
+        {
+          pageSize: 0,
+          filters: filterJson
+        },
         undefined,
         this.CurrentProject.identifier,
         this.buildQueryRequest(params),
@@ -53,8 +55,8 @@ export class BoardListsService {
    * Add a free query to the board
    */
   public addFreeQuery(board:Board, queryParams:Object) {
-   const filter = this.freeBoardQueryFilter();
-   return this.addQuery(board, queryParams, [filter]);
+    const filter = this.freeBoardQueryFilter();
+    return this.addQuery(board, queryParams, [filter]);
   }
 
   /**
@@ -95,8 +97,8 @@ export class BoardListsService {
       public: true,
       "_links": {
         "sortBy": [
-          {"href": this.v3.resource("/queries/sort_bys/manualSorting-asc")},
-          {"href": this.v3.resource("/queries/sort_bys/id-asc")},
+          { "href": this.v3.resource("/queries/sort_bys/manualSorting-asc") },
+          { "href": this.v3.resource("/queries/sort_bys/id-asc") },
         ]
       },
       ...params
@@ -104,6 +106,6 @@ export class BoardListsService {
   }
 
   private freeBoardQueryFilter():ApiV3Filter {
-    return {manualSort: {operator: 'ow', values: []}};
+    return { manualSort: { operator: 'ow', values: [] } };
   }
 }

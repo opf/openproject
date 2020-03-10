@@ -22,9 +22,13 @@ export class BoardsMenuComponent implements OnInit {
 
   public boards$:Observable<Board[]> = this.boardCache.observeAll().pipe(
     map((boards:Board[]) => {
-      return boards.sort(function(a, b){
-        if(a.name < b.name) { return -1; }
-        if(a.name > b.name) { return 1; }
+      return boards.sort(function (a, b) {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
         return 0;
       });
     })
@@ -43,7 +47,7 @@ export class BoardsMenuComponent implements OnInit {
       .onActivate('board_view')
       .subscribe(() => {
         this.focusBackArrow();
-        this.boardService.loadAllBoards()
+        this.boardService.loadAllBoards();
       });
   }
 
