@@ -227,7 +227,7 @@ module API
         end
 
         def cached_representer(config)
-          self._cached_representer_config = DEFAULT_CONFIGURATION.merge(config)
+          self._cached_representer_config = cached_representer_configuration.deep_merge(config)
         end
 
         def link(name, options = {}, &block)
