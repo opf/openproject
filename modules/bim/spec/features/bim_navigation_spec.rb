@@ -87,13 +87,13 @@ describe 'BIM navigation spec', type: :feature, js: true do
         details_view.expect_closed
 
         # Go to viewer only
-        model_page.switch_view 'Viewer only'
+        model_page.switch_view 'Viewer'
 
         model_page.model_viewer_visible true
         expect(page).to have_no_selector('.wp-cards-container')
 
         # Go to list only
-        model_page.switch_view 'List only'
+        model_page.switch_view 'Cards'
 
         model_page.model_viewer_visible false
         expect(page).to have_selector('.wp-cards-container')

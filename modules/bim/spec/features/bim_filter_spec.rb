@@ -75,7 +75,7 @@ describe 'BIM filter spec', type: :feature, js: true do
     it 'shows a filter button when there is a list shown' do
       model_page.page_shows_a_filter_button true
 
-      model_page.switch_view 'Viewer only'
+      model_page.switch_view 'Viewer'
       model_page.page_shows_a_filter_button false
     end
 

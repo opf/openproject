@@ -37,6 +37,7 @@ import {BimViewService} from "core-app/modules/bim/ifc_models/pages/viewer/bim-v
       <button class="button"
               id="bim-view-toggle-button"
               bimViewDropdown>
+        <op-icon icon-classes="button--icon {{bimView.icon[current]}}"></op-icon>
         <span class="button--text"
               aria-hidden="true"
               [textContent]="bimView.text[current]">
