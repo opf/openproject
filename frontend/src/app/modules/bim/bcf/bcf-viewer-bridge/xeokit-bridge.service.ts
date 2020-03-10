@@ -9,8 +9,13 @@ export class XeokitBridgeService extends ViewerBridgeService {
     super();
   }
 
-  public getViewpoint():Promise<any> {
-    return Promise.resolve(this.ifcViewerService.saveBCFViewpoint());
+  public getViewpoint():Promise<BcfViewpointInterface> {
+    const viewpoint = this.ifcViewerService.saveBCFViewpoint();
+
+    // Clean up empty bitmaps array that we do not support
+    delete viewpoint['bitmaps'];
+
+    return Promise.resolve(viewpoint);
   }
 
   public showViewpoint(viewpoint:BcfViewpointInterface):void {

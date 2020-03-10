@@ -146,9 +146,6 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
   async saveCurrentAsViewpoint() {
     const viewpoint = await this.viewerBridge.getViewpoint();
 
-    // TODO: clean up bitmaps elsewhere
-    delete viewpoint['bitmaps'];
-
     this.bcfApi
       .projects.id(this.workPackage.project.idFromLink)
       .topics.id(this.topicUUID)
