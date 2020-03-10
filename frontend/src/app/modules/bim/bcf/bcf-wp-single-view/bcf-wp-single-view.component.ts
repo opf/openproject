@@ -154,11 +154,11 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
   }
 
   galleryPreviewOpen():void {
-    jQuery('#top-menu')[0].style.zIndex = '10';
+    jQuery('#top-menu').addClass('-no-z-index');
   }
 
   galleryPreviewClose():void {
-    jQuery('#top-menu')[0].style.zIndex = '';
+    jQuery('#top-menu').removeClass('-no-z-index');
   }
 
   private get topicUUID():string|null {
