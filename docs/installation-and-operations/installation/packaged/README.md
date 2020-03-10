@@ -48,7 +48,9 @@ x86_64
 
 </div>
 
-## Ubuntu 18.04
+## Ubuntu Installation
+
+### Ubuntu 18.04
 
 Import the PGP key used to sign our packages:
 
@@ -72,7 +74,7 @@ sudo apt-get install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-## Ubuntu 16.04
+### Ubuntu 16.04
 
 Import the PGP key used to sign our packages:
 
@@ -96,7 +98,9 @@ sudo apt-get install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-## Debian 10
+## Debian Installation
+
+### Debian 10
 
 Import the PGP key used to sign our packages:
 
@@ -120,7 +124,7 @@ sudo apt-get install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-## Debian 9
+### Debian 9
 
 Import the PGP key used to sign our packages:
 
@@ -146,7 +150,9 @@ Then finish the installation by reading the [*Initial configuration*][initial-co
 
 <a name="el-8"></a>
 
-## CentOS 8 / RHEL 8
+## CentOS Installation
+
+### CentOS 8 / RHEL 8
 
 Add the OpenProject package source:
 
@@ -172,7 +178,7 @@ Then finish the installation by reading the [*Initial configuration*][initial-co
 
 <a name="el-7"></a>
 
-## CentOS 7 / RHEL 7
+### CentOS 7 / RHEL 7
 
 Add the OpenProject package source:
 
@@ -189,7 +195,9 @@ sudo yum install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-## SLES 12
+## SUSE Linux Enterprise Server (SLES) Installation
+
+### SLES 12
 
 Add the OpenProject package source:
 
