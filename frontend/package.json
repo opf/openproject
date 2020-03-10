@@ -78,7 +78,7 @@
     "atoa": "^1.0.0",
     "autoprefixer": "^9.6.1",
     "bourbon": "~6.0.0",
-    "browserslist": "^4.6.6",
+    "browserslist": "^4.9.1",
     "bundle-loader": "^0.5.4",
     "caniuse-lite": "^1.0.30001019",
     "cdk-drag-scroll": "^0.0.6",
@@ -139,5 +139,10 @@
     "test": "ng test --watch=false",
     "tslint_typechecks": "./node_modules/.bin/tslint -p . -c tslint_typechecks.json",
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
-  }
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Safari versions",
+    "last 2 Firefox versions"
+  ]
 }

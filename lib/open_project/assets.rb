@@ -74,8 +74,8 @@ module OpenProject
 
         # Create map of asset chunk name to current hash
         manifest = {}
-        current_assets.each do |filename|
-          md = filename.match /\A(\w+).(\w+)\.(\w+)\z/
+        OpenProject::Assets.current_assets.each do |filename|
+          md = filename.match /\A([^\.]+)\.(\w+)\.(\w+)\z/
 
           # Non-hashed asset
           next if md.nil?
