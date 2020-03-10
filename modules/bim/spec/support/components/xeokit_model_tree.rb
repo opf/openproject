@@ -38,7 +38,7 @@ module Components
       tabs = ['Models', 'Objects', 'Classes', 'Storeys']
 
       tabs.each do |tab|
-        element_visible? visible, selector, tab
+        expect(page).to have_conditional_selector(visible, selector, text: tab)
       end
     end
 

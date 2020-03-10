@@ -26,10 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-require_relative '../../support/pages/ifc_models/show_default'
-require_relative '../../support/pages/ifc_models/bcf_details_page'
+require_relative '../../spec_helper'
 
 describe 'Show viewpoint in model viewer', type: :feature, js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
@@ -46,16 +43,17 @@ describe 'Show viewpoint in model viewer', type: :feature, js: true do
                       uploader: user)
   end
 
+  let(:model_tree) { ::Components::XeokitModelTree.new }
   let(:show_model_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:card_view) { ::Pages::WorkPackageCards.new(project) }
   let(:bcf_details) { ::Pages::BcfDetailsPage.new(work_package, project) }
 
   shared_examples 'has the minimal viewpoint shown' do
     it 'loads the minimal viewpoint in the viewer' do
-      show_model_page.select_sidebar_tab 'Objects'
-      show_model_page.expand_tree
-      show_model_page.expect_checked 'minimal'
-      show_model_page.all_checkboxes.each do |label, checkbox|
+      model_tree.select_sidebar_tab 'Objects'
+      model_tree.expand_tree
+      model_tree.expect_checked 'minimal'
+      model_tree.all_checkboxes.each do |label, checkbox|
         if label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035'
           expect(checkbox.checked?).to eq(true)
         else

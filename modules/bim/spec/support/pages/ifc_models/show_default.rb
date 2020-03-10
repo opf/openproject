@@ -68,12 +68,12 @@ module Pages
 
       def page_shows_a_toolbar(visible)
         toolbar_items.each do |button|
-          element_visible? visible, '.toolbar-item', button
+          expect(page).to have_conditional_selector(visible, '.toolbar-item', text: button)
         end
       end
 
       def page_shows_a_filter_button(visible)
-        element_visible? visible, '.toolbar-item', 'Filter'
+        expect(page).to have_conditional_selector(visible, '.toolbar-item', 'Filter')
       end
 
       def switch_view(value)
@@ -97,10 +97,6 @@ module Pages
 
       def create_page_class
         Pages::BCF::CreateSplit
-      end
-
-      def element_visible?(visible, selector, name)
-        expect(page).to (visible ? have_selector(selector, text: name) : have_no_selector(selector, text: name))
       end
     end
   end
