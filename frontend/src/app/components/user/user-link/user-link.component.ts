@@ -48,8 +48,7 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 export class UserLinkComponent {
   @Input() user:UserResource;
 
-  constructor(readonly pathHelper:PathHelperService,
-              readonly I18n:I18nService) {
+  constructor(readonly I18n:I18nService) {
   }
 
   public get href() {
