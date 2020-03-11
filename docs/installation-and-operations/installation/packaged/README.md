@@ -195,7 +195,7 @@ sudo yum install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-## SUSE Linux Enterprose Server (SLES) Installation
+## SUSE Linux Enterprise Server (SLES) Installation
 
 ### SLES 12
 

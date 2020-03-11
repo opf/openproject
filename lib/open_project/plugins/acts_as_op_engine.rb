@@ -119,7 +119,11 @@ module OpenProject::Plugins
         plugin_module = self.class.to_s.deconstantize
         self.class.config.to_prepare do
           klass_name = args.last
-          patch = "#{plugin_module}::Patches::#{klass_name}Patch".constantize
+          patch = begin
+                    "#{plugin_module}::Patches::#{args[0..-2].join('::')}::#{klass_name}Patch".constantize
+                  rescue NameError
+                    "#{plugin_module}::Patches::#{klass_name}Patch".constantize
+                  end
           qualified_class_name = args.map(&:to_s).join('::')
           klass = qualified_class_name.to_s.constantize
           klass.send(:include, patch) unless klass.included_modules.include?(patch)

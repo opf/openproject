@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnDestroy, Output} from '@angular/core';
+import {Component, OnDestroy, Output, EventEmitter} from '@angular/core';
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageCacheService} from "app/components/work-packages/work-package-cache.service";
-import {merge, Observable, Subject} from "rxjs";
-import {debounceTime, delay, delayWhen, distinctUntilChanged, map, startWith, tap} from "rxjs/operators";
-import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
+import {Subject} from "rxjs";
+import {debounceTime, distinctUntilChanged, map, tap} from "rxjs/operators";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {input} from "reactivestates";
+import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
 
 @Component({
   selector: 'wp-filter-by-text-input',
@@ -44,7 +44,7 @@ import {input} from "reactivestates";
 })
 
 export class WorkPackageFilterByTextInputComponent implements OnDestroy {
-  @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
+  @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
 
   public text = {
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
@@ -52,6 +52,8 @@ export class WorkPackageFilterByTextInputComponent implements OnDestroy {
     explanation: this.I18n.t('js.label_create_work_package'),
     placeholder: this.I18n.t('js.work_packages.placeholder_filter_by_text')
   };
+
+  private filter:QueryFilterInstanceResource;
 
   /** Observable to the current search filter term */
   public searchTerm = input<string>('');
@@ -89,19 +91,18 @@ export class WorkPackageFilterByTextInputComponent implements OnDestroy {
         debounceTime(500),
       )
       .subscribe(term => {
-        let filters = this.wpTableFilters.current;
-
-        // Remove the current filter
-        _.remove(filters, f => f.id === 'search');
-
         if (term.length > 0) {
-          let searchFilter = this.wpTableFilters.instantiate('search');
-          searchFilter.operator = searchFilter.findOperator('**')!;
-          searchFilter.values = [term];
-          filters.push(searchFilter);
-        }
+          this.wpTableFilters.replace('search', filter => {
+            filter.operator = filter.findOperator('**')!;
+            filter.values = [term];
 
-        this.filterChanged.emit(filters);
+            this.filter = filter;
+          });
+        } else {
+          this.wpTableFilters.remove(this.filter);
+
+          this.deactivateFilter.emit(this.filter);
+        }
       });
   }
 

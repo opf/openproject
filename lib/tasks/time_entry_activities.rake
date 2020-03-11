@@ -43,15 +43,36 @@ namespace 'openproject' do
       next
     end
 
+    check_statement = <<~SQL
+      SELECT
+        te_source.id,
+        enumerations.parent_id
+      FROM
+        time_entries te_source
+      INNER JOIN
+        enumerations
+        ON te_source.activity_id = enumerations.id AND enumerations.parent_id IS NOT NULL AND enumerations.type = 'TimeEntryActivity'
+    SQL
+
     select_statement = <<~SQL
-      SELECT te_source.id, enumerations.parent_id FROM time_entries te_source INNER JOIN enumerations ON te_source.activity_id = enumerations.id AND enumerations.parent_id IS NOT NULL AND enumerations.type = 'TimeEntryActivity'
+      SELECT
+        te_source.id,
+        COALESCE(enumerations.parent_id, enumerations.id) activity_id
+      FROM time_entries te_source
+      LEFT OUTER JOIN
+        enumerations
+        ON te_source.activity_id = enumerations.id
+      WHERE enumerations.type = 'TimeEntryActivity'
     SQL
 
     entries = begin
                 connection = ActiveRecord::Base
                              .establish_connection(ENV['BACKUP_DATABASE_URL'])
                              .connection
-                connection.select_all(select_statement)
+
+                if connection.select_all(check_statement).any?
+                  connection.select_all(select_statement)
+                end
               rescue PG::ConnectionBad, ActiveRecord::NoDatabaseError, LoadError => e
                 puts <<~MSG
 
@@ -64,7 +85,7 @@ namespace 'openproject' do
                 connection&.close
               end
 
-    unless entries.any?
+    if entries.nil? || entries.empty?
       puts <<~MSG
 
 
@@ -75,7 +96,7 @@ namespace 'openproject' do
       next
     end
 
-    entries_string = entries.map { |entry| "(#{entry['id']}, #{entry['parent_id']})" }.join(', ')
+    entries_string = entries.map { |entry| "(#{entry['id']}, #{entry['activity_id']})" }.join(', ')
 
     update_statement = <<~SQL
       UPDATE time_entries
