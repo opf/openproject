@@ -437,7 +437,7 @@ GEM
       activerecord (>= 3.0, < 6.1)
       delayed_job (>= 3.0, < 5)
     diff-lcs (1.3)
-    disposable (0.4.4)
+    disposable (0.4.7)
       declarative (>= 0.0.9, < 1.0.0)
       declarative-builder (< 0.2.0)
       declarative-option (< 0.2.0)
