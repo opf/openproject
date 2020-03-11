@@ -33,7 +33,7 @@ class Category < ActiveRecord::Base
   has_many :work_packages, foreign_key: 'category_id', dependent: :nullify
 
   validates :name,
-            uniqueness: { scope: [:project_id], case_sensitive: true },
+            uniqueness: { scope: [:project_id], case_sensitive: false },
             length: { maximum: 255 }
 
   # validates that assignee is member of the issue category's project

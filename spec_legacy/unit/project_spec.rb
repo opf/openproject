@@ -33,7 +33,6 @@ describe Project, type: :model do
   fixtures :all
 
   before do
-    FactoryBot.create(:type_standard)
     @ecookbook = Project.find(1)
     @ecookbook_sub1 = Project.find(3)
     User.current = nil

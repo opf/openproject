@@ -41,7 +41,7 @@ class Version < ActiveRecord::Base
 
   validates :name,
             presence: true,
-            uniqueness: { scope: [:project_id], case_sensitive: true }
+            uniqueness: { scope: [:project_id], case_sensitive: false }
 
   validates_format_of :effective_date, with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true
   validates_format_of :start_date, with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true
