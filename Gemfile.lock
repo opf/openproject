@@ -571,8 +571,8 @@ GEM
       kramdown (~> 2.0)
     ladle (1.0.1)
       open4 (~> 1.0)
-    launchy (2.4.3)
-      addressable (~> 2.3)
+    launchy (2.5.0)
+      addressable (~> 2.7)
     letter_opener (1.7.0)
       launchy (~> 2.2)
     listen (3.2.1)
@@ -1010,7 +1010,7 @@ DEPENDENCIES
   i18n-js (~> 3.6.0)
   json_spec (~> 1.1.4)
   ladle
-  launchy (~> 2.4.3)
+  launchy (~> 2.5.0)
   letter_opener
   listen (~> 3.2.1)
   livingstyleguide (~> 2.1.0)
