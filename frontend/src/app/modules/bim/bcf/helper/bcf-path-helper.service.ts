@@ -28,6 +28,7 @@
 
 import {Injectable} from '@angular/core';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 
 @Injectable()
 export class BcfPathHelperService {
@@ -44,5 +45,9 @@ export class BcfPathHelperService {
     } else {
       return this.pathHelper.projectPath(projectIdentifier) + '/work_packages.bcf';
     }
+  }
+
+  public snapshotPath(viewpoint:HalLink) {
+    return viewpoint.href + '/snapshot';
   }
 }
