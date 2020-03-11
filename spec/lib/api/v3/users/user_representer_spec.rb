@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::Users::UserRepresenter do
-  let(:user) { FactoryBot.build_stubbed(:user, status: 1) }
+  let(:status) { Principal::STATUSES[:active] }
+  let(:user) { FactoryBot.build_stubbed(:user, status: status) }
   let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(user, current_user: current_user) }
 
@@ -150,9 +151,19 @@ describe ::API::V3::Users::UserRepresenter do
         expect(subject).to have_json_path('_links/self/href')
       end
 
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'showUser' }
-        let(:href) { "/users/#{user.id}" }
+      context 'showUser' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'showUser' }
+          let(:href) { "/users/#{user.id}" }
+        end
+
+        context 'with a locked user' do
+          let(:status) { Principal::STATUSES[:locked] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'showUser' }
+          end
+        end
       end
 
       context 'when regular current_user' do

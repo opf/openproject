@@ -66,7 +66,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   public userId:string | number;
   public userName:string;
-  public userActive:boolean;
   public userPath:string | null;
   public userLabel:string;
   public userAvatar:string;
@@ -128,9 +127,10 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
       .then((user:UserResource) => {
         this.userId = user.id!;
         this.userName = user.name;
-        this.userActive = user.isActive;
         this.userAvatar = user.avatar;
-        this.userPath = user.showUser.href;
+        if (user.showUser) {
+          this.userPath = user.showUser.href;
+        }
         this.userLabel = this.I18n.t('js.label_author', {user: this.userName});
         this.cdRef.detectChanges();
       });
