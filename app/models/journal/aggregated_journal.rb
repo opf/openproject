@@ -73,8 +73,8 @@ class Journal::AggregatedJournal
     #
     # The +until_version+ parameter can be used in conjunction with the +journable+ parameter
     # to see the aggregated journals as if no versions were known after the specified version.
-    def aggregated_journals(journable: nil, until_version: nil, includes: [])
-      raw_journals = query_aggregated_journals(journable: journable, until_version: until_version)
+    def aggregated_journals(journable: nil, sql: nil, until_version: nil, includes: [])
+      raw_journals = query_aggregated_journals(journable: journable, sql: sql, until_version: until_version)
       predecessors = {}
       raw_journals.each do |journal|
         journable_key = [journal.journable_type, journal.journable_id]
@@ -93,7 +93,7 @@ class Journal::AggregatedJournal
       aggregated_journals
     end
 
-    def query_aggregated_journals(journable: nil, until_version: nil, journal_id: nil)
+    def query_aggregated_journals(journable: nil, sql: sql, until_version: nil, journal_id: nil)
       # Using the roughly aggregated groups from :sql_rough_group we need to merge journals
       # where an entry with empty notes follows an entry containing notes, so that the notes
       # from the main entry are taken, while the remaining information is taken from the
@@ -106,10 +106,10 @@ class Journal::AggregatedJournal
       # that our own row (master) would not already have been merged by its predecessor. If it is
       # (that means if we can find a valid predecessor), we drop our current row, because it will
       # already be present (in a merged form) in the row of our predecessor.
-      Journal.from("(#{sql_rough_group(journable, until_version, journal_id)}) #{table_name}")
-      .joins(Arel.sql("LEFT OUTER JOIN (#{sql_rough_group(journable, until_version, journal_id)}) addition
+      Journal.from("(#{sql_rough_group(journable, sql, until_version, journal_id)}) #{table_name}")
+      .joins(Arel.sql("LEFT OUTER JOIN (#{sql_rough_group(journable, sql, until_version, journal_id)}) addition
                               ON #{sql_on_groups_belong_condition(table_name, 'addition')}"))
-      .joins(Arel.sql("LEFT OUTER JOIN (#{sql_rough_group(journable, until_version, journal_id)}) predecessor
+      .joins(Arel.sql("LEFT OUTER JOIN (#{sql_rough_group(journable, sql, until_version, journal_id)}) predecessor
                          ON #{sql_on_groups_belong_condition('predecessor', table_name)}"))
       .where(Arel.sql('predecessor.id IS NULL'))
       .order(Arel.sql("COALESCE(addition.created_at, #{table_name}.created_at) ASC"))
@@ -172,7 +172,7 @@ class Journal::AggregatedJournal
     # To be able to self-join results of this statement, we add an additional column called
     # "group_number" to the result. This allows to compare a group resulting from this query with
     # its predecessor and successor.
-    def sql_rough_group(journable, until_version, journal_id)
+    def sql_rough_group(journable, sql, until_version, journal_id)
       if until_version && !journable
         raise 'need to provide a journable, when specifying a version limit'
       elsif journable && journable.id.nil?
@@ -182,14 +182,16 @@ class Journal::AggregatedJournal
       conditions = additional_conditions(journable, until_version, journal_id)
 
       "SELECT predecessor.*, #{sql_group_counter} AS group_number
-      FROM #{sql_rough_group_nukleous(journable)} predecessor
+      FROM #{sql_rough_group_nukleous(journable, sql)} predecessor
       #{sql_rough_group_join(conditions[:join_conditions])}
       #{sql_rough_group_where(conditions[:where_conditions])}
       #{sql_rough_group_order}"
     end
 
-    def sql_rough_group_nukleous(journable)
-      if journable
+    def sql_rough_group_nukleous(journable, sql)
+      if sql
+        "(#{sql})"
+      elsif journable
         <<~SQL
           (SELECT * from journals
           WHERE journals.journable_id = #{journable.id}
