@@ -136,7 +136,6 @@ module Type::AttributeGroups
     self.attribute_groups_objects = nil
   end
 
-
   private
 
   def write_attribute_groups_objects
