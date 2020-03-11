@@ -76,7 +76,7 @@ describe MailHandler, type: :model do
                         member_in_project: project,
                         member_with_permissions: permissions)
     end
-    let(:submit_options) { {} }
+    let(:submit_options) { {allow_override: 'fixed_version'} }
 
     subject do
       submit_email('wp_on_given_project_case_insensitive.eml', **submit_options)
@@ -366,7 +366,6 @@ describe MailHandler, type: :model do
         let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
         let!(:priority_low) { FactoryBot.create(:priority_low, name: 'Low', is_default: true) }
         let!(:version) { FactoryBot.create(:version, name: 'alpha', project: project) }
-        let(:submit_options) { {allow_override: 'fixed_version'} }
 
         # This email contains: 'Project: onlinestore' and 'Status: resolved'
         include_context 'wp_on_given_project_case_insensitive'
