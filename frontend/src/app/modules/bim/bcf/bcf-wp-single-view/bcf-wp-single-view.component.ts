@@ -28,6 +28,8 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
     viewpoint: this.I18n.t('js.bcf.viewpoint'),
     add_viewpoint: this.I18n.t('js.bcf.add_viewpoint'),
     show_viewpoint: this.I18n.t('js.bcf.show_viewpoint'),
+    delete_viewpoint: this.I18n.t('js.bcf.delete_viewpoint'),
+    text_are_you_sure: this.I18n.t('js.text_are_you_sure')
   };
 
   actions = [
@@ -35,6 +37,11 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       icon: 'icon-watched',
       onClick: this.showViewpoint.bind(this),
       titleText: this.text.show_viewpoint
+    },
+    {
+      icon: 'icon-delete',
+      onClick: this.deleteViewpoint.bind(this),
+      titleText: this.text.delete_viewpoint
     }
   ];
 
@@ -118,18 +125,25 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
   }
 
   showViewpoint(event:Event, index:number) {
-    let viewpointHref = this.workPackage.bcfViewpoints[index].href;
-    let viewpoint = this.bcfApi.parse(viewpointHref)!;
-    let viewpointUuid = viewpoint.id as string;
-
     this
-      .bcfApi
-      .projects.id(this.workPackage.project.idFromLink)
-      .topics.id(this.topicUUID!)
-      .viewpoints.id(viewpointUuid)
+      .viewpointFromIndex(index)
       .get()
       .subscribe(data => {
         this.viewerBridge.showViewpoint(data);
+      });
+  }
+
+  deleteViewpoint(event:Event, index:number) {
+    if (!window.confirm(this.text.text_are_you_sure)) {
+      return;
+    }
+
+    this
+      .viewpointFromIndex(index)
+      .delete()
+      .subscribe(data => {
+        // Update the work package to reload the viewpoint
+        this.wpCache.require(this.workPackage.id!, true);
       });
   }
 
@@ -160,7 +174,7 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
     const topicHref:string|undefined = this.workPackage.bcfTopic?.href;
 
     if (topicHref) {
-      return this.bcfApi.parse(topicHref)!.id as string;
+      return this.bcfApi.parse<BcfViewpointPaths>(topicHref)!.id as string;
     }
 
     return null;
@@ -177,7 +191,7 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
 
   private setViewpoints() {
     this.viewpoints = this.workPackage.bcfViewpoints.map((vp:HalLink) => {
-      const viewpointResource = this.bcfApi.parse(vp.href!) as BcfViewpointPaths;
+      const viewpointResource = this.bcfApi.parse<BcfViewpointPaths>(vp.href!);
 
       return {
         snapshotId: viewpointResource.id,
@@ -192,5 +206,10 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
         big: viewpoint.snapshotFullPath,
       };
     });
+  }
+
+  private viewpointFromIndex(index:number):BcfViewpointPaths {
+    let viewpointHref = this.workPackage.bcfViewpoints[index].href;
+    return this.bcfApi.parse<BcfViewpointPaths>(viewpointHref);
   }
 }

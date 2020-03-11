@@ -8,6 +8,7 @@ en:
       viewpoint: 'Viewpoint'
       add_viewpoint: 'Add viewpoint'
       show_viewpoint: 'Show viewpoint'
+      delete_viewpoint: 'Delete viewpoint'
     ifc_models:
       models:
         default: 'Default IFC models'
