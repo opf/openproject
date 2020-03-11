@@ -217,7 +217,7 @@ group :test do
   gem 'webdrivers', '~> 4.2.0', require: false
   gem 'selenium-webdriver', '~> 3.14'
 
-  gem 'fuubar', '~> 2.3.2'
+  gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.8.2', require: false
 
