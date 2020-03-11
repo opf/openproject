@@ -46,6 +46,16 @@ module Pages
       page.find('.icon-watched.ngx-gallery-icon-content').click
     end
 
+    def delete_current_viewpoint(confirm: true)
+      page.find('.icon-delete.ngx-gallery-icon-content').click
+
+      if confirm
+        page.driver.browser.switch_to.alert.accept
+      else
+        page.driver.browser.switch_to.alert.dismiss
+      end
+    end
+
     def add_viewpoint
       page.find('a.button', text: 'Viewpoint').click
     end

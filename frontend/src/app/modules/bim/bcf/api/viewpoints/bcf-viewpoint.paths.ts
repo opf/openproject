@@ -9,4 +9,8 @@ export class BcfViewpointPaths extends BcfResourcePath {
   get(params:HTTPClientParamMap = {}, headers:HTTPClientHeaders = {}) {
     return this.bcfTopicService.get(this.toPath(), params, headers);
   }
+
+  delete(headers:HTTPClientHeaders = {}) {
+    return this.bcfTopicService.request('delete', this.toPath(), {}, headers);
+  }
 }

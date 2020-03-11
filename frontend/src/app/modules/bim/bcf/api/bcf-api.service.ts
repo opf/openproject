@@ -27,7 +27,7 @@
 // ++
 
 import {Injectable, Injector} from "@angular/core";
-import {BcfResourceCollectionPath, BcfResourcePath} from "core-app/modules/bim/bcf/api/bcf-path-resources";
+import {BcfResourceCollectionPath} from "core-app/modules/bim/bcf/api/bcf-path-resources";
 import {BcfProjectPaths} from "core-app/modules/bim/bcf/api/projects/bcf-project.paths";
 
 
@@ -49,9 +49,9 @@ export class BcfApiService {
    *
    * @param href
    */
-  parse(href:string):BcfResourcePath|BcfResourceCollectionPath<any>|undefined {
+  parse<T>(href:string):T {
     if (!href.startsWith(this.bcfApiBase)) {
-      return;
+      throw new Error(`Cannot parse ${href} into BCF resource.`);
     }
 
     const parts = href
