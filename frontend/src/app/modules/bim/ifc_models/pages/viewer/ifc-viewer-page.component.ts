@@ -4,8 +4,6 @@ import {
   PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition
 } from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
-import {BcfImportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf-import-button.component";
-import {BcfExportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf-export-button.component";
 import {WorkPackageFilterButtonComponent} from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
 import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {componentDestroyed} from "ng2-rx-componentdestroyed";
@@ -22,6 +20,10 @@ import {BimManageIfcModelsButtonComponent} from "core-app/modules/bim/ifc_models
 import {WorkPackageCreateButtonComponent} from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
 import {StateService, TransitionService} from "@uirouter/core";
 import {BehaviorSubject} from "rxjs";
+import {BcfImportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
+import {BcfExportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
+import {viewerBridgeServiceFactory} from "core-app/modules/bim/bcf/openproject-bcf.module";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -31,7 +33,12 @@ import {BehaviorSubject} from "rxjs";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    QueryParamListenerService
+    QueryParamListenerService,
+    {
+      provide: ViewerBridgeService,
+      useFactory: viewerBridgeServiceFactory,
+      deps: [Injector]
+    }
   ]
 })
 export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {

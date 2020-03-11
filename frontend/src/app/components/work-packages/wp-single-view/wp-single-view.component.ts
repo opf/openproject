@@ -27,10 +27,10 @@
 // ++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
   Injector,
   Input,
   OnDestroy,
@@ -47,7 +47,6 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {input, InputState} from 'reactivestates';
 import {DisplayFieldService} from 'core-app/modules/fields/display/display-field.service';
 import {DisplayField} from 'core-app/modules/fields/display/display-field.module';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
@@ -58,6 +57,7 @@ import {randomString} from "core-app/helpers/random-string";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 export interface FieldDescriptor {
   name:string;
@@ -134,7 +134,9 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   };
 
   protected firstTimeFocused:boolean = false;
-  public $element:JQuery;
+
+  $element:JQuery;
+  viewerBridge:ViewerBridgeService|null = this.injector.get(ViewerBridgeService, null);
 
   constructor(readonly I18n:I18nService,
               protected currentProject:CurrentProjectService,
@@ -192,7 +194,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     const resource = change.projectedResource;
 
     if (!resource.project) {
-      this.projectContext = {matches: false, href: null};
+      this.projectContext = { matches: false, href: null };
     } else {
       this.projectContext = {
         href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id!),

@@ -59,8 +59,9 @@ module Bim::Bcf
 
       def snapshot_data_complete?
         model.json_viewpoint['snapshot'] &&
-          model.json_viewpoint['snapshot']['snapshot_type'] &&
-          model.json_viewpoint['snapshot']['snapshot_data']
+          snapshot_extension &&
+          snapshot_base_64 &&
+          snapshot_url_parts.length > 1
       end
 
       def snapshot_content_type
@@ -81,8 +82,16 @@ module Bim::Bcf
         model.json_viewpoint['snapshot']['snapshot_type']
       end
 
+      def snapshot_base_64
+        model.json_viewpoint['snapshot']['snapshot_data']
+      end
+
       def snapshot_binary_contents
-        Base64.decode64 model.json_viewpoint['snapshot']['snapshot_data']
+        Base64.decode64(snapshot_url_parts[2])
+      end
+
+      def snapshot_url_parts
+        snapshot_base_64.match(/\Adata:([-\w]+\/[-\w\+\.]+)?;base64,(.*)/m) || []
       end
     end
   end

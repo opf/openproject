@@ -2,6 +2,7 @@
 export interface BcfViewpointInterface {
   guid:string;
   components:unknown;
+  bitmaps:unknown[];
   orthogonal_camera?:unknown;
   perspective_camera?:unknown;
 }

@@ -13,7 +13,11 @@ module Bim::Bcf
       where(uuid: uuid).exists?
     end
 
-    belongs_to :issue, foreign_key: :issue_id, class_name: "Bim::Bcf::Issue"
+    belongs_to :issue,
+               foreign_key: :issue_id,
+               class_name: "Bim::Bcf::Issue",
+               touch: true
+
     has_many :comments, foreign_key: :viewpoint_id, class_name: "Bim::Bcf::Comment"
     delegate :project, :project_id, to: :issue, allow_nil: true
 

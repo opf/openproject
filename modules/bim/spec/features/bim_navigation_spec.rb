@@ -26,11 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-require_relative '../support/pages/ifc_models/show'
-require_relative '../support/pages/ifc_models/show_default'
-require_relative '../support/pages/ifc_models/bcf_details_page'
+require_relative '../spec_helper'
 
 describe 'BIM navigation spec', type: :feature, js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
@@ -51,7 +47,7 @@ describe 'BIM navigation spec', type: :feature, js: true do
 
   let(:card_view) { ::Pages::WorkPackageCards.new(project) }
   let(:details_view) { ::Pages::BcfDetailsPage.new(work_package, project) }
-
+  let(:model_tree) { ::Components::XeokitModelTree.new }
 
   shared_examples 'can switch from split to viewer to list-only' do
     before do
@@ -72,7 +68,7 @@ describe 'BIM navigation spec', type: :feature, js: true do
         model_page.model_viewer_visible true
         model_page.model_viewer_shows_a_toolbar true
         model_page.page_shows_a_toolbar true
-        model_page.sidebar_shows_viewer_menu true
+        model_tree.sidebar_shows_viewer_menu true
         expect(page).to have_selector('.wp-cards-container')
         card_view.expect_work_package_listed work_package
 

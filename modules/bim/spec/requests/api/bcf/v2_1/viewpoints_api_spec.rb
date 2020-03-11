@@ -249,7 +249,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
           "snapshot" =>
             {
               "snapshot_type" => "png",
-              "snapshot_data" => "SGVsbG8gV29ybGQh"
+              "snapshot_data" => "data:image/png;base64,SGVsbG8gV29ybGQh"
             }
         ).except('bitmaps', 'guid')
     end

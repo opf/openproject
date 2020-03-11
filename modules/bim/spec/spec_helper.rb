@@ -26,34 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/work_packages/split_work_package'
+# -- load spec_helper from OpenProject core
+require 'spec_helper'
 
-module Pages
-  class BcfDetailsPage < Pages::SplitWorkPackage
-    def expect_viewpoint_count(number)
-      expect(page).to have_selector('.ngx-gallery-thumbnail', count: number, wait: 20)
-    end
-
-    def next_viewpoint
-      page.find('.icon-arrow-right2.ngx-gallery-icon-content').click
-    end
-
-    def previous_viewpoint
-      page.find('.icon-arrow-left2.ngx-gallery-icon-content').click
-    end
-
-    def show_current_viewpoint
-      page.find('.icon-watched.ngx-gallery-icon-content').click
-    end
-
-    def add_viewpoint
-      page.find('a.button', text: 'Viewpoint').click
-    end
-
-    protected
-
-    def path(tab = 'overview')
-      bcf_project_frontend_path project, "split/details/#{work_package.id}/#{tab}"
-    end
-  end
-end
+Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }

@@ -69,7 +69,7 @@ describe Bim::Bcf::Viewpoints::SetAttributesService, type: :model do
         attributes[:json_viewpoint].delete('guid')
         attributes[:json_viewpoint]["snapshot"] = {
           "snapshot_type" => "png",
-          "snapshot_data" => "SGVsbG8gV29ybGQh"
+          "snapshot_data" => "data:image/png;base64,SGVsbG8gV29ybGQh"
         }
         attributes
       end
@@ -97,7 +97,7 @@ describe Bim::Bcf::Viewpoints::SetAttributesService, type: :model do
         expected_attributes[:json_viewpoint]['guid'] = viewpoint.uuid
         expected_attributes[:json_viewpoint]["snapshot"] = {
           "snapshot_type" => "png",
-          "snapshot_data" => "SGVsbG8gV29ybGQh"
+          "snapshot_data" => "data:image/png;base64,SGVsbG8gV29ybGQh"
         }
 
         expect(viewpoint.attributes.slice(*viewpoint.changed).symbolize_keys)
@@ -130,7 +130,7 @@ describe Bim::Bcf::Viewpoints::SetAttributesService, type: :model do
           attributes[:json_viewpoint].delete('guid')
           attributes[:json_viewpoint]["snapshot"] = {
             "snapshot_type" => "tif",
-            "snapshot_data" => "SGVsbG8gV29ybGQh"
+            "snapshot_data" => "data:image/png;base64,SGVsbG8gV29ybGQh"
           }
           attributes
         end

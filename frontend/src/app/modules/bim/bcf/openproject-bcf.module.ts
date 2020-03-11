@@ -30,14 +30,32 @@ import {Injector, NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {NgxGalleryModule} from "@kolkov/ngx-gallery";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {BcfImportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf-import-button.component";
-import {BcfDetectorService} from "core-app/modules/bim/bcf/helper/bcf-detector.service";
-import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
-import {BcfExportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf-export-button.component";
 import {BcfThumbnailDisplayField} from "core-app/modules/bim/bcf/fields/display/bcf-thumbnail-field.module";
 import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
 import {BcfWpSingleViewComponent} from "core-app/modules/bim/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {OpenProjectHeaderInterceptor} from "core-app/modules/hal/http/openproject-header-interceptor";
+import {BcfDetectorService} from "core-app/modules/bim/bcf/helper/bcf-detector.service";
+import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
+import {BcfImportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
+import {BcfExportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
+import {RevitBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/revit-bridge.service";
+import {XeokitBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/xeokit-bridge.service";
+import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
 
+/**
+ * Determines based on the current user agent whether
+ * we're running in Revit or not.
+ *
+ * Depending on that, we use the IFC viewer service for showing/saving viewpoints.
+ */
+export const viewerBridgeServiceFactory = (injector:Injector) => {
+  if (window.navigator.userAgent.search('Revit') > -1) {
+    return new RevitBridgeService();
+  } else {
+    return new XeokitBridgeService(injector.get(IFCViewerService));
+  }
+};
 
 @NgModule({
   imports: [
@@ -46,18 +64,19 @@ import {BcfWpSingleViewComponent} from "core-app/modules/bim/bcf/bcf-wp-single-v
   ],
   providers: [
     BcfApiService,
+    { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     BcfDetectorService,
     BcfPathHelperService
   ],
   declarations: [
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
-    BcfExportButtonComponent
+    BcfExportButtonComponent,
   ],
   exports: [
     BcfWpSingleViewComponent,
     BcfImportButtonComponent,
-    BcfExportButtonComponent
+    BcfExportButtonComponent,
   ]
 })
 export class OpenprojectBcfModule {

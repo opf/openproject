@@ -66,55 +66,14 @@ module Pages
         end
       end
 
-      def sidebar_shows_viewer_menu(visible)
-        selector = '.xeokit-tab'
-        tabs = ['Models', 'Objects', 'Classes', 'Storeys']
-
-        tabs.each do |tab|
-          element_visible? visible, selector, tab
-        end
-      end
-
-      def select_sidebar_tab(tab)
-        selector = '.xeokit-tab'
-        page.find(selector, text: tab).click
-      end
-
-      def expand_tree
-        page.all('.xeokit-tree-panel a.plus').map(&:click)
-      end
-
-      def expect_checked(label)
-        page
-          .find('.xeokit-tree-panel li span', text: label, wait: 10)
-          .sibling('input[type=checkbox]:checked')
-      end
-
-      def all_checkboxes
-        page
-          .all('.xeokit-tree-panel li span')
-          .map { |item| [item, item.sibling('input[type=checkbox]')] }
-      end
-
-      def expect_tree_panel_selected(selected, tab = 'Models')
-        within (".xeokit-#{tab.downcase}.xeokit-tree-panel") do
-          if selected
-            expect(page.find('input', match: :first)).to be_checked
-          else
-            expect(page.find('input', match: :first)).not_to be_checked
-          end
-
-        end
-      end
-
       def page_shows_a_toolbar(visible)
         toolbar_items.each do |button|
-          element_visible? visible, '.toolbar-item', button
+          expect(page).to have_conditional_selector(visible, '.toolbar-item', text: button)
         end
       end
 
       def page_shows_a_filter_button(visible)
-        element_visible? visible, '.toolbar-item', 'Filter'
+        expect(page).to have_conditional_selector(visible, '.toolbar-item', 'Filter')
       end
 
       def switch_view(value)
@@ -138,10 +97,6 @@ module Pages
 
       def create_page_class
         Pages::BCF::CreateSplit
-      end
-
-      def element_visible?(visible, selector, name)
-        expect(page).to (visible ? have_selector(selector, text: name) : have_no_selector(selector, text: name))
       end
     end
   end

@@ -28,11 +28,9 @@
 
 import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
 import {take} from "rxjs/operators";
-import {BcfDetectorService} from "core-app/modules/bim/bcf/helper/bcf-detector.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {
   PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition
@@ -42,11 +40,9 @@ import {WorkPackageFilterButtonComponent} from "core-components/wp-buttons/wp-fi
 import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
 import {WorkPackageDetailsViewButtonComponent} from "core-components/wp-buttons/wp-details-view-button/wp-details-view-button.component";
 import {WorkPackageTimelineButtonComponent} from "core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component";
-import {BcfImportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf-import-button.component";
-import {BcfExportButtonComponent} from "core-app/modules/bim/bcf/bcf-buttons/bcf-export-button.component";
 import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
-import {Observable, of} from "rxjs";
+import {of} from "rxjs";
 
 @Component({
   selector: 'wp-view-page',
@@ -58,7 +54,7 @@ import {Observable, of} from "rxjs";
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
-    {provide: HalResourceNotificationService, useClass: WorkPackageNotificationService},
+    { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
     QueryParamListenerService
   ]
 })

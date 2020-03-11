@@ -26,10 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-require_relative '../support/pages/ifc_models/index'
-require_relative '../support/pages/ifc_models/show_default'
+require_relative '../spec_helper'
 
 describe 'show default model', type: :feature, js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
@@ -50,6 +47,7 @@ describe 'show default model', type: :feature, js: true do
                       uploader: user)
   end
   let(:model_is_default) { true }
+  let(:model_tree) { ::Components::XeokitModelTree.new }
 
   before do
     login_as(user)
@@ -75,7 +73,7 @@ describe 'show default model', type: :feature, js: true do
       show_default_page.model_viewer_visible true
       show_default_page.model_viewer_shows_a_toolbar true
       show_default_page.page_shows_a_toolbar true
-      show_default_page.sidebar_shows_viewer_menu true
+      model_tree.sidebar_shows_viewer_menu true
     end
   end
 

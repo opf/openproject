@@ -103,6 +103,9 @@ module OpenProject::Bim
     patch_with_namespace :DemoData, :WorkPackageBoardSeeder
 
     extend_api_response(:v3, :work_packages, :work_package) do
+      # extend cached_representer for bcf issue
+      cached_representer key_parts: %i(bcf_issue)
+
       include API::Bim::Utilities::PathHelper
 
       link :bcfTopic,

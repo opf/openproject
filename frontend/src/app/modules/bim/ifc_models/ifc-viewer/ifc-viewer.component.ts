@@ -27,7 +27,6 @@
 // ++
 
 import {Component, ElementRef, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
-
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
 

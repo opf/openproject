@@ -28,13 +28,12 @@
 
 require_relative '../../spec_helper'
 
-describe 'Show viewpoint in model viewer', type: :feature, js: true do
+describe 'Create viewpoint from BCF details page', type: :feature, js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
   let(:user) { FactoryBot.create :admin }
 
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }
   let!(:bcf) { FactoryBot.create :bcf_issue, work_package: work_package }
-  let!(:viewpoint) { FactoryBot.create :bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one' }
 
   let!(:model) do
     FactoryBot.create(:ifc_model_minimal_converted,
@@ -43,49 +42,50 @@ describe 'Show viewpoint in model viewer', type: :feature, js: true do
                       uploader: user)
   end
 
-  let(:model_tree) { ::Components::XeokitModelTree.new }
   let(:show_model_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:card_view) { ::Pages::WorkPackageCards.new(project) }
   let(:bcf_details) { ::Pages::BcfDetailsPage.new(work_package, project) }
-
-  shared_examples 'has the minimal viewpoint shown' do
-    it 'loads the minimal viewpoint in the viewer' do
-      model_tree.select_sidebar_tab 'Objects'
-      model_tree.expand_tree
-      model_tree.expect_checked 'minimal'
-      model_tree.all_checkboxes.each do |label, checkbox|
-        if label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035'
-          expect(checkbox.checked?).to eq(true)
-        else
-          expect(checkbox.checked?).to eq(false)
-        end
-      end
-    end
-  end
+  let(:model_tree) { ::Components::XeokitModelTree.new }
 
   before do
     login_as(user)
+  end
+
+  it 'can create a viewpoint from the BCF details page' do
     show_model_page.visit!
     show_model_page.finished_loading
     card_view.expect_work_package_listed work_package
-  end
+    card_view.open_full_screen_by_details work_package
 
-  context 'clicking on the card' do
-    before do
-      card_view.select_work_package work_package
-      card_view.expect_work_package_selected work_package, true
-    end
+    # Expect no viewpoint
+    bcf_details.ensure_page_loaded
+    bcf_details.expect_viewpoint_count 0
 
-    it_behaves_like 'has the minimal viewpoint shown'
-  end
+    # Uncheck the second checkbox for testing
+    model_tree.select_sidebar_tab 'Objects'
+    model_tree.expect_checked 'minimal'
+    model_tree.expand_tree
 
-  context 'when in details view' do
-    before do
-      card_view.open_full_screen_by_details work_package
-      bcf_details.expect_viewpoint_count 1
-      bcf_details.show_current_viewpoint
-    end
+    item, checkbox = model_tree.all_checkboxes.second
+    text = item.text
+    checkbox.uncheck
 
-    it_behaves_like 'has the minimal viewpoint shown'
+    bcf_details.add_viewpoint
+    bcf_details.expect_viewpoint_count 1
+
+    page.driver.browser.navigate.refresh
+
+    bcf_details.ensure_page_loaded
+    bcf_details.expect_viewpoint_count 1
+    bcf_details.show_current_viewpoint
+
+    sleep 1
+
+    # Uncheck the second checkbox for testing
+    model_tree.select_sidebar_tab 'Objects'
+    model_tree.expect_checked 'minimal'
+    model_tree.expand_tree
+
+    model_tree.expect_unchecked text
   end
 end
