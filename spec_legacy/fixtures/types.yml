@@ -43,7 +43,7 @@ types_003:
   position: 3
   is_default: true
 types_999:
-  name: none
+  name: None
   id: 999
   is_standard: true
   position: 0
