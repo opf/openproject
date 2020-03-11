@@ -70,10 +70,10 @@ module OpenProject::Bim
       ::Redmine::MenuManager.map(:project_menu) do |menu|
         menu.push(:ifc_models,
                   { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
-                  caption: :'bim.label_bim',
+                  caption: :'bcf.label_bcf',
                   param: :project_id,
                   after: :work_packages,
-                  icon: 'icon2 icon-ifc',
+                  icon: 'icon2 icon-bcf',
                   badge: :label_new)
 
         menu.push :ifc_viewer_panels,
