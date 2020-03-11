@@ -26,25 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Injector, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {Ng2StateDeclaration, UIRouter, UIRouterModule} from "@uirouter/angular";
 import {BoardComponent} from "core-app/modules/boards/board/board.component";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
 import {BoardsRootComponent} from "core-app/modules/boards/boards-root/boards-root.component";
-import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
-import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BoardInlineAddAutocompleterComponent} from "core-app/modules/boards/board/inline-add/board-inline-add-autocompleter.component";
-import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {BoardsToolbarMenuDirective} from "core-app/modules/boards/board/toolbar-menu/boards-toolbar-menu.directive";
-import {BoardConfigurationService} from "core-app/modules/boards/board/configuration-modal/board-configuration.service";
 import {BoardConfigurationModal} from "core-app/modules/boards/board/configuration-modal/board-configuration.modal";
 import {BoardsIndexPageComponent} from "core-app/modules/boards/index-page/boards-index-page.component";
 import {BoardsMenuComponent} from "core-app/modules/boards/boards-sidebar/boards-menu.component";
-import {BoardDmService} from "core-app/modules/boards/board/board-dm.service";
 import {NewBoardModalComponent} from "core-app/modules/boards/new-board-modal/new-board-modal.component";
-import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {BoardHighlightingTabComponent} from "core-app/modules/boards/board/configuration-modal/tabs/highlighting-tab.component";
 import {AddCardDropdownMenuDirective} from "core-app/modules/boards/board/add-card-dropdown/add-card-dropdown-menu.directive";
@@ -53,9 +47,6 @@ import {DragScrollModule} from "cdk-drag-scroll";
 import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
 import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
 import {DynamicModule} from "ng-dynamic-component";
-import {BoardStatusActionService} from "core-app/modules/boards/board/board-actions/status/status-action.service";
-import {BoardVersionActionService} from "core-app/modules/boards/board/board-actions/version/version-action.service";
-import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
 
 const menuItemClass = 'board-view-menu-item';
 
@@ -113,16 +104,6 @@ export function uiRouterBoardsConfiguration(uiRouter:UIRouter) {
     );
 }
 
-export function registerBoardsModule(injector:Injector) {
-  // Register action services
-  const registry = injector.get(BoardActionsRegistryService);
-  const statusAction = injector.get(BoardStatusActionService);
-  const versionAction = injector.get(BoardVersionActionService);
-
-  registry.add('status', statusAction);
-  registry.add('version', versionAction);
-}
-
 @NgModule({
   imports: [
     OpenprojectCommonModule,
@@ -137,17 +118,6 @@ export function registerBoardsModule(injector:Injector) {
       states: BOARDS_ROUTES,
       config: uiRouterBoardsConfiguration
     }),
-  ],
-  providers: [
-    BoardService,
-    BoardDmService,
-    BoardListsService,
-    BoardCacheService,
-    BoardConfigurationService,
-    BoardActionsRegistryService,
-    BoardStatusActionService,
-    BoardVersionActionService,
-    QueryUpdatedService,
   ],
   declarations: [
     BoardsIndexPageComponent,
@@ -168,8 +138,5 @@ export function registerBoardsModule(injector:Injector) {
   ]
 })
 export class OpenprojectBoardsModule {
-  constructor(injector:Injector) {
-    registerBoardsModule(injector);
-  }
 }
 
