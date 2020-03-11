@@ -79,9 +79,22 @@ export class TypeFormConfigurationComponent implements OnInit, OnDestroy {
     this.form = jQuery(this.element).closest('form');
     this.submit = this.form.find('.form-configuration--save');
 
+    // In the following we are triggering the form submit ourselves to work around
+    // a firefox shortcoming. But to avoid double submits which are sometimes not canceled fast
+    // enough, we need to memoize whether we have already submitted.
+    let submitted = false;
+
+    this.form.on('submit', (event) => {
+      submitted = true;
+    });
+
     // Capture mousedown on button because firefox breaks blur on click
     this.submit.on('mousedown', (event) => {
-      setTimeout(() => this.form.trigger('submit'), 50);
+      setTimeout(() => {
+        if (!submitted) {
+          this.form.trigger('submit');
+        }
+      }, 50);
       return true;
     });
 
