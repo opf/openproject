@@ -8,13 +8,9 @@
                data-class-list="avatar">
   </user-avatar>
 
-  <span class="user" *ngIf="userPath">
-    <a [attr.href]="userPath"
-       [attr.aria-label]="userLabel"
-       [textContent]="userName">
-    </a>
+  <span class="user">
+    <user-link [user]="user"></user-link>
   </span>
-  <span class="user" *ngIf="!userPath">{{ userName }}</span>
   <span class="date">
     {{ isInitial ? text.label_created_on : text.label_updated_on }}
     <op-date-time [dateTimeValue]="activity.createdAt"></op-date-time>
