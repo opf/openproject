@@ -73,7 +73,7 @@ module Pages
       end
 
       def page_shows_a_filter_button(visible)
-        expect(page).to have_conditional_selector(visible, '.toolbar-item', 'Filter')
+        expect(page).to have_conditional_selector(visible, '.toolbar-item', text: 'Filter')
       end
 
       def switch_view(value)
