@@ -9,6 +9,8 @@
   <div class="bcf--viewpoints" *ngIf="galleryImages.length > 0">
     <ngx-gallery [options]="galleryOptions"
                  [images]="galleryImages"
+                 (change)="onGalleryChanged($event)"
+                 (imagesReady)="onGalleryLoaded()"
                  (previewOpen)="galleryPreviewOpen()"
                  (previewClose)="galleryPreviewClose()">
     </ngx-gallery>

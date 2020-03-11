@@ -1,7 +1,15 @@
-import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from "@angular/core";
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  ViewChild
+} from "@angular/core";
 import {StateService} from "@uirouter/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {NgxGalleryImage, NgxGalleryOptions} from '@kolkov/ngx-gallery';
+import {NgxGalleryComponent, NgxGalleryImage, NgxGalleryOptions} from '@kolkov/ngx-gallery';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
@@ -11,6 +19,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 export type ViewPoint = { snapshotId:string, snapshotFullPath:string };
 
@@ -20,8 +29,10 @@ export type ViewPoint = { snapshotId:string, snapshotFullPath:string };
   styleUrls: ['./bcf-wp-single-view.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
+export class BcfWpSingleViewComponent implements AfterViewInit, OnDestroy {
   @Input() workPackage:WorkPackageResource;
+
+  @ViewChild(NgxGalleryComponent) gallery:NgxGalleryComponent;
 
   text = {
     bcf: this.I18n.t('js.bcf.label_bcf'),
@@ -29,7 +40,9 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
     add_viewpoint: this.I18n.t('js.bcf.add_viewpoint'),
     show_viewpoint: this.I18n.t('js.bcf.show_viewpoint'),
     delete_viewpoint: this.I18n.t('js.bcf.delete_viewpoint'),
-    text_are_you_sure: this.I18n.t('js.text_are_you_sure')
+    text_are_you_sure: this.I18n.t('js.text_are_you_sure'),
+    notice_successful_create: this.I18n.t('js.notice_successful_create'),
+    notice_successful_delete: this.I18n.t('js.notice_successful_delete'),
   };
 
   actions = [
@@ -49,6 +62,9 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
     {
       width: '100%',
       height: '400px',
+
+      // Show first thumbnail by default
+      startIndex: 0,
 
       // Show only one image ("thumbnail")
       // and disable the large image slideshow
@@ -102,10 +118,12 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
               readonly bcfApi:BcfApiService,
               readonly viewerBridge:ViewerBridgeService,
               readonly wpCache:WorkPackageCacheService,
+              readonly notifications:NotificationsService,
+              readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
   }
 
-  ngOnInit():void {
+  ngAfterViewInit():void {
     this.wpCache
       .observe(this.workPackage.id!)
       .pipe(
@@ -116,6 +134,7 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
 
         if (wp.bcfViewpoints) {
           this.setViewpoints();
+          this.cdRef.detectChanges();
         }
       });
   }
@@ -143,6 +162,7 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       .delete()
       .subscribe(data => {
         // Update the work package to reload the viewpoint
+        this.notifications.addSuccess(this.text.notice_successful_delete);
         this.wpCache.require(this.workPackage.id!, true);
       });
   }
@@ -158,6 +178,8 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
       .post(viewpoint)
       .subscribe((result) => {
         // Update the work package to reload the viewpoint
+        this.notifications.addSuccess(this.text.notice_successful_create);
+        this.showIndex = this.viewpoints.length;
         this.wpCache.require(this.workPackage.id!, true);
       });
   }
@@ -168,6 +190,24 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
 
   galleryPreviewClose():void {
     jQuery('#top-menu').removeClass('-no-z-index');
+  }
+
+  onGalleryLoaded() {
+    setTimeout(() => this.gallery.show(this.showIndex), 250);
+  }
+
+  onGalleryChanged(event:{ index:number }) {
+    this.showIndex = event.index;
+  }
+
+  private set showIndex(value:number) {
+    const options = [...this.galleryOptions];
+    options[0].startIndex = value;
+    this.galleryOptions = options;
+  }
+
+  private get showIndex():number {
+    return this.galleryOptions[0].startIndex!;
   }
 
   private get topicUUID():string|null {
@@ -190,6 +230,14 @@ export class BcfWpSingleViewComponent implements OnInit, OnDestroy {
   }
 
   private setViewpoints() {
+    const length = this.workPackage.bcfViewpoints.length;
+
+    if (this.showIndex < 0 || length < 1) {
+      this.showIndex = 0;
+    } else if (this.showIndex >= length) {
+      this.showIndex = length - 1;
+    }
+
     this.viewpoints = this.workPackage.bcfViewpoints.map((vp:HalLink) => {
       const viewpointResource = this.bcfApi.parse<BcfViewpointPaths>(vp.href!);
 

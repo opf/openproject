@@ -47,7 +47,7 @@
     "@fullcalendar/daygrid": "4.4.0",
     "@fullcalendar/interaction": "4.4.0",
     "@fullcalendar/timegrid": "4.4.0",
-    "@kolkov/ngx-gallery": "^1.0.10",
+    "@kolkov/ngx-gallery": "^1.0.11",
     "@ng-select/ng-option-highlight": "0.0.4",
     "@ng-select/ng-select": "^3.7.2",
     "@sentry/browser": "^5.13.0",
