@@ -27,17 +27,17 @@
 // ++
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
 
 export class BcfThumbnailDisplayField extends DisplayField {
-  @InjectField() pathHelper:PathHelperService;
+  @InjectField() bcfPathHelper:BcfPathHelperService;
 
   public render(element:HTMLElement, displayText:string):void {
-    if (_.get(this, 'resource.bcf.viewpoints[0]')) {
-      let vp = this.resource.bcf.viewpoints[0];
+    if (_.get(this, 'resource.bcfViewpoints[0]')) {
+      let vp = this.resource.bcfViewpoints[0];
       element.innerHTML = `
-        <img src="${this.pathHelper.attachmentDownloadPath(vp.id, vp.file_name)}" class="thumbnail">
+        <img src="${this.bcfPathHelper.snapshotPath(vp)}" class="thumbnail">
       `;
     } else {
       element.innerHTML = '';
