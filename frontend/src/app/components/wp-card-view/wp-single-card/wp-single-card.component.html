@@ -38,7 +38,9 @@
     </div>
   </edit-form>
 
-  <img *ngIf="this.bcfSnapshotPath(workPackage)" [src]="this.bcfSnapshotPath(workPackage)" class="wp-card--cover-image">
+  <img *ngIf="this.cardCoverImageShown(workPackage)"
+       [src]="this.bcfSnapshotPath(workPackage)"
+       class="wp-card--cover-image">
 
   <div *ngIf="!workPackage.isNew"
        class="wp-card--content">

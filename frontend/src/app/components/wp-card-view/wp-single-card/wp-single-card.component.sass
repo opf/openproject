@@ -36,6 +36,12 @@
   wp-single-card:host.gu-transit &
     @include modifying--placeholder
 
+  &.-with-card-cover-image
+    justify-content: space-between
+
+    .wp-card--content
+      flex-grow: 0
+
 .wp-card--content:not(.-new)
   display: grid
   grid-template-columns: auto 1fr auto

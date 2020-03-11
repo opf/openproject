@@ -4,7 +4,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy, OnInit,
+  OnDestroy,
+  OnInit,
   Output
 } from "@angular/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
@@ -87,6 +88,7 @@ export class WorkPackageSingleCardComponent implements OnDestroy, OnInit {
     classes += ' wp-card-' + this.workPackage.id;
     classes += ' -' + this.orientation;
     classes += this.shrinkOnMobile ? ' -shrink' : '';
+    classes += this.cardCoverImageShown(this.workPackage) ? ' -with-card-cover-image' : '';
     return classes;
   }
 
@@ -110,9 +112,12 @@ export class WorkPackageSingleCardComponent implements OnDestroy, OnInit {
     this.onRemove.emit(wp);
   }
 
+  public cardCoverImageShown(wp:WorkPackageResource):boolean {
+    return this.bcfSnapshotPath(wp) !== null;
+  }
+
   public bcfSnapshotPath(wp:WorkPackageResource) {
-    let vp = _.get(wp, 'bcfViewpoints[0]');
-    return vp ? `${vp.href}/snapshot` : null;
+    return wp.bcfViewpoints && wp.bcfViewpoints.length > 0 ? wp.bcfViewpoints[0].href + '/snapshot' : null;
   }
 
   private isSelected(wp:WorkPackageResource):boolean {
