@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency 'rotp', '~> 3.3'
-  s.add_dependency 'messagebird-rest', '~> 1.3.2'
+  s.add_dependency 'messagebird-rest', '~> 1.4.2'
 
   s.add_dependency 'aws-sdk-sns', '~> 1.22.0'
 end
