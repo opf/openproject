@@ -30,7 +30,6 @@ import {Injector, NgModule} from '@angular/core';
 import {DynamicModule} from 'ng-dynamic-component';
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
@@ -66,7 +65,6 @@ import {WidgetProjectStatusComponent} from "core-app/modules/grids/widgets/proje
 
 @NgModule({
   imports: [
-    BrowserModule,
     FormsModule,
     DragDropModule,
 

@@ -68,7 +68,6 @@ import {OpenprojectWorkPackageGraphsModule} from "core-app/modules/work-package-
 import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 import {PreviewTriggerService} from "core-app/globals/global-listeners/preview-trigger.service";
 import {OpenprojectOverviewModule} from "core-app/modules/overview/openproject-overview.module";
-import {OpenprojectMyPageModule} from "core-app/modules/my-page/openproject-my-page.module";
 import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-projects.module";
 import {KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-service";
 import {globalDynamicComponents} from "core-app/global-dynamic-components.const";
@@ -110,9 +109,6 @@ import {globalDynamicComponents} from "core-app/global-dynamic-components.const"
     // Overview
     OpenprojectOverviewModule,
 
-    // MyPage
-    OpenprojectMyPageModule,
-
     // Global Search
     OpenprojectGlobalSearchModule,
 
@@ -125,7 +121,7 @@ import {globalDynamicComponents} from "core-app/global-dynamic-components.const"
     LinkedPluginsModule,
   ],
   providers: [
-    {provide: States, useValue: new States()},
+    { provide: States, useValue: new States() },
     { provide: APP_INITIALIZER, useFactory: initializeServices, deps: [Injector], multi: true },
     PaginationService,
     OpenProjectFileUploadService,
@@ -173,7 +169,7 @@ export class OpenProjectModule {
     const hookService = (appRef as any)._injector.get(HookService);
     hookService
       .call('openProjectAngularBootstrap')
-      .forEach((results:{selector:string, cls:any}[]) => {
+      .forEach((results:{ selector:string, cls:any }[]) => {
         DynamicBootstrapper.bootstrapOptionalDocument(appRef, document, results);
       });
   }

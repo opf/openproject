@@ -63,6 +63,12 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     url: '/bcf',
     loadChildren: () => import('../bim/ifc_models/openproject-ifc-models.module').then(m => m.OpenprojectIFCModelsModule)
   },
+  {
+    name: 'my_page.**',
+    url: '/my/page',
+    loadChildren: () => import('../my-page/openproject-my-page.module').then(m => m.OpenprojectMyPageModule)
+  },
+
 ];
 
 /**
