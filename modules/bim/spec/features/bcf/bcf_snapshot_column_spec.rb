@@ -11,12 +11,6 @@ describe 'BCF snapshot column', type: :feature, js: true, with_mail: false do
                       member_in_project: project,
                       member_with_permissions: permissions
   end
-
-
-  before do
-    login_as(user)
-  end
-
   let!(:query) do
     query              = FactoryBot.build(:query, user: user, project: project)
     query.column_names = ['subject', 'bcf_thumbnail']
@@ -27,13 +21,17 @@ describe 'BCF snapshot column', type: :feature, js: true, with_mail: false do
     query
   end
 
+  before do
+    login_as(user)
+  end
+
   it 'shows BCF snapshot column correctly (Regression)' do
     wp_table.visit_query query
     wp_table.expect_work_package_listed(work_package)
 
     page.within(".wp-row-#{work_package.id} td.bcfThumbnail") do
       image_path = "/api/bcf/2.1/projects/myproject_no_1/topics/#{bcf_issue.uuid}/viewpoints/#{bcf_issue.viewpoints.first.uuid}/snapshot"
-      expect(page).to have_selector("[src=\"#{image_path}\"]")
+      expect(page).to have_selector("img[src=\"#{image_path}\"]")
     end
   end
 end
