@@ -19,17 +19,10 @@
               class="work-packages-split-view--tabletimeline-content"></wp-table>
 
     <!-- GRID representation of the WP -->
-    <div class="work-packages-embedded-view--grid-view"
-         [ngClass]="{ '-with-resizer': showResizer }" >
+    <div class="work-packages-embedded-view--grid-view" >
       <wp-grid *ngIf="configuration.isCardView"
                [configuration]="configuration">
       </wp-grid>
-
-      <div *ngIf="showResizer"
-           class="hidden-for-mobile hide-when-print">
-        <wp-resizer [elementClass]="resizerClass"
-                    [localStorageKey]="resizerStorageKey"></wp-resizer>
-      </div>
     </div>
 
     <!-- Footer -->

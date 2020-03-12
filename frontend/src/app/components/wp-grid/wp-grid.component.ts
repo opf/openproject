@@ -52,6 +52,12 @@ import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-c
                   [showInfoButton]="true"
                   [shrinkOnMobile]="true">
     </wp-card-view>
+    
+    <div *ngIf="showResizer"
+         class="hidden-for-mobile hide-when-print">
+      <wp-resizer [elementClass]="resizerClass"
+                  [localStorageKey]="resizerStorageKey"></wp-resizer>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -61,6 +67,9 @@ import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-c
 })
 export class WorkPackagesGridComponent {
   @Input() public configuration:WorkPackageTableConfiguration;
+  @Input() public showResizer:boolean = false;
+  @Input() public resizerClass:string = '';
+  @Input() public resizerStorageKey:string = '';
 
   public canDragOutOf:() => boolean;
   public dragInto:boolean;

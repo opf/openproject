@@ -405,6 +405,7 @@ import {WorkPackageCreateComponent} from "core-components/wp-new/wp-create.compo
     WorkPackageSubjectComponent,
     WorkPackageWatchersCountComponent,
     WorkPackageRelationsCountComponent,
+    WorkPackagesGridComponent,
 
     // Modals
     WpTableConfigurationModalComponent,

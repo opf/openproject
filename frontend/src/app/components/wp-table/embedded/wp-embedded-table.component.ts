@@ -22,9 +22,6 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Input('queryProps') public queryProps:any = {};
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public externalHeight:boolean = false;
-  @Input() public showResizer:boolean = false;
-  @Input() public resizerClass:string = '';
-  @Input() public resizerStorageKey:string = '';
 
   /** Inform about loading errors */
   @Output() public onError = new EventEmitter<string>();

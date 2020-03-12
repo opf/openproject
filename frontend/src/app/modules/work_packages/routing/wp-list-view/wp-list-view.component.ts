@@ -43,6 +43,7 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 
 @Component({
   selector: 'wp-list-view',
@@ -96,7 +97,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
       this.untilDestroyed()
     ).subscribe((query) => {
       // Update the visible representation
-      this.showListView = !(this.deviceService.isMobile || this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation);
+      this.showListView = this.shouldShowAsListView(query);
       this.cdRef.detectChanges();
     });
   }
@@ -111,6 +112,14 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
         this.tableInformationLoaded = true;
         this.cdRef.detectChanges();
       });
+  }
+
+  protected shouldShowAsListView(query:QueryResource):boolean {
+    return !(this.deviceService.isMobile || this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation);
+  }
+
+  protected showResizerInCardView():boolean {
+    return false;
   }
 
 }
