@@ -59,7 +59,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
         explorerElement: jQuery(".ifc-model-viewer--tree-panel")[0], // Left panel
         toolbarElement: element.find(".ifc-model-viewer--toolbar-container")[0], // Toolbar
         navCubeCanvasElement: element.find(".ifc-model-viewer--nav-cube-canvas")[0],
-        busyModelBackdropElement: document.querySelector(".xeokit-busy-modal-backdrop")
+        busyModelBackdropElement: element.find(".xeokit-busy-modal-backdrop")[0]
       },
       this.Gon.get('ifc_models', 'projects') as any[]
     );

@@ -7,7 +7,7 @@ export interface XeokitElements {
   explorerElement:HTMLElement;
   toolbarElement:HTMLElement;
   navCubeCanvasElement:HTMLElement;
-  sectionPlanesOverviewCanvasElement:HTMLElement;
+  busyModelBackdropElement:HTMLElement;
 }
 
 export interface BCFCreationOptions {
