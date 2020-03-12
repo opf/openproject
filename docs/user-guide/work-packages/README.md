@@ -16,7 +16,6 @@ keywords: work packages
 Work packages have a **type**, an **ID**, a **subject** and may have various additional attributes, such as **status**, **assignee**, **priority**, **due date**.
 
 <div class="glossary">**Work package ID** is defined as a unique integer assigned to a newly created work package. Work package IDs cannot be changed and are numbered across all projects of an OpenProject instance (therefore, the numbering within a project may not be sequential).</div>
-
 <div class="glossary">
 **Types** are the different items a work package can represent, such as task, feature, bug, phase, milestone. The work package types can be configured in the system administration.
 </div>
@@ -32,6 +31,7 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 | [Edit work package](edit-work-package)                       | How to edit a work package in OpenProject?                   |
 | [Copy, move, delete](copy-move-delete)                       | How to copy, move, delete a work package?                    |
 | [Work package table configuration](work-package-table-configuration) | How to configure the work package table (columns, filters, group by, etc.)? |
+| [Exporting](exporting)                                       | How to export work packages for other tools such as Microsoft Excel? |
 | [Work package relations and hierarchies](work-package-relations-hierarchies) | How to create work package relations and hierarchies?        |
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/H-M6k-fFht8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

@@ -26,19 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, OnInit} from '@angular/core';
 import {distinctUntilChanged} from 'rxjs/operators';
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {TransitionService} from '@uirouter/core';
 import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'wp-resizer',
-  template: `<div class="work-packages--resizer icon-resizer-vertical-lines"></div>`
+  template: `
+    <div class="work-packages--resizer icon-resizer-vertical-lines"></div>`
 })
 
-export class WpResizerDirective implements OnInit, OnDestroy {
+export class WpResizerDirective extends UntilDestroyedMixin implements OnInit {
   @Input() elementClass:string;
   @Input() resizeEvent:string;
   @Input() localStorageKey:string;
@@ -56,6 +57,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
               private elementRef:ElementRef,
               readonly $transitions:TransitionService,
               readonly browserDetector:BrowserDetector) {
+    super();
   }
 
   ngOnInit() {
@@ -86,18 +88,19 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     this.toggleService.changeData$
       .pipe(
         distinctUntilChanged(),
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
-      .subscribe( changeData => {
+      .subscribe(changeData => {
         this.toggleFullscreenColumns();
       });
     let that = this;
-    jQuery(window).resize(function() {
+    jQuery(window).resize(function () {
       that.toggleFullscreenColumns();
     });
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     // Reset the style when killing this directive, otherwise the style remains
     this.resizingElement.style[this.resizeStyle] = '';
   }

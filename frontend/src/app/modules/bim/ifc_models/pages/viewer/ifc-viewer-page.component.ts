@@ -6,7 +6,6 @@ import {
 } from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
 import {WorkPackageFilterButtonComponent} from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
 import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
-import {componentDestroyed} from "ng2-rx-componentdestroyed";
 import {
   bimListViewIdentifier,
   bimViewerViewIdentifier,
@@ -24,6 +23,7 @@ import {BcfImportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/
 import {BcfExportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
 import {viewerBridgeServiceFactory} from "core-app/modules/bim/bcf/openproject-bcf.module";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -110,10 +110,6 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     this.transitionUnsubscribeFn = this.transition.onSuccess({}, () => {
       this.newRoute$.next(this.state.current.data.newRoute);
     });
-  }
-
-  ngOnDestroy():void {
-    super.ngOnDestroy();
   }
 
   /**

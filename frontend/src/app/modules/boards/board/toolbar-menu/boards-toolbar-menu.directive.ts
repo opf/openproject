@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, ElementRef, Injector, Input, OnDestroy} from '@angular/core';
+import {Directive, ElementRef, Injector, Input} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
@@ -37,15 +37,12 @@ import {BoardService} from "core-app/modules/boards/board/board.service";
 import {StateService} from "@uirouter/core";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
-import {
-  selectableTitleIdentifier,
-  triggerEditingEvent
-} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
+import {triggerEditingEvent} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
 
 @Directive({
   selector: '[boardsToolbarMenu]'
 })
-export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements OnDestroy {
+export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
   @Input('boardsToolbarMenu-resource') public board:Board;
 
   public text = {
@@ -63,10 +60,6 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
               readonly I18n:I18nService) {
 
     super(elementRef, opContextMenu);
-  }
-
-  ngOnDestroy():void {
-    // Nothing to do
   }
 
   public get locals() {
@@ -117,7 +110,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger implements 
               .delete(this.board)
               .then(() => {
                 this.BoardCache.clearSome(this.board.id!);
-                this.State.go('^', { flash_message: { type: 'success', message: this.text.deleteSuccessful }});
+                this.State.go('^', { flash_message: { type: 'success', message: this.text.deleteSuccessful } });
               });
           }
 

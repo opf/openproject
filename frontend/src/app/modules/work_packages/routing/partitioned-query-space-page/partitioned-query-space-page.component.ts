@@ -26,17 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, Component, ComponentRef, HostBinding, OnDestroy, OnInit} from "@angular/core";
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from "@angular/core";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpTitleService} from "core-components/html/op-title.service";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 import {take} from "rxjs/operators";
-import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
-import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
-import {BcfDetectorService} from "core-app/modules/bim/bcf/helper/bcf-detector.service";
-import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
@@ -48,8 +42,8 @@ export interface ToolbarButtonComponentDefinition {
   component:ComponentType<any>;
   containerClasses?:string;
   show?:() => boolean;
-  inputs?:{[inputName:string]:any};
-  outputs?:{[outputName:string]:Function};
+  inputs?:{ [inputName:string]:any };
+  outputs?:{ [outputName:string]:Function };
 }
 
 export type ViewPartitionState = '-split'|'-left-only'|'-right-only';
@@ -61,7 +55,7 @@ export type ViewPartitionState = '-split'|'-left-only'|'-right-only';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
-    {provide: HalResourceNotificationService, useClass: WorkPackageNotificationService},
+    { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
     QueryParamListenerService
   ]
 })
@@ -69,7 +63,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   @InjectField() titleService:OpTitleService;
   @InjectField() queryParamListener:QueryParamListenerService;
 
-  text:{[key:string]:string} = {
+  text:{ [key:string]:string } = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
     'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
   };
@@ -126,18 +120,18 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     this.queryParamListener
       .observe$
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       ).subscribe(() => {
-        this.refresh(true, true);
-      });
+      this.refresh(true, true);
+    });
 
     // Update title on entering this state
-    this.unRegisterTitleListener = this.$transitions.onSuccess( {}, () => {
+    this.unRegisterTitleListener = this.$transitions.onSuccess({}, () => {
       this.updateTitle(this.querySpace.query.value);
     });
 
     this.querySpace.query.values$().pipe(
-      untilComponentDestroyed(this)
+      this.untilDestroyed()
     ).subscribe((query) => {
       this.onQueryUpdated(query);
     });

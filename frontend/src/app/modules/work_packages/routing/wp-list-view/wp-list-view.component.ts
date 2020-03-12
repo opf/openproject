@@ -26,23 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-  Input,
-  OnDestroy,
-  OnInit
-} from "@angular/core";
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {OpTitleService} from "core-components/html/op-title.service";
-import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from "@angular/core";
 import {take} from "rxjs/operators";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
-import {BcfDetectorService} from "core-app/modules/bim/bcf/helper/bcf-detector.service";
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation
@@ -50,14 +37,12 @@ import {
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
-import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'wp-list-view',
@@ -71,7 +56,7 @@ import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/rout
     CausedUpdatesService
   ]
 })
-export class WorkPackageListViewComponent implements OnInit, OnDestroy {
+export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit {
 
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -100,6 +85,7 @@ export class WorkPackageListViewComponent implements OnInit, OnDestroy {
               private CurrentProject:CurrentProjectService,
               private wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
               private cdRef:ChangeDetectorRef) {
+    super();
   }
 
   ngOnInit() {
@@ -107,7 +93,7 @@ export class WorkPackageListViewComponent implements OnInit, OnDestroy {
     this.setupInformationLoadedListener();
 
     this.querySpace.query.values$().pipe(
-      untilComponentDestroyed(this)
+      this.untilDestroyed()
     ).subscribe((query) => {
       // Update the visible representation
       this.showListView = !(this.deviceService.isMobile || this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation);
@@ -115,9 +101,6 @@ export class WorkPackageListViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy():void {
-    // Nothing to do
-  }
   protected setupInformationLoadedListener() {
     this
       .querySpace

@@ -29,20 +29,19 @@
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'wp-status-button',
   styleUrls: ['./wp-status-button.component.sass'],
   templateUrl: './wp-status-button.html'
 })
-export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
+export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implements OnInit {
   @Input('workPackage') public workPackage:WorkPackageResource;
   @Input('containerClass') public containerClass:string;
 
@@ -56,6 +55,7 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
               readonly cdRef:ChangeDetectorRef,
               readonly wpCacheService:WorkPackageCacheService,
               readonly halEditing:HalResourceEditingService) {
+    super();
   }
 
   ngOnInit() {
@@ -63,7 +63,7 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
       .temporaryEditResource(this.workPackage)
       .values$()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe((wp) => {
         this.workPackage = wp;
@@ -73,10 +73,6 @@ export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
           this.workPackage.status.$load();
         }
       });
-  }
-
-  ngOnDestroy():void {
-    // Nothing to do
   }
 
   public get buttonTitle() {

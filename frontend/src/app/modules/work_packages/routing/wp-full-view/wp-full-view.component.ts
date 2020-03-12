@@ -26,10 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {StateService} from '@uirouter/core';
-import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {Component, Injector, OnInit} from '@angular/core';
 import {WorkPackageViewSelectionService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
@@ -47,13 +45,6 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   public isWatched:boolean;
   public displayWatchButton:boolean;
   public watchers:any;
-
-  // Properties
-  public type:TypeResource;
-  public author:UserResource;
-  public authorPath:string;
-  public authorActive:boolean;
-  public attachments:any;
 
   // More menu
   public permittedActions:any;
@@ -102,16 +93,5 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     if (wp.watchers) {
       this.watchers = (wp.watchers as any).elements;
     }
-
-    // Type
-    this.type = wp.type;
-
-    // Author
-    this.author = wp.author;
-    this.authorPath = this.author.showUserPath as string;
-    this.authorActive = this.author.isActive;
-
-    // Attachments
-    this.attachments = wp.attachments.elements;
   }
 }

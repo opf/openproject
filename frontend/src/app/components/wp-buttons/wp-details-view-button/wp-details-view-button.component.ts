@@ -73,6 +73,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
   }
 
   public ngOnDestroy() {
+    super.ngOnDestroy();
     this.transitionListener();
   }
 

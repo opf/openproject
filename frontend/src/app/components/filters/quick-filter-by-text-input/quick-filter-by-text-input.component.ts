@@ -26,10 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnDestroy, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageCacheService} from "app/components/work-packages/work-package-cache.service";
 import {Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged, map, tap} from "rxjs/operators";
@@ -37,13 +36,14 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {input} from "reactivestates";
 import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'wp-filter-by-text-input',
   templateUrl: './quick-filter-by-text-input.html'
 })
 
-export class WorkPackageFilterByTextInputComponent implements OnDestroy {
+export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
   @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
 
   public text = {
@@ -65,11 +65,12 @@ export class WorkPackageFilterByTextInputComponent implements OnDestroy {
               readonly querySpace:IsolatedQuerySpace,
               readonly wpTableFilters:WorkPackageViewFiltersService,
               readonly wpCacheService:WorkPackageCacheService) {
+    super();
 
     this.wpTableFilters
       .pristine$()
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         map(() => {
           const currentSearchFilter = this.wpTableFilters.find('search');
           return currentSearchFilter ? (currentSearchFilter.values[0] as string) : '';
@@ -85,7 +86,7 @@ export class WorkPackageFilterByTextInputComponent implements OnDestroy {
 
     this.searchTermChanged
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         distinctUntilChanged(),
         tap((val) => this.searchTerm.putValue(val)),
         debounceTime(500),
@@ -104,9 +105,5 @@ export class WorkPackageFilterByTextInputComponent implements OnDestroy {
           this.deactivateFilter.emit(this.filter);
         }
       });
-  }
-
-  public ngOnDestroy() {
-    // Nothing to do
   }
 }

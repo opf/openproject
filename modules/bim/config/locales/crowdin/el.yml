@@ -62,6 +62,7 @@ el:
   attributes:
     bcf_thumbnail: "BCF snapshot"
   project_module_bcf: "BCF"
+  project_module_bim: "BCF"
   permission_view_linked_issues: "Προβολή ζητημάτων BCF"
   permission_manage_bcf: "Εισαγωγή και διαχείριση ζητημάτων BCF"
   oauth:

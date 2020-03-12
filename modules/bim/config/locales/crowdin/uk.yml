@@ -64,6 +64,7 @@ uk:
   attributes:
     bcf_thumbnail: "Снапшот BCF"
   project_module_bcf: "BCF"
+  project_module_bim: "BCF"
   permission_view_linked_issues: "Проглянути BCF помилки"
   permission_manage_bcf: "Import and manage BCF issues"
   oauth:

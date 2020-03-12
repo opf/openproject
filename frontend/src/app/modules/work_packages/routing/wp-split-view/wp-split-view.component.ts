@@ -29,8 +29,6 @@
 import {ChangeDetectionStrategy, Component, Injector, OnInit} from '@angular/core';
 import {StateService} from '@uirouter/core';
 import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
 import {States} from "core-components/states.service";
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
@@ -83,14 +81,14 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
     this.wpTableFocus.whenChanged()
       .pipe(
-        takeUntil(componentDestroyed(this))
+        this.untilDestroyed()
       )
       .subscribe(newId => {
         const idSame = wpId.toString() === newId.toString();
         if (!idSame && this.$state.includes(`${this.baseRoute}.details.overview`)) {
           this.$state.go(
             (this.$state.current.name as string),
-            {workPackageId: newId, focus: false}
+            { workPackageId: newId, focus: false }
           );
         }
       });

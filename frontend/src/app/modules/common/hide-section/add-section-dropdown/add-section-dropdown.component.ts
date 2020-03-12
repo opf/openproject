@@ -27,10 +27,10 @@
 // ++
 
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {HideSectionDefinition, HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 export const addSectionDropdownSelector = 'add-section-dropdown';
 
@@ -38,7 +38,7 @@ export const addSectionDropdownSelector = 'add-section-dropdown';
   selector: addSectionDropdownSelector,
   templateUrl: './add-section-dropdown.component.html'
 })
-export class AddSectionDropdownComponent implements OnInit, OnDestroy {
+export class AddSectionDropdownComponent extends UntilDestroyedMixin implements OnInit {
   @ViewChild('fallbackOption', { static: true }) private option:ElementRef;
 
   trackByKey = AngularTrackingHelpers.trackByProperty('key');
@@ -52,6 +52,7 @@ export class AddSectionDropdownComponent implements OnInit, OnDestroy {
   constructor(protected hideSectionService:HideSectionService,
               protected elementRef:ElementRef,
               protected I18n:I18nService) {
+    super();
   }
 
   ngOnInit():void {
@@ -61,18 +62,14 @@ export class AddSectionDropdownComponent implements OnInit, OnDestroy {
       .displayed
       .values$()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       ).subscribe(displayed => {
-        this.selectable = this.hideSectionService.all
-          .filter(el => displayed.indexOf(el.key) === -1)
-          .sort((a, b) => a.label.localeCompare(b.label));
+      this.selectable = this.hideSectionService.all
+        .filter(el => displayed.indexOf(el.key) === -1)
+        .sort((a, b) => a.label.localeCompare(b.label));
 
-        (this.option.nativeElement as HTMLOptionElement).selected = true;
+      (this.option.nativeElement as HTMLOptionElement).selected = true;
     });
-  }
-
-  ngOnDestroy():void {
-    // Nothing to do
   }
 
   show(value:string) {

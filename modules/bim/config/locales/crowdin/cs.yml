@@ -64,6 +64,7 @@ cs:
   attributes:
     bcf_thumbnail: "BCF snímek"
   project_module_bcf: "BCF"
+  project_module_bim: "BCF"
   permission_view_linked_issues: "Zobrazit problémy s BCF"
   permission_manage_bcf: "Importovat a spravovat problémy s BCF."
   oauth:

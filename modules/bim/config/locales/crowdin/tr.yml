@@ -62,6 +62,7 @@ tr:
   attributes:
     bcf_thumbnail: "BCF görüntüsü"
   project_module_bcf: "BCF"
+  project_module_bim: "BCF"
   permission_view_linked_issues: "BCF sorunlarını görüntüleyin"
   permission_manage_bcf: "BCF sorunlarını içe aktarın ve yönetin"
   oauth:

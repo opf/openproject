@@ -31,15 +31,16 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy,
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
-import {componentDestroyed} from "ng2-rx-componentdestroyed";
 import {Observable} from "rxjs";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 @Component({
   selector: 'wp-create-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-create-button.html'
 })
-export class WorkPackageCreateButtonComponent implements OnInit, OnDestroy {
+export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input('allowed') allowedWhen:string[];
   @Input('stateName$') stateName$:Observable<string>;
 
@@ -61,11 +62,11 @@ export class WorkPackageCreateButtonComponent implements OnInit, OnDestroy {
               readonly transition:TransitionService,
               readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef) {
+    super();
   }
 
   ngOnInit() {
     this.projectIdentifier = this.currentProject.identifier;
-    // Created for interface compliance
 
     // Find the first permission that is allowed
     this.authorisationService
@@ -86,6 +87,7 @@ export class WorkPackageCreateButtonComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy():void {
+    super.ngOnDestroy();
     this.transitionUnregisterFn();
   }
 

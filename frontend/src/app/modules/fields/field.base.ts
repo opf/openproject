@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Injector} from '@angular/core';
 import {DisplayFieldContext} from "core-app/modules/fields/display/display-field.service";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 export interface IFieldSchema {
   type:string;
@@ -39,7 +39,7 @@ export interface IFieldSchema {
   options?:any;
 }
 
-export class Field {
+export class Field extends UntilDestroyedMixin {
   public static type:string;
   public resource:any;
   public name:string;
