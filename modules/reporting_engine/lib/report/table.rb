@@ -77,13 +77,16 @@ class Report::Table
 
   def fields_for(type)
     @fields_for ||= begin
-      child, fields = query.chain, Hash.new { |h, k| h[k] = [] }
-      until child.filter?
-        fields[child.type].push(*child.group_fields)
-        child = child.child
-      end
-      fields
-    end
+                      child = query.chain
+                      fields = Hash.new { |h, k| h[k] = [] }
+
+                      until child.filter?
+                        fields[child.type].push(*child.group_fields)
+                        child = child.child
+                      end
+                      fields
+                    end
+
     @fields_for[type]
   end
 
@@ -94,6 +97,7 @@ class Report::Table
 
   def with_gaps_for(type, result)
     return enum_for(:with_gaps_for, type, result) unless block_given?
+
     stack = get_index(type).dup
     result.each_direct_result do |subresult|
       yield nil until stack.empty? or satisfies? type, stack.shift, subresult

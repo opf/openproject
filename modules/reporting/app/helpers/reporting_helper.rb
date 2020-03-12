@@ -97,7 +97,8 @@ module ReportingHelper
   end
 
   def field_representation_map(key, value)
-    return l(:label_none) if value.blank?
+    return t(:label_none) if value.blank?
+
     case key.to_sym
     when :activity_id                           then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
     when :project_id                            then link_to_project Project.find(value.to_i)
@@ -116,12 +117,14 @@ module ReportingHelper
     when :fixed_version_id                      then h(Version.find(value.to_i).name)
     when :singleton_value                       then ''
     when :status_id                             then h(Status.find(value.to_i).name)
+    when /custom_field\d+/                      then CustomOption.find_by(id: value)&.value || value.to_s
     else h(value.to_s)
     end
   end
 
   def field_sort_map(key, value)
     return '' if value.blank?
+
     case key.to_sym
     when :work_package_id, :tweek, :tmonth, :week  then value.to_i
     when :spent_on                                 then value.to_date.mjd
