@@ -85,8 +85,4 @@ To remove watchers, navigate to the work package [details view](#work-package-fu
 
 To export the work packages, choose **Export ...** in the settings menu on the top right of the work package list (or Gantt chart) view.
 
- ![export-gantt-chart](export-gantt-chart.png)
-
-You can choose between several export possibilities:
-
-![work-package-export](1567413583391.png)
+Please see [this separate guide](../exporting) for more information on exporting work packages.
