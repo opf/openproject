@@ -27,7 +27,7 @@ export class IFCViewerService {
   private _viewer:any;
 
   public newViewer(elements:XeokitElements, projects:any[]) {
-    import('@xeokit/xeokit-viewer/dist/main').then((XeokitViewerModule:any) => {
+    import('@xeokit/xeokit-bim-viewer/dist/main').then((XeokitViewerModule:any) => {
       let server = new XeokitServer();
       let viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
 
