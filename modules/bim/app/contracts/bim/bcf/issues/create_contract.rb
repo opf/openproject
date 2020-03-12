@@ -31,9 +31,7 @@ module Bim::Bcf
     class CreateContract < BaseContract
       attribute :uuid
       attribute :work_package do
-        if work_package.bcf_issue.present?
-          errors.add :work_package, :taken
-        end
+        errors.add(:work_package, :taken) if model&.work_package&.bcf_issue
       end
     end
   end
