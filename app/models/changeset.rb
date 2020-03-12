@@ -240,6 +240,11 @@ class Changeset < ActiveRecord::Base
   end
 
   def log_time(work_package, hours)
+    unless user.present?
+      Rails.logger.warn("TimeEntry could not be created by changeset #{id}: #{committer} does not map to user")
+      return
+    end
+
     Changesets::LogTimeService
       .new(user: user, changeset: self)
       .call(work_package, hours)
