@@ -43,7 +43,11 @@ module Pages
     end
 
     def set_default_value(value)
-      find("#custom_field_default_value").set value
+      fill_in 'custom_field[default_value]', with: value
+    end
+
+    def set_all_projects(value)
+      find('#custom_field_is_for_all').set value
     end
 
     def has_form_element?(name)
