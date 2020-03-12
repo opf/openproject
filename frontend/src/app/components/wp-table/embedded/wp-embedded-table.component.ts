@@ -10,8 +10,7 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
-import {distinctUntilChanged, take, withLatestFrom, map} from "rxjs/operators";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {distinctUntilChanged, map, take, withLatestFrom} from "rxjs/operators";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
@@ -66,7 +65,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       .pipe(
         map(pagination => [pagination.page, pagination.perPage]),
         distinctUntilChanged(),
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         withLatestFrom(this.querySpace.query.values$())
       ).subscribe(([_, query]) => {
       this.loadingIndicator = this.QueryDm
@@ -105,7 +104,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
 
         // Disable compact mode when timeline active
         if (this.wpTableTimeline.isVisible) {
-          this.configuration = {...this.configuration, compactTableStyle: false};
+          this.configuration = { ...this.configuration, compactTableStyle: false };
         }
       });
   }
@@ -161,7 +160,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       .catch((error) => {
         this.error = this.I18n.t(
           'js.error.embedded_table_loading',
-          {message: _.get(error, 'message', error)}
+          { message: _.get(error, 'message', error) }
         );
         this.onError.emit(error);
       });

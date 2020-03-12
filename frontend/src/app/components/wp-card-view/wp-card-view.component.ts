@@ -4,16 +4,15 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter, Inject,
+  EventEmitter,
   Injector,
   Input,
-  OnInit, Optional,
+  OnInit,
   Output,
   ViewChild
 } from "@angular/core";
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {QueryColumn} from "app/components/wp-query/query-column";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -29,18 +28,14 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {filter, withLatestFrom} from 'rxjs/operators';
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import {
-  CardEventHandler,
-  CardViewHandlerRegistry
-} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
+import {CardViewHandlerRegistry} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
 import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
-import {
-  WorkPackageViewHandlerClass,
-  WorkPackageViewHandlerToken
-} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
+import {WorkPackageViewHandlerToken} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -50,7 +45,7 @@ export type CardViewOrientation = 'horizontal'|'vertical';
   templateUrl: './wp-card-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
+export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input('dragOutOfHandler') public canDragOutOf:(wp:WorkPackageResource) => boolean;
   @Input() public dragInto:boolean;
   @Input() public highlightingMode:CardHighlightingMode;
@@ -76,7 +71,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
   public columns:QueryColumn[];
   public text = {
     removeCard: this.I18n.t('js.card.remove_from_list'),
-    addNewCard:  this.I18n.t('js.card.add_new'),
+    addNewCard: this.I18n.t('js.card.add_new'),
     noResults: {
       title: this.I18n.t('js.work_packages.no_results.title'),
       description: this.I18n.t('js.work_packages.no_results.description')
@@ -112,6 +107,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
               readonly cardView:WorkPackageCardViewService,
               readonly cardDragDrop:WorkPackageCardDragAndDropService,
               readonly deviceService:DeviceService) {
+    super();
   }
 
   ngOnInit() {
@@ -127,12 +123,12 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
       });
 
     this.querySpace.results
-    .values$()
-    .pipe(
-      withLatestFrom(this.querySpace.query.values$()),
-      untilComponentDestroyed(this),
-      filter(([results, query]) => results && !this.causedUpdates.includes(query))
-    ).subscribe(([results, query]) => {
+      .values$()
+      .pipe(
+        withLatestFrom(this.querySpace.query.values$()),
+        this.untilDestroyed(),
+        filter(([results, query]) => results && !this.causedUpdates.includes(query))
+      ).subscribe(([results, query]) => {
       this.query = query;
       this.workPackages = this.wpViewOrder.orderedWorkPackages();
       this.cardView.updateRenderedCardsValues(this.workPackages);
@@ -152,12 +148,15 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
     // Register event handlers for the cards
     let registry = this.injector.get<any>(WorkPackageViewHandlerToken, CardViewHandlerRegistry);
     new registry(this.injector).attachTo(this);
-    this.wpTableSelection.registerSelectAllListener(() => { return this.cardView.renderedCards; });
+    this.wpTableSelection.registerSelectAllListener(() => {
+      return this.cardView.renderedCards;
+    });
     this.wpTableSelection.registerDeselectAllListener();
   }
 
   ngOnDestroy():void {
-      this.cardDragDrop.destroy();
+    super.ngOnDestroy();
+    this.cardDragDrop.destroy();
   }
 
   public get workPackages():WorkPackageResource[] {
@@ -192,6 +191,7 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
 
     return classes;
   }
+
   /**
    * Listen to newly created work packages to detect whether the WP is the one we created,
    * and properly reset inline create in this case
@@ -199,7 +199,9 @@ export class WorkPackageCardViewComponent  implements OnInit, AfterViewInit {
   private registerCreationCallback() {
     this.wpCreate
       .onNewWorkPackage()
-      .pipe(untilComponentDestroyed(this))
+      .pipe(
+        this.untilDestroyed()
+      )
       .subscribe(async (wp:WorkPackageResource) => {
         this.onCardSaved(wp);
       });

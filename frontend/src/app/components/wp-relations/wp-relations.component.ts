@@ -26,17 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {Observable, zip} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
 import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.service';
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 
 @Component({
@@ -44,7 +45,7 @@ import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.s
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-relations.template.html'
 })
-export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
+export class WorkPackageRelationsComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
   public relationGroups:RelatedWorkPackagesGroup = {};
   public relationGroupKeys:string[] = [];
@@ -63,6 +64,7 @@ export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
               private wpRelations:WorkPackageRelationsService,
               private cdRef:ChangeDetectorRef,
               private wpCacheService:WorkPackageCacheService) {
+    super();
   }
 
   ngOnInit() {
@@ -86,10 +88,6 @@ export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
       });
-  }
-
-  ngOnDestroy() {
-    // Nothing to do, interface compliance.
   }
 
   private getRelatedWorkPackages(workPackageIds:string[]):Observable<WorkPackageResource[]> {

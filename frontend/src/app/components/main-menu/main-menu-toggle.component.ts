@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit} from '@angular/core';
 import {MainMenuToggleService} from './main-menu-toggle.service';
 import {distinctUntilChanged} from 'rxjs/operators';
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {DeviceService} from "app/modules/common/browser/device.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 export const mainMenuToggleSelector = 'main-menu-toggle';
 
@@ -52,7 +52,7 @@ export const mainMenuToggleSelector = 'main-menu-toggle';
   `
 })
 
-export class MainMenuToggleComponent implements OnInit, OnDestroy {
+export class MainMenuToggleComponent extends UntilDestroyedMixin implements OnInit {
   toggleTitle:string = "";
   @InjectField() currentProject:CurrentProjectService;
 
@@ -60,6 +60,7 @@ export class MainMenuToggleComponent implements OnInit, OnDestroy {
               readonly cdRef:ChangeDetectorRef,
               readonly deviceService:DeviceService,
               readonly injector:Injector) {
+    super();
   }
 
   ngOnInit() {
@@ -68,16 +69,12 @@ export class MainMenuToggleComponent implements OnInit, OnDestroy {
     this.toggleService.titleData$
       .pipe(
         distinctUntilChanged(),
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe(setToggleTitle => {
         this.toggleTitle = setToggleTitle;
         this.cdRef.detectChanges();
       });
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
   }
 }
 

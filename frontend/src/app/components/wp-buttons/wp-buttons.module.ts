@@ -27,6 +27,7 @@
 // ++
 
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 export interface ButtonControllerText {
   activate:string;
@@ -35,7 +36,7 @@ export interface ButtonControllerText {
   buttonText:string;
 }
 
-export abstract class AbstractWorkPackageButtonComponent {
+export abstract class AbstractWorkPackageButtonComponent extends UntilDestroyedMixin {
   public disabled:boolean;
   public buttonId:string;
   public iconClass:string;
@@ -46,6 +47,8 @@ export abstract class AbstractWorkPackageButtonComponent {
   protected text:ButtonControllerText;
 
   constructor(public I18n:I18nService) {
+    super();
+
     this.text = {
       activate: this.I18n.t('js.label_activate'),
       deactivate: this.I18n.t('js.label_deactivate'),

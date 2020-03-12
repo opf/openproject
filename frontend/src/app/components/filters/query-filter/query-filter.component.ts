@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
@@ -39,7 +39,7 @@ import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/rout
   selector: '[query-filter]',
   templateUrl: './query-filter.component.html'
 })
-export class QueryFilterComponent implements OnInit, OnDestroy {
+export class QueryFilterComponent implements OnInit {
   @Input() public shouldFocus:boolean = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterResource>();
@@ -88,9 +88,5 @@ export class QueryFilterComponent implements OnInit, OnDestroy {
     this.eeShowBanners = this.bannerService.eeShowBanners;
     this.availableOperators = this.filter.schema.availableOperators;
     this.showValuesInput = this.filter.currentSchema!.isValueRequired();
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
   }
 }

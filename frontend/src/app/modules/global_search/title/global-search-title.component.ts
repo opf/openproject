@@ -27,12 +27,12 @@
 //++
 import {ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy} from '@angular/core';
 import {distinctUntilChanged} from 'rxjs/operators';
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 export const globalSearchTitleSelector = 'global-search-title';
 
@@ -40,7 +40,7 @@ export const globalSearchTitleSelector = 'global-search-title';
   selector: 'global-search-title',
   templateUrl: './global-search-title.component.html'
 })
-export class GlobalSearchTitleComponent implements OnDestroy {
+export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements OnDestroy {
   @Input() public searchTerm:string;
   @Input() public project:string;
   @Input() public projectScope:string;
@@ -60,17 +60,18 @@ export class GlobalSearchTitleComponent implements OnDestroy {
               readonly globalSearchService:GlobalSearchService,
               readonly I18n:I18nService,
               readonly injector:Injector) {
+    super();
   }
 
   ngOnInit() {
     // Listen on changes of search input value and project scope
-    combineLatest(
+    combineLatest([
       this.globalSearchService.searchTerm$,
       this.globalSearchService.projectScope$
-    )
+    ])
       .pipe(
         distinctUntilChanged(),
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe(([newSearchTerm, newProjectScope]) => {
         this.searchTerm = newSearchTerm;
@@ -79,10 +80,6 @@ export class GlobalSearchTitleComponent implements OnDestroy {
 
         this.cdRef.detectChanges();
       });
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
   }
 
   private projectText(scope:string):string {

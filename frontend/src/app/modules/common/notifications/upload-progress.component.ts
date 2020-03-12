@@ -26,16 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {
-  UploadFile,
-  UploadHttpEvent,
-  UploadInProgress
-} from "core-components/api/op-file-upload/op-file-upload.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {UploadFile, UploadHttpEvent, UploadInProgress} from "core-components/api/op-file-upload/op-file-upload.service";
 import {HttpErrorResponse, HttpEventType, HttpProgressEvent} from "@angular/common/http";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {debugLog} from "core-app/helpers/debug_output";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'notifications-upload-progress',
@@ -50,7 +46,7 @@ import {debugLog} from "core-app/helpers/debug_output";
     </li>
   `
 })
-export class UploadProgressComponent implements OnInit, OnDestroy {
+export class UploadProgressComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public upload:UploadInProgress;
   @Output() public onError = new EventEmitter<HttpErrorResponse>();
   @Output() public onSuccess = new EventEmitter<undefined>();
@@ -61,6 +57,7 @@ export class UploadProgressComponent implements OnInit, OnDestroy {
   public completed = false;
 
   constructor(protected readonly I18n:I18nService) {
+    super();
   }
 
   ngOnInit() {
@@ -69,7 +66,7 @@ export class UploadProgressComponent implements OnInit, OnDestroy {
 
     observable
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe(
         (evt:UploadHttpEvent) => {
@@ -96,11 +93,7 @@ export class UploadProgressComponent implements OnInit, OnDestroy {
       );
   }
 
-  ngOnDestroy() {
-    // Nothing to do.
-  }
-
-  public get fileName():string | undefined {
+  public get fileName():string|undefined {
     return this.file && this.file.name;
   }
 

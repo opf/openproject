@@ -30,7 +30,6 @@ import {take} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCreateComponent} from 'core-components/wp-new/wp-create.component';
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
@@ -53,7 +52,7 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
 
     this.wpCreate.onNewWorkPackage()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe((wp:WorkPackageResource) => {
         if (wp.__initialized_at === this.__initialized_at) {

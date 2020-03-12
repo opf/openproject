@@ -30,11 +30,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {StateService} from "@uirouter/core";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   template: `
@@ -48,7 +48,7 @@ import {StateService} from "@uirouter/core";
   `,
   selector: 'bcf-export-button',
 })
-export class BcfExportButtonComponent implements OnInit, OnDestroy {
+export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   public text = {
     export: this.I18n.t('js.bcf.export')
   };
@@ -61,13 +61,14 @@ export class BcfExportButtonComponent implements OnInit, OnDestroy {
               readonly querySpace:IsolatedQuerySpace,
               readonly queryUrlParamsHelper:UrlParamsHelperService,
               readonly state:StateService) {
+    super();
   }
 
   ngOnInit() {
     this.querySpace.query
       .values$()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe((query) => {
         this.query = query;
@@ -79,9 +80,5 @@ export class BcfExportButtonComponent implements OnInit, OnDestroy {
           JSON.stringify(filters)
         );
       });
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
   }
 }
