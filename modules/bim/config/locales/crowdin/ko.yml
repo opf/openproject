@@ -61,6 +61,7 @@ ko:
   attributes:
     bcf_thumbnail: "BCF 스냅샷"
   project_module_bcf: "BCF"
+  project_module_bim: "BCF"
   permission_view_linked_issues: "BCF 이슈 보기"
   permission_manage_bcf: "BCF 이슈 가져오기 및 관리"
   oauth:

@@ -2,13 +2,17 @@
 fi:
   js:
     bcf:
+      label_bcf: 'BCF'
       import: 'Import'
       export: 'Vie'
+      viewpoint: 'Viewpoint'
+      add_viewpoint: 'Add viewpoint'
+      show_viewpoint: 'Show viewpoint'
+      delete_viewpoint: 'Delete viewpoint'
     ifc_models:
       models:
         default: 'Default IFC models'
         manage: 'Manage models'
       views:
-        list: 'List only'
-        viewer: 'Viewer only'
-        split: 'Viewer and list'
+        viewer: 'Viewer'
+        split: 'Viewer and cards'

@@ -62,6 +62,7 @@ de:
   attributes:
     bcf_thumbnail: "BCF-Snapshot"
   project_module_bcf: "BCF"
+  project_module_bim: "BCF"
   permission_view_linked_issues: "BCF-Fälle anzeigen"
   permission_manage_bcf: "BCF-Fälle importieren und verwalten"
   oauth:

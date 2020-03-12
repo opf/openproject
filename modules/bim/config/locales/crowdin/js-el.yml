@@ -2,13 +2,17 @@
 el:
   js:
     bcf:
+      label_bcf: 'BCF'
       import: 'Εισαγωγή'
       export: 'Εξαγωγή'
+      viewpoint: 'Viewpoint'
+      add_viewpoint: 'Προσθήκη viewpoint'
+      show_viewpoint: 'Εμφάνιση viewpoint'
+      delete_viewpoint: 'Delete viewpoint'
     ifc_models:
       models:
         default: 'Προεπιλεγμένα μοντέλα IFC'
         manage: 'Διαχείριση μοντέλων'
       views:
-        list: 'Λίστα μόνο'
-        viewer: 'Θεατές μόνο'
-        split: 'Θεατές και λίστα'
+        viewer: 'Θεατής'
+        split: 'Θεατής και κάρτες'

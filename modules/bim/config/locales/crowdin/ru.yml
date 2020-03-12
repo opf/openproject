@@ -64,6 +64,7 @@ ru:
   attributes:
     bcf_thumbnail: "Снимок BCF"
   project_module_bcf: "BCF"
+  project_module_bim: "BCF"
   permission_view_linked_issues: "Просмотр проблем BCF"
   permission_manage_bcf: "Импорт и управление проблемами BCF"
   oauth:

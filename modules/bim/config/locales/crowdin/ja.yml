@@ -61,6 +61,7 @@ ja:
   attributes:
     bcf_thumbnail: "BCF スナップショット"
   project_module_bcf: "BCF"
+  project_module_bim: "BCF"
   permission_view_linked_issues: "BCF チケットを表示"
   permission_manage_bcf: "BCF チケットのインポートと管理"
   oauth:

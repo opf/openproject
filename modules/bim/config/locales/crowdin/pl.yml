@@ -64,6 +64,7 @@ pl:
   attributes:
     bcf_thumbnail: "Migawka BCF"
   project_module_bcf: "BCF"
+  project_module_bim: "BCF"
   permission_view_linked_issues: "Wyświetlanie problemów BCF"
   permission_manage_bcf: "Importowanie problemów BCF i zarządzanie nimi"
   oauth:

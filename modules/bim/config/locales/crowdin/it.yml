@@ -62,6 +62,7 @@ it:
   attributes:
     bcf_thumbnail: "Snapshot BCF"
   project_module_bcf: "BCF"
+  project_module_bim: "BCF"
   permission_view_linked_issues: "Mostra problemi BCF"
   permission_manage_bcf: "Importa e gestisci problemi BCF"
   oauth:
