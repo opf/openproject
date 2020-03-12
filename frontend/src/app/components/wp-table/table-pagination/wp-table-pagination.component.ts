@@ -27,16 +27,14 @@
 // ++
 
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
 import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import {WorkPackageViewPagination} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import { combineLatest } from 'rxjs';
+import {combineLatest} from 'rxjs';
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 
 @Component({
@@ -67,19 +65,19 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
     this.wpTablePagination
       .live$()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe((wpPagination:WorkPackageViewPagination) => {
         this.pagination = wpPagination.current;
         this.update();
-    });
+      });
 
     // hide/show pagination options depending on the sort mode
     combineLatest([
       this.querySpace.query.values$(),
       this.wpTableSortBy.live$()
     ]).pipe(
-      untilComponentDestroyed(this)
+      this.untilDestroyed()
     ).subscribe(([query, sort]) => {
       this.showPerPage = this.showPageSelections = !this.isManualSortingMode;
       this.infoText = this.paginationInfoText(query.results);
@@ -88,17 +86,13 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
     });
   }
 
-  ngOnDestroy():void {
-    // Nothing to do
-  }
-
   public selectPerPage(perPage:number) {
     this.paginationService.setPerPage(perPage);
-    this.wpTablePagination.updateFromObject({page: 1, perPage: perPage});
- }
+    this.wpTablePagination.updateFromObject({ page: 1, perPage: perPage });
+  }
 
   public showPage(pageNumber:number) {
-    this.wpTablePagination.updateFromObject({page: pageNumber});
+    this.wpTablePagination.updateFromObject({ page: pageNumber });
   }
 
   private get isManualSortingMode() {
@@ -108,7 +102,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
   public paginationInfoText(work_packages:WorkPackageCollectionResource) {
     if (this.isManualSortingMode && (work_packages.count < work_packages.total)) {
       return I18n.t('js.work_packages.limited_results',
-        {count: work_packages.count});
+        { count: work_packages.count });
     } else {
       return undefined;
     }

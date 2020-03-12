@@ -26,25 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  ChangeDetectorRef,
-  Component,
-  Directive,
-  Injectable,
-  Injector,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import {ChangeDetectorRef, Directive, Injector, OnInit, ViewChild} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {States} from '../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageCreateService} from './wp-create.service';
-import {takeUntil, takeWhile} from 'rxjs/operators';
+import {takeWhile} from 'rxjs/operators';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -54,9 +44,10 @@ import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routin
 import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import * as URI from 'urijs';
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Directive()
-export class WorkPackageCreateComponent implements OnInit, OnDestroy {
+export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
   public successState:string;
   public cancelState:string = this.$state.current.data.baseRoute;
   public newWorkPackage:WorkPackageResource;
@@ -71,7 +62,7 @@ export class WorkPackageCreateComponent implements OnInit, OnDestroy {
     button_settings: this.I18n.t('js.button_settings')
   };
 
-  @ViewChild(EditFormComponent, {static: false}) protected editForm:EditFormComponent;
+  @ViewChild(EditFormComponent, { static: false }) protected editForm:EditFormComponent;
 
   /** Explicitly remember destroy state in this abstract base */
   protected destroyed = false;
@@ -90,7 +81,7 @@ export class WorkPackageCreateComponent implements OnInit, OnDestroy {
               protected readonly pathHelper:PathHelperService,
               protected readonly cdRef:ChangeDetectorRef,
               protected readonly RootDm:RootDmService) {
-
+    super();
   }
 
   public ngOnInit() {
@@ -100,7 +91,7 @@ export class WorkPackageCreateComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.destroyed = true;
+    super.ngOnDestroy();
     this.editForm.destroy();
   }
 
@@ -109,12 +100,12 @@ export class WorkPackageCreateComponent implements OnInit, OnDestroy {
   }
 
   public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
-    let {savedResource, isInitial} = params;
+    let { savedResource, isInitial } = params;
 
     this.editForm?.stop();
 
     if (this.successState) {
-      this.$state.go(this.successState, {workPackageId: savedResource.id})
+      this.$state.go(this.successState, { workPackageId: savedResource.id })
         .then(() => {
           this.wpViewFocus.updateFocus(savedResource.id!);
           this.notificationService.showSave(savedResource, isInitial);
@@ -143,7 +134,7 @@ export class WorkPackageCreateComponent implements OnInit, OnDestroy {
           this.wpCacheService.loadWorkPackage(this.stateParams['parent_id'])
             .values$()
             .pipe(
-              takeUntil(componentDestroyed(this))
+              this.untilDestroyed()
             )
             .subscribe(parent => {
               this.parentWorkPackage = parent;
@@ -157,7 +148,7 @@ export class WorkPackageCreateComponent implements OnInit, OnDestroy {
             if (!root.user) {
               // Not logged in
               let url = URI(this.pathHelper.loginPath());
-              url.search({back_url: url});
+              url.search({ back_url: url });
               window.location.href = url.toString();
             }
           });
@@ -186,10 +177,10 @@ export class WorkPackageCreateComponent implements OnInit, OnDestroy {
     this.wpCreate
       .onNewWorkPackage()
       .pipe(
-        takeWhile(() => !this.destroyed)
+        takeWhile(() => !this.componentDestroyed)
       )
       .subscribe((wp:WorkPackageResource) => {
-        this.onSaved({savedResource: wp, isInitial: true});
+        this.onSaved({ savedResource: wp, isInitial: true });
       });
   }
 }

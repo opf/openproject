@@ -7,7 +7,7 @@ export class DebouncedEventEmitter<T> {
   private emitter = new EventEmitter<T>();
   private debouncer:Subject<T>;
 
-  constructor(takeUntil$:Observable<true>, debounceTimeInMs:number = 250) {
+  constructor(takeUntil$:Observable<unknown>, debounceTimeInMs:number = 250) {
     this.debouncer = new Subject<T>();
     this.debouncer
       .pipe(

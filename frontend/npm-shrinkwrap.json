@@ -3186,6 +3186,14 @@
       "resolved": "https://registry.npmjs.org/@uirouter/rx/-/rx-0.6.5.tgz",
       "integrity": "sha512-srGdX+BAVTfpZ1Kl7tvdEN1ss8yctKO4YrGyy9E/4s80bGFp4KMe9Qf2L3UHn0iugBZlX7Nbmp305AQSzWXYrw=="
     },
+    "@w11k/ngx-componentdestroyed": {
+      "version": "5.0.2",
+      "resolved": "https://registry.npmjs.org/@w11k/ngx-componentdestroyed/-/ngx-componentdestroyed-5.0.2.tgz",
+      "integrity": "sha512-njpK7h6hSpF8LQp2bayb47T7rTxOwx7745TOiUP88y8YAT2JOY5OeJpYqlK2WrQQBeD7CT+DxozD6yNBN283dA==",
+      "requires": {
+        "rxjs": ">=6.5.0"
+      }
+    },
     "@webassemblyjs/ast": {
       "version": "1.8.5",
       "resolved": "https://registry.npmjs.org/@webassemblyjs/ast/-/ast-1.8.5.tgz",
@@ -4148,9 +4156,9 @@
       },
       "dependencies": {
         "caniuse-lite": {
-          "version": "1.0.30001033",
-          "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001033.tgz",
-          "integrity": "sha512-8Ibzxee6ibc5q88cM1usPsMpJOG5CTq0s/dKOmlekPbDGKt+UrnOOTPSjQz3kVo6yL7N4SB5xd+FGLHQmbzh6A=="
+          "version": "1.0.30001035",
+          "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001035.tgz",
+          "integrity": "sha512-C1ZxgkuA4/bUEdMbU5WrGY4+UhMFFiXrgNAfxiMIqWgFTWfv/xsZCS2xEHT2LMq7xAZfuAnu6mcqyDl0ZR6wLQ=="
         }
       }
     },
@@ -5876,9 +5884,9 @@
       "integrity": "sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0="
     },
     "electron-to-chromium": {
-      "version": "1.3.375",
-      "resolved": "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.3.375.tgz",
-      "integrity": "sha512-zmaFnYVBtfpF8bGRYxgPeVAlXB7N3On8rjBE2ROc6wOpTPpzRWaiHo6KkbJMvlH07CH33uks/TEb6kuMMn8q6A=="
+      "version": "1.3.376",
+      "resolved": "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.3.376.tgz",
+      "integrity": "sha512-cv/PYVz5szeMz192ngilmezyPNFkUjuynuL2vNdiqIrio440nfTDdc0JJU0TS2KHLSVCs9gBbt4CFqM+HcBnjw=="
     },
     "elliptic": {
       "version": "6.5.2",
@@ -9487,14 +9495,6 @@
           "resolved": "https://registry.npmjs.org/@types/dragula/-/dragula-2.1.35.tgz",
           "integrity": "sha512-kh0O22j8QVh7xU0P6Penwext6xVMNldVEzvtOAHU1/AzdluYstc9pe2nUL3fS6IZRyzSoSGvdR/u8zP2iIZmnA=="
         }
-      }
-    },
-    "ng2-rx-componentdestroyed": {
-      "version": "3.0.1",
-      "resolved": "https://registry.npmjs.org/ng2-rx-componentdestroyed/-/ng2-rx-componentdestroyed-3.0.1.tgz",
-      "integrity": "sha512-dc+A05w+FXb2FaOe6XWmE9+KBWYDM/+aksFT4oXP/2EHQjyozXy6RcG2a+E39WzNuLIpjN+bHHqxT3evHcjBnA==",
-      "requires": {
-        "rxjs": "^6.0.0"
       }
     },
     "ngtemplate-loader": {

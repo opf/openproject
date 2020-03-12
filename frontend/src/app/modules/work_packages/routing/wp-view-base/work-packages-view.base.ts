@@ -26,12 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import { ChangeDetectorRef, Injector, OnDestroy, OnInit, Directive } from '@angular/core';
+import {ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {filter, map, withLatestFrom, take} from 'rxjs/operators';
+import {filter, take, withLatestFrom} from 'rxjs/operators';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
@@ -53,14 +52,13 @@ import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Directive()
-export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
+export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
 
   @InjectField() $state:StateService;
   @InjectField() states:States;
@@ -97,6 +95,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
   destroyed = false;
 
   constructor(public injector:Injector) {
+    super();
   }
 
   ngOnInit() {
@@ -110,15 +109,11 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
     this.setupQueryLoadedListener();
   }
 
-  ngOnDestroy():void {
-    this.destroyed = true;
-  }
-
   private setupQueryObservers() {
     this.wpTablePagination
       .updates$()
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         withLatestFrom(this.querySpace.query.values$())
       ).subscribe(([pagination, query]) => {
       if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
@@ -152,7 +147,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
     service
       .updates$()
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
       )
       .subscribe(() => {
@@ -184,7 +179,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
     this.halEvents
       .aggregated$('WorkPackage')
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         filter((events:HalEvent[]) => this.filterRefreshEvents(events))
       )
       .subscribe((events:HalEvent[]) => {
@@ -234,7 +229,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
       .values$()
       .pipe(
         take(1),
-        filter(() => !this.destroyed)
+        filter(() => !this.componentDestroyed)
       )
       .subscribe(() => {
         this.queryLoaded = true;

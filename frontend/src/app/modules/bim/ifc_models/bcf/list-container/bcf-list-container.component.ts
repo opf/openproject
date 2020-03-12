@@ -9,9 +9,9 @@ import {QueryParamListenerService} from "core-components/wp-query/query-param-li
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageViewHandlerToken} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
 import {BcfCardViewHandlerRegistry} from "core-app/modules/bim/ifc_models/ifc-base-view/event-handler/bcf-card-view-handler-registry";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   templateUrl: './bcf-list-container.component.html',
@@ -20,7 +20,7 @@ import {BcfCardViewHandlerRegistry} from "core-app/modules/bim/ifc_models/ifc-ba
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BcfListContainerComponent implements OnInit, OnDestroy {
+export class BcfListContainerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @InjectField() public queryParamListener:QueryParamListenerService;
   @InjectField() public wpListService:WorkPackagesListService;
   @InjectField() public urlParamsHelper:UrlParamsHelperService;
@@ -44,6 +44,7 @@ export class BcfListContainerComponent implements OnInit, OnDestroy {
               readonly gon:GonService,
               readonly injector:Injector,
               readonly cdRef:ChangeDetectorRef) {
+    super();
   }
 
   ngOnInit():void {
@@ -52,13 +53,14 @@ export class BcfListContainerComponent implements OnInit, OnDestroy {
     this.queryParamListener
       .observe$
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       ).subscribe((queryProps) => {
-        this.refresh(this.urlParamsHelper.buildV3GetQueryFromJsonParams(queryProps));
-      });
+      this.refresh(this.urlParamsHelper.buildV3GetQueryFromJsonParams(queryProps));
+    });
   }
 
   ngOnDestroy():void {
+    super.ngOnDestroy();
     this.queryParamListener.removeQueryChangeListener();
   }
 

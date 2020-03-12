@@ -33,13 +33,11 @@ import {
   ElementRef,
   Injector,
   Input,
-  OnDestroy,
   OnInit
 } from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {distinctUntilChanged, map, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, map} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {States} from '../../states.service';
@@ -58,6 +56,7 @@ import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 export interface FieldDescriptor {
   name:string;
@@ -94,7 +93,7 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
     PortalCleanupService
   ]
 })
-export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
+export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
 
   /** Should we show the project field */
@@ -152,6 +151,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               readonly elementRef:ElementRef,
               readonly cleanupService:PortalCleanupService,
               readonly browserDetector:BrowserDetector) {
+    super();
   }
 
   public ngOnInit() {
@@ -165,7 +165,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     // update the visible fields.
     this.resourceContextChange
       .pipe(
-        takeUntil(componentDestroyed(this)),
+        this.untilDestroyed(),
         distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
         map(() => this.halEditing.changeFor(this.workPackage))
       )
@@ -177,15 +177,11 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       .typedState<WorkPackageResource, WorkPackageChangeset>(this.workPackage)
       .values$()
       .pipe(
-        takeUntil(componentDestroyed(this))
+        this.untilDestroyed()
       )
       .subscribe((change:WorkPackageChangeset) => {
         this.resourceContextChange.next(this.contextFrom(change));
       });
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
   }
 
   private refresh(change:WorkPackageChangeset) {

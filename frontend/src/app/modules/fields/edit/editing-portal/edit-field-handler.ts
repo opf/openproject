@@ -28,8 +28,9 @@
 
 import {Subject} from 'rxjs';
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
-export abstract class EditFieldHandler {
+export abstract class EditFieldHandler extends UntilDestroyedMixin {
   /**
    * Whether the handler belongs to a larger edit mode form
    * e.g., WP-create

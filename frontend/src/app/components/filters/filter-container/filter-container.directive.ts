@@ -28,19 +28,19 @@
 
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {WorkPackageViewFiltersService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {Observable} from "rxjs";
-import {takeUntil} from "rxjs/operators";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 @Component({
   templateUrl: './filter-container.directive.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'filter-container',
 })
-export class WorkPackageFilterContainerComponent implements OnInit, OnDestroy {
+export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input('showFilterButton') showFilterButton:boolean = false;
   @Input('filterButtonText') filterButtonText:string = I18n.t('js.button_filter');
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
@@ -52,6 +52,7 @@ export class WorkPackageFilterContainerComponent implements OnInit, OnDestroy {
   constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
               readonly cdRef:ChangeDetectorRef,
               readonly wpFiltersService:WorkPackageFiltersService) {
+    super();
     this.visible$ = this.wpFiltersService.observeUntil(componentDestroyed(this));
   }
 
@@ -59,17 +60,13 @@ export class WorkPackageFilterContainerComponent implements OnInit, OnDestroy {
     this.wpTableFilters
       .pristine$()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe(() => {
         this.filters = this.wpTableFilters.current;
         this.loaded = true;
         this.cdRef.detectChanges();
       });
-  }
-
-  ngOnDestroy() {
-    // Nothing to do, added for interface compatibility
   }
 
   public replaceIfComplete(filters:QueryFilterInstanceResource[]) {

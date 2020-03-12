@@ -18,7 +18,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 export type ViewPoint = { snapshotId:string, snapshotFullPath:string };
@@ -29,7 +29,7 @@ export type ViewPoint = { snapshotId:string, snapshotFullPath:string };
   styleUrls: ['./bcf-wp-single-view.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BcfWpSingleViewComponent implements AfterViewInit, OnDestroy {
+export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements AfterViewInit, OnDestroy {
   @Input() workPackage:WorkPackageResource;
 
   @ViewChild(NgxGalleryComponent) gallery:NgxGalleryComponent;
@@ -121,13 +121,14 @@ export class BcfWpSingleViewComponent implements AfterViewInit, OnDestroy {
               readonly notifications:NotificationsService,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
+    super();
   }
 
   ngAfterViewInit():void {
     this.wpCache
       .observe(this.workPackage.id!)
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe(wp => {
         this.workPackage = wp;
@@ -137,10 +138,6 @@ export class BcfWpSingleViewComponent implements AfterViewInit, OnDestroy {
           this.cdRef.detectChanges();
         }
       });
-  }
-
-  ngOnDestroy():void {
-    // Nothing to do.
   }
 
   showViewpoint(event:Event, index:number) {

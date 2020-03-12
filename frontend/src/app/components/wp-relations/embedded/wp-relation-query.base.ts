@@ -27,16 +27,14 @@
 //++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import { ViewChild, Directive } from "@angular/core";
+import {Directive, ViewChild} from "@angular/core";
 import {WorkPackageEmbeddedTableComponent} from "core-components/wp-table/embedded/wp-embedded-table.component";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
-import {ErrorResource} from "core-app/modules/hal/resources/error-resource";
-import {query} from "@angular/animations";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Directive()
-export abstract class WorkPackageRelationQueryBase {
+export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
   public workPackage:WorkPackageResource;
 
   /** Input is either a query resource, or directly query props */
@@ -52,6 +50,7 @@ export abstract class WorkPackageRelationQueryBase {
   @ViewChild('embeddedTable') protected embeddedTable:WorkPackageEmbeddedTableComponent;
 
   constructor(protected queryUrlParamsHelper:UrlParamsHelperService) {
+    super();
   }
 
   /**

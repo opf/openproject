@@ -27,10 +27,9 @@
 // ++
 
 import {AbstractWorkPackageButtonComponent, ButtonControllerText} from '../wp-buttons.module';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 export interface TimelineButtonText extends ButtonControllerText {
@@ -45,7 +44,7 @@ export interface TimelineButtonText extends ButtonControllerText {
   selector: 'wp-timeline-toggle-button',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit, OnDestroy {
+export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit {
   public buttonId:string = 'work-packages-timeline-toggle-button';
   public iconClass:string = 'icon-view-timeline';
 
@@ -79,7 +78,7 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     this.wpTableTimeline
       .live$()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe(() => {
         this.isAutoZoom = this.wpTableTimeline.isAutoZoom();
@@ -91,17 +90,13 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
       .appliedZoomLevel$
       .values$()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe((current) => {
         this.isMaxLevel = current === this.maxZoomLevel;
         this.isMinLevel = current === this.minZoomLevel;
         this.cdRef.detectChanges();
       });
-  }
-
-  ngOnDestroy():void {
-    // Nothing to do
   }
 
   public get label():string {

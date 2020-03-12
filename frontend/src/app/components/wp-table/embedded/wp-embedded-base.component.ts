@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Input, SimpleChanges, Directive } from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Directive, Input, SimpleChanges} from '@angular/core';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
 import {
@@ -48,10 +48,6 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
   ngAfterViewInit():void {
     // Load initially
     this.loadQuery(true, false);
-  }
-
-  ngOnDestroy():void {
-    super.ngOnDestroy();
   }
 
   ngOnChanges(changes:SimpleChanges) {
