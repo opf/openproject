@@ -31,7 +31,6 @@ export type ViewPoint = { snapshotId:string, snapshotFullPath:string };
 })
 export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements AfterViewInit, OnDestroy {
   @Input() workPackage:WorkPackageResource;
-
   @ViewChild(NgxGalleryComponent) gallery:NgxGalleryComponent;
 
   text = {
@@ -161,6 +160,7 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
         // Update the work package to reload the viewpoint
         this.notifications.addSuccess(this.text.notice_successful_delete);
         this.wpCache.require(this.workPackage.id!, true);
+        this.gallery.preview.close();
       });
   }
 
