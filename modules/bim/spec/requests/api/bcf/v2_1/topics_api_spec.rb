@@ -709,6 +709,21 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
           expect(response.body).to include "The requested resource could not be found."
         end
       end
+
+      context 'with a work package that already belongs to a BCF issue' do
+        let(:params) do
+          {
+            title: "A BCF topic that shouldn't be",
+            reference_links: [
+              api_v3_paths.work_package(bcf_issue.work_package.id)
+            ]
+          }
+        end
+
+        it_behaves_like 'bcf api unprocessable response' do
+          let(:message) { "Work package has already been taken." }
+        end
+      end
     end
 
     it_behaves_like 'topics api write invalid parameters errors'
