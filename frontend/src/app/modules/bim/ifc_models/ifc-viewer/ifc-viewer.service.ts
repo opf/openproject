@@ -27,7 +27,7 @@ export class IFCViewerService {
   private _viewer:any;
 
   public newViewer(elements:XeokitElements, projects:any[]) {
-    import('@xeokit/xeokit-viewer/dist/main').then((XeokitViewerModule:any) => {
+    import('@xeokit/xeokit-bim-viewer/dist/main').then((XeokitViewerModule:any) => {
       let server = new XeokitServer();
       let viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
 
@@ -48,16 +48,7 @@ export class IFCViewerService {
       return;
     }
 
-    this.viewer._bcfViewpointsPlugin.destroy();
-    this.viewer._canvasContextMenu.destroy();
-    this.viewer._objectContextMenu.destroy();
-
-    while (this.viewer.viewer._plugins.length > 0) {
-      const plugin = this.viewer.viewer._plugins[0];
-      plugin.destroy();
-    }
-
-    this.viewer.viewer.scene.destroy();
+    this.viewer.destroy();
     this.viewer = undefined;
   }
 

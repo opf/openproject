@@ -72,7 +72,7 @@
     "@uirouter/rx": "^0.6.5",
     "@w11k/ngx-componentdestroyed": "^5.0.2",
     "@xeokit/xeokit-sdk": "^0.9.3",
-    "@xeokit/xeokit-viewer": "^1.6.9",
+    "@xeokit/xeokit-bim-viewer": "^1.6.9",
     "amdefine": "^1.0.0",
     "angular-dragula": "^1.2.8",
     "atoa": "^1.0.0",
