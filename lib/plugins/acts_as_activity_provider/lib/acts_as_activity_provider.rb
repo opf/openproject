@@ -40,7 +40,7 @@ module Redmine
             send :include, Redmine::Acts::ActivityProvider::InstanceMethods
           end
 
-          options.assert_valid_keys(:type, :permission, :activities)
+          options.assert_valid_keys(:type, :permission, :activities, :aggregated)
           self.activity_provider_options ||= {}
 
           # One model can provide different event types
@@ -48,6 +48,7 @@ module Redmine
           event_type = options.delete(:type) || name.underscore.pluralize
 
           options[:activities] = options.delete(:activities) || [:activity]
+          options[:aggregated] = options.delete(:aggregated) || false
           options[:permission] = "view_#{name.underscore.pluralize}".to_sym unless options.has_key?(:permission)
           self.activity_provider_options[event_type] = options
         end
@@ -109,16 +110,27 @@ module Redmine
             query = journals_table.join(activity_journals_table).on(journals_table[:id].eq(activity_journals_table[:journal_id]))
             query = query.where(journals_table[:journable_type].eq(provider.activitied_type(activity).name))
 
+            unless self.activity_provider_options.values.first[:aggregated]
+              provider.extend_event_query(query, activity) if provider.respond_to?(:extend_event_query)
+            end
+
             provider.filter_for_event_datetime query, journals_table, activity_journals_table, from, to
 
             query = query.where(journals_table[:user_id].eq(options[:author].id)) if options[:author]
-
-            provider.extend_event_query(query, activity) if provider.respond_to?(:extend_event_query)
 
             query = join_with_projects_table(query, provider.projects_reference_table(activity))
             query = restrict_projects_by_selection(options, query)
             query = restrict_projects_by_permission(provider_options[:permission], query)
             query = restrict_projects_by_user(provider_options, user, query)
+
+            if self.activity_provider_options.values.first[:aggregated]
+              query = Journal::Scopes::AggregatedJournal.fetch(sql: query.dup.project('journals.*').to_sql).arel
+
+              query = journals_table.from.from(query.as('journals'))
+              query.join(activity_journals_table).on(journals_table[:id].eq(activity_journals_table[:journal_id]))
+              provider.extend_event_query(query, activity) if provider.respond_to?(:extend_event_query)
+              query = join_with_projects_table(query, provider.projects_reference_table(activity))
+            end
 
             return [] if query.nil?
 

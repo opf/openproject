@@ -379,6 +379,34 @@ describe Journal::AggregatedJournal, type: :model do
       end
     end
 
+    context 'with a sql filtering out the first journal and having 3 journals' do
+      let(:sql) do
+        <<~SQL
+          SELECT journals.*
+          FROM journals
+          JOIN work_package_journals
+            ON work_package_journals.journal_id = journals.id
+          WHERE journals.version > 1
+        SQL
+      end
+
+      context 'with the first of the remaining journals having a comment' do
+        before do
+          other_work_package.add_journal(initial_author, 'some other notes')
+          other_work_package.save!
+          work_package.add_journal(initial_author, 'some notes')
+          work_package.save!
+          work_package.subject = 'A new subject'
+          work_package.save!
+        end
+
+        it 'returns one journal' do
+          binding.pry
+          expect(subject.count).to eql 2
+        end
+      end
+    end
+
     context 'with an sql filtering for both projects' do
       let(:sql) do
         <<~SQL

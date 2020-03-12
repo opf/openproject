@@ -90,25 +90,25 @@ module Redmine
       # Returns an array of events for the given date range
       # sorted in reverse chronological order
       def events(from = nil, to = nil, options = {})
-        e = []
+        events = []
         @options[:limit] = options[:limit]
 
         @scope.each do |event_type|
           constantized_providers(event_type).each do |provider|
-            e += provider.find_events(event_type, @user, from, to, @options)
+            events += provider.find_events(event_type, @user, from, to, @options)
           end
         end
 
-        projects = Project.find(e.map(&:project_id).compact) if e.select { |e| !e.project_id.nil? }
-        users = User.where(id: e.map(&:author_id).compact).to_a
+        projects = Project.find(events.map(&:project_id).compact) if events.reject { |e| e.project_id.nil? }
+        users = User.where(id: events.map(&:author_id).compact).to_a
 
-        e.each do |e|
+        events.each do |e|
           e.event_author = users.detect { |u| u.id == e.author_id } if e.author_id
           e.project = projects.detect { |p| p.id == e.project_id } if e.project_id
         end
 
-        e.sort! do |a, b| b.event_datetime <=> a.event_datetime end
-        e
+        events.sort! { |a, b| b.event_datetime <=> a.event_datetime }
+        events
       end
 
       private
