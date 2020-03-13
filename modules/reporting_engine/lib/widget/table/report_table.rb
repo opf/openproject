@@ -102,6 +102,7 @@ class Widget::Table::ReportTable < Widget::Table
 
   def render_thead
     return if (walker.headers || true) and walker.headers_empty?
+
     write '<thead>'
     walker.headers do |list, first, first_in_col, last_in_col|
       write '<tr>' if first_in_col
