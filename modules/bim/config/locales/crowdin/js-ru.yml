@@ -6,13 +6,13 @@ ru:
       import: 'Импорт'
       export: 'Экспорт'
       viewpoint: 'Точка просмотра'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
+      add_viewpoint: 'Добавить точку просмотра'
+      show_viewpoint: 'Показать точку просмотра'
+      delete_viewpoint: 'Удалить точку просмотра'
     ifc_models:
       models:
         default: 'Модели IFC по умолчанию'
         manage: 'Управление моделями'
       views:
-        viewer: 'Viewer'
-        split: 'Viewer and cards'
+        viewer: 'Просмотрщик'
+        split: 'Просмотр и карты'

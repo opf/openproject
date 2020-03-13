@@ -5,14 +5,14 @@ tr:
       label_bcf: 'BCF'
       import: 'İçeri Aktar'
       export: 'Dışarı aktar'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
+      viewpoint: 'bakış açısı'
+      add_viewpoint: 'Bakış açısı ekle'
+      show_viewpoint: 'Bakış açısını göster'
+      delete_viewpoint: 'Bakış açısını sil'
     ifc_models:
       models:
         default: 'Varsayılan IFC modelleri'
         manage: 'Modelleri yönetin'
       views:
-        viewer: 'Viewer'
-        split: 'Viewer and cards'
+        viewer: 'izleyici'
+        split: 'Görüntüleyici ve kartlar'
