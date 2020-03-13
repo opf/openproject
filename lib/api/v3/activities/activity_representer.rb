@@ -70,7 +70,7 @@ module API
         formattable_property :notes,
                              as: :comment,
                              getter: ->(*) {
-                               text = if empty?
+                               text = if represented.noop?
                                         "_#{I18n.t(:'journals.changes_retracted')}_"
                                       else
                                         represented.notes
@@ -97,7 +97,7 @@ module API
         date_time_property :created_at
 
         def _type
-          if empty? || represented.notes.present?
+          if represented.noop? || represented.notes.present?
             'Activity::Comment'
           else
             'Activity'
@@ -116,10 +116,6 @@ module API
 
         def render_details(journal, no_html: false)
           journal.details.map { |d| journal.render_detail(d, no_html: no_html) }
-        end
-
-        def empty?
-          represented.get_changes.empty? && represented.notes.empty?
         end
       end
     end
