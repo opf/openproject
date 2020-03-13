@@ -27,98 +27,6 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-#
-#
-# WITH s_journals AS (SELECT * from journals
-# 			 WHERE journals.journable_id = 100 AND journals.journable_type = 'WorkPackage' ORDER BY version
-# ),
-#
-#
-#
-# breaking_journals_notes AS (
-# 	SELECT
-# 	  s_journals.*
-# 	FROM s_journals
-#     WHERE s_journals.notes != '' AND s_journals.notes IS NOT NULL
-# )
-#
-# SELECT
-#   successor_group.journable_type,
-#   successor_group.journable_id,
-#   successor_group.user_id,
-#   successor_group.activity_type,
-#   breaking_journals_notes.notes,
-#   breaking_journals_notes.id notes_id,
-#   breaking_journals_notes.version notes_version,
-#   CASE
-#     WHEN successor_notes.version IS NOT NULL THEN breaking_journals_notes.version
-# 	ELSE successor_group.version END AS version,
-#   CASE
-#     WHEN successor_notes.version IS NOT NULL THEN breaking_journals_notes.created_at
-# 	ELSE successor_group.created_at END created_at,
-#   CASE
-#     WHEN successor_notes.version IS NOT NULL THEN breaking_journals_notes.id
-# 	ELSE successor_group.id END id,
-#   successor_notes.version successor_notes_version,
-#   predecessor_group.version start_version,
-#   successor_group.version stop_version
-# FROM (
-# 	SELECT
-# 	  predecessor.id,
-# 	  predecessor.version,
-# 	  predecessor.journable_id,
-# 	  predecessor.journable_type,
-# 	  predecessor.notes,
-# 	  predecessor.activity_type,
-# 	  predecessor.user_id,
-# 	  predecessor.created_at,
-# 	  row_number() OVER (ORDER BY predecessor.journable_type, predecessor.journable_id, predecessor.version ASC) group_number
-# 	FROM s_journals predecessor
-#     LEFT OUTER JOIN s_journals successor
-#     ON predecessor.version + 1 = successor.version
-#     AND predecessor.journable_type = successor.journable_type
-#     AND predecessor.journable_id = successor.journable_id
-#     WHERE (predecessor.user_id != successor.user_id
-#     OR (successor.created_at - predecessor.created_at) > interval '300 second')
-# 	OR successor.id IS NULL
-# 	) predecessor_group
-# RIGHT OUTER JOIN (
-# 	SELECT
-# 	  predecessor.id,
-# 	  predecessor.version,
-# 	  predecessor.journable_id,
-# 	  predecessor.journable_type,
-# 	  predecessor.notes,
-# 	  predecessor.user_id,
-# 	  predecessor.activity_type,
-# 	  predecessor.created_at,
-# 	  row_number() OVER (ORDER BY predecessor.journable_type, predecessor.journable_id, predecessor.version ASC) group_number
-# 	FROM s_journals predecessor
-#     LEFT OUTER JOIN s_journals successor
-#     ON predecessor.version + 1 = successor.version
-#     AND predecessor.journable_type = successor.journable_type
-#     AND predecessor.journable_id = successor.journable_id
-#     WHERE (predecessor.user_id != successor.user_id
-#     OR (successor.created_at - predecessor.created_at) > interval '300 second')
-# 	OR successor.id IS NULL
-#
-# 	) successor_group
-#     ON predecessor_group.group_number = successor_group.group_number - 1
-#     AND predecessor_group.journable_type = successor_group.journable_type
-#     AND predecessor_group.journable_id = successor_group.journable_id
-# LEFT OUTER JOIN breaking_journals_notes
-#     ON COALESCE(predecessor_group.version, 0) + 1 <= breaking_journals_notes.version
-# 	AND successor_group.version >= breaking_journals_notes.version
-#     AND successor_group.journable_type = breaking_journals_notes.journable_type
-#     AND successor_group.journable_id = breaking_journals_notes.journable_id
-# LEFT OUTER JOIN breaking_journals_notes successor_notes
-#     ON breaking_journals_notes.version < successor_notes.version
-# 	AND successor_group.version >= successor_notes.version
-#     AND successor_notes.journable_type = successor_group.journable_type
-#     AND successor_notes.journable_id = successor_group.journable_id
-#
-#
-#
 
 # Similar to regular Journals, but under the following circumstances journals are aggregated:
 #  * they are in temporal proximity
@@ -135,14 +43,14 @@
 class Journal::AggregatedJournal
   class << self
     def with_version(pure_journal)
-      wp_journals = Journal::AggregatedJournal.aggregated_journals(journable: pure_journal.journable)
+      wp_journals = aggregated_journals(journable: pure_journal.journable)
       wp_journals.detect { |journal| journal.version == pure_journal.version }
     end
 
     # Returns the aggregated journal that contains the specified (vanilla/pure) journal.
     def containing_journal(pure_journal)
-      raw = Journal::AggregatedJournal.query_aggregated_journals(journable: pure_journal.journable)
-            .where("#{version_projection} >= ?", pure_journal.version)
+      raw = Journal::Scopes::AggregatedJournal.fetch(journable: pure_journal.journable)
+            .where("version >= ?", pure_journal.version)
             .first
 
       raw ? Journal::AggregatedJournal.new(raw) : nil
@@ -153,8 +61,8 @@ class Journal::AggregatedJournal
       # We need to limit the journal aggregation as soon as possible for performance reasons.
       # Therefore we have to provide the notes_id to the aggregation on top of it being used
       # in the where clause to pick the desired AggregatedJournal.
-      raw_journal = query_aggregated_journals(journal_id: notes_id)
-                    .where("#{table_name}.id = ?", notes_id)
+      raw_journal = Journal::Scopes::AggregatedJournal.fetch
+                    .where(id: notes_id)
                     .first
 
       raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
@@ -166,56 +74,12 @@ class Journal::AggregatedJournal
     # The +until_version+ parameter can be used in conjunction with the +journable+ parameter
     # to see the aggregated journals as if no versions were known after the specified version.
     def aggregated_journals(journable: nil, sql: nil, until_version: nil, includes: [])
-      raw_journals = query_aggregated_journals(journable: journable, sql: sql, until_version: until_version)
-      predecessors = {}
-      raw_journals.each do |journal|
-        journable_key = [journal.journable_type, journal.journable_id]
-        predecessors[journable_key] = [nil] unless predecessors[journable_key]
-        predecessors[journable_key] << journal
-      end
+      raw_journals = Journal::Scopes::AggregatedJournal.fetch(journable: journable, sql: sql, until_version: until_version)
 
-      aggregated_journals = raw_journals.map do |journal|
-        journable_key = [journal.journable_type, journal.journable_id]
-
-        Journal::AggregatedJournal.new(journal, predecessor: predecessors[journable_key].shift)
-      end
-
+      aggregated_journals = map_to_aggregated_journals(raw_journals)
       preload_associations(journable, aggregated_journals, includes)
 
       aggregated_journals
-    end
-
-    def query_aggregated_journals(journable: nil, sql: sql, until_version: nil, journal_id: nil)
-      # Using the roughly aggregated groups from :sql_rough_group we need to merge journals
-      # where an entry with empty notes follows an entry containing notes, so that the notes
-      # from the main entry are taken, while the remaining information is taken from the
-      # more recent entry. We therefore join the rough groups with itself
-      # _wherever a merge would be valid_.
-      # Since the results are already pre-merged, this can only happen if Our first entry (master)
-      # had a comment and its successor (addition) had no comment, but can be merged.
-      # This alone would, however, leave the addition in the result set, leaving a "no change"
-      # journal entry back. By an additional self-join towards the predecessor, we can make sure
-      # that our own row (master) would not already have been merged by its predecessor. If it is
-      # (that means if we can find a valid predecessor), we drop our current row, because it will
-      # already be present (in a merged form) in the row of our predecessor.
-      Journal.from("(#{sql_rough_group(journable, sql, until_version, journal_id)}) #{table_name}")
-      .joins(Arel.sql("LEFT OUTER JOIN (#{sql_rough_group(journable, sql, until_version, journal_id)}) addition
-                              ON #{sql_on_groups_belong_condition(table_name, 'addition')}"))
-      .joins(Arel.sql("LEFT OUTER JOIN (#{sql_rough_group(journable, sql, until_version, journal_id)}) predecessor
-                         ON #{sql_on_groups_belong_condition('predecessor', table_name)}"))
-      .where(Arel.sql('predecessor.id IS NULL'))
-      .order(Arel.sql("COALESCE(addition.created_at, #{table_name}.created_at) ASC"))
-      .order(Arel.sql("#{version_projection} ASC"))
-      .select(Arel.sql("#{table_name}.journable_id,
-               #{table_name}.journable_type,
-               #{table_name}.user_id,
-               #{table_name}.notes,
-               #{table_name}.id \"notes_id\",
-               #{table_name}.version \"notes_version\",
-               #{table_name}.activity_type,
-               COALESCE(addition.created_at, #{table_name}.created_at) \"created_at\",
-               COALESCE(addition.id, #{table_name}.id) \"id\",
-               #{version_projection} \"version\""))
     end
 
     # Returns whether "notification-hiding" should be assumed for the given journal pair.
@@ -224,151 +88,35 @@ class Journal::AggregatedJournal
     # "mail suppressing aggregation" (for EnqueueWorkPackageNotificationJob) for more details
     def hides_notifications?(successor, predecessor)
       return false unless successor && predecessor
-
-      timeout = Setting.journal_aggregation_time_minutes.to_i.minutes
-
-      if successor.journable_type != predecessor.journable_type ||
-         successor.journable_id != predecessor.journable_id ||
-         successor.user_id != predecessor.user_id ||
-         (successor.created_at - predecessor.created_at) <= timeout
-        return false
-      end
+      return false if belong_to_different_groups?(predecessor, successor)
 
       # imaginary state in which the successor never existed
       # if this makes the predecessor disappear, the successor must have taken journals
       # from it (that now became part of the predecessor again).
-      !Journal::AggregatedJournal
-        .query_aggregated_journals(
+      !Journal::Scopes::AggregatedJournal
+        .fetch(
           journable: successor.journable,
-          until_version: successor.version - 1)
-        .where("#{version_projection} = ?", predecessor.version)
+          until_version: successor.version - 1
+        )
+        .where(version: predecessor.version)
         .exists?
-    end
-
-    def table_name
-      Journal.table_name
-    end
-
-    def version_projection
-      "COALESCE(addition.version, #{table_name}.version)"
     end
 
     private
 
-    # Provides a full SQL statement that returns journals that are aggregated on a basic level:
-    #  * a row is dropped as soon as its successor is eligible to be merged with it
-    #  * rows with a comment are never dropped (we _might_ need the comment later)
-    # Thereby the result already has aggregation performed, but will still have too many rows:
-    #  Changes without notes after changes containing notes (even if both were performed by
-    #  the same user). Those need to be filtered out later.
-    # To be able to self-join results of this statement, we add an additional column called
-    # "group_number" to the result. This allows to compare a group resulting from this query with
-    # its predecessor and successor.
-    def sql_rough_group(journable, sql, until_version, journal_id)
-      if until_version && !journable
-        raise 'need to provide a journable, when specifying a version limit'
-      elsif journable && journable.id.nil?
-        raise 'journable has no id'
+    def map_to_aggregated_journals(raw_journals)
+      predecessors = {}
+      raw_journals.each do |journal|
+        journable_key = [journal.journable_type, journal.journable_id]
+        predecessors[journable_key] = [nil] unless predecessors[journable_key]
+        predecessors[journable_key] << journal
       end
 
-      conditions = additional_conditions(journable, until_version, journal_id)
+      raw_journals.map do |journal|
+        journable_key = [journal.journable_type, journal.journable_id]
 
-      "SELECT predecessor.*, #{sql_group_counter} AS group_number
-      FROM #{sql_rough_group_nukleous(journable, sql)} predecessor
-      #{sql_rough_group_join(conditions[:join_conditions])}
-      #{sql_rough_group_where(conditions[:where_conditions])}
-      #{sql_rough_group_order}"
-    end
-
-    def sql_rough_group_nukleous(journable, sql)
-      if sql
-        "(#{sql})"
-      elsif journable
-        <<~SQL
-          (SELECT * from journals
-          WHERE journals.journable_id = #{journable.id}
-          AND journals.journable_type = '#{journable.class.name}')
-        SQL
-      else
-        "journals"
+        Journal::AggregatedJournal.new(journal, predecessor: predecessors[journable_key].shift)
       end
-    end
-
-    def additional_conditions(journable, until_version, journal_id)
-      where_conditions = ''
-      join_conditions = ''
-
-      if journable && until_version
-        where_conditions += " AND predecessor.version <= #{until_version}"
-        join_conditions += "AND successor.version <= #{until_version}"
-      end
-
-      if journal_id
-        where_conditions += "AND predecessor.id IN (
-                SELECT id_key.id
-                FROM #{table_name} id_key JOIN #{table_name} journable_key
-                  ON id_key.journable_id = journable_key.journable_id
-                  AND id_key.journable_type = journable_key.journable_type
-                  AND journable_key.id = #{journal_id})"
-      end
-
-      { where_conditions: where_conditions,
-        join_conditions: join_conditions }
-    end
-
-    def sql_rough_group_join(additional_conditions)
-      "LEFT OUTER JOIN #{table_name} successor
-        ON predecessor.version + 1 = successor.version AND
-           predecessor.journable_type = successor.journable_type AND
-           predecessor.journable_id = successor.journable_id
-           #{additional_conditions}"
-    end
-
-    def sql_rough_group_where(additional_conditions)
-      "WHERE (predecessor.user_id != successor.user_id OR
-             (predecessor.notes != '' AND predecessor.notes IS NOT NULL) OR
-             #{sql_beyond_aggregation_time?('predecessor', 'successor')} OR
-             successor.id IS NULL)
-             #{additional_conditions}"
-    end
-
-    def sql_rough_group_order
-      "ORDER BY predecessor.created_at"
-    end
-
-    # This method returns the appropriate statement to be used inside a SELECT to
-    # obtain the current group number.
-    def sql_group_counter
-      'row_number() OVER (ORDER BY predecessor.version ASC)'
-    end
-
-    # Similar to the WHERE statement used in :sql_rough_group. However, this condition will
-    # match (return true) for all pairs where a merge/aggregation IS possible.
-    def sql_on_groups_belong_condition(predecessor, successor)
-      "#{predecessor}.group_number + 1 = #{successor}.group_number AND
-      (NOT #{sql_beyond_aggregation_time?(predecessor, successor)} AND
-      #{predecessor}.user_id = #{successor}.user_id AND
-      #{successor}.journable_type = #{predecessor}.journable_type AND
-      #{successor}.journable_id = #{predecessor}.journable_id AND
-      NOT ((#{predecessor}.notes != '' AND #{predecessor}.notes IS NOT NULL) AND
-      (#{successor}.notes != '' AND #{successor}.notes IS NOT NULL)))"
-    end
-
-    # Returns a SQL condition that will determine whether two entries are too far apart (temporal)
-    # to be considered for aggregation. This takes the current instance settings for temporal
-    # proximity into account.
-    def sql_beyond_aggregation_time?(predecessor, successor)
-      aggregation_time_seconds = Setting.journal_aggregation_time_minutes.to_i.minutes
-      if aggregation_time_seconds == 0
-        # if aggregation is disabled, we consider everything to be beyond aggregation time
-        # even if creation dates are exactly equal
-        return '(true = true)'
-      end
-
-      difference = "(#{successor}.created_at - #{predecessor}.created_at)"
-      threshold = "interval '#{aggregation_time_seconds} second'"
-
-      "(#{difference} > #{threshold})"
     end
 
     def preload_associations(journable, aggregated_journals, includes)
@@ -411,6 +159,15 @@ class Journal::AggregatedJournal
           journal.set_preloaded_journable journable
         end
       end
+    end
+
+    def belong_to_different_groups?(predecessor, successor)
+      timeout = Setting.journal_aggregation_time_minutes.to_i.minutes
+
+      successor.journable_type != predecessor.journable_type ||
+        successor.journable_id != predecessor.journable_id ||
+        successor.user_id != predecessor.user_id ||
+        (successor.created_at - predecessor.created_at) <= timeout
     end
   end
 
@@ -473,10 +230,10 @@ class Journal::AggregatedJournal
 
   def predecessor
     unless defined? @predecessor
-      raw_journal = self.class.query_aggregated_journals(journable: journable)
-                    .where("#{self.class.version_projection} < ?", version)
+      raw_journal = Journal::Scopes::AggregatedJournal.fetch(journable: journable)
+                    .where("version < ?", version)
                     .except(:order)
-                    .order(Arel.sql("#{self.class.version_projection} DESC"))
+                    .order(version: :desc)
                     .first
 
       @predecessor = raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
@@ -487,10 +244,10 @@ class Journal::AggregatedJournal
 
   def successor
     unless defined? @successor
-      raw_journal = self.class.query_aggregated_journals(journable: journable)
-                      .where("#{self.class.version_projection} > ?", version)
+      raw_journal = Journal::Scopes::AggregatedJournal.fetch(journable: journable)
+                      .where("version > ?", version)
                       .except(:order)
-                      .order(Arel.sql("#{self.class.version_projection} ASC"))
+                      .order(version: :asc)
                       .first
 
       @successor = raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil

@@ -400,8 +400,7 @@ describe Journal::AggregatedJournal, type: :model do
           work_package.save!
         end
 
-        it 'returns one journal' do
-          binding.pry
+        it 'returns one journal per work package' do
           expect(subject.count).to eql 2
         end
       end
