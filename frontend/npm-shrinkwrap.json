@@ -3352,18 +3352,18 @@
         "@xtuc/long": "4.2.2"
       }
     },
-    "@xeokit/xeokit-sdk": {
-      "version": "0.8.8",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-0.8.8.tgz",
-      "integrity": "sha512-e+HTZajykFolCeWm5CIT7HSzOYoRhCxbecpjsXlmfEUYeFZ2Rpxc8CbI/vo62DjwobjFOB/dtyz3xJ2uWkogGg=="
-    },
-    "@xeokit/xeokit-viewer": {
-      "version": "1.6.4",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-viewer/-/xeokit-viewer-1.6.4.tgz",
-      "integrity": "sha512-HgY9ceC+Nb6pBxCKlpcQo7cQearilXyVjPI9u5r27ZtHxkm1JDaAVInrDUTsFcpOyL2JBE17Xyb5kfzv9/FujQ==",
+    "@xeokit/xeokit-bim-viewer": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-bim-viewer/-/xeokit-bim-viewer-1.7.0.tgz",
+      "integrity": "sha512-6dro8hzIAdniYn0GRUQMxospaj+U1Cf+cg4Zueb1JF3DxOFjKOSSg8XJXF7JQ48IBiToMvTaTsvSXQOUebAPcw==",
       "requires": {
-        "@xeokit/xeokit-sdk": "^0.8.8"
+        "@xeokit/xeokit-sdk": "^0.9.4"
       }
+    },
+    "@xeokit/xeokit-sdk": {
+      "version": "0.9.4",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-0.9.4.tgz",
+      "integrity": "sha512-lRVxIt1Hz19nTIsFIcHm0Yor1/76V7W8yOKKoCTARJXL6qHreeoiX6Ep/sxYspdNL+/1uzslq4PCW/LmD+wO9g=="
     },
     "@xtuc/ieee754": {
       "version": "1.2.0",
