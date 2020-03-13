@@ -52,7 +52,7 @@ import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-c
                   [showInfoButton]="true"
                   [shrinkOnMobile]="true">
     </wp-card-view>
-    
+
     <div *ngIf="showResizer"
          class="hidden-for-mobile hide-when-print">
       <wp-resizer [elementClass]="resizerClass"

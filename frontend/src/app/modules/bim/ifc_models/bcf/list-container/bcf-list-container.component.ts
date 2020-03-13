@@ -22,13 +22,13 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BcfListContainerComponent extends WorkPackageListViewComponent implements OnInit {
+  @InjectField() private bimView:BimViewService;
+
   protected shouldShowAsListView(query:QueryResource):boolean {
     return false;
   }
 
   protected showResizerInCardView():boolean {
-    // TODO
-    //return this.bimView.currentViewerState() !== bimSplitViewIdentifier;
-    return true;
+    return this.bimView.currentViewerState() === bimSplitViewIdentifier;
   }
 }
