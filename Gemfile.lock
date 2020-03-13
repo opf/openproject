@@ -171,7 +171,7 @@ PATH
   remote: modules/recaptcha
   specs:
     openproject-recaptcha (1.0.0)
-      recaptcha (~> 5.1.0)
+      recaptcha (~> 5.3.0)
 
 PATH
   remote: modules/reporting_engine
@@ -558,7 +558,7 @@ GEM
     jmespath (1.4.0)
     jquery-tablesorter (1.27.1)
       railties (>= 3.2)
-    json (2.2.0)
+    json (2.3.0)
     json-jwt (1.11.0)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -765,7 +765,7 @@ GEM
     rbtree3 (0.5.0)
     rchardet (1.8.0)
     rdoc (6.2.1)
-    recaptcha (5.1.0)
+    recaptcha (5.3.0)
       json
     redcarpet (3.4.0)
     reform (2.2.4)
