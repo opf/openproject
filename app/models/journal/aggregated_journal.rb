@@ -27,6 +27,98 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+#
+#
+# WITH s_journals AS (SELECT * from journals
+# 			 WHERE journals.journable_id = 100 AND journals.journable_type = 'WorkPackage' ORDER BY version
+# ),
+#
+#
+#
+# breaking_journals_notes AS (
+# 	SELECT
+# 	  s_journals.*
+# 	FROM s_journals
+#     WHERE s_journals.notes != '' AND s_journals.notes IS NOT NULL
+# )
+#
+# SELECT
+#   successor_group.journable_type,
+#   successor_group.journable_id,
+#   successor_group.user_id,
+#   successor_group.activity_type,
+#   breaking_journals_notes.notes,
+#   breaking_journals_notes.id notes_id,
+#   breaking_journals_notes.version notes_version,
+#   CASE
+#     WHEN successor_notes.version IS NOT NULL THEN breaking_journals_notes.version
+# 	ELSE successor_group.version END AS version,
+#   CASE
+#     WHEN successor_notes.version IS NOT NULL THEN breaking_journals_notes.created_at
+# 	ELSE successor_group.created_at END created_at,
+#   CASE
+#     WHEN successor_notes.version IS NOT NULL THEN breaking_journals_notes.id
+# 	ELSE successor_group.id END id,
+#   successor_notes.version successor_notes_version,
+#   predecessor_group.version start_version,
+#   successor_group.version stop_version
+# FROM (
+# 	SELECT
+# 	  predecessor.id,
+# 	  predecessor.version,
+# 	  predecessor.journable_id,
+# 	  predecessor.journable_type,
+# 	  predecessor.notes,
+# 	  predecessor.activity_type,
+# 	  predecessor.user_id,
+# 	  predecessor.created_at,
+# 	  row_number() OVER (ORDER BY predecessor.journable_type, predecessor.journable_id, predecessor.version ASC) group_number
+# 	FROM s_journals predecessor
+#     LEFT OUTER JOIN s_journals successor
+#     ON predecessor.version + 1 = successor.version
+#     AND predecessor.journable_type = successor.journable_type
+#     AND predecessor.journable_id = successor.journable_id
+#     WHERE (predecessor.user_id != successor.user_id
+#     OR (successor.created_at - predecessor.created_at) > interval '300 second')
+# 	OR successor.id IS NULL
+# 	) predecessor_group
+# RIGHT OUTER JOIN (
+# 	SELECT
+# 	  predecessor.id,
+# 	  predecessor.version,
+# 	  predecessor.journable_id,
+# 	  predecessor.journable_type,
+# 	  predecessor.notes,
+# 	  predecessor.user_id,
+# 	  predecessor.activity_type,
+# 	  predecessor.created_at,
+# 	  row_number() OVER (ORDER BY predecessor.journable_type, predecessor.journable_id, predecessor.version ASC) group_number
+# 	FROM s_journals predecessor
+#     LEFT OUTER JOIN s_journals successor
+#     ON predecessor.version + 1 = successor.version
+#     AND predecessor.journable_type = successor.journable_type
+#     AND predecessor.journable_id = successor.journable_id
+#     WHERE (predecessor.user_id != successor.user_id
+#     OR (successor.created_at - predecessor.created_at) > interval '300 second')
+# 	OR successor.id IS NULL
+#
+# 	) successor_group
+#     ON predecessor_group.group_number = successor_group.group_number - 1
+#     AND predecessor_group.journable_type = successor_group.journable_type
+#     AND predecessor_group.journable_id = successor_group.journable_id
+# LEFT OUTER JOIN breaking_journals_notes
+#     ON COALESCE(predecessor_group.version, 0) + 1 <= breaking_journals_notes.version
+# 	AND successor_group.version >= breaking_journals_notes.version
+#     AND successor_group.journable_type = breaking_journals_notes.journable_type
+#     AND successor_group.journable_id = breaking_journals_notes.journable_id
+# LEFT OUTER JOIN breaking_journals_notes successor_notes
+#     ON breaking_journals_notes.version < successor_notes.version
+# 	AND successor_group.version >= successor_notes.version
+#     AND successor_notes.journable_type = successor_group.journable_type
+#     AND successor_notes.journable_id = successor_group.journable_id
+#
+#
+#
 
 # Similar to regular Journals, but under the following circumstances journals are aggregated:
 #  * they are in temporal proximity
