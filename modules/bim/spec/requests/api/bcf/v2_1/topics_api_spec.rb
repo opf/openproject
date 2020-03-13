@@ -574,6 +574,44 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       end
     end
 
+    def expected_body_for_bcf_issue(
+      issue,
+      title:,
+      creation_author_mail: nil,
+      modified_author_mail: nil,
+      assigned_to: nil,
+      due_date: nil,
+      description: nil,
+      base: nil
+    )
+      work_package = base || issue.work_package
+
+      {
+        guid: issue&.uuid,
+        topic_type: (base && base.type.name) || standard_type.name,
+        topic_status: (base && base.status.name) || default_status.name,
+        priority: (base && base.priority.name) || default_priority.name,
+        title: title,
+        labels: [],
+        index: nil,
+        reference_links: [
+          api_v3_paths.work_package(work_package&.id)
+        ],
+        assigned_to: assigned_to || base&.assigned_to&.mail,
+        due_date: due_date || base&.due_date,
+        stage: nil,
+        creation_author: creation_author_mail,
+        creation_date: work_package&.created_at&.iso8601,
+        modified_author: modified_author_mail,
+        modified_date: work_package&.updated_at&.iso8601,
+        description: description || base&.description,
+        "authorization": {
+          "topic_status": [(base && base.status.name) || default_status.name],
+          "topic_actions": %w[update updateRelatedTopics updateFiles createViewpoint]
+        }
+      }
+    end
+
     context 'with minimal parameters' do
       let(:params) do
         {
@@ -584,33 +622,106 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       it_behaves_like 'bcf api successful response' do
         let(:expected_status) { 201 }
         let(:expected_body) do
-          issue = Bim::Bcf::Issue.last.reload
-          work_package = WorkPackage.last.reload
+          expected_body_for_bcf_issue(
+            Bim::Bcf::Issue.last.reload,
+            title: params[:title],
+            creation_author_mail: edit_member_user.mail,
+            modified_author_mail: edit_member_user.mail
+          )
+        end
+      end
+    end
 
+    context 'with an existing work package' do
+      let!(:existing_work_package) do
+        FactoryBot.create :work_package, author: assignee, assigned_to: assignee, project: project
+      end
+
+      let(:params) do
+        {
+          title: "BCF topic ##{existing_work_package.id}",
+          reference_links: [
+            api_v3_paths.work_package(existing_work_package.id)
+          ]
+        }
+      end
+
+      it_behaves_like 'bcf api successful response' do
+        let(:expected_status) { 201 }
+        let(:expected_body) do
+          expected_body_for_bcf_issue(
+            Bim::Bcf::Issue.last.reload,
+            title: params[:title],
+            creation_author_mail: existing_work_package.author.mail,
+            modified_author_mail: edit_member_user.mail,
+            base: existing_work_package
+          )
+        end
+      end
+
+      context 'with a non-existing work package' do
+        let(:params) do
           {
-            guid: issue&.uuid,
-            topic_type: standard_type.name,
-            topic_status: default_status.name,
-            priority: default_priority.name,
-            title: 'BCF topic 101',
-            labels: [],
-            index: nil,
+            title: "A new BCF topic",
             reference_links: [
-              api_v3_paths.work_package(work_package&.id)
-            ],
-            assigned_to: nil,
-            due_date: nil,
-            stage: nil,
-            creation_author: edit_member_user.mail,
-            creation_date: work_package&.created_at&.iso8601,
-            modified_author: edit_member_user.mail,
-            modified_date: work_package&.updated_at&.iso8601,
-            description: nil,
-            "authorization": {
-              "topic_status": [default_status.name],
-              "topic_actions": %w[update updateRelatedTopics updateFiles createViewpoint]
-            }
+              api_v3_paths.work_package((WorkPackage.last&.id).to_i + 42)
+            ]
           }
+        end
+
+        it_behaves_like 'bcf api unprocessable response' do
+          let(:message) { "Work package does not exist." }
+        end
+      end
+
+      context 'with a work package where the user is not a bcf manager' do
+        let(:current_user) { view_only_user }
+
+        let(:params) do
+          {
+            title: "Another new BCF topic",
+            reference_links: [
+              api_v3_paths.work_package(work_package.id)
+            ]
+          }
+        end
+
+        it "responds with a not authorized error" do
+          expect(response.status).to eq 403
+          expect(response.body).to include "You are not authorized to access this resource."
+        end
+      end
+
+      context 'with a work package in another project' do
+        let!(:foreign_work_package) { FactoryBot.create :work_package }
+
+        let(:params) do
+          {
+            title: "Yet another new BCF topic",
+            reference_links: [
+              api_v3_paths.work_package(foreign_work_package.id)
+            ]
+          }
+        end
+
+        it "responds with a not authorized error" do
+          expect(response.status).to eq 404
+          expect(response.body).to include "The requested resource could not be found."
+        end
+      end
+
+      context 'with a work package that already belongs to a BCF issue' do
+        let(:params) do
+          {
+            title: "A BCF topic that shouldn't be",
+            reference_links: [
+              api_v3_paths.work_package(bcf_issue.work_package.id)
+            ]
+          }
+        end
+
+        it_behaves_like 'bcf api unprocessable response' do
+          let(:message) { "Work package has already been taken." }
         end
       end
     end
