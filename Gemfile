@@ -169,9 +169,9 @@ gem 'nokogiri', '~> 1.10.8'
 gem 'carrierwave', '~> 1.3.1'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.90.1'
+gem 'aws-sdk-core', '~> 3.91.0'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.60.2'
+gem 'aws-sdk-s3', '~> 1.61.0'
 
 gem 'openproject-token', '~> 1.0.2'
 
@@ -182,7 +182,7 @@ gem 'rest-client', '~> 2.0'
 gem 'ruby-progressbar', '~> 1.10.0', require: false
 
 group :test do
-  gem 'launchy', '~> 2.4.3'
+  gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 1.1.0'
   gem 'shoulda-context', '~> 1.2'
 
@@ -217,7 +217,7 @@ group :test do
   gem 'webdrivers', '~> 4.2.0', require: false
   gem 'selenium-webdriver', '~> 3.14'
 
-  gem 'fuubar', '~> 2.3.2'
+  gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.8.2', require: false
 
