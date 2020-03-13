@@ -9,8 +9,13 @@
 
 <!-- GRID representation of the WP -->
 <div *ngIf="!showListView"
-     class="work-packages--card-view-container">
-  <wp-grid [configuration]="wpTableConfiguration"></wp-grid>
+     class="work-packages--card-view-container"
+     [ngClass]="{ '-with-resizer': showResizerInCardView() }" >
+  <wp-grid [configuration]="wpTableConfiguration"
+           [showResizer]="showResizerInCardView()"
+           resizerClass="work-packages-partitioned-page--content-right"
+           resizerStorageKey="openProject-splitViewFlexBasis">
+  </wp-grid>
 </div>
 
 <!-- Footer -->

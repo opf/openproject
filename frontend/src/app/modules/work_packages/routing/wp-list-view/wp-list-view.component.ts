@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit} from "@angular/core";
 import {take} from "rxjs/operators";
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
@@ -43,6 +43,7 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 
 @Component({
   selector: 'wp-list-view',
@@ -79,6 +80,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   };
 
   constructor(private I18n:I18nService,
+              readonly injector:Injector,
               private querySpace:IsolatedQuerySpace,
               private wpViewFilters:WorkPackageViewFiltersService,
               private deviceService:DeviceService,
@@ -96,7 +98,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
       this.untilDestroyed()
     ).subscribe((query) => {
       // Update the visible representation
-      this.showListView = !(this.deviceService.isMobile || this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation);
+      this.showListView = this.shouldShowAsListView(query);
       this.cdRef.detectChanges();
     });
   }
@@ -111,6 +113,14 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
         this.tableInformationLoaded = true;
         this.cdRef.detectChanges();
       });
+  }
+
+  protected shouldShowAsListView(query:QueryResource):boolean {
+    return !(this.deviceService.isMobile || this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation);
+  }
+
+  protected showResizerInCardView():boolean {
+    return false;
   }
 
 }
