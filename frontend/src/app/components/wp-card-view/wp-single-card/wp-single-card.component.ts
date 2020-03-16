@@ -85,7 +85,6 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     classes += ' wp-card-' + this.workPackage.id;
     classes += ' -' + this.orientation;
     classes += this.shrinkOnMobile ? ' -shrink' : '';
-    classes += this.cardCoverImageShown(this.workPackage) ? ' -with-card-cover-image' : '';
     return classes;
   }
 

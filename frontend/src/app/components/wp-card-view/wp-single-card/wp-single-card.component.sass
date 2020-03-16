@@ -2,7 +2,6 @@
 
 .wp-card
   display: flex
-  flex-direction: column
   user-select: none
   width: 100%
   border: 1px solid var(--widget-box-block-border-color)
@@ -36,18 +35,12 @@
   wp-single-card:host.gu-transit &
     @include modifying--placeholder
 
-  &.-with-card-cover-image
-    justify-content: space-between
-
-    .wp-card--content
-      flex-grow: 0
-
 .wp-card--content:not(.-new)
   display: grid
   grid-template-columns: auto 1fr auto
-  grid-template-rows: auto 1fr auto
+  grid-template-rows: auto auto 1fr auto
   grid-row-gap: 10px
-  grid-template-areas: "type type type" "subject subject subject" "attributeTag avatar idlink"
+  grid-template-areas: "type type type" "subject subject subject" "image image image" "attributeTag avatar idlink"
   overflow: hidden
   flex-grow: 1
 
@@ -67,6 +60,12 @@
     max-width: 120px
     margin-right: 5px
     overflow: hidden
+  .wp-card--cover-image
+    grid-area: image
+    max-height: 350px
+
+    @media screen and (max-width: 679px)
+      max-height: 250px
 
 .wp-card--highlighting
   width: 5px
@@ -84,15 +83,6 @@
 
   &.-show, .wp-card:hover &
     opacity: 1
-
-.wp-card--cover-image
-  display: block
-  margin: -10px -10px 10px
-  width: calc(100% + 10px + 10px)
-  max-width: calc(100% + 10px + 10px)
-
-  flex-basis: 200px
-  object-fit: cover
 
 @media only screen and (max-width: 679px)
   .wp-card
