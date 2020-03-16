@@ -47,12 +47,12 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
   actions = [
     {
       icon: 'icon-watched',
-      onClick: this.showViewpoint.bind(this),
+      onClick: (evt:any, index:number) => this.showViewpoint(index),
       titleText: this.text.show_viewpoint
     },
     {
       icon: 'icon-delete',
-      onClick: this.deleteViewpoint.bind(this),
+      onClick: (evt:any, index:number) => this.deleteViewpoint(index),
       titleText: this.text.delete_viewpoint
     }
   ];
@@ -137,12 +137,13 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
 
         if (wp.bcfViewpoints) {
           this.setViewpoints();
+          this.loadViewpointFromRoute();
           this.cdRef.detectChanges();
         }
       });
   }
 
-  showViewpoint(event:Event, index:number) {
+  showViewpoint(index:number) {
     this
       .viewpointFromIndex(index)
       .get()
@@ -160,7 +161,7 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
       });
   }
 
-  deleteViewpoint(event:Event, index:number) {
+  deleteViewpoint(index:number) {
     if (!window.confirm(this.text.text_are_you_sure)) {
       return;
     }
@@ -201,7 +202,7 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
     jQuery('#top-menu').removeClass('-no-z-index');
   }
 
-  onGalleryLoaded() {
+  selectViewpointInGallery() {
     setTimeout(() => this.gallery.show(this.showIndex), 250);
   }
 
@@ -268,5 +269,15 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
   private viewpointFromIndex(index:number):BcfViewpointPaths {
     let viewpointHref = this.workPackage.bcfViewpoints[index].href;
     return this.bcfApi.parse<BcfViewpointPaths>(viewpointHref);
+  }
+
+  private loadViewpointFromRoute() {
+    if (typeof (this.state.params.viewpoint) === 'number') {
+      const index = this.state.params.viewpoint;
+      this.showViewpoint(index);
+      this.showIndex = index;
+      this.selectViewpointInGallery();
+      this.state.go('.', { ...this.state.params, viewpoint: undefined }, { reload: false });
+    }
   }
 }

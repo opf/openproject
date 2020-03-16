@@ -97,7 +97,7 @@ describe 'Show viewpoint in model viewer', type: :feature, js: true do
       bcf_details.expect_viewpoint_count 1
       bcf_details.show_current_viewpoint
 
-      path = Regexp.escape("bcf/split/details/#{work_package.id}/overview?viewpoint=0")
+      path = Regexp.escape("bcf/split/details/#{work_package.id}/overview")
       expect(page).to have_current_path /#{path}/
     end
   end

@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Subject} from "rxjs";
-import {distinctUntilChanged, filter, first} from "rxjs/operators";
+import {Observable, Subject} from "rxjs";
+import {distinctUntilChanged, filter, first, mapTo} from "rxjs/operators";
 import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import {input} from "reactivestates";
 
 declare global {
   interface Window {
@@ -14,7 +15,7 @@ declare global {
 export class RevitBridgeService extends ViewerBridgeService {
   private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:string }>();
   private _trackingIdNumber = 0;
-  private _ready = false;
+  private _ready$ = input<boolean>(false);
 
   revitMessageReceived$ = this.revitMessageReceivedSource.asObservable();
 
@@ -34,7 +35,7 @@ export class RevitBridgeService extends ViewerBridgeService {
   }
 
   viewerVisible() {
-    return this._ready;
+    return this._ready$.getValueOr(false);
   }
 
   getViewpoint():Promise<any> {
@@ -88,11 +89,18 @@ export class RevitBridgeService extends ViewerBridgeService {
         messagePayload: messagePayload
       });
     };
-    this._ready = true;
+    this._ready$.putValue(true);
   }
 
   newTrackingId():string {
     this._trackingIdNumber = this._trackingIdNumber + 1;
     return String(this._trackingIdNumber);
+  }
+
+  onLoad$():Observable<void> {
+    return this
+      ._ready$
+      .values$()
+      .pipe(mapTo(undefined));
   }
 }

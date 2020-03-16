@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {XeokitServer} from "core-app/modules/bim/ifc_models/xeokit/xeokit-server";
 import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import {Observable, Subject} from "rxjs";
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -27,6 +28,8 @@ export interface BCFLoadOptions {
 export class IFCViewerService extends ViewerBridgeService {
   private _viewer:any;
 
+  private $loaded = new Subject<void>();
+
   public newViewer(elements:XeokitElements, projects:any[]) {
     import('@xeokit/xeokit-bim-viewer/dist/main').then((XeokitViewerModule:any) => {
       let server = new XeokitServer();
@@ -38,6 +41,8 @@ export class IFCViewerService extends ViewerBridgeService {
         alert(`Query result:\n\nObject ID = ${entity.id}\nIFC type = "${metaObject.type}"`);
       });
 
+      viewerUI.on("modelLoaded", () => this.$loaded.complete());
+
       viewerUI.loadProject(projects[0]["id"]);
 
       this.viewer = viewerUI;
@@ -45,6 +50,8 @@ export class IFCViewerService extends ViewerBridgeService {
   }
 
   public destroy() {
+    this.$loaded.complete();
+
     if (!this.viewer) {
       return;
     }
@@ -76,5 +83,9 @@ export class IFCViewerService extends ViewerBridgeService {
 
   public viewerVisible():boolean {
     return !!this.viewer;
+  }
+
+  public onLoad$():Observable<void> {
+    return this.$loaded;
   }
 }
