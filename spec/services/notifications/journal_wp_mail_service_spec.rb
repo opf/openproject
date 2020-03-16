@@ -333,6 +333,19 @@ describe Notifications::JournalWpMailService do
       it_behaves_like 'mentioned'
     end
   end
+
+  context 'aggregated journal is empty' do
+    let(:journal) { journal_2_empty_change }
+    let(:journal_2_empty_change) do
+      work_package.add_journal(author, 'temp')
+      work_package.save(validate: false)
+      work_package.journals.last.tap do |j|
+        j.update_column(:notes, nil)
+      end
+    end
+
+    it_behaves_like 'sends no mail'
+  end
 end
 
 describe 'initialization' do

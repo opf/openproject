@@ -121,6 +121,10 @@ class Journal < ActiveRecord::Base
     predecessor
   end
 
+  def noop?
+    (!notes || notes&.empty?) && get_changes.empty?
+  end
+
   private
 
   def save_data

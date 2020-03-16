@@ -157,6 +157,7 @@ module Project::Copy
                 .work_packages
                 .includes(:custom_values, :fixed_version, :assigned_to, :responsible)
                 .order_by_ancestors('asc')
+                .order('id ASC')
 
       user_cf_ids = WorkPackageCustomField.where(field_format: 'user').pluck(:id)
 
