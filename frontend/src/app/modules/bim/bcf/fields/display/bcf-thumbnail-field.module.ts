@@ -34,10 +34,11 @@ export class BcfThumbnailDisplayField extends DisplayField {
   @InjectField() bcfPathHelper:BcfPathHelperService;
 
   public render(element:HTMLElement, displayText:string):void {
-    if (_.get(this, 'resource.bcfViewpoints[0]')) {
-      let vp = this.resource.bcfViewpoints[0];
+    const viewpoints = this.resource.bcfViewpoints;
+    if (viewpoints && viewpoints.length > 0) {
+      const viewpoint = viewpoints[0];
       element.innerHTML = `
-        <img src="${this.bcfPathHelper.snapshotPath(vp)}" class="thumbnail">
+        <img src="${this.bcfPathHelper.snapshotPath(viewpoint)}" class="thumbnail">
       `;
     } else {
       element.innerHTML = '';

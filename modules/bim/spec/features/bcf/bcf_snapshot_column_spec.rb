@@ -30,7 +30,7 @@ describe 'BCF snapshot column', type: :feature, js: true, with_mail: false do
     wp_table.expect_work_package_listed(work_package)
 
     page.within(".wp-row-#{work_package.id} td.bcfThumbnail") do
-      image_path = "/api/bcf/2.1/projects/myproject_no_1/topics/#{bcf_issue.uuid}/viewpoints/#{bcf_issue.viewpoints.first.uuid}/snapshot"
+      image_path = "/api/bcf/2.1/projects/#{project.identifier}/topics/#{bcf_issue.uuid}/viewpoints/#{bcf_issue.viewpoints.first.uuid}/snapshot"
       expect(page).to have_selector("img[src=\"#{image_path}\"]")
     end
   end
