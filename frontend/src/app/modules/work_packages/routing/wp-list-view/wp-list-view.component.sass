@@ -11,10 +11,11 @@
   padding-bottom: 5px
   @include styled-scroll-bar
 
-  &.-with-resizer
-    padding-left: 10px
+  @media screen and (min-width: 679px)
+    &.-with-resizer
+      padding-left: 10px
 
-  @media screen and (max-width: 659px)
+  @media screen and (max-width: 679px)
     // Ensure the WP cards span the complete width on mobile
     // --> Move scrollbar out of visible area
     min-width: calc(100vw + 10px)
