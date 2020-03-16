@@ -77,22 +77,6 @@ describe 'show default model', type: :feature, js: true do
     end
   end
 
-  context 'without a default model' do
-    let(:model_is_default) { false }
-
-    before do
-      show_default_page.visit!
-    end
-
-    it 'redirects to the index page and displays a notification' do
-      expect(index_page)
-        .to be_current_page
-
-      index_page.expect_notification(type: :info,
-                                     message: I18n.t('ifc_models.no_defaults_warning.title'))
-    end
-  end
-
   context 'with the default model not being processed' do
     before do
       model.xkt_attachment.destroy

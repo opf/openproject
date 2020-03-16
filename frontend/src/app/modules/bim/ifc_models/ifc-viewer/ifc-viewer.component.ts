@@ -26,31 +26,39 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
-import {GonService} from "core-app/modules/common/gon/gon.service";
+import {ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
+import {IfcModelsDataService} from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'ifc-viewer',
-  template: `
-    <div class="ifc-model-viewer--container xeokit-busy-modal-backdrop">
-      <div class="ifc-model-viewer--toolbar-container"></div>
-      <canvas class="ifc-model-viewer--model-canvas"></canvas>
-    </div>
-
-    <canvas class="ifc-model-viewer--nav-cube-canvas"></canvas>
-  `,
+  templateUrl: './ifc-viewer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IFCViewerComponent implements OnInit, OnDestroy {
   private viewerUI:any;
 
-  constructor(private Gon:GonService,
+  modelCount = this.ifcData.models.length;
+
+  canManage = this.ifcData.allowed('manage_ifc_models');
+
+  text = {
+    empty_warning: this.I18n.t('js.ifc_models.empty_warning'),
+    use_this_link_to_manage: this.I18n.t('js.ifc_models.use_this_link_to_manage')
+  };
+
+  constructor(private I18n:I18nService,
               private elementRef:ElementRef,
+              private ifcData:IfcModelsDataService,
               private ifcViewer:IFCViewerService) {
   }
 
   ngOnInit():void {
+    if (this.modelCount === 0) {
+      return;
+    }
+
     const element = jQuery(this.elementRef.nativeElement as HTMLElement);
 
     this.ifcViewer.newViewer(
@@ -61,7 +69,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
         navCubeCanvasElement: element.find(".ifc-model-viewer--nav-cube-canvas")[0],
         busyModelBackdropElement: element.find(".xeokit-busy-modal-backdrop")[0]
       },
-      this.Gon.get('ifc_models', 'projects') as any[]
+      this.ifcData.projects
     );
   }
 

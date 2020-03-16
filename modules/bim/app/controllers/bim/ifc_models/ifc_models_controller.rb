@@ -58,13 +58,7 @@ module Bim
       end
 
       def defaults
-        @default_ifc_models = @ifc_models.defaults
-
-        if @default_ifc_models.exists?
-          frontend_redirect @default_ifc_models.pluck(:id).uniq
-        else
-          redirect_to action: :index
-        end
+        frontend_redirect @ifc_models.defaults.pluck(:id).uniq
       end
 
       def create

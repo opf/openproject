@@ -51,23 +51,33 @@ describe 'model viewer', type: :feature, js: true do
   let(:card_view) { ::Pages::WorkPackageCards.new(project) }
 
   context 'with all permissions' do
-    before do
-      login_as(user)
-      work_package
-      show_model_page.visit!
-      show_model_page.finished_loading
+    describe 'showing a model' do
+      before do
+        login_as(user)
+        work_package
+        show_model_page.visit!
+        show_model_page.finished_loading
+      end
+
+      it 'loads and shows the viewer correctly' do
+        show_model_page.model_viewer_visible true
+        show_model_page.model_viewer_shows_a_toolbar true
+        show_model_page.page_shows_a_toolbar true
+        model_tree.sidebar_shows_viewer_menu true
+      end
+
+      it 'shows a work package list as cards next to the viewer' do
+        show_model_page.model_viewer_visible true
+        card_view.expect_work_package_listed work_package
+      end
     end
 
-    it 'loads and shows the viewer correctly' do
-      show_model_page.model_viewer_visible true
-      show_model_page.model_viewer_shows_a_toolbar true
-      show_model_page.page_shows_a_toolbar true
-      model_tree.sidebar_shows_viewer_menu true
-    end
-
-    it 'shows a work package list as cards next to the viewer' do
-      show_model_page.model_viewer_visible true
-      card_view.expect_work_package_listed work_package
+    context 'in a project with no model' do
+      it 'shows a warning that no IFC models exist yet' do
+        login_as user
+        visit defaults_bcf_project_ifc_models_path(project)
+        expect(page).to have_selector('.notification-box.-info', text: I18n.t('js.ifc_models.empty_warning'))
+      end
     end
   end
 

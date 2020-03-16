@@ -11,10 +11,15 @@ export interface IFCPermissionMap {
 export interface IFCGonDefinition {
   models:IfcModelDefinition[];
   shown_models:number[];
-  projects:{ id:string, name:string }[];
+  projects:IfcProjectDefinition[];
   xkt_attachment_ids:{ [id:number]:number };
   metadata_attachment_ids:{ [id:number]:number };
   permissions:IFCPermissionMap;
+}
+
+export interface IfcProjectDefinition {
+  name:string;
+  id:number;
 }
 
 export interface IfcModelDefinition {
@@ -34,6 +39,10 @@ export class IfcModelsDataService {
 
   public get models():IfcModelDefinition[] {
     return this.gonIFC.models;
+  }
+
+  public get projects():IfcProjectDefinition[] {
+    return this.gonIFC.projects;
   }
 
   public get shownModels():number[] {
