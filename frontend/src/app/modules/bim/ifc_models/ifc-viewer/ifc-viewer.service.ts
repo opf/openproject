@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {XeokitServer} from "core-app/modules/bim/ifc_models/xeokit/xeokit-server";
 import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import {Observable, Subject} from "rxjs";
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -23,8 +25,10 @@ export interface BCFLoadOptions {
 }
 
 @Injectable()
-export class IFCViewerService {
+export class IFCViewerService extends ViewerBridgeService {
   private _viewer:any;
+
+  private $loaded = new Subject<void>();
 
   public newViewer(elements:XeokitElements, projects:any[]) {
     import('@xeokit/xeokit-bim-viewer/dist/main').then((XeokitViewerModule:any) => {
@@ -37,6 +41,8 @@ export class IFCViewerService {
         alert(`Query result:\n\nObject ID = ${entity.id}\nIFC type = "${metaObject.type}"`);
       });
 
+      viewerUI.on("modelLoaded", () => this.$loaded.complete());
+
       viewerUI.loadProject(projects[0]["id"]);
 
       this.viewer = viewerUI;
@@ -44,6 +50,8 @@ export class IFCViewerService {
   }
 
   public destroy() {
+    this.$loaded.complete();
+
     if (!this.viewer) {
       return;
     }
@@ -60,15 +68,24 @@ export class IFCViewerService {
     this._viewer = viewer;
   }
 
-  public saveBCFViewpoint(options:BCFCreationOptions = {}):BcfViewpointInterface {
-    return this.viewer.saveBCFViewpoint(options);
+  public getViewpoint():Promise<BcfViewpointInterface> {
+    const viewpoint = this.viewer.saveBCFViewpoint({});
+
+    // The backend rejects viewpoints with bitmaps
+    delete viewpoint.bitmaps;
+
+    return Promise.resolve(viewpoint);
   }
 
-  public loadBCFViewpoint(viewpoint:BcfViewpointInterface, options:BCFLoadOptions = {}) {
-    this.viewer.loadBCFViewpoint(viewpoint, options);
+  public showViewpoint(viewpoint:BcfViewpointInterface) {
+    this.viewer.loadBCFViewpoint(viewpoint, {});
   }
 
   public viewerVisible():boolean {
     return !!this.viewer;
+  }
+
+  public onLoad$():Observable<void> {
+    return this.$loaded;
   }
 }

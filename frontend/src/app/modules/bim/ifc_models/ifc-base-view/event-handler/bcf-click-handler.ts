@@ -14,11 +14,6 @@ export class BcfClickHandler extends CardClickHandler {
     this.setSelection(wpId, element, evt);
     const wp = this.states.workPackages.get(wpId).value!;
 
-    const current = this.viewer.saveBCFViewpoint() as any;
-    delete current.snapshot;
-    console.warn(JSON.stringify(current));
-
-
     // Open the viewpoint if any
     if (this.viewer.viewerVisible() && wp.bcfViewpoints) {
       const first = wp.bcfViewpoints[0].href;
@@ -26,7 +21,7 @@ export class BcfClickHandler extends CardClickHandler {
       resource
         .get()
         .subscribe((viewpoint) => {
-          this.viewer.loadBCFViewpoint(viewpoint);
+          this.viewer.showViewpoint(viewpoint);
         });
     }
   }

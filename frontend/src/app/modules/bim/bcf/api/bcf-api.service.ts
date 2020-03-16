@@ -31,7 +31,7 @@ import {BcfResourceCollectionPath} from "core-app/modules/bim/bcf/api/bcf-path-r
 import {BcfProjectPaths} from "core-app/modules/bim/bcf/api/projects/bcf-project.paths";
 
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BcfApiService {
 
   public readonly bcfApiVersion = '2.1';

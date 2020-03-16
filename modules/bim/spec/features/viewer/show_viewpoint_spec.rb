@@ -88,4 +88,17 @@ describe 'Show viewpoint in model viewer', type: :feature, js: true do
 
     it_behaves_like 'has the minimal viewpoint shown'
   end
+
+  context 'when in work packages details view' do
+    let(:wp_details) { ::Pages::SplitWorkPackage.new(work_package, project) }
+
+    it 'moves to the bcf page' do
+      wp_details.visit!
+      bcf_details.expect_viewpoint_count 1
+      bcf_details.show_current_viewpoint
+
+      path = Regexp.escape("bcf/split/details/#{work_package.id}/overview")
+      expect(page).to have_current_path /#{path}/
+    end
+  end
 end
