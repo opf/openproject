@@ -346,6 +346,7 @@ class Journal::AggregatedJournal
            :project,
            :data,
            :data=,
+           :noop?,
            to: :journal
 
   # Initializes a new AggregatedJournal. Allows to explicitly set a predecessor, if it is already

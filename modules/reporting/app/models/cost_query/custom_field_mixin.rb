@@ -79,6 +79,7 @@ module CostQuery::CustomFieldMixin
 
   def on_prepare(&block)
     return factory.on_prepare unless factory?
+
     @on_prepare = block if block
     @on_prepare ||= proc {}
     @on_prepare
@@ -163,6 +164,7 @@ module CostQuery::CustomFieldMixin
 
   def new(*)
     fail "Only subclasses of #{self} should be instanciated." if factory?
+
     super
   end
 end
