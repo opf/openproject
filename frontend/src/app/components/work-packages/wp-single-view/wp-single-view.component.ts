@@ -229,6 +229,13 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     return elem.name;
   }
 
+  /**
+   * Allow other modules to register groups to insert into the single view
+   */
+  public prependedAttributeGroupComponents() {
+    return this.hook.call('prependedAttributeGroups', this.workPackage);
+  }
+
   public attributeGroupComponent(group:GroupDescriptor) {
     // we take the last registered group component which means that
     // plugins will have their say if they register for it.
