@@ -18,10 +18,6 @@ export class RevitBridgeService extends ViewerBridgeService {
 
   revitMessageReceived$ = this.revitMessageReceivedSource.asObservable();
 
-  get ready() {
-    return this._ready;
-  }
-
   constructor() {
     super();
 
@@ -35,6 +31,10 @@ export class RevitBridgeService extends ViewerBridgeService {
         this.hookUpRevitListener();
       });
     }
+  }
+
+  viewerVisible() {
+    return this._ready;
   }
 
   getViewpoint():Promise<any> {
@@ -66,7 +66,7 @@ export class RevitBridgeService extends ViewerBridgeService {
   }
 
   sendMessageToRevit(messageType:string, trackingId:string, messagePayload?:any) {
-    if (!this.ready) {
+    if (!this.viewerVisible()) {
       console.log('The Revit bridge is not ready yet.');
       return;
     }

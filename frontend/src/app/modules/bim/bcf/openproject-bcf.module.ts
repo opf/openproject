@@ -31,7 +31,6 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
 import {NgxGalleryModule} from "@kolkov/ngx-gallery";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {BcfThumbnailDisplayField} from "core-app/modules/bim/bcf/fields/display/bcf-thumbnail-field.module";
-import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
 import {BcfWpSingleViewComponent} from "core-app/modules/bim/bcf/bcf-wp-single-view/bcf-wp-single-view.component";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {OpenProjectHeaderInterceptor} from "core-app/modules/hal/http/openproject-header-interceptor";
@@ -40,8 +39,8 @@ import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-hel
 import {BcfImportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
 import {BcfExportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
 import {RevitBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/revit-bridge.service";
-import {XeokitBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/xeokit-bridge.service";
 import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 /**
  * Determines based on the current user agent whether
@@ -53,7 +52,7 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
   if (window.navigator.userAgent.search('Revit') > -1) {
     return new RevitBridgeService();
   } else {
-    return new XeokitBridgeService(injector.get(IFCViewerService));
+    return injector.get(IFCViewerService, new IFCViewerService());
   }
 };
 
@@ -63,8 +62,12 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
     NgxGalleryModule,
   ],
   providers: [
-    BcfApiService,
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
+    {
+      provide: ViewerBridgeService,
+      useFactory: viewerBridgeServiceFactory,
+      deps: [Injector]
+    },
     BcfDetectorService,
     BcfPathHelperService
   ],

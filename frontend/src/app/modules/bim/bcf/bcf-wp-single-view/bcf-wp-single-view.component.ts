@@ -109,6 +109,9 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
 
   galleryImages:NgxGalleryImage[] = [];
 
+  // Currently, this is static. Need observable if this changes over time
+  viewerVisible = this.viewerBridge.viewerVisible();
+
   viewpoints:ViewPoint[] = [];
 
   constructor(readonly state:StateService,
@@ -144,7 +147,16 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
       .viewpointFromIndex(index)
       .get()
       .subscribe(data => {
-        this.viewerBridge.showViewpoint(data);
+        if (this.viewerVisible
+        ) {
+          this.viewerBridge.showViewpoint(data);
+        } else {
+          window.location.href = this.pathHelper.bimDetailsPath(
+            this.currentProject.identifier!,
+            this.workPackage.id!,
+            index
+          );
+        }
       });
   }
 
@@ -165,7 +177,7 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
   }
 
   async saveCurrentAsViewpoint() {
-    const viewpoint = await this.viewerBridge.getViewpoint();
+    const viewpoint = await this.viewerBridge!.getViewpoint();
     const uuid = this.topicUUID || await this.createBcfTopic();
 
     this.bcfApi

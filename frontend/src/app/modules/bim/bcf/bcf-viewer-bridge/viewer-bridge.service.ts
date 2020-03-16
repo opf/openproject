@@ -11,4 +11,9 @@ export abstract class ViewerBridgeService {
    * @param viewpoint
    */
   abstract showViewpoint(viewpoint:BcfViewpointInterface):void;
+
+  /**
+   * Determine whether a viewer is present to ensure we can show viewpoints
+   */
+  abstract viewerVisible():boolean;
 }

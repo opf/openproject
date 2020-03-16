@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {XeokitServer} from "core-app/modules/bim/ifc_models/xeokit/xeokit-server";
 import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
+import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -23,7 +24,7 @@ export interface BCFLoadOptions {
 }
 
 @Injectable()
-export class IFCViewerService {
+export class IFCViewerService extends ViewerBridgeService {
   private _viewer:any;
 
   public newViewer(elements:XeokitElements, projects:any[]) {
@@ -60,12 +61,17 @@ export class IFCViewerService {
     this._viewer = viewer;
   }
 
-  public saveBCFViewpoint(options:BCFCreationOptions = {}):BcfViewpointInterface {
-    return this.viewer.saveBCFViewpoint(options);
+  public getViewpoint():Promise<BcfViewpointInterface> {
+    const viewpoint = this.viewer.saveBCFViewpoint({});
+
+    // The backend rejects viewpoints with bitmaps
+    delete viewpoint.bitmaps;
+
+    return Promise.resolve(viewpoint);
   }
 
-  public loadBCFViewpoint(viewpoint:BcfViewpointInterface, options:BCFLoadOptions = {}) {
-    this.viewer.loadBCFViewpoint(viewpoint, options);
+  public showViewpoint(viewpoint:BcfViewpointInterface) {
+    this.viewer.loadBCFViewpoint(viewpoint, {});
   }
 
   public viewerVisible():boolean {

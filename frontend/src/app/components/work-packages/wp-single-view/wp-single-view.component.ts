@@ -55,7 +55,6 @@ import {randomString} from "core-app/helpers/random-string";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 export interface FieldDescriptor {
@@ -135,7 +134,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   protected firstTimeFocused:boolean = false;
 
   $element:JQuery;
-  viewerBridge:ViewerBridgeService|null = this.injector.get(ViewerBridgeService, null);
 
   constructor(readonly I18n:I18nService,
               protected currentProject:CurrentProjectService,

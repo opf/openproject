@@ -39,14 +39,15 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'bim',
     parent: 'root',
-    url: '/bcf?query_props&models',
+    url: '/bcf?query_props&models&viewpoint',
     abstract: true,
     component: WorkPackagesBaseComponent,
     redirectTo: 'bim.partitioned.split',
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
-      query_props: {type: 'opQueryString', dynamic: true},
-      models: {type: 'opQueryString', dynamic: true}
+      query_props: { type: 'opQueryString', dynamic: true },
+      models: { type: 'opQueryString', dynamic: true },
+      viewpoint: { type: 'int', dynamic: true }
     }
   },
   {
@@ -64,7 +65,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     },
     reloadOnSearch: false,
     views: {
-      'content-left': {component: BcfListContainerComponent}
+      'content-left': { component: BcfListContainerComponent }
     }
   },
   {
@@ -77,8 +78,8 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     },
     reloadOnSearch: false,
     views: {
-      'content-left': {component: IFCViewerComponent},
-      'content-right': {component: BcfListContainerComponent}
+      'content-left': { component: IFCViewerComponent },
+      'content-right': { component: BcfListContainerComponent }
     }
   },
   {
@@ -92,8 +93,8 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     views: {
       // Retarget and by that override the grandparent views
       // https://ui-router.github.io/guide/views#relative-parent-state{
-      'content-right@^': {component: EmptyComponent},
-      'content-left': {component: IFCViewerComponent}
+      'content-right@^': { component: EmptyComponent },
+      'content-left': { component: IFCViewerComponent }
     }
   },
   // BCF single view for list

@@ -33,6 +33,10 @@ module IfcModelsHelper
   end
 
   def gon_ifc_shown_models(all_models, shown_models)
+    if shown_models.empty?
+      return all_models.select(&:is_default).map(&:id)
+    end
+
     converted_ifc_models(all_models)
       .select { |model| shown_models.include?(model.id) }
       .map(&:id)
