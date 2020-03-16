@@ -38,10 +38,6 @@
     </div>
   </edit-form>
 
-  <img *ngIf="this.cardCoverImageShown(workPackage)"
-       [src]="this.bcfSnapshotPath(workPackage)"
-       class="wp-card--cover-image">
-
   <div *ngIf="!workPackage.isNew"
        class="wp-card--content">
       <span [textContent]="wpTypeAttribute(workPackage)"
@@ -55,6 +51,11 @@
     </a>
     <span [textContent]="wpSubject(workPackage)"
           class="wp-card--subject"></span>
+
+    <img *ngIf="this.cardCoverImageShown(workPackage)"
+         [src]="this.bcfSnapshotPath(workPackage)"
+         class="wp-card--cover-image">
+
     <wp-status-button *ngIf="showStatusButton"
                       [workPackage]="workPackage"
                       class="wp-card--status">
