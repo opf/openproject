@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import {StateService} from "@uirouter/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {NgxGalleryComponent, NgxGalleryImage, NgxGalleryOptions} from '@kolkov/ngx-gallery';
+import {NgxGalleryComponent, NgxGalleryOptions} from '@kolkov/ngx-gallery';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
@@ -20,16 +20,24 @@ import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/vi
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
+import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
 
-export type ViewPoint = { snapshotId:string, snapshotFullPath:string };
+export interface ViewpointItem {
+  /** The URL of the viewpoint, if persisted */
+  href?:string;
+  /** URL (persisted or data) to the snapshot */
+  snapshotURL:string;
+  /** The loaded snapshot, if exists */
+  viewpoint?:BcfViewpointInterface;
+}
 
 @Component({
-  selector: 'bcf-wp-single-view',
-  templateUrl: './bcf-wp-single-view.component.html',
-  styleUrls: ['./bcf-wp-single-view.component.sass'],
+  templateUrl: './bcf-wp-attribute-group.component.html',
+  styleUrls: ['./bcf-wp-attribute-group.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements AfterViewInit, OnDestroy {
+export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements AfterViewInit, OnDestroy {
   @Input() workPackage:WorkPackageResource;
   @ViewChild(NgxGalleryComponent) gallery:NgxGalleryComponent;
 
@@ -43,19 +51,6 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
     notice_successful_create: this.I18n.t('js.notice_successful_create'),
     notice_successful_delete: this.I18n.t('js.notice_successful_delete'),
   };
-
-  actions = [
-    {
-      icon: 'icon-watched',
-      onClick: (evt:any, index:number) => this.showViewpoint(index),
-      titleText: this.text.show_viewpoint
-    },
-    {
-      icon: 'icon-delete',
-      onClick: (evt:any, index:number) => this.deleteViewpoint(index),
-      titleText: this.text.delete_viewpoint
-    }
-  ];
 
   galleryOptions:NgxGalleryOptions[] = [
     {
@@ -87,8 +82,8 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
       arrowNextIcon: 'icon-arrow-right2',
       closeIcon: 'icon-close',
       downloadIcon: 'icon-download',
-      thumbnailActions: this.actions,
-      actions: this.actions,
+      thumbnailActions: this.actions(),
+      actions: this.actions(),
     },
     // max-width 800
     {
@@ -107,12 +102,15 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
     }
   ];
 
-  galleryImages:NgxGalleryImage[] = [];
+  viewpoints:ViewpointItem[] = [];
+
+  galleryImages:any[] = [];
+
+  // Remember the topic UUID, which we might just create
+  topicUUID:string|undefined;
 
   // Currently, this is static. Need observable if this changes over time
   viewerVisible = this.viewerBridge.viewerVisible();
-
-  viewpoints:ViewPoint[] = [];
 
   constructor(readonly state:StateService,
               readonly pathHelper:PathHelperService,
@@ -120,6 +118,7 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
               readonly bcfApi:BcfApiService,
               readonly viewerBridge:ViewerBridgeService,
               readonly wpCache:WorkPackageCacheService,
+              readonly wpCreate:WorkPackageCreateService,
               readonly notifications:NotificationsService,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
@@ -127,20 +126,8 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
   }
 
   ngAfterViewInit():void {
-    this.wpCache
-      .observe(this.workPackage.id!)
-      .pipe(
-        this.untilDestroyed()
-      )
-      .subscribe(wp => {
-        this.workPackage = wp;
-
-        if (wp.bcfViewpoints) {
-          this.setViewpoints();
-          this.loadViewpointFromRoute();
-          this.cdRef.detectChanges();
-        }
-      });
+    // Observe changes on the work package to update the viewpoints
+    this.observeChanges();
   }
 
   showViewpoint(index:number) {
@@ -148,8 +135,7 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
       .viewpointFromIndex(index)
       .get()
       .subscribe(data => {
-        if (this.viewerVisible
-        ) {
+        if (this.viewerVisible) {
           this.viewerBridge.showViewpoint(data);
         } else {
           window.location.href = this.pathHelper.bimDetailsPath(
@@ -179,19 +165,13 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
 
   async saveCurrentAsViewpoint() {
     const viewpoint = await this.viewerBridge!.getViewpoint();
-    const uuid = this.topicUUID || await this.createBcfTopic();
 
-    this.bcfApi
-      .projects.id(this.workPackage.project.idFromLink)
-      .topics.id(uuid)
-      .viewpoints
-      .post(viewpoint)
-      .subscribe((result) => {
-        // Update the work package to reload the viewpoint
-        this.notifications.addSuccess(this.text.notice_successful_create);
-        this.showIndex = this.viewpoints.length;
-        this.wpCache.require(this.workPackage.id!, true);
-      });
+    await this.persistViewpoint(viewpoint);
+
+    // Update the work package to reload the viewpoint
+    this.notifications.addSuccess(this.text.notice_successful_create);
+    this.showIndex = this.viewpoints.length;
+    this.wpCache.require(this.workPackage.id!, true);
   }
 
   galleryPreviewOpen():void {
@@ -203,34 +183,63 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
   }
 
   selectViewpointInGallery() {
-    setTimeout(() => this.gallery.show(this.showIndex), 250);
+    setTimeout(() => this.gallery?.show(this.showIndex), 250);
   }
 
   onGalleryChanged(event:{ index:number }) {
     this.showIndex = event.index;
   }
 
-  private set showIndex(value:number) {
+  protected observeChanges() {
+    this.wpCache
+      .observe(this.workPackage.id!)
+      .pipe(
+        this.untilDestroyed()
+      )
+      .subscribe(wp => {
+        this.workPackage = wp;
+        this.setTopicUUIDFromWorkPackage();
+
+        if (wp.bcfViewpoints) {
+          this.setViewpoints(wp.bcfViewpoints.map((el:HalLink) => {
+            return { href: el.href, snapshotURL: `${el.href}/snapshot` };
+          }));
+          this.loadViewpointFromRoute();
+          this.cdRef.detectChanges();
+        }
+      });
+  }
+
+  protected async persistViewpoint(viewpoint:BcfViewpointInterface) {
+    this.topicUUID = this.topicUUID || await this.createBcfTopic();
+
+    return this.bcfApi
+      .projects.id(this.workPackage.project.idFromLink)
+      .topics.id(this.topicUUID)
+      .viewpoints
+      .post(viewpoint)
+      .toPromise();
+  }
+
+  protected set showIndex(value:number) {
     const options = [...this.galleryOptions];
     options[0].startIndex = value;
     this.galleryOptions = options;
   }
 
-  private get showIndex():number {
+  protected get showIndex():number {
     return this.galleryOptions[0].startIndex!;
   }
 
-  private get topicUUID():string|null {
+  protected setTopicUUIDFromWorkPackage() {
     const topicHref:string|undefined = this.workPackage.bcfTopic?.href;
 
     if (topicHref) {
-      return this.bcfApi.parse<BcfViewpointPaths>(topicHref)!.id as string;
+      this.topicUUID = this.bcfApi.parse<BcfViewpointPaths>(topicHref)!.id as string;
     }
-
-    return null;
   }
 
-  private async createBcfTopic():Promise<string> {
+  protected async createBcfTopic():Promise<string> {
     return this.bcfApi
       .projects.id(this.workPackage.project.idFromLink)
       .topics
@@ -239,8 +248,8 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
       .then(resource => resource.guid);
   }
 
-  private setViewpoints() {
-    const length = this.workPackage.bcfViewpoints.length;
+  protected setViewpoints(viewpoints:ViewpointItem[]) {
+    const length = viewpoints.length;
 
     if (this.showIndex < 0 || length < 1) {
       this.showIndex = 0;
@@ -248,30 +257,23 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
       this.showIndex = length - 1;
     }
 
-    this.viewpoints = this.workPackage.bcfViewpoints.map((vp:HalLink) => {
-      const viewpointResource = this.bcfApi.parse<BcfViewpointPaths>(vp.href!);
-
+    this.viewpoints = viewpoints;
+    this.galleryImages = viewpoints.map(viewpoint => {
       return {
-        snapshotId: viewpointResource.id,
-        snapshotFullPath: `${vp.href}/snapshot`
-      } as ViewPoint;
-    });
-
-    this.galleryImages = this.viewpoints.map(viewpoint => {
-      return {
-        small: viewpoint.snapshotFullPath,
-        medium: viewpoint.snapshotFullPath,
-        big: viewpoint.snapshotFullPath,
+        small: viewpoint.snapshotURL,
+        medium: viewpoint.snapshotURL,
+        big: viewpoint.snapshotURL
       };
     });
+    this.cdRef.detectChanges();
   }
 
-  private viewpointFromIndex(index:number):BcfViewpointPaths {
+  protected viewpointFromIndex(index:number):BcfViewpointPaths {
     let viewpointHref = this.workPackage.bcfViewpoints[index].href;
     return this.bcfApi.parse<BcfViewpointPaths>(viewpointHref);
   }
 
-  private loadViewpointFromRoute() {
+  protected loadViewpointFromRoute() {
     if (typeof (this.state.params.viewpoint) === 'number') {
       const index = this.state.params.viewpoint;
       this.showViewpoint(index);
@@ -279,5 +281,20 @@ export class BcfWpSingleViewComponent extends UntilDestroyedMixin implements Aft
       this.selectViewpointInGallery();
       this.state.go('.', { ...this.state.params, viewpoint: undefined }, { reload: false });
     }
+  }
+
+  protected actions() {
+    return [
+      {
+        icon: 'icon-watched',
+        onClick: (evt:any, index:number) => this.showViewpoint(index),
+        titleText: this.text.show_viewpoint
+      },
+      {
+        icon: 'icon-delete',
+        onClick: (evt:any, index:number) => this.deleteViewpoint(index),
+        titleText: this.text.delete_viewpoint
+      }
+    ];
   }
 }

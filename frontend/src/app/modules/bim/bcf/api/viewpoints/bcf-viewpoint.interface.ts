@@ -5,4 +5,5 @@ export interface BcfViewpointInterface {
   bitmaps:unknown[];
   orthogonal_camera?:unknown;
   perspective_camera?:unknown;
+  snapshot:{ snapshot_type:string, snapshot_data:string };
 }
