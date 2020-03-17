@@ -415,7 +415,7 @@ GEM
       no_proxy_fix
       octokit (~> 4.7)
       terminal-table (~> 1)
-    danger-brakeman (0.0.1)
+    danger-brakeman (0.0.2)
       brakeman
       danger-plugin-api (~> 1.0)
     danger-plugin-api (1.0.0)
@@ -632,7 +632,7 @@ GEM
       mini_portile2 (~> 2.4.0)
     nokogumbo (2.0.1)
       nokogiri (~> 1.8, >= 1.8.4)
-    octokit (4.16.0)
+    octokit (4.17.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
     oj (3.10.5)
