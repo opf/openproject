@@ -109,6 +109,9 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   // Remember the topic UUID, which we might just create
   topicUUID:string|undefined;
 
+  // Store whether viewpoint creation is allowed
+  createAllowed = false;
+
   // Currently, this is static. Need observable if this changes over time
   viewerVisible = this.viewerBridge.viewerVisible();
 
@@ -200,6 +203,8 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
         this.workPackage = wp;
         this.setTopicUUIDFromWorkPackage();
 
+        this.fetchCreateAllowed();
+
         if (wp.bcfViewpoints) {
           this.setViewpoints(wp.bcfViewpoints.map((el:HalLink) => {
             return { href: el.href, snapshotURL: `${el.href}/snapshot` };
@@ -207,6 +212,25 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
           this.loadViewpointFromRoute();
           this.cdRef.detectChanges();
         }
+      });
+  }
+
+  // Poor mans caching to avoid repeatedly fetching from the backend.
+  protected createAllowedMemoize = {};
+
+  protected fetchCreateAllowed() {
+    if (!this.createAllowedMemoize[this.workPackage.project.idFromLink]) {
+      this.createAllowedMemoize[this.workPackage.project.idFromLink] = this.bcfApi
+        .projects.id(this.workPackage.project.idFromLink)
+        .extensions
+        .get()
+        .toPromise();
+    }
+
+    this.createAllowedMemoize[this.workPackage.project.idFromLink]
+      .then(resource => {
+        this.createAllowed = resource.topic_actions && resource.topic_actions.includes('createViewpoint')
+        this.cdRef.detectChanges();
       });
   }
 

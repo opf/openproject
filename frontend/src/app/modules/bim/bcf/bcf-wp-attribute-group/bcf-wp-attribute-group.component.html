@@ -17,7 +17,7 @@
       </ngx-gallery>
     </div>
 
-    <a *ngIf="viewerVisible"
+    <a *ngIf="viewerVisible && createAllowed"
        [title]="text.add_viewpoint"
        class="button"
        (click)="saveCurrentAsViewpoint()">

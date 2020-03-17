@@ -152,4 +152,17 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
       index_page.expect_wp_create_button_disabled
     end
   end
+
+  context 'with add_work_packages but without manage_bcf permission' do
+    let(:permissions) { %i[view_ifc_models view_work_packages add_work_packages] }
+
+    context 'on the split page' do
+      let(:view_route) { 'split' }
+      before do
+        index_page.visit!
+      end
+
+      it_behaves_like 'bcf details creation', false
+    end
+  end
 end
