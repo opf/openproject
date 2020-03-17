@@ -653,7 +653,7 @@ GEM
       webfinger (>= 1.0.1)
     openproject-token (1.0.2)
     parallel (1.19.1)
-    parallel_tests (2.31.0)
+    parallel_tests (2.32.0)
       parallel
     parser (2.7.0.4)
       ast (~> 2.4.0)
