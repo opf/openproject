@@ -6,12 +6,10 @@
     <div class="toolbar-container -editable">
       <div id="toolbar">
         <div class="title-container board--header-container">
-          <div class="wp-show--back-button hide-when-print">
-            <accessible-by-keyboard (execute)="goBack()"
-                                    linkClass="board--back-button button">
-              <op-icon icon-classes="button--icon icon-back-up"></op-icon>
-            </accessible-by-keyboard>
-          </div>
+
+          <back-button linkClass="board--back-button"
+                       [customBackMethod]="goBack.bind(this)">
+          </back-button>
 
           <editable-toolbar-title [title]="board.name"
                                   [inFlight]="inFlight"

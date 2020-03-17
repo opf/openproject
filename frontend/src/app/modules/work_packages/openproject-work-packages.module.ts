@@ -166,9 +166,8 @@ import {TimeEntryChangeset} from 'core-app/components/time-entries/time-entry-ch
 import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
 import {PartitionedQuerySpacePageComponent} from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
 import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
-import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
-import {WorkPackageCreateComponent} from "core-components/wp-new/wp-create.component";
+import {BackButtonComponent} from "core-app/modules/common/back-routing/back-button.component";
 
 
 @NgModule({
@@ -312,6 +311,7 @@ import {WorkPackageCreateComponent} from "core-components/wp-new/wp-create.compo
     WorkPackageChildrenQueryComponent,
     WorkPackageRelationQueryComponent,
     WorkPackageFormAttributeGroupComponent,
+    BackButtonComponent,
 
     // Activity Tab
     NewestActivityOnOverviewComponent,
@@ -393,11 +393,6 @@ import {WorkPackageCreateComponent} from "core-components/wp-new/wp-create.compo
     WorkPackageIsolatedGraphQuerySpaceDirective,
     QueryFiltersComponent,
 
-    // Needed so that e.g. IFC can access it.
-    WorkPackageCreateButtonComponent,
-    WorkPackageTypeStatusComponent,
-    WorkPackageEditActionsBarComponent,
-    WorkPackageSingleViewComponent,
     WpResizerDirective,
     WorkPackageBreadcrumbComponent,
     WorkPackageBreadcrumbParentComponent,
@@ -416,7 +411,8 @@ import {WorkPackageCreateComponent} from "core-components/wp-new/wp-create.compo
     WorkPackageTypeStatusComponent,
     WorkPackageEditActionsBarComponent,
     WorkPackageSingleViewComponent,
-    WorkPackageSplitViewComponent
+    WorkPackageSplitViewComponent,
+    BackButtonComponent
   ]
 })
 export class OpenprojectWorkPackagesModule {

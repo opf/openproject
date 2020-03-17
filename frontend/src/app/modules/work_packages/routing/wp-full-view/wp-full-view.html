@@ -8,14 +8,9 @@
     <div class="toolbar-container">
       <div id="toolbar">
         <div class="wp-show--header-container">
-          <div class="wp-show--back-button hide-when-print">
-              <accessible-by-keyboard (execute)="goBack()"
-                                      linkClass="work-packages-back-button button"
-                                      [linkAriaLabel]="text.goBack"
-                                      [linkTitle]="text.goBack">
-                <op-icon icon-classes="button--icon icon-back-up"></op-icon>
-            </accessible-by-keyboard>
-          </div>
+
+          <back-button linkClass="work-packages-back-button"></back-button>
+
           <ul class="subject-header">
             <li class="subject-header-inner">
               <wp-subject></wp-subject>

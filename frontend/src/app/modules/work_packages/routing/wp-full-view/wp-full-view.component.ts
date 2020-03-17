@@ -31,7 +31,6 @@ import {StateService} from '@uirouter/core';
 import {Component, Injector, OnInit} from '@angular/core';
 import {WorkPackageViewSelectionService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
-import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 import {of} from "rxjs";
 
 @Component({
@@ -55,7 +54,6 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   constructor(public injector:Injector,
               public wpTableSelection:WorkPackageViewSelectionService,
-              public backRoutingService:BackRoutingService,
               readonly $state:StateService) {
     super(injector, $state.params['workPackageId']);
   }
@@ -79,12 +77,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     this.wpTableFocus.updateFocus(this.workPackage.id!);
 
     this.setWorkPackageScopeProperties(this.workPackage);
-    this.text.goBack = this.I18n.t('js.button_back');
   }
 
-  public goBack() {
-    this.backRoutingService.goBack();
-  }
   private setWorkPackageScopeProperties(wp:WorkPackageResource) {
     this.isWatched = wp.hasOwnProperty('unwatch');
     this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');
