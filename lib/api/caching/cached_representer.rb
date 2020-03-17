@@ -139,7 +139,7 @@ module API
         # to remove the cache_if option which would otherwise
         # be visible in the output
         def prepare_link_for(href, options)
-          super(href, options.except(:cache_if))
+          super(href, options.except(:cache_if, :uncacheable))
         end
 
         # Overriding Roar::Hypbermedia#combile_links_for
