@@ -42,11 +42,11 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: b70a654ae018268cfddf57f444670f87b7bc31dc
+  revision: ec6fbe6ef86f82e65f37adb17f37aa5addc17ac4
   branch: dev
   specs:
     openproject-translations (7.4.0)
-      crowdin-api (~> 0.5.0)
+      crowdin-api (~> 0.6.0)
       mixlib-shellout (~> 2.1.0)
       rubyzip
 
@@ -171,7 +171,7 @@ PATH
   remote: modules/recaptcha
   specs:
     openproject-recaptcha (1.0.0)
-      recaptcha (~> 5.3.0)
+      recaptcha (~> 5.4.0)
 
 PATH
   remote: modules/reporting_engine
@@ -301,8 +301,8 @@ GEM
     awesome_nested_set (3.2.0)
       activerecord (>= 4.0.0, < 7.0)
     aws-eventstream (1.0.3)
-    aws-partitions (1.281.0)
-    aws-sdk-core (3.91.0)
+    aws-partitions (1.283.0)
+    aws-sdk-core (3.91.1)
       aws-eventstream (~> 1.0, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
@@ -310,7 +310,7 @@ GEM
     aws-sdk-kms (1.30.0)
       aws-sdk-core (~> 3, >= 3.71.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.61.0)
+    aws-sdk-s3 (1.61.1)
       aws-sdk-core (~> 3, >= 3.83.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
@@ -328,7 +328,7 @@ GEM
       msgpack (~> 1.0)
     bourbon (6.0.0)
       thor (~> 0.19)
-    brakeman (4.6.1)
+    brakeman (4.8.0)
     browser (2.6.1)
     builder (3.2.4)
     byebug (11.1.1)
@@ -376,7 +376,7 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
-    crowdin-api (0.5.0)
+    crowdin-api (0.6.0)
       rest-client (~> 2.0)
     cucumber (3.1.2)
       builder (>= 2.1.2)
@@ -415,7 +415,7 @@ GEM
       no_proxy_fix
       octokit (~> 4.7)
       terminal-table (~> 1)
-    danger-brakeman (0.0.1)
+    danger-brakeman (0.0.2)
       brakeman
       danger-plugin-api (~> 1.0)
     danger-plugin-api (1.0.0)
@@ -447,7 +447,7 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     doorkeeper (5.3.1)
       railties (>= 5)
-    dry-configurable (0.11.3)
+    dry-configurable (0.11.4)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.4, >= 0.4.7)
       dry-equalizer (~> 0.2)
@@ -489,7 +489,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday-http-cache (2.0.0)
       faraday (~> 0.8)
-    fastimage (2.1.5)
+    fastimage (2.1.7)
     ffi (1.12.2)
     flamegraph (0.9.5)
     fog-aws (3.5.2)
@@ -514,7 +514,8 @@ GEM
     fuubar (2.5.0)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
-    get_process_mem (0.2.3)
+    get_process_mem (0.2.5)
+      ffi (~> 1.0)
     gherkin (5.1.0)
     git (1.6.0)
       rchardet (~> 1.8)
@@ -630,9 +631,9 @@ GEM
     no_proxy_fix (0.1.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
-    nokogumbo (2.0.1)
+    nokogumbo (2.0.2)
       nokogiri (~> 1.8, >= 1.8.4)
-    octokit (4.16.0)
+    octokit (4.17.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
     oj (3.10.5)
@@ -653,11 +654,11 @@ GEM
       webfinger (>= 1.0.1)
     openproject-token (1.0.2)
     parallel (1.19.1)
-    parallel_tests (2.31.0)
+    parallel_tests (2.32.0)
       parallel
     parser (2.7.0.4)
       ast (~> 2.4.0)
-    passenger (6.0.2)
+    passenger (6.0.4)
       rack
       rake (>= 0.8.1)
     pdf-core (0.7.0)
@@ -678,7 +679,7 @@ GEM
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
       ttfunk (~> 1.5)
-    prawn-markup (0.2.1)
+    prawn-markup (0.2.2)
       nokogiri
       prawn
       prawn-table
@@ -706,7 +707,7 @@ GEM
       rack (>= 0.4)
     rack-attack (6.2.2)
       rack (>= 1.0, < 3)
-    rack-mini-profiler (1.1.6)
+    rack-mini-profiler (2.0.1)
       rack (>= 1.2.0)
     rack-oauth2 (1.10.1)
       activesupport
@@ -760,14 +761,14 @@ GEM
     raindrops (0.19.1)
     rake (13.0.1)
     rb-fsevent (0.10.3)
-    rb-inotify (0.10.0)
+    rb-inotify (0.10.1)
       ffi (~> 1.0)
-    rbtree3 (0.5.0)
+    rbtree3 (0.6.0)
     rchardet (1.8.0)
     rdoc (6.2.1)
-    recaptcha (5.3.0)
+    recaptcha (5.4.0)
       json
-    redcarpet (3.4.0)
+    redcarpet (3.5.0)
     reform (2.2.4)
       disposable (>= 0.4.1)
       representable (>= 2.4.0, < 3.1.0)
@@ -796,20 +797,20 @@ GEM
       representable (~> 3.0.0)
     rotp (5.1.0)
       addressable (~> 2.5)
-    rouge (3.1.1)
+    rouge (3.17.0)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
       rspec-mocks (~> 3.9.0)
     rspec-core (3.9.1)
       rspec-support (~> 3.9.1)
-    rspec-expectations (3.9.0)
+    rspec-expectations (3.9.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-mocks (3.9.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
-    rspec-rails (4.0.0.beta4)
+    rspec-rails (4.0.0.rc1)
       actionpack (>= 4.2)
       activesupport (>= 4.2)
       railties (>= 4.2)
@@ -890,7 +891,7 @@ GEM
       activesupport (>= 3)
       attr_required (>= 0.0.5)
       httpclient (>= 2.4)
-    sys-filesystem (1.2.0)
+    sys-filesystem (1.3.3)
       ffi
     temple (0.8.2)
     terminal-table (1.8.0)
@@ -904,12 +905,12 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.9.1)
-    ttfunk (1.5.0)
+    ttfunk (1.6.2.1)
     typed_dag (2.0.2)
       rails (>= 5.0.4)
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2018.9)
+    tzinfo-data (1.2019.3)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
     unf (0.1.4)
@@ -973,7 +974,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.6)
   bootsnap (~> 1.4.5)
   bourbon (~> 6.0.0)
-  brakeman (~> 4.6.1)
+  brakeman (~> 4.8.0)
   browser (~> 2.6.1)
   capybara (~> 3.31.0)
   capybara-screenshot (~> 1.0.17)
@@ -1081,11 +1082,11 @@ DEPENDENCIES
   retriable (~> 3.1.1)
   rinku (~> 2.0.4)
   roar (~> 1.1.0)
-  rouge (~> 3.1.1)
+  rouge (~> 3.17.0)
   rspec (~> 3.9.0)
   rspec-activemodel-mocks (~> 1.1.0)!
   rspec-example_disabler!
-  rspec-rails (~> 4.0.0beta3)
+  rspec-rails (~> 4.0.0.rc1)
   rspec-retry (~> 0.6.1)
   rubocop
   ruby-duration (~> 3.2.0)
@@ -1105,12 +1106,12 @@ DEPENDENCIES
   stackprof
   stringex (~> 2.8.5)
   svg-graph (~> 2.1.0)
-  sys-filesystem (~> 1.2.0)
+  sys-filesystem (~> 1.3.3)
   test-prof (~> 0.11.0)
   thin (~> 1.7.2)
   timecop (~> 0.9.0)
   typed_dag (~> 2.0.2)
-  tzinfo-data (~> 1.2018.9)
+  tzinfo-data (~> 1.2019.3)
   unicorn
   unicorn-worker-killer
   warden (~> 1.2)

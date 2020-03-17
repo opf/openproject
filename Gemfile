@@ -61,7 +61,7 @@ gem 'typed_dag', '~> 2.0.2'
 gem 'addressable', '~> 2.7.0'
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2018.9'
+gem 'tzinfo-data', '~> 1.2019.3'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -80,7 +80,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.1.1'
+gem 'rouge', '~> 3.17.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 5.1.0'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -96,7 +96,7 @@ gem 'date_validator', '~> 0.9.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
-gem 'sys-filesystem', '~> 1.2.0', require: false
+gem 'sys-filesystem', '~> 1.3.3', require: false
 
 # Faster posix-compliant spawns for 8.0. conversions with pandoc
 gem 'posix-spawn', '~> 0.3.13', require: false
@@ -197,7 +197,7 @@ group :test do
   gem 'rspec', '~> 3.9.0'
   gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 4.0.0beta3', group: :development
+  gem 'rspec-rails', '~> 4.0.0.rc1', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
@@ -268,7 +268,7 @@ group :development, :test do
   gem 'danger', '~> 6.3.1'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 4.6.1'
+  gem 'brakeman', '~> 4.8.0'
   gem 'danger-brakeman'
 end
 
