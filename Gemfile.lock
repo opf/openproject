@@ -631,7 +631,7 @@ GEM
     no_proxy_fix (0.1.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
-    nokogumbo (2.0.1)
+    nokogumbo (2.0.2)
       nokogiri (~> 1.8, >= 1.8.4)
     octokit (4.17.0)
       faraday (>= 0.9)
