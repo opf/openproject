@@ -44,7 +44,7 @@ describe 'Wysiwyg code block macro', type: :feature, js: true do
   let(:expected) {
     <<~EXPECTED
       ```ruby
-      #{snippet}
+      #{snippet.strip}
       ```
     EXPECTED
   }
