@@ -42,11 +42,11 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: b70a654ae018268cfddf57f444670f87b7bc31dc
+  revision: ec6fbe6ef86f82e65f37adb17f37aa5addc17ac4
   branch: dev
   specs:
     openproject-translations (7.4.0)
-      crowdin-api (~> 0.5.0)
+      crowdin-api (~> 0.6.0)
       mixlib-shellout (~> 2.1.0)
       rubyzip
 
@@ -376,7 +376,7 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
-    crowdin-api (0.5.0)
+    crowdin-api (0.6.0)
       rest-client (~> 2.0)
     cucumber (3.1.2)
       builder (>= 2.1.2)
