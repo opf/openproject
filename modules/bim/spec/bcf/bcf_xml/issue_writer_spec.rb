@@ -106,11 +106,12 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
 
     bcf_issue.comments.first.journal.update_attribute('journable_id', work_package.id)
     FactoryBot.create(:work_package_journal, notes: "Some note created in OP.", journable_id: work_package.id)
-    work_package.reload
   end
 
   shared_examples_for "writes Topic" do
     it "updates the Topic node" do
+      work_package.reload
+
       expect(subject.at('Markup')).to be_present
       expect(subject.at('Topic')).to be_present
 
@@ -120,7 +121,7 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
 
       expect(subject.at('Topic/Title').content).to be_eql work_package.subject
       expect(subject.at('Topic/CreationDate').content).to be_eql work_package.created_at.iso8601
-      expect(subject.at('Topic/ModifiedDate').content).to be_eql work_package.journals.last.created_at.iso8601
+      expect(subject.at('Topic/ModifiedDate').content).to be_eql work_package.updated_at.iso8601
       expect(subject.at('Topic/Description').content).to be_eql work_package.description
       expect(subject.at('Topic/CreationAuthor').content).to be_eql work_package.author.mail
       expect(subject.at('Topic/ReferenceLink').content).to be_eql url_helpers.work_package_url(work_package)
