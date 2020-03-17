@@ -678,7 +678,7 @@ GEM
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
       ttfunk (~> 1.5)
-    prawn-markup (0.2.1)
+    prawn-markup (0.2.2)
       nokogiri
       prawn
       prawn-table
@@ -904,7 +904,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.9.1)
-    ttfunk (1.5.0)
+    ttfunk (1.6.2.1)
     typed_dag (2.0.2)
       rails (>= 5.0.4)
     tzinfo (1.2.6)
