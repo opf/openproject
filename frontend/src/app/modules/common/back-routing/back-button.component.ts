@@ -34,7 +34,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   template: `
     <div class="wp-show--back-button hide-when-print">
       <accessible-by-keyboard (execute)="goBack()"
-                              [linkClass]="linkClass + ' button'"
+                              [linkClass]="classes()"
                               [linkAriaLabel]="text.goBack"
                               [linkTitle]="text.goBack">
         <op-icon icon-classes="button--icon icon-back-up"></op-icon>
@@ -53,7 +53,7 @@ export class BackButtonComponent {
   };
 
   constructor(readonly backRoutingService:BackRoutingService,
-              readonly I18n:I18nService,) {
+              readonly I18n:I18nService) {
   }
 
   public goBack() {
@@ -62,5 +62,12 @@ export class BackButtonComponent {
     } else {
       this.backRoutingService.goBack();
     }
+  }
+
+  public classes():string {
+    let classes = 'button ';
+    classes += this.linkClass ? this.linkClass : '';
+
+    return classes;
   }
 }

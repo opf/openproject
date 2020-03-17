@@ -107,6 +107,10 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
     return this.$state.params.focus === true;
   }
 
+  public showBackButton():boolean {
+    return this.baseRoute.includes('bim');
+  }
+
   protected initializeTexts() {
     super.initializeTexts();
     this.text.closeDetailsView = this.I18n.t('js.button_close_details');

@@ -45,11 +45,6 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   public displayWatchButton:boolean;
   public watchers:any;
 
-  // More menu
-  public permittedActions:any;
-  public actionsAvailable:any;
-  public triggerMoreMenuAction:Function;
-
   stateName$ = of('work-packages.new');
 
   constructor(public injector:Injector,
