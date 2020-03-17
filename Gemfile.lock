@@ -763,7 +763,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    rbtree3 (0.5.0)
+    rbtree3 (0.6.0)
     rchardet (1.8.0)
     rdoc (6.2.1)
     recaptcha (5.4.0)
