@@ -489,7 +489,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday-http-cache (2.0.0)
       faraday (~> 0.8)
-    fastimage (2.1.5)
+    fastimage (2.1.7)
     ffi (1.12.2)
     flamegraph (0.9.5)
     fog-aws (3.5.2)
