@@ -8,7 +8,7 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
                       work_package_custom_fields: [integer_cf])
   end
   let(:index_page) { Pages::IfcModels::ShowDefault.new(project) }
-  let(:permissions) { %i[view_ifc_models manage_ifc_models view_linked_issues manage_bcf add_work_packages edit_work_packages view_work_packages] }
+  let(:permissions) { %i[view_ifc_models view_linked_issues manage_bcf add_work_packages edit_work_packages view_work_packages] }
   let!(:status) { FactoryBot.create(:default_status) }
   let!(:priority) { FactoryBot.create :priority, is_default: true }
 
@@ -32,7 +32,7 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
   end
 
   shared_examples 'bcf details creation' do |with_viewpoints|
-    it 'can create a new bcf work package' do
+    it "can create a new #{with_viewpoints ? 'bcf' : 'plain' } work package" do
       create_page = index_page.create_wp_by_button(type)
       create_page.view_route = view_route
 
@@ -56,6 +56,8 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
         # Expect no confirm dialog to be present
         create_page.delete_current_viewpoint
         create_page.expect_viewpoint_count 2
+      else
+        create_page.expect_no_viewpoint_addable
       end
 
       # switch the type
@@ -138,12 +140,12 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
         expect(page).to have_current_path /\/bcf\/split\/details/, ignore_query: true
       end
 
-      it_behaves_like 'bcf details creation'
+      it_behaves_like 'bcf details creation', true
     end
   end
 
-  context 'without create work package permission' do
-    let(:permissions) { %i[view_ifc_models manage_ifc_models view_work_packages] }
+  context 'without add_work_packages permission' do
+    let(:permissions) { %i[view_ifc_models manage_bcf view_work_packages] }
 
     it 'has the create button disabled' do
       index_page.visit!
