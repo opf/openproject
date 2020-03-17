@@ -27,38 +27,11 @@
 #++
 
 require 'support/pages/work_packages/split_work_package'
+require_relative '../../components/bcf_details_viewpoints'
 
 module Pages
   class BcfDetailsPage < Pages::SplitWorkPackage
-    def expect_viewpoint_count(number)
-      expect(page).to have_selector('.ngx-gallery-thumbnail', count: number, wait: 20)
-    end
-
-    def next_viewpoint
-      page.find('.icon-arrow-right2.ngx-gallery-icon-content').click
-    end
-
-    def previous_viewpoint
-      page.find('.icon-arrow-left2.ngx-gallery-icon-content').click
-    end
-
-    def show_current_viewpoint
-      page.find('.icon-watched.ngx-gallery-icon-content').click
-    end
-
-    def delete_current_viewpoint(confirm: true)
-      page.find('.icon-delete.ngx-gallery-icon-content').click
-
-      if confirm
-        page.driver.browser.switch_to.alert.accept
-      else
-        page.driver.browser.switch_to.alert.dismiss
-      end
-    end
-
-    def add_viewpoint
-      page.find('a.button', text: 'Viewpoint').click
-    end
+    include ::Components::BcfDetailsViewpoints
 
     protected
 

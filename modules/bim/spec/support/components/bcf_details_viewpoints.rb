@@ -26,50 +26,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/work_packages/abstract_work_package_create'
-require_relative '../../components/bcf_details_viewpoints'
+module Components
+  module BcfDetailsViewpoints
 
-module Pages
-  module BCF
-    class CreateSplit < ::Pages::AbstractWorkPackageCreate
-      include ::Components::BcfDetailsViewpoints
+    def expect_viewpoint_count(number)
+      expect(page).to have_selector('.ngx-gallery-thumbnail', visible: :all, count: number, wait: 20)
+    end
 
-      attr_accessor :project,
-                    :model_id,
-                    :type_id,
-                    :view_route
+    def next_viewpoint
+      page.find('.icon-arrow-right2.ngx-gallery-icon-content').click
+    end
 
-      def initialize(project:, model_id: nil, type_id: nil)
-        super(project: project)
-        self.model_id = model_id
-        self.type_id = type_id
-        self.view_route = :split
+    def previous_viewpoint
+      page.find('.icon-arrow-left2.ngx-gallery-icon-content').click
+    end
+
+    def show_current_viewpoint
+      page.find('.icon-watched.ngx-gallery-icon-content').click
+    end
+
+    def delete_current_viewpoint(confirm: true)
+      page.find('.icon-delete.ngx-gallery-icon-content').click
+
+      if confirm
+        page.driver.browser.switch_to.alert.accept
+      else
+        page.driver.browser.switch_to.alert.dismiss
       end
+    end
 
-      # Override delete viewpoint since we don't have confirm alert
-      def delete_current_viewpoint
-        page.find('.icon-delete.ngx-gallery-icon-content').click
-      end
-
-      def path
-        bcf_project_frontend_path(project, "#{view_route}/create_new")
-      end
-
-      def expect_current_path
-        expect(page)
-          .to have_current_path(path, ignore_query: true)
-      end
-
-      def container
-        find("wp-new-split-view")
-      end
-
-      private
-
-      def default?
-        model_id.nil?
-      end
+    def add_viewpoint
+      page.find('a.button', text: 'Viewpoint').click
     end
   end
 end

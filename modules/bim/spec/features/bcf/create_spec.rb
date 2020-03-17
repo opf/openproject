@@ -1,14 +1,14 @@
-require 'spec_helper'
-
-require_relative '../../support/pages/ifc_models/show_default'
-
+require_relative '../../spec_helper'
 
 describe 'Create BCF', type: :feature, js: true, with_mail: false do
   let(:project) do
-    FactoryBot.create(:project, types: [type, type_with_cf], work_package_custom_fields: [integer_cf])
+    FactoryBot.create(:project,
+                      types: [type, type_with_cf],
+                      enabled_module_names: %i[bim work_package_tracking],
+                      work_package_custom_fields: [integer_cf])
   end
   let(:index_page) { Pages::IfcModels::ShowDefault.new(project) }
-  let(:permissions) { %i[view_ifc_models manage_ifc_models add_work_packages view_work_packages] }
+  let(:permissions) { %i[view_ifc_models manage_ifc_models view_linked_issues manage_bcf add_work_packages edit_work_packages view_work_packages] }
   let!(:status) { FactoryBot.create(:default_status) }
   let!(:priority) { FactoryBot.create :priority, is_default: true }
 
@@ -31,7 +31,7 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
     FactoryBot.create(:int_wp_custom_field)
   end
 
-  shared_examples 'bcf details creation' do
+  shared_examples 'bcf details creation' do |with_viewpoints|
     it 'can create a new bcf work package' do
       create_page = index_page.create_wp_by_button(type)
       create_page.view_route = view_route
@@ -39,6 +39,24 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
       create_page.expect_current_path
 
       create_page.subject_field.set(subject)
+
+      if with_viewpoints
+        create_page.add_viewpoint
+        create_page.expect_viewpoint_count 1
+
+        sleep 1
+        create_page.add_viewpoint
+        create_page.expect_viewpoint_count 2
+
+        # Create and delete one viewpoint
+        sleep 1
+        create_page.add_viewpoint
+        create_page.expect_viewpoint_count 3
+
+        # Expect no confirm dialog to be present
+        create_page.delete_current_viewpoint
+        create_page.expect_viewpoint_count 2
+      end
 
       # switch the type
       type_field = create_page.edit_field(:type)
@@ -50,9 +68,15 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
 
       create_page.save!
 
+      sleep 5
+
       index_page.expect_and_dismiss_notification(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
+
+      if with_viewpoints
+        create_page.expect_viewpoint_count 2
+      end
 
       work_package = WorkPackage.last
       split_page = ::Pages::SplitWorkPackage.new(work_package, project)
@@ -61,6 +85,11 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
 
       split_page.close
       split_page.expect_closed
+
+      if with_viewpoints
+        expect(work_package.bcf_issue).to be_present
+        expect(work_package.bcf_issue.viewpoints.count).to eq 2
+      end
 
       expect(page).to have_current_path /bcf\/#{Regexp.escape(view_route)}$/, ignore_query: true
     end
@@ -77,7 +106,7 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
         index_page.visit!
       end
 
-      it_behaves_like 'bcf details creation'
+      it_behaves_like 'bcf details creation', true
     end
 
     context 'on the split page switching to list' do
@@ -88,7 +117,7 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
         expect(page).to have_current_path /\/bcf\/list$/, ignore_query: true
       end
 
-      it_behaves_like 'bcf details creation'
+      it_behaves_like 'bcf details creation', false
     end
 
     context 'starting on the list page' do
@@ -98,7 +127,7 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
         expect(page).to have_current_path /\/bcf\/list$/, ignore_query: true
       end
 
-      it_behaves_like 'bcf details creation'
+      it_behaves_like 'bcf details creation', false
     end
 
     context 'starting on the details page of an existing work package' do
