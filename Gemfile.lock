@@ -767,7 +767,7 @@ GEM
     rdoc (6.2.1)
     recaptcha (5.4.0)
       json
-    redcarpet (3.4.0)
+    redcarpet (3.5.0)
     reform (2.2.4)
       disposable (>= 0.4.1)
       representable (>= 2.4.0, < 3.1.0)
