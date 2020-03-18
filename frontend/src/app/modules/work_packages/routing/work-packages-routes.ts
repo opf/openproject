@@ -67,6 +67,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackageNewFullViewComponent,
     reloadOnSearch: false,
     data: {
+      baseRoute: 'work-packages',
       allowMovingInEditMode: true,
       bodyClasses: 'router--work-packages-full-create',
       menuItem: menuItemClass
@@ -78,6 +79,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackageCopyFullViewComponent,
     reloadOnSearch: false,
     data: {
+      baseRoute: 'work-packages',
       allowMovingInEditMode: true,
       bodyClasses: 'router--work-packages-full-create',
       menuItem: menuItemClass
@@ -90,6 +92,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     redirectTo: 'work-packages.show.activity',
     component: WorkPackagesFullViewComponent,
     data: {
+      baseRoute: 'work-packages',
       bodyClasses: 'router--work-packages-full-view',
       newRoute: 'work-packages.new',
       menuItem: menuItemClass
@@ -161,6 +164,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     },
     reloadOnSearch: false,
     data: {
+      baseRoute: 'work-packages',
       allowMovingInEditMode: true,
       bodyClasses: 'router--work-packages-partitioned-split-view',
       menuItem: menuItemClass,
