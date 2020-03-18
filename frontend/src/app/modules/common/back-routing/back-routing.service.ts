@@ -29,7 +29,6 @@
 import {Injectable, Injector} from '@angular/core';
 import {StateService, Transition} from "@uirouter/core";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import {TransitionOptions} from "@uirouter/core/lib/transition/interface";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 interface BackRouteOptions {
@@ -51,12 +50,14 @@ export class BackRoutingService {
   public goBack(preferListOverSplit:boolean = false) {
     // Default: back to list
     // When coming from a deep link or a create form
+    const baseRoute = this.$state.current.data.baseRoute || 'work-packages.partitioned.list';
+
     if (!this.backRoute || this.backRoute.name.includes('new')) {
-      this.$state.go('work-packages.partitioned.list', this.$state.params);
+      this.$state.go(baseRoute, this.$state.params);
     } else {
       if (this.keepTab.isDetailsState(this.backRoute.parent)) {
         if (preferListOverSplit) {
-          this.$state.go('work-packages.partitioned.list', this.$state.params);
+          this.$state.go(baseRoute, this.$state.params);
         } else {
           this.$state.go(this.keepTab.currentDetailsState, this.$state.params);
         }
@@ -75,8 +76,8 @@ export class BackRoutingService {
       fromState.data &&
       toState.data &&
       fromState.data.parent !== toState.data.parent) {
-      const paramsFromCopy = {...transition.params('from')};
-      this.backRoute = {name: fromState.name, params: paramsFromCopy, parent: fromState.data.parent};
+      const paramsFromCopy = { ...transition.params('from') };
+      this.backRoute = { name: fromState.name, params: paramsFromCopy, parent: fromState.data.parent };
     }
   }
 
