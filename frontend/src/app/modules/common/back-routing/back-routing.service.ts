@@ -67,6 +67,11 @@ export class BackRoutingService {
     }
   }
 
+  public goToBaseState() {
+    const baseRoute = this.$state.current.data.baseRoute || 'work-packages.partitioned.list';
+    this.$state.go(baseRoute, this.$state.params);
+  }
+
   public sync(transition:Transition) {
     const fromState = transition.from();
     const toState = transition.to();

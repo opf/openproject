@@ -47,6 +47,7 @@ describe 'BIM navigation spec', type: :feature, js: true do
 
   let(:card_view) { ::Pages::WorkPackageCards.new(project) }
   let(:details_view) { ::Pages::BcfDetailsPage.new(work_package, project) }
+  let(:full_view) { Pages::FullWorkPackage.new(work_package) }
   let(:model_tree) { ::Components::XeokitModelTree.new }
 
   shared_examples 'can switch from split to viewer to list-only' do
@@ -79,8 +80,18 @@ describe 'BIM navigation spec', type: :feature, js: true do
         details_view.expect_subject
         details_view.switch_to_tab tab: 'Activity'
         details_view.expect_tab 'Activity'
-        details_view.close
+
+        # Going to full screen and back again
+        details_view.switch_to_fullscreen
+        full_view.expect_tab 'Activity'
+        full_view.go_back
+
+        details_view.ensure_page_loaded
+        details_view.expect_subject
+        details_view.go_back
+
         details_view.expect_closed
+        card_view.expect_work_package_listed work_package
 
         # Go to viewer only
         model_page.switch_view 'Viewer'

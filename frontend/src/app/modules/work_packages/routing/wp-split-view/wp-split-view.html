@@ -50,7 +50,10 @@
 
       <edit-form [resource]="workPackage">
         <div class="wp-show--header-container">
-          <back-button *ngIf="showBackButton()"></back-button>
+          <back-button *ngIf="showBackButton()"
+                       linkClass="work-packages-back-button"
+                       [customBackMethod]="backToList.bind(this)">
+          </back-button>
 
           <div class="subject-header">
             <wp-subject></wp-subject>
