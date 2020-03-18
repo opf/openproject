@@ -36,6 +36,7 @@ import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/ro
 import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 
 @Component({
   templateUrl: './wp-split-view.html',
@@ -56,7 +57,8 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
               public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageViewSelectionService,
               public wpTableFocus:WorkPackageViewFocusService,
-              readonly $state:StateService) {
+              readonly $state:StateService,
+              readonly backRouting:BackRoutingService) {
     super(injector, $state.params['workPackageId']);
   }
 
@@ -105,6 +107,14 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
   public get shouldFocus() {
     return this.$state.params.focus === true;
+  }
+
+  public showBackButton():boolean {
+    return this.baseRoute.includes('bim');
+  }
+
+  public backToList() {
+    this.backRouting.goToBaseState();
   }
 
   protected initializeTexts() {

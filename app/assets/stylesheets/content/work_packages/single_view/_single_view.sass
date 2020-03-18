@@ -30,25 +30,25 @@
   @include grid-visible-overflow
   padding: 0
 
+
+// -------------------- Header row --------------------
+.wp-show--header-container
+  display: flex
+
+  .subject-header
+    flex-grow: 1
+
+    .inline-edit--display-field
+      white-space: normal
+      word-break: break-all
+
 // Subject field
-.subject-header,
 .wp-new--subject-wrapper
   .inline-edit--active-field.subject
     .inline-edit--field
       height: 40px
       font-size: 16px
       line-height: 1
-
-.work-packages--info-row
-  font-size: 12px
-  padding-top: 1px
-
-.work-packages--details--title
-  @include grid-block
-  @include details-pane--form-field
-  align-items: center
-  font-size: 1.125rem
-  font-weight: bold
 
 
 .work-packages--details--subject
@@ -95,7 +95,7 @@ i
     vertical-align: -2px
     padding: 0 0 0 4px
 
-// TABS row styling
+// -------------------- TABS row styling --------------------
 #tabs
   position: relative
   width: 100%
@@ -109,6 +109,7 @@ i
   &:before
     @include varprop(color, body-font-color)
 
+// -------------------- Attribute groups --------------------
 // Special styling for project context area
 .attributes-group.-project-context
   background: rgba(227, 245, 255, 0.3)
@@ -167,6 +168,11 @@ i
       .attributes-key-value--value-container
         *:focus
           outline: 1px solid $gray
+
+// -------------------- Info row --------------------
+.work-packages--info-row
+  font-size: 12px
+  padding-top: 1px
 
 .wp-info-wrapper
   display: flex

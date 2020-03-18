@@ -49,7 +49,17 @@
       <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
 
       <edit-form [resource]="workPackage">
-        <wp-subject></wp-subject>
+        <div class="wp-show--header-container">
+          <back-button *ngIf="showBackButton()"
+                       linkClass="work-packages-back-button"
+                       [customBackMethod]="backToList.bind(this)">
+          </back-button>
+
+          <div class="subject-header">
+            <wp-subject></wp-subject>
+          </div>
+        </div>
+
         <div class="work-package-details-tab" ui-view></div>
       </edit-form>
     </div>

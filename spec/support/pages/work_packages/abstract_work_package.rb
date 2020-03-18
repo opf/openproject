@@ -274,6 +274,10 @@ module Pages
       find('.inline-edit--container.subject input')
     end
 
+    def go_back
+      find('.work-packages-back-button').click
+    end
+
     private
 
     def create_page(_args)
