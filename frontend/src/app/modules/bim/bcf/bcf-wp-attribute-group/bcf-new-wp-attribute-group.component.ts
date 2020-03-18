@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {take} from "rxjs/operators";
 import {BcfWpAttributeGroupComponent} from "core-app/modules/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component";
+import {take} from "rxjs/operators";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 @Component({
   templateUrl: './bcf-wp-attribute-group.component.html',

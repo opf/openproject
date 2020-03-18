@@ -74,7 +74,12 @@ module Bim::Bcf::API::V2_1
              getter: ->(decorator:, **) {
                [].tap do |actions|
                  actions << 'update' if decorator.allowed?(:edit_project)
-                 actions << 'createTopic' if decorator.allowed?(:manage_bcf)
+
+                 if decorator.allowed?(:manage_bcf)
+                   actions << 'viewTopic' << 'createTopic'
+                 elsif decorator.allowed?(:view_linked_issues)
+                   actions << 'viewTopic'
+                 end
                end
              }
 

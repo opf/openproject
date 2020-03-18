@@ -135,7 +135,15 @@ describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
       let(:path) { 'project_actions' }
 
       it_behaves_like 'attribute' do
-        let(:value) { %w(update createTopic) }
+        let(:value) { %w(update viewTopic createTopic) }
+      end
+
+      context 'with only view_linked_issues' do
+        let(:permissions) { %i[view_linked_issues] }
+
+        it_behaves_like 'attribute' do
+          let(:value) { %w[viewTopic] }
+        end
       end
 
       context 'when lacking manage_bcf' do
@@ -150,7 +158,7 @@ describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
         let(:permissions) { %i[manage_bcf] }
 
         it_behaves_like 'attribute' do
-          let(:value) { ['createTopic'] }
+          let(:value) { %w[viewTopic createTopic] }
         end
       end
     end
