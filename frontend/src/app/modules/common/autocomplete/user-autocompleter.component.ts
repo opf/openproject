@@ -116,7 +116,9 @@ export class UserAutocompleterComponent implements OnInit {
   }
 
   public onFocus() {
-    this.requests.input$.next('');
+    if (!this.requests.lastRequestedValue) {
+      this.requests.input$.next('');
+    }
   }
 
   public onModelChange(user:any) {
