@@ -28,31 +28,128 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+# Scope to fetch all fields necessary to populated AggregatedJournal collections.
+# See the AggregatedJournal model class for a description.
 module Journal::Scopes
   class AggregatedJournal
     class << self
       def fetch(journable: nil, sql: nil, until_version: nil)
         journals_preselection = raw_journals_subselect(journable, sql, until_version)
 
+        # We wrap the sql with a subselect so that outside of this class,
+        # The fields native to journals (e.g. id, version) can be referenced, without
+        # having to also use a CASE/COALESCE statement.
         Journal
           .from(select_sql(journals_preselection))
       end
 
       private
 
+      # The sql used to query the database for the aggregated journals.
+      # The query makes use of 4 parts (which are selected from/joined):
+      #  * The minimum journal version that starts an aggregation group.
+      #  * The maximum journal version that ends an aggregation group.
+      #  * Journals with notes that are within the bounds of minimum version/maximum version.
+      #  * Journals with notes that are within the bounds of the before mentioned journal notes and the maximum journal version.
+      #
+      # The maximum version are those journals, whose successor:
+      #  * Where created by a different user
+      #  * Where created after the configured aggregation period had expired (always relative to the journal under consideration).
+      #
+      # The minimum version then is the maximum version of the group before - 1.
+      #
+      # e.g. a group of 10 sequential journals might break into the following groups
+      #
+      #   Version 10 (User A, 6 minutes after 9)
+      #   Version 9 (User A, 2 minutes after 8)
+      #   Version 8 (User A, 4 minutes after 7)
+      #   Version 7 (User A, 1 minute after 6)
+      #   Version 6 (User A, 3 minutes after 5)
+      #   Version 5 (User A, 1 minute after 4)
+      #   Version 4 (User B, 1 minute after 3)
+      #   Version 3 (User B, 4 minutes after 2)
+      #   Version 2 (User A, 1 minute after 1)
+      #   Version 1 (User A)
+      #
+      # would have the following maximum journals if the aggregation period where 5 minutes:
+      #
+      #   Version 10 (User A, 6 minutes after 9)
+      #   Version 9 (User A, 2 minutes after 8)
+      #   Version 4 (User B, 1 minute after 3)
+      #   Version 2 (User A, 1 minute after 1)
+      #
+      # The last journal (one without a successor) of a journable will obviously also always be a maximum journal.
+      #
+      # If the aggregation period where to be expanded to 7 minutes, the maximum journals would be slightly different:
+      #
+      #   Version 10 (User A, 6 minutes after 9)
+      #   Version 4 (User B, 1 minute after 3)
+      #   Version 2 (User A, 1 minute after 1)
+      #
+      # As we do not store the aggregated journals, and rather calculate them on reading, the aggregated journals might be tuned
+      # by a user.
+      #
+      # The minimum version in the example with the 5 minute aggregation period would then be calculated from the maximum version:
+      #
+      #   Version 10
+      #   Version 5
+      #   Version 3
+      #   Version 1
+      #
+      # The first version will always be included.
+      #
+      # Without a journal with notes (the user commented on the journable) in between, the maximum journal is returned
+      # as the representation of every aggregation group. This is possible as the journals (together with their data and their
+      # customizable_journals/attachable_journals) represent the complete state of the journable at the given time.
+      #
+      # e.g. a group of 5 sequential journals without notes, belonging to the same user and created within the configured
+      # time difference between one journal and its succcessor
+      #
+      #   Version 9
+      #   Version 8
+      #   Version 7
+      #   Version 6
+      #   Version 5
+      #
+      # would only return the last journal, Version 9.
+      #
+      # In case the group has one journal with notes in it, the last journal is also returned. But as we also want the note
+      # to be returned, we return the note as if it would belong to the maximum journal version. This explicitly means
+      # that all journals of the same group that are after the notes journal are also returned.
+      #
+      # e.g. a group of 5 sequential journals with only one note, belonging to the same user and created within the configured
+      # time difference between one journal and its succcessor
+      #
+      #   Version 9
+      #   Version 8
+      #   Version 7
+      #   Version 6 (note)
+      #   Version 5
+      #
+      # would only return the last journal, Version 9, but would also return the note and the id of the journal the note
+      # belongs to natively.
+      #
+      # But as we do not want to aggregate notes, the behaviour above can no longer work if there is more than one note in the
+      # same group. In such a case, a group is cut into subsets. The journals returned will then only contain all the changes
+      # up until a journal with notes. The only exception to this is the last journal note which might also contain changes
+      # after it up to and including the maximum journal version of the group.
+
+      # e.g. a group of 5 sequential journals with only one note, belonging to the same user and created within the configured
+      # time difference between one journal and its succcessor
+      #
+      #   Version 9
+      #   Version 8 (note)
+      #   Version 7
+      #   Version 6 (note)
+      #   Version 5
+      #
+      # would return the last journal, Version 9, but with the note of Version 8 and also a reference in the form of
+      # note_id pointing to Version 8. It would also return Version 6, with its note and a reference in the form of note_id
+      # this time pointing to the native journal, Version 6.
+      #
+      # The journals that are considered for aggregation can also be reduced by providing a subselect. Doing so, one
+      # can e.g. consider only the journals created after a certain time.
       def select_sql(journals_preselection)
-        # Using the roughly aggregated groups from :sql_rough_group we need to merge journals
-        # where an entry with empty notes follows an entry containing notes, so that the notes
-        # from the main entry are taken, while the remaining information is taken from the
-        # more recent entry. We therefore join the rough groups with itself
-        # _wherever a merge would be valid_.
-        # Since the results are already pre-merged, this can only happen if Our first entry (master)
-        # had a comment and its successor (addition) had no comment, but can be merged.
-        # This alone would, however, leave the addition in the result set, leaving a "no change"
-        # journal entry back. By an additional self-join towards the predecessor, we can make sure
-        # that our own row (master) would not already have been merged by its predecessor. If it is
-        # (that means if we can find a valid predecessor), we drop our current row, because it will
-        # already be present (in a merged form) in the row of our predecessor.
         <<~SQL
           (#{Journal
                .from(start_group_journals_select(journals_preselection))
@@ -109,6 +206,11 @@ module Journal::Scopes
       end
 
       def notes_in_group_join(journals_preselection)
+        # As we right join on the minimum journal version, the minimum might be empty. We thus have to coalesce in such
+        # case as <= will not interpret NULL as 0.
+        # This also works if we do not fetch the whole set of journals starting from the first journal but rather
+        # start somewhere within the set. This might take place e.g. when fetching only the journals that are
+        # created after a certain point in time which is done when displaying of the last month in the activity module.
         breaking_journals_notes_join_condition = <<~SQL
           COALESCE(#{start_group_journals_alias}.version, 0) + 1 <= #{notes_in_group_alias}.version
           AND #{end_group_journals_alias}.version >= #{notes_in_group_alias}.version

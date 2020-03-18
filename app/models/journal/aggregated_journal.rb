@@ -28,13 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Similar to regular Journals, but under the following circumstances journals are aggregated:
+# Similar to regular Journals, but under the following circumstances a set of individual journals is aggregated to
+# a single logical journal:
 #  * they are in temporal proximity
 #  * they belong to the same resource
 #  * they were created by the same user (i.e. the same user edited the journable)
 #  * no other user has an own journal on the same object between the aggregated ones
-# When a user commented (added a note) twice within a short time, the second comment will
-# "open" a new aggregation, since we do not want to merge comments in any way.
+# When a user commented (added a note) twice within a short time, the first comment will
+# finish the aggregation, since we do not want to merge comments in any way.
 # The term "aggregation" means the following when applied to our journaling:
 #  * ignore/hide old journal rows (since every journal row contains a full copy of the journaled
 #    object, dropping intermediate rows will just increase the diff of the following journal)
