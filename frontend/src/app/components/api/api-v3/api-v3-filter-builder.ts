@@ -58,8 +58,20 @@ export class ApiV3FilterBuilder {
       return this.serializeFilter(filter);
     });
 
-    let params = { filters: `[${transformedFilters.join(",")}]`, ...mergeParams }
+    let params = { filters: `[${transformedFilters.join(",")}]`, ...mergeParams };
     return new URLSearchParams(params).toString();
+  }
+
+  public clone() {
+    let newFilters = new ApiV3FilterBuilder();
+
+    this.filters.forEach(filter => {
+      Object.keys(filter).forEach(name => {
+        newFilters.add(name, filter[name].operator, filter[name].values);
+      });
+    });
+
+    return newFilters;
   }
 
   private serializeFilter(filter:ApiV3Filter) {
