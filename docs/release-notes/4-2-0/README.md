@@ -102,5 +102,3 @@ Please note that the API v3 is still a draft.
 
 A large number of bugs have been fixed with the release of OpenProject
 4.2.
-
-
