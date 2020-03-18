@@ -1,3 +1,5 @@
+require 'ok_computer/ok_computer_controller'
+
 class DelayedJobNeverRanCheck < OkComputer::Check
   attr_reader :threshold
 
