@@ -32,7 +32,7 @@ describe 'Create BCF', type: :feature, js: true, with_mail: false do
   end
 
   shared_examples 'bcf details creation' do |with_viewpoints|
-    it "can create a new #{with_viewpoints ? 'bcf' : 'plain' } work package" do
+    it "can create a new #{with_viewpoints ? 'bcf' : 'plain'} work package" do
       create_page = index_page.create_wp_by_button(type)
       create_page.view_route = view_route
 
