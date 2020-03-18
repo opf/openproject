@@ -27,10 +27,37 @@
 #++
 
 shared_examples_for 'bcf api successful response' do
+  def expect_identical_without_time(subject, expected_body)
+    # Remove modified date
+    body = Array.wrap(JSON.parse(subject.body))
+    Array.wrap(expected_body).each_with_index do |expected_item, index|
+      subject_body = body[index]
+
+      expected_item.stringify_keys!
+      subject_modified_date = subject_body.delete('modified_date')&.to_time
+      expected_modified_date = expected_item.delete('modified_date')&.to_time
+
+      if expected_modified_date
+        expect(subject_modified_date).to be_within(10.seconds).of(expected_modified_date)
+      else
+        expect(subject_modified_date).to eql(expected_modified_date)
+      end
+
+      expect(subject_body.to_json).to be_json_eql(expected_item.to_json)
+    end
+  end
+
   it 'responds correctly with the expected body', :aggregate_failures do
     expect(subject.status)
       .to eql(defined?(expected_status) ? expected_status : 200)
-    expect(subject.body).to be_json_eql(expected_body.to_json)
+
+    if expected_body.nil?
+      expect("").to be_json_eql(expected_body.to_json)
+    else
+      expect_identical_without_time(subject, expected_body)
+    end
+
+
     expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8' unless defined?(no_content)
   end
 end
