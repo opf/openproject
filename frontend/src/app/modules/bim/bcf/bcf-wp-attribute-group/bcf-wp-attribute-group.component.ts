@@ -22,6 +22,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
+import {BcfExtensionResource} from "core-app/modules/bim/bcf/api/extensions/bcf-extension.resource";
 
 export interface ViewpointItem {
   /** The URL of the viewpoint, if persisted */
@@ -216,20 +217,20 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   // Poor mans caching to avoid repeatedly fetching from the backend.
-  protected createAllowedMemoize = {};
+  protected createAllowedMemoize:{[key:string]:Promise<BcfExtensionResource>} = {};
 
   protected fetchCreateAllowed() {
-    if (!this.createAllowedMemoize[this.workPackage.project.idFromLink]) {
-      this.createAllowedMemoize[this.workPackage.project.idFromLink] = this.bcfApi
-        .projects.id(this.workPackage.project.idFromLink)
+    if (!this.createAllowedMemoize[this.wpProjectId]) {
+      this.createAllowedMemoize[this.wpProjectId] = this.bcfApi
+        .projects.id(this.wpProjectId)
         .extensions
         .get()
         .toPromise();
     }
 
-    this.createAllowedMemoize[this.workPackage.project.idFromLink]
+    this.createAllowedMemoize[this.wpProjectId]
       .then(resource => {
-        this.createAllowed = resource.topic_actions && resource.topic_actions.includes('createViewpoint')
+        this.createAllowed = resource.topic_actions && resource.topic_actions.includes('createViewpoint');
         this.cdRef.detectChanges();
       });
   }
@@ -238,7 +239,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     this.topicUUID = this.topicUUID || await this.createBcfTopic();
 
     return this.bcfApi
-      .projects.id(this.workPackage.project.idFromLink)
+      .projects.id(this.wpProjectId)
       .topics.id(this.topicUUID)
       .viewpoints
       .post(viewpoint)
@@ -265,7 +266,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
 
   protected async createBcfTopic():Promise<string> {
     return this.bcfApi
-      .projects.id(this.workPackage.project.idFromLink)
+      .projects.id(this.wpProjectId)
       .topics
       .post(this.workPackage.convertBCF.payload)
       .toPromise()
@@ -320,5 +321,9 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
         titleText: this.text.delete_viewpoint
       }
     ];
+  }
+
+  protected get wpProjectId() {
+    return this.workPackage.project.idFromLink;
   }
 }
