@@ -152,7 +152,7 @@ module OpenProject::Bim
              type: 'BCF Thumbnail',
              required: false,
              writable: false,
-             show_if: ->(*) { represented&.project&.module_enabled?(:bcf) }
+             show_if: ->(*) { represented&.project&.module_enabled?(:bim) }
     end
 
     extend_api_response(:v3, :activities, :activity) do
