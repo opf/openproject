@@ -22,7 +22,7 @@ will still answer while large projects are copied. Please bear in mind
 that for this to happen you need to have [delayed job
 running](https://github.com/collectiveidea/delayed_job).
 
-For a complete list of changes to OpenProject, please refere to the
+For a complete list of changes to OpenProject, please refer to the
 [version’s
 packages](https://community.openproject.com/projects/openproject/roadmap).
 
@@ -39,9 +39,6 @@ number. We therefore encourage you to always update OpenProject and
 installed plugins to the same release in synch. The most easy way of
 doing this is to follow the stable branches for every plugin and
 OpenProject.
-
-The complete list of changes you can benefit from can be [found in this
-query](http://openproject.org/projects/openproject/work_packages?query_id=350).
 
 We are aware that this change in versioning has some weird side effects.
 The most noticeable is the [costs
