@@ -102,5 +102,4 @@ notes](https://www.ruby-lang.org/en/news/2013/12/25/ruby-2-1-0-is-released/)
 notes](http://guides.rubyonrails.org/v3.2.14/3_2_release_notes.html)
 
 If you have an older version of OpenProject, please follow the
-[migration
-guideline](http://openproject.org/projects/openproject/wiki/Migration_24_to_30).
+[migration guideline](https://docs.openproject.org/installation-and-operations/operation/upgrading/).
