@@ -276,6 +276,14 @@ describe Attachment, type: :model do
           expect(query).to include "X-Amz-Expires=3600"
         end
       end
+
+      context 'with expiry time exeeding maximum' do
+        let(:url_options) { { expires_in: 1.year } }
+
+        it "uses the allowed max" do
+          expect(query).to include "X-Amz-Expires=604799"
+        end
+      end
     end
 
     describe "for an image file" do

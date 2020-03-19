@@ -113,7 +113,8 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="form--field">
         <label for="cost_entry_costs_edit" class="form--label"><%= CostEntry.human_attribute_name(:costs) %></label>
         <span class="form--field-container">
-          <cost-unit-subform obj-id="cost_entry_costs" obj-name="cost_entry[overridden_costs]">
+                <cost-unit-subform obj-id="cost_entry"
+                                   obj-name="cost_entry[overridden_costs]" %>
             <% if User.current.allowed_to? :view_cost_rates, @cost_entry.project %>
               <a href="#" id="cost_entry_costs" class="costs--edit-planned-costs-btn icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
                 <%= number_to_currency(@cost_entry.real_costs) %>

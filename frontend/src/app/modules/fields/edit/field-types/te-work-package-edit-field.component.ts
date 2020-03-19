@@ -54,6 +54,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
     // existing values.
     if (this.referenceOutputs) {
       this.referenceOutputs['modeSwitch'] = (mode:TimeEntryWorkPackageAutocompleterMode) => {
+        this.valuesLoaded = false;
         let lastValue = this.requests.lastRequestedValue!;
 
         // Hack to provide a new value to "reset" the input.
