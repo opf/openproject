@@ -45,7 +45,7 @@ module Components
     end
 
     def show_current_viewpoint
-      page.find('.icon-watched.ngx-gallery-icon-content').click
+      page.find('.icon-view-model.ngx-gallery-icon-content').click
     end
 
     def delete_current_viewpoint(confirm: true)

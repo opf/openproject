@@ -56,6 +56,7 @@
   width: 100%
   height: 100%
   padding-bottom: 10px
+  overflow: hidden
   min-width: 400px
 
 .ifc-model-viewer--model-canvas
@@ -75,13 +76,19 @@
   background-color: $button--background-color
   vertical-align: middle
   padding: .375rem .75rem
-  border-radius: .25rem
+  border-radius: 2px
+  border: 1px solid $button--border-color
   @include default-transition
+
+  &:hover
+    @include varprop(background-color, button--background-hover-color)
+
 
   &.disabled
     opacity: .55
 
   &.active
-    @include varprop(color, font-color-on-primary)
-    @include varprop(background-color, primary-color)
-    @include varprop(border-color, primary-color)
+    @include varprop(color, button--active-font-color)
+    @include varprop(background-color, button--active-background-color)
+    @include varprop(border-color, button--active-border-color)
+    box-shadow: 0 0 3px $button--active-border-color inset
