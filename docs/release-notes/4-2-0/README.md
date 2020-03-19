@@ -102,8 +102,3 @@ Please note that the API v3 is still a draft.
 
 A large number of bugs have been fixed with the release of OpenProject
 4.2.
-
-For an extensive overview of bug fixes please refer to the [following
-list](https://community.openproject.org/projects/openproject/work_packages?query_id=763).
-
-
