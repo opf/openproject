@@ -320,16 +320,18 @@ module Project::Copy
     end
 
     def copy_work_package(source_work_package, parent_id, user_cf_ids)
+      overrides = copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
+
       service_call = WorkPackages::CopyService
                      .new(user: User.current,
                           work_package: source_work_package,
                           contract_class: WorkPackages::CopyProjectContract)
-                     .call(copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids))
+                     .call(overrides)
 
       if service_call.success?
         service_call.result
       elsif logger&.info
-        log_work_package_copy_error(source_work_package, errors)
+        log_work_package_copy_error(source_work_package, service_call.errors)
       end
     end
 
