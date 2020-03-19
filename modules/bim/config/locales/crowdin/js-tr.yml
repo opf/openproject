@@ -10,8 +10,8 @@ tr:
       show_viewpoint: 'Bakış açısını göster'
       delete_viewpoint: 'Bakış açısını sil'
     ifc_models:
-      empty_warning: "This project does not yet have any IFC models."
-      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
+      empty_warning: "Bu projenin henüz IFC modeli yok."
+      use_this_link_to_manage: "IFC modellerinizi yüklemek ve yönetmek için bu bağlantıyı kullanın"
       models:
         default: 'Varsayılan IFC modelleri'
         manage: 'Modelleri yönetin'
