@@ -232,6 +232,9 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       .then(resource => {
         this.createAllowed = resource.topic_actions && resource.topic_actions.includes('createViewpoint');
         this.cdRef.detectChanges();
+      })
+      .catch(() => {
+        this.createAllowed = false;
       });
   }
 
