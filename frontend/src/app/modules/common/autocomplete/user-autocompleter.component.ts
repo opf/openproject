@@ -116,7 +116,9 @@ export class UserAutocompleterComponent implements OnInit {
   }
 
   public onFocus() {
-    this.requests.input$.next('');
+    if (!this.requests.lastRequestedValue) {
+      this.requests.input$.next('');
+    }
   }
 
   public onModelChange(user:any) {
@@ -135,9 +137,11 @@ export class UserAutocompleterComponent implements OnInit {
   }
 
   private getAvailableUsers(url:string, searchTerm:any):Observable<{[key:string]:string|null}[]> {
-    let searchFilters = this.inputFilters;
+    // Need to clone the filters to not add additional filters on every
+    // search term being processed.
+    let searchFilters = this.inputFilters.clone();
 
-    if (searchTerm) {
+    if (searchTerm && searchTerm.length) {
       searchFilters.add('name', '~', [searchTerm]);
     }
 

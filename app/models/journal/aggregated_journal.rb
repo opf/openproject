@@ -346,7 +346,6 @@ class Journal::AggregatedJournal
            :project,
            :data,
            :data=,
-           :noop?,
            to: :journal
 
   # Initializes a new AggregatedJournal. Allows to explicitly set a predecessor, if it is already
@@ -420,6 +419,12 @@ class Journal::AggregatedJournal
 
   def initial?
     predecessor.nil?
+  end
+
+  # If we where to delegate here, the wrapped journal would be compared to its predecessor which is
+  # not necessarily the this aggreated journal's predecessor.
+  def noop?
+    (!notes || notes&.empty?) && get_changes.empty?
   end
 
   private

@@ -53,8 +53,6 @@ export class WorkPackageFilterByTextInputComponent implements OnDestroy {
     placeholder: this.I18n.t('js.work_packages.placeholder_filter_by_text')
   };
 
-  private filter:QueryFilterInstanceResource;
-
   /** Observable to the current search filter term */
   public searchTerm = input<string>('');
 
@@ -95,13 +93,13 @@ export class WorkPackageFilterByTextInputComponent implements OnDestroy {
           this.wpTableFilters.replace('search', filter => {
             filter.operator = filter.findOperator('**')!;
             filter.values = [term];
-
-            this.filter = filter;
           });
         } else {
-          this.wpTableFilters.remove(this.filter);
+          let filter = this.wpTableFilters.find('search');
 
-          this.deactivateFilter.emit(this.filter);
+          this.wpTableFilters.remove(filter!);
+
+          this.deactivateFilter.emit(filter);
         }
       });
   }
