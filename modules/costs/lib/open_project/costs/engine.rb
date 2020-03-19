@@ -242,6 +242,19 @@ module OpenProject::Costs
       end
     end
 
+    # This should not be necessary as the payload representer inherits
+    # from the work package representer. The patching probably happens after
+    # the payload representer is already evaluated.
+    extend_api_response(:v3, :work_packages, :work_package_payload) do
+      prepend API::V3::CostsApiUserPermissionCheck
+
+      associated_resource :cost_object,
+                          v3_path: :budget,
+                          link_title_attribute: :subject,
+                          representer: ::API::V3::Budgets::BudgetRepresenter,
+                          skip_render: ->(*) { !cost_object_visible? }
+    end
+
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
       # N.B. in the long term we should have a type like "Currency", but that requires a proper
       # format and not a string like "10 EUR"
