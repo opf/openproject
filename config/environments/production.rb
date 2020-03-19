@@ -93,6 +93,8 @@ OpenProject::Application.configure do
   # Set to :debug to see everything in the log.
   config.log_level = OpenProject::Configuration['log_level'].to_sym
 
+  config.assets.quiet = true unless config.log_level == :debug
+
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
 
