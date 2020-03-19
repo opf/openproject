@@ -31,13 +31,12 @@ require 'spec_helper'
 describe 'Projects copy',
          type: :feature,
          js: true do
-
   describe 'with a full copy example' do
     let!(:project) do
       project = FactoryBot.create(:project,
                                   parent: parent_project,
                                   types: active_types,
-                                  custom_field_values: {project_custom_field.id => 'some text cf'})
+                                  custom_field_values: { project_custom_field.id => 'some text cf' })
 
       FactoryBot.create(:member,
                         project: project,
@@ -109,7 +108,7 @@ describe 'Projects copy',
                         category: category,
                         fixed_version: version,
                         description: 'Some desciption',
-                        custom_field_values: {wp_custom_field.id => 'Some wp cf text'})
+                        custom_field_values: { wp_custom_field.id => 'Some wp cf text' })
     end
 
     let!(:wiki) { project.wiki }
@@ -123,9 +122,10 @@ describe 'Projects copy',
     before do
       login_as user
 
-      allow(Delayed::Worker)
-        .to receive(:delay_jobs)
-              .and_return(false)
+      # Clear all jobs that would later on to having emails send.
+      # The jobs are created as part of the object creation.
+      clear_enqueued_jobs
+      clear_performed_jobs
     end
 
     it 'copies projects and the associated objects' do
@@ -219,6 +219,15 @@ describe 'Projects copy',
         .to eql copied_project.versions.find_by(name: version.name)
       expect(copied_work_package.custom_value_attributes)
         .to eql(wp_custom_field.id => 'Some wp cf text')
+
+      expect(ActionMailer::Base.deliveries.count)
+        .to eql(1)
+
+      expect(ActionMailer::Base.deliveries.last.subject)
+        .to eql("Created project Copied project")
+
+      expect(ActionMailer::Base.deliveries.last.to)
+        .to match_array([user.mail])
     end
   end
 
@@ -242,26 +251,20 @@ describe 'Projects copy',
     let(:child2_3) { FactoryBot.create :work_package, default_params.merge(parent: parent2, subject: 'Prepare launch') }
     let(:child2_4) { FactoryBot.create :work_package, default_params.merge(parent: parent2, subject: 'Launch') }
 
-    let(:order) {
+    let(:order) do
       [parent1, child1_1, child1_2, parent2, child2_1, child2_2, child2_3, child2_4]
-    }
+    end
 
     before do
-      parent1
-      child1_1
-      child1_2
+      # create work packages in expected order
+      order
 
-      parent2
-      child2_1
-      child2_2
-      child2_3
-      child2_4
+      # Clear all jobs that would later on to having emails send.
+      # The jobs are created as part of the object creation.
+      clear_enqueued_jobs
+      clear_performed_jobs
 
       login_as user
-
-      allow(Delayed::Worker)
-        .to receive(:delay_jobs)
-              .and_return(false)
     end
 
     let(:wp_table) { ::Pages::WorkPackagesTable.new project }
