@@ -45,6 +45,7 @@ Redmine::MenuManager.map :top_menu do |menu|
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
             context: :modules,
+            caption: I18n.t('label_news_plural'),
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_news, nil, global: true)

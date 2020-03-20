@@ -26,40 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Components
-  module BcfDetailsViewpoints
-    def expect_viewpoint_count(number)
-      expect(page).to have_selector('.ngx-gallery-thumbnail', visible: :all, count: number, wait: 20)
-    end
+module OpenProject::Backlogs::Patches::Versions::BaseContractPatch
+  private
 
-    def expect_no_viewpoint_addable
-      expect(page).to have_no_selector('a.button', text: 'Viewpoint')
-    end
+  def user_allowed_to_manage
+    changed_settings = model.version_settings.select(&:changed?)
 
-    def next_viewpoint
-      page.find('.icon-arrow-right2.ngx-gallery-icon-content').click
-    end
+    super unless !model.changed? && changed_settings.any?
 
-    def previous_viewpoint
-      page.find('.icon-arrow-left2.ngx-gallery-icon-content').click
-    end
-
-    def show_current_viewpoint
-      page.find('.icon-view-model.ngx-gallery-icon-content').click
-    end
-
-    def delete_current_viewpoint(confirm: true)
-      page.find('.icon-delete.ngx-gallery-icon-content').click
-
-      if confirm
-        page.driver.browser.switch_to.alert.accept
-      else
-        page.driver.browser.switch_to.alert.dismiss
+    # Make sure the version_settings (column=left|right|none) can only be stored
+    # for projects the user has the :manage_versions permission in.
+    changed_settings.each do |version_setting|
+      unless user.allowed_to?(:manage_versions, Project.find_by(id: version_setting.project_id))
+        errors.add :base, :error_unauthorized
       end
-    end
-
-    def add_viewpoint
-      page.find('a.button', text: 'Viewpoint').click
     end
   end
 end

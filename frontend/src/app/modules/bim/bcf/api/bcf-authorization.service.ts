@@ -59,7 +59,8 @@ export class BcfAuthorizationService {
       .pipe(
         take(1)
       )
-      .toPromise();
+      .toPromise()
+      .catch(() => false);
   }
 }
 

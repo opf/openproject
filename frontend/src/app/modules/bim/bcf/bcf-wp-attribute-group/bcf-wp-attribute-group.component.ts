@@ -298,7 +298,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   protected actions() {
     return [
       {
-        icon: 'icon-watched',
+        icon: 'icon-view-model',
         onClick: (evt:any, index:number) => this.showViewpoint(index),
         titleText: this.text.show_viewpoint
       },

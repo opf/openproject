@@ -87,13 +87,13 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     url: '/model',
     data: {
       partition: '-left-only',
-      newRoute: 'bim.partitioned.split.new',
+      newRoute: 'bim.partitioned.model.new',
     },
     reloadOnSearch: false,
     views: {
       // Retarget and by that override the grandparent views
       // https://ui-router.github.io/guide/views#relative-parent-state{
-      'content-right@^': { component: EmptyComponent },
+      'content-right': { component: EmptyComponent },
       'content-left': { component: IFCViewerComponent }
     }
   },
@@ -106,6 +106,12 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   // BCF single view for split
   ...makeSplitViewRoutes(
     'bim.partitioned.split',
+    undefined,
+    WorkPackageSplitViewComponent
+  ),
+  // BCF single view for model-only
+  ...makeSplitViewRoutes(
+    'bim.partitioned.model',
     undefined,
     WorkPackageSplitViewComponent
   ),
