@@ -26,19 +26,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Backlogs::Patches::VersionBaseContractPatch
-  private
+module OpenProject::Backlogs
+  module Patches
+    module API
+      module WorkPackageSumsRepresenter
+        module_function
 
-  def user_allowed_to_manage
-    changed_settings = model.version_settings.select(&:changed?)
+        def extension
+          ->(*) do
+            property :story_points,
+                     render_nil: true,
+                     if: ->(*) {
+                       ::Setting.work_package_list_summable_columns.include?('story_points')
+                     }
 
-    super unless !model.changed? && changed_settings.any?
-
-    # Make sure the version_settings (column=left|right|none) can only be stored
-    # for projects the user has the :manage_versions permission in.
-    changed_settings.each do |version_setting|
-      unless user.allowed_to?(:manage_versions, Project.find_by(id: version_setting.project_id))
-        errors.add :base, :error_unauthorized
+            property :remaining_time,
+                     render_nil: true,
+                     exec_context: :decorator,
+                     getter: ->(*) {
+                       datetime_formatter.format_duration_from_hours(represented.remaining_hours,
+                                                                     allow_nil: true)
+                     },
+                     if: ->(*) {
+                       ::Setting.work_package_list_summable_columns.include?('remaining_hours')
+                     }
+          end
+        end
       end
     end
   end
