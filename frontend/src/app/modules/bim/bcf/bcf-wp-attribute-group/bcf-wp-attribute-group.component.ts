@@ -217,7 +217,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
           }));
           this.loadViewpointFromRoute();
         }
-       
+
         this.cdRef.detectChanges();
       });
   }
@@ -312,5 +312,11 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
 
   protected get wpProjectId() {
     return this.workPackage.project.idFromLink;
+  }
+
+  shouldShowGroup() {
+    return this.viewAllowed &&
+      (this.viewpoints.length > 0 ||
+        (this.createAllowed && this.viewerVisible));
   }
 }

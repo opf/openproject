@@ -47,6 +47,10 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
     this.selectViewpointInGallery();
   }
 
+  shouldShowGroup() {
+    return this.createAllowed && this.viewerVisible;
+  }
+
   private observeCreation() {
     this.wpCreate
       .onNewWorkPackage()
