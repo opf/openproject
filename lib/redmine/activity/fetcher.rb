@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,6 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+# TODO: Turn into service
 module Redmine
   module Activity
     # Class used to retrieve activity events
@@ -34,7 +36,7 @@ module Redmine
       attr_reader :user, :project, :scope
 
       def self.constantized_providers
-        @constantized_providers ||= Hash.new { |h, k| h[k] = Redmine::Activity.providers[k].map(&:constantize) }
+        @constantized_providers ||= Hash.new { |h, k| h[k] = OpenProject::Activity.providers[k].map(&:constantize) }
       end
 
       def initialize(user, options = {})
@@ -48,21 +50,21 @@ module Redmine
 
       # Returns an array of available event types
       def event_types
-        return @event_types unless @event_types.nil?
+        @event_types ||= begin
+                           if @project
+                             OpenProject::Activity.available_event_types.select do |o|
+                               @project.self_and_descendants.detect do |_p|
+                                 permissions = constantized_providers(o).map do |p|
+                                   p.activity_provider_options[:permission]
+                                 end.compact
 
-        @event_types = Redmine::Activity.available_event_types
-        if @project
-          @event_types = @event_types.select { |o|
-            @project.self_and_descendants.detect do |_p|
-              permissions = constantized_providers(o).map { |p|
-                p.activity_provider_options[o].try(:[], :permission)
-              }.compact
-
-              permissions.all? { |p| @user.allowed_to?(p, @project) }
-            end
-          }
-        end
-        @event_types
+                                 permissions.all? { |p| @user.allowed_to?(p, @project) }
+                               end
+                             end
+                           else
+                             OpenProject::Activity.available_event_types
+                           end
+                         end
       end
 
       # Yields to filter the activity scope
@@ -85,7 +87,7 @@ module Redmine
 
       # Resets the scope to the default scope
       def default_scope!
-        @scope = Redmine::Activity.default_event_types
+        @scope = OpenProject::Activity.default_event_types
       end
 
       # Returns an array of events for the given date range

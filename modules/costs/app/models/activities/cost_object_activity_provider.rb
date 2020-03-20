@@ -27,29 +27,29 @@
 #++
 
 class Activities::CostObjectActivityProvider < Activities::BaseActivityProvider
-  acts_as_activity_provider type: 'cost_objects',
-                            permission: :view_cost_objects
+  activity_provider_for type: 'cost_objects',
+                        permission: :view_cost_objects
 
-  def event_query_projection(activity)
+  def event_query_projection
     [
-      activity_journal_projection_statement(:subject, 'cost_object_subject', activity),
-      activity_journal_projection_statement(:project_id, 'project_id', activity)
+      activity_journal_projection_statement(:subject, 'cost_object_subject'),
+      activity_journal_projection_statement(:project_id, 'project_id')
     ]
   end
 
-  def event_type(_event, _activity)
+  def event_type(_event)
     'cost_object'
   end
 
-  def event_title(event, _activity)
+  def event_title(event)
     "#{I18n.t(:label_cost_object)} ##{event['journable_id']}: #{event['cost_object_subject']}"
   end
 
-  def event_path(event, _activity)
+  def event_path(event)
     url_helpers.cost_object_path(url_helper_parameter(event))
   end
 
-  def event_url(event, _activity)
+  def event_url(event)
     url_helpers.cost_object_url(url_helper_parameter(event))
   end
 

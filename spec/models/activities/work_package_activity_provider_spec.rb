@@ -36,58 +36,113 @@ describe Activities::WorkPackageActivityProvider, type: :model do
   let(:user) { FactoryBot.create :admin }
   let(:role) { FactoryBot.create :role }
   let(:status_closed) { FactoryBot.create :closed_status }
-  let!(:work_package) { FactoryBot.create :work_package }
-  let!(:workflow) do
-    FactoryBot.create :workflow,
-                      old_status: work_package.status,
-                      new_status: status_closed,
-                      type_id: work_package.type_id,
-                      role: role
+  let(:work_package) do
+    User.execute_as(user) do
+      FactoryBot.create :work_package
+    end
   end
+  let!(:work_packages) { [work_package] }
 
-  before do
-    allow(ActionMailer::Base).to receive(:perform_deliveries).and_return(false)
-  end
-
-  describe '#event_type' do
-    describe 'latest events' do
-      context 'when a work package has been created' do
-        let(:subject) do
-          Activities::WorkPackageActivityProvider
-            .find_events(event_scope, user, Date.yesterday, Date.tomorrow, {})
-            .last
-            .try :event_type
-        end
-
-        it { is_expected.to eq(work_package_edit_event) }
+  describe '.find_events' do
+    context 'when a work package has been created' do
+      let(:subject) do
+        Activities::WorkPackageActivityProvider
+          .find_events(event_scope, user, Date.yesterday, Date.tomorrow, {})
       end
 
-      context 'should be selected and ordered correctly' do
-        let!(:work_packages) { (1..20).map { (FactoryBot.create :work_package, author: user).id.to_s } }
-        let(:subject) do
-          Activities::WorkPackageActivityProvider
-            .find_events(event_scope, user, Date.yesterday, Date.tomorrow, limit: 10)
-            .map { |a| a.journable_id.to_s }
-        end
-        it { is_expected.to eq(work_packages.reverse.first(10)) }
+      it 'has the edited event type' do
+        expect(subject[0].event_type)
+          .to eql(work_package_edit_event)
       end
 
-      context 'when a work package has been created and then closed' do
-        let(:subject) do
-          Activities::WorkPackageActivityProvider
-            .find_events(event_scope, user, Date.yesterday, Date.tomorrow, limit: 10)
-            .first
-            .try :event_type
+      it 'has an id to the author stored' do
+        expect(subject[0].author_id)
+          .to eql(user.id)
+      end
+    end
+
+    context 'should be selected and ordered correctly' do
+      let!(:work_packages) { (1..5).map { (FactoryBot.create :work_package, author: user).id.to_s } }
+
+      let(:subject) do
+        Activities::WorkPackageActivityProvider
+          .find_events(event_scope, user, Date.yesterday, Date.tomorrow, limit: 3)
+          .map { |a| a.journable_id.to_s }
+      end
+      it { is_expected.to eq(work_packages.reverse.first(3)) }
+    end
+
+    context 'when a work package has been created and then closed' do
+      let(:subject) do
+        Activities::WorkPackageActivityProvider
+          .find_events(event_scope, user, Date.yesterday, Date.tomorrow, limit: 10)
+      end
+
+      before do
+        login_as(user)
+
+        work_package.status = status_closed
+        work_package.save(validate: false)
+      end
+
+      it 'only returns a single event (as it is aggregated)' do
+        expect(subject.count)
+          .to eql(1)
+      end
+
+      it 'has the closed event type' do
+        expect(subject[0].event_type)
+          .to eql(work_package_closed_event)
+      end
+    end
+
+    context 'for a non admin user' do
+      let(:project) { FactoryBot.create(:project) }
+      let(:child_project1) { FactoryBot.create(:project, parent: project) }
+      let(:child_project2) { FactoryBot.create(:project, parent: project) }
+      let(:child_project3) { FactoryBot.create(:project, parent: project) }
+      let(:child_project4) { FactoryBot.create(:project, parent: project, public: true) }
+
+      let(:parent_work_package) { FactoryBot.create(:work_package, project: project) }
+      let(:child1_work_package) { FactoryBot.create(:work_package, project: child_project1) }
+      let(:child2_work_package) { FactoryBot.create(:work_package, project: child_project2) }
+      let(:child3_work_package) { FactoryBot.create(:work_package, project: child_project3) }
+      let(:child4_work_package) { FactoryBot.create(:work_package, project: child_project4) }
+
+      let!(:work_packages) do
+        [parent_work_package, child1_work_package, child2_work_package, child3_work_package, child4_work_package]
+      end
+
+      let(:user) do
+        FactoryBot.create(:user).tap do |u|
+          FactoryBot.create(:member,
+                            user: u,
+                            project: project,
+                            roles: [FactoryBot.create(:role, permissions: [:view_work_packages])])
+          FactoryBot.create(:member,
+                            user: u,
+                            project: child_project1,
+                            roles: [FactoryBot.create(:role, permissions: [:view_work_packages])])
+          FactoryBot.create(:member,
+                            user: u,
+                            project: child_project2,
+                            roles: [FactoryBot.create(:role, permissions: [])])
+
+          FactoryBot.create(:non_member, permissions: [:view_work_packages])
         end
+      end
 
-        before do
-          login_as(user)
+      let(:subject) do
+        # lft and rgt need to be updated
+        project.reload
 
-          work_package.status = status_closed
-          work_package.save!
-        end
+        Activities::WorkPackageActivityProvider
+          .find_events(event_scope, user, Date.yesterday, Date.tomorrow, project: project, with_subprojects: true)
+      end
 
-        it { is_expected.to eq(work_package_closed_event) }
+      it 'returns only visible work packages' do
+        expect(subject.map(&:journable_id))
+          .to match_array([parent_work_package, child1_work_package, child4_work_package].map(&:id))
       end
     end
   end

@@ -303,7 +303,7 @@ module OpenProject::Plugins
       #   activity_provider :meetings, class_name: 'Activities::MeetingActivityProvider', default: false
       #
       def activity_provider(event_type, options = {})
-        OpenProject::Activity.register(event_type, options = {})
+        OpenProject::Activity.register(event_type, options)
       end
 
       # Add custom inflection for file name to class name mapping. Otherwise, the default zeitwerk

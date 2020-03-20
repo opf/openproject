@@ -101,7 +101,7 @@ describe Redmine::Activity, type: :model do
     # Because events are provided by the journals, but we want to test for
     # their targets here, transform that
     events.map do |e|
-      e.provider.new.activitied_type.find(e.journable_id)
+      e.provider.activitied_type.find(e.journable_id)
     end
   end
 end

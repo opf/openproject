@@ -27,29 +27,29 @@
 #++
 
 class Activities::DocumentActivityProvider < Activities::BaseActivityProvider
-  acts_as_activity_provider type: 'documents',
-                            permission: :view_documents
+  activity_provider_for type: 'documents',
+                        permission: :view_documents
 
-  def event_query_projection(activity)
+  def event_query_projection
     [
-      activity_journal_projection_statement(:title, 'document_title', activity),
-      activity_journal_projection_statement(:project_id, 'project_id', activity)
+      activity_journal_projection_statement(:title, 'document_title'),
+      activity_journal_projection_statement(:project_id, 'project_id')
     ]
   end
 
-  def event_title(event, _activity)
+  def event_title(event)
     "#{Document.model_name.human}: #{event['document_title']}"
   end
 
-  def event_type(_event, _activity)
+  def event_type(_event)
     'document'
   end
 
-  def event_path(event, _activity)
+  def event_path(event)
     url_helpers.document_url(url_helper_parameter(event))
   end
 
-  def event_url(event, _activity)
+  def event_url(event)
     url_helpers.document_url(url_helper_parameter(event))
   end
 

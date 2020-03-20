@@ -11,5 +11,6 @@ module Activities
                      :project,
                      :event_type,
                      :event_path,
-                     :event_url)
+                     :event_url,
+                     keyword_init: true)
 end

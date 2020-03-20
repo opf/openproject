@@ -56,19 +56,18 @@ class ActivitiesController < ApplicationController
     respond_to do |format|
       format.html do
         @events_by_day = events.group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
-        render layout: false if request.xhr?
+        render layout: !request.xhr?
       end
       format.atom do
-        title = l(:label_activity)
+        title = t(:label_activity)
         if @author
           title = @author.name
         elsif @activity.scope.size == 1
-          title = l("label_#{@activity.scope.first.singularize}_plural")
+          title = t("label_#{@activity.scope.first.singularize}_plural")
         end
         render_feed(events, title: "#{@project || Setting.app_title}: #{title}")
       end
     end
-
   rescue ActiveRecord::RecordNotFound => e
     op_handle_warning "Failed to find all resources in activities: #{e.message}"
     render_404 I18n.t(:error_can_not_find_all_resources)
@@ -80,6 +79,7 @@ class ActivitiesController < ApplicationController
   # double check and remove
   def find_optional_project
     return true unless params[:project_id]
+
     @project = Project.find(params[:project_id])
     authorize
   rescue ActiveRecord::RecordNotFound

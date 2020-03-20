@@ -62,7 +62,7 @@ class TimelogController < ApplicationController
     if @issue
       cond << WorkPackage.self_and_descendants_of_condition(@issue)
     elsif @project
-      cond << @project.project_condition(Setting.display_subprojects_work_packages?)
+      cond << @project.project_condition(Setting.display_subprojects_work_packages?).to_sql
     end
 
     retrieve_date_range allow_nil: true
