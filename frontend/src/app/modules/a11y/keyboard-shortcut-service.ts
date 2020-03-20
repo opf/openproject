@@ -102,7 +102,7 @@ export class KeyboardShortcutService {
       if (elem.is('input') || elem.attr('id') === 'global-search-input') {
         // timeout with delay so that the key is not
         // triggered on the input
-        setTimeout( () => this.FocusHelper.focus(elem), 0);
+        setTimeout( () => this.FocusHelper.focus(elem), 200);
       } else if (elem.is('[href]')) {
         this.clickLink(elem[0]);
       } else {
