@@ -51,6 +51,7 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
     this.wpCreate
       .onNewWorkPackage()
       .pipe(
+        this.untilDestroyed(),
         take(1)
       )
       .subscribe(async (wp:WorkPackageResource) => {
