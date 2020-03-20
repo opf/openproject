@@ -30,6 +30,11 @@ import {whenDebugging} from 'core-app/helpers/debug_output';
 import {enableReactiveStatesLogging} from "reactivestates";
 import 'hammerjs';
 
+// Ensure we set the correct dynamic frontend path
+// based on the RAILS_RELATIVE_URL_ROOT setting
+// https://webpack.js.org/guides/public-path/
+const ASSET_BASE_PATH = '/assets/frontend/';
+
 // Global scripts previously part of the application.js
 // Avoid require.context since that crashes angular regularly
 require('./globals/augmenting/modal-wrapper.augment.service');
@@ -38,7 +43,12 @@ require('./globals/global-listeners');
 require('./globals/openproject');
 require('./globals/tree-menu');
 
+// Sets the relative base path
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
+
+// Ensure to set the asset base for dynamic code loading
+// https://webpack.js.org/guides/public-path/
+__webpack_public_path__ = window.appBasePath + ASSET_BASE_PATH;
 
 const meta = jQuery('meta[name=openproject_initializer]');
 I18n.locale = meta.data('defaultLocale');
