@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from "@angular/core";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {take} from "rxjs/operators";
 import {BcfWpAttributeGroupComponent} from "core-app/modules/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component";
+import {take} from "rxjs/operators";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 @Component({
   templateUrl: './bcf-wp-attribute-group.component.html',
@@ -47,10 +47,15 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
     this.selectViewpointInGallery();
   }
 
+  shouldShowGroup() {
+    return this.createAllowed && this.viewerVisible;
+  }
+
   private observeCreation() {
     this.wpCreate
       .onNewWorkPackage()
       .pipe(
+        this.untilDestroyed(),
         take(1)
       )
       .subscribe(async (wp:WorkPackageResource) => {

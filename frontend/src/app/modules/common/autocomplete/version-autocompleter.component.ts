@@ -69,6 +69,10 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
    * @returns {Promise<boolean>}
    */
   public canCreateNewActionElements():Promise<boolean> {
+    if (!this.currentProject.id) {
+      return Promise.resolve(false);
+    }
+
     return this.versionDm
       .canCreateVersionInProject(this.currentProject.id!)
       .catch(() => false);
@@ -79,7 +83,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
       .then((version) => {
         this.onCreate.emit(version);
       })
-      .catch(error =>  {
+      .catch(error => {
         this.closeSelect();
         this.halNotification.handleRawError(error);
       });

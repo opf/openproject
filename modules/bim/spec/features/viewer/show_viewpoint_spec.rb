@@ -100,5 +100,21 @@ describe 'Show viewpoint in model viewer', type: :feature, js: true do
       path = Regexp.escape("bcf/split/details/#{work_package.id}/overview")
       expect(page).to have_current_path /#{path}/
     end
+
+    context 'when user only has view_linked_issues permission' do
+      let(:permissions) { %i[view_ifc_models view_linked_issues manage_bcf view_work_packages] }
+
+      let(:user) do
+        FactoryBot.create :user,
+                          member_in_project: project,
+                          member_with_permissions: permissions
+      end
+
+      it 'does not show the viewpoint' do
+        wp_details.visit!
+        bcf_details.expect_viewpoint_count 0
+        expect(page).to have_no_selector('h3.attributes-group--header-text', text: 'BCF')
+      end
+    end
   end
 end

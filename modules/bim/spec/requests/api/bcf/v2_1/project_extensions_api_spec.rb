@@ -105,7 +105,7 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
 
           expect(hash['user_id_type']).to include(other_user.mail, current_user.mail)
 
-          expect(hash['project_actions']).to eq %w[update createTopic]
+          expect(hash['project_actions']).to eq %w[update viewTopic createTopic]
 
           expect(hash['topic_actions']).to eq %w[update updateRelatedTopics updateFiles createViewpoint]
           expect(hash['comment_actions']).to eq []

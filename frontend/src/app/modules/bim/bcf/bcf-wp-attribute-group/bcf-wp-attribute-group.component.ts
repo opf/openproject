@@ -22,7 +22,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
-import {BcfExtensionResource} from "core-app/modules/bim/bcf/api/extensions/bcf-extension.resource";
+import {BcfAuthorizationService} from "core-app/modules/bim/bcf/api/bcf-authorization.service";
 
 export interface ViewpointItem {
   /** The URL of the viewpoint, if persisted */
@@ -110,8 +110,10 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   // Remember the topic UUID, which we might just create
   topicUUID:string|undefined;
 
+  // Store whether viewing is allowed
+  viewAllowed:boolean = false;
   // Store whether viewpoint creation is allowed
-  createAllowed = false;
+  createAllowed:boolean = false;
 
   // Currently, this is static. Need observable if this changes over time
   viewerVisible = this.viewerBridge.viewerVisible();
@@ -120,6 +122,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
               readonly pathHelper:PathHelperService,
               readonly currentProject:CurrentProjectService,
               readonly bcfApi:BcfApiService,
+              readonly bcfAuthorization:BcfAuthorizationService,
               readonly viewerBridge:ViewerBridgeService,
               readonly wpCache:WorkPackageCacheService,
               readonly wpCreate:WorkPackageCreateService,
@@ -200,41 +203,22 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       .pipe(
         this.untilDestroyed()
       )
-      .subscribe(wp => {
+      .subscribe(async wp => {
         this.workPackage = wp;
         this.setTopicUUIDFromWorkPackage();
 
-        this.fetchCreateAllowed();
+        const projectId = this.workPackage.project.idFromLink;
+        this.viewAllowed = await this.bcfAuthorization.isAllowedTo(projectId, 'project_actions', 'viewTopic');
+        this.createAllowed = await this.bcfAuthorization.isAllowedTo(projectId, 'topic_actions', 'createViewpoint');
 
         if (wp.bcfViewpoints) {
           this.setViewpoints(wp.bcfViewpoints.map((el:HalLink) => {
             return { href: el.href, snapshotURL: `${el.href}/snapshot` };
           }));
           this.loadViewpointFromRoute();
-          this.cdRef.detectChanges();
         }
-      });
-  }
 
-  // Poor mans caching to avoid repeatedly fetching from the backend.
-  protected createAllowedMemoize:{[key:string]:Promise<BcfExtensionResource>} = {};
-
-  protected fetchCreateAllowed() {
-    if (!this.createAllowedMemoize[this.wpProjectId]) {
-      this.createAllowedMemoize[this.wpProjectId] = this.bcfApi
-        .projects.id(this.wpProjectId)
-        .extensions
-        .get()
-        .toPromise();
-    }
-
-    this.createAllowedMemoize[this.wpProjectId]
-      .then(resource => {
-        this.createAllowed = resource.topic_actions && resource.topic_actions.includes('createViewpoint');
         this.cdRef.detectChanges();
-      })
-      .catch(() => {
-        this.createAllowed = false;
       });
   }
 
@@ -328,5 +312,11 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
 
   protected get wpProjectId() {
     return this.workPackage.project.idFromLink;
+  }
+
+  shouldShowGroup() {
+    return this.viewAllowed &&
+      (this.viewpoints.length > 0 ||
+        (this.createAllowed && this.viewerVisible));
   }
 }
