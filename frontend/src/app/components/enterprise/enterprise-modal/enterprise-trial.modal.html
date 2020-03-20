@@ -3,13 +3,9 @@
        data-indicator-name="modal"
        tabindex="0">
     <div class="op-modal--modal-header">
-      <h3 *ngIf="!eeTrialService.status"> {{ text.heading_test_ee }}</h3>
-      <h3 *ngIf="eeTrialService.status === 'mailSubmitted'">{{ text.heading_confirmation }}</h3>
-      <h3 *ngIf="eeTrialService.status === 'startTrial'">{{ text.heading_next_steps }}</h3>
+      <h3 [textContent]="headerText()"></h3>
       <a *ngIf="showClose" class="op-modal--modal-close-button">
-        <i class="icon-close"
-           (click)="closeModal($event)"
-           [attr.title]="text.close_popup">
+        <i class="icon-close" (click)="closeModal($event)" [attr.title]="text.close_popup">
         </i>
       </a>
     </div>
@@ -34,7 +30,7 @@
                     height="400"
                     width="100%"
                     allowfullscreen=""
-                    src="https://www.youtube.com/embed/zLMSydhFSkw?autoplay=1">
+                    [src]="trustedEEVideoURL()">
             </iframe>
           </div>
         </div>

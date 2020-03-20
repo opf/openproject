@@ -49,15 +49,19 @@ export class EETrialFormComponent {
   });
 
   public text = {
-    label_test_ee: this.I18n.t('js.admin.enterprise.trial.test_ee'),
-    label_company: this.I18n.t('js.admin.enterprise.trial.label_company'),
-    label_first_name: this.I18n.t('js.admin.enterprise.trial.label_first_name'),
-    label_last_name: this.I18n.t('js.admin.enterprise.trial.label_last_name'),
-    label_email: this.I18n.t('js.admin.enterprise.trial.label_email'),
-    label_domain: this.I18n.t('js.admin.enterprise.trial.label_domain'),
+    general_consent: this.I18n.t('js.admin.enterprise.trial.form.general_consent'),
+    invalid_email: this.I18n.t('js.admin.enterprise.trial.form.invalid_email'),
+    label_test_ee: this.I18n.t('js.admin.enterprise.trial.form.test_ee'),
+    label_company: this.I18n.t('js.admin.enterprise.trial.form.label_company'),
+    label_first_name: this.I18n.t('js.admin.enterprise.trial.form.label_first_name'),
+    label_last_name: this.I18n.t('js.admin.enterprise.trial.form.label_last_name'),
+    label_email: this.I18n.t('js.admin.enterprise.trial.form.label_email'),
+    label_domain: this.I18n.t('js.admin.enterprise.trial.form.label_domain'),
     next_step: this.I18n.t('js.admin.enterprise.trial.next_step'),
-    privacy_policy: this.I18n.t('js.admin.enterprise.trial.privacy_policy'),
-    terms_of_service: this.I18n.t('js.admin.enterprise.trial.terms_of_service')
+    privacy_policy: this.I18n.t('js.admin.enterprise.trial.form.privacy_policy'),
+    receive_newsletter: this.I18n.t('js.admin.enterprise.trial.form.receive_newsletter'),
+    newsletter: this.I18n.t('js.admin.enterprise.trial.form.newsletter'),
+    terms_of_service: this.I18n.t('js.admin.enterprise.trial.form.terms_of_service')
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -71,7 +75,7 @@ export class EETrialFormComponent {
   // displays message for user
   public checkMailField() {
     if (this.trialForm.value.email !== '' && this.trialForm.controls.email.errors) {
-      this.eeTrialService.errorMsg = 'Invalid e-mail address';
+      this.eeTrialService.errorMsg = this.text.invalid_email;
     } else {
       this.eeTrialService.errorMsg = undefined;
     }

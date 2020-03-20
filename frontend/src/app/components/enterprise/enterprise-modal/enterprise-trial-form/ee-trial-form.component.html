@@ -54,7 +54,7 @@
                  class="form--check-box"
                  formControlName="general_consent">
         </div>
-        <span>I agree with the
+        <span>{{ text.general_consent }}
           <a href="https://www.openproject.com/terms-of-service/" target="_blank">{{ text.terms_of_service }}</a>
           and the
           <a href="https://www.openproject.com/legal-notice/" target="_blank">{{ text.privacy_policy }}</a>.
@@ -70,9 +70,9 @@
                  class="form--check-box"
                  formControlName="newsletter_consent">
         </div>
-        <span>I want to receive the OpenProject
+        <span>{{ text.receive_newsletter }}
           <a href="https://www.openproject.com/newsletter/" target="_blank">
-            newsletter</a>.
+            {{ text.newsletter }}</a>.
         </span>
       </label>
     </div>

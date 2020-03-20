@@ -23,7 +23,7 @@ export class EnterpriseTrialService {
 
   public confirmed:boolean;
   public cancelled = false;
-  public status:string|undefined;
+  public status:'mailSubmitted'|'startTrial'|undefined;
   public errorMsg:string|undefined;
 
   constructor(readonly I18n:I18nService,

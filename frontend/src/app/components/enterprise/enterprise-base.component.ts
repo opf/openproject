@@ -45,8 +45,9 @@ export class EnterpriseBaseComponent {
     link_quote: this.I18n.t('js.admin.enterprise.upsale.link_quote'),
     become_hero: this.I18n.t('js.admin.enterprise.upsale.become_hero'),
     you_contribute: this.I18n.t('js.admin.enterprise.upsale.you_contribute'),
-    mail_not_received: this.I18n.t('js.admin.enterprise.trial.mail_not_received'),
-    try_another_mail: this.I18n.t('js.admin.enterprise.trial.try_another_mail')
+    email_not_received: this.I18n.t('js.admin.enterprise.trial.email_not_received'),
+    try_another_email: this.I18n.t('js.admin.enterprise.trial.try_another_email'),
+    try_another_email_hint: this.I18n.t('js.admin.enterprise.trial.try_another_email_hint')
   };
 
   constructor(protected I18n:I18nService,

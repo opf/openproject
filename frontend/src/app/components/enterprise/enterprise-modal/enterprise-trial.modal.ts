@@ -27,6 +27,7 @@
 // ++
 
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild} from "@angular/core";
+import {DomSanitizer} from "@angular/platform-browser";
 import {FormControl, FormGroup} from "@angular/forms";
 import {OpModalComponent} from "app/components/op-modals/op-modal.component";
 import {OpModalLocalsToken} from "app/components/op-modals/op-modal.service";
@@ -34,12 +35,6 @@ import {OpModalLocalsMap} from "app/components/op-modals/op-modal.types";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {EETrialFormComponent} from "core-components/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
 import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
-
-export interface EnterpriseTrialOptions {
-  closeByEscape?:boolean;
-  showClose?:boolean;
-  closeByDocument?:boolean;
-}
 
 @Component({
   selector: 'enterprise-trial-modal',
@@ -52,14 +47,17 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
 
   public trialForm:FormGroup;
 
-  public showClose:boolean;
   public confirmed:boolean;
   public cancelled = false;
   public status:string;
   public errorMsg:string|undefined;
 
-  private options:EnterpriseTrialOptions;
+  // modal configuration
+  public showClose = true;
+  public closeOnEscape = false;
+  public closeOnOutsideClick = false;
 
+  public eeOnboardingVideoURL = 'https://www.youtube.com/embed/zLMSydhFSkw?autoplay=1';
   public text = {
     button_submit: this.I18n.t('js.modals.button_submit'),
     button_cancel: this.I18n.t('js.modals.button_cancel'),
@@ -76,14 +74,9 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
+              readonly domSanitizer:DomSanitizer,
               public eeTrialService:EnterpriseTrialService) {
     super(locals, cdRef, elementRef);
-
-    // modal configuration
-    this.options = locals.options || {};
-    this.closeOnEscape = _.defaultTo(this.options.closeByEscape, false);
-    this.closeOnOutsideClick = _.defaultTo(this.options.closeByDocument, true);
-    this.showClose = _.defaultTo(this.options.showClose, true);
   }
 
   ngAfterViewInit() {
@@ -105,14 +98,27 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
     this.eeTrialService.status = 'startTrial';
   }
 
+  public headerText() {
+    switch (this.eeTrialService.status) {
+      case 'mailSubmitted':
+        return this.text.heading_confirmation;
+      case 'startTrial':
+        return this.text.heading_next_steps;
+      default:
+        return this.text.heading_test_ee;
+    }
+  }
+
   public closeModal(event:any) {
-    // cancel all actions (e.g. an already send request)
-    this.eeTrialService.cancelled = true;
     this.closeMe(event);
     // refresh page to show enterprise trial
     if (this.eeTrialService.status === 'startTrial' || this.eeTrialService.confirmed) {
       window.location.reload();
     }
+  }
+
+  public trustedEEVideoURL() {
+    return this.domSanitizer.bypassSecurityTrustResourceUrl(this.eeOnboardingVideoURL);
   }
 }
 

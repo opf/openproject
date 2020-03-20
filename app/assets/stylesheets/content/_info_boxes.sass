@@ -30,14 +30,16 @@
   width: 100%
   max-width: 1000px
 
-  h2
-    margin: 15px auto
+  .info-boxes--title,
+  .info-boxes--item-title
+    margin: 20px auto
+    font-weight: bold
 
   &.-centered
     max-width: 1140px
     margin: auto
     padding: 0 15px
-    h2
+    .info-boxes--title
       text-align: center
 
   .info-boxes--container
@@ -53,9 +55,7 @@
 
       .info-boxes--item-title
         white-space: nowrap
-        font-size: 1.2rem
         border-bottom: none
-        margin-top: 20px
 
       .info-boxes--item-content
         .widget-box--arrow-links

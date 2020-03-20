@@ -38,11 +38,11 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 })
 export class EEActiveTrialComponent implements OnInit {
   public text = {
-    label_email: this.I18n.t('js.admin.enterprise.trial.label_email'),
-    label_expires_at: this.I18n.t('js.admin.enterprise.trial.label_expires_at'),
-    label_maximum_users: this.I18n.t('js.admin.enterprise.trial.label_maximum_users'),
-    label_starts_at: this.I18n.t('js.admin.enterprise.trial.label_starts_at'),
-    label_subscriber: this.I18n.t('js.admin.enterprise.trial.label_subscriber')
+    label_email: this.I18n.t('js.admin.enterprise.trial.form.label_email'),
+    label_expires_at: this.I18n.t('js.admin.enterprise.trial.form.label_expires_at'),
+    label_maximum_users: this.I18n.t('js.admin.enterprise.trial.form.label_maximum_users'),
+    label_starts_at: this.I18n.t('js.admin.enterprise.trial.form.label_starts_at'),
+    label_subscriber: this.I18n.t('js.admin.enterprise.trial.form.label_subscriber')
   };
   public subscriber = this.elementRef.nativeElement.dataset['subscriber'];
   public email = this.elementRef.nativeElement.dataset['email'];

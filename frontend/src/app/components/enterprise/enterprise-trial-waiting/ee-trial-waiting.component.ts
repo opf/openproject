@@ -38,11 +38,11 @@ import {EnterpriseTrialService} from "app/components/enterprise/enterprise-trial
 export class EETrialWaitingComponent {
   public text = {
     confirmation_info: this.I18n.t('js.admin.enterprise.trial.confirmation_info'),
-    label_status: this.I18n.t('js.admin.enterprise.trial.label_status'),
     resend: this.I18n.t('js.admin.enterprise.trial.resend_link'),
     session_timeout: this.I18n.t('js.admin.enterprise.trial.session_timeout'),
-    status_waiting: this.I18n.t('js.admin.enterprise.trial.status_waiting'),
-    status_confirmed: this.I18n.t('js.admin.enterprise.trial.status_confirmed')
+    status_confirmed: this.I18n.t('js.admin.enterprise.trial.status_confirmed'),
+    status_label: this.I18n.t('js.admin.enterprise.trial.status_label'),
+    status_waiting: this.I18n.t('js.admin.enterprise.trial.status_waiting')
   };
 
   constructor(readonly elementRef:ElementRef,

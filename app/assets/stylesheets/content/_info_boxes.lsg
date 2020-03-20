@@ -3,7 +3,7 @@
 ## Simple info boxes
 ```
 <div class="info-boxes">
-  <h2>Heading</h2>
+  <h2 class="info-boxes--title">Heading</h2>
   <div class="info-boxes--container">
     <div class="info-boxes--item">
       <h3 class="info-boxes--item-title">Box 1</h3>
@@ -30,7 +30,7 @@
 ## Centered with image and links
 ```
 <div class="info-boxes -centered">
-  <h2>Heading</h2>
+  <h2 class="info-boxes--title">Heading</h2>
   <div class="info-boxes--container">
     <div class="info-boxes--item">
       <img src="https://via.placeholder.com/250x200" class="info-boxes--teaser-image">

@@ -1,8 +1,8 @@
-<ng-content></ng-content>
+<enterprise-active-trial></enterprise-active-trial>
 
 <p>{{ text.confirmation_info }}</p>
 <p>
-  <span>{{ text.label_status }} </span>
+  <span>{{ text.status_label }} </span>
   <span *ngIf="!eeTrialService.confirmed; else confirmedStatus" class="status--waiting">
       {{ text.status_waiting }}
     <a id="resend-link" (click)="eeTrialService.resendMail()">{{ text.resend }}</a>
@@ -11,6 +11,6 @@
   </span>
 
   <ng-template #confirmedStatus>
-    <span class="status--confirmed">{{ text.status_confirmed }}</span>
+    <span class="status--confirmed">{{ text.status_confirmed }} &#x2713;</span>
   </ng-template>
 </p>
