@@ -12,6 +12,9 @@ module Overviews::Patches
 
     module Patch
       def convert_custom_text_widgets
+        # If the table does not exist yet, there is nothing to convert
+        return unless Grids::Overview.table_exists?
+
         print Grids::Overview.name
 
         text_widgets_to_convert
