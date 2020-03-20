@@ -29,7 +29,6 @@
 #++
 
 require 'redmine/menu_manager'
-require 'redmine/activity'
 require 'redmine/search'
 require 'open_project/custom_field_format'
 require 'open_project/logging/log_delegator'

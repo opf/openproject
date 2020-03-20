@@ -85,11 +85,9 @@ module OpenProject::Costs
            before: :settings,
            caption: :cost_objects_title,
            icon: 'icon2 icon-budget'
-
-      Redmine::Activity.map do |activity|
-        activity.register :cost_objects, class_name: 'Activities::CostObjectActivityProvider', default: false
-      end
     end
+
+    activity_provider :cost_objects, class_name: 'Activities::CostObjectActivityProvider', default: false
 
     patches %i[Project User TimeEntry PermittedParams ProjectsController ApplicationHelper]
     patch_with_namespace :WorkPackages, :BaseContract

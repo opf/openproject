@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -85,7 +86,7 @@ class Activities::ChangesetActivityProvider < Activities::BaseActivityProvider
 
   def event_datetime(event, _activity)
     committed_on = event['committed_on']
-    committed_date = committed_on.is_a?(String) ? DateTime.parse(committed_on) : committed_on
+    committed_on.is_a?(String) ? DateTime.parse(committed_on) : committed_on
   end
 
   def event_path(event, _activity)

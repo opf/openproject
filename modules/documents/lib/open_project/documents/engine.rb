@@ -52,12 +52,10 @@ module OpenProject::Documents
 
       Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')
 
-      Redmine::Activity.map do |activity|
-        activity.register :documents, class_name: 'Activities::DocumentActivityProvider', default: false
-      end
-
       Redmine::Search.register :documents
     end
+
+    activity_provider :documents, class_name: 'Activities::DocumentActivityProvider', default: false
 
     patches [:CustomFieldsHelper, :Project]
 

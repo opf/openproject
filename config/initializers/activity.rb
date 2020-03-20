@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Redmine::Activity.map do |activity|
+OpenProject::Activity.map do |activity|
   activity.register :work_packages, class_name: '::Activities::WorkPackageActivityProvider'
   activity.register :changesets, class_name: 'Activities::ChangesetActivityProvider'
   activity.register :news, class_name: 'Activities::NewsActivityProvider',

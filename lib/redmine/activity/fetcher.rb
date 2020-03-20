@@ -33,8 +33,9 @@ module Redmine
     class Fetcher
       attr_reader :user, :project, :scope
 
-      # Needs to be unloaded in development mode
-      @@constantized_providers = Hash.new { |h, k| h[k] = Redmine::Activity.providers[k].map(&:constantize) }
+      def self.constantized_providers
+        @constantized_providers ||= Hash.new { |h, k| h[k] = Redmine::Activity.providers[k].map(&:constantize) }
+      end
 
       def initialize(user, options = {})
         options.assert_valid_keys(:project, :with_subprojects, :author)
@@ -56,7 +57,7 @@ module Redmine
               permissions = constantized_providers(o).map { |p|
                 p.activity_provider_options[o].try(:[], :permission)
               }.compact
-              return @user.allowed_to?("view_#{o}".to_sym, @project) if permissions.blank?
+
               permissions.all? { |p| @user.allowed_to?(p, @project) }
             end
           }
@@ -114,7 +115,7 @@ module Redmine
       private
 
       def constantized_providers(event_type)
-        @@constantized_providers[event_type]
+        self.class.constantized_providers[event_type]
       end
     end
   end
