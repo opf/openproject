@@ -61,7 +61,7 @@ pt-BR:
         header-item-font-hover-color: "Cor da fonte dos itens clicáveis do cabeçalho ao passar o mouse sobre eles."
         header-border-bottom-color: "Linha fina sob o cabeçalho. Deixe este campo vazio se não quiser nenhuma linha."
         main-menu-bg-color: "Cor de fundo do menu esquerdo."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Alterar o tema irá sobrescrever seu estilo personalizado. O design será perdido. Tem certeza que deseja continuar?
     enterprise:
       upgrade_to_ee: "Atualizar para a versão Enterprise Edition"
       add_token: "Fazer upload de um token de suporte Enterprise Edition"
@@ -1156,7 +1156,7 @@ pt-BR:
       forums: "Fórum da Comunidade"
       newsletter: "Alertas de segurança / Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "As mudanças em que retraído."
   links:
     configuration_guide: 'Guia de configuração'
   instructions_after_registration: "Você pode entrar, assim que a sua conta for ativada clicando %{signin}."

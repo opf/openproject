@@ -71,7 +71,7 @@ pt:
       bcf_v2_1_text: "A aplicação receberá acesso completo de leitura e escrita à API OpenProject BCF v2.1 para executar ações em seu nome."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "Modelo IFC"
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "Ficheiro IFC"
