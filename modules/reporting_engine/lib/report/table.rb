@@ -27,7 +27,6 @@
 #++
 
 # encoding: UTF-8
-require 'enumerator'
 
 class Report::Table
   attr_accessor :query
