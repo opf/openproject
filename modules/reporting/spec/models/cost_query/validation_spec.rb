@@ -31,6 +31,10 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe "CostQuery::Validation", type: :model do
   class CostQuery::SomeBase
     include CostQuery::Validation
+
+    def engine
+      CostQuery
+    end
   end
 
   it "should be valid with no validations whatsoever" do
@@ -82,5 +86,4 @@ describe "CostQuery::Validation", type: :model do
     expect(obj.validate("2010-04-31")).to be_falsey
     expect(obj.errors[:date].size).to eq(1)
   end
-
 end
