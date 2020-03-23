@@ -34,7 +34,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= link_to({controller: "/#{@content_type.pluralize}", action: 'history', meeting_id: @meeting }, class: 'button') do %>
         <%= op_icon('button--icon icon-wiki') %>
-        <span class="button--text"><%= l(:button_history) %></span>
+        <span class="button--text"><%= l(:label_history) %></span>
       <% end %>
     </li>
   <% end %>
