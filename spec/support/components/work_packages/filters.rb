@@ -97,7 +97,7 @@ module Components
 
         set_operator(name, operator, selector)
 
-        set_value(id, value)
+        set_value(id, value) unless value.nil?
       end
 
       def expect_filter_by(name, operator, value, selector = nil)
