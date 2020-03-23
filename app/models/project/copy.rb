@@ -154,10 +154,10 @@ module Project::Copy
       # Get work_packages sorted by their depth in the hierarchy tree
       # so that parents get copied before their children.
       to_copy = project
-                .work_packages
-                .includes(:custom_values, :fixed_version, :assigned_to, :responsible)
-                .order_by_ancestors('asc')
-                .order('id ASC')
+        .work_packages
+        .includes(:custom_values, :fixed_version, :assigned_to, :responsible)
+        .order_by_ancestors('asc')
+        .order('id ASC')
 
       user_cf_ids = WorkPackageCustomField.where(field_format: 'user').pluck(:id)
 
@@ -258,27 +258,34 @@ module Project::Copy
                                                            'topics_count',
                                                            'messages_count',
                                                            'last_message_id')
-        copy_topics(forum, new_forum)
 
         new_forum.project = self
         forums << new_forum
+
+        copy_topics(forum, new_forum)
       end
     end
 
     def copy_topics(board, new_forum)
-      topics = board.topics.where('parent_id is NULL')
-      topics.each do |topic|
-        new_topic = Message.new
-        new_topic.attributes = topic.attributes.dup.except('id',
-                                                           'forum_id',
-                                                           'author_id',
-                                                           'replies_count',
-                                                           'last_reply_id',
-                                                           'created_on',
-                                                           'updated_on')
-        new_topic.forum = new_forum
-        new_topic.author_id = topic.author_id
-        new_forum.topics << new_topic
+      attributes = %w[id parent_id subject author_id content locked sticky sticked_on]
+
+      # We need a lookup map of old message_id to new
+      lookup_map = {}
+
+      # Copy all messages with NULL parent_id first
+      board
+        .messages
+        .order('parent_id ASC NULLS FIRST, id ASC')
+        .pluck_all(*attributes).each do |attributes|
+
+        # Replace parent_id if it is not nil
+        old_parent_id = attributes['parent_id']
+        attributes['parent_id'] = lookup_map.fetch(old_parent_id) unless old_parent_id.nil?
+        attributes['forum_id'] = new_forum.id
+
+        message = Message.new(attributes.except('id'))
+        new_forum.messages << message
+        lookup_map[attributes['id']] = message.id
       end
     end
 
@@ -323,10 +330,10 @@ module Project::Copy
       overrides = copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
 
       service_call = WorkPackages::CopyService
-                     .new(user: User.current,
-                          work_package: source_work_package,
-                          contract_class: WorkPackages::CopyProjectContract)
-                     .call(overrides)
+        .new(user: User.current,
+             work_package: source_work_package,
+             contract_class: WorkPackages::CopyProjectContract)
+        .call(overrides)
 
       if service_call.success?
         service_call.result

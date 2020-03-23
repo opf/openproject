@@ -561,9 +561,9 @@ describe Project::Copy, type: :model, with_mail: false do
           copy.save
         end
 
-        it 'should copy topics without replies' do
+        it 'should copy topics WITH replies' do
           expect(copy.forums.first.topics.count).to eq(project.forums.first.topics.count)
-          expect(copy.forums.first.messages.count).not_to eq(project.forums.first.messages.count)
+          expect(copy.forums.first.messages.count).to eq(project.forums.first.messages.count)
         end
       end
     end

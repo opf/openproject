@@ -69,6 +69,10 @@ gem 'htmldiff'
 # Generate url slugs with #to_url and other string niceties
 gem 'stringex', '~> 2.8.5'
 
+# Faster pluck to hash to avoid Rails object initialization
+# when bulk selecting
+gem 'pluck_all', '~> 2.0.4'
+
 # CommonMark markdown parser with GFM extension
 gem 'commonmarker', '~> 0.21.0'
 
