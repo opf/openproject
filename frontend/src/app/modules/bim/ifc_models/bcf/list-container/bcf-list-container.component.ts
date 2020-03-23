@@ -9,10 +9,11 @@ import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and
 import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import {bimSplitViewIdentifier, BimViewService} from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 
 @Component({
   templateUrl: '/app/modules/work_packages/routing/wp-list-view/wp-list-view.component.html',
-  styleUrls: ['../../../../../../app/modules/work_packages/routing/wp-list-view/wp-list-view.component.sass'],
+  styleUrls: ['/app/modules/work_packages/routing/wp-list-view/wp-list-view.component.sass'],
   providers: [
     { provide: WorkPackageViewHandlerToken, useValue: BcfCardViewHandlerRegistry },
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
@@ -22,10 +23,11 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BcfListContainerComponent extends WorkPackageListViewComponent implements OnInit {
-  @InjectField() private bimView:BimViewService;
+  @InjectField() bimView:BimViewService;
 
-  protected shouldShowAsListView(query:QueryResource):boolean {
-    return false;
+  protected updateViewRepresentation(query:QueryResource) {
+    this.wpDisplayRepresentation.setDisplayRepresentation(wpDisplayCardRepresentation);
+    this.showListView = false;
   }
 
   protected showResizerInCardView():boolean {

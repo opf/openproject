@@ -31,7 +31,6 @@ import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-t
 import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
 import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-full-view.component';
 import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
-import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
 import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {Ng2StateDeclaration} from "@uirouter/angular";
@@ -155,22 +154,6 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       menuItem: menuItemClass,
       partition: '-left-only'
     }
-  },
-  {
-    name: 'work-packages.partitioned.list.copy',
-    url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
-    views: {
-      'content-right@^.^': { component: WorkPackageCopySplitViewComponent }
-    },
-    reloadOnSearch: false,
-    data: {
-      baseRoute: 'work-packages',
-      allowMovingInEditMode: true,
-      bodyClasses: 'router--work-packages-partitioned-split-view',
-      menuItem: menuItemClass,
-      parent: 'work-packages.partitioned.list',
-      partition: '-split'
-    },
   },
   ...makeSplitViewRoutes(
     'work-packages.partitioned.list',

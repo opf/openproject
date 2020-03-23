@@ -79,14 +79,14 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     dragAndDropEnabled: true
   };
 
-  constructor(private I18n:I18nService,
+  constructor(readonly I18n:I18nService,
               readonly injector:Injector,
-              private querySpace:IsolatedQuerySpace,
-              private wpViewFilters:WorkPackageViewFiltersService,
-              private deviceService:DeviceService,
-              private CurrentProject:CurrentProjectService,
-              private wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
-              private cdRef:ChangeDetectorRef) {
+              readonly querySpace:IsolatedQuerySpace,
+              readonly wpViewFilters:WorkPackageViewFiltersService,
+              readonly deviceService:DeviceService,
+              readonly CurrentProject:CurrentProjectService,
+              readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
+              readonly cdRef:ChangeDetectorRef) {
     super();
   }
 
@@ -98,7 +98,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
       this.untilDestroyed()
     ).subscribe((query) => {
       // Update the visible representation
-      this.showListView = this.shouldShowAsListView(query);
+      this.updateViewRepresentation(query);
       this.cdRef.detectChanges();
     });
   }
@@ -115,12 +115,12 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
       });
   }
 
-  protected shouldShowAsListView(query:QueryResource):boolean {
-    return !(this.deviceService.isMobile || this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation);
-  }
-
   protected showResizerInCardView():boolean {
     return false;
   }
 
+  protected updateViewRepresentation(query:QueryResource) {
+    this.showListView = !(this.deviceService.isMobile ||
+      this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation);
+  }
 }

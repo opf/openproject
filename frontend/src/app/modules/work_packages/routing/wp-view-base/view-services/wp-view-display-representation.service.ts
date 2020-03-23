@@ -31,14 +31,11 @@ import {WorkPackageQueryStateService} from './wp-view-base.service';
 import {States} from 'core-components/states.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
-import {combine, InputState} from "reactivestates";
-import {Observable} from "rxjs";
-import {mapTo} from "rxjs/operators";
 
 
-export const wpDisplayListRepresentation:string = 'list';
-export const wpDisplayCardRepresentation:string = 'card';
-export type wpDisplayRepresentation = 'list'|'card';
+export const wpDisplayListRepresentation = 'list';
+export const wpDisplayCardRepresentation = 'card';
+export type WorkPackageDisplayRepresentationValue = 'list'|'card';
 
 @Injectable()
 export class WorkPackageViewDisplayRepresentationService extends WorkPackageQueryStateService<string|null> {
@@ -67,7 +64,7 @@ export class WorkPackageViewDisplayRepresentationService extends WorkPackageQuer
   }
 
   public get isList():boolean {
-    const current = this.current
+    const current = this.current;
     return !current || current === wpDisplayListRepresentation;
   }
 
@@ -75,7 +72,7 @@ export class WorkPackageViewDisplayRepresentationService extends WorkPackageQuer
     return this.current === wpDisplayCardRepresentation;
   }
 
-  public setDisplayRepresentation(representation:string) {
+  public setDisplayRepresentation(representation:WorkPackageDisplayRepresentationValue) {
     this.update(representation);
   }
 }

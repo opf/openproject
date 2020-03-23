@@ -48,7 +48,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
-  public successState:string;
+  public successState:string = this.$state.current.data.baseRoute + '.details';
   public cancelState:string = this.$state.current.data.baseRoute;
   public newWorkPackage:WorkPackageResource;
   public parentWorkPackage:WorkPackageResource;
