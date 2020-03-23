@@ -67,13 +67,13 @@ $nm-color-success-background: #d8fdd1
 
     .title-container
       flex-grow: 0
+      flex-basis: auto
 
 // Align title and toolbar with flex
 .toolbar
   display: flex
   flex-wrap: wrap
   align-items: center
-  justify-content: flex-end
 
 // automatically clear the toolbar
 .toolbar:after
@@ -205,7 +205,6 @@ $nm-color-success-background: #d8fdd1
   overflow: hidden
   white-space: nowrap
   margin-bottom: 10px // margin-bottom of toolbar buttons
-  min-width: 33%
 
   &.-no-grow
     flex-grow: 0
