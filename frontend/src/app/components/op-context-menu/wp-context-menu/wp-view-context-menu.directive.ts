@@ -74,7 +74,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         break;
 
       case 'relation-new-child':
-        this.wpRelationsHierarchyService.addNewChildWp(this.workPackage);
+        this.wpRelationsHierarchyService.addNewChildWp(this.baseRoute, this.workPackage);
         break;
 
       default:

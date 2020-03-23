@@ -27,8 +27,7 @@
 // ++
 
 import {WorkPackageCreateComponent} from 'core-components/wp-new/wp-create.component';
-import {ChangeDetectionStrategy, Component, ViewChild} from '@angular/core';
-import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
   selector: 'wp-new-split-view',
@@ -36,5 +35,4 @@ import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-for
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent {
-  public successState:string = this.$state.current.data.baseRoute + '.details';
 }
