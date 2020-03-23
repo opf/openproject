@@ -33,6 +33,7 @@ import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-ta
 import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {ComponentType} from "@angular/cdk/overlay";
+import {WorkPackageCopySplitViewComponent} from "core-components/wp-copy/wp-copy-split-view.component";
 
 /**
  * Return a set of routes for a split view mounted under the given base route,
@@ -74,7 +75,7 @@ export function makeSplitViewRoutes(baseRoute:string,
       views: {
         // Retarget and by that override the grandparent views
         // https://ui-router.github.io/guide/views#relative-parent-state
-        'content-right@^.^': {component: showComponent}
+        'content-right@^.^': { component: showComponent }
       }
     },
     {
@@ -129,8 +130,25 @@ export function makeSplitViewRoutes(baseRoute:string,
       views: {
         // Retarget and by that override the grandparent views
         // https://ui-router.github.io/guide/views#relative-parent-state
-        'content-right@^.^': {component: newComponent}
+        'content-right@^.^': { component: newComponent }
       }
+    },
+    // Split copy route
+    {
+      name: baseRoute + '.copy',
+      url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
+      views: {
+        'content-right@^.^': { component: WorkPackageCopySplitViewComponent }
+      },
+      reloadOnSearch: false,
+      data: {
+        baseRoute: baseRoute,
+        parent: baseRoute,
+        allowMovingInEditMode: true,
+        bodyClasses: 'router--work-packages-partitioned-split-view',
+        menuItem: menuItemClass,
+        partition: '-split'
+      },
     },
   ];
 }

@@ -13,7 +13,7 @@ import {Subject} from "rxjs";
 import {QuerySortByResource} from "core-app/modules/hal/resources/query-sort-by-resource";
 import {QueryGroupByResource} from "core-app/modules/hal/resources/query-group-by-resource";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
-import {wpDisplayRepresentation} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import {WorkPackageDisplayRepresentationValue} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 
 export class States extends StatesGroup {
@@ -53,7 +53,7 @@ export class States extends StatesGroup {
   changes = new GlobalStateChanges();
 
   // Additional state map that can be dynamically registered.
-  additional:{[id:string]:MultiInputState<HalResource>} = {};
+  additional:{ [id:string]:MultiInputState<HalResource> } = {};
 
   forResource(resource:HalResource):InputState<HalResource>|undefined {
     const stateName = _.camelCase(resource._type) + 's';
@@ -90,5 +90,5 @@ export class QueryAvailableDataStates {
   filters = input<QueryFilterInstanceSchemaResource[]>();
 
   // Display of the WP results
-  displayRepresentation = input<wpDisplayRepresentation|null>();
+  displayRepresentation = input<WorkPackageDisplayRepresentationValue|null>();
 }

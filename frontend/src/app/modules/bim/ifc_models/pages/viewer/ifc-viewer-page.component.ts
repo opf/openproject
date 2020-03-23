@@ -26,8 +26,7 @@ import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 @Component({
   templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
-    // Absolute paths do not work for styleURLs :-(
-    '../../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass'
+    '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass'
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
