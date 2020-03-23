@@ -49,7 +49,8 @@ body.router--work-packages-partitioned-split-view-new
   height: 100%
   position: relative
   width: 100%
-  min-width: 530px
+  // Min-width is actually 530px but the border already needs 2px
+  min-width: 528px
 
   @media only screen and (max-width: 1280px)
     @at-root
@@ -63,12 +64,10 @@ body.router--work-packages-partitioned-split-view-new
   position:   absolute
   bottom:     0
   height:     55px
-  // Amount for the padding on the parent relative container
-  width:      calc(100% + 20px)
+  width:      100%
   background: #F8F8F8
   border:     1px solid #eeeeee
-  margin-left: -10px
-  padding: 0 1rem 10px
+  padding:    0 1rem 10px
 
   .button
     margin: .5rem .5rem 0 0
