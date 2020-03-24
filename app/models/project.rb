@@ -287,12 +287,10 @@ class Project < ActiveRecord::Base
 
   # Returns a scope of the Versions used by the project
   def shared_versions
-    @shared_versions ||= begin
-      if persisted?
-        shared_versions_on_persisted
-      else
-        shared_versions_by_system
-      end
+    if persisted?
+      shared_versions_on_persisted
+    else
+      shared_versions_by_system
     end
   end
 

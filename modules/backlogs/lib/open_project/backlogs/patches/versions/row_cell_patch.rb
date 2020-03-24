@@ -26,31 +26,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module VersionsHelper
-  def link_to_version(version, html_options = {}, options = {})
-    return '' unless version&.is_a?(Version)
-
-    link_name = options[:before_text].to_s.html_safe + format_version_name(version, options[:project] || @project)
-    link_to_if version.visible?,
-               link_name,
-               { controller: '/versions', action: 'show', id: version },
-               html_options
+module OpenProject::Backlogs::Patches::Versions::RowCellPatch
+  def button_links
+    (super + [backlogs_edit_link]).compact
   end
 
-  def format_version_name(version, project = @project)
-    h(version.to_s_for_project(project))
-  end
+  private
 
-  def version_contract(version)
-    if version.new_record?
-      Versions::CreateContract.new(version, User.current)
-    else
-      Versions::UpdateContract.new(version, User.current)
-    end
-  end
+  def backlogs_edit_link
+    return if version.project == table.project || !table.project.module_enabled?("backlogs")
 
-  def format_version_sharing(sharing)
-    sharing = 'none' unless Version::VERSION_SHARINGS.include?(sharing)
-    t("label_version_sharing_#{sharing}")
+    link_to_if_authorized '',
+                          { controller: '/versions', action: 'edit', id: version, project_id: table.project.id },
+                          class: 'icon icon-edit',
+                          title: t(:button_edit)
   end
 end

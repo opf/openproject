@@ -31,16 +31,6 @@
 module ProjectsHelper
   include WorkPackagesFilterHelper
 
-  def link_to_version(version, html_options = {}, options = {})
-    return '' unless version && version.is_a?(Version)
-
-    link_name = options[:before_text].to_s.html_safe + format_version_name(version)
-    link_to_if version.visible?,
-               link_name,
-               { controller: '/versions', action: 'show', id: version },
-               html_options
-  end
-
   # Returns a set of options for a select field, grouped by project.
   def version_options_for_select(versions, selected = nil)
     grouped = Hash.new { |h, k| h[k] = [] }

@@ -31,6 +31,8 @@ class ProjectSettings::VersionsController < ProjectSettingsController
   menu_item :settings_versions
 
   def show
+    @versions = @project.shared_versions.merge(Versions::Scopes::OrderBySemverName.fetch)
+
     render template: 'project_settings/versions'
   end
 end

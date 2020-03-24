@@ -124,10 +124,6 @@ module ApplicationHelper
       .html_safe
   end
 
-  def format_version_name(version)
-    h(version.to_s_for_project(@project))
-  end
-
   def due_date_distance_in_words(date)
     if date
       label = date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in
