@@ -28,39 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class VersionFilterDependencyRepresenter <
-          FilterDependencyRepresenter
-          def json_cache_key
-            super + (filter.project.present? ? [filter.project.id] : [])
-          end
+class Queries::Versions::Orders::SemverNameOrder < Queries::BaseOrder
+  self.model = Version
 
-          def href_callback
-            order = "sortBy=#{to_query [%i(semver_name asc)]}"
+  def self.key
+    :semver_name
+  end
 
-            if filter.project.nil?
-              filter_params = [{ sharing: { operator: '=', values: ['system'] } }]
+  private
 
-              "#{api_v3_paths.versions}?filters=#{to_query filter_params}&#{order}"
-            else
-              "#{api_v3_paths.versions_by_project(filter.project.id)}?#{order}"
-            end
-          end
+  def order
+    ordered = Version.order_by_semver_name
 
-          def type
-            "[]Version"
-          end
-
-          private
-
-          def to_query(param)
-            CGI.escape(::JSON.dump(param))
-          end
-        end
-      end
+    if direction == :desc
+      ordered = ordered.reverse_order
     end
+
+    ordered
   end
 end

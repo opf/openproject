@@ -37,4 +37,5 @@ module Queries::Versions
   register.filter query, filters::SharingFilter
 
   register.order query, orders::NameOrder
+  register.order query, orders::SemverNameOrder
 end
