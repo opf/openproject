@@ -27,7 +27,6 @@
 #++
 
 require 'digest/md5'
-require 'date'
 
 module ReportingHelper
   # ======================= SHARED CODE START
@@ -97,7 +96,7 @@ module ReportingHelper
   end
 
   def field_representation_map(key, value)
-    return t(:label_none) if value.blank?
+    return I18n.t(:label_none) if value.blank?
 
     case key.to_sym
     when :activity_id                           then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
@@ -209,11 +208,11 @@ module ReportingHelper
     options[:delim] ||= '&bull;'
     delimited = []
     items.each_with_index do |item, ix|
-      if ix != 0 and ix % options[:step] == 0
-        delimited << "<b> #{options[:delim]} </b>" + item
-      else
-        delimited << item
-      end
+      delimited << if ix != 0 && (ix % options[:step]).zero?
+                     "<b> #{options[:delim]} </b>" + item
+                   else
+                     item
+                   end
     end
     delimited
   end
@@ -225,6 +224,6 @@ module ReportingHelper
     return klass if klass.is_a? Class
     nil
   rescue NameError
-    return nil
+    nil
   end
 end
