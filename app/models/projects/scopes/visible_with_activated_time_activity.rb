@@ -28,24 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Project::Scopes
-  class ActivatedTimeActivity
-    def self.fetch(time_entry_activity)
-      join_condition = <<-SQL
-        LEFT OUTER JOIN time_entry_activities_projects
-          ON projects.id = time_entry_activities_projects.project_id
-          AND time_entry_activities_projects.activity_id = #{time_entry_activity.id}
-      SQL
+module Projects::Scopes
+  class VisibleWithActivatedTimeActivity
+    class << self
+      def fetch(activity)
+        allowed_scope
+          .where(id: activated_projects(activity).select(:id))
+      end
 
-      join_scope = Project.joins(join_condition)
+      private
 
-      result_scope = join_scope.where(time_entry_activities_projects: { active: true })
+      def activated_projects(activity)
+        Project.activated_time_activity(activity)
+      end
 
-      if time_entry_activity.active?
-        result_scope
-          .or(join_scope.where(time_entry_activities_projects: { project_id: nil }))
-      else
-        result_scope
+      def allowed_scope
+        Project
+          .where(id: Project.allowed_to(User.current, :view_time_entries).select(:id))
+          .or(Project.where(id: Project.allowed_to(User.current, :view_own_time_entries).select(:id)))
       end
     end
   end

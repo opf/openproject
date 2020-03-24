@@ -124,7 +124,7 @@ module DemoData
       status_explanation = project_data_for(key, 'status.description')
 
       if status_code || status_explanation
-        Project::Status.create!(
+        Projects::Status.create!(
           project: project,
           code: status_code,
           explanation: status_explanation

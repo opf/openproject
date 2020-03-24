@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Project::Scopes::ActivatedTimeActivity, type: :model do
+describe Projects::Scopes::ActivatedTimeActivity, type: :model do
   let!(:activity) { FactoryBot.create(:time_entry_activity) }
   let!(:project) { FactoryBot.create(:project) }
   let!(:other_project) { FactoryBot.create(:project) }

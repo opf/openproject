@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Project::Storage
+module Projects::Storage
   def self.included(base)
     base.send :extend, StorageMethods
     base.send :include, ModelMethods

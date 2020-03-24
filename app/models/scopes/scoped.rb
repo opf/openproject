@@ -35,8 +35,8 @@ module Scopes::Scoped
     base_namespace::Scopes.constants.each do |scope|
       scope_class = base_namespace::Scopes.const_get(scope)
 
-      define_singleton_method(scope.to_s.underscore) do
-        scope_class.fetch
+      define_singleton_method(scope.to_s.underscore) do |*args|
+        scope_class.fetch(*args)
       end
     end
   rescue NameError

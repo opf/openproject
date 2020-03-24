@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Project::Status, type: :model do
+describe Projects::Status, type: :model do
   let(:project) { FactoryBot.create(:project) }
 
   let(:explanation) { 'some explanation' }

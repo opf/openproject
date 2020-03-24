@@ -29,7 +29,7 @@
 
 require Rails.root.join('config/constants/project_activity')
 
-module Project::Activity
+module Projects::Activity
   def self.included(base)
     base.send :extend, ActivityScopes
   end

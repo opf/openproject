@@ -32,9 +32,10 @@ class Project < ActiveRecord::Base
   extend Pagination::Model
   extend FriendlyId
 
-  include Project::Copy
-  include Project::Storage
-  include Project::Activity
+  include Projects::Copy
+  include Projects::Storage
+  include Projects::Activity
+  include Scopes::Scoped
 
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
@@ -137,7 +138,7 @@ class Project < ActiveRecord::Base
   }, class_name: 'WorkPackageCustomField',
      join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
      association_foreign_key: 'custom_field_id'
-  has_one :status, class_name: 'Project::Status', dependent: :destroy
+  has_one :status, class_name: 'Projects::Status', dependent: :destroy
 
   acts_as_nested_set order_column: :name, dependent: :destroy
 

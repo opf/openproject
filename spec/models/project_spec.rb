@@ -179,7 +179,7 @@ describe Project, type: :model do
 
       project.destroy!
 
-      expect(Project::Status.where(id: status.id))
+      expect(Projects::Status.where(id: status.id))
         .not_to exist
     end
   end

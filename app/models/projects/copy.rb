@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Project::Copy
+module Projects::Copy
   def self.included(base)
     base.send :include, CopyModel
     base.send :include, self::CopyMethods

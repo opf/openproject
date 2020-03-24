@@ -324,7 +324,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         expect(Project.count)
           .to eql(1)
 
-        expect(Project::Status.count)
+        expect(Projects::Status.count)
           .to eql(1)
       end
     end
