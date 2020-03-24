@@ -29,7 +29,7 @@
 #++
 
 class Version < ActiveRecord::Base
-  include Version::ProjectSharing
+  include ::Versions::ProjectSharing
 
   belongs_to :project
   has_many :fixed_issues, class_name: 'WorkPackage', foreign_key: 'fixed_version_id', dependent: :nullify

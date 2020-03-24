@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Version::ProjectSharing
+module Versions::ProjectSharing
   # Returns all projects the version is available in
   def projects
     Project.joins(project_sharing_join)
