@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'BCF snapshot column', type: :feature, js: true, with_mail: false do
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[bim]) }
+  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[bim work_package_tracking]) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:permissions) { %i[add_work_packages view_work_packages view_linked_issues] }
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }
