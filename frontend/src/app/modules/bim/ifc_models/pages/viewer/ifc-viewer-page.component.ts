@@ -55,11 +55,13 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     },
     {
       component: BcfImportButtonComponent,
-      show: () => this.ifcData.allowed('manage_bcf')
+      show: () => this.ifcData.allowed('manage_bcf'),
+      containerClasses: 'hidden-for-mobile'
     },
     {
       component: BcfExportButtonComponent,
-      show: () => this.ifcData.allowed('manage_bcf')
+      show: () => this.ifcData.allowed('manage_bcf'),
+      containerClasses: 'hidden-for-mobile'
     },
     {
       component: WorkPackageFilterButtonComponent,
