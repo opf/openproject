@@ -50,7 +50,7 @@ class VersionsController < ApplicationController
       @versions = @versions.or(@project.rolled_up_versions)
     end
 
-    @versions = @versions.visible.order_by_newest_date.uniq.to_a
+    @versions = @versions.visible.order_by_semver_name.except(:distinct).uniq
     @versions.reject! { |version| version.closed? || version.completed? } unless params[:completed]
 
     @issues_by_version = {}

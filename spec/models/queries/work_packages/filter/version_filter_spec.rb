@@ -40,11 +40,11 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
     before do
       if project
         allow(project)
-          .to receive_message_chain(:shared_versions, :order_by_newest_date)
+          .to receive_message_chain(:shared_versions, :order_by_semver_name)
           .and_return [version]
       else
         allow(Version)
-          .to receive_message_chain(:visible, :systemwide, :order_by_newest_date)
+          .to receive_message_chain(:visible, :systemwide, :order_by_semver_name)
           .and_return [version]
       end
     end
@@ -57,7 +57,7 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
 
         it 'is false if the value does not exist as a version' do
           allow(project)
-            .to receive_message_chain(:shared_versions, :order_by_newest_date)
+            .to receive_message_chain(:shared_versions, :order_by_semver_name)
             .and_return []
 
           expect(instance).to_not be_valid
@@ -73,7 +73,7 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
 
         it 'is false if the value does not exist as a version' do
           allow(Version)
-            .to receive_message_chain(:visible, :systemwide, :order_by_newest_date)
+            .to receive_message_chain(:visible, :systemwide, :order_by_semver_name)
             .and_return []
 
           expect(instance).to_not be_valid
