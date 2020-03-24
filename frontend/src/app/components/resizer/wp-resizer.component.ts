@@ -26,20 +26,29 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, HostListener, Input, OnInit} from '@angular/core';
-import {distinctUntilChanged} from 'rxjs/operators';
+import {AfterViewInit, Component, ElementRef, Input, OnInit} from '@angular/core';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {TransitionService} from '@uirouter/core';
 import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {ResizeDelta} from "core-app/modules/common/resizer/resizer.component";
+import {fromEvent} from "rxjs";
 
 @Component({
   selector: 'wp-resizer',
   template: `
-    <div class="work-packages--resizer icon-resizer-vertical-lines"></div>`
+    <resizer [customHandler]="false"
+             resizerClass="work-packages--resizer icon-resizer-vertical-lines"
+             cursorClass="col-resize"
+             (end)="resizeEnd()"
+             (start)="resizeStart()"
+             (move)="resizeMove($event)">
+    </resizer>
+  `
 })
 
-export class WpResizerDirective extends UntilDestroyedMixin implements OnInit {
+export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input() elementClass:string;
   @Input() resizeEvent:string;
   @Input() localStorageKey:string;
@@ -47,8 +56,6 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit {
 
   private resizingElement:HTMLElement;
   private elementWidth:number;
-  private oldPosition:number;
-  private mouseMoveHandler:any;
   private element:HTMLElement;
 
   public moving:boolean = false;
@@ -75,12 +82,6 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit {
     }
     this.resizingElement.style[this.resizeStyle] = this.elementWidth + 'px';
 
-    // Wait until dom content is loaded and initialize column layout
-    // Otherwise function will be executed with empty list
-    jQuery(document).ready(() => {
-      this.applyColumnLayout(this.resizingElement, this.elementWidth);
-    });
-
     // Add event listener
     this.element = this.elementRef.nativeElement;
 
@@ -93,10 +94,18 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit {
       .subscribe(changeData => {
         this.toggleFullscreenColumns();
       });
-    let that = this;
-    jQuery(window).resize(function () {
-      that.toggleFullscreenColumns();
-    });
+
+    // Listen to event
+    fromEvent(window, 'resize', { passive: true })
+      .pipe(
+        this.untilDestroyed(),
+        debounceTime(250)
+      )
+      .subscribe(() => this.toggleFullscreenColumns());
+  }
+
+  ngAfterViewInit():void {
+    this.applyColumnLayout(this.resizingElement, this.elementWidth);
   }
 
   ngOnDestroy() {
@@ -105,78 +114,43 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit {
     this.resizingElement.style[this.resizeStyle] = '';
   }
 
-  @HostListener('mousedown', ['$event'])
-  private handleMouseDown(e:MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Only on left mouse click the resizing is started
-    if (e.buttons === 1 || e.which === 1) {
-      // Gettig starting position
-      this.oldPosition = e.clientX;
-
-      this.moving = true;
-
-      // In case we dragged the resizer farther than the element can actually grow,
-      // we reset it to the actual width at the start of the new resizing
-      let localStorageValue = this.parseLocalStorageValue();
-      let actualElementWidth = this.resizingElement.offsetWidth;
-      if (localStorageValue && localStorageValue > actualElementWidth) {
-        this.elementWidth = actualElementWidth;
-      }
-
-      // Necessary to encapsulate this to be able to remove the eventlistener later
-      this.mouseMoveHandler = this.resizeElement.bind(this, this.resizingElement);
-
-      // Change cursor icon
-      // This is handled via JS to ensure
-      // that the cursor stays the same even when the mouse leaves the actual resizer.
-      document.getElementsByTagName("body")[0].setAttribute('style',
-        'cursor: col-resize !important');
-
-      // Enable mouse move
-      window.addEventListener('mousemove', this.mouseMoveHandler);
-      window.addEventListener('touchmove', this.mouseMoveHandler, { passive: false });
+  resizeStart() {
+    // In case we dragged the resizer farther than the element can actually grow,
+    // we reset it to the actual width at the start of the new resizing
+    let localStorageValue = this.parseLocalStorageValue();
+    let actualElementWidth = this.resizingElement.offsetWidth;
+    if (localStorageValue && localStorageValue > actualElementWidth) {
+      this.elementWidth = actualElementWidth;
     }
   }
 
-  @HostListener('window:touchend', ['$event'])
-  private handleTouchEnd(e:MouseEvent) {
-    window.removeEventListener('touchmove', this.mouseMoveHandler);
+  resizeEnd() {
     let localStorageValue = this.parseLocalStorageValue();
     if (localStorageValue) {
       this.elementWidth = localStorageValue;
     }
-  }
-
-  @HostListener('window:mouseup', ['$event'])
-  private handleMouseUp(e:MouseEvent):boolean {
-    if (!this.moving) {
-      return true;
-    }
-
-    // Disable mouse move
-    window.removeEventListener('mousemove', this.mouseMoveHandler);
-
-    // Change cursor icon back
-    document.body.style.cursor = 'auto';
-
-    // Take care at the end that the elementWidth-Value is the same as the actual value
-    // When the mouseup is outside the container these values will differ
-    // which will cause problems at the next movement start
-    let localStorageValue = this.parseLocalStorageValue();
-    if (localStorageValue) {
-      this.elementWidth = localStorageValue;
-    }
-
-    this.moving = false;
 
     // Send a event that we resized this element
     const event = new Event(this.resizeEvent);
     window.dispatchEvent(event);
-
-    return false;
   }
+
+  resizeMove(deltas:ResizeDelta) {
+    // Get new value depending on the delta
+    // The resizingElement is not allowed to be smaller than 530px
+    this.elementWidth = this.elementWidth - deltas.relative.x;
+    let newValue = this.elementWidth < 530 ? 530 : this.elementWidth;
+
+    // Store item in local storage
+    window.OpenProject.guardedLocalStorage(this.localStorageKey, `${newValue}`);
+
+    // Apply two column layout
+    this.applyColumnLayout(this.resizingElement, newValue);
+
+    // Set new width
+    this.resizingElement.style[this.resizeStyle] = newValue + 'px';
+  }
+
 
   private parseLocalStorageValue():number|undefined {
     let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
@@ -187,29 +161,6 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit {
     }
 
     return undefined;
-  }
-
-  private resizeElement(element:HTMLElement, e:MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Get delta to resize
-    let delta = this.oldPosition - (e.clientX || e.pageX);
-    this.oldPosition = (e.clientX || e.pageX);
-
-    // Get new value depending on the delta
-    // The resizingElement is not allowed to be smaller than 530px
-    this.elementWidth = this.elementWidth + delta;
-    let newValue = this.elementWidth < 530 ? 530 : this.elementWidth;
-
-    // Store item in local storage
-    window.OpenProject.guardedLocalStorage(this.localStorageKey, String(newValue));
-
-    // Apply two column layout
-    this.applyColumnLayout(element, newValue);
-
-    // Set new width
-    element.style[this.resizeStyle] = newValue + 'px';
   }
 
   private applyColumnLayout(element:HTMLElement, newWidth:number) {

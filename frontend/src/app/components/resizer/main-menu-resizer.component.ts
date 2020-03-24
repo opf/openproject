@@ -90,7 +90,7 @@ export class MainMenuResizerComponent extends UntilDestroyedMixin implements OnI
   }
 
   public resizeMove(deltas:ResizeDelta) {
-    this.toggleService.saveWidth(this.elementWidth + deltas.x);
+    this.toggleService.saveWidth(this.elementWidth + deltas.absolute.x);
   }
 
   public resizeEnd() {
