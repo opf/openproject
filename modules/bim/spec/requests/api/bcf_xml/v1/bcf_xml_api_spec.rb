@@ -35,7 +35,7 @@ describe 'BCF XML API v1 bcf_xml resource', type: :request do
   let!(:status) { FactoryBot.create(:status, name: 'New', is_default: true) }
   let!(:type) { FactoryBot.create :type, name: 'Issue', is_standard: true, is_default: true }
   let!(:priority) { FactoryBot.create(:issue_priority, name: "Mega high", is_default: true) }
-  let!(:project) { FactoryBot.create(:project, types: [type]) }
+  let!(:project) { FactoryBot.create(:project, enabled_module_names: %w[bim work_package_tracking], types: [type]) }
 
   let(:current_user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role, firstname: "BIMjamin")

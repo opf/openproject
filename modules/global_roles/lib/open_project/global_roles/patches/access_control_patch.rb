@@ -43,11 +43,12 @@ module OpenProject::GlobalRoles::Patches
 
     module ClassMethods
       def available_project_modules_with_no_global
-        project_modules_with_permissions = @permissions.reject(&:global?).collect(&:project_module)
+        project_modules_with_permissions = @permissions.reject(&:global?).map(&:project_module)
 
         @available_project_modules = (project_modules_with_permissions + @project_modules_without_permissions)
-                                     .uniq
-                                     .compact
+          .uniq
+          .compact
+          .reject { |name| disabled_project_modules.include? name }
 
         available_project_modules_without_no_global
       end

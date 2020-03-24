@@ -42,7 +42,7 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
 
   let(:non_member) { FactoryBot.create(:user) }
   let(:project) do
-    FactoryBot.create(:project, identifier: 'bim_project')
+    FactoryBot.create(:project, enabled_module_names: %w[bim], identifier: 'bim_project')
   end
   let(:member) do
     FactoryBot.create(:member,
