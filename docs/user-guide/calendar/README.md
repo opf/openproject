@@ -83,7 +83,7 @@ To use the calendar in a project, you need to [activate the “Calendar” modul
 
 ### Is there an option to export or sync the calendar?
 
-It is currently not possible to export or sync the calendar. You can however [export meetings as iCalendar file](#meetings) and import them to your external calendar.
+It is currently not possible to export or sync the calendar. You can however [export meetings as iCalendar file](#meetings) and import them to your external calendar. If you would like Microsoft Outlook to automatically import calendar invites, please check your Outlook settings and make sure to give permission from that side.
 
 ### Are holidays considered in the calendar?
 
