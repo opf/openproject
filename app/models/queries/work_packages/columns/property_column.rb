@@ -97,7 +97,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     },
     fixed_version: {
       association: 'fixed_version',
-      sortable: [->(table_name) { "array_remove(regexp_split_to_array(regexp_replace(substring(#{table_name}.name from '^[^a-zA-Z]+'), '\\D+', ' ', 'g'), ' '), '')::int[]" }, 'name'],
+      sortable: [->(table_name) { Versions::Scopes::OrderBySemverName.semver_sql(table_name) }, 'name'],
       default_order: 'DESC',
       null_handling: 'NULLS LAST',
       groupable: "#{WorkPackage.table_name}.fixed_version_id"

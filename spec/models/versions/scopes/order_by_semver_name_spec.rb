@@ -20,14 +20,17 @@ describe Versions::Scopes::OrderBySemverName, type: :model do
   let!(:version6) do
     FactoryBot.create(:version, name: "1. xxxx", project: project, start_date: Date.today + 5.days)
   end
+  let!(:version7) do
+    FactoryBot.create(:version, name: "1.1. aaa", project: project)
+  end
 
   it 'returns the versions in semver order' do
     expect(described_class.fetch.to_a)
-      .to eql [version6, version4, version5, version3, version2, version1]
+      .to eql [version6, version7, version4, version5, version3, version2, version1]
   end
 
   it 'is also callable on the version class' do
     expect(Version.order_by_semver_name.to_a)
-      .to eql [version6, version4, version5, version3, version2, version1]
+      .to eql [version6, version7, version4, version5, version3, version2, version1]
   end
 end
