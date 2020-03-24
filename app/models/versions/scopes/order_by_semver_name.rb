@@ -29,7 +29,7 @@
 #++
 
 module Versions::Scopes
-  class OrderBySemverName
+  class OrderBySemverName# < Scopes::Base
     class << self
       def fetch
         Version.reorder Arel.sql(order_sql)

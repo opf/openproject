@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,14 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Project::Status < ActiveRecord::Base
-  belongs_to :project
+module Scopes::Scoped
+  extend ActiveSupport::Concern
 
-  self.table_name = 'project_statuses'
+  included do
+    base_namespace = name.pluralize.constantize
 
-  validates :project,
-            presence: true,
-            uniqueness: true
+    base_namespace::Scopes.constants.each do |scope|
+      scope_class = base_namespace::Scopes.const_get(scope)
 
-  enum code: %i[on_track at_risk off_track]
+      define_singleton_method(scope.to_s.underscore) do
+        scope_class.fetch
+      end
+    end
+  rescue NameError
+    # Do nothing as there apparently are no matching scopes defined
+  end
 end
