@@ -153,6 +153,13 @@ class Attachment < ActiveRecord::Base
     attributes['file']
   end
 
+  ##
+  # Returns the file extension name,
+  # if any (with leading dot)
+  def extension
+    File.extname filename
+  end
+
   def file=(file)
     super.tap do
       set_file_size file
