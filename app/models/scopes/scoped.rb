@@ -30,16 +30,14 @@ module Scopes::Scoped
   extend ActiveSupport::Concern
 
   included do
-    base_namespace = name.pluralize.constantize
+    def self.scope_classes(*classes)
+      classes.each do |klass|
+        scope = klass.name.demodulize.underscore
 
-    base_namespace::Scopes.constants.each do |scope|
-      scope_class = base_namespace::Scopes.const_get(scope)
-
-      define_singleton_method(scope.to_s.underscore) do |*args|
-        scope_class.fetch(*args)
+        define_singleton_method(scope) do |*args|
+          klass.fetch(*args)
+        end
       end
     end
-  rescue NameError
-    # Do nothing as there apparently are no matching scopes defined
   end
 end

@@ -182,6 +182,9 @@ class Project < ActiveRecord::Base
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
 
+  scope_classes Projects::Scopes::ActivatedTimeActivity,
+                Projects::Scopes::VisibleWithActivatedTimeActivity
+
   def visible?(user = User.current)
     active? and (public? or user.admin? or user.member_of?(self))
   end

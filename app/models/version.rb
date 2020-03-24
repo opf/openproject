@@ -50,6 +50,8 @@ class Version < ActiveRecord::Base
   validates_inclusion_of :sharing, in: VERSION_SHARINGS
   validate :validate_start_date_before_effective_date
 
+  scope_classes ::Versions::Scopes::OrderBySemverName
+
   scope :visible, ->(*args) {
     joins(:project)
       .merge(Project.allowed_to(args.first || User.current, :view_work_packages))
