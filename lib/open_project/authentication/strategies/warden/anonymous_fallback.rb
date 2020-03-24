@@ -26,7 +26,7 @@ module OpenProject
           ##
           # Always valid unless session based. We are using it as a fallback after all.
           def valid?
-            !session
+            session&.id.nil?
           end
 
           def authenticate_user(_username, _password)
