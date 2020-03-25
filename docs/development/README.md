@@ -107,20 +107,19 @@ This code of conduct is adapted from the [Contributor Covenant](http://contribut
 
 
 
-## OpenProject Contributor License Agreement (CLA) 
+## OpenProject Contributor License Agreement (CLA)
 
-If you want to contribute to OpenProject, please make sure to accept our Contributor License Agreement first. The contributor license agreement documents the rights granted by contributors to OpenProject. 
+If you want to contribute to OpenProject, please make sure to accept our Contributor License Agreement first. The contributor license agreement documents the rights granted by contributors to OpenProject.
 
 [Read and accept the Contributor License Agreement here.](http://openproject.org/contributor-license-agreement/)
 
 # Additional resources
 
 
-* [Development environment for Ubuntu 16.04.](development-environment-ubuntu)
+* [Development environment for Ubuntu 18.04](development-environment-ubuntu)
 * [Development environment for Mac OS X](development-environment-osx)
 
 * [Developing Plugins](create-openproject-plugin)
 * [Running Tests](running-tests)
 * [API Documentation](/api/)
 * [Report a Bug](report-a-bug)
-

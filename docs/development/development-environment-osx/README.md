@@ -2,7 +2,7 @@
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
-This guide assumes that you have a Mac OS Xinstallation installation with administrative rights. 
+This guide assumes that you have a Mac OS Xinstallation installation with administrative rights.
 OpenProject will be installed with a PostgreSQL database.
 
 **Please note**: This guide is NOT suitable for a production setup, but only for developing with it!
@@ -23,7 +23,7 @@ rbenv is a ruby version manager that lets you quickly switch between ruby versio
 ruby-build is an addon to rbenv that installs ruby versions.
 
 ```bash
-# Install 
+# Install
 $ brew install rbenv ruby-build
 # Initialize rbenv
 $ rbenv init
@@ -32,7 +32,7 @@ $ rbenv init
 **Installing ruby-2.6**
 
 With both installed, we can now install the actual ruby version 2.6. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `2.6.1`, which we also require.
+At the time of this writing, the latest stable version is `2.6.5`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
@@ -96,11 +96,12 @@ $ nodenv init
 **Install latest LTS node version**
 
 You can find the latest LTS version here: https://nodejs.org/en/download/
-Currently, this is v12.13.0. Install and activate it with:
+
+At the time of writing this is v12.16.1. Install and activate it with:
 
 ```bash
-nodenv install 12.13.0
-nodenv global 12.13.0
+nodenv install 12.16.1
+nodenv global 12.16.1
 ```
 
 ## Verify your installation
@@ -115,7 +116,7 @@ $ bundler --version
 Bundler version 2.0.2
 
 $ npm --version
-12.13.0
+12.16.1
 ```
 
 # Install OpenProject
