@@ -100,7 +100,7 @@ module CopyModel
         if block_given?
           yield model
         else
-          return model
+          model
         end
       end
     end

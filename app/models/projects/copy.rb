@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -42,13 +43,13 @@ module Projects::Copy
   module CopyMethods
     def copy_attributes(project)
       super
-      with_model(project) do |project|
+      with_model(project) do |project_instance|
         # Clear enabled modules
         self.enabled_modules = []
-        self.enabled_module_names = project.enabled_module_names - %w[repository]
-        self.types = project.types
-        self.work_package_custom_fields = project.work_package_custom_fields
-        self.custom_field_values = project.custom_value_attributes
+        self.enabled_module_names = project_instance.enabled_module_names - %w[repository]
+        self.types = project_instance.types
+        self.work_package_custom_fields = project_instance.work_package_custom_fields
+        self.custom_field_values = project_instance.custom_value_attributes
       end
 
       self
@@ -63,7 +64,7 @@ module Projects::Copy
     private
 
     # Copies custom values from +project+
-    def copy_custom_values(project, selected_copies = [])
+    def copy_custom_values(project, _selected_copies = [])
       self.custom_values = project.custom_values.map(&:dup)
     end
 
@@ -72,7 +73,7 @@ module Projects::Copy
       # Check that the source project has a wiki first
       unless project.wiki.nil?
         self.wiki = build_wiki(project.wiki.attributes.dup.except('id', 'project_id'))
-        self.wiki.wiki_menu_items.delete_all
+        wiki.wiki_menu_items.delete_all
         copy_wiki_pages(project, selected_copies)
         copy_wiki_menu_items(project, selected_copies)
       end
@@ -111,7 +112,7 @@ module Projects::Copy
     end
 
     # Copies wiki_menu_items from +project+, requires a wiki to be already set
-    def copy_wiki_menu_items(project, selected_copies = [])
+    def copy_wiki_menu_items(project, _selected_copies = [])
       wiki_menu_items_map = {}
       project.wiki.wiki_menu_items.each do |item|
         new_item = MenuItems::WikiMenuItem.new
@@ -250,7 +251,7 @@ module Projects::Copy
     end
 
     # Copies forums from +project+
-    def copy_forums(project, selected_copies = [])
+    def copy_forums(project, _selected_copies = [])
       project.forums.each do |forum|
         new_forum = Forum.new
         new_forum.attributes = forum.attributes.dup.except('id',
@@ -284,17 +285,17 @@ module Projects::Copy
 
     def copy_attachments(from_container, to_container)
       from_container.attachments.each do |old_attachment|
-        begin
-          copied = old_attachment.dup
-          old_attachment.file.copy_to(copied)
-          to_container.attachments << copied
+        copied = old_attachment.dup
+        old_attachment.file.copy_to(copied)
+        to_container.attachments << copied
 
-          if copied.new_record?
-            Rails.logger.error "Project#copy_attachments: Attachments ##{old_attachment.id} could not be copied: #{copied.errors.full_messages}"
-          end
-        rescue => e
-          Rails.logger.error "Failed to copy attachments from #{from_container} to #{to_container}: #{e}"
+        if copied.new_record?
+          log_error <<~MSG
+            Project#copy_attachments: Attachments ##{old_attachment.id} could not be copied: #{copied.errors.full_messages}
+          MSG
         end
+      rescue StandardError => e
+        log_error("Failed to copy attachments from #{from_container} to #{to_container}: #{e}")
       end
     end
 
@@ -371,9 +372,15 @@ module Projects::Copy
 
     def log_work_package_copy_error(source_work_package, errors)
       compiled_errors << errors
-      logger.info <<-MSG
+      message = <<-MSG
           Project#copy_work_packages: work package ##{source_work_package.id} could not be copied: #{errors.full_messages}
       MSG
+
+      log_error(message, :info)
+    end
+
+    def log_error(message, level = :error)
+      Rails.logger.send(level, message)
     end
   end
 end
