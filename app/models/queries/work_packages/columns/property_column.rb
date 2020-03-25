@@ -98,7 +98,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     fixed_version: {
       association: 'fixed_version',
       sortable: [->(table_name) { Versions::Scopes::OrderBySemverName.semver_sql(table_name) }, 'name'],
-      default_order: 'DESC',
+      default_order: 'ASC',
       null_handling: 'NULLS LAST',
       groupable: "#{WorkPackage.table_name}.fixed_version_id"
     },
