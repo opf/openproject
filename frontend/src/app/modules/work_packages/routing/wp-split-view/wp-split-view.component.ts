@@ -87,7 +87,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
       )
       .subscribe(newId => {
         const idSame = wpId.toString() === newId.toString();
-        if (!idSame && this.$state.includes(`${this.baseRoute}.details.overview`)) {
+        if (!idSame && this.$state.includes(`${this.baseRoute}.details`)) {
           this.$state.go(
             (this.$state.current.name as string),
             { workPackageId: newId, focus: false }
