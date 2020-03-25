@@ -60,6 +60,9 @@ gem 'typed_dag', '~> 2.0.2'
 
 gem 'addressable', '~> 2.7.0'
 
+# Remove whitespace from model input
+gem "auto_strip_attributes", "~> 2.5"
+
 # Provide timezone info for TZInfo used by AR
 gem 'tzinfo-data', '~> 1.2019.3'
 

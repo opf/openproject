@@ -131,6 +131,9 @@ class User < Principal
   validates_confirmation_of :password, allow_nil: true
   validates_inclusion_of :mail_notification, in: MAIL_NOTIFICATION_OPTIONS.map(&:first), allow_blank: true
 
+  auto_strip_attributes :login, nullify: false
+  auto_strip_attributes :mail, nullify: false
+
   validate :login_is_not_special_value
   validate :password_meets_requirements
 
