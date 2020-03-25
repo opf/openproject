@@ -67,7 +67,8 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       thumbnailsColumns: 1,
       // Ensure thumbnails are ALWAYS shown
       thumbnailsAutoHide: false,
-
+      // For BCFs all information shall be visible
+      thumbnailSize: 'contain',
       imageAnimation: '',
       previewAnimation: false,
       previewCloseOnEsc: true,
@@ -90,16 +91,19 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     {
       breakpoint: 800,
       width: '100%',
-      height: '600px',
+      height: '400px',
       imagePercent: 80,
       thumbnailsPercent: 20,
-      thumbnailsMargin: 20,
-      thumbnailMargin: 20
+      thumbnailsMargin: 5,
+      thumbnailMargin: 5
     },
-    // max-width 400
+    // max-width 680
     {
-      breakpoint: 400,
+      breakpoint: 680,
       height: '200px',
+      thumbnailsColumns: 3,
+      thumbnailsMargin: 5,
+      thumbnailMargin: 5,
     }
   ];
 
@@ -263,6 +267,8 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   protected setViewpoints(viewpoints:ViewpointItem[]) {
     const length = viewpoints.length;
 
+    this.setThumbnailProperties(length);
+
     if (this.showIndex < 0 || length < 1) {
       this.showIndex = 0;
     } else if (this.showIndex >= length) {
@@ -318,5 +324,23 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     return this.viewAllowed &&
       (this.viewpoints.length > 0 ||
         (this.createAllowed && this.viewerVisible));
+  }
+
+  protected setThumbnailProperties(viewpointCount:number) {
+    const options = [...this.galleryOptions];
+
+    options[0].thumbnailsColumns = viewpointCount < 6 ? viewpointCount : 5;
+    options[1].thumbnailsColumns = viewpointCount < 5 ? viewpointCount : 4;
+    options[2].thumbnailsColumns = viewpointCount < 4 ? viewpointCount : 3;
+
+    options[0].height = `${this.dynamicThumbnailHeight(viewpointCount)}px`;
+    options[1].height = `${this.dynamicThumbnailHeight(viewpointCount)}px`;
+    options[2].height = `${this.dynamicThumbnailHeight(viewpointCount)}px`;
+
+    this.galleryOptions = options;
+  }
+
+  protected dynamicThumbnailHeight(viewpointCount:number):number {
+    return Math.max(Math.round(300 / viewpointCount), 120);
   }
 }
