@@ -52,14 +52,9 @@ export class PreviewTriggerService {
         return;
       }
 
-      this.previewModal = this.opModalService.show(WpPreviewModal, this.injector, { workPackageLink: href });
+      this.previewModal = this.opModalService.show(WpPreviewModal, this.injector, { workPackageLink: href, event: e });
       this.modalElement = this.previewModal.elementRef.nativeElement;
-      jQuery(this.modalElement).position({
-        my: 'left top',
-        at: 'left bottom',
-        of: el,
-        collision: 'flipfit'
-      });
+      this.reposition(jQuery(this.modalElement), el);
 
       jQuery(this.modalElement).addClass('-no-width -no-height');
     });
@@ -75,6 +70,15 @@ export class PreviewTriggerService {
       } else {
         this.opModalService.close();
       }
+    });
+  }
+
+  public reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
+    element.position({
+      my: 'right top',
+      at: 'right bottom',
+      of: target,
+      collision: 'flipfit'
     });
   }
 
