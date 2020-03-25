@@ -1,4 +1,5 @@
 import {Component, EventEmitter, HostListener, Input, OnDestroy, Output} from "@angular/core";
+import {DomHelpers} from "core-app/helpers/dom/set-window-cursor.helper";
 
 
 export interface ResizeDelta {
@@ -104,11 +105,11 @@ export class ResizerComponent implements OnDestroy {
   }
 
   private setResizeCursor() {
-    this.setCursor(`${this.cursorClass} !important`);
+    DomHelpers.setBodyCursor(this.cursorClass, 'important');
   }
 
   private setAutoCursor() {
-    this.setCursor('auto');
+    DomHelpers.setBodyCursor('auto');
   }
 
   private buildDelta(event:MouseEvent):ResizeDelta {
@@ -123,13 +124,5 @@ export class ResizerComponent implements OnDestroy {
         y: this.newY - this.oldX,
       }
     };
-  }
-
-  // Change cursor icon
-  // This is handled via JS to ensure
-  // that the cursor stays the same even when the mouse leaves the actual resizer.
-  private setCursor(style:string) {
-    document.getElementsByTagName("body")[0].setAttribute('style',
-      `cursor: ${style}`);
   }
 }

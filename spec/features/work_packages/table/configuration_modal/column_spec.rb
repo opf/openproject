@@ -35,7 +35,7 @@ describe 'Work Package table configuration modal columns spec', js: true do
       columns.remove 'Subject', save_changes: false
       columns.add 'Project', save_changes: true
       columns.expect_column_available 'Subject'
-      columns.expect_column_not_selectable 'Project'
+      columns.expect_column_not_available 'Project'
 
       expect(page).to have_selector('.wp-table--table-header', text: 'ID')
       expect(page).to have_selector('.wp-table--table-header', text: 'PROJECT')

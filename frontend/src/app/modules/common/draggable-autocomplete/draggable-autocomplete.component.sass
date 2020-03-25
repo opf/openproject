@@ -1,0 +1,29 @@
+.draggable-autocomplete--selected
+  display: flex
+  padding-bottom: 1rem
+
+.draggable-autocomplete--item
+  padding: 5px
+  margin-right: 5px
+  min-width: 50px
+  border: 1px solid #ddd
+  background: #eee
+  cursor: move
+  font-size: 14px
+  display: flex
+  align-items: center
+  justify-content: space-between
+
+  .draggable-autocomplete--remove-item
+    font-size: 8px
+    color: #999
+    padding-left: 5px
+
+.cdk-drag-placeholder
+  opacity: 0
+
+.cdk-drag-animating
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)
+
+.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder)
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)

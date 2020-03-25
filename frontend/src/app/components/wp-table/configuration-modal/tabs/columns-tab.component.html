@@ -4,6 +4,11 @@
     class="hidden-for-sighted">
   </label>
 
+  <draggable-autocompleter [options]="availableColumnsOptions"
+                           [selected]="selectedColumns"
+                           (onChange)="updateSelected($event)">
+  </draggable-autocompleter>
+
   <ng-container>
     <input #select2Columns
            type="hidden" />
