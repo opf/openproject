@@ -80,10 +80,10 @@ module Versions
       return '' if wiki_page_title.blank? || version.project.wiki.nil?
 
       link_to_if_authorized(wiki_page_title,
-                            { controller: '/wiki',
-                              action: 'show',
-                              project_id: version.project,
-                              id: wiki_page_title }) || h(wiki_page_title)
+                            controller: '/wiki',
+                            action: 'show',
+                            project_id: version.project,
+                            id: wiki_page_title) || h(wiki_page_title)
     end
 
     def button_links
