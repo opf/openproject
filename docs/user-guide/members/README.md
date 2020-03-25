@@ -14,13 +14,22 @@ keywords: members
 | Feature                                         | Documentation for                                            |
 | ----------------------------------------------- | ------------------------------------------------------------ |
 | [Add members](#add-members)                     | How to add existing members or invite new members to a project? |
+| Edit members                                    | How to change the role of a member in a project?             |
 | [Remove members](#remove-members)               | How to remove members from a project?                        |
 | [Roles and permissions](#roles-and-permissions) | How to manage roles and permissions for members?             |
 | [Groups](#groups)                               | How to add members to a groups and add groups to a project?  |
 
 ## Add members
 
-Find out how to [add existing members](../../getting-started/#add-existing-members) to join a project or [invite new team members](../../getting-started/#invite-new-members).
+Find out how to [add existing members](../../getting-started/invite-members/#add-existing-members) to join a project or [invite new team members](../../getting-started/invite-members/#invite-new-members).
+
+## Edit members
+
+To change the role of a member within a project, select the corresponding project and open the Members menu.
+
+To edit an existing member of a project, click the **Edit icon** in the list next to the member on the  right. Choose the new role and press the blue **Change button** so save your changes.
+
+![edit members](image-20200325095723130.png)
 
 ## Remove members
 
