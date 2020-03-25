@@ -29,10 +29,7 @@
 module VersionsHelper
   # Returns a set of options for a select field, grouped by project.
   def version_options_for_select(versions, selected = nil)
-    grouped = Hash.new { |h, k| h[k] = [] }
-    (versions + [selected]).compact.uniq.each do |version|
-      grouped[version.project.name] << [version.name, version.id]
-    end
+    grouped = versions_by_project((versions + [selected]).compact)
 
     if grouped.size > 1
       grouped_options_for_select(grouped, selected&.id)
@@ -66,5 +63,12 @@ module VersionsHelper
   def format_version_sharing(sharing)
     sharing = 'none' unless Version::VERSION_SHARINGS.include?(sharing)
     t("label_version_sharing_#{sharing}")
+  end
+
+  def versions_by_project(versions)
+    versions.uniq.inject(Hash.new { |h, k| h[k] = [] }) do |hash, version|
+      hash[version.project.name] << [version.name, version.id]
+      hash
+    end
   end
 end
