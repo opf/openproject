@@ -184,7 +184,7 @@ module API
         date_time_property :updated_at
 
         property :status,
-                 name_source: ->(*) { I18n.t('activerecord.attributes.project/status.code') },
+                 name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.code') },
                  render_nil: true,
                  getter: ->(*) {
                    next unless status&.code

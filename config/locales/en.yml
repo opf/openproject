@@ -449,7 +449,7 @@ en:
         types: "Types"
         versions: "Versions"
         work_packages: "Work Packages"
-      project/status:
+      projects/status:
         code: 'Status'
         explanation: 'Status description'
         codes:
