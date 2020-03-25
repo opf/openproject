@@ -90,7 +90,7 @@ describe VersionsController, type: :controller do
         it { expect(response).to render_template('index') }
 
         it "shows all work packages" do
-          issues_by_version = assigns(:issues_by_version)
+          issues_by_version = assigns(:wps_by_version)
           work_packages = issues_by_version[version1]
 
           expect(work_packages).to include wp_a
@@ -107,7 +107,7 @@ describe VersionsController, type: :controller do
         it { expect(response).to render_template('index') }
 
         it "shows only work packages of the selected type" do
-          issues_by_version = assigns(:issues_by_version)
+          issues_by_version = assigns(:wps_by_version)
           work_packages = issues_by_version[version1]
 
           expect(work_packages).not_to include wp_a
