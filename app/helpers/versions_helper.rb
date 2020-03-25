@@ -27,6 +27,20 @@
 #++
 
 module VersionsHelper
+  # Returns a set of options for a select field, grouped by project.
+  def version_options_for_select(versions, selected = nil)
+    grouped = Hash.new { |h, k| h[k] = [] }
+    (versions + [selected]).compact.uniq.each do |version|
+      grouped[version.project.name] << [version.name, version.id]
+    end
+
+    if grouped.size > 1
+      grouped_options_for_select(grouped, selected&.id)
+    else
+      options_for_select((grouped.values.first || []), selected&.id)
+    end
+  end
+
   def link_to_version(version, html_options = {}, options = {})
     return '' unless version&.is_a?(Version)
 

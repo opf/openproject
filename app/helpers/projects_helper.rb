@@ -31,20 +31,6 @@
 module ProjectsHelper
   include WorkPackagesFilterHelper
 
-  # Returns a set of options for a select field, grouped by project.
-  def version_options_for_select(versions, selected = nil)
-    grouped = Hash.new { |h, k| h[k] = [] }
-    (versions + [selected]).compact.uniq.each do |version|
-      grouped[version.project.name] << [version.name, version.id]
-    end
-
-    if grouped.size > 1
-      grouped_options_for_select(grouped, selected && selected.id)
-    else
-      options_for_select((grouped.values.first || []), selected && selected.id)
-    end
-  end
-
   def filter_set?
     params[:filters].present?
   end
