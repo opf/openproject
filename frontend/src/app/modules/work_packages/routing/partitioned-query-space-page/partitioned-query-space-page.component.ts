@@ -73,7 +73,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   /** Current query title to render */
   selectedTitle?:string;
-  currentQuery:QueryResource;
+  currentQuery:QueryResource|undefined;
 
   /** Whether we're saving the query */
   querySaving:boolean;
@@ -122,6 +122,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       .pipe(
         this.untilDestroyed()
       ).subscribe(() => {
+      /** Ensure we reload the query from the changed props */
+      this.currentQuery = undefined;
       this.refresh(true, true);
     });
 
@@ -179,7 +181,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       this.updateQueryName(val);
     } else {
       this.wpListService
-        .create(this.currentQuery, val)
+        .create(this.currentQuery!, val)
         .then(() => this.querySaving = false)
         .catch(() => this.querySaving = false);
     }
@@ -187,7 +189,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   updateQueryName(val:string) {
     this.querySaving = true;
-    this.currentQuery.name = val;
+    this.currentQuery!.name = val;
     this.wpListService.save(this.currentQuery)
       .then(() => this.querySaving = false)
       .catch(() => this.querySaving = false);
@@ -220,7 +222,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     let promise:Promise<unknown>;
 
     if (firstPage) {
-      promise = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
+      promise = this.loadFirstPage();
     } else {
       promise = this.wpListService.reloadCurrentResultsList();
     }
@@ -232,6 +234,14 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     }
 
     return promise;
+  }
+
+  protected loadFirstPage():Promise<QueryResource> {
+    if (this.currentQuery) {
+      return this.wpListService.reloadQuery(this.currentQuery, this.projectIdentifier).toPromise();
+    } else {
+      return this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
+    }
   }
 
   protected additionalLoadingTime():Promise<unknown> {
