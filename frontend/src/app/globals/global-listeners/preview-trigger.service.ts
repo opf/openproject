@@ -34,7 +34,7 @@ import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 
 @Injectable({ providedIn: 'root' })
 export class PreviewTriggerService {
-  private previewModal:OpModalComponent;
+  private previewModal:WpPreviewModal;
   private modalElement:HTMLElement;
 
   constructor(readonly opModalService:OpModalService,
@@ -54,7 +54,7 @@ export class PreviewTriggerService {
 
       this.previewModal = this.opModalService.show(WpPreviewModal, this.injector, { workPackageLink: href, event: e });
       this.modalElement = this.previewModal.elementRef.nativeElement;
-      this.reposition(jQuery(this.modalElement), el);
+      this.previewModal.reposition(jQuery(this.modalElement), el);
 
       jQuery(this.modalElement).addClass('-no-width -no-height');
     });
@@ -70,15 +70,6 @@ export class PreviewTriggerService {
       } else {
         this.opModalService.close();
       }
-    });
-  }
-
-  public reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
-    element.position({
-      my: 'right top',
-      at: 'right bottom',
-      of: target,
-      collision: 'flipfit'
     });
   }
 

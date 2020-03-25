@@ -34,7 +34,6 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
-import {PreviewTriggerService} from "core-app/globals/global-listeners/preview-trigger.service";
 
 @Component({
   templateUrl: './wp-preview.modal.html',
@@ -53,8 +52,7 @@ export class WpPreviewModal extends OpModalComponent implements OnInit {
               readonly cdRef:ChangeDetectorRef,
               readonly i18n:I18nService,
               readonly wpCacheService:WorkPackageCacheService,
-              readonly opModalService:OpModalService,
-              readonly previewTriggerService:PreviewTriggerService) {
+              readonly opModalService:OpModalService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -69,7 +67,16 @@ export class WpPreviewModal extends OpModalComponent implements OnInit {
         this.cdRef.detectChanges();
 
         const modal = jQuery(this.elementRef.nativeElement).find('.preview-modal--container');
-        this.previewTriggerService.reposition(modal, this.locals.event.target);
+        this.reposition(modal, this.locals.event.target);
       });
+  }
+
+  public reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
+    element.position({
+      my: 'right top',
+      at: 'right bottom',
+      of: target,
+      collision: 'flipfit'
+    });
   }
 }
