@@ -45,6 +45,7 @@ class ::Query::SortCriteria < ::SortHelper::SortCriteria
     @criteria
       .map { |attribute, order| [find_column(attribute), @available_criteria[attribute], order] }
       .reject { |column, criterion, _| column.nil? || criterion.nil? }
+      .map { |column, criterion, order| [column, execute_criterion(criterion), order] }
       .map { |column, criterion, order| append_order(column, Array(criterion), order) }
       .compact
   end
@@ -67,6 +68,16 @@ class ::Query::SortCriteria < ::SortHelper::SortCriteria
       ordered_criterion.map { |statement| "#{statement} #{column.null_handling}" }
     else
       ordered_criterion
+    end
+  end
+
+  def execute_criterion(criteria)
+    Array(criteria).map do |criterion|
+      if criterion.respond_to?(:call)
+        criterion.call
+      else
+        criterion
+      end
     end
   end
 end
