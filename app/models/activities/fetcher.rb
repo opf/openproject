@@ -38,12 +38,12 @@ module Activities
     end
 
     def initialize(user, options = {})
-      options.assert_valid_keys(:project, :with_subprojects, :author)
+      options.assert_valid_keys(:project, :with_subprojects, :author, :scope)
       @user = user
       @project = options[:project]
       @options = options
 
-      @scope = event_types
+      self.scope = options[:scope] || :all
     end
 
     # Returns an array of available event types
@@ -63,24 +63,6 @@ module Activities
                            OpenProject::Activity.available_event_types
                          end
                        end
-    end
-
-    # Yields to filter the activity scope
-    def scope_select(&_block)
-      @scope = @scope.select { |t| yield t }
-    end
-
-    # Sets the scope
-    # Argument can be :all, :default or an array of event types
-    def scope=(s)
-      case s
-      when :all
-        @scope = event_types
-      when :default
-        default_scope!
-      else
-        @scope = s & event_types
-      end
     end
 
     # Returns an array of events for the given date range
@@ -108,6 +90,19 @@ module Activities
     end
 
     private
+
+    # Sets the scope
+    # Argument can be :all, :default or an array of event types
+    def scope=(scope)
+      case scope
+      when :all
+        @scope = event_types
+      when :default
+        default_scope!
+      else
+        @scope = scope & event_types
+      end
+    end
 
     # Resets the scope to the default scope
     def default_scope!
