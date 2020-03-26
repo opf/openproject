@@ -81,7 +81,7 @@ describe ActivitiesController, type: :controller do
 
       describe 'empty filter selection' do
         before do
-          get 'index', params: { apply: true }
+          get 'index', params: { event_types: [''] }
         end
 
         it_behaves_like 'valid index response'
@@ -168,20 +168,19 @@ describe ActivitiesController, type: :controller do
       context 'forums' do
         let(:forum) do
           FactoryBot.create(:forum,
-                             project: project)
+                            project: project)
         end
         let!(:message_1) do
           FactoryBot.create(:message,
-                             forum: forum)
+                            forum: forum)
         end
         let!(:message_2) do
           FactoryBot.create(:message,
-                             forum: forum)
+                            forum: forum)
         end
         let(:params) do
           { project_id: project.id,
-            apply: true,
-            show_messages: 1,
+            event_types: [:messages],
             format: :atom }
         end
 
@@ -219,7 +218,7 @@ describe ActivitiesController, type: :controller do
 
       describe 'selection with apply' do
         let(:scope) { [] }
-        let(:params) { { apply: true } }
+        let(:params) { { event_types: [''] } }
 
         include_context 'index with params'
 
