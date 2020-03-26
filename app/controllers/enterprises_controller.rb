@@ -31,6 +31,8 @@ class EnterprisesController < ApplicationController
   layout 'admin'
   menu_item :enterprise
 
+  helper_method :gon
+
   before_action :augur_content_security_policy
   before_action :chargebee_content_security_policy
   before_action :youtube_content_security_policy
@@ -40,6 +42,10 @@ class EnterprisesController < ApplicationController
   def show
     @current_token = EnterpriseToken.current
     @token = @current_token || EnterpriseToken.new
+
+    if @current_token.blank?
+      initialize_gon
+    end
   end
 
   def create
@@ -56,6 +62,20 @@ class EnterprisesController < ApplicationController
       redirect_to action: :show
     else
       render_404
+    end
+  end
+
+  def create_trial_key
+    @trial_key = params[:trial_key]
+    Token::EnterpriseTrialToken.create(user_id: current_user.id, value: @trial_key)
+  end
+
+  def initialize_gon
+    @trial_key = Token::EnterpriseTrialToken.find_by!(user_id: current_user.id)
+    if @trial_key
+      gon.ee_trial_key = {
+        value: @trial_key.value
+      }
     end
   end
 

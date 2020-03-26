@@ -3,7 +3,7 @@
   {{ text.you_contribute }}
 </p>
 
-<div *ngIf="eeTrialService.status === 'mailSubmitted'">
+<div *ngIf="eeTrialService.status">
   <enterprise-trial-waiting></enterprise-trial-waiting>
   <p class="confirmation-hint">{{ text.email_not_received }}
     <a (click)="openTrialModal()">{{ text.try_another_email }}.</a><br>

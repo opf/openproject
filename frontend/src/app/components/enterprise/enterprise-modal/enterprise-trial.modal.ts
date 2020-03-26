@@ -115,6 +115,7 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
     if (this.eeTrialService.status === 'startTrial' || this.eeTrialService.confirmed) {
       window.location.reload();
     }
+    this.eeTrialService.modalOpen = false;
   }
 
   public trustedEEVideoURL() {

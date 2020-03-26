@@ -32,6 +32,10 @@ See docs/COPYRIGHT.rdoc for more details.
   </script>
 <% end %>
 
+<%= nonced_javascript_tag do %>
+  <%= include_gon(need_tag: false) -%>
+<% end %>
+
 <enterprise-base></enterprise-base>
 
 <div class='upsale--actions'>

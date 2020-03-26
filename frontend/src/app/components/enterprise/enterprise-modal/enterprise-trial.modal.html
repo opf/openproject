@@ -12,11 +12,11 @@
 
     <div class="op-modal--modal-body">
       <!-- first modal window -->
-      <div *ngIf="!eeTrialService.status">
+      <div *ngIf="!eeTrialService.status || eeTrialService.cancelled">
         <enterprise-trial-form></enterprise-trial-form>
       </div>
       <!-- second modal window -->
-      <div *ngIf="eeTrialService.status === 'mailSubmitted'">
+      <div *ngIf="eeTrialService.status === 'mailSubmitted' && !eeTrialService.cancelled">
         <enterprise-trial-waiting></enterprise-trial-waiting>
       </div>
       <!-- third modal window -->
@@ -38,13 +38,13 @@
     </div>
 
     <div class="op-modal--modal-footer">
-      <div *ngIf="!eeTrialService.status; else mailSubmitted">
+      <div *ngIf="!eeTrialService.status || eeTrialService.cancelled; else mailSubmitted">
         <button class="confirm-form-submit--continue button -highlight"
                 (click)="onSubmit()"
                 [disabled]="!trialForm || trialForm.invalid"
                 [textContent]="text.button_submit"
                 [attr.title]="text.button_submit"
-                [hidden]="eeTrialService.status === 'mailSubmitted'">
+                [hidden]="eeTrialService.status === 'mailSubmitted' && !eeTrialService.cancelled">
         </button>
         <button class="confirm-form-submit--cancel button"
                 (click)="closeModal($event)"

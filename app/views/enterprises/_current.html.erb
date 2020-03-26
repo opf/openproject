@@ -1,6 +1,6 @@
 <enterprise-active-trial data-subscriber="<%= @current_token.subscriber %>"
                          data-email="<%= @current_token.mail %>"
-                         data-restrictions="<%= @current_token.restrictions %>"
+                         data-user-count="<%= @current_token.restrictions[:active_user_count] %>"
                          data-starts-at="<%= format_date @current_token.starts_at %>"
                          data-expires-at="<%= format_date @current_token.expires_at %>">
 </enterprise-active-trial>

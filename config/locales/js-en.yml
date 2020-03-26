@@ -204,7 +204,7 @@ en:
           label_status:
           email_not_received: "You did not receive an email? Resend email or"
           try_another_email: "try with another email address"
-          try_another_email_hint: "Please be aware that your old email and confirmation link gets invalid if you try again with a new one."
+          try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
           next_steps: "Next steps"
           next_step: "In the next step we will send you an email to the email-address provided."
           resend_link: "Resend"

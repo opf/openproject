@@ -13,15 +13,14 @@
           <span>{{ email }}</span>
         </div>
       </div>
-      <!-- TODO % Hash(@current_token.restrictions).each do |key, value| %-->
-      <div class="attributes-key-value--key">{{ text.label_maximum_users}}</div>
-      <div class="attributes-key-value--value-container">
+      <div *ngIf="userCount" class="attributes-key-value--key">{{ text.label_maximum_users }}</div>
+      <div *ngIf="userCount" class="attributes-key-value--value-container">
         <div class="attributes-key-value--value -text">
-          <span>10</span>
+          <span>{{ userCount }}</span>
         </div>
       </div>
-      <div class="attributes-key-value--key">{{ text.label_starts_at }}</div>
-      <div class="attributes-key-value--value-container">
+      <div *ngIf="startsAt" class="attributes-key-value--key">{{ text.label_starts_at }}</div>
+      <div *ngIf="startsAt" class="attributes-key-value--value-container">
         <div class="attributes-key-value--value -text">
           <span>{{ startsAt }}</span>
         </div>

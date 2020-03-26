@@ -46,7 +46,7 @@ export class EEActiveTrialComponent implements OnInit {
   };
   public subscriber = this.elementRef.nativeElement.dataset['subscriber'];
   public email = this.elementRef.nativeElement.dataset['email'];
-  public restrictions = this.elementRef.nativeElement.dataset['restrictions'];
+  public userCount = this.elementRef.nativeElement.dataset['userCount'];
   public startsAt = this.elementRef.nativeElement.dataset['startsAt'];
   public expiresAt = this.elementRef.nativeElement.dataset['expiresAt'];
 
@@ -56,14 +56,14 @@ export class EEActiveTrialComponent implements OnInit {
   }
 
   ngOnInit() {
-    // TODO iterate over all restrictions
-    console.log('restrictions: ', this.restrictions);
     // trial is not active yet
     if (!this.subscriber) {
-      this.subscriber = this.eeTrialService.savedUserData.subscriber;
-      this.email =  this.eeTrialService.savedUserData.email;
-      this.startsAt = '-';
-      this.expiresAt = '-';
+      // get user data from service
+      setTimeout(() => {
+        let savedData = this.eeTrialService.trialForm.value;
+        this.subscriber = savedData.first_name + ' ' + savedData.last_name;
+        this.email =  savedData.email;
+      }, 500);
     }
   }
 }
