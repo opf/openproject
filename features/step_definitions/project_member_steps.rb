@@ -62,38 +62,14 @@ When /^I add(?: the)? principal "(.+)" as(?: a)? "(.+)"$/ do |principal, role|
   }
 end
 
-When /^I select(?: the)? principal "(.+)"$/ do |principal|
-  found_principal = Principal.like(principal).first
-  raise "No Principal #{principal} found" unless found_principal
-  select_principal(found_principal)
-end
-
 When /^I select(?: the)? role "(.+)"$/ do |role|
   found_role = Role.like(role).first
   raise "No Role #{role} found" unless found_role
   select_role(found_role)
 end
 
-def select_principal(principal)
-  select2(principal.name, css: '#s2id_member_user_ids')
-end
-
 def select_role(role)
   select(role.name, from: 'member_role_ids')
-end
-
-def select_without_select2(name, scope)
-  steps %{And I check "#{name}" within "#{scope}"}
-end
-
-def enter_name_with_select2(name, scope = '')
-  with_scope(scope) do
-    find('.select2-choices .select2-input').set(name)
-  end
-end
-
-def enter_name_without_select2(name)
-  step %{I fill in "principal_search" with "#{name}"}
 end
 
 When /^I add the principal "(.+)" as a member with the roles:$/ do |principal_name, roles_table|

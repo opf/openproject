@@ -27,8 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= javascript_include_tag "members_select_boxes.js" %>
-
 <%= labelled_tabular_form_for(:member, url: main_app.project_members_path,
                               method: :post,
                               html: { id: "members_add_form", class: "form -vertical -bordered -medium-compressed" }) do |f| %>

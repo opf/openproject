@@ -100,11 +100,11 @@ A toolbar that can and should be used for actions on the current view. Initially
 </div>
 ```
 
-## Toolbar with labelled form elements and select2
+## Toolbar with labelled form elements
 
 ```
 @full-width
-<div id="toolbar-with-select2" class="toolbar-container">
+<div class="toolbar-container">
   <div class="toolbar">
     <div class="title-container">
       <h2>Dragonball Z characters</h2>
@@ -141,11 +141,3 @@ A toolbar that can and should be used for actions on the current view. Initially
   <p class="subtitle">now with extremeley long subtitle: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste consequatur doloribus suscipit nemo temporibus deserunt alias incidunt doloremque officia rerum, nobis fuga, recusandae voluptatibus voluptatem tenetur repellendus itaque et. Eum.</p>
 </div>
 ```
-
-```
-@javascript
-(function($){
-  $('#toolbar-with-select2').find('select').select2();
-})(jQuery);
-```
-

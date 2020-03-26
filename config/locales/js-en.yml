@@ -589,19 +589,6 @@ en:
 
     field_value_enter_prompt: "Enter a value for '%{field}'"
 
-    select2:
-      input_too_short:
-        one: "Please enter one more character"
-        other: "Please enter {{count}} more characters"
-        zero: "Please enter more characters"
-      load_more: "Loading more results ..."
-      no_matches: "No matches found"
-      searching: "Searching ..."
-      selection_too_big:
-        one: "You can only select one item"
-        other: "You can only select {{limit}} items"
-        zero: "You cannot select any items"
-
     project_menu_details: "Details"
 
     sort:
