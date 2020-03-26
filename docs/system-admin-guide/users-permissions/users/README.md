@@ -9,7 +9,7 @@ keywords: manage users
 
 # Manage Users
 
-The users list provides an overview of all users in OpenProject. You can create new users, make changes to existing user accounts, block or delete users from the system.
+The users list provides an overview of all users in OpenProject. You can create new users, make changes to existing user accounts, block or delete users from the system. The number of users for your subscription is thus not bound to names. For example, if you block a user you can add a new one without upgrading.
 
 <div class="glossary">
 **User** is defined as a person (described by an identifier) who uses OpenProject. New users can be created in the admin settings. Users can become project members by assigning them a role and adding them via the project settings.
