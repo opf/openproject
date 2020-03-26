@@ -217,6 +217,7 @@ class Activities::BaseActivityProvider
   def restrict_projects(query, user, options)
     query = join_with_projects_table(query)
     query = restrict_projects_by_selection(options, query)
+    query = restrict_projects_by_activity_module(query)
     restrict_projects_by_permission(query, user)
   end
 
@@ -226,6 +227,12 @@ class Activities::BaseActivityProvider
     end
 
     query
+  end
+
+  def restrict_projects_by_activity_module(query)
+    # Have to use the string based where here as the resulting
+    # sql would otherwise expect a parameter for the prepared statement.
+    query.where(projects_table[:id].in(EnabledModule.where("name = 'activity'").select(:project_id).arel))
   end
 
   def restrict_projects_by_permission(query, user)

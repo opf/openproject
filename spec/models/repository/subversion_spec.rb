@@ -310,7 +310,7 @@ describe Repository::Subversion, type: :model do
         let(:project) { FactoryBot.create(:project) }
 
         def find_events(user, options = {})
-          fetcher = Redmine::Activity::Fetcher.new(user, options)
+          fetcher = Activities::Fetcher.new(user, options)
           fetcher.scope = ['changesets']
           fetcher.events(Date.today - 30, Date.today + 1)
         end
