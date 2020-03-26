@@ -78,25 +78,25 @@ feature 'group memberships through groups page', type: :feature, js: true do
       members_page.visit!
       members_page.open_new_member!
 
-      members_page.enter_principal_search! 'Hannibal S'
-      expect(page).to have_text 'Hannibal Smith'
+      members_page.search_principal! 'Hannibal S'
+      expect(members_page).to have_search_result 'Hannibal Smith'
     end
 
     scenario 'Entering a Username as Member in lastname, firstname order' do
       members_page.visit!
       members_page.open_new_member!
 
-      members_page.enter_principal_search! 'Smith, H'
-      expect(page).to have_text 'Hannibal Smith'
+      members_page.search_principal! 'Smith, H'
+      expect(members_page).to have_search_result 'Hannibal Smith'
     end
 
     scenario 'Escaping should work properly when entering a name' do
       members_page.visit!
       members_page.open_new_member!
-      members_page.enter_principal_search! 'script'
+      members_page.search_principal! 'script'
 
       expect(members_page).not_to have_alert_dialog
-      expect(page).to have_text "<script>alert('h4x');</script>"
+      expect(members_page).to have_search_result "<script>alert('h4x');</script>"
     end
   end
 

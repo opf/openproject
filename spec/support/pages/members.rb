@@ -30,7 +30,7 @@ require 'support/pages/page'
 
 module Pages
   class Members < Page
-    include Capybara::Select2
+    include ::Components::NgSelectAutocompleteHelpers
 
     attr_reader :project_identifier
 
@@ -160,7 +160,9 @@ module Pages
     end
 
     def select_principal!(principal_name)
-      select2(principal_name, css: '#s2id_member_user_ids')
+      select_autocomplete page.find("members-autocompleter"),
+                          query: principal_name,
+                          results_selector: '.ng-dropdown-panel-items'
     end
 
     ##
@@ -175,16 +177,21 @@ module Pages
     end
 
     def search_principal!(query)
-      input = find '#members_add_form .select2-search-field input'
-      input.set query
+      search_autocomplete page.find("members-autocompleter"),
+                          query: query,
+                          results_selector: '.ng-dropdown-panel-items'
     end
 
     def select_search_result!(value)
-      find('.select2-results div', text: value).click
+      find('.ng-option', text: value).click
+    end
+
+    def has_search_result?(value)
+      page.has_selector?('.ng-option', text: value)
     end
 
     def has_no_search_results?
-      has_text?('No matches found')
+      page.has_selector?('.ng-option', text: 'No items found')
     end
 
     def sort_by(column)
@@ -205,7 +212,7 @@ module Pages
     # Indicates whether the given principal has been selected as one
     # of the users to be added to the project in the 'New member' dialogue.
     def has_selected_new_principal?(name)
-      has_selector? '.select2-search-choice', text: name
+      has_selector? '.ng-value', text: name
     end
 
     def select_role!(role_name)
@@ -215,12 +222,6 @@ module Pages
 
     def expect_role(role_name, present: true)
       expect(page).to have_conditional_selector(present, '#member_role_ids option', text: role_name)
-    end
-
-    def enter_principal_search!(principal_name)
-      find('#s2id_member_user_ids')
-        .find('.select2-choices .select2-input')
-        .set(principal_name)
     end
 
     def go_to_page!(number)
