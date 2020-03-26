@@ -60,7 +60,7 @@ describe Activities::Fetcher, 'integration', type: :model do
     subject { instance.events(Date.today - 30, Date.today + 1) }
 
     context 'activities globally' do
-      let!(:activities) { [work_package, message, news, time_entry, changeset, wiki_page] }
+      let!(:activities) { [work_package, message, news, time_entry, changeset, wiki_page.content] }
 
       it 'finds events of all type' do
         expect(subject.map(&:journable_id))
@@ -102,7 +102,7 @@ describe Activities::Fetcher, 'integration', type: :model do
 
     context 'activities in a project' do
       let(:options) { { project: project } }
-      let!(:activities) { [work_package, message, news, time_entry, changeset, wiki_page] }
+      let!(:activities) { [work_package, message, news, time_entry, changeset, wiki_page.content] }
 
       it 'finds events of all type' do
         expect(subject.map(&:journable_id))
@@ -210,7 +210,7 @@ describe Activities::Fetcher, 'integration', type: :model do
       let!(:activities) do
         # Login to have all the journals created as the user
         login_as(user)
-        [work_package, message, news, time_entry, changeset, wiki_page]
+        [work_package, message, news, time_entry, changeset, wiki_page.content]
       end
 
       it 'finds events of all type' do
