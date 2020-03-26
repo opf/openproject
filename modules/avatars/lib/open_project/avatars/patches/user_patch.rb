@@ -35,8 +35,7 @@ module OpenProject::Avatars
 
       module InstanceMethods
         def reload(*args)
-          @local_avatar_attachment = nil
-          @local_avatar_attachment_calculated = nil
+          reset_avatar_attachment_cache!
 
           super
         end
@@ -53,12 +52,21 @@ module OpenProject::Avatars
 
                                                     true
                                                   end
+
+          @local_avatar_attachment
         end
 
         def local_avatar_attachment=(file)
           local_avatar_attachment&.destroy
+          reset_avatar_attachment_cache!
+
           attach_files('first' => { 'file' => file, 'description' => 'avatar' })
           save
+        end
+
+        def reset_avatar_attachment_cache!
+          @local_avatar_attachment = nil
+          @local_avatar_attachment_calculated = nil
         end
       end
     end
