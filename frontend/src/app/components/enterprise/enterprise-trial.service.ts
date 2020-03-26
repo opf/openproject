@@ -81,7 +81,7 @@ export class EnterpriseTrialService {
       .then((res:any) => {
         // show confirmed status and enable continue btn
         this.confirmed = true;
-        // TODO: delete user data from gon;
+        // delete trial key from gon after mail was confirmed
         (window as any).gon.ee_trial_key = undefined;
 
         // returns token if mail was confirmed
