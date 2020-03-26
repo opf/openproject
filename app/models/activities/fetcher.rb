@@ -67,29 +67,15 @@ module Activities
 
     # Returns an array of events for the given date range
     # sorted in reverse chronological order
-    def events(from = nil, to = nil, options = {})
-      events = []
-      @options[:limit] = options[:limit]
+    def events(from = nil, to = nil, limit: nil)
+      events = events_from_providers(from, to, limit)
 
-      @scope.each do |event_type|
-        constantized_providers(event_type).each do |provider|
-          events += provider.find_events(event_type, @user, from, to, @options)
-        end
-      end
+      eager_load_associations(events)
 
-      projects = Project.find(events.map(&:project_id).compact) if events.reject { |e| e.project_id.nil? }
-      users = User.where(id: events.map(&:author_id).compact).to_a
-
-      events.each do |e|
-        e.event_author = users.detect { |u| u.id == e.author_id } if e.author_id
-        e.project = projects.detect { |p| p.id == e.project_id } if e.project_id
-      end
-
-      events.sort! { |a, b| b.event_datetime <=> a.event_datetime }
-      events
+      sort_by_date(events)
     end
 
-    private
+    protected
 
     # Sets the scope
     # Argument can be :all, :default or an array of event types
@@ -107,6 +93,48 @@ module Activities
     # Resets the scope to the default scope
     def default_scope!
       @scope = OpenProject::Activity.default_event_types
+    end
+
+    def events_from_providers(from, to, limit)
+      events = []
+
+      @scope.each do |event_type|
+        constantized_providers(event_type).each do |provider|
+          events += provider.find_events(event_type, @user, from, to, @options.merge(limit: limit))
+        end
+      end
+
+      events
+    end
+
+    def eager_load_associations(events)
+      projects = projects_of_event_set(events)
+      users = users_of_event_set(events)
+
+      events.each do |e|
+        e.event_author = users[e.author_id]&.first
+        e.project = projects[e.project_id]&.first
+      end
+    end
+
+    def projects_of_event_set(events)
+      project_ids = events.map(&:project_id).compact.uniq
+
+      if project_ids.any?
+        Project.find(project_ids).group_by(&:id)
+      else
+        {}
+      end
+    end
+
+    def users_of_event_set(events)
+      user_ids = events.map(&:author_id).compact.uniq
+
+      User.where(id: user_ids).group_by(&:id)
+    end
+
+    def sort_by_date(events)
+      events.sort { |a, b| b.event_datetime <=> a.event_datetime }
     end
 
     def constantized_providers(event_type)

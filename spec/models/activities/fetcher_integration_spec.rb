@@ -90,7 +90,7 @@ describe Activities::Fetcher, 'integration', type: :model do
 
       context 'if restricting the scope' do
         before do
-          instance.scope = %w(time_entries messages)
+          options[:scope] = %w(time_entries messages)
         end
 
         it 'finds only events matching the scope' do
@@ -132,7 +132,7 @@ describe Activities::Fetcher, 'integration', type: :model do
 
       context 'if restricting the scope' do
         before do
-          instance.scope = %w(time_entries messages)
+          options[:scope] = %w(time_entries messages)
         end
 
         it 'finds only events matching the scope' do
@@ -251,7 +251,7 @@ describe Activities::Fetcher, 'integration', type: :model do
 
       context 'if restricting the scope' do
         before do
-          instance.scope = %w(time_entries messages)
+          options[:scope] = %w(time_entries messages)
         end
 
         it 'finds only events matching the scope' do
