@@ -373,7 +373,7 @@ class AccountController < ApplicationController
     if OpenProject::Configuration.disable_password_login?
       render_404
     else
-      password_authentication(params[:username], params[:password])
+      password_authentication(params[:username]&.strip, params[:password])
     end
   end
 

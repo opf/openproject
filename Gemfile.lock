@@ -296,6 +296,8 @@ GEM
       rbtree3 (~> 0.5)
     ast (2.4.0)
     attr_required (1.0.1)
+    auto_strip_attributes (2.5.0)
+      activerecord (>= 4.0)
     autoprefixer-rails (9.7.4)
       execjs
     awesome_nested_set (3.2.0)
@@ -967,6 +969,7 @@ DEPENDENCIES
   acts_as_tree (~> 2.9.0)
   addressable (~> 2.7.0)
   airbrake (~> 9.4.3)
+  auto_strip_attributes (~> 2.5)
   autoprefixer-rails (~> 9.7.4)
   awesome_nested_set (~> 3.2.0)
   aws-sdk-core (~> 3.91.0)
@@ -1125,4 +1128,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.0.2
+   2.1.4

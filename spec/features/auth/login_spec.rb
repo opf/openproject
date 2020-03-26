@@ -67,6 +67,17 @@ describe 'Login', type: :feature do
                         password_confirmation: user_password)
     end
 
+    context 'with leading and trailing space in login' do
+      it 'can still login' do
+        # first login
+        login_with(" #{user.login} ", user.password)
+
+        # on the my page
+        expect(page)
+          .to have_current_path my_page_path
+      end
+    end
+
     context 'with force password change' do
       let(:force_password_change) { true }
       let(:first_login) { true }
