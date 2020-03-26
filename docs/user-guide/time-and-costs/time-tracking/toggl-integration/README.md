@@ -7,7 +7,7 @@ robots: index, follow
 keywords: time tracking, toggl integration
 ---
 
-# Time tracking with Toogl
+# Time tracking with Toggl
 
 To track time to a work package via a start and stop button, we offer an integration for the time recording software Toggl (https://toggl.com/).
 

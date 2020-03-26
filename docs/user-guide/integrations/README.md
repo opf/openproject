@@ -2,25 +2,34 @@
 sidebar_navigation:
   title: Integrations
   priority: 599
-description: Integration with Jira, MS Project and Gitlab.
+description: Integration to OpenProject.
 robots: index, follow
 keywords: projects, integration, Jira
 ---
 # Integrations
 
-If you have previously worked with other tools and want to transfer projects to OpenProject, there is a way to do so. 
+If you have previously worked with other tools and want to switch or need an integration to OpenProject, there is a way to do so for some applications.
 
-**Jira**
+## Gitlab
 
-You can export your tasks into an Excel file and then import these tasks via an Excel plugin into OpenProject:  https://www.openproject.org/de/synchronize-excel-openproject/
+The GitLab integration to OpenProject is currently being developed: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/21933#note_309977508.
+We are prioritizing this topic at the moment and will update this guide with the latest developments.
 
-**Microsoft Project**
+## Jira
 
-For Microsoft Project it works the same way as for Jira. You are using the Excel plugin to import your tasks.  https://www.openproject.org/de/synchronize-excel-openproject/
+Currently, there is no direct integration between OpenProject and Jira. Since OpenProject is an excellent open source alternative to Jira, we have prepared a way to import tickets from Jira to OpenProject. First, you can export your tasks from Jira into an Excel file and then import these tasks via an [Excel plugin into OpenProject](https://www.openproject.org/de/synchronize-excel-openproject/).
 
-**Gitlab**
+## Microsoft Project
 
-There is not yet an integration of Gitlab in OpenProject yet. However, there is some development going on https://gitlab.com/gitlab-org/gitlab/-/merge_requests/21933#note_309977508 and we have from our side also prioritised this task and are working on it.
+There is an integration between MS Project and OpenProject. However, the synch plugin is not actively maintained at this time. If you wish to find out more, please [contact us](https://www.openproject.org/contact-us/).
+To synchronize tasks from MS Project to OpenProject, you can export your MS Project file to Excel and then [synchronize it with OpneProject]( https://www.openproject.org/de/synchronize-excel-openproject/).
 
+## Toggl
 
+We do offer an integration between OpenProject and the [time tracking app toggl](../time-and-costs/time-tracking/toggl-integration/).
+
+## Slack
+
+We do offer a rudimentary OpenProject Slack integration.
+[Get in touch to find out more](https://www.openproject.org/contact-us/).
 
