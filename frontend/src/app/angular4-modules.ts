@@ -176,32 +176,6 @@ import {OpenprojectMembersModule} from "core-app/modules/members/members.module"
     // Form configuration
     OpDragScrollDirective,
     ConfirmFormSubmitController,
-<<<<<<< HEAD
-=======
-  ],
-  entryComponents: [
-    // Project Auto completer
-    ProjectMenuAutocompleteComponent,
-
-    // Modals
-    DynamicContentModal,
-    ConfirmDialogModal,
-    PasswordConfirmationModal,
-    AttributeHelpTextModal,
-    WpPreviewModal,
-
-    // Enterprise Edition
-    EnterpriseBaseComponent,
-    EnterpriseTrialModal,
-    EETrialFormComponent,
-    EETrialWaitingComponent,
-    EEActiveTrialComponent,
-
-    // Main menu
-    MainMenuResizerComponent,
-    MainMenuToggleComponent,
-    ConfirmFormSubmitController,
->>>>>>> Adapt background page content to state too
   ]
 })
 export class OpenProjectModule {
