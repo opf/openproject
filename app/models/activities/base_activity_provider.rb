@@ -74,13 +74,15 @@ class Activities::BaseActivityProvider
   end
 
   def find_events(user, from, to, options)
-    query = event_selection_query(user, from, to, options)
+    query = if aggregated?
+              aggregated_event_selection_query(user, from, to, options)
+            else
+              event_selection_query(user, from, to, options)
+            end
 
-    query = apply_aggregation(query) if aggregated?
     query = apply_order(query)
     query = apply_limit(query, options)
     query = apply_event_projection(query)
-
     fill_events(query)
   end
 
@@ -151,9 +153,13 @@ class Activities::BaseActivityProvider
     query.project(projection)
   end
 
-  def apply_aggregation(query)
-    query = Journal::Scopes::AggregatedJournal.fetch(sql: query.dup.project('journals.*').to_sql).arel
-
+  # When aggregating, we add the query that actually fetches the journals,
+  # restricted by from, to, user permission, etc. as a CTE. That way,
+  # that query has only to be executed once inside the aggregated journal query which
+  # considerably reduces execution time.
+  def aggregated_event_selection_query(user, from, to, options)
+    query = aggregated_journal_query
+    query = add_event_selection_query_as_cte(query, user, from, to, options)
     query = join_activity_journals_table(query)
     query = extend_event_query(query)
     join_with_projects_table(query)
@@ -241,6 +247,19 @@ class Activities::BaseActivityProvider
     query.where(projects_table[:id].in(Project.allowed_to(user, perm).select(:id).arel))
   end
 
+  def aggregated_journal_query
+    # As AggregatedJournal wraps the provided sql statement inside brackets we
+    # need to provide a fully valid statement and not only the alias string.
+    Journal::Scopes::AggregatedJournal.fetch(sql: "SELECT * FROM #{aggregated_journals_alias}").arel
+  end
+
+  def add_event_selection_query_as_cte(query, user, from, to, options)
+    cte_query = event_selection_query(user, from, to, options).project('journals.*')
+    cte = Arel::Nodes::As.new(Arel::Table.new(aggregated_journals_alias), cte_query)
+
+    query.with(cte)
+  end
+
   attr_accessor :activity
 
   def aggregated?
@@ -287,6 +306,10 @@ class Activities::BaseActivityProvider
 
   def event_name(event)
     I18n.t(event_type(event).underscore, scope: 'events')
+  end
+
+  def aggregated_journals_alias
+    :relevant_journals
   end
 
   def url_helpers
