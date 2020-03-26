@@ -63,7 +63,6 @@ describe 'Select work package row', type: :feature, js: true do
       work_packages_page.visit_index
     end
 
-    include_context 'ui-select helpers'
     include_context 'work package table helpers'
 
     context 'sorting by version' do

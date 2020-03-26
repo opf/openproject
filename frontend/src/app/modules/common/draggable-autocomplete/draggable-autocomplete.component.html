@@ -1,13 +1,8 @@
 <div class="draggable-autocomplete--container">
-  <div cdkDropList
-       class="draggable-autocomplete--selected"
-       cdkDropListOrientation="horizontal"
-       (cdkDropListDropped)="onItemMoved($event)">
-    <div class="draggable-autocomplete--item"
-         cdkDrag
-         (cdkDragStarted)="startDragging($event)"
-         (cdkDragEnded)="stopDragging($event)"
-         *ngFor="let item of selected">
+  <div class="draggable-autocomplete--selected"
+       dragula="columns"
+       [(dragulaModel)]="selected">
+    <div class="draggable-autocomplete--item" *ngFor="let item of selected">
       <span class="draggable-autocomplete--item-text"
             [textContent]="item.name"></span>
       <a (click)="remove(item)"

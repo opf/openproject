@@ -39,26 +39,39 @@ module Components
         self.trigger_parent = trigger_parent
       end
 
+      def column_autocompleter
+        find('.columns-modal--content .draggable-autocomplete--input')
+      end
+
+      def close_autocompleter
+        find('.columns-modal--content .draggable-autocomplete--input input').send_keys :escape
+      end
+
+      def column_item(name)
+        find('.draggable-autocomplete--item', text: name)
+      end
+
       def expect_column_not_available(name)
         modal_open? or open_modal
 
-        find('.columns-modal--content .draggable-autocomplete--input').click
+        column_autocompleter.click
         expect(page).to have_no_selector('.ng-option', text: name, visible: :all)
-        find('.columns-modal--content .draggable-autocomplete--input').send_keys :escape
+        close_autocompleter
       end
 
       def expect_column_available(name)
         modal_open? or open_modal
 
-        find('.columns-modal--content .draggable-autocomplete--input').click
+        column_autocompleter.click
         expect(page).to have_selector('.ng-option', text: name, visible: :all)
-        find('.columns-modal--content .draggable-autocomplete--input').send_keys :escape
+        close_autocompleter
       end
 
       def add(name, save_changes: true)
         modal_open? or open_modal
 
-        select_autocomplete '.columns-modal--content .draggable-autocomplete--input',
+        select_autocomplete column_autocompleter,
+                            results_selector: '.ng-dropdown-panel-items',
                             query: name
 
         apply if save_changes
@@ -68,7 +81,7 @@ module Components
         modal_open? or open_modal
 
         within_modal do
-          container = find('.draggable-autocomplete--item', text: name)
+          container = column_item(name)
           container.find('.draggable-autocomplete--remove-item').click
         end
 

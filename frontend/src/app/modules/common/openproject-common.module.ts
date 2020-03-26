@@ -84,6 +84,7 @@ import {CurrentUserService} from "core-components/user/current-user.service";
 import {WorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/wp-autocompleter.component";
 import {TimeEntryWorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/te-work-package-autocompleter.component";
 import {DraggableAutocompleteComponent} from "core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component";
+import {DragulaModule} from "ng2-dragula";
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -122,6 +123,7 @@ export function bootstrapModule(injector:Injector) {
     // Angular CDK
     PortalModule,
     DragDropModule,
+    DragulaModule,
     // Our own A11y module
     OpenprojectAccessibilityModule,
     NgSelectModule,
