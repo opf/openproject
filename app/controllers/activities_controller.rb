@@ -31,8 +31,7 @@
 class ActivitiesController < ApplicationController
   menu_item :activity
   before_action :find_optional_project,
-                :verify_activities_module_activated,
-                :authorize
+                :verify_activities_module_activated
 
   accept_key_auth :index
 
