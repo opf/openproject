@@ -262,7 +262,8 @@ class MailHandler < ActionMailer::Base
         container: container,
         file: file,
         author: user,
-        content_type: attachment.mime_type)
+        content_type: attachment.mime_type
+      )
     end
   end
 
@@ -340,7 +341,7 @@ class MailHandler < ActionMailer::Base
       'priority_id' => lookup_case_insensitive_key(IssuePriority, :priority),
       'category_id' => lookup_case_insensitive_key(project.categories, :category),
       'assigned_to_id' => assigned_to.try(:id),
-      'fixed_version_id' => lookup_case_insensitive_key(project.shared_versions, :fixed_version, Arel.sql("#{Version.table_name}.name")),
+      'version_id' => lookup_case_insensitive_key(project.shared_versions, :version, Arel.sql("#{Version.table_name}.name")),
       'start_date' => get_keyword(:start_date, override: true, format: '\d{4}-\d{2}-\d{2}'),
       'due_date' => get_keyword(:due_date, override: true, format: '\d{4}-\d{2}-\d{2}'),
       'estimated_hours' => get_keyword(:estimated_hours, override: true),

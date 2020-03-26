@@ -462,7 +462,7 @@ pt:
         done_ratio: "Progresso (%)"
         end_insertion: "Final da inserção"
         end_deletion: "Final da exclusão"
-        fixed_version: "Versão"
+        version: "Versão"
         parent: "Mãe"
         parent_issue: "Mãe"
         parent_work_package: "Mãe"

@@ -466,7 +466,7 @@ uk:
         done_ratio: "Прогрес (%)"
         end_insertion: "Кінець вставки"
         end_deletion: "Кінець видалення"
-        fixed_version: "Версія"
+        version: "Версія"
         parent: "Джерело"
         parent_issue: "Джерело"
         parent_work_package: "Джерело"

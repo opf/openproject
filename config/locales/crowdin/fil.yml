@@ -464,7 +464,7 @@ fil:
         done_ratio: "Isinasagawa (%)"
         end_insertion: "Katapusan na"
         end_deletion: "Katapusan ng pagbubura"
-        fixed_version: "Bersyon"
+        version: "Bersyon"
         parent: "Magulang"
         parent_issue: "Magulang"
         parent_work_package: "Magulang"

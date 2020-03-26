@@ -45,7 +45,7 @@ sk:
       models:
         work_package:
           attributes:
-            fixed_version_id:
+            version_id:
               task_version_must_be_the_same_as_story_version: "musí byť rovnaká ako verzia nadradeného článku."
             parent_id:
               parent_child_relationship_across_projects: "je neplatný, pretože pracovný balíček '%{work_package_name}' je nevyriešená úloha a preto nemôže byť nadradeným mimo súčasného projektu."

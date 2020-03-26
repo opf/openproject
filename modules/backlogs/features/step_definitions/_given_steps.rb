@@ -38,7 +38,7 @@ Given /^I set the (.+) of the story to (.+)$/ do |attribute, value|
     attribute = 'status_id'
     value = Status.find_by(name: value).id
   elsif %w[backlog sprint].include? attribute
-    attribute = 'fixed_version_id'
+    attribute = 'version_id'
     value = Version.find_by(name: value).id
   end
   @story_params[attribute] = value
@@ -171,7 +171,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     params = initialize_story_params(project)
     params['parent'] = WorkPackage.find_by(subject: story['parent'])
     params['subject'] = story['subject']
-    params['fixed_version_id'] = Version.find_by(name: story['sprint'] || story['backlog']).id
+    params['version_id'] = Version.find_by(name: story['sprint'] || story['backlog']).id
     params['story_points'] = story['story_points']
     params['status'] =  if story['status']
                           Status.find_by(name: story['status'])
@@ -237,7 +237,7 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following work_packages:$/ do |pr
       params = initialize_work_package_params(project, type, parent)
       params['subject'] = task['subject']
       version = Version.find_by(name: task['sprint'] || task['backlog'])
-      params['fixed_version_id'] = version.id if version
+      params['version_id'] = version.id if version
       params['priority'] = if task['priority']
                              IssuePriority.find_by(name: task['priority'])
                            else

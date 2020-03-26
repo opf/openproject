@@ -57,7 +57,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
                      project: project,
                      assigned_to: assignee,
                      responsible: responsible,
-                     fixed_version: version,
+                     version: version,
                      type: type,
                      author: author)
   end
@@ -116,7 +116,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     work_package_page.ensure_page_loaded
     work_package_page.expect_attributes Subject: original_work_package.subject,
                                         Description: 'Copied WP Description',
-                                        Version: original_work_package.fixed_version,
+                                        Version: original_work_package.version,
                                         Priority: original_work_package.priority,
                                         Assignee: original_work_package.assigned_to.name,
                                         Responsible: original_work_package.responsible.name
@@ -170,7 +170,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     work_package_page.ensure_page_loaded
     work_package_page.expect_attributes Subject: original_work_package.subject,
                                         Description: 'Copied WP Description',
-                                        Version: original_work_package.fixed_version,
+                                        Version: original_work_package.version,
                                         Priority: original_work_package.priority,
                                         Assignee: original_work_package.assigned_to,
                                         Responsible: original_work_package.responsible

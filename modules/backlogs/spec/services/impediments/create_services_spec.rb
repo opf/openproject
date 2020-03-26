@@ -74,7 +74,7 @@ describe Impediments::CreateService do
     it { expect(subject.subject).to eql impediment_subject }
     it { expect(subject.author).to eql User.current }
     it { expect(subject.project).to eql project }
-    it { expect(subject.fixed_version).to eql version }
+    it { expect(subject.version).to eql version }
     it { expect(subject.priority).to eql priority }
     it { expect(subject.status).to eql status1 }
     it { expect(subject.type).to eql type_task }
@@ -101,13 +101,13 @@ describe Impediments::CreateService do
                                            priority_id: priority.id,
                                            blocks_ids: feature.id.to_s,
                                            status_id: status1.id,
-                                           fixed_version_id: version.id,
+                                           version_id: version.id,
                                            project_id: project.id })
         call.result
       end
 
       before(:each) do
-        feature.fixed_version = version
+        feature.version = version
         feature.save
       end
 
@@ -123,13 +123,13 @@ describe Impediments::CreateService do
                                            priority_id: priority.id,
                                            blocks_ids: feature.id.to_s,
                                            status_id: status1.id,
-                                           fixed_version_id: version.id,
+                                           version_id: version.id,
                                            project_id: project.id })
         call.result
       end
 
       before(:each) do
-        feature.fixed_version = FactoryBot.create(:version, project: project, name: 'another version')
+        feature.version = FactoryBot.create(:version, project: project, name: 'another version')
         feature.save
       end
 
@@ -145,7 +145,7 @@ describe Impediments::CreateService do
                                            priority_id: priority.id,
                                            blocks_ids: '0',
                                            status_id: status1.id,
-                                           fixed_version_id: version.id,
+                                           version_id: version.id,
                                            project_id: project.id })
         call.result
       end
@@ -163,7 +163,7 @@ describe Impediments::CreateService do
                                          blocks_ids: '',
                                          priority_id: priority.id,
                                          status_id: status1.id,
-                                         fixed_version_id: version.id,
+                                         version_id: version.id,
                                          project_id: project.id })
       call.result
     end

@@ -463,7 +463,7 @@ zh-TW:
         done_ratio: "進度 (%)"
         end_insertion: "結束插入"
         end_deletion: "結束刪除"
-        fixed_version: "版本"
+        version: "版本"
         parent: "上層目錄："
         parent_issue: "上層目錄："
         parent_work_package: "上層目錄："

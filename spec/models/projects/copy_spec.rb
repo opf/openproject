@@ -269,8 +269,8 @@ describe Projects::Copy, type: :model, with_mail: false do
           let(:version2) { FactoryBot.create(:version, project: project) }
 
           before do
-            work_package.update_column(:fixed_version_id, version.id)
-            work_package2.update_column(:fixed_version_id, version2.id)
+            work_package.update_column(:version_id, version.id)
+            work_package2.update_column(:version_id, version2.id)
             work_package3
 
             copy.send :copy_versions, project
@@ -279,11 +279,11 @@ describe Projects::Copy, type: :model, with_mail: false do
           end
 
           it 'assigns the work packages to copies of the versions' do
-            expect(copy.work_packages.detect { |wp| wp.subject == work_package.subject }.fixed_version.name)
+            expect(copy.work_packages.detect { |wp| wp.subject == work_package.subject }.version.name)
               .to eql version.name
-            expect(copy.work_packages.detect { |wp| wp.subject == work_package2.subject }.fixed_version.name)
+            expect(copy.work_packages.detect { |wp| wp.subject == work_package2.subject }.version.name)
               .to eql version2.name
-            expect(copy.work_packages.detect { |wp| wp.subject == work_package3.subject }.fixed_version)
+            expect(copy.work_packages.detect { |wp| wp.subject == work_package3.subject }.version)
               .to be_nil
           end
         end

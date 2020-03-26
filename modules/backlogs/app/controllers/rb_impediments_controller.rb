@@ -64,7 +64,7 @@ class RbImpedimentsController < RbApplicationController
     params.delete(:project_id)
 
     hash = params
-           .permit(:fixed_version_id, :status_id, :id, :sprint_id,
+           .permit(:version_id, :status_id, :id, :sprint_id,
                    :assigned_to_id, :remaining_hours, :subject, :blocks_ids)
            .to_h
            .symbolize_keys

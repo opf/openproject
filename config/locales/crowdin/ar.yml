@@ -468,7 +468,7 @@ ar:
         done_ratio: "التقدم (%)"
         end_insertion: "نهاية الإدراج"
         end_deletion: "نهاية الحذف"
-        fixed_version: "الإصدار"
+        version: "الإصدار"
         parent: "الجذر"
         parent_issue: "الجذر"
         parent_work_package: "الجذر"

@@ -45,7 +45,7 @@ uk:
       models:
         work_package:
           attributes:
-            fixed_version_id:
+            version_id:
               task_version_must_be_the_same_as_story_version: "має бути така сама як батьківська версія історії."
             parent_id:
               parent_child_relationship_across_projects: "є недійсним, оскільки робочий пакет '%{work_package_name}' є завданням backlog-у і тому не може мати батька поза поточним проектом."

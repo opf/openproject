@@ -80,7 +80,6 @@ module Redmine
           include Users
           include Reversion
           include Reset
-          include Reload
           include Permissions
           include SaveHooks
           include FormatHooks

@@ -156,7 +156,7 @@ module Projects::Copy
       # so that parents get copied before their children.
       to_copy = project
                 .work_packages
-                .includes(:custom_values, :fixed_version, :assigned_to, :responsible)
+                .includes(:custom_values, :version, :assigned_to, :responsible)
                 .order_by_ancestors('asc')
                 .order('id ASC')
 
@@ -348,7 +348,7 @@ module Projects::Copy
       {
         project: self,
         parent_id: parent_id,
-        fixed_version: work_package_version(source_work_package),
+        version: work_package_version(source_work_package),
         assigned_to: work_package_assigned_to(source_work_package),
         responsible: work_package_responsible(source_work_package),
         custom_field_values: custom_value_attributes,
@@ -359,7 +359,7 @@ module Projects::Copy
     end
 
     def work_package_version(source_work_package)
-      source_work_package.fixed_version && versions.detect { |v| v.name == source_work_package.fixed_version.name }
+      source_work_package.version && versions.detect { |v| v.name == source_work_package.version.name }
     end
 
     def work_package_assigned_to(source_work_package)

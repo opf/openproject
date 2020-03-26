@@ -113,7 +113,7 @@ module ReportingHelper
     when :type_id                               then h(Type.find(value.to_i).name)
     when :week                                  then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
     when :priority_id                           then h(IssuePriority.find(value.to_i).name)
-    when :fixed_version_id                      then h(Version.find(value.to_i).name)
+    when :version_id                      then h(Version.find(value.to_i).name)
     when :singleton_value                       then ''
     when :status_id                             then h(Status.find(value.to_i).name)
     when /custom_field\d+/                      then CustomOption.find_by(id: value)&.value || value.to_s

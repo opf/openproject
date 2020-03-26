@@ -464,7 +464,7 @@ da:
         done_ratio: "Fremskridt (%)"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        fixed_version: "Version"
+        version: "Version"
         parent: "Overordnet"
         parent_issue: "Overordnet"
         parent_work_package: "Overordnet"

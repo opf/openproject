@@ -42,7 +42,7 @@ module WorkPackages
 
     private
 
-    def validate_fixed_version_is_assignable; end
+    def validate_version_is_assignable; end
 
     def validate_no_reopen_on_closed_version; end
   end

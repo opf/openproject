@@ -460,7 +460,7 @@ zh-CN:
         done_ratio: "进度 (%)"
         end_insertion: "结束插入"
         end_deletion: "结束删除"
-        fixed_version: "版本"
+        version: "版本"
         parent: "父"
         parent_issue: "父"
         parent_work_package: "父"

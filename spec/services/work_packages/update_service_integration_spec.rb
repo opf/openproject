@@ -218,7 +218,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
           end
           let(:work_package) do
             FactoryBot.create(:work_package,
-                              fixed_version: version,
+                              version: version,
                               project: project)
           end
 
@@ -227,7 +227,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
               expect(subject)
                 .to be_success
 
-              expect(subject.result.fixed_version)
+              expect(subject.result.version)
                 .to be_nil
             end
           end
@@ -239,7 +239,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
               expect(subject)
                 .to be_success
 
-              expect(subject.result.fixed_version)
+              expect(subject.result.version)
                 .to eql version
             end
           end
@@ -254,7 +254,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
                 expect(subject)
                   .to be_success
 
-                expect(subject.result.fixed_version)
+                expect(subject.result.version)
                   .to be_nil
               end
             end
@@ -266,7 +266,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
                 expect(subject)
                   .to be_success
 
-                expect(subject.result.fixed_version)
+                expect(subject.result.version)
                   .to eql version
               end
             end

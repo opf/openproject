@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 # This file included as part of the acts_as_journalized plugin for
 # the redMine project management software; You can redistribute it
 # and/or modify it under the terms of the GNU General Public License
@@ -75,11 +76,6 @@ module Redmine::Acts::Journalized
 
     # Provides the base instance methods required to revert a journaled instance.
     module InstanceMethods
-      # Returns the current version number for the versioned object.
-      def version
-        @version ||= last_version
-      end
-
       def last_journal
         journals.last
       end
@@ -114,16 +110,12 @@ module Redmine::Acts::Journalized
         changes_between(journal, to_number).each do |attribute, change|
           write_attribute(attribute, change.last)
         end
-
-        reset_journal(to_number)
       end
 
       # Behaves similarly to the +revert_to+ method except that it automatically saves the record
       # after the rejournal. The return value is the success of the save.
       def revert_to!(value)
         revert_to(value)
-        reset_journal if saved = save
-        saved
       end
 
       # Returns a boolean specifying whether the object has been reverted to a previous journal or
@@ -139,13 +131,6 @@ module Redmine::Acts::Journalized
       # If no associated journals exist, the object is considered at version 0.
       def last_version
         @last_version ||= journals.maximum(:version) || 0
-      end
-
-      # Clears the cached version number instance variables so that they can be recalculated.
-      # Useful after a new version is created.
-      def reset_journal(version = nil)
-        @last_version = nil if version.nil?
-        @version = version
       end
     end
   end

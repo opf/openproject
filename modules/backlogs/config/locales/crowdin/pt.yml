@@ -45,7 +45,7 @@ pt:
       models:
         work_package:
           attributes:
-            fixed_version_id:
+            version_id:
               task_version_must_be_the_same_as_story_version: "tem ser o mesmo que a versão da história do pai."
             parent_id:
               parent_child_relationship_across_projects: "é inválido porque o pacote de trabalho '%{work_package_name}' é uma tarefa da lista de acumulados e, portanto, não pode ter um parente fora do projeto atual."

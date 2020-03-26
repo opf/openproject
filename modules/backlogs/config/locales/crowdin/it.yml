@@ -45,7 +45,7 @@ it:
       models:
         work_package:
           attributes:
-            fixed_version_id:
+            version_id:
               task_version_must_be_the_same_as_story_version: "deve essere uguale alla versione della storia del genitore."
             parent_id:
               parent_child_relationship_across_projects: "non è valido perché il pacchetto di lavoro '%{work_package_name}' è un task di backlog e pertanto non può avere una dipendenza esterna al progetto corrente."

@@ -116,7 +116,7 @@ Given (/^there are the following issues with attributes:$/) do |table|
     attributes.merge! type_id: type.id if type
 
     version = Version.find_by(name: attributes.delete('version'))
-    attributes.merge! fixed_version_id: version.id if version
+    attributes.merge! version_id: version.id if version
 
     category = Category.find_by(name: attributes.delete('category'))
     attributes.merge! category_id: category.id if category

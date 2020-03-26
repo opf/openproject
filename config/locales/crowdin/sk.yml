@@ -466,7 +466,7 @@ sk:
         done_ratio: "Stav spracovania (%)"
         end_insertion: "Koniec vkladania"
         end_deletion: "Koniec odstraňovania"
-        fixed_version: "Verzia"
+        version: "Verzia"
         parent: "Nadradený balíček"
         parent_issue: "Nadradený balíček"
         parent_work_package: "Nadradený balíček"

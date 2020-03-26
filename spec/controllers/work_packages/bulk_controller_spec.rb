@@ -511,7 +511,7 @@ describe WorkPackages::BulkController, type: :controller do
         end
 
         describe '#version' do
-          describe 'set fixed_version_id attribute to some version' do
+          describe 'set version_id attribute to some version' do
             let(:version) do
               FactoryBot.create(:version,
                                 status: 'open',
@@ -528,7 +528,7 @@ describe WorkPackages::BulkController, type: :controller do
               put :update,
                   params: {
                     ids: work_package_ids,
-                    work_package: { fixed_version_id: version.id.to_s }
+                    work_package: { version_id: version.id.to_s }
                   }
             end
 
@@ -537,8 +537,8 @@ describe WorkPackages::BulkController, type: :controller do
             it { is_expected.to be_redirect }
 
             describe '#work_package' do
-              describe '#fixed_version' do
-                subject { work_packages.map(&:fixed_version_id).uniq }
+              describe '#version' do
+                subject { work_packages.map(&:version_id).uniq }
 
                 it { is_expected.to match_array [version.id] }
               end
@@ -550,19 +550,19 @@ describe WorkPackages::BulkController, type: :controller do
               end
             end
           end
-          describe 'set fixed_version_id to nil' do
+          describe 'set version_id to nil' do
             before do
-              # 'none' is a magic value, setting fixed_version_id to nil
+              # 'none' is a magic value, setting version_id to nil
               # will make the controller ignore that param
               put :update,
                   params: {
                     ids: work_package_ids,
-                    work_package: { fixed_version_id: 'none' }
+                    work_package: { version_id: 'none' }
                   }
             end
             describe '#work_package' do
-              describe '#fixed_version' do
-                subject { work_packages.map(&:fixed_version_id).uniq }
+              describe '#version' do
+                subject { work_packages.map(&:version_id).uniq }
 
                 it { is_expected.to eq([nil]) }
               end

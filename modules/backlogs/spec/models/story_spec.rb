@@ -39,14 +39,14 @@ describe Story, type: :model do
   let(:issue_priority) { @issue_priority ||= FactoryBot.create(:priority) }
   let(:task_type) { FactoryBot.create(:type_task) }
   let(:task) {
-    FactoryBot.create(:story, fixed_version: version,
+    FactoryBot.create(:story, version: version,
                                project: project,
                                status: status1,
                                type: task_type,
                                priority: issue_priority)
   }
   let(:story1) {
-    FactoryBot.create(:story, fixed_version: version,
+    FactoryBot.create(:story, version: version,
                                project: project,
                                status: status1,
                                type: type_feature,
@@ -54,7 +54,7 @@ describe Story, type: :model do
   }
 
   let(:story2) {
-    FactoryBot.create(:story, fixed_version: version,
+    FactoryBot.create(:story, version: version,
                                project: project,
                                status: status1,
                                type: type_feature,
@@ -100,7 +100,7 @@ describe Story, type: :model do
         before do
           version2
           story1
-          story2.fixed_version_id = version2.id
+          story2.version_id = version2.id
           story2.save!
         end
 
@@ -116,7 +116,7 @@ describe Story, type: :model do
           version2
           story1
 
-          story2.fixed_version_id = version2.id
+          story2.version_id = version2.id
           story2.save!
         end
 
@@ -135,7 +135,7 @@ describe Story, type: :model do
           other_project = FactoryBot.create(:project)
           version2.update! project_id: other_project.id
 
-          story2.fixed_version_id = version2.id
+          story2.version_id = version2.id
           story2.project = other_project
           # reset memoized versions to reflect changes above
           story2.instance_variable_set('@assignable_versions', nil)

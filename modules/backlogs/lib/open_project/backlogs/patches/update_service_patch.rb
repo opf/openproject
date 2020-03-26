@@ -35,7 +35,7 @@ module OpenProject::Backlogs::Patches::UpdateServicePatch
     def update_descendants
       super_result = super
 
-      if work_package.in_backlogs_type? && work_package.fixed_version_id_changed?
+      if work_package.in_backlogs_type? && work_package.version_id_changed?
         inherit_version_to_descendants(super_result)
       end
 
@@ -56,7 +56,7 @@ module OpenProject::Backlogs::Patches::UpdateServicePatch
         end
       end
 
-      attributes = { fixed_version_id: work_package.fixed_version_id }
+      attributes = { version_id: work_package.version_id }
 
       descendant_tasks.each do |task|
         result.add_dependent!(set_attributes(attributes, task))
