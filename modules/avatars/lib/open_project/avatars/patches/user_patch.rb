@@ -35,8 +35,8 @@ module OpenProject::Avatars
 
       module InstanceMethods
         def reload(*args)
-          remove_instance_variable(:@local_avatar_attachment)
-          remove_instance_variable(:@local_avatar_attachment_calculated)
+          @local_avatar_attachment = nil
+          @local_avatar_attachment_calculated = nil
 
           super
         end
