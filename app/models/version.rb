@@ -29,7 +29,8 @@
 #++
 
 class Version < ActiveRecord::Base
-  include Version::ProjectSharing
+  include ::Versions::ProjectSharing
+  include ::Scopes::Scoped
 
   belongs_to :project
   has_many :fixed_issues, class_name: 'WorkPackage', foreign_key: 'fixed_version_id', dependent: :nullify
@@ -49,6 +50,8 @@ class Version < ActiveRecord::Base
   validates_inclusion_of :sharing, in: VERSION_SHARINGS
   validate :validate_start_date_before_effective_date
 
+  scope_classes ::Versions::Scopes::OrderBySemverName
+
   scope :visible, ->(*args) {
     joins(:project)
       .merge(Project.allowed_to(args.first || User.current, :view_work_packages))
@@ -57,12 +60,6 @@ class Version < ActiveRecord::Base
   scope :systemwide, -> { where(sharing: 'system') }
 
   scope :order_by_name, -> { order(Arel.sql("LOWER(#{Version.table_name}.name)")) }
-
-  scope :order_by_newest_date, -> {
-    reorder Arel.sql("#{Version.table_name}.start_date DESC NULLS LAST,
-                    #{Version.table_name}.effective_date DESC NULLS LAST,
-                    #{Version.table_name}.name ASC")
-  }
 
   def self.with_status_open
     where(status: 'open')

@@ -28,63 +28,30 @@
 
 require 'spec_helper'
 
-describe Project::Status, type: :model do
+feature 'project settings index', type: :feature do
+  let(:user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: %i[manage_versions])
+  end
   let(:project) { FactoryBot.create(:project) }
+  let!(:version1) { FactoryBot.create(:version, name: "aaaaa 1.", project: project) }
+  let!(:version2) { FactoryBot.create(:version, name: "aaaaa", project: project) }
+  let!(:version3) { FactoryBot.create(:version, name: "1.10. aaa", project: project) }
+  let!(:version4) { FactoryBot.create(:version, name: "1.1. zzz", project: project) }
+  let!(:version5) { FactoryBot.create(:version, name: "1.2. mmm", project: project) }
+  let!(:version6) { FactoryBot.create(:version, name: "1. xxxx", project: project) }
 
-  let(:explanation) { 'some explanation' }
-  let(:code) { :on_track }
-  let(:instance) { described_class.new explanation: explanation, code: code, project: project }
-
-  describe 'explanation' do
-    it 'stores an explanation' do
-      instance.save
-
-      instance.reload
-
-      expect(instance.explanation)
-        .to eql explanation
-    end
+  before do
+    login_as(user)
   end
 
-  describe 'code' do
-    it 'stores a code as an enum' do
-      instance.save
+  scenario 'see versions listed in semver order' do
+    visit settings_versions_project_path(project)
 
-      instance.reload
+    names_in_order = page.all('.version .name').map { |el| el.text.strip }
 
-      expect(instance.on_track?)
-        .to be_truthy
-    end
-  end
-
-  describe 'project' do
-    it 'stores a project reference' do
-      instance.save
-
-      instance.reload
-
-      expect(instance.project)
-        .to eql project
-    end
-
-    it 'requires one' do
-      instance.project = nil
-
-      expect(instance)
-        .to be_invalid
-
-      expect(instance.errors.symbols_for(:project))
-        .to eql [:blank]
-    end
-
-    it 'cannot be one already having a status' do
-      described_class.create! explanation: 'some other explanation', code: :off_track, project: project
-
-      expect(instance)
-        .to be_invalid
-
-      expect(instance.errors.symbols_for(:project))
-        .to eql [:taken]
-    end
+    expect(names_in_order)
+      .to eql [version6.name, version4.name, version5.name, version3.name, version2.name, version1.name]
   end
 end

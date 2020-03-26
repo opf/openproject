@@ -99,11 +99,11 @@ module Projects
     end
 
     def faulty_code?(attributes)
-      attributes && attributes[:code] && !Project::Status.codes.keys.include?(attributes[:code].to_s)
+      attributes && attributes[:code] && !Projects::Status.codes.keys.include?(attributes[:code].to_s)
     end
 
     def first_not_set_code
-      (Project::Status.codes.keys - [model.status.code]).first
+      (Projects::Status.codes.keys - [model.status.code]).first
     end
   end
 end

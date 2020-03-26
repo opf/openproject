@@ -135,6 +135,7 @@ module OpenProject::Backlogs
     patch_with_namespace :WorkPackages, :UpdateService
     patch_with_namespace :WorkPackages, :SetAttributesService
     patch_with_namespace :WorkPackages, :BaseContract
+    patch_with_namespace :Versions, :RowCell
 
     config.to_prepare do
       next if Versions::BaseContract.included_modules.include?(OpenProject::Backlogs::Patches::Versions::BaseContractPatch)

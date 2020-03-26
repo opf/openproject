@@ -1,4 +1,3 @@
-# encoding: utf-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,10 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryBot.define do
-  factory :project_status, class: Projects::Status do
-    project
-    sequence(:explanation) { |n| "Status explanation #{n}" }
-    code { Projects::Status.codes[:on_track] }
+module Scopes::Scoped
+  extend ActiveSupport::Concern
+
+  included do
+    def self.scope_classes(*classes)
+      classes.each do |klass|
+        scope = klass.name.demodulize.underscore
+
+        define_singleton_method(scope) do |*args|
+          klass.fetch(*args)
+        end
+      end
+    end
   end
 end

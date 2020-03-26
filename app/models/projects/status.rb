@@ -28,8 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Project::Status < ActiveRecord::Base
+class Projects::Status < ActiveRecord::Base
   belongs_to :project
+
+  self.table_name = 'project_statuses'
 
   validates :project,
             presence: true,

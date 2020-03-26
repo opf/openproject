@@ -28,25 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Project::Scopes
-  class VisibleWithActivatedTimeActivity
-    class << self
-      def fetch(activity)
-        allowed_scope
-          .where(id: activated_projects(activity).select(:id))
-      end
+class Queries::Versions::Orders::SemverNameOrder < Queries::BaseOrder
+  self.model = Version
 
-      private
+  def self.key
+    :semver_name
+  end
 
-      def activated_projects(activity)
-        Project::Scopes::ActivatedTimeActivity.fetch(activity)
-      end
+  private
 
-      def allowed_scope
-        Project
-          .where(id: Project.allowed_to(User.current, :view_time_entries).select(:id))
-          .or(Project.where(id: Project.allowed_to(User.current, :view_own_time_entries).select(:id)))
-      end
+  def order
+    ordered = Version.order_by_semver_name
+
+    if direction == :desc
+      ordered = ordered.reverse_order
     end
+
+    ordered
   end
 end

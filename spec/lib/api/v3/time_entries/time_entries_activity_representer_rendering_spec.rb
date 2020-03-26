@@ -54,7 +54,7 @@ describe ::API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering' do
       let(:project2) { FactoryBot.build_stubbed(:project) }
 
       before do
-        allow(::Project::Scopes::VisibleWithActivatedTimeActivity)
+        allow(::Projects::Scopes::VisibleWithActivatedTimeActivity)
           .to receive(:fetch)
           .with(activity)
           .and_return([project1,

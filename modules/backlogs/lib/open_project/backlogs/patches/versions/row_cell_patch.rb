@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,25 +26,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Project::Scopes
-  class ActivatedTimeActivity
-    def self.fetch(time_entry_activity)
-      join_condition = <<-SQL
-        LEFT OUTER JOIN time_entry_activities_projects
-          ON projects.id = time_entry_activities_projects.project_id
-          AND time_entry_activities_projects.activity_id = #{time_entry_activity.id}
-      SQL
+module OpenProject::Backlogs::Patches::Versions::RowCellPatch
+  def button_links
+    (super + [backlogs_edit_link]).compact
+  end
 
-      join_scope = Project.joins(join_condition)
+  private
 
-      result_scope = join_scope.where(time_entry_activities_projects: { active: true })
+  def backlogs_edit_link
+    return if version.project == table.project || !table.project.module_enabled?("backlogs")
 
-      if time_entry_activity.active?
-        result_scope
-          .or(join_scope.where(time_entry_activities_projects: { project_id: nil }))
-      else
-        result_scope
-      end
-    end
+    link_to_if_authorized '',
+                          { controller: '/versions', action: 'edit', id: version, project_id: table.project.id },
+                          class: 'icon icon-edit',
+                          title: t(:button_edit)
   end
 end

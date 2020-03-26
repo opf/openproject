@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,44 +26,65 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::VersionFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
-  def allowed_values
-    @allowed_values ||= begin
-      # as we no longer display the allowed values, the first value is irrelevant
-      versions.pluck(:id).map { |id| [id.to_s, id.to_s] }
+require 'spec_helper'
+
+describe Projects::Status, type: :model do
+  let(:project) { FactoryBot.create(:project) }
+
+  let(:explanation) { 'some explanation' }
+  let(:code) { :on_track }
+  let(:instance) { described_class.new explanation: explanation, code: code, project: project }
+
+  describe 'explanation' do
+    it 'stores an explanation' do
+      instance.save
+
+      instance.reload
+
+      expect(instance.explanation)
+        .to eql explanation
     end
   end
 
-  def type
-    :list_optional
+  describe 'code' do
+    it 'stores a code as an enum' do
+      instance.save
+
+      instance.reload
+
+      expect(instance.on_track?)
+        .to be_truthy
+    end
   end
 
-  def human_name
-    WorkPackage.human_attribute_name('fixed_version')
-  end
+  describe 'project' do
+    it 'stores a project reference' do
+      instance.save
 
-  def self.key
-    :fixed_version_id
-  end
+      instance.reload
 
-  def ar_object_filter?
-    true
-  end
+      expect(instance.project)
+        .to eql project
+    end
 
-  def value_objects
-    value_ints = values.map(&:to_i)
+    it 'requires one' do
+      instance.project = nil
 
-    versions.select { |v| value_ints.include?(v.id) }
-  end
+      expect(instance)
+        .to be_invalid
 
-  private
+      expect(instance.errors.symbols_for(:project))
+        .to eql [:blank]
+    end
 
-  def versions
-    if project
-      project.shared_versions
-    else
-      Version.visible.systemwide
+    it 'cannot be one already having a status' do
+      described_class.create! explanation: 'some other explanation', code: :off_track, project: project
+
+      expect(instance)
+        .to be_invalid
+
+      expect(instance.errors.symbols_for(:project))
+        .to eql [:taken]
     end
   end
 end

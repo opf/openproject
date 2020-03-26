@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-describe Project::Storage, type: :model do
-
+describe Projects::Storage, type: :model do
   let(:project1) {
     FactoryBot.create(:project)
       .reload # Reload required for wiki association to be available

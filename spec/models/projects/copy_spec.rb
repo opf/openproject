@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Project::Copy, type: :model, with_mail: false do
+describe Projects::Copy, type: :model, with_mail: false do
   describe '#copy' do
     let(:project) { FactoryBot.create(:project_with_types) }
     let(:copy) { Project.new }

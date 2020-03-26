@@ -1,7 +1,8 @@
-# encoding: utf-8
+#-- encoding: UTF-8
+
 #-- copyright
-# OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# OpenProject is a project management system.
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,10 +28,26 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryBot.define do
-  factory :project_status, class: Projects::Status do
-    project
-    sequence(:explanation) { |n| "Status explanation #{n}" }
-    code { Projects::Status.codes[:on_track] }
+module Versions::Scopes
+  class OrderBySemverName
+    class << self
+      def fetch
+        Version.reorder semver_sql, :name
+      end
+
+      # Returns an sql for ordering which:
+      # * Returns a substring from the beginning of the name up until the first alphabetical character e.g. "1.2.3 "
+      #   from "1.2.3 ABC"
+      # * Replaces all non numerical character groups in that substring by a blank, e.g "1.2.3 " to "1 2 3 "
+      # * Splits the result into an array of individual number parts, e.g. "{1, 2, 3, ''}" from "1 2 3 "
+      # * removes all empty array items, e.g. "{1, 2, 3}" from "{1, 2, 3, ''}"
+      def semver_sql(table_name = Version.table_name)
+        sql = <<~SQL
+          array_remove(regexp_split_to_array(regexp_replace(substring(#{table_name}.name from '^[^a-zA-Z]+'), '\\D+', ' ', 'g'), ' '), '')::int[]
+        SQL
+
+        Arel.sql(sql)
+      end
+    end
   end
 end

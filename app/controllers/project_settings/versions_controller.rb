@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -31,6 +32,8 @@ class ProjectSettings::VersionsController < ProjectSettingsController
   menu_item :settings_versions
 
   def show
+    @versions = @project.shared_versions.order_by_semver_name
+
     render template: 'project_settings/versions'
   end
 end
