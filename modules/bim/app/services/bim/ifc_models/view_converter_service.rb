@@ -94,7 +94,20 @@ module Bim
         Rails.logger.debug { "Converting #{ifc_model.inspect} to DAE" }
 
         convert!(ifc_filepath, target_dir, 'dae') do |target_file|
-          Open3.capture2e('IfcConvert', '--use-element-guids', '--no-progress', '--verbose', ifc_filepath, target_file)
+          # To include IfcSpace entities, which by default are excluded by
+          # IfcConvert, together with IfcOpeningElement, we need ot over-
+          # write the default exclude parameter to only exclude
+          # IfcOpeningElements.
+          # https://github.com/IfcOpenShell/IfcOpenShell/wiki#ifconvert
+          Open3.capture2e('IfcConvert',
+                          '--use-element-guids',
+                          '--no-progress',
+                          '--verbose',
+                          ifc_filepath,
+                          target_file,
+                          '--exclude',
+                          'entities',
+                          'IfcOpeningElement')
         end
       end
 
