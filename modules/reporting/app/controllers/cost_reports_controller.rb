@@ -63,9 +63,6 @@ class CostReportsController < ApplicationController
 
   before_action :set_cost_types # has to be set AFTER the Report::Controller filters run
 
-  verify method: :delete, only: %w[destroy]
-  verify method: :post, only: %w[create, update, rename]
-
   helper_method :cost_types
   helper_method :cost_type
   helper_method :unit_id
