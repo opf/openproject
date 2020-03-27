@@ -408,8 +408,8 @@ describe PermittedParams, type: :model do
       it_behaves_like 'allows params'
     end
 
-    context 'fixed_version_id' do
-      let(:hash) { { 'fixed_version_id' => '1' } }
+    context 'version_id' do
+      let(:hash) { { 'version_id' => '1' } }
 
       it_behaves_like 'allows params'
     end

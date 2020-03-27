@@ -465,7 +465,7 @@ vi:
         done_ratio: "Progress (%)"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        fixed_version: "Phiên bản"
+        version: "Phiên bản"
         parent: "Cha"
         parent_issue: "Cha"
         parent_work_package: "Cha"

@@ -34,7 +34,7 @@ issues_001:
   priority_id: 4
   subject: Can't print recipes
   id: 1
-  fixed_version_id:
+  version_id:
   category_id: 1
   description: Unable to print recipes
   type_id: 1
@@ -51,7 +51,7 @@ issues_002:
   priority_id: 5
   subject: Add ingredients categories
   id: 2
-  fixed_version_id: 2
+  version_id: 2
   category_id:
   description: Ingredients of the recipe should be classified by categories
   type_id: 2
@@ -69,7 +69,7 @@ issues_003:
   priority_id: 4
   subject: Error 281 when updating a recipe
   id: 3
-  fixed_version_id:
+  version_id:
   category_id:
   description: Error 281 is encountered when saving a recipe
   type_id: 1
@@ -85,7 +85,7 @@ issues_004:
   priority_id: 4
   subject: Issue on project 2
   id: 4
-  fixed_version_id:
+  version_id:
   category_id:
   description: Issue on project 2
   type_id: 1
@@ -99,7 +99,7 @@ issues_005:
   priority_id: 4
   subject: Subproject issue
   id: 5
-  fixed_version_id:
+  version_id:
   category_id:
   description: This is an issue on a cookbook subproject
   type_id: 1
@@ -113,7 +113,7 @@ issues_006:
   priority_id: 4
   subject: Issue of a private subproject
   id: 6
-  fixed_version_id:
+  version_id:
   category_id:
   description: This is an issue of a private subproject of cookbook
   type_id: 1
@@ -129,7 +129,7 @@ issues_007:
   priority_id: 5
   subject: Issue due today
   id: 7
-  fixed_version_id:
+  version_id:
   category_id:
   description: This is an issue that is due today
   type_id: 1
@@ -145,7 +145,7 @@ issues_008:
   priority_id: 5
   subject: Closed issue
   id: 8
-  fixed_version_id:
+  version_id:
   category_id:
   description: This is a closed issue.
   type_id: 1
@@ -161,7 +161,7 @@ issues_009:
   priority_id: 5
   subject: Blocked Issue
   id: 9
-  fixed_version_id:
+  version_id:
   category_id:
   description: This is an issue that is blocked by issue #10
   type_id: 1
@@ -177,7 +177,7 @@ issues_010:
   priority_id: 5
   subject: Issue Doing the Blocking
   id: 10
-  fixed_version_id:
+  version_id:
   category_id:
   description: This is an issue that blocks issue #9
   type_id: 1
@@ -193,7 +193,7 @@ issues_011:
   priority_id: 5
   subject: Closed issue on a closed version
   id: 11
-  fixed_version_id: 1
+  version_id: 1
   category_id: 1
   description:
   type_id: 1
@@ -209,7 +209,7 @@ issues_012:
   priority_id: 5
   subject: Closed issue on a locked version
   id: 12
-  fixed_version_id: 2
+  version_id: 2
   category_id: 1
   description:
   type_id: 1
@@ -225,7 +225,7 @@ issues_013:
   priority_id: 4
   subject: Subproject issue two
   id: 13
-  fixed_version_id:
+  version_id:
   category_id:
   description: This is a second issue on a cookbook subproject
   type_id: 1

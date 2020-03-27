@@ -34,7 +34,7 @@ describe Query, type: :model do
   it 'should system shared versions should be available in global queries' do
     Version.find(2).update_attribute :sharing, 'system'
     query = Query.new(project: nil, name: '_')
-    assert query.filter_for('fixed_version_id')[:allowed_values].detect { |v| v.last == '2' }
+    assert query.filter_for('version_id')[:allowed_values].detect { |v| v.last == '2' }
   end
 
   it 'should project filter in global queries' do
@@ -67,9 +67,9 @@ describe Query, type: :model do
   it 'should query should allow shared versions for a project query' do
     subproject_version = Version.find(4)
     query = Query.new(project: Project.find(1), name: '_')
-    query.add_filter('fixed_version_id', '=', [subproject_version.id.to_s])
+    query.add_filter('version_id', '=', [subproject_version.id.to_s])
 
-    assert query.statement.include?("#{WorkPackage.table_name}.fixed_version_id IN ('4')")
+    assert query.statement.include?("#{WorkPackage.table_name}.version_id IN ('4')")
   end
 
   it 'should query with multiple custom fields' do
@@ -83,9 +83,9 @@ describe Query, type: :model do
 
   it 'should operator none' do
     query = Query.new(project: Project.find(1), name: '_')
-    query.add_filter('fixed_version_id', '!*', [''])
+    query.add_filter('version_id', '!*', [''])
     query.add_filter('cf_1', '!*', [''])
-    assert query.statement.include?("#{WorkPackage.table_name}.fixed_version_id IS NULL")
+    assert query.statement.include?("#{WorkPackage.table_name}.version_id IS NULL")
     assert query.statement.include?("#{CustomValue.table_name}.value IS NULL OR #{CustomValue.table_name}.value = ''")
     find_issues_with_query(query)
   end
@@ -100,9 +100,9 @@ describe Query, type: :model do
 
   it 'should operator all' do
     query = Query.new(project: Project.find(1), name: '_')
-    query.add_filter('fixed_version_id', '*', [''])
+    query.add_filter('version_id', '*', [''])
     query.add_filter('cf_1', '*', [''])
-    assert query.statement.include?("#{WorkPackage.table_name}.fixed_version_id IS NOT NULL")
+    assert query.statement.include?("#{WorkPackage.table_name}.version_id IS NOT NULL")
     assert query.statement.include?("#{CustomValue.table_name}.value IS NOT NULL AND #{CustomValue.table_name}.value <> ''")
     find_issues_with_query(query)
   end

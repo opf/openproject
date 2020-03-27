@@ -57,7 +57,7 @@ describe 'rb_burndown_charts/show', type: :view do
     FactoryBot.create(:story, status: statuses[0],
                                project: project,
                                type: type_feature,
-                               fixed_version: sprint,
+                               version: sprint,
                                priority: issue_priority
                       )
   }
@@ -65,7 +65,7 @@ describe 'rb_burndown_charts/show', type: :view do
     FactoryBot.create(:story, status: statuses[1],
                                project: project,
                                type: type_feature,
-                               fixed_version: sprint,
+                               version: sprint,
                                priority: issue_priority
                       )
   }
@@ -73,14 +73,14 @@ describe 'rb_burndown_charts/show', type: :view do
     FactoryBot.create(:story, status: statuses[2],
                                project: project,
                                type: type_feature,
-                               fixed_version: sprint,
+                               version: sprint,
                                priority: issue_priority
                       )
   }
   let(:stories) { [story_a, story_b, story_c] }
   let(:sprint)   { FactoryBot.create(:sprint, project: project, start_date: Date.today - 1.week, effective_date: Date.today + 1.week) }
   let(:task) do
-    task = FactoryBot.create(:task, project: project, status: statuses[0], fixed_version: sprint, type: type_task)
+    task = FactoryBot.create(:task, project: project, status: statuses[0], version: sprint, type: type_task)
     # This is necessary as for some unknown reason passing the parent directly
     # leads to the task searching for the parent with 'root_id' is NULL, which
     # is not the case as the story has its own id as root_id

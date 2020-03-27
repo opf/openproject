@@ -36,7 +36,7 @@ describe 'version show graph', type: :feature, js: true do
   let!(:wp) do
     FactoryBot.create :work_package,
                       project: project,
-                      fixed_version: version
+                      version: version
   end
 
   before do

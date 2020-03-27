@@ -51,7 +51,7 @@ describe 'rb_master_backlogs/index', type: :view do
     FactoryBot.create(:story, status: statuses[0],
                                project: project,
                                type: type_feature,
-                               fixed_version: sprint,
+                               version: sprint,
                                priority: issue_priority
                       )
   }
@@ -59,7 +59,7 @@ describe 'rb_master_backlogs/index', type: :view do
     FactoryBot.create(:story, status: statuses[1],
                                project: project,
                                type: type_feature,
-                               fixed_version: sprint,
+                               version: sprint,
                                priority: issue_priority
                       )
   }
@@ -67,7 +67,7 @@ describe 'rb_master_backlogs/index', type: :view do
     FactoryBot.create(:story, status: statuses[2],
                                project: project,
                                type: type_feature,
-                               fixed_version: sprint,
+                               version: sprint,
                                priority: issue_priority
                       )
   }

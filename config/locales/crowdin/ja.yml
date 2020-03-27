@@ -461,7 +461,7 @@ ja:
         done_ratio: "進行状況 (%)"
         end_insertion: "挿入の終わり"
         end_deletion: "削除の終わり"
-        fixed_version: "バージョン"
+        version: "バージョン"
         parent: "親項目"
         parent_issue: "親項目"
         parent_work_package: "親項目"

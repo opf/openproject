@@ -136,7 +136,7 @@ module DemoData
 
     def set_version_filter!(filters)
       if version = config[:version].presence
-        filters[:fixed_version_id] = {
+        filters[:version_id] = {
           operator: "=",
           values: [Version.find_by(name: version).id]
         }

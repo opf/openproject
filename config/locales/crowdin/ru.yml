@@ -465,7 +465,7 @@ ru:
         done_ratio: "Прогресс (%)"
         end_insertion: "Завершение вставки"
         end_deletion: "Завершение удаления"
-        fixed_version: "Стадия"
+        version: "Стадия"
         parent: "Родитель"
         parent_issue: "Родитель"
         parent_work_package: "Родитель"

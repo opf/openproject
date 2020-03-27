@@ -464,7 +464,7 @@ fi:
         done_ratio: "Edistyminen (%)"
         end_insertion: "Lisäyksen loppu"
         end_deletion: "Poistokohdan loppu"
-        fixed_version: "Versio"
+        version: "Versio"
         parent: "Ylätaso"
         parent_issue: "Ylätaso"
         parent_work_package: "Ylätaso"

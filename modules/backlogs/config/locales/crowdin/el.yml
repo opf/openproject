@@ -45,7 +45,7 @@ el:
       models:
         work_package:
           attributes:
-            fixed_version_id:
+            version_id:
               task_version_must_be_the_same_as_story_version: "πρέπει να είναι το ίδιο με την έκδοση ιστορίας του γονέα."
             parent_id:
               parent_child_relationship_across_projects: "δεν είναι έγκυρο επειδή το πακέτο εργασίας '%{work_package_name}' είναι μια εργασία backlog επομένως δεν μπορεί να έχει γονέα εκτός του τρέχοντος έργου."

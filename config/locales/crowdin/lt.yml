@@ -463,7 +463,7 @@ lt:
         done_ratio: "Progresas (%)"
         end_insertion: "Įterpimo pabaigoje"
         end_deletion: "Ištrynimo pabaigoje"
-        fixed_version: "Versija"
+        version: "Versija"
         parent: "Tėvas"
         parent_issue: "Tėvas"
         parent_work_package: "Tėvas"

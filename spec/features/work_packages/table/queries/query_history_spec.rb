@@ -61,7 +61,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     FactoryBot.create(:work_package,
                        project: project,
                        type: type,
-                       fixed_version: version)
+                       version: version)
   end
   let(:assignee_query) do
     query = FactoryBot.create(:query,
@@ -80,7 +80,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
                                project: project,
                                user: user)
 
-    query.add_filter('fixed_version_id', '=', [version.id])
+    query.add_filter('version_id', '=', [version.id])
     query.save!
 
     query

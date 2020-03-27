@@ -465,16 +465,16 @@ describe WorkPackages::SetAttributesService, type: :model do
       end
 
       shared_examples_for 'updating the project' do
-        context 'fixed_version' do
+        context 'version' do
           before do
-            work_package.fixed_version = version
+            work_package.version = version
           end
 
           context 'not shared in new project' do
             it 'sets to nil' do
               subject
 
-              expect(work_package.fixed_version)
+              expect(work_package.version)
                 .to be_nil
             end
           end
@@ -485,7 +485,7 @@ describe WorkPackages::SetAttributesService, type: :model do
             it 'keeps the version' do
               subject
 
-              expect(work_package.fixed_version)
+              expect(work_package.version)
                 .to eql version
             end
           end

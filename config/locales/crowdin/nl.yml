@@ -464,7 +464,7 @@ nl:
         done_ratio: "Voortgang (%)"
         end_insertion: "Einde van het invoegen"
         end_deletion: "Einde van de verwijdering"
-        fixed_version: "Versie"
+        version: "Versie"
         parent: "Bovenliggend werkpakket"
         parent_issue: "Bovenliggend werkpakket"
         parent_work_package: "Bovenliggend werkpakket"

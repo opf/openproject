@@ -461,7 +461,7 @@ hu:
         done_ratio: "Folyamat állapot (%)"
         end_insertion: "Beillesztés vége"
         end_deletion: "Törlés vége"
-        fixed_version: "Verzió"
+        version: "Verzió"
         parent: "Szülő"
         parent_issue: "Szülő"
         parent_work_package: "Szülő"

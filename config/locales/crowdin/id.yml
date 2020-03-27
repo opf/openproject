@@ -462,7 +462,7 @@ id:
         done_ratio: "Progress (%)"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        fixed_version: "Versi"
+        version: "Versi"
         parent: "Induk"
         parent_issue: "Induk"
         parent_work_package: "Induk"

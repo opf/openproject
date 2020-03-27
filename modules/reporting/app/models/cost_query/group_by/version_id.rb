@@ -26,17 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CostQuery::Filter::FixedVersionId < Report::Filter::Base
-  use :null_operators
+class CostQuery::GroupBy::VersionId < Report::GroupBy::Base
   join_table WorkPackage
   applies_for :label_work_package_attributes
 
   def self.label
-    WorkPackage.human_attribute_name(:fixed_version)
-  end
-
-  def self.available_values(*)
-    versions = Version.where(project_id: Project.visible.map(&:id))
-    versions.map { |a| ["#{a.project.name} - #{a.name}", a.id] }.sort_by { |a| a.first.to_s + a.second.to_s }
+    WorkPackage.human_attribute_name(:version)
   end
 end

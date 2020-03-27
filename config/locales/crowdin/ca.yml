@@ -464,7 +464,7 @@ ca:
         done_ratio: "Progrés (%)"
         end_insertion: "Final de la inserció"
         end_deletion: "Final de la supressió"
-        fixed_version: "Versió"
+        version: "Versió"
         parent: "Pare"
         parent_issue: "Pare"
         parent_work_package: "Pare"

@@ -383,7 +383,7 @@ describe Project, type: :model do
       @source_project.versions << assigned_version
       assert_equal 3, @source_project.versions.size
       FactoryBot.create(:work_package, project: @source_project,
-                                        fixed_version_id: assigned_version.id,
+                                        version_id: assigned_version.id,
                                         subject: 'change the new issues to use the copied version',
                                         type_id: 1,
                                         project_id: @source_project.id)
@@ -393,9 +393,9 @@ describe Project, type: :model do
       copied_issue = @project.work_packages.find_by(subject: 'change the new issues to use the copied version')
 
       assert copied_issue
-      assert copied_issue.fixed_version
-      assert_equal 'Assigned Issues', copied_issue.fixed_version.name # Same name
-      refute_equal assigned_version.id, copied_issue.fixed_version.id # Different record
+      assert copied_issue.version
+      assert_equal 'Assigned Issues', copied_issue.version.name # Same name
+      refute_equal assigned_version.id, copied_issue.version.id # Different record
     end
 
     it 'should change the new issues to use the copied closed version' do
@@ -404,7 +404,7 @@ describe Project, type: :model do
       @source_project.versions << assigned_version
       assert_equal 3, @source_project.versions.size
       FactoryBot.create(:work_package, project: @source_project,
-                                        fixed_version_id: assigned_version.id,
+                                        version_id: assigned_version.id,
                                         subject: 'change the new issues to use the copied version',
                                         type_id: 1,
                                         project_id: @source_project.id)
@@ -415,9 +415,9 @@ describe Project, type: :model do
       copied_issue = @project.work_packages.find_by(subject: 'change the new issues to use the copied version')
 
       assert copied_issue
-      assert copied_issue.fixed_version
-      assert_equal 'Assigned Issues', copied_issue.fixed_version.name # Same name
-      refute_equal assigned_version.id, copied_issue.fixed_version.id # Different record
+      assert copied_issue.version
+      assert_equal 'Assigned Issues', copied_issue.version.name # Same name
+      refute_equal assigned_version.id, copied_issue.version.id # Different record
     end
 
     it 'should copy issue relations' do

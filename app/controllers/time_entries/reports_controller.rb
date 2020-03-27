@@ -118,7 +118,7 @@ class TimeEntries::ReportsController < ApplicationController
     @available_criterias = { 'project' => { sql: "#{TimeEntry.table_name}.project_id",
                                             klass: Project,
                                             label: Project.model_name.human },
-                             'version' => { sql: "#{WorkPackage.table_name}.fixed_version_id",
+                             'version' => { sql: "#{WorkPackage.table_name}.version_id",
                                             klass: Version,
                                             label: Version.model_name.human },
                              'category' => { sql: "#{WorkPackage.table_name}.category_id",

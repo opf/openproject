@@ -464,7 +464,7 @@ tr:
         done_ratio: "İlerleme (%)"
         end_insertion: "Ekleme işlemi bitti"
         end_deletion: "Silme işlemi bitti"
-        fixed_version: "Sürüm"
+        version: "Sürüm"
         parent: "Üst"
         parent_issue: "Üst"
         parent_work_package: "Üst"

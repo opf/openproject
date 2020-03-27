@@ -254,9 +254,9 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       it "filters target version" do
         matching_version = FactoryBot.create(:version, project: project)
-        create_work_packages_and_time_entries(3, fixed_version: matching_version)
+        create_work_packages_and_time_entries(3, version: matching_version)
 
-        @query.filter :fixed_version_id, operator: '=', value: matching_version.id
+        @query.filter :version_id, operator: '=', value: matching_version.id
         expect(@query.result.count).to eq(3)
       end
 
@@ -305,7 +305,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     [
       CostQuery::Filter::AssignedToId,
       CostQuery::Filter::CategoryId,
-      CostQuery::Filter::FixedVersionId
+      CostQuery::Filter::VersionId
     ].each do |filter|
       it "should only allow default+null operators for #{filter}" do
         expect(filter.new.available_operators.uniq.sort).to eq((CostQuery::Operator.default_operators + CostQuery::Operator.null_operators).sort)
@@ -314,7 +314,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
     #filter for specific objects, which can only have the default operator
     [
-      CostQuery::Filter::WorkPackageId,
+      CostQuery::Filter::WorkPackageId
     ].each do |filter|
       it "should only allow default operators for #{filter}" do
         expect(filter.new.available_operators.uniq).to match_array([CostQuery::Operator.default_operator])

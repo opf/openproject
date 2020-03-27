@@ -461,7 +461,7 @@ es:
         done_ratio: "Progreso (%)"
         end_insertion: "Final de la inserción"
         end_deletion: "Final de la eliminación"
-        fixed_version: "Versión"
+        version: "Versión"
         parent: "Padre"
         parent_issue: "Padre"
         parent_work_package: "Padre"

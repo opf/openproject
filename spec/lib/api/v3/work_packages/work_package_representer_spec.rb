@@ -446,7 +446,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let!(:version) { FactoryBot.create :version, project: project }
 
           before do
-            work_package.fixed_version = version
+            work_package.version = version
           end
 
           it_behaves_like 'has a titled link' do

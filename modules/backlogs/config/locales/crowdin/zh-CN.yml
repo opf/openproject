@@ -45,7 +45,7 @@ zh-CN:
       models:
         work_package:
           attributes:
-            fixed_version_id:
+            version_id:
               task_version_must_be_the_same_as_story_version: "必须与父级故事的版本相同。"
             parent_id:
               parent_child_relationship_across_projects: "无效，因为工作包“%{work_package_name}”是一个待办清单任务，不能具有当前项目以外的上级项目。"

@@ -163,7 +163,7 @@ describe WorkPackages::BaseContract do
       before do
         version = FactoryBot.build_stubbed(:version, status: 'closed')
 
-        work_package.fixed_version = version
+        work_package.version = version
         allow(work_package.status)
           .to receive(:is_closed?)
           .and_return(true)
@@ -457,7 +457,7 @@ describe WorkPackages::BaseContract do
     end
   end
 
-  describe 'fixed_version' do
+  describe 'version' do
     subject(:contract) { described_class.new(work_package, current_user) }
 
     let(:assignable_version) { FactoryBot.build_stubbed(:version) }
@@ -471,7 +471,7 @@ describe WorkPackages::BaseContract do
 
     context 'for assignable version' do
       before do
-        work_package.fixed_version = assignable_version
+        work_package.version = assignable_version
         subject.validate
       end
 
@@ -482,12 +482,12 @@ describe WorkPackages::BaseContract do
 
     context 'for non assignable version' do
       before do
-        work_package.fixed_version = invalid_version
+        work_package.version = invalid_version
         subject.validate
       end
 
       it 'is invalid' do
-        expect(subject.errors.symbols_for(:fixed_version_id)).to eql [:inclusion]
+        expect(subject.errors.symbols_for(:version_id)).to eql [:inclusion]
       end
     end
 
@@ -500,7 +500,7 @@ describe WorkPackages::BaseContract do
             .to receive(:reopened?)
             .and_return(true)
 
-          work_package.fixed_version = assignable_version
+          work_package.version = assignable_version
           subject.validate
         end
 
@@ -511,7 +511,7 @@ describe WorkPackages::BaseContract do
 
       context 'when not reopening the work package' do
         before do
-          work_package.fixed_version = assignable_version
+          work_package.version = assignable_version
           subject.validate
         end
 
@@ -778,7 +778,7 @@ describe WorkPackages::BaseContract do
                                assigned_to: assignee_user,
                                author: author_user,
                                status: current_status,
-                               fixed_version: version,
+                               version: version,
                                type: type)
     end
     let!(:default_status) do

@@ -461,7 +461,7 @@ el:
         done_ratio: "Πρόοδος (%)"
         end_insertion: "Λήξη της εισαγωγής"
         end_deletion: "Λήξη της διαγραφής"
-        fixed_version: "Έκδοση"
+        version: "Έκδοση"
         parent: "Γονέας"
         parent_issue: "Γονέας"
         parent_work_package: "Γονέας"

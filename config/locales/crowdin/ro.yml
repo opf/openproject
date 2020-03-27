@@ -465,7 +465,7 @@ ro:
         done_ratio: "Progres (%)"
         end_insertion: "Sfârșit de inserare"
         end_deletion: "Sfârșit de ștergere"
-        fixed_version: "Versiune"
+        version: "Versiune"
         parent: "Părinte"
         parent_issue: "Părinte"
         parent_work_package: "Părinte"

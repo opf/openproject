@@ -66,8 +66,8 @@ describe 'Version action board', type: :feature, js: true do
   let!(:shared_version) { FactoryBot.create :version, project: second_project, name: 'Shared version', sharing: 'system' }
   let!(:closed_version) { FactoryBot.create :version, project: project, status: 'closed', name: 'Closed version' }
 
-  let!(:work_package) { FactoryBot.create :work_package, project: project, subject: 'Foo', fixed_version: open_version }
-  let!(:closed_version_wp) { FactoryBot.create :work_package, project: project, subject: 'Closed', fixed_version: closed_version }
+  let!(:work_package) { FactoryBot.create :work_package, project: project, subject: 'Foo', version: open_version }
+  let!(:closed_version_wp) { FactoryBot.create :work_package, project: project, subject: 'Closed', version: closed_version }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   def create_new_version_board
@@ -115,10 +115,10 @@ describe 'Version action board', type: :feature, js: true do
         expect(open.name).to eq 'Open version'
         expect(second_open.name).to eq 'A second version'
 
-        expect(open.filters.first.name).to eq :fixed_version_id
+        expect(open.filters.first.name).to eq :version_id
         expect(open.filters.first.values).to eq [open_version.id.to_s]
 
-        expect(second_open.filters.first.name).to eq :fixed_version_id
+        expect(second_open.filters.first.name).to eq :version_id
         expect(second_open.filters.first.values).to eq [other_version.id.to_s]
       end
 
@@ -136,7 +136,7 @@ describe 'Version action board', type: :feature, js: true do
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
-      subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :fixed_version_id)
+      subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :version_id)
       # Only the explicitly added item is now contained in sort order
       expect(subjects).to match_array [['Task 1', open_version.id]]
 
@@ -152,7 +152,7 @@ describe 'Version action board', type: :feature, js: true do
         expect(second.reload.ordered_work_packages.count).to eq(1)
       end
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :fixed_version_id)
+      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :version_id)
       expect(subjects).to match_array [['Task 1', other_version.id]]
 
       # Expect that version is not available for global filter selection
@@ -202,7 +202,7 @@ describe 'Version action board', type: :feature, js: true do
       board_page.expect_card('Open version', 'Foo', present: false)
       board_page.expect_card('A second version', 'Task 1', present: true)
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :fixed_version_id)
+      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :version_id)
       expect(subjects).to match_array [['Task 1', other_version.id]]
     end
 
@@ -271,7 +271,7 @@ describe 'Version action board', type: :feature, js: true do
       expect(ids).to match_array [work_package.id, closed_version_wp.id]
 
       closed_version_wp.reload
-      expect(closed_version_wp.fixed_version_id).to eq(open_version.id)
+      expect(closed_version_wp.version_id).to eq(open_version.id)
 
       # But we can not move back to closed
       board_page.move_card(0, from: 'Open version', to: 'Closed version')

@@ -464,7 +464,7 @@ bg:
         done_ratio: "Прогрес (%)"
         end_insertion: "Край на вмъкване"
         end_deletion: "Края на изтриване"
-        fixed_version: "Версия"
+        version: "Версия"
         parent: "Горна категория"
         parent_issue: "Горна категория"
         parent_work_package: "Горна категория"

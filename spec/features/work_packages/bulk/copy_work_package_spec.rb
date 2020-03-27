@@ -87,7 +87,7 @@ describe 'Copy work packages through Rails view', js: true do
       end
 
       it 'sets the version on copy' do
-        select version.name, from: 'fixed_version_id'
+        select version.name, from: 'version_id'
         click_on 'Copy and follow'
 
         wp_table.expect_work_package_count 2
@@ -100,7 +100,7 @@ describe 'Copy work packages through Rails view', js: true do
         # Check project of last two created wps
         copied_wps = WorkPackage.last(2)
         expect(copied_wps.map(&:project_id).uniq).to eq([project2.id])
-        expect(copied_wps.map(&:fixed_version_id).uniq).to eq([version.id])
+        expect(copied_wps.map(&:version_id).uniq).to eq([version.id])
       end
 
       describe 'copy and follow' do

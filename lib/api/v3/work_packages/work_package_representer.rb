@@ -435,8 +435,7 @@ module API
                             setter: PrincipalSetter.lambda(:assigned_to, :assignee),
                             link: ::API::V3::Principals::AssociatedSubclassLambda.link(:assigned_to)
 
-        associated_resource :fixed_version,
-                            as: :version,
+        associated_resource :version,
                             v3_path: :version,
                             representer: ::API::V3::Versions::VersionRepresenter
 

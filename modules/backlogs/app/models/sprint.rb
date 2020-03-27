@@ -141,7 +141,7 @@ class Sprint < Version
     # Assume a sprint is active if it's only 2 days old
     return true if bd.remaining_hours.size <= 2
 
-    WorkPackage.exists?(['fixed_version_id = ? and ((updated_on between ? and ?) or (created_on between ? and ?))',
+    WorkPackage.exists?(['version_id = ? and ((updated_on between ? and ?) or (created_on between ? and ?))',
                          id, -2.days.from_now, Time.now, -2.days.from_now, Time.now])
   end
 
@@ -164,6 +164,6 @@ class Sprint < Version
   def impediments(project)
     # for reasons beyond me,
     # the default_scope needs to be explicitly applied.
-    Impediment.default_scope.where(fixed_version_id: self, project_id: project)
+    Impediment.default_scope.where(version_id: self, project_id: project)
   end
 end

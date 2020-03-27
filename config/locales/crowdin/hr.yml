@@ -465,7 +465,7 @@ hr:
         done_ratio: "Napredak (%)"
         end_insertion: "Kraj umetanja"
         end_deletion: "Kraj brisanja"
-        fixed_version: "Verzija"
+        version: "Verzija"
         parent: "Matični"
         parent_issue: "Matični"
         parent_work_package: "Matični"

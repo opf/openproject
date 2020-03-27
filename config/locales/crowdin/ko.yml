@@ -462,7 +462,7 @@ ko:
         done_ratio: "진행률 (%)"
         end_insertion: "삽입 끝"
         end_deletion: "삭제 끝"
-        fixed_version: "버전"
+        version: "버전"
         parent: "부모"
         parent_issue: "부모"
         parent_work_package: "부모"

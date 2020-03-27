@@ -466,7 +466,7 @@ cs:
         done_ratio: "Průběh (%)"
         end_insertion: "Konec vložení"
         end_deletion: "Konec odstranění"
-        fixed_version: "Verze"
+        version: "Verze"
         parent: "Rodič"
         parent_issue: "Rodič"
         parent_work_package: "Rodič"

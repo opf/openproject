@@ -700,7 +700,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         it_behaves_like 'has basic schema properties' do
           let(:path) { 'version' }
           let(:type) { 'Version' }
-          let(:name) { I18n.t('activerecord.attributes.work_package.fixed_version') }
+          let(:name) { I18n.t('activerecord.attributes.work_package.version') }
           let(:required) { false }
           let(:writable) { true }
         end
@@ -718,7 +718,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         it_behaves_like 'has basic schema properties' do
           let(:path) { 'version' }
           let(:type) { 'Version' }
-          let(:name) { I18n.t('activerecord.attributes.work_package.fixed_version') }
+          let(:name) { I18n.t('activerecord.attributes.work_package.version') }
           let(:required) { false }
           let(:writable) { false }
         end

@@ -464,7 +464,7 @@ pl:
         done_ratio: "Postęp (%)"
         end_insertion: "Koniec wstawiania"
         end_deletion: "Koniec usuwania"
-        fixed_version: "Wersja"
+        version: "Wersja"
         parent: "Rodzic"
         parent_issue: "Rodzic"
         parent_work_package: "Rodzic"

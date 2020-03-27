@@ -49,7 +49,7 @@ module API
             def fetch_checksums_for(work_packages)
               WorkPackage
                 .where(id: work_packages.map(&:id).uniq)
-                .left_joins(:status, :author, :responsible, :assigned_to, :fixed_version, :priority, :category, :type)
+                .left_joins(:status, :author, :responsible, :assigned_to, :version, :priority, :category, :type)
                 .pluck('work_packages.id', Arel.sql(md5_concat.squish))
                 .to_h
             end

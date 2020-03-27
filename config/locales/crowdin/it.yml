@@ -460,7 +460,7 @@ it:
         done_ratio: "Avanzamento (%)"
         end_insertion: "Fine inserimento"
         end_deletion: "Fine cancellazione"
-        fixed_version: "Versione"
+        version: "Versione"
         parent: "Superiore"
         parent_issue: "Superiore"
         parent_work_package: "Superiore"
