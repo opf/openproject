@@ -192,7 +192,7 @@ el:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμες δραστηριότητες.
       forums:
         no_results_title_text: Προς το παρόν δεν υπάρχουν φόρουμ για το έργο.
-        no_results_content_text: Δημιουργία νέου φόρουμ
+        no_results_content_text: Δημιουργία νέου forum
       categories:
         no_results_title_text: Αυτήν τη στιγμή δεν υπάρχουν κατηγορίες πακέτων εργασίας.
         no_results_content_text: Δημιουργήστε μια νέα κατηγορία πακέτου εργασίας
@@ -396,7 +396,7 @@ el:
         types: "Τύποι"
         versions: "Εκδόσεις"
         work_packages: "Εργασίες"
-      project/status:
+      projects/status:
         code: 'Κατάσταση'
         explanation: 'Περιγραφή κατάστασης'
         codes:
@@ -1367,7 +1367,7 @@ el:
   label_hierarchy_leaf: "Φύλλο ιεραρχίας"
   label_home: "Αρχική"
   label_subject_or_id: "Θέμα ή ταυτότητα"
-  label_impressum: "Νομική Ειδοποίηση"
+  label_impressum: "Νομικές επισημάνσεις"
   label_in: "σε"
   label_in_less_than: "σε λιγότερο από"
   label_in_more_than: "σε περισσότερο από"
@@ -1494,7 +1494,7 @@ el:
   label_planning: "Σχεδιασμός"
   label_please_login: "Παρακαλούμε συνδεθείτε"
   label_plugins: "Πρόσθετα"
-  label_modules_and_plugins: "Ενότητες και Πρόσθετα"
+  label_modules_and_plugins: "Πρόσθετα και Υπηρεσίες"
   label_precedes: "προηγείται"
   label_preferences: "Προτιμήσεις"
   label_preview: "Προεπισκόπηση"
@@ -1617,7 +1617,7 @@ el:
   label_updated_time: "Ενημερώθηκε πριν από %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Ενημερώθηκε από τον %{author} πριν από %{age}"
-  label_upgrade_guides: 'Οδηγοί αναβάθμισης'
+  label_upgrade_guides: 'Οδηγίες αναβάθμισης'
   label_used_by: "Χρησιμοποιείται από"
   label_used_by_types: "Χρησιμοποιείται από τύπους"
   label_used_in_projects: "Χρησιμοποιείται σε έργα"

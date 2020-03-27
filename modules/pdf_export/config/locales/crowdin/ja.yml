@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ja:
+  error_can_not_delete_export_card_configuration: "この設定は削除できません。"
+  error_can_not_change_name_of_default_configuration: "デフォルトの設定の名前は変更できません。"
+  label_backlogs_export_card_config_select: "エクスポートカードの設定を選択"
+  label_backlogs_export_card_export: "外部出力"
+  label_export_card_configuration_new: "新しいエクスポートカードの設定"
+  label_export_card_configuration: "エクスポートカード設定"
+  label_export_card_configuration_plural: "エクスポートカード設定"
+  label_export_card_activate: "有効にする"
+  label_export_card_deactivate: "無効化"
+  notice_export_card_configuration_activated: "設定が正常に有効化されました"
+  notice_export_card_configuration_deactivated: "設定が正常に無効化されました。"
+  error_can_not_activate_export_card_configuration: "この設定を有効にすることはできません"
+  error_can_not_deactivate_export_card_configuration: "この設定を無効にすることはできません"
+  validation_error_required_keys_not_present: "必須のキーがありません:"
+  validation_error_yaml_is_badly_formed: "有効な YAML フォーマットはありません。"
+  validation_error_uknown_key: "不明なキー:"
+  yaml_error: "YAML エディタ:"
+  help_link_rows_format: "行の書式設定"
+  export_config_per_page: "ページ毎"
+  export_config_page_size: "ページサイズ"
+  export_config_orientation: "オリエンテーション"
+  export_config_rows: "行"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "行"
+        per_page: "ページ毎"
+        page_size: "ページサイズ"
+        orientation: "オリエンテーション"

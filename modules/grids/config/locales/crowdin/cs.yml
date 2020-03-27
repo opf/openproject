@@ -1,0 +1,14 @@
+cs:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Stránka"
+        row_count: "Počet řádků"
+        column_count: "Počet sloupců"
+        widgets: "Widgety"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'se překrývá.'
+          outside: 'je mimo mřížku.'
+          end_before_start: 'konečná hodnota musí být větší než počáteční hodnota.'

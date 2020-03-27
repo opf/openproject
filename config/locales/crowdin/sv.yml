@@ -398,7 +398,7 @@ sv:
         types: "Typer"
         versions: "Versioner"
         work_packages: "Arbetspaket"
-      project/status:
+      projects/status:
         code: 'Status'
         explanation: 'Statusbeskrivning'
         codes:
@@ -1678,7 +1678,7 @@ sv:
   label_work_package_new: "Nytt arbetspaket"
   label_work_package_note_added: "Anteckning lades till arbetspaket"
   label_work_package_edit: "Redigera arbetspaket %{name}"
-  label_work_package_plural: "Arbetspaket"
+  label_work_package_plural: "Arbetspaketen"
   label_work_package_priority_updated: "Arbetspaketets prioritet uppdaterad"
   label_work_package_status: "Arbetspaketstatus"
   label_work_package_status_new: "Ny status"

@@ -1,0 +1,14 @@
+#English strings go here
+uk:
+  js:
+    label_preview: 'Попередній перегляд'
+    button_update: 'Оновити'
+    avatars:
+      label_choose_avatar: "Оберіть ваш Avatar з файлу"
+      uploading_avatar: "Завантаження вашого аватару."
+      text_upload_instructions: |
+        Завантажте особистий avatar розміром 128х128 пікселів. Зображення більшого розміру будуть автоматично обрізані та змаштабовані. Як тількі ви оберете зображення, буде відображено попередній перегляд вашого avatar до завантаження.
+      error_image_too_large: "Зображення завелике."
+      wrong_file_format: "Дозволені формати: jpg, png, gif"
+      empty_file_error: "Будь ласка, завантажте зображення вірного формату (jpg, png, gif)"
+

@@ -396,7 +396,7 @@ es:
         types: "Tipos"
         versions: "Versiones"
         work_packages: "Paquetes de trabajo"
-      project/status:
+      projects/status:
         code: 'Estado'
         explanation: 'Descripción del estado'
         codes:

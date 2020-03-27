@@ -398,7 +398,7 @@ lt:
         types: "Tipai"
         versions: "Versijos"
         work_packages: "Darbų paketai"
-      project/status:
+      projects/status:
         code: 'Būsena'
         explanation: 'Būsenos aprašymas'
         codes:

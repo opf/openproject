@@ -6,15 +6,15 @@ de:
       import: 'Import'
       export: 'Exportieren'
       viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
+      add_viewpoint: 'Viewpoint hinzufügen'
+      show_viewpoint: 'Viewpoint anzeigen'
+      delete_viewpoint: 'Viewpoint löschen'
     ifc_models:
-      empty_warning: "This project does not yet have any IFC models."
-      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
+      empty_warning: "Dieses Projekt hat noch keine IFC-Modelle."
+      use_this_link_to_manage: "Verwenden Sie diesen Link, um Ihre IFC-Modelle hochzuladen und zu verwalten"
       models:
         default: 'Standard IFC-Modelle'
-        manage: 'Manage models'
+        manage: 'Modelle verwalten'
       views:
         viewer: 'Viewer'
-        split: 'Viewer and cards'
+        split: 'Viewer und Karten'

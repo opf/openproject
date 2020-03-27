@@ -1,0 +1,7 @@
+#English strings go here
+cs:
+  permission_show_board_views: "Zobrazit tabule"
+  permission_manage_board_views: "Správa tabulí"
+  project_module_board_view: "Tabule"
+  boards:
+    label_boards: "Tabule"

@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+id:
+  error_can_not_delete_export_card_configuration: "Konfigurasi ini tidak dapat dihapus."
+  error_can_not_change_name_of_default_configuration: "Nama konfigurasi default tidak dapat diubah."
+  label_backlogs_export_card_config_select: "Pilih konfigurasi kartu ekspor"
+  label_backlogs_export_card_export: "Ekspor"
+  label_export_card_configuration_new: "Konfigurasi kartu ekspor baru"
+  label_export_card_configuration: "Konfigurasi kartu ekspor"
+  label_export_card_configuration_plural: "Konfigurasi kartu ekspor"
+  label_export_card_activate: "Aktifkan"
+  label_export_card_deactivate: "De-activate"
+  notice_export_card_configuration_activated: "Pengaturan berhasil diaktifkan"
+  notice_export_card_configuration_deactivated: "Pengaturan di non-aktif"
+  error_can_not_activate_export_card_configuration: "Konfigurasi ini tidak dapat diaktifkan"
+  error_can_not_deactivate_export_card_configuration: "Konfigurasi ini tidak dapat dimatikan"
+  validation_error_required_keys_not_present: "Satu atau beberapa kunci yang diperlukan tidak ada:"
+  validation_error_yaml_is_badly_formed: "format AML tidak valid."
+  validation_error_uknown_key: "Kunci tidak diketahui:"
+  yaml_error: "YAML error:"
+  help_link_rows_format: "Format baris"
+  export_config_per_page: "Per halaman"
+  export_config_page_size: "Ukuran halaman"
+  export_config_orientation: "Orientasi"
+  export_config_rows: "Baris"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "Baris"
+        per_page: "Per halaman"
+        page_size: "Ukuran halaman"
+        orientation: "Orientasi"

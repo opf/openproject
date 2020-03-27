@@ -1,0 +1,14 @@
+bg:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Страница"
+        row_count: "Брой редове"
+        column_count: "Брой колони"
+        widgets: "Джаджи"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'overlap.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'end value needs to be larger than the start value.'

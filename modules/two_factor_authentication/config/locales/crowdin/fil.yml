@@ -1,0 +1,176 @@
+#English strings go here for Rails i18n
+fil:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: 'Ang pagkakakilanlan'
+        default: 'Gamitin bilang default'
+      two_factor_authentication/device/sms:
+        phone_number: "Ang Phone number"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: 'ay tuluyang naka-set para sa panibagong OTP na aparato.'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "kinakailangan na ma pormat +XX XXXXXXXXX"
+    models:
+      two_factor_authentication/device: "Ang 2FA na aparato"
+      two_factor_authentication/device/sms: "Ang Mobile phone"
+      two_factor_authentication/device/totp: "Ang Aplikasyon sa Authenticator"
+  two_factor_authentication:
+    error_2fa_disabled: "Ang 2FA ay inihatid ay hindi gumagana."
+    error_no_device: "Walang nakarehistro na 2FA sa natagpuan na aparato para sa gumagamit na ito, kahit na kinakailangan para sa pagkakataon na ito."
+    error_no_matching_strategy: "Hindi nagtugma ang 2FA na diskarte sa magamait para sa gumagamit na ito. Pakiusap na kontakin ang iyong administrador."
+    error_is_enforced_not_active: 'Ang Kumpigurasyon ay mali: Ang Dalawang-Dahilan ay pinatupad, ngunit walang aktibo na mga diskarte ang umiiral.'
+    error_invalid_backup_code: 'Imbalido ang 2FA backup code'
+    channel_unavailable: "Ang tagapaghatid na channel %{channel} ay hindi magamit."
+    no_valid_phone_number: "Walang balido na numero sa telepono ang umiiral."
+    label_pwd_confirmation: "Password"
+    notice_pwd_confirmation: "Kailangan mong kumpirmahin ang iyong password sa paggawa ng mga pagbabago sa setting na ito."
+    label_device_type: "Ang uri ng aparato"
+    label_default_device: "I-Default ang 2FA na aparato"
+    label_device: "Ang 2FA na aparato"
+    label_devices: "Ang 2FA na mga aparato"
+    label_one_time_password: 'Ang isang beses na password'
+    label_2fa_enabled: 'Ang Dalawang-dahilan ng aktibo na pagpapatunay'
+    label_2fa_disabled: 'Ang Dalawang-dahilan ng hindi aktibo na pagpapatunay'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_enter_2fa: 'Pakiusap na ipasok ng isang beses ang pasword mula sa iyong aparato.'
+    text_2fa_enabled: 'Sa bawat pag-login, gagawin mo ang kahilingan na ipasok ang OTP token mula sa na-default na 2FA na aparato.'
+    text_2fa_disabled: 'Upang mapagana ang Dalawang-dahilan sa pagpapatunay, gamitin ang boton par monga magparehistro sa bagong 2FA na aparato, kung ikaw ay may handa ng aparato. kailangan mong gawin ito na-default.'
+    login:
+      enter_backup_code_title: Ipasok ang backup code
+      enter_backup_code_text: Pakiusap magpasok ng balido na backup code mula sa iyong listahan ng mga code kung sakali na hindi na ma-access ang iyong nirehistro na 2FA na mga aparato.
+      other_device: 'Gumamit ng ibang aparato o backup code'
+    settings:
+      title: 'Ang mga 2FA setting'
+      current_configuration: 'Ang kasalukuyang kompigurasyon'
+      label_active_strategies: 'Ang aktibo na 2Fa na mga deskarte'
+      label_enforced: 'Ang Ipatupad ang 2FA'
+      label_remember: 'Alalahanin ang pag-login sa 2FA'
+      text_configuration: |
+        Paalala: Ang mga halaga na ito ay sumasagisag sa kasalukuyang malawak na aplikasyon sa kumpigurasyon. Hindi mo maaaring i-disable ang mga setting na pinatupad ng kumpigurasyon o baguhin ang kasalukuyang mga aktibo na deskarte, dahil sa sila ay nangangailangan ng muling paguumpisa ng server.
+      text_configuration_guide: Para sa mas maraming impormasyon, suriin ang gabay sa kumpigurasyon.
+      text_enforced: 'Paganahin ang setting na ito para ma puwersa ang lahat ng mga gumagamit upang mag rehisrto sa 2FA na aparato sa kanilang susunod na pag-login, Maaari lamang na hindi mapagana habang hindi ma puwersa gamit ang kumpigurasyon.'
+      text_remember: |
+        Itakda ito sa mas higit pa sa sero upang pagayagan ang mga gumagamit na maalala ang pagpapatunay sa kanilang 2FA para sa ibinigay na numero sa mga araw.
+        Sila ay hindi hihiling na muling ipasok habang ang sa mga panahon na ito. Maaari lamang kung hindi na magpatupad gamit ang kumpigurasyon.
+      error_invalid_settings: 'Ang 2FA na mga deskarte na iyong napili ay walang bisa'
+      failed_to_save_settings: 'Bigo na ma-update ang 2FA na mga setting: %{message}'
+    admin:
+      self_edit_path: 'Para magdagdag o bawasan ang iyong sariing 2FA na mga aparato, pakiusap na mag punta sa %{self_edit_link}'
+      self_edit_link_name: 'Ang Dalawang-dahilan ng pagpapatunay sa iyong pahina ng account'
+      self_edit_forbidden: 'Hindi mo pwede na baguhin ang iyong sariling 2FA sa landas na ito. Magpunta sa Aking Account > Dalawang-dahilan ng pagpapatunay sa halip.'
+      no_devices_for_user: 'Walang 2FA na aparato ang na rehistro para sa gumagamit na ito.'
+      all_devices_deleted: 'Lahat ng 2Fa na mga aparato sa gumagamit na ito ay burado'
+      delete_all_are_you_sure: 'Sigurado kaba na nais mong burahin ang lahat ng 2FA na mga aparato para sa gumagamit na ito?'
+      button_delete_all_devices: 'Burahin ang nakarehistro na 2FA na mga aparato'
+      button_register_mobile_phone_for_user: 'Ang mobile na telepono ay irehistro'
+      text_2fa_enabled: 'Sa bawat pag-login, ang gumagamit na ito ay hinihiling na ipasok ang OTP na token mula sa kanyang default na 2FA aparato.'
+      text_2fa_disabled: "Ang gumagamit ay hindi nag-set up ng 2FA mula sa kanyang 'Aking account sa pahina'"
+    upsale:
+      title: 'Ang Dalawang-dahilan ng pagpapatunay ay isang tampok sa negosyo'
+      description: 'Para mapalakas ang iyong panloob o panlabas na pagpapatunay sa mga mekanismo kasama ang pangalawang kadahilanan.'
+    backup_codes:
+      none_found: Walang mga backup na umiiral para sa account na ito.
+      singular: Ang Backup code
+      plural: Ang mga Backup code
+      your_codes: para sa iyong %{app_name} account %{login}
+      overview_description: |
+        Kung ikaw ay hindi mo ma-access ang iyong Dalawang-dahilan sa mga aparato, maaari kang gumamit ng backup code para mabawi ang na-access sa iyong account.
+        Gamitin ang mga sumusunod na buton uang mabuo ang bagong set ng mga backup code.
+      generate:
+        title: Ang Bumuo ng mga backup code
+        keep_safe_as_password: 'Ang Importante! Ang pakitunguhan ang mga code bilang mga password.'
+        keep_safe_warning: 'Alin man sa na-save nila na password sa iyong tagapamahala, o i-print ito sa pahina at ilagay sa ligtas na lugar.'
+        regenerate_warning: 'Babala: Kung ikaw ay lumikha na ng mga code dati, sila ay mawawalan ng bisa at kahit kailan hindi na gagana.'
+    devices:
+      add_new: 'Magdagdag ng bagong 2FA na aparato'
+      register: 'I-Rehistro ang aparato'
+      confirm_default: 'Kumpirmahin ang pagbabago sa default na aparato'
+      confirm_device: 'Kumpirmahin ang aparato'
+      confirm_now: 'Hindi makumpirma, I-click dito upang buhayin'
+      cannot_delete_default: 'Hindi mabura na default sa aparato'
+      make_default_are_you_sure: 'Sigurado kaba na nais mong gawin ang 2FA na aparato sa iyong default?'
+      make_default_failed: 'Bigo na ma-update ang default 2FA sa aparato.'
+      deletion_are_you_sure: 'Sigurado ka ba na nais mong burahin ang 2FA na aparato?'
+      registration_complete: 'Ang 2FA na aparato ay kumpleto na nairehistro!'
+      registration_failed_token_invalid: 'Ang 2FA rehistro ay bigo, ang token ay imbalido.'
+      registration_failed_update: 'Ang 2FA na aparato ay bigo sa pag rehistro, ang token ay balido ngunit ang aparato ay hindi ma-update.'
+      confirm_send_failed: 'Ang kumpirmasyon sa iyong 2FA na aparado ay bigo.'
+      button_complete_registration: 'Kumpleto ang 2FA na magparehistro'
+      text_confirm_to_complete_html: "Pakiusap na kumpletuhin ang pagrehistro sa iyong aparato <strong>%{identifier}</strong> sa pamamagitan ng pagpasok ng isang beses na password mula sa iyong default na aparato."
+      text_confirm_to_change_default_html: "Pakiusap na kumpirmahin ang pagbabago sa iyong default na aparato para sa <strong>%{new_identifier}</strong> sa pamamagitan ng pagpasok ng isang beses na password mula sa iyong kasalukuyang default na aparato."
+      text_identifier: 'Maaari kang magbigay ng aparato sa pasadya na identifier gamit ang field na ito.'
+      failed_to_delete: 'Bigo na mabura ang 2FA na aparato.'
+      is_default_cannot_delete: 'Ang aparato ay namarkahan bilang default at hindi maari na burahin dahil sa aktibo nasiguridad na patakaran, Markahan ng ibang aparato bilang default bago burahin.'
+      not_existing: 'Walang 2FA na aparato ang narehistro para sa iyong account.'
+      request_2fa: Pakiusap ipasok ang code mula sa iyong %{device_name} upang matiyak ang iyong pagkakakilanlan.
+      totp:
+        title: 'Gamitin ang iyong app-based authenticator'
+        provisioning_uri: 'Ang Provisioning sa URI'
+        secret_key: 'Ang Sekreto na Susi'
+        time_based: 'Nakabatay sa Oras'
+        account: 'Ang Pangalan sa Account / Tagapag-isyu'
+        setup: |
+          Para sa setting up ng dalwang-dahilan ng pagpapatunay kasama ang Google Authenticator, I-doownload ang aplikasyon mula sa Apple App na tindahan o sa Google Play na Tindahan.
+          Pagkatapos na buksan ang app, maaari mong i-scan ang sumusunod na QR code para mag-rehistro sa aparato.
+        question_cannot_scan: |
+          Hindi ma-scan ang code gamit ang iyong aplikasyon?
+        text_cannot_scan: |
+          Kung hindi mo ma-scan ang code, maaari mong ipasok ang entry manomano gamit ang mga sumusunod na mga detalye:
+        description: |
+          Irehistro ang aplikasyon sa authenticator para magamit kasama ang OpenProject gamit ang basehan sa oras ang pamantayan sa password authentication.
+          Mga karaniwan na halimbawa sa Google Authenticator o Authy.
+      sms:
+        title: 'Gamit ang iyong mobile na telepono'
+        redacted_identifier: 'Ang Mobile na aparato (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, kami ay nagpadala saiyo ng authentication code sa pamamagitan ng %{delivery_channel}'
+        description: |
+          Irehistro ang iyong numero sa mobile na telepono para sa paghahatid ng isang beses na mga password.
+    sns:
+      delivery_failed: 'Ang paghahatid ng SNS ay bigo:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
+    restdt:
+      delivery_failed_with_code: 'Ang token sa paghahatid ay bigo. (Error code %{code})'
+    strategies:
+      totp: 'Ang Aplikasyon sa Authenticator'
+      sns: 'Ang SNS sa Amazon'
+      resdt: 'Ang SMS na Pahinga sa API'
+    mobile_transmit_notification: "Ang isang-beses na password ay naipadala sa iyong cell phone."
+    label_two_factor_authentication: 'Ang dalwang-Dahilan sa authentication'
+    forced_registration:
+      required_to_add_device: 'Ang aktibong siguridad sa patakaran ang mga kinakailngan ka upang mapagana ang dalawang-dahilan sa authentication.. Pakiusap na gamitin ang sumusunod na porma para magparehistro sa iyong aparato.'
+    remember:
+      active_session_notice: >
+        Ang iyong account ay aktibo sa naaalala na coockie na balido hanggang sa %{expires_on}. Ang coockie na iyo ay pinapayagan ka na mag-login ng walang pangalawa na dahilan sa iyong account hanggang sa mga oras na iyan.
+      other_active_session_notice: Your account has an active remember cookie on another session.
+      label: 'Tandaan'
+      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
+      cookie_removed: 'All remembered 2FA sessions have been removed.'
+      dont_ask_again: "Lumikha ng coockie upang maalala ang 2FA authentication para sa kleyente na ito %{days} mga araw."
+  field_phone: "Ang Cell phone"
+  field_otp: "Ang isang beses na password"
+  notice_account_otp_invalid: "Imbalido ang isang-beses na password."
+  notice_account_otp_expired: "Ang isang-beses na password na iyong ipinasok ay na-expire."
+  notice_developer_strategy_otp: "Ang taga-develop ng diskarte sa nabuo na sumusunod na isang beses na password: %{token} (Channel: %{channel}"
+  notice_account_otp_send_failed: "Ang iyong isang beses na password ay hindi maipadala."
+  notice_account_has_no_phone: "Walang numero sa cellphone ang nauugnay sa iyong account."
+  label_expiration_hint: "%{date} o mag-logout sa"
+  label_actions: 'Mga aksyon'
+  label_confirmed: 'Kinumpirma'
+  button_continue: 'Ipagpatuloy'
+  button_make_default: 'Markahan bilang default'
+  label_unverified_phone: "Hindi ma-verify ang Cell Phone"
+  notice_phone_number_format: "Pakiusap na ipasok ang numero sa sumusunod na pormat: +XX XXXXXXXX."
+  text_otp_not_receive: "Iba pang mga pamamaraan sa pagpapatunay"
+  text_send_otp_again: "Ipadala muli ang isang beses na password sa:"
+  button_resend_otp_form: "Ipadala muli"
+  button_otp_by_voice: "Ang tinig sa tawag"
+  button_otp_by_sms: "Ang SMS"
+  label_otp_channel: "Ang Pagpapadala ng channel"

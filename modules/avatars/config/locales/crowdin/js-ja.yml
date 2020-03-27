@@ -1,0 +1,15 @@
+#English strings go here
+ja:
+  js:
+    label_preview: 'プレビュー'
+    button_update: '更新'
+    avatars:
+      label_choose_avatar: "ファイルからアバターを選択"
+      uploading_avatar: "アバターを更新しています。"
+      text_upload_instructions: |
+        128 x 128 ピクセルの独自のカスタムアバターをアップロードしてください。 大きいファイルはサイズが変更され、それに合わせてトリミングされます。
+        画像を選択すると、アップロード前にアバターのプレビューが表示されます。
+      error_image_too_large: "画像が大きすぎます。"
+      wrong_file_format: "利用可能な形式は jpg、png、gif"
+      empty_file_error: "正しい画像をアップロードしてください (jpg、png、gif)"
+

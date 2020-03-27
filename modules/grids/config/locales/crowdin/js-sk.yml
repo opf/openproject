@@ -1,0 +1,61 @@
+sk:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
+      widgets:
+        custom_text:
+          title: 'Vlastný text'
+        documents:
+          title: 'Dokumenty'
+          no_results: 'Zatiaľ žiadne dokumenty.'
+        members:
+          title: 'Členovia'
+          no_results: 'No visible members.'
+          view_all_members: 'Zobraziť všetkých členov'
+          add: 'Člen'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'Novinky'
+          at: 'o'
+          no_results: 'Nič nové pre nahlásenie.'
+        project_description:
+          title: 'Popis projektu'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Detailne informácie o projekte'
+          no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: 'Stav projektu'
+          on_track: 'On track'
+          off_track: 'Off track'
+          at_risk: 'At risk'
+          not_set: 'Not set'
+        subprojects:
+          title: 'Podprojekty'
+          no_results: 'No subprojects.'
+        time_entries_current_user:
+          title: 'My spent time'
+        time_entries_list:
+          title: 'Strávený čas (posledných 7 dní)'
+          no_results: 'Žiadne časové záznamy za posledných 7 dní.'
+        work_packages_accountable:
+          title: "Pracovné balíčky, za ktoré som zodpovedný(á)"
+        work_packages_assigned:
+          title: 'Mne priradené pracovné balíčky'
+        work_packages_created:
+          title: 'Pracovné balíčky vytvorené mnou'
+        work_packages_watched:
+          title: 'Pracovné balíčky sledované mnou'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'Kalendár'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

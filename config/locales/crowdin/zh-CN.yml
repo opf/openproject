@@ -395,7 +395,7 @@ zh-CN:
         types: "类型"
         versions: "版本"
         work_packages: "工作包"
-      project/status:
+      projects/status:
         code: '状态'
         explanation: '状态描述'
         codes:

@@ -399,7 +399,7 @@ pl:
         types: "Typy"
         versions: "Wersje"
         work_packages: "Zadania"
-      project/status:
+      projects/status:
         code: 'Status'
         explanation: 'Opis statusu'
         codes:
@@ -2721,7 +2721,7 @@ pl:
       none_given: "Żadnym aplikacjom OAuth nie udzielono dostępu do tego konta użytkownika."
     x_active_tokens:
       one: 'jeden aktywny token'
-      few: '%{count} aktywne tokeny'
+      few: '%{count} aktywnych tokenów'
       many: '%{count} aktywnych tokenów'
       other: '%{count} aktywnych tokenów'
     flows:

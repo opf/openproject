@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+da:
+  error_can_not_delete_export_card_configuration: "Denne opsætning kan ikke slettes."
+  error_can_not_change_name_of_default_configuration: "Navnet på standardopsætningen kan ikke ændres."
+  label_backlogs_export_card_config_select: "Vælg eksportkortopsætning"
+  label_backlogs_export_card_export: "Eksportér"
+  label_export_card_configuration_new: "Ny eksportkortopsætning"
+  label_export_card_configuration: "Eksportkortopsætning"
+  label_export_card_configuration_plural: "Eksport kortopsætninger"
+  label_export_card_activate: "Aktivér"
+  label_export_card_deactivate: "Deaktivér"
+  notice_export_card_configuration_activated: "Opsætning aktiveret"
+  notice_export_card_configuration_deactivated: "Opsætning deaktiveret"
+  error_can_not_activate_export_card_configuration: "Denne opsætning kan ikke aktiveres"
+  error_can_not_deactivate_export_card_configuration: "Denne opsætning kan ikke deaktiveres"
+  validation_error_required_keys_not_present: "Påkrævede nøgle(-r) ikke til stede:"
+  validation_error_yaml_is_badly_formed: "har intet gyldigt YAML-format."
+  validation_error_uknown_key: "Ukendt nøgle:"
+  yaml_error: "YAML-fejl:"
+  help_link_rows_format: "Rækkeformatering"
+  export_config_per_page: "Per side"
+  export_config_page_size: "Sidestørrelse"
+  export_config_orientation: "Retning"
+  export_config_rows: "Rækker"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "Rækker"
+        per_page: "Per side"
+        page_size: "Sidestørrelse"
+        orientation: "Retning"

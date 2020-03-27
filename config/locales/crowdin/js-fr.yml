@@ -218,7 +218,7 @@ fr:
             current_new_feature_html: >
               OpenProject contient un <b>nouveau module IFC pour intégrer des modèles 3D</b> dans votre application de gestion de projet et pour travailler en collaboration avec ces fichiers avec votre équipe sans installation de logiciels ou licences coûteux supplémentaires. <br><br> <ul> <li><b>Importez les fichiers IFC</b>des modèles de bâtiment dans votre application OpenProject.</li> <li><b>Ouvrez des modèles 3D et visualisez les modèles de bâtiment</b> dans votre navigateur.</li> <li> Vous pouvez facilement <b>travailler sur plusieurs fichiers IFC</b> avec votre équipe directement dans OpenProject sans installer de logiciel supplémentaire coûteux. </li> </ul>
     label_activate: "Activer"
-    label_add_column_after: "Ajouter une colonne au-dessus"
+    label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"
     label_add_comment: "Ajouter un commentaire"

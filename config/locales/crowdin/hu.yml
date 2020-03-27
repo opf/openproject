@@ -396,7 +396,7 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
-      project/status:
+      projects/status:
         code: 'Állapot'
         explanation: 'Állapot leírása'
         codes:
