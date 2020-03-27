@@ -1,6 +1,0 @@
-ja:
-  js:
-    ifc_models:
-      models:
-        default: 'デフォルトのIFCモデル'
-        manage: 'モデルの管理'
