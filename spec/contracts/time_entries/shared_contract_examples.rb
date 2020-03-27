@@ -205,8 +205,8 @@ shared_examples_for 'time entry contract' do
   context 'if more than 24 hours are booked for a day' do
     let(:time_entry_day_sum) { 24 - time_entry_hours + 1 }
 
-    it 'is invalid' do
-      expect_valid(false, hours: %i(day_limit))
+    it 'is valid' do
+      expect_valid(true)
     end
   end
 
