@@ -39,7 +39,6 @@ import {
 } from '@angular/core';
 import {ContainHelpers} from 'core-app/modules/common/focus/contain-helpers';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
@@ -89,7 +88,10 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   /** Remember the current value */
   public currentValue:string = '';
 
-  private unregisterGlobalListener:Function | undefined;
+  /** Remember if we have found an exact ID match */
+  public exactMatchedWpId:string|null = null
+
+  private unregisterGlobalListener:Function|undefined;
 
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.all_projects'),
@@ -209,6 +211,11 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   public onEnterBeforeResultsLoaded() {
     if (!this.requests.hasResults) {
       this.searchInScope(this.currentScope);
+      return;
+    }
+
+    if (this.exactMatchedWpId) {
+      window.location.href = this.wpPath(this.exactMatchedWpId);
     }
   }
 
@@ -226,14 +233,15 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
       return of([]);
     }
 
-    let idOnly:boolean = false;
-
-    if (query.match(/^#\d+$/)) {
-      query = query.replace(/^#/, '');
-      idOnly = true;
+    // Remove ID marker # when searching for #<number>
+    if (query.match(/^#(\d+)/)) {
+      query = query.substr(1);
     }
 
-    let href:string = this.PathHelperService.api.v3.wpBySubjectOrId(query, idOnly);
+    // Test for exact ID matches
+    this.exactMatchedWpId = null;
+
+    let href:string = this.PathHelperService.api.v3.wpBySubjectOrId(query);
 
     this.addSuggestions();
 
@@ -242,6 +250,10 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
       .pipe(
         map((collection) => {
           return this.suggestions.concat(collection.elements.map((wp) => {
+            if (query === wp.id!.toString()) {
+              this.exactMatchedWpId = query;
+            }
+
             return {
               id: wp.id!,
               subject: wp.subject,
@@ -304,8 +316,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
       this.ngSelectComponent.close();
       // Work package results can update without page reload.
       if (!forcePageLoad &&
-          this.globalSearchService.isAfterSearch() &&
-          this.globalSearchService.currentTab === 'work_packages') {
+        this.globalSearchService.isAfterSearch() &&
+        this.globalSearchService.currentTab === 'work_packages') {
         window.history
           .replaceState({},
             `${I18n.t('global_search.search')}: ${this.ngSelectComponent.searchTerm}`,
@@ -319,7 +331,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   public blur() {
     this.ngSelectComponent.searchTerm = '';
-    (<HTMLInputElement> document.activeElement).blur();
+    (<HTMLInputElement>document.activeElement).blur();
   }
 
   private get currentScope():string {
