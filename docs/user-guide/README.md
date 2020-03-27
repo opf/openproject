@@ -56,7 +56,5 @@ Please choose the module you want to learn more about.
 
 ## Overview of OpenProject vs Jira
 
-If you would like to learn more about the features of OpenProject vs Jira please read this:
-https://www.openproject.org/jira-alternative/
-If you consider moving from Jira to OpenProject, your tasks can be transferred via an Excel plugin (first export tasks from Jira into Excel and then import to OpenProject). Here is how you do it:
-https://www.openproject.org/de/synchronize-excel-openproject/
+If you would like to learn more about the features of OpenProject vs Jira please read [here](https://www.openproject.org/jira-alternative/).
+The move from Jira to OpenProject can be done via an [Excel plugin](https://www.openproject.org/de/synchronize-excel-openproject/) which means first exporting your tasks from Jira into Excel and then import into OpenProject.
