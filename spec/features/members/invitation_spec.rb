@@ -40,6 +40,15 @@ feature 'invite user via email', type: :feature, js: true do
   end
 
   context 'with a new user' do
+    before do
+      @old_value = Capybara.raise_server_errors
+      Capybara.raise_server_errors = false
+    end
+
+    after do
+      Capybara.raise_server_errors = @old_value
+    end
+
     scenario 'adds the invited user to the project' do
       members_page.visit!
       click_on 'Add member'

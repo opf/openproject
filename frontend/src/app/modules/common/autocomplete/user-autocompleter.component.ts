@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
@@ -38,34 +38,16 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {UserResource} from "core-app/modules/hal/resources/user-resource";
 
 export const usersAutocompleterSelector = 'user-autocompleter';
 
 @Component({
-  template: `
-    <ng-select [items]="requests.output$ | async"
-               bindLabel="name"
-               bindValue="id"
-               [ngModel]="initialSelection"
-               [virtualScroll]="true"
-               [trackByFn]="userTracker"
-               [typeahead]="requests.input$"
-               [loading]="requests.loading$ | async"
-               (focus)="onFocus()"
-               (change)="onModelChange($event)">
-      <ng-template ng-option-tmp let-item="item" let-index="index">
-        <user-avatar *ngIf="item && item.id"
-                     [user]="item"
-                     data-class-list="avatar-mini">
-        </user-avatar>
-        {{ item.name }}
-      </ng-template>
-    </ng-select>
-  `,
+  templateUrl: './user-autocompleter.component.html',
   selector: usersAutocompleterSelector
 })
 export class UserAutocompleterComponent implements OnInit {
-  userTracker = (item:any) => item.href;
+  userTracker = (item:any) => item.href || item.id;
 
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
   @Output() public onChange = new EventEmitter<void>();
@@ -74,7 +56,8 @@ export class UserAutocompleterComponent implements OnInit {
   // Load all users as default
   @Input() public url:string = this.pathHelper.api.v3.users.path;
   @Input() public allowEmpty:boolean = false;
-
+  @Input() public appendTo:string = '';
+  @Input() public multiple:boolean = false;
 
   @Input() public initialSelection:number|null = null;
 
@@ -93,12 +76,16 @@ export class UserAutocompleterComponent implements OnInit {
               protected halResourceService:HalResourceService,
               protected I18n:I18nService,
               protected halNotification:HalResourceNotificationService,
-              readonly pathHelper:PathHelperService) {
+              readonly pathHelper:PathHelperService,
+              readonly injector:Injector) {
   }
 
   ngOnInit() {
     const input = this.elementRef.nativeElement.dataset['updateInput'];
     const allowEmpty = this.elementRef.nativeElement.dataset['allowEmpty'];
+    const appendTo = this.elementRef.nativeElement.dataset['appendTo'];
+    const multiple = this.elementRef.nativeElement.dataset['multiple'];
+    const url = this.elementRef.nativeElement.dataset['url'];
 
     if (input) {
       this.updateInputField = document.getElementsByName(input)[0] as HTMLInputElement|undefined;
@@ -114,6 +101,18 @@ export class UserAutocompleterComponent implements OnInit {
 
     if (allowEmpty === 'true') {
       this.allowEmpty = true;
+    }
+
+    if (appendTo) {
+      this.appendTo = appendTo;
+    }
+
+    if (multiple === 'true') {
+      this.multiple = true;
+    }
+
+    if (url) {
+      this.url = url;
     }
   }
 
@@ -133,12 +132,16 @@ export class UserAutocompleterComponent implements OnInit {
       }
 
       if (this.updateInputField) {
-        this.updateInputField.value = user.id;
+        if (this.multiple) {
+          this.updateInputField.value = user.map((u:UserResource) => u.id);
+        } else {
+          this.updateInputField.value = user.id;
+        }
       }
     }
   }
 
-  private getAvailableUsers(url:string, searchTerm:any):Observable<{[key:string]:string|null}[]> {
+  protected getAvailableUsers(url:string, searchTerm:any):Observable<{[key:string]:string|null}[]> {
     // Need to clone the filters to not add additional filters on every
     // search term being processed.
     let searchFilters = this.inputFilters.clone();
