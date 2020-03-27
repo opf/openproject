@@ -1,7 +1,8 @@
 require Rails.root.join('config/constants/open_project/inflector')
 
 OpenProject::Inflector.rule do |_, abspath|
-  if abspath.match?(/open_project\/version(\.rb)?\z/)
+  if abspath.match?(/open_project\/version(\.rb)?\z/) ||
+    abspath.match?(/lib\/open_project\/\w+\/version(\.rb)?\z/)
     "VERSION"
   end
 end
@@ -34,6 +35,16 @@ OpenProject::Inflector.rule do |basename, abspath|
   end
 end
 
+# Instruct zeitwerk to 'ignore' all the engine gems' lib initialization files.
+# As it is complicated to return all the paths where such an initialization file might exist,
+# we simply return the general OpenProject namespace for such files.
+OpenProject::Inflector.rule do |_basename, abspath|
+  if abspath =~ /openproject-\w+\/lib\/openproject-\w+.rb\z/ ||
+    abspath =~ /modules\/\w+\/lib\/openproject-\w+.rb\z/
+    'OpenProject'
+  end
+end
+
 OpenProject::Inflector.inflection(
   'api' => 'API',
   'rss' => 'RSS',
@@ -52,9 +63,6 @@ Rails.autoloaders.each do |autoloader|
   autoloader.inflector = OpenProject::Inflector.new(__FILE__)
 end
 
-# Instruct zeitwerk to ignore all the engine gems' lib initialization files
-Rails.autoloaders.main.ignore(Rails.root.join('modules/*/lib/openproject-*.rb'))
-Rails.autoloaders.main.ignore(Rails.root.join('vendor/plugins/*/lib/openproject-*.rb'))
 Rails.autoloaders.main.ignore(Rails.root.join('lib/plugins'))
 Rails.autoloaders.main.ignore(Rails.root.join('lib/open_project/patches'))
 Rails.autoloaders.main.ignore(Rails.root.join('lib/generators'))
