@@ -12,7 +12,7 @@ If you have previously worked with other tools and want to switch or need an int
 
 ## Gitlab
 
-The GitLab integration to OpenProject is currently being developed: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/21933#note_309977508.
+The GitLab integration to OpenProject is currently being developed and you can find all information [here](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/21933#note_309977508).
 We are prioritizing this topic at the moment and will update this guide with the latest developments.
 
 ## Jira
