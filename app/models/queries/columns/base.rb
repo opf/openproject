@@ -63,6 +63,10 @@ class Queries::Columns::Base
     raise NotImplementedError
   end
 
+  def null_handling(_asc)
+    @null_handling
+  end
+
   def groupable=(value)
     @groupable = name_or_value_or_false(value)
   end
