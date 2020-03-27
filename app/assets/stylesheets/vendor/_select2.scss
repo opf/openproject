@@ -238,12 +238,6 @@ $se2-width: 100%;
   }
 }
 
-.select2-modal-content {
-  .select2-container {
-    max-width: calc(100% - 45px);
-  }
-}
-
 // MOVE SEARCHFIELD INSIDE SELECTFIELD (overwrites)
 $se2-element-height: 34px;
 $se2-button-width: 32px;
