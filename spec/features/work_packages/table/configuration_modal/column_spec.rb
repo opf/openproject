@@ -84,7 +84,7 @@ describe 'Work Package table configuration modal columns spec', js: true do
         names = all('.wp-table--table-header').map(&:text)
         # Depending on what browser is used, subject column may be first or second
         # it doesn't matter for the outcome of this test
-        expect(names).to eq(%w[SUBJECT ID PROJECT]).or(%w[ID SUBJECT PROJECT])
+        expect(names).to eq(%w[SUBJECT ID PROJECT]).or(eq(%w[ID SUBJECT PROJECT]))
       end
     end
   end
