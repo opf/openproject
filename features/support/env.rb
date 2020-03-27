@@ -148,5 +148,3 @@ Before do
   FactoryBot.create(:non_member)
   FactoryBot.create(:anonymous_role)
 end
-
-World(Capybara::Select2)
