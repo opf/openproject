@@ -1,4 +1,4 @@
 el:
   js:
     dashboards:
-      label: 'Πίνακας Ελέγχου'
+      label: 'Dashboard'

@@ -24,63 +24,63 @@ fr:
   activerecord:
     attributes:
       meeting:
-        location: "Lieu"
+        location: "Location"
         duration: "Durée"
-        participants: "Participant(s)"
-        participants_attended: "Présent(s)"
-        participants_invited: "Invités"
-        start_time: "Heure "
-        start_time_hour: "Heure de début"
+        participants: "Participants"
+        participants_attended: "Attendees"
+        participants_invited: "Invitees"
+        start_time: "Time"
+        start_time_hour: "Starting time"
     errors:
       messages:
-        invalid_time_format: "n’est pas une heure valide. Format requis : HH:MM"
+        invalid_time_format: "is not a valid time. Required format: HH:MM"
     models:
-      meeting_agenda: "Ordre du jour"
-      meeting_minutes: "Compte-rendu"
-  description_attended: "ont participé"
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Minutes"
+  description_attended: "attended"
   description_invite: "invité"
   events:
-    meeting: Réunion modifiée
-    meeting_agenda: Ordre du jour de la réunion modifié
-    meeting_agenda_closed: Ordre du jour de la réunion fermé
-    meeting_agenda_opened: Ordre du jour de la réunion ouvert
-    meeting_minutes: Compte-rendu de la réunion modifié
-    meeting_minutes_created: Compte-rendu de la réunion créé
-  error_notification_with_errors: "L'envoi de notifications a échoué. Les destinataires suivant n'ont pas pu être notifiés : %{recipients}"
-  label_meeting: "Réunion"
-  label_meeting_plural: "Réunions"
-  label_meeting_new: "Nouvelle réunion"
-  label_meeting_edit: "Modifier la réunion"
-  label_meeting_agenda: "Ordre du jour"
-  label_meeting_minutes: "Compte-rendu"
+    meeting: Meeting edited
+    meeting_agenda: Meeting agenda edited
+    meeting_agenda_closed: Meeting agenda closed
+    meeting_agenda_opened: Meeting agenda opened
+    meeting_minutes: Meeting minutes edited
+    meeting_minutes_created: Meeting minutes created
+  error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
+  label_meeting: "Meeting"
+  label_meeting_plural: "Meetings"
+  label_meeting_new: "New Meeting"
+  label_meeting_edit: "Edit Meeting"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Minutes"
   label_meeting_close: "Fermer"
-  label_meeting_open: "Ouvertes"
-  label_meeting_agenda_close: "Fermer l'ordre du jour pour commencer les procès-verbaux"
-  label_meeting_date_time: "Date/Heure"
-  label_meeting_diff: "Différence"
-  label_notify: "Envoyer pour révision"
-  label_icalendar: "Envoyer iCalendar"
+  label_meeting_open: "Open"
+  label_meeting_agenda_close: "Close the agenda to begin the Minutes"
+  label_meeting_date_time: "Date/Time"
+  label_meeting_diff: "Diff"
+  label_notify: "Send for review"
+  label_icalendar: "Send iCalendar"
   label_version: "Version"
   label_time_zone: "Fuseau horaire"
   label_start_date: "Date de début"
-  notice_successful_notification: "Notification envoyée avec succès"
-  notice_timezone_missing: Aucun fuseau horaire n'est défini et %{zone} est supposé. Pour choisir votre fuseau horaire, veuillez cliquer ici.
-  permission_create_meetings: "Créer des réunions"
-  permission_edit_meetings: "Modifier les réunions"
-  permission_delete_meetings: "Supprimer des réunions"
-  permission_view_meetings: "Afficher les réunions"
-  permission_create_meeting_agendas: "Gérer les ordres du jour"
-  permission_close_meeting_agendas: "Fermer les ordres du jour"
-  permission_send_meeting_agendas_notification: "Envoyer une notification de révision pour les ordres du jour"
-  permission_create_meeting_minutes: "Gérer les minutes"
-  permission_send_meeting_minutes_notification: "Envoyer une notification de révision pour les minutes"
-  project_module_meetings: "Réunions"
-  text_duration_in_hours: "Durée en heures"
-  text_in_hours: "en heures"
-  text_meeting_agenda_for_meeting: 'ordre du jour de la réunion «%{meeting} »'
-  text_meeting_closing_are_you_sure: "Êtes-vous certain de vouloir fermer la rencontre ?"
-  text_meeting_agenda_open_are_you_sure: "Le contenu non enregistré des minutes de la réunion sera perdu ! Continuer ?"
-  text_meeting_minutes_for_meeting: 'Minutes de la réunion "%{meeting}"'
-  text_review_meeting_agenda: "%{author} à marqué le %{link} pour vérification."
-  text_review_meeting_minutes: "%{author} à marqué le %{link} pour vérification."
-  text_notificiation_invited: "Cet e-mail contient une entrée ics pour la réunion ci-dessous :"
+  notice_successful_notification: "Notification sent successfully"
+  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
+  permission_create_meetings: "Create meetings"
+  permission_edit_meetings: "Edit meetings"
+  permission_delete_meetings: "Delete meetings"
+  permission_view_meetings: "View meetings"
+  permission_create_meeting_agendas: "Manage agendas"
+  permission_close_meeting_agendas: "Close agendas"
+  permission_send_meeting_agendas_notification: "Send review notification for agendas"
+  permission_create_meeting_minutes: "Manage minutes"
+  permission_send_meeting_minutes_notification: "Send review notification for minutes"
+  project_module_meetings: "Meetings"
+  text_duration_in_hours: "Duration in hours"
+  text_in_hours: "in hours"
+  text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_agenda_open_are_you_sure: "Unsaved content in the minutes will be lost! Continue?"
+  text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
+  text_review_meeting_agenda: "%{author} has put the %{link} up for review."
+  text_review_meeting_minutes: "%{author} has put the %{link} up for review."
+  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"

@@ -1,0 +1,195 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#---
+cs:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Pracovní balíček"
+        overridden_costs: "Přepsané náklady"
+        spent: "Strávený čas"
+        spent_on: "Datum"
+      cost_object:
+        author: "Autor"
+        available: "Dostupné"
+        budget: "Rozpočet"
+        budget_ratio: "Stráveno (poměr)"
+        created_on: "Vytvořeno"
+        description: "Popis"
+        fixed_date: "Pevné datum"
+        spent: "Strávený čas"
+        status: "Stav"
+        subject: "Předmět"
+        type: "Typ nákladu"
+        updated_on: "Aktualizováno"
+      cost_type:
+        unit: "Jméno jednotky"
+        unit_plural: "Jméno jednotek (mn.č.)"
+      work_package:
+        costs_by_type: "Strávené jednotky"
+        cost_object_subject: "Název rozpočtu"
+        labor_costs: "Náklady práce"
+        material_costs: "Ceny jednotky"
+        overall_costs: "Celkové náklady"
+        spent_costs: "Utracené náklady"
+        spent_units: "Strávené jednotky"
+      rate:
+        rate: "Kurz"
+      user:
+        default_rates: "Výchozí sazby"
+      variable_cost_object:
+        labor_budget: "Plánované mzdové náklady"
+        material_budget: "Plánované jednotkové náklady"
+    models:
+      cost_object: "Rozpočet"
+      cost_type:
+        one: "Druh nákladů"
+        few: "Typy nákladů"
+        many: "Typy nákladů"
+        other: "Typy nákladů"
+      material_budget_item: "Jednotka"
+      rate: "Kurz"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Pracovní balíček #%{id} není platný cíl pro přeřazení nákladových položek."
+          nullify_is_not_valid_for_cost_entries: "K projektu nelze přiřadit položky nákladů."
+  attributes:
+    budget: "Plánované náklady"
+    comment: "Komentář"
+    cost_object: "Rozpočet"
+    cost_type: "Typ nákladu"
+    costs: "Náklady"
+    current_rate: "Aktuální sazba"
+    hours: "Hodiny"
+    units: "Jednotky"
+    valid_from: "Platné od"
+  button_add_budget_item: "Přidat plánované náklady"
+  button_add_cost_object: "Přidat rozpočet"
+  button_add_cost_type: "Přidat typ nákladů"
+  button_add_rate: "Přidat kurz"
+  button_cancel_edit_budget: "Zrušit úpravu rozpočtu"
+  button_cancel_edit_costs: "Zrušit úpravu nákladů"
+  button_log_costs: "Logovat jednotkové náklady"
+  button_log_time: "Čas protokolu"
+  caption_booked_on_project: "Rezervováno v projektu"
+  caption_default: "Výchozí"
+  caption_default_rate_history_for: "Výchozí historie kurzů pro %{user}"
+  caption_labor: "Práce"
+  caption_labor_costs: "Aktuální cena práce"
+  caption_locked_on: "Uzamčeno"
+  caption_material_costs: "Skutečné jednotkové náklady"
+  caption_materials: "Jednotky"
+  caption_rate_history: "Historie kurzů"
+  caption_rate_history_for: "Histgoprie kurzů pro %{user}"
+  caption_rate_history_for_project: "Historie kurzů pro %{user} v projektu %{project}"
+  caption_save_rate: "Uložit kurz"
+  caption_set_rate: "Nastavit aktuální sazbu."
+  caption_show_locked: "Zobrazit uzamčené typy"
+  cost_objects_title: "Rozpočty"
+  description_date_for_new_rate: "Datum pro nový kurz"
+  events:
+    cost_object: "Rozpočet editován"
+  group_by_others: "není v žádné skupině"
+  help_click_to_edit: "Klikněte zde pro úpravu."
+  help_currency_format: "Formát zobrazených hodnot měn. %n je nahrazen hodnotou měny, %u je nahrazen jednotkou měny."
+  help_override_rate: "Zadejte hodnotu zde pro přepsání výchozí sazby."
+  label_between: "mezi"
+  label_cost_filter_add: "Přidat filtr nákladového vstupu"
+  label_costlog: "Logované jednotkové náklady"
+  label_cost_object: "Rozpočet"
+  label_cost_object_id: "Rozpočet č.%{id}"
+  label_cost_object_new: "Nový rozpočet"
+  label_cost_object_plural: "Rozpočty"
+  label_cost_plural: "Náklady"
+  label_cost_report: "Výkaz nákladů"
+  label_cost_type_specific: "Rozpočet č.%{id}: %{name}"
+  label_cost_type_plural: "Typy nákladů"
+  label_costs_per_page: "Náklady na stránku"
+  label_currency: "Měna"
+  label_currency_format: "Formát měny"
+  label_current_default_rate: "Aktuální výchozí sazba"
+  label_date_on: "zapnuto"
+  label_deleted_cost_types: "Odstraněné typy nákladů"
+  label_locked_cost_types: "Uzamčené typy nákladů"
+  label_deliverable: "Rozpočet"
+  label_display_cost_entries: "Zobrazit jednotkové náklady"
+  label_display_time_entries: "Zobrazit nahlášené hodiny"
+  label_display_types: "Typy zobrazení"
+  label_edit: "Upravit"
+  label_fixed_cost_object: "Pevný rozpočet"
+  label_fixed_date: "Pevné datum"
+  label_generic_user: "Obecný uživatel"
+  label_greater_or_equal: ">="
+  label_group_by: "Seskupit podle"
+  label_group_by_add: "Přidat skupinové pole"
+  label_hourly_rate: "Hodinová sazba"
+  label_include_deleted: "Zahrnout smazané"
+  label_work_package_filter_add: "Přidat filtr pracovního balíčku"
+  label_kind: "Typ"
+  label_less_or_equal: "<="
+  label_log_costs: "Logovat jednotkové náklady"
+  label_no: "Ne"
+  label_option_plural: "Možnosti"
+  label_overall_costs: "Celkové náklady"
+  label_rate: "Kurz"
+  label_rate_plural: "Kurzy"
+  label_status_finished: "Ukončeno"
+  label_units: "Jednotky nákladu"
+  label_user: "Uživatel"
+  label_until: "do"
+  label_valid_from: "Platné od"
+  label_variable_cost_object: "Rozpočet založený na proměnlivé sazbě"
+  label_view_all_cost_objects: "Zobrazit všechny rozpočty"
+  label_yes: "Ano"
+  notice_cost_object_conflict: "Pracovní balíčky musí být ze stejného projektu."
+  notice_no_cost_objects_available: "Žádné rozpočty nejsou k dispozici."
+  notice_something_wrong: "Něco se pokazilo. Zkuste to prosím znovu."
+  notice_successful_restore: "Úspěšně obnoveno."
+  notice_successful_lock: "Úspěšně uzamčeno."
+  notice_cost_logged_successfully: 'Jednotková cena byla úspěšně zaznamenána.'
+  permission_edit_cost_entries: "Upravit rezervované jednotkové náklady"
+  permission_edit_cost_objects: "Upravit rozpočty"
+  permission_edit_own_cost_entries: "Upravit vlastní rezervované jednotkové náklady"
+  permission_edit_hourly_rates: "Upravit hodinové sazby"
+  permission_edit_own_hourly_rate: "Upravit vlastní hodinové sazby"
+  permission_edit_rates: "Edit rates"
+  permission_log_costs: "Book unit costs"
+  permission_log_own_costs: "Book unit costs for oneself"
+  permission_view_cost_entries: "View booked costs"
+  permission_view_cost_objects: "View budgets"
+  permission_view_cost_rates: "View cost rates"
+  permission_view_hourly_rates: "View all hourly rates"
+  permission_view_own_cost_entries: "View own booked costs"
+  permission_view_own_hourly_rate: "View own hourly rate"
+  permission_view_own_time_entries: "View own spent time"
+  project_module_costs_module: "Rozpočty"
+  text_assign_time_and_cost_entries_to_project: "Assign reported hours and costs to the project"
+  text_cost_object_change_type_confirmation: "Are you sure? This operation will destroy information of the specific budget type."
+  text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
+  text_destroy_time_and_cost_entries: "Delete reported hours and costs"
+  text_destroy_time_and_cost_entries_question: "%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
+  text_reassign_time_and_cost_entries: "Reassign reported hours and costs to this work package:"
+  text_warning_hidden_elements: "Some entries may have been excluded from the aggregation."
+  week: "week"
+  js:
+    text_are_you_sure: "Jste si jisti?"

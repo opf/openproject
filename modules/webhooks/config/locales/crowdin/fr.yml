@@ -2,17 +2,17 @@ fr:
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'URL de payload'
-        secret: 'Secret de la signature'
-        events: 'Événements'
+        url: 'Payload URL'
+        secret: 'Signature secret'
+        events: 'Events'
         projects: 'Projets activés'
       webhooks/log:
-        event_name: 'Nom de l''événement'
-        url: 'URL de payload'
-        response_code: 'Code de réponse'
-        response_body: 'Réponse'
+        event_name: 'Event name'
+        url: 'Payload URL'
+        response_code: 'Response code'
+        response_body: 'Response'
     models:
-      webhooks/outgoing_webhook: "Webhook sortant"
+      webhooks/outgoing_webhook: "Outgoing webhook"
   webhooks:
     singular: Webhook
     plural: Webhooks
@@ -20,40 +20,40 @@ fr:
       time_entry:
         name: "Saisie du temps"
     outgoing:
-      no_results_table: Aucun webhook n'a encore été défini.
-      label_add_new: Ajouter un nouveau webhook
-      label_edit: Modifier le webhook
-      label_event_resources: Ressources de l'événement
+      no_results_table: No webhooks have been defined yet.
+      label_add_new: Add new webhook
+      label_edit: Edit webhook
+      label_event_resources: Event resources
       events:
-        created: "Créé"
-        updated: "Mis à jour"
+        created: "Created"
+        updated: "Updated"
       status:
-        enabled: 'Webhook activé'
-        disabled: 'Webhook désactivé'
-        enabled_text: 'Le webhook émettra des payloads pour les événements définis ci-dessous.'
-        disabled_text: 'Cliquez sur le bouton Modifier pour activer le webhook.'
+        enabled: 'Webhook is enabled'
+        disabled: 'Webhook is disabled'
+        enabled_text: 'The webhook will emit payloads for the defined events below.'
+        disabled_text: 'Click the edit button to activate the webhook.'
       deliveries:
-        no_results_table: Aucune livraison n'a été effectuée pour ce webhook.
-        title: 'Livraisons récentes'
-        time: 'Délai de livraison'
+        no_results_table: No deliveries have been made for this webhook.
+        title: 'Recent deliveries'
+        time: 'Delivery time'
       form:
         introduction: >
-          Envoyez une demande POST à l'URL de payload ci-dessous pour tout événement dans le projet auquel vous êtes abonné. Payload correspond à la représentation APIv3 de l'objet en cours de modification.
-        apiv3_doc_url: Pour plus d'informations, consultez la documentation API
+          Send a POST request to the payload URL below for any event in the project your subscribe. Payload will correspond to the APIv3 representation of the object being modified.
+        apiv3_doc_url: For more information, visit the API documentation
         description:
-          placeholder: 'Description facultative pour le webhook.'
+          placeholder: 'Optional description for the webhook.'
         enabled:
           description: >
-            En cochant cette option, le webhook déclenchera les événements sélectionnés. Décochez pour désactiver le webhook.
+            When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
         events:
-          title: 'Événements activés'
+          title: 'Enabled events'
         project_ids:
           title: 'Projets activés'
-          description: 'Sélectionnez les projets pour lesquels ce webhook doit être exécuté.'
-          all: 'Tous les projets'
-          selected: 'Projets sélectionnés uniquement'
+          description: 'Select for which projects this webhook should be executed for.'
+          all: 'All projects'
+          selected: 'Selected projects only'
         selected_project_ids:
-          title: 'Projets sélectionnés'
+          title: 'Selected projects'
         secret:
           description: >
-            Si définie, cette valeur secrète est utilisée par OpenProject pour signer le payload du webhook.
+            If set, this secret value is used by OpenProject to sign the webhook payload.

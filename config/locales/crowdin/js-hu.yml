@@ -171,7 +171,7 @@ hu:
       cannot_save_changes_with_message: "A következő hiba miatt nem sikerült menteni a módosításokat: %{error}"
       query_saving: "A nézetet nem sikerült menteni."
       embedded_table_loading: "A beágyazott nézet betöltése nem sikerült: %{message}"
-    enumeration_activities: "Tevékenységek (időkövetés)"
+    enumeration_activities: "Activities (time tracking)"
     enumeration_doc_categories: "Dokumentum kategóriák"
     enumeration_work_package_priorities: "Feladatcsoport fontosság"
     filter:

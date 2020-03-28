@@ -53,14 +53,14 @@ hu:
       manage_colors: "A színválasztás beállításainak módosítása"
       instructions:
         alternative-color: "Kiemelt szín, tipikusan a képernyőn megjelenő legfontosabb gomb esetén."
-        content-link-color: "A legtöbb hivatkozás színe."
-        primary-color: "Fő szín."
-        primary-color-dark: "Általában az alap szín sötétebb verzióját használjuk a hover effekthez."
-        header-item-bg-hover-color: "Kattintható fejléc háttérszíne egér hatására."
-        header-item-font-color: "Kattintható fejléc betűszíne."
-        header-item-font-hover-color: "Kattintható fejléc betűszíne egér hatására."
-        header-border-bottom-color: "Vékony vonal a fejléc alatt. Hagyja üresen, ha semmilyen vonalat nem szeretne."
-        main-menu-bg-color: "Baloldali menü háttérszíne."
+        content-link-color: "Font color of most of the links."
+        primary-color: "Main color."
+        primary-color-dark: "Typically a darker version of the main color used for hover effects."
+        header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
+        header-item-font-color: "Font color of clickable header items."
+        header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
+        header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
+        main-menu-bg-color: "Left side menu's background color."
       theme_warning: A téma megváltoztatása felülírja az egyéni stílust. A forma elvész. Biztos, hogy folytatni akarod?
     enterprise:
       upgrade_to_ee: "Frissítés a Vállalati Verzióra"

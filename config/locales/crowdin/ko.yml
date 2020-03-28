@@ -394,7 +394,7 @@ ko:
         latest_activity_at: "다음의 최근 활동"
         parent: "하위 프로젝트"
         queries: "쿼리"
-        types: "유형"
+        types: "종류"
         versions: "버전"
         work_packages: "작업 패키지"
       project/status:
@@ -1596,7 +1596,7 @@ ko:
   label_topic_plural: "항목"
   label_total: "합계"
   label_type_new: "새 유형"
-  label_type_plural: "유형"
+  label_type_plural: "종류"
   label_ui: "사용자 인터페이스"
   label_update_work_package_done_ratios: "작업 패키지 완료 비율 업데이트"
   label_updated_time: "%{value} 전에 업데이트됨"
@@ -2628,7 +2628,7 @@ ko:
       instructions:
         name: "애플리케이션 이름입니다. 권한 부여 시 다른 사용자에게 표시됩니다."
         redirect_uri_html: >
-          허용된 URL 인증 사용자로 리디렉션될 수 있습니다. 라인별로 하나의 항목이 있습니다. <br/> 데스크톱 애플리케이션을 등록하려면 다음 URL을 사용하세요.
+          허용된 URL 인증 사용자로 리디렉션될 수 있습니다. 라인별로 하나의 엔트리가 있습니다. <br/> 데스크톱 애플리케이션을 등록하려면 다음 URL을 사용하세요.
         confidential: "클라이언트 비밀번호를 기밀로 유지할 수 있는 위치에서 애플리케이션이 사용되는지 여부를 확인합니다. 네이티브 모바일 앱과 싱글 페이지 앱은 기밀로 간주되지 않습니다."
         scopes: "애플리케이션이 액세스 권한을 부여할 범위를 확인하세요. 범위를 확인하지 않으면 api_v3로 가정됩니다."
         client_credential_user_id: "클라이언트가 이 애플리케이션을 사용할 때 가장하기 위한 선택적 사용자 ID입니다. 공용 액세스만 허용하려면 비워두세요."

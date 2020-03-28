@@ -1,0 +1,6 @@
+vi:
+  js:
+    ifc_models:
+      models:
+        default: 'Các mô hình IFC mặc định'
+        manage: 'Quản lý mô hình'

@@ -698,8 +698,8 @@ pt-BR:
   #common attributes of all models
   attributes:
     active: "Ativo"
-    assigned_to: "Atribuído para"
-    assignee: "Atribuído para"
+    assigned_to: "Atribuição"
+    assignee: "Atribuição"
     attachments: "Anexos"
     author: "Autor"
     base: "Erro geral:"
@@ -2376,7 +2376,7 @@ pt-BR:
         date: "data"
         default: "padrão"
       column:
-        assigned_to: "Atribuído para"
+        assigned_to: "Atribuição"
         type: "Tipo"
         due_date: "Data de término"
         name: "Nome"

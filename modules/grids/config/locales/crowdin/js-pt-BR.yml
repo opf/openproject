@@ -15,7 +15,7 @@ pt-BR:
         members:
           title: 'Membros'
           no_results: 'Nenhum membro visível.'
-          view_all_members: 'Visualizar todos os membros'
+          view_all_members: 'Ver todos os membros'
           add: 'Membro'
           too_many: 'Exibindo %{count} de %{total} membros.'
         news:

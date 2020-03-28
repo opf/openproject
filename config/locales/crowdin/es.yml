@@ -53,14 +53,14 @@ es:
       manage_colors: "Editar opciones de selección de colores"
       instructions:
         alternative-color: "Color de énfasis intenso, que suele usarse para el botón más importante de una pantalla."
-        content-link-color: "Color de fuente de la mayoría de los enlaces."
-        primary-color: "Color principal."
-        primary-color-dark: "Se suelen usar colores más oscuros para la acción de pasar el ratón por encima."
-        header-item-bg-hover-color: "Color de fondo de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
-        header-item-font-color: "Color de fuente de los elementos interactivos del encabezado."
-        header-item-font-hover-color: "Color de fuente de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
-        header-border-bottom-color: "Línea fina debajo del encabezado. Deje este campo vacío si no quiere que se muestre ninguna línea."
-        main-menu-bg-color: "Color de fondo del menú izquierdo."
+        content-link-color: "Font color of most of the links."
+        primary-color: "Main color."
+        primary-color-dark: "Typically a darker version of the main color used for hover effects."
+        header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
+        header-item-font-color: "Font color of clickable header items."
+        header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
+        header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
+        main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Actualizar hasta versión corporativa"

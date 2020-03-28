@@ -1,61 +1,61 @@
 fr:
   js:
     grid:
-      add_widget: 'Ajouter un widget'
-      remove: 'Supprimer le widget'
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
       upsale:
-        text: "Certains widgets, comme le widget graphique des lots de travaux, ne sont disponibles que dans"
-        link: 'la version Entreprise.'
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
       widgets:
         custom_text:
-          title: 'Texte personnalisé'
+          title: 'Custom text'
         documents:
           title: 'Documents'
-          no_results: 'Encore aucun document.'
+          no_results: 'No documents yet.'
         members:
           title: 'Membres'
-          no_results: 'Aucun membre visible.'
-          view_all_members: 'Afficher tous les membres'
+          no_results: 'No visible members.'
+          view_all_members: 'View all members'
           add: 'Membre'
-          too_many: '%{count} membres sur %{total} affichés.'
+          too_many: 'Displaying %{count} of %{total} members.'
         news:
           title: 'Actualités'
-          at: 'à'
-          no_results: 'Rien de nouveau à signaler.'
+          at: 'at'
+          no_results: 'Nothing new to report.'
         project_description:
-          title: 'Description du projet'
-          no_results: "Aucune description n'a encore été écrite. Vous pouvez en trouver une dans les \"Paramètres du projet\"."
+          title: 'Project description'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
-          title: 'Détails du projet'
-          no_results: 'Aucun champ personnalisé n''a été défini pour les projets.'
+          title: 'Project details'
+          no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'État du projet'
           on_track: 'Sur la bonne voie'
           off_track: 'Sur la mauvaise voie'
           at_risk: 'À risque'
-          not_set: 'Non défini'
+          not_set: 'Not set'
         subprojects:
           title: 'Sous-projets'
-          no_results: 'Aucun sous-projet.'
+          no_results: 'No subprojects.'
         time_entries_current_user:
           title: 'Mon temps passé'
         time_entries_list:
-          title: 'Temps passé (7 derniers jours)'
-          no_results: 'Aucune entrée de temps pour les 7 derniers jours.'
+          title: 'Spent time (last 7 days)'
+          no_results: 'No time entries for the last 7 days.'
         work_packages_accountable:
-          title: "Lots de Travaux dont je suis responsable"
+          title: "Work packages I am accountable for"
         work_packages_assigned:
           title: 'Lots de Travaux m''étant assignés'
         work_packages_created:
-          title: 'Lots de travaux que j''ai créés'
+          title: 'Work packages created by me'
         work_packages_watched:
-          title: 'Lots de travaux que j''ai observés'
+          title: 'Work packages watched by me'
         work_packages_table:
-          title: 'Tableau des lots de travaux'
+          title: 'Work packages table'
         work_packages_graph:
-          title: 'Graphique des lots de travaux'
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Calendrier'
         work_packages_overview:
-          title: 'Aperçu des lots de travaux'
-          placeholder: 'Cliquez pour éditer...'
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

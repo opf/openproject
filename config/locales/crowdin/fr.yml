@@ -53,14 +53,14 @@ fr:
       manage_colors: "Modifier les options du sélecteur de couleur"
       instructions:
         alternative-color: "Couleur d'accentuation, habituellement utilisée pour le bouton le plus important à l'écran."
-        content-link-color: "Couleur de la police de la plupart des liens."
-        primary-color: "Couleur principale."
-        primary-color-dark: "Habituellement, un ton plus sombre de la couleur principale utilisée pour les effets de mise en évidence."
-        header-item-bg-hover-color: "Couleur d’arrière-plan des éléments de l’en-tête survolées par la souris."
-        header-item-font-color: "Couleur de la police des éléments de l’en-tête cliquables."
-        header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
-        header-border-bottom-color: "Ligne mince sous l’en-tête. Laissez ce champ vide si vous ne voulez pas de ligne."
-        main-menu-bg-color: "Couleur d’arrière-plan du menu de gauche."
+        content-link-color: "Font color of most of the links."
+        primary-color: "Main color."
+        primary-color-dark: "Typically a darker version of the main color used for hover effects."
+        header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
+        header-item-font-color: "Font color of clickable header items."
+        header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
+        header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
+        main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"
@@ -479,10 +479,10 @@ fr:
         uid: "Id du client"
         secret: "Clé secrète du client"
         owner: "Propriétaire"
-        redirect_uri: "URI de redirection"
+        redirect_uri: "URL de redirection"
         client_credentials_user_id: "ID d'utilisateur d'informations d'identification client"
         scopes: "Portées"
-        confidential: "Confidentiel"
+        confidential: "Confidentielle"
     errors:
       messages:
         accepted: "doi(ven)t être accepté(e)(s)."
@@ -542,7 +542,7 @@ fr:
           attributes:
             redirect_uri:
               fragment_present: 'ne peut pas contenir un fragment.'
-              invalid_uri: 'doit être une URI valide.'
+              invalid_uri: 'doit être une URL valide.'
               relative_uri: 'doit être une URI absolue.'
               secured_uri: 'doit être une URI HTTPS/SSL.'
               forbidden_uri: 'est interdit par le serveur.'
@@ -688,7 +688,7 @@ fr:
       wiki_page: "Page wiki"
       workflow: "Flux de travail"
       work_package: "Lot de travaux"
-      'doorkeeper/application': "Application OAuth"
+      'doorkeeper/application': "Applications OAuth"
   errors:
     header_invalid_fields: "Des problèmes ont été rencontrés avec les champs suivants :"
     field_erroneous_label: "Ce champ n'est pas valide : %{full_errors}\nVeuillez saisir une valeur correcte."
@@ -1649,7 +1649,7 @@ fr:
   label_view_diff: "Afficher les différences"
   label_view_revisions: "Afficher les révisions"
   label_watched_work_packages: "Lots de travaux suivis"
-  label_what_is_this: "Qu'est-ce que c'est?"
+  label_what_is_this: "Qu'est-ce que c est?"
   label_week: "Semaine"
   label_wiki_content_added: "Page wiki ajoutée"
   label_wiki_content_updated: "Page wiki mise à jour"
@@ -2631,7 +2631,7 @@ fr:
         unsupported_response_type: 'Le serveur d''autorisation ne supporte pas ce type de réponse.'
         #Access token errors
         invalid_client: 'L''authentification du client a échoué en raison d''un client inconnu, d''une authentification du client non supportée ou d''une méthode d''authentification non supportée.'
-        invalid_grant: 'Le droit d’autorisation fourni n’est pas valide, a expiré, est révoqué, ne correspond pas à l’URI de redirection utilisée dans la requête d’autorisation, ou a été remis à un autre client.'
+        invalid_grant: 'L''autorisation accordée est invalide, expirée, révoquée, ne correspond pas à l''URI de redirection utilisée dans la demande d''autorisation ou a été accordée à un autre client.'
         unsupported_grant_type: 'Le type de subvention d''autorisation n''est pas supporté par le serveur d''autorisation.'
         invalid_token:
           revoked: "Le jeton d'accès a été révoqué"
@@ -2644,7 +2644,7 @@ fr:
     close_warning: "Ignorer cet avertissement."
   oauth:
     application:
-      singular: "Application OAuth"
+      singular: "Applications OAuth"
       plural: "Applications OAuth"
       named: "Application OAuth '%{name}'"
       new: "Nouvelle application Oauth"
@@ -2667,7 +2667,7 @@ fr:
       prompt_html: "Autoriser <strong>%{application_name}</strong> à utiliser votre compte <em>%{login}</em> ?"
       title: "Autoriser %{application_name}"
       wants_to_access_html: >
-        Cette application demande l'accès à votre compte OpenProject. <br/> <strong>Il a demandé les autorisations suivantes:</strong>
+        Cette application demande l'accès à votre compte OpenProject. <br/> <strong>Il a demandé les autorisations suivantes:</strong>Il a demandé les autorisations suivantes
     scopes:
       api_v3: "Accès complet à l'API v3"
       api_v3_text: "L'application recevra un accès complet en lecture et écriture à l'API v3 d'OpenProject pour effectuer des actions en votre nom."

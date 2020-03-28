@@ -1,9 +1,9 @@
 #English strings go here for Rails i18n
 sv:
   ifc_models:
-    label_ifc_models: 'IFC models'
-    label_new_ifc_model: 'New IFC model'
-    label_show_defaults: 'Show defaults'
+    label_ifc_models: 'IFC-modeller'
+    label_new_ifc_model: 'Ny IFC-modell'
+    label_show_defaults: 'Visa standardinställningar'
     label_default_ifc_models: 'Default IFC models'
     label_edit_defaults: 'Edit defaults'
     label_manage_models: 'Manage models'
@@ -22,7 +22,7 @@ sv:
       upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
     conversion:
       missing_commands: "The following IFC converter commands are missing on this system: %{names}"
-  project_module_ifc_models: "IFC models"
+  project_module_ifc_models: "IFC-modeller"
   permission_view_ifc_models: "View IFC models"
   permission_manage_ifc_models: "Import and manage IFC models"
   extraction:

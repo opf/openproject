@@ -1,61 +1,61 @@
 el:
   js:
     grid:
-      add_widget: 'Προσθήκη widget'
-      remove: 'Αφαίρεση widget'
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
       upsale:
-        text: "Ορισμένα γραφικά στοιχεία (widget), όπως το γραφικό στοιχείο πακέτων εργασίας, είναι διαθέσιμα μόνο στην "
-        link: 'έκδοση για επιχειρήσεις.'
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
       widgets:
         custom_text:
-          title: 'Προσαρμοσμένο κείμενο'
+          title: 'Custom text'
         documents:
           title: 'Έγγραφα'
-          no_results: 'Δεν υπάρχουν έγγραφα.'
+          no_results: 'No documents yet.'
         members:
           title: 'Μέλη'
-          no_results: 'Δεν υπάρχουν ορατά μέλη.'
-          view_all_members: 'Δείτε όλα τα μέλη'
+          no_results: 'No visible members.'
+          view_all_members: 'View all members'
           add: 'Μέλος'
-          too_many: 'Προβολή %{count} απο %{total} μέλη.'
+          too_many: 'Displaying %{count} of %{total} members.'
         news:
           title: 'Νέα'
-          at: 'στο'
-          no_results: 'Τίποτα νέο για αναφορά.'
+          at: 'at'
+          no_results: 'Nothing new to report.'
         project_description:
-          title: 'Περιγραφή έργου'
-          no_results: "Δεν έχει γραφτεί ακόμα περιγραφή. Μπορεί να παρασχεθεί μια στις 'Ρυθμίσεις έργου'."
+          title: 'Project description'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
-          title: 'Λεπτομέρειες έργου'
-          no_results: 'Δεν έχουν οριστεί προσαρμοσμένα πεδία για έργα.'
+          title: 'Project details'
+          no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'Κατάσταση έργου'
           on_track: 'Eντός πορείας'
           off_track: 'Eκτός πορείας'
           at_risk: 'Σε κίνδυνο'
-          not_set: 'Μη ορισμένο'
+          not_set: 'Not set'
         subprojects:
           title: 'Υποέργα'
-          no_results: 'Δεν υπάρχουν υποέργα.'
+          no_results: 'No subprojects.'
         time_entries_current_user:
           title: 'Ο δικός μου χρόνος που δαπανήθηκε'
         time_entries_list:
-          title: 'Χρόνος που δαπανήθηκε (τις τελευταίες 7 ημέρες)'
-          no_results: 'Δεν υπάρχουν καταχωρήσεις χρόνου για τις τελευταίες 7 ημέρες.'
+          title: 'Spent time (last 7 days)'
+          no_results: 'No time entries for the last 7 days.'
         work_packages_accountable:
-          title: "Πακέτα εργασίας για τα οποία είμαι υπεύθυνος"
+          title: "Work packages I am accountable for"
         work_packages_assigned:
           title: 'Πακέτα εργασίας που έχουν ανατεθεί σε μένα'
         work_packages_created:
-          title: 'Εργασίες που δημιούργησα'
+          title: 'Work packages created by me'
         work_packages_watched:
-          title: 'Εργασίες που παρακολουθώ'
+          title: 'Work packages watched by me'
         work_packages_table:
-          title: 'Πίνακας πακέτων εργασίας'
+          title: 'Work packages table'
         work_packages_graph:
-          title: 'Γράφημα πακέτων εργασίας'
+          title: 'Work packages graph'
         work_packages_calendar:
           title: 'Ημερολόγιο'
         work_packages_overview:
-          title: 'Επισκόπηση των πακέτων εργασίας'
-          placeholder: 'Κάντε κλικ για επεξεργασία ...'
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

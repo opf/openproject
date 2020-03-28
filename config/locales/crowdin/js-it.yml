@@ -236,9 +236,9 @@ it:
     label_author: "Autore: %{user}"
     label_avatar: "Avatar"
     label_between: "tra"
-    label_board: "Scheda"
+    label_board: "Tabellone"
     label_board_locked: "Chiuso"
-    label_board_plural: "Schede"
+    label_board_plural: "Tabelloni"
     label_board_sticky: "In evidenza"
     label_create: "Crea"
     label_create_work_package: "Crea una nuova macro-attività"
@@ -520,7 +520,7 @@ it:
       save: "Salva la relazione"
       abort: "Interrompi"
     relations_autocomplete:
-      placeholder: "Digita per cercare"
+      placeholder: "Tipo di ricerca"
       parent_placeholder: "Scegli un nuovo genitore o premi il tasto Esc per annullare."
     repositories:
       select_tag: 'Selezionare tag'

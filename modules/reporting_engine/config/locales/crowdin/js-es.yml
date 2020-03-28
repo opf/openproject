@@ -23,4 +23,4 @@ es:
   js:
     reporting_engine:
       label_remove: "Borrar"
-      label_response_error: "Se produjo un error procesando la consulta."
+      label_response_error: "There was an error handling the query."

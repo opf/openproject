@@ -1,0 +1,7 @@
+#English strings go here
+uk:
+  permission_show_board_views: "Дивитись дошки"
+  permission_manage_board_views: "Керувати дошками"
+  project_module_board_view: "Дошки"
+  boards:
+    label_boards: "Дошки"

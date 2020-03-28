@@ -79,7 +79,7 @@ el:
       highlighting:
         inline: 'Επισήμανση inline:'
         entire_card_by: 'Ολόκληρη κάρτα με'
-      remove_from_list: 'Αφαίρεση κάρτας από τη λίστα'
+      remove_from_list: 'Αφαίρεση από τη λίστα'
     caption_rate_history: "Ιστορικό αμοιβής"
     clipboard:
       browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
@@ -171,7 +171,7 @@ el:
       cannot_save_changes_with_message: "Δεν μπορούμε να αποθηκεύσουμε τις αλλαγές σας λόγω του ακολούθου σφάλματος: %{error}"
       query_saving: "Δεν ήταν δυνατή η αποθήκευση της προβολής."
       embedded_table_loading: "Δεν ήταν δυνατή η φόρτωση της ενσωματωμένης προβολής: %{message}"
-    enumeration_activities: "Δραστηριότητες (παρακολούθηση χρόνου)"
+    enumeration_activities: "Activities (time tracking)"
     enumeration_doc_categories: "Κατηγορίες εγγράφων"
     enumeration_work_package_priorities: "Προτεραιότητες πακέτου εργασίας"
     filter:
@@ -233,11 +233,11 @@ el:
     label_and: "και"
     label_ascending: "Αύξουσα"
     label_author: "Συγγραφέας: %{user}"
-    label_avatar: "Άβαταρ"
+    label_avatar: "Avatar"
     label_between: "μεταξύ"
-    label_board: "Πίνακας"
+    label_board: "Πινακας"
     label_board_locked: "Κλειδωμένο"
-    label_board_plural: "Πίνακες"
+    label_board_plural: "Πινακες"
     label_board_sticky: "Sticky"
     label_create: "Δημιουργία"
     label_create_work_package: "Δημιουργήστε νέο πακέτο εργασίας"
@@ -467,7 +467,7 @@ el:
       hours: 'Ώρες'
       label: 'Καταχώρηση χρόνου'
     two_factor_authentication:
-      label_two_factor_authentication: 'Ταυτοποίηση δύο παραγόντων'
+      label_two_factor_authentication: 'Two-factor authentication'
     watchers:
       label_loading: φορτώνονται οι παρατηρητές...
       label_error_loading: Παρουσιάστηκε σφάλμα κατά τη φόρτωση των παρατηρητών
@@ -647,7 +647,7 @@ el:
       label_enable_multi_select: "Ενεργοποίηση πολλαπλής επιλογής"
       label_disable_multi_select: "Απενεργοποίηση πολλαπλής επιλογής"
       label_filter_add: "Προσθήκη φίλτρου"
-      label_filter_by_text: "Φιλτράρισμα βάσει κειμένου"
+      label_filter_by_text: "Φίλτρο βάσει κειμένου"
       label_options: "Επιλογές"
       label_column_multiselect: "Συνδυασμένο αναπτυσσόμενο πεδίο: Επιλέξτε με τα πλήκτρα βέλους, επιβεβαιώστε πατώντας το πλήκτρο enter, διαγράψτε πατώντας το πλήκτρο backspace"
       message_error_during_bulk_delete: Παρουσιάστηκε ένα σφάλμα κατά την διαγραφή των πακέτων εργασίας.
@@ -656,7 +656,7 @@ el:
       message_view_spent_time: "Εμφάνιση χρόνου που δαπανήθηκε σε αυτό το πακέτο εργασίας"
       message_work_package_read_only: "Το πακέτο εργασίας είναι κλειδωμένο σε αυτή την κατάσταση. Κανένα χαρακτηριστικό εκτός από την κατάσταση δεν μπορεί να αλλαχθεί."
       message_work_package_status_blocked: "Η κατάσταση του πακέτου εργασίας δεν είναι εγγράψιμη λόγω κλειστής κατάστασης και εκχωρημένης έκδοσης."
-      placeholder_filter_by_text: "Θέμα, περιγραφή, σχόλια, ..."
+      placeholder_filter_by_text: "Θέμα, περιγραφή, σχόλια,..."
       inline_create:
         title: 'Πατήστε εδώ για να προσθέσετε ένα καινούργιο πακέτο εργασίας σε αυτή τη λίστα'
       create:
@@ -836,7 +836,7 @@ el:
         has_children: "Το πακέτο εργασίας έχει %{childUnits}:"
         confirm_deletion_children: "Αναγνωρίζω ότι ΌΛΟΙ οι απόγονοι από τα αναφερόμενα πακέτα εργασίας θα αφαιρεθούν αναδρομικά."
         deletes_children: "Όλα τα παιδιά πακέτα εργασίας και οι απόγονοι τους επίσης θα διαγραφούν αναδρομικά."
-    notice_no_results_to_display: "Δεν υπάρχουν ορατά αποτελέσματα για εμφάνιση."
+    notice_no_results_to_display: "Δεν υπάρχουν αποτελέσματα για εμφάνιση."
     notice_successful_create: "Επιτυχής δημιουργία."
     notice_successful_delete: "Επιτυχής διαγραφή."
     notice_successful_update: "Επιτυχής ενημέρωση."

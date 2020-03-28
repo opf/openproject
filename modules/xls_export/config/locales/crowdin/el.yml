@@ -1,13 +1,13 @@
 el:
   export_to_excel: "Εξαγωγή XLS"
-  print_with_description: "Προεπισκόπηση εκτύπωσης με περιγραφή"
+  print_with_description: "Print preview with description"
   sentence_separator_or: "ή"
-  different_formats: Διαφορετικές μορφές
+  different_formats: Different formats
   export:
     format:
       xls: "XLS"
-      xls_with_descriptions: "XLS με περιγραφές"
-      xls_with_relations: "XLS με σχέσεις"
+      xls_with_descriptions: "XLS with descriptions"
+      xls_with_relations: "XLS with relations"
   xls_export:
-    child_of: παιδί του
-    parent_of: γονέας του
+    child_of: child of
+    parent_of: parent of

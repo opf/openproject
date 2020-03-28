@@ -3,4 +3,4 @@ de:
     ifc_models:
       models:
         default: 'Standard IFC-Modelle'
-        manage: 'Manage models'
+        manage: 'Modelle verwalten'

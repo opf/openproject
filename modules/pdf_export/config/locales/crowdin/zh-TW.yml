@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+zh-TW:
+  error_can_not_delete_export_card_configuration: "不能刪除設定。"
+  error_can_not_change_name_of_default_configuration: "預設設定的名稱不能更改。"
+  label_backlogs_export_card_config_select: "選擇匯出卡設置"
+  label_backlogs_export_card_export: "匯出"
+  label_export_card_configuration_new: "新匯出卡設定"
+  label_export_card_configuration: "匯出卡設定"
+  label_export_card_configuration_plural: "匯出卡設定"
+  label_export_card_activate: "啟用"
+  label_export_card_deactivate: "關閉"
+  notice_export_card_configuration_activated: "設定成功啟動"
+  notice_export_card_configuration_deactivated: "設定成功關閉"
+  error_can_not_activate_export_card_configuration: "設定不能啟動"
+  error_can_not_deactivate_export_card_configuration: "設定不能關閉"
+  validation_error_required_keys_not_present: "所需的鍵不存在 ︰"
+  validation_error_yaml_is_badly_formed: "有無效的 YAML 格式。"
+  validation_error_uknown_key: "未知鍵："
+  yaml_error: "YAML 錯誤 ︰"
+  help_link_rows_format: "行格式"
+  export_config_per_page: "每頁"
+  export_config_page_size: "頁面大小"
+  export_config_orientation: "頁面方向"
+  export_config_rows: "列"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "列"
+        per_page: "每頁"
+        page_size: "頁面大小"
+        orientation: "頁面方向"

@@ -2,17 +2,17 @@ es:
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'URL de carga'
-        secret: 'Secreto de firma'
-        events: 'Eventos'
+        url: 'Payload URL'
+        secret: 'Signature secret'
+        events: 'Events'
         projects: 'Proyectos habilitados'
       webhooks/log:
-        event_name: 'Nombre del evento'
-        url: 'URL de carga'
-        response_code: 'Código de respuesta'
-        response_body: 'Respuesta'
+        event_name: 'Event name'
+        url: 'Payload URL'
+        response_code: 'Response code'
+        response_body: 'Response'
     models:
-      webhooks/outgoing_webhook: "Webhook de salida"
+      webhooks/outgoing_webhook: "Outgoing webhook"
   webhooks:
     singular: Webhook
     plural: Webhooks
@@ -20,40 +20,40 @@ es:
       time_entry:
         name: "Entrada de tiempo"
     outgoing:
-      no_results_table: Aún no se han definido webhooks.
-      label_add_new: Agregar nuevo webhook
-      label_edit: Editar webhook
-      label_event_resources: Recursos del evento
+      no_results_table: No webhooks have been defined yet.
+      label_add_new: Add new webhook
+      label_edit: Edit webhook
+      label_event_resources: Event resources
       events:
-        created: "Creado"
-        updated: "Actualizado"
+        created: "Created"
+        updated: "Updated"
       status:
-        enabled: 'El webhook está habilitado'
-        disabled: 'El webhook está deshabilitado'
-        enabled_text: 'El webhook emitirá cargas para los eventos definidos a continuación.'
-        disabled_text: 'Haga clic en el botón Editar para activar el webhook.'
+        enabled: 'Webhook is enabled'
+        disabled: 'Webhook is disabled'
+        enabled_text: 'The webhook will emit payloads for the defined events below.'
+        disabled_text: 'Click the edit button to activate the webhook.'
       deliveries:
-        no_results_table: No se han realizado entregas para este webhook.
-        title: 'Entregas recientes'
-        time: 'Hora de entrega'
+        no_results_table: No deliveries have been made for this webhook.
+        title: 'Recent deliveries'
+        time: 'Delivery time'
       form:
         introduction: >
-          Envíe una solicitud POST a la URL de carga siguiente para cualquier evento en el proyecto al que se haya suscrito. La carga se corresponderá con la representación de APIv3 del objeto que se vaya a modificar.
-        apiv3_doc_url: Para obtener más información, visite la documentación de la API
+          Send a POST request to the payload URL below for any event in the project your subscribe. Payload will correspond to the APIv3 representation of the object being modified.
+        apiv3_doc_url: For more information, visit the API documentation
         description:
-          placeholder: 'Descripción opcional del webhook.'
+          placeholder: 'Optional description for the webhook.'
         enabled:
           description: >
-            Al activar esta opción, el webhook se activará cuando se produzcan los eventos seleccionados. Desactive esta opción para deshabilitar el webhook.
+            When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
         events:
-          title: 'Eventos habilitados'
+          title: 'Enabled events'
         project_ids:
           title: 'Proyectos habilitados'
-          description: 'Seleccione para qué proyectos se ejecutará este webhook.'
-          all: 'Todos los proyectos'
-          selected: 'Solo los proyectos seleccionados'
+          description: 'Select for which projects this webhook should be executed for.'
+          all: 'All projects'
+          selected: 'Selected projects only'
         selected_project_ids:
-          title: 'Proyectos seleccionados'
+          title: 'Selected projects'
         secret:
           description: >
-            Si se establece el valor secreto, OpenProject se usará para firmar la carga del webhook.
+            If set, this secret value is used by OpenProject to sign the webhook payload.

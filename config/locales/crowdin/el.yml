@@ -53,14 +53,14 @@ el:
       manage_colors: "Επεξεργαστείτε τις επιλογές επιλογής χρώματος"
       instructions:
         alternative-color: "Ισχυρός τόνος χρώματος, το οποίο συνήθως χρησιμοποιείται για το πιο σημαντικό κουμπί σε μια οθόνη."
-        content-link-color: "Χρώμα γραμματοσειράς των περισσότερων συνδέσμων."
-        primary-color: "Κύριο χρώμα."
-        primary-color-dark: "Συνήθως μια πιο σκούρα εκδοχή του κύριου χρώματος που χρησιμοποιείται για τα εφέ του hover."
-        header-item-bg-hover-color: "Χρώμα φόντου στοιχείων κεφαλίδας με δυνατότητα κλικ, όταν ο δείκτης βρίσκεται πάνω."
-        header-item-font-color: "Χρώμα γραμματοσειράς στοιχείων κεφαλίδας με δυνατότητα κλικ."
-        header-item-font-hover-color: "Χρώμα γραμματοσειράς στοιχείων κεφαλίδας με δυνατότητα κλικ, όταν ο δείκτης βρίσκεται πάνω."
-        header-border-bottom-color: "Λεπτή γραμμή κάτω από την κεφαλίδα. Αφήστε αυτό το πεδίο κενό αν δεν θέλετε καμία γραμμή."
-        main-menu-bg-color: "Χρώμα φόντου του μενού της αριστερής πλευράς."
+        content-link-color: "Font color of most of the links."
+        primary-color: "Main color."
+        primary-color-dark: "Typically a darker version of the main color used for hover effects."
+        header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
+        header-item-font-color: "Font color of clickable header items."
+        header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
+        header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
+        main-menu-bg-color: "Left side menu's background color."
       theme_warning: Η αλλαγή του θέματος θα αντικαταστήσει το προσαρμοσμένο στυλ. Ο σχεδιασμός θα χαθεί. Είστε βέβαιοι ότι θέλετε να συνεχίσετε;
     enterprise:
       upgrade_to_ee: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
@@ -192,7 +192,7 @@ el:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμες δραστηριότητες.
       forums:
         no_results_title_text: Προς το παρόν δεν υπάρχουν φόρουμ για το έργο.
-        no_results_content_text: Δημιουργία νέου φόρουμ
+        no_results_content_text: Δημιουργία νέου forum
       categories:
         no_results_title_text: Αυτήν τη στιγμή δεν υπάρχουν κατηγορίες πακέτων εργασίας.
         no_results_content_text: Δημιουργήστε μια νέα κατηγορία πακέτου εργασίας
@@ -1367,7 +1367,7 @@ el:
   label_hierarchy_leaf: "Φύλλο ιεραρχίας"
   label_home: "Αρχική"
   label_subject_or_id: "Θέμα ή ταυτότητα"
-  label_impressum: "Νομική Ειδοποίηση"
+  label_impressum: "Νομικές επισημάνσεις"
   label_in: "σε"
   label_in_less_than: "σε λιγότερο από"
   label_in_more_than: "σε περισσότερο από"
@@ -1493,7 +1493,7 @@ el:
   label_planning: "Σχεδιασμός"
   label_please_login: "Παρακαλούμε συνδεθείτε"
   label_plugins: "Πρόσθετα"
-  label_modules_and_plugins: "Ενότητες και Πρόσθετα"
+  label_modules_and_plugins: "Πρόσθετα και Υπηρεσίες"
   label_precedes: "προηγείται"
   label_preferences: "Προτιμήσεις"
   label_preview: "Προεπισκόπηση"
@@ -1616,7 +1616,7 @@ el:
   label_updated_time: "Ενημερώθηκε πριν από %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Ενημερώθηκε από τον %{author} πριν από %{age}"
-  label_upgrade_guides: 'Οδηγοί αναβάθμισης'
+  label_upgrade_guides: 'Οδηγίες αναβάθμισης'
   label_used_by: "Χρησιμοποιείται από"
   label_used_by_types: "Χρησιμοποιείται από τύπους"
   label_used_in_projects: "Χρησιμοποιείται σε έργα"

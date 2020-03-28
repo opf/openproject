@@ -2,37 +2,37 @@ fr:
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        entry: 'Identificateur d''entrée'
-        auth_source: 'Connexion LDAP'
+        entry: 'Entry identifier'
+        auth_source: 'LDAP connection'
     models:
-      ldap_groups/synchronized_group: 'Groupe LDAP synchronisé'
+      ldap_groups/synchronized_group: 'Synchronized LDAP group'
   ldap_groups:
-    label_menu_item: 'Synchronisation de groupe LDAP'
-    label_group_key: 'Clé de filtre de groupe LDAP'
+    label_menu_item: 'LDAP group synchronization'
+    label_group_key: 'LDAP group filter key'
     settings:
-      group_key: 'Attribut de groupe LDAP'
-      group_key_text: 'Le nom d''attribut LDAP utilisé pour identifier les groupes.'
-      group_base: 'Base du groupe LDAP'
-      group_base_text: 'Base du groupe LDAP utilisée pour rechercher des entrées du groupe.'
+      group_key: 'LDAP group attribute'
+      group_key_text: 'The LDAP attribute name used to identify the groups.'
+      group_base: 'LDAP group base'
+      group_base_text: 'LDAP group base used to search for group entries.'
     synchronized_groups:
-      add_new: 'Ajouter un groupe LDAP synchronisé'
+      add_new: 'Add synchronized LDAP group'
       destroy:
-        title: 'Supprimer le groupe synchronisé %{name}'
-        confirmation: "Si vous continuez, le groupe synchronisé %{name} et tous les utilisateurs %{users_count} synchronisés par le biais de celui-ci seront supprimés."
-        info: "Remarque : Le groupe OpenProject lui-même et les membres ajoutés en dehors de cette synchronisation LDAP ne seront pas supprimés."
-        verification: "Saisissez le nom du groupe %{name} pour valider la suppression."
+        title: 'Remove synchronized group %{name}'
+        confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
+        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
+        verification: "Enter the group's name %{name} to verify the deletion."
       help_text_html: |
         Ce module vous permet de configurer une synchronisation entre les groupes LDAP et OpenProject.
         Les groupes LDAP doivent avoir l'attribut <em>groupOfNames / memberOf</em> défini pour fonctionner avec OpenProject.
         <br/>
         Les groupes sont synchronisés toutes les heures via une tâche cron.
         <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Veuillez consulter notre documentation sur ce sujet</a>.
-      no_results: 'Aucun groupe synchronisé trouvé.'
-      no_members: 'Ce groupe n''a pas encore de membres synchronisés.'
-      plural: 'Groupes LDAP synchronisés'
-      singular: 'Groupe LDAP synchronisé'
+      no_results: 'No synchronized groups found.'
+      no_members: 'This group has no synchronized members yet.'
+      plural: 'Synchronized LDAP groups'
+      singular: 'Synchronized LDAP group'
       form:
-        auth_source_text: 'Sélectionnez le mode d''authentification LDAP utilisé.'
-        entry_text: 'Définissez l''identifiant du groupe LDAP.'
-        group_text: 'Sélectionnez un groupe OpenProject existant avec lequel les membres du groupe LDAP seront synchronisés'
+        auth_source_text: 'Select which LDAP authentication mode is used.'
+        entry_text: 'Define the LDAP group identifier.'
+        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
 

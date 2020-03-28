@@ -1,0 +1,14 @@
+id:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Page"
+        row_count: "Number of rows"
+        column_count: "Number of columns"
+        widgets: "Widgets"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'overlap.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'end value needs to be larger than the start value.'

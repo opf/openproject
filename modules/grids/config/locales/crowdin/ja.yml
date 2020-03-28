@@ -1,0 +1,14 @@
+ja:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "ページ"
+        row_count: "行数"
+        column_count: "列数"
+        widgets: "ウィジェット"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'オーバーラップ。'
+          outside: 'グリッドの外側です。'
+          end_before_start: '終了値は開始値よりも大きくする必要があります。'

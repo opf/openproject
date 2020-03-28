@@ -6,7 +6,7 @@ de:
     label_show_defaults: 'Standard-Modelle anzeigen'
     label_default_ifc_models: 'Standard IFC-Modelle'
     label_edit_defaults: 'Standard-Modelle bearbeiten'
-    label_manage_models: 'Manage models'
+    label_manage_models: 'Modelle verwalten'
     no_defaults_warning:
       title: 'Es wurde kein IFC-Modell als Standard für dieses Projekt festgelegt.'
       check_1: 'Überprüfen Sie, dass Sie mindestens ein IFC-Modell hochgeladen haben.'

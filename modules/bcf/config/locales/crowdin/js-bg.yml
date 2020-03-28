@@ -1,0 +1,6 @@
+#English strings go here
+bg:
+  js:
+    bcf:
+      import: 'Import'
+      export: 'Експортиране'

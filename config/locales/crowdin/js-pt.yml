@@ -77,9 +77,9 @@ pt:
     card:
       add_new: 'Adicionar novo cartão'
       highlighting:
-        inline: 'Destaque em linha:'
+        inline: 'Destacar inline:'
         entire_card_by: 'Cartão inteiro por'
-      remove_from_list: 'Eliminar cartão da lista'
+      remove_from_list: 'Apagar cartão da lista'
     caption_rate_history: "Histórico de taxas"
     clipboard:
       browser_error: "O seu navegador não suporta o copiar para a área de transferência. Por favor, copie manualmente o texto selecionado."
@@ -883,7 +883,7 @@ pt:
     global_search:
       all_projects: "Em todos os projetos"
       search: "Pesquisar"
-      close_search: "Fechar pesquisa"
+      close_search: "Fechar busca"
       current_project: "Neste projeto"
       current_project_and_all_descendants: "Neste projeto + subprojetos"
       title:

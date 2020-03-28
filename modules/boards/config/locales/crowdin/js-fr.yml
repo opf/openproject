@@ -2,45 +2,45 @@
 fr:
   js:
     boards:
-      label_unnamed_board: 'Tableau sans nom'
-      label_unnamed_list: 'Liste sans nom'
-      label_board_type: 'Type de tableau'
+      label_unnamed_board: 'Unnamed board'
+      label_unnamed_list: 'Unnamed list'
+      label_board_type: 'Board type'
       upsale:
-        teaser_text: 'Améliorez votre gestion de projet agile avec cette vue des tableaux flexible. Créez autant de tableaux que vous voulez pour tout ce que vous souhaitez conserver.'
-        upgrade_to_ee_text: 'Les tableaux sont une fonctionnalité du plan Enterprise. Veuillez passer à un forfait payant.'
-        upgrade: 'Passer au plan supérieur'
-        personal_demo: 'Obtenir une démo personnelle'
+        teaser_text: 'Improve your agile project management with this flexible Boards view. Create as many boards as you like for anything you would like to keep track of.'
+        upgrade_to_ee_text: 'Boards is an Enterprise feature. Please upgrade to a paid plan.'
+        upgrade: 'Upgrade now'
+        personal_demo: 'Get a personal demo'
       lists:
-        delete: 'Supprimer la liste'
+        delete: 'Delete list'
       version:
-        is_locked: 'La version est verrouillée. Aucun élément ne peut être ajouté à cette version.'
-        is_closed: 'La version est fermée. Aucun élément ne peut être ajouté à cette version.'
-        close_version: 'Fermer la version'
-        open_version: 'Ouvrir la version'
-        lock_version: 'Verrouiller la version'
-        unlock_version: 'Déverrouiller la version'
-        edit_version: 'Éditer la version'
-        show_version: 'Afficher la version'
+        is_locked: 'Version is locked. No items can be added to this version.'
+        is_closed: 'Version is closed. No items can be added to this version.'
+        close_version: 'Close version'
+        open_version: 'Open version'
+        lock_version: 'Lock version'
+        unlock_version: 'Unlock version'
+        edit_version: 'Edit version'
+        show_version: 'Show version'
         locked: 'Verrouillé'
         closed: 'Clôturé'
-      new_board: 'Nouveau tableau'
-      add_list: 'Ajouter une liste'
-      add_card: 'Ajouter une carte'
-      error_attribute_not_writable: "Impossible de déplacer le lot de travaux, %{attribute} n'est pas modifiable."
-      error_loading_the_list: "Erreur lors du chargement de la liste : %{error_message}"
-      error_permission_missing: "La permission pour créer des requêtes publiques est manquante"
-      click_to_remove_list: "Cliquez pour supprimer cette liste"
+      new_board: 'New board'
+      add_list: 'Add list'
+      add_card: 'Add card'
+      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
+      error_loading_the_list: "Error loading the list: %{error_message}"
+      error_permission_missing: "The permission to create public queries is missing"
+      click_to_remove_list: "Click to remove this list"
       board_type:
-        free: 'Tableau de base'
+        free: 'Basic board'
         free_text: >
-          Créez un tableau dans lequel vous pouvez créer librement des listes et ordonner vos lots de travaux dans celles-ci. Déplacer des lots de travaux entre les listes ne modifie pas le lot de travaux en lui-même.
-        action: 'Tableau d''action'
-        action_by_attribute: 'Tableau d''action (%{attribute})'
+          Create a board in which you can freely create lists and order your work packages within. Moving work packages between lists do not change the work package itself.
+        action: 'Action board'
+        action_by_attribute: 'Action board (%{attribute})'
         action_text: >
-          Créez un tableau avec des listes filtrées sur un seul attribut. Déplacer des lots de travaux vers d'autres listes mettra à jour leur attribut.
-        select_attribute: "Attribut d'action"
+          Create a board with filtered lists on a single attribute. Moving work packages to other lists will update their attribute.
+        select_attribute: "Action attribute"
       configuration_modal:
-        title: 'Configurer ce tableau'
+        title: 'Configure this board'
         display_settings:
-          card_mode: "Affichage en cartes"
-          table_mode: "Affichage en tableau"
+          card_mode: "Display as cards"
+          table_mode: "Display as table"

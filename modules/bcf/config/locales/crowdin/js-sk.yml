@@ -1,0 +1,6 @@
+#English strings go here
+sk:
+  js:
+    bcf:
+      import: 'Import'
+      export: 'Exportovať'

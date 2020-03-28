@@ -1,0 +1,46 @@
+#English strings go here
+ja:
+  js:
+    boards:
+      label_unnamed_board: '無題のボード'
+      label_unnamed_list: '無題のリスト'
+      label_board_type: 'ボードの形式'
+      upsale:
+        teaser_text: 'この柔軟なボードビューでアジャイルプロジェクトの管理を向上させましょう。 あなたが追跡したいものを、好きなだけボードを作成してください。'
+        upgrade_to_ee_text: 'ボードはエンタープライズ機能です。 有料プランにアップグレードしてください。'
+        upgrade: '今すぐアップグレード'
+        personal_demo: 'パーソナルデモを入手する'
+      lists:
+        delete: 'リストを削除'
+      version:
+        is_locked: 'バージョンはロックされています。このバージョンにアイテムは追加できません。'
+        is_closed: 'バージョンは閉じられています。このバージョンにアイテムは追加できません。'
+        close_version: 'バージョンを閉じる'
+        open_version: 'バージョンを開く'
+        lock_version: 'バージョンをロック'
+        unlock_version: 'バージョンのロックを解除'
+        edit_version: 'バージョンを編集'
+        show_version: 'バージョンを表示'
+        locked: 'ロックされている'
+        closed: '終了'
+      new_board: '新しいボード'
+      add_list: 'リストを追加'
+      add_card: 'カードを追加'
+      error_attribute_not_writable: "作業項目を移動できません。 %{attribute} は書き込みできません。"
+      error_loading_the_list: "リストの読み込み中にエラーが発生しました: %{error_message}"
+      error_permission_missing: "公開クエリを作成するアクセス許可が見つかりません。"
+      click_to_remove_list: "クリックしてこのリストを削除"
+      board_type:
+        free: '基本ボード'
+        free_text: >
+          自由にリストを作成し、その中で作業項目を注文できるボードを作成してください。 リスト間で作業項目を移動しても、作業項目自体は変更されません。
+        action: 'アクションボード'
+        action_by_attribute: 'アクションボード (%{attribute})'
+        action_text: >
+          単一の属性でフィルターを適用したリストを使ってボードを作成します。 作業項目を他のリストに移動すると、それらの属性が更新されます。
+        select_attribute: "アクション属性"
+      configuration_modal:
+        title: 'このボードの設定'
+        display_settings:
+          card_mode: "カード形式で表示"
+          table_mode: "表形式で表示"

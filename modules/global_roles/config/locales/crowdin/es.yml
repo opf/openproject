@@ -20,13 +20,13 @@
 #See docs/COPYRIGHT.rdoc for more details.
 #++
 es:
-  error_can_not_be_assigned: No se puede asignar el rol a este usuario
-  global_roles: Roles globales
+  error_can_not_be_assigned: The role can not be assigned to this user
+  global_roles: Global Roles
   label_role_type: Tipo
-  label_member_role: Rol de proyecto
-  label_global_role: Rol global
-  label_not_changeable: (no modificable)
-  label_no_assignable_role: No hay ningún rol global disponible para asignar
+  label_member_role: Project Role
+  label_global_role: Global Role
+  label_not_changeable: (not changeable)
+  label_no_assignable_role: No global role available for assignment
   label_global: Global
   seeders:
-    default_role_project_creator: 'Creador del proyecto'
+    default_role_project_creator: 'Project creator'

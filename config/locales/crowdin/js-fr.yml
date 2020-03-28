@@ -80,7 +80,7 @@ fr:
         inline: 'Surligner la ligne :'
         entire_card_by: 'Carte complète par'
       remove_from_list: 'Supprimer la carte de la liste'
-    caption_rate_history: "Historique des tarifs"
+    caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Votre navigateur ne prend pas en charge la copie dans le presse-papier. Veuillez copier manuellement le texte sélectionné."
       copied_successful: "Copié avec succès vers le presse-papier !"
@@ -172,8 +172,8 @@ fr:
       cannot_save_changes_with_message: "Impossible d’enregistrer vos modifications en raison de l’erreur suivante : %{error}"
       query_saving: "La vue n'a pas pu être enregistrée."
       embedded_table_loading: "La vue intégrée n’a pas pu être chargée : %{message}"
-    enumeration_activities: "Activités (suivi de temps)"
-    enumeration_doc_categories: "Catégories de documents"
+    enumeration_activities: "Activities (time tracking)"
+    enumeration_doc_categories: "Document categories"
     enumeration_work_package_priorities: "Priorités du Lot de Travaux"
     filter:
       description:
@@ -196,7 +196,7 @@ fr:
     general_text_yes: "oui"
     general_text_No: "Non"
     general_text_Yes: "Oui"
-    global_roles: Rôles globaux
+    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Cliquez ici pour actualiser la resource et mettre à jour vers la version la plus récente."
@@ -218,7 +218,7 @@ fr:
             current_new_feature_html: >
               OpenProject contient un <b>nouveau module IFC pour intégrer des modèles 3D</b> dans votre application de gestion de projet et pour travailler en collaboration avec ces fichiers avec votre équipe sans installation de logiciels ou licences coûteux supplémentaires. <br><br> <ul> <li><b>Importez les fichiers IFC</b>des modèles de bâtiment dans votre application OpenProject.</li> <li><b>Ouvrez des modèles 3D et visualisez les modèles de bâtiment</b> dans votre navigateur.</li> <li> Vous pouvez facilement <b>travailler sur plusieurs fichiers IFC</b> avec votre équipe directement dans OpenProject sans installer de logiciel supplémentaire coûteux. </li> </ul>
     label_activate: "Activer"
-    label_add_column_after: "Ajouter une colonne au-dessus"
+    label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"
     label_add_comment: "Ajouter un commentaire"
@@ -291,8 +291,8 @@ fr:
     label_loading: "Chargement…"
     label_mail_notification: "Notifications par courriel"
     label_me: "moi"
-    label_meeting_agenda: "Ordre du jour"
-    label_meeting_minutes: "Compte-rendu"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Minutes"
     label_menu_collapse: "réduire"
     label_menu_expand: "développer"
     label_more_than_ago: "il y a plus de quelques jours"
@@ -468,7 +468,7 @@ fr:
       hours: 'Heures'
       label: 'Saisie du temps'
     two_factor_authentication:
-      label_two_factor_authentication: 'Authentification à deux facteurs'
+      label_two_factor_authentication: 'Two-factor authentication'
     watchers:
       label_loading: observateurs en cours de chargement…
       label_error_loading: Une erreur s'est produite lors du chargement des observateurs
@@ -717,83 +717,83 @@ fr:
         all_open: "Tous les ouverts"
         summary: "Résumé"
       jump_marks:
-        pagination: "Passer à la pagination du tableau"
-        label_pagination: "Cliquez ici pour sauter le tableau des lots de travaux et accéder à la pagination"
-        content: "Aller au contenu"
-        label_content: "Cliquez ici pour passer le menu et aller au contenu"
+        pagination: "Jump to table pagination"
+        label_pagination: "Click here to skip over the work packages table and go to pagination"
+        content: "Jump to content"
+        label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        formattable: "%{name} : Cliquez pour modifier…"
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Colonnes"
         group_by: "Grouper les résultats par"
         group: "Grouper par"
-        group_by_disabled_by_hierarchy: "Grouper par est désactivé, car le mode hiérarchie est activé."
-        hierarchy_disabled_by_group_by: "Le mode hiérarchie est désactivé, car les résultats sont groupés par %{column}."
-        sort_ascending: "Trier par ordre croissant"
-        sort_descending: "Trier par ordre décroissant"
-        move_column_left: "Déplacer la colonne de gauche"
-        move_column_right: "Déplacer le colonne de droite"
+        group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
+        hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
+        sort_ascending: "Sort ascending"
+        sort_descending: "Sort descending"
+        move_column_left: "Move column left"
+        move_column_right: "Move column right"
         hide_column: "Masquer la colonne"
-        insert_columns: "Insérer des colonnes…"
+        insert_columns: "Insert columns ..."
         filters: "Filtres"
         display_sums: "Afficher les sommes"
-        confirm_edit_cancel: "Êtes-vous sûr de vouloir annuler la modification du nom de cette vue ? Le titre sera redéfini selon la valeur précédente."
-        click_to_edit_query_name: "Cliquez ici pour modifier le titre de cette présentation."
-        rename_query_placeholder: "Nom de cette vue"
-        star_text: "Marquez cette vue comme favorite et ajoutez-la à la barre latérale des vues enregistrées sur la gauche."
+        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
+        click_to_edit_query_name: "Click to edit title of this view."
+        rename_query_placeholder: "Name of this view"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
         public_text: >
-          Publier cette vue, permet aux autres utilisateurs d'accéder à votre vue. Les utilisateurs ayant l'autorisation de 'Gérer les vues publiques' peuvent modifier ou supprimer une requête publique. Cela n'affecte pas la visibilité des résultats des lots de travaux dans cette vue et, selon leurs permissions, les utilisateurs peuvent voir des résultats différents.
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
-          unretrievable_query: "Impossible de récupérer la vue par l'URL"
-          not_found: "Cette vue n'existe pas"
-          duplicate_query_title: "Le nom de cette vue existe déjà. Changer quand même ?"
-        text_no_results: "Aucune vue correspondante n'a été trouvée."
+          unretrievable_query: "Unable to retrieve view from URL"
+          not_found: "There is no such view"
+          duplicate_query_title: "Name of this view already exists. Change anyway?"
+        text_no_results: "No matching views were found."
       table:
-        configure_button: 'Configurer le tableau du lot de travaux'
-        summary: "Tableau avec lignes de lots de travaux et colonnes d’attributs de lots de travaux."
-        text_inline_edit: "La plupart des cellules de ce tableau sont des boutons qui activent la fonctionnalité d'édition en ligne de l’attribut."
-        text_sort_hint: "Avec les liens dans les en-têtes de tableau vous pouvez trier, regrouper, réorganiser, supprimer et ajouter des colonnes."
-        text_select_hint: "Les boîtes de sélection doivent être ouvertes avec la touche « ALT » et les flèches directionelles."
+        configure_button: 'Configure work package table'
+        summary: "Table with rows of work package and columns of work package attributes."
+        text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
+        text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
+        text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
       table_configuration:
-        button: 'Configurer ce tableau du lot de travaux'
-        choose_display_mode: 'Afficher les lots de travaux comme'
-        modal_title: 'Configuration du tableau du lot de travaux'
-        embedded_tab_disabled: "Cet onglet de configuration n’est pas disponible pour la vue intégrée que vous êtes en train de modifier."
+        button: 'Configure this work package table'
+        choose_display_mode: 'Display work packages as'
+        modal_title: 'Work package table configuration'
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
         default: "défaut"
-        display_settings: 'Paramètres d''affichage'
-        default_mode: "Liste ombrée"
+        display_settings: 'Display settings'
+        default_mode: "Flat list"
         hierarchy_mode: "Hiérarchie"
-        hierarchy_hint: "Tous les résultats du tableau filtrés seront augmentés de leurs ancêtres . Les hiérarchies peuvent être dépliées et repliées."
-        display_sums_hint: "Afficher les sommes de tous les attributs sommables dans une ligne sous les résultats du tableau."
-        show_timeline_hint: "Afficher un diagramme de Gantt interactif sur le côté droit du tableau. Vous pouvez modifier sa largeur en faisant glisser le séparateur entre le tableau et le diagramme de Gantt."
-        highlighting: 'Surlignement'
+        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
+        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
+        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
+        highlighting: 'Highlighting'
         highlighting_mode:
-          description: "Surligner avec de la couleur"
+          description: "Highlight with color"
           none: "Pas de surlignement"
-          inline: 'Attribut(s) en surbrillance'
-          inline_all: 'Tous les attributs'
-          entire_row_by: 'Ligne entière par'
+          inline: 'Highlighted attribute(s)'
+          inline_all: 'All attributes'
+          entire_row_by: 'Entire row by'
           status: 'Statut'
           priority: 'Priorité'
           type: 'Type'
         sorting_mode:
-          description: 'Choisissez le mode pour trier vos lots de travaux :'
-          automatic: 'Automatique'
-          manually: 'Manuellement'
-          warning: 'Vous perdrez votre tri précédent lors de l''activation du mode de tri automatique.'
-        columns_help_text: "Utilisez l’entrée ci-dessus pour ajouter ou supprimer des colonnes à votre vue du tableau. Vous pouvez déplacer les colonnes par glisser/déposer pour les réorganiser."
+          description: 'Chose the mode to sort your Work packages:'
+          automatic: 'Automatic'
+          manually: 'Manually'
+          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
-          attribute_highlighting: 'Vous avez besoin de lots de travaux qui sortent du lot ?'
-          relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'
-          check_out_link: 'Découvrez l’édition entreprise.'
+          attribute_highlighting: 'Need certain work packages to stand out from the mass?'
+          relation_columns: 'Need to see relations in the work package list?'
+          check_out_link: 'Check out the Enterprise Edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrer les lots de travaux par type de relation'
       tabs:
         overview: Vue globale
         activity: Activité
         relations: Relations
-        watchers: Observateurs
+        watchers: Watchers
         attachments: Fichiers
       time_relative:
         days: "jours"
@@ -801,96 +801,96 @@ fr:
         months: "mois"
     toolbar:
       settings:
-        configure_view: "Configurer la vue..."
-        columns: "Colonnes…"
-        sort_by: "Trier par…"
-        group_by: "Grouper par…"
-        display_sums: "Afficher les sommes"
-        display_hierarchy: "Afficher la hiérarchie"
-        hide_hierarchy: "Masquer la hiérarchie"
-        hide_sums: "Masquer les sommes"
+        configure_view: "Configure view ..."
+        columns: "Columns ..."
+        sort_by: "Sort by ..."
+        group_by: "Group by ..."
+        display_sums: "Display sums"
+        display_hierarchy: "Display hierarchy"
+        hide_hierarchy: "Hide hierarchy"
+        hide_sums: "Hide sums"
         save: "Enregistrer"
-        save_as: "Enregistrer sous…"
-        export: "Exporter…"
-        visibility_settings: "Paramètres de visibilité..."
-        page_settings: "Renommer la vue..."
+        save_as: "Save as ..."
+        export: "Export ..."
+        visibility_settings: "Visibility settings ..."
+        page_settings: "Rename view ..."
         delete: "Supprimer"
       filter: "Filtrer"
       unselected_title: "Lot de travaux"
-      search_query_label: "Rechercher les vues enregistrées"
-      search_query_title: "Cliquez pour chercher les vues enregistrées"
-      placeholder_query_title: "Définir un titre pour cette vue"
+      search_query_label: "Search saved views"
+      search_query_title: "Click to search saved views"
+      placeholder_query_title: "Set a title for this view"
     modals:
-      label_settings: "Renommer la vue"
+      label_settings: "Rename view"
       label_name: "Nom"
-      label_delete_page: "Effacer la page en cours"
+      label_delete_page: "Delete current page"
       button_apply: "Appliquer"
       button_save: "Enregistrer"
       button_submit: "Envoyer"
       button_cancel: "Annuler"
       form_submit:
-        title: 'Confirmez pour continuer'
-        text: 'Êtes-vous sûr de vouloir effectuer cette action ?'
+        title: 'Confirm to continue'
+        text: 'Are you sure you want to perform this action?'
       destroy_work_package:
-        title: "Confirmer la suppression de %{label}"
-        text: "Voulez-vous vraiment supprimer le %{label} suivant ?"
-        has_children: "Le lot de travaux a %{childUnits} :"
-        confirm_deletion_children: "Je reconnais que TOUS les descendants des lots de travaux de la liste seront supprimés récursivement."
-        deletes_children: "Tous les lots de travaux enfants et leurs descendants seront également supprimés récursivement."
-    notice_no_results_to_display: "Aucun résultat visible à afficher."
+        title: "Confirm deletion of %{label}"
+        text: "Are you sure you want to delete the following %{label} ?"
+        has_children: "The work package has %{childUnits}:"
+        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
+        deletes_children: "All child work packages and their descendants will also be recursively deleted."
+    notice_no_results_to_display: "No visible results to display."
     notice_successful_create: "Création réussie."
     notice_successful_delete: "Suppression réussie."
     notice_successful_update: "Mise à jour réussie."
     notice_bad_request: "Mauvaise requête."
     relations:
-      empty: Aucune relation n'existe
+      empty: No relation exists
       remove: Supprimer la relation
     inplace:
-      button_edit: "%{attribute} : Modifier"
-      button_save: "%{attribute} : Enregistrer"
-      button_cancel: "%{attribute} : Annuler"
+      button_edit: "%{attribute}: Edit"
+      button_save: "%{attribute}: Save"
+      button_cancel: "%{attribute}: Cancel"
       button_save_all: "Enregistrer"
       button_cancel_all: "Annuler"
-      link_formatting_help: "Aide pour le formatage du texte"
+      link_formatting_help: "Text formatting help"
       btn_preview_enable: "Aperçu"
-      btn_preview_disable: "Désactiver l'aperçu"
+      btn_preview_disable: "Disable preview"
       null_value_label: "Aucune valeur"
       clear_value_label: "-"
       errors:
-        required: '%{field} ne peut pas être vide'
-        number: '%{field} n''est pas un nombre valide'
-        maxlength: '%{field} ne peut pas contenir plus de %{maxLength} chiffre(s)'
-        minlength: '%{field} ne peut pas contenir moins de %{minLength} chiffre(s)'
-        messages_on_field: 'Ce champ n’est pas valide : %{messages}'
-    error_could_not_resolve_version_name: "Ne peut résoudre le nom de version"
-    error_could_not_resolve_user_name: "Impossible de trouver l'utilisateur"
-    error_attachment_upload: "Erreur de chargement du fichier : %{error}"
-    error_attachment_upload_permission: "Vous n’avez pas l'autorisation de charger des fichiers sur cette ressource."
+        required: '%{field} cannot be empty'
+        number: '%{field} is not a valid number'
+        maxlength: '%{field} cannot contain more than %{maxLength} digit(s)'
+        minlength: '%{field} cannot contain less than %{minLength} digit(s)'
+        messages_on_field: 'This field is invalid: %{messages}'
+    error_could_not_resolve_version_name: "Couldn't resolve version name"
+    error_could_not_resolve_user_name: "Couldn't resolve user name"
+    error_attachment_upload: "File failed to upload: %{error}"
+    error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
     units:
       workPackage:
-        one: "lot de travaux"
-        other: "lots de travaux"
+        one: "work package"
+        other: "work packages"
       child_work_packages:
-        one: "un lot de travaux enfant"
-        other: "%{count} lots de travaux enfant"
+        one: "one child work package"
+        other: "%{count} work package children"
       hour:
         zero: "0 h"
-        one: "1h"
-        other: "%{count}h"
+        one: "1 h"
+        other: "%{count} h"
     zen_mode:
-      button_activate: 'Activer le mode zen'
-      button_deactivate: 'Désactiver le mode zen'
+      button_activate: 'Activate zen mode'
+      button_deactivate: 'Deactivate zen mode'
     global_search:
-      all_projects: "Pour tous les projets"
+      all_projects: "In all projects"
       search: "Recherche"
-      close_search: "Fermer la recherche"
-      current_project: "Pour ce projet"
-      current_project_and_all_descendants: "Dans ce projet + sous-projets"
+      close_search: "Close search"
+      current_project: "In this project"
+      current_project_and_all_descendants: "In this project + subprojects"
       title:
-        all_projects: "tous les projets"
-        project_and_subprojects: "et tous les sous-projets"
-        search_for: "Rechercher"
+        all_projects: "all projects"
+        project_and_subprojects: "and all subprojects"
+        search_for: "Search for"
     views:
-      card: 'Cartes'
-      list: 'Tableau'
+      card: 'Cards'
+      list: 'Table'
       timeline: 'Gantt'

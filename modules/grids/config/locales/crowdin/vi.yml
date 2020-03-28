@@ -1,0 +1,14 @@
+vi:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Trang"
+        row_count: "Số dòng"
+        column_count: "Số cột"
+        widgets: "Tiện ích"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'chồng lấn.'
+          outside: 'nằm ngoài bảng dữ liệu.'
+          end_before_start: 'giá trị kết thúc cần lớn hơn giá trị bắt đầu.'

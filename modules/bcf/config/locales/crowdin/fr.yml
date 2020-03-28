@@ -2,66 +2,66 @@
 fr:
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Impossible d''importer les sujets BCF'
-    label_imported_successfully: 'Sujets BCF importés avec succès'
-    issues: "Problèmes"
-    recommended: 'recommandé'
-    not_recommended: 'déconseillé'
-    no_viewpoints: 'Aucun point de vue'
+    label_imported_failed: 'Failed imports of BCF topics'
+    label_imported_successfully: 'Successfully imported BCF topics'
+    issues: "Issues"
+    recommended: 'recommended'
+    not_recommended: 'not recommended'
+    no_viewpoints: 'No viewpoints'
     new_badge: "nouveau"
     exceptions:
-      file_invalid: "Fichier BCF invalide"
+      file_invalid: "BCF file invalid"
     x_bcf_issues:
       zero: 'Aucun problème BCF'
-      one: 'Un problème BCF'
-      other: '%{count} problèmes BCF'
+      one: 'One BCF issue'
+      other: '%{count} BCF issues'
     bcf_xml:
-      xml_file: 'Fichier XML BCF'
+      xml_file: 'BCF XML File'
       import_title: 'Importer'
       export: 'Exporter'
-      import_update_comment: '(Mis à jour dans l''importation BCF)'
-      import_failed: 'Impossible d''importer le fichier BCF : %{error}'
-      import_successful: '%{count} problèmes BCF importés'
-      import_canceled: 'Importation BCF-XML annulée.'
-      type_not_active: "Le type de problème n'est pas activé pour ce projet."
+      import_update_comment: '(Updated in BCF import)'
+      import_failed: 'Cannot import BCF file: %{error}'
+      import_successful: 'Imported %{count} BCF issues'
+      import_canceled: 'BCF-XML import canceled.'
+      type_not_active: "The issue type is not activated for this project."
       import:
-        num_issues_found: '%{x_bcf_issues} sont contenus dans le fichier BCF-XML, leurs détails sont repris ci-dessous.'
-        button_prepare: 'Préparer l''importation'
-        button_perform_import: 'Confirmer l''importation'
-        button_proceed: 'Continuer'
-        button_back_to_list: 'Retour à la liste'
-        no_permission_to_add_members: 'Vous n''avez pas les autorisations suffisantes pour les ajouter en tant que membres du projet.'
-        contact_project_admin: 'Contactez votre administrateur du projet pour les ajouter en tant que membres et recommencer cette importation.'
-        continue_anyways: 'Voulez-vous quand même continuer et terminer l''importation ?'
-        description: "Fournissez un fichier BCF-XML v2.1 à importer dans ce projet. Vous pouvez examiner son contenu avant d'effectuer l'importation."
-        invalid_types_found: 'Un nom de type de sujet invalide a été trouvé'
-        invalid_statuses_found: 'Un nom de statut invalide a été trouvé'
-        invalid_priorities_found: 'Des noms de priorité invalides ont été trouvés'
-        invalid_emails_found: 'Des adresses e-mail invalides ont été trouvées'
-        unknown_emails_found: 'Des adresses e-mail inconnues ont été trouvées'
-        unknown_property: 'Propriété inconnue'
-        non_members_found: 'Aucun membre du projet n''a été trouvé'
-        import_types_as: 'Définir tous ces types comme'
-        import_statuses_as: 'Définir tous ces statuts comme'
-        import_priorities_as: 'Définir toutes ces priorités comme'
-        invite_as_members_with_role: 'Les inviter en tant que membres du projet "%{project}" avec un rôle'
-        add_as_members_with_role: 'Les ajouter en tant que membres du projet "%{project}" avec un rôle'
-        no_type_provided: 'Aucun type fourni'
-        no_status_provided: 'Aucun statut fourni'
-        no_priority_provided: 'Aucune priorité fournie'
-        perform_description: "Voulez-vous importer ou mettre à jour les problèmes repris ci-dessus ?"
-        replace_with_system_user: 'Les remplacer par l''utilisateur "Système"'
-        import_as_system_user: 'Les importer comme utilisateur "Système".'
+        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
+        button_prepare: 'Prepare import'
+        button_perform_import: 'Confirm import'
+        button_proceed: 'Proceed'
+        button_back_to_list: 'Back to list'
+        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
+        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
+        continue_anyways: 'Do you want to proceed and finish the import anyways?'
+        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
+        invalid_types_found: 'Invalid topic type names found'
+        invalid_statuses_found: 'Invalid status names found'
+        invalid_priorities_found: 'Invalid priority names found'
+        invalid_emails_found: 'Invalid email addresses found'
+        unknown_emails_found: 'Unknown email addresses found'
+        unknown_property: 'Unknown property'
+        non_members_found: 'Non project members found'
+        import_types_as: 'Set all these types to'
+        import_statuses_as: 'Set all these statuses to'
+        import_priorities_as: 'Set all these priorities to'
+        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
+        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
+        no_type_provided: 'No type provided'
+        no_status_provided: 'No status provided'
+        no_priority_provided: 'No priority provided'
+        perform_description: "Do you want to import or update the issues listed above?"
+        replace_with_system_user: 'Replace them with "System" user'
+        import_as_system_user: 'Import them as "System" user.'
         what_to_do: "Que voulez-vous faire?"
-        work_package_has_newer_changes: "Obsolète ! Ce sujet n'a pas été mis à jour, car les derniers changements sur le serveur étaient plus récents que la \"ModifiedDate\" du sujet importé. Toutefois, les commentaires sur le sujet ont été importés."
+        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "Capture d'écran BCF"
+    bcf_thumbnail: "BCF snapshot"
   project_module_bcf: "BCF"
-  permission_view_linked_issues: "Voir les problèmes BCF"
-  permission_manage_bcf: "Importer et gérer les problèmes BCF"
+  permission_view_linked_issues: "View BCF issues"
+  permission_manage_bcf: "Import and manage BCF issues"
   oauth:
     scopes:
       bcf_v2_1: "Accès complet à l'API BCF v2.1"
