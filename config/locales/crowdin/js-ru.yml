@@ -525,22 +525,6 @@ ru:
       select_tag: 'Выберите тег'
       select_branch: 'Выберите ветвь'
     field_value_enter_prompt: "Введите значение для «%{field}»"
-    select2:
-      input_too_short:
-        zero: "Введите больше символов"
-        one: "Пожалуйста, введите еще один символ"
-        few: "Пожалуйста, введите более {{count}} символов"
-        many: "Пожалуйста, введите более {{count}} символов"
-        other: "Пожалуйста, введите более {{count}} символов"
-      load_more: "Загрузка дополнительных результатов ..."
-      no_matches: "Совпадения не найдены"
-      searching: "Поиск ..."
-      selection_too_big:
-        zero: "Вы не можете выбрать элементы"
-        one: "Вы можете выбрать только один элемент"
-        few: "Можно выбрать {{limit}} элементов"
-        many: "Можно выбрать {{limit}} элементов"
-        other: "Можно выбрать {{limit}} элементов"
     project_menu_details: "Детали"
     sort:
       sorted_asc: 'Применяется сортировка по возрастанию, '
@@ -785,7 +769,7 @@ ru:
           automatic: 'Автоматически'
           manually: 'Вручную'
           warning: 'При активации режима автоматической сортировки вы потеряете свою предыдущую сортировку.'
-        columns_help_text: "Используйте ввод выше для добавления или удаления столбцов в табличном представлении. Вы можете перетаскивать столбцы для изменения их порядка."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Хотите выделить некоторые пакеты работ из общей массы?'
           relation_columns: 'Нужно видеть отношения в списке пакетов работ?'

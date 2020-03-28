@@ -526,18 +526,6 @@ fr:
       select_tag: 'Sélectionner une étiquette'
       select_branch: 'Sélectionner une branche'
     field_value_enter_prompt: "Saisissez une valeur pour « %{field} »"
-    select2:
-      input_too_short:
-        zero: "Veuillez saisir plus de caractères"
-        one: "Veuillez saisir un caractère supplémentaire"
-        other: "Veuillez saisir {{count}} caractères supplémentaires"
-      load_more: "Chargement de plus de résultats ..."
-      no_matches: "Pas de correspondances trouvées"
-      searching: "Recherche…"
-      selection_too_big:
-        zero: "Vous ne pouvez sélectionner aucun élément"
-        one: "Vous pouvez seulement sélectionner un élément"
-        other: "Vous pouvez seulement sélectionner {{limit}} éléments"
     project_menu_details: "Détails"
     sort:
       sorted_asc: 'Tri par ordre croissant appliqué, '
@@ -782,7 +770,7 @@ fr:
           automatic: 'Automatique'
           manually: 'Manuellement'
           warning: 'Vous perdrez votre tri précédent lors de l''activation du mode de tri automatique.'
-        columns_help_text: "Utilisez l’entrée ci-dessus pour ajouter ou supprimer des colonnes à votre vue du tableau. Vous pouvez déplacer les colonnes par glisser/déposer pour les réorganiser."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Vous avez besoin de lots de travaux qui sortent du lot ?'
           relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'

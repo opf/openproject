@@ -525,18 +525,6 @@ de:
       select_tag: 'Tag auswählen'
       select_branch: 'Branch auswählen'
     field_value_enter_prompt: "Einen Wert für '%{field}' eingeben"
-    select2:
-      input_too_short:
-        zero: "Bitte mehr Zeichen eingeben"
-        one: "Bitte ein weiteres Zeichen eingeben"
-        other: "Bitte {{count}} weitere Zeichen eingeben"
-      load_more: "Weitere Ergebnisse werden geladen ..."
-      no_matches: "Keine Treffer gefunden"
-      searching: "Suche ..."
-      selection_too_big:
-        zero: "Sie können keine Einträge auswählen"
-        one: "Sie dürfen nur ein Element auswählen"
-        other: "Sie dürfen nur {{limit}} Elemente auswählen"
     project_menu_details: "Details"
     sort:
       sorted_asc: 'Aufsteigende Sortierung angewendet, '
@@ -781,7 +769,7 @@ de:
           automatic: 'Automatisch'
           manually: 'Manuell'
           warning: 'Sie verlieren Ihre vorherige Sortierung beim Aktivieren des automatischen Sortiermodus.'
-        columns_help_text: "Verwenden Sie die Eingabe oben um Spalten zur Tabellenansicht hinzuzufügen oder zu entfernen. Sie können die Reihenfolge der Spalten über Drag & Drop verändern."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Sollen bestimmte Arbeitspakete aus der Menge herausstechen?'
           relation_columns: 'Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?'

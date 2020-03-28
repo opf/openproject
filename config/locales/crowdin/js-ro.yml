@@ -525,20 +525,6 @@ ro:
       select_tag: 'Selectare etichetă'
       select_branch: 'Selectare ramură'
     field_value_enter_prompt: "Introduceţi o valoare pentru '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Introduceți încă un caracter"
-        few: "Introduceţi încă {{count}} caractere"
-        other: "Introduceţi încă {{count}} caractere"
-      load_more: "Se încarcă mai multe rezultate..."
-      no_matches: "Nu a fost găsit niciun articol"
-      searching: "Căutare în curs..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Puteți selecta un singur element"
-        few: "Puteți selecta doar {{limit}} elemente"
-        other: "Puteți selecta doar {{limit}} elemente"
     project_menu_details: "Detalii"
     sort:
       sorted_asc: 'Sortare ascendentă aplicată '
@@ -783,7 +769,7 @@ ro:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'

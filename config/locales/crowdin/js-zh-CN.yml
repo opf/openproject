@@ -526,16 +526,6 @@ zh-CN:
       select_tag: '选择标签'
       select_branch: '选择分支'
     field_value_enter_prompt: "为'%{field}'输入值"
-    select2:
-      input_too_short:
-        zero: "请输入更多字符。"
-        other: "请再输入{{count}} 个字符"
-      load_more: "正在加载更多的结果..."
-      no_matches: "未找到匹配项"
-      searching: "正在搜索..."
-      selection_too_big:
-        zero: "您无法选择任何项"
-        other: "您可以只选择 {{limit}} 个条目"
     project_menu_details: "详细信息"
     sort:
       sorted_asc: '升序排列已应用， '
@@ -780,7 +770,7 @@ zh-CN:
           automatic: '自动'
           manually: '手动'
           warning: '激活自动排序模式时，您将丢失以前的排序结果。'
-        columns_help_text: "使用上面的输入向表视图添加或删除列。 您可以拖放列以重新排序它们。"
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: '需要特定的工作包以脱颖而出？'
           relation_columns: '需要查看工作包列表中的关系吗？'

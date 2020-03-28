@@ -526,18 +526,6 @@ es:
       select_tag: 'Seleccionar etiqueta'
       select_branch: 'Seleccione Sucursal'
     field_value_enter_prompt: "Introduzca un valor para '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Escriba más caracteres"
-        one: "Por favor introduzca un carácter más"
-        other: "Por favor, ingrese {{count}} caracteres más"
-      load_more: "Cargando mas resultados ..."
-      no_matches: "No se encontraron coincidencias"
-      searching: "Buscando ..."
-      selection_too_big:
-        zero: "No se puede seleccionar ningún elemento"
-        one: "Solo puede seleccionar un objeto"
-        other: "Solo puede seleccionar {{limit}} objetos"
     project_menu_details: "Detalles"
     sort:
       sorted_asc: 'Orden ascendiente aplicado '
@@ -782,7 +770,7 @@ es:
           automatic: 'Automático'
           manually: 'Manual'
           warning: 'Al activar el modo de ordenación automática, se perderá la ordenación actual.'
-        columns_help_text: "Use los datos anteriores para agregar o quitar columnas de la vista de tabla. Puede arrastrar y colocar las columnas para cambiar el orden."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
           relation_columns: '¿Necesita ver las relaciones en la lista del paquete de trabajo?'

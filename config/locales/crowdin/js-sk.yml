@@ -526,22 +526,6 @@ sk:
       select_tag: 'Vybrať značku'
       select_branch: 'Vyberte odbor'
     field_value_enter_prompt: "Zadajte hodnotu pre \"%{field}\""
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Zadajte ešte minimálne jeden znak"
-        few: "Zadajte ešte minimálne {{count}} znakov"
-        many: "Zadajte ešte minimálne {{count}} znakov"
-        other: "Zadajte ešte minimálne {{count}} znakov"
-      load_more: "Načítanie ďalších záznamov ..."
-      no_matches: "Nenašli sa žiadne záznamy"
-      searching: "Vyhľadávanie ..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Môžete vybrať maximálne 1 položku"
-        few: "Môžete vybrať maximálne {{limit}} položku"
-        many: "Môžete vybrať maximálne {{limit}} položku"
-        other: "Môžete vybrať maximálne {{limit}} položku"
     project_menu_details: "Podrobnosti"
     sort:
       sorted_asc: 'Použiť vzostupné zoradenie, '
@@ -786,7 +770,7 @@ sk:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Použite vyššie uvedený údaj na pridanie alebo odstránenie stĺpcov do zobrazenia tabuľky. Môžete pretiahnuť stĺpce a presunúť ich."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Mali by sa rozlišovať osobitné pracovné balíčky?'
           relation_columns: 'Potrebujete vidieť vzťahy v zozname pracovných balíčkov?'

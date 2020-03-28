@@ -526,26 +526,6 @@ ar:
       select_tag: 'حدد العلامة'
       select_branch: 'اختر فرع'
     field_value_enter_prompt: "أدخِل قيمة ل '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        zero: "من فضلك أدخِل {{count}} حروفًا أكثر"
-        one: "من فضلك أدخِل حرفًا واحدًا آخر"
-        two: "من فضلك أدخِل {{count}} حروفًا أكثر"
-        few: "من فضلك أدخِل {{count}} حروفًا أكثر"
-        many: "من فضلك أدخِل {{count}} حروفًا أكثر"
-        other: "من فضلك أدخِل {{count}} حروفًا أكثر"
-      load_more: "تحميل المزيد من النتائج ..."
-      no_matches: "لم يتم العثور على تطابقات"
-      searching: "جاري البحث ..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        zero: "تستطيع فقط اختيار {{limit}} عناصر"
-        one: "تستطيع فقط اختيار عنصر واحد"
-        two: "تستطيع فقط اختيار {{limit}} عناصر"
-        few: "تستطيع فقط اختيار {{limit}} عناصر"
-        many: "تستطيع فقط اختيار {{limit}} عناصر"
-        other: "تستطيع فقط اختيار {{limit}} عناصر"
     project_menu_details: "تفاصيل"
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -790,7 +770,7 @@ ar:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'

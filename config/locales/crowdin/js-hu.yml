@@ -525,18 +525,6 @@ hu:
       select_tag: 'Címke kiválasztása'
       select_branch: 'Branch kiválasztása'
     field_value_enter_prompt: "Adja meg az értéket a %{field} mezőhöz"
-    select2:
-      input_too_short:
-        zero: "Kérjük, írjon be további karaktereket"
-        one: "Kérjük, adjon meg egy további karaktert"
-        other: "Kérjük, adjon meg {{count}} karaktert"
-      load_more: "További eredmények betöltése..."
-      no_matches: "Nincs találat"
-      searching: "Keresés ..."
-      selection_too_big:
-        zero: "Nem jelölt ki egy elemet sem!"
-        one: "Csak egy elem választható"
-        other: "Csak {{limit}} elem választható"
     project_menu_details: "Részletek"
     sort:
       sorted_asc: 'Növekvő sorrend alkalmazása, '
@@ -781,7 +769,7 @@ hu:
           automatic: 'Automatikus'
           manually: 'Kézi'
           warning: 'Az automatikus válogatás üzemmód aktiválásakor elveszíti korábbi rendezését.'
-        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Szeretné látni a munkacsomag kapcsolatait?'

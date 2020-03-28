@@ -526,22 +526,6 @@ pl:
       select_tag: 'Wybierz tag'
       select_branch: 'Wybierz gałąź'
     field_value_enter_prompt: "Wprowadź wartość dla '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Wprowadź więcej znaków"
-        one: "Wprowadź jeszcze jeden znak"
-        few: "Proszę wpisać jeszcze {{count}} znaków"
-        many: "Proszę wpisać jeszcze {{count}} znaków"
-        other: "Proszę wpisać jeszcze {{count}} znaków"
-      load_more: "Ładowanie większej liczby wyników ..."
-      no_matches: "Nie znaleziono dopasowań"
-      searching: "Wyszukiwanie ..."
-      selection_too_big:
-        zero: "Nie możesz wybrać elementów"
-        one: "Możesz wybrać tylko jeden element"
-        few: "Możesz wybrać tylko {{limit}} elementy"
-        many: "Możesz wybrać tylko {{limit}} elementy"
-        other: "Możesz wybrać tylko {{limit}} elementy"
     project_menu_details: "Szczegóły"
     sort:
       sorted_asc: 'Zastosowano sortowanie rosnące, '
@@ -786,7 +770,7 @@ pl:
           automatic: 'Automatycznie'
           manually: 'Ręcznie'
           warning: 'Wskutek aktywacji trybu automatycznego sortowania utracisz poprzednie sortowanie.'
-        columns_help_text: "Użyj powyższych danych wejściowych, aby dodać lub usunąć kolumny w widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić ich kolejność."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Czy określone pakiety robocze trzeba wyróżnić?'
           relation_columns: 'Chcesz zobaczyć relacje w tej liście pakietów roboczych?'

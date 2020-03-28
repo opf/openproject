@@ -525,18 +525,6 @@ da:
       select_tag: 'Vælg etiket'
       select_branch: 'Vælg gren'
     field_value_enter_prompt: "Indtast en værdi for '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Angiv venligst ét tegn yderligere"
-        other: "Angiv venligst {{count}} tegn yderligere"
-      load_more: "Henter flere resultater..."
-      no_matches: "Ingen passende resultater fundet"
-      searching: "Søger..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Du kan kun vælge ét emne"
-        other: "Du kan kun vælge {{limit}} emne"
     project_menu_details: "Detaljer"
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -781,7 +769,7 @@ da:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'

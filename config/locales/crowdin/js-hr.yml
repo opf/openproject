@@ -526,20 +526,6 @@ hr:
       select_tag: 'Odaberi tag'
       select_branch: 'Odaberi ogranak'
     field_value_enter_prompt: "Unesite vrijednost za '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Molim vas unesite još jedan znak"
-        few: "Molim vas unesite još {{count}} znaka"
-        other: "Molim vas unesite još {{count}} znaka"
-      load_more: "Učitavanje više rezultata..."
-      no_matches: "Nema pronađenih poveznica"
-      searching: "Traženje ..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Možete odabrati samo jedan element"
-        few: "Možete odabrati samo {{limit}} elementa"
-        other: "Možete odabrati samo {{limit}} elementa"
     project_menu_details: "Pojedinosti"
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -784,7 +770,7 @@ hr:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'

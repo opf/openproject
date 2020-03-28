@@ -526,18 +526,6 @@ tr:
       select_tag: 'Etiket seç'
       select_branch: 'Branş seç'
     field_value_enter_prompt: "'%{field}' için bir değer girin"
-    select2:
-      input_too_short:
-        zero: "Lütfen daha fazla karakter girin"
-        one: "Lütfen bir karakter daha girin"
-        other: "Lütfen {{count}} karakter daha girin"
-      load_more: "Daha fazla sonuç yükleniyor ..."
-      no_matches: "Eşleşme bulunamadı"
-      searching: "Aranıyor ..."
-      selection_too_big:
-        zero: "Hiçbir öğeyi seçemezsiniz"
-        one: "Yalnızca bir öğe seçebilirsiniz"
-        other: "Sadece {{limit}} tane seçebilirsiniz"
     project_menu_details: "Detaylar"
     sort:
       sorted_asc: 'Artan sıralama, uygulandı, '
@@ -782,7 +770,7 @@ tr:
           automatic: 'Otomatik'
           manually: 'el ile'
           warning: 'Otomatik sıralama modunu etkinleştirirken önceki sıralamanızı kaybedeceksiniz.'
-        columns_help_text: "Tablo görünümünüze sütun eklemek veya kaldırmak için yukarıdaki girişi kullanın. Yeniden düzenlemek için sütunları sürükleyip bırakabilirsiniz."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?'
           relation_columns: 'İş paketleri listesindeki ilişkileri görmek ister misiniz?'

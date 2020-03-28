@@ -526,18 +526,6 @@ pt:
       select_tag: 'Selecionar a tag'
       select_branch: 'Selecionar o branch'
     field_value_enter_prompt: "Insira um valor para '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Por favor, insira mais caracteres"
-        one: "Por favor, insira um ou mais carateres"
-        other: "Por favor, insira mais {{count}} carateres"
-      load_more: "A carregar mais resultados ..."
-      no_matches: "Nenhuma correspondência encontrada"
-      searching: "A procurar..."
-      selection_too_big:
-        zero: "Não pode selecionar nenhum item"
-        one: "Só pode selecionar um item"
-        other: "Só pode selecionar {{limit}} itens"
     project_menu_details: "Detalhes"
     sort:
       sorted_asc: 'Ordenação crescente aplicada, '
@@ -782,7 +770,7 @@ pt:
           automatic: 'Automático'
           manually: 'Manualmente'
           warning: 'Perderá a sua ordenação anterior quando ativar o modo de ordenação automática.'
-        columns_help_text: "Utilize a entrada acima para adicionar ou remover colunas ao seu modo de vista de tabela. Pode arrastar e soltar as colunas para as reordenar."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Precisa de certos pacotes de trabalho para se destacar do resto?'
           relation_columns: 'Precisa de ver as relações na lista do pacote de trabalho?'

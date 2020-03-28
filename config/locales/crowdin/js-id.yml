@@ -526,16 +526,6 @@ id:
       select_tag: 'Pilih tag'
       select_branch: 'Pilih cabang'
     field_value_enter_prompt: "Masukkan nilai untuk '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        other: "Please enter {{count}} more characters"
-      load_more: "Memuat hasil lebih banyak..."
-      no_matches: "Tak ditemukan yang cocok"
-      searching: "Mencari ..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        other: "Anda hanya dapat memilih {{limit}} item"
     project_menu_details: "Detil"
     sort:
       sorted_asc: 'Urutan menaik diterapkan, '
@@ -780,7 +770,7 @@ id:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Apakah perlu untuk melihat hubungan dalam daftar paker kerja?'

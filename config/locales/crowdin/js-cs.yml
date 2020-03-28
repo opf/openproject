@@ -526,22 +526,6 @@ cs:
       select_tag: 'Vybrat štítek'
       select_branch: 'Vybrat větev'
     field_value_enter_prompt: "Zadejte hodnotu pro '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Prosím, zadejte jeden nebo více znaků"
-        few: "Prosím, zadejte ještě {{count}} znaků"
-        many: "Prosím, zadejte ještě {{count}} znaků"
-        other: "Prosím, zadejte ještě {{count}} znaků"
-      load_more: "Načíst další výsledky..."
-      no_matches: "Nenalezena žádná shoda"
-      searching: "Vyhledávání ..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Můžete vybrat pouze jednu položku"
-        few: "Můžete vybrat pouze {{limit}} položek"
-        many: "Můžete vybrat pouze {{limit}} položek"
-        other: "Můžete vybrat pouze {{limit}} položek"
     project_menu_details: "Podrobnosti"
     sort:
       sorted_asc: 'Použito vzestupné řazení, '
@@ -786,7 +770,7 @@ cs:
           automatic: 'Automaticky'
           manually: 'Ručně'
           warning: 'Při aktivaci režimu automatického řazení ztratíte své předchozí řazení.'
-        columns_help_text: "Použijte vstup výše pro přidání nebo odebrání sloupců do tabulkového pohledu. Přetažením sloupců změníte jejich pořadí."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Potřebujete určité pracovní balíčky, aby vyšly z celkového objemu?'
           relation_columns: 'Potřebujete vidět vztahy v seznamu pracovních balíčků?'

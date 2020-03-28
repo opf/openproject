@@ -526,18 +526,6 @@ nl:
       select_tag: 'Selecteer label'
       select_branch: 'Selecteer pad'
     field_value_enter_prompt: "Breng een waarde in voor veld '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Voeg {{count}} extra karakter toe"
-        other: "Voeg {{count}} extra karakters toe"
-      load_more: "Meer resultaten laden ..."
-      no_matches: "Geen overeenkomsten gevonden"
-      searching: "Bezig met zoeken ..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Je kunt maar {{limit}} onderdeel selecteren"
-        other: "Je kunt maar {{limit}} onderdelen selecteren"
     project_menu_details: "Details"
     sort:
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
@@ -782,7 +770,7 @@ nl:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Gebruik de bovenstaande toegang voor het toevoegen of verwijderen van kolommen aan uw tabelweergave. U kunt de kolommen slepen en neerzetten om deze te rangschikken."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Moeten bepaalde werkpakketten te onderscheiden zijn van de massa?'
           relation_columns: 'Nodig om te zien van betrekkingen in de pakketlijst werk?'

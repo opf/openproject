@@ -525,16 +525,6 @@ vi:
       select_tag: 'Chọn từ khóa'
       select_branch: 'Chọn nhánh'
     field_value_enter_prompt: "Enter a value for '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Vui lòng nhập thêm ký tự"
-        other: "Vui lòng nhập {{count}} thêm nhân vật"
-      load_more: "Loading more results ..."
-      no_matches: "Không tìm thấy"
-      searching: "Đang tìm ..."
-      selection_too_big:
-        zero: "Bạn không thể chọn bất cứ mục nào tại đây"
-        other: "Bạn có thể chỉ chọn {{limit}} mục"
     project_menu_details: "Chi tiết"
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -779,7 +769,7 @@ vi:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Sử dụng ô nhập liệu trên đây để thêm hoặc bớt cột vào bảng của bạn. Bạn có thể kéo thả cột để thay đổi trật tự của nó."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
