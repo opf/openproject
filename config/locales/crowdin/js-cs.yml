@@ -172,7 +172,7 @@ cs:
       cannot_save_changes_with_message: "Nelze uložit změny kvůli následující chybě: %{error}"
       query_saving: "Zobrazení nelze uložit."
       embedded_table_loading: "Vložené zobrazení nelze načíst: %{message}"
-    enumeration_activities: "Activities (time tracking)"
+    enumeration_activities: "Aktivity (sledování času)"
     enumeration_doc_categories: "Kategorie dokumentů"
     enumeration_work_package_priorities: "Priority pracovního balíčku"
     filter:
@@ -292,7 +292,7 @@ cs:
     label_mail_notification: "E-mailová upozornění"
     label_me: "já"
     label_meeting_agenda: "Agenda"
-    label_meeting_minutes: "Minutes"
+    label_meeting_minutes: "Zápis"
     label_menu_collapse: "sbalit"
     label_menu_expand: "rozbalit"
     label_more_than_ago: "před více jak (dny)"

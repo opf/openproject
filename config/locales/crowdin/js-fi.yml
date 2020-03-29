@@ -172,7 +172,7 @@ fi:
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
-    enumeration_activities: "Activities (time tracking)"
+    enumeration_activities: "Historia (ajan seuranta)"
     enumeration_doc_categories: "Tiedostoluokat"
     enumeration_work_package_priorities: "Work package priorities"
     filter:
@@ -468,7 +468,7 @@ fi:
       hours: 'Tunnit'
       label: 'Time entry'
     two_factor_authentication:
-      label_two_factor_authentication: 'Two-factor authentication'
+      label_two_factor_authentication: 'Kaksivaiheinen tunnistautuminen'
     watchers:
       label_loading: ladataan seuraajia...
       label_error_loading: Virhe ladattaessa seuraajia

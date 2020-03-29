@@ -6,7 +6,7 @@ da:
   export:
     format:
       xls: "XLS"
-      xls_with_descriptions: "XLS with descriptions"
+      xls_with_descriptions: "XLS med beskrivelse"
       xls_with_relations: "XLS with relations"
   xls_export:
     child_of: child of

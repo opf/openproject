@@ -53,14 +53,14 @@ ro:
       manage_colors: "Modificați opțiunile de selecție ale culorilor"
       instructions:
         alternative-color: "Strong accent color, typically used for the most important button on a screen."
-        content-link-color: "Font color of most of the links."
-        primary-color: "Main color."
+        content-link-color: "Culoarea fontului pentru majoritatea link-urilor."
+        primary-color: "Culoarea principală."
         primary-color-dark: "Typically a darker version of the main color used for hover effects."
-        header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
-        header-item-font-color: "Font color of clickable header items."
-        header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
-        header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
-        main-menu-bg-color: "Left side menu's background color."
+        header-item-bg-hover-color: "Culoarea de fundal a obiectelor care pot fi selectate când cursorului se află deasupra lor."
+        header-item-font-color: "Culoare fontului pentru elementele selectabile din antet."
+        header-item-font-hover-color: "Culoarea fontului pentru elementele selectabile din antet când cursorul se află deasupra lor."
+        header-border-bottom-color: "Linia de sub antet. Lăsați acest câmp gol dacă nu doriți această linie."
+        main-menu-bg-color: "Culoarea de fundal pentru meniul din partea stângă."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Achiziționați versiunea Enterprise"

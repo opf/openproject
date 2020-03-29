@@ -21,8 +21,8 @@
 #++
 #---
 ro:
-  description_drill_down: "Show details"
-  label_click_to_edit: "Click to edit."
+  description_drill_down: "Afișare detalii"
+  label_click_to_edit: "Click pentru editare."
   label_columns: "Coloane"
   label_count: "Count"
   label_filter: "Filtrare"
@@ -35,17 +35,17 @@ ro:
   label_less: "<"
   label_no: "Nu"
   label_none: "(no data)"
-  label_progress_bar_explanation: "Generating report..."
-  label_really_delete_question: "Are you sure you want to delete this report?"
+  label_progress_bar_explanation: "Raport în curs de generare..."
+  label_really_delete_question: "Sunteți sigur că doriți să ștergeți acest raport?"
   label_report: "Raportare"
-  label_rows: "Rows"
-  label_saving: "Saving ..."
+  label_rows: "Rânduri"
+  label_saving: "Salvare în curs..."
   label_sum: "Sumă"
   label_yes: "Da"
-  load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
-  units: "Units"
-  validation_failure_date: "is not a valid date"
-  validation_failure_integer: "is not a valid integer"
+  load_query_question: "Raportul va avea %{size} de celule şi e posibil ca generarea să dureze un timp. Sunteți sigur că doriți generarea?"
+  units: "Unități"
+  validation_failure_date: "nu e o dată validă"
+  validation_failure_integer: "nu e un întreg valid"
   reporting:
     group_by:
       selected_columns: "Selected columns"

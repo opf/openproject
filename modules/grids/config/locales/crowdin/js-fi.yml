@@ -8,25 +8,25 @@ fi:
         link: 'enterprise edition.'
       widgets:
         custom_text:
-          title: 'Custom text'
+          title: 'Mukautettu teksti'
         documents:
           title: 'Asiakirjat'
           no_results: 'No documents yet.'
         members:
           title: 'Jäsenet'
           no_results: 'No visible members.'
-          view_all_members: 'View all members'
+          view_all_members: 'Näytä kaikki jäsenet'
           add: 'Jäsen'
           too_many: 'Displaying %{count} of %{total} members.'
         news:
           title: 'Uutiset'
           at: 'at'
-          no_results: 'Nothing new to report.'
+          no_results: 'Ei mitään uutta raportoitavaksi.'
         project_description:
-          title: 'Project description'
+          title: 'Projektin kuvaus'
           no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
-          title: 'Project details'
+          title: 'Projektin tiedot'
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'Projektin tila'
@@ -43,7 +43,7 @@ fi:
           title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
         work_packages_accountable:
-          title: "Work packages I am accountable for"
+          title: "Kaikki työpaketit joista olen vastuussa"
         work_packages_assigned:
           title: 'Minulle määritetyt työpaketit'
         work_packages_created:

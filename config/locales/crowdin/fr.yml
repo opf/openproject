@@ -53,14 +53,14 @@ fr:
       manage_colors: "Modifier les options du sélecteur de couleur"
       instructions:
         alternative-color: "Couleur d'accentuation, habituellement utilisée pour le bouton le plus important à l'écran."
-        content-link-color: "Font color of most of the links."
-        primary-color: "Main color."
-        primary-color-dark: "Typically a darker version of the main color used for hover effects."
-        header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
-        header-item-font-color: "Font color of clickable header items."
-        header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
-        header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
-        main-menu-bg-color: "Left side menu's background color."
+        content-link-color: "Couleur de la police de la plupart des liens."
+        primary-color: "Couleur principale."
+        primary-color-dark: "Habituellement, un ton plus sombre de la couleur principale utilisée pour les effets de mise en évidence."
+        header-item-bg-hover-color: "Couleur d’arrière-plan des éléments de l’en-tête survolées par la souris."
+        header-item-font-color: "Couleur de la police des éléments de l’en-tête cliquables."
+        header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
+        header-border-bottom-color: "Ligne mince sous l’en-tête. Laissez ce champ vide si vous ne voulez pas de ligne."
+        main-menu-bg-color: "Couleur d’arrière-plan du menu de gauche."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"

@@ -23,11 +23,11 @@ ar:
   js:
     work_packages:
       property_groups:
-        costs: "Costs"
+        costs: "التكاليف"
       properties:
-        costObject: "Budget"
-        overallCosts: "Overall costs"
-        spentUnits: "Spent units"
-    button_log_costs: "Log unit costs"
-    label_hour: "hour"
+        costObject: "الميزانية"
+        overallCosts: "التكاليف الإجمالية"
+        spentUnits: "الوحدات المستهلكة"
+    button_log_costs: "سجل تكاليف الوحدة"
+    label_hour: "الساعة"
     label_hours: "الساعات"

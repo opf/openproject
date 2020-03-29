@@ -2,68 +2,68 @@
 cs:
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
-    issues: "Issues"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
-    no_viewpoints: 'No viewpoints'
+    label_imported_failed: 'Selhalo importování témat BCF'
+    label_imported_successfully: 'Importovaná témata BCF úspěšně'
+    issues: "Problémy"
+    recommended: 'doporučeno'
+    not_recommended: 'nedoporučeno'
+    no_viewpoints: 'Žádné náhledy'
     new_badge: "Nové"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "Neplatný soubor BCF"
     x_bcf_issues:
       zero: 'No BCF issues'
-      one: 'One BCF issue'
-      few: '%{count} BCF issues'
-      many: '%{count} BCF issues'
-      other: '%{count} BCF issues'
+      one: 'Jeden problém s BCFF'
+      few: '%{count} Problémy s BCF'
+      many: '%{count} Problémy s BCF'
+      other: '%{count} Problémy s BCF'
     bcf_xml:
-      xml_file: 'BCF XML File'
+      xml_file: 'BCF XML soubor'
       import_title: 'Importovat'
       export: 'Export'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      import_update_comment: '(Aktualizováno v importu BCF)'
+      import_failed: 'Nelze importovat soubor BCF: %{error}'
+      import_successful: 'Importováno %{count} problémů s BCF'
+      import_canceled: 'Import BCF-XML byl zrušen.'
+      type_not_active: "Typ problému není pro tento projekt aktivován."
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
-        button_proceed: 'Proceed'
-        button_back_to_list: 'Back to list'
-        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
-        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
-        unknown_emails_found: 'Unknown email addresses found'
-        unknown_property: 'Unknown property'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        num_issues_found: '%{x_bcf_issues} jsou obsaženy v BCF-XML souboru, jejich podrobnosti jsou uvedeny níže.'
+        button_prepare: 'Připravit import'
+        button_perform_import: 'Potvrdit import'
+        button_proceed: 'Pokračovat'
+        button_back_to_list: 'Zpět na seznam'
+        no_permission_to_add_members: 'Nemáte dostatečná oprávnění, abyste je přidali jako členy do projektu.'
+        contact_project_admin: 'Kontaktujte svého správce projektu, aby je přidal jako členy a začal tento import znovu.'
+        continue_anyways: 'Chcete přesto pokračovat a dokončit import?'
+        description: "Zadejte soubor BCF-XML v2.1 pro import do tohoto projektu. Před provedením importu můžete jeho obsah prozkoumat."
+        invalid_types_found: 'Nalezeny neplatné názvy typů tématu'
+        invalid_statuses_found: 'Nalezeny neplatné názvy stavů'
+        invalid_priorities_found: 'Nalezeny neplatné názvy priorit'
+        invalid_emails_found: 'Nalezeny neplatné e-mailové adresy'
+        unknown_emails_found: 'Nalezeny neznámé e-mailové adresy'
+        unknown_property: 'Neznámá vlastnost'
+        non_members_found: 'Nenalezeni žádní členové projektu'
+        import_types_as: 'Nastavit všechny tyto typy na'
+        import_statuses_as: 'Nastavit všechny tyto stavy na'
+        import_priorities_as: 'Nastavit všechny tyto priority na'
+        invite_as_members_with_role: 'Pozvěte je jako členy do projektu "%{project}" s rolí'
+        add_as_members_with_role: 'Přidejte je jako členy do projektu "%{project}" s rolí'
+        no_type_provided: 'Nebyl zadán žádný typ'
+        no_status_provided: 'Není k dispozici žádný stav'
+        no_priority_provided: 'Nebyla poskytnuta žádná priorita'
+        perform_description: "Chcete importovat nebo aktualizovat výše uvedené problémy?"
+        replace_with_system_user: 'Nahradit je uživatelem "Systém"'
+        import_as_system_user: 'Importujte je jako "Systémový" uživatel.'
         what_to_do: "Co chcete udělat?"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        work_package_has_newer_changes: "Zastaralé! Toto téma nebylo aktualizováno, protože poslední změny na serveru byly novější než \"ModifiedDatum\" importovaného tématu. Připomínky k tomuto tématu však byly dovezeny."
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "BCF snímek"
   project_module_bcf: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_view_linked_issues: "Zobrazit problémy s BCF"
+  permission_manage_bcf: "Importovat a spravovat problémy s BCF."
   oauth:
     scopes:
       bcf_v2_1: "Full access to the BCF v2.1 API"

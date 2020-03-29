@@ -73,14 +73,14 @@ da:
   permission_close_meeting_agendas: "Luk dagsordner"
   permission_send_meeting_agendas_notification: "Send påmindelse om vurdering af dagsorden"
   permission_create_meeting_minutes: "Håndter referater"
-  permission_send_meeting_minutes_notification: "Send review notification for minutes"
+  permission_send_meeting_minutes_notification: "Send påmindelse om vurdering af referater"
   project_module_meetings: "Møder"
   text_duration_in_hours: "Duration in hours"
-  text_in_hours: "in hours"
-  text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
+  text_in_hours: "i timer"
+  text_meeting_agenda_for_meeting: 'dagsorden for mødet "%{meeting}"'
   text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
-  text_meeting_agenda_open_are_you_sure: "Unsaved content in the minutes will be lost! Continue?"
-  text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
-  text_review_meeting_agenda: "%{author} has put the %{link} up for review."
-  text_review_meeting_minutes: "%{author} has put the %{link} up for review."
+  text_meeting_agenda_open_are_you_sure: "Indhold i referatet, der ikke er gemt vil gå tabt! Fortsæt?"
+  text_meeting_minutes_for_meeting: 'referat  for mødet "%{meeting}"'
+  text_review_meeting_agenda: "%{author} har lagt dette %{link} ud til vurdering."
+  text_review_meeting_minutes: "%{author} har lagt dette %{link} ud til vurdering."
   text_notificiation_invited: "This mail contains an ics entry for the meeting below:"

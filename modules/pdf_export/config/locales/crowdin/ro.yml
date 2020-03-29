@@ -41,11 +41,11 @@ ro:
   export_config_per_page: "Pe pagină"
   export_config_page_size: "Page size"
   export_config_orientation: "Orientation"
-  export_config_rows: "Rows"
+  export_config_rows: "Rânduri"
   activerecord:
     attributes:
       export_card_configuration:
-        rows: "Rows"
+        rows: "Rânduri"
         per_page: "Pe pagină"
         page_size: "Page size"
         orientation: "Orientation"

@@ -22,21 +22,21 @@
 es:
   activerecord:
     models:
-      document: "Document"
-  default_doc_category_tech: "Technical documentation"
-  default_doc_category_user: "User documentation"
-  enumeration_doc_categories: "Document categories"
+      document: "Dokument"
+  default_doc_category_tech: "Documentación técnica"
+  default_doc_category_user: "Documentacion para el usuario"
+  enumeration_doc_categories: "Categorías de documentos"
   enumeration:
     document_category:
-      documentation: Documentation
+      documentation: Documentación
       specification: Especificación
       other: Otros
   documents:
-    label_attachment_author: "Attachment author"
-  label_document_added: "Document added"
-  label_document_new: "New document"
-  label_document_plural: "Documents"
-  label_documents: "Documents"
-  permission_manage_documents: "Manage documents"
-  permission_view_documents: "View documents"
-  project_module_documents: "Documents"
+    label_attachment_author: "Autor del archivo adjunto"
+  label_document_added: "Documento agregado"
+  label_document_new: "Nuevo documento"
+  label_document_plural: "Documentos"
+  label_documents: "Documentos"
+  permission_manage_documents: "Administrar documentos"
+  permission_view_documents: "Ver documentos"
+  project_module_documents: "Documentos"

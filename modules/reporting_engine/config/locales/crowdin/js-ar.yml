@@ -23,4 +23,4 @@ ar:
   js:
     reporting_engine:
       label_remove: "احذف"
-      label_response_error: "There was an error handling the query."
+      label_response_error: "كان هناك خطأ أثناء معالجة الطلب."

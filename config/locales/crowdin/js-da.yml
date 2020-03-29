@@ -171,7 +171,7 @@ da:
       cannot_save_changes_with_message: "Kan ikke gemme dine ændringer på grund af følgende fejl: %{error}"
       query_saving: "Visningen kunne ikke gemmes."
       embedded_table_loading: "Den indlejrede visning kunne ikke indlæses: %{message}"
-    enumeration_activities: "Activities (time tracking)"
+    enumeration_activities: "Aktiviteter (styring af tid)"
     enumeration_doc_categories: "Dokumentkategorier"
     enumeration_work_package_priorities: "Prioritering af arbejdspakker"
     filter:

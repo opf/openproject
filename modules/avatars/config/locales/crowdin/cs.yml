@@ -1,40 +1,40 @@
 #English strings go here
 cs:
   label_avatar: "Avatar"
-  label_avatar_plural: "Avatars"
-  label_current_avatar: "Current Avatar"
-  label_choose_avatar: "Choose Avatar from file"
-  message_avatar_uploaded: "Avatar changed successfully."
-  error_image_upload: "Error saving the image."
-  error_image_size: "The image is too large."
-  button_change_avatar: "Change avatar"
-  are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
-  avatar_deleted: "Avatar deleted successfully."
-  unable_to_delete_avatar: "Avatar could not be deleted."
-  wrong_file_format: "Allowed formats are jpg, png, gif"
-  empty_file_error: "Please upload a valid image (jpg, png, gif)"
+  label_avatar_plural: "Avatary"
+  label_current_avatar: "Aktuální Avatar"
+  label_choose_avatar: "Vyberte avatar ze souboru"
+  message_avatar_uploaded: "Avatar byl úspěšně změněn."
+  error_image_upload: "Chyba při ukládání obrázku."
+  error_image_size: "Obrázek je příliš velký."
+  button_change_avatar: "Změnit avatar"
+  are_you_sure_delete_avatar: "Jste si jisti, že chcete odstranit váš avatar?"
+  avatar_deleted: "Avatar byl úspěšně odstraněn."
+  unable_to_delete_avatar: "Avatar nelze odstranit."
+  wrong_file_format: "Povolené formáty jsou jpg, png, gif"
+  empty_file_error: "Prosím nahrajte platný obrázek (jpg, png, gif)"
   avatars:
     label_avatar: "Avatar"
     label_gravatar: 'Gravatar'
-    label_current_avatar: 'Current avatar'
-    label_local_avatar: 'Custom avatar'
+    label_current_avatar: 'Aktuální avatar'
+    label_local_avatar: 'Vlastní avatar'
     text_current_avatar: |
-      The following image shows the current avatar.
+      Následující obrázek zobrazuje aktuální avatar.
     text_upload_instructions: |
-      Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-      A preview of your avatar will be shown before uploading, once you selected an image.
-    text_change_gravatar_html: 'To change or add the Gravatar for your mail address, go to %{gravatar_url}.'
+      Nahrajte svůj vlastní avatar o velikosti 128 pixelů. Větší soubory budou změněny a oříznuty tak, aby odpovídaly.
+      Náhled avataru bude zobrazen před odesláním, jakmile jste vybrali obrázek.
+    text_change_gravatar_html: 'Chcete-li změnit nebo přidat Gravatar pro vaši e-mailovou adresu, přejděte na %{gravatar_url}.'
     text_your_local_avatar: |
-      OpenProject allows you to upload your own custom avatar.
+      OpenProject vám umožňuje nahrát vlastní avatar.
     text_local_avatar_over_gravatar: |
-      If you set one, this custom avatar is used in precedence over the gravatar above.
+      Pokud ho nastavíte, tento vlastní avatar se používá v předstihu před gravatarem výše.
     text_your_current_gravatar: |
-      OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
-      The current gravatar is as follows:
+      OpenProject používá váš gravatar, pokud jste ho zaregistrovali, nebo výchozí obrázek nebo ikonu, pokud existuje.
+      Aktuální gravatar je následující:
     settings:
-      enable_gravatars: 'Enable user gravatars'
-      gravatar_default: "Default Gravatar image"
-      enable_local_avatars: 'Enable user custom avatars'
+      enable_gravatars: 'Povolit uživatelské gravatary'
+      gravatar_default: "Výchozí Gravatar"
+      enable_local_avatars: 'Povolit uživatelské uživatelské avatary'
 
 
 

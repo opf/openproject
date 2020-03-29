@@ -80,7 +80,7 @@ es:
         inline: 'Resaltar en línea:'
         entire_card_by: 'Toda la tarjeta en'
       remove_from_list: 'Eliminar tarjeta de la lista'
-    caption_rate_history: "Rate history"
+    caption_rate_history: "Historial de tasa"
     clipboard:
       browser_error: "Su navegador no soporta copiar al portapapeles. Por favor, copie el texto seleccionado manualmente."
       copied_successful: "¡Copiado correctamente en el portapapeles!"
@@ -172,8 +172,8 @@ es:
       cannot_save_changes_with_message: "No se pueden guardar los cambios debido al siguiente error: %{error}"
       query_saving: "No se pudo guardar la vista."
       embedded_table_loading: "No se pudo cargar la vista insertada: %{message}"
-    enumeration_activities: "Activities (time tracking)"
-    enumeration_doc_categories: "Document categories"
+    enumeration_activities: "Actividades (tiempo de seguimiento)"
+    enumeration_doc_categories: "Categorías de documentos"
     enumeration_work_package_priorities: "Prioridades del paquete de trabajo"
     filter:
       description:
@@ -196,7 +196,7 @@ es:
     general_text_yes: "sí"
     general_text_No: "No"
     general_text_Yes: "Sí"
-    global_roles: Global Roles
+    global_roles: Roles globales
     hal:
       error:
         update_conflict_refresh: "Haga clic aquí para actualizar el recurso y cambiar a la versión más reciente."
@@ -292,7 +292,7 @@ es:
     label_mail_notification: "Notificaciones de correo electrónico"
     label_me: "mi"
     label_meeting_agenda: "Agenda"
-    label_meeting_minutes: "Minutes"
+    label_meeting_minutes: "Minutos"
     label_menu_collapse: "colapsar"
     label_menu_expand: "expandir"
     label_more_than_ago: "más días atrás"
@@ -468,7 +468,7 @@ es:
       hours: 'Horas'
       label: 'Entrada de tiempo'
     two_factor_authentication:
-      label_two_factor_authentication: 'Two-factor authentication'
+      label_two_factor_authentication: 'Autenticación de dos factores'
     watchers:
       label_loading: cargando observadores...
       label_error_loading: Se ha producido un error al cargar los observadores
@@ -829,68 +829,68 @@ es:
       button_submit: "Enviar"
       button_cancel: "Cancelar"
       form_submit:
-        title: 'Confirm to continue'
-        text: 'Are you sure you want to perform this action?'
+        title: 'Confirme para continuar'
+        text: '¿Estás seguro/a de que desea realizar esta acción?'
       destroy_work_package:
-        title: "Confirm deletion of %{label}"
-        text: "Are you sure you want to delete the following %{label} ?"
-        has_children: "The work package has %{childUnits}:"
-        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
-        deletes_children: "All child work packages and their descendants will also be recursively deleted."
-    notice_no_results_to_display: "No visible results to display."
+        title: "Confirmar la eliminación de %{label}"
+        text: "¿Está seguro de que quiere eliminar la siguiente %{label} ?"
+        has_children: "El paquete de trabajo tiene %{childUnits}:"
+        confirm_deletion_children: "Reconozco que TODOS los descendientes de los paquetes de trabajo enumerados se eliminarán recursivamente."
+        deletes_children: "También se eliminarán de forma recursiva todos los paquetes de trabajo secundarios y sus descendientes."
+    notice_no_results_to_display: "No se pueden mostrar resultados visibles."
     notice_successful_create: "Creación exitosa."
     notice_successful_delete: "Eliminado con éxito."
     notice_successful_update: "Actualización correcta."
     notice_bad_request: "Petición incorrecta."
     relations:
-      empty: No relation exists
+      empty: No existen relaciones
       remove: Eliminar la relación
     inplace:
-      button_edit: "%{attribute}: Edit"
-      button_save: "%{attribute}: Save"
-      button_cancel: "%{attribute}: Cancel"
+      button_edit: "%{attribute}: editar"
+      button_save: "%{attribute}: guardar"
+      button_cancel: "%{attribute}: cancelar"
       button_save_all: "Guardar"
       button_cancel_all: "Cancelar"
-      link_formatting_help: "Text formatting help"
+      link_formatting_help: "Ayuda para el formato del texto"
       btn_preview_enable: "Vista preliminar"
-      btn_preview_disable: "Disable preview"
+      btn_preview_disable: "Desactivar la vista previa"
       null_value_label: "Sin valor"
       clear_value_label: "-"
       errors:
-        required: '%{field} cannot be empty'
-        number: '%{field} is not a valid number'
-        maxlength: '%{field} cannot contain more than %{maxLength} digit(s)'
-        minlength: '%{field} cannot contain less than %{minLength} digit(s)'
-        messages_on_field: 'This field is invalid: %{messages}'
-    error_could_not_resolve_version_name: "Couldn't resolve version name"
-    error_could_not_resolve_user_name: "Couldn't resolve user name"
-    error_attachment_upload: "File failed to upload: %{error}"
-    error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
+        required: '%{field} no puede estar vacío'
+        number: '%{field} no es un número válido'
+        maxlength: '%{field} no puede contener más de %{maxLength} dígito(s)'
+        minlength: '%{field} no puede contener menos de %{minLength} dígito(s)'
+        messages_on_field: 'Este campo no es válido: %{messages}'
+    error_could_not_resolve_version_name: "No se puede resolver el nombre de la versión"
+    error_could_not_resolve_user_name: "No se pudo identificar el nombre de usuario"
+    error_attachment_upload: "Error de subida de archivo: %{error}"
+    error_attachment_upload_permission: "No tiene permiso para cargar archivos en este recurso."
     units:
       workPackage:
-        one: "work package"
-        other: "work packages"
+        one: "paquete de trabajo"
+        other: "paquetes de trabajo"
       child_work_packages:
-        one: "one child work package"
-        other: "%{count} work package children"
+        one: "un paquete de trabajo secundario"
+        other: "%{count} paquetes de trabajo secundarios"
       hour:
         zero: "0 h"
         one: "1 h"
         other: "%{count} h"
     zen_mode:
-      button_activate: 'Activate zen mode'
-      button_deactivate: 'Deactivate zen mode'
+      button_activate: 'Activar modo «zen»'
+      button_deactivate: 'Desactivar modo «zen»'
     global_search:
-      all_projects: "In all projects"
+      all_projects: "En todos los proyectos"
       search: "Buscar"
-      close_search: "Close search"
-      current_project: "In this project"
-      current_project_and_all_descendants: "In this project + subprojects"
+      close_search: "Cerrar búsqueda"
+      current_project: "En este proyecto"
+      current_project_and_all_descendants: "En este proyecto + subproyectos"
       title:
-        all_projects: "all projects"
-        project_and_subprojects: "and all subprojects"
-        search_for: "Search for"
+        all_projects: "todos los proyectos"
+        project_and_subprojects: "y todos los subproyectos"
+        search_for: "Búsqueda por"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Tarjetas'
+      list: 'Tabla'
       timeline: 'Gantt'

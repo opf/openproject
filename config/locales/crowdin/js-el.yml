@@ -171,7 +171,7 @@ el:
       cannot_save_changes_with_message: "Δεν μπορούμε να αποθηκεύσουμε τις αλλαγές σας λόγω του ακολούθου σφάλματος: %{error}"
       query_saving: "Δεν ήταν δυνατή η αποθήκευση της προβολής."
       embedded_table_loading: "Δεν ήταν δυνατή η φόρτωση της ενσωματωμένης προβολής: %{message}"
-    enumeration_activities: "Activities (time tracking)"
+    enumeration_activities: "Δραστηριότητες (παρακολούθηση χρόνου)"
     enumeration_doc_categories: "Κατηγορίες εγγράφων"
     enumeration_work_package_priorities: "Προτεραιότητες πακέτου εργασίας"
     filter:
@@ -233,7 +233,7 @@ el:
     label_and: "και"
     label_ascending: "Αύξουσα"
     label_author: "Συγγραφέας: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Άβαταρ"
     label_between: "μεταξύ"
     label_board: "Πινακας"
     label_board_locked: "Κλειδωμένο"
@@ -467,7 +467,7 @@ el:
       hours: 'Ώρες'
       label: 'Καταχώρηση χρόνου'
     two_factor_authentication:
-      label_two_factor_authentication: 'Two-factor authentication'
+      label_two_factor_authentication: 'Ταυτοποίηση δύο παραγόντων'
     watchers:
       label_loading: φορτώνονται οι παρατηρητές...
       label_error_loading: Παρουσιάστηκε σφάλμα κατά τη φόρτωση των παρατηρητών

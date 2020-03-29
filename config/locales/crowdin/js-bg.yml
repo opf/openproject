@@ -80,7 +80,7 @@ bg:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
-    caption_rate_history: "Rate history"
+    caption_rate_history: "Оценете историята"
     clipboard:
       browser_error: "Вашият браузър не поддържа копиране в клипборд. Моля копирайте избрания текст ръчно."
       copied_successful: "Копирането в клипборд е успешно!"
@@ -172,8 +172,8 @@ bg:
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
-    enumeration_activities: "Activities (time tracking)"
-    enumeration_doc_categories: "Document categories"
+    enumeration_activities: "Дейности (проследяване по време)"
+    enumeration_doc_categories: "Категории документи"
     enumeration_work_package_priorities: "Приоритети на работни пакети"
     filter:
       description:
@@ -234,7 +234,7 @@ bg:
     label_and: "и"
     label_ascending: "Възходящо"
     label_author: "Автор: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Аватар"
     label_between: "между"
     label_board: "Board"
     label_board_locked: "Заключен"
@@ -291,8 +291,8 @@ bg:
     label_loading: "Зареждане..."
     label_mail_notification: "Известия по имейл"
     label_me: "мен"
-    label_meeting_agenda: "Agenda"
-    label_meeting_minutes: "Minutes"
+    label_meeting_agenda: "Дневен ред"
+    label_meeting_minutes: "Минути"
     label_menu_collapse: "събери"
     label_menu_expand: "разтвори"
     label_more_than_ago: "повече от преди дни"

@@ -1,5 +1,5 @@
 el:
   dashboards:
-    label: 'Dashboards'
-    menu_badge: 'Alpha'
-  project_module_dashboards: 'Dashboards'
+    label: 'Πίνακες Ελέγχου'
+    menu_badge: 'Άλφα'
+  project_module_dashboards: 'Πίνακες Ελέγχου'

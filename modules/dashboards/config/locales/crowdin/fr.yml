@@ -1,5 +1,5 @@
 fr:
   dashboards:
-    label: 'Dashboards'
+    label: 'Tableaux de bord'
     menu_badge: 'Alpha'
-  project_module_dashboards: 'Dashboards'
+  project_module_dashboards: 'Tableaux de bord'

@@ -15,13 +15,13 @@ ro:
         members:
           title: 'Membri'
           no_results: 'No visible members.'
-          view_all_members: 'View all members'
+          view_all_members: 'Vizualizare toți participanții'
           add: 'Membru'
           too_many: 'Displaying %{count} of %{total} members.'
         news:
           title: 'Noutăţi'
           at: 'at'
-          no_results: 'Nothing new to report.'
+          no_results: 'Nimic nou de raportat.'
         project_description:
           title: 'Project description'
           no_results: "No description has been written yet. One can be provided in the 'Project settings'."

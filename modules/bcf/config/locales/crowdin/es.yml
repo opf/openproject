@@ -2,66 +2,66 @@
 es:
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
-    issues: "Issues"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
-    no_viewpoints: 'No viewpoints'
+    label_imported_failed: 'No se pudieron importar los temas de BCF'
+    label_imported_successfully: 'Los temas de BCF se importaron correctamente'
+    issues: "Problemas"
+    recommended: 'recomendado'
+    not_recommended: 'no recomendado'
+    no_viewpoints: 'Sin áreas de visualización'
     new_badge: "Nuevo"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "Archivo BCF no válido"
     x_bcf_issues:
       zero: 'Sin problemas de BCF'
-      one: 'One BCF issue'
-      other: '%{count} BCF issues'
+      one: 'Un problema de BCF'
+      other: '%{count} problemas de BCF'
     bcf_xml:
-      xml_file: 'BCF XML File'
+      xml_file: 'Archivo XML de BCF'
       import_title: 'Importar'
       export: 'Exportar'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      import_update_comment: '(Actualizado en la importación de BCF)'
+      import_failed: 'No se puede importar el archivo BCF: %{error}'
+      import_successful: 'Se importaron %{count} problemas de BCF'
+      import_canceled: 'La importación de BCF-XML se ha cancelado.'
+      type_not_active: "El tipo de problema no está activo para este proyecto."
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
-        button_proceed: 'Proceed'
-        button_back_to_list: 'Back to list'
-        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
-        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
-        unknown_emails_found: 'Unknown email addresses found'
-        unknown_property: 'Unknown property'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        num_issues_found: '%{x_bcf_issues} están presentes en el archivo BCF-XML y a continuación se muestran los detalles.'
+        button_prepare: 'Preparar importación'
+        button_perform_import: 'Confirmar importación'
+        button_proceed: 'Continuar'
+        button_back_to_list: 'Volver a la lista'
+        no_permission_to_add_members: 'No tiene permisos suficientes para agregarlos como miembros al proyecto.'
+        contact_project_admin: 'Póngase en contacto con el administrador del proyecto para agregarlos como miembros y vuelva a iniciar esta importación.'
+        continue_anyways: '¿Quiere continuar y finalizar la importación de todas formas?'
+        description: "Proporcione un archivo BCF-XML v2.1 para importarlo en este proyecto. Puede examinar el contenido antes de realizar la importación."
+        invalid_types_found: 'Se encontraron nombres de tipo de tema no válidos'
+        invalid_statuses_found: 'Se encontraron nombres de estado no válidos'
+        invalid_priorities_found: 'Se encontraron nombres de prioridad no válidos'
+        invalid_emails_found: 'Se encontraron direcciones de correo electrónico no válidas'
+        unknown_emails_found: 'Se encontraron direcciones de correo electrónico desconocidas'
+        unknown_property: 'Propiedad desconocida'
+        non_members_found: 'No se encontraron miembros del proyecto'
+        import_types_as: 'Establecer todos estos tipos en'
+        import_statuses_as: 'Establecer todos estos estados en'
+        import_priorities_as: 'Establecer todas estas prioridades en'
+        invite_as_members_with_role: 'Invitarlos como miembros de proyecto “%{project}” con el rol'
+        add_as_members_with_role: 'Agregarlos como miembros de proyecto “%{project}” con el rol'
+        no_type_provided: 'No se ha especificado ningún tipo'
+        no_status_provided: 'No se ha especificado ningún estado'
+        no_priority_provided: 'No se ha especificado ninguna prioridad'
+        perform_description: "¿Quiere importar o actualizar los problemas de la lista anterior?"
+        replace_with_system_user: 'Reemplazarlos con el usuario “System”'
+        import_as_system_user: 'Se importan como el usuario “System”.'
         what_to_do: "¿Qué quieres hacer?"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        work_package_has_newer_changes: "No actualizado. Este tema no está actualizado, ya que los últimos cambios en el servidor eran más recientes que la fecha de modificación del tema importado. Sin embargo, se importaron los comentarios en el tema."
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "Instantánea de BCF"
   project_module_bcf: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_view_linked_issues: "Ver problemas de BCF"
+  permission_manage_bcf: "Importar y administrar problemas de BCF"
   oauth:
     scopes:
       bcf_v2_1: "Acceso completo a la BCF v2.1 API"

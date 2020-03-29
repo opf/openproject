@@ -22,21 +22,21 @@
 bg:
   activerecord:
     models:
-      document: "Document"
-  default_doc_category_tech: "Technical documentation"
-  default_doc_category_user: "User documentation"
-  enumeration_doc_categories: "Document categories"
+      document: "Документ"
+  default_doc_category_tech: "Техническа документация"
+  default_doc_category_user: "Документация за потребителя"
+  enumeration_doc_categories: "Категории документи"
   enumeration:
     document_category:
-      documentation: Documentation
+      documentation: Документация
       specification: Спецификации
       other: Други
   documents:
-    label_attachment_author: "Attachment author"
-  label_document_added: "Document added"
-  label_document_new: "New document"
-  label_document_plural: "Documents"
-  label_documents: "Documents"
-  permission_manage_documents: "Manage documents"
-  permission_view_documents: "View documents"
-  project_module_documents: "Documents"
+    label_attachment_author: "Автор на файла"
+  label_document_added: "Документът е добавен"
+  label_document_new: "Нов документ"
+  label_document_plural: "Документи"
+  label_documents: "Документи"
+  permission_manage_documents: "Управление на документите"
+  permission_view_documents: "Преглед на документите"
+  project_module_documents: "Документи"

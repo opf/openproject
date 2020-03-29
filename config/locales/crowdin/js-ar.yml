@@ -80,7 +80,7 @@ ar:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: 'Remove card from list'
-    caption_rate_history: "Rate history"
+    caption_rate_history: "تاريخ السعر"
     clipboard:
       browser_error: "لا يدعم المتصفح الخاص بك النسخ إلى الحافظة, من فضلك انسخ النص المختار يدوياً."
       copied_successful: "تم النسخ بنجاح إلى الحافظة!"
@@ -172,8 +172,8 @@ ar:
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
-    enumeration_activities: "Activities (time tracking)"
-    enumeration_doc_categories: "Document categories"
+    enumeration_activities: "الأنشطة (تتبع الوقت)"
+    enumeration_doc_categories: "فئات الوثائق"
     enumeration_work_package_priorities: "أولويات مجموعة العمل"
     filter:
       description:
@@ -196,7 +196,7 @@ ar:
     general_text_yes: "نعم"
     general_text_No: "لا"
     general_text_Yes: "نعم"
-    global_roles: Global Roles
+    global_roles: الأدوار العالمية
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -291,8 +291,8 @@ ar:
     label_loading: "جاري التحميل..."
     label_mail_notification: "إشعارات البريد الإلكتروني"
     label_me: "لي"
-    label_meeting_agenda: "Agenda"
-    label_meeting_minutes: "Minutes"
+    label_meeting_agenda: "جدول الأعمال"
+    label_meeting_minutes: "محضر الجلسة"
     label_menu_collapse: "طي"
     label_menu_expand: "وسّع"
     label_more_than_ago: "منذ أكثر من أيام"

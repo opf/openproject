@@ -11,17 +11,17 @@ ca:
           title: 'Custom text'
         documents:
           title: 'Documents'
-          no_results: 'No documents yet.'
+          no_results: 'Sense documents de moment.'
         members:
           title: 'Membres'
           no_results: 'No visible members.'
-          view_all_members: 'View all members'
+          view_all_members: 'Veure tots els membres'
           add: 'Membre'
           too_many: 'Displaying %{count} of %{total} members.'
         news:
           title: 'Notícies'
-          at: 'at'
-          no_results: 'Nothing new to report.'
+          at: 'a'
+          no_results: 'Res de nou a informar.'
         project_description:
           title: 'Project description'
           no_results: "No description has been written yet. One can be provided in the 'Project settings'."
@@ -40,16 +40,16 @@ ca:
         time_entries_current_user:
           title: 'El meu temps invertit'
         time_entries_list:
-          title: 'Spent time (last 7 days)'
-          no_results: 'No time entries for the last 7 days.'
+          title: 'Temps invertit (últims 7 dies)'
+          no_results: 'Sense entrades de temps per als últims 7 dies.'
         work_packages_accountable:
-          title: "Work packages I am accountable for"
+          title: "Paquets de treball dels que en sóc responsable"
         work_packages_assigned:
           title: 'Paquets de treball assignats a mi'
         work_packages_created:
-          title: 'Work packages created by me'
+          title: 'Paquets de treball creats per vosté'
         work_packages_watched:
-          title: 'Work packages watched by me'
+          title: 'Paquets de treball seguiment per vosté'
         work_packages_table:
           title: 'Work packages table'
         work_packages_graph:

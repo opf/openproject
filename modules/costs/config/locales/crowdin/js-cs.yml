@@ -29,5 +29,5 @@ cs:
         overallCosts: "Celkové náklady"
         spentUnits: "Strávené jednotky"
     button_log_costs: "Logovat jednotkové náklady"
-    label_hour: "hour"
+    label_hour: "hodina"
     label_hours: "hodiny"

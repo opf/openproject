@@ -40,7 +40,7 @@ hu:
         time_entries_current_user:
           title: 'Eltöltött idő rögzítése'
         time_entries_list:
-          title: 'Spent time (last 7 days)'
+          title: 'Eltöltött idő (elmúlt 7 nap)'
           no_results: 'Az elmúlt 7 napra nincs bejegyzés.'
         work_packages_accountable:
           title: "Feladatcsoportok, amelyért én vagyok a felelős"

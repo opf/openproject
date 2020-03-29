@@ -33,7 +33,7 @@ ro:
       The current gravatar is as follows:
     settings:
       enable_gravatars: 'Enable user gravatars'
-      gravatar_default: "Default Gravatar image"
+      gravatar_default: "Imagine Gravatar implicită"
       enable_local_avatars: 'Enable user custom avatars'
 
 

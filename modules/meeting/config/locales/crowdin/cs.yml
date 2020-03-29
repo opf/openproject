@@ -24,20 +24,20 @@ cs:
   activerecord:
     attributes:
       meeting:
-        location: "Location"
+        location: "Místo"
         duration: "Doba trvání"
-        participants: "Participants"
-        participants_attended: "Attendees"
-        participants_invited: "Invitees"
-        start_time: "Time"
-        start_time_hour: "Starting time"
+        participants: "Účastníci"
+        participants_attended: "Účastníci"
+        participants_invited: "Pozvaní"
+        start_time: "Čas"
+        start_time_hour: "Čas začátku"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
     models:
       meeting_agenda: "Agenda"
-      meeting_minutes: "Minutes"
-  description_attended: "attended"
+      meeting_minutes: "Zápis"
+  description_attended: "zúčastněn"
   description_invite: "pozván"
   events:
     meeting: Meeting edited
@@ -47,17 +47,17 @@ cs:
     meeting_minutes: Meeting minutes edited
     meeting_minutes_created: Meeting minutes created
   error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
-  label_meeting: "Meeting"
-  label_meeting_plural: "Meetings"
-  label_meeting_new: "New Meeting"
-  label_meeting_edit: "Edit Meeting"
+  label_meeting: "Schůzka"
+  label_meeting_plural: "Schůzky"
+  label_meeting_new: "Nová schůzka"
+  label_meeting_edit: "Upravit schůzku"
   label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minutes"
+  label_meeting_minutes: "Zápis"
   label_meeting_close: "Zavřít"
   label_meeting_open: "Otevřít"
-  label_meeting_agenda_close: "Close the agenda to begin the Minutes"
-  label_meeting_date_time: "Date/Time"
-  label_meeting_diff: "Diff"
+  label_meeting_agenda_close: "Uzavřete agendu pro vytvoření zápisu"
+  label_meeting_date_time: "Datum/Čas"
+  label_meeting_diff: "Rozdíl"
   label_notify: "Send for review"
   label_icalendar: "Send iCalendar"
   label_version: "Verze"
@@ -74,7 +74,7 @@ cs:
   permission_send_meeting_agendas_notification: "Send review notification for agendas"
   permission_create_meeting_minutes: "Manage minutes"
   permission_send_meeting_minutes_notification: "Send review notification for minutes"
-  project_module_meetings: "Meetings"
+  project_module_meetings: "Schůzky"
   text_duration_in_hours: "Duration in hours"
   text_in_hours: "in hours"
   text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'

@@ -149,11 +149,11 @@ fi:
       active_session_notice: >
         Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
       other_active_session_notice: Your account has an active remember cookie on another session.
-      label: 'Remember'
+      label: 'Muista'
       clear_cookie: 'Click here to remove all remembered 2FA sessions.'
       cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
-  field_phone: "Cell phone"
+  field_phone: "Matkapuhelin"
   field_otp: "Kerta salasana"
   notice_account_otp_invalid: "Invalid one-time password."
   notice_account_otp_expired: "The one-time password you entered expired."
@@ -164,12 +164,12 @@ fi:
   label_actions: 'Toiminnot'
   label_confirmed: 'Vahvistettu'
   button_continue: 'Jatka'
-  button_make_default: 'Mark as default'
+  button_make_default: 'Merkitse oletusarvo'
   label_unverified_phone: "Cell phone not yet verified"
-  notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
-  text_otp_not_receive: "Other verification methods"
-  text_send_otp_again: "Resend one-time password by:"
-  button_resend_otp_form: "Resend"
-  button_otp_by_voice: "Voice call"
+  notice_phone_number_format: "Anna numero seuraavalla tavalla: + XX XXXXXXXX."
+  text_otp_not_receive: "Muut vahvistusmenetelmät"
+  text_send_otp_again: "Kertamerkin antaminen uudelleen:"
+  button_resend_otp_form: "Uudelleen lähettää"
+  button_otp_by_voice: "Äänipuhelu"
   button_otp_by_sms: "SMS"
-  label_otp_channel: "Delivery channel"
+  label_otp_channel: "Toimituskanava"

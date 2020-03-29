@@ -25,7 +25,7 @@ cs:
       label_edit: Edit webhook
       label_event_resources: Event resources
       events:
-        created: "Created"
+        created: "Vytvořeno"
         updated: "Updated"
       status:
         enabled: 'Webhook is enabled'

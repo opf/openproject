@@ -24,26 +24,26 @@ ro:
   activerecord:
     attributes:
       meeting:
-        location: "Location"
+        location: "Locație"
         duration: "Durată"
-        participants: "Participants"
-        participants_attended: "Attendees"
-        participants_invited: "Invitees"
-        start_time: "Time"
+        participants: "Participanţi"
+        participants_attended: "Participanți"
+        participants_invited: "Invitaţi"
+        start_time: "Ora"
         start_time_hour: "Starting time"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"
     models:
-      meeting_agenda: "Agenda"
-      meeting_minutes: "Minutes"
-  description_attended: "attended"
+      meeting_agenda: "Agendă"
+      meeting_minutes: "Concluzii"
+  description_attended: "a participat"
   description_invite: "invitat"
   events:
-    meeting: Meeting edited
-    meeting_agenda: Meeting agenda edited
-    meeting_agenda_closed: Meeting agenda closed
-    meeting_agenda_opened: Meeting agenda opened
+    meeting: Întâlnire editată
+    meeting_agenda: Agenda întâlnirii a fost actualizată
+    meeting_agenda_closed: Agenda întâlnirii e închisă
+    meeting_agenda_opened: Agenda întâlnirii e deschisă
     meeting_minutes: Meeting minutes edited
     meeting_minutes_created: Meeting minutes created
   error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
@@ -51,8 +51,8 @@ ro:
   label_meeting_plural: "Meetings"
   label_meeting_new: "New Meeting"
   label_meeting_edit: "Edit Meeting"
-  label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minutes"
+  label_meeting_agenda: "Agendă"
+  label_meeting_minutes: "Concluzii"
   label_meeting_close: "Închide"
   label_meeting_open: "Open"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"

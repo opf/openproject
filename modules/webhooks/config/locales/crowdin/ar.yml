@@ -25,7 +25,7 @@ ar:
       label_edit: Edit webhook
       label_event_resources: Event resources
       events:
-        created: "Created"
+        created: "تم إنشاؤه"
         updated: "Updated"
       status:
         enabled: 'Webhook is enabled'

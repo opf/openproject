@@ -23,11 +23,11 @@ es:
   js:
     work_packages:
       property_groups:
-        costs: "Costs"
+        costs: "Costos"
       properties:
-        costObject: "Budget"
-        overallCosts: "Overall costs"
-        spentUnits: "Spent units"
-    button_log_costs: "Log unit costs"
-    label_hour: "hour"
-    label_hours: "hours"
+        costObject: "Presupuesto"
+        overallCosts: "Costos totales"
+        spentUnits: "Unidades usadas"
+    button_log_costs: "Registrar costos unitarios"
+    label_hour: "hora"
+    label_hours: "horas"

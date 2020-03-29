@@ -1,40 +1,40 @@
 #English strings go here
 bg:
-  label_avatar: "Avatar"
-  label_avatar_plural: "Avatars"
-  label_current_avatar: "Current Avatar"
-  label_choose_avatar: "Choose Avatar from file"
-  message_avatar_uploaded: "Avatar changed successfully."
-  error_image_upload: "Error saving the image."
-  error_image_size: "The image is too large."
-  button_change_avatar: "Change avatar"
-  are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
-  avatar_deleted: "Avatar deleted successfully."
-  unable_to_delete_avatar: "Avatar could not be deleted."
-  wrong_file_format: "Allowed formats are jpg, png, gif"
-  empty_file_error: "Please upload a valid image (jpg, png, gif)"
+  label_avatar: "Аватар"
+  label_avatar_plural: "Аватари"
+  label_current_avatar: "Текущ аватар"
+  label_choose_avatar: "Изберете аватар от файл"
+  message_avatar_uploaded: "Успешно променен аватар."
+  error_image_upload: "Грешка при съхранение на образа."
+  error_image_size: "Образа е твърде голям."
+  button_change_avatar: "Промяна на аватара"
+  are_you_sure_delete_avatar: "Сигурни ли сте, че искате да изтриете аватара си?"
+  avatar_deleted: "Аватара е изтрит успешно."
+  unable_to_delete_avatar: "Аватара не може да бъде изтрит."
+  wrong_file_format: "Разрешени формати са jpg, png, gif"
+  empty_file_error: "Моля вдигайте валидни образи (jpg, png, gif)"
   avatars:
-    label_avatar: "Avatar"
-    label_gravatar: 'Gravatar'
-    label_current_avatar: 'Current avatar'
-    label_local_avatar: 'Custom avatar'
+    label_avatar: "Аватар"
+    label_gravatar: 'Граватар'
+    label_current_avatar: 'Текущ аватар'
+    label_local_avatar: 'Потребителски аватар'
     text_current_avatar: |
-      The following image shows the current avatar.
+      Следващото изображение показва текущия аватар.
     text_upload_instructions: |
-      Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-      A preview of your avatar will be shown before uploading, once you selected an image.
-    text_change_gravatar_html: 'To change or add the Gravatar for your mail address, go to %{gravatar_url}.'
+      Качете свой собствен персонализиран аватар от 128 на 128 пиксела. По-големите файлове ще бъдат преоразмерени и изрязани, за да съвпадат.
+      Визуализация на вашия аватар ще бъде показан преди качването, след като изберете изображение.
+    text_change_gravatar_html: 'За да промените или добавите Граватар за вашия пощенски адрес, отидете на %{gravatar_url}.'
     text_your_local_avatar: |
-      OpenProject allows you to upload your own custom avatar.
+      OpenProject ви позволява да качвате собствен персонализиран аватар.
     text_local_avatar_over_gravatar: |
-      If you set one, this custom avatar is used in precedence over the gravatar above.
+      Ако зададете такъв, този персонализиран аватар се използва с предимство пред граватара по-горе.
     text_your_current_gravatar: |
-      OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
-      The current gravatar is as follows:
+      OpenProject използва вашия граватар, ако сте регистрирали такъв, или по подразбиране изображение или икона, ако такава съществува.
+      Настоящият граватар е както следва:
     settings:
-      enable_gravatars: 'Enable user gravatars'
-      gravatar_default: "Default Gravatar image"
-      enable_local_avatars: 'Enable user custom avatars'
+      enable_gravatars: 'Активиране на потребителски граватари'
+      gravatar_default: "Подразбиращо се изображение от Gravatar"
+      enable_local_avatars: 'Активиране на потребителски граватари'
 
 
 

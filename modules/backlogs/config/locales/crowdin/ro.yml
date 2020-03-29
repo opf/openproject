@@ -24,7 +24,7 @@ ro:
   activerecord:
     attributes:
       work_package:
-        position: "Position"
+        position: "Poziţie"
         remaining_hours: "Remaining Hours"
         remaining_time: "Remaining hours"
         story_points: "Story Points"
@@ -120,7 +120,7 @@ ro:
   label_blocks_ids: "ID-urile pachetelor de lucru blocate"
   label_burndown: "Burndown"
   label_column_in_backlog: "Column in backlog"
-  label_hours: "hours"
+  label_hours: "ore"
   label_work_package_hierarchy: "Work package Hierarchy"
   label_master_backlog: "Master Backlog"
   label_not_prioritized: "not prioritized"

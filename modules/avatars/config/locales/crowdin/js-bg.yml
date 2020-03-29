@@ -4,12 +4,12 @@ bg:
     label_preview: 'Предварителен преглед'
     button_update: 'Обнови'
     avatars:
-      label_choose_avatar: "Choose Avatar from file"
-      uploading_avatar: "Uploading your avatar."
+      label_choose_avatar: "Изберете аватар от файл"
+      uploading_avatar: "Качете вашия аватар."
       text_upload_instructions: |
-        Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-        A preview of your avatar will be shown before uploading, once you selected an image.
-      error_image_too_large: "Image is too large."
-      wrong_file_format: "Allowed formats are jpg, png, gif"
-      empty_file_error: "Please upload a valid image (jpg, png, gif)"
+        Качете свой собствен персонализиран аватар от 128 на 128 пиксела. По-големите файлове ще бъдат преоразмерени и изрязани, за да съвпадат.
+        Визуализация на вашия аватар ще бъде показан преди качването, след като изберете изображение.
+      error_image_too_large: "Картинката е твърде голяма."
+      wrong_file_format: "Разрешени формати са jpg, png, gif"
+      empty_file_error: "Моля вдигайте валидни образи (jpg, png, gif)"
 

@@ -10,18 +10,18 @@ bg:
         custom_text:
           title: 'Custom text'
         documents:
-          title: 'Documents'
+          title: 'Документи'
           no_results: 'No documents yet.'
         members:
           title: 'Потребители'
           no_results: 'No visible members.'
-          view_all_members: 'View all members'
+          view_all_members: 'Покажи всички членове'
           add: 'Член'
           too_many: 'Displaying %{count} of %{total} members.'
         news:
           title: 'Новини'
           at: 'at'
-          no_results: 'Nothing new to report.'
+          no_results: 'Нищо ново за отчитане.'
         project_description:
           title: 'Project description'
           no_results: "No description has been written yet. One can be provided in the 'Project settings'."

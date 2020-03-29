@@ -4,81 +4,80 @@ cs:
     attributes:
       two_factor_authentication/device:
         identifier: 'Identifikátor'
-        default: 'Use as default'
+        default: 'Použít jako výchozí'
       two_factor_authentication/device/sms:
-        phone_number: "Phone number"
+        phone_number: "Telefonní číslo"
     errors:
       models:
         two_factor_authentication/device:
-          default_already_exists: 'is already set for another OTP device.'
+          default_already_exists: 'je již nastavena pro jiné OTP zařízení.'
         two_factor_authentication/device/sms:
           attributes:
             phone_number:
-              error_phone_number_format: "must be of format +XX XXXXXXXXX"
+              error_phone_number_format: "musí být ve formátu +XX XXXXXXXXX"
     models:
-      two_factor_authentication/device: "2FA device"
-      two_factor_authentication/device/sms: "Mobile phone"
-      two_factor_authentication/device/totp: "Authenticator application"
+      two_factor_authentication/device: "2FA zařízení"
+      two_factor_authentication/device/sms: "Mobilní telefon"
+      two_factor_authentication/device/totp: "Ověřovací aplikace"
   two_factor_authentication:
-    error_2fa_disabled: "2FA delivery has been disabled."
-    error_no_device: "No registered 2FA device found for this user, despite being required for this instance."
-    error_no_matching_strategy: "No matching 2FA strategy available for this user. Please contact your administratior."
-    error_is_enforced_not_active: 'Configuration error: Two-factor authentication has been enforced, but no active strategies exist.'
-    error_invalid_backup_code: 'Invalid 2FA backup code'
-    channel_unavailable: "The delivery channel %{channel} is unavailable."
-    no_valid_phone_number: "No valid phone number exists."
+    error_2fa_disabled: "2FA doručení bylo zakázáno."
+    error_no_device: "Žádné registrované 2FA zařízení pro tohoto uživatele nebylo nalezeno, přestože bylo nezbytné pro tuto instanci."
+    error_no_matching_strategy: "Žádná odpovídající 2FA strategie pro tohoto uživatele. Obraťte se prosím na svého administrátora."
+    error_is_enforced_not_active: 'Chyba konfigurace: Dvoufázové ověření bylo vynuceno, ale žádná aktivní strategie neexistuje.'
+    error_invalid_backup_code: 'Neplatný 2FA záložní kód'
+    channel_unavailable: "Doručovací kanál %{channel} není k dispozici."
+    no_valid_phone_number: "Neexistuje žádné platné telefonní číslo."
     label_pwd_confirmation: "Heslo"
-    notice_pwd_confirmation: "You need to confirm your password upon making changes to these settings."
-    label_device_type: "Device type"
-    label_default_device: "Default 2FA device"
-    label_device: "2FA device"
-    label_devices: "2FA devices"
-    label_one_time_password: 'One-time password'
-    label_2fa_enabled: 'Two-factor authentication is active'
-    label_2fa_disabled: 'Two-factor authentication not active'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
-    text_enter_2fa: 'Please enter the one-time password from your device.'
-    text_2fa_enabled: 'Upon every login, you will be requested to enter a OTP token from your default 2FA device.'
-    text_2fa_disabled: 'To enable two-factor authentication, use the button above to register a new 2FA device. If you already have a device, you need to make it a default.'
+    notice_pwd_confirmation: "Pro provádění těchto změn v nastavení je vyžadováno potvrzení hesla."
+    label_device_type: "Typ zařízení"
+    label_default_device: "Výchozí 2FA zařízení"
+    label_device: "2FA zařízení"
+    label_devices: "2FA zařízení"
+    label_one_time_password: 'Jednorázové heslo'
+    label_2fa_enabled: 'Dvoufázové ověřování je aktivní'
+    label_2fa_disabled: 'Dvoufázové ověřování není aktivní'
+    text_otp_delivery_message_sms: "Vaše jednorázové heslo pro %{app_title} je %{token}"
+    text_otp_delivery_message_voice: "Vaše jednorázové heslo pro %{app_title} je: %{pause} %{token}. %{pause} opakuji: %{pause} %{token}"
+    text_enter_2fa: 'Zadejte prosím jednorázové heslo z Vašeho zařízení.'
+    text_2fa_enabled: 'Při každém přihlášení bude vyžadováno zadání jednorázového hesla z Vašeho výchozího 2FA zařízení.'
+    text_2fa_disabled: 'Pro zapnutí dvoufázového ověřování klikněte na tlačítko výše, abyste zaregistrovali nové 2FA zařízení. Pokud již zařízení máte, musíte ho nastavit jako výchozí.'
     login:
-      enter_backup_code_title: Enter backup code
-      enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
-      other_device: 'Use another device or backup code'
+      enter_backup_code_title: Zadejte záložní kód
+      enter_backup_code_text: Zadejte prosím platný záložní kód z Vašeho seznamu kódů, pokud již nemáte přístup k Vašim zaregistrovaným 2FA zařízením.
+      other_device: 'Použít jiné zařízení nebo záložní kód'
     settings:
-      title: '2FA settings'
-      current_configuration: 'Current configuration'
-      label_active_strategies: 'Active 2FA strategies'
-      label_enforced: 'Enforce 2FA'
-      label_remember: 'Remember 2FA login'
+      title: 'Nastavení 2FA'
+      current_configuration: 'Aktuální konfigurace'
+      label_active_strategies: 'Aktivní 2FA strategie'
+      label_enforced: 'Vynutit 2FA'
+      label_remember: 'Zapamatovat 2FA přihlášení'
       text_configuration: |
-        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
-      text_configuration_guide: For more information, check the configuration guide.
-      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+        Poznámka: Tyto hodnoty představují aktuální konfiguraci celé aplikace. Nelze zakázat nastavení vynucená konfigurací nebo změnit stávající aktivní strategie, protože vyžadují restartování serveru.
+      text_configuration_guide: Další informace naleznete v příručce konfigurace.
+      text_enforced: 'Povolte toto nastavení, abyste donutili všechny uživatele registrovat 2FA zařízení při jejich dalším přihlášení. Toto nastavení může být zakázáno pouze, pokud není vynuceno konfigurací.'
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      error_invalid_settings: 'The 2FA strategies you selected are invalid'
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+        Nastavte na vyšší než nula, abyste umožnili uživatelům zapamatovat si jejich 2FA ověření na daný počet dní. Uživatelé to po tuto dobu nebudou muset zadávat. Toto nastavení může být zakázáno pouze pokud není vynuceno konfigurací.
+      error_invalid_settings: 'Strategie 2FA, které jste zvolili jsou neplatné'
+      failed_to_save_settings: 'Nepodařilo se aktualizovat nastavení 2FA: %{message}'
     admin:
-      self_edit_path: 'To add or modify your own 2FA devices, please go to %{self_edit_link}'
-      self_edit_link_name: 'Two-factor authentication on your account page'
-      self_edit_forbidden: 'You may not edit your own 2FA devices on this path. Go to My Account > Two factor authentication instead.'
-      no_devices_for_user: 'No 2FA device has been registered for this user.'
-      all_devices_deleted: 'All 2FA devices of this user have been deleted'
-      delete_all_are_you_sure: 'Are you sure you want to delete all 2FA devices for this user?'
-      button_delete_all_devices: 'Delete registered 2FA devices'
-      button_register_mobile_phone_for_user: 'Register mobile phone'
-      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from his default 2FA device.'
-      text_2fa_disabled: "The user did not set up a 2FA device through his 'My account page'"
+      self_edit_path: 'Chcete-li přidat nebo upravit vaše vlastní 2FA zařízení, přejděte na %{self_edit_link}'
+      self_edit_link_name: 'Dvoufázové ověřování na stránce vašeho účtu'
+      self_edit_forbidden: 'Na této cestě nelze upravit vlastní 2FA zařízení. Místo toho přejděte na Můj účet > Dvoufázové ověřování.'
+      no_devices_for_user: 'Žádné 2FA zařízení není pro tohoto uživatele zaregistrováno.'
+      all_devices_deleted: 'Byla odstraněna všechna 2FA zařízení tohoto uživatele'
+      delete_all_are_you_sure: 'Opravdu chcete odstranit všechna 2FA zařízení tohoto uživatele?'
+      button_delete_all_devices: 'Odstranit registrovaná 2FA zařízení'
+      button_register_mobile_phone_for_user: 'Registrovat mobilní telefon'
+      text_2fa_enabled: 'Při každém přihlášení bude tento uživatel požádán, aby zadal jednorázové heslo z jeho výchozího 2FA zařízení.'
+      text_2fa_disabled: "Uživatel si nenastavil 2FA zařízení prostřednictvím stránky 'Můj účet'"
     upsale:
       title: 'Two-factor authentication is an enterprise feature'
       description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
     backup_codes:
-      none_found: No backup codes exist for this account.
-      singular: Backup code
-      plural: Backup codes
-      your_codes: for your %{app_name} account %{login}
+      none_found: Pro tento účet neexistují žádné záložní kódy.
+      singular: Záložní kód
+      plural: Záložní kódy
+      your_codes: pro Váš %{app_name} účet %{login}
       overview_description: |
         If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
         Use the following button to generate a new set of backup codes.
@@ -139,7 +138,7 @@ cs:
     restdt:
       delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
     strategies:
-      totp: 'Authenticator application'
+      totp: 'Ověřovací aplikace'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "A one-time password has been sent to your cell phone."
@@ -155,7 +154,7 @@ cs:
       cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Cell phone"
-  field_otp: "One-time password"
+  field_otp: "Jednorázové heslo"
   notice_account_otp_invalid: "Invalid one-time password."
   notice_account_otp_expired: "The one-time password you entered expired."
   notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
