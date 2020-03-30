@@ -7,7 +7,7 @@ import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/q
 
 @Component({
   selector: 'boards-entry',
-  template: '<ui-view></ui-view>',
+  template: '<ui-view wp-isolated-query-space></ui-view>',
   providers: [
     BoardConfigurationService,
     BoardStatusActionService,

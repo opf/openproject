@@ -80,7 +80,7 @@
         <tr *ngFor="let board of boards">
           <td class="name">
            <a [textContent]="board.name"
-              uiSref="boards.show"
+              uiSref="boards.partitioned.show"
               [uiParams]="{ board_id: board.id }">
            </a>
           </td>

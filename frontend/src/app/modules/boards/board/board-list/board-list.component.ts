@@ -1,14 +1,14 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   Injector,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild
 } from "@angular/core";
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
@@ -48,6 +48,7 @@ import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {BoardFiltersService} from "core-app/modules/boards/board/board-filter/board-filters.service";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -58,21 +59,19 @@ export interface DisabledButtonPlaceholder {
   selector: 'board-list',
   templateUrl: './board-list.component.html',
   styleUrls: ['./board-list.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService },
     BoardListMenuComponent,
     WorkPackageCardDragAndDropService
   ]
 })
-export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy, OnChanges {
+export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
   /** Output fired upon query removal */
   @Output() onRemove = new EventEmitter<void>();
 
   /** Access to the board resource */
   @Input() public board:Board;
-
-  /** Access the filters of the board */
-  @Input() public filters:ApiV3Filter[];
 
   /** Access to the loading indicator element */
   @ViewChild('loadingIndicator', { static: true }) indicator:ElementRef;
@@ -122,22 +121,24 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public buttonPlaceholder:DisabledButtonPlaceholder|undefined;
 
-  constructor(private readonly QueryDm:QueryDmService,
-              private readonly I18n:I18nService,
-              private readonly boardCache:BoardCacheService,
-              private readonly notifications:NotificationsService,
-              private readonly querySpace:IsolatedQuerySpace,
-              private readonly halNotification:HalResourceNotificationService,
-              private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              private readonly authorisationService:AuthorisationService,
-              private readonly wpInlineCreate:WorkPackageInlineCreateService,
-              protected readonly injector:Injector,
-              private readonly halEditing:HalResourceEditingService,
-              private readonly loadingIndicator:LoadingIndicatorService,
-              private readonly wpCacheService:WorkPackageCacheService,
-              private readonly boardService:BoardService,
-              private readonly boardActionRegistry:BoardActionsRegistryService,
-              private readonly causedUpdates:CausedUpdatesService) {
+  constructor(readonly QueryDm:QueryDmService,
+              readonly I18n:I18nService,
+              readonly cdRef:ChangeDetectorRef,
+              readonly boardCache:BoardCacheService,
+              readonly boardFilters:BoardFiltersService,
+              readonly notifications:NotificationsService,
+              readonly querySpace:IsolatedQuerySpace,
+              readonly halNotification:HalResourceNotificationService,
+              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
+              readonly authorisationService:AuthorisationService,
+              readonly wpInlineCreate:WorkPackageInlineCreateService,
+              readonly injector:Injector,
+              readonly halEditing:HalResourceEditingService,
+              readonly loadingIndicator:LoadingIndicatorService,
+              readonly wpCacheService:WorkPackageCacheService,
+              readonly boardService:BoardService,
+              readonly boardActionRegistry:BoardActionsRegistryService,
+              readonly causedUpdates:CausedUpdatesService) {
     super(I18n, injector);
   }
 
@@ -152,8 +153,18 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .subscribe(() => {
         if (!this.board.isAction) {
           this.showAddButton = this.canDragInto && (this.wpInlineCreate.canAdd || this.canReference);
+          this.cdRef.detectChanges();
         }
       });
+
+    // Update query on filter change
+    this.boardFilters
+      .filters
+      .values$()
+      .pipe(
+        this.untilDestroyed()
+      )
+      .subscribe(() => this.updateQuery(true));
 
     this.querySpace.query
       .values$()
@@ -164,17 +175,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         this.query = query;
         this.canDragOutOf = !!this.query.updateOrderedWorkPackages;
         this.loadActionAttribute(query);
+        this.cdRef.detectChanges();
       });
 
     this.updateQuery();
-  }
-
-  ngOnChanges(changes:SimpleChanges) {
-    // When the changes were caused by an actual filter change
-    // and not by a change in lists
-    if (changes.filters && !changes.resource) {
-      this.updateQuery();
-    }
   }
 
   public get errorMessage() {
@@ -266,7 +270,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public updateQuery(visibly = true) {
-    this.setQueryProps(this.filters);
+    this.setQueryProps(this.boardFilters.current);
     this.loadQuery(visibly);
   }
 
@@ -295,6 +299,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
       const canWriteAttribute = await this.actionService.canAddToQuery(query);
       this.showAddButton = this.canDragInto && this.wpInlineCreate.canAdd && canWriteAttribute;
+      this.cdRef.detectChanges();
     });
   }
 
