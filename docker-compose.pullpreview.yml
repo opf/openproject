@@ -21,6 +21,7 @@ web:
     - "RAILS_ENV=production"
     - "HEROKU=true"
     - "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE=off"
+    - "OPENPROJECT_SHOW__SETTING__MISMATCH__WARNING=false"
   ports:
     - "80:8080"
   command: "./docker/web"
