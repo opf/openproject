@@ -41,14 +41,20 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
     this.newsDm
       .list(this.newsDmParams)
       .then((collection) => {
-        this.entries = collection.elements as NewsResource[];
-        this.entriesLoaded = true;
-
-        const users_loaded = this.setAuthors();
-
-        Promise.all(users_loaded)
-          .then(() => this.cdr.detectChanges());
+        
+      var dsd=collection.elements ;
+          this.setupNews(dsd);
       });
+  }
+
+  public setupNews(news:any[]) {
+    this.entries = news;
+    this.entriesLoaded = true;
+
+    const users_loaded = this.setAuthors();
+
+    Promise.all(users_loaded)
+      .then(() => this.cdr.detectChanges());
   }
 
   public get isEditable() {
@@ -56,23 +62,23 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   public newsPath(news:NewsResource) {
-    return this.pathHelper.newsPath(news.id!);
+   // return this.pathHelper.newsPath(news.id!);
   }
 
   public newsProjectPath(news:NewsResource) {
-    return this.pathHelper.projectPath(news.project.idFromLink);
+    //return this.pathHelper.projectPath(news.project?.idFromLink);
   }
 
   public newsProjectName(news:NewsResource) {
-    return news.project.name;
+    return news.project?.name;
   }
 
   public newsAuthorName(news:NewsResource) {
-    return news.author.name;
+    return news.author?.name;
   }
 
   public newsAuthorPath(news:NewsResource) {
-    return this.pathHelper.userPath(news.author.id);
+    //return this.pathHelper.userPath(news.author?.id);
   }
 
   public newsCreated(news:NewsResource) {
