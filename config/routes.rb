@@ -341,7 +341,7 @@ OpenProject::Application.routes.draw do
     constraints(Enterprise) do
       resource :enterprise, only: %i[show create destroy]
       scope controller: 'enterprises' do
-        post 'enterprise/create_trial_key' => 'enterprises#create_trial_key'
+        post 'enterprise/save_trial_key' => 'enterprises#save_trial_key'
       end
     end
     resources :enumerations

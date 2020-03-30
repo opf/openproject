@@ -59,19 +59,21 @@ class EnterprisesController < ApplicationController
     if token
       token.destroy
       flash[:notice] = t(:notice_successful_delete)
+      trial_key = Token::EnterpriseTrialKey.find_by(user_id: current_user.id)
+      trial_key.destroy
       redirect_to action: :show
     else
       render_404
     end
   end
 
-  def create_trial_key
+  def save_trial_key
     @trial_key = params[:trial_key]
-    Token::EnterpriseTrialToken.create(user_id: current_user.id, value: @trial_key)
+    Token::EnterpriseTrialKey.create(user_id: current_user.id, value: @trial_key)
   end
 
   def initialize_gon
-    @trial_key = Token::EnterpriseTrialToken.find_by!(user_id: current_user.id)
+    @trial_key = Token::EnterpriseTrialKey.find_by(user_id: current_user.id)
     if @trial_key
       gon.ee_trial_key = {
         value: @trial_key.value

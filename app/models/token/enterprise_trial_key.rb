@@ -31,7 +31,7 @@
 require_dependency 'token/base'
 
 module Token
-  class EnterpriseTrialToken < Base
+  class EnterpriseTrialKey < Base
     include ExpirableToken
 
     def self.validity_time

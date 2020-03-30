@@ -81,8 +81,6 @@ export class EnterpriseTrialService {
       .then((res:any) => {
         // show confirmed status and enable continue btn
         this.confirmed = true;
-        // delete trial key from gon after mail was confirmed
-        (window as any).gon.ee_trial_key = undefined;
 
         // returns token if mail was confirmed
         // -> if token is new (token_retrieved: false) save token in backend
@@ -126,7 +124,7 @@ export class EnterpriseTrialService {
     let trialKey = resendlink.split('/')[6];
     // save requested token
     return this.http.post(
-      this.pathHelper.api.v3.appBasePath + '/admin/enterprise/create_trial_key',
+      this.pathHelper.api.v3.appBasePath + '/admin/enterprise/save_trial_key',
       { trial_key: trialKey },
       { withCredentials: true }
       )
