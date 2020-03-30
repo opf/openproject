@@ -200,7 +200,7 @@ group :test do
   gem 'rspec', '~> 3.9.0'
   gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 4.0.0.rc1', group: :development
+  gem 'rspec-rails', '~> 4.0.0', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
@@ -216,8 +216,8 @@ group :test do
 
   gem 'capybara', '~> 3.31.0'
   gem 'capybara-screenshot', '~> 1.0.17'
-  gem 'webdrivers', '~> 4.2.0', require: false
   gem 'selenium-webdriver', '~> 3.14'
+  gem 'webdrivers', '~> 4.2.0', require: false
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'

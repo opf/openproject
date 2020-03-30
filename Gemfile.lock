@@ -803,7 +803,7 @@ GEM
     rspec-mocks (3.9.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
-    rspec-rails (4.0.0.rc1)
+    rspec-rails (4.0.0)
       actionpack (>= 4.2)
       activesupport (>= 4.2)
       railties (>= 4.2)
@@ -1079,7 +1079,7 @@ DEPENDENCIES
   rspec (~> 3.9.0)
   rspec-activemodel-mocks (~> 1.1.0)!
   rspec-example_disabler!
-  rspec-rails (~> 4.0.0.rc1)
+  rspec-rails (~> 4.0.0)
   rspec-retry (~> 0.6.1)
   rubocop
   ruby-duration (~> 3.2.0)
