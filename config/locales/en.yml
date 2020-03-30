@@ -1493,7 +1493,7 @@ en:
   label_new: "New"
   label_new_features: "New features"
   label_new_statuses_allowed: "New statuses allowed"
-  label_news: "News"
+  label_news_singular: "News"
   label_news_added: "News added"
   label_news_comment_added: "Comment added to a news"
   label_news_latest: "Latest news"
