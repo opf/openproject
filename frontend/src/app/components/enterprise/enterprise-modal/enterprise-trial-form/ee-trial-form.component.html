@@ -57,9 +57,9 @@
                  required>
         </div>
         <span>{{ text.general_consent }}
-          <a href="https://www.openproject.com/terms-of-service/" target="_blank">{{ text.terms_of_service }}</a>
+          <a [href]="termsOfServiceURL" target="_blank">{{ text.terms_of_service }}</a>
           and the
-          <a href="https://www.openproject.com/legal-notice/" target="_blank">{{ text.privacy_policy }}</a>.
+          <a [href]="legalNoticeURL" target="_blank">{{ text.privacy_policy }}</a>.
         </span>
       </label>
     </div>
@@ -73,7 +73,7 @@
                  formControlName="newsletter_consent">
         </div>
         <span>{{ text.receive_newsletter }}
-          <a href="https://www.openproject.com/newsletter/" target="_blank">
+          <a [href]="newsletterURL" target="_blank">
             {{ text.newsletter }}</a>.
         </span>
       </label>

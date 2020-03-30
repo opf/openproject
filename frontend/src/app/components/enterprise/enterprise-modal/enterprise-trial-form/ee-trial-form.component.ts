@@ -31,6 +31,10 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
 
+export const termsOfServiceURL = 'https://www.openproject.com/terms-of-service/';
+export const legalNoticeURL = 'https://www.openproject.com/legal-notice/';
+export const newsletterURL = 'https://www.openproject.com/newsletter/';
+
 @Component({
   selector: 'enterprise-trial-form',
   templateUrl: './ee-trial-form.component.html',
@@ -48,6 +52,9 @@ export class EETrialFormComponent {
     newsletter_consent: null,
   });
 
+  readonly termsOfServiceURL = termsOfServiceURL;
+  readonly legalNoticeURL = legalNoticeURL;
+  readonly newsletterURL = newsletterURL;
   public text = {
     general_consent: this.I18n.t('js.admin.enterprise.trial.form.general_consent'),
     invalid_email: this.I18n.t('js.admin.enterprise.trial.form.invalid_email'),
