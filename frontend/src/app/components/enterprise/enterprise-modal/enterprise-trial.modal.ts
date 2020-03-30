@@ -46,10 +46,6 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
   @Input() public opReferrer:string;
 
   public trialForm:FormGroup;
-
-  public confirmed:boolean;
-  public cancelled = false;
-  public status:string;
   public errorMsg:string|undefined;
 
   // modal configuration
@@ -87,8 +83,6 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
   public onSubmit() {
     if (this.trialForm.valid) {
       this.trialForm.addControl('_type', new FormControl('enterprise-trial'));
-
-      this.eeTrialService.cancelled = false;
       this.eeTrialService.sendForm(this.trialForm);
     }
   }

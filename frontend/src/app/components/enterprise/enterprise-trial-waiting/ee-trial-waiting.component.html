@@ -5,7 +5,7 @@
   <span>{{ text.status_label }} </span>
   <span *ngIf="!eeTrialService.confirmed; else confirmedStatus" class="status--waiting">
       {{ text.status_waiting }}
-    <a id="resend-link" (click)="eeTrialService.resendMail()">{{ text.resend }}</a>
+    <a id="resend-link" (click)="resendMail()">{{ text.resend }}</a>
 
     <p *ngIf="eeTrialService.cancelled">{{ text.session_timeout }}</p>
   </span>

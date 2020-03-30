@@ -28,8 +28,9 @@
 
 import {Component, ElementRef, OnInit} from "@angular/core";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
-import {EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
+import {baseUrlAugur, EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'enterprise-active-trial',
@@ -37,6 +38,8 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
   styleUrls: ['./ee-active-trial.component.sass']
 })
 export class EEActiveTrialComponent implements OnInit {
+  public initialData:any;
+
   public text = {
     label_email: this.I18n.t('js.admin.enterprise.trial.form.label_email'),
     label_expires_at: this.I18n.t('js.admin.enterprise.trial.form.label_expires_at'),
@@ -44,6 +47,7 @@ export class EEActiveTrialComponent implements OnInit {
     label_starts_at: this.I18n.t('js.admin.enterprise.trial.form.label_starts_at'),
     label_subscriber: this.I18n.t('js.admin.enterprise.trial.form.label_subscriber')
   };
+
   public subscriber = this.elementRef.nativeElement.dataset['subscriber'];
   public email = this.elementRef.nativeElement.dataset['email'];
   public userCount = this.elementRef.nativeElement.dataset['userCount'];
@@ -52,18 +56,51 @@ export class EEActiveTrialComponent implements OnInit {
 
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService,
+              protected http:HttpClient,
               public eeTrialService:EnterpriseTrialService) {
   }
 
   ngOnInit() {
     // trial is not active yet
     if (!this.subscriber) {
-      // get user data from service
-      setTimeout(() => {
-        let savedData = this.eeTrialService.trialForm.value;
-        this.subscriber = savedData.first_name + ' ' + savedData.last_name;
-        this.email =  savedData.email;
-      }, 500);
+      this.initialize();
+    }
+  }
+
+  // initialize attributes with submitted user data
+  private initialize():void {
+    this.initialData = this.loadGonData();
+
+    if (!this.initialData) {  // get data from service
+      this.subscriber = this.eeTrialService.userData.subscriber;
+      this.email =  this.eeTrialService.userData.email;
+    } else {                  // after reload: get data from Augur using the trial key saved in gon
+      this.eeTrialService.trialLink = baseUrlAugur + '/public/v1/trials/' + this.initialData.value;
+      this.getUserDataFromAugur();
+    }
+  }
+
+  // use the trial key saved in the db
+  // to get the user data from Augur
+  private getUserDataFromAugur() {
+    this.http
+      .get<any>(this.eeTrialService.trialLink + '/details')
+      .toPromise()
+      .then((userData:any) => {
+        this.subscriber = userData.first_name + ' ' + userData.last_name;
+        this.email =  userData.email;
+        this.eeTrialService.retryConfirmation(this.eeTrialService.delay, this.eeTrialService.retries);
+      })
+      .catch((error:HttpErrorResponse) => {
+        this.eeTrialService.cancelled = true;
+      });
+  }
+
+  private loadGonData():{value:string}|null {
+    try {
+      return (window as any).gon.ee_trial_key;
+    } catch (e) {
+      return null;
     }
   }
 }

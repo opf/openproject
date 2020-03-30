@@ -29,6 +29,9 @@
 import {Component, ElementRef} from "@angular/core";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+
 
 @Component({
   selector: 'enterprise-trial-waiting',
@@ -39,6 +42,8 @@ export class EETrialWaitingComponent {
   public text = {
     confirmation_info: this.I18n.t('js.admin.enterprise.trial.confirmation_info'),
     resend: this.I18n.t('js.admin.enterprise.trial.resend_link'),
+    resend_success: this.I18n.t('js.admin.enterprise.trial.resend_success'),
+    resend_warning: this.I18n.t('js.admin.enterprise.trial.resend_warning'),
     session_timeout: this.I18n.t('js.admin.enterprise.trial.session_timeout'),
     status_confirmed: this.I18n.t('js.admin.enterprise.trial.status_confirmed'),
     status_label: this.I18n.t('js.admin.enterprise.trial.status_label'),
@@ -47,7 +52,23 @@ export class EETrialWaitingComponent {
 
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService,
+              protected http:HttpClient,
+              protected notificationsService:NotificationsService,
               public eeTrialService:EnterpriseTrialService) {
+  }
+
+  // resend mail if resend link has been clicked
+  public resendMail() {
+    this.eeTrialService.cancelled = false;
+    this.http.post(this.eeTrialService.resendLink, {})
+      .toPromise()
+      .then(() => {
+        this.notificationsService.addSuccess(this.text.resend_success);
+        this.eeTrialService.retryConfirmation(this.eeTrialService.delay, this.eeTrialService.retries);
+      })
+      .catch((error:HttpErrorResponse) => {
+        this.notificationsService.addError(this.text.resend_warning);
+      });
   }
 }
 

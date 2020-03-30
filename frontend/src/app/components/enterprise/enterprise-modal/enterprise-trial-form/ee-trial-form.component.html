@@ -32,7 +32,8 @@
   <div class="form--field -wide-label -required" [ngClass]="{ '-error': eeTrialService.errorMsg }">
     <label class="form--label">{{ text.label_email }}</label>
     <div class="form--field-container">
-      <div class="form--text-field-container">
+      <div class="form--text-field-container"
+           [ngClass]="{'-required-highlighting' : eeTrialService.errorMsg}">
         <input type="email" class="form--text-field" formControlName="email" (blur)="checkMailField()">
       </div>
     </div>

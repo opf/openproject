@@ -5,17 +5,12 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 
+export const baseUrlAugur = 'https://augur.openproject-edge.com';
 
 @Injectable()
 export class EnterpriseTrialService {
-  public text = {
-    resend_success: this.I18n.t('js.admin.enterprise.trial.resend_success'),
-    resend_warning: this.I18n.t('js.admin.enterprise.trial.resend_warning')
-  };
+  public userData:{subscriber:string, email:string};
 
-  public trialForm:FormGroup;
-  public initialData:any;
-  public baseUrlAugur = 'https://augur.openproject-edge.com';
   public trialLink:string;
   public resendLink:string;
 
@@ -26,35 +21,29 @@ export class EnterpriseTrialService {
   public errorMsg:string|undefined;
 
   // retry confirmation
-  private delay = 5000; // wait 5s until next request
-  private retries = 60; // keep trying for 5 minutes
+  public delay = 5000; // wait 5s until next request
+  public retries = 60; // keep trying for 5 minutes
 
   constructor(readonly I18n:I18nService,
               protected http:HttpClient,
               readonly pathHelper:PathHelperService,
               protected notificationsService:NotificationsService,
               readonly formBuilder:FormBuilder) {
-    this.initialize();
-  }
-
-  // check if a user already submitted user data
-  // initialize the trial form with this data saved in Augur
-  private initialize():void {
-    this.initialData = this.loadGonData();
-    // user has already submitted a valid mail and received a confirmation link
-    if (this.initialData) {
-      this.trialLink = this.baseUrlAugur + '/public/v1/trials/' + this.initialData.value;
-      this.getUserDataFromAugur(this.initialData.value);
+    if ((window as any).gon) {
+      this.status = 'mailSubmitted';
     }
   }
 
   // send POST request with form object
   // receive an enterprise trial link to access a token
   public sendForm(form:FormGroup) {
-    this.trialForm = form;
-
+    this.userData = {
+      subscriber: form.value.first_name + ' ' + form.value.last_name,
+      email: form.value.email
+    };
+    this.cancelled = false;
     // POST /public/v1/trials/
-    this.http.post(this.baseUrlAugur + '/public/v1/trials', this.trialForm.value)
+    this.http.post(baseUrlAugur + '/public/v1/trials', form.value)
       .toPromise()
       .then((enterpriseTrial:any) => {
         this.trialLink = enterpriseTrial._links.self.href;
@@ -101,7 +90,7 @@ export class EnterpriseTrialService {
           // get resend button link
           this.resendLink = error.error._links.resend.href;
           // save a key for the requested trial
-          if (!this.status) { // only do it once
+          if (!this.status || this.cancelled) { // only do it once
             this.saveTrialKey(this.resendLink);
           }
           // open next modal window -> status waiting
@@ -162,45 +151,6 @@ export class EnterpriseTrialService {
       setTimeout( () => {
         this.retryConfirmation(delay, retries - 1);
       }, delay);
-    }
-  }
-
-  // resend mail if resend link has been clicked
-  public resendMail() {
-    this.http.post(this.resendLink, {})
-      .toPromise()
-      .then(() => {
-        this.notificationsService.addSuccess(this.text.resend_success);
-
-        this.cancelled = false;
-        this.retryConfirmation(this.delay, this.retries);
-      })
-      .catch((error:HttpErrorResponse) => {
-        this.cancelled = false;
-        this.notificationsService.addError(this.text.resend_warning);
-      });
-  }
-
-  // use the trial key saved in the db
-  // to get the user data from Augur
-  private getUserDataFromAugur(trialKey:string) {
-    this.http
-      .get<any>(this.baseUrlAugur + '/public/v1/trials/' + trialKey + '/details')
-      .toPromise()
-      .then((userData:any) => {
-        this.trialForm = this.formBuilder.group(userData);
-        this.retryConfirmation(this.delay, this.retries);
-      })
-      .catch((error:HttpErrorResponse) => {
-        this.cancelled = true;
-      });
-  }
-
-  private loadGonData():{value:string}|null {
-    try {
-      return (window as any).gon.ee_trial_key;
-    } catch (e) {
-      return null;
     }
   }
 }
