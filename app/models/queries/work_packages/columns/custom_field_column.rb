@@ -65,6 +65,10 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
     @cf.name
   end
 
+  def null_handling(asc)
+    custom_field.null_handling(asc)
+  end
+
   def custom_field
     @cf
   end

@@ -64,11 +64,7 @@ class ::Query::SortCriteria < ::SortHelper::SortCriteria
   def append_order(column, criterion, asc = true)
     ordered_criterion = append_direction(criterion, asc)
 
-    if column.null_handling
-      ordered_criterion.map { |statement| "#{statement} #{column.null_handling}" }
-    else
-      ordered_criterion
-    end
+    ordered_criterion.map { |statement| "#{statement} #{column.null_handling(asc)}" }
   end
 
   def execute_criterion(criteria)
