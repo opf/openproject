@@ -27,7 +27,7 @@
 // ++
 
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild} from "@angular/core";
-import {DomSanitizer} from "@angular/platform-browser";
+import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {FormControl, FormGroup} from "@angular/forms";
 import {OpModalComponent} from "app/components/op-modals/op-modal.component";
 import {OpModalLocalsToken} from "app/components/op-modals/op-modal.service";
@@ -35,6 +35,8 @@ import {OpModalLocalsMap} from "app/components/op-modals/op-modal.types";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {EETrialFormComponent} from "core-components/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
 import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
+
+export const eeOnboardingVideoURL = 'https://www.youtube.com/embed/zLMSydhFSkw?autoplay=1';
 
 @Component({
   selector: 'enterprise-trial-modal',
@@ -53,7 +55,7 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
   public closeOnEscape = false;
   public closeOnOutsideClick = false;
 
-  public eeOnboardingVideoURL = 'https://www.youtube.com/embed/zLMSydhFSkw?autoplay=1';
+  public trustedEEVideoURL:SafeResourceUrl;
   public text = {
     button_submit: this.I18n.t('js.modals.button_submit'),
     button_cancel: this.I18n.t('js.modals.button_cancel'),
@@ -73,6 +75,7 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
               readonly domSanitizer:DomSanitizer,
               public eeTrialService:EnterpriseTrialService) {
     super(locals, cdRef, elementRef);
+    this.trustedEEVideoURL = this.trustedURL(eeOnboardingVideoURL);
   }
 
   ngAfterViewInit() {
@@ -112,8 +115,18 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
     this.eeTrialService.modalOpen = false;
   }
 
-  public trustedEEVideoURL() {
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(this.eeOnboardingVideoURL);
+  public trustedURL(url:string) {
+    return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  public openWindow():number {
+    if (!this.eeTrialService.status || this.eeTrialService.cancelled) {
+      return 1;
+    } else if (this.eeTrialService.status === 'mailSubmitted' && !this.eeTrialService.cancelled) {
+      return 2;
+    } else {
+      return 3;
+    }
   }
 }
 

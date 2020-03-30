@@ -62,6 +62,10 @@ export class EnterpriseBaseComponent {
     this.eeTrialService.modalOpen = true;
     this.opModalService.show(EnterpriseTrialModal, this.injector);
   }
+
+  public get noTrialRequested() {
+    return this.eeTrialService.status === undefined;
+  }
 }
 
 DynamicBootstrapper.register({

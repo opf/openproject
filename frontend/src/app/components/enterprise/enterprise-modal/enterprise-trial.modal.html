@@ -10,17 +10,17 @@
       </a>
     </div>
 
-    <div class="op-modal--modal-body">
+    <div [ngSwitch]="openWindow()" class="op-modal--modal-body">
       <!-- first modal window -->
-      <div *ngIf="!eeTrialService.status || eeTrialService.cancelled">
+      <div *ngSwitchCase="1">
         <enterprise-trial-form></enterprise-trial-form>
       </div>
       <!-- second modal window -->
-      <div *ngIf="eeTrialService.status === 'mailSubmitted' && !eeTrialService.cancelled">
+      <div *ngSwitchCase="2">
         <enterprise-trial-waiting></enterprise-trial-waiting>
       </div>
       <!-- third modal window -->
-      <div *ngIf="eeTrialService.status === 'startTrial'">
+      <div *ngSwitchCase="3">
         <div class="onboarding--video-block">
           <div class="onboarding--video-text">
             <span>{{ text.quick_overview }}</span>
@@ -29,8 +29,8 @@
             <iframe frameborder="0"
                     height="400"
                     width="100%"
-                    allowfullscreen=""
-                    [src]="trustedEEVideoURL()">
+                    [src]="trustedEEVideoURL"
+                    allowfullscreen>
             </iframe>
           </div>
         </div>
