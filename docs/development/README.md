@@ -120,7 +120,7 @@ If you want to contribute to OpenProject, please make sure to accept our Contrib
 # Additional resources
 
 
-* [Development environment for Ubuntu 16.04.](development-environment-ubuntu)
+* [Development environment for Ubuntu 18.04](development-environment-ubuntu)
 * [Development environment for Mac OS X](development-environment-osx)
 * [Development environment using docker](development-environment-docker)
 

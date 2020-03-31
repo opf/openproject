@@ -21,6 +21,7 @@ Users can book their time or units spent on an activity within a project directl
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work packages?                            |
+| [Track time with Toggl](/toggl-integration)                  | How to stop spent time with Toggl integration?               |
 | [Logging time via commit message](#logging-time-via-a-commit message) | How to log time via a commit message to a work package?      |
 | [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package?                   |
 | [Delete time entries](#delte-time-entires)                   | How to delete time entries logged to a work package?         |

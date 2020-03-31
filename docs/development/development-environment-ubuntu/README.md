@@ -5,7 +5,7 @@ To develop OpenProject a setup similar to that for using OpenProject in producti
 This guide assumes that you have a Ubuntu 18.04 installation with administrative rights. This guide will work
 analogous with all other distributions, but may require slight changes in the required packages. _Please, help us to extend this guide with information on other distributions should there be required changes._
 
-OpenProject will be installed with a PostgreSQL database. 
+OpenProject will be installed with a PostgreSQL database.
 
 **Please note**: This guide is NOT suitable for a production setup, but only for developing with it!
 
@@ -32,7 +32,7 @@ ruby-build is an addon to rbenv that installs ruby versions.
 ```bash
 # Install rbenv locally for the dev user
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-# Optional: Compile bash extensions 
+# Optional: Compile bash extensions
 cd ~/.rbenv && src/configure && make -C src
 # Add rbenv to the shell's $PATH.
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
@@ -54,7 +54,7 @@ git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 **Installing ruby-2.6**
 
 With both installed, we can now install the actual ruby version 2.6. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `2.6.3`, which we also require.
+At the time of this writing, the latest stable version is `2.6.5`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
@@ -134,12 +134,13 @@ git clone https://github.com/nodenv/node-build.git $(nodenv root)/plugins/node-b
 **Install latest LTS node version**
 
 You can find the latest LTS version here: https://nodejs.org/en/download/
-Currently, this is v12.13.0 Install and activate it with:
+
+At the time of writing this is v12.16.1 Install and activate it with:
 
 ```bash
-nodenv install 12.13.0
-nodenv global 12.13.0
-nodenv rehash 
+nodenv install 12.16.1
+nodenv global 12.16.1
+nodenv rehash
 ```
 
 ## Verify your installation
@@ -154,7 +155,7 @@ bundler --version
 Bundler version 2.0.2
 
 npm --version
-6.12.0
+12.6.1
 ```
 
 # Install OpenProject
