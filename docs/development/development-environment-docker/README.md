@@ -12,7 +12,10 @@ First you will need to checkout the code as usual.
 git clone https://github.com/opf/openproject.git
 ```
 
-This will checkout the dev branch in `openproject`. Change into that directory.
+This will checkout the dev branch in `openproject`. **Change into that directory.**
+
+If you have OpenProject checked out already make sure that you do not have a `config/database.yml`
+as that will interfere with the database connection inside of the docker containers.
 
 ### 2) Execute the setup
 
