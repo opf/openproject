@@ -53,8 +53,3 @@ Please choose the module you want to learn more about.
 | [Documents](documents)                        | How to upload and share documents in OpenProject?            |
 | [Meetings](meetings)                          | How to manage meetings to create and share meeting agenda and meeting minutes? |
 | [Manage projects](projects)                   | Edit, create, copy, delete projects and change project settings. |
-
-## Overview of OpenProject vs Jira
-
-If you would like to learn more about the features of OpenProject vs Jira please read [here](https://www.openproject.org/jira-alternative/).
-The move from Jira to OpenProject can be done via an [Excel plugin](https://www.openproject.org/de/synchronize-excel-openproject/) which means first exporting your tasks from Jira into Excel and then import into OpenProject.

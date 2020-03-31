@@ -35,3 +35,16 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 | [Work package relations and hierarchies](work-package-relations-hierarchies) | How to create work package relations and hierarchies?        |
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/H-M6k-fFht8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Frequently asked questions (FAQ)
+
+### How to copy work package hierarchies with their relations?
+
+You can create work package templates with hierarchies (parent and child work packages) and copy these templates, inkl. the relations.
+First, navigate to the work package table. Highlight all work packages (in the hierarchy) which you want to copy. **To highlight and edit several work packages at once, keep Ctrl pressed** and select the ones to be copied.
+
+**Press a RIGHT mouse click on the highlighted work packages**. This will open the in context menu to edit work packages.
+
+Select **Bulk copy** in order to copy all selected work packages including their relations.
+
+![image-20200331132513748](image-20200331132513748.png)
