@@ -12,6 +12,7 @@ en:
     ifc_models:
       empty_warning: "This project does not yet have any IFC models."
       use_this_link_to_manage: "Use this link to upload and manage your IFC models"
+      click_to_regain_focus: "Click on the viewer to regain mouse and keyboard control of it."
       models:
         default: 'Default IFC models'
         manage: 'Manage models'

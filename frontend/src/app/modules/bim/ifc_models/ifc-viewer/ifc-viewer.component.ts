@@ -26,32 +26,47 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
 import {IfcModelsDataService} from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import ClickEvent = JQuery.ClickEvent;
 
 @Component({
   selector: 'ifc-viewer',
   templateUrl: './ifc-viewer.component.html',
+  styleUrls: ['./ifc-viewer.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IFCViewerComponent implements OnInit, OnDestroy {
-  private viewerUI:any;
-
   modelCount = this.ifcData.models.length;
 
   canManage = this.ifcData.allowed('manage_ifc_models');
 
   text = {
     empty_warning: this.I18n.t('js.ifc_models.empty_warning'),
-    use_this_link_to_manage: this.I18n.t('js.ifc_models.use_this_link_to_manage')
+    use_this_link_to_manage: this.I18n.t('js.ifc_models.use_this_link_to_manage'),
+    regain_focus: this.I18n.t('js.ifc_models.click_to_regain_focus')
   };
+
+  focused:boolean = false;
+
+  @ViewChild('ifcViewerContainer') private ifcViewerContainer:ElementRef;
 
   constructor(private I18n:I18nService,
               private elementRef:ElementRef,
               private ifcData:IfcModelsDataService,
-              private ifcViewer:IFCViewerService) {
+              private ifcViewer:IFCViewerService,
+              private cdRef:ChangeDetectorRef) {
   }
 
   ngOnInit():void {
@@ -75,5 +90,20 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy():void {
     this.ifcViewer.destroy();
+  }
+
+  focus(event:ClickEvent, value:boolean) {
+    this.focused = value;
+    this.cdRef.detectChanges();
+
+    event.stopImmediatePropagation();
+    event.preventDefault();
+  }
+
+  @HostListener('document:mousedown', ['$event'])
+  clickout(event:ClickEvent) {
+    if (!this.ifcViewerContainer.nativeElement.contains(event.target)) {
+      this.focused = false;
+    }
   }
 }

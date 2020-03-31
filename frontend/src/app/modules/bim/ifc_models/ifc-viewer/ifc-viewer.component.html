@@ -12,7 +12,13 @@
   </div>
 </div>
 
-<div class="ifc-model-viewer--container xeokit-busy-modal-backdrop">
+<div #ifcViewerContainer
+     class="ifc-model-viewer--container xeokit-busy-modal-backdrop">
+  <div class="ifc-model-viewer--focus-trap"
+       *ngIf="!focused"
+       (click)="focus($event, true)">
+    <p class="ifc-model-viewer--focus-note" [textContent]="text.regain_focus"></p>
+  </div>
   <div class="ifc-model-viewer--toolbar-container"></div>
   <canvas class="ifc-model-viewer--model-canvas"></canvas>
 </div>
