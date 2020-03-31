@@ -1,0 +1,19 @@
+#!/bin/sh
+
+echo "Waiting for bundle installation and db setup to finish..."
+touch tmp/.seeding_status
+(tail -f -n0 tmp/.seeding_status & ) | timeout 240 grep -q done
+
+if [ ! $? -eq 0 ]
+then
+  echo "DB not ready"
+
+  exit 1
+fi
+
+bin/setup_dev \
+  && cd frontend \
+  && npm install \
+  && node \
+    --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve \
+      --host 0.0.0.0 --port 4200 --public-host http://locahost:4200
