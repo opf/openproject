@@ -1449,7 +1449,7 @@ nl:
   label_new: "Nieuw"
   label_new_features: "New features"
   label_new_statuses_allowed: "Nieuwe statussen toegestaan"
-  label_news: "Nieuws"
+  label_news_singular: "Nieuws"
   label_news_added: "Nieuws toegevoegd"
   label_news_comment_added: "Commentaar toegevoegd aan nieuws"
   label_news_latest: "Laatste nieuws"

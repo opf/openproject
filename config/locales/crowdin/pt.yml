@@ -1447,7 +1447,7 @@ pt:
   label_new: "Novo"
   label_new_features: "Novas funcionalidades"
   label_new_statuses_allowed: "Permitidos novos estados"
-  label_news: "Noticias"
+  label_news_singular: "Noticias"
   label_news_added: "Notícia adicionada"
   label_news_comment_added: "Comentário adicionado às notícias"
   label_news_latest: "Últimas Notícias"

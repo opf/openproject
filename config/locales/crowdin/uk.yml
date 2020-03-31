@@ -1481,7 +1481,7 @@ uk:
   label_new: "Новий"
   label_new_features: "Нові можливості"
   label_new_statuses_allowed: "Дозволені нові статуси"
-  label_news: "Новини"
+  label_news_singular: "Новини"
   label_news_added: "Новину додано"
   label_news_comment_added: "Добавлено новий коментар до новини"
   label_news_latest: "Останні новини"

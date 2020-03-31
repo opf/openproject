@@ -1480,7 +1480,7 @@ ru:
   label_new: "Новое"
   label_new_features: "Новые особенности"
   label_new_statuses_allowed: "Новые статусы разрешены"
-  label_news: "Новости"
+  label_news_singular: "Новости"
   label_news_added: "Новость добавлена"
   label_news_comment_added: "Комментарий добавлен в Новости"
   label_news_latest: "Последние новости"

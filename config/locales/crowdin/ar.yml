@@ -1513,7 +1513,7 @@ ar:
   label_new: "جديد"
   label_new_features: "New features"
   label_new_statuses_allowed: "الحالات الجديدة المسموح بها"
-  label_news: "الأخبار"
+  label_news_singular: "الأخبار"
   label_news_added: "تم إضافة أحداث"
   label_news_comment_added: "تم إضافة تعليق إلى أحداث"
   label_news_latest: "آخر الأحداث"

@@ -1449,7 +1449,7 @@ tr:
   label_new: "Yeni"
   label_new_features: "Yeni özellikler"
   label_new_statuses_allowed: "İzin verilen yeni durumlar"
-  label_news: "Haberler"
+  label_news_singular: "Haberler"
   label_news_added: "Haberler eklendi"
   label_news_comment_added: "Yorum bir haberlere eklendi"
   label_news_latest: "En son haberler"

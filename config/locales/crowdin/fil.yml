@@ -1449,7 +1449,7 @@ fil:
   label_new: "Bago"
   label_new_features: "New features"
   label_new_statuses_allowed: "Pinayagang bagong estado"
-  label_news: "Mga balita"
+  label_news_singular: "Mga balita"
   label_news_added: "Bagong idinagdag"
   label_news_comment_added: "Ang komento idinagdag sa mga balita"
   label_news_latest: "Pinakamabagong balita"

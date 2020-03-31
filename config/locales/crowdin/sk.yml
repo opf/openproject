@@ -1481,7 +1481,7 @@ sk:
   label_new: "Nový"
   label_new_features: "New features"
   label_new_statuses_allowed: "Nové stavy povolené"
-  label_news: "Novinky"
+  label_news_singular: "Novinky"
   label_news_added: "Novinky pridané"
   label_news_comment_added: "Komentár pridaný do Novinky"
   label_news_latest: "Najnovšie novinky"

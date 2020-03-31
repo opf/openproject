@@ -1449,7 +1449,7 @@
   label_new: "Ny"
   label_new_features: "New features"
   label_new_statuses_allowed: "Nye statuser tillatt"
-  label_news: "Nyheter"
+  label_news_singular: "Nyheter"
   label_news_added: "Lagt til nyhet"
   label_news_comment_added: "Kommentar lagt til en nyhet"
   label_news_latest: "Siste nyheter"

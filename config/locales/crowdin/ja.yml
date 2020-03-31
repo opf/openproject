@@ -1431,7 +1431,7 @@ ja:
   label_new: "新しく作成"
   label_new_features: "新機能"
   label_new_statuses_allowed: "ステータスの移行先"
-  label_news: "ニュース"
+  label_news_singular: "ニュース"
   label_news_added: "ニュースが追加されました。"
   label_news_comment_added: "ニュースにコメントが追加されました。"
   label_news_latest: "最新のニュース"

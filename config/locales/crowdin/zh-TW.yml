@@ -1433,7 +1433,7 @@ zh-TW:
   label_new: "新增"
   label_new_features: "New features"
   label_new_statuses_allowed: "允許的新狀態"
-  label_news: "新知"
+  label_news_singular: "新知"
   label_news_added: "消息已新增"
   label_news_comment_added: "評論已新增"
   label_news_latest: "最新消息"

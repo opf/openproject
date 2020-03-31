@@ -692,7 +692,7 @@ de:
         status: "Status"
         subject: "Thema"
         title: "Titel"
-        type: "Art"
+        type: "Typ"
         updatedAt: "Aktualisiert am"
         versionName: "Version"
         version: "Version"
@@ -763,7 +763,7 @@ de:
           entire_row_by: 'Gesamte Zeile durch'
           status: 'Status'
           priority: 'Priorität'
-          type: 'Art'
+          type: 'Typ'
         sorting_mode:
           description: 'Wählen Sie den Sortiermodus für Arbeitspakete aus:'
           automatic: 'Automatisch'

@@ -1479,7 +1479,7 @@ pl:
   label_new: "Nowy"
   label_new_features: "Nowe funkcje"
   label_new_statuses_allowed: "Nowe statusy dozwolone"
-  label_news: "Aktualności"
+  label_news_singular: "Aktualności"
   label_news_added: "Wiadomość dodana"
   label_news_comment_added: "Komentarz został dodany do wiadomości"
   label_news_latest: "Najnowsze wiadomości"

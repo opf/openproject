@@ -1432,7 +1432,7 @@ id:
   label_new: "Baru"
   label_new_features: "New features"
   label_new_statuses_allowed: "Status baru yang diijinkan"
-  label_news: "News"
+  label_news_singular: "News"
   label_news_added: "News ditambahkan"
   label_news_comment_added: "Komentar ditambahkan ke dalam Berita"
   label_news_latest: "Berita terbaru"

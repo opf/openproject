@@ -1446,7 +1446,7 @@ el:
   label_new: "Νέο"
   label_new_features: "Νέες λειτουργίες"
   label_new_statuses_allowed: "Επιτρέπονται νέες καταστάσεις"
-  label_news: "Νέα"
+  label_news_singular: "Νέα"
   label_news_added: "Νέα προστέθηκαν"
   label_news_comment_added: "Το σχόλιο προστέθηκε σε ένα από τα νέα"
   label_news_latest: "Τελευταία νέα"

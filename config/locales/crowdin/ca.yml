@@ -1449,7 +1449,7 @@ ca:
   label_new: "Nou"
   label_new_features: "New features"
   label_new_statuses_allowed: "Nous estats permesos"
-  label_news: "Notícies"
+  label_news_singular: "Notícies"
   label_news_added: "Notícies afegides"
   label_news_comment_added: "S'ha afegit un comentari a la notícia"
   label_news_latest: "Últimes noticies"

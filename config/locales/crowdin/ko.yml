@@ -1432,7 +1432,7 @@ ko:
   label_new: "새로 만들기"
   label_new_features: "새로운 기능"
   label_new_statuses_allowed: "새 상태 허용됨"
-  label_news: "뉴스"
+  label_news_singular: "뉴스"
   label_news_added: "뉴스 추가됨"
   label_news_comment_added: "뉴스에 추가된 코멘트"
   label_news_latest: "최신 뉴스"

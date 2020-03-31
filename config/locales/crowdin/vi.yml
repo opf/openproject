@@ -1435,7 +1435,7 @@ vi:
   label_new: "Mới"
   label_new_features: "New features"
   label_new_statuses_allowed: "Trạng thái mới được phép"
-  label_news: "Tin tức"
+  label_news_singular: "Tin tức"
   label_news_added: "Đã thêm tin"
   label_news_comment_added: "Bình luận được thêm vào một tin tức"
   label_news_latest: "Tin mới"

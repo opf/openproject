@@ -1430,7 +1430,7 @@ zh-CN:
   label_new: "新增"
   label_new_features: "新功能"
   label_new_statuses_allowed: "允许的新状态"
-  label_news: "新闻"
+  label_news_singular: "新闻"
   label_news_added: "添加新闻"
   label_news_comment_added: "评论添加到新闻"
   label_news_latest: "最新消息"

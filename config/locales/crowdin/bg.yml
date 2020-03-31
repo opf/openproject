@@ -1449,7 +1449,7 @@ bg:
   label_new: "Нов"
   label_new_features: "New features"
   label_new_statuses_allowed: "Новите статуси за разрешени"
-  label_news: "Новини"
+  label_news_singular: "Новини"
   label_news_added: "Добавени новини"
   label_news_comment_added: "Коментар, добавен към новини"
   label_news_latest: "Последни новини"

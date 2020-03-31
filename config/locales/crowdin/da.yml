@@ -1449,7 +1449,7 @@ da:
   label_new: "Ny"
   label_new_features: "New features"
   label_new_statuses_allowed: "Nye statuser tilladt"
-  label_news: "Nyheder"
+  label_news_singular: "Nyheder"
   label_news_added: "Nyheder tilføjet"
   label_news_comment_added: "Kommentar tilføjet til en nyhed"
   label_news_latest: "Seneste nyhed(er)"

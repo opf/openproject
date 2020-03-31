@@ -1449,7 +1449,7 @@ fi:
   label_new: "Uusi"
   label_new_features: "New features"
   label_new_statuses_allowed: "Uudet tilat sallittu"
-  label_news: "Uutiset"
+  label_news_singular: "Uutiset"
   label_news_added: "Uutinen lisätty"
   label_news_comment_added: "Kommentti lisätty uutiseen"
   label_news_latest: "Viimeisimmät uutiset"

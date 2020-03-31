@@ -1446,7 +1446,7 @@ hu:
   label_new: "Új"
   label_new_features: "New features"
   label_new_statuses_allowed: "Létrehozás engedélyezett az alábbi státuszokkal"
-  label_news: "Hírek"
+  label_news_singular: "Hírek"
   label_news_added: "Hírek hozzáadva"
   label_news_comment_added: "Megjegyzés hozzáadása a hírekhet"
   label_news_latest: "Legfrissebb hírek"

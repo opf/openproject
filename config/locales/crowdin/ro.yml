@@ -1465,7 +1465,7 @@ ro:
   label_new: "Nou"
   label_new_features: "New features"
   label_new_statuses_allowed: "Stări noi permise"
-  label_news: "Noutăţi"
+  label_news_singular: "Noutăţi"
   label_news_added: "Noutăți adăugate"
   label_news_comment_added: "Comentariu adăugat la noutăți"
   label_news_latest: "Ultimele noutăți"

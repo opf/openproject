@@ -1448,7 +1448,7 @@ fr:
   label_new: "nouveau"
   label_new_features: "Nouvelles fonctionnalités"
   label_new_statuses_allowed: "Nouveaux statuts autorisés"
-  label_news: "Actualités"
+  label_news_singular: "Actualités"
   label_news_added: "Actualités ajoutées"
   label_news_comment_added: "Commentaire ajouté à une actualité"
   label_news_latest: "Dernière actualité"

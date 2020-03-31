@@ -1478,7 +1478,7 @@ lt:
   label_new: "Naujas"
   label_new_features: "Naujos savybės"
   label_new_statuses_allowed: "Naujos galimos būsenos"
-  label_news: "Naujienos"
+  label_news_singular: "Naujienos"
   label_news_added: "Pridėta naujiena"
   label_news_comment_added: "Prie naujienos pridėtas komentaras"
   label_news_latest: "Paskutinės naujienos"
