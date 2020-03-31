@@ -417,7 +417,7 @@ de:
         activity: "Aktivität"
         hours: "Stunden"
         spent_on: "Datum"
-        type: "Art"
+        type: "Typ"
       type:
         description: "Standardtext für Beschreibung"
         attribute_groups: ''
@@ -470,7 +470,7 @@ de:
         spent_time: "Aufgewendete Zeit"
         subproject: "Unterprojekt"
         time_entries: "Zeit buchen"
-        type: "Art"
+        type: "Typ"
         watcher: "Beobachter"
       'doorkeeper/application':
         uid: "Client-ID"
@@ -678,7 +678,7 @@ de:
       role:
         one: "Rollen"
         other: "Rollen"
-      type: "Art"
+      type: "Typ"
       user: "Benutzer"
       version: "Version"
       wiki: "Wiki"
@@ -743,7 +743,7 @@ de:
     subject: "Thema"
     summary: "Zusammenfassung"
     title: "Titel"
-    type: "Art"
+    type: "Typ"
     updated_at: "Aktualisiert am"
     updated_on: "Aktualisiert am"
     uploader: "Bereitgestellt von"
@@ -2374,7 +2374,7 @@ de:
         default: "Standard"
       column:
         assigned_to: "Zugewiesen an"
-        type: "Art"
+        type: "Typ"
         due_date: "Abschlussdatum"
         name: "Name"
         status: "Status"
