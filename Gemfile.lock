@@ -200,7 +200,7 @@ PATH
   remote: modules/recaptcha
   specs:
     openproject-recaptcha (1.0.0)
-      recaptcha (~> 5.1.0)
+      recaptcha (~> 5.5)
 
 PATH
   remote: modules/reporting_engine
@@ -784,7 +784,7 @@ GEM
       ffi (~> 1.0)
     rbtree3 (0.5.0)
     rdoc (6.1.1)
-    recaptcha (5.1.0)
+    recaptcha (5.5.0)
       json
     redcarpet (3.4.0)
     reform (2.2.4)
