@@ -179,7 +179,7 @@ module OpenProject::Plugins
       # block:         Pass a block to the plugin (for defining permissions, menu items and the like)
       def register(gem_name, options, &block)
         self.class.initializer "#{engine_name}.register_plugin" do
-          spec = Bundler.environment.specs[gem_name][0]
+          spec = Bundler.load.specs[gem_name][0]
 
           p = Redmine::Plugin.register engine_name.to_sym do
             name spec.summary
