@@ -33,8 +33,10 @@ import {EnterpriseTrialModal} from "core-components/enterprise/enterprise-modal/
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
 
+export const enterpriseBaseSelector = 'enterprise-base';
+
 @Component({
-  selector: 'enterprise-base',
+  selector: enterpriseBaseSelector,
   templateUrl: './enterprise-base.component.html',
   styleUrls: ['./enterprise-base.component.sass']
 })
@@ -69,5 +71,5 @@ export class EnterpriseBaseComponent {
 }
 
 DynamicBootstrapper.register({
-  selector: 'enterprise-base', cls: EnterpriseBaseComponent
+  selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent
 });
