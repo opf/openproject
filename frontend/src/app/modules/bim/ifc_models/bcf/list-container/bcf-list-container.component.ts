@@ -25,6 +25,10 @@ import {wpDisplayCardRepresentation} from "core-app/modules/work_packages/routin
 export class BcfListContainerComponent extends WorkPackageListViewComponent implements OnInit {
   @InjectField() bimView:BimViewService;
 
+  public wpTableConfiguration = {
+    dragAndDropEnabled: false
+  };
+
   protected updateViewRepresentation(query:QueryResource) {
     this.wpDisplayRepresentation.setDisplayRepresentation(wpDisplayCardRepresentation);
     this.showListView = false;
