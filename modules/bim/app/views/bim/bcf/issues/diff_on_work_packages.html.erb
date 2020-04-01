@@ -65,7 +65,7 @@
   <p><%= t('bcf.bcf_xml.import.perform_description') %></p>
   <%= submit_tag t('bcf.bcf_xml.import.button_perform_import'), class: 'button -highlight' %>
   <%= link_to t(:button_cancel),
-              project_work_packages_path(@project),
+              defaults_bcf_project_ifc_models_path(@project),
               class: 'button' %>
 <% end %>
 

@@ -86,7 +86,7 @@ module Bim
       end
 
       def redirect_to_bcf_issues_list
-        redirect_to project_work_packages_path(@project)
+        redirect_to defaults_bcf_project_ifc_models_path(@project)
       end
 
       private
