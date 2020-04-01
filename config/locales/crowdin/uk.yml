@@ -2570,6 +2570,7 @@ uk:
       mail_self_notified: "Я хочу отримувати повідомлення про зміни, які я роблю сам"
     status_user_and_brute_force: "%{user} і %{brute_force}"
     status_change: "Зміна стану"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Розблокувати"
     unlock_and_reset_failed_logins: "Розблокувати та скинути помилки входу до системи"
   version_status_closed: "зачинено"

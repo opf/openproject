@@ -2523,6 +2523,7 @@ fr:
       mail_self_notified: "Je veux être notifié des modifications que je fais moi-même"
     status_user_and_brute_force: "%{user} et %{brute_force}"
     status_change: "Changement de statut"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Déverrouiller"
     unlock_and_reset_failed_logins: "Déverrouiller et réinitialiser les échecs de connexion"
   version_status_closed: "clôturé"

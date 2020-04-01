@@ -2521,6 +2521,7 @@ es:
       mail_self_notified: "Deseo ser notificado de los cambios realizados por mí"
     status_user_and_brute_force: "%{user} y %{brute_force}"
     status_change: "Cambio de estado"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Desbloquear"
     unlock_and_reset_failed_logins: "Desbloquear y resetear los inicios de sesión fallidos"
   version_status_closed: "cerrado"

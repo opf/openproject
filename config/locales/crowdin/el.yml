@@ -2521,6 +2521,7 @@ el:
       mail_self_notified: "Θέλω να ειδοποιούμαι για τις δικές μου αλλαγές"
     status_user_and_brute_force: "%{user} και %{brute_force}"
     status_change: "Αλλαγή κατάστασης"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Ξεκλείδωμα"
     unlock_and_reset_failed_logins: "Ξεκλειδώστε και επαναφέρετε τις αποτυχημένες συνδέσεις"
   version_status_closed: "κλειστό"

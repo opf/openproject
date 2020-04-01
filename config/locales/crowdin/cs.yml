@@ -2569,6 +2569,7 @@ cs:
       mail_self_notified: "Chci být informován o změnách, které dělám sám"
     status_user_and_brute_force: "%{user} a %{brute_force}"
     status_change: "Změna stavu"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Odemknout"
     unlock_and_reset_failed_logins: "Odemknout a resetovat nezdařené přihlášení"
   version_status_closed: "uzavřeno"

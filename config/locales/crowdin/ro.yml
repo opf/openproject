@@ -2546,6 +2546,7 @@ ro:
       mail_self_notified: "Vreau să fiu notificat pentru modificările pe care le fac eu"
     status_user_and_brute_force: "%{user} şi %{brute_force}"
     status_change: "Status change"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Deblocare"
     unlock_and_reset_failed_logins: "Deblocare şi resetare autentificări eşuate"
   version_status_closed: "închis"

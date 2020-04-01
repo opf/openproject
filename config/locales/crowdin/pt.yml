@@ -2520,6 +2520,7 @@ pt:
       mail_self_notified: "Quero ser notificado de alterações feitas por mim"
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Alteração de estado"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Desbloquear"
     unlock_and_reset_failed_logins: "Desbloquear e redefinir logins errados"
   version_status_closed: "fechado"

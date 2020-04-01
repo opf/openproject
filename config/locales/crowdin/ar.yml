@@ -2614,6 +2614,7 @@ ar:
       mail_self_notified: "أريد إعلامك بالتغييرات التي فعلتها"
     status_user_and_brute_force: "%{user} و %{brute_force}"
     status_change: "Status change"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "فتح القفل"
     unlock_and_reset_failed_logins: "فتح وإعادة تعيين تسجيلات الدخول الفاشلة"
   version_status_closed: "مغلق"

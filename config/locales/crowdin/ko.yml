@@ -2498,6 +2498,7 @@ ko:
       mail_self_notified: "내가 만든 것이 변경되면 알림을 받고 싶습니다."
     status_user_and_brute_force: "%{user} 및 %{brute_force}"
     status_change: "상태 변경"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "잠금 해제"
     unlock_and_reset_failed_logins: "실패한 로그인 잠금 해제 및 재설정"
   version_status_closed: "닫음"

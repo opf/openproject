@@ -2547,6 +2547,7 @@ hr:
       mail_self_notified: "Želim biti obavješten o promjenama koje sam izvršio"
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Status change"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Otključaj"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "zaključen"
