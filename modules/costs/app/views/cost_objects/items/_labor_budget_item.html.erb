@@ -78,7 +78,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <td class="currency budget-table--fields">
         <%# Keep current budget as hidden field because otherwise they will be overridden %>
         <% if templated == false && !labor_budget_item.new_record? && labor_budget_item.overridden_budget? %>
-          <%= cost_form.hidden_field :budget, value: labor_budget_item.budget %>
+          <%= cost_form.hidden_field :budget, value: unitless_currency_number(labor_budget_item.budget) %>
         <% end %>
 
         <% cost_value = labor_budget_item.budget || labor_budget_item.calculated_costs(@cost_object.fixed_date, @cost_object.project_id) %>
