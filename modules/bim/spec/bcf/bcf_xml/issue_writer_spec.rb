@@ -177,6 +177,13 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
       expect(subject.at('/Markup/Comment[2]/Comment').content).to eql("Some note created in OP.")
       expect(Bim::Bcf::Comment.count).to eql(2)
     end
+
+    it 'replaces the BCF viewpoints names to use its uuid only' do
+      uuid = bcf_issue.viewpoints.first.uuid
+      viewpoint_node = subject.at("/Markup/Viewpoints[@Guid='#{uuid}']")
+      expect(viewpoint_node.at('Viewpoint').content).to eql("#{uuid}.xml")
+      expect(viewpoint_node.at('Snapshot').content).to eql("#{uuid}.jpg")
+    end
   end
 
   def url_helpers
