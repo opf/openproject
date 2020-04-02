@@ -16,8 +16,8 @@ export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
   @Output() resourceChanged = new EventEmitter<WidgetChangeset>();
 
   public get widgetName():string {
-    let editableName = this.resource.options.name as string;
-    let widgetIdentifier = this.resource.identifier;
+    let editableName = this.resource?.options.name as string;
+    let widgetIdentifier = this.resource?.identifier;
 
     if (this.isEditable) {
       return editableName;
