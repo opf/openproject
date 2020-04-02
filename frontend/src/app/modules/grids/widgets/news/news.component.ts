@@ -38,14 +38,30 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   ngOnInit() {
     this.newsDm
       .list(this.newsDmParams)
+<<<<<<< HEAD
       .then(collection => this.setupNews(collection.elements));
   }
 
+=======
+      .then((collection) => {
+        
+      var dsd=collection.elements ;
+          this.setupNews(dsd);
+      });
+  }
+>>>>>>> 582b3df56f41d4897116b40b8c44ce200612126a
 
   public setupNews(news:any[]) {
     this.entries = news;
     this.entriesLoaded = true;
 
+<<<<<<< HEAD
+=======
+    const users_loaded = this.setAuthors();
+
+    Promise.all(users_loaded)
+      .then(() => this.cdr.detectChanges());
+>>>>>>> 582b3df56f41d4897116b40b8c44ce200612126a
   }
 
   public get isEditable() {
@@ -53,11 +69,19 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   public newsPath(news:NewsResource) {
+<<<<<<< HEAD
    return this.pathHelper.newsPath(news.id!);
   }
 
   public newsProjectPath(news:NewsResource) {
     return this.pathHelper.projectPath(news.project?.idFromLink);
+=======
+   // return this.pathHelper.newsPath(news.id!);
+  }
+
+  public newsProjectPath(news:NewsResource) {
+    //return this.pathHelper.projectPath(news.project?.idFromLink);
+>>>>>>> 582b3df56f41d4897116b40b8c44ce200612126a
   }
 
   public newsProjectName(news:NewsResource) {
@@ -69,7 +93,11 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   public newsAuthorPath(news:NewsResource) {
+<<<<<<< HEAD
     return this.pathHelper.userPath(news.author?.id);
+=======
+    //return this.pathHelper.userPath(news.author?.id);
+>>>>>>> 582b3df56f41d4897116b40b8c44ce200612126a
   }
 
   public newsCreated(news:NewsResource) {
