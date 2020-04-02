@@ -45,11 +45,9 @@ Both the package and docker based installations will install and setup the follo
 
 ## Client
 
-OpenProject supports the latest versions of the major browsers. In our
-strive to make OpenProject easy and fun to use we had to drop support
-for some older browsers (e.g. IE 11).
+OpenProject supports the latest versions of the major browsers. 
 
-* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (At least ESR version 60)
+* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (at least ESR version 68.6.0)
 * [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge)
 * [Google Chrome](https://www.google.com/chrome/browser/desktop/)
 * [Apple Safari](https://www.apple.com/safari/)
