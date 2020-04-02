@@ -49,7 +49,7 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {Observable, of} from "rxjs";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {map} from "rxjs/internal/operators";
+import {map, tap} from "rxjs/internal/operators";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
@@ -62,6 +62,11 @@ interface SearchResultItem {
   status:string;
   statusId:string;
   $href:string;
+}
+
+interface SearchOptionItem {
+  projectScope:string;
+  text:string;
 }
 
 @Component({
@@ -77,19 +82,25 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
   public expanded:boolean = false;
-  public suggestions:any[];
+  public markable = false;
 
   /** Keep a switchmap for search term and loading state */
-  public requests = new DebouncedRequestSwitchmap<string, SearchResultItem>(
-    (searchTerm:string) => this.autocompleteWorkPackages(searchTerm),
+  public requests = new DebouncedRequestSwitchmap<string, SearchResultItem|SearchOptionItem>(
+    (searchTerm:string) => this.autocompleteWorkPackages(searchTerm).pipe(
+      tap(() => {
+        setTimeout(() => this.setMarkedOption(), 50);
+      })
+    ),
     errorNotificationHandler(this.halNotification)
   );
 
   /** Remember the current value */
   public currentValue:string = '';
 
-  /** Remember if we have found an exact ID match */
-  public exactMatchedWpId:string|null = null
+  /** Remember the item that best matches the query.
+   * That way, it will be highlighted (as we manually mark the selected item) and we can handle enter.
+   * */
+  public selectedItem:SearchResultItem|SearchOptionItem|null;
 
   private unregisterGlobalListener:Function|undefined;
 
@@ -117,7 +128,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     // check searchterm on init, expand / collapse search bar and set correct classes
     this.ngSelectComponent.searchTerm = this.currentValue = this.globalSearchService.searchTerm;
     this.expanded = (this.ngSelectComponent.searchTerm.length > 0);
-    jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
+    this.toggleTopMenuClass();
   }
 
   ngOnDestroy() {
@@ -147,20 +158,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   // open or close mobile search
   public toggleMobileSearch() {
     this.expanded = !this.expanded;
-    jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
-  }
-
-  // load selected item
-  public onChange($event:any) {
-    let selectedOption = $event;
-    // Clicks on will be handled by other handler
-    if (selectedOption.id) {
-      window.location.href = this.wpPath(selectedOption.id);
-    } else {
-      // update embedded table and title when new search is submitted
-      this.globalSearchService.searchTerm = this.currentValue;
-      this.searchInScope(selectedOption.projectScope);
-    }
+    this.toggleTopMenuClass();
   }
 
   public redirectToWp(id:string, event:JQuery.TriggeredEvent) {
@@ -190,7 +188,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   public onFocus() {
     this.expanded = true;
-    jQuery('#top-menu').addClass('-global-search-expanded');
+    this.toggleTopMenuClass();
     this.openCloseMenu(this.currentValue);
   }
 
@@ -198,7 +196,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     if (!this.deviceService.isMobile) {
       this.expanded = (this.ngSelectComponent.searchTerm.length > 0);
       this.ngSelectComponent.isOpen = false;
-      jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
+      this.toggleTopMenuClass();
     }
   }
 
@@ -211,11 +209,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   public onEnterBeforeResultsLoaded() {
     if (!this.requests.hasResults) {
       this.searchInScope(this.currentScope);
-      return;
-    }
-
-    if (this.exactMatchedWpId) {
-      window.location.href = this.wpPath(this.exactMatchedWpId);
+    } else {
+      this.followSelectedItem();
     }
   }
 
@@ -223,66 +218,147 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     return Highlighting.inlineClass('status', statusId);
   }
 
+  private get isDirectHit() {
+    return this.selectedItem && this.selectedItem.hasOwnProperty('id');
+  }
+
+  public followItem(item:SearchResultItem|SearchOptionItem) {
+    if (item.hasOwnProperty('id')) {
+      window.location.href = this.wpPath((item as SearchResultItem).id);
+    } else {
+      // update embedded table and title when new search is submitted
+      this.globalSearchService.searchTerm = this.currentValue;
+      this.searchInScope((item as SearchOptionItem).projectScope);
+    }
+  }
+
+  public followSelectedItem() {
+    if (this.selectedItem) {
+      this.followItem(this.selectedItem);
+    }
+  }
+
   // return all project scope items and all items which contain the search term
   public customSearchFn(term:string, item:any):boolean {
     return item.id === undefined || item.subject.toLowerCase().indexOf(term.toLowerCase()) !== -1;
   }
 
-  private autocompleteWorkPackages(query:string):Observable<SearchResultItem[]> {
+  private autocompleteWorkPackages(query:string):Observable<(SearchResultItem|SearchOptionItem)[]> {
     if (!query) {
       return of([]);
     }
 
-    // Remove ID marker # when searching for #<number>
-    if (query.match(/^#(\d+)/)) {
-      query = query.substr(1);
-    }
+    // Reset the currently selected item.
+    // We do not follow the typical goal of an autocompleter of "setting a value" here.
+    this.selectedItem = null;
+    // Hide highlighting of ng-option
+    this.markable = false;
 
-    // Test for exact ID matches
-    this.exactMatchedWpId = null;
 
-    let href:string = this.PathHelperService.api.v3.wpBySubjectOrId(query);
+    let hashFreeQuery = this.queryWithoutHash(query);
 
-    this.addSuggestions();
-
-    return this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(href)
+    return this.fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
       .pipe(
         map((collection) => {
-          return this.suggestions.concat(collection.elements.map((wp) => {
-            if (query === wp.id!.toString()) {
-              this.exactMatchedWpId = query;
-            }
-
-            return {
-              id: wp.id!,
-              subject: wp.subject,
-              status: wp.status.name,
-              statusId: wp.status.idFromLink,
-              $href: wp.$href
-            };
-          }));
+          return this.searchResultsToOptions(collection.elements, hashFreeQuery);
         })
       );
   }
 
+  // Remove ID marker # when searching for #<number>
+  private queryWithoutHash(query:string) {
+    if (query.match(/^#(\d+)/)) {
+      return query.substr(1);
+    } else {
+      return query;
+    }
+  }
+
+  private fetchSearchResults(query:string, idOnly:boolean) {
+    let href:string = this.PathHelperService.api.v3.wpBySubjectOrId(query, idOnly);
+
+    return this.halResourceService
+      .get<CollectionResource<WorkPackageResource>>(href);
+
+  }
+
+  private searchResultsToOptions(results:WorkPackageResource[], query:string) {
+    let searchItems = results.map((wp) => {
+      let item =  {
+        id: wp.id!,
+        subject: wp.subject,
+        status: wp.status.name,
+        statusId: wp.status.idFromLink,
+        $href: wp.$href
+      } as SearchResultItem;
+
+      // If we have a direct hit, we choose it to be the selected element.
+      if (query === wp.id!.toString()) {
+        this.selectedItem = item;
+      }
+
+      return item;
+    });
+
+    let searchOptions = this.detailedSearchOptions();
+
+    if (!this.selectedItem) {
+      this.selectedItem = searchOptions[0];
+    }
+
+    return (searchOptions as (SearchResultItem|SearchOptionItem)[]).concat(searchItems);
+  }
+
   // set the possible 'search in scope' options for the current project path
-  private addSuggestions() {
-    this.suggestions = [];
+  private detailedSearchOptions() {
+    let searchOptions = [];
     // add all options when searching within a project
     // otherwise search in 'all projects'
     if (this.currentProjectService.path) {
-      this.suggestions.push('current_project_and_all_descendants');
-      this.suggestions.push('current_project');
+      searchOptions.push('current_project_and_all_descendants');
+      searchOptions.push('current_project');
     }
     if (this.globalSearchService.projectScope === 'current_project') {
-      this.suggestions.reverse();
+      searchOptions.reverse();
     }
-    this.suggestions.push('all_projects');
+    searchOptions.push('all_projects');
 
-    this.suggestions = this.suggestions.map((suggestion:string) => {
+    return searchOptions.map((suggestion:string) => {
       return { projectScope: suggestion, text: this.text[suggestion] };
     });
+  }
+
+  /*
+   * Set the marked ng-option within ng-select and apply the class to highlight marked options.
+   *
+   * ng-select differentiates between the selected and the marked option. The selected optinon is the option
+   * that is binded via ng-model. The marked option is the one that the user is currently selecting (via mouse or keyboard up/down).
+   * When hitting enter, the marked option is taken to be the new selected option. Ng-select will retain the index of the marked
+   * option between individual searches. The selected option has no influence on the marked option. This is problematic
+   * in our use case as the user might have:
+   *   * the mouse hovering (deliberately or not) over the search options which will mark that option.
+   *   * marked an option for a previous search but might then have decided to add/remove additional characters to the search.
+   *
+   * In both cases, whenever the user presses enter then, ng-select assigns the marked option to the ng-model.
+   *
+   * Our goal however is to either:
+   *  * mark the direct hit (id matches) if it available
+   *  * mark the first item if there is no direct hit
+   *
+   * And we need to update the marked option after every search.
+   *
+   * There is no way of doing this via the interface provided in the template. There is only [markFirst] and it neither allows us
+   * to mark a direct hit, nor does it reset after a search. We handle this then by selecting the desired element once the
+   * search results are back. We then set the marked option to be the selected option.
+   *
+   * In order to avoid flickering, a -markable modifyer class is unset/set before/after searching. This will unset the background until we
+   * have marked the element we wish to.
+   */
+  private setMarkedOption() {
+    this.markable = true;
+    this.ngSelectComponent.itemsList.markItem(this.ngSelectComponent.itemsList.selectedItems[0]);
+
+    this.cdRef.detectChanges();
   }
 
   private searchInScope(scope:string) {
@@ -344,6 +420,10 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
       this.unregisterGlobalListener();
       this.unregisterGlobalListener = undefined;
     }
+  }
+
+  private toggleTopMenuClass() {
+    jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
   }
 }
 
