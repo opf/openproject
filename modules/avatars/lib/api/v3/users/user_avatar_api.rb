@@ -40,7 +40,7 @@ module API
           if (local_avatar = local_avatar?(@user))
             respond_with_attachment(local_avatar, cache_seconds: cache_seconds)
           elsif avatar_manager.gravatar_enabled?
-            set_cache_headers!(cache_seconds)
+            set_cache_headers!(cache_seconds) unless cache_seconds.nil?
 
             redirect build_gravatar_image_url(@user)
           else
