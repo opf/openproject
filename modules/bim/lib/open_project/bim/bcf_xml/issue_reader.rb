@@ -298,13 +298,13 @@ module OpenProject::Bim::BcfXml
     end
 
     def import_is_outdated(issue)
-      issue.errors.add :base,
-                       :conflict,
-                       message: I18n.t('bcf.bcf_xml.import.work_package_has_newer_changes',
-                                       bcf_uuid: issue.uuid)
-      ServiceResult.new success: false,
-                        errors: issue.errors,
-                        result: issue
+      errors = ActiveModel::Errors.new(issue)
+      errors.add :base,
+                 :conflict,
+                 message: I18n.t('bcf.bcf_xml.import.work_package_has_newer_changes',
+                                 bcf_uuid: issue.uuid)
+
+      ServiceResult.new(success: false, errors: errors)
     end
   end
 end
