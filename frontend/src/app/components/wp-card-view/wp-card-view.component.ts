@@ -147,7 +147,11 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
     // Register event handlers for the cards
     let registry = this.injector.get<any>(WorkPackageViewHandlerToken, CardViewHandlerRegistry);
-    new registry(this.injector).attachTo(this);
+    if (registry instanceof CardViewHandlerRegistry) {
+      registry.attachTo(this);
+    } else {
+      new registry(this.injector).attachTo(this);
+    }
     this.wpTableSelection.registerSelectAllListener(() => {
       return this.cardView.renderedCards;
     });
