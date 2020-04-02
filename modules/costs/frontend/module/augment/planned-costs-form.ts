@@ -91,8 +91,8 @@ export class PlannedCostsFormAugment {
     jQuery(template).insertAfter(this.obj);
 
     let that = this;
-    jQuery('#' + id + '_costs_cancel').on('click', function () {
-      jQuery('#' + id + '_costs_section').remove();
+    jQuery('#' + id + '_cancel').on('click', function () {
+      jQuery('#' + id + '_section').remove();
       that.obj.show();
       return false;
     });
