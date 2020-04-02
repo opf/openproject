@@ -54,20 +54,20 @@ git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 **Installing ruby-2.6**
 
 With both installed, we can now install the actual ruby version 2.6. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `2.6.5`, which we also require.
+At the time of this writing, the latest stable version is `2.6.6`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-rbenv install 2.6.5
+rbenv install 2.6.6
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-rbenv global 2.6.5
+rbenv global 2.6.6
 rbenv rehash
 ```
 
@@ -149,7 +149,7 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 ruby --version
-ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-linux]
+ruby 2.6.6p114 (2019-10-01 revision 67812) [x86_64-linux]
 
 bundler --version
 Bundler version 2.0.2
