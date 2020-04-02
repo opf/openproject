@@ -1,5 +1,5 @@
 module LdapGroups
-  class Membership < ActiveRecord::Base
+  class Membership < ApplicationRecord
     belongs_to :user
     belongs_to :group,
                class_name: '::LdapGroups::SynchronizedGroup',

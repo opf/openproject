@@ -260,8 +260,7 @@ describe User, type: :model do
     puts 'Skipping LDAP tests.'
   end
 
-  it 'should create anonymous' do
-    AnonymousUser.delete_all
+  it 'should return existing or new anonymous' do
     anon = User.anonymous
     assert !anon.new_record?
     assert_kind_of AnonymousUser, anon

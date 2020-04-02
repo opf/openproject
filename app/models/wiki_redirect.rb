@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WikiRedirect < ActiveRecord::Base
+class WikiRedirect < ApplicationRecord
   belongs_to :wiki
 
   validates_presence_of :title, :redirects_to

@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   extend Pagination::Model
   extend FriendlyId
 

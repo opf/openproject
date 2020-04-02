@@ -29,20 +29,14 @@
 require 'spec_helper'
 
 describe WikiController, type: :controller do
-  before do
-    Role.delete_all # removing me makes us faster
-    User.delete_all # removing me makes us faster
-    I18n.locale = :en
-  end
+  using_shared_fixtures :admin
 
   describe 'actions' do
     before do
       allow(@controller).to receive(:set_localization)
 
       @role = FactoryBot.create(:non_member)
-      @user = FactoryBot.create(:admin)
-
-      allow(User).to receive(:current).and_return @user
+      login_as admin
 
       @project = FactoryBot.create(:project)
       @project.reload # to get the wiki into the proxy
@@ -53,7 +47,7 @@ describe WikiController, type: :controller do
 
       # creating page contents
       FactoryBot.create(:wiki_content, page_id:   @existing_page.id,
-                                        author_id: @user.id)
+                                        author_id: admin.id)
     end
 
     shared_examples_for "a 'new' action" do
@@ -237,14 +231,13 @@ describe WikiController, type: :controller do
       allow(Setting).to receive(:login_required?).and_return(false)
 
       @role = FactoryBot.create(:non_member)
-      @user = FactoryBot.create(:admin)
 
       @anon = User.anonymous.nil? ? FactoryBot.create(:anonymous) : User.anonymous
 
       Role.anonymous.update name: I18n.t(:default_role_anonymous),
                                        permissions: [:view_wiki_pages]
 
-      allow(User).to receive(:current).and_return @user
+      allow(User).to receive(:current).and_return admin
 
       @project = FactoryBot.create(:public_project)
       @project.reload # to get the wiki into the proxy
@@ -261,11 +254,11 @@ describe WikiController, type: :controller do
 
       # creating page contents
       FactoryBot.create(:wiki_content, page_id:   @page_default.id,
-                                       author_id: @user.id)
+                                       author_id: admin.id)
       FactoryBot.create(:wiki_content, page_id:   @page_with_content.id,
-                                       author_id: @user.id)
+                                       author_id: admin.id)
       FactoryBot.create(:wiki_content, page_id:   @unrelated_page.id,
-                                       author_id: @user.id)
+                                       author_id: admin.id)
 
       # creating some child pages
       @children = {}
@@ -274,7 +267,7 @@ describe WikiController, type: :controller do
                                                    parent_id: page.id,
                                                    title:     page.title + ' child')
         FactoryBot.create(:wiki_content, page_id: child_page.id,
-                                         author_id: @user.id)
+                                         author_id: admin.id)
 
         @children[page] = child_page
       end

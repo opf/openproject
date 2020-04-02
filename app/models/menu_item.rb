@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class MenuItem < ActiveRecord::Base
+class MenuItem < ApplicationRecord
   belongs_to :parent, class_name: 'MenuItem'
   has_many :children, -> {
     order('id ASC')

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'form configuration', type: :feature, js: true do
-  let(:admin) { FactoryBot.create :admin }
+  using_shared_fixtures :admin
   let(:type) { FactoryBot.create :type }
 
   let(:project) { FactoryBot.create :project, types: [type] }

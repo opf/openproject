@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomValue < ActiveRecord::Base
+class CustomValue < ApplicationRecord
   belongs_to :custom_field
   belongs_to :customized, polymorphic: true
 

@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Rate < ActiveRecord::Base
+class Rate < ApplicationRecord
   validates_numericality_of :rate, allow_nil: false
   validate :validate_date_is_a_date
 

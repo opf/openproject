@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Change < ActiveRecord::Base
+class Change < ApplicationRecord
   belongs_to :changeset
 
   validates_presence_of :changeset_id, :action, :path

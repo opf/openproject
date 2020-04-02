@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Repository < ActiveRecord::Base
+class Repository < ApplicationRecord
   include Redmine::Ciphering
   include OpenProject::SCM::ManageableRepository
 

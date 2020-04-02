@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Changeset < ActiveRecord::Base
+class Changeset < ApplicationRecord
   belongs_to :repository
   belongs_to :user
   has_many :file_changes, class_name: 'Change', dependent: :delete_all

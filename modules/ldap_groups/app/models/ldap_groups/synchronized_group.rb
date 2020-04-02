@@ -2,7 +2,7 @@ require 'net/ldap'
 require 'net/ldap/dn'
 
 module LdapGroups
-  class SynchronizedGroup < ActiveRecord::Base
+  class SynchronizedGroup < ApplicationRecord
     belongs_to :group
     belongs_to :auth_source
     has_many :users,

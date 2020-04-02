@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class UserPassword < ActiveRecord::Base
+class UserPassword < ApplicationRecord
   belongs_to :user, inverse_of: :passwords
 
   # passwords must never be modified, so doing this on create should be enough

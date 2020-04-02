@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomField < ActiveRecord::Base
+class CustomField < ApplicationRecord
   include CustomField::OrderStatements
 
   has_many :custom_values, dependent: :delete_all

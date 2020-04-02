@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
   belongs_to :commented, polymorphic: true, counter_cache: true
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 

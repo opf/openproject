@@ -404,14 +404,11 @@ describe WorkPackage, type: :model do
 
   describe 'Acts as journalized' do
     before(:each) do
-      Status.delete_all
-      IssuePriority.delete_all
-
       @type ||= FactoryBot.create(:type_feature)
 
-      @status_resolved ||= FactoryBot.create(:status, name: 'Resolved', is_default: false)
-      @status_open ||= FactoryBot.create(:status, name: 'Open', is_default: true)
-      @status_rejected ||= FactoryBot.create(:status, name: 'Rejected', is_default: false)
+      @status_resolved ||= FactoryBot.create(:status, name: 'Resolved')
+      @status_open ||= FactoryBot.create(:status, name: 'Open')
+      @status_rejected ||= FactoryBot.create(:status, name: 'Rejected')
 
       role = FactoryBot.create(:role)
       FactoryBot.create(:workflow,
@@ -425,7 +422,7 @@ describe WorkPackage, type: :model do
                         role: role,
                         type_id: @type.id)
 
-      @priority_low ||= FactoryBot.create(:priority_low, is_default: true)
+      @priority_low ||= FactoryBot.create(:priority_low)
       @priority_high ||= FactoryBot.create(:priority_high)
       @project ||= FactoryBot.create(:project, no_types: true, types: [@type])
 

@@ -25,7 +25,7 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-class EnterpriseToken < ActiveRecord::Base
+class EnterpriseToken < ApplicationRecord
   class << self
     def current
       RequestStore.fetch(:current_ee_token) do
