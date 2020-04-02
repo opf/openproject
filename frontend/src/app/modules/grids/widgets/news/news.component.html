@@ -2,8 +2,8 @@
 
   <widget-menu [resource]="resource">
   </widget-menu>
+  
 </widget-header>
-
 <div class="grid--widget-content">
   <no-results *ngIf="noEntries" [title]="text.noResults">
   </no-results>
@@ -16,8 +16,16 @@
         </a>:
         <a [href]="newsPath(news)" [textContent]="news.title">
         </a>
+
         <p *ngIf="news.summary" [innerText]="news.summary"></p>
         <p *ngIf="news.author" class="widget-box--additional-info">
+
+        <p *ngIf="news.summary"
+        [innerText]="news.summary">
+      </p>
+
+        <p *ngIf="news.author" 
+           class="widget-box--additional-info">
           {{text.createdBy}}
           <a [href]="newsAuthorPath(news)" [textContent]="newsAuthorName(news)">
           </a>
