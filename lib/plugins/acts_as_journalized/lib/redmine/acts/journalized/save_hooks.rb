@@ -70,24 +70,28 @@ module Redmine::Acts::Journalized
     end
 
     def save_journals(force = false)
+      with_ensured_journal_attributes do
+        if force || JournalManager.changed?(self) || !@journal_notes.empty?
+          journal = JournalManager.add_journal!(self, @journal_user, @journal_notes)
+
+          OpenProject::Notifications.send('journal_created',
+                                          journal: journal,
+                                          send_notification: JournalManager.send_notification)
+        end
+
+        # Need to clear the notification setting after each usage otherwise it might be cached
+        JournalManager.reset_notification
+      end
+    end
+
+    def with_ensured_journal_attributes
       @journal_user ||= User.current
       @journal_notes ||= ''
 
-      if force || JournalManager.changed?(self) || !@journal_notes.empty?
-        journal = JournalManager.add_journal!(self, @journal_user, @journal_notes)
-
-        OpenProject::Notifications.send('journal_created',
-                                        journal: journal,
-                                        send_notification: JournalManager.send_notification)
-      end
-
-      # Need to clear the notification setting after each usage otherwise it might be cached
-      JournalManager.reset_notification
-
+      yield
+    ensure
       @journal_user = nil
       @journal_notes = nil
-
-      true
     end
 
     def add_journal(user = User.current, notes = '')
