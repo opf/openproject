@@ -59,7 +59,7 @@ module Redmine::Acts::Journalized
         after_update { save_journals }
         after_destroy :remove_journal_version
 
-        attr_accessor :journal_notes, :journal_user, :extra_journal_attributes
+        attr_accessor :journal_notes, :journal_user
       end
     end
 
