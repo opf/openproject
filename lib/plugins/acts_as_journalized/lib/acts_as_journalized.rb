@@ -57,7 +57,7 @@ module Redmine
     module Journalized
       def self.included(base)
         base.extend ClassMethods
-        base.extend Versioned
+        base.extend Journalized
       end
 
       module ClassMethods
@@ -77,7 +77,6 @@ module Redmine
           include Options
           include Creation
           include Reversion
-          include Reset
           include Permissions
           include SaveHooks
           include FormatHooks
