@@ -55,8 +55,7 @@ module Redmine::Acts::Journalized
       base.extend ClassMethods
 
       base.class_eval do
-        after_create { save_journals(true) }
-        after_update { save_journals }
+        after_save :save_journals
         after_destroy :remove_journal_version
 
         attr_accessor :journal_notes, :journal_user
@@ -69,18 +68,20 @@ module Redmine::Acts::Journalized
         .delete_all
     end
 
-    def save_journals(force = false)
+    def save_journals
       with_ensured_journal_attributes do
-        if force || JournalManager.changed?(self) || !@journal_notes.empty?
+        add_journal = journals.empty? || JournalManager.changed?(self) || !@journal_notes.empty?
+
+        if add_journal
           journal = JournalManager.add_journal!(self, @journal_user, @journal_notes)
 
           OpenProject::Notifications.send('journal_created',
                                           journal: journal,
                                           send_notification: JournalManager.send_notification)
-        end
 
-        # Need to clear the notification setting after each usage otherwise it might be cached
-        JournalManager.reset_notification
+          # Need to clear the notification setting after each usage otherwise it might be cached
+          JournalManager.reset_notification
+        end
       end
     end
 
