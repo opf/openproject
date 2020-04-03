@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'Top menu items', js: true, selenium: true do
+feature 'Top menu items', js: true do
   let(:user) { FactoryBot.create :user }
   let(:open_menu) { true }
 
@@ -37,7 +37,12 @@ feature 'Top menu items', js: true, selenium: true do
       labels.each do |l|
         expect(page).to have_link(l)
       end
-      (all_items - labels).each do |l|
+    end
+  end
+
+  def expect_no_menu_item(*labels)
+    within '#top-menu' do
+      labels.each do |l|
         expect(page).not_to have_link(l)
       end
     end
@@ -70,93 +75,30 @@ feature 'Top menu items', js: true, selenium: true do
   describe 'Modules' do
     !let(:top_menu) { find(:css, "[title=#{I18n.t('label_modules')}]") }
 
-    let(:news_item) { I18n.t('label_news_plural') }
-    let(:time_entries_item) { I18n.t('label_time_sheet_menu') }
     let(:reporting_item) { I18n.t('cost_reports_title') }
-
-    let(:all_items) { [news_item, time_entries_item] }
 
     context 'as an admin' do
       let(:user) { FactoryBot.create :admin }
-      it 'displays all items' do
-        has_menu_items?(reporting_item, news_item)
+
+      it 'displays reporting item' do
+        has_menu_items?(reporting_item)
       end
 
-      it 'visits the news page' do
-        click_link_in_open_menu(news_item)
-        expect(page).to have_current_path(news_index_path)
+      it 'visits the reporting page' do
+        click_link_in_open_menu(reporting_item)
+        expect(page).to have_current_path(url_for(controller: '/cost_reports', action: 'index', project_id: nil, only_path: true))
       end
     end
 
     context 'as a regular user' do
-      it 'displays news only' do
-        has_menu_items? news_item
+      it 'has no menu item' do
+        expect_no_menu_item reporting_item
       end
     end
 
     context 'as a user with permissions', allowed_to: true do
       it 'displays all options' do
-        has_menu_items?(reporting_item, news_item)
-      end
-    end
-
-    context 'as a user without permissions', allowed_to: false do
-      let(:open_menu) { false }
-      it 'displays no options and hides the module menu' do
-        has_menu_items?
-        expect(page).not_to have_link('Modules')
-      end
-    end
-
-    context 'as an anonymous user' do
-      let(:user) { FactoryBot.create :anonymous }
-      it 'displays only news' do
-        has_menu_items? news_item
-      end
-    end
-  end
-
-  describe 'Projects' do
-    let(:top_menu) { find(:css, '#projects-menu') }
-
-    let(:new_project) { I18n.t(:label_project_new) }
-    let(:all_projects) { I18n.t(:label_project_view_all) }
-    let(:all_items) { [new_project, all_projects] }
-
-    context 'as an admin' do
-      let(:user) { FactoryBot.create :admin }
-      it 'displays all items' do
-        has_menu_items?(new_project, all_projects)
-      end
-
-      it 'visits the work package page' do
-        click_link_in_open_menu(new_project)
-
-        expect(page).to have_current_path(new_project_path)
-      end
-
-      it 'visits the projects page' do
-        click_link_in_open_menu(all_projects)
-
-        expect(page).to have_current_path(projects_path)
-      end
-    end
-
-    context 'as a user without project permission' do
-      before do
-        Role.non_member.update_attribute :permissions, [:view_project]
-      end
-      it 'does not display new_project' do
-        has_menu_items? all_projects
-      end
-    end
-
-    context 'as an anonymous user' do
-      let(:user) { FactoryBot.create :anonymous }
-      let(:open_menu) { false }
-
-      it 'does not show the menu' do
-        expect(page).to have_no_selector('#projects-menu')
+        has_menu_items?(reporting_item)
       end
     end
   end
