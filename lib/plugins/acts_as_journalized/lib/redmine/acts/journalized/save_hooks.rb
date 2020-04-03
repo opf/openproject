@@ -55,7 +55,8 @@ module Redmine::Acts::Journalized
       base.extend ClassMethods
 
       base.class_eval do
-        after_save :save_journals
+        after_create { save_journals(true) }
+        after_update { save_journals }
         after_destroy :remove_journal_version
 
         attr_accessor :journal_notes, :journal_user, :extra_journal_attributes
@@ -68,13 +69,11 @@ module Redmine::Acts::Journalized
         .delete_all
     end
 
-    def save_journals
+    def save_journals(force = false)
       @journal_user ||= User.current
       @journal_notes ||= ''
 
-      add_journal = journals.empty? || JournalManager.changed?(self) || !@journal_notes.empty?
-
-      if add_journal
+      if force || JournalManager.changed?(self) || !@journal_notes.empty?
         journal = JournalManager.add_journal!(self, @journal_user, @journal_notes)
 
         OpenProject::Notifications.send('journal_created',
