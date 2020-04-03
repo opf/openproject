@@ -329,7 +329,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   protected setThumbnailProperties(viewpointCount:number) {
     const options = [...this.galleryOptions];
 
-    options[0].thumbnailsColumns = viewpointCount < 6 ? viewpointCount : 5;
+    options[0].thumbnailsColumns = viewpointCount < 5 ? viewpointCount : 4;
     options[1].thumbnailsColumns = viewpointCount < 5 ? viewpointCount : 4;
     options[2].thumbnailsColumns = viewpointCount < 4 ? viewpointCount : 3;
 
