@@ -70,12 +70,11 @@ module Redmine
         # Versioning and acting as an Event may only be applied once.
         # To apply more than on activity, use acts_as_activity
         def acts_as_journalized(options = {}, &block)
-          activity_hash, event_hash, journal_hash = split_option_hashes(options)
+          _, _, journal_hash = split_option_hashes(options)
 
           return if journaled?
 
           include Options
-          include Changes
           include Creation
           include Users
           include Reversion
