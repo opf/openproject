@@ -68,20 +68,38 @@ module Bim
       end
 
       def perform_conversion!(dir)
-        # Step 1: IfcConvert
-        ifc_file = ifc_model.ifc_attachment.diskfile.path
-        collada_file = convert_to_collada(ifc_file, dir)
+        # Step 0: avoid file name issues (e.g. umlauts) in the pipeline
+        ifc_path = Pathname(ifc_model.ifc_attachment.diskfile.path)
+        tmp_ifc_path = Pathname(dir).join("model.ifc")
 
-        # Step 2: Collada2GLTF
-        gltf_file = convert_to_gltf(collada_file, dir)
+        FileUtils.symlink ifc_path.to_s, tmp_ifc_path.to_s
 
-        # Step 3: Convert to XKT
-        xkt_file = convert_to_xkt(gltf_file, dir)
-        ifc_model.xkt_attachment = File.new xkt_file
+        tmp_ifc_path.to_s
+          .then { |ifc_file| convert_to_collada ifc_file, dir } # Step 1: IfcConvert
+          .then { |collada_file| convert_to_gltf collada_file, dir } # Step 2: Collada2GLTF
+          .then { |gltf_file| convert_to_xkt gltf_file, dir } # Step 3: Convert to XKT
+          .then { |xkt_file| attach_files xkt_file, ifc_path, tmp_ifc_path, dir }
+      end
 
-        # Convert metadata
-        metadata_file = convert_metadata(ifc_file, dir)
-        ifc_model.metadata_attachment = File.new metadata_file
+      def attach_files(xkt_file, ifc_path, tmp_ifc_path, dir)
+        attach_xkt xkt_file, ifc_path
+        attach_metadata ifc_path, tmp_ifc_path, dir
+      end
+
+      def attach_xkt(xkt_file, ifc_path)
+        final_xkt_file_path = change_basename xkt_file, ifc_path, ".xkt"
+        FileUtils.mv xkt_file, final_xkt_file_path.to_s
+
+        ifc_model.xkt_attachment = File.new final_xkt_file_path.to_s
+      end
+
+      def attach_metadata(ifc_path, tmp_ifc_path, dir)
+        metadata_file = convert_metadata tmp_ifc_path.to_s, dir
+        final_metadata_file_path = change_basename metadata_file, ifc_path, ".json"
+
+        FileUtils.mv metadata_file, final_metadata_file_path.to_s
+
+        ifc_model.metadata_attachment = File.new final_metadata_file_path.to_s
       end
 
       ##
@@ -173,6 +191,12 @@ module Bim
         end
 
         true
+      end
+
+      def change_basename(from, to, ext)
+        to = Pathname(to)
+
+        Pathname(from).parent.join(to.basename.to_s.sub(to.extname, ext))
       end
     end
   end
