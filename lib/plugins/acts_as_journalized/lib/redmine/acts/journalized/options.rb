@@ -88,13 +88,7 @@ module Redmine::Acts::Journalized
       # The method is overridden in feature modules that require specific options outside the
       # standard +has_many+ associations.
       def prepare_journaled_options(options)
-        result_options = options.symbolize_keys
-        result_options.reverse_merge!(
-          class_name: Journal.name,
-          dependent: :delete_all,
-          foreign_key: :journable_id,
-          as: :journable
-        )
+        result_options = options_with_defaults(options)
 
         class_attribute :vestal_journals_options
         self.vestal_journals_options = result_options.dup
@@ -104,6 +98,44 @@ module Redmine::Acts::Journalized
         )
 
         result_options
+      end
+
+      private
+
+      def options_with_defaults(options)
+        journal_options = split_option_hashes(options)
+
+        journal_options[:except] ||= []
+        journal_options[:except] += [primary_key, inheritance_column, :updated_on, :updated_at, :lock_version, :lft, :rgt]
+
+        result_options = journal_options.symbolize_keys
+        result_options.reverse_merge!(
+          class_name: Journal.name,
+          dependent: :delete_all,
+          foreign_key: :journable_id,
+          as: :journable
+        )
+
+        result_options
+      end
+
+      # Splits an option has into three hashes:
+      ## => [{ options prefixed with "activity_" }, { options prefixed with "event_" }, { other options }]
+      def split_option_hashes(options)
+        journal_hash = {}
+
+        options.each_pair do |k, v|
+          case k.to_s
+          when /\Aactivity_(.+)\z/
+            raise "Configuring activity via acts_as_journalized is no longer supported."
+          when /\Aevent_(.+)\z/
+            raise "Configuring events via acts_as_journalized is no longer supported."
+          else
+            journal_hash[k.to_sym] = v
+          end
+        end
+
+        journal_hash
       end
     end
   end
