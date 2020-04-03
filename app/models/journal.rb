@@ -63,6 +63,17 @@ class Journal < ActiveRecord::Base
     data.update attributes
   end
 
+  # TODO: check if this can be removed
+  # Overrides the +user=+ method created by the polymorphic +belongs_to+ user association.
+  # Based on the class of the object given, either the +user+ association columns or the
+  # +user_name+ string column is populated.
+  def user=(value)
+    case value
+    when ActiveRecord::Base then super(value)
+    else self.user = User.find_by_login(value)
+    end
+  end
+
   # In conjunction with the included Comparable module, allows comparison of journal records
   # based on their corresponding version numbers, creation timestamps and IDs.
   def <=>(other)

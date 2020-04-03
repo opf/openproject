@@ -76,7 +76,6 @@ module Redmine
 
           include Options
           include Creation
-          include Users
           include Reversion
           include Reset
           include Permissions
