@@ -133,7 +133,7 @@ export class EnterpriseTrialService {
       )
       .toPromise()
       .catch((error:HttpErrorResponse) => {
-        this.notificationsService.addError(error.error || I18n.t('js.error.internal'));
+        this.notificationsService.addError(error.error.description || I18n.t('js.error.internal'));
       });
   }
 

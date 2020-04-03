@@ -43,15 +43,26 @@ class EnterprisesController < ApplicationController
     @current_token = EnterpriseToken.current
     @token = @current_token || EnterpriseToken.new
 
-    if @current_token.blank?
+    if !@current_token.present?
       initialize_gon
     end
   end
 
   def create
     @token = EnterpriseToken.current || EnterpriseToken.new
+    saved_encoded_token = @token.encoded_token
     @token.encoded_token = params[:enterprise_token][:encoded_token]
-    @token.save
+    if @token.save
+      flash[:notice] = t(:notice_successful_update)
+      redirect_to action: :show
+    else
+      # restore the old token
+      if saved_encoded_token
+        @token.encoded_token = saved_encoded_token
+        @current_token = @token || EnterpriseToken.new
+      end
+      render action: :show
+    end
   end
 
   def destroy
@@ -59,8 +70,10 @@ class EnterprisesController < ApplicationController
     if token
       token.destroy
       flash[:notice] = t(:notice_successful_delete)
-      trial_key = Token::EnterpriseTrialKey.find_by(user_id: current_user.id)
+
+      trial_key = Token::EnterpriseTrialKey.find_by(user_id: User.system.id)
       trial_key.destroy
+
       redirect_to action: :show
     else
       render_404
@@ -68,12 +81,11 @@ class EnterprisesController < ApplicationController
   end
 
   def save_trial_key
-    @trial_key = params[:trial_key]
-    Token::EnterpriseTrialKey.create(user_id: current_user.id, value: @trial_key)
+    Token::EnterpriseTrialKey.create(user_id: User.system.id, value: params[:trial_key])
   end
 
   def initialize_gon
-    @trial_key = Token::EnterpriseTrialKey.find_by(user_id: current_user.id)
+    @trial_key = Token::EnterpriseTrialKey.find_by(user_id: User.system.id)
     if @trial_key
       gon.ee_trial_key = {
         value: @trial_key.value
