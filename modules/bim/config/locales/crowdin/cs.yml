@@ -32,7 +32,7 @@ cs:
         num_issues_found: '%{x_bcf_issues} jsou obsaženy v BCF-XML souboru, jejich podrobnosti jsou uvedeny níže.'
         button_prepare: 'Připravit import'
         button_perform_import: 'Potvrdit import'
-        button_proceed: 'Pokračovat'
+        button_proceed: 'Proceed with import'
         button_back_to_list: 'Zpět na seznam'
         no_permission_to_add_members: 'Nemáte dostatečná oprávnění, abyste je přidali jako členy do projektu.'
         contact_project_admin: 'Kontaktujte svého správce projektu, aby je přidal jako členy a začal tento import znovu.'
@@ -58,6 +58,7 @@ cs:
         import_as_system_user: 'Importujte je jako "Systémový" uživatel.'
         what_to_do: "Co chcete udělat?"
         work_package_has_newer_changes: "Zastaralé! Toto téma nebylo aktualizováno, protože poslední změny na serveru byly novější než \"ModifiedDatum\" importovaného tématu. Připomínky k tomuto tématu však byly dovezeny."
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
   export:
     format:
       bcf: "BCF-XML"

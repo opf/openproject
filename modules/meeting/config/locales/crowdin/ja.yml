@@ -79,7 +79,7 @@ ja:
   text_in_hours: "数時間以内"
   text_meeting_agenda_for_meeting: '会議の議題 "%{meeting}"'
   text_meeting_closing_are_you_sure: "会議を終了してもよろしいですか？"
-  text_meeting_agenda_open_are_you_sure: "保存されていない議事録のコンテンツは失われます！続行しますか？"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: '会議の議事録 "%{meeting}"'
   text_review_meeting_agenda: "%{author} はレビューのために %{link} をアップしました。"
   text_review_meeting_minutes: "%{author} はレビューのために %{link} をアップしました。"

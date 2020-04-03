@@ -79,7 +79,7 @@ sk:
   text_in_hours: "v hodinách"
   text_meeting_agenda_for_meeting: 'agenda stretnutia "%{meeting}"'
   text_meeting_closing_are_you_sure: "Naozaj chcete ukončiť tento míting?"
-  text_meeting_agenda_open_are_you_sure: "Neuložené obsah zápisnice stretnutia bude stratený! Chcete pokračovať?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'zápisnica zo stretnutia "%{meeting}"'
   text_review_meeting_agenda: "%{author} odoslal %{link} na revíziu."
   text_review_meeting_minutes: "%{author} odoslal %{link} na revíziu."

@@ -79,7 +79,7 @@ hu:
   text_in_hours: "órában"
   text_meeting_agenda_for_meeting: 'a "%{meeting}" megbeszélés napirendje'
   text_meeting_closing_are_you_sure: "Biztosan le akarod zárni a találkozót?"
-  text_meeting_agenda_open_are_you_sure: "A jegyzőkönyv mentetlen tartalma elvész! Folytatja?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'a "%{meeting}" megbeszélés jegyzőkönyve'
   text_review_meeting_agenda: "%{author} véleményezésre küldte %{link} -t."
   text_review_meeting_minutes: "%{author} véleményezésre küldte %{link} -t."

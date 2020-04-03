@@ -30,7 +30,7 @@ hu:
         num_issues_found: '%{x_bcf_issues} tartalmazza a BCF-XML file, az alábbi részletekkel a lista szerint.'
         button_prepare: 'Import előkészítése'
         button_perform_import: 'Import megerősítése'
-        button_proceed: 'Folyamatban'
+        button_proceed: 'Proceed with import'
         button_back_to_list: 'Vissza a listához'
         no_permission_to_add_members: 'Nincs elég jogod ezt hozzáadni a projekthez.'
         contact_project_admin: 'Vegye fel a kapcsolatot a projekt adminisztrátorával, hogy felvegye őket tagokként, és indítsa újra az importálást.'
@@ -56,6 +56,7 @@ hu:
         import_as_system_user: 'Importálja őket "Rendszer" felhasználóként.'
         what_to_do: "Mit szeretne tenni?"
         work_package_has_newer_changes: "Elavult! Ezt a témát nem frissítették, mivel a szerver legutóbbi változásai újabbak voltak, mint az importált téma \"ModifiedDate\". A témához fűzött megjegyzéseket azonban importálták."
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
   export:
     format:
       bcf: "BCF-XML"

@@ -79,7 +79,7 @@ pl:
   text_in_hours: "w godzinach"
   text_meeting_agenda_for_meeting: 'agenda spotkania "%{meeting}"'
   text_meeting_closing_are_you_sure: "Czy na pewno chcesz zamknąć spotkanie?"
-  text_meeting_agenda_open_are_you_sure: "Niezapisane zmiany protokołu zostaną utracone! Kontynuować?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'protokół ze spotkania "%{meeting}"'
   text_review_meeting_agenda: "%{author} umieścił %{link} do przeglądu."
   text_review_meeting_minutes: "%{author} umieścił %{link} do przeglądu."
