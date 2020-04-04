@@ -32,7 +32,7 @@ ru:
         num_issues_found: '%{x_bcf_issues} содержатся в файле BCF-XML, их данные перечислены ниже.'
         button_prepare: 'Подготовка импорта'
         button_perform_import: 'Подтверждение импорта'
-        button_proceed: 'Proceed with import'
+        button_proceed: 'Продолжить с импортом'
         button_back_to_list: 'Назад к списку'
         no_permission_to_add_members: 'У вас недостаточно прав для добавления участников в проект.'
         contact_project_admin: 'Свяжитесь с администратором проекта, чтобы добавить участников и начать этот импорт снова.'
@@ -58,7 +58,7 @@ ru:
         import_as_system_user: 'Импортировать их как "Системного" пользователя.'
         what_to_do: "Что Вы хотите сделать?"
         work_package_has_newer_changes: "Устарело! Эта тема не была обновлена, поскольку последние изменения на сервере были новее \"ModifiedDate\" импортированной темы. Однако комментарии к теме были импортированы."
-        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+        bcf_file_not_found: "Не удалось найти BCF файл. Повторите загрузку."
   export:
     format:
       bcf: "BCF-XML"
