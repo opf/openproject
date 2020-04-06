@@ -42,9 +42,10 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   public setupNews(news:any[]) {
+
     this.entries = news;
     this.entriesLoaded = true;
-
+    this.cdr.detectChanges();
   }
 
   public get isEditable() {

@@ -17,8 +17,7 @@
         <a [href]="newsPath(news)" [textContent]="news.title">
         </a>
 
-        <p *ngIf="news.summary" [innerText]="news.summary"></p>
-        <p *ngIf="news.author" class="widget-box--additional-info">
+        <p *ngIf="news.summary" [textContent]="news.summary" class="widget-box--additional-info"></p>
 
         <p *ngIf="news.author" 
            class="widget-box--additional-info">

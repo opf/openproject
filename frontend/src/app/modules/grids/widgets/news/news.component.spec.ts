@@ -8,11 +8,12 @@ import { States } from 'core-app/components/states.service';
 import { UserDmService } from 'core-app/modules/hal/dm-services/user-dm.service';
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
 import { HttpClientModule } from "@angular/common/http";
+import { By } from '@angular/platform-browser';
 
-describe('shows news', () => {
+fdescribe('shows news', () => {
   let app:WidgetNewsComponent;
   let fixture:ComponentFixture<WidgetNewsComponent>;
-
+  let element:DebugElement;
 
   let newsStub = {
     id: 1,
@@ -31,22 +32,27 @@ describe('shows news', () => {
     updatedAt: '2020-03-26T10:42:14Z',
   };
 
-  let newsDmStub = {
+  let newsDmServiceStub = {
     list: (_params:any) => {
       return Promise.resolve({ elements: [newsStub] });
     }
   };
 
+  let configurationServiceStub = {
+    isTimezoneSet: () => false,
+    dateFormatPresent: () => false,
+    timeFormatPresent: () => false
+  };
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         WidgetNewsComponent],
       providers: [
         TimezoneService,
-        { provide: ConfigurationService, useValue: {} },
+        { provide: ConfigurationService, useValue: configurationServiceStub },
         States,
         UserDmService,
-        { provide: NewsDmService, useValue: newsDmStub },
+        { provide: NewsDmService, useValue: newsDmServiceStub },
         HalResourceService,
       ],
       imports: [HttpClientModule],
@@ -55,15 +61,57 @@ describe('shows news', () => {
 
     fixture = TestBed.createComponent(WidgetNewsComponent);
     app = fixture.debugElement.componentInstance;
-
+    element = fixture.debugElement;
   });
 
   it('should load news from the server', fakeAsync(() => {
-
     fixture.detectChanges();
     tick();
     expect(app.entries.length).toBe(1);
-
   }));
 
+
+  it('should render the componenet successfully to show the news', async(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      let newsItem = document.querySelector('li');
+      expect(document.contains(newsItem)).toBeTruthy();
+    });
+  }));
+
+  it('should Not add the no-results component into DOM', async(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      let newsItem = document.querySelector('no-results');
+      expect(document.contains(newsItem)).not.toBeTruthy();
+    });
+  }));
+
+  it('should add the widget-header component into DOM', async(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      let newsItem = document.querySelector('widget-header');
+      expect(document.contains(newsItem)).toBeTruthy();
+    });
+  }));
+
+  it('should show summary of news', async(() => {
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      let newsItem:HTMLElement = element.query(By.css('.widget-box--additional-info')).nativeElement;
+      expect(newsItem.innerText).toContain('We are glad you joined.');
+
+    });
+  }));
+
+  it('should Not add the user-avatar component into DOM', async(() => {
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      let newsItem = document.querySelector('user-avatar');
+      expect(document.contains(newsItem)).toBeTruthy();
+
+    });
+  }));
 });
