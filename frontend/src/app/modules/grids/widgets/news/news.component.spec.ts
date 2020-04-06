@@ -10,7 +10,7 @@ import { HalResourceService } from "core-app/modules/hal/services/hal-resource.s
 import { HttpClientModule } from "@angular/common/http";
 import { By } from '@angular/platform-browser';
 
-fdescribe('shows news', () => {
+describe('shows news', () => {
   let app:WidgetNewsComponent;
   let fixture:ComponentFixture<WidgetNewsComponent>;
   let element:DebugElement;
