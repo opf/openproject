@@ -190,3 +190,13 @@ To delete your account, select **Delete account** from the side menu and enter y
 <div class="alert alert-info" role="alert">
 Important: Deleting a user account is permanent and cannot be reversed.
 </div>
+
+## Frequently asked questions (FAQ)
+
+### When does my OpenProject contract end?
+
+The user may terminate the contract at any time, which will apply by the end of the subscription period (including last day). In case of credit card payment the subscription period is one month or one year; in case of payment via invoice the subscription period is one year. The [agreed subscription period](https://www.openproject.org/terms-of-service/) will be extended automatically if the contract was not terminated on time. 
+
+### What shall I do when I run into payment issues with OpenProject?
+
+In case you use the bank transfer payment method please indicate the invoice number. You can find this information in the corresponding invoice (OP…). Otherwise the automatic banking system is not able to detect your payment. Please do not hesitate to contact accounting@openproject.com if you have any further questions. 
