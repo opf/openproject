@@ -20,3 +20,9 @@ The Enterprise Edition builds on top of the free Community Edition. An upgrade i
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/YRF_bavXBts" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+## Frequently asked questions (FAQ)
+
+### Do you have a reseller program for OpenProject?
+
+We provide a [reseller program](https://www.openproject.org/reseller-program/) exclusively for the OpenProject Enterprise Edition (currently not for the Cloud Edition) and offer a 25% discount on the regular prices as a part of this. Once you purchased the first Enterprise Edition license for a client, you receive an Enterprise Edition license for 25 users free of charge (for internal use).
+Please let us know if you have a particular customer request that we can send you a quote for. 
