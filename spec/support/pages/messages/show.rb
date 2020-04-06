@@ -53,8 +53,6 @@ module Pages::Messages
     end
 
     def reply(text)
-      click_on 'Reply'
-
       find('.ck-content').base.send_keys text
 
       click_button 'Submit'
