@@ -44,6 +44,16 @@ To remove members from a project, [select the project](../projects/#select-a-pro
 Members will have different roles with different permissions in a project. To find out how to [configure roles and permissions](../../system-admin-guide/#roles-permissions).
 
 <div class="glossary">A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's or group's name and the role(s) the user should assume in the project.</div>
+
 ## Groups
 
 Members can be added to groups. A group can be added to a project. With this, all members will be have the corresponding role in this project. Find out how to [create and manage groups](../../system-admin-guide/#groups) in OpenProject.
+
+## Frequently asked questions (FAQ)
+
+### How can I increase the number of users in OpenProject?
+
+Please note that the minimum number of users is 5. You can then increase the number of users in steps of 5. Just write an email to sales@openproject.com.
+
+### Is it possible to change the number of users in OpenProject?
+You can always increase the number of users. The number of users can be increased in steps of 5 (e.g. you could start with 5 users and then increase the number of users to 10 users). You can purchase the Enterprise Edition from [here](https://www.openproject.org/enterprise-edition/). Simply click on the button "Book now" and follow the steps. A reduction in the number of users would take effect after the current service period.
