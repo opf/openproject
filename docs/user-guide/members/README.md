@@ -19,7 +19,7 @@ keywords: members
 | [Roles and permissions](#roles-and-permissions) | How to manage roles and permissions for members?             |
 | [Groups](#groups)                               | How to add members to a groups and add groups to a project?  |
 
-<iframe width="620" height="440" src="https://www.youtube.com/embed/aidzIYnmTvQ&t=37s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="620" height="440" src="https://www.youtube.com/embed/aidzIYnmTvQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Add members
 
@@ -57,3 +57,7 @@ Please note that the minimum number of users is 5. You can then increase the num
 
 ### Is it possible to change the number of users in OpenProject?
 You can always increase the number of users. The number of users can be increased in steps of 5 (e.g. you could start with 5 users and then increase the number of users to 10 users). You can purchase the Enterprise Edition from [here](https://www.openproject.org/enterprise-edition/). Simply click on the button "Book now" and follow the steps. A reduction in the number of users would take effect after the current service period.
+
+### Do you have OpenProject guest accounts?
+
+Currently, all users working in the OpenProject Enterprise Edition need a license in order to access OpenProject. Regarding payments we only count the active (not blocked) users.
