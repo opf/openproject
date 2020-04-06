@@ -60,5 +60,11 @@ An e-mail invitation will be sent out to the user with a link to [create an acco
 
 You can now collaborate with your team in OpenProject.
 
+## Frequently asked questions (FAQ)
+
+### Can I run OpenProject as a single user?
+
+Our minimum plan is five users. Our pricing scheme covers three subscription options: Community ($0), Cloud (€4.95/member/month or approximately $5.60/member/month), and Enterprise (€5.95/member/month or approximately $6.73/member/month). We recommend to start the [community version](https://www.openproject.org/download-and-installation/) free of charge if the 5 user minimum is an issue.
+
 
 
