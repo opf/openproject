@@ -40,3 +40,9 @@ Click on one of the categories in order to proceed with the configuration.
 | [Webhooks](./webhooks)                             | Add and manage webhooks in OpenProject.                      |
 | [Information](information)                         | View the latest system information status.                   |
 
+# Frequently asked questions (FAQ)
+
+### How can we download the documentation loaded on OpenProject?
+
+Currently, there is unfortunately no option to export all the documents in OpenProject. We could manually export the entire database (including the attachments) for you. Due to the manual effort, we would however need to charge a service fee for this. Please contact sales@openproject.com.
+
