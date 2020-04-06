@@ -17,12 +17,6 @@ GIT
       omniauth-openid-connect (>= 0.2.1)
 
 GIT
-  remote: https://github.com/finnlabs/rspec-example_disabler.git
-  revision: deb9c38e3f4e3688724583ac1ff58e1ae8aba409
-  specs:
-    rspec-example_disabler (0.0.1)
-
-GIT
   remote: https://github.com/opf/omniauth
   revision: fe862f986b2e846e291784d2caa3d90a658c67f0
   ref: fe862f986b2e846e291784d2caa3d90a658c67f0
@@ -1082,7 +1076,6 @@ DEPENDENCIES
   rouge (~> 3.17.0)
   rspec (~> 3.9.0)
   rspec-activemodel-mocks (~> 1.1.0)!
-  rspec-example_disabler!
   rspec-rails (~> 4.0.0)
   rspec-retry (~> 0.6.1)
   rubocop
