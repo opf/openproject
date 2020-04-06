@@ -48,3 +48,8 @@ First, navigate to the work package table. Highlight all work packages (in the h
 Select **Bulk copy** in order to copy all selected work packages including their relations.
 
 ![image-20200331132513748](image-20200331132513748.png)
+
+### Is it possible to adapt or rename the status list?
+
+Yes, this is absolutely possible. To do this, you would first have to [create new statuses](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-status/).
+In the second step you can then [assign them to workflows](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-workflows/).
