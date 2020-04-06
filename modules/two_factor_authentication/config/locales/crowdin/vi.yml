@@ -162,7 +162,7 @@ vi:
   notice_account_otp_send_failed: "Your one-time password could not be sent."
   notice_account_has_no_phone: "No cell phone number is associated with your account."
   label_expiration_hint: "%{date} or on logout"
-  label_actions: 'Actions'
+  label_actions: 'Hành động'
   label_confirmed: 'Đã xác nhận'
   button_continue: 'Continue'
   button_make_default: 'Mark as default'
