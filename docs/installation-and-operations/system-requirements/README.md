@@ -51,3 +51,23 @@ OpenProject supports the latest versions of the major browsers.
 * [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge)
 * [Google Chrome](https://www.google.com/chrome/browser/desktop/)
 * [Apple Safari](https://www.apple.com/safari/)
+
+## Frequently asked questions (FAQ)
+
+### What are the OpenProject system requirements?
+
+OpenProject can be installed in two different ways: the packaged installation of OpenProject is the recommended way to install and maintain OpenProject using DEB or RPM packages. System requirements need one of the following Linux distributions: 
+* Ubuntu 18.04 Bionic Beaver
+* Ubuntu 16.04 Xenial Xerus
+* Debian 10 Buster
+* Debian 9 Stretch
+* CentOS/RHEL 8.x
+* CentOS/RHEL 7.x
+* Suse Linux Enterprise Server 12
+
+OpenProject also provides a Docker image for the Community Edition that you can very easily install and upgrade on your servers. 
+The detailed system requirements are available [here](https://www.openproject.org/system-requirements/).
+
+### Can I run OpenProject on Windows?
+
+At the moment this is not possible. Check above regarding the system requirements.
