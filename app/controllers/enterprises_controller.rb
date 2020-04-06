@@ -54,7 +54,6 @@ class EnterprisesController < ApplicationController
     @token.encoded_token = params[:enterprise_token][:encoded_token]
     if @token.save
       flash[:notice] = t(:notice_successful_update)
-      redirect_to action: :show
     else
       # restore the old token
       if saved_encoded_token
