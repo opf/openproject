@@ -71,7 +71,7 @@ class EnterprisesController < ApplicationController
       flash[:notice] = t(:notice_successful_delete)
 
       trial_key = Token::EnterpriseTrialKey.find_by(user_id: User.system.id)
-      trial_key.destroy
+      trial_key&.destroy
 
       redirect_to action: :show
     else

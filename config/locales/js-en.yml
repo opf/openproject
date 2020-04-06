@@ -231,6 +231,7 @@ en:
           button_start_trial: "Start free trial"
           button_book_now: "Book now"
           link_quote: "Get a quote"
+          unlimited: "Unlimited"
           you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
 
     custom_actions:
