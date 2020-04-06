@@ -206,3 +206,9 @@ To **re-size** a widget, click on the grey icon in the lower right hand corner o
 To remove a widget from the project overview page, click on the three dots at the top right corner of the widget and select **Remove widget**.
 
 ![remove-widget](remove-widget.png)
+
+## Frequently asked questions (FAQ)
+
+### Is it possible that we can have a board over all OpenProject tasks and users? 
+
+Yes, to achieve the desired result you can navigate to the main project and on the Kanban view add the filter "subproject" "all". This will display the work packages in the main project and all subprojects.
