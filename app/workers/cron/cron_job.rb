@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,14 +28,51 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-namespace 'openproject:cron' do
-  desc 'An hourly cron job hook for plugin functionality'
-  task :hourly do
-    # Does nothing by default
-  end
+module Cron
+  class CronJob < ApplicationJob
+    class_attribute :cron_expression
 
-  desc 'Ensure the cron-like background jobs are actively scheduled'
-  task schedule: [:environment] do
-    ::Cron::CronJob.registered_jobs.each(&:ensure_scheduled!)
+    # List of registered jobs, requires eager load in dev(!)
+    class_attribute :registered_jobs, default: []
+
+    class << self
+      ##
+      # Register new job class(es)
+      def register!(*job_classes)
+        Array(job_classes).each do |clz|
+          raise ArgumentError, "Needs to be subclass of ::Cron::CronJob" unless clz.ancestors.include?(self)
+
+          registered_jobs << clz
+        end
+      end
+
+      ##
+      # Ensure the job is scheduled unless it is already
+      def ensure_scheduled!
+        # Ensure scheduled only onced
+        return if scheduled?
+
+        Rails.logger.info { "Scheduling #{name} recurrent background job." }
+        set(cron: cron_expression).perform_later
+      end
+
+      ##
+      # Remove the scheduled job, if any
+      def remove
+        delayed_job&.destroy
+      end
+
+      ##
+      # Is there a job scheduled?
+      def scheduled?
+        delayed_job.present?
+      end
+
+      def delayed_job
+        Delayed::Job
+          .where('handler LIKE ?', "%job_class: #{name}%")
+          .first
+      end
+    end
   end
 end

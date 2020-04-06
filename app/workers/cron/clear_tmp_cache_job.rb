@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,14 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-namespace 'openproject:cron' do
-  desc 'An hourly cron job hook for plugin functionality'
-  task :hourly do
-    # Does nothing by default
-  end
+module Cron
+  class ClearTmpCacheJob < CronJob
+    include ::RakeJob
 
-  desc 'Ensure the cron-like background jobs are actively scheduled'
-  task schedule: [:environment] do
-    ::Cron::CronJob.registered_jobs.each(&:ensure_scheduled!)
+    # runs at 02:45 sundays
+    self.cron_expression = '45 2 * * 7'
+
+    def perform
+      super 'tmp:cache:clear'
+    end
   end
 end

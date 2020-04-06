@@ -176,7 +176,10 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
         group_foo.users << user_aa729
 
         # Outputs that nothing was added to sync group
-        expect { subject }.to output("No users to remove for foo\nNo new users to add for foo\n").to_stdout
+        expect(Rails.logger).to receive(:info).with("[LDAP groups] No users to remove for foo")
+        expect(Rails.logger).to receive(:info).with("[LDAP groups] No new users to add for foo")
+
+        subject
 
         # Does not add to synced group since added manually
         expect(synced_foo.users.count).to eq(0)
@@ -212,7 +215,8 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
     end
 
     it 'does not raise, but print to stderr' do
-      expect { subject }.to output(/Failed to perform LDAP group synchronization/).to_stderr
+      expect(Rails.logger).to receive(:error).with(/Failed to perform LDAP group synchronization/)
+      subject
     end
   end
 

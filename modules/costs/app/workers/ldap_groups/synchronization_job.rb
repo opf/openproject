@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,14 +28,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-namespace 'openproject:cron' do
-  desc 'An hourly cron job hook for plugin functionality'
-  task :hourly do
-    # Does nothing by default
-  end
+module LdapGroups
+  class SynchronizationJob < ::Cron::CronJob
+    # Run every 30 minutes
+    self.cron_expression = '*/30 * * * *'
 
-  desc 'Ensure the cron-like background jobs are actively scheduled'
-  task schedule: [:environment] do
-    ::Cron::CronJob.registered_jobs.each(&:ensure_scheduled!)
+    def perform
+      return unless EnterpriseToken.allows_to?(:ldap_groups)
+
+      begin
+        LdapAuthSource.find_each do |ldap|
+          Rails.logger.info { "[LDAP groups] Start synchronization for ldap auth source #{ldap.name}" }
+          OpenProject::LdapGroups::Synchronization.new(ldap)
+        end
+      rescue StandardError => e
+        msg = "[LDAP groups] Failed to run LDAP group synchronization. #{e.class.name}: #{e.message}"
+        Rails.logger.error msg
+      end
+    end
   end
 end

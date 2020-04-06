@@ -290,6 +290,16 @@ module OpenProject::Plugins
         end
       end
 
+      ##
+      # Register a "cron"-like background job
+      def add_cron_jobs(&block)
+        config.to_prepare do
+          Array(block.call).each do |clz|
+            ::Cron::CronJob.register!(clz.is_a?(Class) ? clz : clz.to_s.constantize)
+          end
+        end
+      end
+
       # Add custom inflection for file name to class name mapping. Otherwise, the default zeitwerk
       # #camelize method will be utilized.
       #
