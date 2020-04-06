@@ -53,3 +53,10 @@ Please choose the module you want to learn more about.
 | [Documents](documents)                        | How to upload and share documents in OpenProject?            |
 | [Meetings](meetings)                          | How to manage meetings to create and share meeting agenda and meeting minutes? |
 | [Manage projects](projects)                   | Edit, create, copy, delete projects and change project settings. |
+
+
+## Frequently asked questions (FAQ)
+
+### Is there an OpenProject app?
+
+There is no native app for OpenProject, but OpenProject is responsive - so it is displayed well on smaller displays.
