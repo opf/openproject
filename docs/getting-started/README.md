@@ -43,3 +43,9 @@ Watch a short 3-minute introduction video to get started with OpenProject in 5 e
 Watch a **comprehensive OpenProject product introduction** video to learn how to work with OpenProject using traditional and agile project management. 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ebc3lcSmncA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Frequently asked questions (FAQ)
+
+### Is OpenProject free of charge?
+
+We offer three different versions of OpenProject. Please get an overview of the different OpenProject Editions [here](https://www.openproject.org/pricing/). The (on-premise) OpenProject Community Edition is completely free. The Cloud and Enterprise Edition offer premium features, hosting and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise and Cloud versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community Edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community Edition. It is always possible to upgrade from the Community to the Cloud and Enterprise Edition – check out the premium features [here](https://www.openproject.org/enterprise-edition/).
