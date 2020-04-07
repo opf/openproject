@@ -33,7 +33,7 @@
     <label class="form--label">{{ text.label_email }}</label>
     <div class="form--field-container">
       <div class="form--text-field-container"
-           [ngClass]="{'-required-highlighting' : eeTrialService.errorMsg}">
+           [ngClass]="{ '-required-highlighting' : eeTrialService.errorMsg }">
         <input type="email" class="form--text-field" formControlName="email" (blur)="checkMailField()">
       </div>
     </div>
@@ -56,11 +56,7 @@
                  formControlName="general_consent"
                  required>
         </div>
-        <span>{{ text.general_consent }}
-          <a [href]="termsOfServiceURL" target="_blank">{{ text.terms_of_service }}</a>
-          and the
-          <a [href]="legalNoticeURL" target="_blank">{{ text.privacy_policy }}</a>.
-        </span>
+        <span [innerHTML]="text.general_consent"></span>
       </label>
     </div>
   </div>
@@ -72,10 +68,7 @@
                  class="form--check-box"
                  formControlName="newsletter_consent">
         </div>
-        <span>{{ text.receive_newsletter }}
-          <a [href]="newsletterURL" target="_blank">
-            {{ text.newsletter }}</a>.
-        </span>
+        <span [innerHtml]="text.receive_newsletter"></span>
       </label>
     </div>
   </div>

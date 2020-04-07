@@ -45,7 +45,12 @@ See docs/COPYRIGHT.rdoc for more details.
      data-cb-plan-id="enterprise-edition---annual-user-license">
     <%= t('admin.enterprise.book_now') %>
   </a>
-  <%= static_link_to :upsale_get_quote %>
+
+  <% quote_link = OpenProject::Static::Links.links.fetch :upsale_get_quote %>
+  <%= link_to t(quote_link[:label]),
+              quote_link[:href],
+              target: '_blank',
+              class: 'button -highlight'%>
 </div>
 
 <div class="info-boxes upsale-benefits">

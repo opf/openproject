@@ -153,4 +153,16 @@ export class EnterpriseTrialService {
       }, delay);
     }
   }
+
+  public setStartTrialStatus() {
+    this.status = 'startTrial';
+  }
+
+  public get trialStarted():boolean {
+    return this.status === 'startTrial';
+  }
+
+  public get mailSubmitted():boolean {
+    return this.status === 'mailSubmitted';
+  }
 }

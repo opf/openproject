@@ -31,14 +31,13 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
 
-export const termsOfServiceURL = 'https://www.openproject.com/terms-of-service/';
-export const legalNoticeURL = 'https://www.openproject.com/legal-notice/';
-export const newsletterURL = 'https://www.openproject.com/newsletter/';
+const termsOfServiceURL = 'https://www.openproject.com/terms-of-service/';
+const legalNoticeURL = 'https://www.openproject.com/legal-notice/';
+const newsletterURL = 'https://www.openproject.com/newsletter/';
 
 @Component({
   selector: 'enterprise-trial-form',
-  templateUrl: './ee-trial-form.component.html',
-  styleUrls: ['./ee-trial-form.component.sass']
+  templateUrl: './ee-trial-form.component.html'
 })
 export class EETrialFormComponent {
   // enterprise trial form
@@ -52,11 +51,11 @@ export class EETrialFormComponent {
     newsletter_consent: null,
   });
 
-  readonly termsOfServiceURL = termsOfServiceURL;
-  readonly legalNoticeURL = legalNoticeURL;
-  readonly newsletterURL = newsletterURL;
   public text = {
-    general_consent: this.I18n.t('js.admin.enterprise.trial.form.general_consent'),
+    general_consent: this.I18n.t('js.admin.enterprise.trial.form.general_consent', {
+      link_terms: termsOfServiceURL,
+      link_privacy: legalNoticeURL
+    }),
     invalid_email: this.I18n.t('js.admin.enterprise.trial.form.invalid_email'),
     label_test_ee: this.I18n.t('js.admin.enterprise.trial.form.test_ee'),
     label_company: this.I18n.t('js.admin.enterprise.trial.form.label_company'),
@@ -66,8 +65,7 @@ export class EETrialFormComponent {
     label_domain: this.I18n.t('js.admin.enterprise.trial.form.label_domain'),
     next_step: this.I18n.t('js.admin.enterprise.trial.next_step'),
     privacy_policy: this.I18n.t('js.admin.enterprise.trial.form.privacy_policy'),
-    receive_newsletter: this.I18n.t('js.admin.enterprise.trial.form.receive_newsletter'),
-    newsletter: this.I18n.t('js.admin.enterprise.trial.form.newsletter'),
+    receive_newsletter: this.I18n.t('js.admin.enterprise.trial.form.receive_newsletter',{ link: newsletterURL }),
     terms_of_service: this.I18n.t('js.admin.enterprise.trial.form.terms_of_service')
   };
 

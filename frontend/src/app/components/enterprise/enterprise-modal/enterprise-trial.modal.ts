@@ -92,24 +92,23 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
 
   public startEnterpriseTrial() {
     // open onboarding modal screen
-    this.eeTrialService.status = 'startTrial';
+    this.eeTrialService.setStartTrialStatus();
   }
 
   public headerText() {
-    switch (this.eeTrialService.status) {
-      case 'mailSubmitted':
-        return this.text.heading_confirmation;
-      case 'startTrial':
-        return this.text.heading_next_steps;
-      default:
-        return this.text.heading_test_ee;
+    if (this.eeTrialService.mailSubmitted) {
+      return this.text.heading_confirmation;
+    } else if(this.eeTrialService.trialStarted) {
+      return this.text.heading_next_steps;
+    } else {
+      return this.text.heading_test_ee;
     }
   }
 
   public closeModal(event:any) {
     this.closeMe(event);
     // refresh page to show enterprise trial
-    if (this.eeTrialService.status === 'startTrial' || this.eeTrialService.confirmed) {
+    if (this.eeTrialService.trialStarted || this.eeTrialService.confirmed) {
       window.location.reload();
     }
     this.eeTrialService.modalOpen = false;
@@ -122,7 +121,7 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
   public openWindow():number {
     if (!this.eeTrialService.status || this.eeTrialService.cancelled) {
       return 1;
-    } else if (this.eeTrialService.status === 'mailSubmitted' && !this.eeTrialService.cancelled) {
+    } else if (this.eeTrialService.mailSubmitted && !this.eeTrialService.cancelled) {
       return 2;
     } else {
       return 3;

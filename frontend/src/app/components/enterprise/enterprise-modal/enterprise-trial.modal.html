@@ -44,7 +44,7 @@
                 [disabled]="!trialForm || trialForm.invalid"
                 [textContent]="text.button_submit"
                 [attr.title]="text.button_submit"
-                [hidden]="eeTrialService.status === 'mailSubmitted' && !eeTrialService.cancelled">
+                [hidden]="eeTrialService.mailSubmitted && !eeTrialService.cancelled">
         </button>
         <button class="confirm-form-submit--cancel button"
                 (click)="closeModal($event)"
@@ -58,9 +58,9 @@
                 [textContent]="text.button_continue"
                 [attr.title]="text.button_continue"
                 [disabled]="!eeTrialService.confirmed"
-                [hidden]="eeTrialService.status === 'startTrial'">
+                [hidden]="eeTrialService.trialStarted">
         </button>
-        <button *ngIf="eeTrialService.status === 'startTrial'"
+        <button *ngIf="eeTrialService.trialStarted"
                 class="confirm-form-submit--continue button -highlight"
                 (click)="closeModal($event)"
                 [textContent]="text.button_continue"
