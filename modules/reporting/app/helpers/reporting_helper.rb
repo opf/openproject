@@ -97,7 +97,7 @@ module ReportingHelper
   end
 
   def field_representation_map(key, value)
-    return t(:label_none) if value.blank?
+    return I18n.t(:label_none) if value.blank?
 
     case key.to_sym
     when :activity_id                           then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
