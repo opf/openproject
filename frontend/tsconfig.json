@@ -38,5 +38,10 @@
       "core-components/*": ["./app/components/*"]
     }
   },
-  "compileOnSave": false
+  "compileOnSave": false,
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictNullInputTypes": false,
+    "strictDomEventTypes": false
+  }
 }

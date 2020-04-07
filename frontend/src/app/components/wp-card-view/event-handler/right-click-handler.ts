@@ -32,8 +32,8 @@ export class CardRightClickHandler implements CardEventHandler {
     return jQuery(card.container.nativeElement);
   }
 
-  public handleEvent(card:WorkPackageCardViewComponent, evt:JQuery.TriggeredEvent) {
-    let target = jQuery(evt.target);
+  public handleEvent(card:WorkPackageCardViewComponent, evt:Event) {
+    let target = jQuery(evt.target as HTMLElement);
 
     // We want to keep the original context menu on hrefs
     // (currently, this is only the id)
@@ -59,7 +59,7 @@ export class CardRightClickHandler implements CardEventHandler {
         this.wpTableSelection.setSelection(wpId, index);
       }
 
-      const handler = new WorkPackageViewContextMenu(this.injector, wpId, jQuery(evt.target) as JQuery, {}, card.showInfoButton);
+      const handler = new WorkPackageViewContextMenu(this.injector, wpId, target, {}, card.showInfoButton);
       this.opContextMenu.show(handler, evt);
     }
 

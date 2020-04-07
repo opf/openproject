@@ -45,14 +45,14 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   `
 })
 export class AccessibleByKeyboardComponent {
-  @Output() execute = new EventEmitter<JQuery.TriggeredEvent>();
+  @Output() execute = new EventEmitter<MouseEvent>();
   @Input() isDisabled:boolean;
   @Input() linkClass:string;
   @Input() linkTitle:string;
   @Input() spanClass:string;
   @Input() linkAriaLabel:string;
 
-  public handleClick(event:JQuery.TriggeredEvent) {
+  public handleClick(event:MouseEvent) {
     if (!this.isDisabled) {
       this.execute.emit(event);
     }

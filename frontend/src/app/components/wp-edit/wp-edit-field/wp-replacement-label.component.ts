@@ -46,9 +46,9 @@ export class WorkPackageReplacementLabelComponent implements OnInit {
     this.$element = jQuery(this.elementRef.nativeElement);
   }
 
-  public activate(evt:JQuery.TriggeredEvent) {
+  public activate(evt:Event) {
     // Skip clicks on help texts
-    const target = jQuery(evt.target);
+    const target = jQuery(evt.target as Element);
     if (target.closest('.help-text--entry').length) {
       return true;
     }

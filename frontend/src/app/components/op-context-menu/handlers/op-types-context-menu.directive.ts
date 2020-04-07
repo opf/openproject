@@ -75,7 +75,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
       });
   }
 
-  protected open(evt:JQuery.TriggeredEvent) {
+  protected open(evt:Event) {
     this.loadingPromise.then(() => {
       this.opContextMenu.show(this, evt);
     });
@@ -96,7 +96,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
         href: this.$state.href(this.stateName, { type: type.id! }),
         ariaLabel: type.name,
         class: Highlighting.inlineClass('type', type.id!),
-        onClick: ($event:JQuery.TriggeredEvent) => {
+        onClick: ($event:MouseEvent) => {
           if (LinkHandling.isClickedWithModifier($event)) {
             return false;
           }

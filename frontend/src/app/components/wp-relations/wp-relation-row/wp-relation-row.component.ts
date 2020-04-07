@@ -108,7 +108,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     });
   }
 
-  public handleDescriptionKey($event:JQuery.TriggeredEvent) {
+  public handleDescriptionKey($event:KeyboardEvent) {
     if ($event.which === 27) {
       this.cancelDescriptionEdit();
     }
@@ -142,7 +142,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     }
   }
 
-  public cancelRelationTypeEditOnEscape(evt:JQuery.TriggeredEvent) {
+  public cancelRelationTypeEditOnEscape(evt:Event) {
     this.userInputs.showRelationTypesForm = false;
   }
 

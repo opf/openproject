@@ -74,7 +74,7 @@
         <input type="radio"
                [attr.disabled]="disabledValue(eeShowBanners)"
                [(ngModel)]="highlightingMode"
-               (change)="updateMode($event.target.value)"
+               (change)="updateMode($event.target!.value)"
                value="none"
                name="highlighting_mode_switch">
         <span [textContent]="text.highlighting_mode.none"></span>

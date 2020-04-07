@@ -17,5 +17,5 @@ export interface OpContextMenuItem {
   ariaLabel?:string;
   linkText?:string;
   divider?:boolean;
-  onClick?:($event:JQuery.TriggeredEvent) => boolean;
+  onClick?:($event:Event) => boolean;
 }

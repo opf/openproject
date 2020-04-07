@@ -69,8 +69,8 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
     this.cdRef.detectChanges();
   }
 
-  public signalModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }) {
-    this.modifiedEntry.emit($event as { savedResource:TimeEntryResource, isInital:boolean });
+  public signalModifiedEntry($event:any) {
+    this.modifiedEntry.emit($event);
   }
 
   public save() {

@@ -47,7 +47,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     super(elementRef, opContextMenu);
   }
 
-  protected open(evt:JQuery.TriggeredEvent) {
+  protected open(evt:Event) {
     const wp = this.states.workPackages.get('new').value;
 
     if (wp) {
@@ -66,7 +66,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(evt:JQuery.TriggeredEvent) {
+  public positionArgs(evt:Event) {
     let additionalPositionArgs = {
       my: 'right top',
       at: 'right bottom'

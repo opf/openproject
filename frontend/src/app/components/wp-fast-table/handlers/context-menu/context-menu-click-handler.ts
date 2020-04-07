@@ -20,8 +20,8 @@ export class ContextMenuClickHandler extends ContextMenuHandler {
     return `.${contextMenuLinkClassName}`;
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
-    let target = jQuery(evt.target);
+  public handleEvent(table:WorkPackageTable, evt:MouseEvent):boolean {
+    let target = jQuery(evt.target as HTMLElement);
 
     // We want to keep the original context menu on hrefs
     // (currently, this is only the id

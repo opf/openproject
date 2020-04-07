@@ -17,7 +17,7 @@ export class OPContextMenuComponent {
     this.service = this.locals.service;
   }
 
-  public handleClick(item:OpContextMenuItem, $event:JQuery.TriggeredEvent) {
+  public handleClick(item:OpContextMenuItem, $event:Event) {
     if (item.disabled || item.divider) {
       return false;
     }

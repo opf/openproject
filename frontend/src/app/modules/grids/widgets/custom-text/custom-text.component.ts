@@ -17,6 +17,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {filter} from 'rxjs/operators';
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 
 @Component({
   templateUrl: './custom-text.component.html',
@@ -63,7 +64,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
     }
   }
 
-  public activate(event:MouseEvent) {
+  public activate(event:MouseEvent|KeyboardEvent) {
     // Prevent opening the edit mode if a link was clicked
     if (this.clickedElementIsLinkWithinDisplayContainer(event)) {
       return;
@@ -94,7 +95,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
     return this.handler.schema;
   }
 
-  public get changeset() {
+  public get changeset():any {
     return this.handler.changeset;
   }
 

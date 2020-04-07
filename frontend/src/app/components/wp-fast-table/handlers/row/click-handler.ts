@@ -12,6 +12,7 @@ import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/ro
 import {displayClassName} from "core-components/wp-edit-form/display-field-renderer";
 import {activeFieldClassName} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import ClickEvent = JQuery.ClickEvent;
 
 export class RowClickHandler implements TableEventHandler {
 
@@ -38,8 +39,8 @@ export class RowClickHandler implements TableEventHandler {
     return jQuery(table.tbody);
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent) {
-    let target = jQuery(evt.target);
+  public handleEvent(table:WorkPackageTable, evt:MouseEvent) {
+    let target = jQuery(evt.target as HTMLElement);
 
     // Ignore links
     if (target.is('a') || target.parent().is('a')) {

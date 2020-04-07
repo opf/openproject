@@ -33,8 +33,8 @@ export class CardClickHandler implements CardEventHandler {
     return jQuery(card.container.nativeElement);
   }
 
-  public handleEvent(card:WorkPackageCardViewComponent, evt:JQuery.TriggeredEvent) {
-    let target = jQuery(evt.target);
+  public handleEvent(card:WorkPackageCardViewComponent, evt:MouseEvent) {
+    let target = jQuery(evt.target as HTMLElement);
 
     // Ignore links
     if (target.is('a') || target.parent().is('a')) {
@@ -55,7 +55,7 @@ export class CardClickHandler implements CardEventHandler {
   }
 
 
-  protected handleWorkPackage(wpId:any, element:JQuery, evt:JQuery.TriggeredEvent) {
+  protected handleWorkPackage(wpId:any, element:JQuery, evt:MouseEvent) {
     this.setSelection(wpId, element, evt);
 
     // open work package on mobile after first click
@@ -71,7 +71,7 @@ export class CardClickHandler implements CardEventHandler {
     }
   }
 
-  protected setSelection(wpId:string, element:JQuery, evt:JQuery.TriggeredEvent) {
+  protected setSelection(wpId:string, element:JQuery, evt:MouseEvent) {
     let classIdentifier = element.data('classIdentifier');
     let index = this.wpCardView.findRenderedCard(classIdentifier);
 

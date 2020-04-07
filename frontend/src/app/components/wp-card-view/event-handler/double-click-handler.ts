@@ -25,8 +25,8 @@ export class CardDblClickHandler implements CardEventHandler {
     return jQuery(card.container.nativeElement);
   }
 
-  public handleEvent(card:WorkPackageCardViewComponent, evt:JQuery.TriggeredEvent) {
-    let target = jQuery(evt.target);
+  public handleEvent(card:WorkPackageCardViewComponent, evt:Event) {
+    let target = jQuery(evt.target as HTMLElement);
 
     // Ignore links
     if (target.is('a') || target.parent().is('a')) {

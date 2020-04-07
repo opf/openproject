@@ -19,6 +19,10 @@ export class TimeEntryCreateModal extends TimeEntryBaseModal {
     return false;
   }
 
+  public destroy() {
+    // NO-OP on create
+  }
+
   public setModifiedEntry($event:{savedResource:HalResource, isInital:boolean}) {
     this.createdEntry = $event.savedResource as TimeEntryResource;
   }

@@ -30,11 +30,11 @@ export class GroupRowHandler implements TableEventHandler {
     return jQuery(table.tbody);
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent) {
+  public handleEvent(table:WorkPackageTable, evt:MouseEvent) {
     evt.preventDefault();
     evt.stopPropagation();
 
-    let groupHeader = jQuery(evt.target).parents(`.${rowGroupClassName}`);
+    let groupHeader = jQuery(evt.target as HTMLElement).parents(`.${rowGroupClassName}`);
     let groupIdentifier = groupHeader.data('groupIdentifier');
     let state = this.collapsedState.value || {};
 

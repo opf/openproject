@@ -31,7 +31,7 @@ import {PasswordConfirmationModal} from "core-components/modals/request-for-conf
 
 function registerListener(
   form:JQuery,
-  $event:JQuery.TriggeredEvent,
+  $event:Event,
   opModalService:OpModalService,
   modal:typeof PasswordConfirmationModal) {
   const passwordConfirm = form.find('_password_confirmation');
@@ -69,7 +69,7 @@ export function registerRequestForConfirmation($:JQueryStatic) {
       $(document).on(
         'submit',
         'form[data-request-for-confirmation]',
-        function(this:any, $event:JQuery.TriggeredEvent) {
+        function(this:any, $event:Event) {
           const form = jQuery(this);
 
           if (form.find('input[name="_password_confirmation"]').length) {

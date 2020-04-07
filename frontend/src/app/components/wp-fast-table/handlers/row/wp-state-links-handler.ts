@@ -38,14 +38,14 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
 
   protected workPackage:WorkPackageResource;
 
-  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent) {
+  public handleEvent(table:WorkPackageTable, evt:MouseEvent) {
     // Avoid the state capture when clicking with modifier
     if (evt.shiftKey || evt.ctrlKey || evt.metaKey || evt.altKey) {
       return true;
     }
 
     // Locate the details link from event
-    const target = jQuery(evt.target);
+    const target = jQuery(evt.target as HTMLElement);
     const element = target.closest(this.SELECTOR);
     const state = element.data('wpState');
     const workPackageId = element.data('workPackageId');

@@ -10,7 +10,7 @@ export class BcfClickHandler extends CardClickHandler {
   @InjectField() states:States;
   @InjectField() bcfApi:BcfApiService;
 
-  protected handleWorkPackage(wpId:string, element:JQuery<HTMLElement>, evt:JQuery.TriggeredEvent) {
+  protected handleWorkPackage(wpId:string, element:JQuery<HTMLElement>, evt:MouseEvent) {
     this.setSelection(wpId, element, evt);
     const wp = this.states.workPackages.get(wpId).value!;
 

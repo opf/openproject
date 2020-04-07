@@ -87,7 +87,7 @@ export class MainMenuToggleService {
   }
 
   // click on arrow or hamburger icon
-  public toggleNavigation(event?:JQuery.TriggeredEvent):void {
+  public toggleNavigation(event?:Event):void {
     if (event) {
       event.stopPropagation();
       event.preventDefault();

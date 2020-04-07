@@ -174,7 +174,7 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
     return this.table && this.table.configuration.hierarchyToggleEnabled;
   }
 
-  toggleHierarchy(evt:JQuery.TriggeredEvent) {
+  toggleHierarchy(evt:Event) {
     if (this.wpTableHierarchies.toggleState()) {
       this.wpTableGroupBy.disable();
     }

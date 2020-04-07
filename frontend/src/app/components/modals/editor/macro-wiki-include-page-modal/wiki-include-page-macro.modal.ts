@@ -67,7 +67,7 @@ export class WikiIncludePageMacroModal extends OpModalComponent implements After
     // We could provide an autocompleter here to get correct page names
   }
 
-  public applyAndClose(evt:JQuery.TriggeredEvent) {
+  public applyAndClose(evt:Event) {
     this.changed = true;
     this.page = this.selectedPage;
     this.closeMe(evt);

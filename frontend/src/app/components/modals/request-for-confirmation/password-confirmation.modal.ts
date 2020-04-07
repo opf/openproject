@@ -51,7 +51,7 @@ export class PasswordConfirmationModal extends ConfirmDialogModal implements OnI
     this.showClose = false;
   }
 
-  public confirmAndClose(evt:JQuery.TriggeredEvent) {
+  public confirmAndClose(evt:Event) {
     if (this.passwordValuePresent()) {
       super.confirmAndClose(evt);
     }

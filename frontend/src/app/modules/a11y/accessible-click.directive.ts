@@ -34,11 +34,11 @@ import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 })
 export class AccessibleClickDirective {
   @Input('accessibleClickStopEvent') stopEventPropagation:boolean = true;
-  @Output('accessibleClick') onClick = new EventEmitter<JQuery.TriggeredEvent>();
+  @Output('accessibleClick') onClick = new EventEmitter<MouseEvent|KeyboardEvent>();
 
   @HostListener('click', ['$event'])
   @HostListener('keydown', ['$event'])
-  public handleClick(event:JQuery.TriggeredEvent) {
+  public handleClick(event:MouseEvent|KeyboardEvent) {
     if (event.type === 'click' || event.which === keyCodes.ENTER || event.which === keyCodes.SPACE) {
 
       if (this.stopEventPropagation) {

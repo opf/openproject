@@ -37,8 +37,8 @@ export class RowDoubleClickHandler implements TableEventHandler {
     return jQuery(table.tbody);
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent) {
-    let target = jQuery(evt.target);
+  public handleEvent(table:WorkPackageTable, evt:MouseEvent) {
+    let target = jQuery(evt.target as HTMLElement);
 
     // Skip clicks with modifiers
     if (LinkHandling.isClickedWithModifier(evt)) {

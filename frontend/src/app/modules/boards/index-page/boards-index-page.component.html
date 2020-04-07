@@ -23,9 +23,9 @@
 
 <div class="boards--listing-group loading-indicator--location"
      data-indicator-name="boards-module">
-  <div *ngIf="showBoardIndexView() && (boards$ | async) as boards"
+  <div *ngIf="showBoardIndexView()"
        class="generic-table--container">
-    <div class="generic-table--results-container">
+    <div *ngIf="(boards$ | async) as boards" class="generic-table--results-container">
       <table class="generic-table">
         <colgroup>
           <col highlight-col>
@@ -86,7 +86,7 @@
           </td>
           <td>
             <span *ngIf="board.isFree" [textContent]="text.type_free"></span>
-            <span *ngIf="board.isAction" [textContent]="text.action_by_attribute(board.actionAttribute)"></span>
+            <span *ngIf="board.isAction" [textContent]="text.action_by_attribute(board.actionAttribute!)"></span>
           </td>
           <td>
             <op-date-time [dateTimeValue]="board.createdAt"></op-date-time>

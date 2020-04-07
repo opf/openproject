@@ -31,6 +31,7 @@ import {Component} from '@angular/core';
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
   selector: 'bcf-new-split',
@@ -42,7 +43,7 @@ export class BCFNewSplitComponent extends WorkPackageCreateComponent {
   @InjectField()
   readonly viewer:IFCViewerService;
 
-  public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
-    super.onSaved(params);
+  public onSaved(params:{ savedResource:HalResource, isInitial:boolean }) {
+    super.onSaved(params as { savedResource:WorkPackageResource, isInitial:boolean });
   }
 }

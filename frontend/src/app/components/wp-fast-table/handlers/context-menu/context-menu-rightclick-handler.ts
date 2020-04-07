@@ -30,11 +30,11 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     return jQuery(table.tableAndTimelineContainer);
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
+  public handleEvent(table:WorkPackageTable, evt:MouseEvent):boolean {
     if (!table.configuration.contextMenuEnabled) {
       return false;
     }
-    let target = jQuery(evt.target);
+    let target = jQuery(evt.target as HTMLElement);
 
     // We want to keep the original context menu on hrefs
     // (currently, this is only the id

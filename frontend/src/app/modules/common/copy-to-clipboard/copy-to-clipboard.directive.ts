@@ -55,7 +55,7 @@ export class CopyToClipboardDirective implements OnInit {
     this.clickTarget = element.getAttribute('click-target');
     this.clipboardTarget = element.getAttribute('clipboard-target');
 
-    jQuery(this.clickTarget).on('click', (evt:JQuery.TriggeredEvent) => this.onClick(evt));
+    jQuery(this.clickTarget).on('click', (evt:Event) => this.onClick(evt));
 
     element.classList.add('copy-to-clipboard');
     this.target = jQuery(this.clipboardTarget ? this.clipboardTarget : element);
@@ -68,7 +68,7 @@ export class CopyToClipboardDirective implements OnInit {
     setTimeout(() => this.NotificationsService.remove(notification), 5000);
   }
 
-  onClick($event:JQuery.TriggeredEvent) {
+  onClick($event:Event) {
     var supported = (document.queryCommandSupported && document.queryCommandSupported('copy'));
     $event.preventDefault();
 

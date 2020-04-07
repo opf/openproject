@@ -103,7 +103,7 @@ export class AttachmentListItemComponent {
     return a.fileName || a.customName || a.name;
   }
 
-  public confirmRemoveAttachment($event:JQuery.TriggeredEvent) {
+  public confirmRemoveAttachment($event:Event) {
     if (!window.confirm(this.text.destroyConfirmation)) {
       $event.stopImmediatePropagation();
       $event.preventDefault();

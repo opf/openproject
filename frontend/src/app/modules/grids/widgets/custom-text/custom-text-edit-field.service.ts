@@ -109,7 +109,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     // interface
   }
 
-  handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel?:boolean):void {
+  handleUserKeydown(event:Event, onlyCancel?:boolean):void {
     // interface
   }
 
@@ -117,7 +117,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     return !this.changeset.isEmpty();
   }
 
-  stopPropagation(evt:JQuery.TriggeredEvent):boolean {
+  stopPropagation(evt:Event):boolean {
     return false;
   }
 

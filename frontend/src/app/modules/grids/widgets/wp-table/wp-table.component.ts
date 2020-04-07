@@ -2,7 +2,10 @@ import {ChangeDetectionStrategy, Component, Injector} from '@angular/core';
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-configuration";
+import {
+  WorkPackageTableConfiguration,
+  WorkPackageTableConfigurationObject
+} from "core-components/wp-table/wp-table-configuration";
 import {Observable} from 'rxjs';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
@@ -24,7 +27,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
   public inFlight = false;
   public query$:Observable<QueryResource>;
 
-  public configuration:Partial<WorkPackageTableConfiguration> = {
+  public configuration:WorkPackageTableConfigurationObject = {
     actionsColumnEnabled: false,
     columnMenuEnabled: false,
     hierarchyToggleEnabled: true,

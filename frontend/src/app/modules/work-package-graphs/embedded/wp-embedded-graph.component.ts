@@ -30,8 +30,8 @@ export class WorkPackageEmbeddedGraphComponent {
 
   public chartHeight = '100%';
   public chartLabels:string[] = [];
-  public chartData:ChartDataSet[] = [];
-  public chartOptions:ChartOptions;
+  public chartData:any = [];
+  public chartOptions:any;
   public initialized = false;
 
   public text = {
@@ -128,7 +128,7 @@ export class WorkPackageEmbeddedGraphComponent {
   }
 
   public get hasDataToDisplay() {
-    return this.chartData.length > 0 && this.chartData.some(set => set.data.length > 0);
+    return this.chartData.length > 0 && this.chartData.some((set:any) => set.data.length > 0);
   }
 
   private setHeight() {

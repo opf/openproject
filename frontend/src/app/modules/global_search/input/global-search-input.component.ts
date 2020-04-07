@@ -137,12 +137,12 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   // detect if click is outside or inside the element
   @HostListener('click', ['$event'])
-  public handleClick(event:JQuery.TriggeredEvent):void {
+  public handleClick(event:MouseEvent|KeyboardEvent):void {
     event.stopPropagation();
     event.preventDefault();
 
     // handle click on search button
-    if (ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
+    if (ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target as Element)) {
       if (this.deviceService.isMobile) {
         this.toggleMobileSearch();
         // open ng-select menu on default
@@ -161,7 +161,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.toggleTopMenuClass();
   }
 
-  public redirectToWp(id:string, event:JQuery.TriggeredEvent) {
+  public redirectToWp(id:string, event:MouseEvent) {
     event.stopImmediatePropagation();
     if (LinkHandling.isClickedWithModifier(event)) {
       return true;

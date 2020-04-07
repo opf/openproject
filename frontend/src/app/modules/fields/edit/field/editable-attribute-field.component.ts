@@ -123,7 +123,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   }
 
   // Open the field when its closed and relay drag & drop events to it.
-  public startDragOverActivation(event:JQuery.TriggeredEvent) {
+  public startDragOverActivation(event:Event) {
     if (!this.isDropTarget || !this.isEditable || this.active) {
       return true;
     }
@@ -154,16 +154,16 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     return this.resource.isAttributeEditable(this.fieldName) && fieldSchema && fieldSchema.writable;
   }
 
-  public activateIfEditable(event:JQuery.TriggeredEvent) {
+  public activateIfEditable(event:Event) {
+    let target = event.target as HTMLElement;
     // Ignore selections
-    if (SelectionHelpers.hasSelectionWithin(event.target)) {
+    if (SelectionHelpers.hasSelectionWithin(target)) {
       debugLog(`Not activating ${this.fieldName} because of active selection within`);
       return true;
     }
 
     // Skip activation if the user clicked on a link or within a macro
-    const target = jQuery(event.target);
-    if (target.closest('a,macro', this.displayContainer.nativeElement).length > 0) {
+    if (jQuery(target).closest('a,macro', this.displayContainer.nativeElement).length > 0) {
       return true;
     }
 
@@ -187,7 +187,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
       .catch(() => this.deactivate(true));
   }
 
-  public handleUserActivate(evt:JQuery.TriggeredEvent|null) {
+  public handleUserActivate(evt:Event|null) {
     let positionOffset = 0;
 
     if (evt) {

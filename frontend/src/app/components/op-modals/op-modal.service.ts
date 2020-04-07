@@ -37,16 +37,16 @@ export class OpModalService {
     document.body.appendChild(hostElement);
 
     // Listen to keyups on window to close context menus
-    jQuery(window).on('keydown', (evt:JQuery.TriggeredEvent) => {
+    jQuery(window).on('keydown', (evt) => {
       if (this.active && this.active.closeOnEscape && evt.which === keyCodes.ESCAPE) {
-        this.active.closeOnEscapeFunction(evt);
+        this.active.closeOnEscapeFunction(evt.originalEvent);
       }
 
       return true;
     });
 
     // Listen to any click when should close outside modal
-    jQuery(window).on('click', (evt:JQuery.TriggeredEvent) => {
+    jQuery(window).on('click', (evt:Event) => {
       if (this.active &&
         !this.opening &&
         this.active.closeOnOutsideClick &&

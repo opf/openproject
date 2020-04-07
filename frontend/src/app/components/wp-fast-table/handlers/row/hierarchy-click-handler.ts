@@ -28,8 +28,8 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
     return jQuery(table.tbody);
   }
 
-  public processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
-    let target = jQuery(evt.target);
+  public processEvent(table:WorkPackageTable, evt:MouseEvent):boolean {
+    let target = jQuery(evt.target as HTMLElement);
 
     // Locate the row from event
     let element = target.closest(`.${tableRowClassName}`);

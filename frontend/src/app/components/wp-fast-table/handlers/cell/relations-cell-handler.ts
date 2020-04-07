@@ -30,16 +30,17 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
     super();
   }
 
-  protected processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
+  protected processEvent(table:WorkPackageTable, evt:MouseEvent|KeyboardEvent):boolean {
     debugLog('Handled click on relation cell %o', evt.target);
     evt.preventDefault();
 
     // Locate the relation td
-    const td = jQuery(evt.target).closest(`.${relationCellTdClassName}`);
+    const target = jQuery(evt.target as HTMLElement);
+    const td = target.closest(`.${relationCellTdClassName}`);
     const columnId = td.data('columnId');
 
     // Locate the row
-    const rowElement = jQuery(evt.target).closest(`.${tableRowClassName}`);
+    const rowElement = target.closest(`.${tableRowClassName}`);
     const workPackageId = rowElement.data('workPackageId');
 
     // If currently expanded

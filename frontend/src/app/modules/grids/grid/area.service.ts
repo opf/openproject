@@ -20,7 +20,7 @@ export class GridAreaService {
   public numColumns:number = 0;
   public numRows:number = 0;
   public gridAreas:GridArea[];
-  public gridGaps:GridArea[];
+  public gridGaps:GridGap[];
   public widgetAreas:GridWidgetArea[];
   public gridAreaIds:string[];
   public mousedOverArea:GridArea|null = null;
@@ -182,8 +182,8 @@ export class GridAreaService {
     return cells;
   }
 
-  private buildGridGaps() {
-    let cells:GridArea[] = [];
+  private buildGridGaps():GridGap[] {
+    let cells:GridGap[] = [];
 
     // special case where we want no gaps
     if (this.isSingleCell) {

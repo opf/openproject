@@ -57,7 +57,7 @@ export class RemoteFieldUpdaterComponent implements OnInit {
     this.url = $element.data('url');
     this.htmlMode = $element.data('mode') === 'html';
 
-    this.inputs.on('keyup change', _.debounce((event:JQuery.TriggeredEvent) => {
+    this.inputs.on('keyup change', _.debounce((event) => {
       // This prevents an update of the result list when
       // tabbing to the result list (9),
       // pressing enter (13)

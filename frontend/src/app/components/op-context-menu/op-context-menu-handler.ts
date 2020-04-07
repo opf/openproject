@@ -30,7 +30,7 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(openerEvent:JQuery.TriggeredEvent):any {
+  public positionArgs(openerEvent:Event):any {
     return {
       my: 'left top',
       at: 'right bottom',
@@ -51,7 +51,7 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
   /**
    * Open this context menu
    */
-  protected open(evt:JQuery.TriggeredEvent) {
+  protected open(evt:Event) {
     this.opContextMenu.show(this, evt);
   }
 

@@ -234,7 +234,7 @@ export class BoardVersionActionService implements BoardActionService {
         // Show link
         linkText: this.I18n.t('js.boards.version.show_version'),
         href: this.pathHelper.versionShowPath(id),
-        onClick: (evt:JQuery.TriggeredEvent) => {
+        onClick: (evt:MouseEvent) => {
           if (!LinkHandling.isClickedWithModifier(evt)) {
             window.open(this.pathHelper.versionShowPath(id), '_blank');
             return true;
@@ -248,7 +248,7 @@ export class BoardVersionActionService implements BoardActionService {
         hidden: !version.$links.update,
         linkText: this.I18n.t('js.boards.version.edit_version'),
         href: this.pathHelper.versionEditPath(id),
-        onClick: (evt:JQuery.TriggeredEvent) => {
+        onClick: (evt:MouseEvent) => {
           if (!LinkHandling.isClickedWithModifier(evt)) {
             window.open(this.pathHelper.versionEditPath(id), '_blank');
             return true;

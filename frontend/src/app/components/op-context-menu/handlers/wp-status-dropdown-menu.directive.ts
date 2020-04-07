@@ -60,7 +60,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     super(elementRef, opContextMenu);
   }
 
-  protected open(evt:JQuery.TriggeredEvent) {
+  protected open(evt:Event) {
     const change = this.halEditing.changeFor(this.workPackage);
 
     change.getForm().then((form:any) => {

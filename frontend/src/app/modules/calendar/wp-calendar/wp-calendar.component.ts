@@ -41,8 +41,8 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   public tooManyResultsText:string|null;
 
   public calendarPlugins = [dayGridPlugin];
-  public calendarHeight:Function;
-  public calendarEvents:Function;
+  public calendarHeight:any;
+  public calendarEvents:any;
   public calendarHeader:ToolbarInput|boolean;
 
   private alreadyLoaded = false;

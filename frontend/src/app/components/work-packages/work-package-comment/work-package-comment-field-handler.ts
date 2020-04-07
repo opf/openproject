@@ -87,14 +87,14 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
   onFocusOut():void {
   }
 
-  handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel?:boolean):void {
+  handleUserKeydown(event:Event, onlyCancel?:boolean):void {
   }
 
   isChanged():boolean {
     return false;
   }
 
-  stopPropagation(evt:JQuery.TriggeredEvent):boolean {
+  stopPropagation(evt:Event):boolean {
     return false;
   }
 }

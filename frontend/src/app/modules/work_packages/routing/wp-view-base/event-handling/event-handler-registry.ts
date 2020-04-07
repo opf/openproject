@@ -8,7 +8,7 @@ export interface WorkPackageViewEventHandler<T> {
   SELECTOR:string;
 
   /** Event callback handler */
-  handleEvent(view:T, evt:JQuery.TriggeredEvent):void;
+  handleEvent(view:T, evt:Event):void;
 
   /** Event scope method */
   eventScope(view:T):JQuery;
@@ -37,7 +37,7 @@ export abstract class WorkPackageViewHandlerRegistry<T> {
       let handler = factory(viewRef);
       let target = handler.eventScope(viewRef);
 
-      target.on(handler.EVENT, handler.SELECTOR, (evt:JQuery.TriggeredEvent) => {
+      target.on(handler.EVENT, handler.SELECTOR, (evt:Event) => {
         handler.handleEvent(viewRef, evt);
       });
 

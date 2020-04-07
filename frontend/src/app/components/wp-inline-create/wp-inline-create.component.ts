@@ -137,8 +137,8 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
    * which is dynamically inserted into the action row by the inline create renderer.
    */
   private registerCancelHandler() {
-    this.$element.on('click keydown', `.${inlineCreateCancelClassName}`, (evt:JQuery.TriggeredEvent) => {
-      onClickOrEnter(evt, () => {
+    this.$element.on('click keydown', `.${inlineCreateCancelClassName}`, (evt) => {
+      onClickOrEnter(evt as any, () => {
         this.resetRow();
       });
 

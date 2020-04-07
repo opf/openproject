@@ -71,11 +71,9 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 export class WorkPackagesTableController extends UntilDestroyedMixin implements OnInit {
 
   @Input() projectIdentifier:string;
-  @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
+  @Input() configuration:WorkPackageTableConfiguration;
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
-
-  public configuration:WorkPackageTableConfiguration;
 
   private $element:JQuery;
 
@@ -126,7 +124,6 @@ export class WorkPackagesTableController extends UntilDestroyedMixin implements 
   }
 
   ngOnInit():void {
-    this.configuration = new WorkPackageTableConfiguration(this.configurationObject);
     this.$element = jQuery(this.elementRef.nativeElement);
 
     // Clear any old table subscribers

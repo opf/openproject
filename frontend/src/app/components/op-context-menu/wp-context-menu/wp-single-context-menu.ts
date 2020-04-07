@@ -31,7 +31,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     super(elementRef, opContextMenuService);
   }
 
-  protected open(evt:JQuery.TriggeredEvent) {
+  protected open(evt:Event) {
     this.workPackage.project.$load().then(() => {
       this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
@@ -65,7 +65,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(evt:JQuery.TriggeredEvent) {
+  public positionArgs(evt:Event) {
     let additionalPositionArgs = {
       my: 'right top',
       at: 'right bottom'
@@ -104,7 +104,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         linkText: I18n.t('js.button_' + key),
         href: action.link,
         icon: action.icon || `icon-${key}`,
-        onClick: ($event:JQuery.TriggeredEvent) => {
+        onClick: ($event:MouseEvent) => {
           if (action.link && LinkHandling.isClickedWithModifier($event)) {
             return false;
           }

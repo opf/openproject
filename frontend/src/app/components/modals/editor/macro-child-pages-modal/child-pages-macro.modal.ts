@@ -71,7 +71,7 @@ export class ChildPagesMacroModal extends OpModalComponent implements AfterViewI
     // We could provide an autocompleter here to get correct page names
   }
 
-  public applyAndClose(evt:JQuery.TriggeredEvent) {
+  public applyAndClose(evt:Event) {
     this.changed = true;
     this.page = this.selectedPage;
     this.includeParent = this.selectedIncludeParent;

@@ -65,7 +65,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public referenceOutputs:{ [key:string]:Function } = {
     onCreate: (newElement:HalResource) => this.onCreate(newElement),
     onChange: (value:HalResource) => this.onChange(value),
-    onKeydown: (event:JQuery.TriggeredEvent) => this.handler.handleUserKeydown(event, true),
+    onKeydown: (event:Event) => this.handler.handleUserKeydown(event, true),
     onOpen: () => this.onOpen(),
     onClose: () => this.onClose(),
     onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component

@@ -56,7 +56,7 @@ export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
 
   @Input('menu-items') menuItems:Function;
 
-  protected async open(evt:JQuery.TriggeredEvent) {
+  protected async open(evt:Event) {
     this.items = await this.buildItems();
     this.opContextMenu.show(this, evt);
   }
@@ -66,7 +66,7 @@ export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(evt:JQuery.TriggeredEvent) {
+  public positionArgs(evt:Event) {
     let additionalPositionArgs = {
       my: 'right top',
       at: 'right bottom'

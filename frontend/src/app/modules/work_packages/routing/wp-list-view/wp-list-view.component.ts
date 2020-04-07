@@ -34,7 +34,10 @@ import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
+import {
+  WorkPackageTableConfiguration,
+  WorkPackageTableConfigurationObject
+} from "core-components/wp-table/wp-table-configuration";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -75,9 +78,9 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   showResultOverlay$ = this.wpViewFilters.incomplete$;
 
   /** */
-  readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
+  wpTableConfiguration = new WorkPackageTableConfiguration({
     dragAndDropEnabled: true
-  };
+  });
 
   constructor(readonly I18n:I18nService,
               readonly injector:Injector,

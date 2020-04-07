@@ -35,12 +35,12 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     super();
   }
 
-  protected processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
+  protected processEvent(table:WorkPackageTable, evt:Event):boolean {
     debugLog('Starting editing on cell: ', evt.target);
     evt.preventDefault();
 
     // Locate the cell from event
-    let target = jQuery(evt.target).closest(`.${displayClassName}`);
+    let target = jQuery(evt.target as HTMLElement).closest(`.${displayClassName}`);
     // Get the target field name
     let fieldName = target.data('fieldName');
 

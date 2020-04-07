@@ -69,7 +69,7 @@ export class ModalWrapperAugmentService {
     if (initializeNow) {
       this.show(element);
     } else {
-      activationLink.click((evt:JQuery.TriggeredEvent) => {
+      activationLink.on('click', (evt) => {
         this.show(element);
         evt.preventDefault();
       });

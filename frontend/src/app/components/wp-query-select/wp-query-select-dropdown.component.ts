@@ -275,7 +275,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
           autocompleteUi.show();
         }
       },
-      focus: (_event:JQuery.TriggeredEvent, ui:{ item:IAutocompleteItem }) => {
+      focus: (_event:Event, ui:{ item:IAutocompleteItem }) => {
         let sourceEvent:any|null = _event;
 
         while (sourceEvent && sourceEvent.originalEvent) {
@@ -479,13 +479,13 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
    */
   private addClickHandler() {
     this.queryResultsContainer
-      .on('click keydown', '.ui-menu-item a', (evt:JQuery.TriggeredEvent) => {
+      .on('click keydown', '.ui-menu-item a', (evt) => {
         if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
           return true;
         }
 
         // Find the item from the clicked element
-        const target = jQuery(evt.target);
+        const target = jQuery(evt.target as HTMLElement);
         const item:IAutocompleteItem = target
           .closest('.wp-query-menu--item')
           .data('ui-autocomplete-item');
@@ -513,12 +513,12 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
 
         return true;
       })
-      .on('click keydown', '.wp-query-menu--category-toggle', (evt:JQuery.TriggeredEvent) => {
+      .on('click keydown', '.wp-query-menu--category-toggle', (evt) => {
         if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
           return true;
         }
 
-        const target = jQuery(evt.target);
+        const target = jQuery(evt.target as HTMLElement);
         const clickedCategory = target.data('category');
 
         if (clickedCategory) {

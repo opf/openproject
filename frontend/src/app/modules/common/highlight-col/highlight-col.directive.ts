@@ -48,13 +48,13 @@ export class HighlightColDirective implements OnInit, OnDestroy {
 
     // Separate handling instead of toggle is necessary to avoid
     // unwanted side effects when adding/removing columns via keyboard in the modal
-    this.thead.on('mouseenter', 'th', (evt:JQuery.TriggeredEvent) => {
+    this.thead.on('mouseenter', 'th', (evt) => {
       if (this.$element.index() === jQuery(evt.currentTarget).index()) {
         this.$element.addClass('hover');
       }
     });
 
-    this.thead.on('mouseleave', 'th', (evt:JQuery.TriggeredEvent) => {
+    this.thead.on('mouseleave', 'th', (evt) => {
       if (this.$element.index() === jQuery(evt.currentTarget).index()) {
         this.$element.removeClass('hover');
       }

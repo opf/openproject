@@ -86,7 +86,7 @@ export class SaveQueryModal extends OpModalComponent {
     return jQuery('#work-packages-settings-button');
   }
 
-  public saveQueryAs($event:JQuery.TriggeredEvent) {
+  public saveQueryAs($event:Event) {
     if (this.isBusy || !this.queryName) {
       return;
     }

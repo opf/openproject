@@ -18,12 +18,12 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
     return this.rowSelector;
   }
 
-  public handleEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
+  public handleEvent(table:WorkPackageTable, evt:KeyboardEvent):boolean {
     if (!table.configuration.contextMenuEnabled) {
       return false;
     }
 
-    let target = jQuery(evt.target);
+    let target = jQuery(evt.target as HTMLElement);
 
     if (!(evt.keyCode === keyCodes.F10 && evt.shiftKey && evt.altKey)) {
       return true;

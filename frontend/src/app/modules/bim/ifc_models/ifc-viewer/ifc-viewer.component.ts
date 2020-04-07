@@ -48,10 +48,10 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
     use_this_link_to_manage: this.I18n.t('js.ifc_models.use_this_link_to_manage')
   };
 
-  constructor(private I18n:I18nService,
-              private elementRef:ElementRef,
-              private ifcData:IfcModelsDataService,
-              private ifcViewer:IFCViewerService) {
+  constructor(readonly I18n:I18nService,
+              readonly elementRef:ElementRef,
+              readonly ifcData:IfcModelsDataService,
+              readonly ifcViewer:IFCViewerService) {
   }
 
   ngOnInit():void {
