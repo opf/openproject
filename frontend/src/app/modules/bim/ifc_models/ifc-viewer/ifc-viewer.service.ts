@@ -66,6 +66,10 @@ export class IFCViewerService extends ViewerBridgeService {
     this._viewer = viewer;
   }
 
+  public setKeyboardEnabled(val:boolean) {
+    this.viewer.setKeyboardEnabled(val);
+  }
+
   public getViewpoint():Promise<BcfViewpointInterface> {
     const viewpoint = this.viewer.saveBCFViewpoint({ spacesVisible: true });
 
