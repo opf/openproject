@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,11 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rspec/example_disabler'
+module Cron
+  class ClearUploadedFilesJob < CronJob
+    include ::RakeJob
 
-RSpec::ExampleDisabler.disable_example('WorkPackagesController index with valid query settings passed to front-end client visible attributes all attributes visible', 'plugin openproject-costs changes behavior')
-RSpec::ExampleDisabler.disable_example('API::V3::WorkPackages::WorkPackageRepresenter generation spentTime content time entry with multiple hours', 'plugin openproject-costs changes behavior')
-RSpec::ExampleDisabler.disable_example('API::V3::WorkPackages::WorkPackageRepresenter generation spentTime content no time entry', 'plugin openproject-costs changes behavior')
-RSpec::ExampleDisabler.disable_example('API::V3::WorkPackages::WorkPackageRepresenter generation spentTime content time entry with single hour', 'plugin openproject-costs changes behavior')
+    # Runs 23pm fridays
+    self.cron_expression = '0 23 * * 5'
 
-RSpec::ExampleDisabler.disable_example('API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter generation spentTime not allowed to view time entries does not show spentTime', 'plugin openproject-costs causes unexpected message')
+    def perform
+      super 'attachments:clear'
+    end
+  end
+end

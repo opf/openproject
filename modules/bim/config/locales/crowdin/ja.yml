@@ -29,7 +29,7 @@ ja:
         num_issues_found: '%{x_bcf_issues} は BCF-XML ファイルに含まれています。詳細は下に一覧表示されます。'
         button_prepare: 'インポートの準備'
         button_perform_import: 'インポートの確認'
-        button_proceed: '続行'
+        button_proceed: 'Proceed with import'
         button_back_to_list: 'リストに戻る'
         no_permission_to_add_members: 'プロジェクトにメンバーとして追加するための十分な権限がありません。'
         contact_project_admin: 'プロジェクト管理者に連絡してメンバーとして追加し、このインポートをもう一度開始してください。'
@@ -55,6 +55,7 @@ ja:
         import_as_system_user: 'それらを "システム" ユーザーとしてインポート'
         what_to_do: "どれかを選択して下さい。"
         work_package_has_newer_changes: "期限切れです! サーバー上の前回の変更がインポートされたトピックの「更新日付」よりも新しいため、このトピックは更新されませんでした。 ただし、トピックへのコメントはインポートされました。"
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
   export:
     format:
       bcf: "BCF-XML"

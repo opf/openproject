@@ -15,9 +15,8 @@
         <% if issue.errors.present? %>
           <div class="notification-box -error">
             <div class="notification-box--content">
-              <ul>
-              <% issue.errors.each do |attribute, message| %>
-                <li><%= attribute %>: <%= message %></li>
+              <% issue.errors.full_messages.each do |message| %>
+                <p><%= message %></p>
               <% end %>
               </ul>
             </div>

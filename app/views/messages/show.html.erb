@@ -117,11 +117,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-    <div class="form--space">
-      <%= toggle_link t(:button_reply), "reply", {focus: 'reply_content'}, {class: 'button -highlight'} %>
-    </div>
-
-    <div id="reply" style="display:none;">
+    <div id="reply">
 
       <hr class="form--separator" />
 
@@ -136,7 +132,6 @@ See docs/COPYRIGHT.rdoc for more details.
         <hr class="form--separator" />
 
         <%= f.button t(:button_submit), class: 'button -highlight -highlight -with-icon icon-checkmark' %>
-        <%= toggle_link t(:button_cancel), "reply", {}, { class: 'button' } %>
       <% end %>
       <div id="preview"></div>
     </div>

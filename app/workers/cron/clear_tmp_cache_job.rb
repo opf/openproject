@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,11 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rspec/example_disabler'
+module Cron
+  class ClearTmpCacheJob < CronJob
+    include ::RakeJob
 
-RSpec::ExampleDisabler.disable_example('Top menu items as a user with permissions displays all options', 'plugin openproject-reporting removes the menu item')
-RSpec::ExampleDisabler.disable_example('Top menu items as an admin visits the time sheet page', 'plugin openproject-reporting removes the menu item')
-RSpec::ExampleDisabler.disable_example('Top menu items as an admin displays all items', 'plugin openproject-reporting removes the menu item')
-RSpec::ExampleDisabler.disable_example('Top menu items Modules as an admin visits the time sheet page', 'plugin openproject-reporting removes the menu item')
-RSpec::ExampleDisabler.disable_example('Top menu items Modules as an admin displays all items', 'plugin openproject-reporting removes the menu item')
-RSpec::ExampleDisabler.disable_example('Top menu items Modules as a user with permissions displays all options', 'plugin openproject-reporting removes the menu item')
+    # runs at 02:45 sundays
+    self.cron_expression = '45 2 * * 7'
+
+    def perform
+      super 'tmp:cache:clear'
+    end
+  end
+end

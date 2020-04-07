@@ -33,6 +33,14 @@ describe OpenProject::Bim::BcfJson::ViewpointReader do
   let(:instance) { described_class.new xml_viewpoint.uuid, xml_viewpoint.viewpoint }
   subject { instance.result }
 
+  describe 'with empty example' do
+    let_it_be(:xml_viewpoint) do
+      FactoryBot.build_stubbed :xml_viewpoint, viewpoint_name: 'empty.bcfv'
+    end
+
+    it_behaves_like 'matches the JSON counterpart'
+  end
+
   describe 'with minimal example' do
     let_it_be(:xml_viewpoint) do
       FactoryBot.build_stubbed :xml_viewpoint, viewpoint_name: 'minimal.bcfv'

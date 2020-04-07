@@ -17,12 +17,6 @@ GIT
       omniauth-openid-connect (>= 0.2.1)
 
 GIT
-  remote: https://github.com/finnlabs/rspec-example_disabler.git
-  revision: deb9c38e3f4e3688724583ac1ff58e1ae8aba409
-  specs:
-    rspec-example_disabler (0.0.1)
-
-GIT
   remote: https://github.com/opf/omniauth
   revision: fe862f986b2e846e291784d2caa3d90a658c67f0
   ref: fe862f986b2e846e291784d2caa3d90a658c67f0
@@ -424,6 +418,8 @@ GEM
     declarative-builder (0.1.0)
       declarative-option (< 0.2.0)
     declarative-option (0.1.0)
+    delayed_cron_job (0.7.2)
+      delayed_job (>= 4.1)
     delayed_job (4.1.8)
       activesupport (>= 3.0, < 6.1)
     delayed_job_active_record (4.1.4)
@@ -990,6 +986,7 @@ DEPENDENCIES
   database_cleaner (~> 1.8)
   date_validator (~> 0.9.0)
   deckar01-task_list (~> 2.3.1)
+  delayed_cron_job (~> 0.7.2)
   delayed_job_active_record (~> 4.1.4)
   doorkeeper (~> 5.3.1)
   equivalent-xml (~> 0.6)
@@ -1082,7 +1079,6 @@ DEPENDENCIES
   rouge (~> 3.17.0)
   rspec (~> 3.9.0)
   rspec-activemodel-mocks (~> 1.1.0)!
-  rspec-example_disabler!
   rspec-rails (~> 4.0.0)
   rspec-retry (~> 0.6.1)
   rubocop

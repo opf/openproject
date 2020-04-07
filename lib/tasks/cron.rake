@@ -31,4 +31,9 @@ namespace 'openproject:cron' do
   task :hourly do
     # Does nothing by default
   end
+
+  desc 'Ensure the cron-like background jobs are actively scheduled'
+  task schedule: [:environment] do
+    ::Cron::CronJob.registered_jobs.each(&:ensure_scheduled!)
+  end
 end

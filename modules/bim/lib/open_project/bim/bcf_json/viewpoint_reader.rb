@@ -28,7 +28,7 @@ module OpenProject::Bim
         @viewpoint_hash ||= begin
           # Load from XML using activesupport
           hash = Hash.from_xml(xml)
-          hash = hash[ROOT_NODE] if hash.key?(ROOT_NODE)
+          hash = hash[ROOT_NODE] if hash[ROOT_NODE]
 
           # Perform destructive transformations
           transformations.each do |method_name|
@@ -58,6 +58,7 @@ module OpenProject::Bim
       def remove_keys(hash)
         hash.delete 'xmlns:xsi'
         hash.delete 'xmlns:xsd'
+        hash.delete 'VisualizationInfo' unless hash['VisualizationInfo']
       end
 
       def set_uuid(hash)

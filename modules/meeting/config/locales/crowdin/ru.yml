@@ -79,7 +79,7 @@ ru:
   text_in_hours: "в часах"
   text_meeting_agenda_for_meeting: 'Повестка дня встречи «%{meeting}»'
   text_meeting_closing_are_you_sure: "Вы уверены, что хотите закрыть совещание?"
-  text_meeting_agenda_open_are_you_sure: "Несохраненное содержимое протокола будет потеряно! Продолжить?"
+  text_meeting_agenda_open_are_you_sure: "Все изменения будут перезаписаны за минуты! Хотите продолжить?"
   text_meeting_minutes_for_meeting: 'Протокол совещания «%{meeting}»'
   text_review_meeting_agenda: "%{author} поставил %{link} для рецензии."
   text_review_meeting_minutes: "%{author} поставил %{link} для рецензии."

@@ -30,7 +30,7 @@ sv:
         num_issues_found: '%{x_bcf_issues} finns i BCF-XML-filen, deras detaljer listas nedan.'
         button_prepare: 'Förbered import'
         button_perform_import: 'Bekräfta import'
-        button_proceed: 'Fortsätt'
+        button_proceed: 'Proceed with import'
         button_back_to_list: 'Tillbaka till listan'
         no_permission_to_add_members: 'Du har inte tillräcklig behörighet för att lägga till dem som medlemmar i projektet.'
         contact_project_admin: 'Kontakta din projektadministratör för att lägga till dem som medlemmar och börja importera igen.'
@@ -56,6 +56,7 @@ sv:
         import_as_system_user: 'Importera dem som "System" användare.'
         what_to_do: "Vad vill du göra?"
         work_package_has_newer_changes: "Föråldrad! Detta ämne uppdaterades inte eftersom de senaste ändringarna på servern var nyare än \"ModifiedDate\" i det importerade ämnet. Kommentar till ämnet importerades."
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
   export:
     format:
       bcf: "BCF-XML"

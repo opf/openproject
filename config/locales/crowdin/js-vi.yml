@@ -296,7 +296,7 @@ vi:
     label_menu_expand: "mở rộng"
     label_more_than_ago: "nhiều hơn mấy ngày trước"
     label_next: "Tiếp"
-    label_no_color: "No color"
+    label_no_color: "Không màu"
     label_no_data: "Không có dữ liệu để hiển thị"
     label_no_due_date: "không có ngày kết thúc"
     label_no_start_date: "không có ngày bắt đầu"
@@ -448,7 +448,7 @@ vi:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Chú ý: Bạn có chắc bạn muốn đặt lại cấu hình dạng? Điều này sẽ thiết lập lại các thuộc tính của nhóm mặc định và vô hiệu hóa tất cả các trường tùy chỉnh.
-        upgrade_to_ee: "Upgrade to Enterprise Edition"
+        upgrade_to_ee: "Nâng cấp lên Ultimate Edition"
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "More information"
         nevermind: "Nevermind"

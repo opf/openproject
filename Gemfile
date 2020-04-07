@@ -111,6 +111,7 @@ gem 'oj', '~> 3.10.2'
 
 gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.4'
+gem 'delayed_cron_job', '~> 0.7.2'
 
 gem 'rack-protection', '~> 2.0.8'
 
@@ -209,8 +210,6 @@ group :test do
 
   # XML comparison tests
   gem 'compare-xml', '~> 0.66', require: false
-
-  gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
