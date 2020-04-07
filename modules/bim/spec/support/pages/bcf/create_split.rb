@@ -48,8 +48,8 @@ module Pages
       end
 
       # Override delete viewpoint since we don't have confirm alert
-      def delete_current_viewpoint
-        page.find('.icon-delete.ngx-gallery-icon-content').click
+      def delete_viewpoint_at_position(index)
+        page.all('.icon-delete.ngx-gallery-icon-content')[index].click
       end
 
       def path
