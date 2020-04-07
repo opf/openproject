@@ -111,6 +111,7 @@ gem 'oj', '~> 3.10.2'
 
 gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.4'
+gem 'delayed_cron_job', '~> 0.7.2'
 
 gem 'rack-protection', '~> 2.0.8'
 
