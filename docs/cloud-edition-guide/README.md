@@ -44,3 +44,8 @@ This creates the attachment and postgresql-dump or mysql-dump under /var/db/open
 If you are still running OpenProject under MySQL, your dump will be converted to PostgreSQL before importing, we will do this for you. More information about the backup tool can be found under this [link](https://www.openproject.org/operations/backup/backup-guide-packaged-installation/).
 Before uploading the attachments securely to us using the [following form](https://openproject.org/saas-import), please contact us via support@openproject.com.
 The form generates a direct upload to our secure S3 environment from which the import takes place.
+
+### Where geographically is the OpenProject cloud data stored?
+
+The OpenProject Cloud Environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland. AWS is a GDPR compliant cloud infrastructure provider with extensive security and compliance programs as well as unparalleled access control mechanisms to ensure data privacy. Employed facilities are compliant with the ISO 27001 and 27018 standards. OpenProject Cloud Environment is continuously backing up user data with data at rest being fully encrypted with AES-256. Each individual's instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. You can find more information [here](https://www.openproject.org/gdpr-compliance/).
+
