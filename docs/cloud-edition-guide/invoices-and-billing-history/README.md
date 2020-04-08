@@ -44,10 +44,6 @@ The **Load more link** will open more positions on the list.
 
 ## Frequently asked questions (FAQ)
 
-### Is there an advantage of the annual over the monthly OpenProject plan?
-
-We offer two months of the Cloud Edition for free if you choose an annual plan.
-
 ### Can we pay the OpenProject cloud edition by transfer?
 
 Yes, for customers in the EU it is possible to pay by bank transfer (as well as by credit card).
