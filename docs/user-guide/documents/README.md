@@ -29,4 +29,10 @@ The uploaded documents are visible to all project members who have the necessary
 
 You can edit or delete documents anytime. To do that, navigate to the Documents overview and select the document you want to edit. By  selecting *Edit* or *Delete* respectively you can either  adjust the document file and related information or remove the file  permanently. You can add the file again at a later point.
 
-![edit or delete document](image-20200130111121885.png)        
+![edit or delete document](image-20200130111121885.png)      
+
+## Frequently asked questions (FAQ)
+
+### Is there a size limit for uploading documents to the OpenProject Cloud Edition?
+
+There is no limit in OpenProject in terms of the number of files that you can upload and work with in OpenProject. There is only a restriction in terms of the maximum file size: A file can have a size up to 256 MB.
