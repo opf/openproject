@@ -53,3 +53,7 @@ Select **Bulk copy** in order to copy all selected work packages including their
 
 Yes, this is absolutely possible. To do this, you would first have to [create new statuses](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-status/).
 In the second step you can then [assign them to workflows](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-workflows/).
+
+### Is it possible to create a PDF export for the overview of the work packages with Gantt chart?
+
+The export is available via the browser print function (ideally Google Chrome).
