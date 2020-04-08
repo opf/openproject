@@ -763,6 +763,7 @@ sk:
     version: "Verzia"
     work_package: "Pracovný balíček"
   button_add: "Pridať"
+  button_add_comment: "Pridať komentár"
   button_add_member: Pridať člena
   button_add_watcher: "Pridať pozorovateľa"
   button_annotate: "Komentovať"

@@ -751,6 +751,7 @@ it:
     version: "Versione"
     work_package: "Macro-attività"
   button_add: "Aggiungi"
+  button_add_comment: "Aggiungi un commento"
   button_add_member: Aggiungi membro
   button_add_watcher: "Aggiungi osservatore"
   button_annotate: "Annota"

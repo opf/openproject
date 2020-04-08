@@ -749,6 +749,7 @@ ja:
     version: "バージョン"
     work_package: "ワーク パッケージ"
   button_add: "追加"
+  button_add_comment: "コメントを追加"
   button_add_member: メンバーを追加
   button_add_watcher: "ウォッチャーを追加"
   button_annotate: "注釈を付ける"

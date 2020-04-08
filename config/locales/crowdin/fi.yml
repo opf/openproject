@@ -755,6 +755,7 @@ fi:
     version: "Versio"
     work_package: "Työpaketti"
   button_add: "Lisää"
+  button_add_comment: "Lisää kommentti"
   button_add_member: Lisää jäsen
   button_add_watcher: "Lisää seuraaja"
   button_annotate: "Lisää selitys"

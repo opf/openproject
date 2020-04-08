@@ -750,6 +750,7 @@ id:
     version: "Versi"
     work_package: "Paket-Penugasan"
   button_add: "Tambah"
+  button_add_comment: "Tambah komentar"
   button_add_member: Add member
   button_add_watcher: "Tambah pemantau"
   button_annotate: "Anotasi"

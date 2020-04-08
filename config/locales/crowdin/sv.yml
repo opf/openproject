@@ -754,6 +754,7 @@ sv:
     version: "Version"
     work_package: "Arbetspaket"
   button_add: "Lägg till"
+  button_add_comment: "Lägg till kommentar"
   button_add_member: Lägg till medlem
   button_add_watcher: "Lägg till bevakare"
   button_annotate: "Kommentera"

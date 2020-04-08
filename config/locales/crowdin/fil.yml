@@ -755,6 +755,7 @@ fil:
     version: "Bersyon"
     work_package: "Work package"
   button_add: "Magdagdag"
+  button_add_comment: "Magdagdag ng komento"
   button_add_member: Magdagdag ng miyembro
   button_add_watcher: "Magdagdag ng manunuod"
   button_annotate: "Anotasyon"

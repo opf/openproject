@@ -752,6 +752,7 @@ hu:
     version: "Verzió"
     work_package: "Feladatcsoport"
   button_add: "Hozzáadás"
+  button_add_comment: "Megjegyzés hozzáadása"
   button_add_member: Tag hozzáadása
   button_add_watcher: "Megfigyelő hozzáadása"
   button_annotate: "Jegyzetekkel ellát"
