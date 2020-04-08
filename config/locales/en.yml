@@ -1182,13 +1182,13 @@ en:
     blocks:
       community: "OpenProject community"
       upsale:
-        become_hero: "Become a hero!"
         title: "Upgrade to Enterprise Edition"
-        description: "What are the benefits?"
         more_info: "More information"
-        additional_features: "Additional powerful premium features"
-        professional_support: "Professional support from the OpenProject experts"
-        you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
+        text: >
+          The OpenProject Enterprise Edition builds on top of the Community Edition.
+          It includes premium features and professional support mainly aimed at organizations with more 10 users that manage business critical projects with OpenProject.
+        confidence: >
+          We deliver the confidence of a tested and supported enterprise-class project management software - with open source and open mind.
     links:
       upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
