@@ -41,3 +41,9 @@ With the **Download link** you can download the inovices.
 The **Load more link** will open more positions on the list.
 
 ![Billing history overview](image-20200113135853806.png)
+
+## Frequently asked questions (FAQ)
+
+### Is there an advantage of the annual over the monthly OpenProject plan?
+
+We offer two months of the Cloud Edition for free if you choose an annual plan.
