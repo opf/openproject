@@ -3,7 +3,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormGroup} from "@angular/forms";
 
 export const baseUrlAugur = 'https://augur.openproject-edge.com';
 
@@ -27,10 +27,9 @@ export class EnterpriseTrialService {
   constructor(readonly I18n:I18nService,
               protected http:HttpClient,
               readonly pathHelper:PathHelperService,
-              protected notificationsService:NotificationsService,
-              readonly formBuilder:FormBuilder) {
+              protected notificationsService:NotificationsService) {
     if ((window as any).gon) {
-      this.status = 'mailSubmitted';
+      this.setMailSubmittedStatus();
     }
   }
 
@@ -42,7 +41,6 @@ export class EnterpriseTrialService {
       email: form.value.email
     };
     this.cancelled = false;
-    // POST /public/v1/trials/
     this.http.post(baseUrlAugur + '/public/v1/trials', form.value)
       .toPromise()
       .then((enterpriseTrial:any) => {
@@ -55,7 +53,6 @@ export class EnterpriseTrialService {
         if (error.status === 422 || error.status === 400) {
           this.errorMsg = error.error.description;
         } else {
-          // 500 -> internal error occured
           this.notificationsService.addWarning(error.error.description || I18n.t('js.error.internal'));
         }
       });
@@ -94,7 +91,7 @@ export class EnterpriseTrialService {
             this.saveTrialKey(this.resendLink);
           }
           // open next modal window -> status waiting
-          this.status = 'mailSubmitted';
+          this.setMailSubmittedStatus();
           this.confirmed = false;
         } else if (_.get(error, 'error._type') === 'Error') {
           this.notificationsService.addError(error.error.message);
@@ -111,7 +108,6 @@ export class EnterpriseTrialService {
   private saveTrialKey(resendlink:string) {
     // extract token from resend link
     let trialKey = resendlink.split('/')[6];
-    // save requested token
     return this.http.post(
       this.pathHelper.api.v3.appBasePath + '/admin/enterprise/save_trial_key',
       { trial_key: trialKey },
@@ -125,7 +121,6 @@ export class EnterpriseTrialService {
 
   // save received token in controller
   private saveToken(token:string) {
-    // POST /admin/enterprise (params[:enterprise_token][:encoded_token])
     this.http.post(
       this.pathHelper.api.v3.appBasePath + '/admin/enterprise',
       { enterprise_token: { encoded_token: token } },
@@ -140,13 +135,10 @@ export class EnterpriseTrialService {
   // retry request while waiting for mail confirmation
   public retryConfirmation(delay:number, retries:number) {
     if (this.cancelled || this.confirmed) {
-      // stop if action was cancelled or confirmation link was clicked
       return;
     } else if (retries === 0) {
-      // action timed out -> show message
       this.cancelled = true;
     } else {
-      // retry as long as limit isn't reached
       this.getToken();
       setTimeout( () => {
         this.retryConfirmation(delay, retries - 1);
@@ -156,6 +148,10 @@ export class EnterpriseTrialService {
 
   public setStartTrialStatus() {
     this.status = 'startTrial';
+  }
+
+  public setMailSubmittedStatus() {
+    this.status = 'mailSubmitted';
   }
 
   public get trialStarted():boolean {

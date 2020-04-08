@@ -38,8 +38,6 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
   styleUrls: ['./ee-active-trial.component.sass']
 })
 export class EEActiveTrialComponent implements OnInit {
-  public initialData:any;
-
   public text = {
     label_email: this.I18n.t('js.admin.enterprise.trial.form.label_email'),
     label_expires_at: this.I18n.t('js.admin.enterprise.trial.form.label_expires_at'),
@@ -61,22 +59,21 @@ export class EEActiveTrialComponent implements OnInit {
   }
 
   ngOnInit() {
-    // trial is not active yet
     if (!this.subscriber) {
       this.initialize();
     }
   }
 
-  // initialize attributes with submitted user data
   private initialize():void {
-    this.initialData = this.loadGonData();
+    let eeTrialKey = this.loadGonData();
 
-    if (!this.initialData) {  // get data from service
+    if (eeTrialKey) {
+      // after reload: get data from Augur using the trial key saved in gon
+      this.eeTrialService.trialLink = baseUrlAugur + '/public/v1/trials/' + eeTrialKey.value;
+      this.getUserDataFromAugur();
+    } else {
       this.subscriber = this.eeTrialService.userData.subscriber;
       this.email =  this.eeTrialService.userData.email;
-    } else {                  // after reload: get data from Augur using the trial key saved in gon
-      this.eeTrialService.trialLink = baseUrlAugur + '/public/v1/trials/' + this.initialData.value;
-      this.getUserDataFromAugur();
     }
   }
 
@@ -96,12 +93,9 @@ export class EEActiveTrialComponent implements OnInit {
       });
   }
 
-  private loadGonData():{value:string}|null {
-    try {
-      return (window as any).gon.ee_trial_key;
-    } catch (e) {
-      return null;
-    }
+  private loadGonData():{value:string}|undefined {
+    let gon = (window as any).gon;
+    return gon ? gon.ee_trial_key : undefined;
   }
 }
 
