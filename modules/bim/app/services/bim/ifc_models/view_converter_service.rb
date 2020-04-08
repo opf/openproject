@@ -95,7 +95,7 @@ module Bim
       end
 
       def ifc_model_path
-        ifc_path = Pathname(ifc_model.ifc_attachment.diskfile.path)
+        Pathname(ifc_model.ifc_attachment.diskfile.path)
       end
 
       def save_xkt(xkt_path)
