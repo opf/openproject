@@ -212,3 +212,7 @@ To remove a widget from the project overview page, click on the three dots at th
 ### Is it possible that we can have a board over all OpenProject tasks and users? 
 
 Yes, to achieve the desired result you can navigate to the main project and on the Kanban view add the filter "subproject" "all". This will display the work packages in the main project and all subprojects.
+
+### What is the best way to maintain an overview of multiple projects in OpenProject? Is it possible to create a dashboard that shows all the projects you are responsible for at once?
+
+You can click on "Select a project" on the upper left side and then choose "View all projects" to get an overview of all projects. You can also apply filters to filter e.g. by projects for which you are set as the responsible. If you want to see the individual work packages in the projects, you can click on the module icon (the icon with the 9 squares) in the upper right side and choose "Work packages" from the dropdown menu. This shows all work packages across all projects you have access to. You can then click on the "Project" column header and select "Group by" to group by project. Additionally, you can then filter based on the project and e.g. only display certain projects.
