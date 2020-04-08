@@ -31,3 +31,16 @@ The OpenProject Cloud Edition contains all OpenProject Community features plus t
 For the Cloud Edition the OpenProject experts will take care of the installation as well as maintenance of your OpenProject installation, so you will be able to concentrate on your core business. We will perform regular backups of your Cloud Edition. You will have the latest OpenProject release installed. Hence, you do not have to take care of updates or installation of security patches yourself.
 
 You will get a detailed feature comparison [here](https://www.openproject.org/pricing/#features).
+
+## Frequently asked questions (FAQ)
+
+### Can I import my OpenProject Community instance into my Cloud Edition? 
+
+Yes, we provide an upload possibility of your data to move from a Community installation to the Cloud Edition.
+To import your community instance into our cloud environment, please send us the following files:
+1. the database SQL dump of your local installation
+2. the attachments of your local installation For a package-based installation, you can create both as root user on your environment as follows openproject run backup
+This creates the attachment and postgresql-dump or mysql-dump under /var/db/openproject/backup.
+If you are still running OpenProject under MySQL, your dump will be converted to PostgreSQL before importing, we will do this for you. More information about the backup tool can be found under this [link](https://www.openproject.org/operations/backup/backup-guide-packaged-installation/).
+Before uploading the attachments securely to us using the [following form](https://openproject.org/saas-import), please contact us via support@openproject.com.
+The form generates a direct upload to our secure S3 environment from which the import takes place.
