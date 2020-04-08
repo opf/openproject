@@ -755,6 +755,7 @@
     version: "Versjon"
     work_package: "Arbeidspakke"
   button_add: "Legg til"
+  button_add_comment: "Legg til kommentar"
   button_add_member: Add member
   button_add_watcher: "Legg til overvåker"
   button_annotate: "Kommentèr"

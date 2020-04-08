@@ -755,6 +755,7 @@ da:
     version: "Version"
     work_package: "Arbejdspakke"
   button_add: "Tilføj"
+  button_add_comment: "Tilføj kommentar"
   button_add_member: Tilføj medlem
   button_add_watcher: "Tilføj tilsynsførende"
   button_annotate: "Anmærke"

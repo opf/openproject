@@ -763,6 +763,7 @@ cs:
     version: "Verze"
     work_package: "Pracovní balíček"
   button_add: "Přidat"
+  button_add_comment: "Přidat komentář"
   button_add_member: Přidat člena
   button_add_watcher: "Přidat sledující"
   button_annotate: "Komentovat"

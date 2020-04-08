@@ -755,6 +755,7 @@ ca:
     version: "Versió"
     work_package: "Paquet de treball"
   button_add: "Afegir"
+  button_add_comment: "Afegeix un comentari"
   button_add_member: Afegir un membre
   button_add_watcher: "Afegir observador"
   button_annotate: "Anotar"

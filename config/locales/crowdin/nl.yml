@@ -755,6 +755,7 @@ nl:
     version: "Versie"
     work_package: "Werkpakket"
   button_add: "Toevoegen"
+  button_add_comment: "Commentaar toevoegen"
   button_add_member: Lid toevoegen
   button_add_watcher: "Watcher toevoegen"
   button_annotate: "Aantekeningen"

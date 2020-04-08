@@ -762,6 +762,7 @@ ru:
     version: "Стадия"
     work_package: "Пакет работ"
   button_add: "Добавить"
+  button_add_comment: "Добавить комментарий"
   button_add_member: Добавить участника
   button_add_watcher: "Добавить наблюдателя"
   button_annotate: "Комментировать"
