@@ -26,10 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnInit} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
+import {distinctUntilChanged} from "rxjs/operators";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {baseUrlAugur, EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 
 export const enterpriseActiveTrialSelector = 'enterprise-active-trial';
@@ -39,7 +40,7 @@ export const enterpriseActiveTrialSelector = 'enterprise-active-trial';
   templateUrl: './ee-active-trial.component.html',
   styleUrls: ['./ee-active-trial.component.sass']
 })
-export class EEActiveTrialComponent implements OnInit {
+export class EEActiveTrialComponent extends UntilDestroyedMixin implements OnInit {
   public text = {
     label_email: this.I18n.t('js.admin.enterprise.trial.form.label_email'),
     label_expires_at: this.I18n.t('js.admin.enterprise.trial.form.label_expires_at'),
@@ -55,13 +56,26 @@ export class EEActiveTrialComponent implements OnInit {
   public expiresAt = this.elementRef.nativeElement.dataset['expiresAt'];
 
   constructor(readonly elementRef:ElementRef,
+              readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
               protected http:HttpClient,
               public eeTrialService:EnterpriseTrialService) {
+    super();
   }
 
   ngOnInit() {
     if (!this.subscriber) {
+      this.eeTrialService.userData$
+        .pipe(
+          distinctUntilChanged(),
+          this.untilDestroyed()
+        )
+        .subscribe(data => {
+          this.subscriber = data.subscriber;
+          this.email = data.email;
+          this.cdRef.detectChanges();
+        });
+
       this.initialize();
     }
   }
@@ -69,13 +83,10 @@ export class EEActiveTrialComponent implements OnInit {
   private initialize():void {
     let eeTrialKey = this.loadGonData();
 
-    if (eeTrialKey) {
+    if (eeTrialKey && !this.eeTrialService.userData) {
       // after reload: get data from Augur using the trial key saved in gon
       this.eeTrialService.trialLink = baseUrlAugur + '/public/v1/trials/' + eeTrialKey.value;
       this.getUserDataFromAugur();
-    } else {
-      this.subscriber = this.eeTrialService.userData.subscriber;
-      this.email =  this.eeTrialService.userData.email;
     }
   }
 

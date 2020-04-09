@@ -98,7 +98,7 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
   public headerText() {
     if (this.eeTrialService.mailSubmitted) {
       return this.text.heading_confirmation;
-    } else if(this.eeTrialService.trialStarted) {
+    } else if (this.eeTrialService.trialStarted) {
       return this.text.heading_next_steps;
     } else {
       return this.text.heading_test_ee;

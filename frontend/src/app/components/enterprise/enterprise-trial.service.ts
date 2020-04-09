@@ -4,11 +4,15 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {FormGroup} from "@angular/forms";
+import {BehaviorSubject} from 'rxjs';
 
 export const baseUrlAugur = 'https://augur.openproject-edge.com';
 
 @Injectable()
 export class EnterpriseTrialService {
+  // user data needs to be sync in ee-active-trial.component.ts
+  private userDataSubject = new BehaviorSubject<any>({});
+  public userData$ = this.userDataSubject.asObservable();
   public userData:{subscriber:string, email:string};
 
   public trialLink:string;
@@ -36,11 +40,14 @@ export class EnterpriseTrialService {
       subscriber: form.value.first_name + ' ' + form.value.last_name,
       email: form.value.email
     };
+    this.userDataSubject.next(this.userData);
+
     this.cancelled = false;
     this.http.post(baseUrlAugur + '/public/v1/trials', form.value)
       .toPromise()
       .then((enterpriseTrial:any) => {
         this.trialLink = enterpriseTrial._links.self.href;
+        this.saveTrialKey(this.trialLink);
 
         this.retryConfirmation();
       })
