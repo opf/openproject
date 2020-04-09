@@ -91,7 +91,8 @@ export class EEActiveTrialComponent implements OnInit {
         this.eeTrialService.retryConfirmation();
       })
       .catch((error:HttpErrorResponse) => {
-        this.eeTrialService.cancelled = true;
+        // Check whether the mail has been confirmed by now
+        this.eeTrialService.getToken();
       });
   }
 

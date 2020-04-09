@@ -55,7 +55,7 @@ export class EnterpriseTrialService {
   }
 
   // get a token from the trial link if user confirmed mail
-  private getToken() {
+  public getToken() {
     // 2) GET /public/v1/trials/:id
     this.http
       .get<any>(this.trialLink)

@@ -66,8 +66,13 @@ export class EETrialWaitingComponent {
         this.notificationsService.addSuccess(this.text.resend_success);
         this.eeTrialService.retryConfirmation();
       })
-      .catch((error:HttpErrorResponse) => {
-        this.notificationsService.addError(this.text.resend_warning);
+      .catch(() => {
+        if (this.eeTrialService.trialLink) {
+          // Check whether the mail has been confirmed by now
+          this.eeTrialService.getToken();
+        } else {
+          this.notificationsService.addError(this.text.resend_warning);
+        }
       });
   }
 }
