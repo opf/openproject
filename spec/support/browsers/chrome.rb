@@ -68,3 +68,28 @@ end
 register_chrome_headless 'en'
 # Register german locale for custom field decimal test
 register_chrome_headless 'de'
+
+# Register mocking proxy driver
+
+Capybara.register_driver :headless_chrome_billy do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    acceptInsecureCerts: true,
+    loggingPrefs: { browser: 'ALL' }
+  )
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--window-size=1920,1080')
+  options.add_argument('--headless')
+  options.add_argument('--disable-gpu')
+  options.add_argument("--proxy-server=#{Billy.proxy.host}:#{Billy.proxy.port}")
+  options.add_argument('--proxy-bypass-list=127.0.0.1;localhost')
+
+  Capybara::Selenium::Driver.new app,
+                                 browser: :chrome,
+                                 options: options,
+                                 desired_capabilities: capabilities,
+                                 driver_opts: {
+                                   log_path: Rails.root.join('log/chromedriver.log').to_s,
+                                   verbose: true,
+                                 }
+end
+Capybara.javascript_driver = :headless_chrome_billy
