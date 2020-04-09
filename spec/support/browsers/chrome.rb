@@ -6,9 +6,7 @@ if ENV['CI']
   ::Webdrivers::Chromedriver.update
 end
 
-def register_chrome_headless(language)
-  name = :"chrome_headless_#{language}"
-
+def register_chrome_headless(language, name: :"chrome_headless_#{language}")
   Capybara.register_driver name do |app|
     options = Selenium::WebDriver::Chrome::Options.new
 
@@ -37,6 +35,12 @@ def register_chrome_headless(language)
 
     options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
 
+    capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+      loggingPrefs: { browser: 'ALL' }
+    )
+
+    yield options, capabilities
+
     client = Selenium::WebDriver::Remote::Http::Default.new
     client.read_timeout = 180
     client.open_timeout = 180
@@ -44,6 +48,7 @@ def register_chrome_headless(language)
     driver = Capybara::Selenium::Driver.new(
       app,
       browser: :chrome,
+      desired_capabilities: capabilities,
       http_client: client,
       options: options
     )
@@ -70,26 +75,10 @@ register_chrome_headless 'en'
 register_chrome_headless 'de'
 
 # Register mocking proxy driver
-
-Capybara.register_driver :headless_chrome_billy do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    acceptInsecureCerts: true,
-    loggingPrefs: { browser: 'ALL' }
-  )
-  options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument('--window-size=1920,1080')
-  options.add_argument('--headless')
-  options.add_argument('--disable-gpu')
+register_chrome_headless 'en', name: :headless_chrome_billy do |options, capabilities|
   options.add_argument("--proxy-server=#{Billy.proxy.host}:#{Billy.proxy.port}")
   options.add_argument('--proxy-bypass-list=127.0.0.1;localhost')
 
-  Capybara::Selenium::Driver.new app,
-                                 browser: :chrome,
-                                 options: options,
-                                 desired_capabilities: capabilities,
-                                 driver_opts: {
-                                   log_path: Rails.root.join('log/chromedriver.log').to_s,
-                                   verbose: true,
-                                 }
+  capabilities[:acceptInsecureCerts] = true
 end
-Capybara.javascript_driver = :headless_chrome_billy
+
