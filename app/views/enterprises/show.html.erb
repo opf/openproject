@@ -2,6 +2,10 @@
 
 <%= toolbar title: t(:label_enterprise_edition) %>
 
+<%= nonced_javascript_tag do %>
+  <%= include_gon(need_tag: false) -%>
+<% end %>
+
 <%= error_messages_for 'token' %>
 
 <% if @current_token.present? %>

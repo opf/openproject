@@ -30,7 +30,7 @@ import {ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
 import {distinctUntilChanged} from "rxjs/operators";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
-import {baseUrlAugur, EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
+import {EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 
 export const enterpriseActiveTrialSelector = 'enterprise-active-trial';
@@ -85,7 +85,7 @@ export class EEActiveTrialComponent extends UntilDestroyedMixin implements OnIni
 
     if (eeTrialKey && !this.eeTrialService.userData) {
       // after reload: get data from Augur using the trial key saved in gon
-      this.eeTrialService.trialLink = baseUrlAugur + '/public/v1/trials/' + eeTrialKey.value;
+      this.eeTrialService.trialLink = this.eeTrialService.baseUrlAugur + '/public/v1/trials/' + eeTrialKey.value;
       this.getUserDataFromAugur();
     }
   }

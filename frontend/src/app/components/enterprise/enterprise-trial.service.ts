@@ -6,14 +6,14 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 import {FormGroup} from "@angular/forms";
 import {BehaviorSubject} from 'rxjs';
 
-export const baseUrlAugur = 'https://augur.openproject-edge.com';
-
 @Injectable()
 export class EnterpriseTrialService {
   // user data needs to be sync in ee-active-trial.component.ts
   private userDataSubject = new BehaviorSubject<any>({});
   public userData$ = this.userDataSubject.asObservable();
   public userData:{subscriber:string, email:string};
+  public baseUrlAugur:string;
+
 
   public trialLink:string;
   public resendLink:string;
@@ -28,7 +28,10 @@ export class EnterpriseTrialService {
               protected http:HttpClient,
               readonly pathHelper:PathHelperService,
               protected notificationsService:NotificationsService) {
-    if ((window as any).gon) {
+    let gon = (window as any).gon;
+    this.baseUrlAugur = gon.augur_url;
+
+    if ((window as any).gon.ee_trial_key) {
       this.setMailSubmittedStatus();
     }
   }
@@ -43,7 +46,7 @@ export class EnterpriseTrialService {
     this.userDataSubject.next(this.userData);
 
     this.cancelled = false;
-    this.http.post(baseUrlAugur + '/public/v1/trials', form.value)
+    this.http.post(this.baseUrlAugur + '/public/v1/trials', form.value)
       .toPromise()
       .then((enterpriseTrial:any) => {
         this.trialLink = enterpriseTrial._links.self.href;
