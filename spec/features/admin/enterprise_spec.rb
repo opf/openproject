@@ -52,7 +52,8 @@ describe 'Enterprise token', type: :feature, js: true do
     end
 
     it 'shows a teaser and token form without a token' do
-      expect(page).to have_selector('.upsale-notification a', text: 'Order Enterprise Edition')
+      expect(page).to have_selector('.button', text: 'Start free trial')
+      expect(page).to have_selector('.button', text: 'Book now')
       expect(textarea.value).to be_empty
 
       textarea.set 'foobar'
@@ -78,9 +79,9 @@ describe 'Enterprise token', type: :feature, js: true do
         expect(page).to have_selector('.enterprise--active-token')
 
         expect(page.all('.attributes-key-value--key').map(&:text))
-          .to eq ['Subscriber', 'Email', 'Valid since']
+          .to eq ['Subscriber', 'Email', 'Maximum active users', 'Starts at', 'Expires at']
         expect(page.all('.attributes-key-value--value').map(&:text))
-          .to eq ['Foobar', 'foo@example.org', format_date(Date.today)]
+          .to eq ['Foobar', 'foo@example.org', 'Unlimited', format_date(Date.today), 'Unlimited']
 
         expect(page).to have_selector('.button.icon-delete', text: I18n.t(:button_delete))
 
