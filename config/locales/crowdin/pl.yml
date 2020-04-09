@@ -761,6 +761,7 @@ pl:
     version: "Wersja"
     work_package: "Zadanie"
   button_add: "Dodaj"
+  button_add_comment: "Dodaj komentarz"
   button_add_member: Dodaj członka projektu
   button_add_watcher: "Dodaj obserwatora"
   button_annotate: "Adnotacja"

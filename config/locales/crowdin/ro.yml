@@ -759,6 +759,7 @@ ro:
     version: "Versiune"
     work_package: "Pachet de lucru"
   button_add: "Adăugare"
+  button_add_comment: "Adăugare comentariu"
   button_add_member: Adăugare participant
   button_add_watcher: "Adăugare observator"
   button_annotate: "Adnotare"

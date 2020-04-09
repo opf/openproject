@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class EnabledModule < ActiveRecord::Base
+class EnabledModule < ApplicationRecord
   belongs_to :project
 
   validates :name,

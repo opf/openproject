@@ -752,6 +752,7 @@ es:
     version: "Versión"
     work_package: "Paquete de trabajo"
   button_add: "Añadir"
+  button_add_comment: "Agregar comentario"
   button_add_member: Añadir miembro
   button_add_watcher: "Añadir observador"
   button_annotate: "Anotar"

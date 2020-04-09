@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Status < ActiveRecord::Base
+class Status < ApplicationRecord
   extend Pagination::Model
 
   default_scope { order_by_position }

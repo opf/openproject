@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Message < ActiveRecord::Base
+class Message < ApplicationRecord
   include OpenProject::Journal::AttachmentHelper
 
   belongs_to :forum

@@ -751,6 +751,7 @@ zh-TW:
     version: "版本"
     work_package: "工作項目"
   button_add: "增加"
+  button_add_comment: "新增評論"
   button_add_member: 新增成員
   button_add_watcher: "新增監看者"
   button_annotate: "注釋"

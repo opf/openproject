@@ -754,6 +754,7 @@ fr:
     version: "Version"
     work_package: "Lot de travaux"
   button_add: "Ajouter"
+  button_add_comment: "Ajouter un commentaire"
   button_add_member: Ajouter un membre
   button_add_watcher: "Ajouter observateur"
   button_annotate: "Annoter"

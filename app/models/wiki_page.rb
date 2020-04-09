@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WikiPage < ActiveRecord::Base
+class WikiPage < ApplicationRecord
   belongs_to :wiki, touch: true
   has_one :project, through: :wiki
   has_one :content, class_name: 'WikiContent', foreign_key: 'page_id', dependent: :destroy

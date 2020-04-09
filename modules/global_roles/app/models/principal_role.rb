@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class PrincipalRole < ActiveRecord::Base
+class PrincipalRole < ApplicationRecord
   belongs_to :principal
   belongs_to :role
   validate :validate_assignable

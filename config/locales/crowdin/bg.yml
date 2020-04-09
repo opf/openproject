@@ -755,6 +755,7 @@ bg:
     version: "Версия"
     work_package: "Работен пакет"
   button_add: "Добави"
+  button_add_comment: "Добави коментар"
   button_add_member: Добавяне на член
   button_add_watcher: "Добавяне на наблюдател"
   button_annotate: "Добавяне на обяснителни бележки"

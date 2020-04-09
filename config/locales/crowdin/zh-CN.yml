@@ -748,6 +748,7 @@ zh-CN:
     version: "版本"
     work_package: "工作包"
   button_add: "添加"
+  button_add_comment: "添加评论"
   button_add_member: 添加成员
   button_add_watcher: "添加关注者"
   button_annotate: "批注"

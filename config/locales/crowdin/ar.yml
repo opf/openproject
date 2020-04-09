@@ -771,6 +771,7 @@ ar:
     version: "الإصدار"
     work_package: "مجموعة العمل"
   button_add: "أَضِفْ"
+  button_add_comment: "أضِف تعليقًا"
   button_add_member: أضف عضو
   button_add_watcher: "إضافة مراقب"
   button_annotate: "كتابة تعليق"

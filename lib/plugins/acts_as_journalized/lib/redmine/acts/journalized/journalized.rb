@@ -66,7 +66,7 @@
 
 module Redmine::Acts::Journalized
   # Simply adds a flag to determine whether a model class if journaled.
-  module Versioned
+  module Journalized
     def self.extended(base) # :nodoc:
       base.class_eval do
         class << self

@@ -77,14 +77,6 @@ describe 'OpenID Connect', type: :rails_request do
       )
     end
 
-    after(:all) do
-      User.delete_all
-    end
-
-    after do
-      User.current = nil
-    end
-
     it 'works' do
       ##
       # it should redirect to the provider's openid connect authentication endpoint

@@ -29,7 +29,9 @@
 require 'spec_helper'
 
 describe 'Wiki unicode title spec', type: :feature, js: true do
-  let(:user) { FactoryBot.create :admin }
+  using_shared_fixtures :admin
+  let(:user) { admin }
+
   let(:project) { FactoryBot.create :project }
   let(:wiki_page_1) do
     FactoryBot.build :wiki_page_with_content,

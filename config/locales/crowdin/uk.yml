@@ -763,6 +763,7 @@ uk:
     version: "Версія"
     work_package: "Пакет робіт"
   button_add: "Додати"
+  button_add_comment: "Додати коментар"
   button_add_member: Додати учасника
   button_add_watcher: "Додати спостерігача"
   button_annotate: "Коментувати"

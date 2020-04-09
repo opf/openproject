@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::Relations::RelationRepresenter do
-  let(:user) { FactoryBot.create :admin }
+  using_shared_fixtures :admin
+  let(:user) { admin }
 
   let(:from) { FactoryBot.create :work_package }
   let(:to) { FactoryBot.create :work_package }

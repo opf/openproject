@@ -752,6 +752,7 @@ el:
     version: "Έκδοση"
     work_package: "Εργασία"
   button_add: "Προσθήκη"
+  button_add_comment: "Προσθέστε σχόλιο"
   button_add_member: Προσθήκη μέλους
   button_add_watcher: "Προσθήκη παρατηρητή"
   button_annotate: "Σχολιασμός"

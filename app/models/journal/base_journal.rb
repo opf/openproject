@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::BaseJournal < ActiveRecord::Base
+class Journal::BaseJournal < ApplicationRecord
   self.abstract_class = true
 
   belongs_to :journal

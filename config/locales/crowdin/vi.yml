@@ -753,6 +753,7 @@ vi:
     version: "Phiên bản"
     work_package: "Work Package"
   button_add: "Thêm"
+  button_add_comment: "Thêm bình luận"
   button_add_member: Add member
   button_add_watcher: "Thêm người theo dõi"
   button_annotate: "Chú giải"

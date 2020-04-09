@@ -760,6 +760,7 @@ lt:
     version: "Versija"
     work_package: "Darbų paketas"
   button_add: "Pridėti"
+  button_add_comment: "Pridėti komentarą"
   button_add_member: Pridėti narį
   button_add_watcher: "Pridėti stebėtojų"
   button_annotate: "Rašyti pastabą"

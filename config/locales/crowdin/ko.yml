@@ -750,6 +750,7 @@ ko:
     version: "버전"
     work_package: "작업 패키지"
   button_add: "추가"
+  button_add_comment: "댓글 달기"
   button_add_member: 멤버 추가
   button_add_watcher: "주시자 추가"
   button_annotate: "주석 달기"

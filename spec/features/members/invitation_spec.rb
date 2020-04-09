@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 feature 'invite user via email', type: :feature, js: true do
+  using_shared_fixtures :admin
   let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
-  let(:admin) { FactoryBot.create :admin }
   let!(:developer) { FactoryBot.create :role, name: 'Developer' }
 
   let(:members_page) { Pages::Members.new project.identifier }

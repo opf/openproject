@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AuthSource < ActiveRecord::Base
+class AuthSource < ApplicationRecord
   include Redmine::Ciphering
 
   has_many :users

@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Color < ActiveRecord::Base
+class Color < ApplicationRecord
   self.table_name = 'colors'
 
   has_many :planning_element_types, class_name:  'Type',

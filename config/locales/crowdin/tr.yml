@@ -755,6 +755,7 @@ tr:
     version: "Sürüm"
     work_package: "İş paketi"
   button_add: "Ekle"
+  button_add_comment: "Yorum ekle"
   button_add_member: Üye ekle
   button_add_watcher: "Takipçi ekle"
   button_annotate: "Atanan"

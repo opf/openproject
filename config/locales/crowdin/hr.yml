@@ -759,6 +759,7 @@ hr:
     version: "Verzija"
     work_package: "Radni paket"
   button_add: "Dodaj"
+  button_add_comment: "Dodaj komentar"
   button_add_member: Dodaj člana
   button_add_watcher: "Dodaj nadglednika"
   button_annotate: "Kreiraj bilješku"

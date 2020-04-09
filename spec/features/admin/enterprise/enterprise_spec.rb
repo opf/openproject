@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'Enterprise token', type: :feature, js: true do
   include Redmine::I18n
 
-  let(:admin) { FactoryBot.create(:admin) }
+  using_shared_fixtures :admin
   let(:token_object) do
     token = OpenProject::Token.new
     token.subscriber = 'Foobar'
