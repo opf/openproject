@@ -126,14 +126,11 @@ import {
   MembersAutocompleterComponent,
   membersAutocompleterSelector
 } from "core-app/modules/members/members-autocompleter.component";
+import {EnterpriseBaseComponent, enterpriseBaseSelector} from "core-components/enterprise/enterprise-base.component";
 import {
-  EnterpriseBaseComponent,
-  enterpriseBaseSelector
-} from "core-components/enterprise/enterprise-base.component";
-import {
-  EEActiveTrialComponent,
-  enterpriseActiveTrialSelector
-} from "core-components/enterprise/enterprise-active-trial/ee-active-trial.component";
+  EEActiveSavedTrialComponent,
+  enterpriseActiveSavedTrialSelector
+} from "core-components/enterprise/enterprise-active-trial/ee-active-saved-trial.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -170,7 +167,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
   { selector: enterpriseBannerSelector, cls: EnterpriseBannerBootstrapComponent },
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
-  { selector: enterpriseActiveTrialSelector, cls: EEActiveTrialComponent },
+  { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
   { selector: projectMenuAutocompleteSelector, cls: ProjectMenuAutocompleteComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpEmbeddedTableEntrySelector, cls: WorkPackageEmbeddedTableEntryComponent },

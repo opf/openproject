@@ -28,39 +28,31 @@
 
 import {ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
 import {distinctUntilChanged} from "rxjs/operators";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-
-export const enterpriseActiveTrialSelector = 'enterprise-active-trial';
+import {EEActiveTrialBase} from "core-components/enterprise/enterprise-active-trial/ee-active-trial.base";
+import {GonService} from "core-app/modules/common/gon/gon.service";
 
 @Component({
-  selector: enterpriseActiveTrialSelector,
+  selector: 'enterprise-active-trial',
   templateUrl: './ee-active-trial.component.html',
   styleUrls: ['./ee-active-trial.component.sass']
 })
-export class EEActiveTrialComponent extends UntilDestroyedMixin implements OnInit {
-  public text = {
-    label_email: this.I18n.t('js.admin.enterprise.trial.form.label_email'),
-    label_expires_at: this.I18n.t('js.admin.enterprise.trial.form.label_expires_at'),
-    label_maximum_users: this.I18n.t('js.admin.enterprise.trial.form.label_maximum_users'),
-    label_starts_at: this.I18n.t('js.admin.enterprise.trial.form.label_starts_at'),
-    label_subscriber: this.I18n.t('js.admin.enterprise.trial.form.label_subscriber')
-  };
-
-  public subscriber = this.elementRef.nativeElement.dataset['subscriber'];
-  public email = this.elementRef.nativeElement.dataset['email'];
-  public userCount = this.elementRef.nativeElement.dataset['userCount'];
-  public startsAt = this.elementRef.nativeElement.dataset['startsAt'];
-  public expiresAt = this.elementRef.nativeElement.dataset['expiresAt'];
+export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit {
+  public subscriber:string;
+  public email:string;
+  public userCount:string;
+  public startsAt:string;
+  public expiresAt:string;
 
   constructor(readonly elementRef:ElementRef,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
-              protected http:HttpClient,
+              readonly http:HttpClient,
+              readonly Gon:GonService,
               public eeTrialService:EnterpriseTrialService) {
-    super();
+    super(I18n);
   }
 
   ngOnInit() {
@@ -81,7 +73,7 @@ export class EEActiveTrialComponent extends UntilDestroyedMixin implements OnIni
   }
 
   private initialize():void {
-    let eeTrialKey = this.loadGonData();
+    let eeTrialKey = this.Gon.get('ee_trial_key') as any;
 
     if (eeTrialKey && !this.eeTrialService.userData) {
       // after reload: get data from Augur using the trial key saved in gon
@@ -98,7 +90,7 @@ export class EEActiveTrialComponent extends UntilDestroyedMixin implements OnIni
       .toPromise()
       .then((userData:any) => {
         this.subscriber = userData.first_name + ' ' + userData.last_name;
-        this.email =  userData.email;
+        this.email = userData.email;
         this.eeTrialService.retryConfirmation();
       })
       .catch((error:HttpErrorResponse) => {
@@ -107,8 +99,4 @@ export class EEActiveTrialComponent extends UntilDestroyedMixin implements OnIni
       });
   }
 
-  private loadGonData():{value:string}|undefined {
-    let gon = (window as any).gon;
-    return gon ? gon.ee_trial_key : undefined;
-  }
 }

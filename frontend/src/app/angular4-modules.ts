@@ -40,12 +40,6 @@ import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
 import {PasswordConfirmationModal} from "core-components/modals/request-for-confirmation/password-confirmation.modal";
-import {EnterpriseBaseComponent} from "core-components/enterprise/enterprise-base.component";
-import {EnterpriseTrialModal} from "core-components/enterprise/enterprise-modal/enterprise-trial.modal";
-import {EETrialFormComponent} from "core-components/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
-import {EETrialWaitingComponent} from "core-components/enterprise/enterprise-trial-waiting/ee-trial-waiting.component";
-import {EEActiveTrialComponent} from "core-components/enterprise/enterprise-active-trial/ee-active-trial.component";
-import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {CommentService} from "core-components/wp-activity/comment-service";
@@ -80,6 +74,7 @@ import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-p
 import {KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-service";
 import {globalDynamicComponents} from "core-app/global-dynamic-components.const";
 import {OpenprojectMembersModule} from "core-app/modules/members/members.module";
+import {OpenprojectEnterpriseModule} from "core-components/enterprise/openproject-enterprise.module";
 
 @NgModule({
   imports: [
@@ -126,6 +121,7 @@ import {OpenprojectMembersModule} from "core-app/modules/members/members.module"
 
     // Admin module
     OpenprojectAdminModule,
+    OpenprojectEnterpriseModule,
 
     // Plugin hooks and modules
     OpenprojectPluginsModule,
@@ -139,16 +135,13 @@ import {OpenprojectMembersModule} from "core-app/modules/members/members.module"
     ReactiveFormsModule
   ],
   providers: [
-    {provide: States, useValue: new States()},
+    { provide: States, useValue: new States() },
     { provide: APP_INITIALIZER, useFactory: initializeServices, deps: [Injector], multi: true },
     PaginationService,
     OpenProjectFileUploadService,
     // Split view
     CommentService,
     ConfirmDialogService,
-
-    // Enterprise Edition
-    EnterpriseTrialService
   ],
   declarations: [
     OpContextMenuTrigger,
@@ -158,13 +151,6 @@ import {OpenprojectMembersModule} from "core-app/modules/members/members.module"
     DynamicContentModal,
     PasswordConfirmationModal,
     WpPreviewModal,
-
-    // Enterprise Edition
-    EnterpriseBaseComponent,
-    EnterpriseTrialModal,
-    EETrialFormComponent,
-    EETrialWaitingComponent,
-    EEActiveTrialComponent,
 
     // Main menu
     MainMenuResizerComponent,
@@ -197,7 +183,7 @@ export class OpenProjectModule {
     const hookService = (appRef as any)._injector.get(HookService);
     hookService
       .call('openProjectAngularBootstrap')
-      .forEach((results:{selector:string, cls:any}[]) => {
+      .forEach((results:{ selector:string, cls:any }[]) => {
         DynamicBootstrapper.bootstrapOptionalDocument(appRef, document, results);
       });
   }
