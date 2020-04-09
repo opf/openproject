@@ -208,7 +208,7 @@ en:
           resend_link: "Resend"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to resend email."
+          session_timeout: "Your session timed out. Please try to reload the page or resend email."
           status_label: "Status:"
           status_confirmed: "confirmed"
           status_waiting: "email sent - waiting for confirmation"

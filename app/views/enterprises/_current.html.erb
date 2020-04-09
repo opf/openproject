@@ -5,9 +5,9 @@
                          data-expires-at="<%= (!@current_token.will_expire?) ? t('js.admin.enterprise.upsale.unlimited') : (format_date @current_token.expires_at) %>">
 </enterprise-active-trial>
 
-<%= form_tag({ action: :destroy },
-             method: :delete) do %>
+<%= form_tag({}, method: :delete) do %>
   <confirm-form-submit></confirm-form-submit>
-  <%= styled_button_tag t(:button_delete), type: 'submit', class: '-with-icon icon-delete' %>
+  <%= styled_button_tag t(:button_delete),
+                        method: :delete,
+                        class: '-with-icon icon-delete' %>
 <% end %>
-

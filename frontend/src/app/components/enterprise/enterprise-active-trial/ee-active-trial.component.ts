@@ -32,8 +32,10 @@ import {baseUrlAugur, EnterpriseTrialService} from "app/components/enterprise/en
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 
+export const enterpriseActiveTrialSelector = 'enterprise-active-trial';
+
 @Component({
-  selector: 'enterprise-active-trial',
+  selector: enterpriseActiveTrialSelector,
   templateUrl: './ee-active-trial.component.html',
   styleUrls: ['./ee-active-trial.component.sass']
 })
@@ -86,7 +88,7 @@ export class EEActiveTrialComponent implements OnInit {
       .then((userData:any) => {
         this.subscriber = userData.first_name + ' ' + userData.last_name;
         this.email =  userData.email;
-        this.eeTrialService.retryConfirmation(this.eeTrialService.delay, this.eeTrialService.retries);
+        this.eeTrialService.retryConfirmation();
       })
       .catch((error:HttpErrorResponse) => {
         this.eeTrialService.cancelled = true;
@@ -98,8 +100,3 @@ export class EEActiveTrialComponent implements OnInit {
     return gon ? gon.ee_trial_key : undefined;
   }
 }
-
-DynamicBootstrapper.register({
-  selector: 'enterprise-active-trial', cls: EEActiveTrialComponent
-});
-

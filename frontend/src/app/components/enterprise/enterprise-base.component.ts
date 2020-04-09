@@ -69,7 +69,3 @@ export class EnterpriseBaseComponent {
     return this.eeTrialService.status === undefined;
   }
 }
-
-DynamicBootstrapper.register({
-  selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent
-});

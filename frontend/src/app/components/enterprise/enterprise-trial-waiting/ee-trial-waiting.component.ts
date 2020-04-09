@@ -64,7 +64,7 @@ export class EETrialWaitingComponent {
       .toPromise()
       .then(() => {
         this.notificationsService.addSuccess(this.text.resend_success);
-        this.eeTrialService.retryConfirmation(this.eeTrialService.delay, this.eeTrialService.retries);
+        this.eeTrialService.retryConfirmation();
       })
       .catch((error:HttpErrorResponse) => {
         this.notificationsService.addError(this.text.resend_warning);

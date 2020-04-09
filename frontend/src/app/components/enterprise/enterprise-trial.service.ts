@@ -20,10 +20,6 @@ export class EnterpriseTrialService {
   public status:'mailSubmitted'|'startTrial'|undefined;
   public errorMsg:string|undefined;
 
-  // retry confirmation
-  public delay = 5000; // wait 5s until next request
-  public retries = 60; // keep trying for 5 minutes
-
   constructor(readonly I18n:I18nService,
               protected http:HttpClient,
               readonly pathHelper:PathHelperService,
@@ -46,7 +42,7 @@ export class EnterpriseTrialService {
       .then((enterpriseTrial:any) => {
         this.trialLink = enterpriseTrial._links.self.href;
 
-        this.retryConfirmation(this.delay, this.retries);
+        this.retryConfirmation();
       })
       .catch((error:HttpErrorResponse) => {
         // mail is invalid or user already created a trial
@@ -96,7 +92,6 @@ export class EnterpriseTrialService {
         } else if (_.get(error, 'error._type') === 'Error') {
           this.notificationsService.addError(error.error.message);
         } else {
-          // backend returned an unsuccessful response code
           this.notificationsService.addError(error.error || I18n.t('js.error.internal'));
         }
       });
@@ -133,7 +128,7 @@ export class EnterpriseTrialService {
   }
 
   // retry request while waiting for mail confirmation
-  public retryConfirmation(delay:number, retries:number) {
+  public retryConfirmation(delay:number = 5000, retries:number = 60) {
     if (this.cancelled || this.confirmed) {
       return;
     } else if (retries === 0) {
