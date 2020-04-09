@@ -33,7 +33,8 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:admin) { FactoryBot.create(:admin) }
+  using_shared_fixtures :admin
+
   let(:comment) { 'This is a test comment!' }
 
   shared_examples_for 'safeguarded API' do

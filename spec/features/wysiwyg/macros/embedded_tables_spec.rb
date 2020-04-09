@@ -30,7 +30,8 @@ require 'spec_helper'
 
 describe 'Wysiwyg embedded work package tables',
          type: :feature, js: true do
-  let(:user) { FactoryBot.create :admin }
+  using_shared_fixtures :admin
+  let(:user) { admin }
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
   let(:editor) { ::Components::WysiwygEditor.new }
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }

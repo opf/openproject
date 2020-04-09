@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Workflow < ActiveRecord::Base
+class Workflow < ApplicationRecord
   belongs_to :role
   belongs_to :old_status, class_name: 'Status', foreign_key: 'old_status_id'
   belongs_to :new_status, class_name: 'Status', foreign_key: 'new_status_id'

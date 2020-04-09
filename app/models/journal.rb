@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal < ActiveRecord::Base
+class Journal < ApplicationRecord
   self.table_name = 'journals'
 
   include ::JournalChanges

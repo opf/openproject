@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module Token
-  class Base < ActiveRecord::Base
+  class Base < ApplicationRecord
     self.table_name = 'tokens'
 
     # Hashed tokens belong to a user and are unique per type

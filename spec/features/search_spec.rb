@@ -30,8 +30,10 @@ require 'spec_helper'
 
 describe 'Search', type: :feature, js: true, with_settings: { per_page_options: '5' }, with_mail: false do
   include ::Components::NgSelectAutocompleteHelpers
+
+  using_shared_fixtures :admin
+  let(:user) { admin }
   let(:project) { FactoryBot.create :project }
-  let(:user) { FactoryBot.create :admin }
   let(:searchable) { true }
   let(:is_filter) { true }
 

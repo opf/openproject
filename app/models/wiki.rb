@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Wiki < ActiveRecord::Base
+class Wiki < ApplicationRecord
   belongs_to :project
   has_many :pages, -> {
     order('title')

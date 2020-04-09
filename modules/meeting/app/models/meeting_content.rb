@@ -27,7 +27,7 @@
 #++
 #
 
-class MeetingContent < ActiveRecord::Base
+class MeetingContent < ApplicationRecord
   include OpenProject::Journal::AttachmentHelper
 
   belongs_to :meeting

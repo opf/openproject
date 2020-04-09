@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Forum < ActiveRecord::Base
+class Forum < ApplicationRecord
   belongs_to :project
   has_many :topics, -> {
     where("#{Message.table_name}.parent_id IS NULL")

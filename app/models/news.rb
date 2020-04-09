@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class News < ActiveRecord::Base
+class News < ApplicationRecord
   belongs_to :project
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   has_many :comments, -> {

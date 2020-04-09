@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Relation < ActiveRecord::Base
+class Relation < ApplicationRecord
   include VirtualAttribute
 
   scope :of_work_package,

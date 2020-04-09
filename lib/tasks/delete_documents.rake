@@ -33,7 +33,7 @@ namespace :migrations do
   namespace :documents do
     include Tasks::Shared::UserFeedback
 
-    class Document < ActiveRecord::Base
+    class TemporaryDocument < ActiveRecord::Base
       belongs_to :project
       belongs_to :category, class_name: 'DocumentCategory', foreign_key: 'category_id'
     end
@@ -47,7 +47,7 @@ namespace :migrations do
       if !$stdout.isatty || user_agrees_to_delete_all_documents
         puts 'Delete all attachments attached to projects or versions...'
 
-        Document.destroy_all
+        TemporaryDocument.destroy_all
         Attachment.where(container_type: ['Document']).destroy_all
       end
     rescue
