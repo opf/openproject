@@ -167,51 +167,79 @@ describe 'Enterprise trial management',
     expect(page).to have_no_text 'email sent - waiting for confirmation'
   end
 
-  it 'can request a new trial' do
-    proxy.stub('https://augur.openproject-edge.com:443/public/v1/trials', method: 'post')
-      .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: created_body.to_json)
+  context 'with a waiting request pending' do
+    before do
+      proxy.stub('https://augur.openproject-edge.com:443/public/v1/trials', method: 'post')
+        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: created_body.to_json)
 
-    proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}")
-      .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 422, body: waiting_body.to_json)
+      proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}")
+        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 422, body: waiting_body.to_json)
 
-    find('.button', text: 'Start free trial').click
-    fill_out_modal
-    find('.button:not(:disabled)', text: 'Submit').click
+      find('.button', text: 'Start free trial').click
+      fill_out_modal
+      find('.button:not(:disabled)', text: 'Submit').click
 
-    expect(page).to have_text 'foo@foocorp.example'
-    expect(page).to have_text 'email sent - waiting for confirmation'
+      expect(page).to have_text 'foo@foocorp.example'
+      expect(page).to have_text 'email sent - waiting for confirmation'
+    end
 
-    # Stub resend method
-    proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}/resend")
-      .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: waiting_body.to_json)
+    it 'can get the trial if reloading the page' do
+      # We need to go to another page to stop the request cycle
+      visit info_admin_index_path
 
-    find('.op-modal--modal-body #resend-link', text: 'Resend').click
+      # Stub with successful body
+      # Stub the proxy to a successful return
+      # which marks the user has confirmed the mail link
+      proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}")
+        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: confirmed_body.to_json)
 
-    expect(page).to have_text 'Email has been resent.'
+      # Stub the details URL to still return 403
+      proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}/details")
+        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 403)
 
-    expect(page).to have_text 'foo@foocorp.example'
-    expect(page).to have_text 'email sent - waiting for confirmation'
+      visit enterprise_path
 
-    # Stub the proxy to a successful return
-    # which marks the user has confirmed the mail link
-    proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}")
-      .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: confirmed_body.to_json)
+      expect(page).to have_selector('.attributes-key-value--value-container', text: 'OpenProject Test', wait: 20)
+      expect(page).to have_selector('.attributes-key-value--value-container', text: '01/01/2020')
+      expect(page).to have_selector('.attributes-key-value--value-container', text: '01/02/2020')
+      expect(page).to have_selector('.attributes-key-value--value-container', text: '5')
+      # Generated expired token has different mail
+      expect(page).to have_selector('.attributes-key-value--value-container', text: 'info@openproject.com')
+    end
 
-    # Wait until the next request
-    expect(page).to have_selector '.status--confirmed', text: 'confirmed', wait: 20
+    it 'can confirm that trial regularly' do
+      # Stub resend method
+      proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}/resend")
+        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: waiting_body.to_json)
 
-    # advance to video
-    click_on 'Continue'
+      find('.op-modal--modal-body #resend-link', text: 'Resend').click
 
-    # advance to close
-    click_on 'Continue'
+      expect(page).to have_text 'Email has been resent.'
 
-    expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
-    expect(page).to have_selector('.attributes-key-value--value-container', text: 'OpenProject Test')
-    expect(page).to have_selector('.attributes-key-value--value-container', text: '01/01/2020')
-    expect(page).to have_selector('.attributes-key-value--value-container', text: '01/02/2020')
-    expect(page).to have_selector('.attributes-key-value--value-container', text: '5')
-    # Generated expired token has different mail
-    expect(page).to have_selector('.attributes-key-value--value-container', text: 'info@openproject.com')
+      expect(page).to have_text 'foo@foocorp.example'
+      expect(page).to have_text 'email sent - waiting for confirmation'
+
+      # Stub the proxy to a successful return
+      # which marks the user has confirmed the mail link
+      proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}")
+        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: confirmed_body.to_json)
+
+      # Wait until the next request
+      expect(page).to have_selector '.status--confirmed', text: 'confirmed', wait: 20
+
+      # advance to video
+      click_on 'Continue'
+
+      # advance to close
+      click_on 'Continue'
+
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+      expect(page).to have_selector('.attributes-key-value--value-container', text: 'OpenProject Test')
+      expect(page).to have_selector('.attributes-key-value--value-container', text: '01/01/2020')
+      expect(page).to have_selector('.attributes-key-value--value-container', text: '01/02/2020')
+      expect(page).to have_selector('.attributes-key-value--value-container', text: '5')
+      # Generated expired token has different mail
+      expect(page).to have_selector('.attributes-key-value--value-container', text: 'info@openproject.com')
+    end
   end
 end
