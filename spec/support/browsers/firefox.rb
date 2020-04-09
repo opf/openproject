@@ -40,7 +40,7 @@ def register_firefox_headless(language, name: :"firefox_headless_#{language}")
       loggingPrefs: { browser: 'ALL' }
     )
 
-    yield profile, options, capabilities
+    yield(profile, options, capabilities) if block_given?
 
     unless ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
       options.args << "--headless"

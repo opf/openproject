@@ -39,7 +39,7 @@ def register_chrome_headless(language, name: :"chrome_headless_#{language}")
       loggingPrefs: { browser: 'ALL' }
     )
 
-    yield options, capabilities
+    yield(options, capabilities) if block_given?
 
     client = Selenium::WebDriver::Remote::Http::Default.new
     client.read_timeout = 180
