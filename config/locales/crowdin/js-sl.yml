@@ -1,0 +1,905 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+sl:
+  js:
+    ajax:
+      hide: "Hide"
+      loading: "Nalaganje..."
+    attachments:
+      draggable_hint: |
+        Povlecite na urejevalno polje, da vstavite sliko ali referenčno prilogo. Med nadaljevanjem vlečenja se bodo odprla zaprta polja urejevalnika.
+    autocomplete_select:
+      placeholder:
+        multi: "Dodaj \"%{name}\""
+        single: "Izberi \"%{name}\""
+      remove: "Odstrani \"%{name}\""
+      active: "Aktivno %{label}%{name}"
+    close_popup_title: "Zapri pojavna okna"
+    close_filter_title: "Zapri filter"
+    close_form_title: "Zapri obliko"
+    button_add_watcher: "Dodaj spremljevalca"
+    button_back: "Nazaj"
+    button_back_to_list_view: "Nazaj na pregled seznama"
+    button_cancel: "Prekliči"
+    button_close: "Zapri"
+    button_change_project: "Spremeni projekt"
+    button_check_all: "Označi vse"
+    button_configure-form: "Spremeni obliko"
+    button_confirm: "Potrdi"
+    button_continue: "Nadaljuj"
+    button_copy: "Kopiraj"
+    button_custom-fields: "Custom fields"
+    button_delete: "Izbriši"
+    button_delete_watcher: "Izbriši opazovalca"
+    button_details_view: "Pogled podrobnosti"
+    button_duplicate: "Podvoji"
+    button_edit: "Uredi"
+    button_filter: "Filtriraj"
+    button_advanced_filter: "Napredni filter"
+    button_list_view: "Prikaz seznama"
+    button_show_view: "Celozaslonski pogled"
+    button_log_time: "Datum vpisa"
+    button_more: "More"
+    button_open_details: "Prikaži pogled podrobnosti"
+    button_close_details: "Zapri prikaz podrobnosti"
+    button_open_fullscreen: "Odptri celozaslonski pogled"
+    button_show_cards: "Prikaži kard pogled"
+    button_show_list: "Prikaži list pogled"
+    button_quote: "Quote"
+    button_save: "Save"
+    button_settings: "Nastavitve"
+    button_uncheck_all: "Uncheck all"
+    button_update: "Update"
+    button_export-pdf: "Prenesi PDF"
+    button_export-atom: "Prenesi Atom"
+    calendar:
+      title: 'Calendar'
+      too_many: 'Obstaja %{count} delovnih paketov, vendar je lahko prikazanih samo %{max}.'
+    card:
+      add_new: 'Dodaj nov card'
+      highlighting:
+        inline: 'Označi vrstico:'
+        entire_card_by: 'Celoten card od'
+      remove_from_list: 'Odstrani s seznama'
+    caption_rate_history: "Rate history"
+    clipboard:
+      browser_error: "Vaš brskalnik ne podpira kopiranja v odložišče. Kopirajte izbrano besedilo ročno."
+      copied_successful: "Uspešno kopirano v odložišče!"
+    chart:
+      type: 'Vrsta grafikona'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Linija'
+        horizontal_bar: 'Vodoravna vrstica'
+        bar: 'Vrstica'
+        pie: 'Torta'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'General'
+        dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+    description_available_columns: "Razpoložljivi stolpci"
+    description_current_position: "Vi ste tukaj:"
+    description_select_work_package: "Izberi zahtevek #%{id}"
+    description_selected_columns: "Selected Columns"
+    description_subwork_package: "Podrejen zahtevek od #%{id}"
+    editor:
+      preview: 'Preklopi način predogleda'
+      source_code: 'Toggle Markdown source mode'
+      error_saving_failed: 'Shranjevanje dokumenta ni uspelo zaradi napake: %{error}'
+      error_initialization_failed: 'Napaka pri inicializaciji CKEditorja'
+      mode:
+        manual: 'Switch to Markdown source'
+        wysiwyg: 'Preklopi na WYSIWYG urejevalnik'
+      macro:
+        child_pages:
+          button: 'Povezave na podrejena opravila'
+          include_parent: 'Vključi nadrejen zahtevek'
+          text: '[Placeholder] Links to child pages of'
+          page: 'Wiki page'
+          this_page: 'ta stran'
+          hint: |
+            Pustite to polje prazno, za zapis podrejenih strani trenutne strani. Če želite dodati drugo stran, dodajte njen naslov ali slug. 
+        code_block:
+          button: 'Dodaj kodo'
+          title: 'Dodaj / uredi kodo'
+          language: 'Urejanje jezika'
+          language_hint: 'Vstavite jezik, ki bo uporabljen za povdarjanje (če je podprt). '
+        dropdown:
+          macros: 'Makri'
+          chose_macro: 'Izberi makro'
+        toc: 'Table of contents'
+        toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
+        wiki_page_include:
+          button: 'Vključi vsebino druge wiki strani'
+          text: '[Placeholder] dodaj wiki stran od'
+          page: 'Wiki page'
+          not_set: '(Stran še ni nastavljena) '
+          hint: |
+            Dodaj vsebino druge wiki strani, tako da specificiraš njen naslov ali slug. Lahko dodate wiki stran drugega projekta tako da ju ločite s dvopičjem, tako kot prikazuje primer. 
+        work_package_button:
+          button: 'Insert create work package button'
+          type: 'Tip zahtevka'
+          button_style: 'Uporabi slog gumba'
+          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
+          without_type: 'Kreiraj zahtevek'
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: 'Embed work package table'
+          text: '[Placeholder] Embedded work package table'
+        embedded_calendar:
+          text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'Custom field'
+        inactive: 'Inactive'
+        drag_to_activate: "Drag fields from here to activate them"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'New group'
+        reset_to_defaults: 'Ponastavi na privzete vrednosti'
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: 'Trenutni datum'
+    error:
+      internal: "An internal error has occurred."
+      cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
+      query_saving: "The view could not be saved."
+      embedded_table_loading: "The embedded view could not be loaded: %{message}"
+    enumeration_activities: "Activities (time tracking)"
+    enumeration_doc_categories: "Kategorije dokumentov"
+    enumeration_work_package_priorities: "Work package priorities"
+    filter:
+      description:
+        text_open_filter: "Open this filter with 'ALT' and arrow keys."
+        text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
+      noneElement: "(none)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: "From %{from} in your local time."
+        only_end: "Till %{to} in your local time."
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: "Prvo merilo za razvrščanje"
+          two: "Drugo merilo za razvrščanje"
+          three: "Tretje merilo za razvrščanje"
+      upsale_for_more: "For more advanced filters, check out the"
+      upsale_link: 'Podjetniška verzija. '
+    general_text_no: "no"
+    general_text_yes: "yes"
+    general_text_No: "No"
+    general_text_Yes: "Yes"
+    global_roles: Globalna pravila
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: "Prišlo je do napake."
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: "Preberite o novih funkcijah in posodobitvah izdelkov."
+          learn_about: "Preberite več o novostih"
+          standard:
+            learn_about_link: https://www.openproject.org/openproject-10-4
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br><br> <ul> <li>Default <b>design templates</b> to select a light or dark theme (premium feature).</li> <li>New <b>time tracking widget</b> for <i>My page</i> to show spent time in a bar chart.</li> <li><b>XLS-exports for cost reports</b> and formatted text in PDF export of work packages.</li> <li><b>Improved design and usability</b>, i.e. tabs and more in project settings and administration.</li> </ul>
+          bim:
+            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            current_new_feature_html: >
+              OpenProject vsebuje <b> nov modul IFC za vključitev 3D modelov </b> v vašo aplikacijo za upravljanje projektov in za sodelovanje s temi datotekami s svojo ekipo brez namestitve ločene drage programske opreme ali licenc. <br> <br> <ul> <li> <b> Uvozi datoteke IFC </b> gradbenih modelov v svojo aplikacijo OpenProject. </li> <li> <b> Odprite 3D modele in vizualizirajte modele stavb </b> > v brskalniku. </li> <li> Preprosto <b> delajte z več datotekami IFC </b> z vašo ekipo neposredno v OpenProject brez namestitve ločene drage programske opreme. </li> </ul>
+    label_activate: "Activate"
+    label_add_column_after: "Dodaj stolpec za"
+    label_add_column_before: "Dodaj stolpec pred"
+    label_add_columns: "Dodaj stolpce"
+    label_add_comment: "Dodaj komentar"
+    label_add_comment_title: "Komentiraj in tipkaj @ da obvestiš tudi druge ljudi"
+    label_add_row_after: "Dodaj vrstico za"
+    label_add_row_before: "Dodaj vrstico pred"
+    label_add_selected_columns: "Add selected columns"
+    label_added_by: "dodal"
+    label_added_time_by: "Dodal %{author} %{age}"
+    label_ago: "days ago"
+    label_all: "all"
+    label_all_work_packages: "Vsi zahtevki"
+    label_and: "and"
+    label_ascending: "Ascending"
+    label_author: "Avtor: %{user}"
+    label_avatar: "Podoba"
+    label_between: "between"
+    label_board: "Board"
+    label_board_locked: "Locked"
+    label_board_plural: "Boards"
+    label_board_sticky: "Sticky"
+    label_create: "Ustvari"
+    label_create_work_package: "Create new work package"
+    label_created_by: "Ustvaril"
+    label_date: "Datum"
+    label_date_with_format: "Vstavi %{date_attribute} tako da uporabiš format: %{format}"
+    label_deactivate: "Onemogoči"
+    label_descending: "Descending"
+    label_description: "Description"
+    label_details: "Details"
+    label_display: "Display"
+    label_cancel_comment: "Prekliči komentar"
+    label_closed_work_packages: "closed"
+    label_collapse: "Collapse"
+    label_collapsed: "strnjeno"
+    label_collapse_all: "Strni vse"
+    label_comment: "Comment"
+    label_committed_at: "%{committed_revision_link} at %{date}"
+    label_committed_link: "committed revision %{revision_identifier}"
+    label_contains: "contains"
+    label_created_on: "Ustvarjeno dne"
+    label_edit_comment: "Uredi ta komentar"
+    label_edit_status: "Spremeni status tega delovnega paketa"
+    label_equals: "is"
+    label_expand: "Razširi"
+    label_expanded: "Razširjen"
+    label_expand_all: "Razširi vse"
+    label_expand_project_menu: "Razširi projektni meni"
+    label_export: "Izvozi"
+    label_filename: "Datoteka"
+    label_filesize: "Velikost"
+    label_general: "General"
+    label_greater_or_equal: ">="
+    label_group: 'Group'
+    label_group_by: "Group by"
+    label_group_plural: "Groups"
+    label_hide_attributes: "Prikaži manj"
+    label_hide_column: "Skrij stolpec"
+    label_hide_project_menu: "Collapse project menu"
+    label_in: "in"
+    label_in_less_than: "in less than"
+    label_in_more_than: "in more than"
+    label_incoming_emails: "Incoming emails"
+    label_information_plural: "Information"
+    label_import: "Import"
+    label_latest_activity: "Zadnja dejavnost"
+    label_last_updated_on: "Zadnjič posodobljeno dne"
+    label_less_or_equal: "<="
+    label_less_than_ago: "less than days ago"
+    label_loading: "Loading..."
+    label_mail_notification: "E-poštna obvestila"
+    label_me: "me"
+    label_meeting_agenda: "Dnevni red"
+    label_meeting_minutes: "Minut"
+    label_menu_collapse: "collapse"
+    label_menu_expand: "Razširi"
+    label_more_than_ago: "more than days ago"
+    label_next: "Next"
+    label_no_color: "Brez barve"
+    label_no_data: "No data to display"
+    label_no_due_date: "Brez končnega datuma"
+    label_no_start_date: "Brez začetnega datuma"
+    label_no_value: "Brez vrednosti"
+    label_none: "Brez"
+    label_not_contains: "doesn't contain"
+    label_not_equals: "is not"
+    label_on: "on"
+    label_open_menu: "Open menu"
+    label_open_context_menu: "Open context menu"
+    label_open_work_packages: "open"
+    label_password: "Geslo"
+    label_previous: "Previous"
+    label_per_page: "Na stran:"
+    label_please_wait: "Prosimo, počakajte"
+    label_project_plural: "Projekti"
+    label_visibility_settings: "Nastavitve vidljivosti"
+    label_quote_comment: "Quote this comment"
+    label_recent: "Nedavno"
+    label_reset: "Reset"
+    label_remove_column: "Odstrani stolpec"
+    label_remove_columns: "Remove selected columns"
+    label_remove_row: "Odstrani vrstico"
+    label_report: "Report"
+    label_repository_plural: "Repositories"
+    label_save_as: "Shrani kot"
+    label_select_watcher: "Select a watcher..."
+    label_selected_filter_list: "Izbrani kriteriji"
+    label_show_attributes: "Prikaži vse lastnosti"
+    label_show_in_menu: "Prikaži pogled v meniju"
+    label_sort_by: "Sort by"
+    label_sorted_by: "Razvrščeno po"
+    label_sort_higher: "Move up"
+    label_sort_lower: "Move down"
+    label_sorting: "Razvrščanje ..."
+    label_spent_time: "Porabljen čas"
+    label_star_query: "Favored"
+    label_press_enter_to_save: "Pritisnite enter da shranite. "
+    label_public_query: "Public"
+    label_sum: "Vsota"
+    label_sum_for: "Vsota za"
+    label_subject: "Zadeva"
+    label_this_week: "this week"
+    label_today: "today"
+    label_time_entry_plural: "Porabljen čas"
+    label_up: "Navzgor"
+    label_user_plural: "Uporabniki"
+    label_activity_show_only_comments: "Prikaži aktivnosti samo s komentarji"
+    label_activity_show_all: "Prikaži vse aktivnosti"
+    label_total_progress: "%{percent}% Napredek"
+    label_total_amount: "Skupaj: %{amount}"
+    label_updated_on: "Posodobljeno"
+    label_value_derived_from_children: "(value derived from children)"
+    label_warning: "Warning"
+    label_work_package: "Zahtevek"
+    label_work_package_plural: "Work packages"
+    label_watch: "Watch"
+    label_watch_work_package: "Spremljaj opravilo"
+    label_watcher_added_successfully: "Watcher successfully added!"
+    label_watcher_deleted_successfully: "Watcher successfully deleted!"
+    label_work_package_details_you_are_here: "You're on the %{tab} tab for %{type} %{subject}."
+    label_unwatch: "Unwatch"
+    label_unwatch_work_package: "Unwatch work package"
+    label_uploaded_by: "Naložil"
+    label_default_queries: "Privzeti pogledi"
+    label_starred_queries: "Priljubljeni pogledi"
+    label_global_queries: "Javni pogledi"
+    label_custom_queries: "Zasebni pogledi"
+    label_columns: "Stolpci"
+    label_attachments: Files
+    label_drop_files: Spustite datoteke tukaj
+    label_drop_files_hint: ali kliknite da dodate datoteke
+    label_drop_folders_hint: Mape ne morate naložiti kot priponke. Prosim izberite samo eno datoteko. 
+    label_add_attachments: "Dodaj priponke"
+    label_formattable_attachment_hint: "Pripnite in povežite datoteke tako, da spustite to polje ali prilepite iz odložišča."
+    label_remove_file: "Izbriši %{fileName}"
+    label_remove_watcher: "Odstrani udeleženca %{name}"
+    label_remove_all_files: Izbriši vse datoteke
+    label_add_description: "Dodaj opis za %{file}"
+    label_upload_notification: "Nalaganje datotek... "
+    label_work_package_upload_notification: "Nalaganje datotek za opravilo #%{id}: %{subject}"
+    label_wp_id_added_by: "#%{id} dodal %{author}"
+    label_files_to_upload: "Te datoteke bodo naložene:"
+    label_rejected_files: "Teh datotek ni mogoče naložiti:"
+    label_rejected_files_reason: "Teh datotek ni mogoče naložiti, saj so večje od %{maximumFilesize}"
+    label_wait: "Prosimo počakajte za konfiguracijo... "
+    label_upload_counter: "%{done} od %{count} datotek je končanih"
+    label_validation_error: "Opravila ni bilo mogoče shraniti zaradi naslednjih napak:\n"
+    label_version_plural: "Verzije"
+    label_view_has_changed: "Ta pogled ima ne shranjene spremembe. kliknite za shranjevanje. "
+    help_texts:
+      show_modal: 'Show attribute help text entry'
+    onboarding:
+      buttons:
+        skip: 'Preskoči'
+        next: 'Next'
+        got_it: 'Razumem'
+      steps:
+        help_menu: 'V <b>Pomoč</b> meniju boste našli uporabniški priročnik in dodatne vire pomoči. <br> Uživajte svoje delo z programsko rešitvijo OpenProject!'
+        members: 'Povabite nove <b>Člane</b> k projektu. '
+        project_selection: 'Prosimo kliknite na katerega od projektov z uporabnimi demo podatki za začetek. <br> Ta <b>Demo projekt</b> je najbolj primeren za klasično projektno vodenje, medtem ko je <b>Scrum project</b> boljši za agilno projektno vodenje. '
+        sidebar_arrow: "S puščico hako navigirate nazaj na projektni <b>Glavni meni</b>."
+        welcome: 'Poglejte si tri minutni ogled, da se naučite čim več <b>pomembne lastnosti</b>. <br> Priporočamo, da ogled dokončat. Ogled lahko ponovno začnete kadar koli. '
+        wiki: 'V <b>Wiki</b> lahko dokumentirate in delite znanje z vašo ekipo. '
+        backlogs:
+          overview: "Manage your work in the <b>Backlogs</b> view. <br> On the right you have the Product Backlog or a Bug Backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag'n'drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>Task board</b>, open the Sprint drop-down...'
+          task_board_select: '... and select the <b>Task board</b> entry.'
+          task_board: "The <b>Task board</b> visualizes the progress for this sprint. Add new tasks or impediments with the + icon next to a user story. Via drag'n'drop you can update the status."
+        boards:
+          overview: 'Manage your work within an intuitive <b>Boards</b> view.'
+          lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
+          add: 'Click the + will <b>add a new card</b> to the list within a Board.'
+          drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
+        wp:
+          toggler: "Zdaj pa poglejmo <b>Delovni paket</b> del, ki vam da bolj podroben pregled vašega dela. "
+          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, features, milestones, bugs, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
+          back_button: 'S puščico lahko navigirate nazaj na seznam delovnih paketov. '
+          create_button: 'Gumb <b>Ustvari</b> bo dodal nov delovni paket vašemu projektu. '
+          timeline_button: 'You can activate the <b>Gantt chart</b> to create a timeline for your project.'
+          timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
+    password_confirmation:
+      field_description: 'Prosimo vnesite svoje uporabniško geslo za potrditev te spremembe. '
+      title: 'Potrdite svoje geslo za nadaljevanje'
+    pagination:
+      no_other_page: "Ste na edini strani. "
+      pages:
+        next: "Naprej na naslednjo stran. "
+        previous: "Nazaj na prejšnjo stran. "
+    placeholders:
+      default: '-'
+      subject: 'Vnesite temo tukaj'
+      selection: 'Please select'
+      relation_description: 'Kliknite, da dodate opis za to povezavo'
+    project:
+      required_outside_context: >
+        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      context: 'Kontekst projekta'
+      work_package_belongs_to: 'Ta delovni paket pripada projektu %{projectname}.'
+      click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
+      autocompleter:
+        label: 'Project autocompletion'
+    text_are_you_sure: "Are you sure?"
+    types:
+      attribute_groups:
+        error_duplicate_group_name: "Ime skupine %{group} je že uporabljeno. Imena skupin morajo biti unikatna."
+        error_no_table_configured: "Prosimo konfigurirajte tabelo za %{group}."
+        reset_title: "Po nastavi iz konfiguracije"
+        confirm_reset: >
+          Opozorilo: Ali ste prepričani, da želite po nastaviti formo konfiguracije? To bo ponastavilo atribute v njihovo privzeto skupino in onemogočilo vsa polja po meri. 
+        upgrade_to_ee: "Nadgradite v Enterprise Edition"
+        upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
+        more_information: "More information"
+        nevermind: "Pozabi"
+      edit:
+        form_configuration: "Konfiguracija forme"
+        projects: "Projekti"
+        settings: "Nastavitve"
+    time_entry:
+      project: 'Project'
+      work_package: 'Zahtevek'
+      work_package_required: 'Najprej izberite opravilo'
+      activity: 'Aktivnost'
+      comment: 'Comment'
+      duration: 'Duration'
+      spent_on: 'Datum'
+      hours: 'Ure'
+      label: 'Vnos časa'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Dvofaktorna avtentikacija'
+    watchers:
+      label_loading: branje udeležencev ...
+      label_error_loading: An error occurred while loading the watchers
+      label_search_watchers: Išči udeležence
+      label_add: Add watchers
+      label_discard: Zavrži izbor
+      typeahead_placeholder: Išči potencialne udeležence
+    relation_labels:
+      parent: "Nadrejeni"
+      children: "Podrejeni"
+      relates: "Povezan z"
+      duplicates: "Dvojniki"
+      duplicated: "Podvojil"
+      blocks: "Bloki"
+      blocked: "Blokiral"
+      precedes: "Ima prednost pred"
+      follows: "Sledi"
+      includes: "Vsebuje"
+      partof: "Je del"
+      requires: "Potrebuje"
+      required: "Potrebuje"
+      relation_type: "Vrsta povezave"
+    relations_hierarchy:
+      parent_headline: "Nadrejeni"
+      hierarchy_headline: "Hierarhija"
+      children_headline: "Podrejeni"
+    relation_buttons:
+      set_parent: "Določi nadrejenega"
+      change_parent: "Zamenjaj nadrejenega"
+      remove_parent: "Odstrani nadgrejenega"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
+      group_by_wp_type: "Združi glede na tip delovnega paketa"
+      group_by_relation_type: "Združi glede na tip povezave"
+      add_parent: "Add existing parent"
+      add_new_child: "Kreiraj podrejen zahtevek"
+      create_new: "Ustvari novega"
+      add_existing: "Dodaj obstoječe"
+      add_existing_child: "Add existing child"
+      remove_child: "Remove child"
+      add_new_relation: "Ustvari novo povezavo"
+      add_existing_relation: "Dodaj obstoječo povezavo"
+      update_description: "Dodaj ali posodobi opis te povezave"
+      toggle_description: "Toggle relation description"
+      update_relation: "Za spremembo tipa povezave kliknite tukaj"
+      add_follower: "Dodaj naslednjika"
+      add_predecessor: "Dodaj prednika"
+      remove: "Odstrani povezavo"
+      save: "Shrani povezavo"
+      abort: "Prekliči"
+    relations_autocomplete:
+      placeholder: "Iskalni niz"
+      parent_placeholder: "Choose new parent or press escape to cancel."
+    repositories:
+      select_tag: 'Izberite oznako'
+      select_branch: 'Select branch'
+    field_value_enter_prompt: "Vnesite vrednost za '%{field}'"
+    select2:
+      input_too_short:
+        zero: "Prosimo, vnesite več znakov"
+        one: "Please enter one more character"
+        two: "Please enter {{count}} more characters"
+        few: "Please enter {{count}} more characters"
+        other: "Prosimo vnesite še {{count}} znakov"
+      load_more: "Nalaganje več rezultatov ... "
+      no_matches: "Ni bilo najdenih zadetkov"
+      searching: "Iskanje..."
+      selection_too_big:
+        zero: "You cannot select any items"
+        one: "You can only select one item"
+        two: "You can only select {{limit}} items"
+        few: "You can only select {{limit}} items"
+        other: "Izberet lahko samo {{limit}} predmetov"
+    project_menu_details: "Details"
+    sort:
+      sorted_asc: 'Uporabljeno je naraščajoče razvrščanje, '
+      sorted_dsc: 'Uporabljeno je padajoče razvrščanje, '
+      sorted_no: 'Razvrščanje ni uporabljeno, '
+      sorting_disabled: 'Razvrščanje je onemogočeno'
+      activate_asc: 'aktivirajte za uporabo naraščajočega razvrščanja'
+      activate_dsc: 'aktivirajte za uporabo padajočega razvrščanja'
+      activate_no: 'aktivirajte za odstranitev razvrščanja'
+    text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
+    text_query_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbran pogled?"
+    text_attachment_destroy_confirmation: "Ali ste prepričani, da želite izbrisati to datoteko?"
+    timelines:
+      quarter_label: 'Q%{quarter_number}'
+      gantt_chart: 'Gantt chart'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Levo'
+        right: 'Desno'
+        farRight: 'Čisto desno'
+        showNone: '-- No label --'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Prikaži gantogram'
+      button_deactivate: 'Skrij gantogram'
+      cancel: Prekliči
+      change: "Change in planning"
+      due_date: "Končni datum"
+      empty: "(empty)"
+      error: "Prišlo je do napake."
+      errors:
+        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
+        report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
+        report_epicfail: "The timeline could not be loaded due to an unexpected error."
+        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
+      filter:
+        grouping_other: "Other"
+        noneSelection: "(none)"
+      name: "Ime"
+      outline: "Reset Outline"
+      outlines:
+        aggregation: "Show aggregations only"
+        level1: "Expand level 1"
+        level2: "Expand level 2"
+        level3: "Expand level 3"
+        level4: "Expand level 4"
+        level5: "Expand level 5"
+        all: "Show all"
+      project_status: "Status projekta"
+      really_close_dialog: "Ali res želite zapreti pogovor in zgubiti vse podatke? "
+      responsible: "Odgovoren"
+      save: Save
+      start_date: "Datum začetka"
+      tooManyProjects: "Več kot %{count} projektov. Prosimo uporabite boljši filter!"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Samodejna povečava"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        slider: "Zoom slider"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
+    tl_toolbar:
+      zooms: "Stopnja povečave"
+      outlines: "Stopnja hierarhije"
+    upsale:
+      ee_only: 'Enterprise Edition only feature'
+    wiki_formatting:
+      strong: "Strong"
+      italic: "Nagnjeno"
+      underline: "Podčrtaj"
+      deleted: "Izbrisano"
+      code: "Inline Code"
+      heading1: "Naslov 1"
+      heading2: "Naslov 2"
+      heading3: "Naslov 3"
+      unordered_list: "Neurejen seznam"
+      ordered_list: "Urejen seznam"
+      quote: "Quote"
+      unquote: "Unquote"
+      preformatted_text: "Preformatted Text"
+      wiki_link: "Povezava do Wiki strani"
+      image: "Slika"
+    work_packages:
+      bulk_actions:
+        move: 'Bulk change of project'
+        edit: 'Bulk edit'
+        copy: 'Bulk copy'
+        delete: 'Bulk delete'
+      button_clear: "Počisti"
+      comment_added: "Komentar je bil uspešno dodan. "
+      comment_send_failed: "Prišlo je do napake. Komentarja ni bilo mogoče shraniti. "
+      comment_updated: "Komentar je bil uspešno naložen. "
+      confirm_edit_cancel: "Ali ste prepričani, da želite preklicati urejanje delovnega paketa? "
+      description_filter: "Filtriraj"
+      description_enter_text: "Enter text"
+      description_options_hide: "Skrij možnosti"
+      description_options_show: "Prikaži možnosti"
+      edit_attribute: "%{attribute} - Spremeni"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: "Omogoči več selekcijo"
+      label_disable_multi_select: "Onemogoči več selekcijo"
+      label_filter_add: "Add filter"
+      label_filter_by_text: "Filtreraj po besedilu"
+      label_options: "Options"
+      label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
+      message_error_during_bulk_delete: Med brisanjem delovnih paketov se je zgodila napaka. 
+      message_successful_bulk_delete: Delovni paketi so uspešno izbrisani. 
+      message_successful_show_in_fullscreen: "Za celozaslonski pogled delovnih paketov, kliknite tukaj. "
+      message_view_spent_time: "Prikaži porabljen čas za ta delovni paket"
+      message_work_package_read_only: "Delovni paket je zaklenjen v tem stanju. Spremenite lahko samo stanje. "
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      placeholder_filter_by_text: "Subjekt, opis, komentarji,... "
+      inline_create:
+        title: 'Za dodajanje novega delovnega paketa kliknite tukaj'
+      create:
+        title: 'New work package'
+        header: 'Nov %{type}'
+        header_no_type: 'Nov delovni paket (tip ni izbran) '
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: 'Ustvari'
+      copy:
+        title: 'Kopiraj delovni paket'
+      hierarchy:
+        show: "Prikaži hiearhijo"
+        hide: "Skrij hierarhijo"
+        toggle_button: 'Click to toggle hierarchy mode.'
+        leaf: 'Work package leaf at level %{level}.'
+        children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'
+        children_expanded: 'Hierarchy level %{level}, expanded. Click to collapse the filtered children'
+      faulty_query:
+        title: Delavnega paketa ni bilo mogoče naložiti. 
+        description: Your view is erroneous and could not be processed.
+      no_results:
+        title: Nobenega delovnega paketa za prikaz.
+        description: Ali noben ni bil ustvarjen ali pa so bili vsi delovni paketi filtrirani stran.
+      limited_results: Samo %{count} delovnih paketov je lahko prikazanih v načinu ročnega sortiranja. Prosimo zmanjšajte rezultate s filtri.
+      property_groups:
+        details: "Details"
+        people: "People"
+        estimatesAndTime: "Ocene in čas"
+        other: "Other"
+      properties:
+        assignee: "Assignee"
+        author: "Author"
+        createdAt: "Created on"
+        description: "Description"
+        date: "Datum"
+        dueDate: "Končni datum"
+        estimatedTime: "Estimated time"
+        spentTime: "Porabljen čas"
+        category: "Category"
+        percentageDone: "Procent dokončanega dela"
+        priority: "Prioriteta"
+        projectName: "Project"
+        responsible: "Odgovoren"
+        startDate: "Datum začetka"
+        status: "Stanje"
+        subject: "Zadeva"
+        title: "Naslov"
+        type: "Vrsta"
+        updatedAt: "Posodobljeno"
+        versionName: "Različica"
+        version: "Različica"
+      default_queries:
+        latest_activity: "Zadnja dejavnost"
+        created_by_me: "Ustvaril jaz"
+        assigned_to_me: "Dodeljeno meni"
+        recently_created: "Nedavno ustvarjeno"
+        all_open: "All open"
+        summary: "Povzetek"
+      jump_marks:
+        pagination: "Jump to table pagination"
+        label_pagination: "Click here to skip over the work packages table and go to pagination"
+        content: "Skoči na vsebino"
+        label_content: "Kliknite tukaj za preskok menija na vsebino"
+      placeholders:
+        default: "-"
+        formattable: "%{name}: Kliknite za urejanje..."
+      query:
+        column_names: "Stolpci"
+        group_by: "Rezultati grupirani po"
+        group: "Group by"
+        group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
+        hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
+        sort_ascending: "Sortiraj naraščajoče"
+        sort_descending: "Razvrsti padajoče"
+        move_column_left: "Premakni stolpec v levo"
+        move_column_right: "Premakni stolpec v desno"
+        hide_column: "Skrij stolpec"
+        insert_columns: "Dodaj stolpec ..."
+        filters: "Filtri"
+        display_sums: "Display Sums"
+        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
+        click_to_edit_query_name: "Kliknite za urejanje naslova tega pogleda."
+        rename_query_placeholder: "Ime tega pogleda"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+        errors:
+          unretrievable_query: "Unable to retrieve view from URL"
+          not_found: "There is no such view"
+          duplicate_query_title: "Name of this view already exists. Change anyway?"
+        text_no_results: "No matching views were found."
+      table:
+        configure_button: 'Configure work package table'
+        summary: "Table with rows of work package and columns of work package attributes."
+        text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
+        text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
+        text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
+      table_configuration:
+        button: 'Configure this work package table'
+        choose_display_mode: 'Display work packages as'
+        modal_title: 'Work package table configuration'
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        default: "default"
+        display_settings: 'Prikaži nastavitve'
+        default_mode: "Flat list"
+        hierarchy_mode: "Hierarhija"
+        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
+        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
+        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
+        highlighting: 'Highlighting'
+        highlighting_mode:
+          description: "Highlight with color"
+          none: "No highlighting"
+          inline: 'Highlighted attribute(s)'
+          inline_all: 'Vsi atributi'
+          entire_row_by: 'Celotna vrstica od'
+          status: 'Stanje'
+          priority: 'Prioriteta'
+          type: 'Vrsta'
+        sorting_mode:
+          description: 'Chose the mode to sort your Work packages:'
+          automatic: 'Avtomatično'
+          manually: 'Ročno'
+          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        upsale:
+          attribute_highlighting: 'Need certain work packages to stand out from the mass?'
+          relation_columns: 'Need to see relations in the work package list?'
+          check_out_link: 'Check out the Enterprise Edition.'
+        relation_filters:
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+      tabs:
+        overview: Overview
+        activity: Aktivnost
+        relations: Relacije
+        watchers: Watchers
+        attachments: Attachments
+      time_relative:
+        days: "days"
+        weeks: "weeks"
+        months: "months"
+    toolbar:
+      settings:
+        configure_view: "Konfiguriraj pogled ..."
+        columns: "Stolpci ..."
+        sort_by: "Uredi ..."
+        group_by: "Grupiraj ..."
+        display_sums: "Prikaži vsote"
+        display_hierarchy: "Prikaži hierarhijo"
+        hide_hierarchy: "Skrij hierarhijo"
+        hide_sums: "Skrij vsote"
+        save: "Save"
+        save_as: "Shrani kot..."
+        export: "Izvozi ..."
+        visibility_settings: "Vidne nastavitve ..."
+        page_settings: "Preimenuj pogled ..."
+        delete: "Izbriši"
+      filter: "Filtriraj"
+      unselected_title: "Zahtevek"
+      search_query_label: "Išči shranjenje poglede"
+      search_query_title: "Kliknite za iskanje shranjenih pogledov"
+      placeholder_query_title: "Set a title for this view"
+    modals:
+      label_settings: "Preimenuj pogled"
+      label_name: "Ime"
+      label_delete_page: "Izbriši trenutno stran"
+      button_apply: "Potrdi"
+      button_save: "Save"
+      button_submit: "Submit"
+      button_cancel: "Prekliči"
+      form_submit:
+        title: 'Potrdite za nadaljevanje'
+        text: 'Ali ste prepričani, da želite to izvesti?'
+      destroy_work_package:
+        title: "Potrdite izbris %{label}"
+        text: "Ali ste prepričani, da želite izbrisati naslednje %{label} ?"
+        has_children: "Ta delavni paket ima %{childUnits}:"
+        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
+        deletes_children: "All child work packages and their descendants will also be recursively deleted."
+    notice_no_results_to_display: "Ni vidnih rezultatov za prikaz."
+    notice_successful_create: "Successful creation."
+    notice_successful_delete: "Successful deletion."
+    notice_successful_update: "Successful update."
+    notice_bad_request: "Bad Request."
+    relations:
+      empty: Ni relacij
+      remove: Odstrani povezavo
+    inplace:
+      button_edit: "%{attribute}: Uredi"
+      button_save: "%{attribute}: Shrani"
+      button_cancel: "%{attribute}: Prekliči"
+      button_save_all: "Save"
+      button_cancel_all: "Prekliči"
+      link_formatting_help: "Text formatting help"
+      btn_preview_enable: "Preview"
+      btn_preview_disable: "Onemogoči predogled"
+      null_value_label: "Brez vrednosti"
+      clear_value_label: "-"
+      errors:
+        required: '%{field} ne sme biti prazno'
+        number: '%{field} ni veljavno število'
+        maxlength: '%{field} cannot contain more than %{maxLength} digit(s)'
+        minlength: '%{field} cannot contain less than %{minLength} digit(s)'
+        messages_on_field: 'To polje je neveljavno: %{messages}'
+    error_could_not_resolve_version_name: "Ime verzije ni rešeno"
+    error_could_not_resolve_user_name: "Couldn't resolve user name"
+    error_attachment_upload: "File failed to upload: %{error}"
+    error_attachment_upload_permission: "Nimate dovoljenja za nalaganje datotek v ta vir."
+    units:
+      workPackage:
+        one: "work package"
+        two: "work packages"
+        few: "work packages"
+        other: "Delavni paketi"
+      child_work_packages:
+        one: "one child work package"
+        two: "%{count} work package children"
+        few: "%{count} work package children"
+        other: "%{count} work package children"
+      hour:
+        zero: "0 ur"
+        one: "%{count} ura"
+        two: "%{count} uri"
+        few: "%{count} ur"
+        other: "%{count} ur"
+    zen_mode:
+      button_activate: 'Omogočite zen način'
+      button_deactivate: 'Onemogočite zen način'
+    global_search:
+      all_projects: "V vseh projektih"
+      search: "Search"
+      close_search: "Zapri iskanje"
+      current_project: "V tem projektu"
+      current_project_and_all_descendants: "V tem projektu + podprojektu"
+      title:
+        all_projects: "Vsi projekti"
+        project_and_subprojects: "in vsi podprojekti"
+        search_for: "Išči"
+    views:
+      card: 'Cards'
+      list: 'Tabela'
+      timeline: 'Gantt'

@@ -1,0 +1,6 @@
+sl:
+  js:
+    ifc_models:
+      models:
+        default: 'Privzet IFC model'
+        manage: 'Upravljaj modele'

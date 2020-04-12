@@ -1,0 +1,43 @@
+#English strings go here for Rails i18n
+sl:
+  ifc_models:
+    label_ifc_models: 'model IFC'
+    label_new_ifc_model: 'Nov IFC model'
+    label_show_defaults: 'Pokaži podrobnosti'
+    label_default_ifc_models: 'Privzet IFC model'
+    label_edit_defaults: 'Uredi privzete vrednosti'
+    label_manage_models: 'Upravljaj modele'
+    no_defaults_warning:
+      title: 'Za ta projekt ni bil privzet noben model IFC.'
+      check_1: 'Preverite, ali ste naložili vsaj en model IFC.'
+      check_2: 'Preverite, ali je vsaj en model IFC nastavljen na "Privzeto".'
+    no_results: "V tem projektu ni bil naložen noben model IFC."
+    processing_state:
+      label: 'Obdelujem?'
+      in_progress: 'In progress'
+      completed: 'Zaključeno'
+    processing_notice:
+      processing_default: 'Naslednji privzeti modeli IFC se še vedno obdelujejo in zato še niso na voljo:'
+    flash_messages:
+      upload_successful: 'Nalaganje je uspelo. Zdaj bo predelano in bo v nekaj minutah pripravljeno za uporabo.'
+    conversion:
+      missing_commands: "V tem sistemu manjkajo naslednji ukazi pretvornika IFC: %{names}"
+  project_module_ifc_models: "model IFC"
+  permission_view_ifc_models: "Prikaži IFC modele"
+  permission_manage_ifc_models: "Uvozite in upravljajte modele IFC"
+  extraction:
+    available:
+      ifc_convert: "Na voljo je vod za pretvorbo IFC"
+  activerecord:
+    attributes:
+      ifc_models/ifc_model:
+        ifc_attachment: "Datoteka IFC"
+        is_default: "Privzet model"
+        attachments: "Datoteka IFC"
+    errors:
+      models:
+        ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Ni priložene datoteke IFC."
+              invalid_ifc_file: "Priložena datoteka ni veljavna datoteka IFC."
