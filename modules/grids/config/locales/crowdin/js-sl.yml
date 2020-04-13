@@ -30,9 +30,9 @@ sl:
           no_results: 'Za projekte niso bila definirana nobena polja po meri. '
         project_status:
           title: 'Status projekta'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
+          on_track: 'Na poti'
+          off_track: 'Izven poti'
+          at_risk: 'Ogroženo'
           not_set: 'Ni nastavljeno'
         subprojects:
           title: 'Subprojects'

@@ -4,9 +4,9 @@ sl:
   activemodel:
     attributes:
       openid_connect/provider:
-        name: Name
+        name: Ime
         display_name: Display name
-        identifier: Identifier
+        identifier: Identifikator 
         secret: Secret
         scope: Scope
   openid_connect:

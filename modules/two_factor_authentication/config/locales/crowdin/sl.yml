@@ -3,7 +3,7 @@ sl:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: 'Identifier'
+        identifier: 'Identifikator '
         default: 'Uporabi kot privzeto'
       two_factor_authentication/device/sms:
         phone_number: "Telefonska številka"
@@ -27,7 +27,7 @@ sl:
     error_invalid_backup_code: 'Neveljavna rezervna koda 2FA'
     channel_unavailable: "Kanal za dostavo %{channel} ni na voljo."
     no_valid_phone_number: "Ne obstaja veljavna telefonska številka."
-    label_pwd_confirmation: "Password"
+    label_pwd_confirmation: "Geslo"
     notice_pwd_confirmation: "Ko spremenite te nastavitve, morate potrditi geslo."
     label_device_type: "Vrsta naprave"
     label_default_device: "Privzeta naprava 2FA"
@@ -163,7 +163,7 @@ sl:
   label_expiration_hint: "%{date} ali ob odjavi"
   label_actions: 'Akcije'
   label_confirmed: 'Confirmed'
-  button_continue: 'Continue'
+  button_continue: 'Nadaljuj'
   button_make_default: 'Označite kot privzeto'
   label_unverified_phone: "Mobilni telefon še ni preverjen"
   notice_phone_number_format: "Vnesite številko v naslednji obliki: + XX XXXXXXXX."

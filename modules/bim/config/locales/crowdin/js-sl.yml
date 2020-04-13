@@ -5,16 +5,16 @@ sl:
       label_bcf: 'BCF'
       import: 'Import'
       export: 'Izvozi'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
+      viewpoint: 'Pogled/vidik'
+      add_viewpoint: 'Dodaj pogled/vidik'
+      show_viewpoint: 'Prikaži pogled/vidik'
+      delete_viewpoint: 'Zbriši pogled/vidik'
     ifc_models:
-      empty_warning: "This project does not yet have any IFC models."
-      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
+      empty_warning: "Ta projekt še nima modelov IFC."
+      use_this_link_to_manage: "Uporabite povezavo za nalaganje in upravljanje z vašimi modeli IFC"
       models:
         default: 'Privzet IFC model'
-        manage: 'Manage models'
+        manage: 'Upravljaj modele'
       views:
-        viewer: 'Viewer'
-        split: 'Viewer and cards'
+        viewer: 'Preglednik'
+        split: 'Preglednik in kartice '

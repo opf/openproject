@@ -36,28 +36,28 @@ sl:
     close_popup_title: "Zapri pojavna okna"
     close_filter_title: "Zapri filter"
     close_form_title: "Zapri obliko"
-    button_add_watcher: "Add watcher"
-    button_back: "Back"
+    button_add_watcher: "Dodaj spremljevalca"
+    button_back: "Nazaj"
     button_back_to_list_view: "Nazaj na pregled seznama"
-    button_cancel: "Cancel"
-    button_close: "Close"
+    button_cancel: "Prekliči"
+    button_close: "Zapri"
     button_change_project: "Spremeni projekt"
-    button_check_all: "Check all"
+    button_check_all: "Označi vse"
     button_configure-form: "Spremeni obliko"
     button_confirm: "Potrdi"
-    button_continue: "Continue"
-    button_copy: "Copy"
+    button_continue: "Nadaljuj"
+    button_copy: "Kopiraj"
     button_custom-fields: "Custom fields"
-    button_delete: "Delete"
+    button_delete: "Izbriši"
     button_delete_watcher: "Izbriši opazovalca"
     button_details_view: "Pogled podrobnosti"
-    button_duplicate: "Duplicate"
-    button_edit: "Edit"
-    button_filter: "Filter"
+    button_duplicate: "Podvoji"
+    button_edit: "Uredi"
+    button_filter: "Filtriraj"
     button_advanced_filter: "Napredni filter"
     button_list_view: "Prikaz seznama"
     button_show_view: "Celozaslonski pogled"
-    button_log_time: "Log time"
+    button_log_time: "Datum vpisa"
     button_more: "More"
     button_open_details: "Prikaži pogled podrobnosti"
     button_close_details: "Zapri prikaz podrobnosti"
@@ -66,7 +66,7 @@ sl:
     button_show_list: "Prikaži list pogled"
     button_quote: "Quote"
     button_save: "Save"
-    button_settings: "Settings"
+    button_settings: "Nastavitve"
     button_uncheck_all: "Uncheck all"
     button_update: "Update"
     button_export-pdf: "Prenesi PDF"
@@ -101,8 +101,8 @@ sl:
         dataset: 'Dataset %{number}'
       errors:
         could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
-    description_available_columns: "Available Columns"
-    description_current_position: "You are here: "
+    description_available_columns: "Razpoložljivi stolpci"
+    description_current_position: "Vi ste tukaj:"
     description_select_work_package: "Izberi zahtevek #%{id}"
     description_selected_columns: "Selected Columns"
     description_subwork_package: "Podrejen zahtevek od #%{id}"
@@ -239,10 +239,10 @@ sl:
     label_board_locked: "Locked"
     label_board_plural: "Boards"
     label_board_sticky: "Sticky"
-    label_create: "Create"
+    label_create: "Ustvari"
     label_create_work_package: "Create new work package"
     label_created_by: "Ustvaril"
-    label_date: "Date"
+    label_date: "Datum"
     label_date_with_format: "Vstavi %{date_attribute} tako da uporabiš format: %{format}"
     label_deactivate: "Onemogoči"
     label_descending: "Descending"
@@ -253,7 +253,7 @@ sl:
     label_closed_work_packages: "closed"
     label_collapse: "Collapse"
     label_collapsed: "strnjeno"
-    label_collapse_all: "Collapse all"
+    label_collapse_all: "Strni vse"
     label_comment: "Comment"
     label_committed_at: "%{committed_revision_link} at %{date}"
     label_committed_link: "committed revision %{revision_identifier}"
@@ -264,11 +264,11 @@ sl:
     label_equals: "is"
     label_expand: "Razširi"
     label_expanded: "Razširjen"
-    label_expand_all: "Expand all"
+    label_expand_all: "Razširi vse"
     label_expand_project_menu: "Razširi projektni meni"
     label_export: "Izvozi"
-    label_filename: "File"
-    label_filesize: "Size"
+    label_filename: "Datoteka"
+    label_filesize: "Velikost"
     label_general: "General"
     label_greater_or_equal: ">="
     label_group: 'Group'
@@ -288,7 +288,7 @@ sl:
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
     label_loading: "Loading..."
-    label_mail_notification: "Email notifications"
+    label_mail_notification: "E-poštna obvestila"
     label_me: "me"
     label_meeting_agenda: "Dnevni red"
     label_meeting_minutes: "Minut"
@@ -308,7 +308,7 @@ sl:
     label_open_menu: "Open menu"
     label_open_context_menu: "Open context menu"
     label_open_work_packages: "open"
-    label_password: "Password"
+    label_password: "Geslo"
     label_previous: "Previous"
     label_per_page: "Na stran:"
     label_please_wait: "Prosimo, počakajte"
@@ -332,18 +332,18 @@ sl:
     label_sort_higher: "Move up"
     label_sort_lower: "Move down"
     label_sorting: "Razvrščanje ..."
-    label_spent_time: "Spent time"
+    label_spent_time: "Porabljen čas"
     label_star_query: "Favored"
     label_press_enter_to_save: "Pritisnite enter da shranite. "
     label_public_query: "Public"
     label_sum: "Vsota"
     label_sum_for: "Vsota za"
-    label_subject: "Subject"
+    label_subject: "Zadeva"
     label_this_week: "this week"
     label_today: "today"
-    label_time_entry_plural: "Spent time"
+    label_time_entry_plural: "Porabljen čas"
     label_up: "Navzgor"
-    label_user_plural: "Users"
+    label_user_plural: "Uporabniki"
     label_activity_show_only_comments: "Prikaži aktivnosti samo s komentarji"
     label_activity_show_all: "Prikaži vse aktivnosti"
     label_total_progress: "%{percent}% Napredek"
@@ -351,7 +351,7 @@ sl:
     label_updated_on: "Posodobljeno"
     label_value_derived_from_children: "(value derived from children)"
     label_warning: "Warning"
-    label_work_package: "Work package"
+    label_work_package: "Zahtevek"
     label_work_package_plural: "Work packages"
     label_watch: "Watch"
     label_watch_work_package: "Spremljaj opravilo"
@@ -365,7 +365,7 @@ sl:
     label_starred_queries: "Priljubljeni pogledi"
     label_global_queries: "Javni pogledi"
     label_custom_queries: "Zasebni pogledi"
-    label_columns: "Columns"
+    label_columns: "Stolpci"
     label_attachments: Files
     label_drop_files: Spustite datoteke tukaj
     label_drop_files_hint: ali kliknite da dodate datoteke
@@ -385,7 +385,7 @@ sl:
     label_wait: "Prosimo počakajte za konfiguracijo... "
     label_upload_counter: "%{done} od %{count} datotek je končanih"
     label_validation_error: "Opravila ni bilo mogoče shraniti zaradi naslednjih napak:\n"
-    label_version_plural: "Versions"
+    label_version_plural: "Verzije"
     label_view_has_changed: "Ta pogled ima ne shranjene spremembe. kliknite za shranjevanje. "
     help_texts:
       show_modal: 'Show attribute help text entry'
@@ -455,16 +455,16 @@ sl:
       edit:
         form_configuration: "Konfiguracija forme"
         projects: "Projekti"
-        settings: "Settings"
+        settings: "Nastavitve"
     time_entry:
       project: 'Project'
-      work_package: 'Work package'
+      work_package: 'Zahtevek'
       work_package_required: 'Najprej izberite opravilo'
-      activity: 'Activity'
+      activity: 'Aktivnost'
       comment: 'Comment'
       duration: 'Duration'
-      spent_on: 'Date'
-      hours: 'Hours'
+      spent_on: 'Datum'
+      hours: 'Ure'
       label: 'Vnos časa'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvofaktorna avtentikacija'
@@ -476,7 +476,7 @@ sl:
       label_discard: Zavrži izbor
       typeahead_placeholder: Išči potencialne udeležence
     relation_labels:
-      parent: "Parent"
+      parent: "Nadrejeni"
       children: "Podrejeni"
       relates: "Povezan z"
       duplicates: "Dvojniki"
@@ -491,7 +491,7 @@ sl:
       required: "Potrebuje"
       relation_type: "Vrsta povezave"
     relations_hierarchy:
-      parent_headline: "Parent"
+      parent_headline: "Nadrejeni"
       hierarchy_headline: "Hierarhija"
       children_headline: "Podrejeni"
     relation_buttons:
@@ -551,9 +551,9 @@ sl:
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering an element, its date labels will be shown instead of these attributes.
       button_activate: 'Prikaži gantogram'
       button_deactivate: 'Skrij gantogram'
-      cancel: Cancel
+      cancel: Prekliči
       change: "Change in planning"
-      due_date: "Finish date"
+      due_date: "Končni datum"
       empty: "(empty)"
       error: "Prišlo je do napake."
       errors:
@@ -564,7 +564,7 @@ sl:
       filter:
         grouping_other: "Other"
         noneSelection: "(none)"
-      name: "Name"
+      name: "Ime"
       outline: "Reset Outline"
       outlines:
         aggregation: "Show aggregations only"
@@ -578,7 +578,7 @@ sl:
       really_close_dialog: "Ali res želite zapreti pogovor in zgubiti vse podatke? "
       responsible: "Odgovoren"
       save: Save
-      start_date: "Start date"
+      start_date: "Datum začetka"
       tooManyProjects: "Več kot %{count} projektov. Prosimo uporabite boljši filter!"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
@@ -621,12 +621,12 @@ sl:
         edit: 'Bulk edit'
         copy: 'Bulk copy'
         delete: 'Bulk delete'
-      button_clear: "Clear"
+      button_clear: "Počisti"
       comment_added: "Komentar je bil uspešno dodan. "
       comment_send_failed: "Prišlo je do napake. Komentarja ni bilo mogoče shraniti. "
       comment_updated: "Komentar je bil uspešno naložen. "
       confirm_edit_cancel: "Ali ste prepričani, da želite preklicati urejanje delovnega paketa? "
-      description_filter: "Filter"
+      description_filter: "Filtriraj"
       description_enter_text: "Enter text"
       description_options_hide: "Skrij možnosti"
       description_options_show: "Prikaži možnosti"
@@ -652,7 +652,7 @@ sl:
         header: 'Nov %{type}'
         header_no_type: 'Nov delovni paket (tip ni izbran) '
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
-        button: 'Create'
+        button: 'Ustvari'
       copy:
         title: 'Kopiraj delovni paket'
       hierarchy:
@@ -679,30 +679,30 @@ sl:
         author: "Author"
         createdAt: "Created on"
         description: "Description"
-        date: "Date"
-        dueDate: "Finish date"
+        date: "Datum"
+        dueDate: "Končni datum"
         estimatedTime: "Estimated time"
-        spentTime: "Spent time"
+        spentTime: "Porabljen čas"
         category: "Category"
         percentageDone: "Procent dokončanega dela"
-        priority: "Priority"
+        priority: "Prioriteta"
         projectName: "Project"
         responsible: "Odgovoren"
-        startDate: "Start date"
-        status: "Status"
-        subject: "Subject"
-        title: "Title"
-        type: "Type"
-        updatedAt: "Updated on"
-        versionName: "Version"
-        version: "Version"
+        startDate: "Datum začetka"
+        status: "Stanje"
+        subject: "Zadeva"
+        title: "Naslov"
+        type: "Vrsta"
+        updatedAt: "Posodobljeno"
+        versionName: "Različica"
+        version: "Različica"
       default_queries:
         latest_activity: "Zadnja dejavnost"
         created_by_me: "Ustvaril jaz"
         assigned_to_me: "Dodeljeno meni"
         recently_created: "Nedavno ustvarjeno"
         all_open: "All open"
-        summary: "Summary"
+        summary: "Povzetek"
       jump_marks:
         pagination: "Jump to table pagination"
         label_pagination: "Click here to skip over the work packages table and go to pagination"
@@ -712,8 +712,8 @@ sl:
         default: "-"
         formattable: "%{name}: Kliknite za urejanje..."
       query:
-        column_names: "Columns"
-        group_by: "Group results by"
+        column_names: "Stolpci"
+        group_by: "Rezultati grupirani po"
         group: "Group by"
         group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
         hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
@@ -723,7 +723,7 @@ sl:
         move_column_right: "Premakni stolpec v desno"
         hide_column: "Skrij stolpec"
         insert_columns: "Dodaj stolpec ..."
-        filters: "Filters"
+        filters: "Filtri"
         display_sums: "Display Sums"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
         click_to_edit_query_name: "Kliknite za urejanje naslova tega pogleda."
@@ -761,9 +761,9 @@ sl:
           inline: 'Highlighted attribute(s)'
           inline_all: 'Vsi atributi'
           entire_row_by: 'Celotna vrstica od'
-          status: 'Status'
-          priority: 'Priority'
-          type: 'Type'
+          status: 'Stanje'
+          priority: 'Prioriteta'
+          type: 'Vrsta'
         sorting_mode:
           description: 'Chose the mode to sort your Work packages:'
           automatic: 'Avtomatično'
@@ -778,7 +778,7 @@ sl:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
         overview: Overview
-        activity: Activity
+        activity: Aktivnost
         relations: Relacije
         watchers: Watchers
         attachments: Attachments
@@ -801,20 +801,20 @@ sl:
         export: "Izvozi ..."
         visibility_settings: "Vidne nastavitve ..."
         page_settings: "Preimenuj pogled ..."
-        delete: "Delete"
-      filter: "Filter"
-      unselected_title: "Work package"
+        delete: "Izbriši"
+      filter: "Filtriraj"
+      unselected_title: "Zahtevek"
       search_query_label: "Išči shranjenje poglede"
       search_query_title: "Kliknite za iskanje shranjenih pogledov"
       placeholder_query_title: "Set a title for this view"
     modals:
       label_settings: "Preimenuj pogled"
-      label_name: "Name"
+      label_name: "Ime"
       label_delete_page: "Izbriši trenutno stran"
-      button_apply: "Apply"
+      button_apply: "Potrdi"
       button_save: "Save"
       button_submit: "Submit"
-      button_cancel: "Cancel"
+      button_cancel: "Prekliči"
       form_submit:
         title: 'Potrdite za nadaljevanje'
         text: 'Ali ste prepričani, da želite to izvesti?'
@@ -837,7 +837,7 @@ sl:
       button_save: "%{attribute}: Shrani"
       button_cancel: "%{attribute}: Prekliči"
       button_save_all: "Save"
-      button_cancel_all: "Cancel"
+      button_cancel_all: "Prekliči"
       link_formatting_help: "Text formatting help"
       btn_preview_enable: "Preview"
       btn_preview_disable: "Onemogoči predogled"

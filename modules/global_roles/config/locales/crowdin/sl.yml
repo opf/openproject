@@ -22,7 +22,7 @@
 sl:
   error_can_not_be_assigned: Te vloge ni mogoče dodeliti temu uporabniku
   global_roles: Globalna pravila
-  label_role_type: Type
+  label_role_type: Vrsta
   label_member_role: Projektne vloge
   label_global_role: Globalne vloge
   label_not_changeable: (ne spremenljivo)

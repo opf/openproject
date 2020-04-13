@@ -4,12 +4,12 @@ sl:
     label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
+    label_imported_failed: 'Uvoz tematike BCF ni uspel'
+    label_imported_successfully: 'Uspešno vnesena tematika BCF'
     issues: "Zahtevki"
     recommended: 'Priporočeno'
     not_recommended: 'ni priporočeno'
-    no_viewpoints: 'No viewpoints'
+    no_viewpoints: 'Ni pogleda/vidika'
     new_badge: "New"
     exceptions:
       file_invalid: "BCF datoteka ni veljavna"
@@ -23,83 +23,83 @@ sl:
       xml_file: 'BCF XML datoteka'
       import_title: 'Import'
       export: 'Izvozi'
-      import_update_comment: '(Updated in BCF import)'
-      import_failed: 'Cannot import BCF file: %{error}'
-      import_successful: 'Imported %{count} BCF issues'
+      import_update_comment: '(Posodobljeno v uvozu BCF)'
+      import_failed: 'BCF datoteke ni mogoče uvoziti: %{error}'
+      import_successful: 'Uvožene %{count} težave BCF'
       import_canceled: "BCF-XML uvoz preklican\n"
-      type_not_active: "The issue type is not activated for this project."
+      type_not_active: "Vrsta težave za ta projekt ni aktivirana"
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
+        num_issues_found: '%{x_bcf_issues} vsebujejo datoteko BCF-XML, njihove podrobnosti so navedene spodaj.'
         button_prepare: 'Pripravi uvoz'
         button_perform_import: 'Potrdi uvoz'
-        button_proceed: 'Proceed with import'
+        button_proceed: 'Nadaljuj z uvozom'
         button_back_to_list: 'Nazaj na seznam'
         no_permission_to_add_members: 'Nimate zadostnih pravic da dodate uporabnike kot člane projekta'
         contact_project_admin: 'Kontaktirajte administratorja, da jih doda kot člane projekta nato nadaljujete z uvozom'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
-        unknown_emails_found: 'Unknown email addresses found'
-        unknown_property: 'Unknown property'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        continue_anyways: 'Ali želite vseeno nadaljevati in dokončati uvoz?'
+        description: "Navedite datoteko BCF-XML v2.1 za uvoz v ta projekt. Pred uvozom lahko preučite njegovo vsebino."
+        invalid_types_found: 'Najdena so neveljavna imena vrste teme'
+        invalid_statuses_found: 'Najdena so neveljavna imena stanja'
+        invalid_priorities_found: 'Najdena so neveljavna imena prioritet'
+        invalid_emails_found: 'Najdeni so neveljavni e-poštni naslovi'
+        unknown_emails_found: 'Najdeni so neznani e-poštni naslovi'
+        unknown_property: 'Neznana lastnina'
+        non_members_found: 'Ni najdenih članov projekta'
+        import_types_as: 'Nastavite vse te vrste na'
+        import_statuses_as: 'Nastavite vsa ta stanja na'
+        import_priorities_as: 'Nastavite vse te prioritete na '
+        invite_as_members_with_role: 'Povabite jih kot člane k projektu "%{project}" z vlogo'
+        add_as_members_with_role: 'Dodajte jih kot člane v projekt "%{project}" z vlogo'
+        no_type_provided: 'Na voljo ni nobene vrste'
+        no_status_provided: 'Na voljo ni nobenega stanja'
+        no_priority_provided: 'Na voljo ni nobene prioritete'
+        perform_description: "Ali želite uvoziti ali posodobiti zgoraj navedene težave?"
+        replace_with_system_user: 'Zamenjajte jih z "Sistem" uporabnikom '
+        import_as_system_user: 'Uvozite jih kot "sistem" uporabnika.'
         what_to_do: "What do you want to do?"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
-        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+        work_package_has_newer_changes: "Zastarelo! Ta tema ni bila posodobljena, saj so bile zadnje spremembe na strežniku novejše od \"Datum spremembe\" uvožene teme. Pripombe k temi pa so bile uvožene."
+        bcf_file_not_found: "Datoteke BCF ni bilo mogoče najti. Znova zaženite postopek nalaganja."
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "BCF posnetek"
   project_module_bcf: "BCF"
   project_module_bim: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_view_linked_issues: "Prikaži BCF težave"
+  permission_manage_bcf: "Uvozite in upravljajte BCF težave"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "Popoln dostop do BCF v2.1 API"
+      bcf_v2_1_text: "Aplikacija prejme popoln dostop za branje in pisanje do OpenProject BCF API v2.1 za izvajanje dejanj v vašem imenu."
   activerecord:
     models:
       bim/ifc_models/ifc_model: "model IFC"
     attributes:
       bim/ifc_models/ifc_model:
-        ifc_attachment: "IFC file"
+        ifc_attachment: "Datoteka IFC"
         is_default: "Privzet model"
-        attachments: "IFC file"
+        attachments: "Datoteka IFC"
     errors:
       models:
         bim/ifc_models/ifc_model:
           attributes:
             base:
-              ifc_attachment_missing: "No ifc file attached."
-              invalid_ifc_file: "The provided file is not a valid IFC file."
+              ifc_attachment_missing: "Ni priložene datoteke IFC."
+              invalid_ifc_file: "Priložena datoteka ni veljavna datoteka IFC."
         bim/bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
-          invalid_components: "components is invalid."
-          invalid_lines: "lines is invalid."
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
-          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
-          no_json: "Is not a well structured json."
-          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
-          snapshot_data_blank: "snapshot_data needs to be provided."
-          unsupported_key: "An unsupported json property is included."
+          bitmaps_not_writable: "bitnih slik ni mogoče pisati, ker še niso izvedeni."
+          index_not_integer: "indeks ni celo število."
+          invalid_clipping_planes: "clipping_planes ni veljaven. "
+          invalid_components: "komponente niso veljavne."
+          invalid_lines: "vrstice niso veljavne."
+          invalid_orthogonal_camera: "orthogonal_camera ni veljavno. "
+          invalid_perspective_camera: "perspective_camera ni veljavno. "
+          mismatching_guid: "Vodilo v json_viewpoint se ne ujema s smernico modela."
+          no_json: "Ni dobro strukturiran json."
+          snapshot_type_unsupported: "snapshot_type mora biti ali 'png' ali 'jpg'."
+          snapshot_data_blank: "navesti je treba snapshot_data."
+          unsupported_key: "Vključena je nepodprta lastnost json."
   ifc_models:
     label_ifc_models: 'model IFC'
     label_new_ifc_model: 'Nov IFC model'
@@ -107,24 +107,24 @@ sl:
     label_default_ifc_models: 'Privzet IFC model'
     label_edit_defaults: 'Uredi privzete vrednosti'
     no_defaults_warning:
-      title: 'No IFC model was set as default for this project.'
-      check_1: 'Check that you have uploaded at least one IFC model.'
-      check_2: 'Check that at least one IFC model is set to "Default".'
-    no_results: "No IFC models have been uploaded in this project."
+      title: 'Za ta projekt ni bil privzet noben model IFC.'
+      check_1: 'Preverite, ali ste naložili vsaj en model IFC.'
+      check_2: 'Preverite, ali je vsaj en model IFC nastavljen na "Privzeto".'
+    no_results: "V tem projektu ni bil naložen noben model IFC."
     processing_state:
-      label: 'Processing?'
+      label: 'Obdelujem?'
       in_progress: 'In progress'
       completed: 'Zaključeno'
     processing_notice:
-      processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
+      processing_default: 'Naslednji privzeti modeli IFC se še vedno obdelujejo in zato še niso na voljo:'
     flash_messages:
-      upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
+      upload_successful: 'Nalaganje je uspelo. Zdaj bo predelano in bo v nekaj minutah pripravljeno za uporabo.'
     conversion:
-      missing_commands: "The following IFC converter commands are missing on this system: %{names}"
+      missing_commands: "V tem sistemu manjkajo naslednji ukazi pretvornika IFC: %{names}"
   project_module_ifc_models: "model IFC"
-  permission_view_ifc_models: "View IFC models"
-  permission_manage_ifc_models: "Import and manage IFC models"
+  permission_view_ifc_models: "Prikaži IFC modele"
+  permission_manage_ifc_models: "Uvozite in upravljajte modele IFC"
   extraction:
     available:
-      ifc_convert: "IFC conversion pipeline available"
+      ifc_convert: "Na voljo je vod za pretvorbo IFC"
 
