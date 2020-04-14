@@ -1184,11 +1184,6 @@ en:
       upsale:
         title: "Upgrade to Enterprise Edition"
         more_info: "More information"
-        text: >
-          The OpenProject Enterprise Edition builds on top of the Community Edition.
-          It includes premium features and professional support mainly aimed at organizations with more 10 users that manage business critical projects with OpenProject.
-        confidence: >
-          We deliver the confidence of a tested and supported enterprise-class project management software - with open source and open mind.
     links:
       upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1205,6 +1200,7 @@ en:
 
   links:
     configuration_guide: 'Configuration guide'
+    get_in_touch: "You have questions? Get in touch with us."
 
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
   instructions_after_logout: "You can sign in again by clicking %{signin}."

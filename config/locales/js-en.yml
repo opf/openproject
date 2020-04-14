@@ -204,7 +204,6 @@ en:
           try_another_email: "Or try it with another email address."
           try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
           next_steps: "Next steps"
-          next_step: "In the next step we will send you an email to the email-address provided."
           resend_link: "Resend"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "Could not resend email."
@@ -218,17 +217,22 @@ en:
           become_hero: "Become a hero!"
           benefits:
             description: "What are the benefits?"
-            high_security: "High security features"
-            high_security_text: "Our security features ensure a secure and enterprise-class business application."
-            installation: "Installation and alerts"
-            installation_text: "Let the OpenProject experts do the installation for you and rely on our fast and secure service."
+            high_security: "Security features"
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
+            installation: "Installation support"
+            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
             premium_features: "Premium features"
-            premium_features_text: "Enjoy additional powerful premium features which make your OpenProject even better."
+            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Professional support"
-            professional_support_text: "Our professional support service engineers guarantee quick and friendly issue solving."
+            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
           button_book_now: "Book now"
+          confidence: >
+            We deliver the confidence of a tested and supported enterprise-class project management software - with open source and open mind.
           link_quote: "Get a quote"
+          text: >
+            The OpenProject Enterprise Edition builds on top of the Community Edition.
+            It includes premium features and professional support mainly aimed at organizations with more 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
           you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
 

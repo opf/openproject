@@ -64,7 +64,6 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
     heading_confirmation: this.I18n.t('js.admin.enterprise.trial.confirmation'),
     heading_next_steps: this.I18n.t('js.admin.enterprise.trial.next_steps'),
     heading_test_ee: this.I18n.t('js.admin.enterprise.trial.test_ee'),
-    next_step: this.I18n.t('js.admin.enterprise.trial.next_step'),
     quick_overview: this.I18n.t('js.admin.enterprise.trial.quick_overview')
   };
 

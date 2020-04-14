@@ -63,7 +63,6 @@ export class EETrialFormComponent {
     label_last_name: this.I18n.t('js.admin.enterprise.trial.form.label_last_name'),
     label_email: this.I18n.t('js.admin.enterprise.trial.form.label_email'),
     label_domain: this.I18n.t('js.admin.enterprise.trial.form.label_domain'),
-    next_step: this.I18n.t('js.admin.enterprise.trial.next_step'),
     privacy_policy: this.I18n.t('js.admin.enterprise.trial.form.privacy_policy'),
     receive_newsletter: this.I18n.t('js.admin.enterprise.trial.form.receive_newsletter',{ link: newsletterURL }),
     terms_of_service: this.I18n.t('js.admin.enterprise.trial.form.terms_of_service')

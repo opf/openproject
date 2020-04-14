@@ -113,6 +113,10 @@ module OpenProject
               href: 'https://www.openproject.org/operations/configuration/',
               label: 'links.configuration_guide'
             },
+            contact: {
+              href: 'https://www.openproject.org/contact-us/',
+              label: 'links.get_in_touch'
+            },
             glossary: {
               href: 'https://www.openproject.org/help/glossary/',
               label: 'homescreen.links.glossary'
