@@ -97,7 +97,7 @@ module OpenProject::Bim
       def transform_lines(hash)
         return unless hash['lines']
 
-        hash['lines'] = hash['lines']['line'].map! do |line|
+        hash['lines'] = [hash['lines']['line']].flatten(1).map! do |line|
           line.deep_transform_values! { |val| to_numeric(val) }
         end
       end
@@ -105,7 +105,7 @@ module OpenProject::Bim
       def transform_clipping_planes(hash)
         return unless hash['clipping_planes']
 
-        hash['clipping_planes'] = hash['clipping_planes']['clipping_plane'].map! do |plane|
+        hash['clipping_planes'] = [hash['clipping_planes']['clipping_plane']].flatten(1).map! do |plane|
           plane.deep_transform_values! { |val| to_numeric(val) }
         end
       end
