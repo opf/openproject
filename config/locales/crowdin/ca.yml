@@ -272,7 +272,7 @@ ca:
   work_packages:
     x_descendants:
       one: 'One descendant work package'
-      other: '%{count} paquets de treball descendents'
+      other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "Els següents paquets de treball no s'han pogut desar:"
     move:

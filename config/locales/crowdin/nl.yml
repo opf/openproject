@@ -272,7 +272,7 @@ nl:
   work_packages:
     x_descendants:
       one: 'One descendant work package'
-      other: '%{count} werk pakket afstammelingen'
+      other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "De volgende werkpakketten konden niet worden opgeslagen:"
     move:

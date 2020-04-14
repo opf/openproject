@@ -62,7 +62,7 @@ bg:
     models:
       cost_object: "Бюджет"
       cost_type:
-        one: "Тип разход"
+        one: "Cost type"
         other: "Cost types"
       material_budget_item: "Мерна единица"
       rate: "Ставка"

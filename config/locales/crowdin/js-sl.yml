@@ -858,7 +858,7 @@ sl:
         one: "work package"
         two: "work packages"
         few: "work packages"
-        other: "Delavni paketi"
+        other: "work packages"
       child_work_packages:
         one: "one child work package"
         two: "%{count} work package children"
