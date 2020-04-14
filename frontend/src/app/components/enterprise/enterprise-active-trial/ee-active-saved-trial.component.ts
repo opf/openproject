@@ -43,6 +43,8 @@ export class EEActiveSavedTrialComponent extends EEActiveTrialBase {
   public userCount = this.elementRef.nativeElement.dataset['userCount'];
   public startsAt = this.elementRef.nativeElement.dataset['startsAt'];
   public expiresAt = this.elementRef.nativeElement.dataset['expiresAt'];
+  public company:string;
+  public domain:string;
 
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService) {

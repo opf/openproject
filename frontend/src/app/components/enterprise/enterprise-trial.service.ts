@@ -11,7 +11,7 @@ export class EnterpriseTrialService {
   // user data needs to be sync in ee-active-trial.component.ts
   private userDataSubject = new BehaviorSubject<any>({});
   public userData$ = this.userDataSubject.asObservable();
-  public userData:{subscriber:string, email:string};
+  public userData:any;
   public baseUrlAugur:string;
 
 
@@ -39,10 +39,7 @@ export class EnterpriseTrialService {
   // send POST request with form object
   // receive an enterprise trial link to access a token
   public sendForm(form:FormGroup) {
-    this.userData = {
-      subscriber: form.value.first_name + ' ' + form.value.last_name,
-      email: form.value.email
-    };
+    this.userData = form.value;
     this.userDataSubject.next(this.userData);
 
     this.cancelled = false;

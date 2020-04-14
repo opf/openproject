@@ -13,6 +13,18 @@
           <span>{{ email }}</span>
         </div>
       </div>
+      <div *ngIf="company" class="attributes-key-value--key">{{ text.label_company }}</div>
+      <div *ngIf="company" class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>{{ company }}</span>
+        </div>
+      </div>
+      <div *ngIf="domain" class="attributes-key-value--key">{{ text.label_domain }}</div>
+      <div *ngIf="domain" class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>{{ domain }}</span>
+        </div>
+      </div>
       <div *ngIf="userCount" class="attributes-key-value--key">{{ text.label_maximum_users }}</div>
       <div *ngIf="userCount" class="attributes-key-value--value-container">
         <div class="attributes-key-value--value -text">

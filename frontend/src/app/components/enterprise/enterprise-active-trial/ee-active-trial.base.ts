@@ -34,6 +34,8 @@ export class EEActiveTrialBase extends UntilDestroyedMixin {
     label_email: this.I18n.t('js.admin.enterprise.trial.form.label_email'),
     label_expires_at: this.I18n.t('js.admin.enterprise.trial.form.label_expires_at'),
     label_maximum_users: this.I18n.t('js.admin.enterprise.trial.form.label_maximum_users'),
+    label_company: this.I18n.t('js.admin.enterprise.trial.form.label_company'),
+    label_domain: this.I18n.t('js.admin.enterprise.trial.form.label_domain'),
     label_starts_at: this.I18n.t('js.admin.enterprise.trial.form.label_starts_at'),
     label_subscriber: this.I18n.t('js.admin.enterprise.trial.form.label_subscriber')
   };

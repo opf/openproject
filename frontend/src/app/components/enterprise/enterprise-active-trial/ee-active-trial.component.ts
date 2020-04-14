@@ -45,6 +45,8 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
   public userCount:string;
   public startsAt:string;
   public expiresAt:string;
+  public company:string;
+  public domain:string;
 
   constructor(readonly elementRef:ElementRef,
               readonly cdRef:ChangeDetectorRef,
@@ -62,9 +64,8 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
           distinctUntilChanged(),
           this.untilDestroyed()
         )
-        .subscribe(data => {
-          this.subscriber = data.subscriber;
-          this.email = data.email;
+        .subscribe(userForm => {
+          this.formatUserData(userForm);
           this.cdRef.detectChanges();
         });
 
@@ -88,15 +89,21 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
     this.http
       .get<any>(this.eeTrialService.trialLink + '/details')
       .toPromise()
-      .then((userData:any) => {
-        this.subscriber = userData.first_name + ' ' + userData.last_name;
-        this.email = userData.email;
+      .then((userForm:any) => {
+        this.formatUserData(userForm);
         this.eeTrialService.retryConfirmation();
       })
       .catch((error:HttpErrorResponse) => {
         // Check whether the mail has been confirmed by now
         this.eeTrialService.getToken();
       });
+  }
+
+  private formatUserData(userForm:any) {
+    this.subscriber = userForm.first_name + ' ' + userForm.last_name;
+    this.email = userForm.email;
+    this.company = userForm.company;
+    this.domain = userForm.domain;
   }
 
 }
