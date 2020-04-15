@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe 'Enterprise trial management',
          type: :feature,
+         skip: true,
          driver: :headless_firefox_billy do
 
   let(:admin) { FactoryBot.create(:admin) }
