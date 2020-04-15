@@ -69,7 +69,7 @@ export class IFCViewerService extends ViewerBridgeService {
   }
 
   public getViewpoint():Promise<BcfViewpointInterface> {
-    const viewpoint = this.viewer.saveBCFViewpoint({});
+    const viewpoint = this.viewer.saveBCFViewpoint({ spacesVisible: true });
 
     // The backend rejects viewpoints with bitmaps
     delete viewpoint.bitmaps;
