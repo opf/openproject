@@ -228,13 +228,13 @@ en:
           button_start_trial: "Start free trial"
           button_book_now: "Book now"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with open source and open mind.
+            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition.
-            It includes premium features and professional support mainly aimed at organizations with more 10 users that manage business critical projects with OpenProject.
+            It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
+          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
 
     custom_actions:
       date:
