@@ -135,7 +135,7 @@ class Seedifier
     seedified[:relations] = predecessors if predecessors.any?
 
     seedified
-end
+  end
 end
 
 namespace :bim do

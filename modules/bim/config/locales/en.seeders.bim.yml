@@ -544,17 +544,6 @@ en:
               - news
               - wiki
               - board_view
-              - bim
-            ifc_models:
-              - file: 'hospital_architecture'
-                name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
-                default: true
-              - file: 'hospital_structural'
-                name: 'Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)'
-                default: true
-              - file: 'hospital_mechanical'
-                name: 'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
-                default: false
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -1039,11 +1028,11 @@ en:
               - file: 'hospital_architecture'
                 name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
                 default: true
-              - file: 'hospital_mechanical'
-                name: 'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
-                default: false
               - file: 'hospital_structural'
                 name: 'Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)'
+                default: true
+              - file: 'hospital_mechanical'
+                name: 'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
                 default: false
             types:
               - :default_type_task
