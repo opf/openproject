@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 # This file is part of the acts_as_journalized plugin for the redMine
 # project management software
 #
@@ -46,35 +47,49 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-module Redmine::Acts::Journalized
-  module FormatHooks
+# These hooks make sure journals are properly created and updated with Redmine user detail,
+# notes and associated custom fields
+module Acts::Journalized
+  module SaveHooks
     def self.included(base)
-      base.extend ClassMethods
+      base.class_eval do
+        after_save :save_journals
+
+        attr_accessor :journal_notes, :journal_user
+      end
     end
 
-    module ClassMethods
-      # Shortcut to register a formatter for a number of fields
-      def register_on_journal_formatter(formatter, *field_names)
-        formatter = formatter.to_sym
-        journal_class = JournalManager.journal_class self
-        field_names.each do |field|
-          JournalFormatter.register_formatted_field(journal_class.name.to_sym, field, formatter)
-        end
-      end
+    def save_journals
+      with_ensured_journal_attributes do
+        create_call = Journals::CreateService
+                      .new(self, @journal_user)
+                      .call(notes: @journal_notes)
 
-      # Shortcut to register a new proc as a named formatter. Overwrites
-      # existing formatters with the same name
-      def register_journal_formatter(formatter, klass = nil, &block)
-        if block_given?
-          klass = Class.new(JournalFormatter::Proc) do
-            @proc = block
-          end
+        if create_call.success? && create_call.result
+          OpenProject::Notifications.send('journal_created',
+                                          journal: create_call.result,
+                                          send_notification: Journal::NotificationConfiguration.active?)
         end
 
-        raise ArgumentError 'Provide either a class or a block defining the value formatting' if klass.nil?
-
-        JournalFormatter.register formatter.to_sym => klass
+        create_call.success?
       end
+    end
+
+    def add_journal(user = User.current, notes = '')
+      self.journal_user ||= user
+      self.journal_notes ||= notes
+    end
+
+    private
+
+    def with_ensured_journal_attributes
+      self.journal_user ||= User.current
+      self.journal_notes ||= ''
+
+      yield
+    ensure
+      self.journal_user = nil
+      self.journal_notes = nil
     end
   end
 end

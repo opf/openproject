@@ -32,7 +32,16 @@ module WorkPackage::Journalized
   extend ActiveSupport::Concern
 
   included do
-    acts_as_journalized calculate: -> { { parent_id: parent && parent.id } }
+    acts_as_journalized data_sql: ->(journable) do
+      <<~SQL
+        LEFT OUTER JOIN
+          (
+            #{Relation.hierarchy.direct.where(to_id: journable.id).limit(1).select('from_id parent_id, to_id').to_sql}
+          ) parent_relation
+        ON
+          #{journable.class.table_name}.id = parent_relation.to_id
+      SQL
+    end
 
     # This one is here only to ease reading
     module JournalizedProcs

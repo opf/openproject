@@ -41,7 +41,7 @@ class Journal::BaseJournal < ApplicationRecord
   end
 
   def self.excluded_attributes
-    [primary_key.to_sym, inheritance_column.to_sym, :journal_id, :lock_version, :created_at, :root_id, :lft, :rgt]
+    [primary_key.to_sym, inheritance_column.to_sym, :journal_id]
   end
   private_class_method :excluded_attributes
 end

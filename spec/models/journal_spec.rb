@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,15 +27,14 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
 
-require File.dirname(__FILE__) + '/../spec_helper'
-
-require 'journal/meeting_content_journal'
-
-describe Journal, type: :model do
-  include PluginSpecHelper
-
-  let(:journal) { FactoryBot.build(:meeting_content_journal) }
-
-  it_should_behave_like 'customized journal class'
+describe Journal,
+         type: :model do
+  describe '#journable' do
+    it 'raises no error on a new journal without a journable' do
+      expect(Journal.new.journable)
+        .to be_nil
+    end
+  end
 end

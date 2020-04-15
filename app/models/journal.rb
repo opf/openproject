@@ -32,7 +32,7 @@ class Journal < ApplicationRecord
 
   include ::JournalChanges
   include ::JournalFormatter
-  include ::Redmine::Acts::Journalized::FormatHooks
+  include ::Acts::Journalized::FormatHooks
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
@@ -47,21 +47,9 @@ class Journal < ApplicationRecord
   has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :destroy
   has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :destroy
 
-  after_create :save_data, if: :data
-  after_save :save_data, :touch_journable
-
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }
-
-  def changed_data=(changed_attributes)
-    attributes = changed_attributes
-
-    if attributes.is_a? Hash and attributes.values.first.is_a? Array
-      attributes.each { |k, v| attributes[k] = v[1] }
-    end
-    data.update attributes
-  end
 
   # TODO: check if this can be removed
   # Overrides the +user=+ method created by the polymorphic +belongs_to+ user association.
@@ -109,9 +97,6 @@ class Journal < ApplicationRecord
     get_changes
   end
 
-  # TODO Evaluate whether this can be removed without disturbing any migrations
-  alias_method :changed_data, :details
-
   def new_value_for(prop)
     details[prop].last if details.keys.include? prop
   end
@@ -124,10 +109,6 @@ class Journal < ApplicationRecord
     @data ||= "Journal::#{journable_type}Journal".constantize.find_by(journal_id: id)
   end
 
-  def data=(data)
-    @data = data
-  end
-
   def previous
     predecessor
   end
@@ -137,23 +118,6 @@ class Journal < ApplicationRecord
   end
 
   private
-
-  def save_data
-    data.journal_id = id if data.new_record?
-    data.save!
-  end
-
-  def touch_journable
-    if journable && !journable.changed?
-      # Not using touch here on purpose,
-      # as to avoid changing lock versions on the journables for this change
-      time = journable.send(:current_time_from_proper_timezone)
-      attributes = journable.send(:timestamp_attributes_for_update_in_model)
-
-      timestamps = Hash[attributes.map { |column| [column, time] }]
-      journable.update_columns(timestamps) if timestamps.any?
-    end
-  end
 
   def predecessor
     @predecessor ||= self.class

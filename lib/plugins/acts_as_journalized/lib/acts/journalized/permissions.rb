@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 # This file is part of the acts_as_journalized plugin for the redMine
 # project management software
 #
@@ -46,53 +47,30 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-# These hooks make sure journals are properly created and updated with Redmine user detail,
-# notes and associated custom fields
+module Acts::Journalized
+  module Permissions
+    # Default implementation of journal editing permission
+    # Is overridden if defined in the journalized model directly
+    def journal_editable_by?(user)
+      return true if user.admin?
 
-module Redmine::Acts::Journalized
-  module Deprecated
-    # Old mailer API
-    def recipients
-      notified = []
-      notified = project.notified_users if project
-      notified.select { |user| visible?(user) }
-    end
-
-    def current_journal
-      last_journal
-    end
-
-    # FIXME: When the new API is settled, remove me
-    Redmine::Acts::Event::InstanceMethods.instance_methods(false).each do |m|
-      if m.to_s.start_with? 'event_'
-        class_eval(<<-RUBY, __FILE__, __LINE__)
-          def #{m}
-            if last_journal.nil?
-              begin
-                JournalManager.add_journal self
-                save!
-                reset_journal_changes
-                reset_journal
-                true
-              rescue Exception => e # FIXME: What to do? This likely means that the parent record is invalid!
-                p e
-                p e.message
-                p e.backtrace
-                false
-              end
-              journals.reload
-            end
-            return last_journal.data.#{m}
-          end
-        RUBY
+      if respond_to? :editable_by?
+        editable_by? user
+      else
+        p = @project || (project if respond_to? :project)
+        options = { global: p.present? }
+        user.allowed_to? journable_edit_permission, p, options
       end
     end
 
-    def event_url(options = {})
-      last_journal.data.event_url(options)
-    end
+    private
 
-    # deprecate recipients: "use #last_journal.recipients"
-    # deprecate current_journal: "use #last_journal"
+    def journable_edit_permission
+      if respond_to? :journal_permission
+        journal_permission
+      else
+        :"edit_#{self.class.to_s.pluralize.underscore}"
+      end
+    end
   end
 end

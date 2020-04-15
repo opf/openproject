@@ -44,9 +44,5 @@ module Migration
         remove_index table_name, name: index_name
       end
     end
-
-    def postgres?
-      ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
-    end
   end
 end
