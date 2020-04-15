@@ -64,7 +64,7 @@ describe 'seeds' do
         expect(Status.count).to eq 4
         expect(IssuePriority.count).to eq 4
         expect(Projects::Status.count).to eq 4
-        expect(Bim::IfcModels::IfcModel.count).to eq 6
+        expect(Bim::IfcModels::IfcModel.count).to eq 3
       ensure
         ActionMailer::Base.perform_deliveries = perform_deliveries
       end
