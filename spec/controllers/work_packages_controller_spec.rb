@@ -32,7 +32,7 @@ require 'spec_helper'
 
 describe WorkPackagesController, type: :controller do
   before do
-    allow(User).to receive(:current).and_return current_user
+    login_as current_user
     # disables sending mails
     allow(UserMailer).to receive(:new).and_return(double('mailer').as_null_object)
   end

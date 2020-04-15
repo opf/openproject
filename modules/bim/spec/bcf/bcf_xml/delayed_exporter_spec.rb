@@ -28,34 +28,58 @@
 
 require 'spec_helper'
 
-describe ::OpenProject::Bim::BcfXml::Exporter do
-  let(:query) { FactoryBot.build(:global_query) }
-  let(:work_package) { FactoryBot.create :work_package }
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:current_user) { admin }
-
-  before do
-    work_package
-    login_as current_user
+describe ::OpenProject::Bim::BcfXml::DelayedExporter do
+  let(:ids) { [1, 2, 3] }
+  let(:query) do
+    FactoryBot.build_stubbed(:query).tap do |q|
+      allow(q)
+        .to receive_message_chain(:results, :sorted_work_packages, :pluck)
+        .and_return ids
+    end
   end
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
 
   subject { described_class.new(query) }
 
-  context "one WP without BCF issue associated" do
-    it '#work_packages' do
-      expect(subject.work_packages.count).to eql(0)
-    end
+  before do
+    login_as current_user
   end
 
-  context "one WP with BCF issue associated" do
-    let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_comment, work_package: work_package) }
-
-    before do
-      bcf_issue
+  describe '#list' do
+    it 'returns a delayed result' do
+      subject.list do |result|
+        expect(result)
+          .to be_delayed
+      end
     end
 
-    it '#work_packages' do
-      expect(subject.work_packages.count).to eql(1)
+    it 'creates a delayed export' do
+      expect { subject.list {} }
+        .to change { WorkPackages::Export.count }
+        .by 1
+    end
+
+    it 'returns the id of the delayed export' do
+      subject.list do |result|
+        expect(WorkPackages::Export.exists?(result.id))
+          .to be_truthy
+      end
+    end
+
+    it 'creates a delayed job for actual extraction' do
+      export = double('work package export', id: 6)
+      allow(WorkPackages::Export)
+        .to receive(:create)
+        .with(user: current_user)
+        .and_return(export)
+
+      expect(Bim::Bcf::ExportJob)
+        .to receive(:perform_later)
+        .with(user: current_user,
+              export: export,
+              work_package_ids: ids)
+
+      subject.list {}
     end
   end
 end

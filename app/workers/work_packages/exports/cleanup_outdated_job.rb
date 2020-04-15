@@ -28,12 +28,26 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackage::Exporter::Result
-  def error?
-    false
+class WorkPackages::Exports::CleanupOutdatedJob < ApplicationJob
+  queue_with_priority :low
+
+  def self.perform_after_grace
+    set(wait: OpenProject::Configuration.attachments_grace_period.minutes).perform_later
   end
 
-  def delayed?
-    false
+  def perform
+    WorkPackages::Export
+      .where(too_old)
+      .destroy_all
+  end
+
+  private
+
+  def too_old
+    table = WorkPackages::Export.arel_table
+
+    table[:created_at]
+      .lteq(Time.now - OpenProject::Configuration.attachments_grace_period.minutes)
+      .to_sql
   end
 end

@@ -207,7 +207,7 @@ module OpenProject::Bim
 
     config.to_prepare do
       ::WorkPackage::Exporter
-        .register_for_list(:bcf, OpenProject::Bim::BcfXml::Exporter)
+        .register_for_list(:bcf, OpenProject::Bim::BcfXml::DelayedExporter)
 
       ::Queries::Register.filter ::Query, OpenProject::Bim::BcfIssueAssociatedFilter
       ::Queries::Register.column ::Query, OpenProject::Bim::QueryBcfThumbnailColumn

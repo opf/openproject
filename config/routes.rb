@@ -409,6 +409,7 @@ OpenProject::Application.routes.draw do
 
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', via: %i[get post]
+    resources :exports, only: [:show]
     resources :calendar, controller: 'calendars', only: [:index]
     resource :bulk, controller: 'bulk', only: %i[edit update destroy]
     # FIXME: this is kind of evil!! We need to remove this soonest and
@@ -422,8 +423,6 @@ OpenProject::Application.routes.draw do
   end
 
   resources :work_packages, only: [:index] do
-    get :column_data, on: :collection # TODO move to API
-
     # move bulk of wps
     get 'move/new' => 'work_packages/moves#new', on: :collection, as: 'new_move'
     post 'move' => 'work_packages/moves#create', on: :collection, as: 'move'
@@ -443,7 +442,8 @@ OpenProject::Application.routes.draw do
     get '/' => 'work_packages#index', on: :collection, as: 'index'
     get '/create_new' => 'work_packages#index', on: :collection, as: 'new_split'
     get '/new' => 'work_packages#index', on: :collection, as: 'new', state: 'new'
-    get '(/*state)' => 'work_packages#show', on: :member, as: ''
+    # We do not want to match the work package export routes
+    get '(/*state)' => 'work_packages#show', on: :member, as: '', constraints: { id: /\d+/ }
     get '/edit' => 'work_packages#show', on: :member, as: 'edit'
   end
 

@@ -28,12 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackage::Exporter::Result
-  def error?
-    false
+class WorkPackage::Exporter::Delayed < WorkPackage::Exporter::Result
+  attr_accessor :id
+
+  def initialize(id:)
+    self.id = id
   end
 
   def delayed?
-    false
+    true
   end
 end

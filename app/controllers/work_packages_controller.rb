@@ -115,21 +115,19 @@ class WorkPackagesController < ApplicationController
     if export.error?
       flash[:error] = export.message
       redirect_back(fallback_location: fallback_path)
-    elsif export.content.is_a? File
-      # browsers should not try to guess the content-type
-      response.headers['X-Content-Type-Options'] = 'nosniff'
-
-      # TODO avoid reading the file in memory here again
-      # but currently the tempfile gets removed in between
-      send_data(export.content.read,
-                type: export.mime_type,
-                disposition: 'attachment',
-                filename: export.title)
+    elsif export.delayed?
+      redirect_to work_packages_export_path(export.id)
     else
-      send_data(export.content,
-                type: export.mime_type,
-                filename: export.title)
+      export_storage = store_export(export)
+      redirect_to work_packages_export_path(export_storage.id)
     end
+  end
+
+  def store_export(export)
+    WorkPackages::Exports::CreateFromStringService
+      .new(user: current_user)
+      .call(title: export.title, content: export.content)
+      .result
   end
 
   def authorize_on_work_package
@@ -155,7 +153,7 @@ class WorkPackagesController < ApplicationController
     unless @query.valid?
       # Ensure outputting a html response
       request.format = 'html'
-      return render_400(message: @query.errors.full_messages.join(". "))
+      render_400(message: @query.errors.full_messages.join(". "))
     end
   rescue ActiveRecord::RecordNotFound
     render_404

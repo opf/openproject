@@ -28,12 +28,52 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackage::Exporter::Result
-  def error?
-    false
+class WorkPackages::Exports::CreateFromStringService
+  attr_reader :user
+
+  def initialize(user:)
+    @user = user
   end
 
-  def delayed?
-    false
+  def call(title:, content:)
+    schedule_cleanup
+
+    ServiceResult.new(success: true, result: work_package_export(title, content))
+  end
+
+  private
+
+  def work_package_export(title, content)
+    export_storage = create_export
+
+    with_tempfile(title, content) do |file|
+      store_attachment(export_storage, file)
+    end
+
+    export_storage
+  end
+
+  def create_export
+    WorkPackages::Export.create user: User.current
+  end
+
+  def with_tempfile(title, content)
+    name_parts = [title[0..title.rindex('.') - 1], title[title.rindex('.')..-1]]
+
+    Tempfile.create(name_parts, encoding: content.encoding) do |file|
+      file.write content
+
+      yield file
+    end
+  end
+
+  def store_attachment(storage, file)
+    Attachments::CreateService
+      .new(storage, author: User.current)
+      .call(uploaded_file: file, description: '')
+  end
+
+  def schedule_cleanup
+    WorkPackages::Exports::CleanupOutdatedJob.perform_after_grace
   end
 end

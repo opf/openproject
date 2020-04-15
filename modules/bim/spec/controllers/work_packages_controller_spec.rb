@@ -28,12 +28,45 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackage::Exporter::Result
-  def error?
-    false
+require 'spec_helper'
+
+describe WorkPackagesController, type: :controller do
+  before do
+    login_as current_user
   end
 
-  def delayed?
-    false
+  let(:stub_project) { FactoryBot.build_stubbed(:project, identifier: 'test_project', public: false) }
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
+
+  describe 'index' do
+    let(:query) { FactoryBot.build_stubbed(:query) }
+
+    before do
+      allow(User.current).to receive(:allowed_to?).and_return(true)
+      allow(controller).to receive(:retrieve_query).and_return(query)
+    end
+
+    describe 'bcf' do
+      let(:mock_result) do
+        double('bcf result',
+               error?: false,
+               delayed?: true,
+               id: 5)
+      end
+
+      before do
+        expect(OpenProject::Bim::BcfXml::DelayedExporter)
+          .to receive(:list)
+          .with(query, anything)
+          .and_yield(mock_result)
+      end
+
+      it 'redirects to the export' do
+        get 'index', params: { format: 'bcf' }
+
+        expect(response)
+          .to redirect_to work_packages_export_path(mock_result.id)
+      end
+    end
   end
 end

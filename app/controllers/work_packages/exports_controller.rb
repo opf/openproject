@@ -28,12 +28,29 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackage::Exporter::Result
-  def error?
-    false
+class WorkPackages::ExportsController < ApplicationController
+  self._model_object = WorkPackages::Export
+
+  before_action :find_model_object,
+                :authorize_current_user
+
+  def show
+    if @export.attachments.first
+      redirect_to attachment_content_path
+    else
+      head 202
+    end
   end
 
-  def delayed?
-    false
+  private
+
+  def authorize_current_user
+    deny_access(not_found: true) unless @export.visible?(current_user)
+  end
+
+  def attachment_content_path
+    # Not including the API PathHelper here as it messes up error rendering probably due to it
+    # including the url helper again.
+    ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(@export.attachments.first.id)
   end
 end

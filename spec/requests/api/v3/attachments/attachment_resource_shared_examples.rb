@@ -105,7 +105,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
   end
 
   describe '#post' do
-    let(:permissions) { %i[edit_wiki_pages] }
+    let(:permissions) { Array(update_permission) }
 
     let(:request_path) { api_v3_paths.attachments }
     let(:request_parts) { { metadata: metadata, file: file } }
@@ -200,7 +200,13 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
 
     shared_examples_for 'does not delete the attachment' do |status = 403|
       it "responds with #{status}" do
-        expect(subject.status).to eq status
+        if permissions.any? || read_permission.nil?
+          expect(subject.status).to eq status
+        else
+          # In case no permissions are left, the user is not allowed to see the attachment
+          # and will thus receive a 404.
+          expect(subject.status).to eq 404
+        end
       end
 
       it 'does not delete the attachment' do
@@ -257,7 +263,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         let(:content_disposition) { raise "define content_disposition" }
 
         let(:attachment) do
-          att = FactoryBot.create(:attachment, container: container, file: mock_file)
+          att = FactoryBot.create(:attachment, container: container, file: mock_file, author: current_user)
 
           att.file.store!
           att.send :write_attribute, :file, mock_file.original_filename
@@ -308,9 +314,11 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
 
       context 'for a local json file' do
         it_behaves_like 'for a local file' do
-          let(:mock_file) { FileHelpers.mock_uploaded_file ({ name: 'foobar.json',
-                                                              content_type: "application/json",
-                                                              content: '{"id": "12342"}' }) }
+          let(:mock_file) do
+            FileHelpers.mock_uploaded_file(name: 'foobar.json',
+                                           content_type: "application/json",
+                                           content: '{"id": "12342"}')
+          end
           let(:content_disposition) { "attachment; filename=foobar.json" }
         end
       end
@@ -319,7 +327,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         let(:external_url) { 'http://some_service.org/blubs.gif' }
         let(:mock_file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
         let(:attachment) do
-          FactoryBot.create(:attachment, container: container, file: mock_file) do |a|
+          FactoryBot.create(:attachment, container: container, file: mock_file, author: current_user).tap do
             # need to mock here to avoid dependency on external service
             allow_any_instance_of(Attachment)
               .to receive(:external_url)

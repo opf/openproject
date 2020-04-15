@@ -14,6 +14,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def work_packages
+      # TODO: remove eager loading
       super.includes(journals: [:bcf_comment], bcf_issue: [:comments, { viewpoints: :attachments }])
     end
 
