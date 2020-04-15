@@ -1,47 +1,13 @@
-<div class="enterprise--active-token">
-  <div class="attributes-group">
-    <div class="attributes-key-value">
-      <div class="attributes-key-value--key"><%= EnterpriseToken.human_attribute_name(:subscriber) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= @current_token.subscriber %></span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= EnterpriseToken.human_attribute_name(:mail) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= @current_token.mail %></span>
-        </div>
-      </div>
-      <% Hash(@current_token.restrictions).each do |key, value| %>
-      <div class="attributes-key-value--key"><%= EnterpriseToken.human_attribute_name("#{key}_restriction") %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= value %></span>
-        </div>
-      </div>
-      <% end %>
-      <div class="attributes-key-value--key"><%= EnterpriseToken.human_attribute_name(:starts_at) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= format_date @current_token.starts_at %></span>
-        </div>
-      </div>
-      <% if @current_token.will_expire? %>
-      <div class="attributes-key-value--key"><%= EnterpriseToken.human_attribute_name(:expires_at) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= format_date @current_token.expires_at %></span>
-        </div>
-      </div>
-      <% end %>
-    </div>
-  </div>
-</div>
+<enterprise-active-saved-trial data-subscriber="<%= @current_token.subscriber %>"
+                         data-email="<%= @current_token.mail %>"
+                         data-user-count="<%= @current_token.restrictions.nil? ? t('js.admin.enterprise.upsale.unlimited') : @current_token.restrictions[:active_user_count] %>"
+                         data-starts-at="<%= format_date @current_token.starts_at %>"
+                         data-expires-at="<%= (!@current_token.will_expire?) ? t('js.admin.enterprise.upsale.unlimited') : (format_date @current_token.expires_at) %>">
+</enterprise-active-saved-trial>
 
-<%= form_tag({ action: :destroy },
-             method: :delete) do %>
+<%= form_tag({}, method: :delete) do %>
   <confirm-form-submit></confirm-form-submit>
-  <%= styled_button_tag t(:button_delete), type: 'submit', class: '-with-icon icon-delete' %>
+  <%= styled_button_tag t(:button_delete),
+                        method: :delete,
+                        class: '-with-icon icon-delete' %>
 <% end %>
-

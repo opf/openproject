@@ -221,7 +221,12 @@ group :test do
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
+
+  # Mock backend requests (for ruby tests)
   gem 'webmock', '~> 3.8.2', require: false
+
+  # Mock selenium requests through proxy (for feature tests)
+  gem 'puffing-billy', '~> 2.3.1'
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'

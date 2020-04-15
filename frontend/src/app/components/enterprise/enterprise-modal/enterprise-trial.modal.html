@@ -1,0 +1,73 @@
+<div class="op-modal--portal">
+  <div class="op-modal--modal-container"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <h3 [textContent]="headerText()"></h3>
+      <a *ngIf="showClose" class="op-modal--modal-close-button">
+        <i class="icon-close" (click)="closeModal($event)" [attr.title]="text.close_popup">
+        </i>
+      </a>
+    </div>
+
+    <div [ngSwitch]="openWindow()" class="op-modal--modal-body">
+      <!-- first modal window -->
+      <div *ngSwitchCase="1">
+        <enterprise-trial-form></enterprise-trial-form>
+      </div>
+      <!-- second modal window -->
+      <div *ngSwitchCase="2">
+        <enterprise-trial-waiting></enterprise-trial-waiting>
+      </div>
+      <!-- third modal window -->
+      <div *ngSwitchCase="3">
+        <div class="onboarding--video-block">
+          <div class="onboarding--video-text">
+            <span>{{ text.quick_overview }}</span>
+          </div>
+          <div class="onboarding--video iframe-target-wrapper">
+            <iframe frameborder="0"
+                    height="400"
+                    width="100%"
+                    [src]="trustedEEVideoURL"
+                    allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="op-modal--modal-footer">
+      <div *ngIf="!eeTrialService.status || eeTrialService.cancelled; else mailSubmitted">
+        <button class="confirm-form-submit--continue button -highlight"
+                (click)="onSubmit()"
+                [disabled]="!trialForm || trialForm.invalid"
+                [textContent]="text.button_submit"
+                [attr.title]="text.button_submit"
+                [hidden]="eeTrialService.mailSubmitted && !eeTrialService.cancelled">
+        </button>
+        <button class="confirm-form-submit--cancel button"
+                (click)="closeModal($event)"
+                [textContent]="text.button_cancel"
+                [attr.title]="text.button_cancel">
+        </button>
+      </div>
+      <ng-template #mailSubmitted>
+        <button class="confirm-form-submit--continue button -highlight"
+                (click)="startEnterpriseTrial()"
+                [textContent]="text.button_continue"
+                [attr.title]="text.button_continue"
+                [disabled]="!eeTrialService.confirmed"
+                [hidden]="eeTrialService.trialStarted">
+        </button>
+        <button *ngIf="eeTrialService.trialStarted"
+                class="confirm-form-submit--continue button -highlight"
+                (click)="closeModal($event)"
+                [textContent]="text.button_continue"
+                [attr.title]="text.button_continue">
+        </button>
+      </ng-template>
+    </div>
+
+  </div>
+</div>

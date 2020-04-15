@@ -26,25 +26,46 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 class EnterprisesController < ApplicationController
+  include EnterpriseTrialHelper
+
   layout 'admin'
   menu_item :enterprise
 
+  helper_method :gon
+
+  before_action :augur_content_security_policy
+  before_action :chargebee_content_security_policy
+  before_action :youtube_content_security_policy
   before_action :require_admin
   before_action :check_user_limit, only: [:show]
 
   def show
     @current_token = EnterpriseToken.current
     @token = @current_token || EnterpriseToken.new
+
+    write_augur_to_gon
+
+    if !@current_token.present?
+      write_trial_key_to_gon
+    end
   end
 
   def create
     @token = EnterpriseToken.current || EnterpriseToken.new
+    saved_encoded_token = @token.encoded_token
     @token.encoded_token = params[:enterprise_token][:encoded_token]
-
     if @token.save
       flash[:notice] = t(:notice_successful_update)
-      redirect_to action: :show
+      respond_to do |format|
+        format.html { redirect_to action: :show }
+        format.json { head :no_content }
+      end
     else
+      # restore the old token
+      if saved_encoded_token
+        @token.encoded_token = saved_encoded_token
+        @current_token = @token || EnterpriseToken.new
+      end
       render action: :show
     end
   end
@@ -54,16 +75,37 @@ class EnterprisesController < ApplicationController
     if token
       token.destroy
       flash[:notice] = t(:notice_successful_delete)
+
+      trial_key = Token::EnterpriseTrialKey.find_by(user_id: User.system.id)
+      trial_key&.destroy
+
       redirect_to action: :show
     else
       render_404
     end
   end
 
+  def save_trial_key
+    Token::EnterpriseTrialKey.create(user_id: User.system.id, value: params[:trial_key])
+  end
+
   private
 
+  def write_trial_key_to_gon
+    @trial_key = Token::EnterpriseTrialKey.find_by(user_id: User.system.id)
+    if @trial_key
+      gon.ee_trial_key = {
+        value: @trial_key.value
+      }
+    end
+  end
+
+  def write_augur_to_gon
+    gon.augur_url = OpenProject::Configuration.enterprise_trial_creation_host
+  end
+
   def default_breadcrumb
-    t(:label_enterprise)
+    t(:label_enterprise_edition)
   end
 
   def show_local_breadcrumb
