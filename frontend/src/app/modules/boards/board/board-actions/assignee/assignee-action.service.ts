@@ -13,6 +13,7 @@ import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {CurrentProjectService} from 'core-app/components/projects/current-project.service';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/assignee/assignee-board-header.component";
 
 @Injectable()
 export class BoardAssigneeActionService implements BoardActionService {
@@ -113,7 +114,7 @@ export class BoardAssigneeActionService implements BoardActionService {
   }
 
   public headerComponent() {
-    return undefined;
+    return AssigneeBoardHeaderComponent;
   }
 
   public disabledAddButtonPlaceholder(assignee:UserResource) {
