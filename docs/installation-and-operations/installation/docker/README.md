@@ -289,8 +289,10 @@ The `-t` option is the tag for your image. You can choose what ever you want.
 
 You can run the image just like the normal OpenProject image (as shown earlier).
 You just have to use your chosen tag instead of `openproject/community:10`.
-To just give it a quick try simply do:
+To just give it a quick try you can run this:
 
 ```
-docker run --rm -it openproject-with-slack
+docker run -p 8080:80 --rm -it openproject-with-slack
 ```
+
+After which you can access OpenProject under http://localhost:8080.
