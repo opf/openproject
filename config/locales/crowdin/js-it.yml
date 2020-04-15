@@ -236,9 +236,9 @@ it:
     label_author: "Autore: %{user}"
     label_avatar: "Avatar"
     label_between: "tra"
-    label_board: "Scheda"
+    label_board: "Tabellone"
     label_board_locked: "Chiuso"
-    label_board_plural: "Schede"
+    label_board_plural: "Tabelloni"
     label_board_sticky: "In evidenza"
     label_create: "Crea"
     label_create_work_package: "Crea una nuova macro-attività"
@@ -520,24 +520,12 @@ it:
       save: "Salva la relazione"
       abort: "Interrompi"
     relations_autocomplete:
-      placeholder: "Digita per cercare"
+      placeholder: "Tipo di ricerca"
       parent_placeholder: "Scegli un nuovo genitore o premi il tasto Esc per annullare."
     repositories:
       select_tag: 'Selezionare tag'
       select_branch: 'Selezionare ramo'
     field_value_enter_prompt: "Inserisci un valore per '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Inserisci altri caratteri"
-        one: "Inserisci un altro carattere"
-        other: "Inserisci altri {{count}} caratteri"
-      load_more: "Carica altri risultati ..."
-      no_matches: "Nessuna corrispondenza trovata"
-      searching: "Ricerca in corso ..."
-      selection_too_big:
-        zero: "Non puoi selezionare altri elementi"
-        one: "Puoi selezionare solo un elemento"
-        other: "Puoi selezionare solo {{limit}} elementi"
     project_menu_details: "Dettagli"
     sort:
       sorted_asc: 'Ordinamento crescente applicato, '
@@ -782,7 +770,7 @@ it:
           automatic: 'Automatico'
           manually: 'Manuale'
           warning: 'Perderai il tuo ordinamento precedente quando attivi la modalità di ordinamento automatico.'
-        columns_help_text: "Utilizza l'input sopra per aggiungere o rimuovere colonne alla visualizzazione della tabella. È possibile trascinare e rilasciare le colonne per riordinarle."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Vuoi che alcune macro-attività si distinguano dalla massa?'
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'

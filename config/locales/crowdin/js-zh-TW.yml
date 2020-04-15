@@ -525,16 +525,6 @@ zh-TW:
       select_tag: '選擇標籤'
       select_branch: '選擇分支'
     field_value_enter_prompt: "輸入'%{field}'的值"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        other: "請再輸入{{count}} 個字元"
-      load_more: "正在載入更多結果..."
-      no_matches: "找不到符合項目"
-      searching: "正在搜尋…"
-      selection_too_big:
-        zero: "You cannot select any items"
-        other: "您只能選擇 {{limit}} 個項目"
     project_menu_details: "詳細資料"
     sort:
       sorted_asc: '已套用升冪排序， '
@@ -779,7 +769,7 @@ zh-TW:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "使用上面的輸入在表視圖中添加或移除列。可以拖放列以對其進行重新排序。"
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: '需要某些工作包才能從大眾中脫穎而出？'
           relation_columns: '需要檢視工作項目清單的關係嗎'

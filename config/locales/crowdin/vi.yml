@@ -47,14 +47,14 @@ vi:
         main-menu-selected-font-color: "Phông chữ menu chính khi được chọn"
         main-menu-hover-font-color: "Phông chữ menu chính khi trỏ chuột"
         main-menu-border-color: "Đường viền menu chính"
-      custom_colors: "Custom colors"
-      customize: "Customize your OpenProject installation with your own logo. Note: This logo will be publicly accessible."
+      custom_colors: "Tùy chỉnh màu sắc"
+      customize: "Tùy chỉnh cài đặt OpenProject của bạn với logo của riêng bạn: Ghi chú: Logo này sẽ được truy cập công khai."
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
-      manage_colors: "Edit color select options"
+      manage_colors: "Chỉnh sửa màu sắc trong select option"
       instructions:
         alternative-color: "Màu nhấn mạnh, thường được sử dụng cho nút quan trọng nhất trên màn hình."
         content-link-color: "Màu sắc Font chữ các liên kết"
-        primary-color: "Main color."
+        primary-color: "Màu sắc chính"
         primary-color-dark: "Typically a darker version of the main color used for hover effects."
         header-item-bg-hover-color: "Màu nền của tiêu đề được thay đổi khi đưa chuột đến"
         header-item-font-color: "Màu sắc font chữ của tiêu đề đã nhấp"
@@ -63,13 +63,13 @@ vi:
         main-menu-bg-color: "Màu nền của trình đơn ở bên trái."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade to Enterprise Edition"
+      upgrade_to_ee: "Nâng cấp lên Ultimate Edition"
       add_token: "Upload an Enterprise Edition support token"
-      replace_token: "Replace your current support token"
-      order: "Order Enterprise Edition"
-      paste: "Paste your Enterprise Edition support token"
-      required_for_feature: "This feature is only available with an active Enterprise Edition support token."
-      enterprise_link: "For more information, click here."
+      replace_token: "Thay thế support token hiện tại của bạn"
+      order: "Đặt hàng Enterprise Edition"
+      paste: "Dán Enterprise Edition support token của bạn"
+      required_for_feature: "Tính năng này chỉ có sẵn với một  Enterprise Edition support token được kích hoạt"
+      enterprise_link: "Thêm thông tin, nhấn vào đây."
   announcements:
     show_until: Xem đến khi
     is_active: Đang hiển thị
@@ -111,11 +111,11 @@ vi:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Mã hóa kết nối'
-    system_account: 'System account'
+    system_account: 'Tài khoản hệ thống'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
+    ldap_details: 'Chi tiết LDAP '
     user_settings: 'Attribute mapping'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
@@ -136,10 +136,10 @@ vi:
     index:
       no_results_title_text: Hiện có không có màu sắc.
       no_results_content_text: Tạo một màu mới
-    label_no_color: 'No color'
+    label_no_color: 'Không màu'
   custom_actions:
     actions:
-      name: 'Actions'
+      name: 'Hành động'
       add: 'Thêm hành động'
       assigned_to:
         executing_user_value: '(Assign to executing user)'
@@ -354,7 +354,7 @@ vi:
       comment:
         commented: "Nhận xét" #an object that this comment belongs to
       custom_action:
-        actions: "Actions"
+        actions: "Hành động"
       custom_field:
         default_value: "Giá trị mặc định"
         editable: "Có thể chỉnh sửa"
@@ -400,7 +400,7 @@ vi:
         types: "Các loại"
         versions: "Các phiên bản"
         work_packages: "Work Packages"
-      project/status:
+      projects/status:
         code: 'Trạng thái'
         explanation: 'Mô tả trạng thái'
         codes:
@@ -465,7 +465,7 @@ vi:
         done_ratio: "Progress (%)"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        fixed_version: "Phiên bản"
+        version: "Phiên bản"
         parent: "Cha"
         parent_issue: "Cha"
         parent_work_package: "Cha"
@@ -753,6 +753,7 @@ vi:
     version: "Phiên bản"
     work_package: "Work Package"
   button_add: "Thêm"
+  button_add_comment: "Thêm bình luận"
   button_add_member: Add member
   button_add_watcher: "Thêm người theo dõi"
   button_annotate: "Chú giải"
@@ -1126,14 +1127,14 @@ vi:
       community: "Cộng đồng OpenProject"
       upsale:
         become_hero: "Become a hero!"
-        title: "Upgrade to Enterprise Edition"
+        title: "Nâng cấp lên Ultimate Edition"
         description: "What are the benefits?"
         more_info: "More information"
         additional_features: "Additional powerful premium features"
         professional_support: "Professional support from the OpenProject experts"
         you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
+      upgrade_enterprise_edition: "Nâng cấp lên Ultimate Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
@@ -1435,7 +1436,7 @@ vi:
   label_new: "Mới"
   label_new_features: "New features"
   label_new_statuses_allowed: "Trạng thái mới được phép"
-  label_news: "Tin tức"
+  label_news_singular: "Tin tức"
   label_news_added: "Đã thêm tin"
   label_news_comment_added: "Bình luận được thêm vào một tin tức"
   label_news_latest: "Tin mới"
@@ -1691,31 +1692,6 @@ vi:
     other: "%{count} projects"
   label_year: "Year"
   label_yesterday: "yesterday"
-  label_keyboard_function: "Function"
-  label_keyboard_shortcut: "Shortcut"
-  label_keyboard_accesskey: "Accesskey"
-  label_keyboard_shortcut_help_heading: "Available Keyboard Shortcuts"
-  label_keyboard_shortcut_within_project: "Project related shortcuts:"
-  label_keyboard_shortcut_global_shortcuts: "Global shortcuts:"
-  label_keyboard_shortcut_some_pages_only: "Special shortcuts:"
-  label_keyboard_shortcut_search_global: "Global search"
-  label_keyboard_shortcut_search_project: "Find a project"
-  label_keyboard_shortcut_go_my_page: "Go to my page"
-  label_keyboard_shortcut_show_help: "Show this help message"
-  label_keyboard_shortcut_go_overview: "Go to project overview"
-  label_keyboard_shortcut_go_work_package: "Go to project work packages"
-  label_keyboard_shortcut_go_wiki: "Go to project wiki"
-  label_keyboard_shortcut_go_activity: "Go to project activities"
-  label_keyboard_shortcut_go_calendar: "Go to project calendar"
-  label_keyboard_shortcut_go_news: "Go to project news"
-  label_keyboard_shortcut_go_timelines: "Go to timelines"
-  label_keyboard_shortcut_new_work_package: "Create new work package"
-  label_keyboard_shortcut_details_package: "Show work packages details pane"
-  label_keyboard_shortcut_go_edit: "Go to edit the current item (on detail pages only)"
-  label_keyboard_shortcut_open_more_menu: "Open more-menu (on detail pages only)"
-  label_keyboard_shortcut_go_preview: "Go to preview the current edit (on edit pages only)"
-  label_keyboard_shortcut_focus_previous_item: "Focus previous list element (on some lists only)"
-  label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."
     ldap_error: "LDAP-Error: %{error_message}"
@@ -1740,7 +1716,7 @@ vi:
       link_name: 'Work package mới'
       link_name_type: 'New %{type_name}'
   mail:
-    actions: 'Actions'
+    actions: 'Hành động'
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."
@@ -2503,6 +2479,7 @@ vi:
       mail_self_notified: "I want to be notified of changes that I make myself"
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Mở khoá"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "đã đóng"

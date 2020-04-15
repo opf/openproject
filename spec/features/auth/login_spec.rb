@@ -36,8 +36,6 @@ describe 'Login', type: :feature do
 
   after do
     Capybara.ignore_hidden_elements = @capybara_ignore_elements
-    User.delete_all
-    User.current = nil
   end
 
   def expect_being_logged_in(user)

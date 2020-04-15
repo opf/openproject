@@ -49,8 +49,6 @@ describe 'Omniauth authentication', type: :feature do
   end
 
   after do
-    User.delete_all
-    User.current = nil
     OmniAuth.config.test_mode = @omniauth_test_mode
     Capybara.ignore_hidden_elements = @capybara_ignore_elements
     OmniAuth.config.logger = @omniauth_logger

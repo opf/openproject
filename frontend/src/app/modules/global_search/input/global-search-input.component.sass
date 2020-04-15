@@ -75,25 +75,36 @@ $search-input-height: 30px
       input
         color: var(--header-search-field-font-color)
 
-      .scroll-host
-        @include styled-scroll-bar
-        max-height: 80vh
-        height: auto
+    .scroll-host
+      @include styled-scroll-bar
+      max-height: 80vh
+      height: auto
 
-        .ng-option
-          border-bottom: 1px solid #EAEAEA
-          white-space: normal
-          padding: 5px 10px
-          &:last-child
-            border-bottom: none
-          &.ng-option-marked
-            background-color: var(--drop-down-hover-bg-color)
-            color: var(--header-drop-down-item-font-hover-color)
-          &.ng-option-disabled
-            display: none
-          &.ng-option-selected
-            background-color: var(--drop-down-selected-bg-color)
-            color: var(--header-drop-down-item-font-hover-color)
+    .ng-option
+      border-bottom: 1px solid #EAEAEA
+      white-space: normal
+      padding: 5px 10px
+      // We do not want the default highlighting of ng-select to take place as
+      // it will highlight the element last hovered over/navigated to even
+      // though the selection might have changed in the meantime.
+      // We either want to mark the first element or, in case of a direct hit (by the wp id)
+      // we want to highlight that hit.
+      background-color: unset
+      &:last-child
+        border-bottom: none
+      &.ng-option-marked
+        color: var(--header-drop-down-item-font-hover-color)
+      &.ng-option-disabled
+        display: none
+      &.ng-option-selected
+        color: var(--header-drop-down-item-font-hover-color)
+
+    &.-markable
+      .ng-option
+        &.ng-option-marked
+          background-color: var(--drop-down-hover-bg-color)
+        &.ng-option-selected
+          background-color: var(--drop-down-selected-bg-color)
 
 .global-search--wp-id
   color: var(--gray-dark)

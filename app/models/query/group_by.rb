@@ -180,10 +180,6 @@ module ::Query::GroupBy
     sort_entry = query.sort_criteria.detect { |column, _dir| column == query.group_by }
     order = sort_entry&.last || column.default_order
 
-    if column.null_handling
-      "#{order} #{column.null_handling}"
-    else
-      order
-    end
+    "#{order} #{column.null_handling(order == 'asc')}"
   end
 end

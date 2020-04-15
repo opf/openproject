@@ -526,22 +526,6 @@ lt:
       select_tag: 'Pasirinkti žymę'
       select_branch: 'Parinkti padalinį'
     field_value_enter_prompt: "Įveskite \"%{field}\" reikšmę "
-    select2:
-      input_too_short:
-        zero: "Prašau įvesti daugiau simbolių"
-        one: "Įveskite dar vieną simbolį"
-        few: "Prašome įvesti dar {{count}} simbolius (-į, -ių)"
-        many: "Prašome įvesti dar {{count}} simbolius (-į, -ių)"
-        other: "Prašome įvesti dar {{count}} simbolius (-į, -ių)"
-      load_more: "Įkeliama daugiau rezultatų ..."
-      no_matches: "Atitikmenų nerasta"
-      searching: "Ieškoma ..."
-      selection_too_big:
-        zero: "Negalite pasirinkti jokių elementų"
-        one: "Jūs galite pasirinkti tik vieną elementą"
-        few: "Jūs galite pasirinkti tik {{limit}} elementus (-ą, -ų)"
-        many: "Jūs galite pasirinkti tik {{limit}} elementus (-ą, -ų)"
-        other: "Jūs galite pasirinkti tik {{limit}} elementus (-ą, -ų)"
     project_menu_details: "Detali informacija"
     sort:
       sorted_asc: 'Pritaikyta didėjimo tvarka, '
@@ -786,7 +770,7 @@ lt:
           automatic: 'Automatinis'
           manually: 'Rankinis'
           warning: 'Aktyvuojant automatinį rikiavimo režimą jūs prarasite savo ankstesnį rikiavimą.'
-        columns_help_text: "Aukščiau esančioje įvedimo eilutėje pridėkite ar išmeskite stulpelius iš lentelės vaizdo. Galite pele perkelti stulpelius, jei reikalinga kita jų tvarka."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
           relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'

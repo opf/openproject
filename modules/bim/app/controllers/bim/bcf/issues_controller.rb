@@ -38,11 +38,11 @@ module Bim
       before_action :import_canceled?
 
       before_action :check_file_param, only: %i[prepare_import]
-      before_action :get_persisted_file, only: %i[perform_import configure_import]
+      before_action :get_persisted_file, only: %i[perform_import]
       before_action :persist_file, only: %i[prepare_import]
       before_action :set_import_options, only: %i[perform_import]
 
-      before_action :build_importer, only: %i[prepare_import configure_import perform_import]
+      before_action :build_importer, only: %i[prepare_import perform_import]
 
       menu_item :work_packages
 
@@ -60,33 +60,25 @@ module Bim
         redirect_to action: :upload
       end
 
-      def configure_import
-        render_next
+      def perform_import
+        results = @importer.import!(@import_options).flatten
+        @issues = { successful: [], failed: [] }
+        results.each do |issue|
+          if issue.errors.present?
+            @issues[:failed] << issue
+          else
+            @issues[:successful] << issue
+          end
+        end
       rescue StandardError => e
         flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
         redirect_to action: :upload
-      end
-
-      def perform_import
-        begin
-          results = @importer.import!(@import_options).flatten
-          @issues = {successful: [], failed: []}
-          results.each do |issue|
-            if issue.errors.present?
-              @issues[:failed] << issue
-            else
-              @issues[:successful] << issue
-            end
-          end
-        rescue StandardError => e
-          flash[:error] = I18n.t('bcf.bcf_xml.import_failed', error: e.message)
-        end
-
-        @bcf_attachment.destroy
+      ensure
+        @bcf_attachment&.destroy
       end
 
       def redirect_to_bcf_issues_list
-        redirect_to project_work_packages_path(@project)
+        redirect_to defaults_bcf_project_ifc_models_path(@project)
       end
 
       private
@@ -132,20 +124,8 @@ module Bim
         elsif render_config_non_members?
           render_config_non_members
         else
-          render_diff_on_work_packages
+          perform_import
         end
-      end
-
-      def render_diff_on_work_packages
-        @listing = @importer.extractor_list
-        if @listing.blank?
-          raise(StandardError.new(I18n.t('bcf.exceptions.file_invalid')))
-        end
-
-        @issues = ::Bim::Bcf::Issue
-          .includes(work_package: %i[status priority assigned_to])
-          .where(uuid: @listing.map { |e| e[:uuid] }, project: @project)
-        render 'bim/bcf/issues/diff_on_work_packages'
       end
 
       def render_config_invalid_people
@@ -206,7 +186,8 @@ module Bim
         @bcf_attachment = Attachment.find_by! id: session[:bcf_file_id], author: current_user
         @bcf_xml_file = File.new @bcf_attachment.local_path
       rescue ActiveRecord::RecordNotFound
-        render_404 'BCF file not found'
+        flash[:error] = I18n.t('bcf.bcf_xml.import.bcf_file_not_found')
+        redirect_to action: :upload
       end
 
       def persist_file

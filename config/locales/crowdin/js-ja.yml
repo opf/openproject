@@ -529,16 +529,6 @@ ja:
       select_tag: 'タグを選択する'
       select_branch: '分岐を選択する'
     field_value_enter_prompt: "'%{field}'の値を入力"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        other: "後{{count}}以上の文字を入力してください。"
-      load_more: "より多くの結果を読み込み中…"
-      no_matches: "一致するものが見つかりません。"
-      searching: "検索中..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        other: "{{limit}}つ項目のみを選択できます。"
     project_menu_details: "詳細"
     sort:
       sorted_asc: '昇順の並べ替えを適用しました。 '
@@ -783,7 +773,7 @@ ja:
           automatic: '自動'
           manually: '手動'
           warning: '自動並び替えモードをアクティブにすると、以前のソートが失われます。'
-        columns_help_text: "テーブルビューに列を追加または削除するには上記の入力を使用します。列をドラッグ＆ドロップして並べ替えることができます。"
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: '全体から目立つように特定の作業項目が必要ですか？'
           relation_columns: 'ワークパッケージリストに関係を表示する必要がありますか?'

@@ -131,7 +131,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     return unless work_package.project_id_changed? && work_package.project_id
 
     change_by_system do
-      set_fixed_version_to_nil
+      set_version_to_nil
       reassign_category
 
       reassign_type unless work_package.type_id_changed?
@@ -149,11 +149,11 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     end
   end
 
-  def set_fixed_version_to_nil
-    if work_package.fixed_version &&
+  def set_version_to_nil
+    if work_package.version &&
        !(work_package.project &&
-         work_package.project.shared_versions.include?(work_package.fixed_version))
-      work_package.fixed_version = nil
+         work_package.project.shared_versions.include?(work_package.version))
+      work_package.version = nil
     end
   end
 

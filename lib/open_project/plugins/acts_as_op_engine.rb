@@ -179,7 +179,7 @@ module OpenProject::Plugins
       # block:         Pass a block to the plugin (for defining permissions, menu items and the like)
       def register(gem_name, options, &block)
         self.class.initializer "#{engine_name}.register_plugin" do
-          spec = Bundler.environment.specs[gem_name][0]
+          spec = Bundler.load.specs[gem_name][0]
 
           p = Redmine::Plugin.register engine_name.to_sym do
             name spec.summary
@@ -287,6 +287,16 @@ module OpenProject::Plugins
           representer_namespace = path.map { |arg| arg.to_s.camelize }.join('::')
           representer_class     = "::API::#{representer_namespace}Representer".constantize
           representer_class.prepend mod
+        end
+      end
+
+      ##
+      # Register a "cron"-like background job
+      def add_cron_jobs(&block)
+        config.to_prepare do
+          Array(block.call).each do |clz|
+            ::Cron::CronJob.register!(clz.is_a?(Class) ? clz : clz.to_s.constantize)
+          end
         end
       end
 

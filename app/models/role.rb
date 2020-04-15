@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Role < ActiveRecord::Base
+class Role < ApplicationRecord
   extend Pagination::Model
 
   # Built-in roles

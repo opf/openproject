@@ -55,7 +55,7 @@ Available arguments that change how the work packages are handled:
 | `category` | name of the target category |
 | `priority` | name of the target priority |
 | `status` | name of the target status |
-| `fixed_version` | name of the target version |
+| `version` | name of the target version |
 | `type` | name of the target type |
 | `priority` | name of the target priority |
 | `unknown_user`| ignore: email is ignored (default), accept: accept as anonymous user,                           create: create a user account |

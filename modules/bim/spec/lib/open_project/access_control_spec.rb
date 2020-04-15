@@ -29,6 +29,10 @@
 require 'spec_helper'
 
 describe OpenProject::AccessControl do
+  before do
+    OpenProject::AccessControl.instance_variable_set(:'@disabled_project_modules', nil)
+  end
+
   after do
     OpenProject::AccessControl.instance_variable_set(:'@disabled_project_modules', nil)
   end

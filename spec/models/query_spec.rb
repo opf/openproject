@@ -353,7 +353,7 @@ describe Query, type: :model do
                               category created_at due_date estimated_hours
                               parent done_ratio priority responsible
                               spent_hours start_date status subject type
-                              updated_at fixed_version) +
+                              updated_at version) +
                            [:"cf_#{custom_field.id}"] +
                            [:"relations_to_type_#{type.id}"] +
                            %i(relations_of_type_relation1 relations_of_type_relation2)
@@ -370,7 +370,7 @@ describe Query, type: :model do
                               category created_at due_date estimated_hours
                               parent done_ratio priority responsible
                               spent_hours start_date status subject type
-                              updated_at fixed_version) +
+                              updated_at version) +
                            [:"cf_#{custom_field.id}"]
 
         unexpected_columns = [:"relations_to_type_#{type.id}"] +

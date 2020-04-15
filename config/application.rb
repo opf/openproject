@@ -63,7 +63,7 @@ if db_adapter&.start_with? 'mysql'
   warn <<~ERROR
     ======= INCOMPATIBLE DATABASE DETECTED =======
     Your database is set up for use with a MySQL or MySQL-compatible variant.
-    This installation of OpenProject 10.0. no longer supports these variants.
+    This installation of OpenProject no longer supports these variants.
 
     The following guides provide extensive documentation for migrating
     your installation to a PostgreSQL database:

@@ -101,7 +101,7 @@ RB.Story = (function ($) {
 
       data = "prev=" +
              (prev.length === 1 ?  prev.data('this').getID() : '') +
-             "&fixed_version_id=" + sprintId;
+             "&version_id=" + sprintId;
 
       if (this.$.find('.editor').length > 0) {
         data += "&" + this.$.find('.editor').serialize();

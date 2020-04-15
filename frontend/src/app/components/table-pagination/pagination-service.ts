@@ -51,12 +51,13 @@ export class PaginationService {
 
   public getCachedPerPage(initialPageOptions:number[]):number {
     const value = this.localStoragePerPage;
+    const initialLength = initialPageOptions?.length || 0;
 
-    if (value !== null && value > 0 && (initialPageOptions.length === 0 || initialPageOptions.indexOf(value) !== -1)) {
+    if (value !== null && value > 0 && (initialLength === 0 || initialPageOptions?.indexOf(value) !== -1)) {
       return value;
     }
 
-    if (initialPageOptions.length > 0) {
+    if (initialLength > 0) {
       return initialPageOptions[0];
     }
 
@@ -108,14 +109,14 @@ export class PaginationService {
 
   public loadPaginationOptions() {
     return this.configuration.initialized.then(() => {
-        this.paginationOptions = {
-          perPage: this.getCachedPerPage(this.configuration.perPageOptions),
-          perPageOptions: this.configuration.perPageOptions,
-          maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
-          optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize
-        };
+      this.paginationOptions = {
+        perPage: this.getCachedPerPage(this.configuration.perPageOptions),
+        perPageOptions: this.configuration.perPageOptions,
+        maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
+        optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize
+      };
 
-        return this.paginationOptions;
-      });
+      return this.paginationOptions;
+    });
   }
 }

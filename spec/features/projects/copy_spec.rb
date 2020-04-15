@@ -106,7 +106,7 @@ describe 'Projects copy',
                         responsible: wp_user,
                         done_ratio: 20,
                         category: category,
-                        fixed_version: version,
+                        version: version,
                         description: 'Some desciption',
                         custom_field_values: { wp_custom_field.id => 'Some wp cf text' })
     end
@@ -215,7 +215,7 @@ describe 'Projects copy',
         .to eql work_package.description
       expect(copied_work_package.category)
         .to eql copied_project.categories.find_by(name: category.name)
-      expect(copied_work_package.fixed_version)
+      expect(copied_work_package.version)
         .to eql copied_project.versions.find_by(name: version.name)
       expect(copied_work_package.custom_value_attributes)
         .to eql(wp_custom_field.id => 'Some wp cf text')

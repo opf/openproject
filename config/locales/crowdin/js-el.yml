@@ -79,7 +79,7 @@ el:
       highlighting:
         inline: 'Επισήμανση inline:'
         entire_card_by: 'Ολόκληρη κάρτα με'
-      remove_from_list: 'Αφαίρεση κάρτας από τη λίστα'
+      remove_from_list: 'Αφαίρεση από τη λίστα'
     caption_rate_history: "Ιστορικό αμοιβής"
     clipboard:
       browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
@@ -235,9 +235,9 @@ el:
     label_author: "Συγγραφέας: %{user}"
     label_avatar: "Άβαταρ"
     label_between: "μεταξύ"
-    label_board: "Πίνακας"
+    label_board: "Πινακας"
     label_board_locked: "Κλειδωμένο"
-    label_board_plural: "Πίνακες"
+    label_board_plural: "Πινακες"
     label_board_sticky: "Sticky"
     label_create: "Δημιουργία"
     label_create_work_package: "Δημιουργήστε νέο πακέτο εργασίας"
@@ -525,18 +525,6 @@ el:
       select_tag: 'Επιλογή σήμανσης'
       select_branch: 'Επιλογή κλάδου'
     field_value_enter_prompt: "Εισαγωγή τιμής για το '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Παρακαλούμε εισάγετε περισσότερους χαρακτήρες"
-        one: "Παρακαλώ εισάγετε έναν ακόμη χαρακτήρα"
-        other: "Παρακαλώ εισάγετε {{count}} ακόμη χαρακτήρες"
-      load_more: "Φόρτωση περισσότερων αποτελεσμάτων ..."
-      no_matches: "Δεν βρέθηκαν αντιστοιχίες"
-      searching: "Αναζήτηση ..."
-      selection_too_big:
-        zero: "Δεν μπορείτε να επιλέξετε κανένα αντικείμενο"
-        one: "Μπορείτε να επιλέξετε μόνο ένα αντικείμενο"
-        other: "Μπορείτε να επιλέξετε μόνο {{limit}} αντικείμενα"
     project_menu_details: "Λεπτομέρειες"
     sort:
       sorted_asc: 'Εφαρμόστηκε αύξουσα ταξινόμηση, '
@@ -647,7 +635,7 @@ el:
       label_enable_multi_select: "Ενεργοποίηση πολλαπλής επιλογής"
       label_disable_multi_select: "Απενεργοποίηση πολλαπλής επιλογής"
       label_filter_add: "Προσθήκη φίλτρου"
-      label_filter_by_text: "Φιλτράρισμα βάσει κειμένου"
+      label_filter_by_text: "Φίλτρο βάσει κειμένου"
       label_options: "Επιλογές"
       label_column_multiselect: "Συνδυασμένο αναπτυσσόμενο πεδίο: Επιλέξτε με τα πλήκτρα βέλους, επιβεβαιώστε πατώντας το πλήκτρο enter, διαγράψτε πατώντας το πλήκτρο backspace"
       message_error_during_bulk_delete: Παρουσιάστηκε ένα σφάλμα κατά την διαγραφή των πακέτων εργασίας.
@@ -656,7 +644,7 @@ el:
       message_view_spent_time: "Εμφάνιση χρόνου που δαπανήθηκε σε αυτό το πακέτο εργασίας"
       message_work_package_read_only: "Το πακέτο εργασίας είναι κλειδωμένο σε αυτή την κατάσταση. Κανένα χαρακτηριστικό εκτός από την κατάσταση δεν μπορεί να αλλαχθεί."
       message_work_package_status_blocked: "Η κατάσταση του πακέτου εργασίας δεν είναι εγγράψιμη λόγω κλειστής κατάστασης και εκχωρημένης έκδοσης."
-      placeholder_filter_by_text: "Θέμα, περιγραφή, σχόλια, ..."
+      placeholder_filter_by_text: "Θέμα, περιγραφή, σχόλια,..."
       inline_create:
         title: 'Πατήστε εδώ για να προσθέσετε ένα καινούργιο πακέτο εργασίας σε αυτή τη λίστα'
       create:
@@ -781,7 +769,7 @@ el:
           automatic: 'Αυτόματα'
           manually: 'Χειροκίνητα'
           warning: 'Θα χάσετε την προηγούμενη ταξινόμηση όταν ενεργοποιήσετε την λειτουργία αυτόματης ταξινόμησης.'
-        columns_help_text: "Χρησιμοποιήστε την παραπάνω είσοδο για να προσθέσετε ή να αφαιρέσετε στήλες στην προβολή πίνακα σας. Μπορείτε να σύρετε τις στήλες για να τις αλλάξετε σειρά."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Χρειάζεστε συγκεκριμένα πακέτα εργασίας για να ξεχωρίσετε από την μάζα;'
           relation_columns: 'Χρειάζεστε να βλέπετε συσχετίσεις στη λίστα πακέτων εργασίας;'
@@ -836,7 +824,7 @@ el:
         has_children: "Το πακέτο εργασίας έχει %{childUnits}:"
         confirm_deletion_children: "Αναγνωρίζω ότι ΌΛΟΙ οι απόγονοι από τα αναφερόμενα πακέτα εργασίας θα αφαιρεθούν αναδρομικά."
         deletes_children: "Όλα τα παιδιά πακέτα εργασίας και οι απόγονοι τους επίσης θα διαγραφούν αναδρομικά."
-    notice_no_results_to_display: "Δεν υπάρχουν ορατά αποτελέσματα για εμφάνιση."
+    notice_no_results_to_display: "Δεν υπάρχουν αποτελέσματα για εμφάνιση."
     notice_successful_create: "Επιτυχής δημιουργία."
     notice_successful_delete: "Επιτυχής διαγραφή."
     notice_successful_update: "Επιτυχής ενημέρωση."

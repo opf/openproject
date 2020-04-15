@@ -526,18 +526,6 @@ ca:
       select_tag: 'Seleccionar l''etiqueta'
       select_branch: 'Seleccionar branca'
     field_value_enter_prompt: "Introduïu un valor per a '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Si us plau, introduïu un caràcter més"
-        other: "Introduïu {{count}} caràcters més"
-      load_more: "Carregant més resultats..."
-      no_matches: "No hi ha coincidències"
-      searching: "Cercant ..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Només podeu seleccionar un element"
-        other: "Només podeu seleccionar {{limit}} elements"
     project_menu_details: "Detalls"
     sort:
       sorted_asc: 'Ordre ascendent aplicat,'
@@ -782,7 +770,7 @@ ca:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'

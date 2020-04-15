@@ -468,7 +468,7 @@ describe 'API v3 Version resource', content_type: :json do
                           project: project).tap do |v|
           FactoryBot.create(:work_package,
                             project: project,
-                            fixed_version: v)
+                            version: v)
         end
       end
 

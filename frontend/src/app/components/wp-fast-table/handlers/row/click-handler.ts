@@ -62,11 +62,6 @@ export class RowClickHandler implements TableEventHandler {
       return true;
     }
 
-    // Ignore links
-    if (target.is('a') || target.parent().is('a')) {
-      return true;
-    }
-
     let [index, row] = table.findRenderedRow(classIdentifier);
 
     // Update single selection if no modifier present

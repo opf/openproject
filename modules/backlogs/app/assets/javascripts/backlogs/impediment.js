@@ -57,7 +57,7 @@ RB.Impediment = (function ($) {
 
       data = j.find('.editor').serialize() +
                  "&is_impediment=true" +
-                 "&fixed_version_id=" + RB.constants.sprint_id +
+                 "&version_id=" + RB.constants.sprint_id +
                  "&status_id=" + statusID +
                  "&prev=" + (prev.length === 1 ? prev.data('this').getID() : '') +
                  (this.isNew() ? "" : "&id=" + j.children('.id').text());

@@ -45,7 +45,7 @@ tr:
       models:
         work_package:
           attributes:
-            fixed_version_id:
+            version_id:
               task_version_must_be_the_same_as_story_version: "ana hikaye sürümüyle aynı olmalıdır."
             parent_id:
               parent_child_relationship_across_projects: "iş paketi bir bekleme listesi işidir ve bu nedenle mevcut projenin dışında bir üst öğeye sahip olamaz.%{work_package_name}"

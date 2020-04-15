@@ -526,18 +526,6 @@ fil:
       select_tag: 'Pumiling ng tag'
       select_branch: 'Pumili ng sangay'
     field_value_enter_prompt: "Ipasok ang halaga para sa %{field}"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Mangyaring ipasok ang higit isang karakter"
-        other: "Mangyaring ipasok ang {{count}} maraming karakter"
-      load_more: "Naglo-load ng ibang resulta ..."
-      no_matches: "Walang magkatugmang natagpuan"
-      searching: "Naghahanap ..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Maari ka lamang oumili ng isang aytem"
-        other: "Maari ka lamang pumili ng mga {{limit}} aytem"
     project_menu_details: "Mga detalye"
     sort:
       sorted_asc: 'Pataas na paayos ang inilapat '
@@ -782,7 +770,7 @@ fil:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Kailangan tingnan ang mga relasyon sa listahan ng work package?'

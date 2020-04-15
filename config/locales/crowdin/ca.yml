@@ -272,7 +272,7 @@ ca:
   work_packages:
     x_descendants:
       one: 'One descendant work package'
-      other: '%{count} paquets de treball descendents'
+      other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "Els següents paquets de treball no s'han pogut desar:"
     move:
@@ -399,7 +399,7 @@ ca:
         types: "Tipus"
         versions: "Versions"
         work_packages: "Paquets de treball"
-      project/status:
+      projects/status:
         code: 'Estat'
         explanation: 'Status description'
         codes:
@@ -464,7 +464,7 @@ ca:
         done_ratio: "Progrés (%)"
         end_insertion: "Final de la inserció"
         end_deletion: "Final de la supressió"
-        fixed_version: "Versió"
+        version: "Versió"
         parent: "Pare"
         parent_issue: "Pare"
         parent_work_package: "Pare"
@@ -755,6 +755,7 @@ ca:
     version: "Versió"
     work_package: "Paquet de treball"
   button_add: "Afegir"
+  button_add_comment: "Afegeix un comentari"
   button_add_member: Afegir un membre
   button_add_watcher: "Afegir observador"
   button_annotate: "Anotar"
@@ -1121,7 +1122,7 @@ ca:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Anglès"
+  general_lang_name: "Català"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "sí"
@@ -1449,7 +1450,7 @@ ca:
   label_new: "Nou"
   label_new_features: "New features"
   label_new_statuses_allowed: "Nous estats permesos"
-  label_news: "Notícies"
+  label_news_singular: "Notícies"
   label_news_added: "Notícies afegides"
   label_news_comment_added: "S'ha afegit un comentari a la notícia"
   label_news_latest: "Últimes noticies"
@@ -1709,31 +1710,6 @@ ca:
     other: "%{count} projectes"
   label_year: "Any"
   label_yesterday: "ahir"
-  label_keyboard_function: "Funció"
-  label_keyboard_shortcut: "Drecera"
-  label_keyboard_accesskey: "Clau d'accés"
-  label_keyboard_shortcut_help_heading: "Dreceres de teclat disponibles"
-  label_keyboard_shortcut_within_project: "Dreceres relacionades amb el projecte:"
-  label_keyboard_shortcut_global_shortcuts: "Dreceres globals:"
-  label_keyboard_shortcut_some_pages_only: "Dreceres especials:"
-  label_keyboard_shortcut_search_global: "Cerca global"
-  label_keyboard_shortcut_search_project: "Trobar un projecte"
-  label_keyboard_shortcut_go_my_page: "Anar a la meva pàgina"
-  label_keyboard_shortcut_show_help: "Mostra aquest missatge d'ajuda"
-  label_keyboard_shortcut_go_overview: "Anar a la visió general del projecte"
-  label_keyboard_shortcut_go_work_package: "Anar a paquets de treball del projecte"
-  label_keyboard_shortcut_go_wiki: "Anar a la wiki del projecte"
-  label_keyboard_shortcut_go_activity: "Anar a les activitats del projecte"
-  label_keyboard_shortcut_go_calendar: "Anar al calendari del projecte"
-  label_keyboard_shortcut_go_news: "Anar a notícies del projecte"
-  label_keyboard_shortcut_go_timelines: "Anar a terminis"
-  label_keyboard_shortcut_new_work_package: "Crear paquet de treball nou"
-  label_keyboard_shortcut_details_package: "Mostra el panell de detalls de paquets de treball"
-  label_keyboard_shortcut_go_edit: "Anar a editar l'element actual (només en pàgines de detall)"
-  label_keyboard_shortcut_open_more_menu: "Obrir el menú addicional (només en pàgines de detall)"
-  label_keyboard_shortcut_go_preview: "Anar a vista prèvia de l'esició actual (només en pàgines d'edició)"
-  label_keyboard_shortcut_focus_previous_item: "Activar l'element anterior de la llista (només en algunes llistes)"
-  label_keyboard_shortcut_focus_next_item: "Activar l'element següent de la llista (només en algunes llistes)"
   auth_source:
     using_abstract_auth_source: "No podeu utilitzar una font d'autenticació abstracte."
     ldap_error: "Error LDAP: %{error_message}"
@@ -2522,6 +2498,7 @@ ca:
       mail_self_notified: "Vull ser notificat de canvis que faig jo mateix"
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Status change"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Desbloquejar"
     unlock_and_reset_failed_logins: "Desbloquejar i reiniciar inicis de sessió fallits"
   version_status_closed: "tancat"

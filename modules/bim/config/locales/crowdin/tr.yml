@@ -30,7 +30,7 @@ tr:
         num_issues_found: '%{x_bcf_issues} BCF-XML dosyasında bulunur, ayrıntıları aşağıda listelenmiştir.'
         button_prepare: 'İthalat hazırla'
         button_perform_import: 'İçe aktarmayı onayla'
-        button_proceed: 'İlerlemek'
+        button_proceed: 'Proceed with import'
         button_back_to_list: 'Listeye geri dön'
         no_permission_to_add_members: 'Bunları projeye üye olarak eklemek için yeterli izniniz yok.'
         contact_project_admin: 'Bunları üye olarak eklemek için proje yöneticinize başvurun ve bu içe aktarmayı yeniden başlatın.'
@@ -56,6 +56,7 @@ tr:
         import_as_system_user: 'Bunları "Sistem" kullanıcısı olarak içe aktarın.'
         what_to_do: "Ne yapmak istiyorsun?"
         work_package_has_newer_changes: "Modası geçmiş! Sunucudaki son değişiklikler, içe aktarılan konunun \"ModifiedDate\" sinden daha yeni olduğu için bu konu güncellenmedi. Ancak konuyla ilgili yorumlar aktarıldı."
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
   export:
     format:
       bcf: "BCF-XML"

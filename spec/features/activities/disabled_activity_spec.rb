@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Disabled activity', type: :feature do
-  let(:admin) { FactoryBot.create(:admin) }
+  using_shared_fixtures :admin
 
   let(:project1) do
     FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking wiki])

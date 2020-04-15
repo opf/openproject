@@ -54,7 +54,7 @@ nl:
     button_duplicate: "Dupliceren"
     button_edit: "Wijzig"
     button_filter: "Filter"
-    button_advanced_filter: "Geavanceerde filter"
+    button_advanced_filter: "Geavanceerd filter"
     button_list_view: "Lijstweergave"
     button_show_view: "Fullscreen weergave"
     button_log_time: "Gelogde tijd"
@@ -218,13 +218,13 @@ nl:
             current_new_feature_html: >
               OpenProject contains a <b>new IFC module to integrate 3D models</b> into your project management application and to work collaboratively with these files with your team without installation of separate costly software or licenses. <br><br> <ul> <li><b>Import IFC files</b> of building models into your OpenProject application.</li> <li><b>Open 3D models and visualize building models</b> in your browser.</li> <li> Easily <b>work on multiple IFC files</b> with your team directly in OpenProject without installation of separate costly software. </li> </ul>
     label_activate: "Activeren"
-    label_add_column_after: "Kolom toevoegen"
-    label_add_column_before: "Kolom invoegen"
+    label_add_column_after: "Kolom toevoegen na"
+    label_add_column_before: "Kolom toevoegen voor"
     label_add_columns: "Kolommen toevoegen"
     label_add_comment: "Commentaar toevoegen"
     label_add_comment_title: "Plaats een opmerking en gebruik het @-teken om anderen te informeren"
-    label_add_row_after: "Rij toevoegen"
-    label_add_row_before: "Rij invoegen"
+    label_add_row_after: "Rij toevoegen na"
+    label_add_row_before: "Rij voor toevoegen"
     label_add_selected_columns: "Geselecteerde kolommen toevoegen"
     label_added_by: "toegevoegd door"
     label_added_time_by: "Toegevoegd door %{author} %{age}"
@@ -526,18 +526,6 @@ nl:
       select_tag: 'Selecteer label'
       select_branch: 'Selecteer pad'
     field_value_enter_prompt: "Breng een waarde in voor veld '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Voeg {{count}} extra karakter toe"
-        other: "Voeg {{count}} extra karakters toe"
-      load_more: "Meer resultaten laden ..."
-      no_matches: "Geen overeenkomsten gevonden"
-      searching: "Bezig met zoeken ..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Je kunt maar {{limit}} onderdeel selecteren"
-        other: "Je kunt maar {{limit}} onderdelen selecteren"
     project_menu_details: "Details"
     sort:
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
@@ -657,7 +645,7 @@ nl:
       message_view_spent_time: "Toon bestede tijd voor dit werkpakket"
       message_work_package_read_only: "Werkpakket is opgesloten in deze status. Geen kenmerk dan status kan worden gewijzigd."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      placeholder_filter_by_text: "Onderwerp, beschrijving, commentaar, ..."
+      placeholder_filter_by_text: "Betreft, beschrijving, commentaar, ..."
       inline_create:
         title: 'Klik hier om een nieuw werkpakket aan deze lijst toe te voegen'
       create:
@@ -782,7 +770,7 @@ nl:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Gebruik de bovenstaande toegang voor het toevoegen of verwijderen van kolommen aan uw tabelweergave. U kunt de kolommen slepen en neerzetten om deze te rangschikken."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Moeten bepaalde werkpakketten te onderscheiden zijn van de massa?'
           relation_columns: 'Nodig om te zien van betrekkingen in de pakketlijst werk?'

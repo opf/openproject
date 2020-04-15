@@ -526,16 +526,6 @@ ko:
       select_tag: '태그 선택'
       select_branch: '브랜치 선택'
     field_value_enter_prompt: "'%{field}'에 대 한 값을 입력하세요."
-    select2:
-      input_too_short:
-        zero: "문자를 더 입력하세요"
-        other: "{{count}} 이상의 글자를 입력해 주십시오."
-      load_more: "더 많은 결과를 불러오고 있습니다 ..."
-      no_matches: "조건에 맞는 결과가 없습니다."
-      searching: "찾는 중 ..."
-      selection_too_big:
-        zero: "어느 항목도 선택할 수 없습니다"
-        other: "{{limit}}개만 선택하실 수 있습니다."
     project_menu_details: "세부 정보"
     sort:
       sorted_asc: '오름차순 정렬이 적용됨, '
@@ -780,7 +770,7 @@ ko:
           automatic: '자동'
           manually: '수동'
           warning: '자동 정렬 모드를 활성화하면 이전 정렬이 손실됩니다.'
-        columns_help_text: "위 입력을 사용하여 테이블 보기에 열을 추가하거나 제거하세요. 열을 끌어다 놓아 순서를 바꿀 수 있습니다."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'

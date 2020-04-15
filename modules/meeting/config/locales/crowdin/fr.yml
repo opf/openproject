@@ -79,7 +79,7 @@ fr:
   text_in_hours: "en heures"
   text_meeting_agenda_for_meeting: 'ordre du jour de la réunion «%{meeting} »'
   text_meeting_closing_are_you_sure: "Êtes-vous certain de vouloir fermer la rencontre ?"
-  text_meeting_agenda_open_are_you_sure: "Le contenu non enregistré des minutes de la réunion sera perdu ! Continuer ?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'Minutes de la réunion "%{meeting}"'
   text_review_meeting_agenda: "%{author} à marqué le %{link} pour vérification."
   text_review_meeting_minutes: "%{author} à marqué le %{link} pour vérification."

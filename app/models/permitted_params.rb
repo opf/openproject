@@ -527,7 +527,7 @@ class PermittedParams
           :done_ratio,
           :due_date,
           :estimated_hours,
-          :fixed_version_id,
+          :version_id,
           :parent_id,
           :priority_id,
           :responsible_id,

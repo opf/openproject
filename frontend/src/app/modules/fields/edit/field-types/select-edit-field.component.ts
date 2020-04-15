@@ -60,6 +60,11 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public appendTo:any = null;
   private hiddenOverflowContainer = '.__hidden_overflow_container';
 
+  /** Remember the values loading promise which changes as soon as the changeset is updated
+   * (e.g., project or type is changed).
+   */
+  private valuesLoadingPromise:Promise<unknown>;
+
   protected _autocompleterComponent:CreateAutocompleterComponent;
 
   public referenceOutputs:{ [key:string]:Function } = {
@@ -76,6 +81,10 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
       placeholder: this.I18n.t('js.placeholders.default')
     };
+
+    this.valuesLoadingPromise = this.change.getForm().then(() => {
+      return this.initialValueLoading();
+    });
   }
 
   protected initialValueLoading() {
@@ -92,17 +101,13 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     super.ngOnInit();
     this.appendTo = this.overflowingSelector;
 
-    let loadingPromise = this.change.getForm().then(() => {
-      return this.initialValueLoading();
-    });
-
     this.handler
       .$onUserActivate
       .pipe(
         this.untilDestroyed()
       )
       .subscribe(() => {
-        loadingPromise.then(() => {
+        this.valuesLoadingPromise.then(() => {
           this._autocompleterComponent.openDirectly = true;
         });
       });

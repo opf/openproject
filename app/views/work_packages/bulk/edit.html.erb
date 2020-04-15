@@ -124,9 +124,9 @@ See docs/COPYRIGHT.rdoc for more details.
           <% #TODO: allow editing versions when multiple projects %>
           <% if @project %>
             <div class="form--field">
-              <label class="form--label" for='work_package_fixed_version_id'><%= WorkPackage.human_attribute_name(:fixed_version) %></label>
+              <label class="form--label" for='work_package_version_id'><%= WorkPackage.human_attribute_name(:version) %></label>
               <div class="form--field-container">
-                <%= styled_select_tag('work_package[fixed_version_id]', content_tag('option', l(:label_no_change_option), value: '') +
+                <%= styled_select_tag('work_package[version_id]', content_tag('option', l(:label_no_change_option), value: '') +
                                        content_tag('option', l(:label_none), value: 'none') +
                                        version_options_for_select(@project.shared_versions.with_status_open.order_by_semver_name)) %>
               </div>

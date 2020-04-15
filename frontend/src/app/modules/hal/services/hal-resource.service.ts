@@ -44,6 +44,7 @@ import {
   HTTPClientParamMap,
   HTTPSupportedMethods
 } from "core-app/modules/hal/http/http.interfaces";
+import {whenDebugging} from "core-app/helpers/debug_output";
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
@@ -89,7 +90,7 @@ export class HalResourceService {
       .pipe(
         map((response:any) => this.createHalResource(response)),
         catchError((error:HttpErrorResponse) => {
-          console.error(`Failed to ${method} ${href}: ${error.name}`);
+          whenDebugging(() => console.error(`Failed to ${method} ${href}: ${error.name}`));
           const resource = this.createHalResource<ErrorResource>(error.error);
           resource.httpError = error;
           return throwError(resource);

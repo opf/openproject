@@ -95,12 +95,12 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       sortable: "name",
       groupable: "#{WorkPackage.table_name}.category_id"
     },
-    fixed_version: {
-      association: 'fixed_version',
+    version: {
+      association: 'version',
       sortable: [->(table_name = Version.table_name) { Versions::Scopes::OrderBySemverName.semver_sql(table_name) }, 'name'],
       default_order: 'ASC',
       null_handling: 'NULLS LAST',
-      groupable: "#{WorkPackage.table_name}.fixed_version_id"
+      groupable: "#{WorkPackage.table_name}.version_id"
     },
     start_date: {
       sortable: "#{WorkPackage.table_name}.start_date",

@@ -31,6 +31,7 @@ module Components
     class Columns
       include Capybara::DSL
       include RSpec::Matchers
+      include ::Components::NgSelectAutocompleteHelpers
 
       attr_accessor :trigger_parent
 
@@ -38,38 +39,40 @@ module Components
         self.trigger_parent = trigger_parent
       end
 
+      def column_autocompleter
+        find('.columns-modal--content .draggable-autocomplete--input')
+      end
+
+      def close_autocompleter
+        find('.columns-modal--content .draggable-autocomplete--input input').send_keys :escape
+      end
+
+      def column_item(name)
+        find('.draggable-autocomplete--item', text: name)
+      end
+
       def expect_column_not_available(name)
         modal_open? or open_modal
 
-        # Open select2
-        find('.columns-modal--content .select2-input').click
-        expect(page).to have_no_selector('.select2-result-label', text: name)
-        find('.columns-modal--content .select2-input').send_keys :escape
-      end
-
-      def expect_column_not_selectable(name)
-        modal_open? or open_modal
-
-        # Open select2
-        find('.columns-modal--content .select2-input').click
-        expect(page).to have_no_selector('.select2-result-label', text: name)
-        find('.columns-modal--content .select2-input').send_keys :escape
+        column_autocompleter.click
+        expect(page).to have_no_selector('.ng-option', text: name, visible: :all)
+        close_autocompleter
       end
 
       def expect_column_available(name)
         modal_open? or open_modal
 
-        # Open select2
-        find('.columns-modal--content .select2-input').click
-        expect(page).to have_selector('.select2-result-label', text: name)
-        find('.columns-modal--content .select2-input').send_keys :escape
+        column_autocompleter.click
+        expect(page).to have_selector('.ng-option', text: name, visible: :all)
+        close_autocompleter
       end
 
       def add(name, save_changes: true)
         modal_open? or open_modal
 
-        find('.columns-modal--content .select2-input').click
-        find('.select2-results .select2-result-label', text: name).click
+        select_autocomplete column_autocompleter,
+                            results_selector: '.ng-dropdown-panel-items',
+                            query: name
 
         apply if save_changes
       end
@@ -78,8 +81,8 @@ module Components
         modal_open? or open_modal
 
         within_modal do
-          container = find('.select2-search-choice', text: name)
-          container.find('.select2-search-choice-close').click
+          container = column_item(name)
+          container.find('.draggable-autocomplete--remove-item').click
         end
 
         apply if save_changes
@@ -87,7 +90,7 @@ module Components
 
       def expect_checked(name)
         within_modal do
-          expect(page).to have_selector('.select2-search-choice', text: name)
+          expect(page).to have_selector('.draggable-autocomplete--item', text: name)
         end
       end
 
@@ -95,8 +98,8 @@ module Components
         modal_open? or open_modal
 
         within_modal do
-          expect(page).to have_selector('.select2-search-choice', minimum: 1)
-          page.all('.select2-search-choice-close').each do |el|
+          expect(page).to have_selector('.draggable-autocomplete--item', minimum: 1)
+          page.all('.draggable-autocomplete--remove-item').each do |el|
             el.click
             sleep 1
           end

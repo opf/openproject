@@ -15,7 +15,7 @@ uk:
         members:
           title: 'Учасники'
           no_results: 'Немає видимих учасників.'
-          view_all_members: 'Переглянути всіх учасників'
+          view_all_members: 'Перегляд учасників'
           add: 'Учасник'
           too_many: 'Відображено %{count} з %{total} учасників.'
         news:
@@ -43,7 +43,7 @@ uk:
           title: 'Витрачений час (останні 7 днів)'
           no_results: 'Немає записів часу за останні 7 днів.'
         work_packages_accountable:
-          title: "Робочі пакети, за які я відповідаю"
+          title: "Робочі пакети за які я відповідаю"
         work_packages_assigned:
           title: 'Робочі пакети призначені мені'
         work_packages_created:

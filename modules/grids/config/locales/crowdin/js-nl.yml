@@ -15,7 +15,7 @@ nl:
         members:
           title: 'Leden'
           no_results: 'No visible members.'
-          view_all_members: 'Alle leden bekijken'
+          view_all_members: 'Alle leden weergeven'
           add: 'Deelnemer'
           too_many: 'Displaying %{count} of %{total} members.'
         news:

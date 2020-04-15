@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Invoices and billing history
-  priority: 997
+  priority: 980
 description: View the invoices and payment history.
 robots: index, follow
 keywords: invoices, payment history

@@ -30,7 +30,7 @@ de:
         num_issues_found: '%{x_bcf_issues} sind in der BCF-XML-Datei enthalten, deren Details unten aufgeführt sind.'
         button_prepare: 'Import vorbereiten'
         button_perform_import: 'Import bestätigen'
-        button_proceed: 'Fortfahren'
+        button_proceed: 'Proceed with import'
         button_back_to_list: 'Zurück zur Liste'
         no_permission_to_add_members: 'Sie haben nicht genügend Berechtigungen, um Mitglieder zum Projekt hinzuzufügen.'
         contact_project_admin: 'Kontaktieren Sie Ihren Projektadministrator, um sie als Mitglieder hinzuzufügen und starten Sie diesen Import erneut.'
@@ -56,6 +56,7 @@ de:
         import_as_system_user: 'Als "System"-Benutzer importieren'
         what_to_do: "Was soll mit den Objekten geschehen?"
         work_package_has_newer_changes: "Veraltet! Dieser Eintrag wurde nicht aktualisiert, da die letzten Änderungen auf dem Server neuer als das angegebene Aktualisierungsdatum war. Kommentare des Eintrages wurden dennoch importiert."
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
   export:
     format:
       bcf: "BCF-XML"
@@ -71,7 +72,7 @@ de:
       bcf_v2_1_text: "Die Anwendung erhält vollen Lese- und Schreibzugriff auf die OpenProject-API, um Aktionen in Ihrem Namen durchzuführen."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "IFC-Modell"
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "IFC-Datei"

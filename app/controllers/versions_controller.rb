@@ -56,7 +56,7 @@ class VersionsController < ApplicationController
 
   def show
     @issues = @version
-              .fixed_issues
+              .work_packages
               .visible
               .includes(:status, :type, :priority)
               .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
@@ -163,7 +163,7 @@ class VersionsController < ApplicationController
 
   def work_packages_of_version(version, project_ids, selected_type_ids)
     version
-      .fixed_issues
+      .work_packages
       .visible
       .includes(:project, :status, :type, :priority)
       .where(type_id: selected_type_ids, project_id: project_ids)

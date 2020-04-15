@@ -40,12 +40,12 @@ class Story < WorkPackage
     end
 
     candidates.each do |story|
-      last_rank = stories_by_version[story.fixed_version_id].size > 0 ?
-                     stories_by_version[story.fixed_version_id].last.rank :
+      last_rank = stories_by_version[story.version_id].size > 0 ?
+                     stories_by_version[story.version_id].last.rank :
                      0
 
       story.rank = last_rank + 1
-      stories_by_version[story.fixed_version_id] << story
+      stories_by_version[story.version_id] << story
     end
 
     stories_by_version
@@ -135,7 +135,7 @@ class Story < WorkPackage
       extras = ["and not #{WorkPackage.table_name}.position is NULL and #{WorkPackage.table_name}.position <= ?", position]
     end
 
-    @rank ||= WorkPackage.where(Story.condition(project.id, fixed_version_id, extras))
+    @rank ||= WorkPackage.where(Story.condition(project.id, version_id, extras))
               .joins(:status)
               .count
     @rank
@@ -144,7 +144,7 @@ class Story < WorkPackage
   private
 
   def self.condition(project_id, sprint_ids, extras = [])
-    c = ['project_id = ? AND type_id in (?) AND fixed_version_id in (?)',
+    c = ['project_id = ? AND type_id in (?) AND version_id in (?)',
          project_id, Story.types, sprint_ids]
 
     if extras.size > 0

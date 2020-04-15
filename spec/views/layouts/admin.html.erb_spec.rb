@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'layouts/admin', type: :view do
+  using_shared_fixtures :admin
+
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper
-
-  let(:admin) { FactoryBot.create :admin }
 
   before do
     allow(view).to receive(:current_menu_item).and_return('overview')

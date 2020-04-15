@@ -526,18 +526,6 @@
       select_tag: 'Select tag'
       select_branch: 'Select branch'
     field_value_enter_prompt: "Angi en verdi for '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Angi mer enn {{count}} tegn"
-        other: "Vennligst skriv {{count}} flere tegn"
-      load_more: "Laster inn flere resultater..."
-      no_matches: "Ingen treff"
-      searching: "Søker ..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Du kan bare velge ett element"
-        other: "Du kan bare velge {{limit}} elementer"
     project_menu_details: "Detaljer"
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -782,7 +770,7 @@
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'

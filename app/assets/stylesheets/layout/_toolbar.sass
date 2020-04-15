@@ -259,21 +259,10 @@ $nm-color-success-background: #d8fdd1
   span.filter-selection
     @include query-select-dropdown-filter-select($primary-color)
 
-/** Allow select2 to display correctly in the toolbar */
-.toolbar .select2-container
-  padding: 0
-
-  .select2-choice
-    min-width: 150px
-
-  .select2-arrow
-    border-color: $toolbar-item--border-color
-
 .toolbar-input-group
   display: flex
 
-  input,
-  .select2-container
+  input
     flex: 1
     flex-basis: 150px
 

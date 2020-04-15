@@ -42,9 +42,6 @@ describe 'Authentication Stages', type: :feature do
 
   after do
     Capybara.ignore_hidden_elements = @capybara_ignore_elements
-    User.delete_all
-    User.current = nil
-
     OpenProject::Authentication::Stage.deregister :dummy_step
   end
 

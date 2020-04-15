@@ -47,6 +47,10 @@ plugins:
   tslint:
     enabled: true
     config: tslint.json
+    checks:
+      # Disable whitespace due to 3.7 incompatibiltiy with ? navigation
+      whitespace:
+        enabled: false
   fixme:
     enabled: true
 ratings:

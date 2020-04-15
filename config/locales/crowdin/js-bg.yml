@@ -526,18 +526,6 @@ bg:
       select_tag: 'Изберете етикет'
       select_branch: 'Изберете клон'
     field_value_enter_prompt: "Въведете стойност за '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Моля, въведете още един знак"
-        other: "Моля, въведете още {{count}} знаци"
-      load_more: "Зареждане на още резултати..."
-      no_matches: "Не са намерени съвпадения"
-      searching: "Търсене..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Можете да изберете само един елемент"
-        other: "Можете да изберете само {{limit}} елемента"
     project_menu_details: "Подробности"
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -782,7 +770,7 @@ bg:
           automatic: 'Автоматично'
           manually: 'Ръчно'
           warning: 'Ще загубите предишното си сортиране, когато активирате автоматичния режим на сортиране.'
-        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'

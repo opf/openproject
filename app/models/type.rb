@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class ::Type < ActiveRecord::Base
+class ::Type < ApplicationRecord
   extend Pagination::Model
 
   # Work Package attributes for this type

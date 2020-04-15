@@ -44,7 +44,7 @@
 
       reply.slideDown();
 
-      $('html, body').animate({
+      $('#content-wrapper').animate({
         scrollTop: focusElement.offset().top
       }, 1000);
     }
@@ -60,4 +60,4 @@
     });
   });
 
-}(jQuery))
+}(jQuery));

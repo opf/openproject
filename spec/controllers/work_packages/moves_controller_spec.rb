@@ -318,7 +318,7 @@ describe WorkPackages::MovesController, type: :controller do
           end
 
           it 'did not change the status' do
-            expect(subject.fixed_version_id).to eq(work_package.fixed_version_id)
+            expect(subject.version_id).to eq(work_package.version_id)
           end
 
           it 'did not change the assignee' do
@@ -355,7 +355,7 @@ describe WorkPackages::MovesController, type: :controller do
                    assigned_to_id: target_user.id,
                    responsible_id: target_user.id,
                    status_id: target_status,
-                   fixed_version_id: target_version.id,
+                   version_id: target_version.id,
                    start_date: start_date,
                    due_date: due_date
                  }
@@ -392,7 +392,7 @@ describe WorkPackages::MovesController, type: :controller do
           end
 
           it 'did change the version' do
-            subject.map(&:fixed_version_id).each do |id|
+            subject.map(&:version_id).each do |id|
               expect(id).to eq(target_version.id)
             end
           end

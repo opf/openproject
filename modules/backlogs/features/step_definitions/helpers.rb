@@ -44,7 +44,7 @@ def initialize_task_params(project, story, user = User.first)
   params = HashWithIndifferentAccess.new
   params['type_id'] = Task.type
   if story
-    params['fixed_version_id'] = story.fixed_version_id
+    params['version_id'] = story.version_id
     params['parent_id']        = story.id
   end
   params['status_id'] = Status.first.id
@@ -76,7 +76,7 @@ end
 def initialize_impediment_params(project, sprint, user = User.first)
   params = HashWithIndifferentAccess.new(RbTasksController::PERMITTED_PARAMS)
   params['type_id'] = Task.type
-  params['fixed_version_id'] = sprint.id
+  params['version_id'] = sprint.id
   params['status_id'] = Status.first.id
 
   # unsafe attributes that will not be used directly but added for your
@@ -96,11 +96,11 @@ def task_position(task)
 end
 
 def story_position(story)
-  p1 = Story.sprint_backlog(story.project, story.fixed_version).detect { |s| s.id == story.id }.rank
+  p1 = Story.sprint_backlog(story.project, story.version).detect { |s| s.id == story.id }.rank
   p2 = story.rank
   p1.should == p2
 
-  Story.at_rank(story.project_id, story.fixed_version_id, p1).id.should == story.id
+  Story.at_rank(story.project_id, story.version_id, p1).id.should == story.id
   p1
 end
 

@@ -58,8 +58,8 @@ class Impediment < Task
     if blocks_ids.size == 0
       errors.add :blocks_ids, :must_block_at_least_one_work_package
     else
-      other_version_ids = WorkPackage.where(id: blocks_ids).pluck(:fixed_version_id).uniq
-      errors.add :blocks_ids, :can_only_contain_work_packages_of_current_sprint if other_version_ids.size != 1 || other_version_ids[0] != fixed_version_id
+      other_version_ids = WorkPackage.where(id: blocks_ids).pluck(:version_id).uniq
+      errors.add :blocks_ids, :can_only_contain_work_packages_of_current_sprint if other_version_ids.size != 1 || other_version_ids[0] != version_id
     end
   end
 end

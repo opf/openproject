@@ -58,30 +58,58 @@ module Bim
         validate!
 
         Dir.mktmpdir do |dir|
-          perform_conversion!(dir)
+          self.working_directory = dir
+
+          perform_conversion!
 
           ServiceResult.new(success: ifc_model.save, result: ifc_model)
         end
       rescue StandardError => e
         OpenProject.logger.error("Failed to convert IFC to XKT", exception: e)
         ServiceResult.new(success: false).tap { |r| r.errors.add(:base, e.message) }
+      ensure
+        self.working_directory = nil
       end
 
-      def perform_conversion!(dir)
-        # Step 1: IfcConvert
-        ifc_file = ifc_model.ifc_attachment.diskfile.path
-        collada_file = convert_to_collada(ifc_file, dir)
+      def perform_conversion!
+        # Step 0: avoid file name issues (e.g. umlauts) in the pipeline
+        tmp_ifc_path = link_to_ifc_file!
 
-        # Step 2: Collada2GLTF
-        gltf_file = convert_to_gltf(collada_file, dir)
+        tmp_ifc_path
+          .then { |ifc_path| convert_to_collada ifc_path } # Step 1: IfcConvert
+          .then { |collada_path| convert_to_gltf collada_path } # Step 2: Collada2GLTF
+          .then { |gltf_path| convert_to_xkt gltf_path } # Step 3: Convert to XKT
+          .then { |xkt_path| save_xkt xkt_path }
 
-        # Step 3: Convert to XKT
-        xkt_file = convert_to_xkt(gltf_file, dir)
-        ifc_model.xkt_attachment = File.new xkt_file
+        tmp_ifc_path
+          .then { |ifc_path| convert_metadata ifc_path }
+          .then { |metadata_path| save_metadata metadata_path }
+      end
 
-        # Convert metadata
-        metadata_file = convert_metadata(ifc_file, dir)
-        ifc_model.metadata_attachment = File.new metadata_file
+      def link_to_ifc_file!
+        tmp_ifc_path = File.join working_directory, "model.ifc"
+
+        FileUtils.symlink ifc_model_path.to_s, tmp_ifc_path
+
+        tmp_ifc_path
+      end
+
+      def ifc_model_path
+        Pathname(ifc_model.ifc_attachment.diskfile.path)
+      end
+
+      def save_xkt(xkt_path)
+        final_xkt_path = change_basename xkt_path, ifc_model_path, ".xkt"
+        FileUtils.mv xkt_path, final_xkt_path.to_s
+
+        ifc_model.xkt_attachment = File.new final_xkt_path.to_s
+      end
+
+      def save_metadata(metadata_path)
+        final_metadata_path = change_basename metadata_path, ifc_model_path, ".json"
+        FileUtils.mv metadata_path, final_metadata_path.to_s
+
+        ifc_model.metadata_attachment = File.new final_metadata_path.to_s
       end
 
       ##
@@ -89,11 +117,10 @@ module Bim
       # DAE collada file.
       #
       # @param ifc_filepath {String} Path to the IFC model file
-      # @param target_dir {String} Path to the temporary output folder
-      def convert_to_collada(ifc_filepath, target_dir)
+      def convert_to_collada(ifc_filepath)
         Rails.logger.debug { "Converting #{ifc_model.inspect} to DAE" }
 
-        convert!(ifc_filepath, target_dir, 'dae') do |target_file|
+        convert!(ifc_filepath, 'dae') do |target_file|
           # To include IfcSpace entities, which by default are excluded by
           # IfcConvert, together with IfcOpeningElement, we need ot over-
           # write the default exclude parameter to only exclude
@@ -115,11 +142,10 @@ module Bim
       # Call COLLADA2GLTF with the converted DAE file.
       #
       # @param dae_filepath {String} Path to the converted DAE model file
-      # @param target_dir {String} Path to the temporary output folder
-      def convert_to_gltf(dae_filepath, target_dir)
+      def convert_to_gltf(dae_filepath)
         Rails.logger.debug { "Converting #{ifc_model.inspect} to GLTF" }
 
-        convert!(dae_filepath, target_dir, 'gltf') do |target_file|
+        convert!(dae_filepath, 'gltf') do |target_file|
           Open3.capture2e('COLLADA2GLTF', '-i', dae_filepath, '-o', target_file)
         end
       end
@@ -128,11 +154,10 @@ module Bim
       # Call gltf2xkt with the converted gltf file.
       #
       # @param gltf_filepath {String} Path to the converted GLTF model file
-      # @param target_dir {String} Path to the temporary output folder
-      def convert_to_xkt(gltf_filepath, target_dir)
+      def convert_to_xkt(gltf_filepath)
         Rails.logger.debug { "Converting #{ifc_model.inspect} to XKT" }
 
-        convert!(gltf_filepath, target_dir, 'xkt') do |target_file|
+        convert!(gltf_filepath, 'xkt') do |target_file|
           Open3.capture2e('gltf2xkt', '-s', gltf_filepath, '-o', target_file)
         end
       end
@@ -141,21 +166,22 @@ module Bim
       # Call xeokit-metadata
       #
       # @param ifc_filepath {String} Path to the converted IFC model file
-      # @param target_dir {String} Path to the temporary output folder
-      def convert_metadata(ifc_filepath, target_dir)
+      def convert_metadata(ifc_filepath)
         Rails.logger.debug { "Retrieving metadata of #{ifc_model.inspect}" }
 
-        convert!(ifc_filepath, target_dir, 'json') do |target_file|
+        convert!(ifc_filepath, 'json') do |target_file|
           Open3.capture2e('xeokit-metadata', ifc_filepath, target_file)
         end
       end
 
       ##
       # Build input filename and target filename
-      def convert!(source_file, target_dir, ext)
+      def convert!(source_file, ext)
+        raise ArgumentError, "missing working directory" unless working_directory.present?
+
         filename = File.basename(source_file, '.*')
         target_filename = "#{filename}.#{ext}"
-        target_file = File.join(target_dir, target_filename)
+        target_file = File.join(working_directory, target_filename)
 
         out, status = yield target_file
 
@@ -173,6 +199,22 @@ module Bim
         end
 
         true
+      end
+
+      def change_basename(from, to, ext)
+        to = Pathname(to)
+
+        Pathname(from).parent.join(to.basename.to_s.sub(to.extname, ext))
+      end
+
+      private
+
+      def working_directory=(dir)
+        @working_directory = dir
+      end
+
+      def working_directory
+        @working_directory
       end
     end
   end

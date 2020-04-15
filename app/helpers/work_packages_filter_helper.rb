@@ -34,7 +34,7 @@ module WorkPackagesFilterHelper
     query = {
       f: [
         filter_object('status_id', 'c'),
-        filter_object('fixed_version_id', '=', version.id)
+        filter_object('version_id', '=', version.id)
       ]
     }
     project_work_packages_with_query_path(version.project, query, options)
@@ -44,7 +44,7 @@ module WorkPackagesFilterHelper
     query = {
       f: [
         filter_object('status_id', 'o'),
-        filter_object('fixed_version_id', '=', version.id)
+        filter_object('version_id', '=', version.id)
       ]
     }
     project_work_packages_with_query_path(version.project, query, options)
@@ -104,7 +104,7 @@ module WorkPackagesFilterHelper
     query = {
       f: [
         filter_object('status_id', '*'),
-        filter_object('fixed_version_id', '=', version.id),
+        filter_object('version_id', '=', version.id),
         filter_object(property_name, '=', property_id)
       ],
       t: default_sort

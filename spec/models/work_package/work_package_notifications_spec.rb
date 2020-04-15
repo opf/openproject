@@ -33,7 +33,8 @@ require 'spec_helper'
 # Tests that email notifications will be sent upon creating or changing a work package.
 describe WorkPackage, type: :model do
   describe 'email notifications' do
-    let(:user) { FactoryBot.create :admin }
+    using_shared_fixtures :admin
+    let(:user) { admin }
     let(:current_user) { FactoryBot.create :admin }
     let(:project) { FactoryBot.create :project }
     let!(:work_package) do

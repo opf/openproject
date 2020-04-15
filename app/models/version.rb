@@ -28,13 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Version < ActiveRecord::Base
+class Version < ApplicationRecord
   include ::Versions::ProjectSharing
   include ::Scopes::Scoped
 
   belongs_to :project
-  has_many :fixed_issues, class_name: 'WorkPackage', foreign_key: 'fixed_version_id', dependent: :nullify
-  has_many :work_packages, foreign_key: :fixed_version_id
+  has_many :work_packages, foreign_key: :version_id, dependent: :nullify
   acts_as_customizable
 
   VERSION_STATUSES = %w(open locked closed).freeze
@@ -77,14 +76,14 @@ class Version < ActiveRecord::Base
   # Returns the total estimated time for this version
   # (sum of leaves estimated_hours)
   def estimated_hours
-    @estimated_hours ||= fixed_issues.hierarchy_leaves.sum(:estimated_hours).to_f
+    @estimated_hours ||= work_packages.hierarchy_leaves.sum(:estimated_hours).to_f
   end
 
   # Returns the total reported time for this version
   def spent_hours
     @spent_hours ||= TimeEntry
                      .includes(:work_package)
-                     .where(work_packages: { fixed_version_id: id })
+                     .where(work_packages: { version_id: id })
                      .sum(:hours)
                      .to_f
   end
@@ -141,7 +140,7 @@ class Version < ActiveRecord::Base
 
   # Returns assigned issues count
   def issues_count
-    @issue_count ||= fixed_issues.count
+    @issue_count ||= work_packages.count
   end
 
   # Returns the total amount of open issues for this version.
@@ -198,7 +197,7 @@ class Version < ActiveRecord::Base
   # Used to weight unestimated issues in progress calculation
   def estimated_average
     if @estimated_average.nil?
-      average = fixed_issues.average(:estimated_hours).to_f
+      average = work_packages.average(:estimated_hours).to_f
       if average.zero?
         average = 1
       end
@@ -224,7 +223,7 @@ class Version < ActiveRecord::Base
           ["COALESCE(#{WorkPackage.table_name}.estimated_hours, ?) * #{ratio}", estimated_average]
         )
 
-        done = fixed_issues
+        done = work_packages
                .where(statuses: { is_closed: !open })
                .includes(:status)
                .sum(sum_sql)

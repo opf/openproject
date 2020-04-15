@@ -1,5 +1,11 @@
-class ApplicationRecord < ActiveRecord::Base
+class ApplicationRecord < ::ActiveRecord::Base
   self.abstract_class = true
+
+  ##
+  # Refind this instance fresh from the database
+  def refind!
+    self.class.find(self.class.primary_key)
+  end
 
   ##
   # Get the newest recently changed resource for the given record classes

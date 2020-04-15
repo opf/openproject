@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Enumeration < ActiveRecord::Base
+class Enumeration < ApplicationRecord
   default_scope { order("#{Enumeration.table_name}.position ASC") }
 
   belongs_to :project

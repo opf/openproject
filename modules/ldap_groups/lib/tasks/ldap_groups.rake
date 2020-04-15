@@ -31,20 +31,7 @@ namespace :ldap_groups do
   desc 'Synchronize groups and their users from the LDAP auth source.' \
        'Will only synchronize for those users already present in the application.'
   task synchronize: :environment do
-
-    next unless EnterpriseToken.allows_to?(:ldap_groups)
-
-    begin
-      LdapAuthSource.find_each do |ldap|
-        puts ("-" * 20)
-        puts "Synchronizing for ldap auth source #{ldap.name}"
-        OpenProject::LdapGroups::Synchronization.new(ldap)
-      end
-    rescue =>  e
-      msg = "Failed to run LDAP group synchronization. #{e.class.name}: #{e.message}"
-      Rails.logger.error msg
-      warn msg
-    end
+    ::LdapGroups::SynchronizationJob.perform_now
   end
 
   namespace :development do
@@ -92,10 +79,4 @@ namespace :ldap_groups do
       ldap_server.stop
     end
   end
-end
-
-# Ensure core cron task is loaded
-load 'lib/tasks/cron.rake'
-Rake::Task["openproject:cron:hourly"].enhance do
-  Rake::Task["ldap_groups:synchronize"].invoke
 end

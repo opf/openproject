@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 describe 'create users', type: :feature, selenium: true do
-  let(:current_user) { FactoryBot.create :admin }
+  using_shared_fixtures :admin
+  let(:current_user) { admin }
   let(:auth_source) { FactoryBot.build :dummy_auth_source }
   let(:new_user_page) { Pages::NewUser.new }
 

@@ -394,12 +394,12 @@ describe UserMailer, type: :mailer do
         end
       end
 
-      describe 'attribute fixed version' do
+      describe 'attribute version' do
         let(:version_1) { FactoryBot.create(:version) }
         let(:version_2) { FactoryBot.create(:version) }
 
         before do
-          allow(journal).to receive(:details).and_return('fixed_version_id' => [version_1.id, version_2.id])
+          allow(journal).to receive(:details).and_return('version_id' => [version_1.id, version_2.id])
         end
 
         it "shows the old version's name" do

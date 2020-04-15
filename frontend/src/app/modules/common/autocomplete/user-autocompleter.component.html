@@ -1,0 +1,20 @@
+<ng-select [items]="requests.output$ | async"
+           bindLabel="name"
+           bindValue="id"
+           [ngModel]="initialSelection"
+           [virtualScroll]="true"
+           [trackByFn]="userTracker"
+           [typeahead]="requests.input$"
+           [loading]="requests.loading$ | async"
+           (focus)="onFocus()"
+           (change)="onModelChange($event)"
+           [appendTo]="appendTo"
+           [multiple]="multiple" >
+  <ng-template ng-option-tmp let-item="item" let-index="index">
+    <user-avatar *ngIf="item && item.id"
+                 [user]="item"
+                 data-class-list="avatar-mini">
+    </user-avatar>
+    {{ item.name }}
+  </ng-template>
+</ng-select>

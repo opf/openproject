@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class LaborBudgetItem < ActiveRecord::Base
+class LaborBudgetItem < ApplicationRecord
   belongs_to :cost_object
   belongs_to :user
   belongs_to :principal, foreign_key: 'user_id'

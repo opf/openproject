@@ -12,5 +12,5 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "README.rdoc"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency 'recaptcha', '~> 5.4.0'
+  s.add_dependency 'recaptcha', '~> 5.5'
 end

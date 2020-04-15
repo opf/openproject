@@ -526,18 +526,6 @@ fi:
       select_tag: 'Valitse tunniste'
       select_branch: 'Valitse haara'
     field_value_enter_prompt: "Syötä arvo kenttään \"%{field}\""
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Kirjoita vielä yksi merkki"
-        other: "Kirjoita {{count}} lisää merkkiä"
-      load_more: "Ladataan lisää tuloksia..."
-      no_matches: "Vastaavuuksia ei löydy"
-      searching: "Etsitään..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Voit valita vain yhden kohteen"
-        other: "Voit valita vain {{limit}} kohdetta"
     project_menu_details: "Yksityiskohdat"
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -782,7 +770,7 @@ fi:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Täytyy nähdä suhteet toimia paketti lista?'

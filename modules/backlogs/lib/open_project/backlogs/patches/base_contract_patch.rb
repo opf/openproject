@@ -33,16 +33,16 @@ module OpenProject::Backlogs::Patches::BaseContractPatch
     attribute :remaining_hours
     attribute :story_points
 
-    validate :validate_has_parents_fixed_version
+    validate :validate_has_parents_version
     validate :validate_parent_work_package_relation
 
     private
 
-    def validate_has_parents_fixed_version
+    def validate_has_parents_version
       if model.is_task? &&
          model.parent && model.parent.in_backlogs_type? &&
-         model.fixed_version_id != model.parent.fixed_version_id
-        errors.add :fixed_version_id, :task_version_must_be_the_same_as_story_version
+         model.version_id != model.parent.version_id
+        errors.add :version_id, :task_version_must_be_the_same_as_story_version
       end
     end
 

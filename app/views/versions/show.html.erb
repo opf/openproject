@@ -95,7 +95,7 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
   <% end %>
 
-  <% if @version.fixed_issues.count > 0 %>
+  <% if @version.work_packages.count > 0 %>
       <div class="widget-box -thin -wider">
         <wp-overview-graph
           additional-filter='{ "version": { "operator": "=", "values": [<%= @version.id %>] }}'>

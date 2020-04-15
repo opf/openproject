@@ -14,7 +14,7 @@ sv:
     exceptions:
       file_invalid: "BCF-fil ogiltig"
     x_bcf_issues:
-      zero: 'No BCF issues'
+      zero: 'Inga BCF-problem'
       one: 'Ett BCF-problem'
       other: '%{count} BCF-ärenden'
     bcf_xml:
@@ -30,7 +30,7 @@ sv:
         num_issues_found: '%{x_bcf_issues} finns i BCF-XML-filen, deras detaljer listas nedan.'
         button_prepare: 'Förbered import'
         button_perform_import: 'Bekräfta import'
-        button_proceed: 'Fortsätt'
+        button_proceed: 'Proceed with import'
         button_back_to_list: 'Tillbaka till listan'
         no_permission_to_add_members: 'Du har inte tillräcklig behörighet för att lägga till dem som medlemmar i projektet.'
         contact_project_admin: 'Kontakta din projektadministratör för att lägga till dem som medlemmar och börja importera igen.'
@@ -56,6 +56,7 @@ sv:
         import_as_system_user: 'Importera dem som "System" användare.'
         what_to_do: "Vad vill du göra?"
         work_package_has_newer_changes: "Föråldrad! Detta ämne uppdaterades inte eftersom de senaste ändringarna på servern var nyare än \"ModifiedDate\" i det importerade ämnet. Kommentar till ämnet importerades."
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
   export:
     format:
       bcf: "BCF-XML"
@@ -71,7 +72,7 @@ sv:
       bcf_v2_1_text: "Applikationen kommer att få fullständig läs- och skrivåtkomst till OpenProject BCF API v2.1 för att utföra åtgärder åt dig."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "IFC-modell"
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "IFC file"
@@ -98,9 +99,9 @@ sv:
           snapshot_data_blank: "snapshot_data måste tillhandahållas."
           unsupported_key: "En icke stödd json egendom ingår."
   ifc_models:
-    label_ifc_models: 'IFC models'
-    label_new_ifc_model: 'New IFC model'
-    label_show_defaults: 'Show defaults'
+    label_ifc_models: 'IFC-modeller'
+    label_new_ifc_model: 'Ny IFC-modell'
+    label_show_defaults: 'Visa standardinställningar'
     label_default_ifc_models: 'Default IFC models'
     label_edit_defaults: 'Edit defaults'
     no_defaults_warning:
@@ -118,7 +119,7 @@ sv:
       upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
     conversion:
       missing_commands: "The following IFC converter commands are missing on this system: %{names}"
-  project_module_ifc_models: "IFC models"
+  project_module_ifc_models: "IFC-modeller"
   permission_view_ifc_models: "View IFC models"
   permission_manage_ifc_models: "Import and manage IFC models"
   extraction:

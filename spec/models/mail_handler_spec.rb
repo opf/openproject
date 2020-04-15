@@ -76,7 +76,7 @@ describe MailHandler, type: :model do
                         member_in_project: project,
                         member_with_permissions: permissions)
     end
-    let(:submit_options) { {allow_override: 'fixed_version'} }
+    let(:submit_options) { {allow_override: 'version'} }
 
     subject do
       submit_email('wp_on_given_project_case_insensitive.eml', **submit_options)
@@ -146,7 +146,7 @@ describe MailHandler, type: :model do
         let!(:version) { FactoryBot.create(:version, name: 'alpha', project: project) }
 
         include_context 'wp_on_given_project' do
-          let(:submit_options) { {allow_override: 'fixed_version'} }
+          let(:submit_options) { { allow_override: 'version' } }
         end
 
         it_behaves_like 'work package created'
@@ -197,7 +197,7 @@ describe MailHandler, type: :model do
         end
 
         it 'sets the version' do
-          expect(subject.fixed_version)
+          expect(subject.version)
             .to eql(version)
         end
 
@@ -374,7 +374,7 @@ describe MailHandler, type: :model do
 
         it 'assigns the status to the created work package' do
           expect(subject.status).to eq(status)
-          expect(subject.fixed_version).to eq(version)
+          expect(subject.version).to eq(version)
           expect(subject.priority).to eq priority_low
         end
       end

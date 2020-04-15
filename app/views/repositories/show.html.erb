@@ -62,7 +62,10 @@ See docs/COPYRIGHT.rdoc for more details.
       <div>
         <%= label_tag 'branch', I18n.t(:label_branch) %>
       </div>
-      <%= select_tag :branch, options_for_select([''] + @repository.branches, @rev), id: 'revision-branch-select' %>
+      <%= select_tag :branch,
+                     options_for_select(@repository.branches, @rev),
+                     include_blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
+                     id: 'revision-branch-select' %>
     </li>
     <% end %>
     <% if !@repository.tags.nil? && @repository.tags.length > 0 %>
@@ -70,7 +73,10 @@ See docs/COPYRIGHT.rdoc for more details.
       <div>
         <%= label_tag 'tag', I18n.t(:label_tag) %>
       </div>
-      <%= select_tag :tag, options_for_select([''] + @repository.tags, @rev), id: 'revision-tag-select' %>
+      <%= select_tag :tag,
+                     options_for_select(@repository.tags, @rev),
+                     include_blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
+                     id: 'revision-tag-select' %>
     </li>
     <% end %>
     <li class="toolbar-item -icon-only">

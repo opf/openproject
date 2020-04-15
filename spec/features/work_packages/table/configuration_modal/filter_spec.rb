@@ -24,7 +24,7 @@ describe 'Work Package table configuration modal filters spec', js: true do
 
   context 'by version in project' do
     let(:version) { FactoryBot.create :version, project: project }
-    let(:work_package_with_version) { FactoryBot.create :work_package, project: project, fixed_version: version }
+    let(:work_package_with_version) { FactoryBot.create :work_package, project: project, version: version }
     let(:work_package_without_version) { FactoryBot.create :work_package, project: project }
 
     before do

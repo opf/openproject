@@ -43,7 +43,7 @@ sk:
           title: 'Strávený čas (posledných 7 dní)'
           no_results: 'Žiadne časové záznamy za posledných 7 dní.'
         work_packages_accountable:
-          title: "Pracovné balíčky, za ktoré som zodpovedný(a)"
+          title: "Pracovné balíčky, za ktoré som zodpovedný(á)"
         work_packages_assigned:
           title: 'Mne priradené pracovné balíčky'
         work_packages_created:

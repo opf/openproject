@@ -28,7 +28,7 @@
 
 # Provides convinience layer and logic shared between GroupBy::Base and Filter::Base.
 # Implements a double linked list (FIXME: is that the correct term?).
-class Report < ActiveRecord::Base
+class Report < ApplicationRecord
   class Chainable
     include Enumerable
     include Report::QueryUtils

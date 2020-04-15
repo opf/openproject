@@ -59,6 +59,11 @@ module Costs::NumberHelper
     0.0
   end
 
+  # Output currency value without unit
+  def unitless_currency_number(value)
+    number_to_currency(value, format: '%n')
+  end
+
   def to_currency_with_empty(rate)
     rate.nil? ? '0.0' : number_to_currency(rate.rate)
   end

@@ -589,19 +589,6 @@ en:
 
     field_value_enter_prompt: "Enter a value for '%{field}'"
 
-    select2:
-      input_too_short:
-        one: "Please enter one more character"
-        other: "Please enter {{count}} more characters"
-        zero: "Please enter more characters"
-      load_more: "Loading more results ..."
-      no_matches: "No matches found"
-      searching: "Searching ..."
-      selection_too_big:
-        one: "You can only select one item"
-        other: "You can only select {{limit}} items"
-        zero: "You cannot select any items"
-
     project_menu_details: "Details"
 
     sort:
@@ -852,7 +839,7 @@ en:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add or remove columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'

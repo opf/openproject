@@ -205,7 +205,7 @@ END_DESC
     def options_from_env
       { issue: {} }.tap do |options|
         default_fields = (ENV['default_fields'] || '').split
-        default_fields |= %w[project status type category priority assigned_to fixed_version]
+        default_fields |= %w[project status type category priority assigned_to version]
         default_fields.each do |field| options[:issue][field.to_sym] = ENV[field] if ENV[field] end
 
         options[:allow_override] = ENV['allow_override'] if ENV['allow_override']

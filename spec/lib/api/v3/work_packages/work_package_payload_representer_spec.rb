@@ -343,7 +343,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:version) { FactoryBot.build_stubbed(:version) }
 
         before do
-          work_package.fixed_version = version
+          work_package.version = version
         end
 
         it_behaves_like 'linked property' do
@@ -351,7 +351,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:link) { "/api/v3/versions/#{version.id}" }
         end
 
-        it_behaves_like 'linked property with 0 value', :version, :fixed_version
+        it_behaves_like 'linked property with 0 value', :version, :version
       end
 
       describe 'category' do
@@ -567,12 +567,12 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
     describe 'version' do
       before do
-        work_package.fixed_version_id = 1
+        work_package.version_id = 1
       end
 
       it_behaves_like 'linked resource' do
         let(:attribute_name) { 'version' }
-        let(:association_name) { 'fixed_version_id' }
+        let(:association_name) { 'version_id' }
       end
     end
 

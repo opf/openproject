@@ -33,9 +33,9 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
 
   it_behaves_like 'basic query filter' do
     let(:type) { :list_optional }
-    let(:class_key) { :fixed_version_id }
+    let(:class_key) { :version_id }
     let(:values) { [version.id.to_s] }
-    let(:name) { WorkPackage.human_attribute_name('fixed_version') }
+    let(:name) { WorkPackage.human_attribute_name('version') }
 
     before do
       if project

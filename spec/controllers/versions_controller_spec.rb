@@ -69,8 +69,8 @@ describe VersionsController, type: :controller do
       let(:type_a) { FactoryBot.create :type }
       let(:type_b) { FactoryBot.create :type }
 
-      let(:wp_a) { FactoryBot.create :work_package, type: type_a, project: project, fixed_version: version1 }
-      let(:wp_b) { FactoryBot.create :work_package, type: type_b, project: project, fixed_version: version1 }
+      let(:wp_a) { FactoryBot.create :work_package, type: type_a, project: project, version: version1 }
+      let(:wp_b) { FactoryBot.create :work_package, type: type_b, project: project, version: version1 }
 
       before do
         project.types = [type_a, type_b]

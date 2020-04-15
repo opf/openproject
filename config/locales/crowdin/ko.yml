@@ -394,10 +394,10 @@ ko:
         latest_activity_at: "다음의 최근 활동"
         parent: "하위 프로젝트"
         queries: "쿼리"
-        types: "유형"
+        types: "종류"
         versions: "버전"
         work_packages: "작업 패키지"
-      project/status:
+      projects/status:
         code: '상태'
         explanation: '상태 설명'
         codes:
@@ -462,7 +462,7 @@ ko:
         done_ratio: "진행률 (%)"
         end_insertion: "삽입 끝"
         end_deletion: "삭제 끝"
-        fixed_version: "버전"
+        version: "버전"
         parent: "부모"
         parent_issue: "부모"
         parent_work_package: "부모"
@@ -750,6 +750,7 @@ ko:
     version: "버전"
     work_package: "작업 패키지"
   button_add: "추가"
+  button_add_comment: "댓글 달기"
   button_add_member: 멤버 추가
   button_add_watcher: "주시자 추가"
   button_annotate: "주석 달기"
@@ -1432,7 +1433,7 @@ ko:
   label_new: "새로 만들기"
   label_new_features: "새로운 기능"
   label_new_statuses_allowed: "새 상태 허용됨"
-  label_news: "뉴스"
+  label_news_singular: "뉴스"
   label_news_added: "뉴스 추가됨"
   label_news_comment_added: "뉴스에 추가된 코멘트"
   label_news_latest: "최신 뉴스"
@@ -1597,7 +1598,7 @@ ko:
   label_topic_plural: "항목"
   label_total: "합계"
   label_type_new: "새 유형"
-  label_type_plural: "유형"
+  label_type_plural: "종류"
   label_ui: "사용자 인터페이스"
   label_update_work_package_done_ratios: "작업 패키지 완료 비율 업데이트"
   label_updated_time: "%{value} 전에 업데이트됨"
@@ -1688,31 +1689,6 @@ ko:
     other: "1개 프로젝트\n%{count}개 프로젝트"
   label_year: "년"
   label_yesterday: "어제"
-  label_keyboard_function: "기능"
-  label_keyboard_shortcut: "바로 가기"
-  label_keyboard_accesskey: "액세스 키"
-  label_keyboard_shortcut_help_heading: "사용 가능한 바로 가기"
-  label_keyboard_shortcut_within_project: "프로젝트 관련 바로 가기:"
-  label_keyboard_shortcut_global_shortcuts: "글로벌 바로 가기:"
-  label_keyboard_shortcut_some_pages_only: "특수 바로 가기:"
-  label_keyboard_shortcut_search_global: "글로벌 검색"
-  label_keyboard_shortcut_search_project: "프로젝트 찾기"
-  label_keyboard_shortcut_go_my_page: "내 페이지 이동"
-  label_keyboard_shortcut_show_help: "이 도움말 메시지 표시"
-  label_keyboard_shortcut_go_overview: "프로젝트 개요로 이동"
-  label_keyboard_shortcut_go_work_package: "프로젝트 작업 패키지로 이동"
-  label_keyboard_shortcut_go_wiki: "프로젝트 위키로 이동"
-  label_keyboard_shortcut_go_activity: "프로젝트 작업으로 이동"
-  label_keyboard_shortcut_go_calendar: "프로젝트 달력으로 이동"
-  label_keyboard_shortcut_go_news: "프로젝트 뉴스로 이동"
-  label_keyboard_shortcut_go_timelines: "타임라인으로 이동"
-  label_keyboard_shortcut_new_work_package: "새 작업 패키지 만들기"
-  label_keyboard_shortcut_details_package: "작업 패키지 세부 정보 창 표시"
-  label_keyboard_shortcut_go_edit: "현재 항목을 편집하려면 이동(세부 정보 페이지에서만)"
-  label_keyboard_shortcut_open_more_menu: "추가 메뉴 열기(세부 정보 페이지에서만)"
-  label_keyboard_shortcut_go_preview: "현재 편집을 미리 보려면 이동(편집 페이지에서만)"
-  label_keyboard_shortcut_focus_previous_item: "이전 목록 요소에 포커스 맞추기(일부 목록에서만)"
-  label_keyboard_shortcut_focus_next_item: "다음 목록 요소에 포커스 맞추기(일부 목록에서만)"
   auth_source:
     using_abstract_auth_source: "추상 인증 소스를 사용할 수 없습니다."
     ldap_error: "LDAP 오류: %{error_message}"
@@ -2498,6 +2474,7 @@ ko:
       mail_self_notified: "내가 만든 것이 변경되면 알림을 받고 싶습니다."
     status_user_and_brute_force: "%{user} 및 %{brute_force}"
     status_change: "상태 변경"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "잠금 해제"
     unlock_and_reset_failed_logins: "실패한 로그인 잠금 해제 및 재설정"
   version_status_closed: "닫음"
@@ -2628,7 +2605,7 @@ ko:
       instructions:
         name: "애플리케이션 이름입니다. 권한 부여 시 다른 사용자에게 표시됩니다."
         redirect_uri_html: >
-          허용된 URL 인증 사용자로 리디렉션될 수 있습니다. 라인별로 하나의 항목이 있습니다. <br/> 데스크톱 애플리케이션을 등록하려면 다음 URL을 사용하세요.
+          허용된 URL 인증 사용자로 리디렉션될 수 있습니다. 라인별로 하나의 엔트리가 있습니다. <br/> 데스크톱 애플리케이션을 등록하려면 다음 URL을 사용하세요.
         confidential: "클라이언트 비밀번호를 기밀로 유지할 수 있는 위치에서 애플리케이션이 사용되는지 여부를 확인합니다. 네이티브 모바일 앱과 싱글 페이지 앱은 기밀로 간주되지 않습니다."
         scopes: "애플리케이션이 액세스 권한을 부여할 범위를 확인하세요. 범위를 확인하지 않으면 api_v3로 가정됩니다."
         client_credential_user_id: "클라이언트가 이 애플리케이션을 사용할 때 가장하기 위한 선택적 사용자 ID입니다. 공용 액세스만 허용하려면 비워두세요."

@@ -352,7 +352,7 @@ sv:
     label_value_derived_from_children: "(värde härrör från barn)"
     label_warning: "Varning"
     label_work_package: "Arbetspaket"
-    label_work_package_plural: "Arbetspaket"
+    label_work_package_plural: "Arbetspaketen"
     label_watch: "Bevaka"
     label_watch_work_package: "Bevaka arbetspaket"
     label_watcher_added_successfully: "Bevakare har lagts till!"
@@ -525,18 +525,6 @@ sv:
       select_tag: 'Välj etikett'
       select_branch: 'Välj gren'
     field_value_enter_prompt: "Ange ett värde för \"%{field}\""
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Var god skriv ett till tecken"
-        other: "Var god skriv {{count}} till tecken"
-      load_more: "Laddar fler resultat..."
-      no_matches: "Inga matchningar hittade"
-      searching: "Söker ..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Du kan bara välja en sak"
-        other: "Du kan bara välja {{limit}} saker"
     project_menu_details: "Detaljer"
     sort:
       sorted_asc: 'Stigande sortering används, '
@@ -781,7 +769,7 @@ sv:
           automatic: 'Automatisk'
           manually: 'Manuellt'
           warning: 'Du förlorar din tidigare sortering när du aktiverar det automatiska sorteringsläget.'
-        columns_help_text: "Använd inmatningen ovan för att lägga till eller ta bort kolumner i din tabellvy. Du kan dra och släppa kolumnerna för att omordna dem."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Behöver vissa arbetspaket sticka ut från massan?'
           relation_columns: 'Behöver du se relationer i listan på arbetspaket?'

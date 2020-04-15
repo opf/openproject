@@ -192,7 +192,7 @@ describe WorkPackages::UpdateContract do
     end
   end
 
-  describe 'fixed_version' do
+  describe 'version' do
     let(:version) { FactoryBot.build_stubbed(:version) }
 
     before do
@@ -207,7 +207,7 @@ describe WorkPackages::UpdateContract do
 
     context 'having full access' do
       context 'with an assignable_version' do
-        let(:attributes) { { fixed_version_id: version.id } }
+        let(:attributes) { { version_id: version.id } }
 
         it 'is valid' do
           expect(contract.errors).to be_empty
@@ -215,10 +215,10 @@ describe WorkPackages::UpdateContract do
       end
 
       context 'with an unassignable_version' do
-        let(:attributes) { { fixed_version_id: version.id + 1 } }
+        let(:attributes) { { version_id: version.id + 1 } }
 
         it 'adds an error' do
-          expect(contract.errors.symbols_for(:fixed_version_id))
+          expect(contract.errors.symbols_for(:version_id))
             .to include(:inclusion)
         end
       end
@@ -228,10 +228,10 @@ describe WorkPackages::UpdateContract do
       let(:permissions) { %i[view_work_packages edit_work_packages] }
 
       context 'if assigning a version' do
-        let(:attributes) { { fixed_version_id: version.id } }
+        let(:attributes) { { version_id: version.id } }
 
         it 'adds an error' do
-          expect(contract.errors.symbols_for(:fixed_version_id))
+          expect(contract.errors.symbols_for(:version_id))
             .to include(:error_readonly)
         end
       end
@@ -313,21 +313,21 @@ describe WorkPackages::UpdateContract do
     context 'for a user having only the edit_work_packages permission' do
       let(:permissions) { %i[edit_work_packages] }
 
-      it 'includes all attributes except fixed_version_id' do
+      it 'includes all attributes except version_id' do
         expect(subject)
           .to include('subject', 'start_date', 'description')
 
         expect(subject)
-          .not_to include('fixed_version_id', 'fixed_version')
+          .not_to include('version_id', 'version')
       end
     end
 
     context 'for a user having only the assign_versions permission' do
       let(:permissions) { %i[assign_versions] }
 
-      it 'includes all attributes except fixed_version_id' do
+      it 'includes all attributes except version_id' do
         expect(subject)
-          .to include('fixed_version_id', 'fixed_version')
+          .to include('version_id', 'version')
 
         expect(subject)
           .not_to include('subject', 'start_date', 'description')

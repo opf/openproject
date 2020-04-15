@@ -111,6 +111,7 @@ gem 'oj', '~> 3.10.2'
 
 gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.4'
+gem 'delayed_cron_job', '~> 0.7.2'
 
 gem 'rack-protection', '~> 2.0.8'
 
@@ -158,6 +159,7 @@ end
 gem 'autoprefixer-rails', '~> 9.7.4'
 gem 'bourbon', '~> 6.0.0'
 gem 'i18n-js', '~> 3.6.0'
+gem 'rails-i18n', '~> 6.0.0'
 gem 'sassc-rails', '~> 2.1.0'
 gem 'sprockets', '~> 3.7.0'
 
@@ -200,7 +202,7 @@ group :test do
   gem 'rspec', '~> 3.9.0'
   gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 4.0.0.rc1', group: :development
+  gem 'rspec-rails', '~> 4.0.0', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
@@ -209,16 +211,13 @@ group :test do
   # XML comparison tests
   gem 'compare-xml', '~> 0.66', require: false
 
-  gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
-
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.31.0'
+  gem 'capybara', '~> 3.32.0'
   gem 'capybara-screenshot', '~> 1.0.17'
-  gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
-  gem 'webdrivers', '~> 4.2.0', require: false
   gem 'selenium-webdriver', '~> 3.14'
+  gem 'webdrivers', '~> 4.2.0', require: false
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'

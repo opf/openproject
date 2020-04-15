@@ -17,7 +17,7 @@ module OpenProject
 
       def work_packages
         super
-          .includes(:assigned_to, :type, :priority, :category, :fixed_version)
+          .includes(:assigned_to, :type, :priority, :category, :version)
       end
 
       def enable!(singleton_module)

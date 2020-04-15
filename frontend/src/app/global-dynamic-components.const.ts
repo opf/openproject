@@ -122,6 +122,10 @@ import {
   attributeHelpTextSelector
 } from "core-app/modules/common/help-texts/attribute-help-text.component";
 import {MainMenuToggleComponent, mainMenuToggleSelector} from "core-components/main-menu/main-menu-toggle.component";
+import {
+  MembersAutocompleterComponent,
+  membersAutocompleterSelector
+} from "core-app/modules/members/members-autocompleter.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -132,6 +136,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
   { selector: attachmentsSelector, cls: AttachmentsComponent, embeddable: true },
   { selector: usersAutocompleterSelector, cls: UserAutocompleterComponent },
+  { selector: membersAutocompleterSelector, cls: MembersAutocompleterComponent },
   { selector: globalSearchTabsSelector, cls: GlobalSearchTabsComponent },
   { selector: globalSearchWorkPackagesSelector, cls: GlobalSearchWorkPackagesComponent },
   { selector: homescreenNewFeaturesBlockSelector, cls: HomescreenNewFeaturesBlockComponent },

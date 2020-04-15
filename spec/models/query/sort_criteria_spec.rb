@@ -73,7 +73,7 @@ describe ::Query::SortCriteria, type: :model do
     end
 
     context 'with multiple sort_criteria with order handling and misc order statement' do
-      let(:sort_criteria) { [['fixed_version', 'desc'], ['start_date', 'asc']] }
+      let(:sort_criteria) { [['version', 'desc'], ['start_date', 'asc']] }
 
       it 'adds the order handling' do
         expect(subject.length)

@@ -161,7 +161,7 @@ class WorkPackages::MovesController < ApplicationController
               :start_date,
               :due_date,
               :status_id,
-              :fixed_version_id,
+              :version_id,
               :priority_id)
       .to_h
       .reject { |_, v| v.blank? }

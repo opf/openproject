@@ -1,0 +1,14 @@
+sl:
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Stran"
+        row_count: "Število vrstic"
+        column_count: "Število stolpcev"
+        widgets: "Gradniki"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'overlap.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'end value needs to be larger than the start value.'

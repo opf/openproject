@@ -52,7 +52,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                              start_date: start_date,
                              due_date: due_date,
                              done_ratio: 50,
-                             estimated_hours: 6.0,
                              parent: parent,
                              type: type,
                              project: project,
@@ -234,29 +233,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'spentTime' do
-      describe '#content' do
-        context 'no view_time_entries permission' do
-          let(:permissions) { all_permissions - [:view_time_entries] }
-
-          it { is_expected.not_to have_json_path('spentTime') }
-        end
-
-        context 'no time entry' do
-          it { is_expected.to be_json_eql('PT0S'.to_json).at_path('spentTime') }
-        end
-
-        context 'time entry with single hour' do
-          let(:spent_hours) { 1.0 }
-
-          it { is_expected.to be_json_eql('PT1H'.to_json).at_path('spentTime') }
-        end
-
-        context 'time entry with multiple hours' do
-          let(:spent_hours) { 42.5 }
-
-          it { is_expected.to be_json_eql('P1DT18H30M'.to_json).at_path('spentTime') }
-        end
-      end
+      # spentTime is completely overwritten by costs
+      # TODO: move specs from costs to here
     end
 
     describe 'percentageDone' do
@@ -446,7 +424,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let!(:version) { FactoryBot.create :version, project: project }
 
           before do
-            work_package.fixed_version = version
+            work_package.version = version
           end
 
           it_behaves_like 'has a titled link' do

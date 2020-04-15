@@ -73,24 +73,24 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
   let!(:newest_version_wp) do
     FactoryBot.create(:work_package,
                       subject: 'Newest version wp',
-                      fixed_version: new_version,
+                      version: new_version,
                       project: project_1)
   end
   let!(:oldest_version_wp) do
     FactoryBot.create(:work_package,
                       subject: 'Oldest version wp',
-                      fixed_version: old_version,
+                      version: old_version,
                       project: project_1)
   end
   let!(:no_date_version_wp) do
     FactoryBot.create(:work_package,
                       subject: 'No date version wp',
-                      fixed_version: no_date_version,
+                      version: no_date_version,
                       project: project_1)
   end
 
   let(:group_by) { nil }
-  let(:sort_criteria) { [['fixed_version', 'asc']] }
+  let(:sort_criteria) { [['version', 'asc']] }
 
   let(:query) do
     FactoryBot.build(:query,
@@ -108,13 +108,13 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
     login_as(user_1)
   end
 
-  describe 'grouping by fixed_version' do
-    let(:group_by) { 'fixed_version' }
+  describe 'grouping by version' do
+    let(:group_by) { 'version' }
 
     it 'returns the correctly sorted grouped result' do
       # Keys are also sorted by the version
       expect(query_results.work_package_count_by_group.keys)
-        .to eql work_packages_asc.map(&:fixed_version)
+        .to eql work_packages_asc.map(&:version)
 
       expect(query_results.work_package_count_by_group)
         .to eql(old_version => 1, no_date_version => 1, new_version => 1, nil => 1)
@@ -125,7 +125,7 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
   end
 
   describe 'sorting ASC by version' do
-    let(:sort_criteria) { [['fixed_version', 'asc']] }
+    let(:sort_criteria) { [['version', 'asc']] }
 
     it 'returns the correctly sorted result' do
       expect(query_results.sorted_work_packages.pluck(:id))
@@ -134,7 +134,7 @@ describe ::Query::Results, 'Grouping and sorting for version', type: :model, wit
   end
 
   describe 'sorting DESC by version' do
-    let(:sort_criteria) { [['fixed_version', 'desc']] }
+    let(:sort_criteria) { [['version', 'desc']] }
 
     it 'returns the correctly sorted result' do
       # null values are still sorted last

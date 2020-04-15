@@ -76,7 +76,7 @@ describe WorkPackages::BaseContract, type: :model do
                               subject: 'Story',
                               project: project,
                               type: type_feature,
-                              fixed_version: version1,
+                              version: version1,
                               status: status,
                               author: user,
                               priority: issue_priority)
@@ -87,7 +87,7 @@ describe WorkPackages::BaseContract, type: :model do
                               subject: 'Story2',
                               project: project,
                               type: type_feature,
-                              fixed_version: version1,
+                              version: version1,
                               status: status,
                               author: user,
                               priority: issue_priority)
@@ -97,7 +97,7 @@ describe WorkPackages::BaseContract, type: :model do
     FactoryBot.build_stubbed(:stubbed_work_package,
                               subject: 'Task',
                               type: type_task,
-                              fixed_version: version1,
+                              version: version1,
                               project: project,
                               status: status,
                               author: user,
@@ -108,7 +108,7 @@ describe WorkPackages::BaseContract, type: :model do
     FactoryBot.build_stubbed(:stubbed_work_package,
                               subject: 'Task2',
                               type: type_task,
-                              fixed_version: version1,
+                              version: version1,
                               project: project,
                               status: status,
                               author: user,
@@ -119,7 +119,7 @@ describe WorkPackages::BaseContract, type: :model do
     FactoryBot.build_stubbed(:stubbed_work_package,
                               subject: 'Bug',
                               type: type_bug,
-                              fixed_version: version1,
+                              version: version1,
                               project: project,
                               status: status,
                               author: user,
@@ -130,7 +130,7 @@ describe WorkPackages::BaseContract, type: :model do
     FactoryBot.build_stubbed(:stubbed_work_package,
                               subject: 'Bug2',
                               type: type_bug,
-                              fixed_version: version1,
+                              version: version1,
                               project: project,
                               status: status,
                               author: user,
@@ -155,129 +155,129 @@ describe WorkPackages::BaseContract, type: :model do
     end
   end
 
-  describe 'fixed_version being restricted' do
+  describe 'version being restricted' do
     shared_examples_for 'is invalid and notes the error' do
       it 'is invalid and notes the error' do
         expect(subject).to be_falsey
-        expect(instance.errors.symbols_for(:fixed_version_id))
+        expect(instance.errors.symbols_for(:version_id))
           .to match_array([:task_version_must_be_the_same_as_story_version])
       end
     end
 
-    shared_examples_for 'fixed version being restricted by the parent' do
+    shared_examples_for 'version being restricted by the parent' do
       before(:each) do
         work_package.parent = parent unless work_package.parent.present?
       end
 
-      describe 'WITHOUT a fixed version and the parent also having no fixed version' do
+      describe 'WITHOUT a version and the parent also having no version' do
         before(:each) do
-          parent.fixed_version = nil
-          work_package.fixed_version = nil
+          parent.version = nil
+          work_package.version = nil
         end
 
         it_behaves_like 'is valid'
       end
 
-      describe 'WITHOUT a fixed version and the parent having a fixed version' do
+      describe 'WITHOUT a version and the parent having a version' do
         before(:each) do
-          parent.fixed_version = version1
-          work_package.fixed_version = nil
+          parent.version = version1
+          work_package.version = nil
         end
 
         it_behaves_like 'is invalid and notes the error'
       end
 
-      describe 'WITH a fixed version and the parent having a different fixed version' do
+      describe 'WITH a version and the parent having a different version' do
         before(:each) do
-          parent.fixed_version = version1
-          work_package.fixed_version = version2
+          parent.version = version1
+          work_package.version = version2
         end
 
         it_behaves_like 'is invalid and notes the error'
       end
 
-      describe 'WITH a fixed version and the parent having the same fixed version' do
+      describe 'WITH a version and the parent having the same version' do
         before(:each) do
-          parent.fixed_version = version1
-          work_package.fixed_version = version1
+          parent.version = version1
+          work_package.version = version1
         end
 
         it_behaves_like 'is valid'
       end
 
-      describe 'WITH a fixed version and the parent having no fixed version' do
+      describe 'WITH a version and the parent having no version' do
         before(:each) do
-          parent.fixed_version = nil
-          work_package.fixed_version = version1
+          parent.version = nil
+          work_package.version = version1
         end
 
         it_behaves_like 'is invalid and notes the error'
       end
     end
 
-    shared_examples_for 'fixed version not being restricted by the parent' do
+    shared_examples_for 'version not being restricted by the parent' do
       before(:each) do
         work_package.parent = parent unless work_package.parent.present?
       end
 
-      describe 'WITHOUT a fixed version and the parent also having no fixed version' do
+      describe 'WITHOUT a version and the parent also having no version' do
         before(:each) do
-          parent.fixed_version = nil
-          work_package.fixed_version = nil
+          parent.version = nil
+          work_package.version = nil
         end
 
         it_behaves_like 'is valid'
       end
 
-      describe 'WITHOUT a fixed version and the parent having a fixed version' do
+      describe 'WITHOUT a version and the parent having a version' do
         before(:each) do
-          parent.fixed_version = version1
-          work_package.fixed_version = nil
+          parent.version = version1
+          work_package.version = nil
         end
 
         it_behaves_like 'is valid'
       end
 
-      describe 'WITH a fixed version and the parent having a different fixed version' do
+      describe 'WITH a version and the parent having a different version' do
         before(:each) do
-          parent.fixed_version = version1
-          work_package.fixed_version = version2
+          parent.version = version1
+          work_package.version = version2
         end
 
         it_behaves_like 'is valid'
       end
 
-      describe 'WITH a fixed version and the parent having the same fixed version' do
+      describe 'WITH a version and the parent having the same version' do
         before(:each) do
-          parent.fixed_version = version1
-          work_package.fixed_version = version1
+          parent.version = version1
+          work_package.version = version1
         end
 
         it_behaves_like 'is valid'
       end
 
-      describe 'WITH a fixed version and the parent having no fixed version' do
+      describe 'WITH a version and the parent having no version' do
         before(:each) do
-          parent.fixed_version = nil
-          work_package.fixed_version = version1
+          parent.version = nil
+          work_package.version = version1
         end
 
         it_behaves_like 'is valid'
       end
     end
 
-    shared_examples_for 'fixed version without restriction' do
-      describe 'WITHOUT a fixed version' do
+    shared_examples_for 'version without restriction' do
+      describe 'WITHOUT a version' do
         before(:each) do
-          work_package.fixed_version = nil
+          work_package.version = nil
         end
 
         it_behaves_like 'is valid'
       end
 
-      describe 'WITH a fixed version' do
+      describe 'WITH a version' do
         before(:each) do
-          work_package.fixed_version = version1
+          work_package.version = version1
         end
 
         it_behaves_like 'is valid'
@@ -288,19 +288,19 @@ describe WorkPackages::BaseContract, type: :model do
       let(:work_package) { story }
 
       describe 'WITHOUT a parent work_package' do
-        it_should_behave_like 'fixed version without restriction'
+        it_should_behave_like 'version without restriction'
       end
 
       describe "WITH a story as its parent" do
         let(:parent) { story2 }
 
-        it_should_behave_like 'fixed version not being restricted by the parent'
+        it_should_behave_like 'version not being restricted by the parent'
       end
 
       describe "WITH a non backlogs tracked work_package as its parent" do
         let(:parent) { bug }
 
-        it_should_behave_like 'fixed version not being restricted by the parent'
+        it_should_behave_like 'version not being restricted by the parent'
       end
     end
 
@@ -308,7 +308,7 @@ describe WorkPackages::BaseContract, type: :model do
       let(:work_package) { task }
 
       describe 'WITHOUT a parent work_package (would then be an impediment)' do
-        it_should_behave_like 'fixed version without restriction'
+        it_should_behave_like 'version without restriction'
       end
 
       describe "WITH a task as its parent" do
@@ -318,19 +318,19 @@ describe WorkPackages::BaseContract, type: :model do
 
         let(:parent) { task2 }
 
-        it_should_behave_like 'fixed version being restricted by the parent'
+        it_should_behave_like 'version being restricted by the parent'
       end
 
       describe "WITH a story as its parent" do
         let(:parent) { story }
 
-        it_should_behave_like 'fixed version being restricted by the parent'
+        it_should_behave_like 'version being restricted by the parent'
       end
 
       describe "WITH a non backlogs tracked work_package as its parent" do
         let(:parent) { bug }
 
-        it_should_behave_like 'fixed version not being restricted by the parent'
+        it_should_behave_like 'version not being restricted by the parent'
       end
     end
 
@@ -338,25 +338,25 @@ describe WorkPackages::BaseContract, type: :model do
       let(:work_package) { bug }
 
       describe 'WITHOUT a parent work_package' do
-        it_should_behave_like 'fixed version without restriction'
+        it_should_behave_like 'version without restriction'
       end
 
       describe "WITH a task as its parent" do
         let(:parent) { task2 }
 
-        it_should_behave_like 'fixed version not being restricted by the parent'
+        it_should_behave_like 'version not being restricted by the parent'
       end
 
       describe "WITH a story as its parent" do
         let(:parent) { story }
 
-        it_should_behave_like 'fixed version not being restricted by the parent'
+        it_should_behave_like 'version not being restricted by the parent'
       end
 
       describe "WITH a non backlogs tracked work_package as its parent" do
         let(:parent) { bug2 }
 
-        it_should_behave_like 'fixed version not being restricted by the parent'
+        it_should_behave_like 'version not being restricted by the parent'
       end
     end
   end

@@ -38,7 +38,7 @@ describe 'Board reference work package spec', type: :feature, js: true do
   end
   let(:project) { FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let!(:work_package) { FactoryBot.create :work_package, fixed_version: version, subject: 'Foo', project: project }
+  let!(:work_package) { FactoryBot.create :work_package, version: version, subject: 'Foo', project: project }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
@@ -91,7 +91,7 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
     # Reload work package expect version to be applied by filter
     work_package.reload
-    expect(work_package.fixed_version_id).to eq version.id
+    expect(work_package.version_id).to eq version.id
   end
 
   context 'with a subproject and work packages within it (Regression #31613)' do

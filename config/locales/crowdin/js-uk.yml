@@ -526,22 +526,6 @@ uk:
       select_tag: 'Виберіть мітку'
       select_branch: 'Виберіть гілку'
     field_value_enter_prompt: "Введіть значення для «%{field}»"
-    select2:
-      input_too_short:
-        zero: "Please enter more characters"
-        one: "Будь ласка, введіть ще один символ"
-        few: "Будь ласка, введіть ще {{count}} символів"
-        many: "Будь ласка, введіть ще {{count}} символів"
-        other: "Будь ласка, введіть ще {{count}} символів"
-      load_more: "Завантаження додаткових результатів ..."
-      no_matches: "Збігів не знайдено"
-      searching: "Шукаємо ..."
-      selection_too_big:
-        zero: "You cannot select any items"
-        one: "Ви можете вибрати тільки один елемент"
-        few: "Ви можете вибрати тільки {{limit}} елементів"
-        many: "Ви можете вибрати тільки {{limit}} елементів"
-        other: "Ви можете вибрати тільки {{limit}} елементів"
     project_menu_details: "Детальніше"
     sort:
       sorted_asc: 'Застосовується сортування за зростанням,'
@@ -786,7 +770,7 @@ uk:
           automatic: 'Автоматично'
           manually: 'Вручну'
           warning: 'Ви втратите попереднє сортування при активації автоматичного сортування.'
-        columns_help_text: "Використовуйте вхідні дані для додавання або видалення стовпців у вигляді таблиці. Можна перетягувати стовпці, щоб змінити їх порядок."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Потрібні певні робочі пакети, щоб виділитися зі скупчення?'
           relation_columns: 'Потрібно бачити відносини у списку робочих пакетів?'

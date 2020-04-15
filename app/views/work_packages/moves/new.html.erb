@@ -80,9 +80,9 @@ See docs/COPYRIGHT.rdoc for more details.
               </div>
             </div>
             <div class="form--field">
-              <label class="form--label" for='fixed_version_id'><%= WorkPackage.human_attribute_name(:version) %></label>
+              <label class="form--label" for='version_id'><%= WorkPackage.human_attribute_name(:version) %></label>
               <div class="form--field-container">
-                <%= styled_select_tag('fixed_version_id',
+                <%= styled_select_tag('version_id',
                                       content_tag('option', l(:label_no_change_option), value: '') +
                                         version_options_for_select(@available_versions)) %>
               </div>

@@ -42,11 +42,11 @@ class Queries::WorkPackages::Filter::VersionFilter <
   end
 
   def human_name
-    WorkPackage.human_attribute_name('fixed_version')
+    WorkPackage.human_attribute_name('version')
   end
 
   def self.key
-    :fixed_version_id
+    :version_id
   end
 
   def ar_object_filter?
