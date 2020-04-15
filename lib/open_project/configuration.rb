@@ -170,7 +170,7 @@ module OpenProject
       'sentry_host' => 'https://sentry.openproject.com',
 
       # Allow connection to Augur
-      'enterprise_trial_creation_host' => 'https://augur.openproject.com'
+      'enterprise_trial_creation_host' => 'https://augur.openproject-edge.com'
     }
 
     @config = nil
