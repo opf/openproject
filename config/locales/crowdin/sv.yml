@@ -63,13 +63,16 @@ sv:
         main-menu-bg-color: "Bakgrundsfärg på den vänstra sidomenyn."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Uppgradera till Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Ladda upp en Enterprise Edition support-nyckel"
       replace_token: "Ersätta din nuvarande support-nyckel"
       order: "Beställ Enterprise Edition"
       paste: "Klistra in din Enterprise Edition support-nyckel"
       required_for_feature: "Denna funktion är endast tillgänglig med en aktiv Enterprise Edition support-nyckel."
       enterprise_link: "För mer information, klicka här."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Visa fram till
     is_active: visas för tillfället
@@ -1139,13 +1142,8 @@ sv:
     blocks:
       community: "OpenProject community"
       upsale:
-        become_hero: "Bli en hjälte!"
         title: "Uppgradera till Enterprise Edition"
-        description: "Vad är fördelarna?"
         more_info: "Mer information"
-        additional_features: "Ytterligare kraftfulla premium-funktioner"
-        professional_support: "Professionell support från OpenProject-experterna"
-        you_contribute: "Utvecklare har också räkningar att betala. Med Enterprise Edition bidrar du väsentligt till detta open source-projekt."
     links:
       upgrade_enterprise_edition: "Uppgradera till Enterprise Edition"
       postgres_migration: "Migrera din installation till PostgreSQL"
@@ -1160,6 +1158,7 @@ sv:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Konfigurationsguide'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Du kan logga in så snart ditt konto har aktiverats genom att klicka på %{signin}."
   instructions_after_logout: "Du kan logga in igen genom att klicka på %{signin}."
   instructions_after_error: "Du kan försöka logga in igen genom att klicka på %{signin}. Om felet kvarstår, be din systemadministratör om hjälp."

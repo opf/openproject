@@ -63,13 +63,16 @@ nl:
         main-menu-bg-color: "De kleur van de achtergrond van de linkerzijde menu's."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade naar Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Uploadeneen Enterprise Edition ondersteuningstoken"
       replace_token: "Uw huidige ondersteuningstoken vervangen"
       order: "Bestel de Enterprise Edition"
       paste: "Plak uw Enterprise Edition ondersteuningstoken"
       required_for_feature: "Deze functie is alleen beschikbaar met een actieve Enterprise Edition ondersteuningstoken."
       enterprise_link: "Klik hier voor meer informatie."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Toon tot
     is_active: momenteel getoond
@@ -1140,13 +1143,8 @@ nl:
     blocks:
       community: "OpenProject gemeenschap"
       upsale:
-        become_hero: "Word een held!"
         title: "Upgrade naar Enterprise Edition"
-        description: "Wat zijn de voordelen?"
         more_info: "Meer informatie"
-        additional_features: "Extra krachtige premium functies"
-        professional_support: "Professionele ondersteuning van de OpenProject experts"
-        you_contribute: "Ontwikkelaars moeten hun rekeningen ook betalen. Met Enterprise Edition bedraagt je aanzijnlijk bij aan deze Open-Source gemeenschaps inspanning."
     links:
       upgrade_enterprise_edition: "Upgrade naar Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1161,6 +1159,7 @@ nl:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Configuratiegids'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "U kan inloggen zodra uw account geactiveerd is door te klikken op %{signin}."
   instructions_after_logout: "U kan terug inloggen door op %{signin} te klikken."
   instructions_after_error: "U kan opnieuw proberen inloggen door op %{signin} te klikken. Als de fout aanhoudt, vraag dan uw admin om hulp."

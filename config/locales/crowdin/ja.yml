@@ -63,13 +63,16 @@ ja:
         main-menu-bg-color: "左サイドメニューの背景色。"
       theme_warning: テーマを変更した場合、カスタムスタイルが上書きされ、失われます。本当に続けますか？
     enterprise:
-      upgrade_to_ee: "エンタープライズ版にアップグレード"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
       replace_token: "現在のサポート トークンを置き換え"
       order: "エンタープライズ版を注文"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
       required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
       enterprise_link: "詳細については、ここをクリックしてください。"
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: までを表示
     is_active: 現在表示されています
@@ -1122,13 +1125,8 @@ ja:
     blocks:
       community: "OpenProject コミュニティ"
       upsale:
-        become_hero: "ヒーローになる!"
         title: "エンタープライズ版にアップグレード"
-        description: "メリットは何ですか？"
         more_info: "詳細情報"
-        additional_features: "強力なプレミアム機能"
-        professional_support: "OpenProject のエキスパートからのプロフェッショナル サポート"
-        you_contribute: "開発者も請求に支払う必要があります。エンタープライズ版で、実質的に、このオープンソース コミュニティの努力に貢献できます。"
     links:
       upgrade_enterprise_edition: "エンタープライズ版にアップグレード"
       postgres_migration: "PostgreSQL にインストールを移行しています"
@@ -1143,6 +1141,7 @@ ja:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: '設定ガイド'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "%{signin}をクリックして、アカウントが有効された後にログインできます。"
   instructions_after_logout: "%{signin}をクリックして再びログインできます。"
   instructions_after_error: "%{signin} をクリックして再びログインを試行できます。エラーが解決しない場合は、管理者にお問い合わせください。"

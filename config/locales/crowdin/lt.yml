@@ -63,13 +63,16 @@ lt:
         main-menu-bg-color: "Kairiojo šoninio meniu fono spalva."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Patobulinti į „Enterprise Edition“ versiją"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Įkelti „Enterprise Edition“ paramos raktą"
       replace_token: "Pakeisti savo esamą paramos raktą"
       order: "Ušsakyti „Enterprise Edition“ versiją"
       paste: "Įklijuokite savo „Enterprise Edition“ paramos raktą"
       required_for_feature: "Ši funkcija galima tiks su aktyviu Enterprise Edition versijos raktu."
       enterprise_link: "Norėdami gauti daugiau informacijos, spustelėkite čia."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Rodyti iki
     is_active: šiuo metu rodoma
@@ -1169,13 +1172,8 @@ lt:
     blocks:
       community: "OpenProject community"
       upsale:
-        become_hero: "Tapti didvyriu!"
         title: "Patobulinti į „Enterprise Edition“ versiją"
-        description: "Kokie privalumai?"
         more_info: "Daugiau informacijos"
-        additional_features: "Papildomos galingos premium funkcijos"
-        professional_support: "Profesionali parama iš OpenProject expertų"
-        you_contribute: "Kūrėjams taip pat reikia apmokėti savo sąskaitas. Su „Enterprise Edition“ jūs iš esmės prisidėsite prie atviro kodo bendruomenės darbo."
     links:
       upgrade_enterprise_edition: "Patobulinti į „Enterprise Edition“ versiją"
       postgres_migration: "Migruojame jūsų instaliaciją į PostgreSQL"
@@ -1190,6 +1188,7 @@ lt:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Konfigūravimo vadovas'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Galėsite prisijungti, kai tik jūsų paskyra bus aktyvuota paspaudžiant %{signin}."
   instructions_after_logout: "Galite vėl prisijungti paspausdami %{signin}."
   instructions_after_error: "Bandykite prisijungti dar kartą spustelėdami %{signin}. Jei klaida kartosis, kreipkitės į administratorių."

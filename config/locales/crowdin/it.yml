@@ -63,13 +63,16 @@ it:
         main-menu-bg-color: "Colore di sfondo del menu a sinistra."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Aggiorna ad Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Carica un token di assistenza per Enterprise Edition"
       replace_token: "Sostituisci il token di assistenza attuale"
       order: "Ordina Enterprise Edition"
       paste: "Incolla il tuo token di assistenza per Enterprise Edition"
       required_for_feature: "Questa funzionalità è disponibile solo con un token di assistenza Enterprise Edition attivo."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Mostra fino a
     is_active: attualmente visualizzato
@@ -1136,13 +1139,8 @@ it:
     blocks:
       community: "Comunità di OpenProject"
       upsale:
-        become_hero: "Diventa un eroe!"
         title: "Aggiorna ad Enterprise Edition"
-        description: "Quali sono i vantaggi?"
         more_info: "Altre informazioni"
-        additional_features: "Funzionalità aggiuntive speciali"
-        professional_support: "Assistenza professionale da parte degli esperti OpenProject"
-        you_contribute: "Anche gli sviluppatori devono pagare le bollette. Con Enterprise Edition puoi contribuire in modo sostanziale al lavoro di questa comunità Open-Source."
     links:
       upgrade_enterprise_edition: "Aggiorna ad Enterprise Edition"
       postgres_migration: "Migrazione dell'installazione su PostgreSQL"
@@ -1157,6 +1155,7 @@ it:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Guida di configurazione'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Puoi accedere non appena il tuo account è stato attivato cliccando %{signin}."
   instructions_after_logout: "Può accedere nuovamente cliccando %{signin}."
   instructions_after_error: "Si può provare ad accedere nuovamente cliccando %{signin}. Se l'errore persiste, chiedi aiuto al tuo amministratore."

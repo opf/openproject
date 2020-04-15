@@ -63,13 +63,16 @@ fil:
         main-menu-bg-color: "Kabilang kaliwa ang kulay ng pagpipiliang nakapalibot na kulay."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "I-upgrade sa Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "I-upload ang isang Enterprise Edition support token"
       replace_token: "Palitan ang iyong kasulukuyang support token"
       order: "Order Enterprise Edition"
       paste: "Idikit ang iyong Enterprise Editoon ng support token"
       required_for_feature: "Ang tampok na ito ay magagamit lamang sa isang aktibong support token ng Enterprise Edition."
       enterprise_link: "Para sa karagdagang impormasyon, pindutin dito."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Ipakita hanggang
     is_active: kasalukuyang naka-displey
@@ -1140,13 +1143,8 @@ fil:
     blocks:
       community: "Komunidad ng OpenProject"
       upsale:
-        become_hero: "Maging isang bayani!"
         title: "I-upgrade sa Enterprise Edition"
-        description: "What are the benefits?"
         more_info: "Karagdagang impornasyon"
-        additional_features: "Karagdagang tampok ng powerful premium"
-        professional_support: "Propesyonal na suporta mula sa OpenProject eksperto"
-        you_contribute: "Ang mga developer ay kailangan rin magbayad sa kanilang bayarin. Kasama ang Enterprise Edition maaring kang mag-mabag ng marami para sa pagsisikap ng Open-Source community."
     links:
       upgrade_enterprise_edition: "I-upgrade sa Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1161,6 +1159,7 @@ fil:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Gabay ng kumpigurasyon'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Maari kang mag-sign in sa lalong madaling panahon bilang ang iyong akwant ay naka-aktibo sa pamamagitan ng pagpipindut%{signin}."
   instructions_after_logout: "Maari kang maka-sign in ulit sa pamamagitan ng pagpipindut %{signin}."
   instructions_after_error: "Maaring mong subukan muli sa pamamagitan ng pagpipindut %{signin}. kung ang mali ay nagpatuloy, magtanong sa namuno para sa tulong."

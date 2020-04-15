@@ -63,13 +63,16 @@ ko:
         main-menu-bg-color: "왼쪽 메뉴의 배경색입니다."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Enterprise Edition으로 업그레이드 하세요."
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Enterprise Edition 지원 토큰을 업로드하세요."
       replace_token: "당신의 현재 지원 토큰을 바꾸세요."
       order: "Enterprise Edition을 주문하세요."
       paste: "당신의 Enterprise Edition 지원 토큰을 붙여넣으세요."
       required_for_feature: "이 기능은 활성화 된 Enterprise Edition 지원 토큰에서만 가능합니다."
       enterprise_link: "더 자세한 내용은 여기를 클릭하세요."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: 표시 기한
     is_active: 현재 표시됨
@@ -1123,13 +1126,8 @@ ko:
     blocks:
       community: "OpenProject 커뮤니티"
       upsale:
-        become_hero: "영웅이 되세요!"
         title: "Enterprise Edition으로 업그레이드 하세요."
-        description: "장점은 무엇입니까?"
         more_info: "더보기"
-        additional_features: "추가적인 강력한 프리미엄 기능들"
-        professional_support: "OpenProject 전문가들의 전문적인 지원"
-        you_contribute: "개발자들도 청구서를 지불해야 합니다. Enterprise Edition으로 당신은 이 오픈소스 커뮤니티의 노력에 실질적으로 기여할 수 있습니다."
     links:
       upgrade_enterprise_edition: "Enterprise Edition으로 업그레이드 하세요."
       postgres_migration: "설치를 PostgreSQL로 마이그레이션"
@@ -1144,6 +1142,7 @@ ko:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: '구성 가이드'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "%{signin}을(를) 클릭하여 계정이 활성화되면 바로 로그인할 수 있습니다."
   instructions_after_logout: "%{signin}을(를) 클릭하면 다시 로그인할 수 있습니다."
   instructions_after_error: "%{signin}을(를) 클릭하여 다시 로그인해 볼 수 있습니다. 오류가 계속되면 관리자에게 도움을 요청하세요."

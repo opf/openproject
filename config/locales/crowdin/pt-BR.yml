@@ -63,13 +63,16 @@ pt-BR:
         main-menu-bg-color: "Cor de fundo do menu esquerdo."
       theme_warning: Alterar o tema irá sobrescrever seu estilo personalizado. O design será perdido. Tem certeza que deseja continuar?
     enterprise:
-      upgrade_to_ee: "Atualizar para a versão Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Fazer upload de um token de suporte Enterprise Edition"
       replace_token: "Substitua seu token atual de suporte"
       order: "Obter a versão Enterprise Edition"
       paste: "Cole seu token de suporte Enterprise Edition"
       required_for_feature: "Esse recurso só está disponível com um token de suporte Enterprise Edition ativo."
       enterprise_link: "Para mais informações, clique aqui."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Mostrar até
     is_active: atualmente exibido
@@ -1139,13 +1142,8 @@ pt-BR:
     blocks:
       community: "Comunidade do OpenProject"
       upsale:
-        become_hero: "Torne-se um herói!"
         title: "Atualizar para a versão Enterprise Edition"
-        description: "Quais são os benefícios?"
         more_info: "Mais informações"
-        additional_features: "Poderosos recursos adicionais"
-        professional_support: "Suporte profissional dos peritos da OpenProject"
-        you_contribute: "Desenvolvedores também precisam pagar suas contas. Com a versão Enterprise Edition você contribui para o esforço da comunidade Open-Source."
     links:
       upgrade_enterprise_edition: "Atualizar para a versão Enterprise Edition"
       postgres_migration: "Migrando sua instalação para PostgreSQL"
@@ -1160,6 +1158,7 @@ pt-BR:
     changes_retracted: "As mudanças em que retraído."
   links:
     configuration_guide: 'Guia de configuração'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Você pode entrar, assim que a sua conta for ativada clicando %{signin}."
   instructions_after_logout: "Você pode entrar novamente clicando em %{signin}."
   instructions_after_error: "Você pode tentar entrar novamente, clicando em %{signin}. Se o erro persistir, consulte seu administrador para obter ajuda."

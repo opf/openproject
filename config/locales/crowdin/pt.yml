@@ -63,13 +63,16 @@ pt:
         main-menu-bg-color: "Cor de fundo do menu do lado esquerdo."
       theme_warning: Alterar o tema irá sobrescrever seu estilo personalizado. O design será perdido. Tem certeza que deseja continuar?
     enterprise:
-      upgrade_to_ee: "Atualizar para a versão Enterprise"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Carregar um token de suporte da versão Enterprise"
       replace_token: "Substituir o seu token de suporte atual"
       order: "Encomendar versão Enterprise"
       paste: "Cole o seu token de suporte da versão Enterprise"
       required_for_feature: "Esta funcionalidade só está disponível com um token de suporte ativo da versão Enterprise."
       enterprise_link: "Para mais informações, clique aqui."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Mostrar até
     is_active: atualmente exibidos
@@ -1138,13 +1141,8 @@ pt:
     blocks:
       community: "Comunidade de OpenProject"
       upsale:
-        become_hero: "Torne-se um herói!"
         title: "Atualizar para a versão Enterprise"
-        description: "Quais são os benefícios?"
         more_info: "Mais informação"
-        additional_features: "Poderosas funcionalidades Premium adicionais"
-        professional_support: "Apoio profissional dos especialistas da OpenProject"
-        you_contribute: "Os desenvolvedores também têm contas para pagar. Ao obter a versão Enterprise irá contribuir de forma substancial para os esforços desta comunidade de código aberto."
     links:
       upgrade_enterprise_edition: "Atualizar para a versão Enterprise"
       postgres_migration: "A migrar a sua instalação para PostgreSQL"
@@ -1159,6 +1157,7 @@ pt:
     changes_retracted: "As mudanças em que retraído."
   links:
     configuration_guide: 'Guia de configuração'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Pode iniciar a sessão assim que a sua conta for ativada ao clicar em %{signin}."
   instructions_after_logout: "Pode iniciar sessão novamente ao clicar em %{signin}."
   instructions_after_error: "Pode tentar entrar novamente clicando em %{signin}. Se o erro persistir, peça ajuda ao seu administrador."

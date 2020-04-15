@@ -63,13 +63,16 @@ fi:
         main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Päivitä yritysversioon"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
       replace_token: "Korvata nykyisen tukea poletti"
       order: "Tilaa yritysversio"
       paste: "Paste your Enterprise Edition support token"
       required_for_feature: "This feature is only available with an active Enterprise Edition support token."
       enterprise_link: "Saadaksesi lisätietoja, paina tästä."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Näytä tähän päivään asti
     is_active: näkyvissä tällä hetkellä
@@ -1140,13 +1143,8 @@ fi:
     blocks:
       community: "OpenProject yhteisö"
       upsale:
-        become_hero: "Ryhdy sankariksi!"
         title: "Päivitä yritysversioon"
-        description: "What are the benefits?"
         more_info: "Lisätietoja"
-        additional_features: "Muita tehokkaita erikoisominaisuuksia"
-        professional_support: "Professional support from the OpenProject experts"
-        you_contribute: "Myös kehittäjien täytyy maksaa heidän laskunsa. Yritysversiolla edistät merkittävästi tämän avoimen lähdekoodin yhteisön toimintaa."
     links:
       upgrade_enterprise_edition: "Päivitä yritysversioon"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1161,6 +1159,7 @@ fi:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Configuration guide'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Heti kun tilisi on aktivoitu voit kirjatua painamalla %{signin}."
   instructions_after_logout: "Voit kirjautua sisään uudelleen napsauttamalla %{signin}."
   instructions_after_error: "Voit kirjautua uudelleen napsauttamalla %{signin}. Jos virhe toistuu, pyydä apua järjestelmävalvojalta."

@@ -63,13 +63,16 @@ da:
         main-menu-bg-color: "Baggrundsfarve på venstre sidemenu."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Opgradér til Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload en Enterprise Edition support-token"
       replace_token: "Erstat din nuværende support-token"
       order: "Bestil Enterprise Edition"
       paste: "Indsæt din Enterprise Edition support-token"
       required_for_feature: "Denne funktion er kun tilgængelig med en aktiv Enterprise Edition support-token."
       enterprise_link: "For yderliger information, klik her."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Vis indtil
     is_active: vises i øjeblikket
@@ -1140,13 +1143,8 @@ da:
     blocks:
       community: "OpenProject community"
       upsale:
-        become_hero: "Become a hero!"
         title: "Opgradér til Enterprise Edition"
-        description: "What are the benefits?"
         more_info: "More information"
-        additional_features: "Additional powerful premium features"
-        professional_support: "Professional support from the OpenProject experts"
-        you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
     links:
       upgrade_enterprise_edition: "Opgradér til Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1161,6 +1159,7 @@ da:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Configuration guide'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Du kan logge ind så snart din konto er blevet aktiveret ved at klikke %{signin}."
   instructions_after_logout: "Du kan logge ind igen ved at klikke %{signin}."
   instructions_after_error: "Du kan forsøge at logge ind igen ved at klikke %{signin}. Hvis fejlen stadig opstår, spørg da admin. efter hjælp."

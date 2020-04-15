@@ -63,13 +63,16 @@ sl:
         main-menu-bg-color: "Barva ozadja levega menija."
       theme_warning: "Sprememba teme bo nadomestilo vaš slog po meri. Oblikovanje bo tkao izgubljeno. Ali ste prepričani, da bi radi nadaljevali?\n"
     enterprise:
-      upgrade_to_ee: "Nadgradite v Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Naloži Enterprise Edition  podporni žeton"
       replace_token: "Zamenjajte svoj trenutni podporni žeton"
       order: "Naročite Enterprise Edition"
       paste: "Prilepite vaš Enterprise Edition podporni žeton."
       required_for_feature: "Ta funkcija je na voljo samo z aktivnim žetonom podpore za Enterprise Edition."
       enterprise_link: "Za več informacij kliknite tukaj."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Pokažite dokler
     is_active: Trenutno prikazano
@@ -1170,13 +1173,8 @@ sl:
     blocks:
       community: "OpenProject community"
       upsale:
-        become_hero: "Become a hero!"
         title: "Nadgradite v Enterprise Edition"
-        description: "What are the benefits?"
         more_info: "More information"
-        additional_features: "Additional powerful premium features"
-        professional_support: "Professional support from the OpenProject experts"
-        you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
     links:
       upgrade_enterprise_edition: "Nadgradite v Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1191,6 +1189,7 @@ sl:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Configuration guide'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
   instructions_after_logout: "You can sign in again by clicking %{signin}."
   instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."

@@ -63,13 +63,16 @@ zh-CN:
         main-menu-bg-color: "左菜单的背景色。"
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "升级到企业版"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "上传企业版支持令牌"
       replace_token: "替换您当前的支持令牌"
       order: "订购企业版"
       paste: "粘贴您的企业版支持令牌"
       required_for_feature: "此功能仅限具有活动企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: 显示截至日期
     is_active: 当前已显示
@@ -1121,13 +1124,8 @@ zh-CN:
     blocks:
       community: "OpenProject 社区"
       upsale:
-        become_hero: "成为英雄！"
         title: "升级到企业版"
-        description: "有什么好处？"
         more_info: "更多信息"
-        additional_features: "其他强大的高级功能"
-        professional_support: "由 OpenProject 专家提供专业支持"
-        you_contribute: "开发人员也需要支付账单。使用企业版，您可以为此 Open-Source 社区工作提供大力的财力支持。"
     links:
       upgrade_enterprise_edition: "升级到企业版"
       postgres_migration: "将您的安装迁移到 PostgreSQL"
@@ -1142,6 +1140,7 @@ zh-CN:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: '配置指南'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "只要您的帐户已被激活您可以点击 %{signin} 登录。"
   instructions_after_logout: "你可以点击 %{signin} 重新登录。"
   instructions_after_error: "你可以尝试点击 %{signin} 重新登录。如果错误仍然存在，请向您的管理员寻求帮助。"

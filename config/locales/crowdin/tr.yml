@@ -63,13 +63,16 @@ tr:
         main-menu-bg-color: "Sol taraftaki menünün arka plan rengi."
       theme_warning: Temayı değiştirmek size özel stilin üzerine yazacaktır. Tasarım daha sonra kaybolacak. Devam etmek istediğine emin misin?
     enterprise:
-      upgrade_to_ee: "Enterprise Edition sürümüne yükseltme"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Enterprise Editon versiyonu destek anahtarını yükleyin"
       replace_token: "Geçerli destek anahtarını değiştirin"
       order: "Enterprise Edition versiyonunu sipariş edin"
       paste: "Enterprise Editon versiyonu destek anahtarını yapıştırın"
       required_for_feature: "Bu özellik yalnızca bir etkin Enterprise Edition destek anahtarı ile kullanılabilir."
       enterprise_link: "Daha fazla bilgi için burayı tıklatın."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Son görüntülenme tarihi
     is_active: şu an görüntüleniyor
@@ -1140,13 +1143,8 @@ tr:
     blocks:
       community: "OpenProject topluluğu"
       upsale:
-        become_hero: "Kahraman olun!"
         title: "Enterprise Edition sürümüne yükseltme"
-        description: "Avantajı nedir?"
         more_info: "Daha fazla bilgi"
-        additional_features: "Ek güçlü premium özellikler"
-        professional_support: "OpenProject uzmanlarından profesyonel destek"
-        you_contribute: "Geliştiricilerin faturalarını da ödemesi gerekiyor. Enterprise Edition ile Açık-Kaynak topluluğu çalışmalarına küçük bir katkı yapabilirsiniz."
     links:
       upgrade_enterprise_edition: "Enterprise Edition sürümüne yükseltme"
       postgres_migration: "Kurulumunuzu PostgreSQL'e taşıyın"
@@ -1161,6 +1159,7 @@ tr:
     changes_retracted: "Geri çekildiği yerdeki değişiklikler."
   links:
     configuration_guide: 'Yapılandırma rehberi'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "%{signin} düğmesini tıklayarak hesabınız etkinleştirildiğinde hemen oturum açabilirsiniz."
   instructions_after_logout: "%{signin} düğmesini tıklayarak tekrar oturum açabilirsiniz."
   instructions_after_error: "%{signin} düğmesini tıklayarak tekrar oturum açmayı deneyebilirsiniz. Hata devam ederse, yöneticinizden yardım isteyin."

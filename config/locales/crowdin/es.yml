@@ -63,13 +63,16 @@ es:
         main-menu-bg-color: "Color de fondo del menú izquierdo."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Actualizar hasta versión corporativa"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Cargue el token de soporte de versión corporativa"
       replace_token: "Reemplace su token de apoyo actual"
       order: "Solicitar versión corporativa"
       paste: "Pegue su token de apoyo de versión corporativa"
       required_for_feature: "Esta función solo está disponible con un token de apoyo activo de versión corporativa."
       enterprise_link: "Para obtener más información, haga clic aquí."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Muestran hasta
     is_active: mostrado actualmente
@@ -1137,13 +1140,8 @@ es:
     blocks:
       community: "Comunidad de OpenProject"
       upsale:
-        become_hero: "¡Conviértete en héroe!"
         title: "Actualizar hasta versión corporativa"
-        description: "¿Cuáles son los beneficios?"
         more_info: "Más información"
-        additional_features: "Características Premium avanzadas adicionales"
-        professional_support: "Apoyo profesional de los expertos de OpenProject"
-        you_contribute: "Los desarrolladores también tienen facturas por las que pagar. Al obtener la versión corporativa, contribuirá de forma sustancial al esfuerzo de esta comunidad de código abierto."
     links:
       upgrade_enterprise_edition: "Actualizar hasta versión corporativa"
       postgres_migration: "Migrando su instalación a PostgreSQL"
@@ -1158,6 +1156,7 @@ es:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Guía de configuración'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Podras entrar tan pronto como tu cuenta halla sido activada haciendo clic sobre %{signin}."
   instructions_after_logout: "Puedes entrar nuevamente haciendo clic sobre  %{signin}."
   instructions_after_error: "Puedes intentar entrar nuevamente haciendo clic sobre %{signin}. Si el error persiste, contacta a tu administrador para que te ayude."

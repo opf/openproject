@@ -63,13 +63,16 @@ el:
         main-menu-bg-color: "Χρώμα φόντου του μενού της αριστερής πλευράς."
       theme_warning: Η αλλαγή του θέματος θα αντικαταστήσει το προσαρμοσμένο στυλ. Ο σχεδιασμός θα χαθεί. Είστε βέβαιοι ότι θέλετε να συνεχίσετε;
     enterprise:
-      upgrade_to_ee: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Ανεβάστε ενα token υποστήριξης έκδοσης για επιχειρήσεις"
       replace_token: "Αντικαταστήστε το τρέχον token υποστήριξης"
       order: "Παραγγείλετε Έκδοση για Επιχειρήσεις"
       paste: "Επικολλήστε ένα token υποστήριξης Έκδοσης για Επιχειρήσεις"
       required_for_feature: "Αυτή η λειτουργία διατίθεται μόνο με ενεργό token υποστήριξης Έκδοσης για Επιχειρήσεις."
       enterprise_link: "Για περισσότερες πληροφορίες, πατήστε εδω."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Εμφάνιση μέχρι
     is_active: εμφανίζεται αυτή τη στιγμή
@@ -1137,13 +1140,8 @@ el:
     blocks:
       community: "Κοινότητα OpenProject"
       upsale:
-        become_hero: "Γίνετε ήρωας!"
         title: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
-        description: "Ποιά είναι τα οφέλη;"
         more_info: "Περισσότερες πληροφορίες"
-        additional_features: "Επιπλέον ισχυρές premium λειτουργίες"
-        professional_support: "Επαγγελματική υποστήριξη από τους ειδικούς του OpenProject"
-        you_contribute: "Και οι προγραμματιστές πρέπει να πληρώσουν τους λογαριασμούς τους. Με την Έκδοση για Επιχειρήσεις μπορείτε να συνεισφέρετε ουσιαστικά σε αυτή προσπάθεια της Open-Source κοινότητας."
     links:
       upgrade_enterprise_edition: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
       postgres_migration: "Μεταφορά της εγκατάστασης σας σε PostgreSQL"
@@ -1158,6 +1156,7 @@ el:
     changes_retracted: "Οι αλλαγές αποσύρθηκαν."
   links:
     configuration_guide: 'Οδηγός διαμόρφωσης'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Μπορείτε να συνδεθείτε μόλις ο λογαριασμός σας ενεργοποιηθεί κάνοντας κλικ στο %{signin}."
   instructions_after_logout: "Μπορείτε να συνδεθείτε ξανά κάνοντας κλικ στο %{signin}."
   instructions_after_error: "Μπορείτε να δοκιμάσετε να συνδεθείτε ξανά κάνοντας κλικ στο %{signin}. Αν το σφάλμα παραμένει, ρωτήστε τον διαχειριστή σας για βοήθεια."

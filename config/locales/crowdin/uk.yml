@@ -63,13 +63,16 @@ uk:
         main-menu-bg-color: "Колір фону меню зліва."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Оновлення до Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Завантажте маркер підтримки для Enterprise Edition"
       replace_token: "Замініть поточний маркер підтримки"
       order: "Замовити Enterprise Edition"
       paste: "Вставте маркер підтримки для Enterprise Edition"
       required_for_feature: "Ця функція доступна лише з активним маркером підтримки Enterprise Edition."
       enterprise_link: "Для отримання додаткової інформації натисніть тут."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Показувати до
     is_active: наразі відображається
@@ -1172,13 +1175,8 @@ uk:
     blocks:
       community: "Спільнота OpenProject"
       upsale:
-        become_hero: "Стань героєм!"
         title: "Оновлення до Enterprise Edition"
-        description: "Які переваги?"
         more_info: "Більше інформації"
-        additional_features: "Додаткові потужні преміум функції"
-        professional_support: "Професійна підтримка експертів OpenProject"
-        you_contribute: "Розробникам також потрібно оплачувати свої рахунки. Завдяки Enterprise Edition ви суттєво сприяєте цьому зусиллям спільноти Open Source."
     links:
       upgrade_enterprise_edition: "Оновлення до Enterprise Edition"
       postgres_migration: "Міграція інсталяції в PostgreSQL"
@@ -1193,6 +1191,7 @@ uk:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Посібник з налаштування'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Ви можете ввійти, як тільки ваш обліковий запис активується, натиснувши %{signin}."
   instructions_after_logout: "Ви можете ввійти знову, натиснувши %{signin}."
   instructions_after_error: "Ви можете спробувати ввійти знову, натиснувши %{signin}. Якщо помилка не зникне, зверніться до адміністратора за допомогою."

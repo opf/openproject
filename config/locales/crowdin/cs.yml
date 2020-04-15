@@ -63,13 +63,16 @@ cs:
         main-menu-bg-color: "Barva pozadí levého menu."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgradovat na Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Nahrát podpůrný token Enterprise Edition"
       replace_token: "Nahradit aktuální podpůrný token"
       order: "Objednávka Enterprise edice"
       paste: "Vložte svůj podpůrný token Enterprise Edition"
       required_for_feature: "Tato funkce je dostupná pouze s aktivním podpůrným tokenem pro Enterprise Edition."
       enterprise_link: "Pro více informací klikněte zde."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Ukázat až do
     is_active: aktuálně zobrazené
@@ -1172,13 +1175,8 @@ cs:
     blocks:
       community: "OpenProject komunita"
       upsale:
-        become_hero: "Staň se hrdinou!"
         title: "Upgradovat na Enterprise Edition"
-        description: "Jaké jsou výhody?"
         more_info: "Více informací"
-        additional_features: "Další výkonné prémiové funkce"
-        professional_support: "Profesionální podpora odborníků z OpenProject"
-        you_contribute: "Vývojáři musí také platit své účty. S Enterprise edicí významně přispějete k tomuto Open-Source komunitnímu úsilí."
     links:
       upgrade_enterprise_edition: "Upgradovat na Enterprise Edition"
       postgres_migration: "Migrujte vaši instalaci na PostgreSQL"
@@ -1193,6 +1191,7 @@ cs:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Konfigurační manuál'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Můžete se přihlásit hned poté, co bude váš účet aktivovaný kliknutím na %{signin}."
   instructions_after_logout: "Můžete se znovu přihlásit kliknutím na tlačítko %{signin}."
   instructions_after_error: "Zkuste se znovu přihlásit kliknutím na %{signin}. Pokud chyba přetrvává, požádejte správce o pomoc."

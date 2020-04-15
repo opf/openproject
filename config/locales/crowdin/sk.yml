@@ -63,13 +63,16 @@ sk:
         main-menu-bg-color: "Farba pozadia ľavého menu."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade na Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Nahrajte token podpory Enterprise Edition"
       replace_token: "Nahraďte aktuálny token podpory"
       order: "Objednať Enterprise Edition"
       paste: "Vložte token podpory Enterprise Edition"
       required_for_feature: "Táto funkcia je k dispozícii iba s aktívnym tokenom podpory Enterprise Edition."
       enterprise_link: "Pre ďalšie informácie kliknite sem."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Zobraziť do
     is_active: aktuálne zobrazené
@@ -1172,13 +1175,8 @@ sk:
     blocks:
       community: "OpenProject komunita"
       upsale:
-        become_hero: "Staň sa hrdinom!"
         title: "Upgrade na Enterprise Edition"
-        description: "Aké sú výhody?"
         more_info: "Viac informácií"
-        additional_features: "Ďalšie doplnkové výkonné prémiové funkcie"
-        professional_support: "Profesionálna podpora od odborníkov OpenProject"
-        you_contribute: "Dokonca aj vývojári musia platiť svoje poplatky. S Enterprise Edition významne prispievate k otvorenej komunite OpenProjectu."
     links:
       upgrade_enterprise_edition: "Upgrade na Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1193,6 +1191,7 @@ sk:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Sprievodca konfiguráciou'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Môžete prihlásiť ihneď potom, ako váš účet bude aktivovaný. Akciu iniciujete kliknutí na %{signin}."
   instructions_after_logout: "Môžete znovu prihlásiť kliknutím na tlačidlo %{signin}."
   instructions_after_error: "Skúste sa znova prihlásiť kliknutím na %{signin}. Ak chyba pretrváva, požiadajte správcu o pomoc."

@@ -63,13 +63,16 @@ zh-TW:
         main-menu-bg-color: "左側選單的背景顏色"
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "升級到企業版"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "上傳企業版support token"
       replace_token: "替換當前 support token"
       order: "訂購企業版"
       paste: "貼上您的企業版support token"
       required_for_feature: "此功能僅限企業版使用。"
       enterprise_link: "如需了解詳細信息，請點擊此處。"
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: 顯示直到
     is_active: 當前已顯示
@@ -1124,13 +1127,8 @@ zh-TW:
     blocks:
       community: "OpenProject 社群"
       upsale:
-        become_hero: "成為英雄!"
         title: "升級到企業版"
-        description: "有什麼好處？"
         more_info: "更多資訊"
-        additional_features: "其他強大的高級功能"
-        professional_support: "由 OpenProject 專家提供專業支援"
-        you_contribute: "開發人員也需要生活費。使用企業版，您可以為此 Open-Source 社區工作提供大力的財力支持。"
     links:
       upgrade_enterprise_edition: "升級到企業版"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1145,6 +1143,7 @@ zh-TW:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: '設定指南'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "帳號啟用後即可點擊 %{signin} 登入"
   instructions_after_logout: "您可點擊 %{signin} 再次登入。"
   instructions_after_error: "你可以試著再按一次 %{signin} 來嘗試登入。如果持續發生錯誤，請向您的管理員尋求幫助。"

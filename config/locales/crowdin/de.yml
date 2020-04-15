@@ -63,13 +63,16 @@ de:
         main-menu-bg-color: "Hintergrundfarbe des Menüs in der linken Seitenleiste."
       theme_warning: Das Ändern des Themes wird Ihr benutzerdefiniertes Design überschreiben. Alle Änderungen werden dann verloren gehen. Sind Sie sicher, dass Sie fortfahren möchten?
     enterprise:
-      upgrade_to_ee: "Auf Enterprise-Edition upgraden"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Enterprise-Edition Support Token hochladen"
       replace_token: "Aktuellen Enterprise-Edition Support Token ersetzen"
       order: "Enterprise-Edition buchen"
       paste: "Enterprise-Edition Support Token hier einfügen"
       required_for_feature: "Diese Funktion ist nur mit einem aktiven Enterprise-Edition-Support Token verfügbar."
       enterprise_link: "Klicken Sie hier für weitere Informationen."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Anzeigen bis
     is_active: derzeit angezeigt
@@ -1136,13 +1139,8 @@ de:
     blocks:
       community: "OpenProject Community"
       upsale:
-        become_hero: "Werde zum Held!"
         title: "Auf Enterprise-Edition upgraden"
-        description: "Was sind die Vorteile?"
         more_info: "Weitere Informationen"
-        additional_features: "Zusätzliche mächtige Premium-Funktionen"
-        professional_support: "Professioneller Support durch OpenProject Experten"
-        you_contribute: "Auch Entwickler müssen ihre Rechnungen begleichen. Mit der Enterprise-Edition tragen Sie wesentlich zu der Open-Source Community von OpenProject bei."
     links:
       upgrade_enterprise_edition: "Auf Enterprise-Edition upgraden"
       postgres_migration: "Migration Ihrer Installation zu PostgreSQL"
@@ -1157,6 +1155,7 @@ de:
     changes_retracted: "Die Änderungen wurden zurückgezogen."
   links:
     configuration_guide: 'Konfigurationsanleitung'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Sie können sich anmelden, sobald Ihr Konto aktiviert wurde, indem Sie auf %{signin} klicken."
   instructions_after_logout: "Sie können wieder anmelden indem Sie auf %{signin} klicken."
   instructions_after_error: "Sie können versuchen sich erneut anzumelden indem Sie auf %{signin} klicken. Wenn der Fehler weiterhin auftritt, fragen Sie Ihren Administrator um Hilfe."
