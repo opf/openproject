@@ -101,7 +101,7 @@ class EnterprisesController < ApplicationController
   end
 
   def write_augur_to_gon
-    gon.augur_url = Rails.env.production? ? OpenProject::Configuration[:enterprise_trial_creation_host] : 'https://augur.openproject-edge.com'
+    gon.augur_url = OpenProject::Configuration.enterprise_trial_creation_host
   end
 
   def default_breadcrumb

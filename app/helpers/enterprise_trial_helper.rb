@@ -1,7 +1,7 @@
 module EnterpriseTrialHelper
   def augur_content_security_policy
     append_content_security_policy_directives(
-      connect_src: %w(augur.openproject-edge.com)
+      connect_src: [OpenProject::Configuration.enterprise_trial_creation_host]
     )
   end
 
