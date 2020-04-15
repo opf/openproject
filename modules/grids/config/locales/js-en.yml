@@ -21,7 +21,8 @@ en:
         news:
           title: 'News'
           at: 'at'
-          no_results: 'Nothing new to report.'
+          no_results: 'There is currently no news to report.'
+          no_results_content_text: Add a news item
         project_description:
           title: 'Project description'
           no_results: "No description has been written yet. One can be provided in the 'Project settings'."

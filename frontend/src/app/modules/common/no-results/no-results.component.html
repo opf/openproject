@@ -1,5 +1,9 @@
-<i class="icon-info1" aria-hidden="true"></i>
-<span class="generic-table--no-results-title">
-  {{ title }}
-  <span *ngIf="description" [textContent]="description"></span>
-</span>
+
+  <i class="icon-info1" aria-hidden="true"></i>
+  <span class="generic-table--no-results-title">
+    {{ title }}
+    <span *ngIf="description" [textContent]="description"></span>
+
+  </span>
+
+<a *ngIf="url" [href]="url">{{noResultOperation}}</a>

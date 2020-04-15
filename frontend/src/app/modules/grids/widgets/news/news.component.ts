@@ -17,6 +17,8 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
     createdBy: this.i18n.t('js.label_created_by'),
     at: this.i18n.t('js.grid.widgets.news.at'),
     noResults: this.i18n.t('js.grid.widgets.news.no_results'),
+    noResultOperation: this.i18n.t('js.grid.widgets.news.no_results_content_text'),
+    url:this.pathHelper.projectPath(this.currentProject.identifier!) + '/news/new'
   };
 
   public entries:NewsResource[] = [];
@@ -68,7 +70,9 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   public newsAuthorName(news:NewsResource) {
     return news.author?.name;
   }
-
+public mytest() {
+  return this.pathHelper.projectPath(this.currentProject.identifier!);
+}
   public newsAuthorPath(news:NewsResource) {
     return this.pathHelper.userPath(news.author?.id);
 

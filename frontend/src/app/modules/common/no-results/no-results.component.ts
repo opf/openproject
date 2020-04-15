@@ -28,6 +28,7 @@
 
 import {Component, Input, HostBinding} from '@angular/core';
 
+
 @Component({
   templateUrl: './no-results.component.html',
   selector: 'no-results'
@@ -36,6 +37,7 @@ import {Component, Input, HostBinding} from '@angular/core';
 export class NoResultsComponent {
   @Input() title:string;
   @Input() description:string;
-
+  @Input() url:URL;
+  @Input() noResultOperation:string;
   @HostBinding('class.generic-table--no-results-container') setHostClass = true;
 }
