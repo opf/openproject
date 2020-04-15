@@ -1,8 +1,6 @@
 import {Injectable} from "@angular/core";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
 import {Board} from "core-app/modules/boards/board/board";
-import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
-import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -10,13 +8,11 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
 import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
-import { promises } from 'dns';
-import { UserCacheService } from 'core-app/components/user/user-cache.service';
-import { UserResource } from 'core-app/modules/hal/resources/user-resource';
-import { HttpClient } from '@angular/common/http';
-import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
-import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
-import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import {UserCacheService} from 'core-app/components/user/user-cache.service';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {CurrentProjectService} from 'core-app/components/projects/current-project.service';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Injectable()
 export class BoardAssigneeActionService implements BoardActionService {
@@ -26,7 +22,7 @@ export class BoardAssigneeActionService implements BoardActionService {
               protected userCache:UserCacheService,
               protected halResourceService:HalResourceService,
               protected currentProject:CurrentProjectService
-              ) {
+  ) {
   }
 
   public get localizedName() {
@@ -76,10 +72,12 @@ export class BoardAssigneeActionService implements BoardActionService {
       name: value.name,
     };
 
-    let filter = { assignee: {
-      operator: '=' as FilterOperator,
-      values: [value.id]
-    }};
+    let filter = {
+      assignee: {
+        operator: '=' as FilterOperator,
+        values: [value.id]
+      }
+    };
 
     return this.boardListsService.addQuery(board, params, [filter]);
   }
@@ -124,11 +122,11 @@ export class BoardAssigneeActionService implements BoardActionService {
 
   private getAssignees(board:Board):Promise<UserResource[]> {
     const projectIdentifier = this.currentProject.identifier!;
-   let myData= this.halResourceService.get('/api/v3/projects/'+projectIdentifier +'/available_assignees').toPromise();
+    let myData = this.halResourceService.get('/api/v3/projects/' + projectIdentifier + '/available_assignees').toPromise();
 
 
     return myData
-      .then((collection: CollectionResource<UserResource> ) => collection.elements);
+      .then((collection:CollectionResource<UserResource>) => collection.elements);
   }
 
 }

@@ -4,7 +4,7 @@ import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-a
 import {BoardStatusActionService} from "core-app/modules/boards/board/board-actions/status/status-action.service";
 import {BoardVersionActionService} from "core-app/modules/boards/board/board-actions/version/version-action.service";
 import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
-import { BoardAssigneeActionService } from '../board/board-actions/assignee/asginee-action.service';
+import {BoardAssigneeActionService} from "core-app/modules/boards/board/board-actions/assignee/assignee-action.service";
 
 @Component({
   selector: 'boards-entry',
@@ -13,8 +13,8 @@ import { BoardAssigneeActionService } from '../board/board-actions/assignee/asgi
     BoardConfigurationService,
     BoardStatusActionService,
     BoardVersionActionService,
+    BoardAssigneeActionService,
     QueryUpdatedService,
-    BoardAssigneeActionService
   ]
 })
 export class BoardsRootComponent {
