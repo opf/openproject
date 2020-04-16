@@ -61,6 +61,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   keyboardEnabled = false;
 
   @ViewChild('outerContainer') outerContainer:ElementRef;
+  @ViewChild('modelCanvas') modelCanvas:ElementRef;
 
   constructor(private I18n:I18nService,
               private elementRef:ElementRef,
@@ -107,6 +108,9 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   enableFromIcon(event:MouseEvent) {
     this.enableKeyBoard();
+
+    // Focus on the canvas
+    this.modelCanvas.nativeElement.focus();
 
     // Ensure we don't bubble this event to the window:mousedown handler
     // as the target will already be removed from the DOM by angular
