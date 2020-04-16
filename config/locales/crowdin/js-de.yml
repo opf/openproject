@@ -164,56 +164,56 @@ de:
         reset_to_defaults: 'Auf Standardwerte zurücksetzen'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
-          confirmation_info: "We sent you an email. Please check your emails and click the confirmation link provided to start your 14 days trial."
+          confirmation: "E-Mail-Adresse bestätigen"
+          confirmation_info: "Wir haben Ihnen eine E-Mail gesendet. Bitte überprüfen Sie Ihre E-Mails und klicken Sie auf den Bestätigungslink, um Ihre 14 tägige Testversion zu starten."
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+              Ich stimme den <a target="_blank" href="%{link_terms}">Nutzungsbedingungen</a> und der <a target="_blank" href="%{link_privacy}">Datenschutzrichtlinie</a> zu.
+            invalid_email: "Ungültige E-Mail-Adresse"
+            label_company: "Unternehmen"
             label_first_name: "Vorname"
             label_last_name: "Nachname"
             label_email: "E-Mail"
             label_domain: "Domain"
             label_subscriber: "Abonnent"
             label_maximum_users: "Maximale aktive Nutzer"
-            label_starts_at: "Starts at"
+            label_starts_at: "Beginnt am"
             label_expires_at: "Endet am"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
-          next_steps: "Next steps"
+            receive_newsletter: Ich möchte den OpenProject <a target="_blank" href="%{link}">Newsletter</a> erhalten.
+          email_not_received: "Sie haben keine E-Mail erhalten? Sie können die E-Mail mit dem Link auf der rechten Seite noch einmal anfordern."
+          try_another_email: "Oder versuchen Sie es mit einer anderen E-Mail-Adresse."
+          try_another_email_hint: "Bitte beachten Sie, dass Ihre bisherige E-Mail-Adresse ungültig wird, wenn Sie es mit einer neuen Adresse erneut versuchen."
+          next_steps: "Nächste Schritte"
           resend_link: "Erneut senden"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          resend_success: "E-Mail wurde erneut gesendet. Bitte überprüfen Sie Ihre E-Mails und klicken Sie auf den angegebenen Bestätigungslink."
+          resend_warning: "E-Mail konnte nicht erneut gesendet werden."
+          session_timeout: "Ihre Sitzung ist abgelaufen. Bitte versuchen Sie, die Seite neu zu laden oder die E-Mail erneut zu senden."
+          status_label: "Status: "
+          status_confirmed: "bestätigt"
+          status_waiting: "E-Mail gesendet - Warten auf Bestätigung"
+          test_ee: "Testen Sie die Enterprise Edition 14 Tage kostenlos"
+          quick_overview: "Erhalten Sie einen schnellen Überblick über Projektmanagement und Teamzusammenarbeit mit der OpenProject Enterprise Edition."
         upsale:
           become_hero: "Werde zum Held!"
           benefits:
             description: "Was sind die Vorteile?"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            high_security: "Sicherheitsfunktionen"
+            high_security_text: "Single Sign on (SAML, OpenID Connect, CAS), Zwei-Faktor-Authentifizierung und automatische Synchronisation von LDAP-Gruppen."
+            installation: "Installations-Support"
+            installation_text: "Erfahrene Software-Ingenieure führen Sie durch den gesamten Installations- und Einrichtungsprozess in Ihrer eigenen Infrastruktur."
+            premium_features: "Premiumfunktionen"
+            premium_features_text: "Agile Boards, benutzerdefiniertes Theme und Logo, Graphen, intelligente Workflows mit benutzerdefinierten Aktionen, Volltextsuche für Anhänge von Arbeitspaketen und Multi-Select-benutzerdefinierte Felder."
             professional_support: "Professionelle Unterstützung"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+            professional_support_text: "Erhalten Sie zuverlässigen, professionellen Support von erfahrenen Support-Ingenieuren mit Expertenwissen über den Betrieb von OpenProject in geschäftskritischen Umgebungen."
+          button_start_trial: "Kostenlose Testversion starten"
+          button_book_now: "Jetzt buchen"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+            Wir liefern das Vertrauen einer getesteten und bewährten Projektmanagement-Software für Unternehmen - mit Open Source und open mind.
+          link_quote: "Angebot anfordern"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+            Die OpenProject Enterprise Edition baut auf der Community Edition auf. Die Enterprise Edition umfasst Premium-Funktionen und professionelle Unterstützung und richtet sich primär an Organisationen mit mehr als 10 Benutzern, die unternehmenskritische Projekte mit OpenProject verwalten.
+          unlimited: "Unbegrenzt"
+          you_contribute: "Auch Softwareentwickler müssen ihre Rechnungen begleichen. Mit der Enterprise Edition tragen Sie wesentlich zu der Open-Source Community von OpenProject bei."
     custom_actions:
       date:
         specific: 'am'
@@ -822,7 +822,7 @@ de:
           automatic: 'Automatisch'
           manually: 'Manuell'
           warning: 'Sie verlieren Ihre vorherige Sortierung beim Aktivieren des automatischen Sortiermodus.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Verwenden Sie die obige Eingabe, um Spalten zur Tabellenansicht hinzuzufügen. Sie können die Spalten per Drag & Drop verschieben, um sie neu anzuordnen."
         upsale:
           attribute_highlighting: 'Sollen bestimmte Arbeitspakete aus der Menge herausstechen?'
           relation_columns: 'Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?'

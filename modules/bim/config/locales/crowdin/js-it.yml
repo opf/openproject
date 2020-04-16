@@ -5,16 +5,17 @@ it:
       label_bcf: 'BCF'
       import: 'Importazione'
       export: 'Esporta'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
+      viewpoint: 'Punto di vista'
+      add_viewpoint: 'Aggiungi punto di vista'
+      show_viewpoint: 'Mostra punto di vista'
+      delete_viewpoint: 'Elimina punto di vista'
     ifc_models:
-      empty_warning: "This project does not yet have any IFC models."
-      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
+      empty_warning: "Questo progetto non ha ancora nessun modello IFC."
+      use_this_link_to_manage: "Usa questo link per caricare e gestire i tuoi modelli IFC"
+      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
       models:
         default: 'Modelli IFC predefiniti'
         manage: 'Manage models'
       views:
-        viewer: 'Viewer'
-        split: 'Viewer and cards'
+        viewer: 'Visualizzatore'
+        split: 'Visualizzatore e schede'

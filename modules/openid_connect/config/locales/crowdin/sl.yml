@@ -1,19 +1,19 @@
 sl:
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    Bili ste izpisani. Oddana vsebina katere koli oblike se lahko izgubi. Prosim [prijavi se].
   activemodel:
     attributes:
       openid_connect/provider:
         name: Ime
-        display_name: Display name
+        display_name: Prikazno ime
         identifier: Identifikator 
-        secret: Secret
-        scope: Scope
+        secret: Skrivnost
+        scope: Področje
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: OpenID ponudniki
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: Dodaj novega OpenID ponudnika
+      label_edit: Uredi OpenID ponudnik %{name}
+      no_results_table: Zaenkrat še ni opredeljenih ponudnikov.
+      plural: OpenID ponudniki
+      singular: OpenID ponudnik

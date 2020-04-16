@@ -12,6 +12,7 @@ pt:
     ifc_models:
       empty_warning: "Este projeto ainda não tem nenhum modelo IFC."
       use_this_link_to_manage: "Use este link para fazer upload e gerenciar seus modelos IFC"
+      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
       models:
         default: 'Modelos IFC padrão'
         manage: 'Gerenciar modelos'

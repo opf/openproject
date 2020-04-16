@@ -12,6 +12,7 @@ ru:
     ifc_models:
       empty_warning: "В рамках этого проекта моделей IFC пока нет."
       use_this_link_to_manage: "Используйте эту ссылку для загрузки и управления моделями IFC"
+      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
       models:
         default: 'Модели IFC по умолчанию'
         manage: 'Управление моделями'

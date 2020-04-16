@@ -248,7 +248,7 @@ bg:
     general_text_yes: "Да"
     general_text_No: "Не"
     general_text_Yes: "Да"
-    global_roles: Global Roles
+    global_roles: Глобални роли
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."

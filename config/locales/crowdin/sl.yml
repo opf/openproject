@@ -277,14 +277,14 @@ sl:
       few: '%{count} work package descendants'
       other: '%{count} work package descendants'
     bulk:
-      could_not_be_saved: "The following work packages could not be saved:"
+      could_not_be_saved: "Naslednjih delovnih paketov ni bilo mogoče shraniti"
     move:
-      no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
-      unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
+      no_common_statuses_exists: "Za vse izbrane delovne pakete ni na voljo nobenega statusa. Njihovega statusa ni mogoče spremeniti."
+      unsupported_for_multiple_projects: 'Prenašanje / kopiranje v velikem obsegu ni podprto za delovne pakete iz več projektov'
     summary:
       reports:
         category:
-          no_results_title_text: There are currently no categories available.
+          no_results_title_text: Trenutno ni na voljo nobenih kategorij.
         assigned_to:
           no_results_title_text: Trenutno ni nobenega člana tega projekta.
         responsible:
@@ -292,48 +292,48 @@ sl:
         author:
           no_results_title_text: Trenutno ni nobenega člana tega projekta.
         priority:
-          no_results_title_text: There are currently no priorities available.
+          no_results_title_text: Trenutno ni na voljo nobenih prednostnih nalog.
         type:
           no_results_title_text: Trenutno ni na voljo nobenih vrst. 
         version:
-          no_results_title_text: There are currently no versions available.
+          no_results_title_text: Trenutno ni na voljo nobene različice.
   label_invitation: Povabilo
   account:
     delete: "Izbriši račun"
-    delete_confirmation: "Are you sure you want to delete the account?"
+    delete_confirmation: "Ali ste prepričani da želite izbrisati ia račun ?"
     deleted: "Vaš račun je bil uspešno izbrisan"
     deletion_info:
       data_consequences:
-        other: "Of the data the user created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
+        other: "Iz podatkov, ki jih je uporabnik ustvaril (npr. E-pošta, nastavitve, delovni paketi, vnosi v wiki), bodo v največji možni meri izbrisani. Upoštevajte pa, da podatkov, kot so delovni paketi in vnosi v wiki, ni mogoče izbrisati, ne da bi ovirali delo drugih uporabnikov. Takšni podatki so torej dodeljeni računu z imenom \"Izbrisani uporabnik\". Ker so podatki vsakega izbrisanega računa dodeljeni temu računu, podatkov, ki jih je uporabnik ustvaril, ne bo mogoče ločiti od podatkov drugega izbrisanega računa."
         self: "Of the data you created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
       heading: "Izbriši račun %{name}"
       info:
-        other: "Deleting the user account is an irreversible action."
-        self: "Deleting your user account is an irreversible action."
+        other: "Brisanje uporabniškega računa je nepovratno dejanje."
+        self: "Brisanje vašega uporabniškega računa je nepovratno dejanje."
       login_consequences:
-        other: "The account will be deleted from the system. Therefore, the user will no longer be able to log in with his current credentials. He/she can choose to become a user of this application again by the means this application grants."
-        self: "Your account will be deleted from the system. Therefore, you will no longer be able to log in with your current credentials. If you choose to become a user of this application again, you can do so by using the means this application grants."
+        other: "Račun bo izbrisan iz sistema. Zato se uporabnik ne bo več mogel prijaviti s svojimi trenutnimi podatki. On/Ona lahko ponovno postane uporabnik aplikacije s sredstvi, ki jih daje aplikacija."
+        self: "Vaš račun bo izbrisan iz sistema. Zato prijava s svojimi trenutnimi podatki ne bo več mogoča. Če se ponovno odločite postati  uporabnik aplikacije je to možno s sredstvi, ki jih daje aplikacija."
       login_verification:
-        other: "Enter the login %{name} to verify the deletion. Once submitted, you will be asked to confirm your password."
-        self: "Enter your login %{name} to verify the deletion. Once submitted, you will be asked to confirm your password."
+        other: "Za potrditev brisanja vnestie uporabniško ime %{name}. Nato bo šptrebno še potrditi geslo."
+        self: "Za potrditev brisanja vnestie uporabniško ime %{name}. Nato bo šptrebno še potrditi geslo."
     error_inactive_activation_by_mail: >
-      Your account has not yet been activated. To activate your account, click on the link that was emailed to you.
+      Vaš račun še ni aktiviran. Če želite aktivirati svoj račun, kliknite povezavo, ki vam je bila poslana po e-pošti.
     error_inactive_manual_activation: >
       Your account has not yet been activated. Please wait for an administrator to activate your account.
     error_self_registration_disabled: >
       User registration is disabled on this system. Please ask an administrator to create an account for you.
     login_with_auth_provider: "or sign in with your existing account"
-    signup_with_auth_provider: "or sign up using"
+    signup_with_auth_provider: "ali se prijavite s/z"
     auth_source_login: Please login as <em>%{login}</em> to activate your account.
-    omniauth_login: Please login to activate your account.
-  actionview_instancetag_blank_option: "Please select"
+    omniauth_login: Prosim aktivirajte svoj račun
+  actionview_instancetag_blank_option: "Prosimo izberite"
   activerecord:
     attributes:
       announcements:
-        show_until: "Display until"
+        show_until: "Prikaži do"
       attachment:
-        attachment_content: "Attachment content"
-        attachment_file_name: "Attachment file name"
+        attachment_content: "Vsebina priloge"
+        attachment_file_name: "Ime priponke"
         downloads: "Prenosi"
         file: "Datoteka"
         filename: "Datoteka"
@@ -343,8 +343,8 @@ sl:
         help_text: 'Besedilo pomoči'
       auth_source:
         account: "Račun"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
+        attr_firstname: "Oznaka za ime"
+        attr_lastname: "Oznaka za priimek"
         attr_login: "Lastnosti uporabnikov"
         attr_mail: "Email attribute"
         base_dn: "Base DN"
