@@ -430,7 +430,7 @@ sl:
     placeholders:
       default: '-'
       subject: 'Vnesite temo tukaj'
-      selection: 'Please select'
+      selection: 'Prosimo izberite'
       relation_description: 'Kliknite, da dodate opis za to povezavo'
     project:
       required_outside_context: >
