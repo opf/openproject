@@ -53,7 +53,7 @@ module BasicData
       colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
 
       type_table.map do |_name, values|
-        color_id = Color.find_by(id: values[2]) ? values[2] : colors[I18n.t(values[2])]
+        color_id = colors[values[2]] || values[2]
 
         {
           name:                 I18n.t(values[5]),

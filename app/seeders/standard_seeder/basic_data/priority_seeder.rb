@@ -31,10 +31,10 @@ module StandardSeeder
     class PrioritySeeder < ::BasicData::PrioritySeeder
       def data
         color_names = [
-          'lime-0', # low
-          'green-1', # normal
-          'yellow-2', # high
-          'red-3', # immediate
+          'cyan-1', # low
+          'blue-3', # normal
+          'yellow-7', # high
+          'grape-5' # immediate
         ]
 
         # When selecting for an array of values, implicit order is applied
