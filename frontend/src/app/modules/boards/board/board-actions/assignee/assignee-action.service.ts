@@ -33,7 +33,7 @@ export class BoardAssigneeActionService implements BoardActionService {
   /**
    * Returns the current filter value if any
    * @param query
-   * @returns /api/v3/status/:id if a status filter exists
+   * @returns /api/v3/assignee/:id if a assignee filter exists
    */
   public getFilterHref(query:QueryResource):string|undefined {
     const filter = _.find(query.filters, filter => filter.id === 'assignee');
@@ -46,7 +46,7 @@ export class BoardAssigneeActionService implements BoardActionService {
   }
 
   /**
-   * Returns the loaded status
+   * Returns the loaded assignee
    * @param query
    */
   public getLoadedFilterValue(query:QueryResource):Promise<undefined|UserResource> {
@@ -84,7 +84,7 @@ export class BoardAssigneeActionService implements BoardActionService {
   }
 
   /**
-   * Return available statuses for new lists, given the list of active
+   * Return available assignees for new lists, given the list of active
    * queries in the board.
    *
    * @param board The board we're looking at
