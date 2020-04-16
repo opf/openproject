@@ -37,3 +37,28 @@
 #
 # See https://github.com/oesmith/puffing-billy for more information
 require 'billy/capybara/rspec'
+
+require 'table_print' # Add this dependency to your gemfile
+
+##
+# To debug stubbed and proxied connections
+# uncomment this line
+#
+# Billy.configure do |c|
+#   c.record_requests = true
+# end
+#
+# RSpec.configure do |config|
+#   config.prepend_after(:example, type: :feature) do
+#     puts "Requests received via Puffing Billy Proxy:"
+#
+#     puts TablePrint::Printer.table_print(Billy.proxy.requests, [
+#       :status,
+#       :handler,
+#       :method,
+#       { url: { width: 100 } },
+#       :headers,
+#       :body
+#     ])
+#   end
+# end

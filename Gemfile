@@ -227,6 +227,7 @@ group :test do
 
   # Mock selenium requests through proxy (for feature tests)
   gem 'puffing-billy', '~> 2.3.1'
+  gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'

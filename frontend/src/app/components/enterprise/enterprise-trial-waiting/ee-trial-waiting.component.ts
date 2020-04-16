@@ -29,7 +29,7 @@
 import {Component, ElementRef} from "@angular/core";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 

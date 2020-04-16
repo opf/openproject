@@ -175,6 +175,9 @@ describe 'Enterprise trial management',
       proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}")
         .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 422, body: waiting_body.to_json)
 
+      proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}/resend", method: 'post')
+        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: waiting_body.to_json)
+
       find('.button', text: 'Start free trial').click
       fill_out_modal
       find('.button:not(:disabled)', text: 'Submit').click
@@ -208,13 +211,8 @@ describe 'Enterprise trial management',
     end
 
     it 'can confirm that trial regularly' do
-      # Stub resend method
-      proxy.stub("https://augur.openproject-edge.com:443/public/v1/trials/#{trial_id}/resend")
-        .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 200, body: waiting_body.to_json)
-
       find('.op-modal--modal-body #resend-link', text: 'Resend').click
-
-      expect(page).to have_text 'Email has been resent.'
+      expect(page).to have_selector('.notification-box.-success', text: 'Email has been resent.', wait: 20)
 
       expect(page).to have_text 'foo@foocorp.example'
       expect(page).to have_text 'email sent - waiting for confirmation'
