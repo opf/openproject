@@ -1,4 +1,5 @@
-<div class="work-packages-embedded-view--container loading-indicator--location"
+<div *ngIf="configuration"
+     class="work-packages-embedded-view--container loading-indicator--location"
      [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,
                   '-compact-tables': configuration.compactTableStyle,
                   '-external-height': externalHeight }"

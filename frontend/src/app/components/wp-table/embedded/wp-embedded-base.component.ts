@@ -37,12 +37,12 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
   @InjectField() cdRef:ChangeDetectorRef;
 
   ngOnInit() {
-    super.ngOnInit();
-
     this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration);
     // Set embedded status in configuration
     this.configuration.isEmbedded = true;
     this.initialized = true;
+
+    super.ngOnInit();
   }
 
   ngAfterViewInit():void {
