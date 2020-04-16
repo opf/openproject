@@ -29,7 +29,7 @@
 import {Component, ElementRef} from "@angular/core";
 import {FormBuilder, Validators} from "@angular/forms";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
-import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
+import {EnterpriseTrialData, EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
 
 const termsOfServiceURL = 'https://www.openproject.com/terms-of-service/';
 const legalNoticeURL = 'https://www.openproject.com/legal-notice/';
@@ -40,13 +40,15 @@ const newsletterURL = 'https://www.openproject.com/newsletter/';
   templateUrl: './ee-trial-form.component.html'
 })
 export class EETrialFormComponent {
-  // enterprise trial form
+  // Retain used values
+  userData:Partial<EnterpriseTrialData> = this.eeTrialService.userData$.getValueOr({});
+
   trialForm = this.formBuilder.group({
-    company: ['', Validators.required],
-    first_name: ['', Validators.required],
-    last_name: ['', Validators.required],
+    company: [this.userData.company, Validators.required],
+    first_name: [this.userData.first_name, Validators.required],
+    last_name: [this.userData.last_name, Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    domain: ['', Validators.required],
+    domain: [this.userData.domain, Validators.required],
     general_consent: [null, Validators.required],
     newsletter_consent: null,
   });
@@ -64,7 +66,7 @@ export class EETrialFormComponent {
     label_email: this.I18n.t('js.admin.enterprise.trial.form.label_email'),
     label_domain: this.I18n.t('js.admin.enterprise.trial.form.label_domain'),
     privacy_policy: this.I18n.t('js.admin.enterprise.trial.form.privacy_policy'),
-    receive_newsletter: this.I18n.t('js.admin.enterprise.trial.form.receive_newsletter',{ link: newsletterURL }),
+    receive_newsletter: this.I18n.t('js.admin.enterprise.trial.form.receive_newsletter', { link: newsletterURL }),
     terms_of_service: this.I18n.t('js.admin.enterprise.trial.form.terms_of_service')
   };
 

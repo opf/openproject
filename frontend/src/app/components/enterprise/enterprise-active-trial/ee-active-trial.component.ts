@@ -60,6 +60,7 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
   ngOnInit() {
     if (!this.subscriber) {
       this.eeTrialService.userData$
+        .values$()
         .pipe(
           distinctUntilChanged(),
           this.untilDestroyed()
@@ -76,7 +77,7 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
   private initialize():void {
     let eeTrialKey = this.Gon.get('ee_trial_key') as any;
 
-    if (eeTrialKey && !this.eeTrialService.userData) {
+    if (eeTrialKey && !this.eeTrialService.userData$.hasValue()) {
       // after reload: get data from Augur using the trial key saved in gon
       this.eeTrialService.trialLink = this.eeTrialService.baseUrlAugur + '/public/v1/trials/' + eeTrialKey.value;
       this.getUserDataFromAugur();
@@ -90,7 +91,7 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
       .get<any>(this.eeTrialService.trialLink + '/details')
       .toPromise()
       .then((userForm:any) => {
-        this.formatUserData(userForm);
+        this.eeTrialService.userData$.putValue(userForm);
         this.eeTrialService.retryConfirmation();
       })
       .catch((error:HttpErrorResponse) => {

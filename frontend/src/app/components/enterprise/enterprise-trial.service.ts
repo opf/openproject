@@ -4,14 +4,24 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {FormGroup} from "@angular/forms";
-import {BehaviorSubject} from 'rxjs';
+import {input} from "reactivestates";
+
+export interface EnterpriseTrialData {
+  id?:string;
+  company:string;
+  first_name:string;
+  last_name:string;
+  email:string;
+  domain:string;
+  general_consent?:boolean;
+  newsletter_consent?:boolean;
+}
 
 @Injectable()
 export class EnterpriseTrialService {
   // user data needs to be sync in ee-active-trial.component.ts
-  private userDataSubject = new BehaviorSubject<any>({});
-  public userData$ = this.userDataSubject.asObservable();
-  public userData:any;
+  userData$ = input<EnterpriseTrialData>();
+
   public baseUrlAugur:string;
 
 
@@ -39,8 +49,7 @@ export class EnterpriseTrialService {
   // send POST request with form object
   // receive an enterprise trial link to access a token
   public sendForm(form:FormGroup) {
-    this.userData = form.value;
-    this.userDataSubject.next(this.userData);
+    this.userData$.putValue(form.value);
 
     this.cancelled = false;
     this.http.post(this.baseUrlAugur + '/public/v1/trials', form.value)
@@ -114,7 +123,7 @@ export class EnterpriseTrialService {
       this.pathHelper.api.v3.appBasePath + '/admin/enterprise/save_trial_key',
       { trial_key: trialKey },
       { withCredentials: true }
-      )
+    )
       .toPromise()
       .catch((e:any) => {
         this.notificationsService.addError(e.error.message || e.message || e);
@@ -127,7 +136,7 @@ export class EnterpriseTrialService {
       this.pathHelper.api.v3.appBasePath + '/admin/enterprise',
       { enterprise_token: { encoded_token: token } },
       { withCredentials: true }
-      )
+    )
       .toPromise()
       .catch((error:HttpErrorResponse) => {
         this.notificationsService.addError(error.error.description || I18n.t('js.error.internal'));
@@ -142,7 +151,7 @@ export class EnterpriseTrialService {
       this.cancelled = true;
     } else {
       this.getToken();
-      setTimeout( () => {
+      setTimeout(() => {
         this.retryConfirmation(delay, retries - 1);
       }, delay);
     }
