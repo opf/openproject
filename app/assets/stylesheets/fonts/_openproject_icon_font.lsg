@@ -123,6 +123,7 @@
 <li><span class="icon icon-import"></span>import</li>
 <li><span class="icon icon-info1"></span>info1</li>
 <li><span class="icon icon-info2"></span>info2</li>
+<li><span class="icon icon-input-disabled"></span>input-disabled</li>
 <li><span class="icon icon-installation-services"></span>installation-services</li>
 <li><span class="icon icon-italic"></span>italic</li>
 <li><span class="icon icon-key"></span>key</li>
