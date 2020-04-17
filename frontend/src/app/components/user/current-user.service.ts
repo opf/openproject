@@ -47,7 +47,7 @@ export class CurrentUserService {
   }
 
   public get language() {
-    return this.userMeta.data('lang');
+    return I18n.locale || 'en';
   }
 
   private get userMeta():JQuery {

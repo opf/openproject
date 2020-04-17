@@ -50,8 +50,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <meta name="current_user"
           data-name="<%= User.current.name %>"
           data-mail="<%= User.current.mail %>"
-          data-id="<%= User.current.id %>"
-          data-lang="<%= User.current.language %>"/>
+          data-id="<%= User.current.id %>" />
   <% end %>
 
   <% if OpenProject::Configuration.frontend_sentry? %>
