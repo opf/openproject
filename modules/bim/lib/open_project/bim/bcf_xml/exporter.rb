@@ -13,11 +13,6 @@ module OpenProject::Bim::BcfXml
       User.current
     end
 
-    def work_packages
-      # TODO: remove eager loading
-      super.includes(journals: [:bcf_comment], bcf_issue: [:comments, { viewpoints: :attachments }])
-    end
-
     def list
       Dir.mktmpdir do |dir|
         files = create_bcf! dir
