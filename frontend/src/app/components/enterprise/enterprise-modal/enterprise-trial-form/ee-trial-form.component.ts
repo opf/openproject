@@ -30,6 +30,7 @@ import {Component, ElementRef} from "@angular/core";
 import {FormBuilder, Validators} from "@angular/forms";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {EnterpriseTrialData, EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
+import {CurrentUserService} from "core-components/user/current-user.service";
 
 const termsOfServiceURL = 'https://www.openproject.com/terms-of-service/';
 const legalNoticeURL = 'https://www.openproject.com/legal-notice/';
@@ -51,6 +52,7 @@ export class EETrialFormComponent {
     domain: [this.userData.domain, Validators.required],
     general_consent: [null, Validators.required],
     newsletter_consent: null,
+    language: this.currentUserService.language
   });
 
   public text = {
@@ -73,6 +75,7 @@ export class EETrialFormComponent {
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService,
               private formBuilder:FormBuilder,
+              readonly currentUserService:CurrentUserService,
               public eeTrialService:EnterpriseTrialService) {
 
   }
