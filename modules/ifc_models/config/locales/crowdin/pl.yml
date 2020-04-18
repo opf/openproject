@@ -6,7 +6,7 @@ pl:
     label_show_defaults: 'Pokaż domyślne'
     label_default_ifc_models: 'Domyślne modele IFC'
     label_edit_defaults: 'Edytuj domyślne'
-    label_manage_models: 'Manage models'
+    label_manage_models: 'Zarządzaj modelami'
     no_defaults_warning:
       title: 'Żaden model IFC nie został ustawiony jako domyślny dla tego projektu.'
       check_1: 'Sprawdź, czy przesłany został przez Ciebie co najmniej jeden model IFC.'

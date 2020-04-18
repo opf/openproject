@@ -61,7 +61,7 @@ pl:
         header-item-font-hover-color: "Kolor czcionki elementów nagłówkowych po najechaniu myszą."
         header-border-bottom-color: "Linia pod nagłówkiem. Zostaw puste, jeśli nie chcesz wyświetlać linii."
         main-menu-bg-color: "Kolor tła lewego menu."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Zmiana motywu poskutkuje zastąpieniem stylu niestandardowego. Projekt zostanie wówczas utracony. Czy na pewno chcesz kontynuować?
     enterprise:
       upgrade_to_ee: "Aktualizuj do wersji Enterprise"
       add_token: "Wyślij swój token wsparcia edycji Enterprise"
@@ -1187,7 +1187,7 @@ pl:
       forums: "Forum społeczności"
       newsletter: "Powiadomienia bezpieczeństwa / Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "Zmiany zostały wycofane."
   links:
     configuration_guide: 'Przewodnik po konfiguracji'
   instructions_after_registration: "Możesz się zalogować w momencie gdy Twoje konto zostanie aktywowane poprzez kliknięcie %{signin}."
