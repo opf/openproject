@@ -30,7 +30,7 @@ pt:
         num_issues_found: '%{x_bcf_issues} estão contidos no ficheiro BCF-XML, os seus detalhes estão listados abaixo.'
         button_prepare: 'Preparar importação'
         button_perform_import: 'Confirmar a importação'
-        button_proceed: 'Proceed with import'
+        button_proceed: 'Prosseguir com a importação'
         button_back_to_list: 'Voltar à lista'
         no_permission_to_add_members: 'Você não tem permissões suficientes para adicioná-los como membros do projeto.'
         contact_project_admin: 'Contate o seu administrador do projeto para os adicionar como membros e iniciar esta importação novamente.'
@@ -56,7 +56,7 @@ pt:
         import_as_system_user: 'Importá-los como Utilizador "Sistema".'
         what_to_do: "O que deseja fazer?"
         work_package_has_newer_changes: "Desatualizado! Este tópico não foi atualizado, pois as alterações mais recentes no servidor eram mais recentes que a \"Data de modificação\" do tópico importado. No entanto, os comentários ao tópico foram importados."
-        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+        bcf_file_not_found: "Falhou ao localizar o ficheiro BCF. Por favor, inicie o processo de carregamento novamente."
   export:
     format:
       bcf: "BCF-XML"

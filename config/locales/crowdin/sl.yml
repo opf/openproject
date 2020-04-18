@@ -63,16 +63,16 @@ sl:
         main-menu-bg-color: "Barva ozadja levega menija."
       theme_warning: "Sprememba teme bo nadomestilo vaš slog po meri. Oblikovanje bo tkao izgubljeno. Ali ste prepričani, da bi radi nadaljevali?\n"
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Nadgradite v Enterprise Edition"
       add_token: "Naloži Enterprise Edition  podporni žeton"
       replace_token: "Zamenjajte svoj trenutni podporni žeton"
       order: "Naročite Enterprise Edition"
       paste: "Prilepite vaš Enterprise Edition podporni žeton."
       required_for_feature: "Ta funkcija je na voljo samo z aktivnim žetonom podpore za Enterprise Edition."
       enterprise_link: "Za več informacij kliknite tukaj."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: 'Začnite z brezplačno preizkusno dobo'
+      book_now: 'Rezerviraj'
+      get_quote: 'Pridobite ponudbo'
   announcements:
     show_until: Pokažite dokler
     is_active: Trenutno prikazano
@@ -1189,7 +1189,7 @@ sl:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Configuration guide'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "Imate vprašanja? Stopite v stik z nami.\n"
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
   instructions_after_logout: "You can sign in again by clicking %{signin}."
   instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."

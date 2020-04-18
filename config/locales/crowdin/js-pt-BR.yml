@@ -164,56 +164,56 @@ pt-BR:
         reset_to_defaults: 'Redefinir para os padrões'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
-          confirmation_info: "We sent you an email. Please check your emails and click the confirmation link provided to start your 14 days trial."
+          confirmation: "Confirmação de endereço de e-mail"
+          confirmation_info: "Enviamos um e-mail para você. Verifique seus e-mail e clique no link de confirmação fornecido para dar início à sua avaliação de 14 dias/"
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+              Concordo com os <a target="_blank" href="%{link_terms}">termos do serviço</a> e com a <a target="_blank" href="%{link_privacy}">política de privacidade</a>.
+            invalid_email: "Endereço de e-mail inválido"
+            label_company: "Empresa"
             label_first_name: "Nome"
             label_last_name: "Sobrenome"
             label_email: "E-mail"
-            label_domain: "Domain"
+            label_domain: "Domínio"
             label_subscriber: "Assinante"
             label_maximum_users: "Máximo de usuários ativos"
-            label_starts_at: "Starts at"
+            label_starts_at: "Começa em"
             label_expires_at: "Expira em"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
-          next_steps: "Next steps"
+            receive_newsletter: Quero receber o <a target="_blank" href="%{link}">boletim informativo</a> do OpenProject.
+          email_not_received: "Não recebeu um e-mail? Você pode reenviá-lo através do link à direita."
+          try_another_email: "Ou experimentar outro endereço de e-mail."
+          try_another_email_hint: "Esteja ciente de que o seu endereço de e-mail anterior será invalidado se você tentar novamente com um novo."
+          next_steps: "Próximas etapas"
           resend_link: "Reenviar"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          resend_success: "E-mail reenviado. Por favor, verifique seus e-mails e clique no link de confirmação fornecido."
+          resend_warning: "Não foi possível reenviar o e-mail."
+          session_timeout: "Sua sessão expirou. Tente recarregar a página ou reenviar o e-mail."
+          status_label: "Estado:"
+          status_confirmed: "confirmado"
+          status_waiting: "e-mail enviado - aguardando confirmação"
+          test_ee: "Teste o Enterprise Edition gratuitamente durante 14 dias"
+          quick_overview: "Obtenha uma visão geral da gestão de projeto e colaboração da equipa com o OpenProject Enterprise Edition."
         upsale:
           become_hero: "Torne-se um herói!"
           benefits:
             description: "Quais são os benefícios?"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            high_security: "Recursos de segurança"
+            high_security_text: "Início de sessão único (SAML, OpenID Connect, CAS), autenticação de dois fatores e sincronização automática de grupos LDAP."
+            installation: "Suporte à instalação"
+            installation_text: "Engenheiros de software experientes darão orientações durante todo o processo de instalação e configuração em sua própria infraestrutura."
+            premium_features: "Recursos premium"
+            premium_features_text: "Painéis práticos, gráficos de temas e logotipos personalizados, fluxos de trabalho inteligentes com ações personalizadas, pesquisa de texto completo para anexos em pacotes de trabalho e campos personalizados de multi-seleção."
             professional_support: "Suporte profissional"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+            professional_support_text: "Receba o suporte de confiança e alto nível de engenheiros sênior de suporte, com conhecimento especializado sobre a gestão do OpenProject em ambientes de negócios críticos."
+          button_start_trial: "Iniciar avaliação gratuita"
+          button_book_now: "Reserve agora"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+            Fornecemos toda a segurança de um software de gestão de projetos de classe empresarial, testado e com suporte - com Open Source e mente aberta.
+          link_quote: "Fazer uma cotação"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+            O OpenProject Enterprise Edition foi construído a partir do Community Edition. Ele conta com recursos premium e suporte profissional, com foco principal em organizações com mais de 10 usuários que gerenciam projetos de negócios críticos com o OpenProject.
+          unlimited: "Ilimitado"
+          you_contribute: "Os desenvolvedores também têm contas para pagar. Ao obter o Enterprise Edition, você estará contribuindo de forma substancial para os esforços desta comunidade Open Source."
     custom_actions:
       date:
         specific: 'ligado'
@@ -822,7 +822,7 @@ pt-BR:
           automatic: 'Automático'
           manually: 'Manualmente'
           warning: 'Você perderá sua ordenação anterior quando ativar o modo de ordenação automática.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Utilize a entrada acima para adicionar colunas à sua visualização de tabela. Você pode arrastar e soltar as colunas para reorganizá-las."
         upsale:
           attribute_highlighting: 'Precisa de certos pacotes de trabalho para se destacar da massa?'
           relation_columns: 'Necessário ver as relações na lista de pacote de trabalho?'

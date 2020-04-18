@@ -29,7 +29,7 @@ ko:
         num_issues_found: '%{x_bcf_issues}은(는) BCF-XML 파일에 포함되어 있지 않습니다. 세부 정보는 아래에 나와 있습니다.'
         button_prepare: '가져오기 준비'
         button_perform_import: '가져오기 확인'
-        button_proceed: 'Proceed with import'
+        button_proceed: '가져오기 진행하기'
         button_back_to_list: '목록으로 돌아가기'
         no_permission_to_add_members: '프로젝트에 멤버로 추가할 권한이 부족합니다.'
         contact_project_admin: '프로젝트 관리자에게 문의하여 멤버로 추가한 후 이 가져오기를 다시 시작하십시오.'
@@ -55,7 +55,7 @@ ko:
         import_as_system_user: '이들을 "시스템" 사용자로 가져오기'
         what_to_do: "어떤 작업을 수행하시겠습니까?"
         work_package_has_newer_changes: "오래된 내용입니다! 서버의 최신 변경 사항은 가져온 항목의 \"수정된 날짜\"보다 최신이므로 이 항목이 업데이트되지 않았습니다. 그러나 이 항목에 대한 코멘트는 가져왔습니다."
-        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+        bcf_file_not_found: "BCF 파일을 찾지 못했습니다. 업로드 프로세스를 다시 시작하세요."
   export:
     format:
       bcf: "BCF-XML"

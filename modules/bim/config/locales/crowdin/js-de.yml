@@ -12,7 +12,7 @@ de:
     ifc_models:
       empty_warning: "Dieses Projekt hat noch keine IFC-Modelle."
       use_this_link_to_manage: "Verwenden Sie diesen Link, um Ihre IFC-Modelle hochzuladen und zu verwalten"
-      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      keyboard_input_disabled: "Der Viewer hat keine Tastatursteuerung. Klicken Sie auf den Viewer, um die Tastatursteuerung an den Viewer zu übergeben."
       models:
         default: 'Standard IFC-Modelle'
         manage: 'Modelle verwalten'

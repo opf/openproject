@@ -63,16 +63,16 @@ ru:
         main-menu-bg-color: "Цвет фона меню слева."
       theme_warning: Изменение темы перезапишет ваш пользовательский стиль. Дизайн будет утерян. Вы уверены, что хотите продолжить?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Обновить до корпоративной версии"
       add_token: "Загрузите маркер поддержки корпоративной версии"
       replace_token: "Замените ваш текущий маркер поддержки"
       order: "Заказать корпоративную версию"
       paste: "Вставьте ваш маркер поддержки корпоративной версии"
       required_for_feature: "Эта возможность доступна только в корпоративной версии."
       enterprise_link: "Для получения дополнительной информации нажмите здесь."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: 'Бесплатная пробная версия'
+      book_now: 'Заказать сейчас'
+      get_quote: 'Рассчитать стоимость'
   announcements:
     show_until: Показать до
     is_active: теперь отображается
@@ -1190,7 +1190,7 @@ ru:
     changes_retracted: "Изменения в случае отказа."
   links:
     configuration_guide: 'Руководство по конфигурации'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
   instructions_after_registration: "Вы сможете войти как только ваша учетная запись будет активирована, нажав %{signin}."
   instructions_after_logout: "Вы можете войти в снова, нажав %{signin}."
   instructions_after_error: "Вы можете попробовать войти снова, нажав %{signin}. Если ошибка повторится, обратитесь к вашему администратору за помощью."
@@ -2541,7 +2541,7 @@ ru:
       mail_self_notified: "Хочу получать уведомления об изменениях, которые делаю сам"
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: "Смена статуса"
-    text_change_disabled_for_provider_login: "Имя задано вашим поставщиком входа в систему и изменено быть не может."
+    text_change_disabled_for_provider_login: "Это имя задано вашим поставщиком авторизации, поэтому его нельзя изменить."
     unlock: "Разблокировать"
     unlock_and_reset_failed_logins: "Разблокировать и сбросить неудачные попытки входа"
   version_status_closed: "закрыт"

@@ -165,56 +165,56 @@ zh-CN:
         reset_to_defaults: '重置为默认值'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
-          confirmation_info: "We sent you an email. Please check your emails and click the confirmation link provided to start your 14 days trial."
+          confirmation: "确认电子邮件地址"
+          confirmation_info: "我们向您发送了一封电子邮件。请查看您的电子邮件并点击提供的确认链接以开始 14 天的试用。"
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+              我同意<a target="_blank" href="%{link_terms}">服务条款</a>和<a target="_blank" href="%{link_privacy}">隐私政策</a>。
+            invalid_email: "电子邮件地址无效"
+            label_company: "公司"
             label_first_name: "名字"
             label_last_name: "姓氏"
             label_email: "电子邮件"
-            label_domain: "Domain"
+            label_domain: "域"
             label_subscriber: "订阅者"
             label_maximum_users: "最大活动用户数"
-            label_starts_at: "Starts at"
+            label_starts_at: "开始时间："
             label_expires_at: "到期时间"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
-          next_steps: "Next steps"
+            receive_newsletter: 我想要接收 OpenProject <a target="_blank" href="%{link}">简报</a>。
+          email_not_received: "没有收到电子邮件？您可以使用右侧的链接重新发送电子邮件。"
+          try_another_email: "或者尝试使用另一个电子邮件地址。"
+          try_another_email_hint: "请注意，如果您使用新的电子邮件地址重试，以前的电子邮件地址将失效。"
+          next_steps: "后续步骤"
           resend_link: "重新发送"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          resend_success: "已重新发送电子邮件。请查看您的电子邮件并点击提供的确认链接。"
+          resend_warning: "无法重新发送电子邮件。"
+          session_timeout: "您的会话超时。请尝试重新加载该页面或重新发送电子邮件。"
+          status_label: "状态："
+          status_confirmed: "已确认"
+          status_waiting: "电子邮件已发送 - 等待确认"
+          test_ee: "免费测试企业版 14 天"
+          quick_overview: "快速了解 OpenProject 企业版的项目管理和团队协作。"
         upsale:
           become_hero: "成为英雄！"
           benefits:
             description: "有什么好处？"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            high_security: "安全功能"
+            high_security_text: "单点登录（SAML、OpenID Connect、CAS）、双重身份验证和 LDAP 组自动同步。"
+            installation: "安装支持"
+            installation_text: "经验丰富的软件工程师将指导您在自己的基础结构中完成整个安装和设置过程。"
+            premium_features: "高级功能"
+            premium_features_text: "敏捷面板，自定义主题和徽标，图表，包含自定义操作的智能工作流，全文搜索工作包附件和多选自定义字段。"
             professional_support: "专业支持"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+            professional_support_text: "从高级支持工程师那里获得可靠的个性化支持，这些工程师拥有在业务关键型环境中运行 OpenProject 的专业知识。"
+          button_start_trial: "开始免费试用"
+          button_book_now: "立即预订"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+            我们秉承开源和开放心态，有信心提供经得起考验和充分支持的企业级项目管理软件。
+          link_quote: "获取报价"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+            OpenProject 企业版以社区版为基础。它包括高级功能和专业支持，主要面向拥有 10 个以上用户并使用 OpenProject 管理业务关键型项目的组织。
+          unlimited: "不受限制"
+          you_contribute: "开发者也需要支付账单。使用企业版，您可以为这项开源社区工作提供大力支持。"
     custom_actions:
       date:
         specific: '于'
@@ -823,7 +823,7 @@ zh-CN:
           automatic: '自动'
           manually: '手动'
           warning: '激活自动排序模式时，您将丢失以前的排序结果。'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "使用上面的输入向表视图添加列。 您可以拖放列来为它们重新排序。"
         upsale:
           attribute_highlighting: '需要特定的工作包以脱颖而出？'
           relation_columns: '需要查看工作包列表中的关系吗？'

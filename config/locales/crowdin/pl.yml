@@ -61,18 +61,18 @@ pl:
         header-item-font-hover-color: "Kolor czcionki elementów nagłówkowych po najechaniu myszą."
         header-border-bottom-color: "Linia pod nagłówkiem. Zostaw puste, jeśli nie chcesz wyświetlać linii."
         main-menu-bg-color: "Kolor tła lewego menu."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Zmiana motywu poskutkuje zastąpieniem stylu niestandardowego. Projekt zostanie wówczas utracony. Czy na pewno chcesz kontynuować?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Uaktualnij do wersji Enterprise"
       add_token: "Wyślij swój token wsparcia edycji Enterprise"
       replace_token: "Wymień swój obecny token wsparcia"
       order: "Zamów edycję Enterprise"
       paste: "Wklej swój token wsparcia edycji Enterprise"
       required_for_feature: "Ta funkcja jest dostępna tylko z aktywnym tokenem wsparcia wersji Enterprise."
       enterprise_link: "Aby uzyskać więcej informacji, kliknij tutaj."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: 'Rozpocznij bezpłatny okres próbny'
+      book_now: 'Zarezerwuj teraz'
+      get_quote: 'Uzyskaj wycenę'
   announcements:
     show_until: Pokazuj do
     is_active: obecnie wyświetlane
@@ -1186,10 +1186,10 @@ pl:
       forums: "Forum społeczności"
       newsletter: "Powiadomienia bezpieczeństwa / Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "Zmiany zostały wycofane."
   links:
     configuration_guide: 'Przewodnik po konfiguracji'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "Masz pytania? Skontaktuj się z nami."
   instructions_after_registration: "Możesz się zalogować w momencie gdy Twoje konto zostanie aktywowane poprzez kliknięcie %{signin}."
   instructions_after_logout: "Możesz zalogować się ponownie klikając %{signin}."
   instructions_after_error: "Można spróbować się zalogować ponownie klikając %{signin}. Jeśli ten błąd będzie się powtarzał, poproś swojego admina o pomoc."
@@ -2540,7 +2540,7 @@ pl:
       mail_self_notified: "Chcę być powiadamiany o zmianach, które sam wprowadzam"
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Zmiana statusu"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "Nazwa jest ustawiana przez dostawcę usług logowania i dlatego nie można jej zmienić."
     unlock: "Odblokuj"
     unlock_and_reset_failed_logins: "Odblokuj i resetuj nieudane logowania"
   version_status_closed: "Zamknięte"

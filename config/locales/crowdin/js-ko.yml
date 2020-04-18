@@ -165,56 +165,56 @@ ko:
         reset_to_defaults: '기본값으로 초기화'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
-          confirmation_info: "We sent you an email. Please check your emails and click the confirmation link provided to start your 14 days trial."
+          confirmation: "이메일 주소 확인"
+          confirmation_info: "이메일이 전송되었습니다. 이메일을 확인하고 제공된 인증 링크를 클릭하여 14일 평가판을 시작하세요. "
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+              <a target="_blank" href="%{link_terms}">서비스 약관</a> 및 <a target="_blank" href="%{link_privacy}">개인정보 취급방침</a>에 동의합니다.
+            invalid_email: "잘못된 이메일 주소"
+            label_company: "회사"
             label_first_name: "이름"
             label_last_name: "성"
             label_email: "이메일"
-            label_domain: "Domain"
+            label_domain: "도메인"
             label_subscriber: "구독자"
             label_maximum_users: "최대 활성 사용자"
-            label_starts_at: "Starts at"
+            label_starts_at: "시작:"
             label_expires_at: "에서 만료됨"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
-          next_steps: "Next steps"
+            receive_newsletter: OpenProject <a target="_blank" href="%{link}">뉴스레터</a>를 받아 보겠습니다.
+          email_not_received: "이메일을 받지 못하셨나요? 오른쪽의 링크로 이메일을 재전송할 수 있습니다. "
+          try_another_email: "또는 다른 이메일 주소로 시도해보세요."
+          try_another_email_hint: "새로운 이메일 주소로 다시 시도할 경우 이전 이메일 주소가 무효화된다는 사실에 주의하세요."
+          next_steps: "다음 단계"
           resend_link: "다시 보내기"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          resend_success: "이메일이 재전송되었습니다. 이메일을 확인하고 제공된 인증 링크를 클릭하세요."
+          resend_warning: "이메일을 재전송할 수 없습니다."
+          session_timeout: "해당 세션이 시간 초과되었습니다. 페이지를 다시 로드하거나 이메일을 재전송하세요."
+          status_label: "상태:"
+          status_confirmed: "확인됨"
+          status_waiting: "이메일 전송됨 - 인증을 기다리는 중"
+          test_ee: "무료로 Enterprise Edition 14일 테스트"
+          quick_overview: "OpenProject Enterprise Edition으로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
         upsale:
           become_hero: "영웅이 되세요!"
           benefits:
             description: "장점은 무엇입니까?"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            high_security: "보안 기능"
+            high_security_text: "SSO(SAML, OpenID Connect, CAS), 2단계 인증 및 LDAP 그룹의 자동 동기화."
+            installation: "설치 지원"
+            installation_text: "숙련된 소프트웨어 엔지니어들이 사용자 고유 인프라에서 완전한 설치 및 설정 프로세스를 안내해줍니다."
+            premium_features: "프리미엄 기능"
+            premium_features_text: "민첩한 보드, 사용자 지정 테마 및 로고, 그래프, 인텔리전트 워크플로와 사용자 지정 작업, 작업 패키지 첨부 파일 및 다중 선택 사용자 지정 필드에 대한 전체 텍스트 검색."
             professional_support: "전문적 지원"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+            professional_support_text: "비즈니스 크리티컬 환경에서의 OpenProject 실행에 대한 전문 지식을 갖춘 선임 지원 엔지니어가 신뢰할 수 있는 뛰어난 지원을 제공합니다."
+          button_start_trial: "무료 평가판 시작"
+          button_book_now: "지금 예약"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+            오픈 소스와 오픈 마인드로, 테스트를 거치고 지원이 제공되는 엔터프라이즈급 프로젝트 관리 소프트웨어에 대한 신뢰를 전해드립니다.
+          link_quote: "견적 받기"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+            OpenProject Enterprise Edition은 Community Edition 위에서 빌드됩니다. OpenProject로 비즈니스 크리티컬 프로젝트를 관리하는 사용자가 10명이 넘는 조직을 주로 타겟으로 하는 프리미엄 기능과 전문 지원이 제공됩니다.
+          unlimited: "무제한"
+          you_contribute: "개발자들도 청구서를 지불해야 합니다. Enterprise Edition으로 이 오픈 소스 커뮤니티의 노력에 여러분이 실질적으로 기여할 수 있습니다."
     custom_actions:
       date:
         specific: '에'
@@ -823,7 +823,7 @@ ko:
           automatic: '자동'
           manually: '수동'
           warning: '자동 정렬 모드를 활성화하면 이전 정렬이 손실됩니다.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "위 입력을 사용하여 테이블 보기에 열을 추가하세요. 열을 끌어다 놓아 순서를 바꿀 수 있습니다."
         upsale:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'

@@ -79,7 +79,7 @@ pt:
   text_in_hours: "em horas"
   text_meeting_agenda_for_meeting: 'agenda para a reunião "%{meeting}"'
   text_meeting_closing_are_you_sure: "Tem a certeza que deseja fechar esta reunião?"
-  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_agenda_open_are_you_sure: "Isto irá gravar por cima de todas as alterações nos minutos! Pretende continuar?"
   text_meeting_minutes_for_meeting: 'minutos para a reunião "%{meeting}"'
   text_review_meeting_agenda: "%{author} colocou o %{link} para revisão."
   text_review_meeting_minutes: "%{author} colocou o %{link} para revisão."

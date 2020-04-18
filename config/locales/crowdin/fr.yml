@@ -63,16 +63,16 @@ fr:
         main-menu-bg-color: "Couleur d’arrière-plan du menu de gauche."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
       replace_token: "Remplacer votre licence actuelle"
       order: "Commander la version Entreprise"
       paste: "Coller votre licence de la version Entreprise"
       required_for_feature: "Cette fonction n'est disponible qu'avec une licence active de la version Entreprise."
       enterprise_link: "Pour plus d'informations, cliquez ici."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: 'Commencer l''essai gratuit'
+      book_now: 'Réserver maintenant'
+      get_quote: 'Obtenir un devis'
   announcements:
     show_until: Afficher jusqu'à
     is_active: actuellement affiché
@@ -1158,7 +1158,7 @@ fr:
     changes_retracted: "The changes where retracted."
   links:
     configuration_guide: 'Guide de configuration'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "Vous avez des questions ? Contactez-nous."
   instructions_after_registration: "Vous pouvez vous authentifier tant que votre compte a été activé en cliquant sur %{signin}."
   instructions_after_logout: "Vous pouvez vous ré-authentifier en cliquant sur %{signin}."
   instructions_after_error: "Vous pouvez encore essayer de vous authentifier en cliquant sur %{signin}. Si l'erreur persiste, demandez de l'aide à votre administrateur."
@@ -2498,7 +2498,7 @@ fr:
       mail_self_notified: "Je veux être notifié des modifications que je fais moi-même"
     status_user_and_brute_force: "%{user} et %{brute_force}"
     status_change: "Changement de statut"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "Le nom est défini par votre fournisseur de connexion et ne peut donc pas être modifié."
     unlock: "Déverrouiller"
     unlock_and_reset_failed_logins: "Déverrouiller et réinitialiser les échecs de connexion"
   version_status_closed: "clôturé"
