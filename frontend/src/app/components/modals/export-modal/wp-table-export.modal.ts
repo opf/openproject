@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild, OnDestroy} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
@@ -8,10 +8,14 @@ import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import * as URI from 'urijs';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import { expand, concatMap, catchError } from 'rxjs/operators';
-import { timer, Subscription } from 'rxjs';
+import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {
+  LoadingIndicatorService,
+  withDelayedLoadingIndicator
+} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {switchMap, takeWhile} from 'rxjs/operators';
+import {interval, Observable, Subscription} from 'rxjs';
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 interface ExportLink extends HalLink {
   identifier:string;
@@ -52,8 +56,8 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
   };
 
   public downloadHref:string;
+  public isLoading = false;
   private subscription?:Subscription;
-  private loadingPromise?:Promise<void>;
   private finished?:Function;
 
   @ViewChild('downloadLink') downloadLink:ElementRef;
@@ -65,8 +69,9 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
               readonly cdRef:ChangeDetectorRef,
               readonly httpClient:HttpClient,
               readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly loadingIndicator:LoadingIndicatorService) {
-  super(locals, cdRef, elementRef);
+              readonly loadingIndicator:LoadingIndicatorService,
+              readonly notifications:NotificationsService) {
+    super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {
@@ -84,10 +89,6 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
   ngOnDestroy() {
     super.ngOnDestroy();
     this.safeUnsubscribe();
-  }
-
-  public get isLoading() {
-    return !!this.loadingPromise;
   }
 
   private buildExportOptions(results:WorkPackageCollectionResource) {
@@ -110,37 +111,48 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
 
   private downloadSwitched(url:string) {
     this
-      .triggerCall(url)
-      .then((data) => {
-        if (data.status === 202) {
-          this.pollUntilDownload(data.url!);
-        }
-      })
-      .catch((data) => {
-        this.errorOrDownload(data);
-      });
+      .performRequest(url)
+      .subscribe(
+        (data) => {
+          if (data.status === 200) {
+            this.download(data.url!);
+          }
 
-    this.startLoadingIndicator();
-  }
-
-  private triggerCall(url:string) {
-    return this
-      .httpClient
-      .get(url, { observe: 'response' })
-      .toPromise();
+          if (data.status === 202) {
+            this.pollUntilDownload(data.url!);
+          }
+        },
+        (error:HttpErrorResponse) => this.handleError(error));
   }
 
   private pollUntilDownload(url:string) {
-    let poller = this
-      .httpClient
-      .get(url, { observe: 'response'})
-      .pipe(
-        catchError(this.errorOrDownload.bind(this))
-      );
+    this.isLoading = true;
 
-    this.subscription = poller.pipe(
-      expand(_ => timer(1000).pipe(concatMap(_ => poller)))
-    ).subscribe();
+    interval(1000)
+      .pipe(
+        switchMap(() => this.performRequest(url)),
+        takeWhile(response => response.status === 202, true),
+        withDelayedLoadingIndicator(this.loadingIndicator.getter('modal')),
+      ).subscribe(
+      response => {
+        if (response.status === 200) {
+          this.download(response.url!);
+        }
+      },
+      error => this.handleError(error),
+      () => this.isLoading = false
+    );
+  }
+
+  private performRequest(url:string):Observable<HttpResponse<any>> {
+    return this
+      .httpClient
+      .get(url, { observe: 'response', responseType: 'text' });
+  }
+
+  private handleError(error:HttpErrorResponse) {
+    this.isLoading = false;
+    this.notifications.addError(error.message || this.I18n.t('js.error.internal'));
   }
 
   private addColumnsToHref(href:string) {
@@ -162,17 +174,6 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
     return jQuery('#work-packages-settings-button');
   }
 
-  // While an error is thrown, it does not have to be an actual error.
-  // Most likely, the response was a success (Code 200) but the client
-  // failed to parse the response.
-  private errorOrDownload(data:HttpResponse<any>) {
-    if (data.status === 200) {
-      this.download(data.url!);
-    }
-
-    this.safeUnsubscribe();
-  }
-
   private download(url:string) {
     this.downloadHref = url;
     if (this.finished) {
@@ -182,14 +183,6 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
       this.downloadLink.nativeElement.click();
       this.service.close();
     });
-  }
-
-  private startLoadingIndicator() {
-    this.loadingPromise = new Promise<void>((resolve) => {
-      this.finished = resolve;
-    });
-
-    setTimeout(() => { this.loadingIndicator.modal.promise = this.loadingPromise!; } );
   }
 
   private safeUnsubscribe() {
