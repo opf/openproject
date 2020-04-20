@@ -57,7 +57,6 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
 
   public downloadHref:string;
   public isLoading = false;
-  private subscription?:Subscription;
   private finished?:Function;
 
   @ViewChild('downloadLink') downloadLink:ElementRef;
@@ -88,7 +87,6 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
 
   ngOnDestroy() {
     super.ngOnDestroy();
-    this.safeUnsubscribe();
   }
 
   private buildExportOptions(results:WorkPackageCollectionResource) {
@@ -183,11 +181,5 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
       this.downloadLink.nativeElement.click();
       this.service.close();
     });
-  }
-
-  private safeUnsubscribe() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }
