@@ -204,15 +204,17 @@ See docs/COPYRIGHT.rdoc for more details.
   (function($) {
     var wrapper = $('#wrapper');
     var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
+    var mainMenuCollapsed =  window.OpenProject.guardedLocalStorage("openProject-mainMenuCollapsed");
 
     if (window.innerWidth < 680) {
       // force hide on load for mobile
       $('.can-hide-navigation').addClass('hidden-navigation');
     }
 
-    if (savedMainMenuWidth) {
-      document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
+    if (mainMenuCollapsed === 'true') {
+      savedMainMenuWidth = 0;
     }
+    document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
 
     wrapper.show();
 
