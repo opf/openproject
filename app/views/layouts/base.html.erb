@@ -214,7 +214,10 @@ See docs/COPYRIGHT.rdoc for more details.
     if (mainMenuCollapsed === 'true') {
       savedMainMenuWidth = 0;
     }
-    document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
+
+    if (savedMainMenuWidth || savedMainMenuWidth === 0) {
+      document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
+    }
 
     wrapper.show();
 
