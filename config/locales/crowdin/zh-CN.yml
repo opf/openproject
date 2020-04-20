@@ -61,7 +61,7 @@ zh-CN:
         header-item-font-hover-color: "鼠标悬停时可点击标题的特定颜色。"
         header-border-bottom-color: "页眉下方法细线。如果你不想看到，将其留白。"
         main-menu-bg-color: "左菜单的背景色。"
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: 更改主题将覆盖您的自定义样式。设计将会丢失。您确定要继续吗？
     enterprise:
       upgrade_to_ee: "升级到企业版"
       add_token: "上传企业版支持令牌"
@@ -1138,7 +1138,7 @@ zh-CN:
       forums: "社区论坛"
       newsletter: "安全警报/通信"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "已撤回的更改。"
   links:
     configuration_guide: '配置指南'
   instructions_after_registration: "只要您的帐户已被激活您可以点击 %{signin} 登录。"

@@ -6,7 +6,7 @@ fr:
     label_show_defaults: 'Afficher les valeurs par défaut'
     label_default_ifc_models: 'Modèles IFC par défaut'
     label_edit_defaults: 'Modifier les valeurs par défaut'
-    label_manage_models: 'Manage models'
+    label_manage_models: 'Gérer les modèles'
     no_defaults_warning:
       title: 'Aucun modèle IFC n''a été défini comme défaut pour ce projet.'
       check_1: 'Vérifiez que vous avez téléversé au moins un modèle IFC.'

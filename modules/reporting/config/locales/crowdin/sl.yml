@@ -22,7 +22,7 @@
 #---
 sl:
   button_save_as: "Shrani poročilo kot..."
-  comments: "Comment"
+  comments: "Komentar"
   cost_reports_title: "Poročilo o stroških"
   label_cost_report: "Cost report"
   description_drill_down: "Pokaži podrobnosti"

@@ -61,7 +61,7 @@ ko:
         header-item-font-hover-color: "마우스로 가리킬 때 클릭 가능한 헤더 항목의 글꼴색입니다."
         header-border-bottom-color: "헤더 아래 가는 줄입니다. 줄을 원하지 않으면 이 필드를 비워 둡니다."
         main-menu-bg-color: "왼쪽 메뉴의 배경색입니다."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: 테마를 변경하면 사용자 정의 스타일을 덮어 씁니다. 그러면 디자인이 손실됩니다. 너 정말 계속하고 싶니?
     enterprise:
       upgrade_to_ee: "Enterprise Edition으로 업그레이드 하세요."
       add_token: "Enterprise Edition 지원 토큰을 업로드하세요."
@@ -1140,7 +1140,7 @@ ko:
       forums: "커뮤니티 포럼"
       newsletter: "보안 알림/뉴스레터"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "철회 된 위치 변경."
   links:
     configuration_guide: '구성 가이드'
   instructions_after_registration: "%{signin}을(를) 클릭하여 계정이 활성화되면 바로 로그인할 수 있습니다."

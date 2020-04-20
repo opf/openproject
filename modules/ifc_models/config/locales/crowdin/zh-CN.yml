@@ -6,7 +6,7 @@ zh-CN:
     label_show_defaults: '显示默认值'
     label_default_ifc_models: '默认 IFC 模型'
     label_edit_defaults: '编辑默认值'
-    label_manage_models: 'Manage models'
+    label_manage_models: '管理模型'
     no_defaults_warning:
       title: '此项目未设置 IFC 模型作为默认值。'
       check_1: '检查您已至少上传一个 IFC 模型。'

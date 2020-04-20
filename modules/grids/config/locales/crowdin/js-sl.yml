@@ -13,13 +13,13 @@ sl:
           title: 'Dokumenti'
           no_results: 'Ni še dokumentov. '
         members:
-          title: 'Members'
+          title: 'Člani'
           no_results: 'Ni še vidnih članov. '
           view_all_members: 'Poglej vse člane'
-          add: 'Member'
+          add: 'Član'
           too_many: 'Prikazanih %{count} od %{total} članov.'
         news:
-          title: 'News'
+          title: 'Novice'
           at: 'na'
           no_results: 'Ni novih poročil.'
         project_description:
@@ -45,7 +45,7 @@ sl:
         work_packages_accountable:
           title: "Delovni paketi, za katere sem odgovoren"
         work_packages_assigned:
-          title: 'Work packages assigned to me'
+          title: 'Delovni paketi, ki so mi bili dodeljeni'
         work_packages_created:
           title: 'Delovni paketi, ki sem jih ustvaril'
         work_packages_watched:

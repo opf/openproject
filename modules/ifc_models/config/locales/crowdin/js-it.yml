@@ -3,4 +3,4 @@ it:
     ifc_models:
       models:
         default: 'Modelli IFC predefiniti'
-        manage: 'Manage models'
+        manage: 'Gestire i modelli'

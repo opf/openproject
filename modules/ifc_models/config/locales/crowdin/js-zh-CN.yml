@@ -3,4 +3,4 @@ zh-CN:
     ifc_models:
       models:
         default: '默认 IFC 模型'
-        manage: 'Manage models'
+        manage: '管理模型'

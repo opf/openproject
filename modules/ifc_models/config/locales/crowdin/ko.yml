@@ -6,7 +6,7 @@ ko:
     label_show_defaults: '기본값 표시'
     label_default_ifc_models: '기본 IFC 모델'
     label_edit_defaults: '기본값 편집'
-    label_manage_models: 'Manage models'
+    label_manage_models: '모델 관리'
     no_defaults_warning:
       title: '이 프로젝트에 대해 기본값으로 설정된 IFC 모델이 없습니다.'
       check_1: '하나 이상의 IFC 모델을 업로드했는지 확인하세요.'
