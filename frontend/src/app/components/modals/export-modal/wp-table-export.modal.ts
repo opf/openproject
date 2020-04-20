@@ -111,22 +111,18 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
 
   private downloadSwitched(url:string) {
     this
-      .triggerCall(url)
-      .then((data) => {
-        if (data.status === 202) {
-          this.pollUntilDownload(data.url!);
-        }
-      })
-      .catch((data) => {
-        this.errorOrDownload(data);
-      });
-  }
+      .performRequest(url)
+      .subscribe(
+        (data) => {
+          if (data.status === 200) {
+            this.download(data.url!);
+          }
 
-  private triggerCall(url:string) {
-    return this
-      .httpClient
-      .get(url, { observe: 'response' })
-      .toPromise();
+          if (data.status === 202) {
+            this.pollUntilDownload(data.url!);
+          }
+        },
+        (error:HttpErrorResponse) => this.handleError(error));
   }
 
   private pollUntilDownload(url:string) {
@@ -138,11 +134,12 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
         takeWhile(response => response.status === 202, true),
         withDelayedLoadingIndicator(this.loadingIndicator.getter('modal')),
       ).subscribe(
-      response => this.errorOrDownload(response),
-      error => {
-        this.errorOrDownload(error);
-        this.isLoading = false;
+      response => {
+        if (response.status === 200) {
+          this.download(response.url!);
+        }
       },
+      error => this.handleError(error),
       () => this.isLoading = false
     );
   }
@@ -150,7 +147,12 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
   private performRequest(url:string):Observable<HttpResponse<any>> {
     return this
       .httpClient
-      .get(url, { observe: 'response' });
+      .get(url, { observe: 'response', responseType: 'text' });
+  }
+
+  private handleError(error:HttpErrorResponse) {
+    this.isLoading = false;
+    this.notifications.addError(error.message || this.I18n.t('js.error.internal'));
   }
 
   private addColumnsToHref(href:string) {
@@ -170,17 +172,6 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
 
   protected get afterFocusOn():JQuery {
     return jQuery('#work-packages-settings-button');
-  }
-
-  // While an error is thrown, it does not have to be an actual error.
-  // Most likely, the response was a success (Code 200) but the client
-  // failed to parse the response.
-  private errorOrDownload(data:HttpErrorResponse|HttpResponse<any>) {
-    if (data.status === 200) {
-      this.download(data.url!);
-    } else if (data instanceof HttpErrorResponse) {
-      this.notifications.addError(data.message || this.I18n.t('js.error.internal'));
-    }
   }
 
   private download(url:string) {
