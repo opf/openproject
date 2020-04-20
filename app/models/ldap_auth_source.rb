@@ -66,6 +66,11 @@ class LdapAuthSource < AuthSource
     raise 'LdapError: ' + error.message
   end
 
+  # Open and return a system connection
+  def with_connection
+    yield initialize_ldap_con(account, account_password)
+  end
+
   # test the connection to the LDAP
   def test_connection
     unless authenticate_dn(account, account_password)

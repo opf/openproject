@@ -7,6 +7,7 @@ class TableCell < RailsCell
   include WillPaginate::ActionView
 
   options :groups, :roles, :status, :project
+  options show_inline_create: true
 
   class << self
     ##
@@ -167,5 +168,9 @@ class TableCell < RailsCell
 
   def action_name
     controller.action_name
+  end
+
+  def options
+    super
   end
 end

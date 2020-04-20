@@ -69,12 +69,12 @@ module OpenProject::LdapGroups
     # Add new users to the synced group
     def add_memberships!(new_users, sync)
       if new_users.empty?
-        Rails.logger.info "[LDAP groups] No new users to add for #{sync.entry}"
+        Rails.logger.info "[LDAP groups] No new users to add for #{sync.dn}"
         return
       end
 
-      Rails.logger.info { "[LDAP groups] Adding users #{new_users.pluck(:login)} to #{sync.entry}" }
-      sync.users << new_users.map {|user| ::LdapGroups::Membership.new(group: sync, user: user)}
+      Rails.logger.info { "[LDAP groups] Adding users #{new_users.pluck(:login)} to #{sync.dn}" }
+      sync.users << new_users.map { |user| ::LdapGroups::Membership.new(group: sync, user: user) }
       sync.group.users << new_users
     end
 
@@ -82,11 +82,11 @@ module OpenProject::LdapGroups
     # Remove a set of memberships
     def remove_memberships!(memberships, sync)
       if memberships.empty?
-        Rails.logger.info "[LDAP groups] No users to remove for #{sync.entry}"
+        Rails.logger.info "[LDAP groups] No users to remove for #{sync.dn}"
         return
       end
 
-      Rails.logger.info "[LDAP groups] Removing users #{memberships.pluck(:user_id)} from #{sync.entry}"
+      Rails.logger.info "[LDAP groups] Removing users #{memberships.pluck(:user_id)} from #{sync.dn}"
       sync.remove_members!(memberships)
     end
   end

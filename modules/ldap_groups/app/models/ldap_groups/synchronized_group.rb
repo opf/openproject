@@ -5,19 +5,19 @@ module LdapGroups
   class SynchronizedGroup < ApplicationRecord
     belongs_to :group
     belongs_to :auth_source
+    belongs_to :filter,
+               class_name: '::LdapGroups::SynchronizedFilter',
+               foreign_key: :filter_id
+
     has_many :users,
              class_name: '::LdapGroups::Membership',
              foreign_key: 'group_id'
 
-    validates_presence_of :entry
+    validates_presence_of :dn
     validates_presence_of :group
     validates_presence_of :auth_source
 
     before_destroy :remove_all_members
-
-    def dn
-      ::OpenProject::LdapGroups.group_dn(escaped_entry)
-    end
 
     ##
     # Add a set of new members to the internal group
@@ -40,10 +40,6 @@ module LdapGroups
         # since users MAY want to remove users manually
         user_ids.each { |id| remove_from_actual_group(id) }
       end
-    end
-
-    def escaped_entry
-      Net::LDAP::DN.escape(entry)
     end
 
     private

@@ -15,11 +15,6 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
     @ldap_server.stop
   end
 
-  before do
-    # cn=<groupname>,ou=groups,...
-    allow(Setting).to receive(:plugin_openproject_ldap_groups).and_return(plugin_settings)
-  end
-
   # Ldap has:
   # three users aa729, bb459, cc414
   # two groups foo (aa729), bar(aa729, bb459, cc414)
@@ -39,8 +34,8 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal' }
   let(:group_bar) { FactoryBot.create :group, lastname: 'bar' }
 
-  let(:synced_foo) { FactoryBot.create :ldap_synchronized_group, entry: 'foo', group: group_foo, auth_source: auth_source }
-  let(:synced_bar) { FactoryBot.create :ldap_synchronized_group, entry: 'bar', group: group_bar, auth_source: auth_source }
+  let(:synced_foo) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=groups,dc=example,dc=com', group: group_foo, auth_source: auth_source }
+  let(:synced_bar) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=groups,dc=example,dc=com', group: group_bar, auth_source: auth_source }
 
   subject { described_class.new auth_source }
 
@@ -176,8 +171,8 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
         group_foo.users << user_aa729
 
         # Outputs that nothing was added to sync group
-        expect(Rails.logger).to receive(:info).with("[LDAP groups] No users to remove for foo")
-        expect(Rails.logger).to receive(:info).with("[LDAP groups] No new users to add for foo")
+        expect(Rails.logger).to receive(:info).with("[LDAP groups] No users to remove for cn=foo,ou=groups,dc=example,dc=com")
+        expect(Rails.logger).to receive(:info).with("[LDAP groups] No new users to add for cn=foo,ou=groups,dc=example,dc=com")
 
         subject
 
@@ -220,10 +215,9 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
     end
   end
 
-  context 'with invalid settings' do
-    let(:plugin_settings) do
-      { group_base: 'ou=invalid,dc=example,dc=com', group_key: 'cn' }
-    end
+  context 'with invalid base' do
+    let(:synced_foo) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo, auth_source: auth_source }
+    let(:synced_bar) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar, auth_source: auth_source }
 
     context 'when one synced group exists' do
       before do

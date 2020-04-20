@@ -5,19 +5,19 @@
                     method: :delete) do %>
   <section class="form--section">
     <h3 class="form--section-title">
-      <%= t('ldap_groups.synchronized_groups.destroy.title', name: @group.entry) %>
+      <%= t('ldap_groups.synchronized_groups.destroy.title', name: @group.dn) %>
     </h3>
     <p>
     </p>
     <p class="danger-zone--warning">
       <span class="icon icon-info2"></span>
-      <%= l('ldap_groups.synchronized_groups.destroy.confirmation', name: @group.entry, users_count: @group.users.count)%>
+      <%= l('ldap_groups.synchronized_groups.destroy.confirmation', name: @group.dn, users_count: @group.users.count)%>
     </p>
     <p>
       <span><%= l('ldap_groups.synchronized_groups.destroy.info')%></span>
       <br/>
       <%= t('ldap_groups.synchronized_groups.destroy.verification',
-            name: "<em class=\"danger-zone--expected-value\">#{h(@group.entry)}</em>").html_safe %>
+            name: "<em class=\"danger-zone--expected-value\">#{h(@group.dn)}</em>").html_safe %>
     </p>
     <div class="danger-zone--verification">
       <input type="text"></input>
