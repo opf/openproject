@@ -55,7 +55,7 @@ describe 'work package export', type: :feature do
     wp_3
     wp_4
 
-    allow(User).to receive(:current).and_return current_user
+    login_as(current_user)
   end
 
   subject { DownloadedFile.download_content }
@@ -67,22 +67,26 @@ describe 'work package export', type: :feature do
 
     settings_menu.open_and_choose 'Export ...'
     click_on 'CSV'
+
+    perform_enqueued_jobs
+    # Wait for the file to download
+    ::DownloadedFile.wait_for_download
+    ::DownloadedFile.wait_for_download_content
   end
 
-  before do
-    # render the CSV as plain text so we can run expectations against the output
-    expect_any_instance_of(WorkPackagesController)
-      .to receive(:send_data) do |receiver, serialized_work_packages, _opts|
-      receiver.render plain: serialized_work_packages
-    end
-  end
+  #before do
+  #  # render the CSV as plain text so we can run expectations against the output
+  #  expect_any_instance_of(WorkPackagesController)
+  #    .to receive(:send_data) do |receiver, serialized_work_packages, _opts|
+  #    receiver.render plain: serialized_work_packages
+  #  end
+  #end
 
   after do
     DownloadedFile::clear_downloads
   end
 
   context 'with default filter' do
-
     before do
       work_packages_page.visit_index
       filters.expect_filter_count 1

@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackage::Exporter::Success < WorkPackage::Exporter::Result
+class WorkPackage::Exporter::Result::Success < WorkPackage::Exporter::Result
   attr_accessor :format,
                 :title,
                 :content,

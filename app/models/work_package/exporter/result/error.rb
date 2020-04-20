@@ -28,12 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackage::Exporter::Result
-  def error?
-    false
+class WorkPackage::Exporter::Result::Error < WorkPackage::Exporter::Result
+  attr_accessor :message
+
+  def initialize(message)
+    self.message = message
   end
 
-  def delayed?
-    false
+  def error?
+    true
   end
 end

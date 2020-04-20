@@ -32,14 +32,18 @@ require 'spec_helper'
 
 describe WorkPackagesController, type: :controller do
   before do
-    allow(User).to receive(:current).and_return current_user
-    # disables sending mails
-    allow(UserMailer).to receive(:new).and_return(double('mailer').as_null_object)
+    login_as current_user
   end
 
   let(:project) { FactoryBot.create(:project, identifier: 'test_project', public: false) }
   let(:stub_project) { FactoryBot.build_stubbed(:project, identifier: 'test_project', public: false) }
-  let(:stub_work_package) { double('work_package', id: 1337, project: stub_project).as_null_object }
+  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:stub_work_package) do
+    FactoryBot.build_stubbed(:stubbed_work_package,
+                             id: 1337,
+                             type: type,
+                             project: stub_project)
+  end
 
   let(:current_user) { FactoryBot.create(:user) }
 
@@ -121,24 +125,17 @@ describe WorkPackagesController, type: :controller do
     let(:work_packages) { double('work packages').as_null_object }
     let(:results) { double('results').as_null_object }
 
-    before do
-      allow(User.current).to receive(:allowed_to?).and_return(false)
-      expect(User.current).to receive(:allowed_to?)
-        .with({ controller: 'work_packages',
-                action: 'index' },
-              project,
-              global: project.nil?)
-        .and_return(true)
-    end
-
     describe 'with valid query' do
       before do
-        allow(controller).to receive(:retrieve_query).and_return(query)
+        allow(User.current).to receive(:allowed_to?).and_return(false)
+        expect(User.current).to receive(:allowed_to?)
+                                  .with({ controller: 'work_packages',
+                                          action: 'index' },
+                                        project,
+                                        global: project.nil?)
+                                  .and_return(true)
 
-        # Note: Stubs for methods used to build up the json query results.
-        # TODO RS:  Clearly this isn't testing anything, but it all needs to be moved to an API controller anyway.
-        allow(query).to receive(:results).and_return(results)
-        allow(results).to receive_message_chain(:sorted_work_packages, :page, :per_page).and_return(work_packages)
+        allow(controller).to receive(:retrieve_query).and_return(query)
       end
 
       describe 'html' do
@@ -163,118 +160,46 @@ describe WorkPackagesController, type: :controller do
         end
       end
 
-      describe 'csv' do
-        let(:params) { {} }
-        let(:call_action) { get('index', params: params.merge(format: 'csv')) }
+      shared_examples_for 'export of mime_type' do
+        let(:export_storage) { FactoryBot.build_stubbed(:work_packages_export) }
+        let(:call_action) { get('index', params: params.merge(format: mime_type)) }
 
         requires_export_permission do
           before do
-            mock_result = double('mock csv result',
-                                 error?: false,
-                                 content: 'blubs',
-                                 mime_type: 'text/csv',
-                                 title: 'blubs.csv')
+            service_instance = double('service_instance')
 
-            expect(WorkPackage::Exporter::CSV)
-              .to receive(:list)
-              .with(query, anything)
-              .and_yield(mock_result)
+            allow(WorkPackages::Exports::ScheduleService)
+              .to receive(:new)
+              .with(user: current_user)
+              .and_return(service_instance)
 
-            expect(controller)
-              .to receive(:send_data)
-              .with(mock_result.content,
-                    type: mock_result.mime_type,
-                    filename: mock_result.title) do |_|
-              # We need to render something because otherwise
-              # the controller will and he will not find a suitable template
-              controller.render plain: 'success'
-            end
+            allow(service_instance)
+              .to receive(:call)
+              .with(query: query, mime_type: mime_type.to_sym, params: anything)
+              .and_return(ServiceResult.new(result: export_storage))
           end
 
           it 'should fulfill the defined should_receives' do
             call_action
+
+            expect(response)
+              .to redirect_to(work_packages_export_path(export_storage.id))
           end
         end
       end
 
+      describe 'csv' do
+        let(:params) { {} }
+        let(:mime_type) { 'csv' }
+
+        it_behaves_like 'export of mime_type'
+      end
+
       describe 'pdf' do
         let(:params) { {} }
-        let(:call_action) { get('index', params: params.merge(format: 'pdf')) }
+        let(:mime_type) { 'pdf' }
 
-        requires_export_permission do
-          context 'w/ a valid query' do
-            before do
-              mock_result = double('mock pdf result',
-                                   error?: false,
-                                   content: 'blubs',
-                                   mime_type: 'application/pdf',
-                                   title: 'blubs.pdf')
-
-              expect(controller)
-                .to receive(:send_data)
-                .with(mock_result.content,
-                      type: mock_result.mime_type,
-                      filename: mock_result.title) do |_|
-                # We need to render something because otherwise
-                # the controller will and he will not find a suitable template
-                controller.render plain: 'success'
-              end
-
-              expect(WorkPackage::Exporter::PDF)
-                .to receive(:list)
-                .with(query, anything)
-                .and_yield(mock_result)
-            end
-
-            it 'should fulfill the defined should_receives' do
-              call_action
-            end
-          end
-
-          context 'with invalid query' do
-            let(:params) { { query_id: 'hokusbogus' } }
-
-            context 'when a non-existant query has been previously selected' do
-              before do
-                allow(controller)
-                  .to receive(:retrieve_query)
-                  .and_raise(ActiveRecord::RecordNotFound)
-
-                call_action
-              end
-
-              it 'renders a 404' do
-                expect(response.response_code).to be === 404
-              end
-            end
-          end
-
-          context 'with an export error' do
-            before do
-              mock_result = double('mock pdf result',
-                                   error?: true,
-                                   message: 'because')
-
-              expect(WorkPackage::Exporter::PDF)
-                .to receive(:list)
-                .with(query, anything)
-                .and_yield(mock_result)
-
-              call_action
-            end
-
-            it "shows the error message" do
-              expect(flash[:error].downcase).to include("because")
-            end
-
-            it "redirects to the html index" do
-              if project
-                expect(response).to redirect_to project_work_packages_path(project)
-              else
-                expect(response).to redirect_to work_packages_path
-              end
-            end
-          end
+        it_behaves_like 'export of mime_type' do
         end
       end
 
@@ -284,9 +209,14 @@ describe WorkPackagesController, type: :controller do
 
         requires_export_permission do
           before do
+            # Note: Stubs for methods used to build up the json query results.
+            # TODO RS:  Clearly this isn't testing anything, but it all needs to be moved to an API controller anyway.
+            allow(query).to receive(:results).and_return(results)
+            allow(results).to receive_message_chain(:sorted_work_packages, :page, :per_page).and_return(work_packages)
+
             expect(controller).to receive(:render_feed).with(work_packages, anything) do |*_args|
               # We need to render something because otherwise
-              # the controller will and he will not find a suitable template
+              # the controller will and it will not find a suitable template
               controller.render plain: 'success'
             end
           end
@@ -297,42 +227,28 @@ describe WorkPackagesController, type: :controller do
         end
       end
     end
-  end
 
-  describe 'index with actual data' do
-    require 'csv'
-    render_views
+    context 'with invalid query' do
+      describe 'pdf' do
+        let(:call_action) { get('index', params: params.merge(format: 'pdf')) }
+        let(:params) { { query_id: 'hokusbogus' } }
 
-    ##
-    # When Ruby tries to join the following work package's subject encoded in ISO-8859-1
-    # and its description encoded in UTF-8 it will result in a CompatibilityError.
-    # This would not happen if the description contained only letters covered by
-    # ISO-8859-1. Since this can happen, though, it is more sensible to encode everything
-    # in UTF-8 which gets rid of this problem altogether.
-    let(:work_package) do
-      FactoryBot.create(
-        :work_package,
-        subject: "Ruby encodes ß as '\\xDF' in ISO-8859-1.",
-        description: "\u2022 requires unicode.",
-        assigned_to: current_user
-      )
-    end
-    let(:current_user) { FactoryBot.create(:admin) }
+        context 'when a non-existant query has been previously selected' do
+          before do
+            allow(User.current).to receive(:allowed_to?).and_return(true)
 
-    it 'performs a successful export' do
-      wp = work_package.reload
+            allow(controller)
+              .to receive(:retrieve_query)
+              .and_raise(ActiveRecord::RecordNotFound)
 
-      expect do
-        get :index, params: { format: 'csv', c: %i(subject assignee updatedAt) }
-      end.not_to raise_error
+            call_action
+          end
 
-      data = CSV.parse(response.body)
-
-      expect(data.size).to eq(2)
-      expect(data.last).to include(wp.subject)
-      expect(data.last).to include(wp.description)
-      expect(data.last).to include(current_user.name)
-      expect(data.last).to include(wp.updated_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
+          it 'renders a 404' do
+            expect(response.response_code).to eql 404
+          end
+        end
+      end
     end
   end
 
@@ -375,7 +291,7 @@ describe WorkPackagesController, type: :controller do
                                                        type: expected_type,
                                                        filename: expected_name) do |*_args|
           # We need to render something because otherwise
-          # the controller will and he will not find a suitable template
+          # the controller will and it will not find a suitable template
           controller.render plain: 'success'
         end
         call_action

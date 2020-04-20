@@ -261,6 +261,7 @@ class ApplicationController < ActionController::Base
 
   def reset_i18n_fallbacks
     return if I18n.fallbacks.defaults == (fallbacks = [I18n.default_locale] + Setting.available_languages.map(&:to_sym))
+
     I18n.fallbacks = nil
     I18n.fallbacks.defaults = fallbacks
   end

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,34 +30,49 @@
 
 require 'spec_helper'
 
-describe ::OpenProject::Bim::BcfXml::Exporter do
-  let(:query) { FactoryBot.build(:global_query) }
-  let(:work_package) { FactoryBot.create :work_package }
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:current_user) { admin }
-
+describe WorkPackagesController, type: :controller do
   before do
-    work_package
     login_as current_user
   end
 
-  subject { described_class.new(query) }
+  let(:stub_project) { FactoryBot.build_stubbed(:project, identifier: 'test_project', public: false) }
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:work_packages) { [FactoryBot.build_stubbed(:stubbed_work_package)] }
 
-  context "one WP without BCF issue associated" do
-    it '#work_packages' do
-      expect(subject.work_packages.count).to eql(0)
+  describe 'index' do
+    let(:query) do
+      FactoryBot.build_stubbed(:query)
     end
-  end
-
-  context "one WP with BCF issue associated" do
-    let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_comment, work_package: work_package) }
 
     before do
-      bcf_issue
+      allow(User.current).to receive(:allowed_to?).and_return(true)
+      allow(controller).to receive(:retrieve_query).and_return(query)
     end
 
-    it '#work_packages' do
-      expect(subject.work_packages.count).to eql(1)
+    describe 'bcf' do
+      let(:mime_type) { 'bcf' }
+      let(:export_storage) { FactoryBot.build_stubbed(:work_packages_export) }
+
+      before do
+        service_instance = double('service_instance')
+
+        allow(WorkPackages::Exports::ScheduleService)
+          .to receive(:new)
+          .with(user: current_user)
+          .and_return(service_instance)
+
+        allow(service_instance)
+          .to receive(:call)
+          .with(query: query, mime_type: mime_type.to_sym, params: anything)
+          .and_return(ServiceResult.new(result: export_storage))
+      end
+
+      it 'redirects to the export' do
+        get 'index', params: { format: 'bcf' }
+
+        expect(response)
+          .to redirect_to work_packages_export_path(export_storage.id)
+      end
     end
   end
 end

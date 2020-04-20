@@ -25,14 +25,18 @@ module OpenProject::XlsExport
     end
 
     initializer 'xls_export.register_mimetypes' do
+      next if defined? Mime::XLS
+
       Mime::Type.register('application/vnd.ms-excel',
                           :xls,
-                          %w(application/vnd.ms-excel)) unless defined? Mime::XLS
+                          %w(application/vnd.ms-excel))
     end
+
+    class_inflection_override('xls' => 'XLS')
 
     config.to_prepare do
       WorkPackage::Exporter
-        .register_for_list(:xls, OpenProject::XlsExport::WorkPackageXlsExport)
+        .register_for_list(:xls, XlsExport::WorkPackage::Exporter::XLS)
     end
   end
 end

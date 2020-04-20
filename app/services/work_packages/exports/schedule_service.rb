@@ -28,14 +28,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackage::Exporter::Error < WorkPackage::Exporter::Result
-  attr_accessor :message
+class WorkPackages::Exports::ScheduleService
+  attr_accessor :user
 
-  def initialize(message)
-    self.message = message
+  def initialize(user:)
+    self.user = user
   end
 
-  def error?
-    true
+  def call(query:, mime_type:, params: {})
+    export_storage = WorkPackages::Export.create user: user
+    schedule_export(export_storage, mime_type, params, query)
+
+    ServiceResult.new success: true, result: export_storage
+  end
+
+  private
+
+  def schedule_export(export_storage, mime_type, params, query)
+    WorkPackages::Exports::ExportJob.perform_later(export: export_storage,
+                                                   mime_type: mime_type,
+                                                   options: params,
+                                                   query: serialize_query(query))
+  end
+
+  def serialize_query(query)
+    if query.persisted?
+      query
+    else
+      query.attributes.tap do |attributes|
+        attributes['filters'] = Queries::WorkPackages::FilterSerializer.dump(query.attributes['filters'])
+      end
+    end
   end
 end

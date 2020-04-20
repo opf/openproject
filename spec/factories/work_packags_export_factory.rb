@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,12 +26,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackage::Exporter::Result
-  def error?
-    false
-  end
+FactoryBot.define do
+  factory :work_packages_export, class: WorkPackages::Export do
 
-  def delayed?
-    false
   end
 end

@@ -1,244 +1,151 @@
+#-- encoding: UTF-8
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+
 require 'spec_helper'
 
-describe WorkPackagesController, 'rendering to xls', type: :controller do
-  let(:current_user) { FactoryBot.create(:admin) }
-  let!(:work_package) do
-    FactoryBot.create(:work_package,
-                       subject: '!SUBJECT!',
-                       description: '!DESCRIPTION!')
-  end
-
+describe WorkPackagesController, type: :controller do
   before do
-    allow(User).to receive(:current).and_return current_user
+    login_as current_user
   end
 
-  describe "should respond with the xls if requested in the index" do
-    before do
-      get('index', params: { format: 'xls', project_id: work_package.project_id })
+  let(:project) { FactoryBot.create(:project, identifier: 'test_project', public: false) }
+  let(:stub_project) { FactoryBot.build_stubbed(:project, identifier: 'test_project', public: false) }
+  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:stub_work_package) do
+    FactoryBot.build_stubbed(:stubbed_work_package,
+                             id: 1337,
+                             type: type,
+                             project: stub_project)
+  end
+
+  let(:current_user) { FactoryBot.create(:user) }
+
+  def self.requires_export_permission(&block)
+    describe 'w/ the export permission
+              w/o a project' do
+      let(:project) { nil }
+
+      before do
+        expect(User.current).to receive(:allowed_to?)
+                                  .with(:export_work_packages,
+                                        project,
+                                        global: true)
+                                  .and_return(true)
+      end
+
+      instance_eval(&block)
     end
 
-    it 'should respond with 200 OK' do
-      expect(response.response_code).to eq(200)
+    describe 'w/ the export permission
+              w/ a project' do
+      before do
+        params[:project_id] = project.id
+
+        expect(User.current).to receive(:allowed_to?)
+                                  .with(:export_work_packages,
+                                        project,
+                                        global: false)
+                                  .and_return(true)
+      end
+
+      instance_eval(&block)
     end
 
-    it 'should have a length > 100 bytes' do
-      expect(response.body.length).to be > 100
-    end
+    describe 'w/o the export permission' do
+      let(:project) { nil }
 
-    it 'should not contain a description' do
-      expect(response.body).not_to include('!DESCRIPTION!')
-    end
+      before do
+        expect(User.current).to receive(:allowed_to?)
+                                  .with(:export_work_packages,
+                                        project,
+                                        global: true)
+                                  .and_return(false)
 
-    it 'should contain a subject' do
-      expect(response.body).to include('!SUBJECT!')
-    end
+        call_action
+      end
 
-    context 'the mime type' do
-      it { expect(response.header['Content-Type']).to eq('application/vnd.ms-excel') }
+      it 'should render a 403' do
+        expect(response.response_code).to eq(403)
+      end
     end
   end
 
-  describe 'with cost and time entries' do
-    # Since this test has to work without the actual costs plugin we'll just add
-    # a custom field called 'costs' to emulate it.
-
-    let(:custom_field) do
-      FactoryBot.create(:float_wp_custom_field,
-                         name: 'unit costs')
-    end
-    let(:custom_value) do
-      FactoryBot.create(:custom_value,
-                         custom_field: custom_field)
-    end
-    let(:type) do
-      type = project.types.first
-      type.custom_fields << custom_field
-      type
-    end
-    let(:project) do
-      FactoryBot.create(:project,
-                         work_package_custom_fields: [custom_field])
-    end
-    let(:work_packages) do
-      wps = FactoryBot.create_list(:work_package, 4,
-                                    project: project,
-                                    type: type)
-      wps[0].estimated_hours = 27.5
-      wps[0].save!
-      wps[1].send(:"custom_field_#{custom_field.id}=", 1)
-      wps[1].save!
-      wps[2].send(:"custom_field_#{custom_field.id}=", 99.99)
-      wps[2].save!
-      wps[3].send(:"custom_field_#{custom_field.id}=", 1000)
-      wps[3].save!
-      wps
-    end
+  describe 'index' do
+    let(:query) { FactoryBot.build_stubbed(:query).tap(&:add_default_filter) }
+    let(:work_packages) { double('work packages').as_null_object }
+    let(:results) { double('results').as_null_object }
 
     before do
-      allow(OpenProject::XlsExport::Formatters::TimeFormatter).to receive(:apply?) do |column|
-        column.caption =~ /time/i
-      end
-
-      allow(OpenProject::XlsExport::Formatters::CostFormatter).to receive(:apply?) do |column|
-        column.caption =~ /cost/i
-      end
-
-      allow(Setting).to receive(:plugin_openproject_costs).and_return('costs_currency' => 'EUR', 'costs_currency_format' => '%n %u')
-
-      get 'index',
-          params: {
-            format: 'xls',
-            project_id: work_packages.first.project_id,
-            set_filter: '1',
-            c: ['subject',
-                'status',
-                'estimated_hours',
-                "cf_#{custom_field.id}"],
-            sortBy: JSON::dump(['id:asc'])
-          }
-
-      expect(response.response_code).to eq(200)
-
-      f = Tempfile.new 'result.xls'
-      begin
-        f.binmode
-        f.write response.body
-      ensure
-        f.close
-      end
-
-      require 'spreadsheet'
-
-      @sheet = Spreadsheet.open(f.path).worksheets.first
-      f.unlink
+      allow(User.current).to receive(:allowed_to?).and_return(false)
+      expect(User.current).to receive(:allowed_to?)
+                                .with({ controller: 'work_packages',
+                                        action: 'index' },
+                                      project,
+                                      global: project.nil?)
+                                .and_return(true)
     end
 
-    it 'should successfully export the work packages with a cost column' do
-      expect(@sheet.rows.size).to eq(4 + 1)
-
-      cost_column = @sheet.columns.last.to_a
-      %w[1 99.99 1000].each do |value|
-        expect(cost_column).to include(value)
+    describe 'with valid query' do
+      before do
+        allow(controller).to receive(:retrieve_query).and_return(query)
       end
-    end
 
-    context 'with german locale' do
-      let(:current_user) { FactoryBot.create(:admin, language: :de) }
+      describe 'xls' do
+        let(:params) { {} }
+        let(:call_action) { get('index', params: params.merge(format: mime_type)) }
+        let(:mime_type) { 'xls' }
+        let(:export_storage) { FactoryBot.build_stubbed(:work_packages_export) }
 
-      it 'should successfully export the work packages with a cost column localized' do
-        expect(@sheet.rows.size).to eq(4 + 1)
+        requires_export_permission do
+          before do
+            service_instance = double('service_instance')
 
-        cost_column = @sheet.columns.last.to_a
-        %w[1 99,99 1000].each do |value|
-          expect(cost_column).to include(value)
+            allow(WorkPackages::Exports::ScheduleService)
+              .to receive(:new)
+                    .with(user: current_user)
+                    .and_return(service_instance)
+
+            allow(service_instance)
+              .to receive(:call)
+                    .with(query: query, mime_type: mime_type.to_sym, params: anything)
+                    .and_return(ServiceResult.new(result: export_storage))
+          end
+
+          it 'should fulfill the defined should_receives' do
+            call_action
+
+            expect(response)
+              .to redirect_to(work_packages_export_path(export_storage.id))
+          end
         end
       end
-    end
-
-    it 'should include estimated hours' do
-      expect(@sheet.rows.size).to eq(4 + 1)
-
-      # Check row after header row
-      hours = @sheet.rows[1].values_at(2)
-      expect(hours).to include(27.5)
-    end
-  end
-
-  context 'with descriptions' do
-    before do
-      get 'index',
-          params: {
-            format: 'xls',
-            project_id: work_package.project_id,
-            show_descriptions: 'true'
-          }
-    end
-
-    it 'should respond with 200 OK' do
-      expect(response.response_code).to eq(200)
-    end
-
-    it 'should have a length > 100 bytes' do
-      expect(response.body.length).to be > 100
-    end
-
-    it 'should contain a description' do
-      expect(response.body).to include('!DESCRIPTION!')
-    end
-
-    it 'should contain a subject' do
-      expect(response.body).to include('!SUBJECT!')
-    end
-
-    it 'returns the xls mime mime type' do
-      expect(response.header['Content-Type'])
-        .to eq('application/vnd.ms-excel')
-    end
-  end
-
-  describe 'empty result' do
-    before do
-      work_package.delete
-
-      get 'index', params: { format: 'xls', project_id: work_package.project_id }
-    end
-
-    it 'should yield an empty XLS file' do
-      expect(response.response_code).to be(200)
-
-      f = Tempfile.new 'result.xls'
-      begin
-        f.binmode
-        f.write response.body
-      ensure
-        f.close
-      end
-
-      require 'spreadsheet'
-
-      sheet = Spreadsheet.open(f.path).worksheets.first
-      expect(sheet.rows.size).to eq(1) # just the headers
-    end
-  end
-
-  describe 'with user time zone' do
-    let(:zone) { +2 }
-
-    before do
-      allow(current_user).to receive(:time_zone).and_return(zone)
-
-      allow(OpenProject::XlsExport::Formatters::TimeFormatter).to receive(:apply?) do |column|
-        column.caption =~ /time/i
-      end
-
-      get 'index',
-          params: {
-            format: 'xls',
-            project_id: work_package.project_id,
-            set_filter: '1',
-            c: ['subject', 'status', 'updated_at']
-          }
-
-      expect(response.response_code).to eq(200)
-
-      f = Tempfile.new 'result.xls'
-      begin
-        f.binmode
-        f.write response.body
-      ensure
-        f.close
-      end
-
-      require 'spreadsheet'
-
-      @sheet = Spreadsheet.open(f.path).worksheets.first
-      f.unlink
-    end
-
-    it 'should adapt the datetime fields to the user time zone' do
-      work_package.reload
-      updated_at_cell = @sheet.rows.last.to_a.last
-      expect(updated_at_cell.to_s(:number)).to eq(work_package.updated_at.in_time_zone(zone).to_s(:number))
     end
   end
 end
