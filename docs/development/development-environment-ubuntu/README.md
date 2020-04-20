@@ -154,8 +154,11 @@ ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-linux]
 bundler --version
 Bundler version 2.0.2
 
+node --version
+v12.6.1
+
 npm --version
-12.6.1
+6.14.4
 ```
 
 # Install OpenProject
