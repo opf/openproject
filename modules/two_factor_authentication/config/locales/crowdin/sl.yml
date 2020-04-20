@@ -162,7 +162,7 @@ sl:
   notice_account_has_no_phone: "Z vašim računom ni povezana nobena številka mobilnega telefona."
   label_expiration_hint: "%{date} ali ob odjavi"
   label_actions: 'Akcije'
-  label_confirmed: 'Confirmed'
+  label_confirmed: 'Potrjeno'
   button_continue: 'Nadaljuj'
   button_make_default: 'Označite kot privzeto'
   label_unverified_phone: "Mobilni telefon še ni preverjen"

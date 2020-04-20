@@ -72,7 +72,7 @@ it:
       bcf_v2_1_text: "L'applicazione riceverà accesso completo in lettura e scrittura alle API BCF v2.1 per effettuare azioni a tuo nome."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "Modello IFC"
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "File IFC"

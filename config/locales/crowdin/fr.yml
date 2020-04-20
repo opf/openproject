@@ -61,7 +61,7 @@ fr:
         header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
         header-border-bottom-color: "Ligne mince sous l’en-tête. Laissez ce champ vide si vous ne voulez pas de ligne."
         main-menu-bg-color: "Couleur d’arrière-plan du menu de gauche."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Si vous changez de thème, votre style personnalisé sera écrasé. Le design sera alors perdu. Vous êtes sûr de vouloir continuer ?
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
@@ -1155,7 +1155,7 @@ fr:
       forums: "Forum de la communauté"
       newsletter: "Alertes de sécurité / Lettre d’information"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "Les changements ont été rétractés."
   links:
     configuration_guide: 'Guide de configuration'
     get_in_touch: "Vous avez des questions ? Contactez-nous."

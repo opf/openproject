@@ -9,6 +9,6 @@ sl:
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'prekrivanje.'
+          outside: 'je zunaj omrežja.'
+          end_before_start: 'končna vrednost mora biti večja od začetne vrednosti.'

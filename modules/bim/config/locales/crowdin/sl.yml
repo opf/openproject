@@ -10,7 +10,7 @@ sl:
     recommended: 'Priporočeno'
     not_recommended: 'ni priporočeno'
     no_viewpoints: 'Ni pogleda/vidika'
-    new_badge: "New"
+    new_badge: "Novo"
     exceptions:
       file_invalid: "BCF datoteka ni veljavna"
     x_bcf_issues:
@@ -113,7 +113,7 @@ sl:
     no_results: "V tem projektu ni bil naložen noben model IFC."
     processing_state:
       label: 'Obdelujem?'
-      in_progress: 'In progress'
+      in_progress: 'V teku'
       completed: 'Zaključeno'
     processing_notice:
       processing_default: 'Naslednji privzeti modeli IFC se še vedno obdelujejo in zato še niso na voljo:'

@@ -29,8 +29,8 @@ sl:
   enumeration:
     document_category:
       documentation: Dokumentacija
-      specification: Specification
-      other: Other
+      specification: Specifikacija
+      other: Drugo
   documents:
     label_attachment_author: "Avtor priloge"
   label_document_added: "Dokument dodan"

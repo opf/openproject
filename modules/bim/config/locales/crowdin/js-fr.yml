@@ -15,7 +15,7 @@ fr:
       keyboard_input_disabled: "La visionneuse n'a pas de commandes de clavier. Cliquez sur la visionneuse pour lui donner le contrôle du clavier."
       models:
         default: 'Modèles IFC par défaut'
-        manage: 'Manage models'
+        manage: 'Gérer les modèles'
       views:
         viewer: 'Visionneuse'
         split: 'Visionneuse et cartes'

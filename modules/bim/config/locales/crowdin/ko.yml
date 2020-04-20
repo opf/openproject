@@ -71,7 +71,7 @@ ko:
       bcf_v2_1_text: "애플리케이션은 사용자를 대신하여 작업을 수행하기 위해 OpenProject BCF API v2.1에 대한 전체 읽기 및 쓰기 액세스 권한을 받습니다."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "IFC 모델"
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "IFC 파일"

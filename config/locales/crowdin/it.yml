@@ -61,7 +61,7 @@ it:
         header-item-font-hover-color: "Colore del carattere degli elementi cliccabili nelle intestazioni al passaggio del mouse."
         header-border-bottom-color: "Sottile linea sotto l'intestazione. Lascia vuoto questo campo se non vuoi nessuna linea."
         main-menu-bg-color: "Colore di sfondo del menu a sinistra."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Cambiando il tema si sovrascriverà lo stile personalizzato. Il design andrà poi perso. Sei sicuro di voler continuare?
     enterprise:
       upgrade_to_ee: "Aggiorna a Enterprise Edition"
       add_token: "Carica un token di assistenza per Enterprise Edition"
@@ -1152,7 +1152,7 @@ it:
       forums: "Forum della Comunità"
       newsletter: "Avvisi di sicurezza / Notizie"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "Le modifiche in cui sono state annullate."
   links:
     configuration_guide: 'Guida di configurazione'
     get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."

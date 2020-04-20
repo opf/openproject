@@ -15,7 +15,7 @@ it:
       keyboard_input_disabled: "Il visualizzatore non dispone di controlli da tastiera. Clicca sul visualizzatore per dare controlli da tastiera al visualizzatore."
       models:
         default: 'Modelli IFC predefiniti'
-        manage: 'Manage models'
+        manage: 'Gestire i modelli'
       views:
         viewer: 'Visualizzatore'
         split: 'Visualizzatore e schede'

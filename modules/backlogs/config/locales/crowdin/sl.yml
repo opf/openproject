@@ -117,7 +117,7 @@ sl:
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
   label_backlogs_unconfigured: "Zaostankov še niste konfigurirali. Pojdite na  %{administration} > %{plugins}, nato kliknite povezavo %{configure} za ta vtičnik. Ko nastavite polja, se vrnite na to stran, da začnete uporabljati orodje."
-  label_blocks_ids: "IDs of blocked work packages"
+  label_blocks_ids: "ID blokiranih delovnih paketov"
   label_burndown: "Okvara"
   label_column_in_backlog: "Stolpec v Backlog"
   label_hours: "Ur"
