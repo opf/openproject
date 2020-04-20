@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -25,21 +26,33 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+module Bim
+  module BasicData
+    class RoleSeeder < ::BasicData::RoleSeeder
 
-module OpenProject::Bim::Patches::SettingSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
-
-  module InstanceMethods
-    def data
-      original_data = super
-
-      unless original_data['default_projects_modules'].include? 'bim'
-        original_data['default_projects_modules'] << 'bim'
+      def member
+        super.tap do |role_data|
+          role_data[:permissions] += %i[view_linked_issues manage_bcf delete_work_packages]
+        end
       end
 
-      original_data
+      def reader
+        super.tap do |role_data|
+          role_data[:permissions] += %i[view_linked_issues]
+        end
+      end
+
+      def non_member
+        super.tap do |role_data|
+          role_data[:permissions] += %i[view_linked_issues]
+        end
+      end
+
+      def anonymous
+        super.tap do |role_data|
+          role_data[:permissions] += %i[view_linked_issues]
+        end
+      end
     end
   end
 end

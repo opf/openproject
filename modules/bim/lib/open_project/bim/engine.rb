@@ -91,8 +91,6 @@ module OpenProject::Bim
     patches %i[WorkPackage Type Journal RootSeeder Project]
 
     patch_with_namespace :OpenProject, :CustomStyles, :Design
-    patch_with_namespace :BasicData, :SettingSeeder
-    patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
     patch_with_namespace :Journal, :AggregatedJournal
     patch_with_namespace :API, :V3, :Activities, :ActivitiesSharedHelpers
