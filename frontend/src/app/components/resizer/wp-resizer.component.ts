@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, Component, ElementRef, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, NgZone, ChangeDetectorRef} from '@angular/core';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {TransitionService} from '@uirouter/core';
 import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
@@ -39,7 +39,7 @@ import {fromEvent} from "rxjs";
   selector: 'wp-resizer',
   template: `
     <resizer [customHandler]="false"
-             resizerClass="work-packages--resizer icon-resizer-vertical-lines"
+             [resizerClass]="resizerClass"
              cursorClass="col-resize"
              (end)="resizeEnd()"
              (start)="resizeStart()"
@@ -57,13 +57,19 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   private resizingElement:HTMLElement;
   private elementWidth:number;
   private element:HTMLElement;
+  private resizer:HTMLElement;
+  // Min-width this element is allowed to have
+  private elementMinWidth = 530;
 
   public moving:boolean = false;
+  public resizerClass = 'work-packages--resizer icon-resizer-vertical-lines';
 
   constructor(readonly toggleService:MainMenuToggleService,
               private elementRef:ElementRef,
               readonly $transitions:TransitionService,
-              readonly browserDetector:BrowserDetector) {
+              readonly browserDetector:BrowserDetector,
+              private ngZone:NgZone,
+              private changeDetectorRef:ChangeDetectorRef) {
     super();
   }
 
@@ -73,13 +79,17 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
     // Get initial width from local storage and apply
     let localStorageValue = this.parseLocalStorageValue();
-    this.elementWidth = localStorageValue || this.resizingElement.offsetWidth;
+    this.elementWidth = localStorageValue ||
+                        (this.resizingElement.offsetWidth < this.elementMinWidth ?
+                          this.elementMinWidth :
+                          this.resizingElement.offsetWidth);
 
     // This case only happens when the timeline is loaded but not displayed.
     // Therefor the flexbasis will be set to 50%, just in px
     if (this.elementWidth === 0 && this.resizingElement.parentElement) {
       this.elementWidth = this.resizingElement.parentElement.offsetWidth / 2;
     }
+
     this.resizingElement.style[this.resizeStyle] = this.elementWidth + 'px';
 
     // Add event listener
@@ -105,6 +115,9 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   }
 
   ngAfterViewInit():void {
+    // Get the reziser
+    this.resizer = <HTMLElement>this.elementRef.nativeElement.getElementsByClassName(this.resizerClass)[0];
+
     this.applyColumnLayout(this.resizingElement, this.elementWidth);
   }
 
@@ -136,10 +149,32 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   }
 
   resizeMove(deltas:ResizeDelta) {
+    // Avoid text-selection while the user is dragging the resizer
+    deltas.origin.preventDefault();
+
     // Get new value depending on the delta
-    // The resizingElement is not allowed to be smaller than 530px
     this.elementWidth = this.elementWidth - deltas.relative.x;
-    let newValue = this.elementWidth < 530 ? 530 : this.elementWidth;
+    let newValue;
+
+    // The resizingElement is not allowed to be smaller than the elementMinWidth
+    if (this.elementWidth < this.elementMinWidth) {
+      newValue = this.elementMinWidth;
+
+      // Show the resizer red when it reaches its limit (min-width)
+      if (this.resizer.style.color !== 'red') {
+        this.resizer.style.color = 'red';
+
+        // Avoid triggering change detection for all the app
+        this.ngZone.runOutsideAngular(() => {
+          setTimeout(() => {
+            this.resizer.style.color = '';
+            this.changeDetectorRef.detectChanges();
+          }, 500);
+        });
+      }
+    } else {
+      newValue = this.elementWidth;
+    }
 
     // Store item in local storage
     window.OpenProject.guardedLocalStorage(this.localStorageKey, `${newValue}`);
@@ -150,7 +185,6 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     // Set new width
     this.resizingElement.style[this.resizeStyle] = newValue + 'px';
   }
-
 
   private parseLocalStorageValue():number|undefined {
     let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
