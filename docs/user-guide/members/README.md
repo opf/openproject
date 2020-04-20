@@ -14,13 +14,12 @@ keywords: members
 | Feature                                         | Documentation for                                            |
 | ----------------------------------------------- | ------------------------------------------------------------ |
 | [Add members](#add-members)                     | How to add existing members or invite new members to a project? |
-| Edit members                                    | How to change the role of a member in a project?             |
+| [Edit members](#edit-members)                   | How to change the role of a member in a project?             |
 | [Remove members](#remove-members)               | How to remove members from a project?                        |
 | [Roles and permissions](#roles-and-permissions) | How to manage roles and permissions for members?             |
 | [Groups](#groups)                               | How to add members to a groups and add groups to a project?  |
 
 <iframe width="620" height="440" src="https://www.youtube.com/embed/aidzIYnmTvQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
 ## Add members
 
 Find out how to [add existing members](../../getting-started/invite-members/#add-existing-members) to join a project or [invite new team members](../../getting-started/invite-members/#invite-new-members).
@@ -44,20 +43,14 @@ To remove members from a project, [select the project](../projects/#select-a-pro
 Members will have different roles with different permissions in a project. To find out how to [configure roles and permissions](../../system-admin-guide/#roles-permissions).
 
 <div class="glossary">A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's or group's name and the role(s) the user should assume in the project.</div>
-
 ## Groups
 
 Members can be added to groups. A group can be added to a project. With this, all members will be have the corresponding role in this project. Find out how to [create and manage groups](../../system-admin-guide/#groups) in OpenProject.
 
 ## Frequently asked questions (FAQ)
 
-### How can I increase the number of users in OpenProject?
+### How can I increase or decrease the number of users in OpenProject?
 
-Please note that the minimum number of users is 5. You can then increase the number of users in steps of 5. Just write an email to sales@openproject.com.
+For the Community Edition you can have as many users as you need for free. If you are using the OpenProject Enterprise Edition, please write an email to sales@openproject.com.
 
-### Is it possible to change the number of users in OpenProject?
-You can always increase the number of users. The number of users can be increased in steps of 5 (e.g. you could start with 5 users and then increase the number of users to 10 users). You can purchase the Enterprise Edition from [here](https://www.openproject.org/enterprise-edition/). Simply click on the button "Book now" and follow the steps. A reduction in the number of users would take effect after the current service period.
-
-### Do you have OpenProject guest accounts?
-
-Currently, all users working in the OpenProject Enterprise Edition need a license in order to access OpenProject. Regarding payments we only count the active (not blocked) users.
+If you are using the OpenProject Cloud Edition, you can easily upgrade or downgrade the number of users by selection -> Administration -> Billing -> Manage subscription and choose the new amount of users which you need in  your system.
