@@ -46,6 +46,8 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
 
   public boards$:Observable<Board[]> = this.boardCache.observeAll();
 
+  teaserVideoURL = this.domSanitizer.bypassSecurityTrustResourceUrl(boardTeaserVideoURL);
+
   constructor(private readonly boardService:BoardService,
               private readonly boardCache:BoardCacheService,
               private readonly I18n:I18nService,
@@ -100,9 +102,5 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
 
   public demoLink() {
     return enterpriseDemoUrl;
-  }
-
-  public teaserVideoURL() {
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(boardTeaserVideoURL);
   }
 }

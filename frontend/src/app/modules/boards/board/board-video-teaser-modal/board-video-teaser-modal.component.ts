@@ -25,7 +25,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 
         <h3 [textContent]="text.title"></h3>
 
-        <iframe [src]="teaserVideoUrl()"
+        <iframe [src]="teaserVideoUrl"
                 width="800"
                 height="500"
                 class="boards--teaser-video"
@@ -38,7 +38,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 
   `
 })
-export class BoardVideoTeaserModalComponent extends OpModalComponent implements OnInit, OnDestroy  {
+export class BoardVideoTeaserModalComponent extends OpModalComponent implements OnInit, OnDestroy {
 
   /* Close on escape? */
   public closeOnEscape = false;
@@ -50,6 +50,8 @@ export class BoardVideoTeaserModalComponent extends OpModalComponent implements 
     title: this.I18n.t('js.label_board_plural')
   };
 
+  public teaserVideoUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(boardTeaserVideoURL);
+
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
@@ -57,9 +59,5 @@ export class BoardVideoTeaserModalComponent extends OpModalComponent implements 
               readonly domSanitizer:DomSanitizer) {
 
     super(locals, cdRef, elementRef);
-  }
-
-  public teaserVideoUrl() {
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(boardTeaserVideoURL);
   }
 }
