@@ -32,7 +32,6 @@ require_relative './../support/board_page'
 
 describe 'Assignee action board',
          type: :feature,
-         driver: :firefox_headless_en,
          js: true do
   let(:bobself_user) do
     FactoryBot.create(:user,
@@ -65,6 +64,15 @@ describe 'Assignee action board',
                       member_through_role: role)
   end
 
+  let!(:group) do
+    FactoryBot.create(:group, groupname: 'Grouped').tap do |group|
+      FactoryBot.create(:member,
+                        principal: group,
+                        project: project,
+                        roles: [role])
+    end
+  end
+
   let!(:work_package) { FactoryBot.create :work_package,
                                           project: project,
                                           assigned_to: bobself_user,
@@ -93,22 +101,31 @@ describe 'Assignee action board',
     board_page.add_list option: 'Foo Bar'
     board_page.expect_list 'Foo Bar'
 
+    # Add grouped list
+    board_page.add_list option: 'Grouped'
+    board_page.expect_list 'Grouped'
+
     board_page.board(reload: true) do |board|
       expect(board.name).to eq 'Action board (assignee)'
       queries = board.contained_queries
-      expect(queries.count).to eq(2)
+      expect(queries.count).to eq(3)
 
       bob = queries.first
-      foo = queries.last
+      foo = queries.second
+      grouped = queries.last
 
       expect(bob.name).to eq 'Bob Self'
       expect(foo.name).to eq 'Foo Bar'
+      expect(grouped.name).to eq 'Grouped'
 
       expect(bob.filters.first.name).to eq :assigned_to_id
       expect(bob.filters.first.values).to eq [bobself_user.id.to_s]
 
       expect(foo.filters.first.name).to eq :assigned_to_id
       expect(foo.filters.first.values).to eq [foobar_user.id.to_s]
+
+      expect(grouped.filters.first.name).to eq :assigned_to_id
+      expect(grouped.filters.first.values).to eq [group.id.to_s]
     end
 
     # First, expect work package to be assigned to "Bob self"
@@ -128,5 +145,17 @@ describe 'Assignee action board',
 
     work_package.reload
     expect(work_package.assigned_to).to eq(foobar_user)
+
+    # Move to group column
+    board_page.move_card(0, from: 'Foo Bar', to: 'Grouped')
+    board_page.expect_card 'Grouped', 'Some Task'
+    board_page.expect_card 'Foo Bar', 'Some Task', present: false
+    board_page.expect_card 'Bob Self', 'Some Task', present: false
+
+    # Expect to have changed the avatar
+    expect(page).to have_selector('.wp-card--assignee .avatar-default', text: 'GG', wait: 10)
+
+    work_package.reload
+    expect(work_package.assigned_to).to eq(group)
   end
 end

@@ -48,7 +48,6 @@ import {
   HalResourceFactoryConfigInterface,
   HalResourceService
 } from 'core-app/modules/hal/services/hal-resource.service';
-import {Injectable} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WikiPageResource} from "core-app/modules/hal/resources/wiki-page-resource";
 import {MeetingContentResource} from "core-app/modules/hal/resources/meeting-content-resource";
@@ -63,6 +62,7 @@ import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {GroupResource} from "core-app/modules/hal/resources/group-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -119,6 +119,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   },
   User: {
     cls: UserResource
+  },
+  Group: {
+    cls: GroupResource
   },
   Collection: {
     cls: CollectionResource
