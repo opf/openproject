@@ -62,7 +62,7 @@ describe "WorkPackageXlsExport Custom Fields" do
   end
 
   let(:export) do
-    OpenProject::XlsExport::WorkPackageXlsExport.new query
+    XlsExport::WorkPackage::Exporter::XLS.new query
   end
 
   def load_sheet(export)

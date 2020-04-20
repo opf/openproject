@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackage::Exporter::Error < WorkPackage::Exporter::Result
+class WorkPackage::Exporter::Result::Error < WorkPackage::Exporter::Result
   attr_accessor :message
 
   def initialize(message)

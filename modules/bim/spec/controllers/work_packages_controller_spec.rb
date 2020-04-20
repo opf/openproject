@@ -37,9 +37,12 @@ describe WorkPackagesController, type: :controller do
 
   let(:stub_project) { FactoryBot.build_stubbed(:project, identifier: 'test_project', public: false) }
   let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:work_packages) { [FactoryBot.build_stubbed(:stubbed_work_package)] }
 
   describe 'index' do
-    let(:query) { FactoryBot.build_stubbed(:query) }
+    let(:query) do
+      FactoryBot.build_stubbed(:query)
+    end
 
     before do
       allow(User.current).to receive(:allowed_to?).and_return(true)
@@ -47,25 +50,28 @@ describe WorkPackagesController, type: :controller do
     end
 
     describe 'bcf' do
-      let(:mock_result) do
-        double('bcf result',
-               error?: false,
-               delayed?: true,
-               id: 5)
-      end
+      let(:mime_type) { 'bcf' }
+      let(:export_storage) { FactoryBot.build_stubbed(:work_packages_export) }
 
       before do
-        expect(OpenProject::Bim::BcfXml::DelayedExporter)
-          .to receive(:list)
-          .with(query, anything)
-          .and_yield(mock_result)
+        service_instance = double('service_instance')
+
+        allow(WorkPackages::Exports::ScheduleService)
+          .to receive(:new)
+          .with(user: current_user)
+          .and_return(service_instance)
+
+        allow(service_instance)
+          .to receive(:call)
+          .with(query: query, mime_type: mime_type.to_sym, params: anything)
+          .and_return(ServiceResult.new(result: export_storage))
       end
 
       it 'redirects to the export' do
         get 'index', params: { format: 'bcf' }
 
         expect(response)
-          .to redirect_to work_packages_export_path(mock_result.id)
+          .to redirect_to work_packages_export_path(export_storage.id)
       end
     end
   end

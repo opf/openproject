@@ -30,23 +30,30 @@
 
 require 'spec_helper'
 
-describe Bim::Bcf::ExportJob do
+describe WorkPackages::Exports::ExportJob do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:export) do
     FactoryBot.build_stubbed(:work_packages_export, user: user)
   end
-  let(:work_package_ids) { [1, 2, 3] }
+  let(:query) { FactoryBot.build_stubbed(:query) }
 
   let(:instance) { described_class.new }
-  subject { instance.perform(export: export, work_package_ids: work_package_ids) }
+  let(:options) { {} }
+  subject do
+    instance.perform(export: export,
+                     mime_type: mime_type,
+                     options: options,
+                     query: query)
+  end
 
-  describe '#perform' do
-    it 'issues an OpenProject::Bim::BcfXml::Exporter export' do
-      file = FileHelpers.mock_uploaded_file
-      result = WorkPackage::Exporter::Success.new(format: 'blubs',
-                                                  title: 'some_title',
-                                                  content: file,
-                                                  mime_type: "application/octet-stream")
+  shared_examples_for 'exporter returning string' do
+    it 'exports' do
+      content = 'some string'
+
+      result = WorkPackage::Exporter::Result::Success.new(format: 'blubs',
+                                                          title: "some_title.#{mime_type}",
+                                                          content: content,
+                                                          mime_type: "application/octet-stream")
 
       service = double('attachments create service')
 
@@ -59,14 +66,35 @@ describe Bim::Bcf::ExportJob do
         .to receive(:perform_after_grace)
 
       expect(service)
-        .to receive(:call)
-        .with(uploaded_file: file, description: '')
+        .to receive(:call) do |uploaded_file:, description:|
+        expect(File.basename(uploaded_file))
+          .to start_with 'some_title'
 
-      allow(OpenProject::Bim::BcfXml::Exporter)
+        expect(File.basename(uploaded_file))
+          .to end_with ".#{mime_type}"
+      end
+
+      allow("WorkPackage::Exporter::#{mime_type.upcase}".constantize)
         .to receive(:list)
         .and_yield(result)
 
       subject
+    end
+  end
+
+  describe '#perform' do
+    context 'with the pdf mime type' do
+      let(:mime_type) { :pdf }
+
+      it_behaves_like 'exporter returning string'
+    end
+  end
+
+  describe '#perform' do
+    context 'with the csv mime type' do
+      let(:mime_type) { :csv }
+
+      it_behaves_like 'exporter returning string'
     end
   end
 end

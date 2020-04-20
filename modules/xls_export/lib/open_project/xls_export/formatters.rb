@@ -56,13 +56,13 @@ module OpenProject::XlsExport
 
     class TimeFormatter < DefaultFormatter
       def format_options(column)
-        {:number_format => '0.0 "h"'}
+        { :number_format => '0.0 "h"' }
       end
     end
 
     class CostFormatter < DefaultFormatter
       def format_options(column)
-        {:number_format => number_format_string}
+        { :number_format => number_format_string }
       end
 
       def number_format_string

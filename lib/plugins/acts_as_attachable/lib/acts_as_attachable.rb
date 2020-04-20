@@ -70,6 +70,10 @@ module Redmine
             extract_tsv: attachable_extract_tsv_option(options)
           }
 
+          # Because subclasses can have their own attachable_options,
+          # we ensure those are also listed.
+          Redmine::Acts::Attachable.attachables.push(self) unless Redmine::Acts::Attachable.attachables.include?(self)
+
           options.except!(:view_permission,
                           :delete_permission,
                           :add_on_new_permission,

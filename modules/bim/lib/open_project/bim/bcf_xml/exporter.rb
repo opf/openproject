@@ -37,7 +37,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def success(zip)
-      WorkPackage::Exporter::Success
+      WorkPackage::Exporter::Result::Success
         .new format: :xls,
              content: zip,
              title: bcf_filename,

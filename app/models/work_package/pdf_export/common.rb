@@ -51,7 +51,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def success(content)
-    WorkPackage::Exporter::Success
+    WorkPackage::Exporter::Result::Success
       .new format: :csv,
            title: title,
            content: content,

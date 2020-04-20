@@ -83,10 +83,12 @@ class WorkPackagesController < ApplicationController
   protected
 
   def export_list(mime_type)
-    exporter = WorkPackage::Exporter.for_list(mime_type)
-    exporter.list(@query, params) do |export|
-      render_export_response export, fallback_path: index_redirect_path
-    end
+    export_storage = WorkPackages::Exports::ScheduleService
+                     .new(user: current_user)
+                     .call(query: @query, mime_type: mime_type, params: params)
+                     .result
+
+    redirect_to work_packages_export_path(export_storage.id)
   end
 
   def export_single(mime_type)
@@ -115,19 +117,11 @@ class WorkPackagesController < ApplicationController
     if export.error?
       flash[:error] = export.message
       redirect_back(fallback_location: fallback_path)
-    elsif export.delayed?
-      redirect_to work_packages_export_path(export.id)
     else
-      export_storage = store_export(export)
-      redirect_to work_packages_export_path(export_storage.id)
+      send_data(export.content,
+                type: export.mime_type,
+                filename: export.title)
     end
-  end
-
-  def store_export(export)
-    WorkPackages::Exports::CreateFromStringService
-      .new(user: current_user)
-      .call(title: export.title, content: export.content)
-      .result
   end
 
   def authorize_on_work_package
@@ -144,14 +138,14 @@ class WorkPackagesController < ApplicationController
   end
 
   def supported_export_formats
-    %w[atom rss] + WorkPackage::Exporter.list_formats.map(&:to_s)
+    %w[atom] + WorkPackage::Exporter.list_formats.map(&:to_s)
   end
 
   def load_and_validate_query
     @query ||= retrieve_query
 
     unless @query.valid?
-      # Ensure outputting a html response
+      # Ensure outputting an html response
       request.format = 'html'
       render_400(message: @query.errors.full_messages.join(". "))
     end

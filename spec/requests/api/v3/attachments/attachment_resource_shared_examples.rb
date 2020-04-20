@@ -173,7 +173,20 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
     end
 
     context 'missing permissions' do
-      let(:permissions) { [] }
+      let(:permissions) do
+        # Some attachables use public permissions
+        # which more or less allows everybody to upload attachments.
+        # This messes with the tests.
+        # However, it might make sense to reevaluate the necessity of this test.
+        allow(Redmine::Acts::Attachable)
+          .to receive(:attachables)
+          .and_return(Redmine::Acts::Attachable.attachables.select do |a|
+            permission = OpenProject::AccessControl.permission(a.attachable_options[:add_on_new_permission])
+            !permission || !permission.public?
+          end)
+
+        []
+      end
 
       it_behaves_like 'unauthorized access'
     end
