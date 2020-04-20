@@ -47,6 +47,21 @@ export function withLoadingIndicator<T>(indicator:LoadingIndicator, delayStopTim
   };
 }
 
+export function withDelayedLoadingIndicator<T>(indicator:() => LoadingIndicator):(source:Observable<T>) => Observable<T> {
+  return (source$:Observable<T>) => {
+    setTimeout(() => indicator().start());
+
+    return source$.pipe(
+      tap(
+        () => undefined,
+        () => indicator().stop(),
+        () => indicator().stop()
+      )
+    );
+  };
+}
+
+
 export class LoadingIndicator {
 
   private indicatorTemplate:string =
@@ -61,7 +76,8 @@ export class LoadingIndicator {
     </div>
    `;
 
-  constructor(public indicator:JQuery) {}
+  constructor(public indicator:JQuery) {
+  }
 
   public set promise(promise:Promise<unknown>) {
     this.start();
@@ -93,9 +109,23 @@ export class LoadingIndicator {
 export class LoadingIndicatorService {
 
   // Provide shortcut to the primarily used indicators
-  public get table() { return this.indicator('table'); }
-  public get wpDetails() { return this.indicator('wpDetails'); }
-  public get modal() { return this.indicator('modal'); }
+  public get table() {
+    return this.indicator('table');
+  }
+
+  public get wpDetails() {
+    return this.indicator('wpDetails');
+  }
+
+  public get modal() {
+    return this.indicator('modal');
+  }
+
+  // Returns a getter function to an indicator
+  // in case the indicator is shown conditionally
+  public getter(name:string):() => LoadingIndicator {
+    return this.indicator.bind(this, name);
+  }
 
   // Return an indicator by name or element
   public indicator(indicator:string|JQuery):LoadingIndicator {
