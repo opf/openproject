@@ -36,14 +36,14 @@
     <label class="form--label" for="trial-email">{{ text.label_email }}</label>
     <div class="form--field-container">
       <div class="form--text-field-container"
-           [ngClass]="{ '-required-highlighting' : eeTrialService.emailTaken }">
+           [ngClass]="{ '-required-highlighting' : eeTrialService.emailError }">
         <input type="email"
                class="form--text-field"
                id="trial-email"
                formControlName="email" (blur)="checkMailField()">
       </div>
     </div>
-    <div *ngIf="eeTrialService.emailTaken" class="form--field-instructions">{{ eeTrialService.errorMsg }}</div>
+    <div *ngIf="eeTrialService.emailError" class="form--field-instructions">{{ eeTrialService.errorMsg }}</div>
   </div>
   <div class="form--field -wide-label -required">
     <label class="form--label" for="trial-domain-name">{{ text.label_domain }}</label>

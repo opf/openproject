@@ -179,11 +179,16 @@ export class EnterpriseTrialService {
 
   public get domainTaken():boolean {
     return this.error ? this.error.error.identifier === 'domain_taken' : false;
-
   }
 
-  public get emailTaken():boolean {
-    return this.error ? this.error.error.identifier === 'user_already_created_trial' : false;
+  public get emailError():boolean {
+    if (this.emailInvalid) {
+      return true;
+    } else if (this.error) {
+      return this.error.error.identifier === 'user_already_created_trial';
+    } else {
+      return false;
+    }
   }
 
   public get errorMsg() {

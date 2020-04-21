@@ -90,6 +90,7 @@ export class EETrialFormComponent {
     if (this.trialForm.value.email !== '' && this.trialForm.controls.email.errors) {
       this.eeTrialService.emailInvalid = true;
     } else {
+      this.eeTrialService.emailInvalid = false;
       this.eeTrialService.error = undefined;
     }
   }
