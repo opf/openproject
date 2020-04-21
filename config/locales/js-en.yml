@@ -200,6 +200,8 @@ en:
             label_starts_at: "Starts at"
             label_expires_at: "Expires at"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
+            taken_domain: There can only be one active trial per domain.
+            taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
           try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."

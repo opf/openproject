@@ -35,7 +35,9 @@ export class EnterpriseTrialService {
   public error:HttpErrorResponse|undefined;
   public emailInvalid:boolean = false;
   public text = {
-    invalid_email: this.I18n.t('js.admin.enterprise.trial.form.invalid_email')
+    invalid_email: this.I18n.t('js.admin.enterprise.trial.form.invalid_email'),
+    taken_email: this.I18n.t('js.admin.enterprise.trial.form.taken_email'),
+    taken_domain: this.I18n.t('js.admin.enterprise.trial.form.taken_domain'),
   };
 
   constructor(readonly I18n:I18nService,
@@ -181,23 +183,30 @@ export class EnterpriseTrialService {
     return this.error ? this.error.error.identifier === 'domain_taken' : false;
   }
 
+  public get emailTaken():boolean {
+    return this.error ? this.error.error.identifier === 'user_already_created_trial' : false;
+  }
+
   public get emailError():boolean {
     if (this.emailInvalid) {
       return true;
     } else if (this.error) {
-      return this.error.error.identifier === 'user_already_created_trial';
+      return this.emailTaken;
     } else {
       return false;
     }
   }
 
   public get errorMsg() {
+    let error:string = '';
     if (this.emailInvalid) {
-      return this.text.invalid_email;
-    } else if (this.error) {
-      return this.error.error.description;
-    } else {
-      return undefined;
+      error = this.text.invalid_email;
+    } else if (this.domainTaken) {
+      error = this.text.taken_domain;
+    } else if (this.emailTaken) {
+      error = this.text.taken_email;
     }
+
+    return error;
   }
 }
