@@ -11,4 +11,8 @@ class WorkPackages::Export < ApplicationRecord
   def visible?(user)
     user_id == user.id
   end
+
+  def ready?
+    attachments.any?
+  end
 end

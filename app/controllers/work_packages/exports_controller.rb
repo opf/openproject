@@ -35,10 +35,21 @@ class WorkPackages::ExportsController < ApplicationController
                 :authorize_current_user
 
   def show
-    if @export.attachments.first
+    if @export.ready?
       redirect_to attachment_content_path
     else
+      headers['Link'] = "<#{status_work_packages_export_path(@export.id)}> rel=\"status\""
       head 202
+    end
+  end
+
+  def status
+    if @export.ready?
+      headers['Link'] = "<#{attachment_content_path}> rel=\"download\""
+
+      render plain: 'Completed'
+    else
+      render plain: 'Processing'
     end
   end
 

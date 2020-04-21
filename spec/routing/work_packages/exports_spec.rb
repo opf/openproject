@@ -32,4 +32,8 @@ describe 'work_package exports routes', type: :routing do
   it '/work_packages/exports/:id GET routes to work_packages/exports#show' do
     expect(get('/work_packages/exports/5')).to route_to('work_packages/exports#show', id: "5")
   end
+
+  it '/work_packages/exports/:id/status GET routes to work_packages/exports#status' do
+    expect(get('/work_packages/exports/5/status')).to route_to('work_packages/exports#status', id: "5")
+  end
 end

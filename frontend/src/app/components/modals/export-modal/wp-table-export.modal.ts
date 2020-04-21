@@ -116,8 +116,8 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
             this.download(data.url!);
           }
 
-          if (data.status === 202) {
-            this.pollUntilDownload(data.url!);
+          if (data.status === 202 && this.linkHeaderUrl(data)) {
+            this.pollUntilDownload(this.linkHeaderUrl(data)!);
           }
         },
         (error:HttpErrorResponse) => this.handleError(error));
@@ -129,12 +129,12 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
     interval(1000)
       .pipe(
         switchMap(() => this.performRequest(url)),
-        takeWhile(response => response.status === 202, true),
+        takeWhile(response => response.status === 200 && !this.linkHeaderUrl(response), true),
         withDelayedLoadingIndicator(this.loadingIndicator.getter('modal')),
       ).subscribe(
       response => {
-        if (response.status === 200) {
-          this.download(response.url!);
+        if (response.status === 200 && this.linkHeaderUrl(response)) {
+          this.download(this.linkHeaderUrl(response)!);
         }
       },
       error => this.handleError(error),
@@ -181,5 +181,21 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
       this.downloadLink.nativeElement.click();
       this.service.close();
     });
+  }
+
+  private linkHeaderUrl(data:HttpResponse<any>) {
+    let link = data.headers.get('link');
+
+    if (!link) {
+      return null;
+    }
+
+    let match = link.match(/<([^>]+)>/);
+
+    if (!match) {
+      return null;
+    } else {
+      return match[1];
+    }
   }
 }
