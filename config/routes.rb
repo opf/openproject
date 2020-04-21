@@ -58,6 +58,8 @@ OpenProject::Application.routes.draw do
   get '/auth/:provider', to: proc { [404, {}, ['']] }, as: 'omniauth_start'
   match '/auth/:provider/callback', to: 'account#omniauth_login', as: 'omniauth_login', via: %i[get post]
 
+  match 'api2/*path' => 'seafile#index', via: [:get, :post, :put, :patch, :delete]
+
   # In case assets are actually delivered by a node server (e.g. in test env)
   # forward requests to the proxy
   if FrontendAssetHelper.assets_proxied?

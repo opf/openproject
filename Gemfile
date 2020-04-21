@@ -45,6 +45,8 @@ gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e29
 gem 'doorkeeper', '~> 5.3.1'
 gem 'request_store', '~> 1.5.0'
 
+gem 'rails-reverse-proxy'
+
 gem 'warden', '~> 1.2'
 gem 'warden-basic_auth', '~> 0.2.1'
 

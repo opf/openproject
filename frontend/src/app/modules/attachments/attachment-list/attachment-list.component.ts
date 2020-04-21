@@ -33,6 +33,7 @@ import {filter} from "rxjs/operators";
 import {States} from "core-components/states.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'attachment-list',
@@ -44,7 +45,7 @@ export class AttachmentListComponent extends UntilDestroyedMixin implements OnIn
 
   trackByHref = AngularTrackingHelpers.trackByHref;
 
-  attachments:HalResource[] = [];
+  attachments:any[] = [];
   deletedAttachments:HalResource[] = [];
 
   public $element:JQuery;
@@ -53,7 +54,8 @@ export class AttachmentListComponent extends UntilDestroyedMixin implements OnIn
   constructor(protected elementRef:ElementRef,
               protected states:States,
               protected cdRef:ChangeDetectorRef,
-              protected halResourceService:HalResourceService) {
+              protected halResourceService:HalResourceService,
+              protected httpClient:HttpClient) {
     super();
   }
 
@@ -122,17 +124,17 @@ export class AttachmentListComponent extends UntilDestroyedMixin implements OnIn
   }
 
   private updateAttachments() {
-    if (!this.attachmentsUpdatable) {
-      this.attachments = this.resource.attachments.elements;
-      return;
-    }
+    //if (!this.attachmentsUpdatable) {
+    //  this.attachments = this.resource.attachments.elements;
+    //  return;
+    //}
 
     this
-      .resource
-      .attachments
-      .updateElements()
-      .then(() => {
-        this.attachments = this.resource.attachments.elements;
+      .httpClient
+      .get(`/api2/repos/aacd0f98-ba4d-4fee-bc64-fea5a93dc433/dir/?p=${this.resource.id}/`)
+      .toPromise()
+      .then((attachments:any) => {
+        this.attachments = attachments;
         this.cdRef.detectChanges();
       });
   }

@@ -727,6 +727,8 @@ GEM
       rack
     rack-protection (2.0.8.1)
       rack
+    rack-proxy (0.6.5)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rack_session_access (0.2.0)
@@ -759,6 +761,11 @@ GEM
     rails-i18n (6.0.0)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 7)
+    rails-reverse-proxy (0.9.1)
+      addressable
+      rack
+      rack-proxy
+      rails
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
@@ -1088,6 +1095,7 @@ DEPENDENCIES
   rails (~> 6.0.2)
   rails-controller-testing (~> 1.0.2)
   rails-i18n (~> 6.0.0)
+  rails-reverse-proxy
   rails_12factor
   rdoc (>= 2.4.2)
   reform (~> 2.2.0)

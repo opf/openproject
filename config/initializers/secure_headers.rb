@@ -24,7 +24,7 @@ SecureHeaders::Configuration.default do |config|
   default_src = %w('self')
 
   # Allow requests to CLI in dev mode
-  connect_src = default_src
+  connect_src = default_src + %w(https://seafile-demo.de)
 
   if OpenProject::Configuration.sentry_dsn.present?
     connect_src += [OpenProject::Configuration.sentry_host]

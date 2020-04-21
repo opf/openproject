@@ -12,22 +12,9 @@
         rel="noopener"
         [attr.href]="downloadPath || '#'">
 
-      {{ attachment.fileName || attachment.customName || attachment.name }}
-
-      <authoring class="work-package--attachments--info"
-                 [createdOn]="attachment.createdAt"
-                 [author]="attachment.author"
-                 [showAuthorAsLink]="false"></authoring>
+      {{ attachment.name }}
     </a>
   </span>
-  <a
-      href=""
-      class="form--selected-value--remover work-package--atachments--delete-button"
-      *ngIf="!!attachment.$links.delete"
-      (click)="confirmRemoveAttachment($event)">
-    <op-icon icon-classes="icon-delete"
-             [icon-title]="text.removeFile({fileName: attachment.fileName})"></op-icon>
-  </a>
 
   <input type="hidden" name="attachments[{{index}}][id]" value="{{attachment.id}}">
 </li>
