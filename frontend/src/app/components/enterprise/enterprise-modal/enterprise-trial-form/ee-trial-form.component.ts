@@ -31,9 +31,8 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {EnterpriseTrialData, EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
 import {CurrentUserService} from "core-components/user/current-user.service";
+import {I18nHelpers} from "core-app/helpers/i18n/localized-link";
 
-const termsOfServiceURL = 'https://www.openproject.com/terms-of-service/';
-const legalNoticeURL = 'https://www.openproject.com/legal-notice/';
 const newsletterURL = 'https://www.openproject.com/newsletter/';
 
 @Component({
@@ -57,8 +56,14 @@ export class EETrialFormComponent {
 
   public text = {
     general_consent: this.I18n.t('js.admin.enterprise.trial.form.general_consent', {
-      link_terms: termsOfServiceURL,
-      link_privacy: legalNoticeURL
+      link_terms: I18nHelpers.localizeLink({
+        en: 'https://www.openproject.com/terms-of-service/',
+        de: 'https://www.openproject.org/de/nutzungsbedingungen/',
+      }),
+      link_privacy: I18nHelpers.localizeLink({
+        en: 'https://www.openproject.org/data-privacy-and-security/',
+        de: 'https://www.openproject.org/de/datenschutz/'
+      })
     }),
     invalid_email: this.I18n.t('js.admin.enterprise.trial.form.invalid_email'),
     label_test_ee: this.I18n.t('js.admin.enterprise.trial.form.test_ee'),
