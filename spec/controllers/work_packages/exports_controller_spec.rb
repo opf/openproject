@@ -64,8 +64,6 @@ describe WorkPackages::ExportsController, type: :controller do
   let(:attachment_done) { true }
 
   describe 'show' do
-    let(:query) { FactoryBot.build_stubbed(:query) }
-
     context 'with an existing id' do
       before do
         get 'show', params: { id: export.id }
@@ -84,6 +82,75 @@ describe WorkPackages::ExportsController, type: :controller do
         it 'returns 202 ACCEPTED' do
           expect(response.status)
             .to eql 202
+        end
+
+        it 'returns the status location via the link header' do
+          expect(response.headers['Link'])
+            .to eql "</work_packages/exports/#{export.id}/status> rel=\"status\""
+        end
+      end
+
+      context 'with the export belonging to a different user' do
+        let(:current_user) { FactoryBot.build_stubbed(:user) }
+
+        it 'returns 404 NOT FOUND' do
+          expect(response.status)
+            .to eql 404
+        end
+      end
+    end
+
+    context 'with an inexisting id' do
+      before do
+        get 'show', params: { id: export.id + 5 }
+      end
+
+      it 'returns 404 NOT FOUND' do
+        expect(response.status)
+          .to eql 404
+      end
+    end
+  end
+
+  describe 'status' do
+    context 'with an existing id' do
+      before do
+        get 'status', params: { id: export.id }
+      end
+
+      context 'with the attachment being ready' do
+        it 'returns 200 OK' do
+          expect(response.status)
+            .to eql 200
+        end
+
+        it 'links to the download location' do
+          expect(response.headers['Link'])
+            .to eql "<#{api_v3_paths.attachment_content(attachment.id)}> rel=\"download\""
+        end
+
+        it 'reads "Completed"' do
+          expect(response.body)
+            .to eql 'Completed'
+        end
+      end
+
+      context 'with the attachment not being ready' do
+        let(:attachment_done) { false }
+
+        it 'returns 200 OK' do
+          expect(response.status)
+            .to eql 200
+        end
+
+        it 'has no link to the download' do
+          expect(response.headers['Link'])
+            .to be nil
+        end
+
+        it 'reads "Processing"' do
+          expect(response.body)
+            .to eql 'Processing'
         end
       end
 
