@@ -181,7 +181,7 @@ module Pages
       else
         open_and_fill_add_list_modal option
         page.find('.ng-option-label', text: option, wait: 10).click
-        click_on 'Continue'
+        click_on 'Add'
       end
     end
 

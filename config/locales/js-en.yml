@@ -48,6 +48,7 @@ en:
     close_form_title: "Close form"
 
     button_add_watcher: "Add watcher"
+    button_add: "Add"
     button_back: "Back"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"
