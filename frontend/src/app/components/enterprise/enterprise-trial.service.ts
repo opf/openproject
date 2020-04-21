@@ -32,7 +32,11 @@ export class EnterpriseTrialService {
   public confirmed:boolean;
   public cancelled = false;
   public status:'mailSubmitted'|'startTrial'|undefined;
-  public errorMsg:string|undefined;
+  public error:HttpErrorResponse|undefined;
+  public emailInvalid:boolean = false;
+  public text = {
+    invalid_email: this.I18n.t('js.admin.enterprise.trial.form.invalid_email')
+  };
 
   constructor(readonly I18n:I18nService,
               protected http:HttpClient,
@@ -63,7 +67,7 @@ export class EnterpriseTrialService {
       .catch((error:HttpErrorResponse) => {
         // mail is invalid or user already created a trial
         if (error.status === 422 || error.status === 400) {
-          this.errorMsg = error.error.description;
+          this.error = error;
         } else {
           this.notificationsService.addWarning(error.error.description || I18n.t('js.error.internal'));
         }
@@ -171,5 +175,24 @@ export class EnterpriseTrialService {
 
   public get mailSubmitted():boolean {
     return this.status === 'mailSubmitted';
+  }
+
+  public get domainTaken():boolean {
+    return this.error ? this.error.error.identifier === 'domain_taken' : false;
+
+  }
+
+  public get emailTaken():boolean {
+    return this.error ? this.error.error.identifier === 'user_already_created_trial' : false;
+  }
+
+  public get errorMsg() {
+    if (this.emailInvalid) {
+      return this.text.invalid_email;
+    } else if (this.error) {
+      return this.error.error.description;
+    } else {
+      return undefined;
+    }
   }
 }
