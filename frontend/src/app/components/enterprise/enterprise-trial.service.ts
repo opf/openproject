@@ -76,14 +76,14 @@ export class EnterpriseTrialService {
     this.http
       .get<any>(this.trialLink)
       .toPromise()
-      .then((res:any) => {
+      .then(async (res:any) => {
         // show confirmed status and enable continue btn
         this.confirmed = true;
 
         // returns token if mail was confirmed
         // -> if token is new (token_retrieved: false) save token in backend
         if (!res.token_retrieved) {
-          this.saveToken(res.token);
+          await this.saveToken(res.token);
         }
 
         // load page if mail was confirmed and modal window is not open
@@ -132,7 +132,7 @@ export class EnterpriseTrialService {
 
   // save received token in controller
   private saveToken(token:string) {
-    this.http.post(
+    return this.http.post(
       this.pathHelper.api.v3.appBasePath + '/admin/enterprise',
       { enterprise_token: { encoded_token: token } },
       { withCredentials: true }
