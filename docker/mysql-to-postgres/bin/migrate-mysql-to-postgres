@@ -89,12 +89,12 @@ end
 
 unless ENV['SKIP_OPENPROJECT_DB_RESET'] == 'true'
   puts "Resetting target database..."
-  drop_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -d postgres -c 'DROP DATABASE #{db_name}'"
-  drop_output, _ = run drop_cmd, silent: true
+  drop_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -d postgres -c 'DROP DATABASE IF EXISTS #{db_name}'"
+  drop_output, dropped_status = run drop_cmd, silent: true
 
-  if drop_output.include?("database \"#{db_name}\" does not exist") || drop_output == "DROP DATABASE"
+  if dropped_status == 0
     # that's ok then we don't have to drop it or dropped database successfully
-    puts "Database dropped"
+    puts "Database dropped (or was not present)"
   else
     puts drop_output
     exit 1 # something went wrong
