@@ -49,7 +49,7 @@ export class EETrialFormComponent {
     first_name: [this.userData.first_name, Validators.required],
     last_name: [this.userData.last_name, Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    domain: [this.userData.domain, Validators.required],
+    domain: [this.userData.domain || window.location.host, Validators.required],
     general_consent: [null, Validators.required],
     newsletter_consent: null,
     language: this.currentUserService.language
