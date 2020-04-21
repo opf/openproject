@@ -1,10 +1,9 @@
 <div *ngIf="noTrialRequested; else alreadyRequested">
+  <p>{{ text.enterprise_edition }}</p>
+  <p class="-bold">{{ text.confidence }}</p>
   <p>
-    <b>{{ text.text }}</b>
-  </p>
-  <p>
-    <b>{{ text.become_hero }}</b><br>
-    {{ text.you_contribute }}
+    <span class="-bold">{{ text.become_hero }}</span><br>
+    <span>{{ text.you_contribute }}</span>
   </p>
   <button class="button -alt-highlight" (click)="openTrialModal()">
     {{ text.button_trial }}
