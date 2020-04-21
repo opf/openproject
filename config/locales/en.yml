@@ -1196,7 +1196,7 @@ en:
       newsletter: "Security alerts / Newsletter"
 
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
 
   links:
     configuration_guide: 'Configuration guide'
