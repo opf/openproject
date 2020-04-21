@@ -55,12 +55,12 @@ export class EnterpriseTrialService {
   // send POST request with form object
   // receive an enterprise trial link to access a token
   public sendForm(form:FormGroup) {
-    this.userData$.putValue(form.value);
-
-    this.cancelled = false;
     this.http.post(this.baseUrlAugur + '/public/v1/trials', form.value)
       .toPromise()
       .then((enterpriseTrial:any) => {
+        this.userData$.putValue(form.value);
+        this.cancelled = false;
+
         this.trialLink = enterpriseTrial._links.self.href;
         this.saveTrialKey(this.trialLink);
 

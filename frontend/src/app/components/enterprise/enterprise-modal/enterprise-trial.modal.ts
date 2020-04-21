@@ -48,7 +48,6 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
   @Input() public opReferrer:string;
 
   public trialForm:FormGroup;
-  public errorMsg:string|undefined;
 
   // modal configuration
   public showClose = true;
