@@ -65,7 +65,6 @@ export class EETrialFormComponent {
         de: 'https://www.openproject.org/de/datenschutz/'
       })
     }),
-    invalid_email: this.I18n.t('js.admin.enterprise.trial.form.invalid_email'),
     label_test_ee: this.I18n.t('js.admin.enterprise.trial.form.test_ee'),
     label_company: this.I18n.t('js.admin.enterprise.trial.form.label_company'),
     label_first_name: this.I18n.t('js.admin.enterprise.trial.form.label_first_name'),
@@ -89,9 +88,10 @@ export class EETrialFormComponent {
   // displays message for user
   public checkMailField() {
     if (this.trialForm.value.email !== '' && this.trialForm.controls.email.errors) {
-      this.eeTrialService.errorMsg = this.text.invalid_email;
+      this.eeTrialService.emailInvalid = true;
     } else {
-      this.eeTrialService.errorMsg = undefined;
+      this.eeTrialService.emailInvalid = false;
+      this.eeTrialService.error = undefined;
     }
   }
 }

@@ -32,29 +32,31 @@
       </div>
     </div>
   </div>
-  <div class="form--field -wide-label -required" [ngClass]="{ '-error': eeTrialService.errorMsg }">
+  <div class="form--field -wide-label -required">
     <label class="form--label" for="trial-email">{{ text.label_email }}</label>
     <div class="form--field-container">
       <div class="form--text-field-container"
-           [ngClass]="{ '-required-highlighting' : eeTrialService.errorMsg }">
+           [ngClass]="{ '-required-highlighting' : eeTrialService.emailError }">
         <input type="email"
                class="form--text-field"
                id="trial-email"
                formControlName="email" (blur)="checkMailField()">
       </div>
     </div>
-    <div *ngIf="eeTrialService.errorMsg" class="form--field-instructions">{{ eeTrialService.errorMsg }}</div>
+    <div *ngIf="eeTrialService.emailError" class="form--field-instructions">{{ eeTrialService.errorMsg }}</div>
   </div>
   <div class="form--field -wide-label -required">
     <label class="form--label" for="trial-domain-name">{{ text.label_domain }}</label>
     <div class="form--field-container">
-      <div class="form--text-field-container">
+      <div class="form--text-field-container"
+           [ngClass]="{ '-required-highlighting' : eeTrialService.domainTaken }">
         <input type="text"
                id="trial-domain-name"
                class="form--text-field"
                formControlName="domain">
       </div>
     </div>
+    <div *ngIf="eeTrialService.domainTaken" class="form--field-instructions">{{ eeTrialService.errorMsg }}</div>
   </div>
   <div class="form--field -required">
     <div class="form--field-container">

@@ -139,6 +139,16 @@ describe 'Enterprise trial management',
     }
   end
 
+  let(:domain_in_use_body) do
+    {
+      _type: "error",
+      code: 422,
+      identifier: "domain_taken",
+      description: "There can only be one active trial per domain."
+    }
+  end
+
+
   before do
     login_as(admin)
     visit enterprise_path
@@ -162,8 +172,21 @@ describe 'Enterprise trial management',
     fill_out_modal
     find('.button:not(:disabled)', text: 'Submit').click
 
-    expect(page).to have_selector('.form--field.-error #trial-email')
-    expect(page).to have_text 'Each user can only create one trial.'
+    expect(page).to have_selector('.-required-highlighting #trial-email')
+    expect(page).to have_text('Each user can only create one trial.')
+    expect(page).to have_no_text 'email sent - waiting for confirmation'
+  end
+
+  it 'blocks the request assuming the domain was used' do
+    proxy.stub('https://augur.openproject-edge.com:443/public/v1/trials', method: 'post')
+      .and_return(headers: {'Access-Control-Allow-Origin' => '*'}, code: 422, body: domain_in_use_body.to_json)
+
+    find('.button', text: 'Start free trial').click
+    fill_out_modal
+    find('.button:not(:disabled)', text: 'Submit').click
+
+    expect(page).to have_selector('.-required-highlighting #trial-domain-name')
+    expect(page).to have_text('There can only be one active trial per domain.')
     expect(page).to have_no_text 'email sent - waiting for confirmation'
   end
 
