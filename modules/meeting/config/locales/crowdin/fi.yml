@@ -74,6 +74,8 @@ fi:
   permission_send_meeting_agendas_notification: "Lähetä esityslistoja hyväksyttäväksi"
   permission_create_meeting_minutes: "Hallitse pöytäkirjoja"
   permission_send_meeting_minutes_notification: "Lähetä pyötäkirjoja hyväksyttäväksi"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Kokoukset"
   text_duration_in_hours: "Keston tunteina"
   text_in_hours: "tuntia"

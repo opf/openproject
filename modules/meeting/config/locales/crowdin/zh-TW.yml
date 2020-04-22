@@ -74,6 +74,8 @@ zh-TW:
   permission_send_meeting_agendas_notification: "傳送會議大綱審閱通知"
   permission_create_meeting_minutes: "管理會議記錄"
   permission_send_meeting_minutes_notification: "傳送會議記錄審閱通知"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "會議"
   text_duration_in_hours: "持續時間 (小時)"
   text_in_hours: "在一小時內"

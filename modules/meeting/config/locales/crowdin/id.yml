@@ -74,6 +74,8 @@ id:
   permission_send_meeting_agendas_notification: "Kirim notifikasi ulasan untuk agenda"
   permission_create_meeting_minutes: "Kelola laporan"
   permission_send_meeting_minutes_notification: "Kirim notifikasi ulasan untuk laporan"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Rapat"
   text_duration_in_hours: "Durasi dalam jam"
   text_in_hours: "dalam jam"

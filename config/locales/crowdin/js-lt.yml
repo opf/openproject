@@ -186,7 +186,6 @@ lt:
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
-          try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
           next_steps: "Next steps"
           resend_link: "Siųsti iš naujo"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
@@ -265,13 +264,13 @@ lt:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
           learn_about: "Sužinokite apie naujas galimybes"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              Šioje laidoje yra naujų galimybių ir patobulinimų: <br><br> <ul> <li>Numatytos šviesaus ir tamaus <b>vaizdo temos</b> (EE galimybė).</li> <li>Naujas <b>laiko sekimo įrankis</b> skirtas <i>Mano puslapyje</i> parodyti sugaištą laiką kaip stulpelinę diagramą.</li> <li><b>XLS elsportas sąnaudų raportams</b> ir formatuotas tekstas darbo paketų PDF eksporte.</li> <li><b>Pagerintas dizainas ir vartojamumas</b>, t.y. lapeliai ir daugiau projekto nustatymuose ir administravime.</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixings and <b>usability improvements</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject turi <b>naują IFC modulį, leidžiantį integruoti 3D modelius</b> į projekto valdymo programą ir bendrai dirbti su tais failais be brangių programų ir licenzijų instaliavimo. <br><br> <ul> <li><b>Importuoti IFC filus</b> arba pastatų modelius į jūsų OpenProject programą.</li> <li><b>Atidaryti 3D modelius ir pavaizduoti pastatų modelius</b> jūsų naršyklėje.</li> <li> Lengvai <b>dirbti su keliais IFC failais</b> kartu su jūsų komanda tiesiai OpenProject neinstaliuojant atskiros brangios programinės įrangos.</li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"

@@ -74,6 +74,8 @@ uk:
   permission_send_meeting_agendas_notification: "Надіслати повідомлення про перегляд для порядку денного"
   permission_create_meeting_minutes: "Керування хвилинами"
   permission_send_meeting_minutes_notification: "Надішліть повідомлення про перегляд за хвилини"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Зустрічі"
   text_duration_in_hours: "Тривалість у годинах"
   text_in_hours: "у годинах"

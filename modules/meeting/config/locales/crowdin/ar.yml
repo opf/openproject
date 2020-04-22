@@ -74,6 +74,8 @@ ar:
   permission_send_meeting_agendas_notification: "أرسِل إشعارًا لمراجعة جداول الأعمال"
   permission_create_meeting_minutes: "إدارة محضر الجلسة"
   permission_send_meeting_minutes_notification: "أرسِل إشعارًا لمراجعة محضر الجلسة"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "الاجتماعات"
   text_duration_in_hours: "المدة بالساعات"
   text_in_hours: "في الساعات"

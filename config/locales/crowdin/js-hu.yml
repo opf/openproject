@@ -185,7 +185,6 @@ hu:
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
-          try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
           next_steps: "Next steps"
           resend_link: "Resend"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
@@ -264,13 +263,13 @@ hu:
           text_new_features: "Read about new features and product updates."
           learn_about: "Tudjon meg többet az új funkciókról"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              A kiadás különféle új funkciókat és fejlesztéseket tartalmaz: <br> <br> <ul> <li> Alapértelmezett <b> tervezősablonok </b> világos vagy sötét téma kiválasztásához (prémium szolgáltatás). </li> <li> Új <b> időkövetési widget </b> a <i> Saját oldal </i> számára, hogy az eltöltött időt sávdiagramban jelenítsék meg. </li> <li> <b> <SQLSX-export költségjelentésekhez </b> és formázott szöveg PDF formátumban a munkacsomagok exportálásakor. </li> <li> <b> Javítva a tervezés és a használhatóság </b> azaz a fülek és így tovább a projektbeállításokban és az adminisztrációban. </li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixings and <b>usability improvements</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              Az OpenProject tartalmaz egy <b> új IFC modult a 3D modellek integrálásához </b> a projektkezelő alkalmazásba, és ezekkel a fájlokkal együtt dolgozhat a csapatával, külön költséges szoftver vagy licencek telepítése nélkül. <br> <br> <ul> <li> <b> Építési modellek IFC fájljainak importálása </b> az OpenProject alkalmazásba. </li> <li> <b> Nyissa meg a 3D modelleket és megjelenítse az építési modelleket </b> > a böngészőjében. </li> <li> Könnyen <b> több IFC fájlt tud dolgozni </b> a csapattal közvetlenül az OpenProject programban, külön költséges szoftver telepítése nélkül. </li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "Aktivál"
     label_add_column_after: "Oszlop hozzáadása utána"
     label_add_column_before: "Oszlop hozzáadása előtte"

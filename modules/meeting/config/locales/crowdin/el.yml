@@ -74,6 +74,8 @@ el:
   permission_send_meeting_agendas_notification: "Αποστολή ειδοποίηση αναθεώρησης για ατζέντες"
   permission_create_meeting_minutes: "Διαχείριση πρακτικών"
   permission_send_meeting_minutes_notification: "Αποστολή ειδοποίηση αναθεώρησης για τα πρακτικά"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Συναντήσεις"
   text_duration_in_hours: "Διάρκεια σε ώρες"
   text_in_hours: "σε ώρες"

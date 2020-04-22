@@ -74,6 +74,8 @@ da:
   permission_send_meeting_agendas_notification: "Send påmindelse om vurdering af dagsorden"
   permission_create_meeting_minutes: "Håndter referater"
   permission_send_meeting_minutes_notification: "Send påmindelse om vurdering af referater"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Møder"
   text_duration_in_hours: "Duration in hours"
   text_in_hours: "i timer"

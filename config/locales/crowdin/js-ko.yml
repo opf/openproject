@@ -186,7 +186,6 @@ ko:
             taken_email: Each user can only create one trial.
           email_not_received: "이메일을 받지 못하셨나요? 오른쪽의 링크로 이메일을 재전송할 수 있습니다. "
           try_another_email: "또는 다른 이메일 주소로 시도해보세요."
-          try_another_email_hint: "새로운 이메일 주소로 다시 시도할 경우 이전 이메일 주소가 무효화된다는 사실에 주의하세요."
           next_steps: "다음 단계"
           resend_link: "다시 보내기"
           resend_success: "이메일이 재전송되었습니다. 이메일을 확인하고 제공된 인증 링크를 클릭하세요."
@@ -265,13 +264,13 @@ ko:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              이 릴리스에는 다양한 새로운 기능과 개선 기능이 포함되어 있습니다. <br><br> <ul> <li>라이트 또는 다크 테마(프리미엄 기능)를 선택할 수 있는 기본 <b>디자인 템플릿</b>.</li> <li>바 차트에서 소요 시간을 표시하는 <i>내 페이지</i>의 새로운 <b>시간 추적 위젯</b>.</li> <li><b>비용 보고서에 대한 XLS 내보내기</b> 및 작업 패키지의 PDF 내보내기에서 서식 지정 텍스트.</li> <li><b>디자인 및 유용성 향상</b>(프로젝트 설정 및 관리의 탭 등).</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixings and <b>usability improvements</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject에는 프로젝트 관리 애플리케이션에 <b>3D 모델을 통합하고</b> 고가의 별도 소프트웨어 또는 라이선스를 설치하지 않고도 팀과 이러한 파일로 공동 작업할 수 있는 새로운 IFC 모듈이 포함되어 있습니다. <br><br> <ul> <li>OpenProject 애플리케이션으로 빌딩 모델의 <b>IFC 파일 가져오기</b>.</li> <li>사용자 브라우저에서 <b>3D 모델을 열고 빌딩 모델 시각화</b>.</li> <li>고가의 별도 소프트웨어를 설치하지 않고도 OpenProject에서 바로 손쉽게 <b>여러 IFC 파일로 팀과 작업</b>. </li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"

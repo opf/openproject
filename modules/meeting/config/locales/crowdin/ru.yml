@@ -74,6 +74,8 @@ ru:
   permission_send_meeting_agendas_notification: "Отправить уведомление о реценизии  повесток дня"
   permission_create_meeting_minutes: "Управление протоколами"
   permission_send_meeting_minutes_notification: "Отправить уведомление о рецензии протокола"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Совещания"
   text_duration_in_hours: "Длительность в часах"
   text_in_hours: "в часах"

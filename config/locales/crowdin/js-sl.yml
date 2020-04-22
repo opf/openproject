@@ -185,7 +185,6 @@ sl:
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
-          try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
           next_steps: "Next steps"
           resend_link: "Pošljite ponovno"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
@@ -264,13 +263,13 @@ sl:
           text_new_features: "Preberite o novih funkcijah in posodobitvah izdelka."
           learn_about: "Preberite več o novostih"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              Izdaja vsebuje različne nove funkcije in izboljšave: <br><br> <ul> <li>Privzeto <b>oblikuj predloge za oblikovanje</b> za izbor svetle ali temne teme (premium funkcija).</li> <li>Now <b>pripomoček za sledenje časa</b> za <i>Mojo stran</i> za prikaz porabljenega časa na črtni lestvici.</li> <li><b>XLS-izvoz za poročila o stroških</b> in oblikovano besedilo v izvozu delovnih paketov v PDF.</li> <li><b>Izboljšana zasnova in uporabnost</b>, t.j. zavihki in več v nastavitvah in administraciji projektov.</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixings and <b>usability improvements</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject vsebuje <b> nov modul IFC za vključitev 3D modelov </b> v vašo aplikacijo za upravljanje projektov in za sodelovanje s temi datotekami s svojo ekipo brez namestitve ločene drage programske opreme ali licenc. <br> <br> <ul> <li> <b> Uvozi datoteke IFC </b> gradbenih modelov v svojo aplikacijo OpenProject. </li> <li> <b> Odprite 3D modele in vizualizirajte modele stavb </b> > v brskalniku. </li> <li> Preprosto <b> delajte z več datotekami IFC </b> z vašo ekipo neposredno v OpenProject brez namestitve ločene drage programske opreme. </li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "Activate"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"

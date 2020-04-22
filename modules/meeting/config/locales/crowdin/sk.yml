@@ -74,6 +74,8 @@ sk:
   permission_send_meeting_agendas_notification: "Rozposielať notifikácie ne revízie agend stretnutí"
   permission_create_meeting_minutes: "Spravovať zápisnice zo stretnutí"
   permission_send_meeting_minutes_notification: "Rozposielať notifikácie na revízie zápisníc zo stretnutí"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Stretnutia"
   text_duration_in_hours: "Doba trvania v hodinách"
   text_in_hours: "v hodinách"

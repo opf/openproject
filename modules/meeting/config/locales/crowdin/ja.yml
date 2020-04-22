@@ -74,6 +74,8 @@ ja:
   permission_send_meeting_agendas_notification: "議題のレビュー通知を送信する"
   permission_create_meeting_minutes: "議事録の管理"
   permission_send_meeting_minutes_notification: "議事録のレビュー通知を送信する"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "会議"
   text_duration_in_hours: "期間（時間）"
   text_in_hours: "数時間以内"

@@ -74,6 +74,8 @@ sv:
   permission_send_meeting_agendas_notification: "Skicka underrättelse om granskning av agendor"
   permission_create_meeting_minutes: "Hantera protokoll"
   permission_send_meeting_minutes_notification: "Skicka underrättelse om granskning av protokoll"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Möten"
   text_duration_in_hours: "Varaktighet i timmar"
   text_in_hours: "i timmar"

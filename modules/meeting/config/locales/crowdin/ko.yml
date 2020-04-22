@@ -74,6 +74,8 @@ ko:
   permission_send_meeting_agendas_notification: "의제에 대한 검토 알림 보내기"
   permission_create_meeting_minutes: "의사록 관리"
   permission_send_meeting_minutes_notification: "의사록에 대한 검토 알림 보내기"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "미팅"
   text_duration_in_hours: "기간(시간)"
   text_in_hours: " 시간"

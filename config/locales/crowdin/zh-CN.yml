@@ -1137,7 +1137,7 @@ zh-CN:
       forums: "社区论坛"
       newsletter: "安全警报/通信"
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "更改已撤回。"
   links:
     configuration_guide: '配置指南'
     get_in_touch: "遇到问题了？与我们联系。"

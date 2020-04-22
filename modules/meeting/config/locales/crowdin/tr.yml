@@ -74,6 +74,8 @@ tr:
   permission_send_meeting_agendas_notification: "Acentalar için inceleme bildirimi gönder"
   permission_create_meeting_minutes: "Dakikaları yönet"
   permission_send_meeting_minutes_notification: "Dakikalar için inceleme bildirimini gönderin"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Toplantılar"
   text_duration_in_hours: "Saat süresi"
   text_in_hours: "saatlerde"

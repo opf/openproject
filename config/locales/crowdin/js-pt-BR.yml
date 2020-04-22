@@ -185,7 +185,6 @@ pt-BR:
             taken_email: Each user can only create one trial.
           email_not_received: "Não recebeu um e-mail? Você pode reenviá-lo através do link à direita."
           try_another_email: "Ou experimentar outro endereço de e-mail."
-          try_another_email_hint: "Esteja ciente de que o seu endereço de e-mail anterior será invalidado se você tentar novamente com um novo."
           next_steps: "Próximas etapas"
           resend_link: "Reenviar"
           resend_success: "E-mail reenviado. Por favor, verifique seus e-mails e clique no link de confirmação fornecido."
@@ -264,13 +263,13 @@ pt-BR:
           text_new_features: "Ler sobre os novos recursos e atualizações de produtos."
           learn_about: "Saiba mais sobre os novos recursos"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              O lançamento contém vários recursos e melhorias novos: <br><br> <ul> <li><b>Modelos de design</b> padrão para selecionar um tema claro ou escuro (recurso premium).</li> <li>Novo <b>widget de controle de tempo</b> para que a <i>Minha página</i> mostre o tempo gasto em um gráfico de barras.</li> <li><b>Exportações em XLS para relatórios de custos</b> e texto formatado em exportação de PDF dos pacotes de trabalho.</li> <li><b>Melhorias no design e na usabilidade</b>, como por exemplo nas abas e muito mais nas configurações de projeto e na administração.</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixings and <b>usability improvements</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              O OpenProject contém um <b>novo módulo IFC para integrar modelos 3D</b> em seu aplicativo de gestão de projeto, e para trabalhar em colaboração com a sua equipe sem instalar outros softwares ou licenças. <br><br> <ul> <li><b>Importe arquivos IFC</b> de modelos de construção para seu aplicativo OpenProject.</li> <li><b>Abra modelos Open 3D e visualize modelos de construção</b> em seu navegador.</li> <li><b>Trabalhe com vários arquivos IFC</b> facilmente com sua equipe no OpenProject, sem ter de instalar outros programas caros. </li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"

@@ -185,7 +185,6 @@ vi:
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
-          try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
           next_steps: "Next steps"
           resend_link: "Resend"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
@@ -264,13 +263,13 @@ vi:
           text_new_features: "Read about new features and product updates."
           learn_about: "Tìm hiểu thêm về các tính năng mới"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              Bản phát hành chứa nhiều tính năng và cải tiến mới: <br> <br> <ul> <li> Mặc định <b> mẫu thiết kế </b> để chọn chủ đề sáng hoặc tối (tính năng cao cấp). </li> <li> <b> tiện ích theo dõi thời gian mới </b> cho <i> Trang của tôi </i> để hiển thị thời gian đã sử dụng trong biểu đồ thanh. </li> <li> <b> Xuất khẩu XLS cho báo cáo chi phí </b> và định dạng văn bản trong xuất PDF của các gói công việc. </li> <li> <b> Cải thiện thiết kế và khả năng sử dụng </b>, tức là các tab và hơn thế nữa trong cài đặt và quản trị dự án. </li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixings and <b>usability improvements</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject chứa <b> mô-đun IFC mới để tích hợp các mô hình 3D </b> vào ứng dụng quản lý dự án của bạn và để làm việc cộng tác với các tệp này với nhóm của bạn mà không cần cài đặt phần mềm hoặc giấy phép tốn kém riêng biệt. <br> <br> <ul> <li> <b> Nhập tệp IFC </b> của các mô hình tòa nhà vào ứng dụng OpenProject của bạn. </li> <li> <b> Mở mô hình 3D và trực quan hóa mô hình tòa nhà </b > trong trình duyệt của bạn. </li> <li> Dễ dàng <b> hoạt động trên nhiều tệp IFC </b> với nhóm của bạn trực tiếp trong OpenProject mà không cần cài đặt phần mềm tốn kém riêng biệt. </li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "Activate"
     label_add_column_after: "Thêm cột phía sau"
     label_add_column_before: "Thêm cột phía trước"

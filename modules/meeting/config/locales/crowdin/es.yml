@@ -74,6 +74,8 @@ es:
   permission_send_meeting_agendas_notification: "Enviar notificaciones de revisión para las agendas"
   permission_create_meeting_minutes: "Gestionar minutos"
   permission_send_meeting_minutes_notification: "Enviar notificaciones de revisión para los minutos"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Reuniones"
   text_duration_in_hours: "Duración en horas"
   text_in_hours: "en horas"

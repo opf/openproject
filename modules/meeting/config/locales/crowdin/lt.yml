@@ -74,6 +74,8 @@ lt:
   permission_send_meeting_agendas_notification: "Siųsti peržiūros pranešimą darbotvarkėms"
   permission_create_meeting_minutes: "Valdyti minutes"
   permission_send_meeting_minutes_notification: "Siųsti peržiūros pranešimą minutėms"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Pasitarimai"
   text_duration_in_hours: "Trukmė valandomis"
   text_in_hours: " valandos(-ų) "

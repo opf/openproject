@@ -74,6 +74,8 @@ fil:
   permission_send_meeting_agendas_notification: "Ipadala ang abiso ng pagsusuri para sa mga adyenda"
   permission_create_meeting_minutes: "Pamahalaan ang minutes"
   permission_send_meeting_minutes_notification: "Ipadala ang abiso ng pagsusuri sa minutes"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Mga Pagpupulong"
   text_duration_in_hours: "Tagal sa oras"
   text_in_hours: "sa mga oras"

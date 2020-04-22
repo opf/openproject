@@ -181,11 +181,10 @@ ru:
             label_starts_at: "Начиная с"
             label_expires_at: "Срок действия до"
             receive_newsletter: Я хочу получать <a target="_blank" href="%{link}">новостную рассылку от OpenProject</a>.
-            taken_domain: There can only be one active trial per domain.
-            taken_email: Each user can only create one trial.
+            taken_domain: На каждом домене может быть только один активный пробный период.
+            taken_email: Каждый пользователь может создать только одну пробную версию.
           email_not_received: "Не получили письмо? Справа вы можете запросить повторную отправку письма со ссылкой."
           try_another_email: "Еще можно указать другой адрес электронной почты."
-          try_another_email_hint: "Учтите, что предыдущий адрес электронной почты сбросится, если вы повторите попытку с новым адресом."
           next_steps: "Дальнейшие шаги"
           resend_link: "Отправить еще раз"
           resend_success: "Письмо отправлено. Проверьте электронную почту и нажмите на ссылку подтверждения в письме."
@@ -264,13 +263,13 @@ ru:
           text_new_features: "Читайте о новых возможностях и обновлениях продуктов."
           learn_about: "Подробнее о новых функциях"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              Этот релиз содержит ряд новых функций и улучшений: <br><br> <ul> <li><b>Шаблоны оформления</b> по умолчанию: светлая и темная темы (премиум-функция).</li> <li>Новый <b>виджет отслеживания времени</b> для <i>Моей страницы</i>, в котором затраченное время отображается в виде столбчатой диаграммы.</li> <li><b>Экспорт отчетов о затратах в виде XLS</b> и форматированного текста из пакетов работ в виде PDF.</li> <li><b>Обновленный внешний вид и эргономика:</b>вкладки и другие улучшения в настройках проекта и функциях администрирования.</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixings and <b>usability improvements</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject содержит <b>новый модуль IFC для интеграции 3D-моделей</b> в систему управления проектами и для совместной работы с этими файлами в команде без установки отдельных платных приложений или лицензий. <br><br> <ul> <li><b>Импортируйте файлы IFC</b> моделей построения в свое приложение OpenProject.</li> <li><b>Открывайте 3D-модели и визуализируйте модели построения</b> прямо в браузере.</li> <li> <b>Работайте сразу с несколькими файлами IFC</b> вместе со своей командой прямо в OpenProject без установки отдельных платных приложений. </li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"

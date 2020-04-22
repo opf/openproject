@@ -165,7 +165,7 @@ el:
         reset_to_defaults: 'Επαναφορά στα προεπιλεγμένα'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "Επιβεβαίωση της διεύθυνσης email"
           confirmation_info: "We sent you an email. Please check your emails and click the confirmation link provided to start your 14 days trial."
           form:
             general_consent: >
@@ -185,7 +185,6 @@ el:
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
-          try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
           next_steps: "Next steps"
           resend_link: "Αποστολή ξανά"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
@@ -208,8 +207,8 @@ el:
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Επαγγελματική υποστήριξη"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+          button_start_trial: "Έναρξη δωρεάν δοκιμαστικής περιόδου"
+          button_book_now: "Κάντε κράτηση τώρα"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
@@ -264,13 +263,13 @@ el:
           text_new_features: "Διαβάστε για τις νέες λειτουργίες και τις ενημερώσεις προϊόντων."
           learn_about: "Μάθετε περισσότερα για τις νέες λειτουργίες"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              Η έκδοση περιέχει διάφορες νέες λειτουργίες και βελτιώσεις: <br><br> <ul> <li>Προεπιλογή <b>προτύπων σχεδιασμού</b> για να επιλέγετε ένα φωτεινό ή σκοτεινό θέμα (premium λειτουργία).</li> <li>Νέο <b>widget παρακολούθησης χρόνου</b> για τη <i>Σελίδα Μου</i> για την εμφάνιση δαπανημένου χρόνου σε ένα ραβδόγραμμα.</li> <li><b>Εξαγωγές-XLS για αναφορές κόστους</b> και μορφοποιημένο κείμενο στην εξαγωγή PDF του πακέτου εργασίας.</li> <li><b>Βελτιωμένος σχεδιασμός και χρηστικότητα</b>, π.χ. καρτέλες και περισσότερα στις ρυθμίσεις έργου και διαχείριση.</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixings and <b>usability improvements</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              Το OpenProject περιέχει μία <b>νέα ενότητα IFC για την ενσωμάτωση 3D μοντέλων</b> στην εφαρμογή διαχείρισης έργων σας και για να εργάζεστε συνεργατικά σε αυτά τα αρχεία με την ομάδα σας χωρίς την εγκατάσταση ξεχωριστών δαπανηρών λογισμικών ή αδειών. <br><br> <ul> <li><b>Εισάγετε αρχεία IFC</b> από μοντέλα κτιρίων στην εφαρμογή OpenProject σας.</li> <li><b>Ανοίξτε 3D μοντέλα και οπτικοποιήστε τα μοντέλα κτιρίων</b> στον περιηγητή σας.</li> <li> <b>Εργαστείτε εύκολα σε πολλαπλά αρχεία IFC</b> με την ομάδα σας κατευθείαν στο OpenProject χωρίς εγκατάσταση ξεχωριστού δαπανηρού λογισμικού. </li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "Ενεργοποίηση"
     label_add_column_after: "Προσθήκη στήλης μετά"
     label_add_column_before: "Προσθήκη στήλης πριν"
