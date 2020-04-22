@@ -59,7 +59,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def error(message)
-    WorkPackage::Exporter::Error.new message
+    WorkPackage::Exporter::Result::Error.new message
   end
 
   def cell_padding

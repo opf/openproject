@@ -1,8 +1,9 @@
 module WorkPackages
   module Exports
     class ExportJob < ::ApplicationJob
-      def perform(export:, mime_type:, query:, options:)
+      def perform(export:, mime_type:, query:, query_attributes:, options:)
         User.execute_as export.user do
+          query = set_query_props(query || Query.new, query_attributes)
           export_work_packages(export, mime_type, query, options)
 
           schedule_cleanup
@@ -11,9 +12,9 @@ module WorkPackages
 
       private
 
-      def export_work_packages(export, mime_type, query_props, options)
+      def export_work_packages(export, mime_type, query, options)
         exporter = WorkPackage::Exporter.for_list(mime_type)
-        exporter.list(query(query_props), options) do |export_result|
+        exporter.list(query, options) do |export_result|
           if export_result.error?
             raise export_result.message
           elsif export_result.content.is_a? File
@@ -28,17 +29,14 @@ module WorkPackages
         ::WorkPackages::Exports::CleanupOutdatedJob.perform_after_grace
       end
 
-      def query(query_props)
-        if query_props.is_a?(Query)
-          query_props
-        else
-          filters = query_props.delete('filters')
-          filters = Queries::WorkPackages::FilterSerializer.load(filters)
+      def set_query_props(query, query_attributes)
+        filters = query_attributes.delete('filters')
+        filters = Queries::WorkPackages::FilterSerializer.load(filters)
 
-          Query.new(query_props).tap do |q|
-            q.filters = filters
-            q.set_context
-          end
+        query.tap do |q|
+          q.attributes = query_attributes
+          q.filters = filters
+          q.set_context
         end
       end
 

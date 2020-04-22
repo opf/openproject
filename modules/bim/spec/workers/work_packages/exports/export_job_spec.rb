@@ -43,7 +43,8 @@ describe WorkPackages::Exports::ExportJob do
     instance.perform(export: export,
                      mime_type: mime_type,
                      options: options,
-                     query: query)
+                     query: query,
+                     query_attributes: {})
   end
 
   describe '#perform' do
