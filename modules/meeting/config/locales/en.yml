@@ -87,6 +87,8 @@ en:
   permission_send_meeting_agendas_notification: "Send review notification for agendas"
   permission_create_meeting_minutes: "Manage minutes"
   permission_send_meeting_minutes_notification: "Send review notification for minutes"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
 
   project_module_meetings: "Meetings"
 
