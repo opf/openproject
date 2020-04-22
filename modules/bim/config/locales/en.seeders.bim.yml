@@ -1183,11 +1183,6 @@ en:
                 :assigned_to: BIM Modellers
                 :duration: 3
                 :parent: Issue management, first cycle
-              - :start: 77
-                :bcf_issue_uuid: faad0e05-0e05-48d8-96e6-a4fe29ecdbc0
-                :assigned_to: BIM Modellers
-                :duration: 3
-                :parent: Issue management, first cycle
               - :start: 98
                 :bcf_issue_uuid: 73def76d-939d-404c-9bd0-581399f92714
                 :duration: 8

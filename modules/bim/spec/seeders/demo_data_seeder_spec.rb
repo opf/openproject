@@ -56,7 +56,7 @@ describe 'seeds' do
 
         expect(User.where(admin: true).count).to eq 1
         expect(Project.count).to eq 4
-        expect(WorkPackage.count).to eq 77
+        expect(WorkPackage.count).to eq 76
         expect(Wiki.count).to eq 3
         expect(Query.count).to eq 25
         expect(Group.count).to eq 8
