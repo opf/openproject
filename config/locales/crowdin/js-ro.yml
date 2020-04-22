@@ -37,6 +37,7 @@ ro:
     close_filter_title: "Închide filtrul"
     close_form_title: "Închide formularul"
     button_add_watcher: "Adăugare observator"
+    button_add: "Adăugare"
     button_back: "Înapoi"
     button_back_to_list_view: "Înapoi la listă"
     button_cancel: "Anulare"
@@ -180,6 +181,8 @@ ro:
             label_starts_at: "Starts at"
             label_expires_at: "Expires at"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
+            taken_domain: There can only be one active trial per domain.
+            taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
           try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
@@ -319,6 +322,7 @@ ro:
     label_expand_all: "Extindere totală"
     label_expand_project_menu: "Deschideți meniul proiectului"
     label_export: "Exportare"
+    label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_filename: "Fișier"
     label_filesize: "Dimensiune"
     label_general: "General"

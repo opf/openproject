@@ -1140,7 +1140,7 @@ zh-TW:
       forums: "社群論壇"
       newsletter: "安全警報 / 消息"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: '設定指南'
     get_in_touch: "You have questions? Get in touch with us."

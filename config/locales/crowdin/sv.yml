@@ -1155,7 +1155,7 @@ sv:
       forums: "Community forum"
       newsletter: "Säkerhetsnotifieringar / Nyhetsbrev"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Konfigurationsguide'
     get_in_touch: "You have questions? Get in touch with us."

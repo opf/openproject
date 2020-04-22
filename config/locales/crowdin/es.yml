@@ -1153,7 +1153,7 @@ es:
       forums: "Foro de la comunidad"
       newsletter: "Alertas de seguridad / boletín"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Guía de configuración'
     get_in_touch: "¿Tiene alguna pregunta? Póngase en contacto con nosotros."

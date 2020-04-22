@@ -37,6 +37,7 @@ ru:
     close_filter_title: "Закрыть фильтр"
     close_form_title: "Закрыть форму"
     button_add_watcher: "Добавить наблюдателя"
+    button_add: "Добавить"
     button_back: "Назад"
     button_back_to_list_view: "Вернуться к просмотру списка"
     button_cancel: "Отмена"
@@ -180,6 +181,8 @@ ru:
             label_starts_at: "Начиная с"
             label_expires_at: "Срок действия до"
             receive_newsletter: Я хочу получать <a target="_blank" href="%{link}">новостную рассылку от OpenProject</a>.
+            taken_domain: There can only be one active trial per domain.
+            taken_email: Each user can only create one trial.
           email_not_received: "Не получили письмо? Справа вы можете запросить повторную отправку письма со ссылкой."
           try_another_email: "Еще можно указать другой адрес электронной почты."
           try_another_email_hint: "Учтите, что предыдущий адрес электронной почты сбросится, если вы повторите попытку с новым адресом."
@@ -319,6 +322,7 @@ ru:
     label_expand_all: "Развернуть все"
     label_expand_project_menu: "Развернуть меню проекта"
     label_export: "Экспорт"
+    label_export_preparing: "Экспорт готовится и будет загружен в ближайшее время."
     label_filename: "Файл"
     label_filesize: "Размер"
     label_general: "Общие"

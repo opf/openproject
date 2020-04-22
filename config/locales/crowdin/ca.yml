@@ -1156,7 +1156,7 @@ ca:
       forums: "Fòrum de la comunitat"
       newsletter: "Security alerts / Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."

@@ -37,6 +37,7 @@ es:
     close_filter_title: "Cerrar filtro"
     close_form_title: "Cerrar formulario"
     button_add_watcher: "Añadir observador"
+    button_add: "Añadir"
     button_back: "Atrás"
     button_back_to_list_view: "Volver a la lista"
     button_cancel: "Cancelar"
@@ -181,6 +182,8 @@ es:
             label_starts_at: "Empieza el"
             label_expires_at: "Caduca el"
             receive_newsletter: Quiero recibir el <a target="_blank" href="%{link}">boletín</a> de OpenProject.
+            taken_domain: There can only be one active trial per domain.
+            taken_email: Each user can only create one trial.
           email_not_received: "¿No ha recibido el correo electrónico? Para volver a enviarlo, use el enlace de la derecha."
           try_another_email: "O bien pruebe con otra dirección."
           try_another_email_hint: "Si usa otra dirección de correo electrónico, la anterior dejará de ser válida."
@@ -320,6 +323,7 @@ es:
     label_expand_all: "Expandir todos"
     label_expand_project_menu: "Expandir menú de proyecto"
     label_export: "Exportar"
+    label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_filename: "Archivo"
     label_filesize: "Tamaño"
     label_general: "General"

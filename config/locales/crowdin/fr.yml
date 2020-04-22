@@ -1155,7 +1155,7 @@ fr:
       forums: "Forum de la communauté"
       newsletter: "Alertes de sécurité / Lettre d’information"
   journals:
-    changes_retracted: "Les changements ont été rétractés."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Guide de configuration'
     get_in_touch: "Vous avez des questions ? Contactez-nous."

@@ -1172,7 +1172,7 @@ ro:
       forums: "Forum comunitate"
       newsletter: "Security alerts / Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Ghid de configurare'
     get_in_touch: "You have questions? Get in touch with us."

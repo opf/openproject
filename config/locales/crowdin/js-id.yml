@@ -37,6 +37,7 @@ id:
     close_filter_title: "Tutup Penyaring"
     close_form_title: "Tutup formulir"
     button_add_watcher: "Tambah pemantau"
+    button_add: "Tambah"
     button_back: "Kembali"
     button_back_to_list_view: "Kembali ke tampilan daftar"
     button_cancel: "Batal"
@@ -181,6 +182,8 @@ id:
             label_starts_at: "Starts at"
             label_expires_at: "Berakhir masa berlaku pada"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
+            taken_domain: There can only be one active trial per domain.
+            taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
           try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
@@ -320,6 +323,7 @@ id:
     label_expand_all: "Buka semua"
     label_expand_project_menu: "Expand project menu"
     label_export: "Ekspor"
+    label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_filename: "File"
     label_filesize: "Size"
     label_general: "Umum"

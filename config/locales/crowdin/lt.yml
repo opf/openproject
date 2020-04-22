@@ -1185,7 +1185,7 @@ lt:
       forums: "Bendruomenės forumas"
       newsletter: "Saugos įspėjimai / Naujienos"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Konfigūravimo vadovas'
     get_in_touch: "You have questions? Get in touch with us."

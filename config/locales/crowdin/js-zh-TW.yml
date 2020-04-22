@@ -37,6 +37,7 @@ zh-TW:
     close_filter_title: "關閉篩選器"
     close_form_title: "關閉表單"
     button_add_watcher: "新增監看者"
+    button_add: "增加"
     button_back: "返回"
     button_back_to_list_view: "返回清單"
     button_cancel: "取消"
@@ -180,6 +181,8 @@ zh-TW:
             label_starts_at: "Starts at"
             label_expires_at: "過期於"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
+            taken_domain: There can only be one active trial per domain.
+            taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
           try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
@@ -319,6 +322,7 @@ zh-TW:
     label_expand_all: "全部展開"
     label_expand_project_menu: "展開專案選單"
     label_export: "匯出"
+    label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_filename: "檔案"
     label_filesize: "檔案大小"
     label_general: "一般"

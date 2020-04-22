@@ -1187,7 +1187,7 @@ ru:
       forums: "Форум сообщества"
       newsletter: "Оповещения системы безопасности / Новости"
   journals:
-    changes_retracted: "Изменения в случае отказа."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Руководство по конфигурации'
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."

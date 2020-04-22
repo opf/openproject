@@ -1138,7 +1138,7 @@ ja:
       forums: "コミュニティ フォーラム"
       newsletter: "セキュリティアラート / ニュースレター"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: '設定ガイド'
     get_in_touch: "You have questions? Get in touch with us."

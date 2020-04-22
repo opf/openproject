@@ -1188,7 +1188,7 @@ sk:
       forums: "Komunitné fórum"
       newsletter: "Bezpečnostné upozornenia / Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Sprievodca konfiguráciou'
     get_in_touch: "You have questions? Get in touch with us."
