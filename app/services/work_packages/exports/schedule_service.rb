@@ -48,16 +48,21 @@ class WorkPackages::Exports::ScheduleService
     WorkPackages::Exports::ExportJob.perform_later(export: export_storage,
                                                    mime_type: mime_type,
                                                    options: params,
-                                                   query: serialize_query(query))
+                                                   query: serialize_query(query),
+                                                   query_attributes: serialize_query_props(query))
   end
 
+  ##
+  # Pass the query to the job if it was saved
   def serialize_query(query)
     if query.persisted?
       query
-    else
-      query.attributes.tap do |attributes|
-        attributes['filters'] = Queries::WorkPackages::FilterSerializer.dump(query.attributes['filters'])
-      end
+    end
+  end
+
+  def serialize_query_props(query)
+    query.attributes.tap do |attributes|
+      attributes['filters'] = Queries::WorkPackages::FilterSerializer.dump(query.attributes['filters'])
     end
   end
 end

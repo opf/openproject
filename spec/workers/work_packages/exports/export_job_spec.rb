@@ -36,6 +36,7 @@ describe WorkPackages::Exports::ExportJob do
     FactoryBot.build_stubbed(:work_packages_export, user: user)
   end
   let(:query) { FactoryBot.build_stubbed(:query) }
+  let(:query_attributes) { {} }
 
   let(:instance) { described_class.new }
   let(:options) { {} }
@@ -43,7 +44,8 @@ describe WorkPackages::Exports::ExportJob do
     instance.perform(export: export,
                      mime_type: mime_type,
                      options: options,
-                     query: query)
+                     query: query,
+                     query_attributes: query_attributes)
   end
 
   shared_examples_for 'exporter returning string' do
@@ -79,6 +81,22 @@ describe WorkPackages::Exports::ExportJob do
         .and_yield(result)
 
       subject
+    end
+  end
+
+  describe 'query passing' do
+    context 'passing in group_by through attributes' do
+      let(:query_attributes) { { group_by: 'assigned_to' }}
+      let(:mime_type) { :pdf }
+
+      it 'updates the query from attributes' do
+        expect("WorkPackage::Exporter::#{mime_type.upcase}".constantize)
+          .to receive(:list) do |query, _options|
+          expect(query.group_by).to eq 'assigned_to'
+        end
+
+        subject
+      end
     end
   end
 
