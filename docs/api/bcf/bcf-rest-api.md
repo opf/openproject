@@ -1,16 +1,16 @@
-# BCF REST API in OpenProject
+# BCF REST API
 ![](https://raw.githubusercontent.com/BuildingSMART/BCF/master/Icons/BCFicon128.png)
 
 The following describes the extensions and deviations of the BCF API v2.1 implementation in OpenProject. 
+
+This document should be read as an extension to the [standard specification](https://github.com/buildingSMART/BCF-API/blob/release_2_1/README.md). 
+The user should read the standard specification first, and then take a look at this document to be informed about OpenProject specificities.
 
 While the intend of the implementation is to follow the specification, the API builds on the existing OpenProject data
 schema and by that requires to map between the concepts required in the much broader domain of project management and BCF. 
 
 In other parts, the BCF API specification has not been completely implemented. It will be amended where requirements dictate.
 OpenProject offers a second API (v3) which might be able to fill the gaps the BCF API implementation still has.
-
-This document should be read as an extension to the [standard specification](https://github.com/buildingSMART/BCF-API/blob/release_2_1/README.md). 
-The user should read the standard specification first, and then take a look at this document to be informed about OpenProject specificities.
 
 The document follows the structure of the standard specification to ease comparing the two documents.
 
@@ -274,11 +274,13 @@ _Implemented_
 BCF topics are tightly coupled to work packages in OpenProject. This coupling is denoted in the `reference_links` property
 of a topic which will always have a link to the work package resource in the API v3. e.g.:
 
-     <-- other properties -->
-     "reference_links": [
-         "/api/v3/work_packages/92"
-     ],
-     <-- other properties -->
+```
+<-- other properties -->
+"reference_links": [
+ "/api/v3/work_packages/92"
+],
+<-- other properties -->
+```
 
 ### 4.2.1 GET Topics Service
 
