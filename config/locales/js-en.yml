@@ -205,7 +205,6 @@ en:
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
-          try_another_email_hint: "Please be aware that your previous email address gets invalid if you try again with a new one."
           next_steps: "Next steps"
           resend_link: "Resend"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."

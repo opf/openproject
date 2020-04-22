@@ -49,8 +49,7 @@ export class EnterpriseBaseComponent {
     you_contribute: this.I18n.t('js.admin.enterprise.upsale.you_contribute'),
     email_not_received: this.I18n.t('js.admin.enterprise.trial.email_not_received'),
     text: this.I18n.t('js.admin.enterprise.upsale.text'),
-    try_another_email: this.I18n.t('js.admin.enterprise.trial.try_another_email'),
-    try_another_email_hint: this.I18n.t('js.admin.enterprise.trial.try_another_email_hint')
+    try_another_email: this.I18n.t('js.admin.enterprise.trial.try_another_email')
   };
 
   constructor(protected I18n:I18nService,
