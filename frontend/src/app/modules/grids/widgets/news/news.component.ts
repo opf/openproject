@@ -1,12 +1,12 @@
-import { AbstractWidgetComponent } from "core-app/modules/grids/widgets/abstract-widget.component";
-import { ChangeDetectionStrategy, Component, Injector, OnInit, ChangeDetectorRef } from '@angular/core';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-import { TimezoneService } from "core-components/datetime/timezone.service";
-import { NewsResource } from "core-app/modules/hal/resources/news-resource";
-import { NewsDmService } from "core-app/modules/hal/dm-services/news-dm.service";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { DmListParameter } from "core-app/modules/hal/dm-services/dm.service.interface";
+import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit} from '@angular/core';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {TimezoneService} from "core-components/datetime/timezone.service";
+import {NewsResource} from "core-app/modules/hal/resources/news-resource";
+import {NewsDmService} from "core-app/modules/hal/dm-services/news-dm.service";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {DmListParameter} from "core-app/modules/hal/dm-services/dm.service.interface";
 
 @Component({
   templateUrl: './news.component.html',
@@ -17,13 +17,14 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
     createdBy: this.i18n.t('js.label_created_by'),
     at: this.i18n.t('js.grid.widgets.news.at'),
     noResults: this.i18n.t('js.grid.widgets.news.no_results'),
+    noResultOperation: this.i18n.t('js.grid.widgets.news.no_results_content_text'),
+    url: this.pathHelper.projectPath(this.currentProject.identifier!) + '/news/new'
   };
 
   public entries:NewsResource[] = [];
   private entriesLoaded = false;
 
   constructor(
-
     readonly pathHelper:PathHelperService,
     readonly i18n:I18nService,
     protected readonly injector:Injector,

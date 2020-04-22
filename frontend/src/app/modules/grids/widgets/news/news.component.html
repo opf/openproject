@@ -5,7 +5,7 @@
   
 </widget-header>
 <div class="grid--widget-content">
-  <no-results *ngIf="noEntries" [title]="text.noResults">
+  <no-results *ngIf="noEntries" [title]="text.noResults" [url]="text.url" [noResultOperation]="text.noResultOperation">
   </no-results>
   <ul class="widget-box--arrow-links">
     <li class="-widget-box--arrow-multiline" *ngFor="let news of entries">
