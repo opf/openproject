@@ -13,7 +13,7 @@ import {
   LoadingIndicatorService,
   withDelayedLoadingIndicator
 } from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {switchMap, takeWhile} from 'rxjs/operators';
+import {switchMap, takeWhile, map} from 'rxjs/operators';
 import {interval, Observable, Subscription} from 'rxjs';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
@@ -58,7 +58,6 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
   public downloadHref:string;
   public isLoading = false;
   private subscription?:Subscription;
-  private finished?:Function;
 
   @ViewChild('downloadLink') downloadLink:ElementRef;
 
@@ -122,7 +121,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
             this.pollUntilDownload(this.linkHeaderUrl(data)!);
           }
         },
-        (error:HttpErrorResponse) => this.handleError(error));
+        (error:HttpErrorResponse) => this.handleError(error.message));
   }
 
   private pollUntilDownload(url:string) {
@@ -131,14 +130,18 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
     this.subscription = interval(1000)
                         .pipe(
                           switchMap(() => this.performRequest(url)),
-                          takeWhile(response => response.status === 200 && !this.linkHeaderUrl(response), true),
+                          takeWhile(response => response.status === 200, true),
+                          map(response => JSON.parse(response.body)),
+                          takeWhile(body => body.status === 'Processing', true),
                           withDelayedLoadingIndicator(this.loadingIndicator.getter('modal')),
-                        ).subscribe(response => {
-                            if (response.status === 200 && this.linkHeaderUrl(response)) {
-                              this.download(this.linkHeaderUrl(response)!);
+                        ).subscribe(body => {
+                            if (body.status === 'Completed') {
+                              this.download(body.link!);
+                            } else if (body.status === 'Error') {
+                              this.handleError(body.message);
                             }
                           },
-                          error => this.handleError(error),
+                          error => this.handleError(error.message),
                           () => this.isLoading = false
                         );
   }
@@ -149,9 +152,9 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
       .get(url, { observe: 'response', responseType: 'text' });
   }
 
-  private handleError(error:HttpErrorResponse) {
+  private handleError(error:string) {
     this.isLoading = false;
-    this.notifications.addError(error.message || this.I18n.t('js.error.internal'));
+    this.notifications.addError(error || this.I18n.t('js.error.internal'));
   }
 
   private addColumnsToHref(href:string) {
@@ -175,9 +178,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit, OnDe
 
   private download(url:string) {
     this.downloadHref = url;
-    if (this.finished) {
-      this.finished();
-    }
+
     setTimeout(() => {
       this.downloadLink.nativeElement.click();
       this.service.close();

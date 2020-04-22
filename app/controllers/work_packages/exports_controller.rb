@@ -34,26 +34,51 @@ class WorkPackages::ExportsController < ApplicationController
   before_action :find_model_object,
                 :authorize_current_user
 
+  before_action :find_job_status, only: :status
+
   def show
     if @export.ready?
       redirect_to attachment_content_path
     else
-      headers['Link'] = "<#{status_work_packages_export_path(@export.id)}> rel=\"status\""
+      headers['Link'] = "<#{status_work_packages_export_path(@export.id, format: :json)}> rel=\"status\""
       head 202
     end
   end
 
   def status
-    if @export.ready?
+    if @job_status.success?
       headers['Link'] = "<#{attachment_content_path}> rel=\"download\""
+    end
 
-      render plain: 'Completed'
-    else
-      render plain: 'Processing'
+    respond_to do |format|
+      format.json do
+        render json: status_json_body(@job_status),
+               status: 200
+      end
     end
   end
 
   private
+
+  def status_json_body(job)
+    body = { status: job_status(job), message: job.message }
+
+    if job.success?
+      body[:link] = attachment_content_path
+    end
+
+    body
+  end
+
+  def job_status(job)
+    if job.success?
+      'Completed'
+    elsif job.failure? || job.error?
+      'Error'
+    else
+      'Processing'
+    end
+  end
 
   def authorize_current_user
     deny_access(not_found: true) unless @export.visible?(current_user)
@@ -63,5 +88,9 @@ class WorkPackages::ExportsController < ApplicationController
     # Not including the API PathHelper here as it messes up error rendering probably due to it
     # including the url helper again.
     ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(@export.attachments.first.id)
+  end
+
+  def find_job_status
+    @job_status = Delayed::Job::Status.of_reference(@export).first
   end
 end

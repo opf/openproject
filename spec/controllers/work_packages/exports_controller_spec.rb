@@ -1,4 +1,3 @@
-
 #-- encoding: UTF-8
 
 #-- copyright
@@ -61,6 +60,22 @@ describe WorkPackages::ExportsController, type: :controller do
         .and_return(export_attachments)
     end
   end
+
+  let(:status) { 'in_queue' }
+  let(:job_message) { '' }
+  let!(:job_status) do
+    FactoryBot.build_stubbed(:delayed_job_status, status: status, message: job_message).tap do |s|
+      relation = double('AR relation')
+      allow(Delayed::Job::Status)
+        .to receive(:of_reference)
+        .with(export)
+        .and_return(relation)
+
+      allow(relation)
+        .to receive(:first)
+        .and_return(s)
+    end
+  end
   let(:attachment_done) { true }
 
   describe 'show' do
@@ -86,7 +101,7 @@ describe WorkPackages::ExportsController, type: :controller do
 
         it 'returns the status location via the link header' do
           expect(response.headers['Link'])
-            .to eql "</work_packages/exports/#{export.id}/status> rel=\"status\""
+            .to eql "</work_packages/exports/#{export.id}/status.json> rel=\"status\""
         end
       end
 
@@ -115,10 +130,12 @@ describe WorkPackages::ExportsController, type: :controller do
   describe 'status' do
     context 'with an existing id' do
       before do
-        get 'status', params: { id: export.id }
+        get 'status', params: { id: export.id, format: :json }
       end
 
-      context 'with the attachment being ready' do
+      context 'with the associated job status signaling success' do
+        let(:status) { :success }
+
         it 'returns 200 OK' do
           expect(response.status)
             .to eql 200
@@ -131,12 +148,14 @@ describe WorkPackages::ExportsController, type: :controller do
 
         it 'reads "Completed"' do
           expect(response.body)
-            .to eql 'Completed'
+            .to be_json_eql({ "status": "Completed",
+                              "message": "",
+                              "link": api_v3_paths.attachment_content(attachment.id) }.to_json)
         end
       end
 
-      context 'with the attachment not being ready' do
-        let(:attachment_done) { false }
+      context 'with the associated job status being in_queue' do
+        let(:status) { 'in_queue' }
 
         it 'returns 200 OK' do
           expect(response.status)
@@ -150,7 +169,70 @@ describe WorkPackages::ExportsController, type: :controller do
 
         it 'reads "Processing"' do
           expect(response.body)
-            .to eql 'Processing'
+            .to be_json_eql({ "status": "Processing",
+                              "message": "" }.to_json)
+        end
+      end
+
+      context 'with the associated job status being in_process' do
+        let(:status) { :in_process }
+
+        it 'returns 200 OK' do
+          expect(response.status)
+            .to eql 200
+        end
+
+        it 'has no link to the download' do
+          expect(response.headers['Link'])
+            .to be nil
+        end
+
+        it 'reads "Processing"' do
+          expect(response.body)
+            .to be_json_eql({ "status": "Processing",
+                              "message": "" }.to_json)
+        end
+      end
+
+      context 'with the associated job status being error' do
+        let(:status) { :error }
+        let(:job_message) { 'This errored.' }
+
+        it 'returns 200 OK' do
+          expect(response.status)
+            .to eql 200
+        end
+
+        it 'has no link to the download' do
+          expect(response.headers['Link'])
+            .to be nil
+        end
+
+        it 'reads "Error" with the error message' do
+          expect(response.body)
+            .to be_json_eql({ "status": "Error",
+                              "message": job_message }.to_json)
+        end
+      end
+
+      context 'with the associated job status being failure' do
+        let(:status) { :failure }
+        let(:job_message) { 'This failed.' }
+
+        it 'returns 200 OK' do
+          expect(response.status)
+            .to eql 200
+        end
+
+        it 'has no link to the download' do
+          expect(response.headers['Link'])
+            .to be nil
+        end
+
+        it 'reads "Error" with the error message' do
+          expect(response.body)
+            .to be_json_eql({ "status": "Error",
+                              "message": job_message }.to_json)
         end
       end
 
@@ -166,7 +248,7 @@ describe WorkPackages::ExportsController, type: :controller do
 
     context 'with an inexisting id' do
       before do
-        get 'show', params: { id: export.id + 5 }
+        get 'show', params: { id: export.id + 5, format: :json }
       end
 
       it 'returns 404 NOT FOUND' do

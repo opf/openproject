@@ -9,6 +9,10 @@ module WorkPackages
         end
       end
 
+      def status_reference
+        arguments.first[:export]
+      end
+
       private
 
       def export_work_packages(export, mime_type, query_props, options)
