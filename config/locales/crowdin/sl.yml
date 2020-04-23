@@ -1111,11 +1111,11 @@ sl:
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
   error_unable_delete_default_status: "Unable to delete the default work package status. Please select another default work package status before deleting the current one."
-  error_unable_to_connect: "Unable to connect (%{value})"
-  error_unable_delete_wiki: "Unable to delete the wiki page."
-  error_unable_update_wiki: "Unable to update the wiki page."
-  error_workflow_copy_source: "Please select a source type or role"
-  error_workflow_copy_target: "Please select target type(s) and role(s)"
+  error_unable_to_connect: "Povezava ni mogoča (%{value})"
+  error_unable_delete_wiki: "Ni mogoče izbrisati podatkovnih vrat."
+  error_unable_update_wiki: "Ni mogoče nadgraditi podatkovnih vrat."
+  error_workflow_copy_source: "Prosimo izberite tip ali vlogo izvora"
+  error_workflow_copy_target: "Prosimo izberite ciljne tip(e) in vlog(e)"
   error_menu_item_not_created: Menu item could not be added
   error_menu_item_not_saved: Datoteke ni mogoče shraniti
   error_wiki_root_menu_item_conflict: >
@@ -1123,9 +1123,9 @@ sl:
   error_external_authentication_failed: "An error occured during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Project edited'
+    project: 'Projekt urejen'
     changeset: 'Changeset edited'
-    message: Message edited
+    message: Sporočilo urejeno
     news: Novice
     reply: Odgovori
     time_entry: 'Timelog edited'
@@ -1186,7 +1186,7 @@ sl:
       forums: "Forum skupnosti"
       newsletter: "Varnostna opozorila / Glasilo"
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "Spremembe so bile umaknjene."
   links:
     configuration_guide: 'Vodnik za konfiguracijo'
     get_in_touch: "Imate vprašanja? Stopite v stik z nami.\n"
@@ -1253,33 +1253,33 @@ sl:
   label_available_project_repositories: 'Razpoložljiva odlagališča'
   label_api_documentation: "API dokumentacija"
   label_between: "between"
-  label_blocked_by: "blocked by"
+  label_blocked_by: "blokirano od"
   label_blocks: "blocks"
   label_blog: "Blog"
-  label_forums_locked: "Locked"
-  label_forum_new: "New forum"
-  label_forum_plural: "Forums"
+  label_forums_locked: "Zaklenjen"
+  label_forum_new: "Nov forum"
+  label_forum_plural: "Forumi"
   label_forum_sticky: "Sticky"
-  label_boolean: "Boolean"
-  label_branch: "Branch"
-  label_browse: "Browse"
+  label_boolean: "Logika"
+  label_branch: "Podružnica"
+  label_browse: "Brskanje"
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
   label_bundled: '(Bundled)'
-  label_calendar: "Calendar"
-  label_calendar_show: "Show Calendar"
+  label_calendar: "Koledar"
+  label_calendar_show: "Prikaži koleddar"
   label_category: "Kategorija"
   label_consent_settings: "Soglasje uporabnika"
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
-  label_select_project: "Select a project"
+  label_select_project: "Izberi projekt"
   label_required_disk_storage: "Required disk storage"
-  label_send_invitation: Send invitation
-  label_change_plural: "Changes"
-  label_change_properties: "Change properties"
-  label_change_status: "Change status"
-  label_change_status_of_user: "Change status of #{username}"
-  label_change_view_all: "View all changes"
-  label_changes_details: "Details of all changes"
+  label_send_invitation: Pošlji povabilo
+  label_change_plural: "Spremembe"
+  label_change_properties: "Sprememba lastnosti"
+  label_change_status: "Spremeni status"
+  label_change_status_of_user: "Spremeni status #{username}"
+  label_change_view_all: "Poglej vse spremembe"
+  label_changes_details: "Podrobnosti vseh sprememb"
   label_changeset: "Changeset"
   label_changeset_id: "Changeset ID"
   label_changeset_plural: "Changesets"
@@ -1973,8 +1973,8 @@ sl:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
       archived: "Archived"
   project_module_activity: "Aktivnost"
-  project_module_forums: "Forums"
-  project_module_calendar: "Calendar"
+  project_module_forums: "Forumi"
+  project_module_calendar: "Koledar"
   project_module_work_package_tracking: "Work package tracking"
   project_module_news: "Novice"
   project_module_repository: "Repozitorij"

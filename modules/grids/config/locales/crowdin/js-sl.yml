@@ -55,7 +55,7 @@ sl:
         work_packages_graph:
           title: 'Graf delovnih paketov'
         work_packages_calendar:
-          title: 'Calendar'
+          title: 'Koledar'
         work_packages_overview:
           title: 'Pregled delovnih paketov'
           placeholder: 'Klikni za urejanje... '
