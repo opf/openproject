@@ -12,11 +12,12 @@ import {
 import {indicatorCollapsedClass} from "core-components/wp-fast-table/builders/modes/hierarchy/single-hierarchy-row-builder";
 import {tableRowClassName} from "core-components/wp-fast-table/builders/rows/single-row-builder";
 import {WorkPackageViewHierarchies} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-hierarchies";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class HierarchyTransformer {
 
-  public wpTableHierarchies = this.injector.get(WorkPackageViewHierarchiesService);
-  public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
+  @InjectField() public wpTableHierarchies:WorkPackageViewHierarchiesService;
+  @InjectField() public querySpace:IsolatedQuerySpace;
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {

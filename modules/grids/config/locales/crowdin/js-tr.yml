@@ -15,7 +15,7 @@ tr:
         members:
           title: 'Üyeler'
           no_results: 'Görünür üye yok.'
-          view_all_members: 'Tüm üyeleri göster'
+          view_all_members: 'Tüm üyeleri görüntüle'
           add: 'Üye'
           too_many: '%{total} üyelerin %{count} sayısını gösteriliyor.'
         news:
@@ -41,9 +41,9 @@ tr:
           title: 'Geçirdiğim zaman'
         time_entries_list:
           title: 'Harcanan zaman (son 7 gün)'
-          no_results: 'Son 7 günde zaman girişi yok.'
+          no_results: 'Son 7 güne zaman girişi yok.'
         work_packages_accountable:
-          title: "Sorumlusu olduğum iş paketleri"
+          title: "Sorumlu olduğum iş paketleri"
         work_packages_assigned:
           title: 'Bana atanan iş paketleri'
         work_packages_created:

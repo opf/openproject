@@ -1,0 +1,21 @@
+#English strings go here
+de:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Import'
+      export: 'Exportieren'
+      viewpoint: 'Viewpoint'
+      add_viewpoint: 'Viewpoint hinzufügen'
+      show_viewpoint: 'Viewpoint anzeigen'
+      delete_viewpoint: 'Viewpoint löschen'
+    ifc_models:
+      empty_warning: "Dieses Projekt hat noch keine IFC-Modelle."
+      use_this_link_to_manage: "Verwenden Sie diesen Link, um Ihre IFC-Modelle hochzuladen und zu verwalten"
+      keyboard_input_disabled: "Der Viewer hat keine Tastatursteuerung. Klicken Sie auf den Viewer, um die Tastatursteuerung an den Viewer zu übergeben."
+      models:
+        default: 'Standard IFC-Modelle'
+        manage: 'Modelle verwalten'
+      views:
+        viewer: 'Viewer'
+        split: 'Viewer und Karten'

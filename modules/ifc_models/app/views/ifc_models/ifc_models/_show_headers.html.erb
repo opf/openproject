@@ -1,6 +1,0 @@
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag "ifc_viewer/generic", media: 'all' %>
-  <% provision_gon_for_ifc_model(all_models, selected_models) %>
-  <%= include_gon(nonce: content_security_policy_script_nonce) %>
-<% end %>
-

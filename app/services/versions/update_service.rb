@@ -38,7 +38,7 @@ module Versions
       service_call
     end
 
-    # Update the issue's fixed versions. Used if a version's sharing changes.
+    # Update the issue's versions. Used if a version's sharing changes.
     def update_wps_from_sharing_change
       if no_valid_version_before_or_now? ||
          sharing_now_less_broad?

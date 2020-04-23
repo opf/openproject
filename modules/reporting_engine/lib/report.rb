@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Report < ActiveRecord::Base
+class Report < ApplicationRecord
   extend Forwardable
   include Enumerable
   include Engine

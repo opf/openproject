@@ -44,7 +44,7 @@ import {NotificationsService} from 'core-app/modules/common/notifications/notifi
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {from, Observable, of} from 'rxjs';
 import {input} from "reactivestates";
-import {catchError, mergeMap, share, switchMap, take, delay, combineLatest} from "rxjs/operators";
+import {catchError, mergeMap, share, switchMap, take} from "rxjs/operators";
 import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {PaginationService} from "core-components/table-pagination/pagination-service";
@@ -118,7 +118,7 @@ export class WorkPackagesListService {
         // Load a default query
         const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
         return from(this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier));
-      }),
+      })
     );
   }
 
@@ -158,23 +158,21 @@ export class WorkPackagesListService {
   /**
    * Reloads the current query and set the pagination to the first page.
    */
-  public reloadQuery(query:QueryResource):Promise<QueryResource> {
-    let pagination = this.getPaginationInfo();
-    pagination.offset = 1;
+  public reloadQuery(query:QueryResource, projectIdentifier?:string):Observable<QueryResource> {
+    const pagination = { ...this.wpTablePagination.current, page: 1 };
+    const queryParams = this.UrlParamsHelper.encodeQueryJsonParams(query, pagination);
 
-    let wpListPromise = this.QueryDm.reload(query, pagination);
+    this.queryRequests.clear();
+    this.queryRequests.putValue({
+      queryParams: { query_id: query.id || undefined, query_props: queryParams },
+      projectIdentifier: projectIdentifier
+    });
 
-    return this.updateStatesFromQueryOnPromise(wpListPromise)
-      .then((query:QueryResource) => {
-        this.conditionallyLoadForm(query);
-        return query;
-      })
-      .catch((error) => {
-        let projectIdentifier = query.project && query.project.id;
-
-        return this.handleQueryLoadingError(error, {}, query.id!, projectIdentifier);
-      });
-
+    return this
+      .queryLoading
+      .pipe(
+        take(1)
+      );
   }
 
   /**
@@ -235,7 +233,7 @@ export class WorkPackagesListService {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_create'));
 
         // Reload the query, and then reload the menu
-        this.reloadQuery(query).then(() => {
+        this.reloadQuery(query).subscribe(() => {
           this.states.changes.queries.next(query.id!);
         });
 

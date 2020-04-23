@@ -75,8 +75,6 @@ export function uiRouterDashboardsConfiguration(uiRouter:UIRouter) {
   ],
   declarations: [
     DashboardComponent
-  ],
-  entryComponents: [
   ]
 })
 export class OpenprojectDashboardsModule {

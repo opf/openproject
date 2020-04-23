@@ -30,7 +30,7 @@
 
 module BaseServices
   class BaseContracted
-    include Concerns::Contracted
+    include Contracted
     include Shared::ServiceContext
 
     attr_reader :user
@@ -53,6 +53,7 @@ module BaseServices
       service_call = before_perform(params)
 
       service_call = validate_contract(service_call) if service_call.success?
+      service_call = after_validate(params, service_call) if service_call.success?
       service_call = persist(service_call) if service_call.success?
       service_call = after_perform(service_call) if service_call.success?
 
@@ -61,6 +62,10 @@ module BaseServices
 
     def before_perform(_params)
       ServiceResult.new(success: true, result: model)
+    end
+
+    def after_validate(_params, contract_call)
+      contract_call
     end
 
     def validate_contract(call)

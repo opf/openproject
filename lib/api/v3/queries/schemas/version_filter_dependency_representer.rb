@@ -34,13 +34,12 @@ module API
       module Schemas
         class VersionFilterDependencyRepresenter <
           FilterDependencyRepresenter
-
           def json_cache_key
             super + (filter.project.present? ? [filter.project.id] : [])
           end
 
           def href_callback
-            order = "sortBy=#{to_query [%i(name asc)]}"
+            order = "sortBy=#{to_query [%i(semver_name asc)]}"
 
             if filter.project.nil?
               filter_params = [{ sharing: { operator: '=', values: ['system'] } }]

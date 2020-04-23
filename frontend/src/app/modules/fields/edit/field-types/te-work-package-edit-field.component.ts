@@ -35,6 +35,7 @@ import {
   TimeEntryWorkPackageAutocompleterMode
 } from "core-app/modules/common/autocomplete/te-work-package-autocompleter.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 const RECENT_TIME_ENTRIES_MAGIC_NUMBER = 30;
 
@@ -42,7 +43,8 @@ const RECENT_TIME_ENTRIES_MAGIC_NUMBER = 30;
   templateUrl: './work-package-edit-field.component.html'
 })
 export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditFieldComponent {
-  public timeEntryDm = this.injector.get(TimeEntryDmService);
+  @InjectField() public timeEntryDm:TimeEntryDmService;
+
   private recentWorkPackageIds:string[];
 
   protected initialize() {
@@ -52,6 +54,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
     // existing values.
     if (this.referenceOutputs) {
       this.referenceOutputs['modeSwitch'] = (mode:TimeEntryWorkPackageAutocompleterMode) => {
+        this.valuesLoaded = false;
         let lastValue = this.requests.lastRequestedValue!;
 
         // Hack to provide a new value to "reset" the input.

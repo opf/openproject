@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CostEntry < ActiveRecord::Base
+class CostEntry < ApplicationRecord
   belongs_to :project
   belongs_to :work_package
   belongs_to :user

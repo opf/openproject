@@ -44,7 +44,7 @@ describe Backlog, type: :model do
         before(:each) do
           @project = project
           @work_packages = [FactoryBot.create(:work_package, subject: 'work_package1', project: @project, type: @feature, status: @status)]
-          @version = FactoryBot.create(:version, project: project, fixed_issues: @work_packages)
+          @version = FactoryBot.create(:version, project: project, work_packages: @work_packages)
           @version_settings = @version.version_settings.create(display: VersionSetting::DISPLAY_RIGHT, project: project)
         end
 

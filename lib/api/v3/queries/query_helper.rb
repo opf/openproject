@@ -27,8 +27,6 @@
 #++
 
 require 'api/v3/queries/query_representer'
-require 'queries/create_query_service'
-require 'queries/update_query_service'
 
 module API
   module V3
@@ -68,7 +66,7 @@ module API
         def create_query(request_body, current_user)
           rep = representer.new Query.new, current_user: current_user
           query = rep.from_hash request_body
-          call = ::CreateQueryService.new(user: current_user).call query
+          call = ::Queries::CreateService.new(user: current_user).call query
 
           if call.success?
             representer.new call.result, current_user: current_user, embed_links: true
@@ -80,7 +78,7 @@ module API
         def update_query(query, request_body, current_user)
           rep = representer.new query, current_user: current_user
           query = rep.from_hash request_body
-          call = ::UpdateQueryService.new(user: current_user).call query
+          call = ::Queries::UpdateService.new(user: current_user).call query
 
           if call.success?
             representer.new call.result, current_user: current_user, embed_links: true

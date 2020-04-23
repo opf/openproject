@@ -37,11 +37,11 @@ module OpenProject::Backlogs::Patches::SetAttributesServicePatch
 
       if work_package.parent_id_changed? &&
          work_package.parent_id &&
-         !work_package.fixed_version_id_changed? &&
+         !work_package.version_id_changed? &&
          work_package.in_backlogs_type?
 
         closest = closest_story_or_impediment(work_package.parent_id)
-        work_package.fixed_version_id = closest.fixed_version_id if closest
+        work_package.version_id = closest.version_id if closest
       end
     end
 

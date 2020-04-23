@@ -33,11 +33,11 @@ FactoryBot.define do
     user
   end
 
-  factory :api_token, class: ::Token::Api do
+  factory :api_token, class: ::Token::API do
     user
   end
 
-  factory :rss_token, class: ::Token::Rss do
+  factory :rss_token, class: ::Token::RSS do
     user
   end
 

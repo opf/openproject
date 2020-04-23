@@ -28,9 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'token/hashed_token'
-
 module Token
-  class Api < HashedToken
+  class API < HashedToken
   end
 end

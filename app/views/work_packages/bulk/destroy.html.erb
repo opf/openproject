@@ -29,6 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= error_messages_for work_packages.first %>
 
 <%= styled_form_tag work_packages_bulk_path, method: :delete, class: 'form danger-zone' do %>
+  <%= back_url_hidden_field_tag %>
   <% work_packages.each do |work_package| %>
     <%= hidden_field_tag 'ids[]', work_package.id %>
   <% end %>

@@ -26,22 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Injector, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, Injector, OnInit} from '@angular/core';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {State} from 'reactivestates';
 import {combineLatest} from 'rxjs';
-import {filter, map, take, takeUntil} from 'rxjs/operators';
+import {filter, map, take} from 'rxjs/operators';
 import {States} from '../../../states.service';
-import {
-  RelationsStateValue,
-  WorkPackageRelationsService
-} from '../../../wp-relations/wp-relations.service';
+import {RelationsStateValue, WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {timelineElementCssClass, TimelineViewParameters} from '../wp-timeline';
 import {TimelineRelationElement, workPackagePrefix} from './timeline-relation-element';
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 const DEBUG_DRAW_RELATION_LINES_WITH_COLOR = false;
 
@@ -80,9 +78,9 @@ function newSegment(vp:TimelineViewParameters,
   selector: 'wp-timeline-relations',
   template: '<div class="wp-table-timeline--relations"></div>'
 })
-export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
+export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin implements OnInit {
 
-  private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
+  @InjectField() querySpace:IsolatedQuerySpace;
 
   private container:JQuery;
 
@@ -94,7 +92,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
               public workPackageTimelineTableController:WorkPackageTimelineTableController,
               public wpTableTimeline:WorkPackageViewTimelineService,
               public wpRelations:WorkPackageRelationsService) {
-
+    super();
   }
 
   ngOnInit() {
@@ -104,10 +102,6 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
       .onRefreshRequested('relations', (vp:TimelineViewParameters) => this.refreshView());
 
     this.setupRelationSubscription();
-  }
-
-  ngOnDestroy() {
-    // empty
   }
 
   private refreshView() {
@@ -129,7 +123,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
     ])
       .pipe(
         filter(([_, timeline]) => timeline.visible),
-        takeUntil(componentDestroyed(this)),
+        this.untilDestroyed(),
         map(([rendered, _]) => rendered)
       )
       .subscribe(list => {
@@ -155,7 +149,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
     // When a WorkPackage changes, redraw the corresponding relations
     this.states.workPackages.observeChange()
       .pipe(
-        takeUntil(componentDestroyed(this)),
+        this.untilDestroyed(),
         filter(() => this.wpTableTimeline.isVisible)
       )
       .subscribe(([workPackageId]) => {
@@ -262,10 +256,10 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
     const targetX = endCell.getMarginLeftOfLeftSide() + endCell.getPaddingLeftForIncomingRelationLines();
 
     // Vertical direction
-    const directionY:'toUp' | 'toDown' = idxFrom < idxTo ? 'toDown' : 'toUp';
+    const directionY:'toUp'|'toDown' = idxFrom < idxTo ? 'toDown' : 'toUp';
 
     // Horizontal direction
-    const directionX:'toLeft' | 'beneath' | 'toRight' =
+    const directionX:'toLeft'|'beneath'|'toRight' =
       targetX > startX ? 'toRight' : targetX < startX ? 'toLeft' : 'beneath';
 
     // start

@@ -28,12 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module WorkPackage::PdfExport::Common
+module WorkPackage::PDFExport::Common
   include Redmine::I18n
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
   include CustomFieldsHelper
-  include WorkPackage::PdfExport::ToPdfHelper
+  include WorkPackage::PDFExport::ToPdfHelper
   include OpenProject::TextFormatting
 
   private
@@ -51,7 +51,7 @@ module WorkPackage::PdfExport::Common
   end
 
   def success(content)
-    WorkPackage::Exporter::Success
+    WorkPackage::Exporter::Result::Success
       .new format: :csv,
            title: title,
            content: content,
@@ -59,7 +59,7 @@ module WorkPackage::PdfExport::Common
   end
 
   def error(message)
-    WorkPackage::Exporter::Error.new message
+    WorkPackage::Exporter::Result::Error.new message
   end
 
   def cell_padding

@@ -35,17 +35,18 @@ import {NotificationsService} from 'core-app/modules/common/notifications/notifi
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Injectable()
 export class HalResourceNotificationService {
 
-  protected I18n = this.injector.get(I18nService);
-  protected $state = this.injector.get(StateService);
-  protected halResourceService = this.injector.get(HalResourceService);
-  protected NotificationsService = this.injector.get(NotificationsService);
-  protected loadingIndicator = this.injector.get(LoadingIndicatorService);
+  @InjectField() protected I18n:I18nService;
+  @InjectField() protected $state:StateService;
+  @InjectField() protected halResourceService:HalResourceService;
+  @InjectField() protected NotificationsService:NotificationsService;
+  @InjectField() protected loadingIndicator:LoadingIndicatorService;
 
-  constructor(protected injector:Injector) {
+  constructor(public injector:Injector) {
   }
 
   public showSave(resource:HalResource, isCreate:boolean = false) {

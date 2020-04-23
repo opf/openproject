@@ -12,6 +12,19 @@ We released [OpenProject 10.4.1](https://community.openproject.com/versions/1417
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
+
+### Time entry corruption in 10.4.0 update
+
+The migration scripts that ran as part of the OpenProject 10.4.0 upgrade include an unfortunate bug that leads to some installations suffering data loss. Installations, that had time entry activities enabled/disabled per project, will have all their time entries assigned to a single time entry activity.
+
+
+
+If you have updated to 10.4.0 and were using project-based time entry activities, please use the following guide to restore them:
+
+[Fixing time entries corrupted by upgrading to 10.4.0](https://docs.openproject.org/installation-and-operations/misc/time-entries-corrupted-by-10-4/).
+
+
+
 #### Bug fixes and changes
 
 - Fixed: Can not delete queries on community.openproject.com \[[#32326](https://community.openproject.com/wp/32326)\]

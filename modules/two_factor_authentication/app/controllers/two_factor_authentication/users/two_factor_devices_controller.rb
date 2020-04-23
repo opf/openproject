@@ -8,15 +8,14 @@ module ::TwoFactorAuthentication
       before_action :require_not_self
 
       # Password confirmation helpers and actions
-      include ::Concerns::PasswordConfirmation
+      include PasswordConfirmation
       before_action :check_password_confirmation,
                     only: :make_default
 
       # Skip before action on delete_all
       skip_before_action :find_device, only: [:delete_all]
 
-      def index
-      end
+      def index; end
 
       ##
       # Register the device and let the user confirm

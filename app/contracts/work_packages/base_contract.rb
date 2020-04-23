@@ -28,12 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
-
 module WorkPackages
   class BaseContract < ::ModelContract
     include ::Attachments::ValidateReplacements
-    include ::Concerns::AssignableValuesContract
+    include AssignableValuesContract
 
     attribute :subject
     attribute :description
@@ -46,9 +44,9 @@ module WorkPackages
     attribute :type_id
     attribute :priority_id
     attribute :category_id
-    attribute :fixed_version_id,
+    attribute :version_id,
               permission: :assign_versions do
-      validate_fixed_version_is_assignable
+      validate_version_is_assignable
     end
 
     validate :validate_no_reopen_on_closed_version
@@ -268,14 +266,14 @@ module WorkPackages
       end
     end
 
-    def validate_fixed_version_is_assignable
-      if model.fixed_version_id && !model.assignable_versions.map(&:id).include?(model.fixed_version_id)
-        errors.add :fixed_version_id, :inclusion
+    def validate_version_is_assignable
+      if model.version_id && !model.assignable_versions.map(&:id).include?(model.version_id)
+        errors.add :version_id, :inclusion
       end
     end
 
     def validate_no_reopen_on_closed_version
-      if model.fixed_version_id && model.reopened? && model.fixed_version.closed?
+      if model.version_id && model.reopened? && model.version.closed?
         errors.add :base, I18n.t(:error_can_not_reopen_work_package_on_closed_version)
       end
     end
@@ -373,7 +371,7 @@ module WorkPackages
     end
 
     def closed_version_and_status?(status = model.status)
-      model.fixed_version&.closed? && status.is_closed?
+      model.version&.closed? && status.is_closed?
     end
 
     def new_statuses_by_workflow(status)

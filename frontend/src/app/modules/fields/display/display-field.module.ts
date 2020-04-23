@@ -32,6 +32,7 @@ import {DisplayFieldContext} from "core-app/modules/fields/display/display-field
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export const cssClassCustomOption = 'custom-option';
 
@@ -40,7 +41,7 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
   public mode:string | null = null;
   public activeChange:ResourceChangeset<T>|null = null;
 
-  protected I18n:I18nService = this.$injector.get(I18nService);
+  @InjectField() I18n:I18nService;
 
   constructor(public name:string, public context:DisplayFieldContext) {
     super();
@@ -70,7 +71,7 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
    * which is relevant to provide the display field
    * the current space context.
    */
-  protected get $injector() {
+  public get injector() {
     return this.context.injector;
   }
 

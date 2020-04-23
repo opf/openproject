@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Scm::StorageUpdaterJob < ApplicationJob
+class SCM::StorageUpdaterJob < ApplicationJob
   queue_with_priority :low
 
   def perform(repository)

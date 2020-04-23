@@ -33,7 +33,7 @@ describe Version, type: :model do
 
   describe 'rebuild positions' do
     def build_work_package(options = {})
-      FactoryBot.build(:work_package, options.reverse_merge(fixed_version_id: version.id,
+      FactoryBot.build(:work_package, options.reverse_merge(version_id: version.id,
                                                              priority_id:      priority.id,
                                                              project_id:       project.id,
                                                              status_id:        status.id))
@@ -54,7 +54,7 @@ describe Version, type: :model do
 
     let(:version) { FactoryBot.create(:version, project_id: project.id, name: 'Version') }
 
-    let(:admin) { FactoryBot.create(:admin) }
+    using_shared_fixtures :admin
 
     def move_to_project(work_package, project)
       service = WorkPackages::MoveService.new(work_package, admin)
@@ -96,7 +96,7 @@ describe Version, type: :model do
       work_package3 = FactoryBot.create(:work_package, parent_id: work_package2.id, type_id: task_type.id, status_id: status.id, project_id: project.id)
 
       work_package1.reload
-      work_package1.fixed_version_id = version.id
+      work_package1.version_id = version.id
       work_package1.save!
 
       work_package1.reload
@@ -119,9 +119,9 @@ describe Version, type: :model do
       expect(work_package2.project).to eq(project2)
       expect(work_package1.project).to eq(project)
 
-      expect(work_package3.fixed_version_id).to be_nil
-      expect(work_package2.fixed_version_id).to be_nil
-      expect(work_package1.fixed_version_id).to eq(version.id)
+      expect(work_package3.version_id).to be_nil
+      expect(work_package2.version_id).to be_nil
+      expect(work_package1.version_id).to eq(version.id)
     end
 
     it 'rebuilds postions' do
@@ -145,7 +145,7 @@ describe Version, type: :model do
       version.rebuild_positions(project)
 
       work_packages = version
-                      .fixed_issues
+                      .work_packages
                       .where(project_id: project)
                       .order(Arel.sql('COALESCE(position, 0) ASC, id ASC'))
 

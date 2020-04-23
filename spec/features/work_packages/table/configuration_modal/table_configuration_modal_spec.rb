@@ -24,20 +24,12 @@ describe 'Work Package table configuration modal', js: true do
     wp_table.expect_work_package_listed wp_1
   end
 
-  it 'focuses on the modal when opening it' do
-    modal.open!
-    expect(page).to have_focus_on('.columns-modal--content input.select2-input')
-  end
-
   it 'focuses on the columns tab when opened through header' do
     # Open header dropdown
     find('.work-package-table--container th #subject').click
 
     # Open insert columns entry
     find('#column-context-menu .menu-item', text: 'Insert columns ...').click
-
-    # Expect focus on table configuration modal
-    expect(page).to have_focus_on('.columns-modal--content input.select2-input')
 
     # Expect active tab is columns
     expect(page).to have_selector('.tab-show.selected', text: 'COLUMNS')

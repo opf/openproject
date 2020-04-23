@@ -5,11 +5,12 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {rowGroupClassName} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class GroupRowHandler implements TableEventHandler {
 
   // Injections
-  public querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
+  @InjectField() public querySpace:IsolatedQuerySpace;
 
   private builder:GroupedRowsBuilder;
 

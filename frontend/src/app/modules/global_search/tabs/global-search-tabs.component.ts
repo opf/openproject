@@ -27,7 +27,6 @@
 // ++
 
 import {Component, OnDestroy} from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {Subscription} from "rxjs";
 import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
@@ -76,7 +75,3 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
     this.tabsSub.unsubscribe();
   }
 }
-
-DynamicBootstrapper.register({
-  selector: globalSearchTabsSelector, cls: GlobalSearchTabsComponent
-});

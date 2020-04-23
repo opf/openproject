@@ -30,12 +30,12 @@
 class AccountController < ApplicationController
   include CustomFieldsHelper
   include OmniauthHelper
-  include Concerns::OmniauthLogin
-  include Concerns::RedirectAfterLogin
-  include Concerns::AuthenticationStages
-  include Concerns::UserConsent
-  include Concerns::UserLimits
-  include Concerns::UserPasswordChange
+  include Accounts::OmniauthLogin
+  include Accounts::RedirectAfterLogin
+  include Accounts::AuthenticationStages
+  include Accounts::UserConsent
+  include Accounts::UserLimits
+  include Accounts::UserPasswordChange
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
@@ -373,7 +373,7 @@ class AccountController < ApplicationController
     if OpenProject::Configuration.disable_password_login?
       render_404
     else
-      password_authentication(params[:username], params[:password])
+      password_authentication(params[:username]&.strip, params[:password])
     end
   end
 

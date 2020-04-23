@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AttributeHelpText < ActiveRecord::Base
+class AttributeHelpText < ApplicationRecord
   def self.available_types
     subclasses.map { |child| child.name.demodulize }
   end

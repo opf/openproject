@@ -6,13 +6,14 @@ import {Injector} from '@angular/core';
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class WorkPackageFilterValues {
 
-  private currentUser:CurrentUserService = this.injector.get(CurrentUserService);
-  private halResourceService:HalResourceService = this.injector.get(HalResourceService);
+  @InjectField() currentUser:CurrentUserService;
+  @InjectField() halResourceService:HalResourceService;
 
-  constructor(private injector:Injector,
+  constructor(public injector:Injector,
               private change:WorkPackageChangeset,
               private filters:QueryFilterInstanceResource[],
               private excluded:string[] = []) {

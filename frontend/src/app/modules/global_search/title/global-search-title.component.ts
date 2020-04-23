@@ -25,21 +25,14 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  ElementRef,
-  OnDestroy
-} from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy} from '@angular/core';
 import {distinctUntilChanged} from 'rxjs/operators';
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {Injector} from "@angular/core";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 export const globalSearchTitleSelector = 'global-search-title';
 
@@ -47,13 +40,13 @@ export const globalSearchTitleSelector = 'global-search-title';
   selector: 'global-search-title',
   templateUrl: './global-search-title.component.html'
 })
-export class GlobalSearchTitleComponent implements OnDestroy {
+export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements OnDestroy {
   @Input() public searchTerm:string;
   @Input() public project:string;
   @Input() public projectScope:string;
   @Input() public searchTitle:string;
 
-  private currentProjectService:CurrentProjectService = this.injector.get(CurrentProjectService);
+  @InjectField() private currentProjectService:CurrentProjectService;
 
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.title.all_projects'),
@@ -66,30 +59,27 @@ export class GlobalSearchTitleComponent implements OnDestroy {
               readonly cdRef:ChangeDetectorRef,
               readonly globalSearchService:GlobalSearchService,
               readonly I18n:I18nService,
-              protected injector:Injector) {
+              readonly injector:Injector) {
+    super();
   }
 
   ngOnInit() {
     // Listen on changes of search input value and project scope
-    combineLatest(
-        this.globalSearchService.searchTerm$,
-        this.globalSearchService.projectScope$
-    )
-    .pipe(
-      distinctUntilChanged(),
-      untilComponentDestroyed(this)
-    )
-    .subscribe(([newSearchTerm, newProjectScope]) => {
-      this.searchTerm = newSearchTerm;
-      this.project = this.projectText(newProjectScope);
-      this.searchTitle = `${this.text.search_for} ${this.searchTerm} ${this.project === '' ? '' : this.text.in} ${this.project}`;
+    combineLatest([
+      this.globalSearchService.searchTerm$,
+      this.globalSearchService.projectScope$
+    ])
+      .pipe(
+        distinctUntilChanged(),
+        this.untilDestroyed()
+      )
+      .subscribe(([newSearchTerm, newProjectScope]) => {
+        this.searchTerm = newSearchTerm;
+        this.project = this.projectText(newProjectScope);
+        this.searchTitle = `${this.text.search_for} ${this.searchTerm} ${this.project === '' ? '' : this.text.in} ${this.project}`;
 
-      this.cdRef.detectChanges();
-    });
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
+        this.cdRef.detectChanges();
+      });
   }
 
   private projectText(scope:string):string {
@@ -110,8 +100,3 @@ export class GlobalSearchTitleComponent implements OnDestroy {
     }
   }
 }
-
-
-DynamicBootstrapper.register({
-  selector: globalSearchTitleSelector, cls: GlobalSearchTitleComponent
-});

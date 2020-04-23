@@ -49,9 +49,7 @@ en:
             status:
               code: on_track
               description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-            description: >
-              **This is a demo project**. You can edit the description in
-              the [Project settings -> Description](%{base_url}/projects/demo-project/settings).
+            description: This is a short summary of the goals of this demo project.
             timeline:
               name: Timeline
             modules:
@@ -395,9 +393,7 @@ en:
             status:
               code: on_track
               description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-            description: |
-              *This is a Scrum demo project.*
-              You can edit the project description in the [Project settings -> Description](%{base_url}/projects/your-scrum-project/settings).
+            description: This is a short summary of the goals of this demo Scrum project.
             timeline:
               name: Timeline
             modules:

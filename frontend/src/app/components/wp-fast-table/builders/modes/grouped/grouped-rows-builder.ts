@@ -14,14 +14,15 @@ import {
   rowGroupClassName
 } from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class GroupedRowsBuilder extends RowsBuilder {
 
   // Injections
-  private readonly querySpace = this.injector.get(IsolatedQuerySpace);
-  public states:States = this.injector.get(States);
-  public wpTableColumns:WorkPackageViewColumnsService = this.injector.get(WorkPackageViewColumnsService);
-  public I18n:I18nService = this.injector.get(I18nService);
+  @InjectField() private readonly querySpace:IsolatedQuerySpace;
+  @InjectField() public states:States;
+  @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
+  @InjectField() public I18n:I18nService;
 
   constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {
     super(injector, workPackageTable);
@@ -76,29 +77,30 @@ export class GroupedRowsBuilder extends RowsBuilder {
     jQuery(this.workPackageTable.tableAndTimelineContainer)
       .find(`.${rowGroupClassName}`)
       .each((i:number, oldRow:Element) => {
-      let groupIndex = jQuery(oldRow).data('groupIndex');
-      let group = groups[groupIndex];
+        let groupIndex = jQuery(oldRow).data('groupIndex');
+        let group = groups[groupIndex];
 
-      // Refresh the group header
-      let newRow = builder.buildGroupRow(group, colspan);
+        // Refresh the group header
+        let newRow = builder.buildGroupRow(group, colspan);
 
-      if (oldRow.parentNode) {
-        oldRow.parentNode.replaceChild(newRow, oldRow);
-      }
+        if (oldRow.parentNode) {
+          oldRow.parentNode.replaceChild(newRow, oldRow);
+        }
 
-      // Set expansion state of contained rows
-      const affected = jQuery(`.${groupedRowClassName(groupIndex)}`);
-      affected.toggleClass(collapsedRowClass, !!group.collapsed);
+        // Set expansion state of contained rows
+        const affected = jQuery(this.workPackageTable.tableAndTimelineContainer)
+                          .find(`.${groupedRowClassName(groupIndex)}`);
+        affected.toggleClass(collapsedRowClass, !!group.collapsed);
 
-      // Update the hidden section of the rendered state
-      affected.filter(`.${tableRowClassName}`).each((i, el) => {
-        // Get the index of this row
-        const index = jQuery(el).index();
+        // Update the hidden section of the rendered state
+        affected.filter(`.${tableRowClassName}`).each((i, el) => {
+          // Get the index of this row
+          const index = jQuery(el).index();
 
-        // Update the hidden state
-        rendered[index].hidden = !!group.collapsed;
+          // Update the hidden state
+          rendered[index].hidden = !!group.collapsed;
+        });
       });
-    });
 
     this.querySpace.tableRendered.putValue(rendered, 'Updated hidden state of rows after group change.');
   }

@@ -7,7 +7,7 @@ describe 'Closed status and version in full view', js: true do
   let(:project) { FactoryBot.create(:project, types: [type]) }
 
   let(:version) { FactoryBot.create :version, status: 'closed', project: project }
-  let(:work_package) { FactoryBot.create :work_package, project: project, status: status, fixed_version: version }
+  let(:work_package) { FactoryBot.create :work_package, project: project, status: status, version: version }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
 
   let(:user) { FactoryBot.create :admin }

@@ -78,14 +78,19 @@ See docs/COPYRIGHT.rdoc for more details.
   </td>
   <% if User.current.allowed_to? :view_cost_rates, @project %>
     <td class="currency budget-table--fields">
-      <% obj_id = "#{id_prefix}_costs" %>
       <%# Keep current budget as hidden field because otherwise they will be overridden %>
       <% if templated == false && !material_budget_item.new_record? && material_budget_item.overridden_budget? %>
-        <%= cost_form.hidden_field :budget, value: material_budget_item.budget %>
+        <%= cost_form.hidden_field :budget, value: unitless_currency_number(material_budget_item.budget) %>
       <% end %>
-      <cost-unit-subform obj-id="<%= obj_id %>" obj-name="<%= "#{name_prefix}[budget]" %>">
-        <a id="<%= obj_id %>" class="costs--edit-planned-costs-btn icon-context icon-edit" role="button" title="<%= t(:help_click_to_edit) %>">
-          <%= number_to_currency(material_budget_item.budget || material_budget_item.calculated_costs(@cost_object.fixed_date)) %>
+
+      <% cost_value = material_budget_item.budget || material_budget_item.calculated_costs(@cost_object.fixed_date) %>
+      <%= cost_form.hidden_field :currency, index: id_or_index, value: Setting.plugin_openproject_costs['costs_currency'] %>
+      <%= cost_form.hidden_field :cost_value, index: id_or_index, value: unitless_currency_number(cost_value) %>
+
+      <cost-unit-subform obj-id="<%= id_prefix %>"
+                         obj-name="<%= "#{name_prefix}[budget]" %>">
+        <a id="<%= id_prefix %>_costs" class="costs--edit-planned-costs-btn icon-context icon-edit" role="button" title="<%= t(:help_click_to_edit) %>">
+          <%= number_to_currency(cost_value) %>
         </a>
       </cost-unit-subform>
     </td>

@@ -90,7 +90,12 @@ export class CostBudgetSubformAugmentService {
       .subscribe(
         (data:any) => {
           _.each(data, (val:string, selector:string) => {
-            jQuery('#' + selector).html(val);
+            let element = document.getElementById(selector) as HTMLElement|HTMLInputElement|undefined;
+            if (element instanceof HTMLInputElement) {
+              element.value = val;
+            } else if (element) {
+              element.textContent = val;
+            }
           });
         },
         (error:any) => this.halNotification.handleRawError(error)

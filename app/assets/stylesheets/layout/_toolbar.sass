@@ -67,13 +67,13 @@ $nm-color-success-background: #d8fdd1
 
     .title-container
       flex-grow: 0
+      flex-basis: auto
 
 // Align title and toolbar with flex
 .toolbar
   display: flex
   flex-wrap: wrap
   align-items: center
-  justify-content: flex-end
 
 // automatically clear the toolbar
 .toolbar:after
@@ -86,8 +86,6 @@ $nm-color-success-background: #d8fdd1
   flex-wrap: wrap
   margin:  0 -10px 0 0
   padding: 0
-  // have a fixed height for all toolbars
-  height: 44px
 
   li
     list-style-type: none
@@ -201,8 +199,7 @@ $nm-color-success-background: #d8fdd1
 
 // Allow title container to grow
 .title-container
-  flex-grow: 1
-  flex-basis: auto
+  flex: 1 1
   overflow: hidden
   white-space: nowrap
   margin-bottom: 10px // margin-bottom of toolbar buttons
@@ -262,21 +259,10 @@ $nm-color-success-background: #d8fdd1
   span.filter-selection
     @include query-select-dropdown-filter-select($primary-color)
 
-/** Allow select2 to display correctly in the toolbar */
-.toolbar .select2-container
-  padding: 0
-
-  .select2-choice
-    min-width: 150px
-
-  .select2-arrow
-    border-color: $toolbar-item--border-color
-
 .toolbar-input-group
   display: flex
 
-  input,
-  .select2-container
+  input
     flex: 1
     flex-basis: 150px
 

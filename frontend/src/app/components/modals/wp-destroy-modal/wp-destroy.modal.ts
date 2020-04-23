@@ -28,8 +28,6 @@
 
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {States} from '../../states.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from "@angular/core";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
@@ -86,7 +84,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
     super.ngOnInit();
 
     this.workPackages = this.locals.workPackages;
-    this.workPackageLabel = this.I18n.t('js.units.workPackage', {count: this.workPackages.length});
+    this.workPackageLabel = this.I18n.t('js.units.workPackage', { count: this.workPackages.length });
 
     // Ugly way to provide the same view bindings as the ng-init in the previous template.
     if (this.workPackages.length === 1) {
@@ -94,19 +92,19 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
       this.singleWorkPackageChildren = this.singleWorkPackage.children;
     }
 
-    this.text.title = this.I18n.t('js.modals.destroy_work_package.title', {label: this.workPackageLabel}),
+    this.text.title = this.I18n.t('js.modals.destroy_work_package.title', { label: this.workPackageLabel }),
       this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
         label: this.workPackageLabel,
         count: this.workPackages.length
-      }),
+      });
 
-      this.text.childCount = (wp:WorkPackageResource) => {
-        const count = this.children(wp).length;
-        return this.I18n.t('js.units.child_work_packages', {count: count});
-      };
+    this.text.childCount = (wp:WorkPackageResource) => {
+      const count = this.children(wp).length;
+      return this.I18n.t('js.units.child_work_packages', { count: count });
+    };
 
     this.text.hasChildren = (wp:WorkPackageResource) =>
-      this.I18n.t('js.modals.destroy_work_package.has_children', {childUnits: this.text.childCount(wp)}),
+      this.I18n.t('js.modals.destroy_work_package.has_children', { childUnits: this.text.childCount(wp) }),
 
       this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
   }
@@ -138,12 +136,8 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
         this.closeMe($event);
         this.wpTableFocus.clear();
 
-        /**
-         * When we are in the list, we expect a refreshed list view.
-         * Otherwise we expect a redirect to where we came from,
-         * since the WP in view (split/full) does not exist any more.
-         */
-        if (this.$state.current.name !== 'work-packages.list') {
+        // Go back to a previous list state if we're in a split or full view
+        if (this.$state.current.data.baseRoute) {
           this.backRoutingService.goBack(true);
         }
       })

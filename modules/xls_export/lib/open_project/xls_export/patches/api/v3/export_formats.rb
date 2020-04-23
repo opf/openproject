@@ -1,5 +1,5 @@
 module OpenProject::XlsExport::Patches
-  module Api::V3::ExportFormats
+  module API::V3::ExportFormats
     def representation_formats
       super + [
         representation_format_xls,

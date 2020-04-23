@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Document < ActiveRecord::Base
+class Document < ApplicationRecord
   belongs_to :project
   belongs_to :category, class_name: "DocumentCategory", foreign_key: "category_id"
   acts_as_attachable delete_permission: :manage_documents,

@@ -26,8 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'scm/authorization_policy'
-class Scm::SubversionAuthorizationPolicy < Scm::AuthoriziationPolicy
+class SCM::SubversionAuthorizationPolicy < SCM::AuthorizationPolicy
   private
 
   def readonly_request?(params)

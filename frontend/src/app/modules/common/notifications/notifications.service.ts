@@ -45,7 +45,7 @@ export interface INotification {
   data?:any;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class NotificationsService {
 
   // The current stack of notifications

@@ -1,16 +1,15 @@
-<div class="columns-modal--content select2-modal-content">
+<div class="columns-modal--content">
   <label
     [textContent]="text.selectedColumns"
     class="hidden-for-sighted">
   </label>
 
-  <ng-container>
-    <input #select2Columns
-           type="hidden" />
-    <div>
-      <p class="form--inline-instructions" [textContent]="text.columnsHelp"></p>
-    </div>
-  </ng-container>
+  <draggable-autocompleter [options]="availableColumnsOptions"
+                           [selected]="selectedColumns"
+                           (onChange)="updateSelected($event)">
+  </draggable-autocompleter>
+
+  <p class="form--inline-instructions" [textContent]="text.columnsHelp"></p>
 </div>
 
 <enterprise-banner class="ee-relation-columns-upsale"

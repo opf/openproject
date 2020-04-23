@@ -15,7 +15,7 @@ zh-TW:
         members:
           title: '成員'
           no_results: 'No visible members.'
-          view_all_members: '查看所有的成員'
+          view_all_members: '查看所有成員'
           add: '成員'
           too_many: 'Displaying %{count} of %{total} members.'
         news:

@@ -26,21 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit, OnDestroy} from '@angular/core';
+import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
-import {ElementRef} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {States} from 'core-components/states.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+
+export const attachmentsSelector = 'attachments';
 
 @Component({
-  selector: 'attachments',
+  selector: attachmentsSelector,
   templateUrl: './attachments.html'
 })
-export class AttachmentsComponent implements OnInit, OnDestroy {
+export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit {
   @Input('resource') public resource:HalResource;
 
   public $element:JQuery;
@@ -52,6 +52,7 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
               protected I18n:I18nService,
               protected states:States,
               protected halResourceService:HalResourceService) {
+    super();
 
     this.text = {
       attachments: this.I18n.t('js.label_attachments'),
@@ -78,14 +79,10 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
     this.setupResourceUpdateListener();
   }
 
-  ngOnDestroy():void {
-    // nothing to do
-  }
-
   public setupResourceUpdateListener() {
     this.states.forResource(this.resource)!.changes$()
       .pipe(
-        takeUntil(componentDestroyed(this)),
+        this.untilDestroyed(),
         filter(newResource => !!newResource)
       )
       .subscribe((newResource:HalResource) => {
@@ -99,5 +96,3 @@ export class AttachmentsComponent implements OnInit, OnDestroy {
     return this.allowUploading || _.get(this.resource, 'attachments.count', 0) > 0;
   }
 }
-
-DynamicBootstrapper.register({ selector: 'attachments', cls: AttachmentsComponent, embeddable: true });

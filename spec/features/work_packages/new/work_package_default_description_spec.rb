@@ -83,7 +83,7 @@ describe 'new work package', js: true, with_mail: false do
 
     it 'shows the template after selection of project and type' do
       wp_table.visit!
-      wp_table.create_wp_split_screen type_feature
+      wp_table.create_wp_by_button type_feature
 
       wp_page.expect_fully_loaded
 

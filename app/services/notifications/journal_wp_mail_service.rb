@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Notifications::JournalWPMailService
+class Notifications::JournalWpMailService
   class << self
     include Notifications::JournalNotifier
 
@@ -39,7 +39,7 @@ class Notifications::JournalWPMailService
     private
 
     def journal_complete_mail(journal, send_mails)
-      return nil unless send_mail?(journal, send_mails)
+      return nil if abort_sending?(journal, send_mails)
 
       author = User.find_by(id: journal.user_id) || DeletedUser.first
 
@@ -128,6 +128,10 @@ class Notifications::JournalWPMailService
 
     def notification_enabled?(name)
       Setting.notified_events.include?(name)
+    end
+
+    def abort_sending?(journal, send_mails)
+      !send_mail?(journal, send_mails) || journal.noop?
     end
   end
 end

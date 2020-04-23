@@ -34,7 +34,7 @@ import {States} from '../states.service';
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {StateCacheService} from "core-components/states/state-cache.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class FormsCacheService extends StateCacheService<FormResource> {
 
   private $formCache = multiInput<FormResource>();

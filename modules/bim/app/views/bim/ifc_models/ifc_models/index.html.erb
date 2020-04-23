@@ -1,0 +1,60 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% html_title(t('ifc_models.label_ifc_models')) -%>
+
+<%= toolbar title: t('ifc_models.label_ifc_models') do %>
+  <% if User.current.allowed_to?(:manage_ifc_models, @project) %>
+    <li class="toolbar-item">
+      <%= link_to new_bcf_project_ifc_model_path,
+                  { class: 'button -alt-highlight',
+                    aria: { label: t(:'ifc_models.label_new_ifc_model') },
+                    title: t(:'ifc_models.label_new_ifc_model') } do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= ::Bim::IfcModels::IfcModel.model_name.human %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <% if @ifc_models.defaults.any? %>
+    <li class="toolbar-item">
+      <%= link_to defaults_bcf_project_ifc_models_path,
+                  { class: 'button',
+                    aria: { label: t('ifc_models.label_show_defaults') },
+                    title: t('ifc_models.label_show_defaults') } do %>
+        <%= op_icon('button--icon icon-watched') %>
+        <span class="button--text"><%= t('ifc_models.label_show_defaults') %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+
+<% if @ifc_models.defaults.empty? %>
+  <%= render partial: 'no_default_notice', locals: { project: @project } %>
+<% end %>
+
+<%= cell ::Bim::IfcModels::TableCell, @ifc_models %>

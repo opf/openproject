@@ -27,22 +27,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 module OpenProject
-  module Scm
+  module SCM
     module Exceptions
       # Parent SCM exception class
-      class ScmError < StandardError
+      class SCMError < StandardError
       end
 
       # Exception marking an error in the repository build process
-      class RepositoryBuildError < ScmError
+      class RepositoryBuildError < SCMError
       end
 
       # Exception marking an error in the repository teardown process
-      class RepositoryUnlinkError < ScmError
+      class RepositoryUnlinkError < SCMError
       end
 
       # Exception marking an error in the execution of a local command.
-      class CommandFailed < ScmError
+      class CommandFailed < SCMError
         attr_reader :program
         attr_reader :message
         attr_reader :stderr
@@ -67,7 +67,7 @@ module OpenProject
       end
 
       # a localized exception raised when SCM could be accessed
-      class ScmUnavailable < ScmError
+      class SCMUnavailable < SCMError
         def initialize(key = 'unavailable')
           @error = I18n.t("repositories.errors.#{key}")
         end
@@ -78,13 +78,13 @@ module OpenProject
       end
 
       # raised if SCM could not be accessed due to authorization failure
-      class ScmUnauthorized < ScmUnavailable
+      class SCMUnauthorized < SCMUnavailable
         def initialize
           super('unauthorized')
         end
       end
       # raised when encountering an empty (bare) repository
-      class ScmEmpty < ScmUnavailable
+      class SCMEmpty < SCMUnavailable
         def initialize
           super('empty_repository')
         end

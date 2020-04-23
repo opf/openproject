@@ -37,6 +37,7 @@ it:
     close_filter_title: "Chiudi il filtro"
     close_form_title: "Chiudi il modulo"
     button_add_watcher: "Aggiungi osservatore"
+    button_add: "Aggiungi"
     button_back: "Indietro"
     button_back_to_list_view: "Torna alla visualizzazione in lista"
     button_cancel: "Cancella"
@@ -163,6 +164,59 @@ it:
         edit_query: 'Modifica query'
         new_group: 'Nuovo gruppo'
         reset_to_defaults: 'Ripristino predefinite'
+      enterprise:
+        trial:
+          confirmation: "Conferma l'indirizzo email"
+          confirmation_info: "Ti abbiamo inviato un'email. Controlla le tue email e clicca sul link di conferma fornito per iniziare la prova di 14 giorni."
+          form:
+            general_consent: >
+              Accetto le <a target="_blank" href="%{link_terms}">condizioni d'uso</a> e l'<a target="_blank" href="%{link_privacy}">informativa sulla privacy</a>.
+            invalid_email: "Indirizzo email non valido"
+            label_company: "Azienda"
+            label_first_name: "Nome"
+            label_last_name: "Cognome"
+            label_email: "Email"
+            label_domain: "Dominio"
+            label_subscriber: "Iscritto"
+            label_maximum_users: "Numero massimo di utenti attivi"
+            label_starts_at: "Comincia alle"
+            label_expires_at: "Scade il"
+            receive_newsletter: Voglio ricevere la <a target="_blank" href="%{link}">newsletter</a> di OpenProject.
+            taken_domain: Puoi avere solo una prova attiva per ogni dominio.
+            taken_email: Ogni utente può creare solo una prova.
+          email_not_received: "Non hai ricevuto l'e-mail? Puoi inviarla di nuovo tramite il link qui a destra."
+          try_another_email: "O provare con un altro indirizzo email."
+          next_steps: "Prossimi passi"
+          resend_link: "Reinvia"
+          resend_success: "L'email è stata inviata nuovamente. Controlla le email e clicca sul link di conferma fornito."
+          resend_warning: "Impossibile inviare nuovamente l'email."
+          session_timeout: "La tua sessione è scaduta. Prova a ricaricare la pagina o a inviare nuovamente l'email."
+          status_label: "Stato:"
+          status_confirmed: "confermato"
+          status_waiting: "email inviata, in attesa di conferma"
+          test_ee: "Prova l'Enterprise Edition per 14 giorni gratuitamente"
+          quick_overview: "Veloce panoramica sulla gestione dei progetti e il lavoro di squadra in OpenProject Enterprise Edition."
+        upsale:
+          become_hero: "Diventa un eroe!"
+          benefits:
+            description: "Quali sono i vantaggi?"
+            high_security: "Funzionalità di sicurezza"
+            high_security_text: "Accesso single sign on (SAML, OpenID Connect, CAS), autenticazione a due fattori e sincronizzazione automatica dei gruppi LDAP."
+            installation: "Assistenza all'installazione"
+            installation_text: "I nostri ingegneri del software esperti ti guidano durante il processo di installazione e configurazione nella tua infrastruttura."
+            premium_features: "Funzionalità Premium"
+            premium_features_text: "Tabelloni Agile, tema e logo personalizzati, grafici, flussi di lavoro intelligenti con azioni personalizzate, ricerca completa di allegati nelle macro-attività e campi personalizzati a selezione multipla."
+            professional_support: "Supporto professionale"
+            professional_support_text: "Ottieni un supporto affidabile e di livello da esperti tecnici con conoscenze dettagliate sulla gestione di OpenProject in ambienti critici per le imprese."
+          button_start_trial: "Inizia la prova gratuita"
+          button_book_now: "Prenota ora"
+          confidence: >
+            Forniamo la sicurezza di un software di gestione di progetti di classe aziendale collaudato e supportato, con l'Open Source e una mente aperta.
+          link_quote: "Richiedi un preventivo"
+          text: >
+            OpenProject Enterprise Edition si basa sull'edizione Community Edition. Include caratteristiche premium e supporto professionale principalmente rivolto alle organizzazioni con più di 10 utenti che gestiscono progetti critici di business con OpenProject.
+          unlimited: "Illimitato"
+          you_contribute: "Anche gli sviluppatori devono pagare le bollette. Con Enterprise Edition puoi contribuire in modo sostanziale al lavoro di questa comunità Open Source."
     custom_actions:
       date:
         specific: 'il'
@@ -210,13 +264,13 @@ it:
           text_new_features: "Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti."
           learn_about: "Scopri di più sulle nuove funzionalità"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              La versione contiene varie nuove caratteristiche e miglioramenti: <br><br> <ul> <li><b>Modelli di design</b> predefiniti per selezionare un tema chiaro o scuro (funzione premium).</li> <li>Nuovo <b>widget di monitoraggio del tempo</b> in <i>La Mia Pagina</i> per mostrare il tempo speso in un grafico a barre.</li> <li><b>Esportazioni XLS per rapporti di costo</b> e testo formattato nell'esportazione di macro-attività in PDF.</li> <li><b>Design e usabilità migliorate</b>, come nelle schede, nelle impostazioni e nell'amministrazione del progetto.</li> </ul>
+              Questa versione contiene molte funzionalità nuove e miglioramenti: <br><br> <ul> <li><b>Scheda azione per gli assegnatari</b>: crea una scheda azione che aggiornerà automaticamente l'assegnatario quando si spostano le schede tra le liste.</li> <li>Ordinamento delle versioni per nome e non per data che facilita la selezione di una versione dall'elenco.</li> <li><b>Rimozione della restrizione di 24 ore</b> per il modulo Monitoraggio tempi.</li> <li>Mostra il riepilogo delle notizie nel widget della panoramica del progetto.</li> <li>Diverse correzioni di bug e <b>miglioramenti nell'usabilità</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject contiene un <b>nuovo modulo IFC per integrare modelli 3D</b> nell'applicazione di gestione del progetto e lavorare in collaborazione con questi file con il tuo team senza dover installare software o licenze costose separatamente. <br><br> <ul> <li><b>Importa i file IFC</b> dei modelli all'interno della tua applicazione OpenProject.</li> <li><b>Apri modelli 3D aperti e visualizza i modelli delle costruzioni</b> nel tuo browser.</li> <li> Lavora facilmente <b>con più file IFC alla volta</b> con il tuo team direttamente in OpenProject senza l'installazione di software separati e costosi. </li> </ul>
+              OpenProject 10.5 ora supporta il <b>BIM Collaboration Format (BCF)</b>, lo standard di monitoraggio dei problemi aperti per i modelli BIM.<br><br> <ul> <li>Crea e <b>gestisci facilmente i problemi di BIM</b> come disaccordi, richieste e domande nel modello interattivo 3D IFC e <b>condividili con il team del progetto.</b></li> <li>Integra OpenProject con il tuo software BIM preferito utilizzando la <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importa ed esporta file BCF XML.</li> </ul>
     label_activate: "Attiva"
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"
@@ -236,9 +290,9 @@ it:
     label_author: "Autore: %{user}"
     label_avatar: "Avatar"
     label_between: "tra"
-    label_board: "Scheda"
+    label_board: "Tabellone"
     label_board_locked: "Chiuso"
-    label_board_plural: "Schede"
+    label_board_plural: "Tabelloni"
     label_board_sticky: "In evidenza"
     label_create: "Crea"
     label_create_work_package: "Crea una nuova macro-attività"
@@ -268,6 +322,7 @@ it:
     label_expand_all: "Espandi tutto"
     label_expand_project_menu: "Espandi il menù di progetto"
     label_export: "Esporta"
+    label_export_preparing: "L'esportazione è in fase di preparazione e il download partirà a breve."
     label_filename: "File"
     label_filesize: "Dimensione"
     label_general: "Generale"
@@ -286,6 +341,7 @@ it:
     label_import: "Importazione"
     label_latest_activity: "Ultima attività"
     label_last_updated_on: "Ultimo aggiornamento il"
+    label_learn_more_link: "Scopri di più"
     label_less_or_equal: "<="
     label_less_than_ago: "meno di qualche giorno fa"
     label_loading: "Caricamento..."
@@ -520,24 +576,12 @@ it:
       save: "Salva la relazione"
       abort: "Interrompi"
     relations_autocomplete:
-      placeholder: "Digita per cercare"
+      placeholder: "Tipo di ricerca"
       parent_placeholder: "Scegli un nuovo genitore o premi il tasto Esc per annullare."
     repositories:
       select_tag: 'Selezionare tag'
       select_branch: 'Selezionare ramo'
     field_value_enter_prompt: "Inserisci un valore per '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Inserisci altri caratteri"
-        one: "Inserisci un altro carattere"
-        other: "Inserisci altri {{count}} caratteri"
-      load_more: "Carica altri risultati ..."
-      no_matches: "Nessuna corrispondenza trovata"
-      searching: "Ricerca in corso ..."
-      selection_too_big:
-        zero: "Non puoi selezionare altri elementi"
-        one: "Puoi selezionare solo un elemento"
-        other: "Puoi selezionare solo {{limit}} elementi"
     project_menu_details: "Dettagli"
     sort:
       sorted_asc: 'Ordinamento crescente applicato, '
@@ -782,7 +826,7 @@ it:
           automatic: 'Automatico'
           manually: 'Manuale'
           warning: 'Perderai il tuo ordinamento precedente quando attivi la modalità di ordinamento automatico.'
-        columns_help_text: "Utilizza l'input sopra per aggiungere o rimuovere colonne alla visualizzazione della tabella. È possibile trascinare e rilasciare le colonne per riordinarle."
+        columns_help_text: "Utilizza l'input sopra per aggiungere colonne alla visualizzazione della tabella. È possibile trascinare e rilasciare le colonne per riordinarle."
         upsale:
           attribute_highlighting: 'Vuoi che alcune macro-attività si distinguano dalla massa?'
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'

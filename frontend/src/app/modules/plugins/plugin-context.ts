@@ -25,6 +25,7 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {States} from 'core-components/states.service';
 import {CKEditorPreviewService} from "core-app/modules/common/ckeditor/ckeditor-preview.service";
 import {ExternalRelationQueryConfigurationService} from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -76,7 +77,7 @@ export class OpenProjectPluginContext {
   public readonly hooks:{ [hook:string]:(callback:Function) => void } = {};
 
   // Angular zone reference
-  public readonly zone:NgZone = this.injector.get(NgZone);
+  @InjectField() public readonly zone:NgZone;
 
   // Angular2 global injector reference
   constructor(public readonly injector:Injector) {

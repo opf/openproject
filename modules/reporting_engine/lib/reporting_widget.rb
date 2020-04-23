@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'reporting_engine/helpers/reporting_helper'
+require_dependency 'reporting_helper'
 
 class ReportingWidget < ActionView::Base
   include ActionView::Helpers::TagHelper

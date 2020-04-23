@@ -29,7 +29,7 @@
 import {Injectable} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CurrentProjectService {
   private current:{ id:string, identifier:string, name:string };
 

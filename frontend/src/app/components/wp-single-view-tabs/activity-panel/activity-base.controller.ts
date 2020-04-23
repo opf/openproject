@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Directive, OnInit} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Transition} from "@uirouter/core";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
-export class ActivityPanelBaseController implements OnInit, OnDestroy {
+@Directive()
+export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
   public workPackage:WorkPackageResource;
   public workPackageId:string;
 
@@ -62,6 +62,7 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
               readonly cdRef:ChangeDetectorRef,
               readonly $transition:Transition,
               readonly wpActivity:WorkPackagesActivityService) {
+    super();
 
     this.reverse = wpActivity.isReversed;
     this.togglerText = this.text.commentsOnly;
@@ -71,7 +72,7 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
     this.wpCacheService
       .observe(this.workPackageId)
       .pipe(
-        takeUntil(componentDestroyed(this))
+        this.untilDestroyed()
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
@@ -80,10 +81,6 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
           this.cdRef.detectChanges();
         });
       });
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
   }
 
   protected updateActivities(activities:HalResource[]) {

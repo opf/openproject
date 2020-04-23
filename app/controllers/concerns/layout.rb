@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Concerns::Layout
+module Layout
   extend ActiveSupport::Concern
 
   included do

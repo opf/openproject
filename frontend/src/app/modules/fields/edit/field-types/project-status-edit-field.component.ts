@@ -31,15 +31,15 @@ import {Component, OnInit, ViewChild} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {projectStatusCodeCssClass, projectStatusI18n} from "core-app/modules/fields/helpers/project-status-helper";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   templateUrl: './project-status-edit-field.component.html',
   styleUrls: ['./project-status-edit-field.component.sass']
 })
 export class ProjectStatusEditFieldComponent extends EditFieldComponent implements OnInit {
-  @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
-
-  readonly I18n:I18nService = this.injector.get(I18nService);
+  @ViewChild(NgSelectComponent, {static: true}) public ngSelectComponent:NgSelectComponent;
+  @InjectField() I18n:I18nService;
 
   private _availableStatusCodes:string[] = ['not set', 'off track', 'at risk', 'on track'];
   public currentStatusCode:string = 'not set';

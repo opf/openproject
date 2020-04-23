@@ -27,9 +27,12 @@
 #++
 
 require 'support/pages/page'
+require_relative 'concerns/work_package_by_button_creator'
 
 module Pages
   class WorkPackagesTable < Page
+    include ::Pages::WorkPackages::Concerns::WorkPackageByButtonCreator
+
     attr_reader :project
 
     def initialize(project = nil)
@@ -133,32 +136,6 @@ module Pages
 
       container.find('.wp-inline-create--add-link').click
       expect(container).to have_selector('.wp-inline-create-row', wait: 10)
-    end
-
-    def create_wp_split_screen(type)
-      click_wp_create_button
-
-      find('#types-context-menu .menu-item', text: type.name.upcase, wait: 10).click
-
-      SplitWorkPackageCreate.new(project: project)
-    end
-
-    def click_wp_create_button
-      find('.add-work-package:not([disabled])', text: 'Create').click
-    end
-
-    def expect_type_available_for_create(type)
-      click_wp_create_button
-
-      expect(page)
-        .to have_selector('#types-context-menu .menu-item', text: type.name.upcase)
-    end
-
-    def expect_type_not_available_for_create(type)
-      click_wp_create_button
-
-      expect(page)
-        .to have_no_selector('#types-context-menu .menu-item', text: type.name.upcase)
     end
 
     def open_split_view(work_package)
@@ -310,6 +287,10 @@ module Pages
         raise 'Missing ID on Filter (Angular not ready?)' if filter_container['id'].nil?
         filter_container['id'].gsub('filter_', '')
       end
+    end
+
+    def create_page_class
+      SplitWorkPackageCreate
     end
   end
 end

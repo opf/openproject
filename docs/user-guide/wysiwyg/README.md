@@ -113,8 +113,8 @@ As with the textile formatting syntax, you can link to other resources within Op
 
 
 
-- **wiki page**: ` [[Wiki page]]` 
-- **wiki page with separate link name**: ` [[Wiki page|The text of the link]]` 
+- **wiki page**: `[[Wiki page]]` 
+- **wiki page with separate link name**: `[[Wiki page|The text of the link]]` 
 - **wiki page in the Sandbox project**: `[[Sandbox:Wiki page]]` 
 - **work package with ID12**:  `#12`
 - **work package with ID 12 with subject and dates**: `##12` 
@@ -122,6 +122,7 @@ As with the textile formatting syntax, you can link to other resources within Op
 - **version by ID or name**: `version#3`,  `version:"Release 1.0.0"`
 - **project by ID/name**:  `project#12` , `project:"My project name"`
 - **attachment by filename**: `attachment:filename.zip`
+- **document by ID/name**:  `document#12` , `document:"My document name"`
 - **user by id or login**: `user#4` , `user:"johndoe"` 
 - **a forum message by ID**: `message#1218`
 - **repository revision 43**: `r43` 

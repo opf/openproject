@@ -28,9 +28,9 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe API::V3::CostsAPIUserPermissionCheck do
-  class CostsAPIUserPermissionCheckTestClass
-    include API::V3::CostsAPIUserPermissionCheck
+describe API::V3::CostsApiUserPermissionCheck do
+  class CostsApiUserPermissionCheckTestClass
+    include API::V3::CostsApiUserPermissionCheck
   end
 
   let(:user) { mock_model('User') }
@@ -46,7 +46,7 @@ describe API::V3::CostsAPIUserPermissionCheck do
       .and_return(work_package)
   end
 
-  subject { CostsAPIUserPermissionCheckTestClass.new }
+  subject { CostsApiUserPermissionCheckTestClass.new }
 
   let(:view_time_entries) { false }
   let(:view_own_time_entries) { false }

@@ -30,5 +30,3 @@
 class Journal::MessageJournal < Journal::BaseJournal
   self.table_name = 'message_journals'
 end
-
-::MessageJournal = Journal::MessageJournal

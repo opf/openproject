@@ -29,10 +29,12 @@
 #++
 
 module OAuth
-  class CleanupJob < ::RakeJob
+  class CleanupJob < ::ApplicationJob
+    include ::RakeJob
+
     queue_with_priority :low
 
-    def initialize
+    def perform
       super 'doorkeeper:db:cleanup'
     end
   end

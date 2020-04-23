@@ -1,8 +1,7 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, SecurityContext, ViewChild, AfterViewInit} from "@angular/core";
+import {AfterViewInit, Component, ElementRef, Input, OnInit, SecurityContext, ViewChild} from "@angular/core";
 import {FullCalendarComponent} from '@fullcalendar/angular';
 import {States} from "core-components/states.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
@@ -15,11 +14,12 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {OpTitleService} from "core-components/html/op-title.service";
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { EventInput, EventApi } from '@fullcalendar/core';
-import { EventSourceError } from '@fullcalendar/core/structs/event-source';
-import { take } from 'rxjs/operators';
-import { ToolbarInput } from '@fullcalendar/core/types/input-types';
+import {EventApi, EventInput} from '@fullcalendar/core';
+import {EventSourceError} from '@fullcalendar/core/structs/event-source';
+import {take} from 'rxjs/operators';
+import {ToolbarInput} from '@fullcalendar/core/types/input-types';
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -32,8 +32,8 @@ interface CalendarViewEvent {
   styleUrls: ['./wp-calendar.sass'],
   selector: 'wp-calendar',
 })
-export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(FullCalendarComponent, { static: false }) ucCalendar:FullCalendarComponent;
+export class WorkPackagesCalendarController extends UntilDestroyedMixin implements OnInit, AfterViewInit {
+  @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
   static MAX_DISPLAYED = 100;
@@ -58,7 +58,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
               readonly i18n:I18nService,
               readonly notificationsService:NotificationsService,
               private sanitizer:DomSanitizer,
-              private configuration:ConfigurationService) { }
+              private configuration:ConfigurationService) {
+    super();
+  }
 
   ngOnInit() {
     // Clear any old subscribers
@@ -69,21 +71,21 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
     this.initializeCalendar();
   }
 
-  ngOnDestroy() {
-    // nothing to do
-  }
-
   ngAfterViewInit() {
     // The full-calendar component's outputs do not seem to work
     // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
     // Therefore, setting the outputs via the underlying API
-    this.ucCalendar.getApi().setOption('eventRender', (event:CalendarViewEvent) => { this.addTooltip(event); });
-    this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => { this.toWPFullView(event); });
+    this.ucCalendar.getApi().setOption('eventRender', (event:CalendarViewEvent) => {
+      this.addTooltip(event);
+    });
+    this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => {
+      this.toWPFullView(event);
+    });
   }
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date, timeZone:string },
-                        successCallback:(events:EventInput[]) => void,
-                        failureCallback:(error:EventSourceError) => void ):void | PromiseLike<EventInput[]> {
+                                successCallback:(events:EventInput[]) => void,
+                                failureCallback:(error:EventSourceError) => void):void|PromiseLike<EventInput[]> {
     if (this.alreadyLoaded) {
       this.alreadyLoaded = false;
       let events = this.updateResults(this.querySpace.results.value!);
@@ -140,7 +142,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
     jQuery(event.el).tooltip({
       content: this.tooltipContentString(event.event.extendedProps.workPackage),
       items: '.fc-event',
-      close: function () { jQuery(".ui-helper-hidden-accessible").remove(); },
+      close: function () {
+        jQuery(".ui-helper-hidden-accessible").remove();
+      },
       track: true
     });
   }
@@ -237,7 +241,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
       return;
     }
 
-    let datesIntervalFilter = _.find(query.filters || [], {'id': 'datesInterval'}) as any;
+    let datesIntervalFilter = _.find(query.filters || [], { 'id': 'datesInterval' }) as any;
 
     let calendarDate:any = null;
     let calendarUnit = 'dayGridMonth';
@@ -263,7 +267,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
 
   private setupWorkPackagesListener() {
     this.querySpace.results.values$().pipe(
-      untilComponentDestroyed(this)
+      this.untilDestroyed()
     ).subscribe((collection:WorkPackageCollectionResource) => {
       this.alreadyLoaded = true;
       this.setCalendarsDate();
@@ -315,12 +319,14 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
   }
 
   private defaultQueryProps(startDate:string, endDate:string) {
-    let props = { "c": ["id"],
-                  "t":
-                  "id:asc",
-                  "f": [{ "n": "status", "o": "o", "v": [] },
-                        { "n": "datesInterval", "o": "<>d", "v": [startDate, endDate] }],
-                  "pp": WorkPackagesCalendarController.MAX_DISPLAYED };
+    let props = {
+      "c": ["id"],
+      "t":
+        "id:asc",
+      "f": [{ "n": "status", "o": "o", "v": [] },
+        { "n": "datesInterval", "o": "<>d", "v": [startDate, endDate] }],
+      "pp": WorkPackagesCalendarController.MAX_DISPLAYED
+    };
 
     return JSON.stringify(props);
   }
@@ -376,7 +382,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy, AfterV
   private removeTooltip(element:HTMLElement) {
     // deactivate tooltip so that it is not displayed on the wp show page
     jQuery(element).tooltip({
-      close: function () { jQuery(".ui-helper-hidden-accessible").remove(); },
+      close: function () {
+        jQuery(".ui-helper-hidden-accessible").remove();
+      },
       disabled: true
     });
   }

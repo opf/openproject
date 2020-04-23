@@ -96,7 +96,7 @@ module MeetingContentsHelper
                                 meeting_id: meeting },
                               method: :put,
                               class: 'button',
-                              confirm: l(:text_meeting_agenda_open_are_you_sure)) do
+                              data: { confirm: l(:text_meeting_agenda_open_are_you_sure) }) do
           op_icon('button--icon icon-unlocked') +
           content_tag('span', l(:label_meeting_open), class: 'button--text')
         end

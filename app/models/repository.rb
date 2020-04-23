@@ -27,9 +27,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Repository < ActiveRecord::Base
+class Repository < ApplicationRecord
   include Redmine::Ciphering
-  include OpenProject::Scm::ManageableRepository
+  include OpenProject::SCM::ManageableRepository
 
   belongs_to :project
   has_many :changesets, -> {
@@ -55,7 +55,7 @@ class Repository < ActiveRecord::Base
 
   # Checks if the SCM is enabled when creating a repository
   def validate_enabled_scm
-    errors.add(:type, :not_available) unless OpenProject::Scm::Manager.enabled?(vendor)
+    errors.add(:type, :not_available) unless OpenProject::SCM::Manager.enabled?(vendor)
   end
 
   # Removes leading and trailing whitespace
@@ -151,7 +151,7 @@ class Repository < ActiveRecord::Base
     entries = scm.entries(path, identifier)
 
     if limit && limit < entries.size
-      result = OpenProject::Scm::Adapters::Entries.new entries.take(limit)
+      result = OpenProject::SCM::Adapters::Entries.new entries.take(limit)
       result.truncated = entries.size - result.size
 
       result
@@ -205,7 +205,7 @@ class Repository < ActiveRecord::Base
       if storage_updated_at.nil? ||
          storage_updated_at < oldest_cachable_time
 
-        ::Scm::StorageUpdaterJob.perform_later(self)
+        ::SCM::StorageUpdaterJob.perform_later(self)
         return true
       end
     end
@@ -305,7 +305,7 @@ class Repository < ActiveRecord::Base
       if project.repository
         begin
           project.repository.fetch_changesets
-        rescue OpenProject::Scm::Exceptions::CommandFailed => e
+        rescue OpenProject::SCM::Exceptions::CommandFailed => e
           logger.error "scm: error during fetching changesets: #{e.message}"
         end
       end
@@ -328,7 +328,7 @@ class Repository < ActiveRecord::Base
   #
   # @param [Symbol] type     SCM tag to determine the type this repository should be built as
   #
-  # @raise [OpenProject::Scm::RepositoryBuildError]
+  # @raise [OpenProject::SCM::RepositoryBuildError]
   #                                  Raised when the instance could not be built
   #                                  given the parameters.
   # @raise [::NameError] Raised when the given +vendor+ could not be resolved to a class.
@@ -355,10 +355,10 @@ class Repository < ActiveRecord::Base
   # Build a temporary model instance of the given vendor for temporary use in forms.
   # Will not receive any args.
   def self.build_scm_class(vendor)
-    klass = OpenProject::Scm::Manager.registered[vendor]
+    klass = OpenProject::SCM::Manager.registered[vendor]
 
     if klass.nil?
-      raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+      raise OpenProject::SCM::Exceptions::RepositoryBuildError.new(
         I18n.t('repositories.errors.disabled_or_unknown_vendor', vendor: vendor)
       )
     else
@@ -372,7 +372,7 @@ class Repository < ActiveRecord::Base
     if repository.class.available_types.include? type
       repository.scm_type = type
     else
-      raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+      raise OpenProject::SCM::Exceptions::RepositoryBuildError.new(
         I18n.t('repositories.errors.disabled_or_unknown_type',
                type: type,
                vendor: repository.vendor)
@@ -391,7 +391,7 @@ class Repository < ActiveRecord::Base
   end
 
   def self.enabled?
-    OpenProject::Scm::Manager.enabled?(vendor)
+    OpenProject::SCM::Manager.enabled?(vendor)
   end
 
   ##
@@ -430,11 +430,11 @@ class Repository < ActiveRecord::Base
   # Create local managed repository request when the built instance
   # is managed by OpenProject
   def create_managed_repository
-    service = Scm::CreateManagedRepositoryService.new(self)
+    service = SCM::CreateManagedRepositoryService.new(self)
     if service.call
       true
     else
-      raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+      raise OpenProject::SCM::Exceptions::RepositoryBuildError.new(
         service.localized_rejected_reason
       )
     end
@@ -444,7 +444,7 @@ class Repository < ActiveRecord::Base
   # Destroy local managed repository request when the built instance
   # is managed by OpenProject
   def delete_managed_repository
-    service = Scm::DeleteManagedRepositoryService.new(self)
+    service = SCM::DeleteManagedRepositoryService.new(self)
     if service.call
       true
     else

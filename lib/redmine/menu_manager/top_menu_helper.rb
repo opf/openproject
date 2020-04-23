@@ -26,8 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'concerns/omniauth_login'
-
 module Redmine::MenuManager::TopMenuHelper
   include Redmine::MenuManager::TopMenu::HelpMenu
   include Redmine::MenuManager::TopMenu::ProjectsMenu

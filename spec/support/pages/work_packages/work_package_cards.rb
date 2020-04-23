@@ -39,7 +39,13 @@ module Pages
 
     def expect_work_package_listed(*work_packages)
       work_packages.each do |wp|
-        expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp.id}']")
+        expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp.id}']", wait: 10)
+      end
+    end
+
+    def expect_work_package_not_listed(*work_packages)
+      work_packages.each do |wp|
+        expect(page).not_to have_selector("wp-single-card[data-work-package-id='#{wp.id}']")
       end
     end
 
@@ -54,10 +60,22 @@ module Pages
     end
 
     def open_full_screen_by_doubleclick(work_package)
-      loading_indicator_saveguard
-      page.driver.browser.action.double_click(card(work_package).native).perform
+      retry_block do
+        loading_indicator_saveguard
+        page.driver.browser.action.double_click(card(work_package).native).perform
+
+        # Ensure we show the subject field
+        page.find('.work-packages--subject-type-row')
+      end
 
       Pages::FullWorkPackage.new(work_package, project)
+    end
+
+    def open_full_screen_by_details(work_package)
+      element = card(work_package)
+      scroll_to_element(element)
+      element.hover
+      element.find('.wp-card--details-button').click
     end
 
     def select_work_package(work_package)

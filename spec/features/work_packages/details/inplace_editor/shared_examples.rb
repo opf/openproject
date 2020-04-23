@@ -145,20 +145,18 @@ shared_examples 'a principal autocomplete field' do
     it 'autocompletes links to user profiles' do
       field.activate!
       field.clear with_backspace: true
-      field.input_element.set(" @lau")
+      field.input_element.send_keys(" @lau")
       expect(page).to have_selector('.mention-list-item', text: mentioned_user.name)
       expect(page).to have_selector('.mention-list-item', text: mentioned_group.name)
       expect(page).not_to have_selector('.mention-list-item', text: user.name)
 
       # Close the autocompleter
       field.input_element.send_keys :escape
+      field.ckeditor.clear
 
-      # Clear the field
-      sleep(0.01)
-      field.clear with_backspace: true
-      sleep(0.01)
+      sleep 2
 
-      field.input_element.set(" @Laura Fo")
+      field.ckeditor.type_slowly '@Laura'
       expect(page).to have_selector('.mention-list-item', text: mentioned_user.name)
       expect(page).not_to have_selector('.mention-list-item', text: mentioned_group.name)
       expect(page).not_to have_selector('.mention-list-item', text: user.name)

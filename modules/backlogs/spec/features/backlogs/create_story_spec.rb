@@ -70,7 +70,7 @@ describe 'Backlogs', js: true do
                       priority: default_priority,
                       position: 1,
                       story_points: 3,
-                      fixed_version: backlog_version )
+                      version: backlog_version )
   end
   let!(:existing_story2) do
     FactoryBot.create(:work_package,
@@ -80,7 +80,7 @@ describe 'Backlogs', js: true do
                       priority: default_priority,
                       position: 2,
                       story_points: 4,
-                      fixed_version: backlog_version)
+                      version: backlog_version)
   end
   let!(:default_status) do
     FactoryBot.create(:default_status)

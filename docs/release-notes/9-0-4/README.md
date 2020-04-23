@@ -1,8 +1,8 @@
 ---
-title: OpenProject 9.0.3
+title: OpenProject 9.0.4
 sidebar_navigation:
-    title: 9.0.3
-release_version: 9.0.3
+    title: 9.0.4
+release_version: 9.0.4
 release_date: 2019-07-23
 ---
 

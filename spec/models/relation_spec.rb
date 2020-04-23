@@ -67,8 +67,8 @@ describe Relation, type: :model do
       let(:reversed) { type_hash[:reverse] }
       let(:relation) do
         FactoryBot.build_stubbed(:relation,
-                                  relation_type: nil,
-                                  column_name => column_count)
+                                 relation_type: nil,
+                                 column_name => column_count)
       end
 
       context 'with the column set to 1' do
@@ -106,9 +106,9 @@ describe Relation, type: :model do
         end
         let(:relation) do
           FactoryBot.build_stubbed(:relation,
-                                    relation_type: nil,
-                                    column_name => 1,
-                                    other_column => 1)
+                                   relation_type: nil,
+                                   column_name => 1,
+                                   other_column => 1)
         end
 
         it 'is "mixed"' do
@@ -120,12 +120,7 @@ describe Relation, type: :model do
   end
 
   describe '#relation_type=' do
-    let(:column_name) { 'relates' }
-    let(:type) { :relates }
-    let(:relation) do
-      FactoryBot.build(:relation,
-                        relation_type: 'relates')
-    end
+    let(:type) { Relation::TYPE_RELATES }
 
     it 'updates the column value' do
       relation.save!
@@ -183,16 +178,16 @@ describe Relation, type: :model do
     let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
     let(:member_project_to) do
       FactoryBot.create(:member,
-                         project: to.project,
-                         user: user,
-                         roles: [role])
+                        project: to.project,
+                        user: user,
+                        roles: [role])
     end
 
     let(:member_project_from) do
       FactoryBot.create(:member,
-                         project: from.project,
-                         user: user,
-                         roles: [role])
+                        project: from.project,
+                        user: user,
+                        roles: [role])
     end
 
     before do

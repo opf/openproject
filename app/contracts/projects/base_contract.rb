@@ -30,8 +30,8 @@
 
 module Projects
   class BaseContract < ::ModelContract
-    include Concerns::AssignableValuesContract
-    include Concerns::AssignableCustomFieldValues
+    include AssignableValuesContract
+    include AssignableCustomFieldValues
 
     attribute :name
     attribute :identifier
@@ -72,7 +72,7 @@ module Projects
     end
 
     def assignable_status_codes
-      Project::Status.codes.keys
+      Projects::Status.codes.keys
     end
 
     private
@@ -98,7 +98,7 @@ module Projects
     end
 
     def validate_status_code_included
-      errors.add :status, :inclusion if model.status&.code && !Project::Status.codes.keys.include?(model.status.code.to_s)
+      errors.add :status, :inclusion if model.status&.code && !Projects::Status.codes.keys.include?(model.status.code.to_s)
     end
 
     def manage_permission

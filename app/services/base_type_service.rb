@@ -29,7 +29,7 @@
 
 class BaseTypeService
   include Shared::BlockService
-  include Concerns::Contracted
+  include Contracted
 
   attr_accessor :contract_class
   attr_accessor :type, :user
@@ -104,7 +104,6 @@ class BaseTypeService
 
   def transform_attribute_groups(groups)
     groups.map do |group|
-
       if group['type'] == 'query'
         transform_query_group(group)
       else

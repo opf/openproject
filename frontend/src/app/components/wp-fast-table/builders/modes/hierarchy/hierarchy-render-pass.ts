@@ -13,13 +13,14 @@ import {
 import {WorkPackageViewHierarchies} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-hierarchies";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
 
-  protected readonly querySpace = this.injector.get(IsolatedQuerySpace);
-  protected readonly states = this.injector.get(States);
-  protected readonly wpCacheService = this.injector.get(WorkPackageCacheService);
-  protected readonly wpTableHierarchies = this.injector.get(WorkPackageViewHierarchiesService);
+  @InjectField() querySpace:IsolatedQuerySpace;
+  @InjectField() states:States;
+  @InjectField() wpCacheService:WorkPackageCacheService;
+  @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
 
   // Remember which rows were already rendered
   private rendered:{ [workPackageId:string]:boolean } = {};
@@ -48,7 +49,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     this.hierarchies = this.wpTableHierarchies.current;
 
-    _.each(this.workPackageTable.originalRowIndex, (row, ) => {
+    _.each(this.workPackageTable.originalRowIndex, (row,) => {
       row.object.ancestors.forEach((ancestor:WorkPackageResource) => {
         this.parentsWithVisibleChildren[ancestor.id!] = true;
       });

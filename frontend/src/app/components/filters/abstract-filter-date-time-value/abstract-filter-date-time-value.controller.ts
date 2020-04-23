@@ -31,12 +31,14 @@ import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OnInit} from '@angular/core';
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
-export abstract class AbstractDateTimeValueController implements OnInit {
+export abstract class AbstractDateTimeValueController extends UntilDestroyedMixin implements OnInit {
   public filter:QueryFilterInstanceResource;
 
   constructor(protected I18n:I18nService,
               protected timezoneService:TimezoneService) {
+    super();
   }
 
   ngOnInit() {
@@ -44,6 +46,7 @@ export abstract class AbstractDateTimeValueController implements OnInit {
   }
 
   public abstract get lowerBoundary():Moment|null;
+
   public abstract get upperBoundary():Moment|null;
 
   public isoDateParser(data:any) {
@@ -68,22 +71,24 @@ export abstract class AbstractDateTimeValueController implements OnInit {
     if (!value) {
       return false;
     } else {
-      return value.hours() !== 0 || value.minutes() !== 0;
+      return value.hours() !== 0 || value.minutes() !== 0;
     }
   }
 
   public get timeZoneText() {
     if (this.lowerBoundary && this.upperBoundary) {
       return this.I18n.t('js.filter.time_zone_converted.two_values',
-                         { from: this.lowerBoundary.format('YYYY-MM-DD HH:mm'),
-                           to: this.upperBoundary.format('YYYY-MM-DD HH:mm') });
+        {
+          from: this.lowerBoundary.format('YYYY-MM-DD HH:mm'),
+          to: this.upperBoundary.format('YYYY-MM-DD HH:mm')
+        });
     } else if (this.upperBoundary) {
       return this.I18n.t('js.filter.time_zone_converted.only_end',
-                         { to: this.upperBoundary.format('YYYY-MM-DD HH:mm') });
+        { to: this.upperBoundary.format('YYYY-MM-DD HH:mm') });
 
-    } else if(this.lowerBoundary) {
+    } else if (this.lowerBoundary) {
       return this.I18n.t('js.filter.time_zone_converted.only_start',
-                         { from: this.lowerBoundary.format('YYYY-MM-DD HH:mm') });
+        { from: this.lowerBoundary.format('YYYY-MM-DD HH:mm') });
 
     }
 

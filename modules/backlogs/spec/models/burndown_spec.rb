@@ -111,7 +111,7 @@ describe Burndown, type: :model do
           before(:each) do
             @story = FactoryBot.build(:story, subject: 'Story 1',
                                                project: project,
-                                               fixed_version: version,
+                                               version: version,
                                                type: type_feature,
                                                status: issue_open,
                                                priority: issue_priority,
@@ -163,7 +163,7 @@ describe Burndown, type: :model do
             (0..9).each do |i|
               @stories[i] = FactoryBot.create(:story, subject: "Story #{i}",
                                                        project: project,
-                                                       fixed_version: version,
+                                                       version: version,
                                                        type: type_feature,
                                                        status: issue_open,
                                                        priority: issue_priority,

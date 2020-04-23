@@ -218,7 +218,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
           end
           let(:work_package) do
             FactoryBot.create(:work_package,
-                              fixed_version: version,
+                              version: version,
                               project: project)
           end
 
@@ -227,7 +227,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
               expect(subject)
                 .to be_success
 
-              expect(subject.result.fixed_version)
+              expect(subject.result.version)
                 .to be_nil
             end
           end
@@ -239,7 +239,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
               expect(subject)
                 .to be_success
 
-              expect(subject.result.fixed_version)
+              expect(subject.result.version)
                 .to eql version
             end
           end
@@ -254,7 +254,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
                 expect(subject)
                   .to be_success
 
-                expect(subject.result.fixed_version)
+                expect(subject.result.version)
                   .to be_nil
               end
             end
@@ -266,7 +266,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
                 expect(subject)
                   .to be_success
 
-                expect(subject.result.fixed_version)
+                expect(subject.result.version)
                   .to eql version
               end
             end
@@ -1197,12 +1197,14 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
   #
   # Trying to set parent of C to B failed because parent relation is requested before change is saved.
   describe 'Changing parent to a new one that has the same parent as the current element (Regression #27746)' do
+    using_shared_fixtures :admin
+    let(:user) { admin }
+
     let(:project) { FactoryBot.create :project }
     let!(:wp_a) { FactoryBot.create :work_package }
     let!(:wp_b) { FactoryBot.create :work_package, parent: wp_a }
     let!(:wp_c) { FactoryBot.create :work_package, parent: wp_a }
 
-    let(:user) { FactoryBot.create :admin }
     let(:work_package) { wp_c }
 
     let(:attributes) { { parent: wp_b } }

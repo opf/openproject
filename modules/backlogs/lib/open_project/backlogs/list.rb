@@ -45,8 +45,8 @@ module OpenProject::Backlogs::List
     # Also sanitize_sql seems to be unavailable in a sensible way. Therefore
     # we're using send to circumvent visibility work_packages.
     def scope_condition
-      self.class.send(:sanitize_sql, ['project_id = ? AND fixed_version_id = ? AND type_id IN (?)',
-                                      project_id, fixed_version_id, types])
+      self.class.send(:sanitize_sql, ['project_id = ? AND version_id = ? AND type_id IN (?)',
+                                      project_id, version_id, types])
     end
 
     include InstanceMethods
@@ -86,17 +86,17 @@ module OpenProject::Backlogs::List
     end
 
     def fix_other_work_package_positions
-      if changes.slice('project_id', 'type_id', 'fixed_version_id').present?
-        if changes.slice('project_id', 'fixed_version_id').blank? and
+      if changes.slice('project_id', 'type_id', 'version_id').present?
+        if changes.slice('project_id', 'version_id').blank? and
            Story.types.include?(type_id.to_i) and
            Story.types.include?(type_id_was.to_i)
           return
         end
 
-        if fixed_version_id_changed?
+        if version_id_changed?
           restore_version_id = true
-          new_version_id = fixed_version_id
-          self.fixed_version_id = fixed_version_id_was
+          new_version_id = version_id
+          self.version_id = version_id_was
         end
 
         if type_id_changed?
@@ -124,20 +124,20 @@ module OpenProject::Backlogs::List
         end
 
         if restore_version_id
-          self.fixed_version_id = new_version_id
+          self.version_id = new_version_id
         end
       end
     end
 
     def fix_own_work_package_position
-      if changes.slice('project_id', 'type_id', 'fixed_version_id').present?
-        if changes.slice('project_id', 'fixed_version_id').blank? and
+      if changes.slice('project_id', 'type_id', 'version_id').present?
+        if changes.slice('project_id', 'version_id').blank? and
            Story.types.include?(type_id.to_i) and
            Story.types.include?(type_id_was.to_i)
           return
         end
 
-        if is_story? and fixed_version.present?
+        if is_story? and version.present?
           assume_bottom_position
         else
           remove_from_list
@@ -146,7 +146,7 @@ module OpenProject::Backlogs::List
     end
 
     def set_default_prev_positions_silently(prev)
-      prev.fixed_version.rebuild_positions(prev.project)
+      prev.version.rebuild_positions(prev.project)
       prev.reload.position
     end
   end

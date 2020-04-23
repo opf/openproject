@@ -37,6 +37,7 @@ $table-timeline--compact-row-height: 28px
     flex-direction: column
     overflow: hidden
     width: 100%
+    height: 100%
 
   // Align with section header
   .wp-table--table-header:first-child .generic-table--sort-header-outer,
@@ -60,6 +61,11 @@ $table-timeline--compact-row-height: 28px
     .generic-table--header,
     .generic-table--sort-header
       font-size: 12px
+
+  .work-packages-embedded-view--grid-view
+    height: 100%
+    overflow: auto
+    @include styled-scroll-bar
 
   &.-compact-tables
     .wp-table--row

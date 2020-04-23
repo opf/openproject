@@ -4,11 +4,12 @@ import {OpTableActionsService} from 'core-components/wp-table/table-actions/tabl
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {contextMenuSpanClassName, contextMenuTdClassName} from "core-components/wp-table/table-actions/table-action";
 import {internalContextMenuColumn} from "core-components/wp-fast-table/builders/internal-sort-columns";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class TableActionRenderer {
 
   // Injections
-  readonly tableActionsService:OpTableActionsService = this.injector.get(OpTableActionsService);
+  @InjectField() tableActionsService:OpTableActionsService;
 
   constructor(public readonly injector:Injector) {
   }
@@ -26,7 +27,7 @@ export class TableActionRenderer {
       .render(workPackage)
       .forEach((el:HTMLElement) => {
         span.appendChild(el);
-    });
+      });
 
     td.appendChild(span);
     return td;

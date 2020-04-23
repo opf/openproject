@@ -61,7 +61,7 @@ de:
         header-item-font-hover-color: "Schriftfarbe von anklickbaren Header-Elementen während Mouse-hover."
         header-border-bottom-color: "Rahmenlinie unterhalb des Headers. Freilassen, um keine Linie darzustellen."
         main-menu-bg-color: "Hintergrundfarbe des Menüs in der linken Seitenleiste."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Das Ändern des Themes wird Ihr benutzerdefiniertes Design überschreiben. Alle Änderungen werden dann verloren gehen. Sind Sie sicher, dass Sie fortfahren möchten?
     enterprise:
       upgrade_to_ee: "Auf Enterprise-Edition upgraden"
       add_token: "Enterprise-Edition Support Token hochladen"
@@ -70,6 +70,9 @@ de:
       paste: "Enterprise-Edition Support Token hier einfügen"
       required_for_feature: "Diese Funktion ist nur mit einem aktiven Enterprise-Edition-Support Token verfügbar."
       enterprise_link: "Klicken Sie hier für weitere Informationen."
+      start_trial: 'Kostenlose Testversion starten'
+      book_now: 'Jetzt buchen'
+      get_quote: 'Angebot anfordern'
   announcements:
     show_until: Anzeigen bis
     is_active: derzeit angezeigt
@@ -215,8 +218,8 @@ de:
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
   news:
     index:
-      no_results_title_text: Es gibt aktuell keine Neuigkeiten.
-      no_results_content_text: Neuigkeit hinzufügen
+      no_results_title_text: Es gibt aktuell keine Nachrichten.
+      no_results_content_text: Nachricht hinzufügen
   users:
     memberships:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
@@ -395,7 +398,7 @@ de:
         types: "Typen"
         versions: "Versionen"
         work_packages: "Arbeitspakete"
-      project/status:
+      projects/status:
         code: 'Status'
         explanation: 'Statusbeschreibung'
         codes:
@@ -460,7 +463,7 @@ de:
         done_ratio: "Fortschritt (%)"
         end_insertion: "Ende der Einfügung"
         end_deletion: "Ende des Löschvorgangs"
-        fixed_version: "Version"
+        version: "Version"
         parent: "Übergeordnetes Arbeitspaket"
         parent_issue: "Übergeordnetes Arbeitspaket"
         parent_work_package: "Übergeordnetes Arbeitspaket"
@@ -476,7 +479,7 @@ de:
         uid: "Client-ID"
         secret: "Clientschlüssel"
         owner: "Besitzer"
-        redirect_uri: "Weiterleitungs-URI"
+        redirect_uri: "Redirect URI"
         client_credentials_user_id: "Client Credentials User-ID"
         scopes: "Geltungsbereiche"
         confidential: "Vertraulich"
@@ -522,7 +525,7 @@ de:
         too_long: "ist zu lang (nicht mehr als %{count} Zeichen)."
         too_short: "ist zu kurz (nicht weniger als %{count} Zeichen)."
         unchangeable: "kann nicht geändert werden."
-        unremovable: "ann nicht entfernt werden."
+        unremovable: "kann nicht entfernt werden."
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)."
       models:
         custom_field:
@@ -539,10 +542,10 @@ de:
           attributes:
             redirect_uri:
               fragment_present: 'kann kein Fragment enthalten.'
-              invalid_uri: 'muss ein gültiger URI sein.'
-              relative_uri: 'muss ein absoluter URI sein.'
-              secured_uri: 'muss ein HTTPS/SSL-URI sein.'
-              forbidden_uri: 'ist vom Server verboten.'
+              invalid_uri: 'muss eine gültige URI sein.'
+              relative_uri: 'muss eine absolute URI sein.'
+              secured_uri: 'muss eine HTTPS/SSL-URI sein.'
+              forbidden_uri: 'ist vom Server nicht erlaubt.'
             scopes:
               not_match_configured: "stimmt nicht mit verfügbaren Geltungsbereichen überein."
         enterprise_token:
@@ -751,6 +754,7 @@ de:
     version: "Version"
     work_package: "Arbeitspaket"
   button_add: "Hinzufügen"
+  button_add_comment: "Kommentar hinzufügen"
   button_add_member: Mitglied hinzufügen
   button_add_watcher: "Beobachter hinzufügen"
   button_annotate: "Kommentieren"
@@ -763,7 +767,7 @@ de:
   button_change_password: "Kennwort ändern"
   button_check_all: "Alle auswählen"
   button_clear: "Zurücksetzen"
-  button_click_to_reveal: "Klicke um anzuzeigen"
+  button_click_to_reveal: "Klicke, um anzuzeigen"
   button_close: 'Schließen'
   button_collapse_all: "Alle zuklappen"
   button_configure: "Konfigurieren"
@@ -1115,7 +1119,7 @@ de:
       tesseract: "Tesseract verfügbar (optional)"
   general_csv_decimal_separator: ","
   general_csv_encoding: "UTF-8"
-  general_csv_separator: ","
+  general_csv_separator: ";"
   general_first_day_of_week: "1"
   general_lang_name: "Deutsch"
   general_pdf_encoding: "ISO-8859-1"
@@ -1135,13 +1139,8 @@ de:
     blocks:
       community: "OpenProject Community"
       upsale:
-        become_hero: "Werde zum Held!"
         title: "Auf Enterprise-Edition upgraden"
-        description: "Was sind die Vorteile?"
         more_info: "Weitere Informationen"
-        additional_features: "Zusätzliche mächtige Premium-Funktionen"
-        professional_support: "Professioneller Support durch OpenProject Experten"
-        you_contribute: "Auch Entwickler müssen ihre Rechnungen begleichen. Mit der Enterprise-Edition tragen Sie wesentlich zu der Open-Source Community von OpenProject bei."
     links:
       upgrade_enterprise_edition: "Auf Enterprise-Edition upgraden"
       postgres_migration: "Migration Ihrer Installation zu PostgreSQL"
@@ -1153,9 +1152,10 @@ de:
       forums: "Community Forum"
       newsletter: "Sicherheitswarnungen / Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "Die Änderungen wurden zurückgezogen."
   links:
     configuration_guide: 'Konfigurationsanleitung'
+    get_in_touch: "Sie haben Fragen? Nehmen Sie Kontakt mit uns auf."
   instructions_after_registration: "Sie können sich anmelden, sobald Ihr Konto aktiviert wurde, indem Sie auf %{signin} klicken."
   instructions_after_logout: "Sie können wieder anmelden indem Sie auf %{signin} klicken."
   instructions_after_error: "Sie können versuchen sich erneut anzumelden indem Sie auf %{signin} klicken. Wenn der Fehler weiterhin auftritt, fragen Sie Ihren Administrator um Hilfe."
@@ -1365,7 +1365,7 @@ de:
   label_history: "Historie"
   label_hierarchy_leaf: "Hierarchie-Blatt"
   label_home: "Hauptseite"
-  label_subject_or_id: "Betreff oder ID"
+  label_subject_or_id: "Titel oder ID"
   label_impressum: "Impressum"
   label_in: "an"
   label_in_less_than: "in weniger als"
@@ -1445,13 +1445,14 @@ de:
   label_new: "Neu"
   label_new_features: "Neue Funktionen"
   label_new_statuses_allowed: "Neuer Status"
-  label_news_added: "Neuigkeit hinzugefügt"
-  label_news_comment_added: "Kommentar einer Neuigkeit hinzugefügt"
-  label_news_latest: "Aktuellste Neuigkeiten"
-  label_news_new: "Neuigkeit hinzufügen"
-  label_news_edit: "Neuigkeit bearbeiten"
+  label_news_singular: "Nachricht"
+  label_news_added: "Nachricht hinzugefügt"
+  label_news_comment_added: "Kommentar einer Nachricht hinzugefügt"
+  label_news_latest: "Aktuellste Nachrichten"
+  label_news_new: "Nachricht hinzufügen"
+  label_news_edit: "Nachricht bearbeiten"
   label_news_plural: "Nachrichten"
-  label_news_view_all: "Alle Neuigkeiten anzeigen"
+  label_news_view_all: "Alle Nachrichten anzeigen"
   label_next: "Weiter"
   label_next_week: "Woche vor"
   label_no_change_option: "(Keine Änderung)"
@@ -1704,31 +1705,6 @@ de:
     other: "%{count} Projekte"
   label_year: "Jahr"
   label_yesterday: "gestern"
-  label_keyboard_function: "Funktion"
-  label_keyboard_shortcut: "Tastaturkürzel"
-  label_keyboard_accesskey: "Accesskey"
-  label_keyboard_shortcut_help_heading: "Vorhandene Tastaturkürzel"
-  label_keyboard_shortcut_within_project: "Innerhalb von Projekten:"
-  label_keyboard_shortcut_global_shortcuts: "Globale Tastaturkürzel:"
-  label_keyboard_shortcut_some_pages_only: "Tastaturkürzel auf speziellen Seiten:"
-  label_keyboard_shortcut_search_global: "OpenProject weite Suche"
-  label_keyboard_shortcut_search_project: "Projektsuche"
-  label_keyboard_shortcut_go_my_page: "Zu \"Meine Seite\" gehen"
-  label_keyboard_shortcut_show_help: "Zeige diese Liste der Tastaturkürzel"
-  label_keyboard_shortcut_go_overview: "Gehe zu Projektübersicht"
-  label_keyboard_shortcut_go_work_package: "Gehe zur Arbeitspaket-Seite"
-  label_keyboard_shortcut_go_wiki: "Gehe zum Projekt-Wiki"
-  label_keyboard_shortcut_go_activity: "Gehe zur Projekt-Aktivität"
-  label_keyboard_shortcut_go_calendar: "Gehe zum Projekt-Kalender"
-  label_keyboard_shortcut_go_news: "Gehe zu den Projekt-Neuigkeiten"
-  label_keyboard_shortcut_go_timelines: "Gehe zur Zeitpläne-Seite"
-  label_keyboard_shortcut_new_work_package: "Erstelle neues Arbeitspaket"
-  label_keyboard_shortcut_details_package: "Arbeitspaketdetails anzeigen"
-  label_keyboard_shortcut_go_edit: "Gehe zur Bearbeiten-Ansicht (nur auf Detailseiten)"
-  label_keyboard_shortcut_open_more_menu: "Öffne 'Weitere-Aktionen' Menü (nur auf Detailseiten)"
-  label_keyboard_shortcut_go_preview: "Gehe zur Vorschau (nur auf Editieren-Seiten)"
-  label_keyboard_shortcut_focus_previous_item: "Fokussiere vorheriges Listenelement (nur bei einigen Listen)"
-  label_keyboard_shortcut_focus_next_item: "Fokussiere nächstes Listenelement (nur bei einigen Listen)"
   auth_source:
     using_abstract_auth_source: "Abstrakte Authentifizierungsquellen können nicht verwendet werden."
     ldap_error: "LDAP-Fehler: %{error_message}"
@@ -1880,7 +1856,7 @@ de:
   permission_assign_versions: "Versionen zuweisen"
   permission_browse_repository: "Lesezugriff auf Projektarchiv (in OpenProject und Checkout)"
   permission_change_wiki_parent_page: "Übergeordnete Wiki-Seite ändern"
-  permission_comment_news: "Neuigkeit kommentieren"
+  permission_comment_news: "Nachricht kommentieren"
   permission_commit_access: "Lese- und Schreibzugriff auf Projektarchiv (Commit)"
   permission_copy_projects: "Projekte kopieren"
   permission_delete_work_package_watchers: "Beobachter löschen"
@@ -1910,7 +1886,7 @@ de:
   permission_manage_categories: "Arbeitspaket-Kategorien verwalten"
   permission_manage_work_package_relations: "Arbeitspaket-Beziehungen verwalten"
   permission_manage_members: "Mitglieder verwalten"
-  permission_manage_news: "Neuigkeiten verwalten"
+  permission_manage_news: "Nachrichten verwalten"
   permission_manage_project_activities: "Aktivitäten (Zeiterfassung) verwalten"
   permission_manage_public_queries: "Öffentliche Ansichten verwalten"
   permission_manage_repository: "Projektarchiv verwalten"
@@ -2180,7 +2156,6 @@ de:
   setting_welcome_text: "Text für Willkommens-Block"
   setting_welcome_title: "Titel des Willkommens-Block"
   setting_welcome_on_homescreen: "Willkommens-Block auf Startseite anzeigen"
-  setting_wiki_compression: "Wiki-Historie komprimieren"
   setting_work_package_group_assignment: "Zuweisung zu Gruppen erlauben"
   setting_work_package_list_default_highlighting_mode: "Standard Hervorhebung"
   setting_work_package_list_default_highlighted_attributes: "Voreinstellung Inline Hervorherbung"
@@ -2256,7 +2231,7 @@ de:
   text_work_package_category_destroy_assignments: "Kategorie-Zuordnung entfernen"
   text_work_package_category_destroy_question: "Einige Arbeitspakete (%{count}) sind dieser Kategorie zugeordnet. Was möchten Sie tun?"
   text_work_package_category_reassign_to: "Arbeitspakete dieser Kategorie zuordnen"
-  text_work_package_updated: "Arbeitspaket %{id} wurde von %{author} aktualisiert."
+  text_work_package_updated: "Arbeitspaket %{id} wurde aktualisiert von %{author}."
   text_work_package_watcher_added: "Sie wurden von %{watcher_changer} als Beobachter für das Arbeitspaket %{id} eingetragen."
   text_work_package_watcher_removed: "Sie wurden von den Beobachtern des Arbeitspakets %{id} von %{watcher_changer} entfernt."
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
@@ -2520,6 +2495,7 @@ de:
       mail_self_notified: "Ich möchte über Änderungen benachrichtigt werden, die ich selbst vornehme"
     status_user_and_brute_force: "%{user} und %{brute_force}"
     status_change: "Status geändert"
+    text_change_disabled_for_provider_login: "Der Name wird von Ihrem Login-Provider gesetzt und kann daher nicht geändert werden."
     unlock: "Entsperren"
     unlock_and_reset_failed_logins: "Entsperren und fehlgeschlagene Logins zurücksetzen"
   version_status_closed: "Geschlossen"
@@ -2614,9 +2590,9 @@ de:
         #Common error messages
         invalid_request: 'Der Anfrage fehlt ein benötigten Parameter, enthält einen nicht unterstützten Parameter oder ist anderweitig fehlerhaft.'
         invalid_redirect_uri: "Der angeforderte Weiterleitungs-URI ist fehlerhaft oder passt nicht zur Client-Weiterleitungs-URI."
-        unauthorized_client: 'Der Kunde ist nicht berechtigt, diese Anfrage mit dieser Methode auszuführen.'
-        access_denied: 'Der Ressourcenbesitzer oder Autorisierungsserver verweigerte die Anfrage.'
-        invalid_scope: 'Der angeforderte Anwendungsbereich ist ungültig, unbekannt oder fehlerhaft.'
+        unauthorized_client: 'Der Client ist nicht berechtigt, einen Request mit dieser Methode durchzuführen.'
+        access_denied: 'Der Autorisierungsserver verweigerte die Anfrage.'
+        invalid_scope: 'Der angeforderte Geltungsbereich ist ungültig, unbekannt oder fehlerhaft.'
         invalid_code_challenge_method: 'Die Code-Challenge-Methode muss PLAIN oder S256 sein.'
         server_error: 'Der Autorisierungsserver kann den Request aufgrund eines Fehlers nicht beantworten.'
         temporarily_unavailable: 'Der Autorisierungsserver kann die Anfrage derzeit aufgrund einer temporären Überlastung oder Wartung des Servers nicht bearbeiten.'
@@ -2661,7 +2637,7 @@ de:
     authorization_dialog:
       authorize: "Autorisieren"
       cancel: "Autorisierung abbrechen und verweigern."
-      prompt_html: "Autorisiere <strong>%{application_name}</strong> dein Konto <em>%{login}</em> zu verwenden?"
+      prompt_html: "Zugriff auf den Account <em>%{login}</em> durch <strong>%{application_name}</strong> gewähren?"
       title: "Autorisiere %{application_name}"
       wants_to_access_html: >
         Diese Anwendung bittet um Zugriff auf Ihr OpenProject-Konto. <br/> <strong>Es hat folgende Berechtigungen angefordert:</strong>
@@ -2669,10 +2645,10 @@ de:
       api_v3: "Vollständiger API(v3)-Zugriff"
       api_v3_text: "Die Anwendung erhält vollen Lese- und Schreibzugriff auf die OpenProject API v3, um Aktionen in Ihrem Namen durchzuführen."
     grants:
-      created_date: "Genehmigt am"
+      created_date: "Genehmigt"
       scopes: "Berechtigungen"
       successful_application_revocation: "Widerrufen von %{application_name} erfolgreich."
-      none_given: "Es wurde keiner OAuth-Anwendung Zugriff auf Ihr Benutzerkonto gewährt."
+      none_given: "Keine OAuth-Anwendung erhalten Zugriff auf Ihr Benutzerkonto."
     x_active_tokens:
       one: 'ein aktiver Token'
       other: '%{count} aktive Token'
@@ -2683,7 +2659,7 @@ de:
     client_credentials_impersonation_set_to: "Client Credentials User-ID gesetzt auf"
     client_credentials_impersonation_warning: "Hinweis: Clients, die den 'Client-Credentials' Anmeldefluss in dieser Anwendung verwenden, erhalten die Rechte dieses Benutzers"
     client_credentials_impersonation_html: >
-      Standardmäßig bietet OpenProject OAuth 2.0 Autorisierung via %{authorization_code_flow_link}. Sie können optional %{client_credentials_flow_link} aktivieren, aber Sie müssen einen Benutzer angeben, auf dessen Namen Anfragen ausgeführt werden.
+      Standardmäßig bietet OpenProject OAuth 2.0 Autorisierung via %{authorization_code_flow_link}. Sie können optional %{client_credentials_flow_link} aktivieren, aber Sie müssen einen Benutzer angeben, in dessen Namen Anfragen ausgeführt werden.
     authorization_error: "Ein Autorisierungsfehler ist aufgetreten."
-    revoke_my_application_confirmation: "Möchtest du diese Anwendung wirklich entfernen? Dies wird %{token_count} aktive Token für sie widerrufen."
+    revoke_my_application_confirmation: "Möchten Sie diese Anwendung wirklich entfernen? Dies wird %{token_count} aktive Token widerrufen."
     my_registered_applications: "Registrierte OAuth-Anwendungen"

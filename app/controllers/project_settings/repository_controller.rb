@@ -40,7 +40,7 @@ class ProjectSettings::RepositoryController < ProjectSettingsController
   def new_repository
     return unless params[:scm_vendor]
 
-    service = Scm::RepositoryFactoryService.new(@project, params)
+    service = SCM::RepositoryFactoryService.new(@project, params)
     if service.build_temporary
       @repository = service.repository
     else

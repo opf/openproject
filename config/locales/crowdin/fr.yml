@@ -61,7 +61,7 @@ fr:
         header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
         header-border-bottom-color: "Ligne mince sous l’en-tête. Laissez ce champ vide si vous ne voulez pas de ligne."
         main-menu-bg-color: "Couleur d’arrière-plan du menu de gauche."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Si vous changez de thème, votre style personnalisé sera écrasé. Le design sera alors perdu. Vous êtes sûr de vouloir continuer ?
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
@@ -70,6 +70,9 @@ fr:
       paste: "Coller votre licence de la version Entreprise"
       required_for_feature: "Cette fonction n'est disponible qu'avec une licence active de la version Entreprise."
       enterprise_link: "Pour plus d'informations, cliquez ici."
+      start_trial: 'Commencer l''essai gratuit'
+      book_now: 'Réserver maintenant'
+      get_quote: 'Obtenir un devis'
   announcements:
     show_until: Afficher jusqu'à
     is_active: actuellement affiché
@@ -398,7 +401,7 @@ fr:
         types: "Types"
         versions: "Versions"
         work_packages: "Lots de Travaux"
-      project/status:
+      projects/status:
         code: 'Statut'
         explanation: 'Description du statut'
         codes:
@@ -463,7 +466,7 @@ fr:
         done_ratio: "Progrès (%)"
         end_insertion: "Fin de l’insertion"
         end_deletion: "Fin de la suppression"
-        fixed_version: "Version"
+        version: "Version"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -479,10 +482,10 @@ fr:
         uid: "Id du client"
         secret: "Clé secrète du client"
         owner: "Propriétaire"
-        redirect_uri: "URI de redirection"
+        redirect_uri: "URL de redirection"
         client_credentials_user_id: "ID d'utilisateur d'informations d'identification client"
         scopes: "Portées"
-        confidential: "Confidentiel"
+        confidential: "Confidentielle"
     errors:
       messages:
         accepted: "doi(ven)t être accepté(e)(s)."
@@ -542,7 +545,7 @@ fr:
           attributes:
             redirect_uri:
               fragment_present: 'ne peut pas contenir un fragment.'
-              invalid_uri: 'doit être une URI valide.'
+              invalid_uri: 'doit être une URL valide.'
               relative_uri: 'doit être une URI absolue.'
               secured_uri: 'doit être une URI HTTPS/SSL.'
               forbidden_uri: 'est interdit par le serveur.'
@@ -688,7 +691,7 @@ fr:
       wiki_page: "Page wiki"
       workflow: "Flux de travail"
       work_package: "Lot de travaux"
-      'doorkeeper/application': "Application OAuth"
+      'doorkeeper/application': "Applications OAuth"
   errors:
     header_invalid_fields: "Des problèmes ont été rencontrés avec les champs suivants :"
     field_erroneous_label: "Ce champ n'est pas valide : %{full_errors}\nVeuillez saisir une valeur correcte."
@@ -754,6 +757,7 @@ fr:
     version: "Version"
     work_package: "Lot de travaux"
   button_add: "Ajouter"
+  button_add_comment: "Ajouter un commentaire"
   button_add_member: Ajouter un membre
   button_add_watcher: "Ajouter observateur"
   button_annotate: "Annoter"
@@ -1138,13 +1142,8 @@ fr:
     blocks:
       community: "Communauté OpenProject"
       upsale:
-        become_hero: "Devenez un héros !"
         title: "Passer à la version Entreprise"
-        description: "Quels sont les avantages?"
         more_info: "Plus d'informations"
-        additional_features: "Puissantes fonctionnalités premium additionnelles"
-        professional_support: "Support professionnel d'experts OpenProject"
-        you_contribute: "Les développeurs ont besoin payer leurs factures également. Avec la version Entreprise, vous contribuez significativement à cet effort de la communauté Open-Source."
     links:
       upgrade_enterprise_edition: "Passer à la version Entreprise"
       postgres_migration: "Migration de votre installation vers PostgreSQL"
@@ -1156,9 +1155,10 @@ fr:
       forums: "Forum de la communauté"
       newsletter: "Alertes de sécurité / Lettre d’information"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "Les modifications ont été retirées."
   links:
     configuration_guide: 'Guide de configuration'
+    get_in_touch: "Vous avez des questions ? Contactez-nous."
   instructions_after_registration: "Vous pouvez vous authentifier tant que votre compte a été activé en cliquant sur %{signin}."
   instructions_after_logout: "Vous pouvez vous ré-authentifier en cliquant sur %{signin}."
   instructions_after_error: "Vous pouvez encore essayer de vous authentifier en cliquant sur %{signin}. Si l'erreur persiste, demandez de l'aide à votre administrateur."
@@ -1448,6 +1448,7 @@ fr:
   label_new: "nouveau"
   label_new_features: "Nouvelles fonctionnalités"
   label_new_statuses_allowed: "Nouveaux statuts autorisés"
+  label_news_singular: "Actualités"
   label_news_added: "Actualités ajoutées"
   label_news_comment_added: "Commentaire ajouté à une actualité"
   label_news_latest: "Dernière actualité"
@@ -1649,7 +1650,7 @@ fr:
   label_view_diff: "Afficher les différences"
   label_view_revisions: "Afficher les révisions"
   label_watched_work_packages: "Lots de travaux suivis"
-  label_what_is_this: "Qu'est-ce que c'est?"
+  label_what_is_this: "Qu'est-ce que c est?"
   label_week: "Semaine"
   label_wiki_content_added: "Page wiki ajoutée"
   label_wiki_content_updated: "Page wiki mise à jour"
@@ -1707,31 +1708,6 @@ fr:
     other: "%{count} projets"
   label_year: "Année"
   label_yesterday: "hier"
-  label_keyboard_function: "Fonction"
-  label_keyboard_shortcut: "Raccourci"
-  label_keyboard_accesskey: "Touche de raccourci"
-  label_keyboard_shortcut_help_heading: "Raccourcis de clavier disponibles"
-  label_keyboard_shortcut_within_project: "Raccourcis liés au projet:"
-  label_keyboard_shortcut_global_shortcuts: "Raccourcis généraux:"
-  label_keyboard_shortcut_some_pages_only: "Raccourcis spéciaux:"
-  label_keyboard_shortcut_search_global: "Recherche globale"
-  label_keyboard_shortcut_search_project: "Recherche un Projet"
-  label_keyboard_shortcut_go_my_page: "Aller sur ma page"
-  label_keyboard_shortcut_show_help: "Montrer ce message d'aide"
-  label_keyboard_shortcut_go_overview: "Aller à la vue d'ensemble du projet"
-  label_keyboard_shortcut_go_work_package: "Aller aux Lots de Travaux du projet"
-  label_keyboard_shortcut_go_wiki: "Aller au wiki du projet"
-  label_keyboard_shortcut_go_activity: "Aller aux activités du projet"
-  label_keyboard_shortcut_go_calendar: "Aller au calendrier du projet"
-  label_keyboard_shortcut_go_news: "Aller aux actualités du projet"
-  label_keyboard_shortcut_go_timelines: "Aller aux lignes du temps"
-  label_keyboard_shortcut_new_work_package: "Créer un nouveau lot de travaux"
-  label_keyboard_shortcut_details_package: "Afficher le volet de détails des Lots de Travaux"
-  label_keyboard_shortcut_go_edit: "Aller à l'edition de la tâche en cours (page des détails seulement)"
-  label_keyboard_shortcut_open_more_menu: "Ouvrir menu supplementaire (page des détails seulement)"
-  label_keyboard_shortcut_go_preview: "Afficher l'aperçu (pages d'édition seulement)"
-  label_keyboard_shortcut_focus_previous_item: "Focus sur l'élément précedent (sur quelques listes seulement)"
-  label_keyboard_shortcut_focus_next_item: "Focus sur l'élément suivant (sur quelques listes seulement)"
   auth_source:
     using_abstract_auth_source: "Impossible d'utiliser une source d'authentification abstraite."
     ldap_error: "Erreur LDAP : %{error_message}"
@@ -2183,7 +2159,6 @@ fr:
   setting_welcome_text: "Bloc de texte de bienvenue"
   setting_welcome_title: "Bloc de titre de bienvenue"
   setting_welcome_on_homescreen: "Afficher le bloc de bienvenue sur l'écran d'accueil"
-  setting_wiki_compression: "Compression de l'historique du wiki"
   setting_work_package_group_assignment: "Autoriser l'assignation à des groupes"
   setting_work_package_list_default_highlighting_mode: "Mode de surbrillance par défaut"
   setting_work_package_list_default_highlighted_attributes: "Attributs en ligne mis en surbrillance par défaut"
@@ -2523,6 +2498,7 @@ fr:
       mail_self_notified: "Je veux être notifié des modifications que je fais moi-même"
     status_user_and_brute_force: "%{user} et %{brute_force}"
     status_change: "Changement de statut"
+    text_change_disabled_for_provider_login: "Le nom est défini par votre fournisseur de connexion et ne peut donc pas être modifié."
     unlock: "Déverrouiller"
     unlock_and_reset_failed_logins: "Déverrouiller et réinitialiser les échecs de connexion"
   version_status_closed: "clôturé"
@@ -2631,7 +2607,7 @@ fr:
         unsupported_response_type: 'Le serveur d''autorisation ne supporte pas ce type de réponse.'
         #Access token errors
         invalid_client: 'L''authentification du client a échoué en raison d''un client inconnu, d''une authentification du client non supportée ou d''une méthode d''authentification non supportée.'
-        invalid_grant: 'Le droit d’autorisation fourni n’est pas valide, a expiré, est révoqué, ne correspond pas à l’URI de redirection utilisée dans la requête d’autorisation, ou a été remis à un autre client.'
+        invalid_grant: 'L''autorisation accordée est invalide, expirée, révoquée, ne correspond pas à l''URI de redirection utilisée dans la demande d''autorisation ou a été accordée à un autre client.'
         unsupported_grant_type: 'Le type de subvention d''autorisation n''est pas supporté par le serveur d''autorisation.'
         invalid_token:
           revoked: "Le jeton d'accès a été révoqué"
@@ -2644,7 +2620,7 @@ fr:
     close_warning: "Ignorer cet avertissement."
   oauth:
     application:
-      singular: "Application OAuth"
+      singular: "Applications OAuth"
       plural: "Applications OAuth"
       named: "Application OAuth '%{name}'"
       new: "Nouvelle application Oauth"
@@ -2667,7 +2643,7 @@ fr:
       prompt_html: "Autoriser <strong>%{application_name}</strong> à utiliser votre compte <em>%{login}</em> ?"
       title: "Autoriser %{application_name}"
       wants_to_access_html: >
-        Cette application demande l'accès à votre compte OpenProject. <br/> <strong>Il a demandé les autorisations suivantes:</strong>
+        Cette application demande l'accès à votre compte OpenProject. <br/> <strong>Il a demandé les autorisations suivantes:</strong>Il a demandé les autorisations suivantes
     scopes:
       api_v3: "Accès complet à l'API v3"
       api_v3_text: "L'application recevra un accès complet en lecture et écriture à l'API v3 d'OpenProject pour effectuer des actions en votre nom."

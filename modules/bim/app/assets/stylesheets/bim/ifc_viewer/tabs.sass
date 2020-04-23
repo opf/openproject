@@ -1,0 +1,137 @@
+// -------------------------- GENERIC --------------------------
+.ifc-model-viewer--tree-panel
+  padding: 0 15px
+  @include varprop(color, main-menu-font-color)
+
+// -------------------------- XEOKIT specific rules for TABS --------------------------
+.xeokit-tabs
+  display: flex
+  overflow: auto
+  @include no-visible-scroll-bar
+
+  .xeokit-tab
+    flex: 1 1 auto
+
+  .active
+    .xeokit-tab-content
+      display: block
+
+    .xeokit-tab-btn
+      border-bottom: 2px solid
+      @include varprop(border-color, main-menu-font-color)
+
+  .xeokit-form-check
+    @include varprop(color, main-menu-font-color)
+    @include text-shortener
+
+  // As the button and the content are in the same container,
+  // we have to position the content absolutely.
+  // Otherwise we could not show the buttons next to each other.
+  .xeokit-tab-content
+    display: none
+    position: absolute
+    left: 0
+    padding: 1.5em 15px
+    width: 100%
+
+    // Override inline style of xeokit
+    .xeokit-models,
+    .xeokit-objects,
+    .xeokit-classes,
+    .xeokit-storeys
+      overflow: hidden !important
+
+    .xeokit-btn-group
+      margin-bottom: 10px
+
+      .xeokit-btn
+        @include varprop(color, main-menu-font-color)
+        background-color: transparent
+        border: 1px solid
+        @include varprop(border-color, main-menu-font-color)
+
+  .xeokit-tab-btn
+    display: inline-block
+    @include varprop(color, main-menu-font-color)
+    font-weight: bold
+    padding: 0 5px !important
+
+    &:hover
+      border-bottom: 2px solid white
+
+    &:focus
+      outline: none
+
+// Hightlighted list items shall look like a "pill", similarly to the selected tree item in the wiki menu.
+$pill-padding-left: 8px
+
+.xeokit-tab
+  ul
+    list-style: none
+    padding-left: 30px
+    margin-left: -1 * $pill-padding-left
+    li
+      line-height: 30px
+      padding-left: $pill-padding-left
+      a
+        display: inline-block
+        line-height: 30px
+        height: 30px
+        width: 20px
+        // Workaround to hide the actual text of the link and show our icons instead
+        @include varprop(color, main-menu-bg-color)
+
+        &:hover,
+        &:focus,
+        &:active,
+        li:hover &
+          @include varprop(background-color, main-menu-bg-color)
+          @include varprop(color, main-menu-bg-color)
+
+        &:before
+          font-family: "openproject-icon-font" !important
+          @include varprop(color, main-menu-font-color)
+          font-size: 0.7rem
+
+        &.plus:before
+          @include icon-mixin-arrow-right2
+        &.minus:before
+          @include icon-mixin-arrow-down1
+
+      .highlighted-node
+        @include varprop(background, main-menu-bg-selected-background)
+        @include varprop(color, main-menu-selected-font-color)
+        border-radius: 3px
+
+      input
+        margin-right: 5px
+        vertical-align: middle
+
+      span
+        cursor: pointer
+        vertical-align: middle
+        &:hover
+          vertical-align: middle
+        
+  .xeokit-tree-panel > ul
+    padding-left: 0
+
+.xeokit-modelsTab
+  .xeokit-form-check
+    padding: 2px 0 2px 15px
+    line-height: 3ex
+
+    input
+      vertical-align: middle
+
+    span
+      @include varprop(color, main-menu-font-color)
+      padding-left: 3px
+      width: calc(100% - 16px)
+      vertical-align: middle
+
+      &:hover
+        cursor: pointer
+
+      &.disabled:hover
+        cursor: default

@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Scm::AuthoriziationPolicy
+class SCM::AuthorizationPolicy
   attr_reader :project, :user
 
   def initialize(project, user)

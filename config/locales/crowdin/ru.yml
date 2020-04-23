@@ -61,15 +61,18 @@ ru:
         header-item-font-hover-color: "Цвет шрифта в заголовках интерактивных элементов под курсором мыши."
         header-border-bottom-color: "Тонкая линия под заголовком. Оставьте это поле пустым, если вы не хотите любой линии."
         main-menu-bg-color: "Цвет фона меню слева."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Изменение темы перезапишет ваш пользовательский стиль. Дизайн будет утерян. Вы уверены, что хотите продолжить?
     enterprise:
-      upgrade_to_ee: "Обновите до корпоративной версии"
+      upgrade_to_ee: "Обновить до корпоративной версии"
       add_token: "Загрузите маркер поддержки корпоративной версии"
       replace_token: "Замените ваш текущий маркер поддержки"
       order: "Заказать корпоративную версию"
       paste: "Вставьте ваш маркер поддержки корпоративной версии"
       required_for_feature: "Эта возможность доступна только в корпоративной версии."
       enterprise_link: "Для получения дополнительной информации нажмите здесь."
+      start_trial: 'Бесплатная пробная версия'
+      book_now: 'Заказать сейчас'
+      get_quote: 'Рассчитать стоимость'
   announcements:
     show_until: Показать до
     is_active: теперь отображается
@@ -181,10 +184,10 @@ ru:
     delete:
       scheduled: "Удаление было запланировано и исполнено в фоновом режиме. О результатах вы будете уведомлены."
       schedule_failed: "Проект удален быть не может: %{errors}"
-      failed: "Удалить проект %{name} не удалось"
+      failed: "Удаление проекта %{name} не удалось"
       failed_text: "Запрос на удаление проекта %{name} не удался. Проект был оставлен в архиве."
       completed: "Удаление проекта %{name} завершено"
-      completed_text: "Запрос по удалению проекта «%{name}» выполнен."
+      completed_text: "Запрос на удаление проекта '%{name}' был завершен."
     index:
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
@@ -400,7 +403,7 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
-      project/status:
+      projects/status:
         code: 'Состояние'
         explanation: 'Описание статуса'
         codes:
@@ -465,7 +468,7 @@ ru:
         done_ratio: "Прогресс (%)"
         end_insertion: "Завершение вставки"
         end_deletion: "Завершение удаления"
-        fixed_version: "Стадия"
+        version: "Стадия"
         parent: "Родитель"
         parent_issue: "Родитель"
         parent_work_package: "Родитель"
@@ -527,7 +530,7 @@ ru:
         too_long: "слишком длинно (максимум — %{count} знаков)."
         too_short: "слишком коротко (минимум — %{count} знаков)."
         unchangeable: "изменить нельзя."
-        unremovable: "удалить нельзя."
+        unremovable: "не может быть удалено."
         wrong_length: "неправильная длина (должно быть %{count} знаков)."
       models:
         custom_field:
@@ -544,7 +547,7 @@ ru:
           attributes:
             redirect_uri:
               fragment_present: 'не может содержать фрагмент.'
-              invalid_uri: 'должен быть корректным URI.'
+              invalid_uri: 'должен быть допустимым URI.'
               relative_uri: 'должен быть абсолютным URI.'
               secured_uri: 'должен быть HTTPS/SSL URI.'
               forbidden_uri: 'запрещен сервером.'
@@ -696,7 +699,7 @@ ru:
       wiki_page: "Wiki-страница"
       workflow: "Рабочий поток"
       work_package: "Пакет работ"
-      'doorkeeper/application': "Приложения OAuth"
+      'doorkeeper/application': "Приложение OAuth"
   errors:
     header_invalid_fields: "Были проблемы со следующими полями:"
     field_erroneous_label: "Значение этого поля неверно: %{full_errors}. Пожалуйста, введите верное значение."
@@ -762,6 +765,7 @@ ru:
     version: "Стадия"
     work_package: "Пакет работ"
   button_add: "Добавить"
+  button_add_comment: "Добавить комментарий"
   button_add_member: Добавить участника
   button_add_watcher: "Добавить наблюдателя"
   button_annotate: "Комментировать"
@@ -1170,13 +1174,8 @@ ru:
     blocks:
       community: "OpenProject сообщество"
       upsale:
-        become_hero: "Станьте героем!"
         title: "Обновите до корпоративной версии"
-        description: "Каковы преимущества?"
         more_info: "Больше информации"
-        additional_features: "Дополнительные мощные возможности"
-        professional_support: "Помощь от экспертов OpenProject"
-        you_contribute: "Разработчики тоже должны оплачивать свои счета. С корпоративной версией вы существенно поможете сообществу открытого исходного кода."
     links:
       upgrade_enterprise_edition: "Обновите до корпоративной версии"
       postgres_migration: "Перенос вашей установки в PostgreSQL"
@@ -1188,9 +1187,10 @@ ru:
       forums: "Форум сообщества"
       newsletter: "Оповещения системы безопасности / Новости"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "Изменения отменены."
   links:
     configuration_guide: 'Руководство по конфигурации'
+    get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
   instructions_after_registration: "Вы сможете войти как только ваша учетная запись будет активирована, нажав %{signin}."
   instructions_after_logout: "Вы можете войти в снова, нажав %{signin}."
   instructions_after_error: "Вы можете попробовать войти снова, нажав %{signin}. Если ошибка повторится, обратитесь к вашему администратору за помощью."
@@ -1480,6 +1480,7 @@ ru:
   label_new: "Новое"
   label_new_features: "Новые особенности"
   label_new_statuses_allowed: "Новые статусы разрешены"
+  label_news_singular: "Новости"
   label_news_added: "Новость добавлена"
   label_news_comment_added: "Комментарий добавлен в Новости"
   label_news_latest: "Последние новости"
@@ -1535,7 +1536,7 @@ ru:
   label_previous_week: "Предыдущая неделя"
   label_principal_invite_via_email: " или пригласить новых пользователей по электронной почте"
   label_principal_search: "Добавление существующих пользователей или групп"
-  label_privacy_policy: "Политика конфиденциальности и безопасности данных"
+  label_privacy_policy: "Политика конфиденциальности данных и безопасности"
   label_product_version: "Версия продукта"
   label_professional_support: "Профессиональная поддержка"
   label_profile: "Профиль"
@@ -1747,31 +1748,6 @@ ru:
     other: "%{count} проектов"
   label_year: "Год"
   label_yesterday: "вчера"
-  label_keyboard_function: "Функция"
-  label_keyboard_shortcut: "Сочетание клавиш"
-  label_keyboard_accesskey: "Клавиша доступа"
-  label_keyboard_shortcut_help_heading: "Доступные сочетания клавиш"
-  label_keyboard_shortcut_within_project: "Сочетания клавиш, связанные с проектом:"
-  label_keyboard_shortcut_global_shortcuts: "Глобальные сочетания клавиш:"
-  label_keyboard_shortcut_some_pages_only: "Специальные клавиши:"
-  label_keyboard_shortcut_search_global: "Глобальный поиск"
-  label_keyboard_shortcut_search_project: "Найти проект"
-  label_keyboard_shortcut_go_my_page: "Перейти на мою страницу"
-  label_keyboard_shortcut_show_help: "Показать это справочное сообщение"
-  label_keyboard_shortcut_go_overview: "Перейти к обзору проекта"
-  label_keyboard_shortcut_go_work_package: "Перейти к пакету работ проекта"
-  label_keyboard_shortcut_go_wiki: "Перейти к wiki-странице проекта"
-  label_keyboard_shortcut_go_activity: "Перейти к деятельности по проекту"
-  label_keyboard_shortcut_go_calendar: "Перейти в календарь проекта"
-  label_keyboard_shortcut_go_news: "Перейти к новостям проекта"
-  label_keyboard_shortcut_go_timelines: "Перейти к срокам"
-  label_keyboard_shortcut_new_work_package: "Создать новый пакет работ"
-  label_keyboard_shortcut_details_package: "Показать сведения о пакете работ"
-  label_keyboard_shortcut_go_edit: "Перейти к редактированию текущего элемента (для страниц с подробностями)"
-  label_keyboard_shortcut_open_more_menu: "Открыть подробное меню (для страниц с подробностями)"
-  label_keyboard_shortcut_go_preview: "Перейти к предосмотру сделанных изменений (для страниц редактирования)"
-  label_keyboard_shortcut_focus_previous_item: "Сфокусироваться на предыдущем элементе списка (того же списка)"
-  label_keyboard_shortcut_focus_next_item: "Сфокусироваться на следующем элементе списка (того же списка)"
   auth_source:
     using_abstract_auth_source: "Нельзя использовать абстрактную аутентификацию."
     ldap_error: "LDAP-ошибка: %{error_message}"
@@ -2222,7 +2198,6 @@ ru:
   setting_welcome_text: "Текст приветствия"
   setting_welcome_title: "Заголовок приветствия"
   setting_welcome_on_homescreen: "Показывать приветствие на домашней странице"
-  setting_wiki_compression: "Сжатие истории  изменений wiki"
   setting_work_package_group_assignment: "Разрешить назначения группам"
   setting_work_package_list_default_highlighting_mode: "Способ выделения по умолчанию"
   setting_work_package_list_default_highlighted_attributes: "Выделенные встроенные атрибуты по умолчанию"
@@ -2566,6 +2541,7 @@ ru:
       mail_self_notified: "Хочу получать уведомления об изменениях, которые делаю сам"
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: "Смена статуса"
+    text_change_disabled_for_provider_login: "Это имя задано вашим поставщиком авторизации, поэтому его нельзя изменить."
     unlock: "Разблокировать"
     unlock_and_reset_failed_logins: "Разблокировать и сбросить неудачные попытки входа"
   version_status_closed: "закрыт"
@@ -2660,7 +2636,7 @@ ru:
         #Common error messages
         invalid_request: 'В запросе нет обязательного параметра, значение параметра не поддерживается или не соответствует требованиям.'
         invalid_redirect_uri: "Запрашиваемый редирект URI является неверным или не соответствует URI перенаправления клиента."
-        unauthorized_client: 'Клиент не авторизован для выполнения этого запроса с помощью этого метода.'
+        unauthorized_client: 'Клиент не уполномочен выполнить этот запрос с помощью этого метода.'
         access_denied: 'Владелец ресурса или сервер авторизации отклонил запрос.'
         invalid_scope: 'Запрашиваемая область является недопустимой, неизвестной или неправильной.'
         invalid_code_challenge_method: 'Метод вызова кода должен быть простым или S256.'
@@ -2673,22 +2649,22 @@ ru:
         #Access grant errors
         unsupported_response_type: 'Сервер авторизации не поддерживает этот тип ответа.'
         #Access token errors
-        invalid_client: 'Проверка подлинности клиента не удалась из-за неизвестности клиента, отсутствия у клиента проверки подлинности, или не поддерживаемого метода проверки подлинности.'
+        invalid_client: 'Аутентификация клиента не удалась из-за неизвестности клиента, отсутствия у клиента аутентификации или не поддерживаемого метода аутентификации.'
         invalid_grant: 'Предоставленное разрешение недействительно, истекло, аннулировано, не соответствует URI перенаправления, используемому в запросе авторизации, или было выдано другому клиенту.'
         unsupported_grant_type: 'Тип разрешения не поддерживается сервером авторизации.'
         invalid_token:
           revoked: "Маркер доступа был отозван"
-          expired: "Срок действия маркера доступа истек"
+          expired: "Истек срок действия маркера доступа"
           unknown: "Недопустимый маркер доступа"
   unsupported_browser:
     title: "Ваш браузер устарел и не поддерживается."
-    message: "Вы можете столкнуться с ошибками и ухудшением опыта на этой странице."
+    message: "На этой странице вы рискуете столкнуться с ошибками и обедненным опытом."
     update_message: 'Пожалуйста, обновите свой браузер.'
     close_warning: "Игнорировать это предупреждение."
   oauth:
     application:
-      singular: "Приложения OAuth"
-      plural: "Приложения OAuth"
+      singular: "Приложение OAuth"
+      plural: "OAuth приложения"
       named: "OAuth приложение '%{name}'"
       new: "Новое приложение OAuth"
       default_scopes: "(Области по умолчанию)"

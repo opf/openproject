@@ -4,7 +4,7 @@ import {multiInput, MultiInputState} from "reactivestates";
 import {Board} from "core-app/modules/boards/board/board";
 import {BoardDmService} from "core-app/modules/boards/board/board-dm.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BoardCacheService extends StateCacheService<Board> {
 
   protected _state = multiInput<Board>();

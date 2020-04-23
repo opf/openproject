@@ -28,23 +28,23 @@
 
 import {Transition} from '@uirouter/core';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   templateUrl: './relations-tab.html',
   selector: 'wp-relations-tab',
 })
-export class WorkPackageRelationsTabComponent implements OnInit, OnDestroy {
+export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackageId?:string;
   public workPackage:WorkPackageResource;
 
   public constructor(readonly I18n:I18nService,
                      readonly $transition:Transition,
                      readonly wpCacheService:WorkPackageCacheService) {
+    super();
   }
 
   ngOnInit() {
@@ -52,15 +52,12 @@ export class WorkPackageRelationsTabComponent implements OnInit, OnDestroy {
     this.wpCacheService.loadWorkPackage(wpId)
       .values$()
       .pipe(
-        takeUntil(componentDestroyed(this))
+        this.untilDestroyed()
       )
       .subscribe((wp) => {
-          this.workPackageId = wp.id!;
-          this.workPackage = wp;
-        });
+        this.workPackageId = wp.id!;
+        this.workPackage = wp;
+      });
   }
 
-  ngOnDestroy() {
-    // Nothing to do
-  }
 }

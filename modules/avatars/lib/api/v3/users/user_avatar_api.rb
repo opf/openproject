@@ -34,21 +34,14 @@ module API
         helpers ::AvatarHelper
         helpers ::API::Helpers::AttachmentRenderer
 
-        helpers do
-          def set_cache_headers!
-            return if @user == current_user
-
-            header "Cache-Control", "public, max-age=#{avatar_link_expiry_seconds}"
-            header "Expires", CGI.rfc1123_date(Time.now.utc + avatar_link_expiry_seconds)
-          end
-        end
-
         get '/avatar' do
-          set_cache_headers!
+          cache_seconds = @user == current_user ? nil : avatar_link_expires_in
 
           if (local_avatar = local_avatar?(@user))
-            respond_with_attachment(local_avatar, external_link_expires_in: avatar_link_expires_in)
+            respond_with_attachment(local_avatar, cache_seconds: cache_seconds)
           elsif avatar_manager.gravatar_enabled?
+            set_cache_headers!(cache_seconds) unless cache_seconds.nil?
+
             redirect build_gravatar_image_url(@user)
           else
             status 404

@@ -24,38 +24,28 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 
-import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
+import {Injector, NgModule} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {AvatarUploadFormComponent} from "./avatar-upload-form/avatar-upload-form.component";
 import {HookService} from "../../hook-service";
 
-export function initializeAvatarsPlugin(injector:Injector) {
-  return () => {
+@NgModule({
+    imports: [
+      CommonModule,
+    ],
+    declarations: [
+        AvatarUploadFormComponent
+    ]
+})
+export class PluginModule {
+  constructor(injector:Injector) {
     const hookService = injector.get(HookService);
     hookService.register('openProjectAngularBootstrap', () => {
       return [
         { selector: 'avatar-upload-form', cls: AvatarUploadFormComponent }
       ];
     });
-
   }
-}
-
-@NgModule({
-    imports: [
-      CommonModule,
-    ],
-    providers: [
-      { provide: APP_INITIALIZER, useFactory: initializeAvatarsPlugin, deps: [Injector], multi: true },
-    ],
-    declarations: [
-        AvatarUploadFormComponent
-    ],
-    entryComponents: [
-        AvatarUploadFormComponent
-    ]
-})
-export class PluginModule {
 }
 
 

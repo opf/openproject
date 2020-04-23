@@ -17,7 +17,6 @@ $board-list-max-width: 300px
   flex-grow: 1
 
   // Make it scrollable
-  padding-bottom: 5px
   overflow-y: auto
 
 
@@ -28,6 +27,9 @@ $board-list-max-width: 300px
 
   &:first-of-type
     margin-left: 5px
+
+  &.cdk-drag-placeholder
+    @include modifying--placeholder
 
 .board--header-container
   display: flex

@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :query do
+  factory :query, class: Query do
     project
     user factory: :user
     sequence(:name) { |n| "Query #{n}" }

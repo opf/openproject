@@ -35,7 +35,7 @@ export interface HideSectionDefinition {
   label:string;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HideSectionService {
   public displayed = input<string[]>();
   public all:HideSectionDefinition[] = [];

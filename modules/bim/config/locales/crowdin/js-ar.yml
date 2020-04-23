@@ -1,0 +1,21 @@
+#English strings go here
+ar:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Import'
+      export: 'تصدير'
+      viewpoint: 'Viewpoint'
+      add_viewpoint: 'Add viewpoint'
+      show_viewpoint: 'Show viewpoint'
+      delete_viewpoint: 'Delete viewpoint'
+    ifc_models:
+      empty_warning: "This project does not yet have any IFC models."
+      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
+      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      models:
+        default: 'Default IFC models'
+        manage: 'Manage models'
+      views:
+        viewer: 'Viewer'
+        split: 'Viewer and cards'

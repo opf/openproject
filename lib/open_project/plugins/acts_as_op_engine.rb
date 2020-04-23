@@ -119,7 +119,11 @@ module OpenProject::Plugins
         plugin_module = self.class.to_s.deconstantize
         self.class.config.to_prepare do
           klass_name = args.last
-          patch = "#{plugin_module}::Patches::#{klass_name}Patch".constantize
+          patch = begin
+                    "#{plugin_module}::Patches::#{args[0..-2].join('::')}::#{klass_name}Patch".constantize
+                  rescue NameError
+                    "#{plugin_module}::Patches::#{klass_name}Patch".constantize
+                  end
           qualified_class_name = args.map(&:to_s).join('::')
           klass = qualified_class_name.to_s.constantize
           klass.send(:include, patch) unless klass.included_modules.include?(patch)
@@ -175,7 +179,7 @@ module OpenProject::Plugins
       # block:         Pass a block to the plugin (for defining permissions, menu items and the like)
       def register(gem_name, options, &block)
         self.class.initializer "#{engine_name}.register_plugin" do
-          spec = Bundler.environment.specs[gem_name][0]
+          spec = Bundler.load.specs[gem_name][0]
 
           p = Redmine::Plugin.register engine_name.to_sym do
             name spec.summary
@@ -283,6 +287,31 @@ module OpenProject::Plugins
           representer_namespace = path.map { |arg| arg.to_s.camelize }.join('::')
           representer_class     = "::API::#{representer_namespace}Representer".constantize
           representer_class.prepend mod
+        end
+      end
+
+      ##
+      # Register a "cron"-like background job
+      def add_cron_jobs(&block)
+        config.to_prepare do
+          Array(block.call).each do |clz|
+            ::Cron::CronJob.register!(clz.is_a?(Class) ? clz : clz.to_s.constantize)
+          end
+        end
+      end
+
+      # Add custom inflection for file name to class name mapping. Otherwise, the default zeitwerk
+      # #camelize method will be utilized.
+      #
+      #   class_inflection_override('asap' => 'ASAP')
+      #
+      #   inflector.camelize("asap", abspath)      # => "ASAP"
+      #
+      # @param overrides [{String => String}]
+      # @return [void]
+      def class_inflection_override(overrides)
+        self.class.initializer "#{engine_name}.class_inflection_override" do
+          OpenProject::Inflector.inflection(overrides)
         end
       end
     end

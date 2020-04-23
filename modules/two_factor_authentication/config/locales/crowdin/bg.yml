@@ -162,9 +162,9 @@ bg:
   notice_account_otp_send_failed: "Your one-time password could not be sent."
   notice_account_has_no_phone: "No cell phone number is associated with your account."
   label_expiration_hint: "%{date} or on logout"
-  label_actions: 'Actions'
+  label_actions: 'Действия'
   label_confirmed: 'Потвърден'
-  button_continue: 'Continue'
+  button_continue: 'Продължаване'
   button_make_default: 'Mark as default'
   label_unverified_phone: "Cell phone not yet verified"
   notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."

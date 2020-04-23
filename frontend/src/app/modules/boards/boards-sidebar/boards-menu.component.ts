@@ -3,14 +3,15 @@ import {Observable} from "rxjs";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
 import {map} from "rxjs/operators";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 
+export const boardsMenuSelector = 'boards-menu';
+
 @Component({
-  selector: 'boards-menu',
+  selector: boardsMenuSelector,
   templateUrl: './boards-menu.component.html'
 })
 
@@ -21,9 +22,13 @@ export class BoardsMenuComponent implements OnInit {
 
   public boards$:Observable<Board[]> = this.boardCache.observeAll().pipe(
     map((boards:Board[]) => {
-      return boards.sort(function(a, b){
-        if(a.name < b.name) { return -1; }
-        if(a.name > b.name) { return 1; }
+      return boards.sort(function (a, b) {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
         return 0;
       });
     })
@@ -42,7 +47,7 @@ export class BoardsMenuComponent implements OnInit {
       .onActivate('board_view')
       .subscribe(() => {
         this.focusBackArrow();
-        this.boardService.loadAllBoards()
+        this.boardService.loadAllBoards();
       });
   }
 
@@ -51,4 +56,3 @@ export class BoardsMenuComponent implements OnInit {
     buttonArrowLeft.focus();
   }
 }
-DynamicBootstrapper.register({selector: 'boards-menu', cls: BoardsMenuComponent});

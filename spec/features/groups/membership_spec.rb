@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 feature 'group memberships through project members page', type: :feature do
+  using_shared_fixtures :admin
   let(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
-  let(:admin) { FactoryBot.create :admin }
   let(:alice) { FactoryBot.create :user, firstname: 'Alice', lastname: 'Wonderland' }
   let(:bob)   { FactoryBot.create :user, firstname: 'Bob', lastname: 'Bobbit' }
   let(:group) { FactoryBot.create :group, lastname: 'group1' }

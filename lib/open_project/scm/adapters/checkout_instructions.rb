@@ -28,7 +28,7 @@
 #++
 
 module OpenProject
-  module Scm
+  module SCM
     module Adapters
       module CheckoutInstructions
         ##

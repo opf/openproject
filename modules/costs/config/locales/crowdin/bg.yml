@@ -62,7 +62,7 @@ bg:
     models:
       cost_object: "Бюджет"
       cost_type:
-        one: "Тип разход"
+        one: "Cost type"
         other: "Cost types"
       material_budget_item: "Мерна единица"
       rate: "Ставка"
@@ -111,7 +111,7 @@ bg:
   help_click_to_edit: "Click here to edit."
   help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
   help_override_rate: "Enter a value here to override the default rate."
-  label_between: "between"
+  label_between: "между"
   label_cost_filter_add: "Add cost entry filter"
   label_costlog: "Logged unit costs"
   label_cost_object: "Бюджет"

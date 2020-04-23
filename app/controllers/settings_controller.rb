@@ -29,7 +29,7 @@
 #++
 
 class SettingsController < ApplicationController
-  include Concerns::AdminSettingsUpdater
+  include AdminSettingsUpdater
 
   helper_method :gon
 

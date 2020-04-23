@@ -1,0 +1,127 @@
+#English strings go here for Rails i18n
+vi:
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Failed imports of BCF topics'
+    label_imported_successfully: 'Successfully imported BCF topics'
+    issues: "Issues"
+    recommended: 'recommended'
+    not_recommended: 'not recommended'
+    no_viewpoints: 'No viewpoints'
+    new_badge: "Mới"
+    exceptions:
+      file_invalid: "BCF file invalid"
+    x_bcf_issues:
+      zero: 'Không có vấn đề BCF'
+      other: '%{count} BCF issues'
+    bcf_xml:
+      xml_file: 'BCF XML File'
+      import_title: 'Import'
+      export: 'Xuất'
+      import_update_comment: '(Updated in BCF import)'
+      import_failed: 'Cannot import BCF file: %{error}'
+      import_successful: 'Imported %{count} BCF issues'
+      import_canceled: 'BCF-XML import canceled.'
+      type_not_active: "The issue type is not activated for this project."
+      import:
+        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
+        button_prepare: 'Prepare import'
+        button_perform_import: 'Confirm import'
+        button_proceed: 'Proceed with import'
+        button_back_to_list: 'Back to list'
+        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
+        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
+        continue_anyways: 'Do you want to proceed and finish the import anyways?'
+        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
+        invalid_types_found: 'Invalid topic type names found'
+        invalid_statuses_found: 'Invalid status names found'
+        invalid_priorities_found: 'Invalid priority names found'
+        invalid_emails_found: 'Invalid email addresses found'
+        unknown_emails_found: 'Unknown email addresses found'
+        unknown_property: 'Unknown property'
+        non_members_found: 'Non project members found'
+        import_types_as: 'Set all these types to'
+        import_statuses_as: 'Set all these statuses to'
+        import_priorities_as: 'Set all these priorities to'
+        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
+        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
+        no_type_provided: 'No type provided'
+        no_status_provided: 'No status provided'
+        no_priority_provided: 'No priority provided'
+        perform_description: "Do you want to import or update the issues listed above?"
+        replace_with_system_user: 'Replace them with "System" user'
+        import_as_system_user: 'Import them as "System" user.'
+        what_to_do: "What do you want to do?"
+        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF snapshot"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "View BCF issues"
+  permission_manage_bcf: "Import and manage BCF issues"
+  oauth:
+    scopes:
+      bcf_v2_1: "Truy cập đầy đủ vào API BCF v2.1"
+      bcf_v2_1_text: "Ứng dụng sẽ nhận được toàn quyền truy cập đọc & ghi vào API OpenFject BCF v2.1 để thực hiện các hành động thay mặt bạn."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "Mô hình IFC"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "Tập tin IFC"
+        is_default: "Mô hình mặc định"
+        attachments: "Tập tin IFC"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Không có tập tin ifc đính kèm."
+              invalid_ifc_file: "Tệp được cung cấp không phải là tệp IFC hợp lệ."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "hình ảnh không thể ghi được vì nó chưa được thực hiện."
+          index_not_integer: "chỉ số(index) không phải là một số nguyên."
+          invalid_clipping_planes: "clipping_planes không hợp lệ"
+          invalid_components: "các thành phần không hợp lệ"
+          invalid_lines: "dòng không hợp lệ."
+          invalid_orthogonal_camera: "orthogonal_camera không hợp lệ"
+          invalid_perspective_camera: "perspective_camera không hợp lệ"
+          mismatching_guid: "Hướng dẫn trong json_viewpoint không khớp với hướng dẫn của mô hình."
+          no_json: "Không phải là một json có cấu trúc tốt."
+          snapshot_type_unsupported: "snapshot_type cần phải là 'png' hoặc 'jpg'."
+          snapshot_data_blank: "snapshot_data không được để trống."
+          unsupported_key: "Một thuộc tính json không được hỗ trợ được bao gồm."
+  ifc_models:
+    label_ifc_models: 'Mô hình IFC'
+    label_new_ifc_model: 'Mô hình IFC mới'
+    label_show_defaults: 'Hiển thị mặc định'
+    label_default_ifc_models: 'Các mô hình IFC mặc định'
+    label_edit_defaults: 'Chỉnh sửa mặc định'
+    no_defaults_warning:
+      title: 'Không có mô hình IFC nào được đặt làm mặc định cho dự án này.'
+      check_1: 'Kiểm tra xem bạn đã tải lên ít nhất một mô hình IFC.'
+      check_2: 'Kiểm tra xem ít nhất một mô hình IFC được đặt thành "Mặc định".'
+    no_results: "Không có mô hình IFC đã được tải lên trong dự án này."
+    processing_state:
+      label: 'Đang xử lý…'
+      in_progress: 'Đang xử lý'
+      completed: 'Đã Hoàn tất'
+    processing_notice:
+      processing_default: 'Các mô hình IFC mặc định sau đây vẫn đang được xử lý và do đó không có sẵn:'
+    flash_messages:
+      upload_successful: 'Tải lên thành công. Bây giờ nó sẽ được xử lý và sẽ sẵn sàng để sử dụng trong vài phút nữa.'
+    conversion:
+      missing_commands: "Các lệnh chuyển đổi IFC sau bị thiếu trên hệ thống này: %{names}"
+  project_module_ifc_models: "Mô hình IFC"
+  permission_view_ifc_models: "Xem các mô hình IFC"
+  permission_manage_ifc_models: "Nhập và quản lý các mô hình IFC"
+  extraction:
+    available:
+      ifc_convert: "Đường ống chuyển đổi IFC có sẵn"
+

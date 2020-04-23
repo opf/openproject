@@ -37,6 +37,7 @@ pt-BR:
     close_filter_title: "Fechar filtro"
     close_form_title: "Fechar formulário"
     button_add_watcher: "Adicionar observador"
+    button_add: "Adicionar"
     button_back: "Voltar"
     button_back_to_list_view: "Voltar à lista"
     button_cancel: "Cancelar"
@@ -162,6 +163,59 @@ pt-BR:
         edit_query: 'Editar consulta'
         new_group: 'Novo grupo'
         reset_to_defaults: 'Redefinir para os padrões'
+      enterprise:
+        trial:
+          confirmation: "Confirmação de endereço de e-mail"
+          confirmation_info: "Enviamos um e-mail para você. Verifique seus e-mail e clique no link de confirmação fornecido para dar início à sua avaliação de 14 dias/"
+          form:
+            general_consent: >
+              Concordo com os <a target="_blank" href="%{link_terms}">termos do serviço</a> e com a <a target="_blank" href="%{link_privacy}">política de privacidade</a>.
+            invalid_email: "Endereço de e-mail inválido"
+            label_company: "Empresa"
+            label_first_name: "Nome"
+            label_last_name: "Sobrenome"
+            label_email: "E-mail"
+            label_domain: "Domínio"
+            label_subscriber: "Assinante"
+            label_maximum_users: "Máximo de usuários ativos"
+            label_starts_at: "Começa em"
+            label_expires_at: "Expira em"
+            receive_newsletter: Quero receber o <a target="_blank" href="%{link}">boletim informativo</a> do OpenProject.
+            taken_domain: Só pode haver um teste ativo por domínio.
+            taken_email: Cada usuário só pode criar uma avaliação.
+          email_not_received: "Não recebeu um e-mail? Você pode reenviá-lo através do link à direita."
+          try_another_email: "Ou experimentar outro endereço de e-mail."
+          next_steps: "Próximas etapas"
+          resend_link: "Reenviar"
+          resend_success: "E-mail reenviado. Por favor, verifique seus e-mails e clique no link de confirmação fornecido."
+          resend_warning: "Não foi possível reenviar o e-mail."
+          session_timeout: "Sua sessão expirou. Tente recarregar a página ou reenviar o e-mail."
+          status_label: "Estado:"
+          status_confirmed: "confirmado"
+          status_waiting: "e-mail enviado - aguardando confirmação"
+          test_ee: "Teste o Enterprise Edition gratuitamente durante 14 dias"
+          quick_overview: "Obtenha uma visão geral da gestão de projeto e colaboração da equipa com o OpenProject Enterprise Edition."
+        upsale:
+          become_hero: "Torne-se um herói!"
+          benefits:
+            description: "Quais são os benefícios?"
+            high_security: "Recursos de segurança"
+            high_security_text: "Início de sessão único (SAML, OpenID Connect, CAS), autenticação de dois fatores e sincronização automática de grupos LDAP."
+            installation: "Suporte à instalação"
+            installation_text: "Engenheiros de software experientes darão orientações durante todo o processo de instalação e configuração em sua própria infraestrutura."
+            premium_features: "Recursos premium"
+            premium_features_text: "Painéis práticos, gráficos de temas e logotipos personalizados, fluxos de trabalho inteligentes com ações personalizadas, pesquisa de texto completo para anexos em pacotes de trabalho e campos personalizados de multi-seleção."
+            professional_support: "Suporte profissional"
+            professional_support_text: "Receba o suporte de confiança e alto nível de engenheiros sênior de suporte, com conhecimento especializado sobre a gestão do OpenProject em ambientes de negócios críticos."
+          button_start_trial: "Iniciar avaliação gratuita"
+          button_book_now: "Reserve agora"
+          confidence: >
+            Fornecemos toda a segurança de um software de gestão de projetos de classe empresarial, testado e com suporte - com Open Source e mente aberta.
+          link_quote: "Fazer uma cotação"
+          text: >
+            O OpenProject Enterprise Edition foi construído a partir do Community Edition. Ele conta com recursos premium e suporte profissional, com foco principal em organizações com mais de 10 usuários que gerenciam projetos de negócios críticos com o OpenProject.
+          unlimited: "Ilimitado"
+          you_contribute: "Os desenvolvedores também têm contas para pagar. Ao obter o Enterprise Edition, você estará contribuindo de forma substancial para os esforços desta comunidade Open Source."
     custom_actions:
       date:
         specific: 'ligado'
@@ -209,13 +263,13 @@ pt-BR:
           text_new_features: "Ler sobre os novos recursos e atualizações de produtos."
           learn_about: "Saiba mais sobre os novos recursos"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              O lançamento contém vários recursos e melhorias novos: <br><br> <ul> <li><b>Modelos de design</b> padrão para selecionar um tema claro ou escuro (recurso premium).</li> <li>Novo <b>widget de controle de tempo</b> para que a <i>Minha página</i> mostre o tempo gasto em um gráfico de barras.</li> <li><b>Exportações em XLS para relatórios de custos</b> e texto formatado em exportação de PDF dos pacotes de trabalho.</li> <li><b>Melhorias no design e na usabilidade</b>, como por exemplo nas abas e muito mais nas configurações de projeto e na administração.</li> </ul>
+              A versão lançada contém vários recursos novos e melhorias: <br><br> <ul> <li><b>Quadro de ações para os responsáveis</b>: crie quadros de ação que atualizarão automaticamente o responsável quando mover os cartões pelas listas.</li> <li>Ordenação das versões por nome e não por datas, o que torna muito mais fácil a seleção de uma versão da lista.</li> <li><b>Remoção das restrições de 24 horas</b> para o rastreio de tempo.</li> <li>O resumo de notícias é agora mostrado no widget de visão geral do projeto.</li> <li>Várias correções de bugs e <b>melhorias na utilização</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              O OpenProject contém um <b>novo módulo IFC para integrar modelos 3D</b> em seu aplicativo de gestão de projeto, e para trabalhar em colaboração com a sua equipe sem instalar outros softwares ou licenças. <br><br> <ul> <li><b>Importe arquivos IFC</b> de modelos de construção para seu aplicativo OpenProject.</li> <li><b>Abra modelos Open 3D e visualize modelos de construção</b> em seu navegador.</li> <li><b>Trabalhe com vários arquivos IFC</b> facilmente com sua equipe no OpenProject, sem ter de instalar outros programas caros. </li> </ul>
+              O OpenProject 10.5 agora dá suporte ao <b>BIM Colaboration Format (BCF)</b> - o padrão de controle de casos abertos para modelos BIM.<br><br> <ul> <li>Crie e <b>gerencie facilmente problemas BIM,</b> como conflitos, solicitações e perguntas no modelo interativo 3D IFC, e <b>compartilhe com a equipa do projeto.</b></li> <li>Integre o OpenProject a seu software BIM favorito através do poderoso <a target="_blank" href="%{bcf_api_link}">REST API.</a></li> <li>Importação e exportação de arquivos BCF XML.</li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"
@@ -267,6 +321,7 @@ pt-BR:
     label_expand_all: "Expandir todos"
     label_expand_project_menu: "Expandir menu do projeto"
     label_export: "Exportar"
+    label_export_preparing: "A exportação está sendo preparada e será baixada em breve."
     label_filename: "Arquivo"
     label_filesize: "Tamanho"
     label_general: "Geral"
@@ -285,6 +340,7 @@ pt-BR:
     label_import: "Importar"
     label_latest_activity: "Última atividade"
     label_last_updated_on: "Última atualização em"
+    label_learn_more_link: "Saiba mais"
     label_less_or_equal: "<="
     label_less_than_ago: "menos dias atrás"
     label_loading: "Carregando..."
@@ -405,7 +461,7 @@ pt-BR:
           overview: "Gerencie seu trabalho na visão de <b>Backlogs</b>.<br> À direita você possui o Backlog do produto ou um Backlog de Bug, à esquerda você terá sprints respectivos. Aqui você pode criar <b>épicos, histórias de usuários e bugs</b>, priorizar através de arrastar e soltar e adicioná-los a um sprint."
           task_board_arrow: 'Para visualizar seu <b>Quadro de tarefas</b>, abra o menu suspenso de Sprint...'
           task_board_select: '... e selecione <b>Quadro de tarefas</b>.'
-          task_board: "O <b>Quadro de tarefas</b> visualiza o progresso do sprint. Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história de usuário. Arrastando e soltando você pode atualizar o status."
+          task_board: "O <b>Quadro de tarefas</b> visualiza o progresso do sprint. Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história de usuário. Arrastando e soltando você pode atualizar a situação."
         boards:
           overview: 'Gerencie seu trabalho através de uma visão intuitiva de <b>Quadros</b>.'
           lists: 'Você pode criar várias listas (colunas) dentro de uma visão de um quadro, por exemplo, para criar um quadro KANBAN.'
@@ -414,7 +470,7 @@ pt-BR:
         wp:
           toggler: "Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>, que lhe fornece uma visão mais detalhada do seu trabalho."
           list: 'Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante dentro de seu projeto, tais como tarefas, recursos, marcos, bugs e muito mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.'
-          full_view: 'Nos <b>detalhes do pacote de trabalho</b> você encontra todas as informações pertinentes, tais como descrição, estado e prioridade, atividades, dependências ou comentários.'
+          full_view: 'Nos <b>detalhes do pacote de trabalho</b> você encontra todas as informações pertinentes, tais como descrição, situação e prioridade, atividades, dependências ou comentários.'
           back_button: 'Com a seta você pode navegar de volta para a lista de pacotes de trabalho.'
           create_button: 'O botão <b>Criar</b> irá adicionar um novo pacote de trabalho ao seu projeto.'
           timeline_button: 'Você pode ativar o <b>gráfico de Gantt</b> para criar uma linha do tempo para o seu projeto.'
@@ -525,27 +581,15 @@ pt-BR:
       select_tag: 'Selecionar marca'
       select_branch: 'Selecionar o branch'
     field_value_enter_prompt: "Insira um valor para '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Por favor, insira mais caracteres"
-        one: "Por favor, insira mais um caracter"
-        other: "Por favor, insira {{count}} ou mais caracteres"
-      load_more: "Carregando mais resultados..."
-      no_matches: "Encontrado nenhum resultado"
-      searching: "Pesquisando ..."
-      selection_too_big:
-        zero: "Você não pode selecionar nenhum item"
-        one: "Você pode selecionar somente um item"
-        other: "Você pode selecionar somente {{limit}} itens"
     project_menu_details: "Detalhes"
     sort:
-      sorted_asc: 'Classificação crescente aplicada, '
+      sorted_asc: 'Ordenação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
-      sorted_no: 'Sem classificação aplicada, '
-      sorting_disabled: 'a classificação está desativada'
-      activate_asc: 'ative para aplicar uma classificação crescente'
+      sorted_no: 'Sem ordenação aplicada, '
+      sorting_disabled: 'ordenação está desativada'
+      activate_asc: 'ative para aplicar ordenação decrescente'
       activate_dsc: 'ative para aplicar ordenação decrescente'
-      activate_no: 'ative para remover a classificação'
+      activate_no: 'ative para remover a ordenação'
     text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
     text_query_destroy_confirmation: "Tem certeza que deseja excluir a visão selecionada?"
     text_attachment_destroy_confirmation: "Tem certeza de que deseja excluir o anexo?"
@@ -630,9 +674,9 @@ pt-BR:
     work_packages:
       bulk_actions:
         move: 'Mudança em massa de projeto'
-        edit: 'Editar vários'
-        copy: 'Copiar vários'
-        delete: 'Excluir vários'
+        edit: 'Edição em massa'
+        copy: 'Cópia em massa'
+        delete: 'Exclusão em massa'
       button_clear: "Limpar"
       comment_added: "O comentário foi adicionado com sucesso."
       comment_send_failed: "Ocorreu um erro. Não foi possível enviar o comentário."
@@ -687,7 +731,7 @@ pt-BR:
         estimatesAndTime: "Estimativas e Tempo"
         other: "Outro"
       properties:
-        assignee: "Atribuído para"
+        assignee: "Atribuição"
         author: "Autor"
         createdAt: "Criado em"
         description: "Descrição"
@@ -781,7 +825,7 @@ pt-BR:
           automatic: 'Automático'
           manually: 'Manualmente'
           warning: 'Você perderá sua ordenação anterior quando ativar o modo de ordenação automática.'
-        columns_help_text: "Use a entrada acima para adicionar ou remover colunas à sua exibição de tabela. Você pode arrastar e soltar as colunas para reordená-las."
+        columns_help_text: "Utilize a entrada acima para adicionar colunas à sua visualização de tabela. Você pode arrastar e soltar as colunas para reorganizá-las."
         upsale:
           attribute_highlighting: 'Precisa de certos pacotes de trabalho para se destacar da massa?'
           relation_columns: 'Necessário ver as relações na lista de pacote de trabalho?'

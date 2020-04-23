@@ -63,13 +63,16 @@ ca:
         main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Actualitza a l'Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Puja un token de suport de l'Enterprise Edition"
       replace_token: "Reemplaça el token de suport actual"
       order: "Encarrega l'Enterprice Edition"
       paste: "Enganxeu el vostre token de suport de l'Enterprise Edition"
       required_for_feature: "Aquesta característica només està disponible amb un token de suport de l'Enterprise Edition."
       enterprise_link: "Per a més informació, cliqueu aquí."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Mostra fins
     is_active: actualment mostrant
@@ -272,7 +275,7 @@ ca:
   work_packages:
     x_descendants:
       one: 'One descendant work package'
-      other: '%{count} paquets de treball descendents'
+      other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "Els següents paquets de treball no s'han pogut desar:"
     move:
@@ -399,7 +402,7 @@ ca:
         types: "Tipus"
         versions: "Versions"
         work_packages: "Paquets de treball"
-      project/status:
+      projects/status:
         code: 'Estat'
         explanation: 'Status description'
         codes:
@@ -464,7 +467,7 @@ ca:
         done_ratio: "Progrés (%)"
         end_insertion: "Final de la inserció"
         end_deletion: "Final de la supressió"
-        fixed_version: "Versió"
+        version: "Versió"
         parent: "Pare"
         parent_issue: "Pare"
         parent_work_package: "Pare"
@@ -755,6 +758,7 @@ ca:
     version: "Versió"
     work_package: "Paquet de treball"
   button_add: "Afegir"
+  button_add_comment: "Afegeix un comentari"
   button_add_member: Afegir un membre
   button_add_watcher: "Afegir observador"
   button_annotate: "Anotar"
@@ -1121,7 +1125,7 @@ ca:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Anglès"
+  general_lang_name: "Català"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "sí"
@@ -1139,13 +1143,8 @@ ca:
     blocks:
       community: "Comunitat OpenProject"
       upsale:
-        become_hero: "Become a hero!"
         title: "Actualitza a l'Enterprise Edition"
-        description: "What are the benefits?"
         more_info: "More information"
-        additional_features: "Additional powerful premium features"
-        professional_support: "Professional support from the OpenProject experts"
-        you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
     links:
       upgrade_enterprise_edition: "Actualitza a l'Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1157,9 +1156,10 @@ ca:
       forums: "Fòrum de la comunitat"
       newsletter: "Security alerts / Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Configuration guide'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Vostè podrà entrar tan aviat com hagi activat el seu compte fent clic a %{signin}."
   instructions_after_logout: "Vostè es pot inscriure altre vegada fent clic a %{signin}."
   instructions_after_error: "Pot intentar iniciar sessió fent clic a %{signin}. Si l'error continua, demaneu ajuda al vostre administrador."
@@ -1449,6 +1449,7 @@ ca:
   label_new: "Nou"
   label_new_features: "New features"
   label_new_statuses_allowed: "Nous estats permesos"
+  label_news_singular: "Notícies"
   label_news_added: "Notícies afegides"
   label_news_comment_added: "S'ha afegit un comentari a la notícia"
   label_news_latest: "Últimes noticies"
@@ -1708,31 +1709,6 @@ ca:
     other: "%{count} projectes"
   label_year: "Any"
   label_yesterday: "ahir"
-  label_keyboard_function: "Funció"
-  label_keyboard_shortcut: "Drecera"
-  label_keyboard_accesskey: "Clau d'accés"
-  label_keyboard_shortcut_help_heading: "Dreceres de teclat disponibles"
-  label_keyboard_shortcut_within_project: "Dreceres relacionades amb el projecte:"
-  label_keyboard_shortcut_global_shortcuts: "Dreceres globals:"
-  label_keyboard_shortcut_some_pages_only: "Dreceres especials:"
-  label_keyboard_shortcut_search_global: "Cerca global"
-  label_keyboard_shortcut_search_project: "Trobar un projecte"
-  label_keyboard_shortcut_go_my_page: "Anar a la meva pàgina"
-  label_keyboard_shortcut_show_help: "Mostra aquest missatge d'ajuda"
-  label_keyboard_shortcut_go_overview: "Anar a la visió general del projecte"
-  label_keyboard_shortcut_go_work_package: "Anar a paquets de treball del projecte"
-  label_keyboard_shortcut_go_wiki: "Anar a la wiki del projecte"
-  label_keyboard_shortcut_go_activity: "Anar a les activitats del projecte"
-  label_keyboard_shortcut_go_calendar: "Anar al calendari del projecte"
-  label_keyboard_shortcut_go_news: "Anar a notícies del projecte"
-  label_keyboard_shortcut_go_timelines: "Anar a terminis"
-  label_keyboard_shortcut_new_work_package: "Crear paquet de treball nou"
-  label_keyboard_shortcut_details_package: "Mostra el panell de detalls de paquets de treball"
-  label_keyboard_shortcut_go_edit: "Anar a editar l'element actual (només en pàgines de detall)"
-  label_keyboard_shortcut_open_more_menu: "Obrir el menú addicional (només en pàgines de detall)"
-  label_keyboard_shortcut_go_preview: "Anar a vista prèvia de l'esició actual (només en pàgines d'edició)"
-  label_keyboard_shortcut_focus_previous_item: "Activar l'element anterior de la llista (només en algunes llistes)"
-  label_keyboard_shortcut_focus_next_item: "Activar l'element següent de la llista (només en algunes llistes)"
   auth_source:
     using_abstract_auth_source: "No podeu utilitzar una font d'autenticació abstracte."
     ldap_error: "Error LDAP: %{error_message}"
@@ -2182,7 +2158,6 @@ ca:
   setting_welcome_text: "Bloc de text de benvinguda"
   setting_welcome_title: "Títol del bloc de benvinguda"
   setting_welcome_on_homescreen: "Mostrar el bloc de benvinguda a la pàgina d'inici"
-  setting_wiki_compression: "Compressió de l'historial de la wiki"
   setting_work_package_group_assignment: "Permeten l'assignació als grups"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
@@ -2522,6 +2497,7 @@ ca:
       mail_self_notified: "Vull ser notificat de canvis que faig jo mateix"
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Status change"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Desbloquejar"
     unlock_and_reset_failed_logins: "Desbloquejar i reiniciar inicis de sessió fallits"
   version_status_closed: "tancat"

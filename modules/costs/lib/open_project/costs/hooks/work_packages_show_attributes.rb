@@ -27,7 +27,7 @@
 #++
 
 module OpenProject::Costs::Hooks
-  class WorkPackagesShowHook < Redmine::Hook::ViewListener
+  class WorkPackagesShowAttributes < Redmine::Hook::ViewListener
     include ActionView::Context
     include WorkPackagesHelper
 

@@ -74,12 +74,14 @@ ar:
   permission_send_meeting_agendas_notification: "أرسِل إشعارًا لمراجعة جداول الأعمال"
   permission_create_meeting_minutes: "إدارة محضر الجلسة"
   permission_send_meeting_minutes_notification: "أرسِل إشعارًا لمراجعة محضر الجلسة"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "الاجتماعات"
   text_duration_in_hours: "المدة بالساعات"
   text_in_hours: "في الساعات"
   text_meeting_agenda_for_meeting: 'جدول أعمال للاجتماع "%{meeting}"'
   text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
-  text_meeting_agenda_open_are_you_sure: "سيتم فقدان محتوى محضر الجلسة التي لم يتم حفظها! هل تريد المتابعة؟"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'محضر الجسلة للاجتماع "%{meeting}"'
   text_review_meeting_agenda: "%{author} طرح %{link} للمراجعة."
   text_review_meeting_minutes: "%{author} طرح %{link} للمراجعة."

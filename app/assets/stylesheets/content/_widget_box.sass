@@ -101,11 +101,11 @@ $widget-box--enumeration-width: 20px
         @include varprop(color, alternative-color)
         width: $widget-box--enumeration-width
 
-
-    .widget-box--teaser-image
-      max-width: 30%
-      margin-left: auto
-      margin-right: auto
+    .widget-box--description
+      display: grid
+      grid-template-columns: auto auto
+      grid-column-gap: 20px
+      margin-bottom: 20px
 
 .widget-box--header
   font-weight: bold

@@ -30,7 +30,7 @@
 
 module Projects
   class ArchiveService < ::BaseServices::BaseContracted
-    include Concerns::Contracted
+    include Contracted
 
     def initialize(user:, model:, contract_class: Projects::ArchiveContract)
       super(user: user, contract_class: contract_class)

@@ -33,9 +33,9 @@ describe 'API v3 Cost Entry resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) {
+  let(:current_user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:work_package_permissions) { [:view_work_packages] }
   let(:cost_entry_permissions) { [:view_cost_entries] }
@@ -44,16 +44,15 @@ describe 'API v3 Cost Entry resource' do
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   subject(:response) { last_response }
 
-  let(:cost_entry) {
-    FactoryBot.build(:cost_entry,
+  let(:cost_entry) do
+    FactoryBot.create(:cost_entry,
                       project: project,
                       work_package: work_package,
                       user: current_user)
-  }
+  end
 
   before do
-    allow(User).to receive(:current).and_return current_user
-    cost_entry.save!
+    login_as current_user
 
     get get_path
   end

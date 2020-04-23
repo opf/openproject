@@ -31,12 +31,19 @@ module OpenProject
       end
 
       register_auth_providers do
-        settings = Rails.root.join('config', 'plugins', 'auth_saml', 'settings.yml')
-        if settings.exist?
-          Rails.logger.info("[auth_saml] Registering saml integration from 'config/plugins/auth_saml/settings.yml'")
-          providers = YAML::load(File.open(settings)).symbolize_keys
+        configuration = if OpenProject::Configuration['saml'].present?
+                          Rails.logger.info("[auth_saml] Registering saml integration from configuration.yml")
+
+                          OpenProject::Configuration['saml']
+                        elsif (settings = Rails.root.join('config', 'plugins', 'auth_saml', 'settings.yml')).exist?
+                          Rails.logger.info("[auth_saml] Registering saml integration from settings file")
+
+                          YAML::load(File.open(settings)).symbolize_keys
+                        end
+
+        if configuration
           strategy :saml do
-            providers.values.map do |h|
+            configuration.values.map do |h|
               h[:openproject_attribute_map] = Proc.new do |auth|
                 {
                   login: auth[:uid],

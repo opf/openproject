@@ -59,7 +59,7 @@ class TimeEntryActivity < Enumeration
   end
 
   def activated_projects
-    Project::Scopes::ActivatedTimeActivity.fetch(self)
+    Project.activated_time_activity(self)
   end
 
   private

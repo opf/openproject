@@ -46,7 +46,7 @@ export class WorkPackageRelationsHierarchyService {
 
   }
 
-  public changeParent(workPackage:WorkPackageResource, parentId:string | null) {
+  public changeParent(workPackage:WorkPackageResource, parentId:string|null) {
     let payload:any = {
       lockVersion: workPackage.lockVersion
     };
@@ -91,7 +91,7 @@ export class WorkPackageRelationsHierarchyService {
   public addExistingChildWp(workPackage:WorkPackageResource, childWpId:string):Promise<WorkPackageResource> {
     return this.wpCacheService
       .require(childWpId)
-      .then((wpToBecomeChild:WorkPackageResource | undefined) => {
+      .then((wpToBecomeChild:WorkPackageResource|undefined) => {
         return this.changeParent(wpToBecomeChild!, workPackage.id!)
           .then(wp => {
             this.wpCacheService.loadWorkPackage(workPackage.id!, true);
@@ -106,11 +106,11 @@ export class WorkPackageRelationsHierarchyService {
       });
   }
 
-  public addNewChildWp(workPackage:WorkPackageResource) {
+  public addNewChildWp(baseRoute:string, workPackage:WorkPackageResource) {
     workPackage.project.$load()
       .then(() => {
         const args = [
-          'work-packages.list.new',
+          baseRoute + '.new',
           {
             parent_id: workPackage.id
           }

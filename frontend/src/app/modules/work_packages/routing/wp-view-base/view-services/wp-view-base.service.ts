@@ -33,7 +33,9 @@ import {merge, Observable} from 'rxjs';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export abstract class WorkPackageViewBaseService<T> {
 
   /** Internal state to push non-persisted updates */
@@ -155,6 +157,7 @@ export abstract class WorkPackageViewBaseService<T> {
   }
 }
 
+@Injectable()
 export abstract class WorkPackageQueryStateService<T> extends WorkPackageViewBaseService<T> {
   /**
    * Check whether the state value does not match the query resource's value.

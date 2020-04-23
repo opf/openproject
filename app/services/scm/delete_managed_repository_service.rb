@@ -29,7 +29,7 @@
 
 ##
 # Implements the asynchronous deletion of a local repository.
-class Scm::DeleteManagedRepositoryService < Scm::BaseRepositoryService
+class SCM::DeleteManagedRepositoryService < SCM::BaseRepositoryService
   ##
   # Checks if a given repository may be deleted
   # Registers an asynchronous job to delete the repository on disk.
@@ -38,12 +38,12 @@ class Scm::DeleteManagedRepositoryService < Scm::BaseRepositoryService
     return false unless repository.managed?
 
     if repository.class.manages_remote?
-      Scm::DeleteRemoteRepositoryJob.perform_now(repository)
+      SCM::DeleteRemoteRepositoryJob.perform_now(repository)
       true
     else
       delete_local_repository
     end
-  rescue OpenProject::Scm::Exceptions::ScmError => e
+  rescue OpenProject::SCM::Exceptions::SCMError => e
     @rejected = e.message
     false
   end
@@ -61,7 +61,7 @@ class Scm::DeleteManagedRepositoryService < Scm::BaseRepositoryService
       # Instead, this will be refactored into a single service wrapper for
       # creating and deleting repositories, which provides transactional DB access
       # as well as filesystem access.
-      Scm::DeleteLocalRepositoryJob.perform_now(managed_path)
+      SCM::DeleteLocalRepositoryJob.perform_now(managed_path)
     end
 
     true

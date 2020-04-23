@@ -1,0 +1,12 @@
+@import "content/tooltips"
+
+.xeokit-toolbar [data-tippy-content]
+  @extend .tooltip--bottom
+  &:after
+    @extend [data-tooltip]:after
+    content: attr(data-tippy-content)
+    opacity: 1
+    left: 0
+
+  &:hover:after
+    visibility: visible

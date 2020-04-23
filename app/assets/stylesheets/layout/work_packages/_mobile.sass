@@ -33,7 +33,7 @@
 
       #main
         #content-wrapper
-          padding: 10px 20px
+          padding: 10px 15px
           &.nomenus
             top: 0
             padding: 0
@@ -42,10 +42,6 @@
 
 
       .work-packages--show-view
-        &.edit-all-mode
-          .work-packages-full-view--split-right
-            display: none
-
         ul#toolbar-items li .wp-create-button .dropdown
           left: 0 !important
 
@@ -76,9 +72,6 @@
 @include breakpoint(1248px down)
   .router--work-packages-base
     // --------------- ALL WP VIEWS ---------------
-    .work-packages-tabletimeline--table-side
-      contain: none
-
     .toolbar-container
       padding-right: 0
 
@@ -136,16 +129,15 @@
     .work-packages-full-view--split-container
       border-top: none
 
-  .router--work-packages-split-view,
-  .router--work-packages-split-view-new
-    .work-packages-split-view--details-side
+  .router--work-packages-partitioned-split-view,
+  .router--work-packages-partitioned-split-view-new
+    .work-packages-partitioned-page--content-right
       overflow-x: auto
 
-  .router--work-packages-list-view
+  .router--work-packages-partitioned-split-view
     // Ensure the WP cards can span the complete width on mobile
     #content-wrapper
       padding: 15px 0 !important
 
       .toolbar-container
         margin-left: 15px
-        margin-right: 15px

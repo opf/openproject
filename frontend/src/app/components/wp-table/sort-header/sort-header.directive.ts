@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {RelationQueryColumn, TypeRelationQueryColumn} from 'core-components/wp-query/query-column';
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC} from 'core-app/modules/hal/resources/query-sort-by-resource';
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
 import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import {combineLatest, merge} from "rxjs";
+import {combineLatest} from "rxjs";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 
 @Component({
   selector: 'sortHeader',
   templateUrl: './sort-header.directive.html'
 })
-export class SortHeaderDirective implements OnDestroy, AfterViewInit {
+export class SortHeaderDirective extends UntilDestroyedMixin implements AfterViewInit {
 
   @Input() headerColumn:any;
 
@@ -63,7 +63,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 
   isHierarchyColumn:boolean;
 
-  columnType:'hierarchy' | 'relation' | 'sort';
+  columnType:'hierarchy'|'relation'|'sort';
 
   columnName:string;
 
@@ -82,10 +82,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
               private elementRef:ElementRef,
               private cdRef:ChangeDetectorRef,
               private I18n:I18nService) {
-  }
-
-  // noinspection TsLint
-  ngOnDestroy():void {
+    super();
   }
 
   ngAfterViewInit() {
@@ -100,7 +97,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
       this.wpTableSortBy.live$()
     ])
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe(() => {
         let latestSortElement = this.wpTableSortBy.current[0];
@@ -144,7 +141,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
       this.wpTableGroupBy
         .live$()
         .pipe(
-          untilComponentDestroyed(this)
+          this.untilDestroyed()
         )
         .subscribe(() => {
           this.isHierarchyDisabled = this.wpTableGroupBy.isEnabled;
@@ -155,7 +152,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
       this.wpTableHierarchies
         .live$()
         .pipe(
-          untilComponentDestroyed(this)
+          this.untilDestroyed()
         )
         .subscribe(() => {
           this.setHierarchyIcon();
@@ -192,8 +189,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
     if (this.wpTableHierarchies.isEnabled) {
       this.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.hide');
       this.hierarchyIcon = 'icon-hierarchy';
-    }
-    else {
+    } else {
       this.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.show');
       this.hierarchyIcon = 'icon-no-hierarchy';
     }

@@ -65,6 +65,18 @@ export class WpPreviewModal extends OpModalComponent implements OnInit {
       .then((workPackage:WorkPackageResource) => {
         this.workPackage = workPackage;
         this.cdRef.detectChanges();
+
+        const modal = jQuery(this.elementRef.nativeElement).find('.preview-modal--container');
+        this.reposition(modal, this.locals.event.target);
       });
+  }
+
+  public reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
+    element.position({
+      my: 'right top',
+      at: 'right bottom',
+      of: target,
+      collision: 'flipfit'
+    });
   }
 }

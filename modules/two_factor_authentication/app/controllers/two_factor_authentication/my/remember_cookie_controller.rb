@@ -2,7 +2,7 @@ module ::TwoFactorAuthentication
   module My
     class RememberCookieController < ::ApplicationController
       # Remmeber token functionality
-      include ::TwoFactorAuthentication::Concerns::RememberToken
+      include ::TwoFactorAuthentication::RememberToken
 
       # Ensure user is logged in
       before_action :require_login

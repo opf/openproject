@@ -86,8 +86,8 @@
       top: 7px
       left: 12px
       // Firefox wrongly positions icon
-      html.-browser-firefox &
-        top: 3px
+      &:before
+        padding: 0
       &.open
         &+ .items
           display: block
@@ -260,7 +260,7 @@
         min-height: 14px
         height: 2rem
         text-align: center
-      .type_id .v, .id .v, .status_id .v, .fixed_version_id, .higher_item_id
+      .type_id .v, .id .v, .status_id .v, .version_id, .higher_item_id
         display: none
 
 .rb_dialog

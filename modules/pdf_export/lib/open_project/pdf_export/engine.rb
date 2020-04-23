@@ -28,7 +28,7 @@
 
 require 'open_project/plugins'
 
-module OpenProject::PdfExport
+module OpenProject::PDFExport
   class Engine < ::Rails::Engine
     engine_name :openproject_pdf_export
 

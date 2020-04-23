@@ -61,7 +61,9 @@ module OpenProject::Avatars
       # This is required to be an initializer,
       # since the helpers are included as soon as the ApplicationController
       # gets autoloaded, which is BEFORE config.to_prepare.
-      require_relative 'patches/avatar_helper_patch'
+      Rails.autoloaders.main.ignore(config.root.join('lib/open_project/avatars/patches/avatar_helper_patch.rb'))
+
+      require_relative './patches/avatar_helper_patch'
     end
 
     patches %i[User]

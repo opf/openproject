@@ -46,6 +46,7 @@ module API
 
         representable_attrs.find_all do |dfn|
           next unless dfn[:linked_resource]
+
           name = dfn[:as] ? dfn[:as].(nil) : dfn.name
           fragment = copied_hash['_links'].delete(name)
           next unless fragment

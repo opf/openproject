@@ -1,6 +1,0 @@
-"no":
-  js:
-    ifc_models:
-      models:
-        default: 'Default IFC models'
-        manage: 'Manage models'

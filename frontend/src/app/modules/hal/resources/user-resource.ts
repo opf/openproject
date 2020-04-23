@@ -55,7 +55,7 @@ export class UserResource extends HalResource {
   }
 
   public get showUserPath() {
-    return this.showUser.$link.href;
+    return this.showUser ? this.showUser.$link.href : null;
   }
 
   public get isActive() {

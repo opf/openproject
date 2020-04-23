@@ -71,7 +71,7 @@ export class WorkPackageService {
 
           if (this.$state.includes('**.list.details.**')
             && ids.indexOf(this.$state.params.workPackageId) > -1) {
-            this.$state.go('work-packages.list', this.$state.params);
+            this.$state.go('work-packages.partitioned.list', this.$state.params);
           }
         })
         .catch(() => {

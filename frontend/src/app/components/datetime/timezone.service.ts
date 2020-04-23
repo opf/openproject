@@ -32,7 +32,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import * as moment from 'moment-timezone';
 import {Moment} from 'moment';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TimezoneService {
   constructor(readonly ConfigurationService:ConfigurationService,
               readonly I18n:I18nService) {

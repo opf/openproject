@@ -29,18 +29,16 @@
 class Widget::Settings < Widget::Base
   dont_cache! # Settings may change due to permissions
 
-  @@settings_to_render = [:filter, :group_by, :controls]
-
   def render_filter_settings
     render_widget Widget::Settings::Fieldset, @subject,
-                  type: 'filters'  do
+                  type: 'filters' do
       render_widget Widget::Filters, @subject
     end
   end
 
   def render_group_by_settings
     render_widget Widget::Settings::Fieldset, @subject,
-                  type: 'group_by'  do
+                  type: 'group_by' do
       render_widget Widget::GroupBys, @subject
     end
   end
@@ -68,12 +66,16 @@ class Widget::Settings < Widget::Base
         # To add new settings, write a new instance method render_<a name>_setting
         # and add <a name> to the @@settings_to_render list.
         content = ''.html_safe
-        @@settings_to_render.each do |setting_name|
+        settings_to_render.each do |setting_name|
           render_method_name = "render_#{setting_name}_settings"
           content << send(render_method_name) if respond_to? render_method_name
         end
         content
       end
     end)
+  end
+
+  def settings_to_render
+    @settings_to_render ||= %i[filter group_by controls]
   end
 end

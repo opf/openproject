@@ -27,6 +27,10 @@
 #++
 
 require 'open_project/plugins'
+require_relative './patches/api/work_package_representer'
+require_relative './patches/api/work_package_schema_representer'
+require_relative './patches/api/work_package_sums_representer'
+require_relative './patches/api/work_package_sums_schema_representer'
 
 module OpenProject::Backlogs
   class Engine < ::Rails::Engine
@@ -131,102 +135,28 @@ module OpenProject::Backlogs
     patch_with_namespace :WorkPackages, :UpdateService
     patch_with_namespace :WorkPackages, :SetAttributesService
     patch_with_namespace :WorkPackages, :BaseContract
+    patch_with_namespace :Versions, :RowCell
 
     config.to_prepare do
-      next if Versions::BaseContract.included_modules.include?(OpenProject::Backlogs::Patches::VersionBaseContractPatch)
+      next if Versions::BaseContract.included_modules.include?(OpenProject::Backlogs::Patches::Versions::BaseContractPatch)
 
-      Versions::BaseContract.prepend(OpenProject::Backlogs::Patches::VersionBaseContractPatch)
+      Versions::BaseContract.prepend(OpenProject::Backlogs::Patches::Versions::BaseContractPatch)
     end
 
-    extend_api_response(:v3, :work_packages, :work_package) do
-      property :position,
-               render_nil: true,
-               skip_render: ->(*) { !(backlogs_enabled? && type && type.passes_attribute_constraint?(:position)) }
+    extend_api_response(:v3, :work_packages, :work_package,
+                        &::OpenProject::Backlogs::Patches::API::WorkPackageRepresenter.extension)
 
-      property :story_points,
-               render_nil: true,
-               skip_render: ->(*) { !(backlogs_enabled? && type && type.passes_attribute_constraint?(:story_points)) }
+    extend_api_response(:v3, :work_packages, :work_package_payload,
+                        &::OpenProject::Backlogs::Patches::API::WorkPackageRepresenter.extension)
 
-      property :remaining_time,
-               exec_context: :decorator,
-               render_nil: true,
-               skip_render: ->(represented:, **) { !represented.backlogs_enabled? }
+    extend_api_response(:v3, :work_packages, :schema, :work_package_schema,
+                        &::OpenProject::Backlogs::Patches::API::WorkPackageSchemaRepresenter.extension)
 
-      # cannot use def here as it wouldn't define the method on the representer
-      define_method :remaining_time do
-        datetime_formatter.format_duration_from_hours(represented.remaining_hours,
-                                                      allow_nil: true)
-      end
+    extend_api_response(:v3, :work_packages, :schema, :work_package_sums_schema,
+                        &::OpenProject::Backlogs::Patches::API::WorkPackageSumsSchemaRepresenter.extension)
 
-      define_method :remaining_time= do |value|
-        remaining = datetime_formatter.parse_duration_to_hours(value,
-                                                               'remainingTime',
-                                                               allow_nil: true)
-        represented.remaining_hours = remaining
-      end
-    end
-
-    extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
-      schema :position,
-             type: 'Integer',
-             required: false,
-             writable: false,
-             show_if: ->(*) {
-               represented.project && represented.project.backlogs_enabled? &&
-                 (!represented.type || represented.type.passes_attribute_constraint?(:position))
-             }
-
-      schema :story_points,
-             type: 'Integer',
-             required: false,
-             show_if: ->(*) {
-               represented.project && represented.project.backlogs_enabled? &&
-                 (!represented.type || represented.type.passes_attribute_constraint?(:story_points))
-             }
-
-      schema :remaining_time,
-             type: 'Duration',
-             name_source: :remaining_hours,
-             required: false,
-             show_if: ->(*) { represented.project && represented.project.backlogs_enabled? }
-    end
-
-    extend_api_response(:v3, :work_packages, :schema, :work_package_sums_schema) do
-      schema :story_points,
-             type: 'Integer',
-             required: false,
-             show_if: ->(*) {
-               ::Setting.work_package_list_summable_columns.include?('story_points')
-             }
-
-      schema :remaining_time,
-             type: 'Duration',
-             name_source: :remaining_hours,
-             required: false,
-             writable: false,
-             show_if: ->(*) {
-               ::Setting.work_package_list_summable_columns.include?('remaining_hours')
-             }
-    end
-
-    extend_api_response(:v3, :work_packages, :work_package_sums) do
-      property :story_points,
-               render_nil: true,
-               if: ->(*) {
-                 ::Setting.work_package_list_summable_columns.include?('story_points')
-               }
-
-      property :remaining_time,
-               render_nil: true,
-               exec_context: :decorator,
-               getter: ->(*) {
-                 datetime_formatter.format_duration_from_hours(represented.remaining_hours,
-                                                               allow_nil: true)
-               },
-               if: ->(*) {
-                 ::Setting.work_package_list_summable_columns.include?('remaining_hours')
-               }
-    end
+    extend_api_response(:v3, :work_packages, :work_package_sums,
+                        &::OpenProject::Backlogs::Patches::API::WorkPackageSumsRepresenter.extension)
 
     add_api_attribute on: :work_package, ar_name: :story_points
     add_api_attribute on: :work_package, ar_name: :remaining_hours, writeable: ->(*) { model.leaf? }

@@ -20,6 +20,8 @@ module OpenProject::LdapGroups
            caption: ->(*) { I18n.t('ldap_groups.label_menu_item') }
     end
 
+    add_cron_jobs { LdapGroups::SynchronizationJob }
+
     patches %i[AuthSource Group]
   end
 end

@@ -34,13 +34,13 @@ class Repository::Git < Repository
   validate :validity_of_local_url
 
   def self.scm_adapter_class
-    OpenProject::Scm::Adapters::Git
+    OpenProject::SCM::Adapters::Git
   end
 
   def configure(scm_type, _args)
     if scm_type == self.class.managed_type
       unless manageable?
-        raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+        raise OpenProject::SCM::Exceptions::RepositoryBuildError.new(
           I18n.t('repositories.managed.error_not_manageable')
         )
       end
@@ -89,7 +89,7 @@ class Repository::Git < Repository
   end
 
   def self.authorization_policy
-    ::Scm::GitAuthorizationPolicy
+    ::SCM::GitAuthorizationPolicy
   end
 
   # Returns the identifier for the given git changeset

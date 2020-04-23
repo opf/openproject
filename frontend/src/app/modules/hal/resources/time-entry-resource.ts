@@ -29,11 +29,12 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class TimeEntryResource extends HalResource {
   // TODO: extract the whole overridden Schema stuff into halresource or use the schemaCacheService
   // to place it there
-  readonly schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
+  @InjectField() schemaCacheService:SchemaCacheService;
 
   public overriddenSchema:SchemaResource|undefined = undefined;
 

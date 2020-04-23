@@ -58,13 +58,7 @@
         ul li
           float: none
 
-  ul.subject-header
-    list-style-type: none
-
-    li
-      margin: 0
-      padding: 0
-
+  .subject-header
     button
       margin-right: 0
 
@@ -169,21 +163,9 @@
     @media only screen and (max-width: 679px)
       width: 100%
     @media only screen and (min-width: 679px)
-      display: flex
       flex: 1 1 auto
-      margin-bottom: 6px
 
   .subject-header
-    width: 100%
-    margin: 0
-
-    .inline-edit--display-field
-      white-space: normal
-      word-break: break-all
-
-    li.inline-edit
-      width: 100%
-
     .work-packages--subject-element,
     .work-packages--details--subject .inline-edit--field
       font-size: 20px
@@ -204,6 +186,7 @@
 
   > .toolbar-container
     margin: 10px 0 5px 0
+
 .work-packages--subject-type-row
   display: flex
   position: relative
@@ -219,10 +202,3 @@
   @media only screen and (min-width: 679px)
     .inline-edit--container.-active
       width: 130px
-
-.edit-all-mode
-  .subject-header .work-packages--details--subject .inplace-edit--text-field
-    padding-left: 0.375rem
-
-  .work-packages--details--title, .work-packages--details--description
-    margin-left: 0

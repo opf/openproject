@@ -50,7 +50,7 @@ interface GonTab {
 }
 
 @Component({
-  selector: contentTabsSelector,
+  selector: 'content-tabs',
   templateUrl: '/app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -83,7 +83,3 @@ export class ContentTabsComponent extends ScrollableTabsComponent {
     this.currentTabId = this.currentTab.name;
   }
 }
-
-DynamicBootstrapper.register({
-  selector: contentTabsSelector, cls: ContentTabsComponent
-});

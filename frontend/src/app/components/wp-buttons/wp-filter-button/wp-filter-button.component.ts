@@ -28,17 +28,17 @@
 
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 @Component({
   selector: 'wp-filter-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-filter-button.html'
 })
-export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit, OnDestroy  {
+export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit {
   public count:number;
   public initialized:boolean = false;
 
@@ -54,10 +54,6 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
 
   ngOnInit():void {
     this.setupObserver();
-  }
-
-  ngOnDestroy():void {
-    // Empty
   }
 
   public get labelKey():string {
@@ -88,13 +84,13 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
     this.wpTableFilters
       .live$()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe(() => {
-      this.count = this.wpTableFilters.currentlyVisibleFilters.length;
-      this.initialized = true;
-      this.cdRef.detectChanges();
-    });
+        this.count = this.wpTableFilters.currentlyVisibleFilters.length;
+        this.initialized = true;
+        this.cdRef.detectChanges();
+      });
 
     this.wpFiltersService
       .observeUntil(componentDestroyed(this))

@@ -1,6 +1,0 @@
-zh-CN:
-  js:
-    ifc_models:
-      models:
-        default: '默认 IFC 模型'
-        manage: 'Manage models'

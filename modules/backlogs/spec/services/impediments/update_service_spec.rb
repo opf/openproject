@@ -72,7 +72,7 @@ describe Impediments::UpdateService, type: :model do
   }
   let(:impediment) do
     FactoryBot.build(:impediment, author: user,
-                                   fixed_version: version,
+                                   version: version,
                                    assigned_to: user,
                                    project: project,
                                    type: type_task,
@@ -92,7 +92,7 @@ describe Impediments::UpdateService, type: :model do
     project.save
     type_workflow.save
 
-    feature.fixed_version = version
+    feature.version = version
     feature.save
 
     impediment.blocks_ids = feature.id.to_s
@@ -102,7 +102,7 @@ describe Impediments::UpdateService, type: :model do
   shared_examples_for 'impediment update' do
     it { expect(subject.author).to eql user }
     it { expect(subject.project).to eql project }
-    it { expect(subject.fixed_version).to eql version }
+    it { expect(subject.version).to eql version }
     it { expect(subject.priority).to eql priority }
     it { expect(subject.status).to eql status2 }
     it { expect(subject.type).to eql type_task }
@@ -146,7 +146,7 @@ describe Impediments::UpdateService, type: :model do
     let(:story_version)  { version }
 
     before(:each) do
-      story.fixed_version = story_version
+      story.version = story_version
       story.save!
     end
 

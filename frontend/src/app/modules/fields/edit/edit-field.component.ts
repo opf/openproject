@@ -26,10 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, ElementRef, Inject, InjectionToken, Injector, OnDestroy, OnInit} from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Directive,
+  ElementRef,
+  Inject,
+  InjectionToken,
+  Injector,
+  OnDestroy,
+  OnInit
+} from "@angular/core";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -43,6 +51,7 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 
 export const editModeClassName = '-editing';
 
+@Directive()
 export abstract class EditFieldComponent extends Field implements OnInit, OnDestroy {
   /** Self reference */
   public self = this;
@@ -64,7 +73,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
       this.change.state
         .values$()
         .pipe(
-          untilComponentDestroyed(this)
+          this.untilDestroyed()
         )
         .subscribe((change) => {
           const fieldSchema = change.schema[this.name];
@@ -84,10 +93,6 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
   ngOnInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.initialize();
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
   }
 
   public get overflowingSelector() {

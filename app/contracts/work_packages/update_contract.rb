@@ -32,7 +32,7 @@ require 'work_packages/base_contract'
 
 module WorkPackages
   class UpdateContract < BaseContract
-    include Concerns::UnchangedProject
+    include UnchangedProject
 
     attribute :lock_version,
               permission: %i[edit_work_packages assign_versions manage_subtasks move] do

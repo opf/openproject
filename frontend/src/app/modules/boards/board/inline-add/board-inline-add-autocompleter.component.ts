@@ -50,6 +50,7 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 
 @Component({
   selector: 'board-inline-add-autocompleter',
@@ -65,7 +66,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
   };
 
   @Input() appendToContainer:string = '.board--container';
-  @ViewChild(NgSelectComponent, { static: false }) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   @Output() onCancel = new EventEmitter<undefined>();
   @Output() onReferenced = new EventEmitter<WorkPackageResource>();
@@ -86,6 +87,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
 
   constructor(private readonly querySpace:IsolatedQuerySpace,
               private readonly pathHelper:PathHelperService,
+              private readonly urlParamsHelper:UrlParamsHelperService,
               private readonly notificationService:WorkPackageNotificationService,
               private readonly CurrentProject:CurrentProjectService,
               private readonly halResourceService:HalResourceService,
@@ -123,21 +125,28 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     }
   }
 
-  private autocompleteWorkPackages(query:string):Observable<WorkPackageResource[]> {
+  private autocompleteWorkPackages(searchString:string):Observable<WorkPackageResource[]> {
     // Return when the search string is empty
-    if (query.length === 0) {
+    if (searchString.length === 0) {
       this.isLoading = false;
       return of([]);
     }
 
     const path = this.pathHelper.api.v3.withOptionalProject(this.CurrentProject.id).work_packages;
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
-    const results = this.querySpace.results.value
+    const results = this.querySpace.results.value;
 
-    filters.add('subjectOrId', '**', [query]);
+    filters.add('subjectOrId', '**', [searchString]);
 
     if (results && results.elements.length > 0) {
       filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
+    }
+
+    // Add the subproject filter, if any
+    const query = this.querySpace.query.value;
+    if (query?.filters) {
+      const currentFilters = this.urlParamsHelper.buildV3GetFilters(query.filters);
+      filters.merge(currentFilters, 'subprojectId');
     }
 
     return this.halResourceService

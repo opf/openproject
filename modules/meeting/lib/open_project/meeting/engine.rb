@@ -67,7 +67,7 @@ module OpenProject::Meeting
       end
 
       Redmine::Activity.map do |activity|
-        activity.register :meetings, class_name: 'Activity::MeetingActivityProvider', default: false
+        activity.register :meetings, class_name: 'Activities::MeetingActivityProvider', default: false
       end
     end
 
@@ -90,7 +90,7 @@ module OpenProject::Meeting
     end
 
     initializer 'meeting.register_latest_project_activity' do
-      Project.register_latest_project_activity on: ::Meeting,
+      Project.register_latest_project_activity on: 'Meeting',
                                                attribute: :updated_at
     end
 

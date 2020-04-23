@@ -26,17 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
@@ -79,6 +69,10 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
    * @returns {Promise<boolean>}
    */
   public canCreateNewActionElements():Promise<boolean> {
+    if (!this.currentProject.id) {
+      return Promise.resolve(false);
+    }
+
     return this.versionDm
       .canCreateVersionInProject(this.currentProject.id!)
       .catch(() => false);
@@ -89,7 +83,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
       .then((version) => {
         this.onCreate.emit(version);
       })
-      .catch(error =>  {
+      .catch(error => {
         this.closeSelect();
         this.halNotification.handleRawError(error);
       });
@@ -107,5 +101,3 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
     return payload;
   }
 }
-
-DynamicBootstrapper.register({ selector: 'version-autocompleter', cls: VersionAutocompleterComponent  });

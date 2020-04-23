@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class OpenProject::Costs::Hooks::UserSettingsHook < Redmine::Hook::ViewListener
+class OpenProject::Backlogs::Hooks::UserSettingsHook < Redmine::Hook::ViewListener
 
   # Updates the backlogs settings before saving the user
   #

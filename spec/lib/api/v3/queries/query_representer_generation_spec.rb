@@ -32,8 +32,10 @@ describe ::API::V3::Queries::QueryRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:query) { FactoryBot.build_stubbed(:query, project: project) }
+  let(:unpersisted_query) { FactoryBot.build(:query, project: project, user: other_user) }
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:user) { double('current_user', allowed_to?: true, admin: true, admin?: true, active?: true) }
+  let(:other_user) { FactoryBot.build_stubbed(:user) }
   let(:embed_links) { true }
   let(:representer) do
     described_class.new(query, current_user: user, embed_links: embed_links)
@@ -173,7 +175,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
 
         context 'when unpersisted' do
-          let(:query) { FactoryBot.build(:query, project: project) }
+          let(:query) { unpersisted_query }
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'update' }
@@ -182,7 +184,8 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
 
         context 'when unpersisted outside a project' do
-          let(:query) { FactoryBot.build(:query) }
+          let(:project) { nil }
+          let(:query) { unpersisted_query }
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'update' }
@@ -200,7 +203,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
 
         context 'when not persisted' do
-          let(:query) { FactoryBot.build(:query, project: project) }
+          let(:query) { unpersisted_query }
 
           it_behaves_like 'has no link' do
             let(:link) { 'delete' }
@@ -234,7 +237,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
 
         context 'when not persisted and lacking permission' do
-          let(:query) { FactoryBot.build(:query, project: project) }
+          let(:query) { unpersisted_query }
 
           it_behaves_like 'has no link' do
             let(:link) { 'updateImmediately' }
@@ -244,7 +247,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         context 'when not persisted and having permission' do
           let(:permissions) { [:create] }
 
-          let(:query) { FactoryBot.build(:query, project: project) }
+          let(:query) { unpersisted_query }
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'updateImmediately' }
@@ -279,7 +282,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
 
         context 'when not persisted and lacking permission' do
-          let(:query) { FactoryBot.build(:query, project: project) }
+          let(:query) { unpersisted_query }
 
           it_behaves_like 'has no link' do
             let(:link) { 'updateOrderedWorkPackages' }
@@ -289,7 +292,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         context 'when not persisted and having permission' do
           let(:permissions) { [:create] }
 
-          let(:query) { FactoryBot.build(:query, project: project) }
+          let(:query) { unpersisted_query }
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'updateOrderedWorkPackages' }

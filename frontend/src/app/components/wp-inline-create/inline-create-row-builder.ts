@@ -15,6 +15,7 @@ import {QueryColumn} from "core-components/wp-query/query-column";
 import {tdClassName} from "core-components/wp-fast-table/builders/cell-builder";
 import {internalContextMenuColumn} from "core-components/wp-fast-table/builders/internal-sort-columns";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
@@ -22,10 +23,10 @@ export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
 export class InlineCreateRowBuilder extends SingleRowBuilder {
 
   // Injections
-  public states = this.injector.get(States);
-  public wpTableSelection = this.injector.get(WorkPackageViewSelectionService);
-  public wpTableColumns = this.injector.get(WorkPackageViewColumnsService);
-  public I18n = this.injector.get(I18nService);
+  @InjectField() public states:States;
+  @InjectField() public wpTableSelection:WorkPackageViewSelectionService;
+  @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
+  @InjectField() public I18n:I18nService;
 
   protected text:{ cancelButton:string };
 

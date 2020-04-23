@@ -29,7 +29,7 @@
 
 ##
 # Implements a repository factory for building temporary and permanent repositories.
-class Scm::RepositoryFactoryService
+class SCM::RepositoryFactoryService
   attr_reader :project, :params, :repository
 
   def initialize(project, params)
@@ -48,7 +48,7 @@ class Scm::RepositoryFactoryService
       if repository.save
         repository
       else
-        raise OpenProject::Scm::Exceptions::RepositoryBuildError.new(
+        raise OpenProject::SCM::Exceptions::RepositoryBuildError.new(
           repository.errors.full_messages.join("\n")
         )
       end
@@ -74,7 +74,7 @@ class Scm::RepositoryFactoryService
 
   ##
   # Helper to actually build the repository and return it.
-  # May raise +OpenProject::Scm::Exceptions::RepositoryBuildError+ internally.
+  # May raise +OpenProject::SCM::Exceptions::RepositoryBuildError+ internally.
   #
   # @param [Symbol] scm_type Type to build the repository with. May be nil
   #                          during temporary build
@@ -90,7 +90,7 @@ class Scm::RepositoryFactoryService
   def build_guarded
     @repository = yield
     @repository.present?
-  rescue OpenProject::Scm::Exceptions::RepositoryBuildError => e
+  rescue OpenProject::SCM::Exceptions::RepositoryBuildError => e
     @build_failed_msg = e.message
     nil
   end

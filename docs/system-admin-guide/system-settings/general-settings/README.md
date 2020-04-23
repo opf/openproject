@@ -24,17 +24,15 @@ You can configure general system settings in OpenProject. Under System settings 
 
 7. **Cache formatted text** allows to save formatted text in cache, which will help load Wiki Pages faster.
 
-8. **Wiki history compression**: will be removed.
+8. **Enable feeds** – enables RSS feeds on wiki pages, forums and news via RSS client.
 
-9. **Enable feeds** – enables RSS feeds on wiki pages, forums and news via RSS client.
+9. Set **feed content limit**.
 
-10. Set **feed content limit**.
+10. **Max size of text files displayed inline** defines the maximum file size up to which different versions of a file are displayed next to each other when comparing (diff) two versions in a repository.
 
-11. **Max size of text files displayed inline** defines the maximum file size up to which different versions of a file are displayed next to each other when comparing (diff) two versions in a repository.
+11. **Max number of diff lines displayed** defines the maximum number of lines displayed when comparing (diff) two versions in a repository.
 
-12. **Max number of diff lines displayed** defines the maximum number of lines displayed when comparing (diff) two versions in a repository.
-
-13. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../../../user-guide/start-page). It is displayed to administrators only.
+12. **Display security badge** enables to display a badge with your installation status in the [Information administration panel](../../information), and on the [start page](../../../user-guide/start-page). It is displayed to administrators only.
 
     The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or  known vulnerabilities. For more information on what the check provides,  what data is needed to provide available updates, and how to disable this check, please visit [the configuration documentation](../../information#security-badge).        
 

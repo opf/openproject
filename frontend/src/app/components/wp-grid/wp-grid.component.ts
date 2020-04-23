@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from "@angular/core";
 import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
 import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
@@ -36,12 +36,13 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
+import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-configuration";
 
 @Component({
   selector: 'wp-grid',
   template: `
     <wp-card-view [dragOutOfHandler]="canDragOutOf"
-                  [dragInto]="true"
+                  [dragInto]="dragInto"
                   [cardsRemovable]="false"
                   [highlightingMode]="highlightingMode"
                   [showStatusButton]="true"
@@ -51,6 +52,12 @@ import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
                   [showInfoButton]="true"
                   [shrinkOnMobile]="true">
     </wp-card-view>
+
+    <div *ngIf="showResizer"
+         class="hidden-for-mobile hide-when-print">
+      <wp-resizer [elementClass]="resizerClass"
+                  [localStorageKey]="resizerStorageKey"></wp-resizer>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -59,7 +66,13 @@ import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
   ]
 })
 export class WorkPackagesGridComponent {
-  public canDragOutOf = () => { return true; };
+  @Input() public configuration:WorkPackageTableConfiguration;
+  @Input() public showResizer:boolean = false;
+  @Input() public resizerClass:string = '';
+  @Input() public resizerStorageKey:string = '';
+
+  public canDragOutOf:() => boolean;
+  public dragInto:boolean;
   public gridOrientation:CardViewOrientation = 'horizontal';
   public highlightingMode:HighlightingMode = 'none';
 
@@ -71,6 +84,11 @@ export class WorkPackagesGridComponent {
   }
 
   ngOnInit() {
+    this.dragInto = this.configuration.dragAndDropEnabled;
+    this.canDragOutOf = () => {
+      return this.configuration.dragAndDropEnabled;
+    };
+
     this.wpTableHighlight
       .updates$()
       .pipe(
@@ -82,10 +100,6 @@ export class WorkPackagesGridComponent {
         this.cdRef.detectChanges();
       });
 
-  }
-
-  ngOnDestroy():void {
-    // Nothing to do
   }
 
   public switchToManualSorting() {

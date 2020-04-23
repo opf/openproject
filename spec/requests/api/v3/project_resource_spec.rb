@@ -324,7 +324,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         expect(Project.count)
           .to eql(1)
 
-        expect(Project::Status.count)
+        expect(Projects::Status.count)
           .to eql(1)
       end
     end
@@ -707,7 +707,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
       context 'for a project which has a version foreign work packages refer to' do
         let(:version) { FactoryBot.create(:version, project: project) }
-        let(:work_package) { FactoryBot.create(:work_package, fixed_version: version) }
+        let(:work_package) { FactoryBot.create(:work_package, version: version) }
 
         let(:setup) { work_package }
 

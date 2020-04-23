@@ -28,7 +28,7 @@
 
 import {Injectable} from "@angular/core";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CurrentUserService {
   public get isLoggedIn() {
     return this.userMeta.length > 0;
@@ -44,6 +44,10 @@ export class CurrentUserService {
 
   public get mail() {
     return this.userMeta.data('mail');
+  }
+
+  public get language() {
+    return I18n.locale || 'en';
   }
 
   private get userMeta():JQuery {

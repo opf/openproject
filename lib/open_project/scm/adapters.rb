@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 module OpenProject
-  module Scm
+  module SCM
     module Adapters
       class Entries < Array
         def sort_by_name

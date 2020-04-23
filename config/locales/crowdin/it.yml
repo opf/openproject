@@ -61,15 +61,18 @@ it:
         header-item-font-hover-color: "Colore del carattere degli elementi cliccabili nelle intestazioni al passaggio del mouse."
         header-border-bottom-color: "Sottile linea sotto l'intestazione. Lascia vuoto questo campo se non vuoi nessuna linea."
         main-menu-bg-color: "Colore di sfondo del menu a sinistra."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Cambiando il tema si sovrascriverà lo stile personalizzato. Il design andrà poi perso. Sei sicuro di voler continuare?
     enterprise:
-      upgrade_to_ee: "Aggiorna ad Enterprise Edition"
+      upgrade_to_ee: "Aggiorna a Enterprise Edition"
       add_token: "Carica un token di assistenza per Enterprise Edition"
       replace_token: "Sostituisci il token di assistenza attuale"
       order: "Ordina Enterprise Edition"
       paste: "Incolla il tuo token di assistenza per Enterprise Edition"
       required_for_feature: "Questa funzionalità è disponibile solo con un token di assistenza Enterprise Edition attivo."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
+      start_trial: 'Inizia la prova gratuita'
+      book_now: 'Prenota ora'
+      get_quote: 'Richiedi un preventivo'
   announcements:
     show_until: Mostra fino a
     is_active: attualmente visualizzato
@@ -180,7 +183,7 @@ it:
       scheduled: "L'eliminazione è stata programmata e verrà eseguita in background. Verrai avvisato del risultato."
       schedule_failed: "Il progetto non può essere eliminato: %{errors}"
       failed: "Eliminazione del progetto %{name} non riuscita"
-      failed_text: "La richiesta di eliminare il progetto %{name} non è riuscita. Il progetto è stato lasciato in archivio."
+      failed_text: "La richiesta di eliminare il progetto %{name} non è riuscita. Il progetto è stato archiviato."
       completed: "Eliminazione del progetto %{name} completata"
       completed_text: "La richiesta di cancellare il progetto '%{name}' è stata completata."
     index:
@@ -395,7 +398,7 @@ it:
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
-      project/status:
+      projects/status:
         code: 'Stato'
         explanation: 'Descrizione stato'
         codes:
@@ -460,7 +463,7 @@ it:
         done_ratio: "Avanzamento (%)"
         end_insertion: "Fine inserimento"
         end_deletion: "Fine cancellazione"
-        fixed_version: "Versione"
+        version: "Versione"
         parent: "Superiore"
         parent_issue: "Superiore"
         parent_work_package: "Superiore"
@@ -474,10 +477,10 @@ it:
         watcher: "Osservatore"
       'doorkeeper/application':
         uid: "Client ID"
-        secret: "Chiave segreta del client"
+        secret: "Segreto del client"
         owner: "Proprietario"
-        redirect_uri: "Reindirizzamento URI"
-        client_credentials_user_id: "ID utente delle credenziali client"
+        redirect_uri: "Reindirizzamento URl"
+        client_credentials_user_id: "ID utente credenziali client"
         scopes: "Ambiti"
         confidential: "Confidenziale"
     errors:
@@ -522,7 +525,7 @@ it:
         too_long: "è troppo lungo (il massimo è %{count} caratteri)."
         too_short: "è troppo breve (il minimo è %{count} caratteri)."
         unchangeable: "non può essere modificato."
-        unremovable: "impossibile rimuovere."
+        unremovable: "non può essere rimosso."
         wrong_length: "è della lunghezza sbagliata (dovrebbe essere %{count} caratteri)."
       models:
         custom_field:
@@ -544,7 +547,7 @@ it:
               secured_uri: 'deve essere un URI HTTPS/SSL.'
               forbidden_uri: 'è vietato dal server.'
             scopes:
-              not_match_configured: "non corrisponde a nessuno degli ambiti disponibili."
+              not_match_configured: "non corrisponde ai campi disponibili."
         enterprise_token:
           unreadable: "non può essere letto. Sei sicuro che si tratta di un token di assistenza?"
         grids/grid:
@@ -751,6 +754,7 @@ it:
     version: "Versione"
     work_package: "Macro-attività"
   button_add: "Aggiungi"
+  button_add_comment: "Aggiungi un commento"
   button_add_member: Aggiungi membro
   button_add_watcher: "Aggiungi osservatore"
   button_annotate: "Annota"
@@ -763,7 +767,7 @@ it:
   button_change_password: "Cambia password"
   button_check_all: "Seleziona tutti"
   button_clear: "Pulisci"
-  button_click_to_reveal: "Clicca per mostrare"
+  button_click_to_reveal: "Clicca per visualizzare"
   button_close: 'Chiuso'
   button_collapse_all: "Comprimi Tutto"
   button_configure: "Configura"
@@ -1135,13 +1139,8 @@ it:
     blocks:
       community: "Comunità di OpenProject"
       upsale:
-        become_hero: "Diventa un eroe!"
         title: "Aggiorna ad Enterprise Edition"
-        description: "Quali sono i vantaggi?"
         more_info: "Altre informazioni"
-        additional_features: "Funzionalità aggiuntive speciali"
-        professional_support: "Assistenza professionale da parte degli esperti OpenProject"
-        you_contribute: "Anche gli sviluppatori devono pagare le bollette. Con Enterprise Edition puoi contribuire in modo sostanziale al lavoro di questa comunità Open-Source."
     links:
       upgrade_enterprise_edition: "Aggiorna ad Enterprise Edition"
       postgres_migration: "Migrazione dell'installazione su PostgreSQL"
@@ -1153,9 +1152,10 @@ it:
       forums: "Forum della Comunità"
       newsletter: "Avvisi di sicurezza / Notizie"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "Le modifiche sono state annullate."
   links:
     configuration_guide: 'Guida di configurazione'
+    get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."
   instructions_after_registration: "Puoi accedere non appena il tuo account è stato attivato cliccando %{signin}."
   instructions_after_logout: "Può accedere nuovamente cliccando %{signin}."
   instructions_after_error: "Si può provare ad accedere nuovamente cliccando %{signin}. Se l'errore persiste, chiedi aiuto al tuo amministratore."
@@ -1445,6 +1445,7 @@ it:
   label_new: "Nuovo"
   label_new_features: "Nuove funzionalità"
   label_new_statuses_allowed: "Nuovi stati acconsentiti"
+  label_news_singular: "Notizie"
   label_news_added: "Notizie aggiunte"
   label_news_comment_added: "Commento aggiunto a una notizia"
   label_news_latest: "Ultime notizie"
@@ -1646,7 +1647,7 @@ it:
   label_view_diff: "Mostra le differenze"
   label_view_revisions: "Vedi revisioni"
   label_watched_work_packages: "Macro-attività osservate"
-  label_what_is_this: "Cos'è questo?"
+  label_what_is_this: "Che cos'è questo?"
   label_week: "Settimana"
   label_wiki_content_added: "Pagina wiki aggiunta"
   label_wiki_content_updated: "Pagina wiki aggiornata"
@@ -1704,31 +1705,6 @@ it:
     other: "%{count} progetti"
   label_year: "Anno"
   label_yesterday: "ieri"
-  label_keyboard_function: "Funzione"
-  label_keyboard_shortcut: "Scorciatoia da tastiera"
-  label_keyboard_accesskey: "Tasto di accesso"
-  label_keyboard_shortcut_help_heading: "Scorciatoie da tastiera disponibili"
-  label_keyboard_shortcut_within_project: "Scorciatoie da tastiera specifiche del progetto:"
-  label_keyboard_shortcut_global_shortcuts: "Scorciatoie da tastiera globali:"
-  label_keyboard_shortcut_some_pages_only: "Scorciatoie da tastiera speciali:"
-  label_keyboard_shortcut_search_global: "Ricerca globale"
-  label_keyboard_shortcut_search_project: "Trova un progetto"
-  label_keyboard_shortcut_go_my_page: "Vai alla mia pagina"
-  label_keyboard_shortcut_show_help: "Visualizza questo messaggio di aiuto"
-  label_keyboard_shortcut_go_overview: "Vai alla panoramica del progetto"
-  label_keyboard_shortcut_go_work_package: "Vai alle macro-attività del progetto"
-  label_keyboard_shortcut_go_wiki: "Vai alle pagine wiki del progetto"
-  label_keyboard_shortcut_go_activity: "Vai alle attività del progetto"
-  label_keyboard_shortcut_go_calendar: "Vai al calendario del progetto"
-  label_keyboard_shortcut_go_news: "Vai alle notizie progetto"
-  label_keyboard_shortcut_go_timelines: "Vai alle cronologie"
-  label_keyboard_shortcut_new_work_package: "Crea una nuova macro-attività"
-  label_keyboard_shortcut_details_package: "Visualizza il pannello di dettaglio delle macro-attività"
-  label_keyboard_shortcut_go_edit: "Vai a modificare la voce corrente (solo nelle pagine di dettaglio)"
-  label_keyboard_shortcut_open_more_menu: "Apri il menu-altri comandi (solo nelle pagine di dettaglio)"
-  label_keyboard_shortcut_go_preview: "Vai all'anteprima della modifica corrente (solo nella pagina di modifica)"
-  label_keyboard_shortcut_focus_previous_item: "Evidenzia l'elemento precedente nella lista (solo su alcune liste)"
-  label_keyboard_shortcut_focus_next_item: "Evidenzia l'elemento successivo della lista (solo in alcune liste)"
   auth_source:
     using_abstract_auth_source: "Non è possibile utilizzare una fonte di autenticazione astratta."
     ldap_error: "Errore LDAP: %{error_message}"
@@ -2180,7 +2156,6 @@ it:
   setting_welcome_text: "Blocco di testo di benvenuto"
   setting_welcome_title: "Blocco di testo del titolo"
   setting_welcome_on_homescreen: "Mostra il blocco testo di benvenuto nella pagina home"
-  setting_wiki_compression: "Compressione del registro della wiki"
   setting_work_package_group_assignment: "Consentire l'assegnazione ai gruppi"
   setting_work_package_list_default_highlighting_mode: "Modalità evidenziazione predefinita"
   setting_work_package_list_default_highlighted_attributes: "Attributi evidenziati in linea predefiniti"
@@ -2520,6 +2495,7 @@ it:
       mail_self_notified: "Voglio essere informato delle modifiche che faccio io stesso"
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Cambiamento di stato"
+    text_change_disabled_for_provider_login: "Il nome è impostato dal servizio con cui hai effettuato l'accesso e non può essere modificato."
     unlock: "Sblocca"
     unlock_and_reset_failed_logins: "Sblocca e azzera gli accessi non riusciti"
   version_status_closed: "chiuso"
@@ -2613,11 +2589,11 @@ it:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'La richiesta manca un parametro obbligatorio, include un valore non supportato in un parametro, o non è scritto correttamente.'
+        invalid_request: 'Nella richiesta non è presente un parametro richiesto, include un valore di parametro non supportato, o non è valido.'
         invalid_redirect_uri: "Il reindirizzamento dell'URI richiesto non è valido o non corrisponde all'URI di reindirizzamento del client."
         unauthorized_client: 'Il client non è autorizzato ad eseguire questa richiesta usando questo metodo.'
         access_denied: 'Il proprietario della risorsa o il server di autorizzazione hanno rifiutato la richiesta.'
-        invalid_scope: 'L''ambito richiesto non è valido, è sconosciuto o non è scritto bene.'
+        invalid_scope: 'Lo scopo richiesto non è non valido, sconosciuto o malformato.'
         invalid_code_challenge_method: 'Il metodo di sfida del codice deve essere semplice o S256.'
         server_error: 'Il server di autorizzazione ha riscontrato una condizione inaspettata che ha impedito di elaborare la richiesta.'
         temporarily_unavailable: 'Il server di autorizzazione non è attualmente in grado di gestire la richiesta a causa di un sovraccarico temporaneo o della manutenzione del server.'

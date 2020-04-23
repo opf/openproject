@@ -1,0 +1,14 @@
+<div class="notification-box -info">
+  <div class="notification-box--content">
+    <p><%= t('ifc_models.no_defaults_warning.title') %></p>
+    <ul>
+      <li><%= t('ifc_models.no_defaults_warning.check_1') %></li>
+      <li><%= t('ifc_models.no_defaults_warning.check_2') %></li>
+    </ul>
+    <% unless current_page?(bcf_project_ifc_models_path(project)) %>
+      <%= link_to(bcf_project_ifc_models_path(project), class: 'button', accesskey: accesskey(:edit)) do %>
+        <%= op_icon('button--icon icon-edit') %> <%= t('ifc_models.label_edit_defaults') %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

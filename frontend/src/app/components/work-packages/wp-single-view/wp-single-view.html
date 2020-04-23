@@ -71,9 +71,11 @@
     </div>
   </div>
 
-  <div *ngIf="workPackage.bcf">
-    <bcf-wp-single-view [workPackage]="workPackage"></bcf-wp-single-view>
-  </div>
+  <ng-container *ngFor="let component of prependedAttributeGroupComponents()">
+    <ndc-dynamic [ndcDynamicComponent]="component"
+                 [ndcDynamicInputs]="{ workPackage: workPackage }">
+    </ndc-dynamic>
+  </ng-container>
 
   <div class="attributes-group description-group">
     <div class="attributes-group--header">

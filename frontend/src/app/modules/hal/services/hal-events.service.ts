@@ -30,7 +30,7 @@ export interface HalDeletedEvent extends HalEvent {
 export type HalEventTypes =
   HalCreatedEvent|HalUpdatedEvent|RelatedWorkPackageEvent|HalDeletedEvent;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HalEventsService {
   private _events = new Subject<HalEvent>();
 

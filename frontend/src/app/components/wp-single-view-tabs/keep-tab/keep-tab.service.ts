@@ -65,11 +65,11 @@ export class KeepTabService {
   }
 
   public get currentDetailsState():string {
-    return 'work-packages.list.details.' + this.currentDetailsTab;
+    return 'work-packages.partitioned.list.details.' + this.currentDetailsTab;
   }
 
   public isDetailsState(stateName:string) {
-    return stateName === 'work-packages.list.details';
+    return stateName === 'work-packages.partitioned.list.details';
   }
 
   public get currentShowTab():string {
@@ -110,7 +110,7 @@ export class KeepTabService {
     }
 
     if (stateName === 'details') {
-      return this.$state.includes('work-packages.list.details.*');
+      return this.$state.includes('work-packages.partitioned.list.details.*');
     }
 
     return false;

@@ -6,13 +6,14 @@ import {HierarchyRenderPass} from './hierarchy-render-pass';
 import {SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class HierarchyRowsBuilder extends RowsBuilder {
 
   // Injections
-  public states = this.injector.get(States);
-  public wpTableColumns = this.injector.get(WorkPackageViewColumnsService);
-  public wpTableHierarchies = this.injector.get(WorkPackageViewHierarchiesService);
+  @InjectField() states:States;
+  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
 
   // The group expansion state
   constructor(public readonly injector:Injector, public workPackageTable:WorkPackageTable) {

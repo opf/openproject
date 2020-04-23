@@ -63,13 +63,16 @@ id:
         main-menu-bg-color: "Warna latar belakang menu sisi kiri."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Tingkatkan ke edisi enterprise"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Unggah sebuah token bantuan edisi enterprise"
       replace_token: "Gantilah token bantuan yang sedang digunakan"
       order: "Pesanlah edisi enterprise"
       paste: "Tempelkan token pendukung Edisi Perusahaan Anda"
       required_for_feature: "Fitur ini hanya tersedia bersama dengan sebuah token pendukung Edisi Perusahaan yang aktif."
       enterprise_link: "Untuk informasi lebih lanjut, klik di sini."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Show until
     is_active: currently displayed
@@ -397,7 +400,7 @@ id:
         types: "Tipe"
         versions: "Versi"
         work_packages: "Paket-Penugasan"
-      project/status:
+      projects/status:
         code: 'Status'
         explanation: 'Status description'
         codes:
@@ -462,7 +465,7 @@ id:
         done_ratio: "Progress (%)"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        fixed_version: "Versi"
+        version: "Versi"
         parent: "Induk"
         parent_issue: "Induk"
         parent_work_package: "Induk"
@@ -750,6 +753,7 @@ id:
     version: "Versi"
     work_package: "Paket-Penugasan"
   button_add: "Tambah"
+  button_add_comment: "Tambah komentar"
   button_add_member: Add member
   button_add_watcher: "Tambah pemantau"
   button_annotate: "Anotasi"
@@ -1122,13 +1126,8 @@ id:
     blocks:
       community: "OpenProject community"
       upsale:
-        become_hero: "Menjadi seorang pahlawan!"
         title: "Tingkatkan ke edisi enterprise"
-        description: "What are the benefits?"
         more_info: "Informasi lebih lanjut"
-        additional_features: "Tambahan fitur premium yang sangat berdaya guna"
-        professional_support: "Dukungan profesional dari para ahli OpenProject"
-        you_contribute: "Pengembang harus membayar tagihan mereka juga. Dengan Edisi Perusahaan, Anda secara substansial menyumbang kepada upaya komunitas Open-Source ini."
     links:
       upgrade_enterprise_edition: "Tingkatkan ke edisi enterprise"
       postgres_migration: "Migrasi instalasi anda ke PostgreSQL"
@@ -1140,9 +1139,10 @@ id:
       forums: "Community forum"
       newsletter: "Peringatan keamanan / Jurnal berkala"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Petunjuk Konfigurasi'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Anda dapat login setelah akun Anda diaktifkan, klik %{signin}."
   instructions_after_logout: "Anda dapat login kembali dengan mengklik %{signin}."
   instructions_after_error: "Anda dapat login lagi dengan mengklik %{signin}. Jika masih muncul error, tanyakan admin Anda untuk bantuan."
@@ -1432,6 +1432,7 @@ id:
   label_new: "Baru"
   label_new_features: "New features"
   label_new_statuses_allowed: "Status baru yang diijinkan"
+  label_news_singular: "News"
   label_news_added: "News ditambahkan"
   label_news_comment_added: "Komentar ditambahkan ke dalam Berita"
   label_news_latest: "Berita terbaru"
@@ -1687,31 +1688,6 @@ id:
     other: "%{count} proyek"
   label_year: "Tahun"
   label_yesterday: "kemarin"
-  label_keyboard_function: "Fungsi"
-  label_keyboard_shortcut: "Shortcut"
-  label_keyboard_accesskey: "Accesskey"
-  label_keyboard_shortcut_help_heading: "Shortcut tersedia"
-  label_keyboard_shortcut_within_project: "Shortcut Project terkait :"
-  label_keyboard_shortcut_global_shortcuts: "Global shortcut:"
-  label_keyboard_shortcut_some_pages_only: "Spesial shortcut:"
-  label_keyboard_shortcut_search_global: "Pencarian global"
-  label_keyboard_shortcut_search_project: "Cari Project"
-  label_keyboard_shortcut_go_my_page: "Go to my page"
-  label_keyboard_shortcut_show_help: "Tampilkan pesan bantuan ini"
-  label_keyboard_shortcut_go_overview: "Buka Project overview"
-  label_keyboard_shortcut_go_work_package: "Buka Paket-Penugasan"
-  label_keyboard_shortcut_go_wiki: "Buka Project Wiki"
-  label_keyboard_shortcut_go_activity: "Buka Project Aktifiti"
-  label_keyboard_shortcut_go_calendar: "Buka kalender Project"
-  label_keyboard_shortcut_go_news: "Buka Project Berita"
-  label_keyboard_shortcut_go_timelines: "Buka Timeline"
-  label_keyboard_shortcut_new_work_package: "Buat Paket-Penugasan baru"
-  label_keyboard_shortcut_details_package: "Tampilkan panel rician"
-  label_keyboard_shortcut_go_edit: "Edit item saat ini (hanya di detail halaman)"
-  label_keyboard_shortcut_open_more_menu: "Buka menu lagi (hanya di halaman detil)"
-  label_keyboard_shortcut_go_preview: "Preview edit saat ini (hanya halaman yang diedit)"
-  label_keyboard_shortcut_focus_previous_item: "Fokus daftar elemen sebelumnya (hanya di daftar yang sama)"
-  label_keyboard_shortcut_focus_next_item: "Fokus daftar elemen berikutnya (hanya di daftar yang sama)"
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."
     ldap_error: "LDAP-Error: %{error_message}"
@@ -2160,7 +2136,6 @@ id:
   setting_welcome_text: "Welcome block text"
   setting_welcome_title: "Welcome block title"
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
-  setting_wiki_compression: "Kompresi Wiki histori"
   setting_work_package_group_assignment: "Mungkinkan penugasan ke Grup"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
@@ -2498,6 +2473,7 @@ id:
       mail_self_notified: "I want to be notified of changes that I make myself"
     status_user_and_brute_force: "%{user} dan %{brute_force}"
     status_change: "Perubahan status"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock dan reset gagal login"
   version_status_closed: "berakhir"

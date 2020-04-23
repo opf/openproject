@@ -138,7 +138,7 @@ module DemoData
 
     def set_version!(wp_attr, attributes)
       if attributes[:version]
-        wp_attr[:fixed_version] = Version.find_by!(name: attributes[:version])
+        wp_attr[:version] = Version.find_by!(name: attributes[:version])
       end
     end
 

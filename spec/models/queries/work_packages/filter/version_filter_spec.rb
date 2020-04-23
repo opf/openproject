@@ -33,19 +33,19 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
 
   it_behaves_like 'basic query filter' do
     let(:type) { :list_optional }
-    let(:class_key) { :fixed_version_id }
+    let(:class_key) { :version_id }
     let(:values) { [version.id.to_s] }
-    let(:name) { WorkPackage.human_attribute_name('fixed_version') }
+    let(:name) { WorkPackage.human_attribute_name('version') }
 
     before do
       if project
         allow(project)
-          .to receive_message_chain(:shared_versions, :order_by_newest_date)
-          .and_return [version]
+          .to receive_message_chain(:shared_versions, :pluck)
+          .and_return [version.id]
       else
         allow(Version)
-          .to receive_message_chain(:visible, :systemwide, :order_by_newest_date)
-          .and_return [version]
+          .to receive_message_chain(:visible, :systemwide, :pluck)
+          .and_return [version.id]
       end
     end
 
@@ -57,7 +57,7 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
 
         it 'is false if the value does not exist as a version' do
           allow(project)
-            .to receive_message_chain(:shared_versions, :order_by_newest_date)
+            .to receive_message_chain(:shared_versions, :pluck)
             .and_return []
 
           expect(instance).to_not be_valid
@@ -73,7 +73,7 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
 
         it 'is false if the value does not exist as a version' do
           allow(Version)
-            .to receive_message_chain(:visible, :systemwide, :order_by_newest_date)
+            .to receive_message_chain(:visible, :systemwide, :pluck)
             .and_return []
 
           expect(instance).to_not be_valid
@@ -85,7 +85,7 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
       context 'within a project' do
         before do
           expect(instance.allowed_values)
-            .to match_array [[version.name, version.id.to_s]]
+            .to match_array [[version.id.to_s, version.id.to_s]]
         end
       end
 
@@ -94,7 +94,7 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
 
         before do
           expect(instance.allowed_values)
-            .to match_array [[version.name, version.id.to_s]]
+            .to match_array [[version.id.to_s, version.id.to_s]]
         end
       end
     end

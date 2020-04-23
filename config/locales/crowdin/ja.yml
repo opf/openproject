@@ -63,13 +63,16 @@ ja:
         main-menu-bg-color: "左サイドメニューの背景色。"
       theme_warning: テーマを変更した場合、カスタムスタイルが上書きされ、失われます。本当に続けますか？
     enterprise:
-      upgrade_to_ee: "エンタープライズ版にアップグレード"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
       replace_token: "現在のサポート トークンを置き換え"
       order: "エンタープライズ版を注文"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
       required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
       enterprise_link: "詳細については、ここをクリックしてください。"
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: までを表示
     is_active: 現在表示されています
@@ -396,7 +399,7 @@ ja:
         types: "作業項目の型"
         versions: "バージョン"
         work_packages: "作業項目"
-      project/status:
+      projects/status:
         code: 'ステータス'
         explanation: '状況の説明'
         codes:
@@ -461,7 +464,7 @@ ja:
         done_ratio: "進行状況 (%)"
         end_insertion: "挿入の終わり"
         end_deletion: "削除の終わり"
-        fixed_version: "バージョン"
+        version: "バージョン"
         parent: "親項目"
         parent_issue: "親項目"
         parent_work_package: "親項目"
@@ -476,7 +479,7 @@ ja:
       'doorkeeper/application':
         uid: "クライアントID"
         secret: "秘密鍵"
-        owner: "オーナー"
+        owner: "所有者"
         redirect_uri: "リダイレクトURI"
         client_credentials_user_id: "クライアント資格情報ユーザーID"
         scopes: "範囲"
@@ -749,6 +752,7 @@ ja:
     version: "バージョン"
     work_package: "ワーク パッケージ"
   button_add: "追加"
+  button_add_comment: "コメントを追加"
   button_add_member: メンバーを追加
   button_add_watcher: "ウォッチャーを追加"
   button_annotate: "注釈を付ける"
@@ -761,7 +765,7 @@ ja:
   button_change_password: "パスワードの変更"
   button_check_all: "全てを選択"
   button_clear: "クリア"
-  button_click_to_reveal: "クリックして明らかにする"
+  button_click_to_reveal: "明らかにするためにクリック"
   button_close: '閉じる'
   button_collapse_all: "全てを折りたたむ"
   button_configure: "設定"
@@ -1121,13 +1125,8 @@ ja:
     blocks:
       community: "OpenProject コミュニティ"
       upsale:
-        become_hero: "ヒーローになる!"
         title: "エンタープライズ版にアップグレード"
-        description: "メリットは何ですか？"
         more_info: "詳細情報"
-        additional_features: "強力なプレミアム機能"
-        professional_support: "OpenProject のエキスパートからのプロフェッショナル サポート"
-        you_contribute: "開発者も請求に支払う必要があります。エンタープライズ版で、実質的に、このオープンソース コミュニティの努力に貢献できます。"
     links:
       upgrade_enterprise_edition: "エンタープライズ版にアップグレード"
       postgres_migration: "PostgreSQL にインストールを移行しています"
@@ -1139,9 +1138,10 @@ ja:
       forums: "コミュニティ フォーラム"
       newsletter: "セキュリティアラート / ニュースレター"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: '設定ガイド'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "%{signin}をクリックして、アカウントが有効された後にログインできます。"
   instructions_after_logout: "%{signin}をクリックして再びログインできます。"
   instructions_after_error: "%{signin} をクリックして再びログインを試行できます。エラーが解決しない場合は、管理者にお問い合わせください。"
@@ -1431,6 +1431,7 @@ ja:
   label_new: "新しく作成"
   label_new_features: "新機能"
   label_new_statuses_allowed: "ステータスの移行先"
+  label_news_singular: "ニュース"
   label_news_added: "ニュースが追加されました。"
   label_news_comment_added: "ニュースにコメントが追加されました。"
   label_news_latest: "最新のニュース"
@@ -1686,31 +1687,6 @@ ja:
     other: "%{count}件プロジェクト"
   label_year: "年"
   label_yesterday: "昨日"
-  label_keyboard_function: "ファンクション"
-  label_keyboard_shortcut: "ショートカット"
-  label_keyboard_accesskey: "アクセスキー"
-  label_keyboard_shortcut_help_heading: "利用可能なキーボードショートカット"
-  label_keyboard_shortcut_within_project: "プロジェクト関連のショートカット"
-  label_keyboard_shortcut_global_shortcuts: "グローバル ショートカット:"
-  label_keyboard_shortcut_some_pages_only: "特別なショートカット:"
-  label_keyboard_shortcut_search_global: "グローバル検索"
-  label_keyboard_shortcut_search_project: "プロジェクトを探す"
-  label_keyboard_shortcut_go_my_page: "個人ページへ移動"
-  label_keyboard_shortcut_show_help: "このヘルプメッセージを表示"
-  label_keyboard_shortcut_go_overview: "プロジェクト概要へ移動"
-  label_keyboard_shortcut_go_work_package: "プロジェクトの作業項目へ移動"
-  label_keyboard_shortcut_go_wiki: "プロジェクトのWikiへ移動"
-  label_keyboard_shortcut_go_activity: "プロジェクト活動へ移動"
-  label_keyboard_shortcut_go_calendar: "プロジェクトのカレンダーへ移動"
-  label_keyboard_shortcut_go_news: "プロジェクトのニュースへ移動"
-  label_keyboard_shortcut_go_timelines: "タイムラインへ移動"
-  label_keyboard_shortcut_new_work_package: "新しい作業項目を作成"
-  label_keyboard_shortcut_details_package: "ワークパッケージ詳細ペインを表示"
-  label_keyboard_shortcut_go_edit: "この項目を編集へ移動（詳細ページのみ）"
-  label_keyboard_shortcut_open_more_menu: "他のメニュー項目を開く（詳細ページのみ）"
-  label_keyboard_shortcut_go_preview: "現在の編集のプレビューへ移動（編集ページのみ）"
-  label_keyboard_shortcut_focus_previous_item: "前のリスト項目へフォーカスする(特定のリストのみ）"
-  label_keyboard_shortcut_focus_next_item: "次のリスト項目へフォーカスする(特定のリストのみ）"
   auth_source:
     using_abstract_auth_source: "概要認証元を使用できません。"
     ldap_error: "LDAPエラー: %{error_message}"
@@ -2161,7 +2137,6 @@ ja:
   setting_welcome_text: "ようこそブロックのテキスト"
   setting_welcome_title: "ようこそブロックのタイトル"
   setting_welcome_on_homescreen: "ホーム画面にようこそブロックを表示"
-  setting_wiki_compression: "Wiki履歴を圧縮する"
   setting_work_package_group_assignment: "グループへの割り当てを許可する"
   setting_work_package_list_default_highlighting_mode: "デフォルトの強調表示モード"
   setting_work_package_list_default_highlighted_attributes: "デフォルトのインライン強調表示属性"
@@ -2500,6 +2475,7 @@ ja:
       mail_self_notified: "自分自身による変更の通知を希望"
     status_user_and_brute_force: "%{user}かつ%{brute_force}"
     status_change: "ステータスの変更"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "ロックを解除"
     unlock_and_reset_failed_logins: "ロックを解除して、失敗したログイン数をリセットする"
   version_status_closed: "完了"

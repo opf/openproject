@@ -71,7 +71,7 @@ describe Stories::CreateService, type: :model do
     project.enabled_module_names += ['backlogs']
 
     FactoryBot.create(:story,
-                      fixed_version: version,
+                      version: version,
                       project: project,
                       status: status,
                       type: type_feature,

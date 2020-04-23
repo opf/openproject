@@ -32,7 +32,7 @@ require 'model_contract'
 
 # Contract for create (c) and update (u)
 module CustomActions
-  class CUContract < ::ModelContract
+  class CuContract < ::ModelContract
     def self.model
       CustomAction
     end

@@ -1,0 +1,38 @@
+sl:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        entry: 'vstopni identifikator'
+        auth_source: 'LDAP povezava'
+    models:
+      ldap_groups/synchronized_group: 'sinhronizacija LDAP skupine'
+  ldap_groups:
+    label_menu_item: 'LDAP sinhronizacija skupine'
+    label_group_key: 'LDAP skupinski filter ključ'
+    settings:
+      group_key: 'LDAP skupinski atribut'
+      group_key_text: 'The LDAP attribute name used to identify the groups.'
+      group_base: 'LDAP group base'
+      group_base_text: 'LDAP group base used to search for group entries.'
+    synchronized_groups:
+      add_new: 'dodaj sinhroniziranje LDAP skupini'
+      destroy:
+        title: 'Remove synchronized group %{name}'
+        confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
+        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
+        verification: "Enter the group's name %{name} to verify the deletion."
+      help_text_html: |
+        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
+        <br/>
+        Groups are synchronized hourly through a cron job.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please see our documentation on this topic</a>.
+      no_results: 'Ni najdena nobena sinhronizirana skupina'
+      no_members: 'Skupina še nima sinhroniziranih članov'
+      plural: 'Synchronized LDAP groups'
+      singular: 'sinhronizacija LDAP skupine'
+      form:
+        auth_source_text: 'Select which LDAP authentication mode is used.'
+        entry_text: 'Definiraj LDAP skupinski identifikator'
+        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+

@@ -49,9 +49,9 @@ module OpenProject::Backlogs::Patches::VersionPatch
 
         # Add work_packages w/o position to the top of the list and add
         # work_packages, that have a position, at the end
-        stories_wo_position = fixed_issues.where(project_id: project, type_id: Story.types, position: nil).order(Arel.sql('id'))
+        stories_wo_position = work_packages.where(project_id: project, type_id: Story.types, position: nil).order(Arel.sql('id'))
 
-        stories_w_position = fixed_issues.where(project_id: project, type_id: Story.types)
+        stories_w_position = work_packages.where(project_id: project, type_id: Story.types)
                                          .where('position IS NOT NULL')
                                          .order(Arel.sql('COALESCE(position, 0), id'))
 

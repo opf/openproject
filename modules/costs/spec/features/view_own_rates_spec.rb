@@ -61,8 +61,8 @@ describe 'Only see your own rates', type: :feature, js: true do
                                                      user: user }
   let(:other_role) { FactoryBot.create :role, permissions: [] }
   let(:other_user) { FactoryBot.create :user,
-                                        member_in_project: project,
-                                        member_through_role: other_role }
+                                       member_in_project: project,
+                                       member_through_role: other_role }
   let(:other_hourly_rate) { FactoryBot.create :default_hourly_rate, user: other_user,
                                                                      rate: 11.00 }
   let(:other_time_entry) { FactoryBot.create :time_entry, user: other_user,
@@ -70,10 +70,10 @@ describe 'Only see your own rates', type: :feature, js: true do
                                                            project: project,
                                                            work_package: work_package }
   let(:other_cost_entry) { FactoryBot.create :cost_entry, work_package: work_package,
-                                                           project: project,
-                                                           units: 5.00,
-                                                           user: other_user,
-                                                           cost_type: cost_type }
+                                                          project: project,
+                                                          units: 5.00,
+                                                          user: other_user,
+                                                          cost_type: cost_type }
 
   before do
     login_as(user)
@@ -83,6 +83,7 @@ describe 'Only see your own rates', type: :feature, js: true do
     time_entry
     cost_entry
     other_hourly_rate
+    other_user
     other_time_entry
     other_cost_entry
 

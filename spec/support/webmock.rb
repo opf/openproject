@@ -36,17 +36,17 @@ RSpec.configure do |config|
     WebMock.disable!
   end
 
-  # When we enable webmock, no connections other than stubbed ones are allowed.
-  # We will exempt local connections from this block, since selenium etc.
-  # uses localhost to communicate with the browser.
-  # Leaving this off will randomly fail some specs with WebMock::NetConnectNotAllowedError
-  WebMock.disable_net_connect!(allow_localhost: true)
-
   config.around(:example, webmock: true) do |example|
     begin
+      # When we enable webmock, no connections other than stubbed ones are allowed.
+      # We will exempt local connections from this block, since selenium etc.
+      # uses localhost to communicate with the browser.
+      # Leaving this off will randomly fail some specs with WebMock::NetConnectNotAllowedError
+      WebMock.disable_net_connect!(allow_localhost: true)
       WebMock.enable!
       example.run
     ensure
+      WebMock.allow_net_connect!
       WebMock.disable!
     end
   end

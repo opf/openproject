@@ -90,6 +90,3 @@ class OpenProject::XlsExport::XlsViews
     end
   end
 end
-
-# Load subclasses
-require_relative './xls_views/cost_entry_table.xls'

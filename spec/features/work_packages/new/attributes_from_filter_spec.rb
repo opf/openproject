@@ -92,7 +92,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
     end
 
     it 'allows to save with a single value (Regression test #27833)' do
-      split_page = wp_table.create_wp_split_screen type_task
+      split_page = wp_table.create_wp_by_button type_task
 
       subject = split_page.edit_field(:subject)
       subject.expect_active!

@@ -28,7 +28,7 @@
 
 require 'rails/generators'
 
-class OpenProject::PluginGenerator < Rails::Generators::Base
+class Generators::OpenProject::Plugin::PluginGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 
   argument :plugin_name, type: :string, default: 'openproject-new-plugin'

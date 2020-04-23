@@ -29,10 +29,11 @@
 require 'spec_helper'
 
 describe 'Custom actions', type: :feature, js: true do
+  using_shared_fixtures :admin
+
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let!(:other_role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:admin) { FactoryBot.create(:admin) }
   let(:user) do
     user = FactoryBot.create(:user,
                              firstname: 'A',

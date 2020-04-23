@@ -26,26 +26,28 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnInit, OnDestroy, ViewChild, AfterContentInit, HostListener} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
 import {States} from 'core-components/states.service';
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil, filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
+import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
+
+export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
 
 @Component({
-  selector: 'ckeditor-augmented-textarea',
+  selector: ckeditorAugmentedTextareaSelector,
   templateUrl: './ckeditor-augmented-textarea.html'
 })
-export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
+export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin implements OnInit {
   public textareaSelector:string;
   public previewContext:string;
 
@@ -78,6 +80,7 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
               protected I18n:I18nService,
               protected states:States,
               protected ConfigurationService:ConfigurationService) {
+    super();
   }
 
   ngOnInit() {
@@ -108,6 +111,7 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.formElement.off('submit.ckeditor');
   }
 
@@ -163,8 +167,8 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
         filter(resource => !!resource)
       ).subscribe(resource => {
       let missingAttachments = _.differenceBy(this.attachments,
-                                              resource!.attachments.elements,
-                                              (attachment:HalResource) => attachment.id);
+        resource!.attachments.elements,
+        (attachment:HalResource) => attachment.id);
 
       let removedUrls = missingAttachments.map(attachment => attachment.downloadLocation.$href);
 
@@ -214,9 +218,3 @@ export class CkeditorAugmentedTextareaComponent implements OnInit, OnDestroy {
     });
   }
 }
-
-DynamicBootstrapper.register({
-  selector: 'ckeditor-augmented-textarea',
-  cls: CkeditorAugmentedTextareaComponent,
-  embeddable: true
-});

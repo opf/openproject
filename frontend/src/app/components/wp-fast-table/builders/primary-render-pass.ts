@@ -12,8 +12,9 @@ import {TimelineRenderPass} from './timeline/timeline-render-pass';
 import {HighlightingRenderPass} from "core-components/wp-fast-table/builders/highlighting/row-highlight-render-pass";
 import {DragDropHandleRenderPass} from "core-components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
-export type RenderedRowType = 'primary' | 'relations';
+export type RenderedRowType = 'primary'|'relations';
 
 export interface RowRenderInfo {
   // The rendered row
@@ -23,7 +24,7 @@ export interface RowRenderInfo {
   // Additional classes to be added by any secondary render passes
   additionalClasses:string[];
   // If this row is a work package, contains a reference to the rendered WP
-  workPackage:WorkPackageResource | null;
+  workPackage:WorkPackageResource|null;
   // If this is an additional row not present, this contains a reference to the WP
   // it originated from
   belongsTo?:WorkPackageResource;
@@ -37,9 +38,9 @@ export interface RowRenderInfo {
 
 export abstract class PrimaryRenderPass {
 
-  protected readonly halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
-  protected readonly states:States = this.injector.get(States);
-  protected readonly I18n:I18nService = this.injector.get(I18nService);
+  @InjectField() halEditing:HalResourceEditingService;
+  @InjectField() states:States;
+  @InjectField() I18n:I18nService;
 
   /** The rendered order of rows of work package IDs or <null>, if not a work package row */
   public renderedOrder:RowRenderInfo[];
@@ -109,7 +110,7 @@ export abstract class PrimaryRenderPass {
    */
   public refresh(row:RowRenderInfo, workPackage:WorkPackageResource, body:HTMLElement) {
     let oldRow = jQuery(body).find(`.${row.classIdentifier}`);
-    let replacement:JQuery | null = null;
+    let replacement:JQuery|null = null;
 
     switch (row.renderType) {
       case 'primary':

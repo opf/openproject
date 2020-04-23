@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class ::Type < ActiveRecord::Base
+class ::Type < ApplicationRecord
   extend Pagination::Model
 
   # Work Package attributes for this type
@@ -59,7 +59,7 @@ class ::Type < ActiveRecord::Base
 
   validates :name,
             presence: true,
-            uniqueness: { case_sensitive: true },
+            uniqueness: { case_sensitive: false },
             length: { maximum: 255 }
 
   validates_inclusion_of :is_default, :is_milestone, in: [true, false]

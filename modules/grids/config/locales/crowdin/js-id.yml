@@ -15,7 +15,7 @@ id:
         members:
           title: 'Member'
           no_results: 'No visible members.'
-          view_all_members: 'View all members'
+          view_all_members: 'Lihat semua anggota'
           add: 'Member'
           too_many: 'Displaying %{count} of %{total} members.'
         news:

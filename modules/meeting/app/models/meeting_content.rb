@@ -27,12 +27,7 @@
 #++
 #
 
-require_dependency 'wiki_page'
-
-# Because of the WikiDiff class defined therein
-require 'wiki_page'
-
-class MeetingContent < ActiveRecord::Base
+class MeetingContent < ApplicationRecord
   include OpenProject::Journal::AttachmentHelper
 
   belongs_to :meeting
@@ -75,7 +70,7 @@ class MeetingContent < ActiveRecord::Base
     content_to = journals.find_by_version(version_to)
     content_from = journals.find_by_version(version_from)
 
-    (content_to && content_from) ? ::WikiDiff.new(content_to, content_from) : nil
+    content_to && content_from ? Wikis::Diff.new(content_to, content_from) : nil
   end
 
   def at_version(version)

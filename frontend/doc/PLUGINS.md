@@ -56,7 +56,6 @@ The Angular frontend entry point is `frontend/module/main.ts` and should export 
 
 ```typescript
 export function initializeCostsPlugin() {
-    return () => {
         window.OpenProject.getPluginContext()
             .then((pluginContext:OpenProjectPluginContext) => {
     		// Register a field type to the core EditField functionality
@@ -76,16 +75,17 @@ export function initializeCostsPlugin() {
                 };
             });
         });
-    };
 }
 
 
 @NgModule({
     providers: [
-        { provide: APP_INITIALIZER, useFactory: initializeCostsPlugin, deps: [Injector], multi: true },
     ],
 })
 export class PluginModule { // The name PluginModule is important!
+  constructor() {
+    initializeCostsPlugin();
+  }
 }
 ```
 

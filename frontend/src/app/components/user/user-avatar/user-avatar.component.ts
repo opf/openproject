@@ -27,22 +27,14 @@
 //++
 
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  SimpleChanges
-} from "@angular/core";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
 
+export const userAvatarSelector = 'user-avatar';
+
 @Component({
-  selector: 'user-avatar',
+  selector: userAvatarSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-avatar.component.html'
 })
@@ -94,15 +86,12 @@ export class UserAvatarComponent implements AfterViewInit {
   }
 
   private getInitials(name:string) {
-    let names = name.split(' '),
-      initials = names[0].substring(0, 1).toUpperCase();
+    let characters = [...name];
+    let lastSpace = name.lastIndexOf(' ');
+    let first = characters[0]?.toUpperCase();
+    let last = name[lastSpace + 1]?.toUpperCase();
 
-    if (names.length > 1) {
-      initials += names[names.length - 1].substring(0, 1).toUpperCase();
-    }
-
-    return initials;
+    return [first, last].join("");
   }
 }
 
-DynamicBootstrapper.register({ selector: 'user-avatar', cls: UserAvatarComponent  });

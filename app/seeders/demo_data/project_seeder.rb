@@ -124,7 +124,7 @@ module DemoData
       status_explanation = project_data_for(key, 'status.description')
 
       if status_code || status_explanation
-        Project::Status.create!(
+        Projects::Status.create!(
           project: project,
           code: status_code,
           explanation: status_explanation
@@ -168,8 +168,9 @@ module DemoData
     end
 
     def seed_news(project, key)
+      user = User.admin.first
       Array(project_data_for(key, 'news')).each do |news|
-        News.create! project: project, title: news[:title], summary: news[:summary], description: news[:description]
+        News.create! project: project, author: user, title: news[:title], summary: news[:summary], description: news[:description]
       end
     end
 

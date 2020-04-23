@@ -27,19 +27,18 @@
 // ++
 
 import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-
-export interface CreateAutocompleterValueOption {
-  name:string;
-  $href:string|null;
-}
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {AddTagFn} from "@ng-select/ng-select/lib/ng-select.component";
-import { Subject } from 'rxjs';
+import {Subject} from 'rxjs';
+
+export interface CreateAutocompleterValueOption {
+  name:string;
+  $href:string|null;
+}
 
 @Component({
   templateUrl: './create-autocompleter.component.html',
@@ -64,7 +63,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Output() public onAfterViewInit = new EventEmitter<this>();
 
 
-  @ViewChild('ngSelectComponent', {static: false}) public ngSelectComponent:NgSelectComponent;
+  @ViewChild('ngSelectComponent') public ngSelectComponent:NgSelectComponent;
 
   public text:{ [key:string]:string } = {
     add_new_action: this.I18n.t('js.label_create'),
@@ -141,5 +140,3 @@ export class CreateAutocompleterComponent implements AfterViewInit {
     this.ngSelectComponent && this.ngSelectComponent.focus();
   }
 }
-
-DynamicBootstrapper.register({selector: 'add-attribute-autocompleter', cls: CreateAutocompleterComponent});

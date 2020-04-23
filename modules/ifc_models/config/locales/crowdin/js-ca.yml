@@ -1,6 +1,0 @@
-ca:
-  js:
-    ifc_models:
-      models:
-        default: 'Models IFC predeterminats'
-        manage: 'Gestionar models'

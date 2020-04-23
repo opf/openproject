@@ -30,7 +30,7 @@
 
 class NewsController < ApplicationController
   include PaginationHelper
-  include Concerns::Layout
+  include Layout
 
   default_search_scope :news
 

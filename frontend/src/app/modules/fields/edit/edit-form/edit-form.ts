@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Injector} from '@angular/core';
+import {Inject, Injector} from '@angular/core';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {Observable, Subscription} from 'rxjs';
 import {States} from 'core-components/states.service';
@@ -38,6 +38,7 @@ import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -45,10 +46,10 @@ export const activeFieldClassName = 'inline-edit--field';
 export abstract class EditForm<T extends HalResource = HalResource> {
 
   // Injections
-  protected readonly states:States = this.injector.get(States);
-  protected readonly halEditing = this.injector.get(HalResourceEditingService);
-  protected readonly halNotification = this.injector.get(HalResourceNotificationService);
-  protected readonly halEvents = this.injector.get(HalEventsService);
+  @InjectField() states:States;
+  @InjectField() halEditing:HalResourceEditingService;
+  @InjectField() halNotification:HalResourceNotificationService;
+  @InjectField() halEvents:HalEventsService;
 
   // All current active (open) edit fields
   public activeFields:{ [fieldName:string]:EditFieldHandler } = {};
@@ -65,7 +66,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   // Subscribe to changes to the temporary edit form
   protected subscription:Subscription;
 
-  protected constructor(protected injector:Injector) {
+  protected constructor(public injector:Injector) {
   }
 
   /**
@@ -88,7 +89,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    */
   protected onSaved(isInitial:boolean, saved:HalResource):void {
     const eventType = isInitial ? 'created' : 'updated';
-    this.halEvents.push(saved, { eventType });
+    this.halEvents.push(saved, {eventType});
   }
 
   protected abstract focusOnFirstError():void;

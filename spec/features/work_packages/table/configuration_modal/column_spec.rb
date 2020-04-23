@@ -35,7 +35,7 @@ describe 'Work Package table configuration modal columns spec', js: true do
       columns.remove 'Subject', save_changes: false
       columns.add 'Project', save_changes: true
       columns.expect_column_available 'Subject'
-      columns.expect_column_not_selectable 'Project'
+      columns.expect_column_not_available 'Project'
 
       expect(page).to have_selector('.wp-table--table-header', text: 'ID')
       expect(page).to have_selector('.wp-table--table-header', text: 'PROJECT')
@@ -47,7 +47,7 @@ describe 'Work Package table configuration modal columns spec', js: true do
     it_behaves_like 'add and remove columns'
 
 
-    context 'with three columns' do
+    context 'with three columns', driver: :firefox_headless_de do
       let!(:query) do
         query = FactoryBot.build(:query, user: user, project: project)
         query.column_names = %w[id project subject]
@@ -63,14 +63,18 @@ describe 'Work Package table configuration modal columns spec', js: true do
         columns.expect_checked 'Subject'
 
         # Drag subject left of project
-        subject = find('.select2-search-choice', text: 'Subject')
+        subject_column = columns.column_item('Subject').find('span')
+        project_column = columns.column_item('Project').find('span')
+
         page
           .driver
           .browser
           .action
-          .move_to(subject.native)
-          .drag_and_drop_by(subject.native, -100, 0)
+          .drag_and_drop(subject_column.native, project_column.native)
+          .release
           .perform
+
+        sleep 1
 
         columns.apply
         expect(page).to have_selector('.wp-table--table-header', text: 'ID')
@@ -78,7 +82,9 @@ describe 'Work Package table configuration modal columns spec', js: true do
         expect(page).to have_selector('.wp-table--table-header', text: 'SUBJECT')
 
         names = all('.wp-table--table-header').map(&:text)
-        expect(names).to eq(%w[ID SUBJECT PROJECT])
+        # Depending on what browser is used, subject column may be first or second
+        # it doesn't matter for the outcome of this test
+        expect(names).to eq(%w[SUBJECT ID PROJECT]).or(eq(%w[ID SUBJECT PROJECT]))
       end
     end
   end

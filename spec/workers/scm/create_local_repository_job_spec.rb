@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe Scm::CreateLocalRepositoryJob do
+describe SCM::CreateLocalRepositoryJob do
   let(:instance) { described_class.new }
   subject { instance.perform(repository) }
 

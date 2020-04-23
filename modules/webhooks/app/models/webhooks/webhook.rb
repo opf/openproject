@@ -1,5 +1,5 @@
 module Webhooks
-  class Webhook < ActiveRecord::Base
+  class Webhook < ApplicationRecord
     default_scope { order(id: :asc) }
 
     validates_presence_of :name

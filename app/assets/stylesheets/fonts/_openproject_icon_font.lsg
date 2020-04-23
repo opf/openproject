@@ -90,6 +90,7 @@
 <li><span class="icon icon-export-xls-with-relations"></span>export-xls-with-relations</li>
 <li><span class="icon icon-export-xls"></span>export-xls</li>
 <li><span class="icon icon-export"></span>export</li>
+<li><span class="icon icon-external-link"></span>external-link</li>
 <li><span class="icon icon-faq"></span>faq</li>
 <li><span class="icon icon-filter"></span>filter</li>
 <li><span class="icon icon-flag"></span>flag</li>
@@ -122,6 +123,7 @@
 <li><span class="icon icon-import"></span>import</li>
 <li><span class="icon icon-info1"></span>info1</li>
 <li><span class="icon icon-info2"></span>info2</li>
+<li><span class="icon icon-input-disabled"></span>input-disabled</li>
 <li><span class="icon icon-installation-services"></span>installation-services</li>
 <li><span class="icon icon-italic"></span>italic</li>
 <li><span class="icon icon-key"></span>key</li>
@@ -240,7 +242,9 @@
 <li><span class="icon icon-view-card"></span>view-card</li>
 <li><span class="icon icon-view-fullscreen"></span>view-fullscreen</li>
 <li><span class="icon icon-view-list"></span>view-list</li>
+<li><span class="icon icon-view-model"></span>view-model</li>
 <li><span class="icon icon-view-split"></span>view-split</li>
+<li><span class="icon icon-view-split2"></span>view-split2</li>
 <li><span class="icon icon-view-timeline"></span>view-timeline</li>
 <li><span class="icon icon-warning"></span>warning</li>
 <li><span class="icon icon-watched"></span>watched</li>

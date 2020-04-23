@@ -30,6 +30,9 @@ import {Component} from '@angular/core';
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import {BcfRestApi} from "core-app/modules/bim/bcf/bcf-constants.const";
+
+export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block';
 
 @Component({
   template: `
@@ -45,7 +48,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 
     <a [href]="teaserWebsiteUrl" target="_blank">{{ text.learnAbout }}</a>
   `,
-  selector: 'homescreen-new-features-block',
+  selector: homescreenNewFeaturesBlockSelector,
   styleUrls: ['./new-features.component.sass'],
 })
 
@@ -80,7 +83,7 @@ export class HomescreenNewFeaturesBlockComponent {
   }
 
   private translated(key:string):string {
-    return this.i18n.t(this.i18nBase + this.i18nPrefix + '.' + key);
+    return this.i18n.t(this.i18nBase + this.i18nPrefix + '.' + key, { bcf_api_link: BcfRestApi});
   }
 
   private i18nBase:string = 'js.homescreen.blocks.new_features.';
@@ -89,5 +92,3 @@ export class HomescreenNewFeaturesBlockComponent {
     return this.isStandardEdition ? "standard" : "bim";
   }
 }
-
-DynamicBootstrapper.register({ selector: 'homescreen-new-features-block', cls: HomescreenNewFeaturesBlockComponent  });

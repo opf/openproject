@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe CustomActions::CUContract do
+describe CustomActions::CuContract do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:action) do
     FactoryBot.build_stubbed(:custom_action, actions:

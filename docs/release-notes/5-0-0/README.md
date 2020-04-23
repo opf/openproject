@@ -239,7 +239,4 @@ OpenProject Packager edition.
 A large number of bugs have been fixed with the release of OpenProject
 5.0.
 
-For an extensive overview of bug fixes please refer to the [following
-list](https://community.openproject.com/projects/openproject/work_packages?query_id=730&query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22p%22:%22openproject%22,%22g%22:%22project%22,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22t%22:%22list_optional%22,%22v%22:%5B%22548%22%5D%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22t%22:%22list_subprojects%22%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22t%22:%22list_model%22,%22v%22:%5B%221%22%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D).
-
 

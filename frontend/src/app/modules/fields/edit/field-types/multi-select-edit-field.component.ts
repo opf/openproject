@@ -33,15 +33,15 @@ import {Component, OnInit, ViewChild} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
 import {NgSelectComponent} from "@ng-select/ng-select";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   templateUrl: './multi-select-edit-field.component.html'
 })
 export class MultiSelectEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
+  @InjectField() I18n:I18nService;
 
-  readonly I18n:I18nService = this.injector.get(I18nService);
   public availableOptions:any[] = [];
   public valueOptions:ValueOption[];
   public text = {
@@ -67,7 +67,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     this.handler
       .$onUserActivate
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed()
       )
       .subscribe(() => {
         this.requestFocus = this.availableOptions.length === 0;
@@ -212,8 +212,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
           return _.some(this.availableOptions, (option) => (option.$href === value.$href))
         }))
       );
-    }
-    else {
+    } else {
       // If no value but required
       this.currentValueInvalid = !!this.schema.required;
     }

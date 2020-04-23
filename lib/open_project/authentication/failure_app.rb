@@ -20,7 +20,7 @@ module OpenProject
             handle_failure warden
           end
         else
-          unauthorized
+          unauthorized env
         end
       end
 
@@ -32,8 +32,8 @@ module OpenProject
         [warden.status || 401, warden.headers, [warden.message]]
       end
 
-      def unauthorized
-        [401, {}, ['unauthorized']]
+      def unauthorized(env)
+        [401, unauthorized_header(env), ['unauthorized']]
       end
 
       def warden(env)
@@ -42,6 +42,13 @@ module OpenProject
 
       def warden_options(env)
         Hash(env['warden.options'])
+      end
+
+      def unauthorized_header(env)
+        header = OpenProject::Authentication::WWWAuthenticate
+          .response_header(scope: scope(env), request_headers: env)
+
+        { 'WWW-Authenticate' => header }
       end
 
       def scope(env)

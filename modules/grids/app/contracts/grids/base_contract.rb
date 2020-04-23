@@ -28,12 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
-
 module Grids
   class BaseContract < ::ModelContract
     include OpenProject::StaticRouting::UrlHelpers
-    include Concerns::AssignableValuesContract
+    include AssignableValuesContract
     include ::Attachments::ValidateReplacements
 
     attribute :row_count do

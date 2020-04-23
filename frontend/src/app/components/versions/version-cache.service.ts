@@ -36,7 +36,7 @@ import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
 import {VersionDmService} from "core-app/modules/hal/dm-services/version-dm.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class VersionCacheService extends StateCacheService<VersionResource>  {
 
   constructor(readonly states:States,

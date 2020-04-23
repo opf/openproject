@@ -1,0 +1,21 @@
+#English strings go here
+ru:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Импорт'
+      export: 'Экспорт'
+      viewpoint: 'Точка просмотра'
+      add_viewpoint: 'Добавить точку просмотра'
+      show_viewpoint: 'Показать точку просмотра'
+      delete_viewpoint: 'Удалить точку просмотра'
+    ifc_models:
+      empty_warning: "В этом проекте пока нет моделей IFC."
+      use_this_link_to_manage: "Эта ссылка служит для загрузки и управления моделями IFC"
+      keyboard_input_disabled: "Для просмотрщика не назначены клавиши управления. Нажмите на просмотрщик, чтобы назначить клавишу."
+      models:
+        default: 'Модели IFC по умолчанию'
+        manage: 'Управление моделями'
+      views:
+        viewer: 'Просмотрщик'
+        split: 'Просмотрщик и карты'

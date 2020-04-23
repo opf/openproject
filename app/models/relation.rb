@@ -28,8 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Relation < ActiveRecord::Base
-  include Concerns::VirtualAttribute
+class Relation < ApplicationRecord
+  include VirtualAttribute
 
   scope :of_work_package,
         ->(work_package) { where('from_id = ? OR to_id = ?', work_package, work_package) }

@@ -43,7 +43,7 @@ es:
           title: 'Tiempo de gastos (últimos 7 días)'
           no_results: 'Sin entradas temporales en los últimos 7 días.'
         work_packages_accountable:
-          title: "Paquetes de trabajo de los que soy responsable"
+          title: "Soy responsable por estos paquetes de trabajo"
         work_packages_assigned:
           title: 'Paquetes de trabajo asignados a mí'
         work_packages_created:

@@ -20,6 +20,9 @@ module BrowserHelper
       # Older version of safari
       return true if browser.safari? && version < 12
 
+      # Older version of EDGE
+      return true if browser.edge? && version < 18
+
       false
     end
   end

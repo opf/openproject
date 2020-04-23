@@ -44,11 +44,6 @@ import {AttachmentsUploadComponent} from "core-app/modules/attachments/attachmen
     AttachmentListItemComponent,
     AttachmentsUploadComponent,
   ],
-  entryComponents: [
-    AttachmentsComponent,
-    AttachmentsUploadComponent,
-    AttachmentListComponent
-  ],
   exports: [
     AttachmentsUploadComponent,
     AttachmentListComponent,

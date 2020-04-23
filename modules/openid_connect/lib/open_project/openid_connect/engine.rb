@@ -24,6 +24,8 @@ module OpenProject::OpenIDConnect
       openid_connect/auth_provider-heroku.png
     )
 
+    class_inflection_override('openid_connect' => 'OpenIDConnect')
+
     register_auth_providers do
       # Use OpenSSL default certificate store instead of HTTPClient's.
       # It's outdated and it's unclear how it's managed.

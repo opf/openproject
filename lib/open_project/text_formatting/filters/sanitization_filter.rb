@@ -44,6 +44,33 @@ module OpenProject::TextFormatting
               if name == 'a'
                 node['rel'] = 'noopener noreferrer'
               end
+            },
+            # Replace to do lists in tables with their markdown equivalent
+            lambda { |env|
+              name = env[:node_name]
+              table = env[:node]
+
+              next unless name == 'table'
+
+              table.css('label.todo-list__label').each do |label|
+                checkbox = label.css('input[type=checkbox]').first
+                checked = checkbox.attr('checked') == 'checked' ? 'x' : ' '
+                checkbox.unlink
+
+                # assign all children of the label to its parent
+                # that might be the LI, or another element (code, link)
+                parent = label.parent
+                # However the task list text must be added to the LI
+                li_node = label.ancestors.detect { |node| node.name == 'li' }
+                li_node.prepend_child " [#{checked}] "
+
+                # Prepend if there is a parent in between
+                if parent == li_node
+                  parent.add_child label.children
+                else
+                  parent.prepend_child label.children
+                end
+              end
             }
           ]
         ))

@@ -49,7 +49,7 @@ describe ::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter, clear_
       describe 'values' do
         let(:path) { 'values' }
         let(:type) { '[]Version' }
-        let(:order) { "sortBy=#{CGI.escape(JSON.dump([%i(name asc)]))}" }
+        let(:order) { "sortBy=#{CGI.escape(JSON.dump([%i(semver_name asc)]))}" }
 
         context "for operator 'Queries::Operators::All'" do
           let(:operator) { Queries::Operators::All }

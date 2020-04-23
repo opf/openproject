@@ -34,7 +34,7 @@ import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
 import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.service';
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ProjectCacheService extends StateCacheService<ProjectResource> {
 
   constructor(readonly states:States,

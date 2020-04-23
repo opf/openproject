@@ -1,0 +1,44 @@
+.bcf--viewpoints
+  clear: both
+
+ngx-gallery
+  display: inline-block
+
+ngx-gallery ::ng-deep
+  ngx-gallery-thumbnails .ngx-gallery-arrow
+    color: var(--content-link-color)
+
+  .ngx-gallery-arrow.ngx-gallery-disabled
+    display: none
+
+  // Add small background for gallery icons to be sure they are always visible
+  .ngx-gallery-icons-wrapper
+    background: rgba(255, 255, 255, 0.5)
+    padding: 5px
+    .ngx-gallery-icon
+      margin-top: 0
+
+    ngx-gallery-action:last-of-type .ngx-gallery-icon
+      margin-right: 0
+
+  .ngx-gallery-thumbnail
+    background-color: white
+    &.ngx-gallery-clickable
+      .ngx-gallery-icon
+        font-size: 1.25rem
+        color: var(--content-link-color)
+
+  // Disable red border on active thumbnails
+  .ngx-gallery-active,
+  .ngx-gallery-thumbnail
+    border: 1px solid #E7E7E7 !important
+
+  .ngx-gallery-preview-img
+    background-color: white
+
+  // Decrease opacity of background to avoid content conflicts
+  ngx-gallery-preview
+    background: rgba(0, 0, 0, 0.8) !important
+
+    a:hover
+      color: #FFFFFF

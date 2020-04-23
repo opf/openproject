@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Inject,
   Injector,
   Input,
   OnChanges,
@@ -18,7 +17,6 @@ import {
   withLoadingIndicator
 } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
 import {BoardInlineCreateService} from "core-app/modules/boards/board/board-list/board-inline-create.service";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
@@ -49,6 +47,7 @@ import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/b
 import {debugLog} from "core-app/helpers/debug_output";
 import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -60,7 +59,7 @@ export interface DisabledButtonPlaceholder {
   templateUrl: './board-list.component.html',
   styleUrls: ['./board-list.component.sass'],
   providers: [
-    {provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService},
+    { provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService },
     BoardListMenuComponent,
     WorkPackageCardDragAndDropService
   ]
@@ -79,7 +78,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   @ViewChild('loadingIndicator', { static: true }) indicator:ElementRef;
 
   /** Access to the card view */
-  @ViewChild(WorkPackageCardViewComponent, { static: false }) cardView:WorkPackageCardViewComponent;
+  @ViewChild(WorkPackageCardViewComponent) cardView:WorkPackageCardViewComponent;
 
   /** The query resource being loaded */
   public query:QueryResource;
@@ -159,7 +158,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.querySpace.query
       .values$()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe((query) => {
         this.query = query;
@@ -168,10 +167,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       });
 
     this.updateQuery();
-  }
-
-  ngOnDestroy():void {
-    // Interface compatibility
   }
 
   ngOnChanges(changes:SimpleChanges) {
@@ -209,8 +204,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public get canRename() {
     return this.canManage &&
-           !!this.query.updateImmediately &&
-           this.board.isFree;
+      !!this.query.updateImmediately &&
+      this.board.isFree;
   }
 
   public addReferenceCard() {
@@ -237,7 +232,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.inFlight = true;
     this.query.name = value;
     this.QueryDm
-      .patch(this.query.id!, {name: value})
+      .patch(this.query.id!, { name: value })
       .toPromise()
       .then(() => {
         this.inFlight = false;
@@ -324,7 +319,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     if (actionAttribute && !changeset.isWritable(actionAttribute)) {
       throw this.I18n.t(
         'js.boards.error_attribute_not_writable',
-        { attribute: changeset.humanName(actionAttribute)}
+        { attribute: changeset.humanName(actionAttribute) }
       );
     }
 

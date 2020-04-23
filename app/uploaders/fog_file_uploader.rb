@@ -27,7 +27,6 @@
 #++
 
 require 'carrierwave/storage/fog'
-require 'open_project/patches/carrierwave'
 
 class FogFileUploader < CarrierWave::Uploader::Base
   include FileUploader
@@ -105,7 +104,9 @@ class FogFileUploader < CarrierWave::Uploader::Base
 
   def set_expires_at!(url_options, options:)
     if options[:expires_in].present?
-      url_options[:expire_at] = ::Fog::Time.now + options[:expires_in]
+      # AWS allows at max < 604800 expires time
+      expires = [options[:expires_in], 604799].min
+      url_options[:expire_at] = ::Fog::Time.now + expires
     end
 
     if options[:expires_at].present?

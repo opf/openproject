@@ -29,8 +29,6 @@
 import {ChangeDetectionStrategy, Component, Injector, OnInit} from '@angular/core';
 import {StateService} from '@uirouter/core';
 import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
 import {States} from "core-components/states.service";
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
@@ -38,6 +36,7 @@ import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/ro
 import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
 
 @Component({
   templateUrl: './wp-split-view.html',
@@ -49,13 +48,17 @@ import {WorkPackageNotificationService} from "core-app/modules/work_packages/not
 })
 export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase implements OnInit {
 
+  /** Reference to the base route e.g., work-packages.partitioned.list or bim.partitioned.split */
+  private baseRoute:string = this.$state.current.data.baseRoute;
+
   constructor(public injector:Injector,
               public states:States,
               public firstRoute:FirstRouteService,
               public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageViewSelectionService,
               public wpTableFocus:WorkPackageViewFocusService,
-              readonly $state:StateService) {
+              readonly $state:StateService,
+              readonly backRouting:BackRoutingService) {
     super(injector, $state.params['workPackageId']);
   }
 
@@ -67,7 +70,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
     if (!focusedWP) {
       // Focus on the work package if we're the first route
-      const isFirstRoute = this.firstRoute.name === 'work-packages.list.details.overview';
+      const isFirstRoute = this.firstRoute.name === `${this.baseRoute}.details.overview`;
       const isSameID = this.firstRoute.params && wpId === this.firstRoute.params.workPackageI;
       this.wpTableFocus.updateFocus(wpId, (isFirstRoute && isSameID));
     } else {
@@ -80,14 +83,14 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
     this.wpTableFocus.whenChanged()
       .pipe(
-        takeUntil(componentDestroyed(this))
+        this.untilDestroyed()
       )
       .subscribe(newId => {
         const idSame = wpId.toString() === newId.toString();
-        if (!idSame && this.$state.includes('work-packages.list.details')) {
+        if (!idSame && this.$state.includes(`${this.baseRoute}.details`)) {
           this.$state.go(
             (this.$state.current.name as string),
-            {workPackageId: newId, focus: false}
+            { workPackageId: newId, focus: false }
           );
         }
       });
@@ -95,7 +98,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
 
   public close() {
-    this.$state.go('work-packages.list', this.$state.params);
+    this.$state.go(this.baseRoute, this.$state.params);
   }
 
   public switchToFullscreen() {
@@ -104,6 +107,14 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
   public get shouldFocus() {
     return this.$state.params.focus === true;
+  }
+
+  public showBackButton():boolean {
+    return this.baseRoute.includes('bim');
+  }
+
+  public backToList() {
+    this.backRouting.goToBaseState();
   }
 
   protected initializeTexts() {

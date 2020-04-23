@@ -261,6 +261,7 @@ class ApplicationController < ActionController::Base
 
   def reset_i18n_fallbacks
     return if I18n.fallbacks.defaults == (fallbacks = [I18n.default_locale] + Setting.available_languages.map(&:to_sym))
+
     I18n.fallbacks = nil
     I18n.fallbacks.defaults = fallbacks
   end
@@ -650,5 +651,5 @@ class ApplicationController < ActionController::Base
   # http://simonecarletti.com/blog/2011/04/understanding-ruby-and-rails-lazy-load-hooks/
   ActiveSupport.run_load_hooks(:application_controller, self)
 
-  prepend Concerns::AuthSourceSSO
+  prepend AuthSourceSSO
 end

@@ -27,15 +27,20 @@
 #++
 
 FactoryBot.define do
-  factory :cost_entry  do
+  factory :cost_entry do
     project
-    user do FactoryBot.create(:user, member_in_project: project)end
-    work_package do FactoryBot.create(:work_package, project: project) end
+    user
+    work_package
     cost_type
     spent_on { Date.today }
     units { 1 }
     comments { '' }
-    created_on do Time.now end
+    created_on { Time.now }
     updated_on { Time.now }
+
+    before(:create) do |ce|
+      ce.work_package.project = ce.project
+      ce.project.add_member!(ce.user, [FactoryBot.create(:role)]) unless ce.project.users.include?(ce.user)
+    end
   end
 end

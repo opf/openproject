@@ -45,7 +45,7 @@ ja:
       models:
         work_package:
           attributes:
-            fixed_version_id:
+            version_id:
               task_version_must_be_the_same_as_story_version: "親ストーリーのバージョンと同じでなければなりません。"
             parent_id:
               parent_child_relationship_across_projects: "は無効です。作業項目'%{work_package_name}'はバックログタスクで、現在のプロジェクト外の親を持つことはできません。"

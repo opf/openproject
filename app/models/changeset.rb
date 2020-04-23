@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Changeset < ActiveRecord::Base
+class Changeset < ApplicationRecord
   belongs_to :repository
   belongs_to :user
   has_many :file_changes, class_name: 'Change', dependent: :delete_all
@@ -240,6 +240,11 @@ class Changeset < ActiveRecord::Base
   end
 
   def log_time(work_package, hours)
+    unless user.present?
+      Rails.logger.warn("TimeEntry could not be created by changeset #{id}: #{committer} does not map to user")
+      return
+    end
+
     Changesets::LogTimeService
       .new(user: user, changeset: self)
       .call(work_package, hours)

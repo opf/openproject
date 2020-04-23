@@ -74,12 +74,14 @@ uk:
   permission_send_meeting_agendas_notification: "Надіслати повідомлення про перегляд для порядку денного"
   permission_create_meeting_minutes: "Керування хвилинами"
   permission_send_meeting_minutes_notification: "Надішліть повідомлення про перегляд за хвилини"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Зустрічі"
   text_duration_in_hours: "Тривалість у годинах"
   text_in_hours: "у годинах"
   text_meeting_agenda_for_meeting: 'порядку денного засідання %{meeting}'
   text_meeting_closing_are_you_sure: "Дійсно закрити нараду?"
-  text_meeting_agenda_open_are_you_sure: "Незбережений вміст у хвилинах буде втрачено! Продовжити?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'протокол засідання %{meeting}'
   text_review_meeting_agenda: "%{author} поставив %{link} на розгляд."
   text_review_meeting_minutes: "%{author} поставив %{link} на розгляд."

@@ -66,9 +66,7 @@ module API
       end
 
       def authenticate
-        warden.authenticate! scope: authentication_scope
-
-        User.current = warden.user scope: authentication_scope
+        User.current = warden.authenticate! scope: authentication_scope
 
         if Setting.login_required? and not logged_in?
           raise ::API::Errors::Unauthenticated

@@ -28,10 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'token/base'
-
 module Token
-  class Rss < Base
+  class RSS < Base
     after_initialize do
       unless value.present?
         self.value = self.class.generate_token_value

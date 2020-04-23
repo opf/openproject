@@ -30,7 +30,7 @@
 
 require 'digest/md5'
 
-class Attachment < ActiveRecord::Base
+class Attachment < ApplicationRecord
   ALLOWED_TEXT_TYPES = %w[text/plain].freeze
   ALLOWED_IMAGE_TYPES = %w[image/gif image/jpeg image/png image/tiff image/bmp].freeze
 
@@ -151,6 +151,13 @@ class Attachment < ActiveRecord::Base
 
   def filename
     attributes['file']
+  end
+
+  ##
+  # Returns the file extension name,
+  # if any (with leading dot)
+  def extension
+    File.extname filename
   end
 
   def file=(file)

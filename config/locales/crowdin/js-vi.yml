@@ -37,6 +37,7 @@ vi:
     close_filter_title: "Đóng bộ lọc"
     close_form_title: "Close form"
     button_add_watcher: "Thêm người theo dõi"
+    button_add: "Thêm"
     button_back: "Quay lại"
     button_back_to_list_view: "Quay lại danh sách"
     button_cancel: "Hủy"
@@ -162,6 +163,59 @@ vi:
         edit_query: 'Edit query'
         new_group: 'Nhóm mới'
         reset_to_defaults: 'Reset to defaults'
+      enterprise:
+        trial:
+          confirmation: "Confirmation of email address"
+          confirmation_info: "We sent you an email. Please check your emails and click the confirmation link provided to start your 14 days trial."
+          form:
+            general_consent: >
+              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+            invalid_email: "Invalid email address"
+            label_company: "Company"
+            label_first_name: "Tên"
+            label_last_name: "Họ"
+            label_email: "Thư điện tử"
+            label_domain: "Domain"
+            label_subscriber: "Subscriber"
+            label_maximum_users: "Số người dùng hoạt động tối đa"
+            label_starts_at: "Starts at"
+            label_expires_at: "Expires at"
+            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
+            taken_domain: There can only be one active trial per domain.
+            taken_email: Each user can only create one trial.
+          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
+          try_another_email: "Or try it with another email address."
+          next_steps: "Next steps"
+          resend_link: "Resend"
+          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
+          resend_warning: "Could not resend email."
+          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+          status_label: "Status:"
+          status_confirmed: "confirmed"
+          status_waiting: "email sent - waiting for confirmation"
+          test_ee: "Test the Enterprise Edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+        upsale:
+          become_hero: "Become a hero!"
+          benefits:
+            description: "What are the benefits?"
+            high_security: "Security features"
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
+            installation: "Installation support"
+            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
+            premium_features: "Premium features"
+            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            professional_support: "Professional support"
+            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
+          button_start_trial: "Start free trial"
+          button_book_now: "Book now"
+          confidence: >
+            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
+          link_quote: "Get a quote"
+          text: >
+            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+          unlimited: "Unlimited"
+          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
     custom_actions:
       date:
         specific: 'lúc'
@@ -209,13 +263,13 @@ vi:
           text_new_features: "Read about new features and product updates."
           learn_about: "Tìm hiểu thêm về các tính năng mới"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              Bản phát hành chứa nhiều tính năng và cải tiến mới: <br> <br> <ul> <li> Mặc định <b> mẫu thiết kế </b> để chọn chủ đề sáng hoặc tối (tính năng cao cấp). </li> <li> <b> tiện ích theo dõi thời gian mới </b> cho <i> Trang của tôi </i> để hiển thị thời gian đã sử dụng trong biểu đồ thanh. </li> <li> <b> Xuất khẩu XLS cho báo cáo chi phí </b> và định dạng văn bản trong xuất PDF của các gói công việc. </li> <li> <b> Cải thiện thiết kế và khả năng sử dụng </b>, tức là các tab và hơn thế nữa trong cài đặt và quản trị dự án. </li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards across lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject chứa <b> mô-đun IFC mới để tích hợp các mô hình 3D </b> vào ứng dụng quản lý dự án của bạn và để làm việc cộng tác với các tệp này với nhóm của bạn mà không cần cài đặt phần mềm hoặc giấy phép tốn kém riêng biệt. <br> <br> <ul> <li> <b> Nhập tệp IFC </b> của các mô hình tòa nhà vào ứng dụng OpenProject của bạn. </li> <li> <b> Mở mô hình 3D và trực quan hóa mô hình tòa nhà </b > trong trình duyệt của bạn. </li> <li> Dễ dàng <b> hoạt động trên nhiều tệp IFC </b> với nhóm của bạn trực tiếp trong OpenProject mà không cần cài đặt phần mềm tốn kém riêng biệt. </li> </ul>
+              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
     label_activate: "Activate"
     label_add_column_after: "Thêm cột phía sau"
     label_add_column_before: "Thêm cột phía trước"
@@ -267,6 +321,7 @@ vi:
     label_expand_all: "Mở rộng tất cả"
     label_expand_project_menu: "Mở rộng menu dự án"
     label_export: "Xuất"
+    label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_filename: "Tệp"
     label_filesize: "Kích cỡ"
     label_general: "Tổng quan"
@@ -285,6 +340,7 @@ vi:
     label_import: "Import"
     label_latest_activity: "Hoạt động mới nhất"
     label_last_updated_on: "Cập nhật lần cuối lúc"
+    label_learn_more_link: "Learn more"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
     label_loading: "Loading..."
@@ -296,7 +352,7 @@ vi:
     label_menu_expand: "mở rộng"
     label_more_than_ago: "nhiều hơn mấy ngày trước"
     label_next: "Tiếp"
-    label_no_color: "No color"
+    label_no_color: "Không màu"
     label_no_data: "Không có dữ liệu để hiển thị"
     label_no_due_date: "không có ngày kết thúc"
     label_no_start_date: "không có ngày bắt đầu"
@@ -448,7 +504,7 @@ vi:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Chú ý: Bạn có chắc bạn muốn đặt lại cấu hình dạng? Điều này sẽ thiết lập lại các thuộc tính của nhóm mặc định và vô hiệu hóa tất cả các trường tùy chỉnh.
-        upgrade_to_ee: "Upgrade to Enterprise Edition"
+        upgrade_to_ee: "Nâng cấp lên Ultimate Edition"
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "More information"
         nevermind: "Nevermind"
@@ -525,16 +581,6 @@ vi:
       select_tag: 'Chọn từ khóa'
       select_branch: 'Chọn nhánh'
     field_value_enter_prompt: "Enter a value for '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Vui lòng nhập thêm ký tự"
-        other: "Vui lòng nhập {{count}} thêm nhân vật"
-      load_more: "Loading more results ..."
-      no_matches: "Không tìm thấy"
-      searching: "Đang tìm ..."
-      selection_too_big:
-        zero: "Bạn không thể chọn bất cứ mục nào tại đây"
-        other: "Bạn có thể chỉ chọn {{limit}} mục"
     project_menu_details: "Chi tiết"
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -779,7 +825,7 @@ vi:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Sử dụng ô nhập liệu trên đây để thêm hoặc bớt cột vào bảng của bạn. Bạn có thể kéo thả cột để thay đổi trật tự của nó."
+        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'

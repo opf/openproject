@@ -23,13 +23,14 @@ import {
 import {classNameBarLabel, classNameLeftHandle, classNameRightHandle} from './wp-timeline-cell-mouse-handler';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {DisplayFieldRenderer} from '../../../wp-edit-form/display-field-renderer';
-import {Injector} from '@angular/core';
+import {Inject, Injector} from '@angular/core';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {HierarchyRenderPass} from "core-components/wp-fast-table/builders/modes/hierarchy/hierarchy-render-pass";
 import Moment = moment.Moment;
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -39,11 +40,11 @@ export interface CellDateMovement {
   date?:moment.Moment;
 }
 
-export type LabelPosition = 'left' | 'right' | 'farRight';
+export type LabelPosition = 'left'|'right'|'farRight';
 
 export class TimelineCellRenderer {
-  readonly TimezoneService = this.injector.get(TimezoneService);
-  readonly wpTableTimeline:WorkPackageViewTimelineService = this.injector.get(WorkPackageViewTimelineService);
+  @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
+  @InjectField() TimezoneService:TimezoneService;
   public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer(this.injector, 'timeline');
 
   protected dateDisplaysOnMouseMove:{ left?:HTMLElement; right?:HTMLElement } = {};
@@ -105,7 +106,7 @@ export class TimelineCellRenderer {
   public onDaysMoved(change:WorkPackageChangeset,
                      dayUnderCursor:Moment,
                      delta:number,
-                     direction:'left' | 'right' | 'both' | 'create' | 'dragright'):CellDateMovement {
+                     direction:'left'|'right'|'both'|'create'|'dragright'):CellDateMovement {
 
     const initialStartDate = change.pristineResource.startDate;
     const initialDueDate = change.pristineResource.dueDate;
@@ -145,10 +146,10 @@ export class TimelineCellRenderer {
   }
 
   public onMouseDown(ev:MouseEvent,
-                     dateForCreate:string | null,
+                     dateForCreate:string|null,
                      renderInfo:RenderInfo,
                      labels:WorkPackageCellLabels,
-                     elem:HTMLElement):'left' | 'right' | 'both' | 'dragright' | 'create' {
+                     elem:HTMLElement):'left'|'right'|'both'|'dragright'|'create' {
 
     // check for active selection mode
     if (renderInfo.viewParams.activeSelectionMode) {
@@ -158,7 +159,7 @@ export class TimelineCellRenderer {
     }
 
     const projection = renderInfo.change.projectedResource;
-    let direction:'left' | 'right' | 'both' | 'dragright';
+    let direction:'left'|'right'|'both'|'dragright';
 
     // Update the cursor and maybe set start/due values
     if (jQuery(ev.target!).hasClass(classNameLeftHandle)) {
@@ -252,11 +253,11 @@ export class TimelineCellRenderer {
 
   protected checkForActiveSelectionMode(renderInfo:RenderInfo, element:HTMLElement) {
     if (renderInfo.viewParams.activeSelectionMode) {
-      element.style.backgroundImage = null; // required! unable to disable "fade out bar" with css
+      element.style.backgroundImage = ''; // required! unable to disable "fade out bar" with css
 
       if (renderInfo.viewParams.selectionModeStart === '' + renderInfo.workPackage.id!) {
         jQuery(element).addClass(timelineMarkerSelectionStartClass);
-        element.style.background = null;
+        element.style.background = 'none';
       }
     }
   }
@@ -346,7 +347,7 @@ export class TimelineCellRenderer {
 
     // create left hover label
     const labelHoverLeft = document.createElement('div');
-    labelHoverLeft.classList.add(classNameLeftHoverLabel  , classNameShowOnHover, classNameHoverStyle);
+    labelHoverLeft.classList.add(classNameLeftHoverLabel, classNameShowOnHover, classNameHoverStyle);
     element.appendChild(labelHoverLeft);
 
     // create right hover label

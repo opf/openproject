@@ -28,32 +28,31 @@
 
 import {take} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.controller';
+import {WorkPackageCreateComponent} from 'core-components/wp-new/wp-create.component';
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {ChangeDetectionStrategy} from "@angular/core";
-import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
+import {Directive} from "@angular/core";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
-export class WorkPackageCopyController extends WorkPackageCreateController {
+@Directive()
+export class WorkPackageCopyController extends WorkPackageCreateComponent {
   private __initialized_at:Number;
   private copiedWorkPackageId:string;
 
   /** Are we in the copying substates ? */
   public copying = true;
 
-  private wpRelations:WorkPackageRelationsService = this.injector.get(WorkPackageRelationsService);
-  protected halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
-  protected wpCreate:WorkPackageCreateService = this.injector.get(WorkPackageCreateService);
+  @InjectField() wpRelations:WorkPackageRelationsService;
+  @InjectField() halEditing:HalResourceEditingService;
 
   ngOnInit() {
     super.ngOnInit();
 
     this.wpCreate.onNewWorkPackage()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe((wp:WorkPackageResource) => {
         if (wp.__initialized_at === this.__initialized_at) {

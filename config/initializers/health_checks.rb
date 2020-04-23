@@ -1,3 +1,5 @@
+require 'ok_computer/ok_computer_controller'
+
 class DelayedJobNeverRanCheck < OkComputer::Check
   attr_reader :threshold
 
@@ -45,7 +47,6 @@ OkComputer::CheckCollection.new('full').tap do |collection|
   collection.register :delayed_jobs_never_ran, OkComputer::Registry.fetch('delayed_jobs_never_ran')
   OkComputer::Registry.default_collection.register 'full', collection
 end
-
 
 # Check if authentication required
 authentication_password = OpenProject::Configuration.health_checks_authentication_password

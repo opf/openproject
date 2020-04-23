@@ -32,21 +32,21 @@ module StandardSeeder
     class StatusSeeder < ::BasicData::StatusSeeder
       def data
         color_names = [
-          'teal-1', # new
-          'indigo-1', # in specification
-          'teal-3', # specified
-          'red-6', # confirmed
+          'cyan-7', # new
+          'blue-2', # in specification
+          'blue-2', # specified
+          'violet-2', # confirmed
           'yellow-2', # tbs
           'lime-2', # scheduled
-          'cyan-3', # in progress
+          'grape-5', # in progress
           'cyan-3', # in development
-          'teal-6', # developed
-          'teal-7', # in testing
-          'teal-9', # tested
-          'red-9', # test_failed
+          'green-3', # developed
+          'cyan-5', # in testing
+          'teal-6', # tested
+          'red-5', # test_failed
           'gray-3', # closed
           'orange-3', # on hold
-          'red-3', # rejected
+          'red-3' # rejected
         ]
 
         # When selecting for an array of values, implicit order is applied

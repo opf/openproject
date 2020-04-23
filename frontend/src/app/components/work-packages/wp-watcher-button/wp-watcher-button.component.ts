@@ -28,17 +28,16 @@
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'wp-watcher-button',
   templateUrl: './wp-watcher-button.html'
 })
-export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {
+export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin implements OnInit {
   @Input('workPackage') public workPackage:WorkPackageResource;
   @Input('showText') public showText:boolean = false;
   @Input('disabled') public disabled:boolean = false;
@@ -52,22 +51,19 @@ export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {
   constructor(readonly I18n:I18nService,
               readonly wpWatchersService:WorkPackageWatchersService,
               readonly wpCacheService:WorkPackageCacheService) {
+    super();
   }
 
   ngOnInit() {
     this.wpCacheService.loadWorkPackage(this.workPackage.id!)
       .values$()
       .pipe(
-        takeUntil(componentDestroyed(this))
+        this.untilDestroyed()
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
         this.setWatchStatus();
       });
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
   }
 
   public get isWatched() {

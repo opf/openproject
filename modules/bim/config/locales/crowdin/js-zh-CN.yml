@@ -1,0 +1,21 @@
+#English strings go here
+zh-CN:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: '导入'
+      export: '导出'
+      viewpoint: '视点'
+      add_viewpoint: '添加视点'
+      show_viewpoint: '显示视点'
+      delete_viewpoint: '删除视点'
+    ifc_models:
+      empty_warning: "此项目还没有任何 IFC 模型。"
+      use_this_link_to_manage: "使用此链接上传和管理您的 IFC 模型"
+      keyboard_input_disabled: "查看器没有键盘控件。点击该查看器可以使其控制键盘。"
+      models:
+        default: '默认 IFC 模型'
+        manage: '管理模型'
+      views:
+        viewer: '查看器'
+        split: '查看器和卡片'

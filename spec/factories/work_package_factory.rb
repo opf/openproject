@@ -70,8 +70,8 @@ FactoryBot.define do
     created_at { Time.now }
     updated_at { Time.now }
 
-    callback(:after_stub) do |wp|
-      wp.type = wp.project.types.first unless wp.type_id
+    callback(:after_stub) do |wp, arguments|
+      wp.type = wp.project.types.first unless wp.type_id || arguments.instance_variable_get(:@overrides).has_key?(:type)
     end
   end
 end

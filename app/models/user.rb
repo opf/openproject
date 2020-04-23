@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -75,8 +76,8 @@ class User < Principal
   }, class_name: 'UserPassword',
      dependent: :destroy,
      inverse_of: :user
-  has_one :rss_token, class_name: '::Token::Rss', dependent: :destroy
-  has_one :api_token, class_name: '::Token::Api', dependent: :destroy
+  has_one :rss_token, class_name: '::Token::RSS', dependent: :destroy
+  has_one :api_token, class_name: '::Token::API', dependent: :destroy
   belongs_to :auth_source
 
   # Authorized OAuth grants
@@ -129,6 +130,9 @@ class User < Principal
   validates_length_of :mail, maximum: 60, allow_nil: true
   validates_confirmation_of :password, allow_nil: true
   validates_inclusion_of :mail_notification, in: MAIL_NOTIFICATION_OPTIONS.map(&:first), allow_blank: true
+
+  auto_strip_attributes :login, nullify: false
+  auto_strip_attributes :mail, nullify: false
 
   validate :login_is_not_special_value
   validate :password_meets_requirements
@@ -498,7 +502,7 @@ class User < Principal
   def self.find_by_rss_key(key)
     return nil unless Setting.feeds_enabled?
 
-    token = Token::Rss.find_by(value: key)
+    token = Token::RSS.find_by(value: key)
 
     if token&.user&.active?
       token.user
@@ -508,7 +512,7 @@ class User < Principal
   def self.find_by_api_key(key)
     return nil unless Setting.rest_api_enabled?
 
-    token = Token::Api.find_by_plaintext_value(key)
+    token = Token::API.find_by_plaintext_value(key)
 
     if token&.user&.active?
       token.user
@@ -541,7 +545,7 @@ class User < Principal
   end
 
   def rss_key
-    token = rss_token || ::Token::Rss.create(user: self)
+    token = rss_token || ::Token::RSS.create(user: self)
     token.value
   end
 
@@ -856,65 +860,3 @@ class User < Principal
     !User.active.find_by_login('admin').try(:current_password).try(:matches_plaintext?, 'admin')
   end
 end
-
-class AnonymousUser < User
-  validate :validate_unique_anonymous_user, on: :create
-
-  # There should be only one AnonymousUser in the database
-  def validate_unique_anonymous_user
-    errors.add :base, 'An anonymous user already exists.' if AnonymousUser.any?
-  end
-
-  def available_custom_fields
-    []
-  end
-
-  # Overrides a few properties
-  def logged?; false end
-
-  def builtin?; true end
-
-  def admin; false end
-
-  def name(*_args); I18n.t(:label_user_anonymous) end
-
-  def mail; nil end
-
-  def time_zone; nil end
-
-  def rss_key; nil end
-
-  def destroy; false end
-end
-
-class DeletedUser < User
-  validate :validate_unique_deleted_user, on: :create
-
-  # There should be only one DeletedUser in the database
-  def validate_unique_deleted_user
-    errors.add :base, 'A DeletedUser already exists.' if DeletedUser.any?
-  end
-
-  def self.first
-    super || create(type: to_s, status: STATUSES[:locked])
-  end
-
-  # Overrides a few properties
-  def logged?; false end
-
-  def builtin?; true end
-
-  def admin; false end
-
-  def name(*_args); I18n.t('user.deleted') end
-
-  def mail; nil end
-
-  def time_zone; nil end
-
-  def rss_key; nil end
-
-  def destroy; false end
-end
-
-require_dependency "system_user"

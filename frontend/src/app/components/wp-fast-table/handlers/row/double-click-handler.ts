@@ -11,14 +11,15 @@ import {LinkHandling} from "core-app/modules/common/link-handling/link-handling"
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {displayClassName} from "core-components/wp-edit-form/display-field-renderer";
 import {activeFieldClassName} from "core-app/modules/fields/edit/edit-form/edit-form";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class RowDoubleClickHandler implements TableEventHandler {
 
   // Injections
-  public $state:StateService = this.injector.get(StateService);
-  public states:States = this.injector.get(States);
-  public wpTableSelection:WorkPackageViewSelectionService = this.injector.get(WorkPackageViewSelectionService);
-  public wpTableFocus:WorkPackageViewFocusService = this.injector.get(WorkPackageViewFocusService);
+  @InjectField() public $state:StateService;
+  @InjectField() public states:States;
+  @InjectField() public wpTableSelection:WorkPackageViewSelectionService;
+  @InjectField() public wpTableFocus:WorkPackageViewFocusService;
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {

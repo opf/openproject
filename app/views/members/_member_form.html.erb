@@ -27,8 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= javascript_include_tag "members_select_boxes.js" %>
-
 <%= labelled_tabular_form_for(:member, url: main_app.project_members_path,
                               method: :post,
                               html: { id: "members_add_form", class: "form -vertical -bordered -medium-compressed" }) do |f| %>
@@ -46,15 +44,13 @@ See docs/COPYRIGHT.rdoc for more details.
             end
           %>
           <%= styled_label_tag :member_user_ids, user_id_title %>
-          <%= select_tag "member[user_ids]", options_for_select([]),
-                         title: user_id_title,
-                         multiple: true,
-                         autofocus: true,
-                         :'data-ajaxURL' => url_for(controller: "/members", action: "autocomplete_for_member"),
-                         :'data-projectId' => project.id,
-                         no_label: true,
-                         placeholder: I18n.t(:button_add_member),
-                         class: "select2-select remote" %>
+
+          <%= hidden_field_tag "member[user_ids][]", nil  %>
+          <members-autocompleter data-update-input="member[user_ids][]"
+                                 data-url="<%= autocomplete_for_member_project_members_path +  '.json' %>"
+                                 data-append-to="body"
+                                 data-multiple="true">
+          </members-autocompleter>
         </div>
       </div>
       <div class="grid-content medium-8 small-12 -flex -with-button">

@@ -109,6 +109,32 @@ describe API::V3, type: :request do
           end
         end
 
+        context 'with no credentials' do
+          let(:expected_message) { 'You need to be authenticated to access this resource.' }
+
+          before do
+            post '/api/v3/time_entries/form'
+          end
+
+          it 'should return 401 unauthorized' do
+            expect(last_response.status).to eq 401
+          end
+
+          it 'should return the correct JSON response' do
+            expect(JSON.parse(last_response.body)).to eq response_401
+          end
+
+          it 'should return the correct content type header' do
+            expect(last_response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
+          end
+
+
+          it 'should return the WWW-Authenticate header' do
+            expect(last_response.header['WWW-Authenticate'])
+              .to include 'Basic realm="OpenProject API"'
+          end
+        end
+
         context 'with invalid credentials an X-Authentication-Scheme "Session"' do
           let(:expected_message) { 'You did not provide the correct credentials.' }
 

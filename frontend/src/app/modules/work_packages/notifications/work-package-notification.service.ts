@@ -36,8 +36,7 @@ import {WorkPackageCacheService} from "core-components/work-packages/work-packag
 @Injectable()
 export class WorkPackageNotificationService extends HalResourceNotificationService {
 
-  constructor(protected injector:Injector,
-              protected $state:StateService,
+  constructor(readonly injector:Injector,
               protected wpCacheService:WorkPackageCacheService) {
     super(injector);
   }

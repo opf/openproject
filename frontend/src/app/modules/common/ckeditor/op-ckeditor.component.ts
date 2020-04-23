@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {
   CKEditorSetupService,
   ICKEditorContext,
@@ -45,8 +45,8 @@ const manualModeLocalStorageKey = 'op-ckeditor-uses-manual-mode';
   templateUrl: './op-ckeditor.html',
   styleUrls: ['./op-ckeditor.sass']
 })
-export class OpCkeditorComponent implements OnInit, OnDestroy {
-  @Input() ckEditorType:'full' | 'constrained' = 'full';
+export class OpCkeditorComponent implements OnInit {
+  @Input() ckEditorType:'full'|'constrained' = 'full';
   @Input() context:ICKEditorContext;
   @Input('content') _content:string;
 
@@ -61,11 +61,11 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
 
   // View container of the replacement used to initialize CKEditor5
   @ViewChild('opCkeditorReplacementContainer', { static: true }) opCkeditorReplacementContainer:ElementRef;
-  @ViewChild('codeMirrorPane', { static: false }) codeMirrorPane:ElementRef;
+  @ViewChild('codeMirrorPane') codeMirrorPane:ElementRef;
 
   // CKEditor instance once initialized
   public ckEditorInstance:ICKEditorInstance;
-  public error:string | null = null;
+  public error:string|null = null;
   public allowManualMode = false;
   public manualMode = false;
 
@@ -74,7 +74,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   };
 
   // Codemirror instance, initialized lazily when running source mode
-  public codeMirrorInstance:undefined | any;
+  public codeMirrorInstance:undefined|any;
 
   // Debounce change listener for both CKE and codemirror
   // to read back changes as they happen
@@ -86,7 +86,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
         });
     },
     1000,
-    {leading: true}
+    { leading: true }
   );
 
   private $element:JQuery;
@@ -126,7 +126,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
         console.error(`Failed to save CKEditor content: ${e}.`);
         let error = this.I18n.t(
           'js.editor.error_saving_failed',
-          {error: e || this.I18n.t('js.error.internal')}
+          { error: e || this.I18n.t('js.error.internal') }
         );
 
         if (notificationOnError) {
@@ -158,10 +158,6 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
     return this.ckEditorInstance !== undefined;
   }
 
-  ngOnDestroy() {
-    // Nothing to do.
-  }
-
   ngOnInit() {
     try {
       this.initializeEditor();
@@ -175,7 +171,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  private initializeEditor()  {
+  private initializeEditor() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     const editorPromise = this.ckEditorSetup

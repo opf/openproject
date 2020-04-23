@@ -45,7 +45,7 @@ export class WorkPackageRelationsGroupComponent {
 
   @Output() public onToggleGroupBy = new EventEmitter<undefined>();
 
-  @ViewChild('wpRelationGroupByToggler', { static: false }) readonly toggleElement:ElementRef;
+  @ViewChild('wpRelationGroupByToggler') readonly toggleElement:ElementRef;
 
   public text = {
     groupByType: this.I18n.t('js.relation_buttons.group_by_wp_type'),

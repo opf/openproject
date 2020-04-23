@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Input, SimpleChanges} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Directive, Input, SimpleChanges} from '@angular/core';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
 import {
@@ -12,7 +12,9 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
+@Directive()
 export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewBase implements AfterViewInit {
   @Input('configuration') protected providedConfiguration:WorkPackageTableConfigurationObject;
   @Input() public uniqueEmbeddedTableName:string = `embedded-table-${Date.now()}`;
@@ -25,31 +27,27 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
 
   protected initialized:boolean = false;
 
-  readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
-  readonly querySpace:IsolatedQuerySpace  = this.injector.get(IsolatedQuerySpace);
-  readonly I18n:I18nService = this.injector.get(I18nService);
-  readonly urlParamsHelper:UrlParamsHelperService = this.injector.get(UrlParamsHelperService);
-  readonly loadingIndicatorService:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
-  readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
-  readonly currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
-  readonly cdRef = this.injector.get(ChangeDetectorRef);
+  @InjectField() QueryDm:QueryDmService;
+  @InjectField() querySpace:IsolatedQuerySpace;
+  @InjectField() I18n:I18nService;
+  @InjectField() urlParamsHelper:UrlParamsHelperService;
+  @InjectField() loadingIndicatorService:LoadingIndicatorService;
+  @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
+  @InjectField() currentProject:CurrentProjectService;
+  @InjectField() cdRef:ChangeDetectorRef;
 
   ngOnInit() {
-    super.ngOnInit();
-
     this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration);
     // Set embedded status in configuration
     this.configuration.isEmbedded = true;
     this.initialized = true;
+
+    super.ngOnInit();
   }
 
   ngAfterViewInit():void {
     // Load initially
     this.loadQuery(true, false);
-  }
-
-  ngOnDestroy():void {
-    super.ngOnInit();
   }
 
   ngOnChanges(changes:SimpleChanges) {
@@ -58,16 +56,12 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     }
   }
 
-  get projectIdentifier() {
-    let identifier:string|null = null;
-
+  public get projectIdentifier() {
     if (this.configuration.projectContext) {
-      identifier = this.currentProject.identifier;
+      return this.currentProject.identifier || undefined;
     } else {
-      identifier = this.configuration.projectIdentifier;
+      return this.configuration.projectIdentifier || undefined;
     }
-
-    return identifier || undefined;
   }
 
   public buildQueryProps() {

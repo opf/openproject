@@ -63,7 +63,7 @@ describe Impediment, type: :model do
 
   let(:impediment) {
     FactoryBot.build(:impediment, author: user,
-                                   fixed_version: version,
+                                   version: version,
                                    assigned_to: user,
                                    priority: issue_priority,
                                    project: project,
@@ -108,9 +108,9 @@ describe Impediment, type: :model do
 
       describe 'WITH only prior blockers defined' do
         before(:each) do
-          feature.fixed_version = version
+          feature.version = version
           feature.save
-          task.fixed_version = version
+          task.version = version
           task.save
 
           # Using the default association method block_ids (without s) here

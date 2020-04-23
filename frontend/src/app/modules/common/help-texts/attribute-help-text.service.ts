@@ -32,7 +32,7 @@ import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.s
 import {Injectable} from '@angular/core';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AttributeHelpTextsService {
   private helpTexts = input<HelpTextResource[]>();
 

@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-.router--work-packages-list-view,
+.router--work-packages-partitioned-split-view,
 .router--work-packages-full-view,
 .router--work-packages-full-create
   .in_modal &
@@ -34,7 +34,7 @@
       top: 12px
 
 
-.router--work-packages-list-view:not(.router--work-packages-full-create)
+.router--work-packages-partitioned-split-view:not(.router--work-packages-full-create)
   @include extended-content--bottom
   @include extended-content--right
 
@@ -50,30 +50,12 @@
 .work-packages-page--ui-view
   height: 100%
 
-.work-packages-list-view--container
-  // Flexbox for the toolbar, filters and work package split view
-  display: flex
-  flex-direction: column
-  height: 100%
-
+.work-packages-partitioned-query-space--container
   > .toolbar-container
     margin-top: 5px
 
   input[type="text"].toolbar--editable-toolbar
     font-size: 24px
-
-  .work-packages--filters-optional-container
-    // not flex-item
-    height: auto
-    overflow: auto
-    flex-shrink: 0
-
-// Outer Flex container for (table+timeline)|details
-.work-packages-split-view
-  flex: 1 1 auto
-  display: flex
-  // Required for correctly scrolling the inner containers
-  overflow: hidden
 
   // Match both rows and timeline specifically
   tr.row-hovered,
@@ -86,6 +68,7 @@
 // Left part of the split view
 // == flex container for (table|timeline)
 .work-packages-split-view--tabletimeline-side
+  height: 100%
   flex: 2
   display: flex
   flex-direction: column
@@ -184,6 +167,9 @@
 .router--work-packages-base
   #content
     height: 100%
+
+  .work-packages-partitioned-page--content-left
+    overflow: hidden
 
   .icon-button, .sort-header, .action-icon
     cursor: pointer

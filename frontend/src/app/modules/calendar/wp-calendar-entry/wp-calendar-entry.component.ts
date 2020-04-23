@@ -37,15 +37,12 @@ import {WorkPackagesCalendarController} from "core-app/modules/calendar/wp-calen
 export class WorkPackagesCalendarEntryComponent extends WorkPackagesViewBase {
   @ViewChild(WorkPackagesCalendarController, { static: true }) calendarElement:WorkPackagesCalendarController;
 
-  /** Project identifier of the list */
-  projectIdentifier = this.$state.params['projectPath'] || null;
-
   protected set loadingIndicator(promise:Promise<unknown>) {
     this.loadingIndicatorService.indicator('calendar-entry').promise = promise;
   }
 
   public refresh(visibly:boolean, firstPage:boolean):Promise<unknown> {
     return this.loadingIndicator =
-      this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
+      this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier!);
   }
 }

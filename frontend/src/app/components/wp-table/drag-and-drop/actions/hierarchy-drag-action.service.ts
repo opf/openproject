@@ -8,12 +8,13 @@ import {
 } from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {relationRowClass} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class HierarchyDragActionService extends TableDragActionService {
 
-  private wpTableHierarchies = this.injector.get(WorkPackageViewHierarchiesService);
-  private relationHierarchyService = this.injector.get(WorkPackageRelationsHierarchyService);
-  private wpCacheService = this.injector.get(WorkPackageCacheService);
+  @InjectField() private wpTableHierarchies:WorkPackageViewHierarchiesService;
+  @InjectField() private relationHierarchyService:WorkPackageRelationsHierarchyService;
+  @InjectField() private wpCacheService:WorkPackageCacheService;
 
   public get applies() {
     return this.wpTableHierarchies.isEnabled;
@@ -56,8 +57,7 @@ export class HierarchyDragActionService extends TableDragActionService {
       if (this.isHiearchyRoot(previous, previousWpId)) {
         // If the sibling is a hierarchy root, return that sibling as new parent.
         parent = previousWpId;
-      }
-      else {
+      } else {
         // If the sibling is no hierarchy root, return it's parent.
         // Thus, the dropped element will get the same hierarchy level as the sibling
         parent = this.loadParentOfWP(previousWpId);

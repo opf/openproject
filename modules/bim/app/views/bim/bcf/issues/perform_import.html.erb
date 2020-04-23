@@ -1,0 +1,21 @@
+<%= stylesheet_link_tag 'bim/bcf.css' %>
+<link rel="stylesheet" href="/highlighting/styles.css" />
+
+<%= toolbar title: l(:label_summary) %>
+
+<%= link_to t('bcf.bcf_xml.import.button_back_to_list'),
+            defaults_bcf_project_ifc_models_path(@project),
+            class: 'button -highlight' %>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= I18n.t('bcf.label_imported_successfully') %></legend>
+
+  <%= render partial: 'render_issues', locals: { issues: @issues[:successful] } %>
+</fieldset>
+
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= I18n.t('bcf.label_imported_failed') %></legend>
+  <%= render partial: 'render_issues', locals: { issues: @issues[:failed] } %>
+</fieldset>
+

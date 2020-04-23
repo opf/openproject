@@ -27,19 +27,20 @@
 //++
 
 import {BehaviorSubject} from 'rxjs';
-import {auditTime, takeUntil} from 'rxjs/operators';
-import {Directive, ElementRef, Input, OnDestroy, OnInit} from "@angular/core";
-import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {auditTime} from 'rxjs/operators';
+import {Directive, ElementRef, Input, OnInit} from "@angular/core";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 // with courtesy of http://stackoverflow.com/a/29722694/3206935
 
 @Directive({
   selector: '[focus-within]'
 })
-export class FocusWithinDirective implements OnInit, OnDestroy {
+export class FocusWithinDirective extends UntilDestroyedMixin implements OnInit {
   @Input() public selector:string;
 
   constructor(readonly elementRef:ElementRef) {
+    super();
   }
 
 
@@ -47,9 +48,9 @@ export class FocusWithinDirective implements OnInit, OnDestroy {
     let element = jQuery(this.elementRef.nativeElement);
     let focusedObservable = new BehaviorSubject(false);
 
-      focusedObservable
+    focusedObservable
       .pipe(
-        takeUntil(componentDestroyed(this)),
+        this.untilDestroyed(),
         auditTime(50)
       )
       .subscribe(focused => {
@@ -57,12 +58,12 @@ export class FocusWithinDirective implements OnInit, OnDestroy {
       });
 
 
-    let focusListener = function() {
+    let focusListener = function () {
       focusedObservable.next(true);
     };
     element[0].addEventListener('focus', focusListener, true);
 
-    let blurListener = function() {
+    let blurListener = function () {
       focusedObservable.next(false);
     };
     element[0].addEventListener('blur', blurListener, true);
@@ -71,9 +72,5 @@ export class FocusWithinDirective implements OnInit, OnDestroy {
       element.addClass('focus-within--trigger');
       element.find(this.selector).addClass('focus-within--depending');
     }, 0);
-  }
-
-  ngOnDestroy() {
-    // Nothing to do.
   }
 }

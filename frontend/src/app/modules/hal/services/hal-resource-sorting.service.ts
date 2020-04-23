@@ -29,7 +29,7 @@
 import {Injectable} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HalResourceSortingService {
 
   /**

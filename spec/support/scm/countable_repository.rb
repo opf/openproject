@@ -94,7 +94,7 @@ shared_examples_for 'is not a countable repository' do
   end
 
   it 'does not return or update the count' do
-    expect(::Scm::StorageUpdaterJob).not_to receive(:perform_later)
+    expect(::SCM::StorageUpdaterJob).not_to receive(:perform_later)
     expect(repository.update_required_storage).to be false
   end
 end

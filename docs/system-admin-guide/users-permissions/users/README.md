@@ -9,7 +9,7 @@ keywords: manage users
 
 # Manage Users
 
-The users list provides an overview of all users in OpenProject. You can create new users, make changes to existing user accounts, block or delete users from the system.
+The users list provides an overview of all users in OpenProject. You can create new users, make changes to existing user accounts, block or delete users from the system. The number of users for your subscription is thus not bound to names. For example, if you block a user you can add a new one without upgrading.
 
 <div class="glossary">
 **User** is defined as a person (described by an identifier) who uses OpenProject. New users can be created in the admin settings. Users can become project members by assigning them a role and adding them via the project settings.
@@ -81,13 +81,13 @@ In the top right, click the **Send invitation** button in order to send the emai
 
 ## View user profile
 
-If you want to see the user profile, click on the user name in the user list to display the activities accross all projects from a certain user. Click the **Profile** button on the top right of a user.
+If you want to see the user profile, click on the user name in the user list to display the activities across all projects from a certain user. Click the **Profile** button on the top right of a user.
 
 ![Sys-admin-profile](Sys-admin-profile.png)
 
 
 
-You will see all the Activities accross all projects from this user, as well as the amount of reported work packages in the system.
+You will see all the Activities across all projects from this user, as well as the amount of reported work packages in the system.
 
 ![user profile](image-20200115162109669.png)
 

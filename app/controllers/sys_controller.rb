@@ -105,7 +105,7 @@ class SysController < ActionController::Base
 
   def update_storage_information(repository, force = false)
     if force
-      ::Scm::StorageUpdaterJob.perform_later(repository)
+      ::SCM::StorageUpdaterJob.perform_later(repository)
       true
     else
       repository.update_required_storage

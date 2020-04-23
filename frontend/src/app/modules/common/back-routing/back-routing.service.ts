@@ -29,7 +29,7 @@
 import {Injectable, Injector} from '@angular/core';
 import {StateService, Transition} from "@uirouter/core";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import {TransitionOptions} from "@uirouter/core/lib/transition/interface";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 interface BackRouteOptions {
   name:string;
@@ -37,24 +37,27 @@ interface BackRouteOptions {
   parent:string;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BackRoutingService {
-  private _backRoute:BackRouteOptions;
-  private $state:StateService = this.injector.get(StateService);
-  private keepTab:KeepTabService = this.injector.get(KeepTabService);
+  @InjectField() private $state:StateService;
+  @InjectField() private keepTab:KeepTabService;
 
-  constructor(protected injector:Injector) {
+  private _backRoute:BackRouteOptions;
+
+  constructor(readonly injector:Injector) {
   }
 
   public goBack(preferListOverSplit:boolean = false) {
     // Default: back to list
     // When coming from a deep link or a create form
+    const baseRoute = this.$state.current.data.baseRoute || 'work-packages.partitioned.list';
+
     if (!this.backRoute || this.backRoute.name.includes('new')) {
-      this.$state.go('work-packages.list', this.$state.params);
+      this.$state.go(baseRoute, this.$state.params);
     } else {
       if (this.keepTab.isDetailsState(this.backRoute.parent)) {
         if (preferListOverSplit) {
-          this.$state.go('work-packages.list', this.$state.params);
+          this.$state.go(baseRoute, this.$state.params);
         } else {
           this.$state.go(this.keepTab.currentDetailsState, this.$state.params);
         }
@@ -62,6 +65,11 @@ export class BackRoutingService {
         this.$state.go(this.backRoute.name, this.backRoute.params);
       }
     }
+  }
+
+  public goToBaseState() {
+    const baseRoute = this.$state.current.data.baseRoute || 'work-packages.partitioned.list';
+    this.$state.go(baseRoute, this.$state.params);
   }
 
   public sync(transition:Transition) {

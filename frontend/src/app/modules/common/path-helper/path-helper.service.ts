@@ -29,7 +29,7 @@
 import {ApiV3Paths} from 'core-app/modules/common/path-helper/apiv3/apiv3-paths';
 import {Injectable} from '@angular/core';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PathHelperService {
   public readonly appBasePath:string;
   public readonly api:{ v3:ApiV3Paths };
@@ -44,6 +44,7 @@ export class PathHelperService {
   public get staticBase() {
     return this.appBasePath;
   }
+
   public attachmentDownloadPath(attachmentIdentifier:string, slug:string|undefined) {
     let path = this.staticBase + '/attachments/' + attachmentIdentifier;
 
@@ -52,6 +53,20 @@ export class PathHelperService {
     } else {
       return path;
     }
+  }
+
+  public ifcModelsPath(projectIdentifier:string) {
+    return this.staticBase + `/projects/${projectIdentifier}/ifc_models`;
+  }
+
+  public bimDetailsPath(projectIdentifier:string, workPackageId:string, viewpoint:number|string|null = null) {
+    let path = this.projectPath(projectIdentifier) + `/bcf/split/details/${workPackageId}`;
+
+    if (viewpoint !== null) {
+      path += `?viewpoint=${viewpoint}`;
+    }
+
+    return path;
   }
 
   public highlightingCssPath() {
@@ -134,7 +149,7 @@ export class PathHelperService {
     return this.projectWorkPackagesPath(projectId) + '/new';
   }
 
-  public projectBoardsPath(projectIdentifier:string | null) {
+  public projectBoardsPath(projectIdentifier:string|null) {
     if (projectIdentifier) {
       return this.projectPath(projectIdentifier) + '/boards';
     } else {
@@ -205,7 +220,7 @@ export class PathHelperService {
   }
 
   public projectLevelListPath() {
-    return this.projectsPath() +  '/level_list.json';
+    return this.projectsPath() + '/level_list.json';
   }
 
   public textFormattingHelp() {

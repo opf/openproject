@@ -1,0 +1,21 @@
+#English strings go here
+pl:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Importuj'
+      export: 'Eksportuj'
+      viewpoint: 'Punkt widzenia'
+      add_viewpoint: 'Dodaj punkt widzenia'
+      show_viewpoint: 'Pokaż punkt widzenia'
+      delete_viewpoint: 'Usuń punkt widzenia'
+    ifc_models:
+      empty_warning: "Ten projekt nie ma jeszcze żadnych modeli IFC."
+      use_this_link_to_manage: "Użyj tego linku, aby przesłać swoje modele IFC i zarządzać nimi"
+      keyboard_input_disabled: "Przeglądarka nie obsługuje sterowania za pomocą klawiatury. Kliknij przeglądarkę, aby przekazać jej sterowanie za pomocą klawiatury."
+      models:
+        default: 'Domyślne modele IFC'
+        manage: 'Zarządzaj modelami'
+      views:
+        viewer: 'Przeglądarka'
+        split: 'Przeglądarka i karty'

@@ -15,7 +15,6 @@ import {BoardListsService} from "core-app/modules/boards/board/board-list/board-
 import {BoardCacheService} from "core-app/modules/boards/board/board-cache.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
-import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {StateService} from "@uirouter/core";
 import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
@@ -31,6 +30,8 @@ import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'board',
@@ -42,7 +43,7 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
     DragAndDropService,
   ]
 })
-export class BoardComponent implements OnInit, OnDestroy {
+export class BoardComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
 
   /** Reference all query children to extract current actions */
   @ViewChildren(BoardListComponent) lists:QueryList<BoardListComponent>;
@@ -50,7 +51,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   public _container:HTMLElement;
 
   /** Container reference */
-  @ViewChild('container', { static: false })
+  @ViewChild('container')
   set container(v:ElementRef|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf
@@ -63,7 +64,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   /** Reference to the filter component */
-  @ViewChild(BoardFilterComponent, { static: false })
+  @ViewChild(BoardFilterComponent)
   set content(v:BoardFilterComponent|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf
@@ -131,6 +132,7 @@ export class BoardComponent implements OnInit, OnDestroy {
               private readonly Banner:BannersService,
               private readonly Drag:DragAndDropService,
               private readonly QueryUpdated:QueryUpdatedService) {
+    super();
   }
 
   goBack() {
@@ -156,7 +158,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.BoardCache
       .observe(id)
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe(board => {
         this.board = board;
@@ -167,16 +169,12 @@ export class BoardComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy():void {
-    // Nothing to do.
-  }
-
   saveWithNameAndFilters(board:Board, newName:string) {
     board.name = newName;
     board.filters = this.filters;
 
     let params = { isNew: false, query_props: null };
-    this.state.go('.', params, {custom: {notify: false}});
+    this.state.go('.', params, { custom: { notify: false } });
 
     this.saveBoard(board);
   }
@@ -192,7 +190,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   addList(board:Board):any {
     if (board.isFree) {
       return this.BoardList
-        .addFreeQuery(board, { name: this.text.unnamed_list})
+        .addFreeQuery(board, { name: this.text.unnamed_list })
         .then(board => this.Boards.save(board))
         .then(saved => {
           this.BoardCache.update(saved);
@@ -238,12 +236,12 @@ export class BoardComponent implements OnInit, OnDestroy {
     }
 
     this.currentQueryUpdatedMonitoring = this
-                                         .QueryUpdated
-                                         .monitor(this.board.queries.map((widget) => widget.options.queryId as string))
-                                         .pipe(
-                                           untilComponentDestroyed(this)
-                                         )
-                                         .subscribe((collection) => this.requestRefreshOfUpdatedLists(collection.elements));
+      .QueryUpdated
+      .monitor(this.board.queries.map((widget) => widget.options.queryId as string))
+      .pipe(
+        this.untilDestroyed()
+      )
+      .subscribe((collection) => this.requestRefreshOfUpdatedLists(collection.elements));
   }
 
   private requestRefreshOfUpdatedLists(queries:QueryResource[]) {
@@ -252,7 +250,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         .lists
         .filter((listComponent) => {
           const id = query.id!.toString();
-          const listId = (listComponent.resource.options.queryId as string|number).toString() ;
+          const listId = (listComponent.resource.options.queryId as string|number).toString();
 
           return id === listId;
         })

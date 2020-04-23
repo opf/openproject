@@ -11,6 +11,7 @@ import {
   RelationColumnType,
   WorkPackageViewRelationColumnsService
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export interface RelationRenderInfo extends RowRenderInfo {
   data:{
@@ -21,10 +22,9 @@ export interface RelationRenderInfo extends RowRenderInfo {
 }
 
 export class RelationsRenderPass {
-
-  public wpRelations = this.injector.get(WorkPackageRelationsService);
-  public wpTableColumns = this.injector.get(WorkPackageViewColumnsService);
-  public wpTableRelationColumns = this.injector.get(WorkPackageViewRelationColumnsService);
+  @InjectField() wpRelations:WorkPackageRelationsService;
+  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @InjectField() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
 
   public relationRowBuilder:RelationRowBuilder;
 

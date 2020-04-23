@@ -28,11 +28,12 @@
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class HighlightableDisplayField extends DisplayField {
 
   /** Optionally test if we can inject highlighting service */
-  protected readonly viewHighlighting:WorkPackageViewHighlightingService = this.$injector.get(WorkPackageViewHighlightingService, null);
+  @InjectField(WorkPackageViewHighlightingService, null) viewHighlighting:WorkPackageViewHighlightingService;
 
   public get shouldHighlight() {
     if (this.context.options.colorize === false) {

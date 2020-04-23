@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {from, Observable} from "rxjs";
-import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
@@ -8,10 +7,9 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {map, tap} from "rxjs/operators";
 import {Board, BoardType} from "core-app/modules/boards/board/board";
-import {OpenprojectBoardsModule} from "core-app/modules/boards/openproject-boards.module";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BoardDmService {
 
   constructor(protected GridDm:GridDmService,
@@ -30,8 +28,8 @@ export class BoardDmService {
     const path = this.boardPath(projectIdentifier);
 
     return from(
-        this.GridDm.list({ filters: [['scope', '=', [path]]] })
-      )
+      this.GridDm.list({ filters: [['scope', '=', [path]]] })
+    )
       .pipe(
         tap(collection => this.authorisationService.initModelAuth('boards', collection.$links)),
         map(collection => collection.elements.map(grid => new Board(grid)))

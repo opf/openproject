@@ -45,7 +45,7 @@ id:
       models:
         work_package:
           attributes:
-            fixed_version_id:
+            version_id:
               task_version_must_be_the_same_as_story_version: "harus sama seperti versi kisah orang tua."
             parent_id:
               parent_child_relationship_across_projects: "tidak valid karena paket kerja '%{work_package_name}' adalah tugas backlog dan oleh karena itu tidak dapat memiliki orang tua di luar proyek saat ini."

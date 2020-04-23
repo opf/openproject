@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Principal < ActiveRecord::Base
+class Principal < ApplicationRecord
   # Account statuses
   # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
   STATUSES = {

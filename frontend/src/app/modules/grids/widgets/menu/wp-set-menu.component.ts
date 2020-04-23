@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injector, EventEmitter, Output} from '@angular/core';
+import { Injector, EventEmitter, Output, Directive } from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
@@ -36,6 +36,7 @@ import {WidgetAbstractMenuComponent} from "core-app/modules/grids/widgets/menu/w
 import {WpGraphConfigurationModalComponent} from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 
+@Directive()
 export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuComponent {
   protected configurationComponent:ComponentType<OpModalComponent>;
 

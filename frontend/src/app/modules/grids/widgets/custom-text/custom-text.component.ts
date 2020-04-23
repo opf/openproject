@@ -1,12 +1,22 @@
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {Component, ChangeDetectionStrategy, Injector, OnInit, OnDestroy, SimpleChanges, ChangeDetectorRef, ElementRef, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Injector,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {CustomTextEditFieldService} from "core-app/modules/grids/widgets/custom-text/custom-text-edit-field.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {filter} from 'rxjs/operators';
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 @Component({
   templateUrl: './custom-text.component.html',
@@ -15,18 +25,18 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     CustomTextEditFieldService
   ]
 })
-export class WidgetCustomTextComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
+export class WidgetCustomTextComponent extends AbstractWidgetComponent implements OnInit, OnChanges, OnDestroy {
   protected currentRawText:string;
   public customText:SafeHtml;
 
-  @ViewChild('displayContainer', { static: false }) readonly displayContainer:ElementRef;
+  @ViewChild('displayContainer') readonly displayContainer:ElementRef;
 
-  constructor (protected i18n:I18nService,
-               protected injector:Injector,
-               public handler:CustomTextEditFieldService,
-               protected cdr:ChangeDetectorRef,
-               readonly sanitization:DomSanitizer,
-               protected layout:GridAreaService) {
+  constructor(protected i18n:I18nService,
+              protected injector:Injector,
+              public handler:CustomTextEditFieldService,
+              protected cdr:ChangeDetectorRef,
+              readonly sanitization:DomSanitizer,
+              protected layout:GridAreaService) {
     super(i18n, injector);
   }
 
@@ -37,16 +47,12 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
       .handler
       .valueChanged$
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         filter(value => value !== this.resource.options['text'])
       ).subscribe(newText => {
-        let changeset = this.setChangesetOptions({ text: { raw: newText } });
-        this.resourceChanged.emit(changeset);
-      });
-  }
-
-  ngOnDestroy():void {
-    // comply to interface
+      let changeset = this.setChangesetOptions({ text: { raw: newText } });
+      this.resourceChanged.emit(changeset);
+    });
   }
 
   ngOnChanges(changes:SimpleChanges):void {

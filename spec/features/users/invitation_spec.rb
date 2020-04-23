@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 feature 'invitation spec', type: :feature, js: true do
-  let(:current_user) { FactoryBot.create :admin }
+  using_shared_fixtures :admin
+  let(:current_user) { admin }
   let(:user) { FactoryBot.create :invited_user, mail: 'holly@openproject.com' }
 
   before do

@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, Output} from "@angular/core";
+import {Component, Input, Output} from "@angular/core";
 import {Board} from "core-app/modules/boards/board/board";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
@@ -8,19 +8,20 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {StateService} from "@uirouter/core";
 import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
 import {skip} from "rxjs/internal/operators";
 import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 
 @Component({
   selector: 'board-filter',
   templateUrl: './board-filter.component.html'
 })
-export class BoardFilterComponent implements OnDestroy {
+export class BoardFilterComponent extends UntilDestroyedMixin {
   /** Current active */
   @Input() public board:Board;
 
@@ -42,6 +43,7 @@ export class BoardFilterComponent implements OnDestroy {
               private readonly urlParamsHelper:UrlParamsHelperService,
               private readonly $state:StateService,
               private readonly queryFormDm:QueryFormDmService) {
+    super();
   }
 
   /**
@@ -72,15 +74,11 @@ export class BoardFilterComponent implements OnDestroy {
     }
   }
 
-  ngOnDestroy():void {
-    // Compliance
-  }
-
   private updateChecksumOnFilterChanges() {
     this.wpTableFilters
       .live$()
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         skip(1)
       )
       .subscribe(() => {
@@ -91,14 +89,14 @@ export class BoardFilterComponent implements OnDestroy {
 
         this.onFiltersChanged.emit(filterHash);
 
-        this.$state.go('.', {query_props: query_props}, {custom: {notify: false}});
+        this.$state.go('.', { query_props: query_props }, { custom: { notify: false } });
       });
   }
 
   private loadQueryForm() {
     this.queryFormDm
       .loadWithParams(
-        {filters: JSON.stringify(this.filters)},
+        { filters: JSON.stringify(this.filters) },
         undefined,
         this.currentProjectService.id
       )

@@ -28,13 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   extend Pagination::Model
   extend FriendlyId
 
-  include Project::Copy
-  include Project::Storage
-  include Project::Activity
+  include Projects::Copy
+  include Projects::Storage
+  include Projects::Activity
+  include ::Scopes::Scoped
 
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
@@ -137,7 +138,7 @@ class Project < ActiveRecord::Base
   }, class_name: 'WorkPackageCustomField',
      join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
      association_foreign_key: 'custom_field_id'
-  has_one :status, class_name: 'Project::Status', dependent: :destroy
+  has_one :status, class_name: 'Projects::Status', dependent: :destroy
 
   acts_as_nested_set order_column: :name, dependent: :destroy
 
@@ -180,6 +181,9 @@ class Project < ActiveRecord::Base
   scope :visible, ->(user = User.current) { merge(Project.visible_by(user)) }
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
+
+  scope_classes Projects::Scopes::ActivatedTimeActivity,
+                Projects::Scopes::VisibleWithActivatedTimeActivity
 
   def visible?(user = User.current)
     active? and (public? or user.admin? or user.member_of?(self))
@@ -287,12 +291,10 @@ class Project < ActiveRecord::Base
 
   # Returns a scope of the Versions used by the project
   def shared_versions
-    @shared_versions ||= begin
-      if persisted?
-        shared_versions_on_persisted
-      else
-        shared_versions_by_system
-      end
+    if persisted?
+      shared_versions_on_persisted
+    else
+      shared_versions_by_system
     end
   end
 
@@ -306,7 +308,7 @@ class Project < ActiveRecord::Base
   # reduce the number of db queries when performing operations including the
   # project's versions.
   def assignable_versions
-    @all_shared_versions ||= shared_versions.with_status_open.to_a
+    @all_shared_versions ||= shared_versions.with_status_open.order_by_semver_name.to_a
   end
 
   # Returns a hash of project users grouped by role
@@ -407,80 +409,94 @@ class Project < ActiveRecord::Base
     parents | descendants # Set union
   end
 
-  # Returns an auto-generated project identifier based on the last identifier used
-  def self.next_identifier
-    p = Project.newest.first
-    p.nil? ? nil : p.identifier.to_s.succ
-  end
+  class << self
+    # Returns an auto-generated project identifier based on the last identifier used
+    def next_identifier
+      p = Project.newest.first
+      p.nil? ? nil : p.identifier.to_s.succ
+    end
 
-  # builds up a project hierarchy helper structure for use with #project_tree_from_hierarchy
-  #
-  # it expects a simple list of projects with a #lft column (awesome_nested_set)
-  # and returns a hierarchy based on #lft
-  #
-  # the result is a nested list of root level projects that contain their child projects
-  # but, each entry is actually a ruby hash wrapping the project and child projects
-  # the keys are :project and :children where :children is in the same format again
-  #
-  #   result = [ root_level_project_info_1, root_level_project_info_2, ... ]
-  #
-  # where each entry has the form
-  #
-  #   project_info = { project: the_project, children: [ child_info_1, child_info_2, ... ] }
-  #
-  # if a project has no children the :children array is just empty
-  #
-  def self.build_projects_hierarchy(projects)
-    ancestors = []
-    result    = []
+    # builds up a project hierarchy helper structure for use with #project_tree_from_hierarchy
+    #
+    # it expects a simple list of projects with a #lft column (awesome_nested_set)
+    # and returns a hierarchy based on #lft
+    #
+    # the result is a nested list of root level projects that contain their child projects
+    # but, each entry is actually a ruby hash wrapping the project and child projects
+    # the keys are :project and :children where :children is in the same format again
+    #
+    #   result = [ root_level_project_info_1, root_level_project_info_2, ... ]
+    #
+    # where each entry has the form
+    #
+    #   project_info = { project: the_project, children: [ child_info_1, child_info_2, ... ] }
+    #
+    # if a project has no children the :children array is just empty
+    #
+    def build_projects_hierarchy(projects)
+      ancestors = []
+      result    = []
 
-    projects.sort_by(&:lft).each do |project|
-      while ancestors.any? && !project.is_descendant_of?(ancestors.last[:project])
-        # before we pop back one level, we sort the child projects by name
-        ancestors.last[:children] = ancestors.last[:children].sort_by { |h| h[:project].name.downcase if h[:project].name }
-        ancestors.pop
+      projects.sort_by(&:lft).each do |project|
+        while ancestors.any? && !project.is_descendant_of?(ancestors.last[:project])
+          # before we pop back one level, we sort the child projects by name
+          ancestors.last[:children] = sort_by_name(ancestors.last[:children])
+          ancestors.pop
+        end
+
+        current_hierarchy = { project: project, children: [] }
+        current_tree      = ancestors.any? ? ancestors.last[:children] : result
+
+        current_tree << current_hierarchy
+        ancestors << current_hierarchy
       end
 
-      current_hierarchy = { project: project, children: [] }
-      current_tree      = ancestors.any? ? ancestors.last[:children] : result
-
-      current_tree << current_hierarchy
-      ancestors << current_hierarchy
+      # When the last project is deeply nested, we need to sort
+      # all layers we are in.
+      ancestors.each do |level|
+        level[:children] = sort_by_name(level[:children])
+      end
+      # we need one extra element to ensure sorting at the end
+      # at the end the root level must be sorted as well
+      sort_by_name(result)
     end
 
-    # at the end the root level must be sorted as well
-    result.sort_by { |h| h[:project].name&.downcase }
-  end
-
-  def self.project_tree_from_hierarchy(projects_hierarchy, level, &block)
-    projects_hierarchy.each do |hierarchy|
-      project = hierarchy[:project]
-      children = hierarchy[:children]
-      yield project, level
-      # recursively show children
-      project_tree_from_hierarchy(children, level + 1, &block) if children.any?
+    def project_tree_from_hierarchy(projects_hierarchy, level, &block)
+      projects_hierarchy.each do |hierarchy|
+        project = hierarchy[:project]
+        children = hierarchy[:children]
+        yield project, level
+        # recursively show children
+        project_tree_from_hierarchy(children, level + 1, &block) if children.any?
+      end
     end
-  end
 
-  # Yields the given block for each project with its level in the tree
-  def self.project_tree(projects, &block)
-    projects_hierarchy = build_projects_hierarchy(projects)
-    project_tree_from_hierarchy(projects_hierarchy, 0, &block)
-  end
-
-  def self.project_level_list(projects)
-    list = []
-    project_tree(projects) do |project, level|
-      element = {
-        project: project,
-        level: level
-      }
-
-      element.merge!(yield(project)) if block_given?
-
-      list << element
+    # Yields the given block for each project with its level in the tree
+    def project_tree(projects, &block)
+      projects_hierarchy = build_projects_hierarchy(projects)
+      project_tree_from_hierarchy(projects_hierarchy, 0, &block)
     end
-    list
+
+    def project_level_list(projects)
+      list = []
+      project_tree(projects) do |project, level|
+        element = {
+          project: project,
+          level: level
+        }
+
+        element.merge!(yield(project)) if block_given?
+
+        list << element
+      end
+      list
+    end
+
+    private
+
+    def sort_by_name(project_hashes)
+      project_hashes.sort_by { |h| h[:project].name&.downcase }
+    end
   end
 
   def allowed_permissions

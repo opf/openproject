@@ -32,17 +32,15 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:errors) { [] }
+  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:project) { work_package.project }
+  let(:permissions) { %i(edit_work_packages) }
   let(:work_package) do
-    FactoryBot.build(:work_package,
-                     id: 42,
-                     created_at: Time.now,
-                     updated_at: Time.now)
+    FactoryBot.build_stubbed(:stubbed_work_package)
   end
-  let(:current_user) do
-    FactoryBot.build(:user, member_in_project: work_package.project)
-  end
+  include_context 'user with stubbed permissions'
   let(:representer) do
-    described_class.new(work_package, current_user: current_user, errors: errors)
+    described_class.new(work_package, current_user: user, errors: errors)
   end
 
   context 'generation' do
@@ -87,12 +85,7 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
         end
 
         context 'user with insufficient permissions' do
-          let(:role) { FactoryBot.create(:role, permissions: []) }
-          let(:current_user) do
-            FactoryBot.build(:user,
-                             member_in_project: work_package.project,
-                             member_through_role: role)
-          end
+          let(:permissions) { [] }
 
           it { is_expected.not_to have_json_path('_links/commit/href') }
         end

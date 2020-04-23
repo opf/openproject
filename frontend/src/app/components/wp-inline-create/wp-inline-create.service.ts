@@ -32,14 +32,15 @@ import {Observable, of, Subject} from "rxjs";
 import {ComponentType} from "@angular/cdk/portal";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Injectable()
 export class WorkPackageInlineCreateService implements OnDestroy {
 
-  protected readonly I18n:I18nService = this.injector.get(I18nService);
-  protected readonly authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
+  @InjectField() protected readonly I18n:I18nService;
+  @InjectField() protected readonly authorisationService:AuthorisationService;
 
-  constructor(protected readonly injector:Injector) {
+  constructor(readonly injector:Injector) {
   }
 
   /**

@@ -28,11 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'query/group_by'
-require_dependency 'query/sums'
-
 class ::Query::Results
-  include ::Query::Grouping
+  include ::Query::GroupBy
   include ::Query::Sums
   include Redmine::I18n
 
@@ -154,7 +151,13 @@ class ::Query::Results
     aliases = include_aliases
 
     reflection_includes.each do |inc|
-      sorting_by_column_name[inc.to_s] = Array(sorting_by_column_name[inc.to_s]).map { |column| "#{aliases[inc]}.#{column}" }
+      sorting_by_column_name[inc.to_s] = Array(sorting_by_column_name[inc.to_s]).map do |column|
+        if column.respond_to?(:call)
+          column.call(aliases[inc])
+        else
+          "#{aliases[inc]}.#{column}"
+        end
+      end
     end
 
     sorting_by_column_name

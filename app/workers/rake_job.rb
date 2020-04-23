@@ -30,11 +30,13 @@ require 'rake'
 ##
 # Invoke a rake task while safely loading the tasks only once
 # to ensure they are neither loaded nor executed twice.
-class RakeJob < ApplicationJob
+module RakeJob
   attr_reader :task_name
+  attr_reader :args
 
-  def perform(task_name)
+  def perform(task_name, *args)
     @task_name = task_name
+    @args = args
 
     Rails.logger.info { "Invoking Rake task #{task_name}." }
     invoke
@@ -44,17 +46,13 @@ class RakeJob < ApplicationJob
 
   def invoke
     load_tasks!
-    task.invoke
+    task.invoke *args
   end
-
-  private
 
   ##
   # Load tasks if there are none. This should only be run once in an environment
   def load_tasks!
-    raise unless tasks_loaded?
-  rescue StandardError
-    OpenProject::Application.load_rake_tasks
+    OpenProject::Application.load_rake_tasks unless tasks_loaded?
   end
 
   ##

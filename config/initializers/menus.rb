@@ -45,6 +45,7 @@ Redmine::MenuManager.map :top_menu do |menu|
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
             context: :modules,
+            caption: I18n.t('label_news_plural'),
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_news, nil, global: true)
@@ -57,7 +58,8 @@ Redmine::MenuManager.map :top_menu do |menu|
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_time_entries, nil, global: true)
             }
-  menu.push :help, OpenProject::Static::Links.help_link,
+  menu.push :help,
+            OpenProject::Static::Links.help_link,
             last: true,
             caption: '',
             icon: 'icon5 icon-help',

@@ -77,6 +77,26 @@ module OpenProject
               href: 'https://www.openproject.org/enterprise-edition',
               label: 'homescreen.links.upgrade_enterprise_edition'
             },
+            upsale_benefits_features: {
+              href: 'https://www.openproject.org/enterprise-edition/#premium-features',
+              label: 'noscript_learn_more'
+            },
+            upsale_benefits_installation: {
+              href: 'https://www.openproject.org/enterprise-edition/#installation',
+              label: 'noscript_learn_more'
+            },
+            upsale_benefits_security: {
+              href: 'https://www.openproject.org/enterprise-edition/#security-features',
+              label: 'noscript_learn_more'
+            },
+            upsale_benefits_support: {
+              href: 'https://www.openproject.org/enterprise-edition/#professional-support',
+              label: 'noscript_learn_more'
+            },
+            upsale_get_quote: {
+              href: 'https://www.openproject.org/upgrade-enterprise-edition/',
+              label: 'admin.enterprise.get_quote'
+            },
             user_guides: {
               href: 'https://docs.openproject.org/user-guide/',
               label: 'homescreen.links.user_guides'
@@ -92,6 +112,10 @@ module OpenProject
             configuration_guide: {
               href: 'https://www.openproject.org/operations/configuration/',
               label: 'links.configuration_guide'
+            },
+            contact: {
+              href: 'https://www.openproject.org/contact-us/',
+              label: 'links.get_in_touch'
             },
             glossary: {
               href: 'https://www.openproject.org/help/glossary/',
@@ -162,6 +186,9 @@ module OpenProject
             },
             security_badge_documentation: {
               href: 'https://docs.openproject.org/system-admin-guide/information/#security-badge'
+            },
+            chargebee: {
+              href: 'https://js.chargebee.com/v2/chargebee.js',
             }
           }
         end

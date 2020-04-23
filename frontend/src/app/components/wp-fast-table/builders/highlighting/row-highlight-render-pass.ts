@@ -5,11 +5,12 @@ import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class HighlightingRenderPass {
 
-  private readonly wpTableHighlighting:WorkPackageViewHighlightingService = this.injector.get(WorkPackageViewHighlightingService);
-  private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
+  @InjectField() wpTableHighlighting:WorkPackageViewHighlightingService;
+  @InjectField() querySpace:IsolatedQuerySpace;
 
   constructor(public readonly injector:Injector,
               private table:WorkPackageTable,

@@ -1,6 +1,0 @@
-ru:
-  js:
-    ifc_models:
-      models:
-        default: 'Модели IFC по умолчанию'
-        manage: 'Управление моделями'

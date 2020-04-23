@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Concerns::Contracted
+module Contracted
   extend ActiveSupport::Concern
 
   included do

@@ -93,7 +93,7 @@ module OpenProject::Backlogs::Burndown
         work_package_journals
       JOIN journals AS id_journals
       ON work_package_journals.journal_id = id_journals.id
-        AND #{fixed_version_query}
+        AND #{version_query}
         AND #{project_id_query}
         AND #{type_id_query}
         #{and_status_query}
@@ -139,7 +139,7 @@ module OpenProject::Backlogs::Burndown
               JOIN
                 work_package_journals
               ON journals.id = work_package_journals.journal_id
-                AND #{fixed_version_query}
+                AND #{version_query}
                 AND #{project_id_query}
                 AND #{type_id_query}
                 #{and_status_query})
@@ -182,8 +182,8 @@ module OpenProject::Backlogs::Burndown
       end
     end
 
-    def fixed_version_query
-      @fixed_version_query ||= "(#{Journal::WorkPackageJournal.table_name}.fixed_version_id = #{sprint.id})"
+    def version_query
+      @version_query ||= "(#{Journal::WorkPackageJournal.table_name}.version_id = #{sprint.id})"
     end
 
     def project_id_query

@@ -26,12 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectorRef, Injector, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {filter, map, withLatestFrom} from 'rxjs/operators';
+import {filter, take, withLatestFrom} from 'rxjs/operators';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
@@ -53,41 +52,50 @@ import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp
 import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
-export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
+@Directive()
+export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
 
-  readonly $state:StateService = this.injector.get(StateService);
-  readonly states:States = this.injector.get(States);
-  readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
-  readonly authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
-  readonly wpTableColumns:WorkPackageViewColumnsService = this.injector.get(WorkPackageViewColumnsService);
-  readonly wpTableHighlighting:WorkPackageViewHighlightingService = this.injector.get(WorkPackageViewHighlightingService);
-  readonly wpTableSortBy:WorkPackageViewSortByService = this.injector.get(WorkPackageViewSortByService);
-  readonly wpTableGroupBy:WorkPackageViewGroupByService = this.injector.get(WorkPackageViewGroupByService);
-  readonly wpTableFilters:WorkPackageViewFiltersService = this.injector.get(WorkPackageViewFiltersService);
-  readonly wpTableSum:WorkPackageViewSumService = this.injector.get(WorkPackageViewSumService);
-  readonly wpTableTimeline:WorkPackageViewTimelineService = this.injector.get(WorkPackageViewTimelineService);
-  readonly wpTableHierarchies:WorkPackageViewHierarchiesService = this.injector.get(WorkPackageViewHierarchiesService);
-  readonly wpTablePagination:WorkPackageViewPaginationService = this.injector.get(WorkPackageViewPaginationService);
-  readonly wpTableOrder:WorkPackageViewOrderService = this.injector.get(WorkPackageViewOrderService);
-  readonly wpListService:WorkPackagesListService = this.injector.get(WorkPackagesListService);
-  readonly wpListChecksumService:WorkPackagesListChecksumService = this.injector.get(WorkPackagesListChecksumService);
-  readonly loadingIndicatorService:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
-  readonly $transitions:TransitionService = this.injector.get(TransitionService);
-  readonly I18n:I18nService = this.injector.get(I18nService);
-  readonly wpStaticQueries:WorkPackageStaticQueriesService = this.injector.get(WorkPackageStaticQueriesService);
-  readonly QueryDm:QueryDmService = this.injector.get(QueryDmService);
-  readonly wpStatesInitialization:WorkPackageStatesInitializationService = this.injector.get(WorkPackageStatesInitializationService);
-  readonly cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
-  readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService = this.injector.get(WorkPackageViewDisplayRepresentationService);
-  readonly halEvents:HalEventsService = this.injector.get(HalEventsService);
-  readonly deviceService:DeviceService = this.injector.get(DeviceService);
+  @InjectField() $state:StateService;
+  @InjectField() states:States;
+  @InjectField() querySpace:IsolatedQuerySpace;
+  @InjectField() authorisationService:AuthorisationService;
+  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @InjectField() wpTableHighlighting:WorkPackageViewHighlightingService;
+  @InjectField() wpTableSortBy:WorkPackageViewSortByService;
+  @InjectField() wpTableGroupBy:WorkPackageViewGroupByService;
+  @InjectField() wpTableFilters:WorkPackageViewFiltersService;
+  @InjectField() wpTableSum:WorkPackageViewSumService;
+  @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
+  @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
+  @InjectField() wpTablePagination:WorkPackageViewPaginationService;
+  @InjectField() wpTableOrder:WorkPackageViewOrderService;
+  @InjectField() wpListService:WorkPackagesListService;
+  @InjectField() wpListChecksumService:WorkPackagesListChecksumService;
+  @InjectField() loadingIndicatorService:LoadingIndicatorService;
+  @InjectField() $transitions:TransitionService;
+  @InjectField() I18n:I18nService;
+  @InjectField() wpStaticQueries:WorkPackageStaticQueriesService;
+  @InjectField() QueryDm:QueryDmService;
+  @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
+  @InjectField() cdRef:ChangeDetectorRef;
+  @InjectField() wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService;
+  @InjectField() halEvents:HalEventsService;
+  @InjectField() deviceService:DeviceService;
+  @InjectField() currentProject:CurrentProjectService;
 
+  /** Determine when query is initially loaded */
+  queryLoaded = false;
 
-  constructor(protected injector:Injector) {
+  /** Remember explicitly when this component was destroyed */
+  destroyed = false;
+
+  constructor(public injector:Injector) {
+    super();
   }
 
   ngOnInit() {
@@ -96,17 +104,16 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
 
     // Listen for refresh changes
     this.setupRefreshObserver();
-  }
 
-  ngOnDestroy():void {
-    // Nothing to do
+    // Mark tableInformationLoaded when initially loading done
+    this.setupQueryLoadedListener();
   }
 
   private setupQueryObservers() {
     this.wpTablePagination
       .updates$()
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         withLatestFrom(this.querySpace.query.values$())
       ).subscribe(([pagination, query]) => {
       if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
@@ -140,7 +147,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
     service
       .updates$()
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
       )
       .subscribe(() => {
@@ -160,6 +167,10 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
       });
   }
 
+  public get projectIdentifier() {
+    return this.currentProject.identifier || undefined;
+  }
+
   /**
    * Setup the listener for members of the table to request a refresh of the entire table
    * through the refresh service.
@@ -168,7 +179,7 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
     this.halEvents
       .aggregated$('WorkPackage')
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         filter((events:HalEvent[]) => this.filterRefreshEvents(events))
       )
       .subscribe((events:HalEvent[]) => {
@@ -209,5 +220,20 @@ export abstract class WorkPackagesViewBase implements OnInit, OnDestroy {
     }
 
     return false;
+  }
+
+  protected setupQueryLoadedListener() {
+    this
+      .querySpace
+      .initialized
+      .values$()
+      .pipe(
+        take(1),
+        filter(() => !this.componentDestroyed)
+      )
+      .subscribe(() => {
+        this.queryLoaded = true;
+        this.cdRef.detectChanges();
+      });
   }
 }

@@ -5,10 +5,11 @@ import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {TableEditForm} from "core-components/wp-edit-form/table-edit-form";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class WorkPackageTableEditingContext {
 
-  public halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
+  @InjectField() public halEditing:HalResourceEditingService;
 
   constructor(readonly table:WorkPackageTable,
               readonly injector:Injector) {

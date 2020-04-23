@@ -63,13 +63,16 @@ sv:
         main-menu-bg-color: "Bakgrundsfärg på den vänstra sidomenyn."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Uppgradera till Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Ladda upp en Enterprise Edition support-nyckel"
       replace_token: "Ersätta din nuvarande support-nyckel"
       order: "Beställ Enterprise Edition"
       paste: "Klistra in din Enterprise Edition support-nyckel"
       required_for_feature: "Denna funktion är endast tillgänglig med en aktiv Enterprise Edition support-nyckel."
       enterprise_link: "För mer information, klicka här."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Visa fram till
     is_active: visas för tillfället
@@ -398,7 +401,7 @@ sv:
         types: "Typer"
         versions: "Versioner"
         work_packages: "Arbetspaket"
-      project/status:
+      projects/status:
         code: 'Status'
         explanation: 'Statusbeskrivning'
         codes:
@@ -463,7 +466,7 @@ sv:
         done_ratio: "Progress (%)"
         end_insertion: "Slutet av införandet"
         end_deletion: "Slutet av raderingen"
-        fixed_version: "Version"
+        version: "Version"
         parent: "Överordnad"
         parent_issue: "Överordnad"
         parent_work_package: "Överordnad"
@@ -754,6 +757,7 @@ sv:
     version: "Version"
     work_package: "Arbetspaket"
   button_add: "Lägg till"
+  button_add_comment: "Lägg till kommentar"
   button_add_member: Lägg till medlem
   button_add_watcher: "Lägg till bevakare"
   button_annotate: "Kommentera"
@@ -1138,13 +1142,8 @@ sv:
     blocks:
       community: "OpenProject community"
       upsale:
-        become_hero: "Bli en hjälte!"
         title: "Uppgradera till Enterprise Edition"
-        description: "Vad är fördelarna?"
         more_info: "Mer information"
-        additional_features: "Ytterligare kraftfulla premium-funktioner"
-        professional_support: "Professionell support från OpenProject-experterna"
-        you_contribute: "Utvecklare har också räkningar att betala. Med Enterprise Edition bidrar du väsentligt till detta open source-projekt."
     links:
       upgrade_enterprise_edition: "Uppgradera till Enterprise Edition"
       postgres_migration: "Migrera din installation till PostgreSQL"
@@ -1156,9 +1155,10 @@ sv:
       forums: "Community forum"
       newsletter: "Säkerhetsnotifieringar / Nyhetsbrev"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Konfigurationsguide'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Du kan logga in så snart ditt konto har aktiverats genom att klicka på %{signin}."
   instructions_after_logout: "Du kan logga in igen genom att klicka på %{signin}."
   instructions_after_error: "Du kan försöka logga in igen genom att klicka på %{signin}. Om felet kvarstår, be din systemadministratör om hjälp."
@@ -1448,6 +1448,7 @@ sv:
   label_new: "Ny"
   label_new_features: "Nya funktioner"
   label_new_statuses_allowed: "Nya statusar tillåtna"
+  label_news_singular: "Nyheter"
   label_news_added: "Nyheter tillagda"
   label_news_comment_added: "Kommentar tillagd till en nyhet"
   label_news_latest: "Senaste nyheterna"
@@ -1677,7 +1678,7 @@ sv:
   label_work_package_new: "Nytt arbetspaket"
   label_work_package_note_added: "Anteckning lades till arbetspaket"
   label_work_package_edit: "Redigera arbetspaket %{name}"
-  label_work_package_plural: "Arbetspaket"
+  label_work_package_plural: "Arbetspaketen"
   label_work_package_priority_updated: "Arbetspaketets prioritet uppdaterad"
   label_work_package_status: "Arbetspaketstatus"
   label_work_package_status_new: "Ny status"
@@ -1707,31 +1708,6 @@ sv:
     other: "%{count} projekt"
   label_year: "År"
   label_yesterday: "igår"
-  label_keyboard_function: "Funktion"
-  label_keyboard_shortcut: "Genväg"
-  label_keyboard_accesskey: "Accesskey"
-  label_keyboard_shortcut_help_heading: "Tillgängliga kortkommandon"
-  label_keyboard_shortcut_within_project: "Projektspecifika genvägar:"
-  label_keyboard_shortcut_global_shortcuts: "Globala genvägar:"
-  label_keyboard_shortcut_some_pages_only: "Special genvägar:"
-  label_keyboard_shortcut_search_global: "Global sökning"
-  label_keyboard_shortcut_search_project: "Hitta ett projekt"
-  label_keyboard_shortcut_go_my_page: "Gå till min sida"
-  label_keyboard_shortcut_show_help: "Visa detta hjälpmeddelande"
-  label_keyboard_shortcut_go_overview: "Gå till projektöversikten"
-  label_keyboard_shortcut_go_work_package: "Gå till projektets arbetspaket"
-  label_keyboard_shortcut_go_wiki: "Gå till projektets wiki"
-  label_keyboard_shortcut_go_activity: "Gå till projektaktiviteter"
-  label_keyboard_shortcut_go_calendar: "Gå till projektkalendern"
-  label_keyboard_shortcut_go_news: "Gå till projektnyheter"
-  label_keyboard_shortcut_go_timelines: "Gå till tidslinjer"
-  label_keyboard_shortcut_new_work_package: "Skapa nya arbetspaket"
-  label_keyboard_shortcut_details_package: "Visa informationsfönstret för arbetspaket"
-  label_keyboard_shortcut_go_edit: "Gå till redigering av den aktuella artikeln (på detaljsidor endast)"
-  label_keyboard_shortcut_open_more_menu: "Öppna mer-menyn (på detaljsidor endast)"
-  label_keyboard_shortcut_go_preview: "Gå till förhandsgranskning av den aktuella redigeringen (på Redigera sidor endast)"
-  label_keyboard_shortcut_focus_previous_item: "Fokusera tidigare listelement (på vissa listor endast)"
-  label_keyboard_shortcut_focus_next_item: "Fokusera nästa listelement (på vissa listor endast)"
   auth_source:
     using_abstract_auth_source: "Kan inte använda en abstrakt autentiseringskälla."
     ldap_error: "LDAP-fel: %{error_message}"
@@ -2181,7 +2157,6 @@ sv:
   setting_welcome_text: "Textblock för välkomstmeddelande"
   setting_welcome_title: "Textblock för välkomsttitel"
   setting_welcome_on_homescreen: "Visa välkomstblocket på hemsidan"
-  setting_wiki_compression: "Wiki komprimera historia"
   setting_work_package_group_assignment: "Tillåt tilldelning till grupper"
   setting_work_package_list_default_highlighting_mode: "Standardläge för markering"
   setting_work_package_list_default_highlighted_attributes: "Standardattribut för inline-markering"
@@ -2521,6 +2496,7 @@ sv:
       mail_self_notified: "Jag vill bli meddelad om ändringar som jag själv gör"
     status_user_and_brute_force: "%{user} och %{brute_force}"
     status_change: "Statusändring"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Lås upp"
     unlock_and_reset_failed_logins: "Lås upp och nollställ misslyckade inloggningsförsök"
   version_status_closed: "stängt"

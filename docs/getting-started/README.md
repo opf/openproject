@@ -43,3 +43,59 @@ Watch a short 3-minute introduction video to get started with OpenProject in 5 e
 Watch a **comprehensive OpenProject product introduction** video to learn how to work with OpenProject using traditional and agile project management. 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ebc3lcSmncA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+
+## Frequently asked questions - FAQ
+
+
+
+### Is it possible that we can have a board over all OpenProject tasks and Users?
+
+Yes, to achieve the desired result you can navigate to the main project and on the Kanban view add the filter "subproject" "all". This will display the work packages in the main project and all subprojects.
+
+
+
+### **Are there extra fees to pay, in terms of installing the** **OpenProject** **software?****Is it possible to adapt or rename the status list?
+
+Yes, this is absolutely possible. To do this, you would first have to create new statuses: https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-status/In the second step you can then assign them to workflows:[ https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-workflows/](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-workflows/) 
+
+
+
+### How can I migrate MySQL to PostgreSQL in OpenProject?
+
+We have prepared a guide for the migration of MySQL to PostgreSQL:https://docs.openproject.org/installation-and-operations/misc/packaged-postgresql-migration/If you are experiencing difficulties in following this guide, we could use a temporary remote SSH access to your servers to perform the migration for you, or you provide us with the dump of the MySQL database and will be returned a migrated PostgreSQL dump. 
+
+
+
+### How can I activate Boards in OpenProject?
+
+**The boards module is a feature of the enterprise edition. You can upgrade your installation by entering a valid subscription token in the application administration. You can purchase the token on our website:-> [openproject.org/enterprise-edition](https://www.openproject.org/enterprise-edition)
+
+Additionally you need to activate the boards module in the project settings. 
+
+
+
+### What is the best way to maintain an overview of multiple projects in** **OpenProject****? Is it possible to create a dashboard that shows all the projects you are responsible for at once?
+
+You can click on "Select a project" on the upper left side and then choose "View all projects" to get an overview of all projects. You can also apply filters to filter e.g. by projects for which you are set as the responsible. If you want to see the individual work packages in the projects, you can click on the module icon (the icon with the 9 squares) in the upper right side and choose "Work packages" from the dropdown menu. This shows all work packages across all projects you have access to. You can then click on the "Project" column header and select "Group by" to group by project. Additionally, you can then filter based on the project and e.g. only display certain projects. 
+
+
+
+### How do I prepare a budget in** **OpenProject****?
+
+**Budgets are currently limited to a single project. They cannot be shared across multiple projects.This means that you would have to set up a separate budget for the different main and sub projects.You can however use cost reports to analyze the time (and cost) spent across multiple projects. For details, you can take a look at our user guide: https://www.openproject.org/help/time-costs/time-costs-reports-cost-report-plugin/. 
+
+
+
+### Is it possible to create a PDF export for the overview of the work packages with Gantt chart?
+
+The export is available via the browser print function (ideally Google Chrome). 
+
+
+
+### We like for each Department to have their own custom "Status" with different values options in OpenProject. How do we do this?**
+
+The status which can be selected by users (based on the workflow) is always determined based on the work package type and the role of the user. In order to use the same work package type (e.g. Task) but display different status for each department, you would need to create a separate role for each department. You can then add the members of a department (ideally using a group) and assign them with the correct role.https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-workflows/#edit-workflowsTo work with different status, first create those status in “Administration” > “Work packages” > “Status”.
+
+Next, go to “Administration” > “Work packages” > “Workflow” and select the combination of Type and Role for which you would like to set the allowed workflow transition.You can e.g. create a role “Marketing – Member” and select it as well as the type (e.g. “Task”). Make sure to uncheck the option “Only display statuses that are used by this type” and click on “Edit”. Now, you can select the correct status transitions.Repeat this step for the other (department) roles (e.g. “IT – Member”) and select the desired status transitions. This way, you can set different status for each department (only the default status is shared (i.e. “New” by default)). Please keep in mind that it may not be possible for a member of a different department to update the status of a work package if it has been updated before by another department (since the workflow may not support this status transition).

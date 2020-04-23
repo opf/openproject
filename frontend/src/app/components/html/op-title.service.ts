@@ -3,7 +3,7 @@ import {Injectable} from "@angular/core";
 
 const titlePartsSeparator = ' | ';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OpTitleService {
   constructor(private titleService:Title) {
 

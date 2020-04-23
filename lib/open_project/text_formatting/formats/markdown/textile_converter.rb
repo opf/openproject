@@ -53,7 +53,6 @@
 # SOFTWARE.
 
 require 'ruby-progressbar'
-require_relative 'pandoc_wrapper'
 
 module OpenProject::TextFormatting::Formats
   module Markdown

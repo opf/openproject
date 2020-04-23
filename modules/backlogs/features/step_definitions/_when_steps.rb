@@ -28,19 +28,19 @@
 
 When /^I create the impediment$/ do
   page.driver.post backlogs_project_sprint_impediments_url(
-    *@impediment_params.values_at('project_id', 'fixed_version_id')
+    *@impediment_params.values_at('project_id', 'version_id')
   ), @impediment_params.except('author_id', 'author')
 end
 
 When /^I create the story$/ do
   page.driver.post backlogs_project_sprint_stories_url(
-    *@story_params.values_at('project_id', 'fixed_version_id')
+    *@story_params.values_at('project_id', 'version_id')
   ), @story_params.except('author_id', 'author')
 end
 
 When /^I create the task$/ do
   page.driver.post backlogs_project_sprint_tasks_url(
-    *@task_params.values_at('project_id', 'fixed_version_id')
+    *@task_params.values_at('project_id', 'version_id')
   ), @task_params.except('author_id', 'author')
 end
 
@@ -56,11 +56,11 @@ When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subj
     # #attributes returns the parent_id to always be nil
     attributes['parent_id'] = story.parent_id
   else
-    attributes[:fixed_version_id] = prev.fixed_version_id
+    attributes[:version_id] = prev.version_id
   end
 
   project = Project.find(attributes['project_id'])
-  sprint  = prev.fixed_version
+  sprint  = prev.version
 
   page.driver.post polymorphic_url(
     [:backlogs, project, sprint.becomes(Sprint), story]
@@ -71,19 +71,19 @@ When /^I move the story named (.+) (up|down) to the (\d+)(?:st|nd|rd|th) positio
   position = position.to_i
   story = Story.find_by(subject: story_subject)
   sprint = Sprint.find_by(name: sprint_name)
-  story.fixed_version = sprint
+  story.version = sprint
 
   attributes = story.attributes
   attributes[:prev] = if position == 1
                         ''
                       else
-                        stories = Story.where(fixed_version_id: sprint.id, type_id: Story.types).order(Arel.sql('position ASC'))
+                        stories = Story.where(version_id: sprint.id, type_id: Story.types).order(Arel.sql('position ASC'))
                         raise "You indicated an invalid position (#{position}) in a sprint with #{stories.length} stories" if 0 > position or position > stories.length
                         stories[position - (direction == 'up' ? 2 : 1)].id
                       end
 
   page.driver.post backlogs_project_sprint_story_url(
-    *attributes.values_at('project_id', 'fixed_version_id', 'id')
+    *attributes.values_at('project_id', 'version_id', 'id')
   ), attributes.merge('_method' => 'put')
 end
 
@@ -107,14 +107,14 @@ When /^I move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd|rd|th)? p
 
   page.driver.post backlogs_project_sprint_story_url(
     @project.id,
-    @story.fixed_version_id,
+    @story.version_id,
     @story.id
   ), prev: (prev.nil? ? '' : prev.text), '_method' => 'put'
 end
 
 When /^I update the impediment$/ do
   page.driver.post backlogs_project_sprint_impediment_url(
-    *@impediment_params.values_at('project_id', 'fixed_version_id', 'id')
+    *@impediment_params.values_at('project_id', 'version_id', 'id')
   ), @impediment_params.merge('_method' => 'put')
 end
 
@@ -126,13 +126,13 @@ end
 
 When /^I update the story$/ do
   page.driver.post backlogs_project_sprint_story_url(
-    *@story_params.values_at('project_id', 'fixed_version_id', 'id')
+    *@story_params.values_at('project_id', 'version_id', 'id')
   ), @story_params.merge('_method' => 'put')
 end
 
 When /^I update the task$/ do
   page.driver.post backlogs_project_sprint_task_url(
-    *@task_params.values_at('project_id', 'fixed_version_id', 'id')
+    *@task_params.values_at('project_id', 'version_id', 'id')
   ), @task_params.merge('_method' => 'put')
 end
 

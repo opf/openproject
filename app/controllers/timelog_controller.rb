@@ -41,7 +41,7 @@ class TimelogController < ApplicationController
   include TimelogHelper
   include CustomFieldsHelper
   include PaginationHelper
-  include Concerns::Layout
+  include Layout
 
   menu_item :time_entries
 

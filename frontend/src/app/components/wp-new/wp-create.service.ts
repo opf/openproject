@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Injectable, Injector, OnDestroy} from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {Observable, Subject} from 'rxjs';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -39,18 +39,18 @@ import {
   ResourceChangesetCommit
 } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {filter} from "rxjs/operators";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
 @Injectable()
-export class WorkPackageCreateService implements OnDestroy {
+export class WorkPackageCreateService extends UntilDestroyedMixin {
   protected form:Promise<FormResource>|undefined;
 
   // Allow callbacks to happen on newly created work packages
@@ -60,34 +60,32 @@ export class WorkPackageCreateService implements OnDestroy {
               protected hooks:HookService,
               protected wpCacheService:WorkPackageCacheService,
               protected halResourceService:HalResourceService,
-              protected readonly querySpace:IsolatedQuerySpace,
+              protected querySpace:IsolatedQuerySpace,
+              protected authorisationService:AuthorisationService,
               protected halEditing:HalResourceEditingService,
               protected workPackageDmService:WorkPackageDmService,
-              protected readonly halEvents:HalEventsService) {
+              protected halEvents:HalEventsService) {
+    super();
 
-  this.halEditing
+    this.halEditing
       .comittedChanges
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         filter(commit => commit.resource._type === 'WorkPackage' && commit.wasNew)
       )
       .subscribe((commit:ResourceChangesetCommit<WorkPackageResource>) => {
         this.newWorkPackageCreated(commit.resource);
       });
 
-  this.halEditing
-    .changes$(newWorkPackageHref)
-    .pipe(
-      untilComponentDestroyed(this),
-      filter(changeset => !changeset)
-    )
-    .subscribe(() => {
-      this.reset();
-    });
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
+    this.halEditing
+      .changes$(newWorkPackageHref)
+      .pipe(
+        this.untilDestroyed(),
+        filter(changeset => !changeset)
+      )
+      .subscribe(() => {
+        this.reset();
+      });
   }
 
   protected newWorkPackageCreated(wp:WorkPackageResource) {
@@ -179,6 +177,7 @@ export class WorkPackageCreateService implements OnDestroy {
     }
 
     return changePromise.then((change:WorkPackageChangeset) => {
+      this.authorisationService.initModelAuth('work_package', change.pristineResource);
       this.halEditing.updateValue(newWorkPackageHref, change);
       this.wpCacheService.updateWorkPackage(change.pristineResource);
 

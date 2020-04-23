@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::PdfExport::Exceptions
+module OpenProject::PDFExport::Exceptions
   class BadlyFormedExportCardConfigurationError < StandardError
   end
 end

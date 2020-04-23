@@ -28,7 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'diff'
 require 'htmldiff'
 
 # The WikiController follows the Rails REST controller pattern but with

@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, Component, ElementRef, Injector, OnDestroy} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {INotification, NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import * as moment from 'moment';
 import {Moment} from 'moment';
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {debounceTime, distinctUntilChanged, filter, map, skip, take, takeUntil, withLatestFrom} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {
   calculateDaySpan,
   getPixelPerDayForZoomLevel,
   requiredPixelMarginLeft,
-  timelineElementCssClass, timelineHeaderSelector,
+  timelineElementCssClass,
+  timelineHeaderSelector,
   timelineMarkerSelectionStartClass,
   TimelineViewParameters,
   zoomLevelOrder
@@ -52,27 +52,20 @@ import {WorkPackagesTableController} from "core-components/wp-table/wp-table.dir
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import {WorkPackageTimelineState} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-timeline";
 import {WorkPackageTimelineCell} from "core-components/wp-table/timeline/cells/wp-timeline-cell";
 import {selectorTimelineSide} from "core-components/wp-table/wp-table-scroll-sync";
 import {debugLog, timeOutput} from "core-app/helpers/debug_output";
 import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {
-  LoadingIndicatorService,
-  withLoadingIndicator
-} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {combineLatest} from "rxjs";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'wp-timeline-container',
   templateUrl: './wp-timeline-container.html'
 })
-export class WorkPackageTimelineTableController implements AfterViewInit, OnDestroy {
-
-  private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
-
+export class WorkPackageTimelineTableController extends UntilDestroyedMixin implements AfterViewInit {
   private $element:JQuery;
 
   public workPackageTable:WorkPackageTable;
@@ -91,7 +84,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   public timelineBody:JQuery;
 
-  private selectionParams:{ notification:INotification | null } = {
+  private selectionParams:{ notification:INotification|null } = {
     notification: null
   };
 
@@ -109,8 +102,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private wpRelations:WorkPackageRelationsService,
               private wpTableHierarchies:WorkPackageViewHierarchiesService,
               private halEvents:HalEventsService,
-              private loadingIndicator:LoadingIndicatorService,
+              private querySpace:IsolatedQuerySpace,
               readonly I18n:I18nService) {
+    super();
   }
 
   ngAfterViewInit() {
@@ -135,7 +129,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       this.refreshRequest.changes$(),
       this.wpTableTimeline.live$()
     ]).pipe(
-      untilComponentDestroyed(this),
+      this.untilDestroyed(),
       takeUntil(this.querySpace.stopAllSubscriptions),
       filter(() => this.initialized && this.wpTableTimeline.isVisible)
     )
@@ -144,10 +138,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         this.workPackageIdOrder = orderedRows.filter(row => !row.hidden);
         this.refreshView();
       });
-  }
-
-  ngOnDestroy():void {
-    // empty
   }
 
   workPackageCells(wpId:string):WorkPackageTimelineCell[] {
@@ -262,6 +252,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     const nonVisibleDaysLeft = Math.floor(scrollLeft / this.viewParameters.pixelPerDay);
     return this.viewParameters.dateDisplayStart.clone().add(nonVisibleDaysLeft, 'days');
   }
+
   getLastDayInViewport() {
     const outerContainer = this.getParentScrollContainer();
     const scrollLeft = outerContainer.scrollLeft;

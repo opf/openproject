@@ -30,7 +30,7 @@
 
 class CustomActions::UpdateWorkPackageService
   include Shared::BlockService
-  include Concerns::Contracted
+  include Contracted
 
   attr_accessor :user,
                 :action

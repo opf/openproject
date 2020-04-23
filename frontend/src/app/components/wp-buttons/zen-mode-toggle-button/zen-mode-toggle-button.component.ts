@@ -29,7 +29,6 @@
 import {AbstractWorkPackageButtonComponent} from '../wp-buttons.module';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 const screenfull:any = require('screenfull/dist/screenfull.js');
 
@@ -111,5 +110,3 @@ export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
     return false;
   }
 }
-
-DynamicBootstrapper.register({ selector: zenModeComponentSelector, cls: ZenModeButtonComponent });

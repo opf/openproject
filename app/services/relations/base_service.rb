@@ -29,7 +29,7 @@
 #++
 
 class Relations::BaseService
-  include Concerns::Contracted
+  include Contracted
   include Shared::ServiceContext
 
   attr_accessor :user

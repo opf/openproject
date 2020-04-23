@@ -39,12 +39,13 @@ import {Subject} from 'rxjs';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Injections
-  readonly FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
-  readonly ConfigurationService = this.injector.get(ConfigurationService);
-  readonly I18n:I18nService = this.injector.get(I18nService);
+  @InjectField() FocusHelper:FocusHelperService;
+  @InjectField() ConfigurationService:ConfigurationService;
+  @InjectField() I18n:I18nService;
 
   // Subject to fire when user demanded activation
   public $onUserActivate = new Subject<void>();
@@ -227,8 +228,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   public get errorMessageOnLabel() {
     if (!this.isErrorenous) {
       return '';
-    }
-    else {
+    } else {
       return this.I18n.t('js.inplace.errors.messages_on_field',
         {messages: this.errors.join(' ')});
     }

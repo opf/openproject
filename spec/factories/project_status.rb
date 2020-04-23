@@ -28,9 +28,9 @@
 #++
 
 FactoryBot.define do
-  factory :project_status, class: Project::Status do
+  factory :project_status, class: Projects::Status do
     project
     sequence(:explanation) { |n| "Status explanation #{n}" }
-    code { Project::Status.codes[:on_track] }
+    code { Projects::Status.codes[:on_track] }
   end
 end

@@ -9,8 +9,8 @@ export class TableDragActionService {
    * @param querySpace The isolated query space for this table
    * @param injector The hierarchical injector for this table
    */
-  constructor(protected querySpace:IsolatedQuerySpace,
-              protected injector:Injector) {
+  constructor(readonly querySpace:IsolatedQuerySpace,
+              readonly injector:Injector) {
   }
 
   /**

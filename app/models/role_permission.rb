@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RolePermission < ActiveRecord::Base
+class RolePermission < ApplicationRecord
   belongs_to :role
 
   validates_presence_of :permission

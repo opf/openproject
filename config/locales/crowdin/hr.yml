@@ -63,13 +63,16 @@ hr:
         main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Nadogradnja na izdanje Enterprise"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
       replace_token: "Replace your current support token"
       order: "Naruči Enterprise Edition"
       paste: "Paste your Enterprise Edition support token"
       required_for_feature: "This feature is only available with an active Enterprise Edition support token."
       enterprise_link: "Za više informacija kliknite ovdje."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Pokaži sve do
     is_active: trenutno prikazani
@@ -400,7 +403,7 @@ hr:
         types: "Tipovi"
         versions: "Verzije"
         work_packages: "Radni paketi"
-      project/status:
+      projects/status:
         code: 'Status'
         explanation: 'Status description'
         codes:
@@ -465,7 +468,7 @@ hr:
         done_ratio: "Napredak (%)"
         end_insertion: "Kraj umetanja"
         end_deletion: "Kraj brisanja"
-        fixed_version: "Verzija"
+        version: "Verzija"
         parent: "Matični"
         parent_issue: "Matični"
         parent_work_package: "Matični"
@@ -759,6 +762,7 @@ hr:
     version: "Verzija"
     work_package: "Radni paket"
   button_add: "Dodaj"
+  button_add_comment: "Dodaj komentar"
   button_add_member: Dodaj člana
   button_add_watcher: "Dodaj nadglednika"
   button_annotate: "Kreiraj bilješku"
@@ -1155,13 +1159,8 @@ hr:
     blocks:
       community: "OpenProject Zajednica"
       upsale:
-        become_hero: "Postati heroj!"
         title: "Nadogradnja na izdanje Enterprise"
-        description: "What are the benefits?"
         more_info: "Više informacija"
-        additional_features: "Additional powerful premium features"
-        professional_support: "Stručna podrška OpenProject stručnjaka"
-        you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
     links:
       upgrade_enterprise_edition: "Nadogradnja na izdanje Enterprise"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1173,9 +1172,10 @@ hr:
       forums: "Forum Zajednice"
       newsletter: "Security alerts / Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Vodič za konfiguraciju'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Nakon uspješne aktivacije, kliknite %{signin} za prijavu u sustav."
   instructions_after_logout: "Prijaviti se možete tako da kliknete %{signin}."
   instructions_after_error: "Da bi ste se ponovno pokušali ulogirati kliknite %{signin}. Ukoliko je greška i dalje prisutna, molim vas obratite se administratoru za pomoć."
@@ -1465,6 +1465,7 @@ hr:
   label_new: "Novi"
   label_new_features: "New features"
   label_new_statuses_allowed: "Novi statusi dopušteni"
+  label_news_singular: "Vijesti"
   label_news_added: "Vijest dodana"
   label_news_comment_added: "Komentar dodan vijesti"
   label_news_latest: "Zadnje vijesti"
@@ -1728,31 +1729,6 @@ hr:
     other: "%{count} projekta"
   label_year: "Godina"
   label_yesterday: "jučer"
-  label_keyboard_function: "Funkcija"
-  label_keyboard_shortcut: "Prečac"
-  label_keyboard_accesskey: "Pristupni ključ"
-  label_keyboard_shortcut_help_heading: "Dostupni prečaci na tipkovnici"
-  label_keyboard_shortcut_within_project: "Prečaci vezani uz projekt:"
-  label_keyboard_shortcut_global_shortcuts: "Globalni prečaci:"
-  label_keyboard_shortcut_some_pages_only: "Posebni prečaci:"
-  label_keyboard_shortcut_search_global: "Globalno pretraživanje"
-  label_keyboard_shortcut_search_project: "Pronađi projekt"
-  label_keyboard_shortcut_go_my_page: "Idi na moju stranicu"
-  label_keyboard_shortcut_show_help: "Pokaži poruku pomoći"
-  label_keyboard_shortcut_go_overview: "Idi na pregled projekta"
-  label_keyboard_shortcut_go_work_package: "Idi na radne pakete projekta"
-  label_keyboard_shortcut_go_wiki: "Idi na wiki stranicu projekta"
-  label_keyboard_shortcut_go_activity: "Idi na aktivnosti projekta"
-  label_keyboard_shortcut_go_calendar: "Idi na kalendar projekta"
-  label_keyboard_shortcut_go_news: "Idi na vijesti projekta"
-  label_keyboard_shortcut_go_timelines: "Idi na Kronologiju projekta"
-  label_keyboard_shortcut_new_work_package: "Kreirajte novi radni paket"
-  label_keyboard_shortcut_details_package: "Prikaži detalje ranih paketa"
-  label_keyboard_shortcut_go_edit: "Idi na uređivanje trenutne stavke (samo na stranici s detaljima)"
-  label_keyboard_shortcut_open_more_menu: "Otvori još stavki izbornika (na stranici s detaljima)"
-  label_keyboard_shortcut_go_preview: "Idi na pregled trenutnog uređivanja (samo na stranicama uređivanja)"
-  label_keyboard_shortcut_focus_previous_item: "Fokusirajte prethodni element iz liste (na pojedinim listama)"
-  label_keyboard_shortcut_focus_next_item: "Fokusirajte sljedeći element iz liste (na pojedinim listama)"
   auth_source:
     using_abstract_auth_source: "Ne možete se koristiti apstraktni izvor autentifikacije."
     ldap_error: "LDAP-Greška: %{error_message}"
@@ -2205,7 +2181,6 @@ hr:
   setting_welcome_text: "Tekst dobrodošlice"
   setting_welcome_title: "Naslov dobrodošlice"
   setting_welcome_on_homescreen: "Prikaži tekst dobrodošlice na početnoj stranici"
-  setting_wiki_compression: "Kompresija Wiki povijesti"
   setting_work_package_group_assignment: "Allow assignment to groups"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
@@ -2547,6 +2522,7 @@ hr:
       mail_self_notified: "Želim biti obavješten o promjenama koje sam izvršio"
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Status change"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Otključaj"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "zaključen"

@@ -30,7 +30,7 @@ import {Inject, Injectable} from '@angular/core';
 import {DOCUMENT} from "@angular/common";
 import {PathHelperService} from "../path-helper/path-helper.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BannersService {
 
   private readonly _banners:boolean = true;

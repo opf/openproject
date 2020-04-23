@@ -42,35 +42,36 @@ export class PlannedCostsFormAugment {
   constructor(public $element:JQuery) {
     this.objId = this.$element.attr('obj-id')!;
     this.objName = this.$element.attr('obj-name')!;
-    this.obj = jQuery(`#${this.objId}`) as any;
+    this.obj = jQuery(`#${this.objId}_costs`) as any;
 
-    this.makeEditable('#' + this.objId, this.objName);
+    this.makeEditable();
   }
 
-  private getCurrencyValue(str:string) {
-    var result = str.match(/^\s*(([0-9]+[.,])+[0-9]+) (.+)\s*/);
-    return result ? new Array(result[1], result[3]) : new Array(str, "");
-  }
-
-  public makeEditable(id:string, name:string) {
+  public makeEditable() {
     this.edit_and_focus();
   }
 
   private edit_and_focus() {
     this.edit();
 
-    jQuery('#' + this.objId + '_edit').trigger('focus');
-    jQuery('#' + this.objId + '_edit').trigger('select');
+    jQuery('#' + this.objId + '_costs_edit').trigger('focus');
+    jQuery('#' + this.objId + '_costs_edit').trigger('select');
+  }
+
+  private getCurrency() {
+    return jQuery('#' + this.objId + '_currency').val();
+  }
+
+  private getValue() {
+    return jQuery('#' + this.objId + '_cost_value').val();
   }
 
   private edit() {
     this.obj.hide();
 
-    let obj_value = this.obj[0].innerHTML;
     let id = this.obj[0].id;
-    let parsed = this.getCurrencyValue(obj_value);
-    let value = parsed[0];
-    let currency = parsed[1];
+    let currency = this.getCurrency();
+    let value = this.getValue();
     let name = this.objName;
 
     let template = `
@@ -86,7 +87,6 @@ export class PlannedCostsFormAugment {
         </div>
       </section>
     `;
-
 
     jQuery(template).insertAfter(this.obj);
 

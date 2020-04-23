@@ -45,7 +45,7 @@ sv:
       models:
         work_package:
           attributes:
-            fixed_version_id:
+            version_id:
               task_version_must_be_the_same_as_story_version: "måste vara samma som föräldraberättelsens version."
             parent_id:
               parent_child_relationship_across_projects: "är ogiltig eftersom arbetspaketet '%{work_package_name}' är en backlog aktivitet och kan därför inte ha en förälder utanför det aktuella projektet."

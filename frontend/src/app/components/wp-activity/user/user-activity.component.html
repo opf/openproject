@@ -8,13 +8,9 @@
                data-class-list="avatar">
   </user-avatar>
 
-  <span class="user" *ngIf="userActive">
-    <a [attr.href]="userPath"
-       [attr.aria-label]="userLabel"
-       [textContent]="userName">
-    </a>
+  <span class="user">
+    <user-link [user]="user"></user-link>
   </span>
-  <span class="user" *ngIf="!userActive">{{ userName }}</span>
   <span class="date">
     {{ isInitial ? text.label_created_on : text.label_updated_on }}
     <op-date-time [dateTimeValue]="activity.createdAt"></op-date-time>
@@ -38,8 +34,8 @@
       </accessible-by-keyboard>
     </div>
   </div>
-  <img *ngIf="bcfSnapshot"
-       [src]="PathHelper.attachmentDownloadPath(bcfSnapshot.id, bcfSnapshot.file_name)"
+  <img *ngIf="bcfSnapshotUrl"
+       [src]="bcfSnapshotUrl"
        class="activity-thumbnail">
   <div class="user-comment" >
     <div *ngIf="active" class="inplace-edit">

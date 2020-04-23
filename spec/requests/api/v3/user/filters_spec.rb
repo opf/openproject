@@ -29,7 +29,9 @@
 
 require 'spec_helper'
 
-describe 'GET /api/v3/users', type: :request do
+describe 'GET /api/v3/users',
+         :with_clean_fixture,
+         type: :request do
   let!(:users) do
     [
       FactoryBot.create(:admin, login: 'admin', status: Principal::STATUSES[:active]),

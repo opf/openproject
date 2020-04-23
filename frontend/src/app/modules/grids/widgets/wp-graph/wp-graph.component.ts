@@ -1,9 +1,8 @@
-import {Component, OnDestroy, OnInit, Injector, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit} from '@angular/core';
 import {WorkPackageEmbeddedGraphDataset} from "core-app/modules/work-package-graphs/embedded/wp-embedded-graph.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {ChartType, ChartOptions} from 'chart.js';
+import {ChartOptions, ChartType} from 'chart.js';
 import {WpGraphConfigurationService} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
 import {WpGraphConfiguration} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
 
@@ -27,10 +26,6 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
   ngOnInit() {
     this.initializeConfiguration();
     this.loadQueriesInitially();
-  }
-
-  ngOnDestroy() {
-    // nothing to do
   }
 
   public set chartType(type:ChartType) {
@@ -58,12 +53,12 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
   protected initializeConfiguration() {
     let ids = [];
     if (this.resource.options.queryId) {
-      ids.push({id: this.resource.options.queryId as string});
+      ids.push({ id: this.resource.options.queryId as string });
     }
 
     this.graphConfiguration.configuration = new WpGraphConfiguration(ids,
-                                                                     this.resource.options.chartOptions as ChartOptions,
-                                                                     this.resource.options.chartType as ChartType);
+      this.resource.options.chartOptions as ChartOptions,
+      this.resource.options.chartType as ChartType);
   }
 
   protected loadQueriesInitially() {

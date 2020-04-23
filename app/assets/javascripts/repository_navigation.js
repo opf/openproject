@@ -40,20 +40,7 @@
       selects.prop('disable', true);
       form.submit();
       selects.prop('disable', false);
-    }
-
-    /*
-    Enable select2
-    */
-    branch.select2({
-      dropdownCssClass: '-large-dropdown',
-      placeholder: I18n.t('js.repositories.select_branch')
-    }
-    );
-    tag.select2({
-      dropdownCssClass: '-large-dropdown',
-      placeholder: I18n.t('js.repositories.select_tag'),
-    });
+    };
 
     /*
     If we're viewing a tag or branch, don't display it in the

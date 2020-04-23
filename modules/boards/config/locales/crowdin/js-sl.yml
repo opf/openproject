@@ -1,0 +1,46 @@
+#English strings go here
+sl:
+  js:
+    boards:
+      label_unnamed_board: 'Neimenovani odbor'
+      label_unnamed_list: 'Neimenovani seznam'
+      label_board_type: 'Vrsta table'
+      upsale:
+        teaser_text: 'Izbolšaj svoje agilne metode projektnega vodenja s temi fleksibilnimi pogledi. Ustvariš lahko kolikor tabel želiš za pregled nad vsem kar želiš.'
+        upgrade_to_ee_text: 'Tabele so funkcija za podjetja. Nadgradite na plačljivi načrt.'
+        upgrade: 'Nadgradi zdaj'
+        personal_demo: 'Dobi osebno poskusno verzijo'
+      lists:
+        delete: 'Izbriši seznam'
+      version:
+        is_locked: 'Verzija je zaklenjena. Ne morate dodati izdelkov tej verziji'
+        is_closed: 'Verzija je zaprta. Ne morate dodati izdelkov tej verziji'
+        close_version: 'Zapri verzijo'
+        open_version: 'Odpri verzijo'
+        lock_version: 'Zakleni verzijo'
+        unlock_version: 'Odkleni verzijo'
+        edit_version: 'Uredi verzijo'
+        show_version: 'Pokaži verzijo'
+        locked: 'Zaklenjen'
+        closed: 'Zaprto'
+      new_board: 'Nova tabla'
+      add_list: 'Dodaj seznam'
+      add_card: 'Dodaj kartico'
+      error_attribute_not_writable: "Delovnega paketa ni mogoče premakniti, %{attribute} ni zapisljiv."
+      error_loading_the_list: "Napaka pri nalaganju seznama: %{error_message}"
+      error_permission_missing: "Ni dovoljenja za izdelavo javnih poizvedb"
+      click_to_remove_list: "Kliknite za izbris seznama"
+      board_type:
+        free: 'Osnovna tabela'
+        free_text: >
+          Ustvarite tablo, v kateri lahko prosto ustvarite sezname in naročite svoje delovne pakete. Premikanje delovnih paketov med seznami ne spremeni samega delovnega paketa.
+        action: 'Tabela opravil'
+        action_by_attribute: 'Tabela opravil (%{attribute})'
+        action_text: >
+          Ustvarite tabelo s filtriranimi seznami z enim atributom. Če premaknete delovne pakete na druge sezname, boste posodobili atribute.
+        select_attribute: "Atributi opravil"
+      configuration_modal:
+        title: 'Konfigurirajte to tabelo'
+        display_settings:
+          card_mode: "Prikaži kot kartice"
+          table_mode: "Prikaži kot tabele"

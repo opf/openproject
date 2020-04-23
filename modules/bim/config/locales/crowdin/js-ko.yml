@@ -1,0 +1,21 @@
+#English strings go here
+ko:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: '가져오기'
+      export: '내보내기'
+      viewpoint: '뷰포인트'
+      add_viewpoint: '뷰포인트 추가'
+      show_viewpoint: '뷰포인트 표시'
+      delete_viewpoint: '뷰포인트 삭제'
+    ifc_models:
+      empty_warning: "이 프로젝트에는 IFC 모델이 아직 없습니다."
+      use_this_link_to_manage: "이 링크를 사용하여 IFC 모델 업로드 및 관리"
+      keyboard_input_disabled: "뷰어에 키보드 컨트롤이 없습니다 뷰어에서 클릭하여 키보드 컨트롤을 뷰어에 지정하세요."
+      models:
+        default: '기본 IFC 모델'
+        manage: '모델 관리'
+      views:
+        viewer: '뷰어'
+        split: '뷰어 및 카드'

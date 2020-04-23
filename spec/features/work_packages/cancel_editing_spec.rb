@@ -168,14 +168,14 @@ describe 'Cancel editing work package', js: true do
     description.click_and_type_slowly 'foobar'
 
     # Try to move back to list, expect warning
-    find('.work-packages-back-button').click
+    wp_page.go_back
     wp_page.dismiss_alert_dialog!
 
     # Now cancel the field
     description.cancel_by_click
 
     # Now we should be able to get back to list
-    find('.work-packages-back-button').click
+    wp_page.go_back
 
     wp_table.expect_work_package_listed(work_package, work_package2)
   end

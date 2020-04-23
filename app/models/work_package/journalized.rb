@@ -91,7 +91,7 @@ module WorkPackage::Journalized
     register_on_journal_formatter :named_association, :parent_id, :project_id,
                                   :status_id, :type_id,
                                   :assigned_to_id, :priority_id,
-                                  :category_id, :fixed_version_id,
+                                  :category_id, :version_id,
                                   :planning_element_status_id,
                                   :author_id, :responsible_id
     register_on_journal_formatter :datetime, :start_date, :due_date

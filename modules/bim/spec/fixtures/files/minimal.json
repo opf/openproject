@@ -1,0 +1,1344 @@
+{
+  "id": "2018-03",
+  "projectId": "0hOGUplITAJP95dJaHmSyU",
+  "metaObjects": [
+    {
+      "id": "0hOGUplITAJP95dJaHmSyU",
+      "name": "2018-03",
+      "type": "IfcProject",
+      "parent": null
+    },
+    {
+      "id": "0hOGUplITAJP95dJaHmSyS",
+      "name": "Default",
+      "type": "IfcSite",
+      "parent": null
+    },
+    {
+      "id": "0hOGUplITAJP95dJaHmSyV",
+      "name": "",
+      "type": "IfcBuilding",
+      "parent": null
+    },
+    {
+      "id": "0hOGUplITAJP95dJdkAGth",
+      "name": "0EG",
+      "type": "IfcBuildingStorey",
+      "parent": null
+    },
+    {
+      "id": "2mWJQJFvvAGPIr4kdVXqdT",
+      "name": "LUB_Segment_new:S_WHG_Ess:7237232",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMFK",
+      "name": "LUB_Segment_new:S_WHG_Bal:7237677",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMEG",
+      "name": "LUB_Segment_new:S_WHG_Sch:7237737",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMDD",
+      "name": "LUB_Segment_new:S_WHG_Ess:7237812",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMAj",
+      "name": "LUB_Segment_new:S_WHG_Bal:7237972",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiM9p",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7238026",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiM8k",
+      "name": "LUB_Segment_new:S_WHG_Sch:7238103",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiM8A",
+      "name": "LUB_Segment_new:S_WHG_Sch:7238131",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiM7s",
+      "name": "LUB_Segment_new:S_WHG_Ess:7238159",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiM5b",
+      "name": "LUB_Segment_new:S_WHG_Bal:7238300",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiM2m",
+      "name": "LUB_Segment_new:S_WHG_Kue_Ins:7238473",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiM1k",
+      "name": "LUB_Segment_new:S_WHG_Sch:7238551",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiM16",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7238591",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiM00",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7238649",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMTr",
+      "name": "LUB_Segment_new:S_WHG_Dac:7238796",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMTE",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7238839",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMS0",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7238905",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMRS",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7238949",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMQr",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7238988",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMQM",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7239023",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMOm",
+      "name": "LUB_Segment_new:S_WHG_Woh:7239113",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMOF",
+      "name": "LUB_Segment_new:S_WHG_Woh:7239158",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMMy",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7239237",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiML7",
+      "name": "LUB_Segment_new:S_WHG_Sch:7239358",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMKZ",
+      "name": "LUB_Segment_new:S_WHG_Sch:7239386",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMK5",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7239420",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMIY",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7239515",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMH4",
+      "name": "LUB_Segment_new:S_WHG_Sch:7239613",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMlK",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7239725",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMkW",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7239769",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMfv",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7240064",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMfE",
+      "name": "LUB_Segment_new:S_WHG_Dac:7240119",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMeO",
+      "name": "LUB_Segment_new:S_WHG_Tre:7240161",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMdV",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7240230",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMak",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7240407",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMYW",
+      "name": "LUB_Segment_new:S_WHG_Ess:7240537",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMWh",
+      "name": "LUB_Segment_new:S_WHG_Bal:7240658",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiM_e",
+      "name": "LUB_Segment_new:S_WHG_Dac:7240785",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMy9",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7240944",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMxa",
+      "name": "LUB_Segment_new:S_WHG_Sch:7240989",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMwM",
+      "name": "LUB_Segment_new:S_WHG_Sch:7241071",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0Vo0XWDO1258$MneteiMs3",
+      "name": "LUB_Segment_new:S_WHG_Ess:7241338",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9BX",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7242183",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkAGth"
+    },
+    {
+      "id": "0hOGUplITAJP95dJdkNbUT",
+      "name": "1OG",
+      "type": "IfcBuildingStorey",
+      "parent": null
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9TS",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242874",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9TT",
+      "name": "LUB_Segment_new:S_WHG_Bal:7242875",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9TQ",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242876",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9TR",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242877",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9TO",
+      "name": "LUB_Segment_new:S_WHG_Bal:7242878",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9TP",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242879",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Uc",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242880",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ud",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242881",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ua",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242882",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ub",
+      "name": "LUB_Segment_new:S_WHG_Bal:7242883",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9UY",
+      "name": "LUB_Segment_new:S_WHG_Kue_Ins:7242884",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9UZ",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242885",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9UW",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242886",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9UX",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242887",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Uk",
+      "name": "LUB_Segment_new:S_WHG_Dac:7242888",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ul",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242889",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ui",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242890",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Uj",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242891",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ug",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7242892",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Uh",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242893",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ue",
+      "name": "LUB_Segment_new:S_WHG_Woh:7242894",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Uf",
+      "name": "LUB_Segment_new:S_WHG_Woh:7242895",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Us",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242896",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ut",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242897",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Uq",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242898",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ur",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242899",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Uo",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242900",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Up",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242901",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Um",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242902",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Un",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242903",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9U_",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242904",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9U$",
+      "name": "LUB_Segment_new:S_WHG_Dac:7242905",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Uy",
+      "name": "LUB_Segment_new:S_WHG_Tre:7242906",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Uz",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242907",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Uw",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7242908",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ux",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242909",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Uu",
+      "name": "LUB_Segment_new:S_WHG_Bal:7242910",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Uv",
+      "name": "LUB_Segment_new:S_WHG_Dac:7242911",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9U6",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242912",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9U7",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242913",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9U4",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242914",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9U5",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242915",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9U2",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7242916",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkNbUT"
+    },
+    {
+      "id": "0hOGUplITAJP95dJdkKB2G",
+      "name": "2OG",
+      "type": "IfcBuildingStorey",
+      "parent": null
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9UH",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242935",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9UU",
+      "name": "LUB_Segment_new:S_WHG_Bal:7242936",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9UV",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242937",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9US",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242938",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9UT",
+      "name": "LUB_Segment_new:S_WHG_Bal:7242939",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9UQ",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242940",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9UR",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242941",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9UO",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242942",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9UP",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242943",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vc",
+      "name": "LUB_Segment_new:S_WHG_Bal:7242944",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vd",
+      "name": "LUB_Segment_new:S_WHG_Kue_Ins:7242945",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Va",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242946",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vb",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242947",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VY",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242948",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VZ",
+      "name": "LUB_Segment_new:S_WHG_Dac:7242949",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VW",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242950",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VX",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242951",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vk",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242952",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vl",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7242953",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vi",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242954",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vj",
+      "name": "LUB_Segment_new:S_WHG_Woh:7242955",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vg",
+      "name": "LUB_Segment_new:S_WHG_Woh:7242956",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vh",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242957",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ve",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242958",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vf",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242959",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vs",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242960",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vt",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242961",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vq",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242962",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vr",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242963",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vo",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242964",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vp",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242965",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vm",
+      "name": "LUB_Segment_new:S_WHG_Dac:7242966",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vn",
+      "name": "LUB_Segment_new:S_WHG_Tre:7242967",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9V_",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7242968",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9V$",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7242969",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vy",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242970",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vz",
+      "name": "LUB_Segment_new:S_WHG_Bal:7242971",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vw",
+      "name": "LUB_Segment_new:S_WHG_Dac:7242972",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vx",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242973",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vu",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242974",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Vv",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242975",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9V6",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242976",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9V7",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7242977",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB2G"
+    },
+    {
+      "id": "0hOGUplITAJP95dJdkKB1h",
+      "name": "3OG",
+      "type": "IfcBuildingStorey",
+      "parent": null
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VF",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242985",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VC",
+      "name": "LUB_Segment_new:S_WHG_Bal:7242986",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VD",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242987",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VA",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242988",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VB",
+      "name": "LUB_Segment_new:S_WHG_Bal:7242989",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9V8",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242990",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9V9",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242991",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VM",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242992",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VN",
+      "name": "LUB_Segment_new:S_WHG_Ess:7242993",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VK",
+      "name": "LUB_Segment_new:S_WHG_Bal:7242994",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VL",
+      "name": "LUB_Segment_new:S_WHG_Kue_Ins:7242995",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VI",
+      "name": "LUB_Segment_new:S_WHG_Sch:7242996",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VJ",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242997",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VG",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7242998",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VH",
+      "name": "LUB_Segment_new:S_WHG_Dac:7242999",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VU",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243000",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VV",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243001",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VS",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243002",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VT",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7243003",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VQ",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243004",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VR",
+      "name": "LUB_Segment_new:S_WHG_Woh:7243005",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VO",
+      "name": "LUB_Segment_new:S_WHG_Woh:7243006",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9VP",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243007",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Oc",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243008",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Od",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243009",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Oa",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243010",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ob",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243011",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OY",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243012",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OZ",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243013",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OW",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243014",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OX",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243015",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ok",
+      "name": "LUB_Segment_new:S_WHG_Dac:7243016",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ol",
+      "name": "LUB_Segment_new:S_WHG_Tre:7243017",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Oi",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243018",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Oj",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7243019",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Og",
+      "name": "LUB_Segment_new:S_WHG_Ess:7243020",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Oh",
+      "name": "LUB_Segment_new:S_WHG_Bal:7243021",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Oe",
+      "name": "LUB_Segment_new:S_WHG_Dac:7243022",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Of",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243023",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Os",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243024",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ot",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243025",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Oq",
+      "name": "LUB_Segment_new:S_WHG_Ess:7243026",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Or",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7243027",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1h"
+    },
+    {
+      "id": "0hOGUplITAJP95dJdkKB1Y",
+      "name": "4OG",
+      "type": "IfcBuildingStorey",
+      "parent": null
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Oz",
+      "name": "LUB_Segment_new:S_WHG_Ess:7243035",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ow",
+      "name": "LUB_Segment_new:S_WHG_Bal:7243036",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ox",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243037",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ou",
+      "name": "LUB_Segment_new:S_WHG_Ess:7243038",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Ov",
+      "name": "LUB_Segment_new:S_WHG_Bal:7243039",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9O6",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243040",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9O7",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243041",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9O4",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243042",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9O5",
+      "name": "LUB_Segment_new:S_WHG_Ess:7243043",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9O2",
+      "name": "LUB_Segment_new:S_WHG_Bal:7243044",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9O3",
+      "name": "LUB_Segment_new:S_WHG_Kue_Ins:7243045",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9O0",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243046",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9O1",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243047",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OE",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243048",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OF",
+      "name": "LUB_Segment_new:S_WHG_Dac:7243049",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OC",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243050",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OD",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243051",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OA",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243052",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OB",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7243053",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9O8",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243054",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9O9",
+      "name": "LUB_Segment_new:S_WHG_Woh:7243055",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OM",
+      "name": "LUB_Segment_new:S_WHG_Woh:7243056",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9ON",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243057",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OK",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243058",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OL",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243059",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OI",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243060",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OJ",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243061",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OG",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243062",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OH",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243063",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OU",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243064",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OV",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243065",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OS",
+      "name": "LUB_Segment_new:S_WHG_Dac:7243066",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OT",
+      "name": "LUB_Segment_new:S_WHG_Tre:7243067",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OQ",
+      "name": "LUB_Segment_new:S_WHG_Bad_Dus:7243068",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OR",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7243069",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OO",
+      "name": "LUB_Segment_new:S_WHG_Ess:7243070",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9OP",
+      "name": "LUB_Segment_new:S_WHG_Bal:7243071",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Pc",
+      "name": "LUB_Segment_new:S_WHG_Dac:7243072",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Pd",
+      "name": "LUB_Segment_new:S_WHG_Flu_Inn:7243073",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Pa",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243074",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9Pb",
+      "name": "LUB_Segment_new:S_WHG_Sch:7243075",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9PY",
+      "name": "LUB_Segment_new:S_WHG_Ess:7243076",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    },
+    {
+      "id": "2I3GeLg8z6SuvsKrNeG9PZ",
+      "name": "LUB_Segment_new:S_WHG_Kue_EckZ:7243077",
+      "type": "IfcBuildingElementProxy",
+      "parent": "0hOGUplITAJP95dJdkKB1Y"
+    }
+  ]
+}

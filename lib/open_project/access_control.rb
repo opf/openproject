@@ -45,8 +45,11 @@ module OpenProject
       end
 
       # Get a sorted array of module names
-      def sorted_modules
+      #
+      # @param include_disabled [boolean] Whether to return all modules or only those that are active (not disabled by config)
+      def sorted_module_names(include_disabled = true)
         modules
+          .reject { |mod| !include_disabled && disabled_project_modules.include?(mod[:name]) }
           .sort_by { |a| [-a[:order], l_or_humanize(a[:name], prefix: 'project_module_')] }
           .map { |entry| entry[:name].to_s }
       end
@@ -90,9 +93,18 @@ module OpenProject
       end
 
       def available_project_modules
-        @available_project_modules ||= (
-          @permissions.map(&:project_module) + @project_modules_without_permissions
-        ).uniq.compact
+        @available_project_modules ||= begin
+          (@permissions.map(&:project_module) + @project_modules_without_permissions)
+            .uniq
+            .compact
+            .reject { |name| disabled_project_modules.include? name }
+        end
+      end
+
+      def disabled_project_modules
+        @disabled_project_modules ||= modules
+          .select { |entry| entry[:if].respond_to?(:call) && !entry[:if].call }
+          .map { |entry| entry[:name].to_sym }
       end
 
       def modules_permissions(modules)

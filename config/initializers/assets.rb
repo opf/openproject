@@ -12,7 +12,6 @@ OpenProject::Application.configure do
     date-en-US.js
     locales/*.js
     members_form.js
-    members_select_boxes.js
     new_user.js
     project/responsible_attribute.js
     project/description_handling.js
@@ -24,6 +23,5 @@ OpenProject::Application.configure do
     work_packages.js
     vendor/ckeditor/ckeditor.*js
     vendor/enjoyhint.js
-    bundles/openproject-legacy-app.js
   )
 end

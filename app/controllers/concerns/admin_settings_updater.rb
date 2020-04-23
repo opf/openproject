@@ -28,24 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Concerns
-  module AdminSettingsUpdater
-    extend ActiveSupport::Concern
+module AdminSettingsUpdater
+  extend ActiveSupport::Concern
 
-    included do
-      layout 'admin'
+  included do
+    layout 'admin'
 
-      before_action :require_admin
+    before_action :require_admin
 
-      def update
-        if params[:settings]
-          Settings::UpdateService
-            .new(user: current_user)
-            .call(settings: permitted_params.settings.to_h)
+    def update
+      if params[:settings]
+        Settings::UpdateService
+          .new(user: current_user)
+          .call(settings: permitted_params.settings.to_h)
 
-          flash[:notice] = t(:notice_successful_update)
-          redirect_to action: 'show', tab: params[:tab]
-        end
+        flash[:notice] = t(:notice_successful_update)
+        redirect_to action: 'show', tab: params[:tab]
       end
     end
   end

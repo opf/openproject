@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe ::Query::SortCriteria, type: :model, with_mail: false do
+describe ::Query::SortCriteria, type: :model do
   let(:query) do
-    FactoryBot.build :query,
-                     show_hierarchies: false
+    FactoryBot.build_stubbed :query,
+                             show_hierarchies: false
   end
 
   let(:available_criteria) { query.sortable_key_by_column_name }
@@ -73,12 +73,18 @@ describe ::Query::SortCriteria, type: :model, with_mail: false do
     end
 
     context 'with multiple sort_criteria with order handling and misc order statement' do
-      let(:sort_criteria) { [['fixed_version', 'desc'], ['start_date', 'asc']] }
+      let(:sort_criteria) { [['version', 'desc'], ['start_date', 'asc']] }
 
       it 'adds the order handling' do
-        expect(subject.length).to eq 2
+        expect(subject.length)
+          .to eq 2
+
+        sort_sql = <<~SQL
+          array_remove(regexp_split_to_array(regexp_replace(substring(versions.name from '^[^a-zA-Z]+'), '\\D+', ' ', 'g'), ' '), '')::int[]
+        SQL
+
         expect(subject.first)
-          .to eq ['start_date DESC NULLS LAST', 'effective_date DESC NULLS LAST', 'name DESC NULLS LAST']
+          .to eq ["#{sort_sql} DESC NULLS LAST", 'name DESC NULLS LAST']
         expect(subject.last).to eq ['work_packages.start_date NULLS LAST']
       end
     end

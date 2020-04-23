@@ -1,0 +1,21 @@
+#English strings go here
+fr:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Importer'
+      export: 'Exporter'
+      viewpoint: 'Point de vue'
+      add_viewpoint: 'Ajouter un point de vue'
+      show_viewpoint: 'Afficher le point de vue'
+      delete_viewpoint: 'Supprimer le point de vue'
+    ifc_models:
+      empty_warning: "Ce projet n'a encore de modèle IFC pour le moment"
+      use_this_link_to_manage: "Utilisez ce lien pour téléverser et gérer vos modèles IFC"
+      keyboard_input_disabled: "La visionneuse n'a pas de commandes de clavier. Cliquez sur la visionneuse pour lui donner le contrôle du clavier."
+      models:
+        default: 'Modèles IFC par défaut'
+        manage: 'Gérer les modèles'
+      views:
+        viewer: 'Visionneuse'
+        split: 'Visionneuse et cartes'

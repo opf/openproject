@@ -28,23 +28,17 @@
 
 /*jshint expr: true*/
 
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {async, TestBed} from "@angular/core/testing";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {States} from "core-components/states.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
-import SpyObj = jasmine.SpyObj;
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {WorkPackageDmService} from "core-app/modules/hal/dm-services/work-package-dm.service";
+import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import SpyObj = jasmine.SpyObj;
 
-describe('WorkPackageViewIndentation service', function() {
+describe('WorkPackageViewIndentation service', function () {
   let service:WorkPackageViewHierarchyIdentationService;
   let states:States;
   let querySpace:IsolatedQuerySpace;
@@ -77,19 +71,20 @@ describe('WorkPackageViewIndentation service', function() {
         States,
         IsolatedQuerySpace,
         WorkPackageCacheService,
+        { provide: WorkPackageViewDisplayRepresentationService, useValue: { isList: true } },
         { provide: WorkPackageCacheService, useClass: WorkPackageCacheServiceStub },
         { provide: WorkPackageViewHierarchiesService, useClass: HierarchyServiceStub },
-        { provide: WorkPackageRelationsHierarchyService, useValue: parentServiceSpy  },
+        { provide: WorkPackageRelationsHierarchyService, useValue: parentServiceSpy },
         WorkPackageViewHierarchyIdentationService
       ]
     })
-    .compileComponents()
-    .then(() => {
-      service = TestBed.get(WorkPackageViewHierarchyIdentationService);
-      querySpace = TestBed.get(IsolatedQuerySpace);
-      hierarchyServiceStub = TestBed.get(WorkPackageViewHierarchiesService);
-      states = TestBed.get(States);
-    });
+      .compileComponents()
+      .then(() => {
+        service = TestBed.get(WorkPackageViewHierarchyIdentationService);
+        querySpace = TestBed.get(IsolatedQuerySpace);
+        hierarchyServiceStub = TestBed.get(WorkPackageViewHierarchiesService);
+        states = TestBed.get(States);
+      });
   }));
 
   describe('canIndent', () => {

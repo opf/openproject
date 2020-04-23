@@ -33,7 +33,7 @@ class Reports::VersionReport < Reports::Report
   end
 
   def field
-    @field ||= 'fixed_version_id'
+    @field ||= 'version_id'
   end
 
   def rows

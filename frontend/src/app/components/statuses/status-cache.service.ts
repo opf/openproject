@@ -34,7 +34,7 @@ import {States} from 'core-components/states.service';
 import {StatusDmService} from "core-app/modules/hal/dm-services/status-dm.service";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class StatusCacheService extends StateCacheService<StatusResource>  {
 
   constructor(readonly states:States,

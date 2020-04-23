@@ -11,7 +11,6 @@ volumes:
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
 x-op-image: &image
-  build: .
   image: openproject/community:${TAG:-10}
 x-op-app: &app
   <<: *image

@@ -12,7 +12,8 @@
               id="global-search-input"
               placeholder="{{text.search_dots}}"
               accesskey="4"
-              [ngClass]="'top-menu-search--input'"
+              [ngClass]="{'top-menu-search--input': true, '-markable': markable }"
+              [(ngModel)]="selectedItem"
               [class.-expanded]="expanded"
               [openOnEnter]="false"
               [searchFn]="customSearchFn"
@@ -23,13 +24,13 @@
               (search)="search($event)"
               (open)="openCloseMenu(currentValue)"
               (close)="select.searchTerm = currentValue"
-              (change)="onChange($event)"
+              (change)="followSelectedItem()"
               (keydown.enter)="onEnterBeforeResultsLoaded()"
               (keydown.escape)="blur()"
               (clear)="clearSearch()">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
           <div *ngIf="!item.id; else workPackageItemTemplate">
-            <div tabindex="-1" class="global-search--option">
+            <div tabindex="-1" class="global-search--option"(click)="followItem(item)">
               <div class="global-search--option-wrapper">
                 <span class="global-search--search-term"> {{currentValue}} </span>
                 <span class="global-search--project-scope" title="{{item.projectScope}}"> {{item.text}} ↵ </span>
@@ -37,9 +38,8 @@
             </div>
           </div>
           <ng-template #workPackageItemTemplate>
-            <div tabindex="-1" class="global-search--option">
+            <div tabindex="-1" class="global-search--option" (click)="redirectToWp(item.id, $event)">
               <a class="global-search--option-wrapper"
-                 (click)="redirectToWp(item.id, $event)"
                  [href]="wpPath(item.id)">
                 <span class="global-search--wp-id"
                       title="{{item.status}}"

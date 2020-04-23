@@ -66,6 +66,23 @@ describe MailHandler, type: :model do
     end
   end
 
+  shared_context 'wp_on_given_project_case_insensitive' do
+    let(:permissions) { %i[add_work_packages assign_versions] }
+    let!(:user) do
+      FactoryBot.create(:user,
+                        mail: 'JSmith@somenet.foo',
+                        firstname: 'John',
+                        lastname: 'Smith',
+                        member_in_project: project,
+                        member_with_permissions: permissions)
+    end
+    let(:submit_options) { {allow_override: 'version'} }
+
+    subject do
+      submit_email('wp_on_given_project_case_insensitive.eml', **submit_options)
+    end
+  end
+
   shared_context 'wp_update_with_quoted_reply_above' do
     let(:permissions) { %i[edit_work_packages view_work_packages] }
     let!(:user) do
@@ -129,7 +146,7 @@ describe MailHandler, type: :model do
         let!(:version) { FactoryBot.create(:version, name: 'alpha', project: project) }
 
         include_context 'wp_on_given_project' do
-          let(:submit_options) { {allow_override: 'fixed_version'} }
+          let(:submit_options) { { allow_override: 'version' } }
         end
 
         it_behaves_like 'work package created'
@@ -180,7 +197,7 @@ describe MailHandler, type: :model do
         end
 
         it 'sets the version' do
-          expect(subject.fixed_version)
+          expect(subject.version)
             .to eql(version)
         end
 
@@ -342,6 +359,23 @@ describe MailHandler, type: :model do
         it 'assigns the status to the created work package' do
           expect(subject.status)
             .to eql(status)
+        end
+      end
+
+      context 'wp with status case insensitive' do
+        let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
+        let!(:priority_low) { FactoryBot.create(:priority_low, name: 'Low', is_default: true) }
+        let!(:version) { FactoryBot.create(:version, name: 'alpha', project: project) }
+
+        # This email contains: 'Project: onlinestore' and 'Status: resolved'
+        include_context 'wp_on_given_project_case_insensitive'
+
+        it_behaves_like 'work package created'
+
+        it 'assigns the status to the created work package' do
+          expect(subject.status).to eq(status)
+          expect(subject.version).to eq(version)
+          expect(subject.priority).to eq priority_low
         end
       end
     end

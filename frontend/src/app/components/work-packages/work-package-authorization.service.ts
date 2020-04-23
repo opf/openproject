@@ -50,7 +50,7 @@ export class WorkPackageAuthorization {
 
   public copyLink() {
     const stateName = this.$state.current.name as string;
-    if (stateName.indexOf('work-packages.list.details') === 0) {
+    if (stateName.indexOf('work-packages.partitioned.list.details') === 0) {
       return this.PathHelper.workPackageDetailsCopyPath(this.project.identifier, this.workPackage.id!);
     } else {
       return this.PathHelper.workPackageCopyPath(this.workPackage.id!);

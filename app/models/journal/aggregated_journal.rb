@@ -421,6 +421,12 @@ class Journal::AggregatedJournal
     predecessor.nil?
   end
 
+  # If we where to delegate here, the wrapped journal would be compared to its predecessor which is
+  # not necessarily the this aggreated journal's predecessor.
+  def noop?
+    (!notes || notes&.empty?) && get_changes.empty?
+  end
+
   private
 
   attr_reader :journal

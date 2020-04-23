@@ -69,6 +69,9 @@ $menu-item-line-height: 30px
       overflow: auto
       @include styled-scroll-bar
 
+  a:focus
+    @include varprop(color, main-menu-font-color)
+      
   ul
     margin: 0
     padding: 0

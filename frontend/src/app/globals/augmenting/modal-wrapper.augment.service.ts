@@ -34,7 +34,7 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 
 const iframeSelector = '.iframe-target-wrapper';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ModalWrapperAugmentService {
 
   constructor(@Inject(DOCUMENT) protected documentElement:Document,

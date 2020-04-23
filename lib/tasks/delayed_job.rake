@@ -37,3 +37,9 @@ end
 Rake::Task['jobs:environment_options']
   .clear_prerequisites
   .enhance(['environment:full'])
+
+# Enhance delayed job workers to use cron
+load 'lib/tasks/cron.rake'
+Rake::Task["jobs:work"].enhance [:"openproject:cron:schedule"]
+Rake::Task["jobs:workoff"].enhance [:"openproject:cron:schedule"]
+

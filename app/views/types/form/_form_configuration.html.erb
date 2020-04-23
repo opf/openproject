@@ -59,7 +59,7 @@ See docs/COPYRIGHT.rdoc for more details.
               </ul>
               <p>
                 <br/>
-                <b><%= t('homescreen.blocks.upsale.become_hero') %></b> <%= t('homescreen.blocks.upsale.you_contribute') %>
+                <b><%= t('js.admin.enterprise.upsale.become_hero') %></b> <%= t('js.admin.enterprise.upsale.you_contribute') %>
               </p>
               <%= link_to("#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration",
                           { class: 'button -alt-highlight',
@@ -89,6 +89,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <div class="grid-block">
   <div class="generic-table--action-buttons">
     <%= styled_button_tag t(@type.new_record? ? :button_create : :button_save),
+                          data: { disable_with: t(@type.new_record? ? :button_create : :button_save) },
                           class: 'form-configuration--save -highlight -with-icon icon-checkmark' %>
   </div>
 </div>

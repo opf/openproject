@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {TypeBannerService} from 'core-app/modules/admin/types/type-banner.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
@@ -8,9 +8,7 @@ import {DragulaService} from 'ng2-dragula';
 import {ConfirmDialogService} from 'core-components/modals/confirm-dialog/confirm-dialog.service';
 import {Drake} from 'dragula';
 import {GonService} from "core-app/modules/common/gon/gon.service";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {takeUntil} from "rxjs/operators";
-import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 export type TypeGroupType = 'attribute'|'query';
 
@@ -30,14 +28,16 @@ export interface TypeGroup {
   type:TypeGroupType;
 }
 
+export const adminTypeFormConfigurationSelector = 'admin-type-form-configuration';
+
 @Component({
-  selector: 'admin-type-form-configuration',
+  selector: adminTypeFormConfigurationSelector,
   templateUrl: './type-form-configuration.html',
   providers: [
     TypeBannerService,
   ]
 })
-export class TypeFormConfigurationComponent implements OnInit, OnDestroy {
+export class TypeFormConfigurationComponent extends UntilDestroyedMixin implements OnInit {
 
   public text = {
     drag_to_activate: this.I18n.t('js.admin.type_form.drag_to_activate'),
@@ -70,6 +70,7 @@ export class TypeFormConfigurationComponent implements OnInit, OnDestroy {
               private confirmDialog:ConfirmDialogService,
               private notificationsService:NotificationsService,
               private externalRelationQuery:ExternalRelationQueryConfigurationService) {
+    super();
   }
 
   ngOnInit():void {
@@ -79,9 +80,22 @@ export class TypeFormConfigurationComponent implements OnInit, OnDestroy {
     this.form = jQuery(this.element).closest('form');
     this.submit = this.form.find('.form-configuration--save');
 
+    // In the following we are triggering the form submit ourselves to work around
+    // a firefox shortcoming. But to avoid double submits which are sometimes not canceled fast
+    // enough, we need to memoize whether we have already submitted.
+    let submitted = false;
+
+    this.form.on('submit', (event) => {
+      submitted = true;
+    });
+
     // Capture mousedown on button because firefox breaks blur on click
     this.submit.on('mousedown', (event) => {
-      setTimeout(() => this.form.trigger('submit'), 50);
+      setTimeout(() => {
+        if (!submitted) {
+          this.form.trigger('submit');
+        }
+      }, 50);
       return true;
     });
 
@@ -103,7 +117,7 @@ export class TypeFormConfigurationComponent implements OnInit, OnDestroy {
 
     this.dragula.dropModel("attributes")
       .pipe(
-        takeUntil(componentDestroyed(this))
+        this.untilDestroyed()
       )
       .subscribe((event) => {
         console.log(event);
@@ -129,10 +143,6 @@ export class TypeFormConfigurationComponent implements OnInit, OnDestroy {
           return this.down && (groups || attributes);
         }
       });
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
   }
 
   public deactivateAttribute(attribute:TypeFormAttribute) {
@@ -191,12 +201,12 @@ export class TypeFormConfigurationComponent implements OnInit, OnDestroy {
         }
       })
       .then(() => {
-      this.form.find('input#type_attribute_groups').val(JSON.stringify([]));
+        this.form.find('input#type_attribute_groups').val(JSON.stringify([]));
 
-      // Disable our form handler that updates the attribute groups
-      this.form.off('submit.typeformupdater');
-      this.form.trigger('submit');
-    });
+        // Disable our form handler that updates the attribute groups
+        this.form.off('submit.typeformupdater');
+        this.form.trigger('submit');
+      });
 
     $event.preventDefault();
     return false;
@@ -212,4 +222,3 @@ export class TypeFormConfigurationComponent implements OnInit, OnDestroy {
   }
 }
 
-DynamicBootstrapper.register({cls: TypeFormConfigurationComponent, selector: 'admin-type-form-configuration'});

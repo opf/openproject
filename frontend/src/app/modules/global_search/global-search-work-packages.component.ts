@@ -26,46 +26,33 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  Query,
-  Renderer2
-} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {FocusHelperService} from 'app/modules/common/focus/focus-helper';
 import {I18nService} from 'app/modules/common/i18n/i18n.service';
-import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
 import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
 import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
-import {QueryResource} from "app/modules/hal/resources/query-resource";
 import {WorkPackageFiltersService} from "app/components/filters/wp-filters/wp-filters.service";
 import {UrlParamsHelperService} from "app/components/wp-query/url-params-helper";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
-import {cloneHalResource} from "core-app/modules/hal/helpers/hal-resource-builder";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {debounceTime, distinctUntilChanged, skip} from "rxjs/operators";
 import {combineLatest} from "rxjs";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
 @Component({
   selector: globalSearchWorkPackagesSelector,
   template: `
-   <wp-embedded-table *ngIf="!resultsHidden"
-                      [queryProps]="queryProps"
-                      [configuration]="tableConfiguration">
+    <wp-embedded-table *ngIf="!resultsHidden"
+                       [queryProps]="queryProps"
+                       [configuration]="tableConfiguration">
     </wp-embedded-table>
   `
 })
 
-export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, AfterViewInit {
+export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin implements OnInit, OnDestroy, AfterViewInit {
   public queryProps:{ [key:string]:any };
   public resultsHidden = false;
 
@@ -90,27 +77,29 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
               readonly wpFilters:WorkPackageFiltersService,
               readonly cdRef:ChangeDetectorRef,
               private UrlParamsHelper:UrlParamsHelperService) {
+    super();
   }
 
   ngAfterViewInit() {
-    combineLatest(
+    combineLatest([
       this.globalSearchService.searchTerm$,
       this.globalSearchService.projectScope$
-    ).pipe(
-      skip(1),
-      distinctUntilChanged(),
-      debounceTime(10),
-      untilComponentDestroyed(this)
-    )
-    .subscribe(([newSearchTerm, newProjectScope]) => {
-      this.wpFilters.visible = false;
-      this.setQueryProps();
-    });
+    ])
+      .pipe(
+        skip(1),
+        distinctUntilChanged(),
+        debounceTime(10),
+        this.untilDestroyed()
+      )
+      .subscribe(([newSearchTerm, newProjectScope]) => {
+        this.wpFilters.visible = false;
+        this.setQueryProps();
+      });
 
     this.globalSearchService
       .resultsHidden$
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe((resultsHidden:boolean) => this.resultsHidden = resultsHidden);
   }
@@ -119,31 +108,36 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
     this.setQueryProps();
   }
 
-  ngOnDestroy():void {
-    // Nothing to do
-  }
-
   private setQueryProps():void {
     let filters:any[] = [];
     let columns = ['id', 'project', 'subject', 'type', 'status', 'updatedAt'];
 
     if (this.globalSearchService.searchTerm.length > 0) {
-      filters.push({ search: {
+      filters.push({
+        search: {
           operator: '**',
-          values: [this.globalSearchService.searchTerm] }});
+          values: [this.globalSearchService.searchTerm]
+        }
+      });
     }
 
     if (this.globalSearchService.projectScope === 'current_project') {
-      filters.push({ subprojectId: {
+      filters.push({
+        subprojectId: {
           operator: '!*',
-          values: [] }});
+          values: []
+        }
+      });
       columns = ['id', 'subject', 'type', 'status', 'updatedAt'];
     }
 
     if (this.globalSearchService.projectScope === '') {
-      filters.push({ subprojectId: {
+      filters.push({
+        subprojectId: {
           operator: '*',
-          values: [] }});
+          values: []
+        }
+      });
     }
 
     this.queryProps = {
@@ -155,6 +149,3 @@ export class GlobalSearchWorkPackagesComponent implements OnInit, OnDestroy, Aft
   }
 }
 
-DynamicBootstrapper.register({
-  selector: globalSearchWorkPackagesSelector, cls: GlobalSearchWorkPackagesComponent
-});

@@ -1,0 +1,21 @@
+#English strings go here
+tr:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'İçeri Aktar'
+      export: 'Dışarı aktar'
+      viewpoint: 'bakış açısı'
+      add_viewpoint: 'Bakış açısı ekle'
+      show_viewpoint: 'Bakış açısını göster'
+      delete_viewpoint: 'Bakış açısını sil'
+    ifc_models:
+      empty_warning: "Bu projenin henüz IFC modeli yok."
+      use_this_link_to_manage: "IFC modellerinizi yüklemek ve yönetmek için bu bağlantıyı kullanın"
+      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      models:
+        default: 'Varsayılan IFC modelleri'
+        manage: 'Modelleri yönetin'
+      views:
+        viewer: 'izleyici'
+        split: 'Görüntüleyici ve kartlar'

@@ -47,29 +47,28 @@ import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
 import {editModeClassName} from "core-app/modules/fields/edit/edit-field.component";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
 
 export class TableEditForm extends EditForm<WorkPackageResource> {
-
-  // Injections
-  public wpTableColumns:WorkPackageViewColumnsService = this.injector.get(WorkPackageViewColumnsService);
-  public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
-  public states:States = this.injector.get(States);
-  public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
-  public editingPortalService:EditingPortalService = this.injector.get(EditingPortalService);
+  @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
+  @InjectField() public wpCacheService:WorkPackageCacheService;
+  @InjectField() public states:States;
+  @InjectField() public FocusHelper:FocusHelperService;
+  @InjectField() public editingPortalService:EditingPortalService;
 
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder(this.injector);
 
   // Subscription
   private resourceSubscription:Subscription = this.wpCacheService
-      .requireAndStream(this.workPackageId)
-      .subscribe((wp) => this.resource = wp);
+    .requireAndStream(this.workPackageId)
+    .subscribe((wp) => this.resource = wp);
 
-  constructor(protected readonly injector:Injector,
-              protected readonly table:WorkPackageTable,
+  constructor(public injector:Injector,
+              public table:WorkPackageTable,
               public workPackageId:string,
               public classIdentifier:string) {
     super(injector);
@@ -90,27 +89,27 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
   public activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
     return this.waitForContainer(fieldName)
-        .then((cell) => {
+      .then((cell) => {
 
-          // Forcibly set the width since the edit field may otherwise
-          // be given more width. Thereby preserve a minimum width of 150.
-          // To avoid flickering content, the padding is removed, too.
-          const td = this.findCell(fieldName);
-          td.addClass(editModeClassName);
-          let width = parseInt(td.css('width'));
-          width = width > 150 ? width - 10 : 150;
-          td.css('max-width', width + 'px');
-          td.css('width', width + 'px');
+        // Forcibly set the width since the edit field may otherwise
+        // be given more width. Thereby preserve a minimum width of 150.
+        // To avoid flickering content, the padding is removed, too.
+        const td = this.findCell(fieldName);
+        td.addClass(editModeClassName);
+        let width = parseInt(td.css('width'));
+        width = width > 150 ? width - 10 : 150;
+        td.css('max-width', width + 'px');
+        td.css('width', width + 'px');
 
-          return this.editingPortalService.create(
-              cell,
-              this.injector,
-              form,
-              schema,
-              fieldName,
-              errors
-          );
-        });
+        return this.editingPortalService.create(
+          cell,
+          this.injector,
+          form,
+          schema,
+          fieldName,
+          errors
+        );
+      });
   }
 
   public reset(fieldName:string, focus?:boolean) {
@@ -137,9 +136,9 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   protected focusOnFirstError():void {
     // Focus the first field that is erroneous
     jQuery(this.table.tableAndTimelineContainer)
-        .find(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
-        .first()
-        .trigger('focus');
+      .find(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
+      .first()
+      .trigger('focus');
   }
 
   // Ensure the given field is visible.

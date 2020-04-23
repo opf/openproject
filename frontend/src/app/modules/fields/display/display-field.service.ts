@@ -47,7 +47,7 @@ export interface DisplayFieldContext {
   options:{ [key:string]:any };
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class DisplayFieldService extends AbstractFieldService<DisplayField, IDisplayFieldType> {
 
   /**

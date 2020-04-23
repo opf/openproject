@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Project::Activity, type: :model do
+describe Projects::Activity, type: :model do
   let(:project) do
     FactoryBot.create(:project)
   end

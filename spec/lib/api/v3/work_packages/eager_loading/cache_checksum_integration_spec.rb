@@ -40,7 +40,7 @@ describe ::API::V3::WorkPackages::EagerLoading::Checksum do
     FactoryBot.create(:work_package,
                       responsible: responsible,
                       assigned_to: assignee,
-                      fixed_version: version,
+                      version: version,
                       category: category)
   end
   let!(:type) { work_package.type }
@@ -118,14 +118,14 @@ describe ::API::V3::WorkPackages::EagerLoading::Checksum do
     end
 
     it 'produces a different checksum on changes to the version id' do
-      WorkPackage.where(id: work_package.id).update_all(fixed_version_id: 0)
+      WorkPackage.where(id: work_package.id).update_all(version_id: 0)
 
       expect(new_checksum)
         .not_to eql orig_checksum
     end
 
     it 'produces a different checksum on changes to the version' do
-      work_package.fixed_version.update_attribute(:updated_on, Time.now + 10.seconds)
+      work_package.version.update_attribute(:updated_on, Time.now + 10.seconds)
 
       expect(new_checksum)
         .not_to eql orig_checksum

@@ -1,4 +1,4 @@
-class Announcement < ActiveRecord::Base
+class Announcement < ApplicationRecord
   scope :active,  -> { where(active: true) }
   scope :current, -> { where('show_until >= ?', Date.today) }
 

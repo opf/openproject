@@ -51,9 +51,9 @@ bg:
           title: 'Enabled projects'
           description: 'Select for which projects this webhook should be executed for.'
           all: 'All projects'
-          selected: 'Selected projects only'
+          selected: 'Само избрани проекти'
         selected_project_ids:
-          title: 'Selected projects'
+          title: 'Избрани проекти'
         secret:
           description: >
             If set, this secret value is used by OpenProject to sign the webhook payload.

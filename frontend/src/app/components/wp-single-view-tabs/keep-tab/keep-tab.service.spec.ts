@@ -53,7 +53,7 @@ describe('keepTab service', () => {
 
     defaults = {
       showTab: 'work-packages.show.activity',
-      detailsTab: 'work-packages.list.details.overview'
+      detailsTab: 'work-packages.partitioned.list.details.overview'
     };
   });
 
@@ -86,7 +86,7 @@ describe('keepTab service', () => {
     });
 
     it('should also update the value of currentDetailsTab', () => {
-      expect(keepTab.currentDetailsState).toEqual('work-packages.list.details.relations');
+      expect(keepTab.currentDetailsState).toEqual('work-packages.partitioned.list.details.relations');
     });
 
     it('should propagate the previous change', () => {
@@ -95,7 +95,7 @@ describe('keepTab service', () => {
       var expected = {
         active: 'relations',
         show: 'work-packages.show.relations',
-        details: 'work-packages.list.details.relations'
+        details: 'work-packages.partitioned.list.details.relations'
       }
 
       keepTab.observable.subscribe(cb);
@@ -103,14 +103,14 @@ describe('keepTab service', () => {
     });
 
     it('should correctly change when switching back', () => {
-      currentPathPrefix = 'work-packages.list.details.*';
+      currentPathPrefix = 'work-packages.partitioned.list.details.*';
 
-      $state.current.name = 'work-packages.list.details.overview';
+      $state.current.name = 'work-packages.partitioned.list.details.overview';
       keepTab.updateTabs();
 
       expect(keepTab.currentShowState).toEqual('work-packages.show.activity');
       expect(keepTab.currentShowTab).toEqual('activity');
-      expect(keepTab.currentDetailsState).toEqual('work-packages.list.details.overview');
+      expect(keepTab.currentDetailsState).toEqual('work-packages.partitioned.list.details.overview');
       expect(keepTab.currentDetailsTab).toEqual('overview');
     });
   });
@@ -126,22 +126,22 @@ describe('keepTab service', () => {
     });
 
     it('should set the tab to overview', () => {
-      expect(keepTab.currentDetailsState).toEqual('work-packages.list.details.overview');
+      expect(keepTab.currentDetailsState).toEqual('work-packages.partitioned.list.details.overview');
     });
   });
 
   describe('when opening a details route', () => {
     beforeEach(() => {
       spyOn($state, 'includes').and.callFake((path:string) => {
-        return path === 'work-packages.list.details.*';
+        return path === 'work-packages.partitioned.list.details.*';
       });
 
-      $state.current.name = 'work-packages.list.details.activity';
+      $state.current.name = 'work-packages.partitioned.list.details.activity';
       keepTab.updateTabs();
     });
 
     it('should update the currentShowTab value', () => {
-      expect(keepTab.currentDetailsState).toEqual('work-packages.list.details.activity');
+      expect(keepTab.currentDetailsState).toEqual('work-packages.partitioned.list.details.activity');
       expect(keepTab.currentDetailsTab).toEqual('activity');
     });
 
@@ -155,7 +155,7 @@ describe('keepTab service', () => {
 
       var expected = {
         active: 'activity',
-        details: 'work-packages.list.details.activity',
+        details: 'work-packages.partitioned.list.details.activity',
         show: 'work-packages.show.activity'
       };
 

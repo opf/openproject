@@ -38,7 +38,7 @@ export interface GonType {
  [key:string]:unknown;
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GonService {
   get(...path:string[]):unknown|null {
     return _.get(window.gon, path, null);

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Scm::RepositoryFactoryService do
+describe SCM::RepositoryFactoryService do
   let(:user) { FactoryBot.build(:user) }
   let(:project) { FactoryBot.build(:project) }
 
@@ -37,7 +37,7 @@ describe Scm::RepositoryFactoryService do
   let(:params_hash) { {} }
   let(:params) { ActionController::Parameters.new params_hash }
 
-  subject(:service) { Scm::RepositoryFactoryService.new(project, params) }
+  subject(:service) { SCM::RepositoryFactoryService.new(project, params) }
 
   before do
     allow(Setting).to receive(:enabled_scm).and_return(enabled_scms)

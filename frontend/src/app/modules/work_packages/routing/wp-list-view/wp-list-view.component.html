@@ -1,0 +1,25 @@
+<div class="result-overlay"
+     *ngIf="(showResultOverlay$ | async) && showListView"></div>
+
+<!-- TABLE + TIMELINE horizontal split -->
+<wp-table *ngIf="tableInformationLoaded && showListView"
+          [projectIdentifier]="CurrentProject.identifier"
+          [configuration]="wpTableConfiguration"
+          class="work-packages-split-view--tabletimeline-content"></wp-table>
+
+<!-- GRID representation of the WP -->
+<div *ngIf="!showListView"
+     class="work-packages--card-view-container"
+     [ngClass]="{ '-with-resizer': showResizerInCardView() }" >
+  <wp-grid [configuration]="wpTableConfiguration"
+           [showResizer]="showResizerInCardView()"
+           resizerClass="work-packages-partitioned-page--content-right"
+           resizerStorageKey="openProject-splitViewFlexBasis">
+  </wp-grid>
+</div>
+
+<!-- Footer -->
+<div class="work-packages-split-view--tabletimeline-footer hide-when-print"
+     *ngIf="tableInformationLoaded">
+  <wp-table-pagination></wp-table-pagination>
+</div>

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,7 +35,7 @@
 # We envision a repository management wrapper that covers transactional
 # creation and deletion of repositories BOTH on the database and filesystem.
 # Until then, a synchronous process is more failsafe.
-class Scm::DeleteLocalRepositoryJob < ApplicationJob
+class SCM::DeleteLocalRepositoryJob < ApplicationJob
   def initialize(managed_path)
     @managed_path = managed_path
   end

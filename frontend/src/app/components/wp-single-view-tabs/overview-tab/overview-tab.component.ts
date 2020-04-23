@@ -26,19 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, OnDestroy} from '@angular/core';
-import {StateService, Transition} from '@uirouter/core';
+import {Component} from '@angular/core';
+import {StateService} from '@uirouter/core';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   templateUrl: './overview-tab.html',
   selector: 'wp-overview-tab',
 })
-export class WorkPackageOverviewTabComponent implements OnDestroy {
+export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin {
   public workPackageId:string;
   public workPackage:WorkPackageResource;
   public tabName = this.I18n.t('js.label_latest_activity');
@@ -46,17 +45,14 @@ export class WorkPackageOverviewTabComponent implements OnDestroy {
   public constructor(readonly I18n:I18nService,
                      readonly $state:StateService,
                      readonly wpCacheService:WorkPackageCacheService) {
+    super();
 
     this.workPackageId = this.$state.params.workPackageId;
     wpCacheService.loadWorkPackage(this.workPackageId)
       .values$()
       .pipe(
-        takeUntil(componentDestroyed(this))
+        this.untilDestroyed()
       )
       .subscribe((wp) => this.workPackage = wp);
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
   }
 }

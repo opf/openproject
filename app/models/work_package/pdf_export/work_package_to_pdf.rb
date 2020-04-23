@@ -28,9 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
-  include WorkPackage::PdfExport::Common
-  include WorkPackage::PdfExport::Attachments
+class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
+  include WorkPackage::PDFExport::Common
+  include WorkPackage::PDFExport::Attachments
 
   attr_accessor :pdf
 

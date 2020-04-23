@@ -12,8 +12,10 @@ import {
   WpGraphQueryParams
 } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
 
+export const wpOverviewGraphSelector = 'wp-overview-graph';
+
 @Component({
-  selector: 'wp-overview-graph',
+  selector: wpOverviewGraphSelector,
   templateUrl: './wp-overview-graph.template.html',
   styleUrls: ['./wp-overview-graph.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,8 +26,8 @@ import {
 
 export class WorkPackageOverviewGraphComponent implements OnInit {
   @Input() additionalFilter:any;
-  @ViewChild('wpEmbeddedGraphMulti', { static: false }) private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
-  @ViewChild('wpEmbeddedGraphSingle', { static: false }) private embeddedGraphSingle:WorkPackageEmbeddedGraphComponent;
+  @ViewChild('wpEmbeddedGraphMulti') private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
+  @ViewChild('wpEmbeddedGraphSingle') private embeddedGraphSingle:WorkPackageEmbeddedGraphComponent;
   @Input() groupBy:string = 'status';
   @Input() chartOptions:ChartOptions = { maintainAspectRatio: false };
   public datasets:WorkPackageEmbeddedGraphDataset[] = [];
@@ -151,4 +153,4 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   }
 }
 
-DynamicBootstrapper.register({ selector: 'wp-overview-graph', cls: WorkPackageOverviewGraphComponent });
+

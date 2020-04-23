@@ -1,0 +1,35 @@
+@import "helpers"
+
+.work-packages-partitioned-query-space--container
+  height: 100%
+  overflow: hidden
+  display: grid
+  grid-template-columns: 1fr
+  grid-template-rows: auto auto minmax(200px, 1fr)
+
+  &.-right-only
+    .work-packages-partitioned-page--content-left
+      display: none
+
+  &.-left-only
+    .work-packages-partitioned-page--content-right
+      display: none
+
+  .work-packages-partitioned-page--content-container
+    display: flex
+    overflow: auto
+    @include styled-scroll-bar
+
+  .work-packages-partitioned-page--content-left,
+  .work-packages-partitioned-page--content-right
+    position: relative
+
+  .work-packages-partitioned-page--content-left
+    flex: 1
+
+  @media only screen and (max-width: 679px)
+    .work-packages-partitioned-page--content-left,
+    .work-packages-partitioned-page--content-right
+      min-width: initial
+      max-width: 100vw
+      max-height: 100%

@@ -17,21 +17,21 @@ import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class DragAndDropTransformer {
 
-  private readonly states:States = this.injector.get(States);
-  private readonly querySpace:IsolatedQuerySpace = this.injector.get(IsolatedQuerySpace);
-  private readonly dragService:DragAndDropService|null = this.injector.get(DragAndDropService, null);
-  private readonly inlineCreateService = this.injector.get(WorkPackageInlineCreateService);
-  private readonly halNotification = this.injector.get(HalResourceNotificationService);
-  private readonly wpTableSortBy = this.injector.get(WorkPackageViewSortByService);
-  private readonly wpTableOrder = this.injector.get(WorkPackageViewOrderService);
-  private readonly browserDetector = this.injector.get(BrowserDetector);
-  private readonly wpCacheService = this.injector.get(WorkPackageCacheService);
-  private readonly wpListService = this.injector.get(WorkPackagesListService);
-
-  private readonly dragActionRegistry = this.injector.get(TableDragActionsRegistryService);
+  @InjectField() private readonly states:States;
+  @InjectField() private readonly querySpace:IsolatedQuerySpace;
+  @InjectField() private readonly inlineCreateService:WorkPackageInlineCreateService;
+  @InjectField() private readonly halNotification:HalResourceNotificationService;
+  @InjectField() private readonly wpTableSortBy:WorkPackageViewSortByService;
+  @InjectField() private readonly wpTableOrder:WorkPackageViewOrderService;
+  @InjectField() private readonly browserDetector:BrowserDetector;
+  @InjectField() private readonly wpCacheService:WorkPackageCacheService;
+  @InjectField() private readonly wpListService:WorkPackagesListService;
+  @InjectField() private readonly dragActionRegistry:TableDragActionsRegistryService;
+  @InjectField(DragAndDropService, null) private readonly dragService:DragAndDropService|null;
 
   constructor(public readonly injector:Injector,
               public table:WorkPackageTable) {

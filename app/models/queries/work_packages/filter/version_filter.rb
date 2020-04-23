@@ -30,10 +30,10 @@
 
 class Queries::WorkPackages::Filter::VersionFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
-
   def allowed_values
     @allowed_values ||= begin
-      versions.order_by_newest_date.map { |s| ["#{s.project.name} - #{s.name}", s.id.to_s] }
+      # as we no longer display the allowed values, the first value is irrelevant
+      versions.pluck(:id).map { |id| [id.to_s, id.to_s] }
     end
   end
 
@@ -42,11 +42,11 @@ class Queries::WorkPackages::Filter::VersionFilter <
   end
 
   def human_name
-    WorkPackage.human_attribute_name('fixed_version')
+    WorkPackage.human_attribute_name('version')
   end
 
   def self.key
-    :fixed_version_id
+    :version_id
   end
 
   def ar_object_filter?

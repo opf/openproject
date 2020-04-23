@@ -26,12 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Injector, OnDestroy} from '@angular/core';
+import {ChangeDetectorRef, Injector} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
@@ -41,22 +39,23 @@ import {States} from "core-components/states.service";
 import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
-export class WorkPackageSingleViewBase implements OnDestroy {
+export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
-  public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
-  public states:States = this.injector.get(States);
-  public I18n:I18nService = this.injector.get(I18nService);
-  public keepTab:KeepTabService = this.injector.get(KeepTabService);
-  public PathHelper:PathHelperService = this.injector.get(PathHelperService);
-  protected halEditing:HalResourceEditingService = this.injector.get(HalResourceEditingService);
-  protected wpTableFocus:WorkPackageViewFocusService = this.injector.get(WorkPackageViewFocusService);
-  protected notificationService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
-  protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
-  protected authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
-  protected cdRef:ChangeDetectorRef = this.injector.get(ChangeDetectorRef);
+  @InjectField() wpCacheService:WorkPackageCacheService;
+  @InjectField() states:States;
+  @InjectField() I18n:I18nService;
+  @InjectField() keepTab:KeepTabService;
+  @InjectField() PathHelper:PathHelperService;
+  @InjectField() halEditing:HalResourceEditingService;
+  @InjectField() wpTableFocus:WorkPackageViewFocusService;
+  @InjectField() notificationService:WorkPackageNotificationService;
+  @InjectField() projectCacheService:ProjectCacheService;
+  @InjectField() authorisationService:AuthorisationService;
+  @InjectField() cdRef:ChangeDetectorRef;
 
   // Static texts
   public text:any = {};
@@ -68,14 +67,11 @@ export class WorkPackageSingleViewBase implements OnDestroy {
   public focusAnchorLabel:string;
   public showStaticPagePath:string;
 
-  readonly titleService:OpTitleService = this.injector.get(OpTitleService);
+  @InjectField() readonly titleService:OpTitleService;
 
   constructor(public injector:Injector, protected workPackageId:string) {
+    super();
     this.initializeTexts();
-  }
-
-  ngOnDestroy():void {
-    // Created for interface compliance
   }
 
   /**
@@ -91,7 +87,7 @@ export class WorkPackageSingleViewBase implements OnDestroy {
     this.wpCacheService.state(this.workPackageId)
       .values$()
       .pipe(
-        takeUntil(componentDestroyed(this))
+        this.untilDestroyed()
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
@@ -118,8 +114,8 @@ export class WorkPackageSingleViewBase implements OnDestroy {
     this.projectCacheService
       .require(this.workPackage.project.idFromLink)
       .then(() => {
-      this.projectIdentifier = this.workPackage.project.identifier;
-    });
+        this.projectIdentifier = this.workPackage.project.identifier;
+      });
 
     // Set authorisation data
     this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
@@ -133,7 +129,7 @@ export class WorkPackageSingleViewBase implements OnDestroy {
     // Listen to tab changes to update the tab label
     this.keepTab.observable
       .pipe(
-        takeUntil(componentDestroyed(this))
+        this.untilDestroyed()
       )
       .subscribe((tabs:any) => {
         this.updateFocusAnchorLabel(tabs.active);

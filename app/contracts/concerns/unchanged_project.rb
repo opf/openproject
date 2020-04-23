@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Concerns::UnchangedProject
+module UnchangedProject
   extend ActiveSupport::Concern
 
   included do

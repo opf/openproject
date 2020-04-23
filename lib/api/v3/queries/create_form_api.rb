@@ -27,7 +27,6 @@
 #++
 
 require 'api/v3/queries/query_representer'
-require 'queries/create_query_service'
 
 module API
   module V3

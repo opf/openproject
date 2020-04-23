@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe OpenProject::PdfExport::ExportCard::DocumentGenerator do
+describe OpenProject::PDFExport::ExportCard::DocumentGenerator do
   let(:config) { ExportCardConfiguration.new({
     name: "Default",
     description: "This is a description",
@@ -51,7 +51,7 @@ describe OpenProject::PdfExport::ExportCard::DocumentGenerator do
   describe "Single work package rendering" do
     before(:each) do
       work_packages = [work_package1]
-      @generator = OpenProject::PdfExport::ExportCard::DocumentGenerator.new(config, work_packages)
+      @generator = OpenProject::PDFExport::ExportCard::DocumentGenerator.new(config, work_packages)
     end
 
     it 'shows work package subject' do
@@ -73,7 +73,7 @@ describe OpenProject::PdfExport::ExportCard::DocumentGenerator do
   describe "Multiple work package rendering" do
     before(:each) do
       work_packages = [work_package1, work_package2]
-      @generator = OpenProject::PdfExport::ExportCard::DocumentGenerator.new(config, work_packages)
+      @generator = OpenProject::PDFExport::ExportCard::DocumentGenerator.new(config, work_packages)
     end
 
     it 'shows work package subject' do

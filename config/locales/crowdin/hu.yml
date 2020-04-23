@@ -61,15 +61,18 @@ hu:
         header-item-font-hover-color: "Kattintható fejléc betűszíne egér hatására."
         header-border-bottom-color: "Vékony vonal a fejléc alatt. Hagyja üresen, ha semmilyen vonalat nem szeretne."
         main-menu-bg-color: "Baloldali menü háttérszíne."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: A téma megváltoztatása felülírja az egyéni stílust. A forma elvész. Biztos, hogy folytatni akarod?
     enterprise:
-      upgrade_to_ee: "Frissítés a Vállalati Verzióra"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Töltse fel a Vállalati Verzió támogatási tokenjét"
       replace_token: "A jelenlegi támogatási token lecserélése"
       order: "Vállalati Verzió megrendelése"
       paste: "Illessze be a Vállalati Verzió támogatási tokentjét"
       required_for_feature: "Ez a funkció csak aktív Vállalati Verzió támogatási tokennel érhető el."
       enterprise_link: "További információért kattintson ide."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Mutassa eddig
     is_active: jelenleg látható
@@ -396,7 +399,7 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
-      project/status:
+      projects/status:
         code: 'Állapot'
         explanation: 'Állapot leírása'
         codes:
@@ -461,7 +464,7 @@ hu:
         done_ratio: "Folyamat állapot (%)"
         end_insertion: "Beillesztés vége"
         end_deletion: "Törlés vége"
-        fixed_version: "Verzió"
+        version: "Verzió"
         parent: "Szülő"
         parent_issue: "Szülő"
         parent_work_package: "Szülő"
@@ -752,6 +755,7 @@ hu:
     version: "Verzió"
     work_package: "Feladatcsoport"
   button_add: "Hozzáadás"
+  button_add_comment: "Megjegyzés hozzáadása"
   button_add_member: Tag hozzáadása
   button_add_watcher: "Megfigyelő hozzáadása"
   button_annotate: "Jegyzetekkel ellát"
@@ -1136,13 +1140,8 @@ hu:
     blocks:
       community: "OpenProject Közösség"
       upsale:
-        become_hero: "Legyél egy hős!"
         title: "Frissítés a Vállalati Verzióra"
-        description: "Milyen előnyökkel jár?"
         more_info: "További információ"
-        additional_features: "További erőteljes prémium funkciók"
-        professional_support: "Professzionális támogatás az OpenProject szakértőktől"
-        you_contribute: "A fejlesztőknek is fizetni kell a számláikat. A vállalati verzióval jelentősen hozzájárulsz a nyílt forráskódú közösség erőfeszítéseihez."
     links:
       upgrade_enterprise_edition: "Frissítés a Vállalati Verzióra"
       postgres_migration: "A rendszer költöztetése PostreSQL-re"
@@ -1154,9 +1153,10 @@ hu:
       forums: "Közösségi fórum"
       newsletter: "Biztonsági figyelmeztetések / hírlevél"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Konfigurációs útmutató'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Be tud jelentkezni, amint fiókját aktiválta ide %{signin} kattintva."
   instructions_after_logout: "Újra be tud jelentkezni ide  %{signin} kattintva."
   instructions_after_error: "Próbáljon meg újból bejelentkezni ide  %{signin} kattintva. Ha a hiba továbbra is fennáll, kérje a rendszergazda segítséget."
@@ -1446,6 +1446,7 @@ hu:
   label_new: "Új"
   label_new_features: "New features"
   label_new_statuses_allowed: "Létrehozás engedélyezett az alábbi státuszokkal"
+  label_news_singular: "Hírek"
   label_news_added: "Hírek hozzáadva"
   label_news_comment_added: "Megjegyzés hozzáadása a hírekhet"
   label_news_latest: "Legfrissebb hírek"
@@ -1705,31 +1706,6 @@ hu:
     other: "%{count} projekt"
   label_year: "Év"
   label_yesterday: "tegnap"
-  label_keyboard_function: "Funkció"
-  label_keyboard_shortcut: "Parancsikon"
-  label_keyboard_accesskey: "AccessKey"
-  label_keyboard_shortcut_help_heading: "Rendelkezésre álló billentyűparancsok"
-  label_keyboard_shortcut_within_project: "Projekthez kapcsolódó hivatkozások:"
-  label_keyboard_shortcut_global_shortcuts: "Globális gyorsbillentyűk:"
-  label_keyboard_shortcut_some_pages_only: "Különleges gyorsbillentyűk:"
-  label_keyboard_shortcut_search_global: "Mindenben keres"
-  label_keyboard_shortcut_search_project: "Pprojekt keresése"
-  label_keyboard_shortcut_go_my_page: "Ugrás az én oldalamra"
-  label_keyboard_shortcut_show_help: "Megjeleníti ezt a súgóüzenetet"
-  label_keyboard_shortcut_go_overview: "Tovább a projekt áttekintéséhez"
-  label_keyboard_shortcut_go_work_package: "Tovább a projekt munkacsomagokhoz"
-  label_keyboard_shortcut_go_wiki: "Tovább a projekt wikire"
-  label_keyboard_shortcut_go_activity: "Tovább a projekt tevékenységekre"
-  label_keyboard_shortcut_go_calendar: "Tovább a projekt naptárhoz"
-  label_keyboard_shortcut_go_news: "Tovább a projekt híreihez"
-  label_keyboard_shortcut_go_timelines: "Ugrás az idővonalakhoz"
-  label_keyboard_shortcut_new_work_package: "Új munkacsomag létrehozása"
-  label_keyboard_shortcut_details_package: "Munka csomag részletek ablaktábla megjelenítése"
-  label_keyboard_shortcut_go_edit: "Tovább a \"jelenlegi tétel szerkesztésére\" (csak a részletes oldalak)"
-  label_keyboard_shortcut_open_more_menu: "Több menü megnyitása (csak a részletes lapok)"
-  label_keyboard_shortcut_go_preview: "Tovább a jelenlegi szerkesztés előnézetére (csak a szerkesztet oldalt)"
-  label_keyboard_shortcut_focus_previous_item: "Középpontban az előző lista elemei (csak néhány lista)"
-  label_keyboard_shortcut_focus_next_item: "Középpontban a következő lista elemei (csak néhány lista)"
   auth_source:
     using_abstract_auth_source: "Nem használható egy absztrakt hitelesítési forrás."
     ldap_error: "LDAP-hiba: %{error_message}"
@@ -2180,7 +2156,6 @@ hu:
   setting_welcome_text: "Üdvözlő blokk szöveg"
   setting_welcome_title: "Üdvözlő blokk címe"
   setting_welcome_on_homescreen: "Üdvözlő blokk megjelenítése a kezdőképernyőn"
-  setting_wiki_compression: "Wiki előzmények tömörítése"
   setting_work_package_group_assignment: "Hozzárendelés engedélyezése csoportokhoz"
   setting_work_package_list_default_highlighting_mode: "Alapértelmezett kiemelési mód"
   setting_work_package_list_default_highlighted_attributes: "Alapértelmezett kiemelt attribútumok sorai"
@@ -2520,6 +2495,7 @@ hu:
       mail_self_notified: "Értesítés küldése a saját magam által által végrehajtott módosításokról"
     status_user_and_brute_force: "%{user} és %{brute_force}"
     status_change: "Állapot változás"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "A zárolás feloldása"
     unlock_and_reset_failed_logins: "Zárolás felodása és alaphelyzetbe állitása sikertelen bejelentkezéskor"
   version_status_closed: "lezárt"

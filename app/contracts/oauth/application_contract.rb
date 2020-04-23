@@ -28,9 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
-
-module Oauth
+module OAuth
   class ApplicationContract < ::ModelContract
     def self.model
       ::Doorkeeper::Application

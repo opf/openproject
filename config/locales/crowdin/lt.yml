@@ -63,13 +63,16 @@ lt:
         main-menu-bg-color: "Kairiojo šoninio meniu fono spalva."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Patobulinti į „Enterprise Edition“ versiją"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Įkelti „Enterprise Edition“ paramos raktą"
       replace_token: "Pakeisti savo esamą paramos raktą"
       order: "Ušsakyti „Enterprise Edition“ versiją"
       paste: "Įklijuokite savo „Enterprise Edition“ paramos raktą"
       required_for_feature: "Ši funkcija galima tiks su aktyviu Enterprise Edition versijos raktu."
       enterprise_link: "Norėdami gauti daugiau informacijos, spustelėkite čia."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Rodyti iki
     is_active: šiuo metu rodoma
@@ -398,7 +401,7 @@ lt:
         types: "Tipai"
         versions: "Versijos"
         work_packages: "Darbų paketai"
-      project/status:
+      projects/status:
         code: 'Būsena'
         explanation: 'Būsenos aprašymas'
         codes:
@@ -463,7 +466,7 @@ lt:
         done_ratio: "Progresas (%)"
         end_insertion: "Įterpimo pabaigoje"
         end_deletion: "Ištrynimo pabaigoje"
-        fixed_version: "Versija"
+        version: "Versija"
         parent: "Tėvas"
         parent_issue: "Tėvas"
         parent_work_package: "Tėvas"
@@ -760,6 +763,7 @@ lt:
     version: "Versija"
     work_package: "Darbų paketas"
   button_add: "Pridėti"
+  button_add_comment: "Pridėti komentarą"
   button_add_member: Pridėti narį
   button_add_watcher: "Pridėti stebėtojų"
   button_annotate: "Rašyti pastabą"
@@ -1168,13 +1172,8 @@ lt:
     blocks:
       community: "OpenProject community"
       upsale:
-        become_hero: "Tapti didvyriu!"
         title: "Patobulinti į „Enterprise Edition“ versiją"
-        description: "Kokie privalumai?"
         more_info: "Daugiau informacijos"
-        additional_features: "Papildomos galingos premium funkcijos"
-        professional_support: "Profesionali parama iš OpenProject expertų"
-        you_contribute: "Kūrėjams taip pat reikia apmokėti savo sąskaitas. Su „Enterprise Edition“ jūs iš esmės prisidėsite prie atviro kodo bendruomenės darbo."
     links:
       upgrade_enterprise_edition: "Patobulinti į „Enterprise Edition“ versiją"
       postgres_migration: "Migruojame jūsų instaliaciją į PostgreSQL"
@@ -1186,9 +1185,10 @@ lt:
       forums: "Bendruomenės forumas"
       newsletter: "Saugos įspėjimai / Naujienos"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Konfigūravimo vadovas'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Galėsite prisijungti, kai tik jūsų paskyra bus aktyvuota paspaudžiant %{signin}."
   instructions_after_logout: "Galite vėl prisijungti paspausdami %{signin}."
   instructions_after_error: "Bandykite prisijungti dar kartą spustelėdami %{signin}. Jei klaida kartosis, kreipkitės į administratorių."
@@ -1478,6 +1478,7 @@ lt:
   label_new: "Naujas"
   label_new_features: "Naujos savybės"
   label_new_statuses_allowed: "Naujos galimos būsenos"
+  label_news_singular: "Naujienos"
   label_news_added: "Pridėta naujiena"
   label_news_comment_added: "Prie naujienos pridėtas komentaras"
   label_news_latest: "Paskutinės naujienos"
@@ -1745,31 +1746,6 @@ lt:
     other: "%{count} projektai (-as, -ų)"
   label_year: "Metai"
   label_yesterday: "vakar"
-  label_keyboard_function: "Funkcija"
-  label_keyboard_shortcut: "Nuoroda"
-  label_keyboard_accesskey: "Prieigos raktas"
-  label_keyboard_shortcut_help_heading: "Galimi spartieji klavišai"
-  label_keyboard_shortcut_within_project: "Su projektu susiję spartieji klavišai:"
-  label_keyboard_shortcut_global_shortcuts: "Globalios nuorodos:"
-  label_keyboard_shortcut_some_pages_only: "Specialios nuorodos:"
-  label_keyboard_shortcut_search_global: "Globali paieška"
-  label_keyboard_shortcut_search_project: "Rasti mano projektą"
-  label_keyboard_shortcut_go_my_page: "Eiti į mano puslapį"
-  label_keyboard_shortcut_show_help: "Rodyti šį pagalbos pranešimą"
-  label_keyboard_shortcut_go_overview: "Eiti į projekto apžvalgą"
-  label_keyboard_shortcut_go_work_package: "Eiti į projekto darbų paketus"
-  label_keyboard_shortcut_go_wiki: "Eiti į projekto wiki"
-  label_keyboard_shortcut_go_activity: "Eiti į projekto veiklas"
-  label_keyboard_shortcut_go_calendar: "Eiti į projekto kalendorių"
-  label_keyboard_shortcut_go_news: "Eiti į projekto naujienas"
-  label_keyboard_shortcut_go_timelines: "Eiti į tvarkaraščius"
-  label_keyboard_shortcut_new_work_package: "Sukurti naują darbų paketą"
-  label_keyboard_shortcut_details_package: "Rodyti darbų paketų išsamios informacijos panelę"
-  label_keyboard_shortcut_go_edit: "Eiti redaguoti esamą elementą (tik didelio detalumo puslapiuose)"
-  label_keyboard_shortcut_open_more_menu: "Atidaryti daugiau-meniu (tik didelio detalumo puslapiuose)"
-  label_keyboard_shortcut_go_preview: "Eiti į esamos redakcijos peržiūrą (tik redagavimo puslapiuose)"
-  label_keyboard_shortcut_focus_previous_item: "Sutelkti dėmesį į ankstesnį sąrašo elementą (tik kai kuriuose sąrašuose)"
-  label_keyboard_shortcut_focus_next_item: "Sutelkti dėmesį į sekantį sąrašo elementą (tik kai kuriuose sąrašuose)"
   auth_source:
     using_abstract_auth_source: "Negalima naudoti abstraktaus autentifikavimo šaltinio."
     ldap_error: "LDAP-Klaida: %{error_message}"
@@ -2221,7 +2197,6 @@ lt:
   setting_welcome_text: "Pasisveikinimo bloko tekstas"
   setting_welcome_title: "Pasisveikinimo bloko pavadinimas"
   setting_welcome_on_homescreen: "Rodyti pasisveikinimo bloką namų lange"
-  setting_wiki_compression: "Wiki istorijos suspaudimas"
   setting_work_package_group_assignment: "Leisti priskyrimus grupėms"
   setting_work_package_list_default_highlighting_mode: "Numatytasis paryškinimo būdas"
   setting_work_package_list_default_highlighted_attributes: "Atributai, kuriuos numatyta paryškinti"
@@ -2565,6 +2540,7 @@ lt:
       mail_self_notified: "Noriu būti informuotas apie pakeitimus, kuriuos pats atlieku"
     status_user_and_brute_force: "%{user} ir %{brute_force}"
     status_change: "Būsenos keitimas"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Atrakinti"
     unlock_and_reset_failed_logins: "Atrakintiir iš naujo nustatyti nepavykusius prisijungimus"
   version_status_closed: "uždarytas"

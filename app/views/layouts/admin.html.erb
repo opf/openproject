@@ -30,12 +30,10 @@ See docs/COPYRIGHT.rdoc for more details.
 <%
   parent_node = admin_first_level_menu_entry
   if local_assigns[:additional_breadcrumb].nil?
-    breadcrumb_paths(t(:label_administration),
-                     parent_node.name == :root ? nil : parent_node.caption,
+    breadcrumb_paths(ActionController::Base.helpers.link_to(t(:label_administration), admin_index_path),
                      default_breadcrumb)
   else
-    breadcrumb_paths(t(:label_administration),
-                     parent_node.name == :root ? nil : parent_node.caption,
+    breadcrumb_paths(ActionController::Base.helpers.link_to(t(:label_administration), admin_index_path),
                      default_breadcrumb,
                      local_assigns[:additional_breadcrumb])
   end

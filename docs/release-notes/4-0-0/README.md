@@ -23,10 +23,6 @@ easy integration with OmniAuth strategy providers such as Google.
   - Multiple authentication provider can be integrated and are shown in
     the login screen
 
-
-
- 
-
 ## Integrated toolbar on work package page
 
 OpenProject 4.0 replaces the old filter and options section on the work
@@ -45,10 +41,6 @@ more intuitive.
   - Two different views: Work package table and split-screen
   - Create new queries based on existing ones (Save as)
 
-
-
- 
-
 ## Integrated query title on work package page
 
 The query selection is now integrated in the work package title. Queries
@@ -57,10 +49,6 @@ are being persisted.
   - Title includes query selection
   - Auto-completion of queries is supported
   - Selected query is persisted
-
-
-
- 
 
 ## Column header functions in work package table
 
@@ -73,10 +61,6 @@ package table right on a column header.
   - Group by column attribute
   - Hide / Remove column
   - Add new column
-
-
-
- 
 
 ## Split screen mode added to work package page
 
@@ -95,10 +79,6 @@ allowing users to see the most important information at a glance.
   - “Watchers” tab to follow work package
   - “Attachments” tab showing attached documents
 
-
-
- 
-
 ## Improved design
 
 Several design changes have been made to improve the readability and
@@ -111,10 +91,6 @@ overall usability of OpenProject.
   - Changed headlines
   - Round avatars
 
-
-
- 
-
 ## Many accessibility improvements
 
 Numerous accessibility improvements – especially in the work package
@@ -125,10 +101,6 @@ page.
     work package split screen
   - Keyboard shortcuts and access key fully functional in work package
     page
-
-
-
- 
 
 ## New plugins released
 
@@ -145,8 +117,3 @@ page.
 
 A large number of bugs have been fixed with the release of OpenProject
 4.0.
-
-For an extensive overview of bug fixes please refer to the [following
-list](https://community.openproject.org/projects/openproject/work_packages?query_id=479).
-
-

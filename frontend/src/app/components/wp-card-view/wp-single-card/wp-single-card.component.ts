@@ -4,7 +4,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy, OnInit,
+  OnInit,
   Output
 } from "@angular/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
@@ -17,7 +17,7 @@ import {WorkPackageCardViewService} from "core-components/wp-card-view/services/
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 
 @Component({
@@ -26,7 +26,7 @@ import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
   templateUrl: './wp-single-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkPackageSingleCardComponent implements OnDestroy, OnInit {
+export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
   @Input() public showInfoButton:boolean = false;
   @Input() public showStatusButton:boolean = true;
@@ -51,20 +51,18 @@ export class WorkPackageSingleCardComponent implements OnDestroy, OnInit {
               readonly wpTableSelection:WorkPackageViewSelectionService,
               readonly cardView:WorkPackageCardViewService,
               readonly cdRef:ChangeDetectorRef) {
+    super();
   }
 
   ngOnInit():void {
     // Update selection state
     this.wpTableSelection.selection$()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe(() => {
         this.cdRef.detectChanges();
       });
-  }
-
-  ngOnDestroy():void {
   }
 
   public classIdentifier(wp:WorkPackageResource) {
@@ -75,8 +73,8 @@ export class WorkPackageSingleCardComponent implements OnDestroy, OnInit {
     let classIdentifier = this.classIdentifier(wp);
     this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
     this.$state.go(
-      'work-packages.list.details',
-      {workPackageId: wp.id!}
+      '.details',
+      { workPackageId: wp.id! }
     );
   }
 
@@ -110,13 +108,12 @@ export class WorkPackageSingleCardComponent implements OnDestroy, OnInit {
     this.onRemove.emit(wp);
   }
 
+  public cardCoverImageShown(wp:WorkPackageResource):boolean {
+    return this.bcfSnapshotPath(wp) !== null;
+  }
+
   public bcfSnapshotPath(wp:WorkPackageResource) {
-    let vp = _.get(wp, 'bcf.viewpoints[0]');
-    if (vp) {
-      return this.pathHelper.attachmentDownloadPath(vp.id, vp.file_name);
-    } else {
-      return null;
-    }
+    return wp.bcfViewpoints && wp.bcfViewpoints.length > 0 ? wp.bcfViewpoints[0].href + '/snapshot' : null;
   }
 
   private isSelected(wp:WorkPackageResource):boolean {

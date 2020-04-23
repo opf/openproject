@@ -29,7 +29,7 @@
 
 ##
 # Implements a repository service for building checkout instructions if supported
-class Scm::CheckoutInstructionsService
+class SCM::CheckoutInstructionsService
   attr_reader :repository, :user, :path
 
   def initialize(repository, path: nil, user: User.current)

@@ -1,0 +1,21 @@
+#English strings go here
+es:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Importar'
+      export: 'Exportar'
+      viewpoint: 'Área de visualización'
+      add_viewpoint: 'Añadir área de visualización'
+      show_viewpoint: 'Mostrar área de visualización'
+      delete_viewpoint: 'Eliminar área de visualización'
+    ifc_models:
+      empty_warning: "Este proyecto aún no tiene ningún modelo IFC."
+      use_this_link_to_manage: "Use este enlace para cargar y administrar sus modelos IFC"
+      keyboard_input_disabled: "El visor no tiene controles de teclado. Haga clic en el visor para controlarlo con el teclado."
+      models:
+        default: 'Modelos IFC predeterminados'
+        manage: 'Administrar modelos'
+      views:
+        viewer: 'Visor'
+        split: 'Visor y tarjetas'

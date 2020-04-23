@@ -1,0 +1,21 @@
+#English strings go here
+el:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Εισαγωγή'
+      export: 'Εξαγωγή'
+      viewpoint: 'Viewpoint'
+      add_viewpoint: 'Προσθήκη viewpoint'
+      show_viewpoint: 'Εμφάνιση viewpoint'
+      delete_viewpoint: 'Delete viewpoint'
+    ifc_models:
+      empty_warning: "This project does not yet have any IFC models."
+      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
+      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      models:
+        default: 'Προεπιλεγμένα μοντέλα IFC'
+        manage: 'Διαχείριση μοντέλων'
+      views:
+        viewer: 'Θεατής'
+        split: 'Θεατής και κάρτες'

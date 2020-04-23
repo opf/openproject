@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::CostEntries::CostEntryRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:cost_entry) { FactoryBot.build(:cost_entry, id: 42) }
+  let(:cost_entry) { FactoryBot.build_stubbed(:cost_entry) }
   let(:representer) { described_class.new(cost_entry, current_user: double('current_user')) }
 
   subject { representer.to_json }
@@ -53,7 +53,7 @@ describe ::API::V3::CostEntries::CostEntryRepresenter do
 
   it_behaves_like 'has a titled link' do
     let(:link) { 'user' }
-    let(:href) { api_v3_paths.user cost_entry.user.id }
+    let(:href) { api_v3_paths.user cost_entry.user_id }
     let(:title) { cost_entry.user.name }
   end
 

@@ -1,0 +1,36 @@
+<% if issues.present? %>
+  <div class="bcf--issues">
+    <% issues.each do |issue| %>
+      <% status_id = issue.work_package&.status_id %>
+      <% highlighting_class = status_id.present? ? "__hl_background_status_#{status_id}" : '' %>
+      <% highlighting_class << ' -failed' if issue.errors.present?  %>
+      <div class="<%= highlighting_class %>">
+        <p>
+          <% if issue.work_package %>
+            <%= link_to_work_package(issue.work_package) %>
+          <% else %>
+            <%= issue.imported_title %>
+          <% end %>
+        </p>
+        <% if issue.errors.present? %>
+          <div class="notification-box -error">
+            <div class="notification-box--content">
+              <% issue.errors.full_messages.each do |message| %>
+                <p><%= message %></p>
+              <% end %>
+              </ul>
+            </div>
+          </div>
+        <% else %>
+          <% if issue.viewpoints.empty? %>
+            <p>(<%= t('bcf.no_viewpoints') %>)</p>
+          <% else %>
+            <img src="<%= API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(issue.viewpoints.first.snapshot.id) %>" />
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <%= no_results_box %>
+<% end %>

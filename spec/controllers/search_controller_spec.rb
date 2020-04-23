@@ -29,58 +29,58 @@
 require 'spec_helper'
 
 describe SearchController, type: :controller do
-  let!(:project) do
+  shared_let(:project) do
     FactoryBot.create(:project,
                       name: 'eCookbook')
   end
 
-  let!(:other_project) do
+  shared_let(:other_project) do
     FactoryBot.create(:project,
                       name: 'Other project')
   end
 
-  let!(:subproject) do
+  shared_let(:subproject) do
     FactoryBot.create(:project,
                       name: 'Child project',
                       parent: project)
   end
 
-  let(:role) do
+  shared_let(:role) do
     FactoryBot.create(:role, permissions: %i[view_wiki_pages view_work_packages])
   end
 
-  let(:user) do
+  shared_let(:user) do
     FactoryBot.create(:user,
                       member_in_projects: [project, subproject],
                       member_through_role: role)
   end
 
-  let!(:wiki_page) do
+  shared_let(:wiki_page) do
     FactoryBot.create(:wiki_page,
                       title: "How to solve an issue",
                       wiki: project.wiki)
   end
 
-  let!(:work_package_1) do
+  shared_let(:work_package_1) do
     FactoryBot.create(:work_package,
                       subject: 'This is a test issue',
                       project: project)
   end
 
-  let!(:work_package_2) do
+  shared_let(:work_package_2) do
     FactoryBot.create(:work_package,
                       subject: 'Issue test 2',
                       project: project,
                       status: FactoryBot.create(:closed_status))
   end
 
-  let!(:work_package_3) do
+  shared_let(:work_package_3) do
     FactoryBot.create(:work_package,
                       subject: 'Issue test 3',
                       project: subproject)
   end
 
-  let!(:work_package_4) do
+  shared_let(:work_package_4) do
     FactoryBot.create(:work_package,
                       subject: 'Issue test 4',
                       project: other_project)
@@ -107,14 +107,6 @@ describe SearchController, type: :controller do
         end
 
         it_behaves_like 'successful search'
-      end
-
-      context 'is a work package reference' do
-        let!(:work_package) { FactoryBot.create :work_package, project: project }
-
-        subject { get :index, params: { q: "##{work_package.id}" } }
-
-        it { is_expected.to redirect_to work_package }
       end
     end
   end
@@ -268,46 +260,6 @@ describe SearchController, type: :controller do
           let(:query) { 'hello "fallen world" something-hyphenated' }
 
           it { is_expected.to eq ['hello', 'fallen world', 'something-hyphenated'] }
-        end
-      end
-    end
-
-    describe '#scan_work_package_reference' do
-      subject { @controller.send(:scan_work_package_reference, query) }
-
-      context 'with normal query' do
-        let(:query) { 'lorem' }
-
-        it { is_expected.to be nil }
-      end
-
-      context 'with work package reference' do
-        let(:query) { '#4123' }
-
-        it { is_expected.not_to be nil }
-
-        describe 'captures' do
-          let!(:check_block) { Proc.new { |id| @work_package_id = id } }
-
-          it 'block gets called' do
-            # NOTE: this is how it is favored to do in RSpec3
-            # expect(check_block).to receive :call
-            # but we have only RSpec2 here, so:
-            expect(check_block).to receive :call
-            @controller.send(:scan_work_package_reference, query, &check_block)
-          end
-
-          it 'id inside of block is work package id' do
-            @controller.send(:scan_work_package_reference, query, &check_block)
-
-            expect(@work_package_id.to_i).to eq 4123
-          end
-        end
-
-        context 'and with additional text' do
-          let(:query) { '#4123 and some text' }
-
-          it { is_expected.to be nil }
         end
       end
     end

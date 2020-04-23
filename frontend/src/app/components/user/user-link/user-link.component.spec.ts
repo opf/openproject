@@ -42,6 +42,11 @@ describe('UserLinkComponent component test', () => {
     t: (key:string, args:any) => `Author: ${args.user}`
   };
 
+  let app:UserLinkComponent;
+  let fixture:ComponentFixture<UserLinkComponent>;
+  let element:HTMLElement;
+  let user:UserResource;
+
   beforeEach(async(() => {
 
     // noinspection JSIgnoredPromiseFromCall
@@ -54,32 +59,50 @@ describe('UserLinkComponent component test', () => {
         { provide: PathHelperService, useValue: PathHelperStub },
       ]
     }).compileComponents();
+
+    fixture = TestBed.createComponent(UserLinkComponent);
+    app = fixture.debugElement.componentInstance;
+    element = fixture.elementRef.nativeElement;
   }));
 
   describe('inner element', function() {
-    let app:UserLinkComponent;
-    let fixture:ComponentFixture<UserLinkComponent>
-    let element:HTMLElement;
+    describe('with the uer having the showUserPath attribute', function() {
+      beforeEach(async(() => {
+        user = {
+          name: 'First Last',
+          showUserPath: '/users/1'
+        } as UserResource;
 
-    let user = {
-      name: 'First Last',
-      href: '/api/v3/users/1',
-      idFromLink: '1',
-    } as UserResource;
+        app.user = user;
+        fixture.detectChanges();
+      }));
 
-    it('should render an inner link with specified classes', function() {
-      fixture = TestBed.createComponent(UserLinkComponent);
-      app = fixture.debugElement.componentInstance;
-      element = fixture.elementRef.nativeElement;
+      it('should render an inner link with specified classes', function () {
+        const link = element.querySelector('a')!;
 
-      app.user = user;
-      fixture.detectChanges();
+        expect(link.textContent).toEqual('First Last');
+        expect(link.getAttribute('title')).toEqual('Author: First Last');
+        expect(link.getAttribute('href')).toEqual('/users/1');
+      });
+    });
 
-      const link = element.querySelector('a')!;
+    describe('with the user not having the showUserPath attribute', function() {
+      beforeEach(async(() => {
+        user = {
+          name: 'First Last',
+          showUserPath: null
+        } as UserResource;
 
-      expect(link.textContent).toEqual('First Last');
-      expect(link.getAttribute('title')).toEqual('Author: First Last');
-      expect(link.getAttribute('href')).toEqual('/users/1');
+        app.user = user;
+        fixture.detectChanges();
+      }));
+
+      it('renders only the name', function () {
+        const link = element.querySelector('a');
+
+        expect(link).toBeNull();
+        expect(element.textContent).toEqual(' First Last ');
+      });
     });
   });
 });

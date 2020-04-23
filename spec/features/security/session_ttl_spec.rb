@@ -31,11 +31,13 @@ require 'spec_helper'
 describe 'Session TTL',
          with_settings: { session_ttl_enabled?: true, session_ttl: '10' },
          type: :feature do
-  let!(:user) { FactoryBot.create :admin }
+  using_shared_fixtures :admin
+  let(:admin_password) { 'adminADMIN!'}
+
   let!(:work_package) { FactoryBot.create :work_package }
 
   before do
-    login_with(user.login, user.password)
+    login_with(admin.login, admin_password)
   end
 
   def expire!
@@ -45,7 +47,7 @@ describe 'Session TTL',
   describe 'outdated TTL on Rails request' do
     it 'expires on the next Rails request' do
       visit '/my/account'
-      expect(page).to have_selector('.form--field-container', text: user.login)
+      expect(page).to have_selector('.form--field-container', text: admin.login)
 
       # Expire the session
       expire!

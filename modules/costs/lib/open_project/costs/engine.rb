@@ -43,33 +43,32 @@ module OpenProject::Costs
                menu_item: :costs_setting
              },
              name: 'OpenProject Costs' do
-
       project_module :costs_module do
         permission :view_own_hourly_rate, {}
         permission :view_hourly_rates, {}
 
-        permission :edit_own_hourly_rate, { hourly_rates: [:set_rate, :edit, :update] },
+        permission :edit_own_hourly_rate, { hourly_rates: %i[set_rate edit update] },
                    require: :member
-        permission :edit_hourly_rates, { hourly_rates: [:set_rate, :edit, :update] },
+        permission :edit_hourly_rates, { hourly_rates: %i[set_rate edit update] },
                    require: :member
         permission :view_cost_rates, {} # cost item values
 
-        permission :log_own_costs, { costlog: [:new, :create] },
+        permission :log_own_costs, { costlog: %i[new create] },
                    require: :loggedin
-        permission :log_costs, { costlog: [:new, :create] },
+        permission :log_costs, { costlog: %i[new create] },
                    require: :member
 
-        permission :edit_own_cost_entries, { costlog: [:edit, :update, :destroy] },
+        permission :edit_own_cost_entries, { costlog: %i[edit update destroy] },
                    require: :loggedin
-        permission :edit_cost_entries, { costlog: [:edit, :update, :destroy] },
+        permission :edit_cost_entries, { costlog: %i[edit update destroy] },
                    require: :member
 
-        permission :view_cost_objects, { cost_objects: [:index, :show] }
+        permission :view_cost_objects, { cost_objects: %i[index show] }
 
-        permission :view_cost_entries, { cost_objects: [:index, :show], costlog: [:index] }
-        permission :view_own_cost_entries, { cost_objects: [:index, :show], costlog: [:index] }
+        permission :view_cost_entries, { cost_objects: %i[index show], costlog: [:index] }
+        permission :view_own_cost_entries, { cost_objects: %i[index show], costlog: [:index] }
 
-        permission :edit_cost_objects, { cost_objects: [:index, :show, :edit, :update, :destroy, :new, :create, :copy] }
+        permission :edit_cost_objects, { cost_objects: %i[index show edit update destroy new create copy] }
       end
 
       # Menu extensions
@@ -88,12 +87,11 @@ module OpenProject::Costs
            icon: 'icon2 icon-budget'
 
       Redmine::Activity.map do |activity|
-        activity.register :cost_objects, class_name: 'Activity::CostObjectActivityProvider', default: false
+        activity.register :cost_objects, class_name: 'Activities::CostObjectActivityProvider', default: false
       end
     end
 
-    patches [:Project, :User, :TimeEntry, :PermittedParams,
-             :ProjectsController, :ApplicationHelper]
+    patches %i[Project User TimeEntry PermittedParams ProjectsController ApplicationHelper]
     patch_with_namespace :WorkPackages, :BaseContract
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :RoleSeeder
@@ -157,12 +155,13 @@ module OpenProject::Costs
     extend_api_response(:v3, :work_packages, :work_package) do
       include Redmine::I18n
       include ActionView::Helpers::NumberHelper
-      prepend API::V3::CostsAPIUserPermissionCheck
+      prepend API::V3::CostsApiUserPermissionCheck
 
       link :logCosts,
            cache_if: -> {
              current_user_allowed_to(:log_costs, context: represented.project) ||
-               current_user_allowed_to(:log_own_costs, context: represented.project) } do
+               current_user_allowed_to(:log_own_costs, context: represented.project)
+           } do
         next unless represented.costs_enabled? && represented.persisted?
 
         {
@@ -173,8 +172,10 @@ module OpenProject::Costs
       end
 
       link :showCosts,
-           cache_if: -> { current_user_allowed_to(:view_cost_entries, context: represented.project) ||
-                          current_user_allowed_to(:view_own_cost_entries, context: represented.project) } do
+           cache_if: -> {
+             current_user_allowed_to(:view_cost_entries, context: represented.project) ||
+               current_user_allowed_to(:view_own_cost_entries, context: represented.project)
+           } do
         next unless represented.cost_reporting_enabled? && represented.persisted?
 
         {
@@ -240,6 +241,19 @@ module OpenProject::Costs
       send(:define_method, :cost_object) do
         represented.cost_object
       end
+    end
+
+    # This should not be necessary as the payload representer inherits
+    # from the work package representer. The patching probably happens after
+    # the payload representer is already evaluated.
+    extend_api_response(:v3, :work_packages, :work_package_payload) do
+      prepend API::V3::CostsApiUserPermissionCheck
+
+      associated_resource :cost_object,
+                          v3_path: :budget,
+                          link_title_attribute: :subject,
+                          representer: ::API::V3::Budgets::BudgetRepresenter,
+                          skip_render: ->(*) { !cost_object_visible? }
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
@@ -351,15 +365,12 @@ module OpenProject::Costs
     end
 
     initializer 'costs.register_latest_project_activity' do
-      Project.register_latest_project_activity on: ::CostObject,
+      Project.register_latest_project_activity on: 'CostObject',
                                                attribute: :updated_on
     end
 
     config.to_prepare do
-      require 'open_project/costs/patches/members_patch'
-      OpenProject::Costs::Members.mixin!
-
-      require 'open_project/costs/patches/work_package_patch'
+      OpenProject::Costs::Patches::MembersPatch.mixin!
       OpenProject::Costs::Patches::WorkPackagePatch.mixin!
 
       # loading the class so that acts_as_journalized gets registered

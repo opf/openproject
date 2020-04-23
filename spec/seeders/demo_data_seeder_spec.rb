@@ -61,7 +61,7 @@ describe 'seeds' do
         expect(Wiki.count).to eq 2
         expect(Query.where.not(hidden: true).count).to eq 8
         expect(Query.count).to eq 24
-        expect(Project::Status.count).to eq 2
+        expect(Projects::Status.count).to eq 2
       ensure
         ActionMailer::Base.perform_deliveries = perform_deliveries
       end

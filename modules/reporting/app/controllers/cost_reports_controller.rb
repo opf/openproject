@@ -58,7 +58,7 @@ class CostReportsController < ApplicationController
   before_action :find_optional_user
 
   include Report::Controller
-  include Concerns::Layout
+  include Layout
   prepend QueryPreperation
 
   before_action :set_cost_types # has to be set AFTER the Report::Controller filters run

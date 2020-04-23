@@ -46,6 +46,4 @@ export const globalSearchWorkPackagesSelectorEntry = 'global-search-work-package
 export class GlobalSearchWorkPackagesEntryComponent {
 }
 
-DynamicBootstrapper.register({
-  selector: globalSearchWorkPackagesSelectorEntry, cls: GlobalSearchWorkPackagesEntryComponent
-});
+

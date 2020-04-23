@@ -55,8 +55,6 @@ export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
   ],
   declarations: [
     MyPageComponent
-  ],
-  entryComponents: [
   ]
 })
 export class OpenprojectMyPageModule {

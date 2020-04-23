@@ -38,7 +38,7 @@ describe 'Board reference work package spec', type: :feature, js: true do
   end
   let(:project) { FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let!(:work_package) { FactoryBot.create :work_package, subject: 'Foo', project: project }
+  let!(:work_package) { FactoryBot.create :work_package, version: version, subject: 'Foo', project: project }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
@@ -91,6 +91,49 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
     # Reload work package expect version to be applied by filter
     work_package.reload
-    expect(work_package.fixed_version_id).to eq version.id
+    expect(work_package.version_id).to eq version.id
+  end
+
+  context 'with a subproject and work packages within it (Regression #31613)' do
+    let!(:child_project) { FactoryBot.create(:project, parent: project) }
+    let!(:work_package) { FactoryBot.create(:work_package, subject: 'WP SUB', project: child_project) }
+
+    let(:user) do
+      FactoryBot.create(:user,
+                        member_in_projects: [project, child_project],
+                        member_through_role: role)
+    end
+
+    it 'returns the work package when subproject filters is added' do
+      board_view
+      board_index.visit!
+
+      # Create new board
+      board_page = board_index.create_board action: nil
+      board_page.rename_list 'Unnamed list', 'First'
+
+      # Reference an existing work package
+      board_page.expect_not_referencable('First', work_package)
+      sleep 2
+      board_page.expect_card('First', work_package.subject, present: false)
+
+      # Add subproject filter
+      filters.open
+      filters.add_filter_by('Subproject', 'all', nil, 'subprojectId')
+      sleep 2
+
+      # Reference an existing work package
+      board_page.reference('First', work_package)
+      sleep 2
+      board_page.expect_card('First', work_package.subject)
+
+      queries = board_page.board(reload: true).contained_queries
+      first = queries.find_by(name: 'First')
+      ids = first.ordered_work_packages.pluck(:work_package_id)
+      expect(ids).to match_array [work_package.id]
+
+      work_package.reload
+      expect(work_package.project).to eq(child_project)
+    end
   end
 end

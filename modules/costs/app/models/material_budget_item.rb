@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class MaterialBudgetItem < ActiveRecord::Base
+class MaterialBudgetItem < ApplicationRecord
   belongs_to :cost_object
   belongs_to :cost_type
 

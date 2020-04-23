@@ -63,7 +63,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the user' do
-      expect(User.allowed(action, project)).to match_array [user]
+      expect(User.allowed(action, project).where(id: user.id)).to match_array [user]
     end
   end
 
@@ -76,7 +76,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the user' do
-      expect(User.allowed(action, project)).to match_array [user]
+      expect(User.allowed(action, project).where(id: user.id)).to match_array [user]
     end
   end
 
@@ -90,7 +90,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should be empty' do
-      expect(User.allowed(action, project)).to be_empty
+      expect(User.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
 
@@ -103,7 +103,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the user' do
-      expect(User.allowed(action, project)).to be_empty
+      expect(User.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
 
@@ -120,7 +120,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should be empty' do
-      expect(User.allowed(action, project)).to be_empty
+      expect(User.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
 
@@ -139,7 +139,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should be empty' do
-      expect(User.allowed(action, project)).to be_empty
+      expect(User.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
 
@@ -157,7 +157,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the user' do
-      expect(User.allowed(action, project)).to match_array [user]
+      expect(User.allowed(action, project).where(id: user.id)).to match_array [user]
     end
   end
 
@@ -175,7 +175,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the anonymous user' do
-      expect(User.allowed(action, project)).to match_array([anonymous])
+      expect(User.allowed(action, project).where(id: [user.id, anonymous.id])).to match_array([anonymous])
     end
   end
 
@@ -193,7 +193,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should be empty' do
-      expect(User.allowed(action, project)).to be_empty
+      expect(User.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
 
@@ -209,7 +209,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should be empty' do
-      expect(User.allowed(action, project)).to be_empty
+      expect(User.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
 
@@ -230,7 +230,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should be empty' do
-      expect(User.allowed(action, project)).to be_empty
+      expect(User.allowed(action, project).where(id: user.id)).to be_empty
     end
   end
 
@@ -244,7 +244,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the user' do
-      expect(User.allowed(public_action, project)).to match_array [user]
+      expect(User.allowed(public_action, project).where(id: user.id)).to match_array [user]
     end
   end
 
@@ -259,7 +259,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the user and anonymous' do
-      expect(User.allowed(public_action, project)).to match_array [user, anonymous]
+      expect(User.allowed(public_action, project).where(id: [user.id, anonymous.id])).to match_array [user, anonymous]
     end
   end
 
@@ -280,7 +280,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should be empty' do
-      expect(User.allowed(permission.name, project)).to eq []
+      expect(User.allowed(permission.name, project).where(id: user.id)).to eq []
     end
   end
 
@@ -301,7 +301,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the user' do
-      expect(User.allowed(permission.name, project)).to eq [user]
+      expect(User.allowed(permission.name, project).where(id: user.id)).to eq [user]
     end
   end
 
@@ -331,7 +331,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the user' do
-      expect(User.allowed_members(action, project)).to be_empty
+      expect(User.allowed_members(action, project).where(id: user.id)).to be_empty
     end
   end
 
@@ -346,7 +346,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the user' do
-      expect(User.allowed_members(action, project)).to match_array [user]
+      expect(User.allowed_members(action, project).where(id: user.id)).to match_array [user]
     end
   end
 
@@ -359,7 +359,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the user' do
-      expect(User.allowed_members(action, project)).to be_empty
+      expect(User.allowed_members(action, project).where(id: user.id)).to be_empty
     end
   end
 
@@ -376,7 +376,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the user' do
-      expect(User.allowed_members(action, project)).to match_array [user]
+      expect(User.allowed_members(action, project).where(id: user.id)).to match_array [user]
     end
   end
 
@@ -391,7 +391,7 @@ describe User, 'allowed scope' do
     end
 
     it 'should return the user' do
-      expect(User.allowed_members(action, project)).to be_empty
+      expect(User.allowed_members(action, project).where(id: user.id)).to be_empty
     end
   end
 end

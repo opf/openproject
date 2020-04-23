@@ -29,9 +29,10 @@
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/highlightable-display-field.module";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class DateDisplayField extends HighlightableDisplayField {
-  private timezoneService = this.$injector.get(TimezoneService);
+  @InjectField() timezoneService:TimezoneService;
 
   public render(element:HTMLElement, displayText:string):void {
     super.render(element, displayText);

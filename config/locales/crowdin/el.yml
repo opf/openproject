@@ -61,7 +61,7 @@ el:
         header-item-font-hover-color: "Χρώμα γραμματοσειράς στοιχείων κεφαλίδας με δυνατότητα κλικ, όταν ο δείκτης βρίσκεται πάνω."
         header-border-bottom-color: "Λεπτή γραμμή κάτω από την κεφαλίδα. Αφήστε αυτό το πεδίο κενό αν δεν θέλετε καμία γραμμή."
         main-menu-bg-color: "Χρώμα φόντου του μενού της αριστερής πλευράς."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Η αλλαγή του θέματος θα αντικαταστήσει το προσαρμοσμένο στυλ. Ο σχεδιασμός θα χαθεί. Είστε βέβαιοι ότι θέλετε να συνεχίσετε;
     enterprise:
       upgrade_to_ee: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
       add_token: "Ανεβάστε ενα token υποστήριξης έκδοσης για επιχειρήσεις"
@@ -70,6 +70,9 @@ el:
       paste: "Επικολλήστε ένα token υποστήριξης Έκδοσης για Επιχειρήσεις"
       required_for_feature: "Αυτή η λειτουργία διατίθεται μόνο με ενεργό token υποστήριξης Έκδοσης για Επιχειρήσεις."
       enterprise_link: "Για περισσότερες πληροφορίες, πατήστε εδω."
+      start_trial: 'Έναρξη δωρεάν δοκιμαστικής περιόδου'
+      book_now: 'Κάντε κράτηση τώρα'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Εμφάνιση μέχρι
     is_active: εμφανίζεται αυτή τη στιγμή
@@ -192,7 +195,7 @@ el:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμες δραστηριότητες.
       forums:
         no_results_title_text: Προς το παρόν δεν υπάρχουν φόρουμ για το έργο.
-        no_results_content_text: Δημιουργία νέου φόρουμ
+        no_results_content_text: Δημιουργία νέου forum
       categories:
         no_results_title_text: Αυτήν τη στιγμή δεν υπάρχουν κατηγορίες πακέτων εργασίας.
         no_results_content_text: Δημιουργήστε μια νέα κατηγορία πακέτου εργασίας
@@ -396,7 +399,7 @@ el:
         types: "Τύποι"
         versions: "Εκδόσεις"
         work_packages: "Εργασίες"
-      project/status:
+      projects/status:
         code: 'Κατάσταση'
         explanation: 'Περιγραφή κατάστασης'
         codes:
@@ -461,7 +464,7 @@ el:
         done_ratio: "Πρόοδος (%)"
         end_insertion: "Λήξη της εισαγωγής"
         end_deletion: "Λήξη της διαγραφής"
-        fixed_version: "Έκδοση"
+        version: "Έκδοση"
         parent: "Γονέας"
         parent_issue: "Γονέας"
         parent_work_package: "Γονέας"
@@ -752,6 +755,7 @@ el:
     version: "Έκδοση"
     work_package: "Εργασία"
   button_add: "Προσθήκη"
+  button_add_comment: "Προσθέστε σχόλιο"
   button_add_member: Προσθήκη μέλους
   button_add_watcher: "Προσθήκη παρατηρητή"
   button_annotate: "Σχολιασμός"
@@ -1136,13 +1140,8 @@ el:
     blocks:
       community: "Κοινότητα OpenProject"
       upsale:
-        become_hero: "Γίνετε ήρωας!"
         title: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
-        description: "Ποιά είναι τα οφέλη;"
         more_info: "Περισσότερες πληροφορίες"
-        additional_features: "Επιπλέον ισχυρές premium λειτουργίες"
-        professional_support: "Επαγγελματική υποστήριξη από τους ειδικούς του OpenProject"
-        you_contribute: "Και οι προγραμματιστές πρέπει να πληρώσουν τους λογαριασμούς τους. Με την Έκδοση για Επιχειρήσεις μπορείτε να συνεισφέρετε ουσιαστικά σε αυτή προσπάθεια της Open-Source κοινότητας."
     links:
       upgrade_enterprise_edition: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
       postgres_migration: "Μεταφορά της εγκατάστασης σας σε PostgreSQL"
@@ -1154,9 +1153,10 @@ el:
       forums: "Φόρουμ κοινότητας"
       newsletter: "Ειδοποιήσεις ασφάλεια / Ενημερωτικό δελτίο"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "Οι αλλαγές αποσύρθηκαν."
   links:
     configuration_guide: 'Οδηγός διαμόρφωσης'
+    get_in_touch: "Έχετε απορίες; Επικοινωνήστε μαζί μας."
   instructions_after_registration: "Μπορείτε να συνδεθείτε μόλις ο λογαριασμός σας ενεργοποιηθεί κάνοντας κλικ στο %{signin}."
   instructions_after_logout: "Μπορείτε να συνδεθείτε ξανά κάνοντας κλικ στο %{signin}."
   instructions_after_error: "Μπορείτε να δοκιμάσετε να συνδεθείτε ξανά κάνοντας κλικ στο %{signin}. Αν το σφάλμα παραμένει, ρωτήστε τον διαχειριστή σας για βοήθεια."
@@ -1367,7 +1367,7 @@ el:
   label_hierarchy_leaf: "Φύλλο ιεραρχίας"
   label_home: "Αρχική"
   label_subject_or_id: "Θέμα ή ταυτότητα"
-  label_impressum: "Νομική Ειδοποίηση"
+  label_impressum: "Νομικές επισημάνσεις"
   label_in: "σε"
   label_in_less_than: "σε λιγότερο από"
   label_in_more_than: "σε περισσότερο από"
@@ -1446,6 +1446,7 @@ el:
   label_new: "Νέο"
   label_new_features: "Νέες λειτουργίες"
   label_new_statuses_allowed: "Επιτρέπονται νέες καταστάσεις"
+  label_news_singular: "Νέα"
   label_news_added: "Νέα προστέθηκαν"
   label_news_comment_added: "Το σχόλιο προστέθηκε σε ένα από τα νέα"
   label_news_latest: "Τελευταία νέα"
@@ -1493,7 +1494,7 @@ el:
   label_planning: "Σχεδιασμός"
   label_please_login: "Παρακαλούμε συνδεθείτε"
   label_plugins: "Πρόσθετα"
-  label_modules_and_plugins: "Ενότητες και Πρόσθετα"
+  label_modules_and_plugins: "Πρόσθετα και Υπηρεσίες"
   label_precedes: "προηγείται"
   label_preferences: "Προτιμήσεις"
   label_preview: "Προεπισκόπηση"
@@ -1616,7 +1617,7 @@ el:
   label_updated_time: "Ενημερώθηκε πριν από %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Ενημερώθηκε από τον %{author} πριν από %{age}"
-  label_upgrade_guides: 'Οδηγοί αναβάθμισης'
+  label_upgrade_guides: 'Οδηγίες αναβάθμισης'
   label_used_by: "Χρησιμοποιείται από"
   label_used_by_types: "Χρησιμοποιείται από τύπους"
   label_used_in_projects: "Χρησιμοποιείται σε έργα"
@@ -1705,31 +1706,6 @@ el:
     other: "%{count} έργα"
   label_year: "Έτος"
   label_yesterday: "χθες"
-  label_keyboard_function: "Συνάρτηση"
-  label_keyboard_shortcut: "Συντόμευση"
-  label_keyboard_accesskey: "Κλειδί πρόσβασης"
-  label_keyboard_shortcut_help_heading: "Διαθέσιμες Συντομεύσεις Πληκτρολογίου"
-  label_keyboard_shortcut_within_project: "Συντομεύσεις που σχετίζονται με έργα:"
-  label_keyboard_shortcut_global_shortcuts: "Καθολικές συντομεύσεις:"
-  label_keyboard_shortcut_some_pages_only: "Ειδικές συντομεύσεις:"
-  label_keyboard_shortcut_search_global: "Καθολική αναζήτηση"
-  label_keyboard_shortcut_search_project: "Βρείτε ένα έργο"
-  label_keyboard_shortcut_go_my_page: "Μετάβαση στη σελίδα μου"
-  label_keyboard_shortcut_show_help: "Εμφάνιση αυτού του μηνύματος βοήθειας"
-  label_keyboard_shortcut_go_overview: "Μετάβαση στην επισκόπηση έργου"
-  label_keyboard_shortcut_go_work_package: "Μετάβαση στα πακέτα εργασίας του έργου"
-  label_keyboard_shortcut_go_wiki: "Μετάβαση στο wiki του έργου"
-  label_keyboard_shortcut_go_activity: "Μετάβαση στις δραστηριότητες του έργου"
-  label_keyboard_shortcut_go_calendar: "Μετάβαση στο ημερολόγιο του έργου"
-  label_keyboard_shortcut_go_news: "Μετάβαση στο νέα του έργου"
-  label_keyboard_shortcut_go_timelines: "Μετάβαση στα χρονοδιαγράμματα"
-  label_keyboard_shortcut_new_work_package: "Δημιουργήστε νέο πακέτο εργασίας"
-  label_keyboard_shortcut_details_package: "Εμφανίστε το πλαίσιο λεπτομερειών των πακέτων εργασίας"
-  label_keyboard_shortcut_go_edit: "Πηγαίνετε στην επεξεργασία του τρέχοντος αντικειμένου (μόνο στη σελίδα λεπτομερειών)"
-  label_keyboard_shortcut_open_more_menu: "Εμφάνιση μενού-περισσότερων (στη σελίδα λεπτομερειών μόνο)"
-  label_keyboard_shortcut_go_preview: "Μετάβαση στην προεπισκόπηση της τρέχουσας επεξεργασίας (μόνο στη σελίδα επεξεργασίας)"
-  label_keyboard_shortcut_focus_previous_item: "Εστίαση στο προηγούμενο στοιχείο της λίστας (μόνο σε κάποιες λίστες)"
-  label_keyboard_shortcut_focus_next_item: "Εστίαση στο επόμενο στοιχείο της λίστας (μόνο σε κάποιες λίστες)"
   auth_source:
     using_abstract_auth_source: "Δεν μπορεί να χρησιμοποιηθεί μια αφηρημένη πηγή αυθεντικοποίησης."
     ldap_error: "Σφάλμα-LDAP: %{error_message}"
@@ -2180,7 +2156,6 @@ el:
   setting_welcome_text: "Μπλοκ κειμένου καλωσορίσματος"
   setting_welcome_title: "Μπλοκ τίτλου καλωσορίσματος"
   setting_welcome_on_homescreen: "Εμφάνιση μπλοκ καλωσορίσματος στην αρχική σελίδα"
-  setting_wiki_compression: "Συμπίεση ιστορικού wiki"
   setting_work_package_group_assignment: "Επιτρέψτε την ανάθεση σε ομάδες"
   setting_work_package_list_default_highlighting_mode: "Προεπιλεγμένη λειτουργία επισήμανσης"
   setting_work_package_list_default_highlighted_attributes: "Προεπιλεγμένα inline χαρακτηριστικά με επισήμανση"
@@ -2521,6 +2496,7 @@ el:
       mail_self_notified: "Θέλω να ειδοποιούμαι για τις δικές μου αλλαγές"
     status_user_and_brute_force: "%{user} και %{brute_force}"
     status_change: "Αλλαγή κατάστασης"
+    text_change_disabled_for_provider_login: "Το όνομα έχει οριστεί από τον πάροχο σύνδεσης και γι'αυτό δεν μπορεί να αλλαχθεί."
     unlock: "Ξεκλείδωμα"
     unlock_and_reset_failed_logins: "Ξεκλειδώστε και επαναφέρετε τις αποτυχημένες συνδέσεις"
   version_status_closed: "κλειστό"

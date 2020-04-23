@@ -82,7 +82,8 @@ describe 'Work Package boards spec', type: :feature, js: true do
     item.find('.toggler').click
 
     subitem = page.find('.main-menu--children-sub-item', text: 'My board', wait: 10)
-    expect(subitem[:href]).to end_with "/projects/#{project.identifier}/boards/#{board_view.id}"
+    # Ends with boards due to lazy route
+    expect(subitem[:href]).to end_with "/projects/#{project.identifier}/boards"
 
     subitem.click
 

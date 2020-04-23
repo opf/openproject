@@ -1,9 +1,10 @@
 import {ConfirmDialogService} from 'core-components/modals/confirm-dialog/confirm-dialog.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {BannersService} from 'core-app/modules/common/enterprise/banners.service';
-import {Inject} from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 
+@Injectable()
 export class TypeBannerService extends BannersService {
 
   constructor(@Inject(DOCUMENT) protected documentElement:Document,

@@ -1,4 +1,4 @@
-import {Component, Injector, ChangeDetectionStrategy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Injector} from '@angular/core';
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
@@ -11,7 +11,6 @@ import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service"
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {StateService} from '@uirouter/core';
 import {skip} from 'rxjs/operators';
-import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 
 @Component({
   selector: 'widget-wp-table',
@@ -65,7 +64,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
       .pipe(
         // 2 because ... well it is a magic number and works
         skip(2),
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       ).subscribe((query) => {
       this.ensureFormAndSaveQuery(query);
     });
@@ -77,10 +76,6 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
 
   public static get identifier():string {
     return 'work_packages_table';
-  }
-
-  ngOnDestroy() {
-    // nothing to do
   }
 
   private ensureFormAndSaveQuery(query:QueryResource) {
@@ -111,7 +106,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
   private createInitial():Promise<QueryResource> {
     const projectIdentifier = this.state.params['projectPath'];
     let initializationProps = this.resource.options.queryProps;
-    let queryProps = Object.assign({pageSize: 0}, initializationProps);
+    let queryProps = Object.assign({ pageSize: 0 }, initializationProps);
 
     return this.queryFormDm
       .loadWithParams(

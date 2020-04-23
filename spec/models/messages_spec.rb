@@ -40,7 +40,7 @@ describe Message, type: :model do
   end
 
   it_behaves_like 'acts_as_attachable included' do
-    let(:model_instance) { FactoryBot.build(:message) }
+    let(:model_instance) { FactoryBot.create(:message) }
   end
 
   describe '#project' do

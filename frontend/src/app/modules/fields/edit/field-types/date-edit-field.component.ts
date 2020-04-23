@@ -30,6 +30,7 @@ import {Component} from "@angular/core";
 import * as moment from "moment";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   template: `
@@ -47,14 +48,14 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
              [attr.required]="required"
              [disabled]="inFlight"
              [attr.placeholder]="placeholder"
-             [id]="handler.htmlId" />
+             [id]="handler.htmlId"/>
 
     </op-date-picker>
 
   `
 })
 export class DateEditFieldComponent extends EditFieldComponent {
-  readonly timezoneService = this.injector.get(TimezoneService);
+  @InjectField() readonly timezoneService:TimezoneService;
 
   public onValueSelected(data:string) {
     this.value = this.parser(data);

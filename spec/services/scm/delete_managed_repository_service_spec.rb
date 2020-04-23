@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 
-describe Scm::DeleteManagedRepositoryService do
+describe SCM::DeleteManagedRepositoryService do
   let(:user) { FactoryBot.build(:user) }
   let(:project) { FactoryBot.build(:project) }
 
   let(:repository) { FactoryBot.build(:repository_subversion) }
-  subject(:service) { Scm::DeleteManagedRepositoryService.new(repository) }
+  subject(:service) { SCM::DeleteManagedRepositoryService.new(repository) }
 
   let(:config) { {} }
 
@@ -90,7 +90,7 @@ describe Scm::DeleteManagedRepositoryService do
 
     it 'does not raise an exception upon permission errors' do
       expect(File.directory?(repository.root_url)).to be true
-      expect(Scm::DeleteLocalRepositoryJob)
+      expect(SCM::DeleteLocalRepositoryJob)
         .to receive(:new).and_raise(Errno::EACCES)
 
       expect(service.call).to be false
@@ -138,7 +138,7 @@ describe Scm::DeleteManagedRepositoryService do
       end
 
       it 'calls the callback' do
-        expect(::Scm::DeleteRemoteRepositoryJob)
+        expect(::SCM::DeleteRemoteRepositoryJob)
           .to receive(:perform_now)
           .and_call_original
 
@@ -157,7 +157,7 @@ describe Scm::DeleteManagedRepositoryService do
       end
 
       it 'calls the callback' do
-        expect(::Scm::DeleteRemoteRepositoryJob)
+        expect(::SCM::DeleteRemoteRepositoryJob)
           .to receive(:perform_now)
           .and_call_original
 

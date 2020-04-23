@@ -61,15 +61,18 @@ tr:
         header-item-font-hover-color: "Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde kullanılacak yazı rengi."
         header-border-bottom-color: "Başlığının altında ince bir çizgi. Bu alanda herhangi bir hat istemiyorsanız boş bırakın."
         main-menu-bg-color: "Sol taraftaki menünün arka plan rengi."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Temayı değiştirmek size özel stilin üzerine yazacaktır. Tasarım daha sonra kaybolacak. Devam etmek istediğine emin misin?
     enterprise:
-      upgrade_to_ee: "Enterprise Edition sürümüne yükseltme"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Enterprise Editon versiyonu destek anahtarını yükleyin"
       replace_token: "Geçerli destek anahtarını değiştirin"
       order: "Enterprise Edition versiyonunu sipariş edin"
       paste: "Enterprise Editon versiyonu destek anahtarını yapıştırın"
       required_for_feature: "Bu özellik yalnızca bir etkin Enterprise Edition destek anahtarı ile kullanılabilir."
       enterprise_link: "Daha fazla bilgi için burayı tıklatın."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Son görüntülenme tarihi
     is_active: şu an görüntüleniyor
@@ -399,7 +402,7 @@ tr:
         types: "Türler"
         versions: "Sürümler"
         work_packages: "İş Paketleri"
-      project/status:
+      projects/status:
         code: 'Durum'
         explanation: 'Durum tanımlaması'
         codes:
@@ -464,7 +467,7 @@ tr:
         done_ratio: "İlerleme (%)"
         end_insertion: "Ekleme işlemi bitti"
         end_deletion: "Silme işlemi bitti"
-        fixed_version: "Sürüm"
+        version: "Sürüm"
         parent: "Üst"
         parent_issue: "Üst"
         parent_work_package: "Üst"
@@ -755,6 +758,7 @@ tr:
     version: "Sürüm"
     work_package: "İş paketi"
   button_add: "Ekle"
+  button_add_comment: "Yorum ekle"
   button_add_member: Üye ekle
   button_add_watcher: "Takipçi ekle"
   button_annotate: "Atanan"
@@ -1139,13 +1143,8 @@ tr:
     blocks:
       community: "OpenProject topluluğu"
       upsale:
-        become_hero: "Kahraman olun!"
         title: "Enterprise Edition sürümüne yükseltme"
-        description: "Avantajı nedir?"
         more_info: "Daha fazla bilgi"
-        additional_features: "Ek güçlü premium özellikler"
-        professional_support: "OpenProject uzmanlarından profesyonel destek"
-        you_contribute: "Geliştiricilerin faturalarını da ödemesi gerekiyor. Enterprise Edition ile Açık-Kaynak topluluğu çalışmalarına küçük bir katkı yapabilirsiniz."
     links:
       upgrade_enterprise_edition: "Enterprise Edition sürümüne yükseltme"
       postgres_migration: "Kurulumunuzu PostgreSQL'e taşıyın"
@@ -1157,9 +1156,10 @@ tr:
       forums: "Topluluk forumu"
       newsletter: "Güvenlik uyarıları / haber bülteni"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Yapılandırma rehberi'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "%{signin} düğmesini tıklayarak hesabınız etkinleştirildiğinde hemen oturum açabilirsiniz."
   instructions_after_logout: "%{signin} düğmesini tıklayarak tekrar oturum açabilirsiniz."
   instructions_after_error: "%{signin} düğmesini tıklayarak tekrar oturum açmayı deneyebilirsiniz. Hata devam ederse, yöneticinizden yardım isteyin."
@@ -1449,6 +1449,7 @@ tr:
   label_new: "Yeni"
   label_new_features: "Yeni özellikler"
   label_new_statuses_allowed: "İzin verilen yeni durumlar"
+  label_news_singular: "Haberler"
   label_news_added: "Haberler eklendi"
   label_news_comment_added: "Yorum bir haberlere eklendi"
   label_news_latest: "En son haberler"
@@ -1708,31 +1709,6 @@ tr:
     other: "%{count} proje"
   label_year: "Yıl"
   label_yesterday: "dün"
-  label_keyboard_function: "İşlev"
-  label_keyboard_shortcut: "Kısayol"
-  label_keyboard_accesskey: "Erişim anahtarı"
-  label_keyboard_shortcut_help_heading: "Kullanılabilir klavye kısayolları"
-  label_keyboard_shortcut_within_project: "Proje ile ilgili kısayollar:"
-  label_keyboard_shortcut_global_shortcuts: "Genel Kısayollar:"
-  label_keyboard_shortcut_some_pages_only: "Özel kısayollar:"
-  label_keyboard_shortcut_search_global: "Global arama"
-  label_keyboard_shortcut_search_project: "Proje bul"
-  label_keyboard_shortcut_go_my_page: "Benim sayfama git"
-  label_keyboard_shortcut_show_help: "Bu yardım iletisini göster"
-  label_keyboard_shortcut_go_overview: "Proje genel görünümüne gidin"
-  label_keyboard_shortcut_go_work_package: "Proje çalışma paketlerine git"
-  label_keyboard_shortcut_go_wiki: "Proje vikisine git"
-  label_keyboard_shortcut_go_activity: "Proje etkinliklerine git"
-  label_keyboard_shortcut_go_calendar: "Proje takvimine git"
-  label_keyboard_shortcut_go_news: "Proje haberlerine git"
-  label_keyboard_shortcut_go_timelines: "Proje zaman akışına git"
-  label_keyboard_shortcut_new_work_package: "Yeni iş paketi oluştur"
-  label_keyboard_shortcut_details_package: "İş paketi detay panelini göster"
-  label_keyboard_shortcut_go_edit: "Geçerli öğeyi düzenlemek için git (yalnızca ayrıntılı sayfalarda)"
-  label_keyboard_shortcut_open_more_menu: "Diğer menüsünü aç (yalnızca ayrıntılı sayfalarda)"
-  label_keyboard_shortcut_go_preview: "Geçerli düzenlemeyi önizlemek için git (yalnızca düzenleme sayfalarında)"
-  label_keyboard_shortcut_focus_previous_item: "Önceki liste öğesine odaklanma (yalnızca bazı listelerde)"
-  label_keyboard_shortcut_focus_next_item: "Sonraki liste öğesine odakla (yalnızca bazı listelerde)"
   auth_source:
     using_abstract_auth_source: "Özet kimlik doğrulama kaynağı kullanılamıyor."
     ldap_error: "LDAP-Hatası: %{error_message}"
@@ -2184,7 +2160,6 @@ tr:
   setting_welcome_text: "Hoş geldiniz blok metini"
   setting_welcome_title: "Hoş geldiniz blok başlığı"
   setting_welcome_on_homescreen: "Hoşgeldiniz bloğunu ana ekranda göster"
-  setting_wiki_compression: "Wiki geçmişini sıkıştır"
   setting_work_package_group_assignment: "Gruplara iş atanmasına izin ver"
   setting_work_package_list_default_highlighting_mode: "Varsayılan vurgulama modu"
   setting_work_package_list_default_highlighted_attributes: "Varsayılan satır içi vurgulanan özellikler"
@@ -2524,6 +2499,7 @@ tr:
       mail_self_notified: "Yaptığım değişiklikleri kendim bildirmek istiyorum"
     status_user_and_brute_force: "%{user} ve %{brute_force}"
     status_change: "Durum değişikliği"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Kilidi kaldır"
     unlock_and_reset_failed_logins: "Başarısız oturum açma işlemlerinin kilidini aç ve sıfırla"
   version_status_closed: "kapalı"

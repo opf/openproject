@@ -37,6 +37,7 @@ ko:
     close_filter_title: "필터 닫기"
     close_form_title: "폼 닫기"
     button_add_watcher: "주시자 추가"
+    button_add: "추가"
     button_back: "뒤로"
     button_back_to_list_view: "목록으로 돌아가기"
     button_cancel: "취소"
@@ -163,6 +164,59 @@ ko:
         edit_query: '쿼리 편집'
         new_group: '새 그룹'
         reset_to_defaults: '기본값으로 초기화'
+      enterprise:
+        trial:
+          confirmation: "이메일 주소 확인"
+          confirmation_info: "이메일이 전송되었습니다. 이메일을 확인하고 제공된 인증 링크를 클릭하여 14일 평가판을 시작하세요. "
+          form:
+            general_consent: >
+              <a target="_blank" href="%{link_terms}">서비스 약관</a> 및 <a target="_blank" href="%{link_privacy}">개인정보 취급방침</a>에 동의합니다.
+            invalid_email: "잘못된 이메일 주소"
+            label_company: "회사"
+            label_first_name: "이름"
+            label_last_name: "성"
+            label_email: "이메일"
+            label_domain: "도메인"
+            label_subscriber: "구독자"
+            label_maximum_users: "최대 활성 사용자"
+            label_starts_at: "시작:"
+            label_expires_at: "에서 만료됨"
+            receive_newsletter: OpenProject <a target="_blank" href="%{link}">뉴스레터</a>를 받아 보겠습니다.
+            taken_domain: 도메인당 하나의 활성 평가판만 있어야 합니다.
+            taken_email: 각 사용자는 하나의 평가판만 생성할 수 있습니다.
+          email_not_received: "이메일을 받지 못하셨나요? 오른쪽의 링크로 이메일을 재전송할 수 있습니다. "
+          try_another_email: "또는 다른 이메일 주소로 시도해보세요."
+          next_steps: "다음 단계"
+          resend_link: "다시 보내기"
+          resend_success: "이메일이 재전송되었습니다. 이메일을 확인하고 제공된 인증 링크를 클릭하세요."
+          resend_warning: "이메일을 재전송할 수 없습니다."
+          session_timeout: "해당 세션이 시간 초과되었습니다. 페이지를 다시 로드하거나 이메일을 재전송하세요."
+          status_label: "상태:"
+          status_confirmed: "확인됨"
+          status_waiting: "이메일 전송됨 - 인증을 기다리는 중"
+          test_ee: "무료로 Enterprise Edition 14일 테스트"
+          quick_overview: "OpenProject Enterprise Edition으로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
+        upsale:
+          become_hero: "영웅이 되세요!"
+          benefits:
+            description: "장점은 무엇입니까?"
+            high_security: "보안 기능"
+            high_security_text: "SSO(SAML, OpenID Connect, CAS), 2단계 인증 및 LDAP 그룹의 자동 동기화."
+            installation: "설치 지원"
+            installation_text: "숙련된 소프트웨어 엔지니어들이 사용자 고유 인프라에서 완전한 설치 및 설정 프로세스를 안내해줍니다."
+            premium_features: "프리미엄 기능"
+            premium_features_text: "민첩한 보드, 사용자 지정 테마 및 로고, 그래프, 인텔리전트 워크플로와 사용자 지정 작업, 작업 패키지 첨부 파일 및 다중 선택 사용자 지정 필드에 대한 전체 텍스트 검색."
+            professional_support: "전문적 지원"
+            professional_support_text: "비즈니스 크리티컬 환경에서의 OpenProject 실행에 대한 전문 지식을 갖춘 선임 지원 엔지니어가 신뢰할 수 있는 뛰어난 지원을 제공합니다."
+          button_start_trial: "무료 평가판 시작"
+          button_book_now: "지금 예약"
+          confidence: >
+            오픈 소스와 오픈 마인드로, 테스트를 거치고 지원이 제공되는 엔터프라이즈급 프로젝트 관리 소프트웨어에 대한 신뢰를 전해드립니다.
+          link_quote: "견적 받기"
+          text: >
+            OpenProject Enterprise Edition은 Community Edition 위에서 빌드됩니다. OpenProject로 비즈니스 크리티컬 프로젝트를 관리하는 사용자가 10명이 넘는 조직을 주로 타겟으로 하는 프리미엄 기능과 전문 지원이 제공됩니다.
+          unlimited: "무제한"
+          you_contribute: "개발자들도 청구서를 지불해야 합니다. Enterprise Edition으로 이 오픈 소스 커뮤니티의 노력에 여러분이 실질적으로 기여할 수 있습니다."
     custom_actions:
       date:
         specific: '에'
@@ -210,13 +264,13 @@ ko:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              이 릴리스에는 다양한 새로운 기능과 개선 기능이 포함되어 있습니다. <br><br> <ul> <li>라이트 또는 다크 테마(프리미엄 기능)를 선택할 수 있는 기본 <b>디자인 템플릿</b>.</li> <li>바 차트에서 소요 시간을 표시하는 <i>내 페이지</i>의 새로운 <b>시간 추적 위젯</b>.</li> <li><b>비용 보고서에 대한 XLS 내보내기</b> 및 작업 패키지의 PDF 내보내기에서 서식 지정 텍스트.</li> <li><b>디자인 및 유용성 향상</b>(프로젝트 설정 및 관리의 탭 등).</li> </ul>
+              이 릴리스에는 다음과 같은 여러 가지 새로운 기능과 개선된 기능이 포함되어 있습니다: <br><br> <ul> <li><b>담당자용 작업 보드</b>: 목록 간에 카드를 이동할 때 담당자를 자동으로 업데이트하는 작업 보드를 만듭니다.</li> <li>날짜가 아닌 이름 기준으로 버전을 정렬하므로 목록에서 버전을 훨씬 더 쉽게 선택할 수 있습니다.</li> <li>시간 추적을 위해 <b>24시간 제한을 제거</b>합니다.</li> <li>프로젝트 개요 위젯에 뉴스 요약을 표시합니다.</li> <li>다양한 버그 수정 및 <b>사용성 개선</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject에는 프로젝트 관리 애플리케이션에 <b>3D 모델을 통합하고</b> 고가의 별도 소프트웨어 또는 라이선스를 설치하지 않고도 팀과 이러한 파일로 공동 작업할 수 있는 새로운 IFC 모듈이 포함되어 있습니다. <br><br> <ul> <li>OpenProject 애플리케이션으로 빌딩 모델의 <b>IFC 파일 가져오기</b>.</li> <li>사용자 브라우저에서 <b>3D 모델을 열고 빌딩 모델 시각화</b>.</li> <li>고가의 별도 소프트웨어를 설치하지 않고도 OpenProject에서 바로 손쉽게 <b>여러 IFC 파일로 팀과 작업</b>. </li> </ul>
+              이제 OpenProject 10.5는 BIM 모델에 대한 오픈 이슈 추적 표준인 <b>BIM Collaboration Format(BCF)</b>을 지원합니다.<br><br> <ul> <li>대화형 3D IFC 모델의 충돌, 요청 및 질문 등 <b>BIM 이슈 관리</b> 및 생성을 손쉽게 하고 <b>프로젝트 팀과 공유</b>합니다.</li> <li>강력한 <a target="_blank" href="%{bcf_api_link}">BCF REST API</a>를 사용하여 원하는 BIM 소프트웨어와 OpenProject를 통합합니다.</li> <li>BCF XML 파일을 가져오고 내보냅니다.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -268,6 +322,7 @@ ko:
     label_expand_all: "모두 확장"
     label_expand_project_menu: "프로젝트 메뉴 확장"
     label_export: "내보내기"
+    label_export_preparing: "가져오기 준비 중이며 곧 다운로드됩니다."
     label_filename: "파일"
     label_filesize: "크기"
     label_general: "일반"
@@ -286,6 +341,7 @@ ko:
     label_import: "가져오기"
     label_latest_activity: "최근 활동"
     label_last_updated_on: "마지막 업데이트 날짜"
+    label_learn_more_link: "자세히 알아보기"
     label_less_or_equal: "<="
     label_less_than_ago: "일 미만 전"
     label_loading: "로드 중..."
@@ -526,16 +582,6 @@ ko:
       select_tag: '태그 선택'
       select_branch: '브랜치 선택'
     field_value_enter_prompt: "'%{field}'에 대 한 값을 입력하세요."
-    select2:
-      input_too_short:
-        zero: "문자를 더 입력하세요"
-        other: "{{count}} 이상의 글자를 입력해 주십시오."
-      load_more: "더 많은 결과를 불러오고 있습니다 ..."
-      no_matches: "조건에 맞는 결과가 없습니다."
-      searching: "찾는 중 ..."
-      selection_too_big:
-        zero: "어느 항목도 선택할 수 없습니다"
-        other: "{{limit}}개만 선택하실 수 있습니다."
     project_menu_details: "세부 정보"
     sort:
       sorted_asc: '오름차순 정렬이 적용됨, '
@@ -780,7 +826,7 @@ ko:
           automatic: '자동'
           manually: '수동'
           warning: '자동 정렬 모드를 활성화하면 이전 정렬이 손실됩니다.'
-        columns_help_text: "위 입력을 사용하여 테이블 보기에 열을 추가하거나 제거하세요. 열을 끌어다 놓아 순서를 바꿀 수 있습니다."
+        columns_help_text: "위 입력을 사용하여 테이블 보기에 열을 추가하세요. 열을 끌어다 놓아 순서를 바꿀 수 있습니다."
         upsale:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'

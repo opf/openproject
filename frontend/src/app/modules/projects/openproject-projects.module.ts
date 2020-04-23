@@ -39,15 +39,6 @@ import {OpenprojectHalModule} from "core-app/modules/hal/openproject-hal.module"
 
     OpenprojectHalModule,
     OpenprojectFieldsModule,
-  ],
-  providers: [
-
-  ],
-  declarations: [
-  ],
-  entryComponents: [
-  ],
-  exports: [
   ]
 })
 export class OpenprojectProjectsModule {

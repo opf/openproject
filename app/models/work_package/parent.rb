@@ -31,7 +31,7 @@
 module WorkPackage::Parent
   def self.prepended(base)
     base.after_save :update_parent_relation, if: :saved_change_to_parent_id?
-    base.include Concerns::VirtualAttribute
+    base.include VirtualAttribute
 
     base.virtual_attribute 'parent_id', cast_type: :integer
 

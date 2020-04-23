@@ -285,6 +285,7 @@ fieldset.form--fieldset
 
   &.-in-header
     margin-left: 5px
+    margin-bottom: 5px
     font-style:  italic
     line-height: 44px
 
@@ -538,10 +539,6 @@ fieldset.form--fieldset
   &.-wide,
   &.-xwide,
   &.-xxwide
-    // overriding hack on select2 by another hack (select2_customizing.css)
-    // remove once the initial limit on the width is removed
-    .select2-container
-      max-width: initial
 
   &.-auto
     select
@@ -606,15 +603,6 @@ input[readonly].-clickable
     // in height in foundation for apps.
     height: auto
     min-width: 40px
-
-.form--select2
-  border: none
-  padding-right: 0
-
-  &.select2-container
-    // styles adapted to input fields to align them
-    .select2-choice
-      height: 2.15rem
 
 .form--inline-select
   display: inline-block
@@ -704,9 +692,6 @@ input[readonly].-clickable
   .form--grouping-row
     @include grid-block(10)
     align-items: baseline
-
-    .select2-container
-      margin-bottom: 0
 
     .form--field-instructions
       margin-left: 0px

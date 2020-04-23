@@ -199,9 +199,13 @@ class CostObjectsController < ApplicationController
       @unit = cost_type.try(:unit_plural) || ''
     end
 
-    response = { "#{@element_id}_unit_name" => h(@unit) }
+    response = {
+      "#{@element_id}_unit_name" => h(@unit),
+      "#{@element_id}_currency" => Setting.plugin_openproject_costs['costs_currency']
+    }
     if current_user.allowed_to?(:view_cost_rates, @project)
       response["#{@element_id}_costs"] = number_to_currency(@costs)
+      response["#{@element_id}_cost_value"] = @costs
     end
 
     respond_to do |format|
@@ -222,9 +226,13 @@ class CostObjectsController < ApplicationController
       @costs = 0.0
     end
 
-    response = { "#{@element_id}_unit_name" => h(@unit) }
+    response = {
+      "#{@element_id}_unit_name" => h(@unit),
+      "#{@element_id}_currency" => Setting.plugin_openproject_costs['costs_currency']
+    }
     if current_user.allowed_to?(:view_hourly_rates, @project)
       response["#{@element_id}_costs"] = number_to_currency(@costs)
+      response["#{@element_id}_cost_value"] = @costs
     end
 
     respond_to do |format|

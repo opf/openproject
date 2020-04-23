@@ -30,7 +30,7 @@
 
 class WorkPackages::CopyService
   include ::Shared::ServiceContext
-  include ::Concerns::Contracted
+  include Contracted
 
   attr_accessor :user,
                 :work_package,

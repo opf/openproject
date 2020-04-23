@@ -27,9 +27,10 @@
 // ++
 
 import {Component, ElementRef, OnInit} from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+
+export const colorsAutocompleterSelector = 'colors-autocompleter';
 
 @Component({
   template: `
@@ -49,7 +50,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
       </ng-template>
     </ng-select>
   `,
-  selector: 'colors-autocompleter'
+  selector: colorsAutocompleterSelector
 })
 export class ColorsAutocompleter implements OnInit {
   public options:any[];
@@ -104,5 +105,4 @@ export class ColorsAutocompleter implements OnInit {
 
 }
 
-DynamicBootstrapper.register({ selector: 'colors-autocompleter', cls: ColorsAutocompleter });
 

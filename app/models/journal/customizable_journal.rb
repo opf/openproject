@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -32,5 +33,3 @@ class Journal::CustomizableJournal < Journal::BaseJournal
 
   belongs_to :custom_field, foreign_key: :custom_field_id
 end
-
-::CustomizableJournal = Journal::CustomizableJournal

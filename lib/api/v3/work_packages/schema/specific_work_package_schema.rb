@@ -33,8 +33,8 @@ module API
       module Schema
         class SpecificWorkPackageSchema < BaseWorkPackageSchema
           attr_reader :work_package
-          include ::Concerns::AssignableCustomFieldValues
-          include ::Concerns::AssignableValuesContract
+          include AssignableCustomFieldValues
+          include AssignableValuesContract
 
           def initialize(work_package:)
             @work_package = work_package

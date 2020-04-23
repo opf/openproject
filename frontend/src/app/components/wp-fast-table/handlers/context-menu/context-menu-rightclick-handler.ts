@@ -6,10 +6,11 @@ import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ContextMenuHandler} from './context-menu-handler';
 import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class ContextMenuRightClickHandler extends ContextMenuHandler {
 
-  readonly wpTableSelection = this.injector.get(WorkPackageViewSelectionService);
+  @InjectField() readonly wpTableSelection:WorkPackageViewSelectionService;
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
@@ -50,7 +51,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     const wpId = element.data('workPackageId');
 
     if (wpId) {
-      let [index, ] = this.table.findRenderedRow(wpId);
+      let [index,] = this.table.findRenderedRow(wpId);
 
       if (!this.wpTableSelection.isSelected(wpId)) {
         this.wpTableSelection.setSelection(wpId, index);

@@ -1,0 +1,26 @@
+<div class="draggable-autocomplete--container">
+  <div class="draggable-autocomplete--selected"
+       dragula="columns"
+       [(dragulaModel)]="selected">
+    <div class="draggable-autocomplete--item" *ngFor="let item of selected">
+      <span class="draggable-autocomplete--item-text"
+            [textContent]="item.name"></span>
+      <a (click)="remove(item)"
+         class="draggable-autocomplete--remove-item icon-remove"></a>
+    </div>
+  </div>
+
+  <ng-select #ngSelectComponent
+             [items]="availableOptions"
+             ngClass="draggable-autocomplete--input"
+             bindLabel="name"
+             [multiple]="false"
+             [virtualScroll]="true"
+             appendTo="body"
+             [placeholder]="text.placeholder"
+             [clearSearchOnAdd]="true"
+             [closeOnSelect]="true"
+             (open)="opened()"
+             (change)="select($event)">
+  </ng-select>
+</div>

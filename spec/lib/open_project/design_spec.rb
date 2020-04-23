@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Design do
+describe OpenProject::CustomStyles::Design do
   it 'detects variable names in strings' do
     expect('$bla' =~ described_class::VARIABLE_NAME_RGX).to be_truthy
     expect('$bla-asdf' =~ described_class::VARIABLE_NAME_RGX).to be_truthy
@@ -43,7 +43,7 @@ describe OpenProject::Design do
 
   context 'default variables set' do
     before do
-      stub_const("OpenProject::Design::DEFAULTS",
+      stub_const("OpenProject::CustomStyles::Design::DEFAULTS",
                  'variable_1' => 'one',
                  'variable_2' => 'two',
                  'variable_1_2' => 'foo $variable_1 bar $variable_2')

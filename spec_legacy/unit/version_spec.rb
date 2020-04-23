@@ -169,7 +169,7 @@ describe Version, type: :model do
 
     it 'should be false if all of the issues are ahead of schedule' do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
-      @version.fixed_issues = [
+      @version.work_packages = [
         FactoryBot.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
         FactoryBot.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60) # 14 day span, 60% done, 50% time left
       ]
@@ -180,7 +180,7 @@ describe Version, type: :model do
     it 'should be true if any of the issues are behind schedule' do
       @version.update_attribute(:start_date, 7.days.ago.to_date)
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
-      @version.fixed_issues = [
+      @version.work_packages = [
         FactoryBot.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
         FactoryBot.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 20) # 14 day span, 20% done, 50% time left
       ]
@@ -190,7 +190,7 @@ describe Version, type: :model do
 
     it 'should be false if all of the issues are complete' do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
-      @version.fixed_issues = [
+      @version.work_packages = [
         FactoryBot.create(:work_package, project: @project, start_date: 14.days.ago, done_ratio: 100, status: Status.find(5)), # 7 day span
         FactoryBot.create(:work_package, project: @project, start_date: 14.days.ago, done_ratio: 100, status: Status.find(5)) # 7 day span
       ]
@@ -235,7 +235,7 @@ describe Version, type: :model do
     WorkPackage.create!({ project: version.project,
                           priority_id: 5,
                           status_id: 1,
-                          fixed_version: version,
+                          version: version,
                           subject: 'Test',
                           author: User.first,
                           type: version.project.types.first }.merge(attributes))

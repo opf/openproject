@@ -26,25 +26,25 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnDestroy, Output} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {I18nService} from "app/modules/common/i18n/i18n.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import {componentDestroyed, untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageCacheService} from "app/components/work-packages/work-package-cache.service";
-import {merge, Observable, Subject} from "rxjs";
-import {debounceTime, delay, delayWhen, distinctUntilChanged, map, startWith, tap} from "rxjs/operators";
-import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
+import {Subject} from "rxjs";
+import {debounceTime, distinctUntilChanged, map, tap} from "rxjs/operators";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {input} from "reactivestates";
+import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'wp-filter-by-text-input',
   templateUrl: './quick-filter-by-text-input.html'
 })
 
-export class WorkPackageFilterByTextInputComponent implements OnDestroy {
-  @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
+export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
+  @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
 
   public text = {
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
@@ -63,11 +63,12 @@ export class WorkPackageFilterByTextInputComponent implements OnDestroy {
               readonly querySpace:IsolatedQuerySpace,
               readonly wpTableFilters:WorkPackageViewFiltersService,
               readonly wpCacheService:WorkPackageCacheService) {
+    super();
 
     this.wpTableFilters
       .pristine$()
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         map(() => {
           const currentSearchFilter = this.wpTableFilters.find('search');
           return currentSearchFilter ? (currentSearchFilter.values[0] as string) : '';
@@ -83,29 +84,24 @@ export class WorkPackageFilterByTextInputComponent implements OnDestroy {
 
     this.searchTermChanged
       .pipe(
-        untilComponentDestroyed(this),
+        this.untilDestroyed(),
         distinctUntilChanged(),
         tap((val) => this.searchTerm.putValue(val)),
         debounceTime(500),
       )
       .subscribe(term => {
-        let filters = this.wpTableFilters.current;
-
-        // Remove the current filter
-        _.remove(filters, f => f.id === 'search');
-
         if (term.length > 0) {
-          let searchFilter = this.wpTableFilters.instantiate('search');
-          searchFilter.operator = searchFilter.findOperator('**')!;
-          searchFilter.values = [term];
-          filters.push(searchFilter);
+          this.wpTableFilters.replace('search', filter => {
+            filter.operator = filter.findOperator('**')!;
+            filter.values = [term];
+          });
+        } else {
+          let filter = this.wpTableFilters.find('search');
+
+          this.wpTableFilters.remove(filter!);
+
+          this.deactivateFilter.emit(filter);
         }
-
-        this.filterChanged.emit(filters);
       });
-  }
-
-  public ngOnDestroy() {
-    // Nothing to do
   }
 }

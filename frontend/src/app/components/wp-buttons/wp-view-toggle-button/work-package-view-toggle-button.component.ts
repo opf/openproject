@@ -26,36 +26,35 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
-  wpDisplayListRepresentation, wpDisplayRepresentation
+  wpDisplayListRepresentation
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import {combineLatest} from "rxjs";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 
 @Component({
   template: `
-      <button class="button"
-              id="wp-view-toggle-button"
-              wpViewDropdown>
-        <op-icon icon-classes="button--icon icon-view-{{view}}"></op-icon>
-        <span class="button--text"
-              aria-hidden="true"
-              [textContent]="text[view]">
+    <button class="button"
+            id="wp-view-toggle-button"
+            wpViewDropdown>
+      <op-icon icon-classes="button--icon icon-view-{{view}}"></op-icon>
+      <span class="button--text"
+            aria-hidden="true"
+            [textContent]="text[view]">
         </span>
-        <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
-      </button>
-`,
+      <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+    </button>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-view-toggle-button',
 })
-export class WorkPackageViewToggleButton implements OnInit, OnDestroy {
+export class WorkPackageViewToggleButton extends UntilDestroyedMixin implements OnInit {
   public view:string;
 
   public text:any = {
@@ -68,6 +67,7 @@ export class WorkPackageViewToggleButton implements OnInit, OnDestroy {
               readonly cdRef:ChangeDetectorRef,
               readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
               readonly wpTableTimeline:WorkPackageViewTimelineService) {
+    super();
   }
 
   ngOnInit() {
@@ -77,15 +77,11 @@ export class WorkPackageViewToggleButton implements OnInit, OnDestroy {
     ]);
 
     statesCombined.pipe(
-      untilComponentDestroyed(this)
+      this.untilDestroyed()
     ).subscribe(([display, timelines]) => {
       this.detectView(display, timelines.visible);
       this.cdRef.detectChanges();
     });
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
   }
 
   public detectView(display:string|null, timelineVisible:boolean) {
@@ -101,5 +97,3 @@ export class WorkPackageViewToggleButton implements OnInit, OnDestroy {
     }
   }
 }
-
-DynamicBootstrapper.register({ selector: 'wp-view-toggle-button', cls: WorkPackageViewToggleButton });

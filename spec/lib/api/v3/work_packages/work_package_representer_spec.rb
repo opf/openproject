@@ -39,21 +39,35 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   end
   let(:parent) { nil }
   let(:priority) { FactoryBot.build_stubbed(:priority, updated_at: Time.now) }
+  let(:assignee) { nil }
+  let(:responsible) { nil }
+  let(:start_date) { Date.today.to_datetime }
+  let(:due_date) { Date.today.to_datetime }
+  let(:type_milestone) { false }
+  let(:estimated_hours) { nil }
+  let(:derived_estimated_hours) { nil }
+  let(:spent_hours) { 0 }
   let(:work_package) do
     FactoryBot.build_stubbed(:stubbed_work_package,
-                             id: 42,
-                             start_date: Date.today.to_datetime,
-                             due_date: Date.today.to_datetime,
+                             start_date: start_date,
+                             due_date: due_date,
                              done_ratio: 50,
-                             estimated_hours: 6.0,
                              parent: parent,
                              type: type,
                              project: project,
                              priority: priority,
+                             assigned_to: assignee,
+                             responsible: responsible,
+                             estimated_hours: estimated_hours,
+                             derived_estimated_hours: derived_estimated_hours,
                              status: status) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
+
+      allow(wp)
+        .to receive(:spent_hours)
+        .and_return(spent_hours)
     end
   end
   let(:all_permissions) do
@@ -73,12 +87,18 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   end
   let(:permissions) { all_permissions }
   let(:project) { FactoryBot.build_stubbed(:project_with_types) }
-  let(:type) { project.types.first }
+  let(:type) do
+    type = project.types.first
+
+    type.is_milestone = type_milestone
+
+    type
+  end
   let(:status) { FactoryBot.build_stubbed(:status, updated_at: Time.now) }
   let(:available_custom_fields) { [] }
 
   before(:each) do
-    allow(User).to receive(:current).and_return current_user
+    login_as current_user
 
     allow(current_user)
       .to receive(:allowed_to?) do |permission, _context|
@@ -104,12 +124,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'startDate' do
         it_behaves_like 'has ISO 8601 date only' do
-          let(:date) { work_package.start_date }
+          let(:date) { start_date }
           let(:json_path) { 'startDate' }
         end
 
         context 'no start date' do
-          let(:work_package) { FactoryBot.build(:work_package, id: 42, start_date: nil) }
+          let(:start_date) { nil }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('startDate')
@@ -117,14 +137,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when the work package has a milestone type' do
-          let(:milestone_type) do
-            FactoryBot.build_stubbed(:type,
-                                     is_milestone: true)
-          end
-
-          before do
-            work_package.type = milestone_type
-          end
+          let(:type_milestone) { true }
 
           it 'has no startDate' do
             is_expected.to_not have_json_path('startDate')
@@ -133,28 +146,23 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'dueDate' do
-        it_behaves_like 'has ISO 8601 date only' do
-          let(:date) { work_package.due_date }
-          let(:json_path) { 'dueDate' }
-        end
+        context 'with a non milestone type' do
+          it_behaves_like 'has ISO 8601 date only' do
+            let(:date) { work_package.due_date }
+            let(:json_path) { 'dueDate' }
+          end
 
-        context 'no finish date' do
-          let(:work_package) { FactoryBot.build(:work_package, id: 42, due_date: nil) }
+          context 'no finish date' do
+            let(:due_date) { nil }
 
-          it 'renders as null' do
-            is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
+            it 'renders as null' do
+              is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
+            end
           end
         end
 
-        context 'when the work package has a milestone type' do
-          let(:milestone_type) do
-            FactoryBot.build_stubbed(:type,
-                                     is_milestone: true)
-          end
-
-          before do
-            work_package.type = milestone_type
-          end
+        context 'with a milestone type' do
+          let(:type_milestone) { true }
 
           it 'has no startDate' do
             is_expected.to_not have_json_path('dueDate')
@@ -163,40 +171,24 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'date' do
-        let(:milestone_type) do
-          FactoryBot.build_stubbed(:type,
-                                   is_milestone: true)
-        end
+        context 'with a milestone type' do
+          let(:type_milestone) { true }
 
-        before do
-          work_package.type = milestone_type
-        end
-
-        it_behaves_like 'has ISO 8601 date only' do
-          let(:date) { work_package.due_date } # could just as well be start_date
-          let(:json_path) { 'date' }
-        end
-
-        context 'no finish date' do
-          before do
-            work_package.due_date = nil
+          it_behaves_like 'has ISO 8601 date only' do
+            let(:date) { due_date } # could just as well be start_date
+            let(:json_path) { 'date' }
           end
 
-          it 'renders as null' do
-            is_expected.to be_json_eql(nil.to_json).at_path('date')
+          context 'no finish date' do
+            let(:due_date) { nil }
+
+            it 'renders as null' do
+              is_expected.to be_json_eql(nil.to_json).at_path('date')
+            end
           end
         end
 
-        context 'when the work package has a non milestone type' do
-          let(:none_milestone_type) do
-            FactoryBot.build_stubbed(:type,
-                                     is_milestone: false)
-          end
-
-          before do
-            work_package.type = none_milestone_type
-          end
-
+        context 'with a milestone type' do
           it 'has no date' do
             is_expected.to_not have_json_path('date')
           end
@@ -229,61 +221,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'estimatedTime' do
-      let(:work_package) do
-        FactoryBot.build_stubbed(:work_package,
-                                 id: 42,
-                                 created_at: DateTime.now,
-                                 updated_at: DateTime.now,
-                                 estimated_hours: 6.5)
-      end
+      let(:estimated_hours) { 6.5 }
 
       it { is_expected.to be_json_eql('PT6H30M'.to_json).at_path('estimatedTime') }
     end
 
     describe 'derivedEstimatedTime' do
-      let(:work_package) do
-        FactoryBot.build_stubbed(:work_package,
-                                 id: 42,
-                                 created_at: DateTime.now,
-                                 updated_at: DateTime.now,
-                                 derived_estimated_hours: 3.75)
-      end
+      let(:derived_estimated_hours) { 3.75 }
 
       it { is_expected.to be_json_eql('PT3H45M'.to_json).at_path('derivedEstimatedTime') }
     end
 
     describe 'spentTime' do
-      describe '#content' do
-        context 'no view_time_entries permission' do
-          let(:permissions) { all_permissions - [:view_time_entries] }
-
-          it { is_expected.not_to have_json_path('spentTime') }
-        end
-
-        context 'no time entry' do
-          it { is_expected.to be_json_eql('PT0S'.to_json).at_path('spentTime') }
-        end
-
-        context 'time entry with single hour' do
-          before do
-            allow(work_package)
-              .to receive(:spent_hours)
-              .and_return(1.0)
-          end
-
-          it { is_expected.to be_json_eql('PT1H'.to_json).at_path('spentTime') }
-        end
-
-        context 'time entry with multiple hours' do
-          before do
-            allow(work_package)
-              .to receive(:spent_hours)
-              .and_return(42.5)
-          end
-
-          it { is_expected.to be_json_eql('P1DT18H30M'.to_json).at_path('spentTime') }
-        end
-      end
+      # spentTime is completely overwritten by costs
+      # TODO: move specs from costs to here
     end
 
     describe 'percentageDone' do
@@ -396,9 +347,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'assignee' do
         context 'is user' do
-          let(:work_package) do
-            FactoryBot.build(:work_package, id: 42, assigned_to: FactoryBot.build_stubbed(:user))
-          end
+          let(:assignee) { FactoryBot.build_stubbed(:user) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'assignee' }
@@ -408,9 +357,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'is group' do
-          let(:work_package) do
-            FactoryBot.build(:work_package, id: 42, assigned_to: FactoryBot.build_stubbed(:group))
-          end
+          let(:assignee) { FactoryBot.build_stubbed(:group) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'assignee' }
@@ -428,9 +375,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'responsible' do
         context 'is user' do
-          let(:work_package) do
-            FactoryBot.build(:work_package, id: 42, responsible: FactoryBot.build_stubbed(:user))
-          end
+          let(:responsible) { FactoryBot.build_stubbed(:user) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'responsible' }
@@ -440,9 +385,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'is group' do
-          let(:work_package) do
-            FactoryBot.build(:work_package, id: 42, responsible: FactoryBot.build_stubbed(:group))
-          end
+          let(:responsible) { FactoryBot.build_stubbed(:group) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'responsible' }
@@ -481,7 +424,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let!(:version) { FactoryBot.create :version, project: project }
 
           before do
-            work_package.fixed_version = version
+            work_package.version = version
           end
 
           it_behaves_like 'has a titled link' do

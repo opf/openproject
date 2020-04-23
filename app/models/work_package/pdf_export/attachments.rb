@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module WorkPackage::PdfExport::Attachments
+module WorkPackage::PDFExport::Attachments
   ##
   # Creates cells for each attachment of the work package
   #

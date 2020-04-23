@@ -63,7 +63,15 @@ div.wiki
 
     td, th
       border: 1px solid #bbb
-      padding: 4px
+      text-align: left
+
+      .task-list
+        margin-bottom: 0
+        margin-left: 5px
+
+    th
+      background: rgba(0, 0, 0, 0.05)
+      padding: 10px
 
   // ------------------- LISTINGS -------------------
   ul.toc
@@ -141,12 +149,16 @@ h1:hover, h2:hover, h3:hover
     max-width: 100%
 
 .wiki.wiki-content
+  overflow: auto
   overflow-wrap: break-word
   word-wrap: break-word
+  @include styled-scroll-bar
 
 .wiki--content--attribute
   .form--field-container
     max-width: 100%
+  .form--text-area-container
+    overflow: hidden
 
 #wiki_page_parent_id
   overflow: auto

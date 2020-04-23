@@ -45,7 +45,8 @@ export interface ConfirmDialogOptions {
 }
 
 @Component({
-  templateUrl: './confirm-dialog.modal.html'
+  templateUrl: './confirm-dialog.modal.html',
+  styleUrls:['./confirm-dialog.modal.sass']
 })
 export class ConfirmDialogModal extends OpModalComponent {
 

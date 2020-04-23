@@ -27,8 +27,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'diff'
-
 class JournalsController < ApplicationController
   before_action :find_journal, except: [:index]
   before_action :find_optional_project, only: [:index]

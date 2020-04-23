@@ -56,7 +56,7 @@ module Pages
       expect(page).to have_conditional_selector(present, 'td.name', text: name)
     end
 
-    def create_board(action: nil)
+    def create_board(action: nil, expect_empty: false)
       page.find('.toolbar-item a', text: 'Board').click
 
       if action == nil
@@ -66,7 +66,13 @@ module Pages
         find('.button', text: 'Action board').click
       end
 
-      expect(page).to have_selector('.boards-list--item', wait: 10)
+      if expect_empty
+        expect(page).to have_selector('.boards-list--add-item-text', wait: 10)
+        expect(page).to have_no_selector('.boards-list--item')
+      else
+        expect(page).to have_selector('.boards-list--item', wait: 10)
+      end
+
       ::Pages::Board.new ::Boards::Grid.last
     end
 

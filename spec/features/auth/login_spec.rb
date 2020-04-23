@@ -36,8 +36,6 @@ describe 'Login', type: :feature do
 
   after do
     Capybara.ignore_hidden_elements = @capybara_ignore_elements
-    User.delete_all
-    User.current = nil
   end
 
   def expect_being_logged_in(user)
@@ -65,6 +63,17 @@ describe 'Login', type: :feature do
                         lastname: 'B',
                         password: user_password,
                         password_confirmation: user_password)
+    end
+
+    context 'with leading and trailing space in login' do
+      it 'can still login' do
+        # first login
+        login_with(" #{user.login} ", user.password)
+
+        # on the my page
+        expect(page)
+          .to have_current_path my_page_path
+      end
     end
 
     context 'with force password change' do

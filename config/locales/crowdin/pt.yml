@@ -61,15 +61,18 @@ pt:
         header-item-font-hover-color: "Cor da fonte de itens do cabeçalho clicáveis quando se passa com o rato por cima."
         header-border-bottom-color: "Linha fina sob o cabeçalho. Deixe este campo vazio se não deseja qualquer linha."
         main-menu-bg-color: "Cor de fundo do menu do lado esquerdo."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Alterar o tema irá sobrescrever seu estilo personalizado. O design será perdido. Tem certeza que deseja continuar?
     enterprise:
-      upgrade_to_ee: "Atualizar para a versão Enterprise"
+      upgrade_to_ee: "Atualizar para a Enterprise Edition"
       add_token: "Carregar um token de suporte da versão Enterprise"
       replace_token: "Substituir o seu token de suporte atual"
       order: "Encomendar versão Enterprise"
       paste: "Cole o seu token de suporte da versão Enterprise"
       required_for_feature: "Esta funcionalidade só está disponível com um token de suporte ativo da versão Enterprise."
       enterprise_link: "Para mais informações, clique aqui."
+      start_trial: 'Iniciar avaliação gratuita'
+      book_now: 'Reserve agora'
+      get_quote: 'Fazer uma simulação'
   announcements:
     show_until: Mostrar até
     is_active: atualmente exibidos
@@ -192,7 +195,7 @@ pt:
         no_results_title_text: Atualmente, não existem atividades disponíveis.
       forums:
         no_results_title_text: Atualmente, não existem fóruns para o projeto.
-        no_results_content_text: Criar um novo fórum
+        no_results_content_text: Criar novo fórum
       categories:
         no_results_title_text: Atualmente, não existem categorias de pacote de trabalho.
         no_results_content_text: Criar uma nova categoria de pacote de trabalho
@@ -397,7 +400,7 @@ pt:
         types: "Tipos"
         versions: "Versões"
         work_packages: "Tarefas"
-      project/status:
+      projects/status:
         code: 'Situação'
         explanation: 'Descrição do estado'
         codes:
@@ -462,7 +465,7 @@ pt:
         done_ratio: "Progresso (%)"
         end_insertion: "Final da inserção"
         end_deletion: "Final da exclusão"
-        fixed_version: "Versão"
+        version: "Versão"
         parent: "Mãe"
         parent_issue: "Mãe"
         parent_work_package: "Mãe"
@@ -753,6 +756,7 @@ pt:
     version: "Versão"
     work_package: "Pacote de trabalho"
   button_add: "Adicionar"
+  button_add_comment: "Adicionar comentário"
   button_add_member: Adicionar membro
   button_add_watcher: "Adicionar observadores"
   button_annotate: "Anotar"
@@ -1066,8 +1070,8 @@ pt:
   error_work_package_done_ratios_not_updated: "Percentagens de progresso do pacote de trabalho não foram atualizadas."
   error_work_package_not_found_in_project: "A tarefa não foi encontrada ou não pertence a este projecto"
   error_must_be_project_member: "deve ser membro do projeto"
-  error_migrations_are_pending: "A sua instalação do OpenProject tem migrações pendentes da base de dados pendentes. Provavelmente esqueceu-se de fazer as migrações após a última atualização. Por favor, verifique o guia de atualização, de forma a atualizar a sua instalação corretamente."
-  error_migrations_visit_upgrade_guides: "Visite a nossa documentação do guia de atualização"
+  error_migrations_are_pending: "Sua instalação do OpenProject tem migrações de banco de dados pendentes. Você provavelmente esqueceu de executar as migrações depois da sua última atualização. Por favor, verifique o guia de atualização para atualizar sua instalação corretamente."
+  error_migrations_visit_upgrade_guides: "Por favor, visite a nossa documentação do guia de atualização"
   error_no_default_work_package_status: "Não está definido um estado padrão para os pacotes de trabalho. Verifique a sua configuração (dirija-se a \"Administração -> Estados de pacotes de trabalho\")."
   error_no_type_in_project: "Nenhum tipo está associado a este projecto. Por favor, verifique as configurações do projeto."
   error_omniauth_registration_timed_out: "Esgotou-se o registo através de um provedor de autenticação externa. Por favor, tente novamente."
@@ -1137,13 +1141,8 @@ pt:
     blocks:
       community: "Comunidade de OpenProject"
       upsale:
-        become_hero: "Torne-se um herói!"
         title: "Atualizar para a versão Enterprise"
-        description: "Quais são os benefícios?"
         more_info: "Mais informação"
-        additional_features: "Poderosas funcionalidades Premium adicionais"
-        professional_support: "Apoio profissional dos especialistas da OpenProject"
-        you_contribute: "Os desenvolvedores também têm contas para pagar. Ao obter a versão Enterprise irá contribuir de forma substancial para os esforços desta comunidade de código aberto."
     links:
       upgrade_enterprise_edition: "Atualizar para a versão Enterprise"
       postgres_migration: "A migrar a sua instalação para PostgreSQL"
@@ -1155,9 +1154,10 @@ pt:
       forums: "Fórum da Comunidade"
       newsletter: "Alertas de segurança / Boletim informativo"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "As mudanças foram retraídas."
   links:
     configuration_guide: 'Guia de configuração'
+    get_in_touch: "Tem questões? Entre em contato conosco."
   instructions_after_registration: "Pode iniciar a sessão assim que a sua conta for ativada ao clicar em %{signin}."
   instructions_after_logout: "Pode iniciar sessão novamente ao clicar em %{signin}."
   instructions_after_error: "Pode tentar entrar novamente clicando em %{signin}. Se o erro persistir, peça ajuda ao seu administrador."
@@ -1447,6 +1447,7 @@ pt:
   label_new: "Novo"
   label_new_features: "Novas funcionalidades"
   label_new_statuses_allowed: "Permitidos novos estados"
+  label_news_singular: "Noticias"
   label_news_added: "Notícia adicionada"
   label_news_comment_added: "Comentário adicionado às notícias"
   label_news_latest: "Últimas Notícias"
@@ -1494,7 +1495,7 @@ pt:
   label_planning: "Planeamento"
   label_please_login: "Por favor inicie sessão"
   label_plugins: "Plugins"
-  label_modules_and_plugins: "Módulos e Plugins"
+  label_modules_and_plugins: "Módulos e Complementos"
   label_precedes: "precede"
   label_preferences: "Preferências"
   label_preview: "Pré visualizar"
@@ -1706,31 +1707,6 @@ pt:
     other: "%{count} projetos"
   label_year: "Ano"
   label_yesterday: "ontem"
-  label_keyboard_function: "Função"
-  label_keyboard_shortcut: "Atalho"
-  label_keyboard_accesskey: "AccessKey"
-  label_keyboard_shortcut_help_heading: "Atalhos de teclado disponíveis"
-  label_keyboard_shortcut_within_project: "Atalhos do projecto:"
-  label_keyboard_shortcut_global_shortcuts: "Atalhos globais:"
-  label_keyboard_shortcut_some_pages_only: "Atalhos especiais:"
-  label_keyboard_shortcut_search_global: "Pesquisa global"
-  label_keyboard_shortcut_search_project: "Localizar um projeto"
-  label_keyboard_shortcut_go_my_page: "Ir para a minha página"
-  label_keyboard_shortcut_show_help: "Mostrar esta mensagem de ajuda"
-  label_keyboard_shortcut_go_overview: "Ir para visão geral do projecto"
-  label_keyboard_shortcut_go_work_package: "Visualizar pacotes de trabalho do projecto"
-  label_keyboard_shortcut_go_wiki: "Ir para o wiki do projeto"
-  label_keyboard_shortcut_go_activity: "Ir para as actividades do projecto"
-  label_keyboard_shortcut_go_calendar: "Ir para o calendário do projeto"
-  label_keyboard_shortcut_go_news: "Ir para as notícias do projeto"
-  label_keyboard_shortcut_go_timelines: "Ir para cronogramas"
-  label_keyboard_shortcut_new_work_package: "Criar nova tarefa"
-  label_keyboard_shortcut_details_package: "Mostrar o painel de detalhes dos pacotes de trabalho"
-  label_keyboard_shortcut_go_edit: "Ir para edição do item actual (apenas nas páginas de detalhe)"
-  label_keyboard_shortcut_open_more_menu: "Menu mais aberto (somente nas páginas de detalhe)"
-  label_keyboard_shortcut_go_preview: "Ir para visualizar da edição actual (em editar páginas apenas)"
-  label_keyboard_shortcut_focus_previous_item: "Focar lista prévia de elementos (em algumas listas apenas)"
-  label_keyboard_shortcut_focus_next_item: "Focar próxima lista de elementos (em algumas listas apenas)"
   auth_source:
     using_abstract_auth_source: "Não é possível usar uma fonte de autenticação abstracta."
     ldap_error: "Erro LDAP: %{error_message}"
@@ -2180,7 +2156,6 @@ pt:
   setting_welcome_text: "Bloco de texto de boas-vindas"
   setting_welcome_title: "Título de texto de boas-vindas"
   setting_welcome_on_homescreen: "Exibir o bloco de boas-vindas no ecrã inicial"
-  setting_wiki_compression: "Compressão do histórico da wiki"
   setting_work_package_group_assignment: "Permitir atribuição de grupos"
   setting_work_package_list_default_highlighting_mode: "Modo de destaque padrão"
   setting_work_package_list_default_highlighted_attributes: "Atributos padrão destacados em linha"
@@ -2520,6 +2495,7 @@ pt:
       mail_self_notified: "Quero ser notificado de alterações feitas por mim"
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Alteração de estado"
+    text_change_disabled_for_provider_login: "O nome é definido pelo seu fornecedor de início de sessão, e portanto, não pode ser alterado."
     unlock: "Desbloquear"
     unlock_and_reset_failed_logins: "Desbloquear e redefinir logins errados"
   version_status_closed: "fechado"

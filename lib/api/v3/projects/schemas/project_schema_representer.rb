@@ -61,13 +61,13 @@ module API
 
           schema :status,
                  type: 'ProjectStatus',
-                 name_source: ->(*) { I18n.t('activerecord.attributes.project/status.code') },
+                 name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.code') },
                  required: false,
                  writable: ->(*) { represented.writable?(:status) }
 
           schema :status_explanation,
                  type: 'Formattable',
-                 name_source: ->(*) { I18n.t('activerecord.attributes.project/status.explanation') },
+                 name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.explanation') },
                  required: false,
                  writable: ->(*) { represented.writable?(:status) }
 

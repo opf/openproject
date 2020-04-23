@@ -1,11 +1,22 @@
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import { ViewEncapsulation, Component, Input, EventEmitter, Output, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { untilComponentDestroyed } from 'ng2-rx-componentdestroyed';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import { EditFormComponent } from 'core-app/modules/fields/edit/edit-form/edit-form.component';
+import {EditFormComponent} from 'core-app/modules/fields/edit/edit-form/edit-form.component';
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   templateUrl: './form.component.html',
@@ -13,10 +24,10 @@ import { EditFormComponent } from 'core-app/modules/fields/edit/edit-form/edit-f
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TimeEntryFormComponent implements OnInit, OnDestroy {
+export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input() entry:TimeEntryResource;
 
-  @Output() modifiedEntry = new EventEmitter<{savedResource:TimeEntryResource, isInital:boolean}>();
+  @Output() modifiedEntry = new EventEmitter<{ savedResource:TimeEntryResource, isInital:boolean }>();
 
   @ViewChild('editForm', { static: true }) editForm:EditFormComponent;
 
@@ -32,11 +43,12 @@ export class TimeEntryFormComponent implements OnInit, OnDestroy {
   };
 
   public workPackageSelected:boolean = false;
-  public customFields:{key:string, label:string}[] = [];
+  public customFields:{ key:string, label:string }[] = [];
 
   constructor(readonly halEditing:HalResourceEditingService,
               readonly cdRef:ChangeDetectorRef,
               readonly i18n:I18nService) {
+    super();
   }
 
   ngOnInit() {
@@ -44,7 +56,7 @@ export class TimeEntryFormComponent implements OnInit, OnDestroy {
       .temporaryEditResource(this.entry)
       .values$()
       .pipe(
-        untilComponentDestroyed(this)
+        this.untilDestroyed()
       )
       .subscribe(changeset => {
         if (changeset && changeset.workPackage) {
@@ -57,13 +69,10 @@ export class TimeEntryFormComponent implements OnInit, OnDestroy {
     this.cdRef.detectChanges();
   }
 
-  ngOnDestroy() {
-    // nothing to do
+  public signalModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }) {
+    this.modifiedEntry.emit($event as { savedResource:TimeEntryResource, isInital:boolean });
   }
 
-  public signalModifiedEntry($event:{savedResource:HalResource, isInital:boolean}) {
-    this.modifiedEntry.emit($event as {savedResource:TimeEntryResource, isInital:boolean});
-  }
   public save() {
     return this.editForm.save();
   }
@@ -87,7 +96,7 @@ export class TimeEntryFormComponent implements OnInit, OnDestroy {
   private setCustomFields(schema:SchemaResource) {
     Object.entries(schema).forEach(([key, keySchema]) => {
       if (key.match(/customField\d+/)) {
-        this.customFields.push({key: key, label: keySchema.name });
+        this.customFields.push({ key: key, label: keySchema.name });
       }
     });
   }

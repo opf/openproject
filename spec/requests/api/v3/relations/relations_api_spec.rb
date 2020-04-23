@@ -508,8 +508,17 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       end
 
       it 'returns the relation' do
+        # Creation leads to journal creation which leads to touching the work package which is not
+        # reflected in the value returned from the wp factory.
+        from.reload
+        to.reload
+
+        expected = API::V3::Relations::RelationRepresenter.new(relation,
+                                                               current_user: current_user,
+                                                               embed_links: true).to_json
+
         expect(last_response.body)
-          .to be_json_eql API::V3::Relations::RelationRepresenter.new(relation, current_user: current_user, embed_links: true).to_json
+          .to be_json_eql expected
       end
     end
 

@@ -26,21 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnInit} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
-import {ElementRef} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {filter, takeUntil} from "rxjs/operators";
-import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {filter} from "rxjs/operators";
 import {States} from "core-components/states.service";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'attachment-list',
   templateUrl: './attachment-list.html'
 })
-export class AttachmentListComponent implements OnInit, OnDestroy {
+export class AttachmentListComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public resource:HalResource;
   @Input() public destroyImmediately:boolean = true;
 
@@ -55,7 +53,9 @@ export class AttachmentListComponent implements OnInit, OnDestroy {
   constructor(protected elementRef:ElementRef,
               protected states:States,
               protected cdRef:ChangeDetectorRef,
-              protected halResourceService:HalResourceService) { }
+              protected halResourceService:HalResourceService) {
+    super();
+  }
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
@@ -72,7 +72,7 @@ export class AttachmentListComponent implements OnInit, OnDestroy {
     this.states.forResource(this.resource)!
       .values$()
       .pipe(
-        takeUntil(componentDestroyed(this)),
+        this.untilDestroyed(),
         filter(newResource => !!newResource)
       )
       .subscribe((newResource:HalResource) => {
@@ -84,6 +84,7 @@ export class AttachmentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy():void {
+    super.ngOnDestroy();
     if (!this.destroyImmediately) {
       this.$formElement.off('submit.attachment-component');
     }
@@ -136,8 +137,3 @@ export class AttachmentListComponent implements OnInit, OnDestroy {
       });
   }
 }
-
-DynamicBootstrapper.register({
-  selector: 'attachment-list',
-  cls: AttachmentListComponent
-});

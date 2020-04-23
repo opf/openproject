@@ -9,11 +9,12 @@ keywords: edit work packages
 
 # Edit work packages
 
-| Feature                                         | Documentation for                                  |
-| ----------------------------------------------- | -------------------------------------------------- |
-| [Update a work package](#update-a-work-package) | How to make a change to an existing work package?  |
-| [Watchers](#watchers)                           | How to add or remove watchers from a work package? |
-| [Export work packages](#export-work-packages)   | How to export work packages?                       |
+| Feature                                             | Documentation for                                  |
+| --------------------------------------------------- | -------------------------------------------------- |
+| [Update a work package](#update-a-work-package)     | How to make a change to an existing work package?  |
+| [Watchers](#watchers)                               | How to add or remove watchers from a work package? |
+| [Export work packages](#export-work-packages)       | How to export work packages?                       |
+| [Bulk edit work packages](#bulk-edit-work-packages) | How to edit several work packages as once?         |
 
 ## Update a work package
 
@@ -85,8 +86,23 @@ To remove watchers, navigate to the work package [details view](#work-package-fu
 
 To export the work packages, choose **Export ...** in the settings menu on the top right of the work package list (or Gantt chart) view.
 
- ![export-gantt-chart](export-gantt-chart.png)
+Please see [this separate guide](../exporting) for more information on exporting work packages.
 
-You can choose between several export possibilities:
+## Bulk edit work packages
 
-![work-package-export](1567413583391.png)
+To make a bulk update and edit several work packages at once, nagivate to the work packages list view.
+Highlight all work packages which you want to edit.
+Tip: **keep the Ctrl. button pressed** in order to select and edit several work packages at once.
+
+To open the quick context menu, **press the RIGHT mouse button**.
+
+You have then the possibility to:
+
+* Open details view of all selected work packages.
+* Open the fullscreen view of all selected work packages.
+* Bulk edit all selected work packages.
+* Bulk change of the project of all selected work packages.
+* Bulk copy all selected work packages, incl. the hierarchy relations (parent-child relations).
+* Bulk delete all selected work packages.
+
+![bulk edit right mouse click](image-20200331133245192.png)

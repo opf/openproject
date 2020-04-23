@@ -32,9 +32,9 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PreviewTriggerService {
-  private previewModal:OpModalComponent;
+  private previewModal:WpPreviewModal;
   private modalElement:HTMLElement;
 
   constructor(readonly opModalService:OpModalService,
@@ -52,14 +52,9 @@ export class PreviewTriggerService {
         return;
       }
 
-      this.previewModal = this.opModalService.show(WpPreviewModal, this.injector, { workPackageLink: href });
+      this.previewModal = this.opModalService.show(WpPreviewModal, this.injector, { workPackageLink: href, event: e });
       this.modalElement = this.previewModal.elementRef.nativeElement;
-      jQuery(this.modalElement).position({
-        my: 'left top',
-        at: 'left bottom',
-        of: el,
-        collision: 'flipfit'
-      });
+      this.previewModal.reposition(jQuery(this.modalElement), el);
 
       jQuery(this.modalElement).addClass('-no-width -no-height');
     });

@@ -57,6 +57,14 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
     });
   }
 
+  public get typeahead() {
+    if (this.valuesLoaded) {
+      return false;
+    } else {
+      return this.requests.input$;
+    }
+  }
+
   protected allowedValuesFilter(query?:string):{} {
     let filterParams = super.allowedValuesFilter(query);
 

@@ -42,8 +42,8 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent implements OnDestroy {
   public projectIdentifier:string;
   public accessKey:number = 8;
-  public activeState:string = 'work-packages.list.details';
-  public listState:string = 'work-packages.list';
+  public activeState:string = 'work-packages.partitioned.list.details';
+  public listState:string = 'work-packages.partitioned.list';
   public buttonId:string = 'work-packages-details-view-button';
   public buttonClass:string = 'toolbar-icon';
   public iconClass:string = 'icon-info2';
@@ -73,6 +73,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
   }
 
   public ngOnDestroy() {
+    super.ngOnDestroy();
     this.transitionListener();
   }
 

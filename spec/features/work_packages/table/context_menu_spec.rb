@@ -71,6 +71,7 @@ describe 'Work package table context menu', js: true do
         menu.choose('Create new child')
         expect(page).to have_selector('.inline-edit--container.subject input')
         expect(page).to have_selector('.inline-edit--field.type')
+        expect(current_url).to match(/.*\/create_new\?.*(\&)*parent_id=#{work_package.id.to_s}/)
 
         find('#work-packages--edit-actions-cancel').click
         expect(page).to have_no_selector('.inline-edit--container.subject input')

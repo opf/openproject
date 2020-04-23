@@ -30,8 +30,10 @@ import {HideSectionService} from "./hide-section.service";
 import {Component, ElementRef, OnInit} from "@angular/core";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
+export const showSectionDropdownSelector = 'show-section-dropdown';
+
 @Component({
-  selector: 'show-section-dropdown',
+  selector: showSectionDropdownSelector,
   template: ''
 })
 export class ShowSectionDropdownComponent implements OnInit {
@@ -60,4 +62,4 @@ export class ShowSectionDropdownComponent implements OnInit {
   }
 }
 
-DynamicBootstrapper.register({ cls: ShowSectionDropdownComponent, selector: 'show-section-dropdown '});
+

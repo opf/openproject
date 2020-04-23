@@ -24,7 +24,7 @@ module TwoFactorAuthentication
     ##
     # verify the given OTP input
     def verify_token(token)
-      result = totp.verify_with_drift_and_prior(token.to_s, allowed_drift, last_used_at)
+      result = totp.verify(token.to_s, drift_behind: allowed_drift, drift_ahead: allowed_drift, after: last_used_at)
 
       if result.nil?
         false

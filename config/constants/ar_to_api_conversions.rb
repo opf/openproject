@@ -30,7 +30,7 @@ module Constants
   class ARToAPIConversions
     WELL_KNOWN_CONVERSIONS = {
       assigned_to: 'assignee',
-      fixed_version: 'version',
+      version: 'version',
       done_ratio: 'percentageDone',
       estimated_hours: 'estimatedTime',
       created_on: 'createdAt',

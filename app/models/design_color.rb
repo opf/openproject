@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DesignColor < ActiveRecord::Base
+class DesignColor < ApplicationRecord
   after_commit -> do
     # CustomStyle.current.updated_at determins the cache key for inline_css
     # in which the CSS color variables will be overwritten. That is why we need
@@ -47,19 +47,19 @@ class DesignColor < ActiveRecord::Base
 
   class << self
     def defaults
-      OpenProject::Design.resolved_variables
+      OpenProject::CustomStyles::Design.resolved_variables
     end
 
     def setables
       overwritten_values = self.overwritten
-      OpenProject::Design.customizable_variables.map do |varname|
+      OpenProject::CustomStyles::Design.customizable_variables.map do |varname|
         overwritten_value = overwritten_values.detect { |var| var.variable == varname }
         overwritten_value || new(variable: varname)
       end
     end
 
     def overwritten
-      overridable = OpenProject::Design.customizable_variables
+      overridable = OpenProject::CustomStyles::Design.customizable_variables
 
       all.to_a.select do |color|
         overridable.include?(color.variable) && self.defaults[color] != color.get_hexcode

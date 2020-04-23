@@ -108,7 +108,7 @@ To resolve these cases, you can either:
     args.extras.each do |tuple|
       vendor, base_url = tuple.split('=')
 
-      unless OpenProject::Scm::Manager.enabled?(vendor.to_sym)
+      unless OpenProject::SCM::Manager.enabled?(vendor.to_sym)
         puts "Vendor #{vendor} is not enabled, skipping."
         next
       end

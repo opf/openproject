@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class DeviceService {
 
   public mobileWidthTreshold:number = 680;
