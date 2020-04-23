@@ -18,7 +18,7 @@ jobs:
     - uses: pullpreview/action@master
       with:
         admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde
-        always_on: master
+        always_on: dev
         compose_files: docker-compose.pullpreview.yml
         instance_type: medium_2_0
       env:
