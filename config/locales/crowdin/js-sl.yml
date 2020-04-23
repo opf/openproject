@@ -73,7 +73,7 @@ sl:
     button_export-pdf: "Prenesi PDF"
     button_export-atom: "Prenesi Atom"
     calendar:
-      title: 'Calendar'
+      title: 'Koledar'
       too_many: 'Obstaja %{count} delovnih paketov, vendar je lahko prikazanih samo %{max}.'
     card:
       add_new: 'Dodaj nov card'
@@ -165,56 +165,56 @@ sl:
         reset_to_defaults: 'Ponastavi na privzete vrednosti'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
-          confirmation_info: "We sent you an email. Please check your emails and click the confirmation link provided to start your 14 days trial."
+          confirmation: "Potrdite e-poštni naslov"
+          confirmation_info: "Poslali smo vam e-pošto. Prosimo preglejte vašo pošto in kliknite potrditveno povezavo za začetek vašega 14 dnevnega preizkusa."
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+              Strinjam se z  <a target="_blank" href="%{link_terms}">terms of service</a> in <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+            invalid_email: "Neveljaven e-poštni naslov"
+            label_company: "Podjetje"
             label_first_name: "Ime"
             label_last_name: "Priimek"
             label_email: "E-pošta"
-            label_domain: "Domain"
+            label_domain: "Domena"
             label_subscriber: "Naročnik"
             label_maximum_users: "Največje število aktivnih uporabnikov"
-            label_starts_at: "Starts at"
+            label_starts_at: "Se začne z"
             label_expires_at: "Izteče ob"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-            taken_domain: There can only be one active trial per domain.
-            taken_email: Each user can only create one trial.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
+            receive_newsletter: Želim prejemati OpenProject  <a target="_blank" href="%{link}">newsletter</a>.
+            taken_domain: Možen je le en aktivni preizkus na domeno.
+            taken_email: Vsak uporabnik ima na voljo le en preizkus.
+          email_not_received: "Niste prejeli e-pošte? E-pošto lahko ponovno pošljete s povezavo na desni."
+          try_another_email: "Ali pa poskusite z drugim e-poštnim naslovom."
+          next_steps: "Naslednji koraki"
           resend_link: "Pošljite ponovno"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+          resend_success: "E-pošta je bila ponovno poslana. Prosimo preverite vašo E-pošto in kliknite potrditveno povezavo."
+          resend_warning: "E-pošte ni bilo mogoče poslati ponovno."
+          session_timeout: "Vaša seja je potekla. Prosimo poskusite znova naložiti stran ali ponovno poslati e-pošto.\n"
           status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          status_confirmed: "Potrjeno"
+          status_waiting: "e-pošta poslana - čakanje na potrditev"
+          test_ee: "Preizkusite Enterprise Edition 14 dni zastonj"
+          quick_overview: "Pridobite hiter pregled nad projektnim managementom in skupinskim odločanjem z OpenProject Enterprise Edition."
         upsale:
           become_hero: "Bodite heroj!"
           benefits:
             description: "Kaj so prednosti?"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            high_security: "Varnostne funkcije"
+            high_security_text: "Enkratna prijava na (SAML, OpenID Connect, CAS), dvofaktorska avtentikacija in samodejna sinhronizacija LDAP skupin."
+            installation: "Namestitvena podpora"
+            installation_text: "Izkušeni programski inženirji vas vodijo skozi celoten postopek namestitve in nastavitve v lastni infrastrukturi."
+            premium_features: "Premium funkcije"
+            premium_features_text: "Kanban table, teme in logotip po meri, grafikoni, inteligentni delovni tokovi z dejanji po meri, iskanje po celotnem besedilu prilog v delovnem paketu in izbira polj po meri."
             professional_support: "Strokovna podpora"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
+            professional_support_text: "Pridobite zanesljivo in visoko dotično podporo starejših podpornih inženirjev s strokovnim znanjem o izvajanju OpenProject-a v poslovnih kritičnih okoljih."
           button_start_trial: "Začnite z brezplačno preizkusno dobo"
           button_book_now: "Rezerviraj"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
+            Zagotavljamo zaupanje preizkušene in podprte programske opreme za upravljanje projektov v podjetniškem razredu - z odprto kodo in odprto miselnostjo.
           link_quote: "Pridobite ponudbo"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
+          unlimited: "Neomejeno"
           you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
     custom_actions:
       date:
@@ -265,7 +265,7 @@ sl:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixings and <b>usability improvements</b>.</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -290,7 +290,7 @@ sl:
     label_avatar: "Podoba"
     label_between: "between"
     label_board: "Board"
-    label_board_locked: "Locked"
+    label_board_locked: "Zaklenjen"
     label_board_plural: "Boardi"
     label_board_sticky: "Sticky"
     label_create: "Ustvari"

@@ -21,7 +21,7 @@ sl:
         unlock_version: 'Odkleni verzijo'
         edit_version: 'Uredi verzijo'
         show_version: 'Pokaži verzijo'
-        locked: 'Locked'
+        locked: 'Zaklenjen'
         closed: 'Zaprto'
       new_board: 'Nova tabla'
       add_list: 'Dodaj seznam'
