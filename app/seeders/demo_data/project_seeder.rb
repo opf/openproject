@@ -168,8 +168,9 @@ module DemoData
     end
 
     def seed_news(project, key)
+      user = User.admin.first
       Array(project_data_for(key, 'news')).each do |news|
-        News.create! project: project, title: news[:title], summary: news[:summary], description: news[:description]
+        News.create! project: project, author: user, title: news[:title], summary: news[:summary], description: news[:description]
       end
     end
 
