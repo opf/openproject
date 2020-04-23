@@ -17,7 +17,9 @@ release_date: 2020-04-23
 # OpenProject 10.5.0
 
 We released [OpenProject 10.5.0](https://community.openproject.com/versions/1386).
-The release contains several bug fixes and we recommend updating to the newest version.
+The new release of the open source project management software contains new action boards for assignees, much more intuitive sorting of versions by name, the removed 24-hours booking restriction for time tracking, the summary of news on the project over view page, and much more usability improvements and bug fixes.
+
+We recommend updating to the newest version.
 
 <!--more-->
 
@@ -45,9 +47,9 @@ The summary of news will now be displayed in the news widget on the project over
 
 ![news-summary](news-summary.png)
 
-## Uprade to the OpenProject Enterprise Edition
+## Upgrade to the OpenProject Enterprise Edition
 
-With OpenProject 10.5 it is now much easier to upgrade an existing Community installation to the Enterprise Edition. Within your system Administration under -> Enterprise Edition you now have the possibility to start a 14 days free trial for the Enterprise Edition. Also you can upgrade directly to get professional support, premium features, and additional security features. The Enterprise token will be generated and updated in your Community installation.
+With OpenProject 10.5 it is now much easier to upgrade an existing Community installation to the Enterprise Edition. Within your system Administration under -> Enterprise Edition you now have the possibility to start a 14 days free trial for the Enterprise Edition. Also, you can upgrade directly to get professional support, premium features, and additional security features. The Enterprise token will be generated and updated in your Community installation.
 
  ![Enterprise-Edition-upgrade](Enterprise-Edition-upgrade.png)
 
@@ -85,7 +87,7 @@ BCF Management in OpenProject is compatible with hundreds of applications that s
 BIM Issues can be created wherever the user identifies them, i.e. in his favorite BIM tool. These issues can then be easily imported into OpenProject - the central BCF management system - for centralized tracking and consolidation.
 An export function can then be used to distribute the BCFs back to the local applications.
 
-### Further bug fixes and changes
+### All changes and bug fixes
 
 - Changed: Hide "Empty" work package updates  \[[#21471](https://community.openproject.com/wp/21471)\]
 - Changed: Create a "Action board" with "Action attribute" -> "Assignee" \[[#30157](https://community.openproject.com/wp/30157)\]
