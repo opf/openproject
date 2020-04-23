@@ -1,6 +1,10 @@
 require_relative '../../spec_helper'
 
-describe 'Create BCF', type: :feature, js: true, with_mail: false do
+describe 'Create BCF',
+         type: :feature,
+         js: true,
+         with_config: { edition: 'bim' },
+         with_mail: false do
   let(:project) do
     FactoryBot.create(:project,
                       types: [type, type_with_cf],

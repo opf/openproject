@@ -28,7 +28,10 @@
 
 require_relative '../spec_helper'
 
-describe 'model viewer', type: :feature, js: true do
+describe 'model viewer',
+         with_config: { edition: 'bim' },
+         type: :feature,
+         js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
