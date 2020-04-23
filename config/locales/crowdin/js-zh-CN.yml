@@ -266,7 +266,7 @@ zh-CN:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards across lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
+              此版本包含许多新功能和改进：<br><br> <ul> <li><b>面向被分派人的操作面板</b>：创建操作面板，在列表中移动卡片时，它们会自动更新被分派人。</li> <li>按照名称而不是日期对版本排序，这样可以更轻松地从列表中选择版本。</li> <li><b>移除 24 小时限制</b>，以便进行时间跟踪。</li> <li>在项目概览微件上显示新闻摘要。</li> <li>各种错误修复和<b>实用性改进</b>。</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
