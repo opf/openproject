@@ -1139,7 +1139,7 @@ ko:
       forums: "커뮤니티 포럼"
       newsletter: "보안 알림/뉴스레터"
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "변경 사항이 취소되었습니다."
   links:
     configuration_guide: '구성 가이드'
     get_in_touch: "질문이 있으신가요? 문의해 주세요."

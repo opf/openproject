@@ -182,8 +182,8 @@ pt:
             label_starts_at: "Começa em"
             label_expires_at: "Expira a"
             receive_newsletter: Quero receber a <a target="_blank" href="%{link}">newsletter</a> do OpenProject.
-            taken_domain: There can only be one active trial per domain.
-            taken_email: Each user can only create one trial.
+            taken_domain: Só pode haver um teste ativo por domínio.
+            taken_email: Cada utilizador só pode criar uma avaliação.
           email_not_received: "Não recebeu um email? Pode reenviar o email através do link à direita."
           try_another_email: "Ou experimentar com outro endereço de email."
           next_steps: "Próximos passos"
@@ -266,11 +266,11 @@ pt:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixings and <b>usability improvements</b>.</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              O OpenProject 10.5 suporta agora o <b>BIM Colaboration Format (BCF)</b> - o padrão de rastreio de casos abertos para modelos BIM.<br><br> <ul> <li>Crie e <b>faça a gestão de problemas BIM facilmente,</b> tais como conflitos, solicitações e perguntas no modelo interativo de IFC 3D, e <b>partilhe com a equipa do projeto.</b></li> <li>Integre o OpenProject no seu software BIM favorito através do poderoso <a target="_blank" href="%{bcf_api_link}">REST API.</a></li> <li>Importação e exportação de ficheiros XML BCF.</li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna após"
     label_add_column_before: "Adicionar coluna antes"
@@ -322,7 +322,7 @@ pt:
     label_expand_all: "Expandir Tudo"
     label_expand_project_menu: "Expandir menu do projeto"
     label_export: "Exportar"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_export_preparing: "A exportação está a ser preparada e será descarregada brevemente."
     label_filename: "Ficheiro"
     label_filesize: "Tamanho"
     label_general: "Geral"
