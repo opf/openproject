@@ -13,8 +13,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: Generate .env.pullpreview file
       run: |
-        echo "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE=off" > .env.pullpreview
+        echo "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE=off" >> .env.pullpreview
         echo "OPENPROJECT_SHOW__SETTING__MISMATCH__WARNING=false" >> .env.pullpreview
+    - name: Boot as BIM edition
+      if: contains(github.ref, 'bim/') || contains(github.head_ref, 'bim/')
+      run: |
+        echo "OPENPROJECT_EDITION=bim" >> .env.pullpreview
     - uses: pullpreview/action@master
       with:
         admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde
