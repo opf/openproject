@@ -296,7 +296,7 @@ en:
                 <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li>
                 <li><b>Remove 24-hour restriction</b> for time tracking.</li>
                 <li>Show news summary on project overview widget.</li>
-                <li>Various bug fixings and <b>usability improvements</b>.</li>
+                <li>Various bug fixes and <b>usability improvements</b>.</li>
               </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
