@@ -10,6 +10,7 @@ import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-chan
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import { Moment } from 'moment';
 import {TimeEntryCreateModal} from "core-app/modules/time_entries/create/create.modal";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 
 @Injectable()
 export class TimeEntryCreateService {
@@ -22,10 +23,10 @@ export class TimeEntryCreateService {
               readonly i18n:I18nService) {
   }
 
-  public create(date:Moment) {
+  public create(date:Moment, wp?:WorkPackageResource) {
     return new Promise<{entry:TimeEntryResource, action:'create'}>((resolve, reject) => {
       this
-        .createNewTimeEntry(date)
+        .createNewTimeEntry(date, wp)
         .then(changeset => {
           const modal = this.opModalService.show(TimeEntryCreateModal, this.injector, { entry: changeset.pristineResource });
 
@@ -44,8 +45,19 @@ export class TimeEntryCreateService {
     });
   }
 
-  public createNewTimeEntry(date:Moment) {
-    return this.timeEntryDm.createForm({ spentOn: date.format('YYYY-MM-DD') }).then(form => {
+  public createNewTimeEntry(date:Moment, wp?:WorkPackageResource) {
+    // Todo handle case that wp is not given
+    let payload = {
+      spentOn: date.format('YYYY-MM-DD'),
+      '_links': {
+        'workPackage': {
+          'href': wp!.href
+        }
+      }
+    }
+
+    
+    return this.timeEntryDm.createForm(payload).then(form => {
       return this.fromCreateForm(form);
     });
   }

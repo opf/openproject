@@ -32,6 +32,7 @@ import {ProjectCacheService} from "core-components/projects/project-cache.servic
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import * as URI from 'urijs';
+import { TimeEntryCreateService } from 'core-app/modules/time_entries/create/create.service';
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   public text = {
@@ -41,6 +42,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
 
   @InjectField() PathHelper:PathHelperService;
   @InjectField() projectCacheService:ProjectCacheService;
+  @InjectField() timeEntryCreateService:TimeEntryCreateService;
 
   public render(element:HTMLElement, displayText:string):void {
     if (!this.value) {
@@ -51,6 +53,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
     link.textContent = displayText;
     link.setAttribute('title', this.text.linkTitle);
 
+    
     if (this.resource.project) {
       const wpID = this.resource.id.toString();
       this.projectCacheService
@@ -64,7 +67,8 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
         });
     }
 
-    
+
+
     const timelogLogo= document.createElement('a');
     timelogLogo.setAttribute('class','icon icon-time');
     timelogLogo.textContent = this.text.logTime;
@@ -72,5 +76,10 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
     element.innerHTML = '';
     element.appendChild(link);
     element.appendChild(timelogLogo);
+
+    let that = this;
+    timelogLogo.addEventListener('click', function() {
+      that.timeEntryCreateService.create(moment(new Date()), that.resource);
+    });
   }
 }
