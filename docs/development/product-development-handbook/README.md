@@ -1,3 +1,12 @@
+---
+sidebar_navigation:
+  title: Product Development
+  priority: 100
+description: Learn about OpenProject's product development process
+robots: index, follow
+keywords: product development, requirement process
+---
+
 <h1>OpenProject Product Development Handbook</h1>
 
 [toc]
