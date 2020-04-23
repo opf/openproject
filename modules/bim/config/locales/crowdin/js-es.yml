@@ -15,7 +15,7 @@ es:
       keyboard_input_disabled: "El visor no tiene controles de teclado. Haga clic en el visor para controlarlo con el teclado."
       models:
         default: 'Modelos IFC predeterminados'
-        manage: 'Manage models'
+        manage: 'Administrar modelos'
       views:
         viewer: 'Visor'
         split: 'Visor y tarjetas'
