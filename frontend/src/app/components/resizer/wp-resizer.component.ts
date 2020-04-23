@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, Component, ElementRef, Input, OnInit, NgZone, ChangeDetectorRef} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {TransitionService} from '@uirouter/core';
 import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
@@ -45,7 +45,8 @@ import {fromEvent} from "rxjs";
              (start)="resizeStart()"
              (move)="resizeMove($event)">
     </resizer>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, AfterViewInit {
@@ -67,9 +68,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   constructor(readonly toggleService:MainMenuToggleService,
               private elementRef:ElementRef,
               readonly $transitions:TransitionService,
-              readonly browserDetector:BrowserDetector,
-              private ngZone:NgZone,
-              private changeDetectorRef:ChangeDetectorRef) {
+              readonly browserDetector:BrowserDetector) {
     super();
   }
 
@@ -146,6 +145,10 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     // Send a event that we resized this element
     const event = new Event(this.resizeEvent);
     window.dispatchEvent(event);
+
+    if (this.resizer.classList.contains('-error')) {
+      this.resizer.classList.remove('-error');
+    }
   }
 
   resizeMove(deltas:ResizeDelta) {
@@ -161,19 +164,15 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
       newValue = this.elementMinWidth;
 
       // Show the resizer red when it reaches its limit (min-width)
-      if (this.resizer.style.color !== 'red') {
-        this.resizer.style.color = 'red';
-
-        // Avoid triggering change detection for all the app
-        this.ngZone.runOutsideAngular(() => {
-          setTimeout(() => {
-            this.resizer.style.color = '';
-            this.changeDetectorRef.detectChanges();
-          }, 500);
-        });
+      if (!this.resizer.classList.contains('-error')) {
+        this.resizer.classList.add('-error');
       }
     } else {
       newValue = this.elementWidth;
+
+      if (this.resizer.classList.contains('-error')) {
+        this.resizer.classList.remove('-error');
+      }
     }
 
     // Store item in local storage
