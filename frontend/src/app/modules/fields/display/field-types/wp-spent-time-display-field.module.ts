@@ -35,7 +35,8 @@ import * as URI from 'urijs';
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   public text = {
-    linkTitle: this.I18n.t('js.work_packages.message_view_spent_time')
+    linkTitle: this.I18n.t('js.work_packages.message_view_spent_time'),
+    logTime: this.I18n.t('js.button_log_time')
   };
 
   @InjectField() PathHelper:PathHelperService;
@@ -63,7 +64,13 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
         });
     }
 
+    
+    const timelogLogo= document.createElement('a');
+    timelogLogo.setAttribute('class','icon icon-time');
+    timelogLogo.textContent = this.text.logTime;
+
     element.innerHTML = '';
     element.appendChild(link);
+    element.appendChild(timelogLogo);
   }
 }
