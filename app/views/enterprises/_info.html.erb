@@ -32,31 +32,32 @@ See docs/COPYRIGHT.rdoc for more details.
   </script>
 <% end %>
 
-<enterprise-base></enterprise-base>
+<div class="upsale--information-container">
+  <div class='upsale-information'>
+    <enterprise-base></enterprise-base>
+  </div>
 
-<div class='upsale--actions'>
-  <a href="#"
-     class="button -highlight"
-     data-cb-type="checkout"
-     data-cb-plan-id="enterprise-edition---annual-user-license">
-    <%= t('admin.enterprise.book_now') %>
-  </a>
+  <div class='upsale-actions'>
+    <a href="#"
+       class="button -highlight-inverted"
+       data-cb-type="checkout"
+       data-cb-plan-id="enterprise-edition---annual-user-license">
+      <%= t('admin.enterprise.book_now') %>
+    </a>
 
-  <% quote_link = OpenProject::Static::Links.links.fetch :upsale_get_quote %>
-  <%= link_to t(quote_link[:label]),
-              quote_link[:href],
-              target: '_blank',
-              class: 'button -highlight'%>
+    <% quote_link = OpenProject::Static::Links.links.fetch :upsale_get_quote %>
+    <%= link_to t(quote_link[:label]),
+                quote_link[:href],
+                target: '_blank',
+                class: 'button -highlight-inverted'%>
+  </div>
 
   <%= static_link_to :contact %>
 </div>
 
-<p>
-  <b><%= t('js.admin.enterprise.upsale.confidence') %></b>
-</p>
-
 <div class="info-boxes upsale-benefits">
   <h3 class="info-boxes--title -no-border"><%= t('js.admin.enterprise.upsale.benefits.description') %></h3>
+
   <div class="info-boxes--container">
     <div class="info-boxes--item">
       <%= image_tag "installation_alerts.svg",

@@ -48,7 +48,8 @@ export class EnterpriseBaseComponent {
     become_hero: this.I18n.t('js.admin.enterprise.upsale.become_hero'),
     you_contribute: this.I18n.t('js.admin.enterprise.upsale.you_contribute'),
     email_not_received: this.I18n.t('js.admin.enterprise.trial.email_not_received'),
-    text: this.I18n.t('js.admin.enterprise.upsale.text'),
+    enterprise_edition: this.I18n.t('js.admin.enterprise.upsale.text'),
+    confidence: this.I18n.t('js.admin.enterprise.upsale.confidence'),
     try_another_email: this.I18n.t('js.admin.enterprise.trial.try_another_email')
   };
 
