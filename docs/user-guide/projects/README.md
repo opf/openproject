@@ -25,7 +25,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
 | [View all projects](#view-all-projects)                      | Get an overview of all your projects in the project overview list. |
 | [Create a project template](#create-a-project-template)      | You can create a project template and use it for future projects. |
-| [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports accross multiple projects? |
+| [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
 ## Select a project
 
