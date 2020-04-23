@@ -28,7 +28,10 @@
 
 require 'spec_helper'
 
-describe 'authorization for BCF api', type: :feature, js: true do
+describe 'authorization for BCF api',
+         with_config: { edition: 'bim' },
+         type: :feature,
+         js: true do
   let!(:user) { FactoryBot.create(:admin) }
   let(:client_secret) { app.plaintext_secret }
   let(:scope) { 'bcf_v2_1' }
