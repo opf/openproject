@@ -47,9 +47,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 })
 export class IFCViewerComponent implements OnInit, OnDestroy {
   private viewerUI:any;
-
-  modelCount = this.ifcData.models.length;
-
+  modelCount:number;
   canManage = this.ifcData.allowed('manage_ifc_models');
 
   text = {
@@ -70,6 +68,8 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
+    this.modelCount = this.ifcData.models.length;
+
     if (this.modelCount === 0) {
       return;
     }
@@ -94,13 +94,15 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   @HostListener('mousedown')
   enableKeyBoard() {
-    this.keyboardEnabled = true;
-    this.ifcViewer.setKeyboardEnabled(true);
+    if (this.modelCount) {
+      this.keyboardEnabled = true;
+      this.ifcViewer.setKeyboardEnabled(true);
+    }
   }
 
   @HostListener('window:mousedown', ['$event.target'])
   disableKeyboard(target:Element) {
-    if (!this.outerContainer.nativeElement!.contains(target)) {
+    if (this.modelCount && !this.outerContainer.nativeElement!.contains(target)) {
       this.keyboardEnabled = false;
       this.ifcViewer.setKeyboardEnabled(false);
     }
