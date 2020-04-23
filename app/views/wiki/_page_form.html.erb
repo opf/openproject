@@ -46,5 +46,5 @@
 <%= link_to t(:button_cancel),
             { controller: '/wiki', action: 'show', project_id: @project, id: (@page.new_record? ? nil : @page) },
             data: { confirm: t(:text_are_you_sure) },
-            class: 'button' %>
+            class: 'button -with-icon icon-cancel' %>
 
