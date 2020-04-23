@@ -63,7 +63,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   constructor(private I18n:I18nService,
               private elementRef:ElementRef,
-              private ifcData:IfcModelsDataService,
+              public ifcData:IfcModelsDataService,
               private ifcViewer:IFCViewerService) {
   }
 
