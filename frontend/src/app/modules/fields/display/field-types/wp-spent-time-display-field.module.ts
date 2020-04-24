@@ -53,7 +53,6 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
     link.textContent = displayText;
     link.setAttribute('title', this.text.linkTitle);
 
-    
     if (this.resource.project) {
       const wpID = this.resource.id.toString();
       this.projectCacheService
@@ -67,9 +66,8 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
         });
     }
 
-
-
-    const timelogLogo= document.createElement('a');
+    
+    const timelogLogo = document.createElement('a');
     timelogLogo.setAttribute('class','icon icon-time');
     timelogLogo.textContent = this.text.logTime;
 
@@ -77,9 +75,13 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
     element.appendChild(link);
     element.appendChild(timelogLogo);
 
-    let that = this;
+    let classContext = this;
     timelogLogo.addEventListener('click', function() {
-      that.timeEntryCreateService.create(moment(new Date()), that.resource);
+      classContext.showTimelogWidget();
     });
   }
+
+  private showTimelogWidget(){
+    this.timeEntryCreateService.create(moment(new Date()), this.resource);
+  } 
 }

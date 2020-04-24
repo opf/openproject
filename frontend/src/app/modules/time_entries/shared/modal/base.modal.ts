@@ -1,10 +1,12 @@
-import { ElementRef, Inject, ChangeDetectorRef, ViewChild, Directive } from "@angular/core";
+import { ElementRef, Inject, ChangeDetectorRef, ViewChild, Directive, Injector } from "@angular/core";
 import {OpModalComponent} from "app/components/op-modals/op-modal.component";
 import {OpModalLocalsToken} from "app/components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "app/components/op-modals/op-modal.types";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {TimeEntryFormComponent} from "core-app/modules/time_entries/form/form.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
+import { WorkPackageCacheService } from 'core-app/components/work-packages/work-package-cache.service';
 
 @Directive()
 export abstract class TimeEntryBaseModal extends OpModalComponent {
@@ -21,10 +23,13 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
   public closeOnEscape = false;
   public closeOnOutsideClick = false;
 
+  @InjectField() workPackageCacheService:WorkPackageCacheService;
+
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
-              readonly i18n:I18nService) {
+              readonly i18n:I18nService,
+              readonly injector:Injector) {
     super(locals, cdRef, elementRef);
   }
 
@@ -37,6 +42,8 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
   public saveEntry() {
     this.editForm.save()
       .then(() => {
+        // reload workPackage
+        this.workPackageCacheService.require(this.entry.workPackage.id, true);
         this.service.close();
       });
   }

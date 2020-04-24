@@ -50,14 +50,14 @@ export class TimeEntryCreateService {
       spentOn: date.format('YYYY-MM-DD')
     };
 
-    if(wp) {  
+    if(wp) { 
       payload['_links'] = {
         workPackage: {
           href: wp.href
         }
       };
     }
-    
+
     return this.timeEntryDm.createForm(payload).then(form => {
       return this.fromCreateForm(form);
     });
