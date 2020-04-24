@@ -9,7 +9,7 @@ keywords: product development, requirement process
 
 <h1>OpenProject Product Development Handbook</h1>
 
-[toc]
+
 
 ## 1. Overview & Objectives
 
@@ -129,7 +129,7 @@ The RICE scoring model aims to objectively evaluate requirements (new products, 
 
 
 
-<u>**Reach**</u>
+**Reach**
 
 The first factor when determining the RICE score is the number of users reached by the feature.
 For OpenProject, Reach refers to the number of users and customers who will benefit from a new requirement in the first quarter after its launch.
@@ -140,7 +140,7 @@ Data sources to estimate this may include queries and user data of an associated
 
 
 
-<u>**Impact**</u>
+**Impact**
 
 The second numerator is Impact which refers to the benefits for users and customers Impact can refer to quantitative measures, such as conversion improvements, increased revenue, decreased risk or decreased cost or to qualitative measures, such as increasing customer delight.
 This makes it possible to compare revenue generating opportunities to non-revenue generating opportunities.
@@ -151,7 +151,7 @@ The higher the impact, the higher the RICE score.
 
 
 
-<u>**Confidence**</u>
+**Confidence**
 
 Especially for more complex requirements it may be unclear what the reach, impact or effort is. The team may rely more on intuition for a factor. To account for this uncertainty, the confidence component is used.
 
@@ -163,7 +163,7 @@ If you arrive at a confidence level below 50%, consider this requirement a “Mo
 
 
 
-<u>**Effort**</u>
+**Effort**
 
 The three aforementioned factors (Reach, Impact, Confidence) represent the numerators of the RICE score. The effort score refers to the estimated resources (product, design, engineering, quality assurance, etc.) in person-months needed to implement a feature.
 

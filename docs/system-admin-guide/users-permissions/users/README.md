@@ -81,13 +81,13 @@ In the top right, click the **Send invitation** button in order to send the emai
 
 ## View user profile
 
-If you want to see the user profile, click on the user name in the user list to display the activities accross all projects from a certain user. Click the **Profile** button on the top right of a user.
+If you want to see the user profile, click on the user name in the user list to display the activities across all projects from a certain user. Click the **Profile** button on the top right of a user.
 
 ![Sys-admin-profile](Sys-admin-profile.png)
 
 
 
-You will see all the Activities accross all projects from this user, as well as the amount of reported work packages in the system.
+You will see all the Activities across all projects from this user, as well as the amount of reported work packages in the system.
 
 ![user profile](image-20200115162109669.png)
 

@@ -5,14 +5,89 @@ sidebar_navigation:
 release_version: 10.5.0
 release_date: 2020-04-23
 ---
+---
+# Release notes OpenProject 10.5.0
+
+| Release notes                                                | Description                                                  |
+| ------------------------------------------------------------ | :----------------------------------------------------------- |
+| [OpenProject 10.5.0](#openproject-1050)                      | What is new for OpenProject 10.5.0?                          |
+| [OpenProject 10.5 BIM Edition for construction project management](#openproject-105-bim-edition-for-construction-project-management) | What is new for the construction project management for the building industry in OpenProject 10.5.0? |
+
 
 # OpenProject 10.5.0
 
 We released [OpenProject 10.5.0](https://community.openproject.com/versions/1386).
-The release contains several bug fixes and we recommend updating to the newest version.
+The new release of the open source project management software contains new action boards for assignees, much more intuitive sorting of versions by name, the removed 24-hours booking restriction for time tracking, the summary of news on the project over view page, and much more usability improvements and bug fixes.
+
+We recommend updating to the newest version.
 
 <!--more-->
-#### Bug fixes and changes
+
+### Action board for assignees
+
+The new action boards for assignees allow to create agile boards with lists for individual users or groups. The assignee will automatically be updated when moving cards across lists. This allows very transparent prioritization of tasks and distribution of workload between individuals and teams.
+
+![Assignee-boards](Assignee-boards.png)
+
+### Sort versions by name
+
+We have now changed the sorting of versions in the drop-down menu by name not by dates. This makes it much easier to select a version from the list, especially when there are multiple active versions in one project.
+
+![Sorting-versions](Sorting-versions.png)
+
+### No more 24-hour restriction for time tracking
+
+The restriction to only allow the booking of 24 hours per day has now been removed. You can now summarize your time bookings and track more than 24 hours.
+
+![Spent-time](Spent-time.png)
+
+### Show news summary on project overview widget
+
+The summary of news will now be displayed in the news widget on the project overview page. This way, the summary of the most recent news will be communicated at one sight.
+
+![news-summary](news-summary.png)
+
+## Upgrade to the OpenProject Enterprise Edition
+
+With OpenProject 10.5 it is now much easier to upgrade an existing Community installation to the Enterprise Edition. Within your system Administration under -> Enterprise Edition you now have the possibility to start a 14 days free trial for the Enterprise Edition. Also, you can upgrade directly to get professional support, premium features, and additional security features. The Enterprise token will be generated and updated in your Community installation.
+
+ ![Enterprise-Edition-upgrade](Enterprise-Edition-upgrade.png)
+
+## OpenProject 10.5 BIM Edition for construction project management
+
+OpenProject BIM 10.5 will improvement BIM project management for the construction industry, especially with the support of the BIM Collaboration Format (BCF). With the BCF Management module, the OpenProject BIM Edition now offers a fast and intuitive form of central collaboration and coordination in your BIM projects. Release 10.4 has already added an IFC Viewer for the integration of 3D building models. Now, BCF issues can be created directly in the 3D model and managed centrally.
+
+### Collaboration and coordination in one central BIM project management software
+
+OpenProject supports BIM project management with central planning, collaboration and coordination for BIM projects. The software thus connects all project participants in a web-based system. As a web-based coordination tool, all BIM issues can be created, managed and distributed centrally in OpenProject.
+
+![BCF-management](BCF-management.png)
+
+### BCF Management for the construction industry
+
+The core scenario enabled by the new release of the BIM Edition is BIM Issue Management with BCF. This enables issues in a construction project (e.g. clashes, requests, questions) to be crated and communicated directly on a 3D model or between several submodels.
+Both, model-associated issues (BCFs) directly on the BIM model as well as non-model-associated tasks can be created and tracked.
+
+![BCF-management-details](BCF-management-details.png)
+
+### Central BCF issue management and BCF communication in OpenProject
+
+The BCF Issue management and communication is thus done centrally in OpenProject. Issues can be created directly on the 3D building model, jointly prioritized and analyzed, and assigned to the responsible BIM modelers.
+
+OpenProject offers an ideal way to comment on and track BCFs. Powerful filter and search functions support fast and intuitive use and transparent tracking.
+
+ ![BCF-management-split-screen-details](BCF-management-split-screen-details.png)
+
+### Support of open formats IFC and BCF
+
+BCF Management in OpenProject is compatible with hundreds of applications that support the exchange formats IFC (Industry Foundation Classes) and BCF (BIM Collaboration Format).
+
+### Robust BCF import and export
+
+BIM Issues can be created wherever the user identifies them, i.e. in his favorite BIM tool. These issues can then be easily imported into OpenProject - the central BCF management system - for centralized tracking and consolidation.
+An export function can then be used to distribute the BCFs back to the local applications.
+
+### All changes and bug fixes
 
 - Changed: Hide "Empty" work package updates  \[[#21471](https://community.openproject.com/wp/21471)\]
 - Changed: Create a "Action board" with "Action attribute" -> "Assignee" \[[#30157](https://community.openproject.com/wp/30157)\]

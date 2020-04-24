@@ -10,7 +10,7 @@ end
 
 gem 'omniauth-openid_connect-providers',
 		git: 'https://github.com/finnlabs/omniauth-openid_connect-providers.git',
-		ref: '8c93ea9a197d4142e20af17e5ad3088d6893f7ab'
+		ref: '5148dd402cacc2785cee76336d649ebdf84488ca'
 
 gem 'omniauth-openid-connect',
 		git: 'https://github.com/finnlabs/omniauth-openid-connect.git',

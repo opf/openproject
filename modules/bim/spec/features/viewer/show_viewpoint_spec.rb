@@ -28,7 +28,10 @@
 
 require_relative '../../spec_helper'
 
-describe 'Show viewpoint in model viewer', type: :feature, js: true do
+describe 'Show viewpoint in model viewer',
+         with_config: { edition: 'bim' },
+         type: :feature,
+         js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
   let(:user) { FactoryBot.create :admin }
 
