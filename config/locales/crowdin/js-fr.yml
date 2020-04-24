@@ -182,8 +182,8 @@ fr:
             label_starts_at: "Commence à"
             label_expires_at: "Expire le"
             receive_newsletter: Je veux recevoir la <a target="_blank" href="%{link}">newsletter OpenProject</a>.
-            taken_domain: There can only be one active trial per domain.
-            taken_email: Each user can only create one trial.
+            taken_domain: Il ne peut y avoir qu'un seul essai actif par domaine.
+            taken_email: Chaque utilisateur ne peut créer qu'un essai.
           email_not_received: "Vous n'avez pas reçu d'e-mail ? Vous pouvez renvoyer l'e-mail avec le lien à droite."
           try_another_email: "Ou essayez avec une autre adresse e-mail."
           next_steps: "Prochaines étapes"
@@ -270,7 +270,7 @@ fr:
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              OpenProject 10.5 prend maintenant en charge le <b>BIM Collaboration Format (BCF)</b> – la norme ouverte de suivi des problèmes pour les modèles BIM.<br><br> <ul> <li>Créez et <b>gérez facilement les problèmes BIM</b> telles que les désaccords, demandes et questions dans le modèle interactif 3D IFC et <b>partager-ler avec l'équipe du projet.</b></li> <li>Intégrez OpenProject à votre logiciel BIM préféré en utilisant la puissante <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importez et exportez des fichiers BCF XML.</li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
@@ -322,7 +322,7 @@ fr:
     label_expand_all: "Tout déplier"
     label_expand_project_menu: "Déplier le menu du projet"
     label_export: "Exporter"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_export_preparing: "L'export est en cours de préparation et sera téléchargé sous peu."
     label_filename: "Fichier"
     label_filesize: "Taille"
     label_general: "Général"

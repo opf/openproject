@@ -63,8 +63,8 @@ ru:
     button_open_details: "Открыть детальный просмотр"
     button_close_details: "Закрыть детальный просмотр"
     button_open_fullscreen: "Полноэкранный просмотр"
-    button_show_cards: "Показать вид карты"
-    button_show_list: "Показать список"
+    button_show_cards: "Показать в виде карточек"
+    button_show_list: "Показать в виде списка"
     button_quote: "Цитата"
     button_save: "Сохранить"
     button_settings: "Параметры"
@@ -269,7 +269,7 @@ ru:
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              OpenProject 10.5 теперь поддерживает <b>BIM Collaboration Format (BCF)</b> – открытый стандарт отслеживания проблем для BIM-моделей.<br><br> <ul> <li>Вы сможете легко регистрировать и <b>отслеживать различные проблемы BIM</b>, включая конфликты, запросы и вопросы, в интерактивной 3D-модели IFC и <b>делиться ею с командой проекта.</b></li> <li>Интегрируйте OpenProject с привычной для вас BIM-системой посредством мощного <a target="_blank" href="%{bcf_api_link}">REST API для BCF.</a></li> <li>Импортируйте и экспортируйте XML-файлы для BCF.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -321,7 +321,7 @@ ru:
     label_expand_all: "Развернуть все"
     label_expand_project_menu: "Развернуть меню проекта"
     label_export: "Экспорт"
-    label_export_preparing: "Экспорт готовится и будет загружен в ближайшее время."
+    label_export_preparing: "Файлы для экспорта готовятся и скоро будут загружены."
     label_filename: "Файл"
     label_filesize: "Размер"
     label_general: "Общие"

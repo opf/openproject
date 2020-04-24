@@ -1,6 +1,6 @@
 sl:
   logout_warning: >
-    Bili ste izpisani. Oddana vsebina katere koli oblike se lahko izgubi. Prosim [prijavi se].
+    Bili ste izpisani. Oddana vsebina katerekoli oblike se lahko izgubi. Prosim [prijavi se].
   activemodel:
     attributes:
       openid_connect/provider:

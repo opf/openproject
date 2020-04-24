@@ -1152,7 +1152,7 @@ it:
       forums: "Forum della Comunità"
       newsletter: "Avvisi di sicurezza / Notizie"
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "Le modifiche sono state annullate."
   links:
     configuration_guide: 'Guida di configurazione'
     get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."
