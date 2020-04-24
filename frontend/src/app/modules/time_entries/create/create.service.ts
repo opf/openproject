@@ -46,16 +46,17 @@ export class TimeEntryCreateService {
   }
 
   public createNewTimeEntry(date:Moment, wp?:WorkPackageResource) {
-    // Todo handle case that wp is not given
-    let payload = {
-      spentOn: date.format('YYYY-MM-DD'),
-      '_links': {
-        'workPackage': {
-          'href': wp!.href
-        }
-      }
-    }
+    let payload:any = {
+      spentOn: date.format('YYYY-MM-DD')
+    };
 
+    if(wp) {  
+      payload['_links'] = {
+        workPackage: {
+          href: wp.href
+        }
+      };
+    }
     
     return this.timeEntryDm.createForm(payload).then(form => {
       return this.fromCreateForm(form);
