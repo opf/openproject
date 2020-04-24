@@ -34,6 +34,11 @@ module Constants
         patch_map = patch_maps_by_class[class_name]
 
         path = ":#{path}" if path.is_a?(Symbol)
+
+        if Object.const_defined?(class_name)
+          raise "Adding patch #{block} to #{class_name} after it is already loaded has no effect."
+        end
+
         patch_map[path] = [] unless patch_map[path]
         patch_map[path] << block
       end
