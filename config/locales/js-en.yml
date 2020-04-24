@@ -572,7 +572,7 @@ en:
       duration: 'Duration'
       spent_on: 'Date'
       hours: 'Hours'
-      label: 'Time entry'
+      title: 'Log time'
 
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

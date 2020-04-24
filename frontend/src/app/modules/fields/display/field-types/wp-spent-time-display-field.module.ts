@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DurationDisplayField} from './duration-display-field.module';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {ProjectCacheService} from "core-components/projects/project-cache.service";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { DurationDisplayField } from './duration-display-field.module';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { ProjectCacheService } from "core-components/projects/project-cache.service";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import * as URI from 'urijs';
 import { TimeEntryCreateService } from 'core-app/modules/time_entries/create/create.service';
 
@@ -59,16 +59,16 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
         .require(this.resource.project.idFromLink)
         .then((project:ProjectResource) => {
           const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
-            .search({work_package_id: wpID})
+            .search({ work_package_id: wpID })
             .toString();
 
           link.href = href;
         });
     }
 
-    
+
     const timelogLogo = document.createElement('a');
-    timelogLogo.setAttribute('class','icon icon-time');
+    timelogLogo.setAttribute('class', 'icon icon-time');
     timelogLogo.textContent = this.text.logTime;
 
     element.innerHTML = '';
@@ -76,12 +76,12 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
     element.appendChild(timelogLogo);
 
     let classContext = this;
-    timelogLogo.addEventListener('click', function() {
+    timelogLogo.addEventListener('click', function () {
       classContext.showTimelogWidget();
     });
   }
 
-  private showTimelogWidget(){
+  private showTimelogWidget() {
     this.timeEntryCreateService.create(moment(new Date()), this.resource);
-  } 
+  }
 }

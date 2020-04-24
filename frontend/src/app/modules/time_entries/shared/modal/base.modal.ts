@@ -13,7 +13,7 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
   @ViewChild('editForm', { static: true }) editForm:TimeEntryFormComponent;
 
   public text:{ [key:string]:string } = {
-    title: this.i18n.t('js.time_entry.label'),
+    title: this.i18n.t('js.time_entry.title'),
     cancel: this.i18n.t('js.button_cancel'),
     close: this.i18n.t('js.button_close'),
     delete: this.i18n.t('js.button_delete'),

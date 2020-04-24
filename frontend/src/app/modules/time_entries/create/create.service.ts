@@ -1,30 +1,30 @@
-import {Injectable, Injector} from "@angular/core";
-import {OpModalService} from "app/components/op-modals/op-modal.service";
-import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Injectable, Injector } from "@angular/core";
+import { OpModalService } from "app/components/op-modals/op-modal.service";
+import { HalResourceService } from "app/modules/hal/services/hal-resource.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { TimeEntryResource } from 'core-app/modules/hal/resources/time-entry-resource';
 import { take } from 'rxjs/operators';
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { FormResource } from "core-app/modules/hal/resources/form-resource";
+import { TimeEntryDmService } from "core-app/modules/hal/dm-services/time-entry-dm.service";
+import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import { Moment } from 'moment';
-import {TimeEntryCreateModal} from "core-app/modules/time_entries/create/create.modal";
+import { TimeEntryCreateModal } from "core-app/modules/time_entries/create/create.modal";
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 
 @Injectable()
 export class TimeEntryCreateService {
 
   constructor(readonly opModalService:OpModalService,
-              readonly injector:Injector,
-              readonly halResource:HalResourceService,
-              readonly timeEntryDm:TimeEntryDmService,
-              protected halEditing:HalResourceEditingService,
-              readonly i18n:I18nService) {
+    readonly injector:Injector,
+    readonly halResource:HalResourceService,
+    readonly timeEntryDm:TimeEntryDmService,
+    protected halEditing:HalResourceEditingService,
+    readonly i18n:I18nService) {
   }
 
   public create(date:Moment, wp?:WorkPackageResource) {
-    return new Promise<{entry:TimeEntryResource, action:'create'}>((resolve, reject) => {
+    return new Promise<{ entry:TimeEntryResource, action:'create' }>((resolve, reject) => {
       this
         .createNewTimeEntry(date, wp)
         .then(changeset => {
@@ -35,7 +35,7 @@ export class TimeEntryCreateService {
             .pipe(take(1))
             .subscribe(() => {
               if (modal.createdEntry) {
-                resolve({entry: modal.createdEntry, action: 'create'});
+                resolve({ entry: modal.createdEntry, action: 'create' });
               } else {
                 reject();
               }
@@ -50,7 +50,7 @@ export class TimeEntryCreateService {
       spentOn: date.format('YYYY-MM-DD')
     };
 
-    if(wp) { 
+    if (wp) {
       payload['_links'] = {
         workPackage: {
           href: wp.href
