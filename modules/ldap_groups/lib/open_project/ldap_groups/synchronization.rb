@@ -19,10 +19,33 @@ module OpenProject::LdapGroups
 
       ::LdapGroups::Membership.transaction do
         @synced_groups.find_each do |group|
-          members = get_members(ldap_con, group)
-          users = User.where(login: members)
+          user_data = get_members(ldap_con, group)
+
+          # Create users that are not existing
+          users = map_to_users(user_data)
+
           update_memberships!(group, users)
         end
+      end
+    end
+
+    ##
+    # Map LDAP entries to user accounts, creating them if necessary
+    def map_to_users(entries)
+      create_missing!(entries) if ldap.onthefly_register?
+
+      User.where(login: entries.keys)
+    end
+
+    ##
+    # Create missing users from ldap data
+    def create_missing!(entries)
+      existing = User.where(login: entries.keys).pluck(:login, :id).to_h
+
+      entries.each do |login, data|
+        next if existing[login]
+
+        User.try_to_create(data)
       end
     end
 
@@ -49,20 +72,22 @@ module OpenProject::LdapGroups
     def get_members(ldap_con, group)
 
       # Get user login attribute and base dn which are private
-      attr_login = ldap.send :attr_login
-      base_dn = ldap.send :base_dn
+      base_dn = ldap.base_dn
 
       # memberOf filter to identifiy member entries of the group
       memberof_filter = Net::LDAP::Filter.eq('memberOf', group.dn)
 
-      logins = []
+      # TODO add ldap filter
+
+      users = {}
       ldap_con.search(base: base_dn,
                       filter: memberof_filter,
-                      attributes: [attr_login]) do |entry|
-        logins << ::LdapAuthSource.get_attr(entry, attr_login)
+                      attributes: ldap.search_attributes) do |entry|
+        data = ldap.get_user_attributes_from_ldap_entry(entry)
+        users[data[:login]] = data.except(:dn)
       end
 
-      logins
+      users
     end
 
     ##

@@ -125,9 +125,12 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
   <div class="form--field">
     <%= f.check_box 'onthefly_register', label: AuthSource.human_attribute_name(:onthefly) %>
-    <span class="form--field-instructions">
-      <%= t('ldap_auth_sources.attribute_texts.onthefly_register') %>
-    </span>
+    <div class="form--field-instructions">
+      <p><%= t('ldap_auth_sources.attribute_texts.onthefly_register') %></p>
+      <% if EnterpriseToken.allows_to?(:ldap_groups) %>
+        <p><%= t('ldap_auth_sources.attribute_texts.onthefly_group_sync') %></p>
+      <% end %>
+    </div>
   </div>
 </fieldset>
 

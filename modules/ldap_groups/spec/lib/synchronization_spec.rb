@@ -3,7 +3,7 @@ require 'ladle'
 
 describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   let(:plugin_settings) do
-    { group_base: 'ou=groups,dc=example,dc=com', group_key: 'cn' }
+    {group_base: 'ou=groups,dc=example,dc=com', group_key: 'cn'}
   end
 
   before(:all) do
@@ -20,12 +20,18 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   # two groups foo (aa729), bar(aa729, bb459, cc414)
   let(:auth_source) do
     FactoryBot.create :ldap_auth_source,
-                       port: '12389',
-                       account: 'uid=admin,ou=system',
-                       account_password: 'secret',
-                       base_dn: 'ou=people,dc=example,dc=com',
-                       attr_login: 'uid'
+                      port: '12389',
+                      account: 'uid=admin,ou=system',
+                      account_password: 'secret',
+                      base_dn: 'ou=people,dc=example,dc=com',
+                      onthefly_register: onthefly_register,
+                      attr_login: 'uid',
+                      attr_firstname: 'givenName',
+                      attr_lastname: 'sn',
+                      attr_mail: 'mail'
   end
+
+  let(:onthefly_register) { false }
 
   let(:user_aa729) { FactoryBot.create :user, login: 'aa729', auth_source: auth_source }
   let(:user_bb459) { FactoryBot.create :user, login: 'bb459', auth_source: auth_source }
@@ -123,8 +129,8 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
           end
 
           it 'removes all memberships and groups after removing auth source' do
-            expect{ auth_source.destroy }
-              .to change{::LdapGroups::Membership.count}.from(4).to(0)
+            expect { auth_source.destroy }
+              .to change { ::LdapGroups::Membership.count }.from(4).to(0)
 
             auth_source.destroy
 
@@ -157,6 +163,21 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
 
           expect(group_foo.users).to be_empty
           expect(group_bar.users).to eq([user_cc414])
+        end
+
+        context 'with LDAP on-the-fly enabled' do
+          let(:onthefly_register) { true }
+          let(:user_aa729) { User.find_by login: 'aa729' }
+          let(:user_bb459) { User.find_by login: 'bb459' }
+
+          it 'creates the remaining users' do
+            subject
+            expect(synced_foo.users.count).to eq(1)
+            expect(synced_bar.users.count).to eq(3)
+
+            expect(group_foo.users).to contain_exactly(user_aa729)
+            expect(group_bar.users).to contain_exactly(user_aa729, user_bb459, user_cc414)
+          end
         end
       end
     end

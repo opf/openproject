@@ -84,6 +84,28 @@ class LdapAuthSource < AuthSource
     'LDAP'
   end
 
+  def get_user_attributes_from_ldap_entry(entry)
+    {
+      dn: entry.dn,
+      login: LdapAuthSource.get_attr(entry, attr_login),
+      firstname: LdapAuthSource.get_attr(entry, attr_firstname),
+      lastname: LdapAuthSource.get_attr(entry, attr_lastname),
+      mail: LdapAuthSource.get_attr(entry, attr_mail),
+      admin: !!LdapAuthSource.get_attr(entry, attr_admin),
+      auth_source_id: id
+    }
+  end
+
+  # Return the attributes needed for the LDAP search.  It will only
+  # include the user attributes if on-the-fly registration is enabled
+  def search_attributes
+    if onthefly_register?
+      ['dn', attr_login, attr_firstname, attr_lastname, attr_mail, attr_admin].compact
+    else
+      ['dn', attr_login]
+    end
+  end
+
   private
 
   def strip_ldap_attributes
@@ -107,27 +129,6 @@ class LdapAuthSource < AuthSource
       nil
     else
       tls_mode.to_sym
-    end
-  end
-
-  def get_user_attributes_from_ldap_entry(entry)
-    {
-      dn: entry.dn,
-      firstname: LdapAuthSource.get_attr(entry, attr_firstname),
-      lastname: LdapAuthSource.get_attr(entry, attr_lastname),
-      mail: LdapAuthSource.get_attr(entry, attr_mail),
-      admin: !!LdapAuthSource.get_attr(entry, attr_admin),
-      auth_source_id: id
-    }
-  end
-
-  # Return the attributes needed for the LDAP search.  It will only
-  # include the user attributes if on-the-fly registration is enabled
-  def search_attributes
-    if onthefly_register?
-      ['dn', attr_firstname, attr_lastname, attr_mail, attr_admin]
-    else
-      ['dn']
     end
   end
 
