@@ -31,7 +31,8 @@ class DemoDataSeeder < CompositeSeeder
       DemoData::GroupSeeder,
       DemoData::AttributeHelpTextSeeder,
       DemoData::GlobalQuerySeeder,
-      DemoData::ProjectSeeder
+      DemoData::ProjectSeeder,
+      DemoData::OverviewSeeder
     ]
   end
 

@@ -1,13 +1,13 @@
 bg:
-  export_to_excel: "Export XLS"
-  print_with_description: "Print preview with description"
+  export_to_excel: "Експорт XLS"
+  print_with_description: "Преглед преди печат с описание"
   sentence_separator_or: "or"
-  different_formats: Different formats
+  different_formats: Различни формати
   export:
     format:
       xls: "XLS"
-      xls_with_descriptions: "XLS with descriptions"
+      xls_with_descriptions: "XLS с описания"
       xls_with_relations: "XLS with relations"
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: дете на
+    parent_of: родител на

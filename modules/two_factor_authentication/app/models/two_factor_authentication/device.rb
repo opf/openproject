@@ -1,5 +1,5 @@
 module TwoFactorAuthentication
-  class Device < ActiveRecord::Base
+  class Device < ApplicationRecord
     default_scope { order('id ASC') }
 
     belongs_to :user

@@ -29,7 +29,7 @@
 module Entry
   [TimeEntry, CostEntry].each { |e| e.send :include, self }
 
-  class Delegator < ActiveRecord::Base
+  class Delegator < ApplicationRecord
     # Rails 3.2.13 delegates most of the methods defined here to an
     # ActiveRecord::Relation (see active_record/querying.rb).
     # Thus only implementing the four find_x methods isn't enough

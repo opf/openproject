@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class UserPreference < ActiveRecord::Base
+class UserPreference < ApplicationRecord
   belongs_to :user
   serialize :others
 

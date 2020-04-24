@@ -13,7 +13,7 @@ class RenameFixedVersionInCostQuery < ActiveRecord::Migration[6.0]
         UPDATE
           cost_queries q_sink
         SET
-          serialized = regexp_replace(q_source.serialized, '(\n- - )#{from}Id(\n)', '\1#{to}Id\2')
+          serialized = regexp_replace(q_source.serialized, '(\n- - )#{from}Id(\n)', '\\1#{to}Id\\2')
         FROM
           cost_queries q_source
         WHERE

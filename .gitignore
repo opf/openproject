@@ -85,6 +85,7 @@ npm-debug.log*
 /.ruby-gemset
 /.foreman
 /.env*
+.DS_Store
 .rspec
 # coverage in plugins
 /lib/plugins/*/coverage

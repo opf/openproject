@@ -9,8 +9,9 @@
     <!-- Widget box with arrows: Single-line -->
     <div class="widget-box">
       <h3 class="widget-box--header">
-        <span class="icon-context icon-home"></span>
-        <span class="widget-box--header-title">Widget Box</span>
+        <div class="widget-box--header-title title-container">
+          <h2 class="editable-toolbar-title--fixed">Widget Box</h2>
+        </div>
       </h3>
       <p class="widget-box--additional-info">This widget box can be used to display content belonging to one subject.</p>
       <ul class="widget-box--arrow-links">
@@ -26,8 +27,9 @@
     <!-- Widget box with arrows: Multiline -->
     <div class="widget-box">
       <h3 class="widget-box--header">
-        <i class="icon-context icon-home"></i>
-        <span class="widget-box--header-title">Widget Box 2</span>
+        <div class="widget-box--header-title title-container">
+          <h2 class="editable-toolbar-title--fixed">Widget Box 2</h2>
+        </div>
       </h3>
       <ul class="widget-box--arrow-links">
         <li class="-widget-box--arrow-multiline">
@@ -60,8 +62,9 @@
     <!-- Widget box with button -->
     <div class="widget-box">
       <h3 class="widget-box--header">
-        <span class="icon-context icon-home"></span>
-        <span class="widget-box--header-title">Widget Box 3</span>
+        <div class="widget-box--header-title title-container">
+          <h2 class="editable-toolbar-title--fixed">Widget Box 3</h2>
+        </div>
       </h3>
       <div class="overview">
         <p>
@@ -80,8 +83,9 @@
     <!-- Widget box with enumeration and multiple buttons -->
     <div class="widget-box">
       <h3 class="widget-box--header">
-        <span class="icon-context icon-home"></span>
-        <span class="widget-box--header-title">Widget Box 4</span>
+        <div class="widget-box--header-title title-container">
+          <h2 class="editable-toolbar-title--fixed">Widget Box 4</h2>
+        </div>
       </h3>
       <ul class="widget-box--enumeration">
         <li>Enum1</li>

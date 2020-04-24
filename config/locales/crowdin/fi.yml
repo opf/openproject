@@ -63,13 +63,16 @@ fi:
         main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Päivitä yritysversioon"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
       replace_token: "Korvata nykyisen tukea poletti"
       order: "Tilaa yritysversio"
       paste: "Paste your Enterprise Edition support token"
       required_for_feature: "This feature is only available with an active Enterprise Edition support token."
       enterprise_link: "Saadaksesi lisätietoja, paina tästä."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Näytä tähän päivään asti
     is_active: näkyvissä tällä hetkellä
@@ -755,6 +758,7 @@ fi:
     version: "Versio"
     work_package: "Työpaketti"
   button_add: "Lisää"
+  button_add_comment: "Lisää kommentti"
   button_add_member: Lisää jäsen
   button_add_watcher: "Lisää seuraaja"
   button_annotate: "Lisää selitys"
@@ -1139,13 +1143,8 @@ fi:
     blocks:
       community: "OpenProject yhteisö"
       upsale:
-        become_hero: "Ryhdy sankariksi!"
         title: "Päivitä yritysversioon"
-        description: "What are the benefits?"
         more_info: "Lisätietoja"
-        additional_features: "Muita tehokkaita erikoisominaisuuksia"
-        professional_support: "Professional support from the OpenProject experts"
-        you_contribute: "Myös kehittäjien täytyy maksaa heidän laskunsa. Yritysversiolla edistät merkittävästi tämän avoimen lähdekoodin yhteisön toimintaa."
     links:
       upgrade_enterprise_edition: "Päivitä yritysversioon"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1157,9 +1156,10 @@ fi:
       forums: "Keskustelupalsta"
       newsletter: "Suojausvaroitukset / uutiskirje"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Configuration guide'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Heti kun tilisi on aktivoitu voit kirjatua painamalla %{signin}."
   instructions_after_logout: "Voit kirjautua sisään uudelleen napsauttamalla %{signin}."
   instructions_after_error: "Voit kirjautua uudelleen napsauttamalla %{signin}. Jos virhe toistuu, pyydä apua järjestelmävalvojalta."
@@ -1449,7 +1449,7 @@ fi:
   label_new: "Uusi"
   label_new_features: "New features"
   label_new_statuses_allowed: "Uudet tilat sallittu"
-  label_news: "Uutiset"
+  label_news_singular: "Uutiset"
   label_news_added: "Uutinen lisätty"
   label_news_comment_added: "Kommentti lisätty uutiseen"
   label_news_latest: "Viimeisimmät uutiset"
@@ -1709,31 +1709,6 @@ fi:
     other: "%{count} projects"
   label_year: "Vuosi"
   label_yesterday: "eilen"
-  label_keyboard_function: "Toiminto"
-  label_keyboard_shortcut: "Pikanäppäin"
-  label_keyboard_accesskey: "Pikanäppäin"
-  label_keyboard_shortcut_help_heading: "Käytettävissä olevat pikanäppäimet"
-  label_keyboard_shortcut_within_project: "Project related shortcuts:"
-  label_keyboard_shortcut_global_shortcuts: "Global shortcuts:"
-  label_keyboard_shortcut_some_pages_only: "Special shortcuts:"
-  label_keyboard_shortcut_search_global: "Global search"
-  label_keyboard_shortcut_search_project: "Hae projektia"
-  label_keyboard_shortcut_go_my_page: "Go to my page"
-  label_keyboard_shortcut_show_help: "Näyttää tämän ohjesanoman"
-  label_keyboard_shortcut_go_overview: "Go to project overview"
-  label_keyboard_shortcut_go_work_package: "Go to project work packages"
-  label_keyboard_shortcut_go_wiki: "Go to project wiki"
-  label_keyboard_shortcut_go_activity: "Go to project activities"
-  label_keyboard_shortcut_go_calendar: "Go to project calendar"
-  label_keyboard_shortcut_go_news: "Go to project news"
-  label_keyboard_shortcut_go_timelines: "Go to timelines"
-  label_keyboard_shortcut_new_work_package: "Luo uusi toimia paketti"
-  label_keyboard_shortcut_details_package: "Show work packages details pane"
-  label_keyboard_shortcut_go_edit: "Go to edit the current item (on detail pages only)"
-  label_keyboard_shortcut_open_more_menu: "Open more-menu (on detail pages only)"
-  label_keyboard_shortcut_go_preview: "Go to preview the current edit (on edit pages only)"
-  label_keyboard_shortcut_focus_previous_item: "Focus previous list element (on some lists only)"
-  label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
   auth_source:
     using_abstract_auth_source: "Voi käyttää abstrakti autentikointi lähde."
     ldap_error: "LDAP-Error: %{error_message}"
@@ -2524,6 +2499,7 @@ fi:
       mail_self_notified: "Haluan ilmoituksen muutoksista jotka teen itse"
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Vapauta"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
   version_status_closed: "suljettu"

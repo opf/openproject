@@ -7,9 +7,7 @@ if ENV['CI']
 end
 
 
-def register_firefox_headless(language)
-  name = :"firefox_headless_#{language}"
-
+def register_firefox_headless(language, name: :"firefox_headless_#{language}")
   require 'selenium/webdriver'
 
   Capybara.register_driver name do |app|
@@ -38,6 +36,12 @@ def register_firefox_headless(language)
 
     options = Selenium::WebDriver::Firefox::Options.new(profile: profile)
 
+    capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(
+      loggingPrefs: { browser: 'ALL' }
+    )
+
+    yield(profile, options, capabilities) if block_given?
+
     unless ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
       options.args << "--headless"
     end
@@ -49,6 +53,8 @@ def register_firefox_headless(language)
       app,
       browser: :firefox,
       options: options,
+      desired_capabilities: capabilities,
+
       http_client: client,
     )
 
@@ -63,6 +69,17 @@ end
 register_firefox_headless 'en'
 # Register german locale for custom field decimal test
 register_firefox_headless 'de'
+
+# Register mocking proxy driver
+register_firefox_headless 'en', name: :headless_firefox_billy do |profile, options, capabilities|
+  profile.assume_untrusted_certificate_issuer = false
+  profile.proxy = Selenium::WebDriver::Proxy.new(
+    http: "#{Billy.proxy.host}:#{Billy.proxy.port}",
+    ssl: "#{Billy.proxy.host}:#{Billy.proxy.port}")
+
+
+  capabilities[:accept_insecure_certs] = true
+end
 
 # Resize window if firefox
 RSpec.configure do |config|

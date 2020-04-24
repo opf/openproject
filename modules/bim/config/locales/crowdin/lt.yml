@@ -32,7 +32,7 @@ lt:
         num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
         button_prepare: 'Paruošti importą'
         button_perform_import: 'Patvirtinti importą'
-        button_proceed: 'Tęsti'
+        button_proceed: 'Proceed with import'
         button_back_to_list: 'Atgal į sąrašą'
         no_permission_to_add_members: 'Jūs neturite teisių pridėti juos kaip projekto narius.'
         contact_project_admin: 'Susisiekite su projekto administratoriumi, kad jie būtų pridėti kaip nariai, tada pakartokite importą.'
@@ -58,6 +58,7 @@ lt:
         import_as_system_user: 'Importuoti juos kaip „Sistemos“ naudotojus.'
         what_to_do: "Ką norite daryti?"
         work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
   export:
     format:
       bcf: "BCF-XML"

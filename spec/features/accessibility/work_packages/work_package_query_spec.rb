@@ -193,7 +193,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
         new_window = window_opened_by { find('body').native.send_keys('?') }
         within_window new_window do
-          expect(page).to have_selector('h1', text: 'Available Keyboard Shortcuts')
+          expect(page.current_url).to include 'https://docs.openproject.org/'
         end
 
         new_window.close

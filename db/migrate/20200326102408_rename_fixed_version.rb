@@ -19,7 +19,7 @@ class RenameFixedVersion < ActiveRecord::Migration[6.0]
         UPDATE
           queries q_sink
         SET
-          filters = regexp_replace(q_source.filters, '(\n)#{from}_id:(\n)', '\1#{to}_id:\2'),
+          filters = regexp_replace(q_source.filters, '(\n)#{from}_id:(\n)', '\\1#{to}_id:\\2'),
           column_names = regexp_replace(q_source.column_names, ':#{from}', ':#{to}'),
           sort_criteria = regexp_replace(q_source.sort_criteria, '#{from}', '#{to}'),
           group_by = regexp_replace(q_source.group_by, '#{from}', '#{to}')

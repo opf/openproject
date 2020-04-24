@@ -61,7 +61,7 @@ fr:
         header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
         header-border-bottom-color: "Ligne mince sous l’en-tête. Laissez ce champ vide si vous ne voulez pas de ligne."
         main-menu-bg-color: "Couleur d’arrière-plan du menu de gauche."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Si vous changez de thème, votre style personnalisé sera écrasé. Le design sera alors perdu. Vous êtes sûr de vouloir continuer ?
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
@@ -70,6 +70,9 @@ fr:
       paste: "Coller votre licence de la version Entreprise"
       required_for_feature: "Cette fonction n'est disponible qu'avec une licence active de la version Entreprise."
       enterprise_link: "Pour plus d'informations, cliquez ici."
+      start_trial: 'Commencer l''essai gratuit'
+      book_now: 'Réserver maintenant'
+      get_quote: 'Obtenir un devis'
   announcements:
     show_until: Afficher jusqu'à
     is_active: actuellement affiché
@@ -754,6 +757,7 @@ fr:
     version: "Version"
     work_package: "Lot de travaux"
   button_add: "Ajouter"
+  button_add_comment: "Ajouter un commentaire"
   button_add_member: Ajouter un membre
   button_add_watcher: "Ajouter observateur"
   button_annotate: "Annoter"
@@ -1138,13 +1142,8 @@ fr:
     blocks:
       community: "Communauté OpenProject"
       upsale:
-        become_hero: "Devenez un héros !"
         title: "Passer à la version Entreprise"
-        description: "Quels sont les avantages?"
         more_info: "Plus d'informations"
-        additional_features: "Puissantes fonctionnalités premium additionnelles"
-        professional_support: "Support professionnel d'experts OpenProject"
-        you_contribute: "Les développeurs ont besoin payer leurs factures également. Avec la version Entreprise, vous contribuez significativement à cet effort de la communauté Open-Source."
     links:
       upgrade_enterprise_edition: "Passer à la version Entreprise"
       postgres_migration: "Migration de votre installation vers PostgreSQL"
@@ -1156,9 +1155,10 @@ fr:
       forums: "Forum de la communauté"
       newsletter: "Alertes de sécurité / Lettre d’information"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "Les modifications ont été retirées."
   links:
     configuration_guide: 'Guide de configuration'
+    get_in_touch: "Vous avez des questions ? Contactez-nous."
   instructions_after_registration: "Vous pouvez vous authentifier tant que votre compte a été activé en cliquant sur %{signin}."
   instructions_after_logout: "Vous pouvez vous ré-authentifier en cliquant sur %{signin}."
   instructions_after_error: "Vous pouvez encore essayer de vous authentifier en cliquant sur %{signin}. Si l'erreur persiste, demandez de l'aide à votre administrateur."
@@ -1448,7 +1448,7 @@ fr:
   label_new: "nouveau"
   label_new_features: "Nouvelles fonctionnalités"
   label_new_statuses_allowed: "Nouveaux statuts autorisés"
-  label_news: "Actualités"
+  label_news_singular: "Actualités"
   label_news_added: "Actualités ajoutées"
   label_news_comment_added: "Commentaire ajouté à une actualité"
   label_news_latest: "Dernière actualité"
@@ -1708,31 +1708,6 @@ fr:
     other: "%{count} projets"
   label_year: "Année"
   label_yesterday: "hier"
-  label_keyboard_function: "Fonction"
-  label_keyboard_shortcut: "Raccourci"
-  label_keyboard_accesskey: "Touche de raccourci"
-  label_keyboard_shortcut_help_heading: "Raccourcis de clavier disponibles"
-  label_keyboard_shortcut_within_project: "Raccourcis liés au projet:"
-  label_keyboard_shortcut_global_shortcuts: "Raccourcis généraux:"
-  label_keyboard_shortcut_some_pages_only: "Raccourcis spéciaux:"
-  label_keyboard_shortcut_search_global: "Recherche globale"
-  label_keyboard_shortcut_search_project: "Recherche un Projet"
-  label_keyboard_shortcut_go_my_page: "Aller sur ma page"
-  label_keyboard_shortcut_show_help: "Montrer ce message d'aide"
-  label_keyboard_shortcut_go_overview: "Aller à la vue d'ensemble du projet"
-  label_keyboard_shortcut_go_work_package: "Aller aux Lots de Travaux du projet"
-  label_keyboard_shortcut_go_wiki: "Aller au wiki du projet"
-  label_keyboard_shortcut_go_activity: "Aller aux activités du projet"
-  label_keyboard_shortcut_go_calendar: "Aller au calendrier du projet"
-  label_keyboard_shortcut_go_news: "Aller aux actualités du projet"
-  label_keyboard_shortcut_go_timelines: "Aller aux lignes du temps"
-  label_keyboard_shortcut_new_work_package: "Créer un nouveau lot de travaux"
-  label_keyboard_shortcut_details_package: "Afficher le volet de détails des Lots de Travaux"
-  label_keyboard_shortcut_go_edit: "Aller à l'edition de la tâche en cours (page des détails seulement)"
-  label_keyboard_shortcut_open_more_menu: "Ouvrir menu supplementaire (page des détails seulement)"
-  label_keyboard_shortcut_go_preview: "Afficher l'aperçu (pages d'édition seulement)"
-  label_keyboard_shortcut_focus_previous_item: "Focus sur l'élément précedent (sur quelques listes seulement)"
-  label_keyboard_shortcut_focus_next_item: "Focus sur l'élément suivant (sur quelques listes seulement)"
   auth_source:
     using_abstract_auth_source: "Impossible d'utiliser une source d'authentification abstraite."
     ldap_error: "Erreur LDAP : %{error_message}"
@@ -2523,6 +2498,7 @@ fr:
       mail_self_notified: "Je veux être notifié des modifications que je fais moi-même"
     status_user_and_brute_force: "%{user} et %{brute_force}"
     status_change: "Changement de statut"
+    text_change_disabled_for_provider_login: "Le nom est défini par votre fournisseur de connexion et ne peut donc pas être modifié."
     unlock: "Déverrouiller"
     unlock_and_reset_failed_logins: "Déverrouiller et réinitialiser les échecs de connexion"
   version_status_closed: "clôturé"

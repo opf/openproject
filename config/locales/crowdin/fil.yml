@@ -63,13 +63,16 @@ fil:
         main-menu-bg-color: "Kabilang kaliwa ang kulay ng pagpipiliang nakapalibot na kulay."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "I-upgrade sa Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "I-upload ang isang Enterprise Edition support token"
       replace_token: "Palitan ang iyong kasulukuyang support token"
       order: "Order Enterprise Edition"
       paste: "Idikit ang iyong Enterprise Editoon ng support token"
       required_for_feature: "Ang tampok na ito ay magagamit lamang sa isang aktibong support token ng Enterprise Edition."
       enterprise_link: "Para sa karagdagang impormasyon, pindutin dito."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Ipakita hanggang
     is_active: kasalukuyang naka-displey
@@ -755,6 +758,7 @@ fil:
     version: "Bersyon"
     work_package: "Work package"
   button_add: "Magdagdag"
+  button_add_comment: "Magdagdag ng komento"
   button_add_member: Magdagdag ng miyembro
   button_add_watcher: "Magdagdag ng manunuod"
   button_annotate: "Anotasyon"
@@ -1139,13 +1143,8 @@ fil:
     blocks:
       community: "Komunidad ng OpenProject"
       upsale:
-        become_hero: "Maging isang bayani!"
         title: "I-upgrade sa Enterprise Edition"
-        description: "What are the benefits?"
         more_info: "Karagdagang impornasyon"
-        additional_features: "Karagdagang tampok ng powerful premium"
-        professional_support: "Propesyonal na suporta mula sa OpenProject eksperto"
-        you_contribute: "Ang mga developer ay kailangan rin magbayad sa kanilang bayarin. Kasama ang Enterprise Edition maaring kang mag-mabag ng marami para sa pagsisikap ng Open-Source community."
     links:
       upgrade_enterprise_edition: "I-upgrade sa Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1157,9 +1156,10 @@ fil:
       forums: "Komunidad forum"
       newsletter: "Mga alertong seguridad/ Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Gabay ng kumpigurasyon'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Maari kang mag-sign in sa lalong madaling panahon bilang ang iyong akwant ay naka-aktibo sa pamamagitan ng pagpipindut%{signin}."
   instructions_after_logout: "Maari kang maka-sign in ulit sa pamamagitan ng pagpipindut %{signin}."
   instructions_after_error: "Maaring mong subukan muli sa pamamagitan ng pagpipindut %{signin}. kung ang mali ay nagpatuloy, magtanong sa namuno para sa tulong."
@@ -1449,7 +1449,7 @@ fil:
   label_new: "Bago"
   label_new_features: "New features"
   label_new_statuses_allowed: "Pinayagang bagong estado"
-  label_news: "Mga balita"
+  label_news_singular: "Mga balita"
   label_news_added: "Bagong idinagdag"
   label_news_comment_added: "Ang komento idinagdag sa mga balita"
   label_news_latest: "Pinakamabagong balita"
@@ -1709,31 +1709,6 @@ fil:
     other: "%{count} mga proyekto"
   label_year: "Taon"
   label_yesterday: "kahapon"
-  label_keyboard_function: "Gumana"
-  label_keyboard_shortcut: "Madalian"
-  label_keyboard_accesskey: "Accesskey"
-  label_keyboard_shortcut_help_heading: "Magagamit na mga keyboard shortcut"
-  label_keyboard_shortcut_within_project: "Proyektong kaugnau sa mga madalian:"
-  label_keyboard_shortcut_global_shortcuts: "Pandaigdigang mga shortcut:"
-  label_keyboard_shortcut_some_pages_only: "Espesyal na mga shortcut:"
-  label_keyboard_shortcut_search_global: "Pandaigdigang paghahanap"
-  label_keyboard_shortcut_search_project: "Humanap ng proyekto"
-  label_keyboard_shortcut_go_my_page: "Pumunta sa aking pahina"
-  label_keyboard_shortcut_show_help: "Ipakita ang itong mensaheng tulong"
-  label_keyboard_shortcut_go_overview: "Pumunta sa buod ng proyekto"
-  label_keyboard_shortcut_go_work_package: "Pumunta sa mga proyektong work package"
-  label_keyboard_shortcut_go_wiki: "Pumunta sa proyektong wiki"
-  label_keyboard_shortcut_go_activity: "Pumunta sa aktibidad ng wiki"
-  label_keyboard_shortcut_go_calendar: "Pumunya sa proyektong kalendaryo"
-  label_keyboard_shortcut_go_news: "Pumunta sa proyektong balita"
-  label_keyboard_shortcut_go_timelines: "Pumunta sa mga timenline"
-  label_keyboard_shortcut_new_work_package: "Lumikha ng bagong work package"
-  label_keyboard_shortcut_details_package: "Ipakita ang work package na detalyeng pane"
-  label_keyboard_shortcut_go_edit: "Pumunta sa i-edit kasulukuyang aytem (sa detalyeng proyekto lamang)"
-  label_keyboard_shortcut_open_more_menu: "Buksan ang more-menu (sa detalye ng pahina lamang)"
-  label_keyboard_shortcut_go_preview: "Pumunta sa prebyu ng kasulukuyang i-edit (sa mga edit pahina lamang)"
-  label_keyboard_shortcut_focus_previous_item: "Tumuon sa nakaraan listahan ng elemento (sa ilang listahan lamang)"
-  label_keyboard_shortcut_focus_next_item: "Tumuoj sa susunod na listahang elemento (sa ilang listahan lamang)"
   auth_source:
     using_abstract_auth_source: "Hindi magamit ang isang abstrak na pagpapatunay ng pinagmulan."
     ldap_error: "LDAP-Error: %{error_message}"
@@ -2522,6 +2497,7 @@ fil:
       mail_self_notified: "Gusto kong mapa-alam sa mga pagbabago na ginagawa ko sa aking sarili"
     status_user_and_brute_force: "%{user} at %{brute_force}"
     status_change: "Pagbabago ng estado"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "I-unlock"
     unlock_and_reset_failed_logins: "I-unlock at i-reset ang mga nabigong paglog-im"
   version_status_closed: "isinara"

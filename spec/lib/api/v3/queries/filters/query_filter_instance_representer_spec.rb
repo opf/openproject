@@ -142,7 +142,8 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     end
 
     context 'with a subproject filter value_objects' do
-      let(:user) { FactoryBot.create :admin }
+      using_shared_fixtures :admin
+
       let(:project) { FactoryBot.create :project }
       let(:subproject) { FactoryBot.create :project, parent: project }
       let(:filter) do
@@ -158,7 +159,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
       end
 
       before do
-        login_as user
+        login_as admin
 
         allow(filter)
         .to receive(:value_objects)

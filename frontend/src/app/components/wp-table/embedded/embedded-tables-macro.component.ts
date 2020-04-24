@@ -29,10 +29,10 @@
 import {Component, ElementRef} from "@angular/core";
 import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
 
-export const wpEmbeddedTableEntrySelector = 'macro.embedded-table';
+export const wpEmbeddedTableMacroSelector = 'macro.embedded-table';
 
 @Component({
-  selector: wpEmbeddedTableEntrySelector,
+  selector: wpEmbeddedTableMacroSelector,
   template: `
     <wp-embedded-table-entry [queryProps]="queryProps"
                              [configuration]="configuration">

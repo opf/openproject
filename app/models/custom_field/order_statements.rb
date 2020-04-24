@@ -61,6 +61,15 @@ module CustomField::OrderStatements
     end
   end
 
+  ##
+  # Returns the null handling for the given direction
+  def null_handling(asc)
+    return unless %w[int float].include?(field_format)
+
+    null_direction = asc ? 'FIRST' : 'LAST'
+    Arel.sql("NULLS #{null_direction}")
+  end
+
   # Returns the grouping result
   # which differ for multi-value select fields,
   # because in this case we do want the primary CV values

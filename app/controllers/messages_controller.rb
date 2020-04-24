@@ -62,7 +62,7 @@ class MessagesController < ApplicationController
 
   # new topic
   def new
-    Messages::SetAttributesService
+    @message = Messages::SetAttributesService
       .new(user: current_user,
            model: Message.new,
            contract_class: NoopContract)

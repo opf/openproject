@@ -57,7 +57,7 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
   private
 
   def success(serialized)
-    WorkPackage::Exporter::Success
+    WorkPackage::Exporter::Result::Success
       .new format: :csv,
            title: title,
            content: serialized,

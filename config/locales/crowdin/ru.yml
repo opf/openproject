@@ -63,13 +63,16 @@ ru:
         main-menu-bg-color: "Цвет фона меню слева."
       theme_warning: Изменение темы перезапишет ваш пользовательский стиль. Дизайн будет утерян. Вы уверены, что хотите продолжить?
     enterprise:
-      upgrade_to_ee: "Обновите до корпоративной версии"
+      upgrade_to_ee: "Обновить до корпоративной версии"
       add_token: "Загрузите маркер поддержки корпоративной версии"
       replace_token: "Замените ваш текущий маркер поддержки"
       order: "Заказать корпоративную версию"
       paste: "Вставьте ваш маркер поддержки корпоративной версии"
       required_for_feature: "Эта возможность доступна только в корпоративной версии."
       enterprise_link: "Для получения дополнительной информации нажмите здесь."
+      start_trial: 'Бесплатная пробная версия'
+      book_now: 'Заказать сейчас'
+      get_quote: 'Рассчитать стоимость'
   announcements:
     show_until: Показать до
     is_active: теперь отображается
@@ -762,6 +765,7 @@ ru:
     version: "Стадия"
     work_package: "Пакет работ"
   button_add: "Добавить"
+  button_add_comment: "Добавить комментарий"
   button_add_member: Добавить участника
   button_add_watcher: "Добавить наблюдателя"
   button_annotate: "Комментировать"
@@ -1170,13 +1174,8 @@ ru:
     blocks:
       community: "OpenProject сообщество"
       upsale:
-        become_hero: "Станьте героем!"
         title: "Обновите до корпоративной версии"
-        description: "Каковы преимущества?"
         more_info: "Больше информации"
-        additional_features: "Дополнительные мощные возможности"
-        professional_support: "Помощь от экспертов OpenProject"
-        you_contribute: "Разработчики тоже должны оплачивать свои счета. С корпоративной версией вы существенно поможете сообществу открытого исходного кода."
     links:
       upgrade_enterprise_edition: "Обновите до корпоративной версии"
       postgres_migration: "Перенос вашей установки в PostgreSQL"
@@ -1188,9 +1187,10 @@ ru:
       forums: "Форум сообщества"
       newsletter: "Оповещения системы безопасности / Новости"
   journals:
-    changes_retracted: "Изменения в случае отказа."
+    changes_retracted: "Изменения отменены."
   links:
     configuration_guide: 'Руководство по конфигурации'
+    get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
   instructions_after_registration: "Вы сможете войти как только ваша учетная запись будет активирована, нажав %{signin}."
   instructions_after_logout: "Вы можете войти в снова, нажав %{signin}."
   instructions_after_error: "Вы можете попробовать войти снова, нажав %{signin}. Если ошибка повторится, обратитесь к вашему администратору за помощью."
@@ -1480,7 +1480,7 @@ ru:
   label_new: "Новое"
   label_new_features: "Новые особенности"
   label_new_statuses_allowed: "Новые статусы разрешены"
-  label_news: "Новости"
+  label_news_singular: "Новости"
   label_news_added: "Новость добавлена"
   label_news_comment_added: "Комментарий добавлен в Новости"
   label_news_latest: "Последние новости"
@@ -1748,31 +1748,6 @@ ru:
     other: "%{count} проектов"
   label_year: "Год"
   label_yesterday: "вчера"
-  label_keyboard_function: "Функция"
-  label_keyboard_shortcut: "Сочетание клавиш"
-  label_keyboard_accesskey: "Клавиша доступа"
-  label_keyboard_shortcut_help_heading: "Доступные сочетания клавиш"
-  label_keyboard_shortcut_within_project: "Сочетания клавиш, связанные с проектом:"
-  label_keyboard_shortcut_global_shortcuts: "Глобальные сочетания клавиш:"
-  label_keyboard_shortcut_some_pages_only: "Специальные клавиши:"
-  label_keyboard_shortcut_search_global: "Глобальный поиск"
-  label_keyboard_shortcut_search_project: "Найти проект"
-  label_keyboard_shortcut_go_my_page: "Перейти на мою страницу"
-  label_keyboard_shortcut_show_help: "Показать это справочное сообщение"
-  label_keyboard_shortcut_go_overview: "Перейти к обзору проекта"
-  label_keyboard_shortcut_go_work_package: "Перейти к пакету работ проекта"
-  label_keyboard_shortcut_go_wiki: "Перейти к wiki-странице проекта"
-  label_keyboard_shortcut_go_activity: "Перейти к деятельности по проекту"
-  label_keyboard_shortcut_go_calendar: "Перейти в календарь проекта"
-  label_keyboard_shortcut_go_news: "Перейти к новостям проекта"
-  label_keyboard_shortcut_go_timelines: "Перейти к срокам"
-  label_keyboard_shortcut_new_work_package: "Создать новый пакет работ"
-  label_keyboard_shortcut_details_package: "Показать сведения о пакете работ"
-  label_keyboard_shortcut_go_edit: "Перейти к редактированию текущего элемента (для страниц с подробностями)"
-  label_keyboard_shortcut_open_more_menu: "Открыть подробное меню (для страниц с подробностями)"
-  label_keyboard_shortcut_go_preview: "Перейти к предосмотру сделанных изменений (для страниц редактирования)"
-  label_keyboard_shortcut_focus_previous_item: "Сфокусироваться на предыдущем элементе списка (того же списка)"
-  label_keyboard_shortcut_focus_next_item: "Сфокусироваться на следующем элементе списка (того же списка)"
   auth_source:
     using_abstract_auth_source: "Нельзя использовать абстрактную аутентификацию."
     ldap_error: "LDAP-ошибка: %{error_message}"
@@ -2566,6 +2541,7 @@ ru:
       mail_self_notified: "Хочу получать уведомления об изменениях, которые делаю сам"
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: "Смена статуса"
+    text_change_disabled_for_provider_login: "Это имя задано вашим поставщиком авторизации, поэтому его нельзя изменить."
     unlock: "Разблокировать"
     unlock_and_reset_failed_logins: "Разблокировать и сбросить неудачные попытки входа"
   version_status_closed: "закрыт"

@@ -93,13 +93,6 @@ module ApplicationHelper
     t "status_#{user.status_name}"
   end
 
-  def toggle_link(name, id, options = {}, html_options = {})
-    onclick = "jQuery('##{id}').toggle(); "
-    onclick << (options[:focus] ? "jQuery('##{options[:focus]}').focus(); " : 'this.blur(); ')
-    onclick << 'return false;'
-    link_to_function(name, onclick, html_options)
-  end
-
   def delete_link(url, options = {})
     options = {
       method: :delete,

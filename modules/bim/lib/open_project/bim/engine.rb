@@ -57,7 +57,7 @@ module OpenProject::Bim
                    {'bim/bcf/issues': %i[index]},
                    dependencies: %i[view_work_packages]
         permission :manage_bcf,
-                   {'bim/bcf/issues': %i[index upload prepare_import configure_import perform_import]},
+                   {'bim/bcf/issues': %i[index upload prepare_import perform_import]},
                    dependencies: %i[view_linked_issues
                                     view_work_packages
                                     add_work_packages
@@ -91,8 +91,6 @@ module OpenProject::Bim
     patches %i[WorkPackage Type Journal RootSeeder Project]
 
     patch_with_namespace :OpenProject, :CustomStyles, :Design
-    patch_with_namespace :BasicData, :SettingSeeder
-    patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
     patch_with_namespace :Journal, :AggregatedJournal
     patch_with_namespace :API, :V3, :Activities, :ActivitiesSharedHelpers

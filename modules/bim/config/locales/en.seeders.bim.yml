@@ -86,9 +86,7 @@ en:
             status:
               code: on_track
               description: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-            description: >
-              **This is a demo project**. You can edit the description in
-              the [Project settings -> Description](%{base_url}/projects/demo-construction-project/settings).
+            description: This is a short summary of the goals of this demo construction project.
             timeline:
               name: Timeline
             modules:
@@ -156,9 +154,7 @@ en:
               code: on_track
               description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
             parent: demo-construction-project
-            description: >
-              **This is a demo project**. You can edit the description in
-              the [Project settings -> Description](%{base_url}/projects/demo-planning-constructing-project/settings).
+            description: This is a short summary of the goals of this demo planning and constructing project.
             timeline:
               name: Timeline
             modules:
@@ -540,9 +536,7 @@ en:
               code: on_track
               description: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
             parent: demo-construction-project
-            description: >
-              **This is a demo project**. You can edit the description in
-              the [Project settings -> Description](%{base_url}/projects/demo-bim-project/settings).
+            description: This is a short summary of the goals of this demo BIM project.
             timeline:
               name: Timeline
             modules:
@@ -550,17 +544,6 @@ en:
               - news
               - wiki
               - board_view
-              - bim
-            ifc_models:
-              - file: 'hospital_architecture'
-                name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
-                default: true
-              - file: 'hospital_mechanical'
-                name: 'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
-                default: false
-              - file: 'hospital_structural'
-                name: 'Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)'
-                default: false
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -647,11 +630,11 @@ en:
                     :status: default_status_new
                     :type: default_type_task
                     :assigned_to: Planners
-                    :duration: 3
+                    :duration: 14
                     :relations:
                       - :to: Project kick off creating BIM model
                         :type: follows
-                  - :start: 21
+                  - :start: 33
                     :subject: Creating the BIM execution plan
                     :description: |-
                       # Goal
@@ -671,11 +654,11 @@ en:
                     :relations:
                       - :to: Gathering the project specific data and information for the BIM model
                         :type: follows
-                  - :start: 40
+                  - :start: 52
                     :subject: Completion of the BIM execution plan
                     :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                       and &quot;Request&quot;, thus represents a general note.
-                    :status: default_status_new
+                    :status: seeders.bim.default_status_resolved
                     :type: default_type_milestone
                     :assigned_to: BIM Coordinators
                     :duration: 0
@@ -683,8 +666,8 @@ en:
                       - :to: Creating the BIM execution plan
                         :type: follows
                 :assigned_to: BIM Managers
-                :duration: 25
-              - :start: 41
+                :duration: 37
+              - :start: 53
                 :subject: End of preperation phase
                 :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
@@ -695,14 +678,14 @@ en:
                 :relations:
                   - :to: Project preperation
                     :type: follows
-              - :start: 44
+              - :start: 54
                 :subject: Creating inital BIM model
                 :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
                 :children:
-                  - :start: 44
+                  - :start: 54
                     :subject: Modelling inital BIM model
                     :description: |-
                       # Goal
@@ -722,7 +705,7 @@ en:
                     :relations:
                       - :to: End of preperation phase
                         :type: follows
-                  - :start: 52
+                  - :start: 62
                     :subject: Initial, internal model check and revising
                     :description: |-
                       # Goal
@@ -740,7 +723,7 @@ en:
                     :relations:
                       - :to: Modelling inital BIM model
                         :type: follows
-                  - :start: 58
+                  - :start: 65
                     :subject: Submitting inital BIM model
                     :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                       and &quot;Request&quot;, thus represents a general note.
@@ -752,18 +735,18 @@ en:
                       - :to: Initial, internal model check and revising
                         :type: follows
                 :assigned_to: Architects
-                :duration: 14
+                :duration: 11
                 :relations:
                   - :to: Completion of the BIM execution plan
                     :type: follows
-              - :start: 59
+              - :start: 66
                 :subject: Modelling, first cycle
                 :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
                 :children:
-                  - :start: 59
+                  - :start: 66
                     :subject: Referencing external BIM models
                     :description: |-
                       # Goal
@@ -782,7 +765,7 @@ en:
                     :relations:
                       - :to: Submitting inital BIM model
                         :type: follows
-                  - :start: 60
+                  - :start: 67
                     :subject: Modelling the BIM model
                     :description: |-
                       # Goal
@@ -797,11 +780,11 @@ en:
                     :status: default_status_new
                     :type: default_type_task
                     :assigned_to: BIM Modellers
-                    :duration: 7
+                    :duration: 6
                     :relations:
                       - :to: Referencing external BIM models
                         :type: follows
-                  - :start: 68
+                  - :start: 74
                     :subject: First Cycle, internal model check and revising
                     :description: |-
                       # Goal
@@ -819,7 +802,7 @@ en:
                     :relations:
                       - :to: Modelling the BIM model
                         :type: follows
-                  - :start: 72
+                  - :start: 76
                     :subject: Submitting BIM model
                     :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                       and &quot;Request&quot;, thus represents a general note.
@@ -831,18 +814,18 @@ en:
                       - :to: First Cycle, internal model check and revising
                         :type: follows
                 :assigned_to: BIM Coordinators
-                :duration: 13
+                :duration: 10
                 :relations:
                   - :to: Submitting inital BIM model
                     :type: follows
-              - :start: 73
+              - :start: 77
                 :subject: Coordination, first cycle
                 :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
                 :children:
-                  - :start: 73
+                  - :start: 77
                     :subject: Coordinate the different BIM models
                     :description: |-
                       # Goal
@@ -859,14 +842,14 @@ en:
                     :type: default_type_task
                     :assigned_to: BIM Coordinators
                     :duration: 3
-                  - :start: 73
+                  - :start: 77
                     :subject: Issue management, first cycle
                     :description: ''
                     :status: default_status_new
                     :type: default_type_phase
                     :assigned_to: BIM Coordinators
-                    :duration: 9
-                  - :start: 83
+                    :duration: 4
+                  - :start: 82
                     :subject: Finishing coordination, first cycle
                     :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                       and &quot;Request&quot;, thus represents a general note.
@@ -878,11 +861,11 @@ en:
                       - :to: Issue management, first cycle
                         :type: follows
                 :assigned_to: Lead BIM Coordinators
-                :duration: 10
+                :duration: 5
                 :relations:
                   - :to: Submitting BIM model
                     :type: follows
-              - :start: 86
+              - :start: 83
                 :subject: Modelling & coordinating, second cycle
                 :description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n*   ..."
                 :status: default_status_new
@@ -892,7 +875,7 @@ en:
                 :relations:
                   - :to: Finishing coordination, first cycle
                     :type: follows
-              - :start: 88
+              - :start: 84
                 :subject: Modelling & coordinating, ... cycle
                 :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
@@ -903,7 +886,7 @@ en:
                 :relations:
                   - :to: Modelling & coordinating, second cycle
                     :type: follows
-              - :start: 89
+              - :start: 85
                 :subject: Modelling & coordinating, (n-th minus 1) cycle
                 :description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n*   ..."
                 :status: default_status_new
@@ -913,7 +896,7 @@ en:
                 :relations:
                   - :to: Modelling & coordinating, ... cycle
                     :type: follows
-              - :start: 90
+              - :start: 86
                 :subject: Modelling & coordinating n-th cycle
                 :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
@@ -924,7 +907,7 @@ en:
                 :relations:
                   - :to: Modelling & coordinating, (n-th minus 1) cycle
                     :type: follows
-              - :start: 91
+              - :start: 87
                 :subject: Finishing modelling & coordinating, n-th cycle
                 :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
@@ -935,13 +918,13 @@ en:
                 :relations:
                   - :to: Modelling & coordinating n-th cycle
                     :type: follows
-              - :start: 93
+              - :start: 88
                 :subject: Use model for construction phase
                 :description: ''
                 :status: default_status_new
                 :type: default_type_phase
                 :children:
-                  - :start: 93
+                  - :start: 88
                     :subject: Handover model for construction crew
                     :description: |-
                       ## Goal
@@ -958,8 +941,8 @@ en:
                     :status: default_status_new
                     :type: default_type_task
                     :assigned_to: BIM Coordinators
-                    :duration: 8
-                  - :start: 106
+                    :duration: 5
+                  - :start: 98
                     :subject: Construct the building
                     :description: |-
                       ## Goal
@@ -976,7 +959,7 @@ en:
                     :type: default_type_task
                     :assigned_to: BIM Coordinators
                     :duration: 101
-                  - :start: 208
+                  - :start: 200
                     :subject: Finish construction
                     :description: ''
                     :status: default_status_new
@@ -987,7 +970,7 @@ en:
                       - :to: Construct the building
                         :type: follows
                 :assigned_to: BIM Coordinators
-                :duration: 115
+                :duration: 112
                 :relations:
                   - :to: Finishing modelling & coordinating, n-th cycle
                     :type: follows
@@ -1019,11 +1002,12 @@ en:
                 :relations:
                   - :to: Finish construction
                     :type: follows
-              - :start: 212
+              - :start: 211
                 :subject: Asset Management
                 :description: Enjoy your building :)
                 :status: default_status_new
                 :type: default_type_phase
+                :duration: 0
                 :relations:
                   - :to: Handover for Facility Management
                     :type: follows
@@ -1034,9 +1018,7 @@ en:
               code: on_track
               description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
             parent: demo-bim-project
-            description: >
-              **This is a demo project for BCF**. You can edit the description in
-              the [Project settings -> Description](%{base_url}/projects/demo-bcf-management-project/settings).
+            description: This is a short summary of the goals of this demo BCF management project.
             timeline:
               name: Timeline
             modules:
@@ -1047,11 +1029,11 @@ en:
               - file: 'hospital_architecture'
                 name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
                 default: true
-              - file: 'hospital_mechanical'
-                name: 'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
-                default: false
               - file: 'hospital_structural'
                 name: 'Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)'
+                default: true
+              - file: 'hospital_mechanical'
+                name: 'Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)'
                 default: false
             types:
               - :default_type_task
@@ -1121,87 +1103,82 @@ en:
                 name: "BCF issues"
             bcf_xml_file: "seed.bcfzip"
             work_packages:
-              - :start: 73
-                :bcf_issue_uuid: f210a2cd-f1f7-4691-b986-2f94117caefe
-                :assigned_to: BIM Modellers
-                :duration: 3
-                :parent: Issue management, first cycle
-              - :start: 73
-                :bcf_issue_uuid: feb97e6e-14fd-4c62-bbad-607f2bb4ebf5
-                :assigned_to: BIM Modellers
-                :duration: 3
-                :parent: Issue management, first cycle
-              - :start: 73
-                :bcf_issue_uuid: f55d0ec0-9a0f-4222-9926-cc5744888b02
-                :assigned_to: BIM Modellers
-                :duration: 4
-                :parent: Issue management, first cycle
-              - :start: 73
-                :bcf_issue_uuid: fc560c06-51fc-44fa-81b4-e688be189c6a
-                :assigned_to: BIM Modellers
-                :duration: 3
-                :parent: Issue management, first cycle
-              - :start: 73
-                :bcf_issue_uuid: fe2f9c1f-631b-4b37-91ea-833c4751725a
-                :assigned_to: BIM Modellers
-                :duration: 3
-                :parent: Issue management, first cycle
-              - :start: 73
-                :bcf_issue_uuid: 010d9884-8c93-4551-b2bc-570faffe7082
-                :assigned_to: BIM Modellers
-                :duration: 3
-                :parent: Issue management, first cycle
-              - :start: 73
-                :bcf_issue_uuid: febee8e1-1ad2-45e5-b08d-b4be92d25ad6
-                :assigned_to: BIM Modellers
-                :duration: 3
-                :parent: Issue management, first cycle
-              - :start: 73
-                :bcf_issue_uuid: f4d71d45-5a2c-4dad-bcb1-8a4935f2ea69
-                :assigned_to: BIM Modellers
-                :duration: 3
-                :parent: Issue management, first cycle
-              - :start: 73
-                :bcf_issue_uuid: fb9705ea-b32c-46ff-bb6f-d1d049494e05
-                :assigned_to: BIM Modellers
-                :duration: 4
-                :parent: Issue management, first cycle
-              - :start: 73
-                :bcf_issue_uuid: faad0e05-0e05-48d8-96e6-a4fe29ecdbc0
-                :assigned_to: BIM Modellers
-                :duration: 3
-                :parent: Issue management, first cycle
-              - :start: 79
+              - :start: 77
                 :bcf_issue_uuid: fbbf9ecf-5721-4bf1-a08c-aed50dc19353
                 :assigned_to: BIM Modellers
                 :duration: 3
                 :parent: Issue management, first cycle
-              - :start: 79
+              - :start: 77
                 :bcf_issue_uuid: f6271a32-acf5-49f8-a1b5-7c445f9158e5
                 :assigned_to: BIM Modellers
                 :duration: 3
                 :parent: Issue management, first cycle
-              - :start: 79
+              - :start: 77
+                :bcf_issue_uuid: f210a2cd-f1f7-4691-b986-2f94117caefe
+                :assigned_to: BIM Modellers
+                :duration: 3
+                :parent: Issue management, first cycle
+              - :start: 77
+                :bcf_issue_uuid: feb97e6e-14fd-4c62-bbad-607f2bb4ebf5
+                :assigned_to: BIM Modellers
+                :duration: 3
+                :parent: Issue management, first cycle
+              - :start: 77
                 :bcf_issue_uuid: 00efc0da-b4d5-4933-bcb6-e01513ee2bcc
                 :assigned_to: BIM Modellers
                 :duration: 3
                 :parent: Issue management, first cycle
-              - :start: 79
+              - :start: 77
                 :bcf_issue_uuid: f9e079a8-02f5-40f0-a08a-171f494ee130
                 :assigned_to: BIM Modellers
                 :duration: 3
                 :parent: Issue management, first cycle
-              - :start: 79
+              - :start: 77
                 :bcf_issue_uuid: f70417a8-174a-42ae-bf1e-a0b6457d0e6f
                 :assigned_to: BIM Modellers
                 :duration: 3
                 :parent: Issue management, first cycle
-              - :start: 79
+              - :start: 77
+                :bcf_issue_uuid: f55d0ec0-9a0f-4222-9926-cc5744888b02
+                :assigned_to: BIM Modellers
+                :duration: 4
+                :parent: Issue management, first cycle
+              - :start: 77
+                :bcf_issue_uuid: fc560c06-51fc-44fa-81b4-e688be189c6a
+                :assigned_to: BIM Modellers
+                :duration: 3
+                :parent: Issue management, first cycle
+              - :start: 77
+                :bcf_issue_uuid: fe2f9c1f-631b-4b37-91ea-833c4751725a
+                :assigned_to: BIM Modellers
+                :duration: 3
+                :parent: Issue management, first cycle
+              - :start: 77
                 :bcf_issue_uuid: fc5099c0-bedb-4770-a576-0429a7733517
                 :assigned_to: BIM Modellers
                 :duration: 3
                 :parent: Issue management, first cycle
-              - :start: 79
+              - :start: 77
+                :bcf_issue_uuid: 010d9884-8c93-4551-b2bc-570faffe7082
+                :assigned_to: BIM Modellers
+                :duration: 3
+                :parent: Issue management, first cycle
+              - :start: 77
+                :bcf_issue_uuid: febee8e1-1ad2-45e5-b08d-b4be92d25ad6
+                :assigned_to: BIM Modellers
+                :duration: 3
+                :parent: Issue management, first cycle
+              - :start: 77
+                :bcf_issue_uuid: f4d71d45-5a2c-4dad-bcb1-8a4935f2ea69
+                :assigned_to: BIM Modellers
+                :duration: 3
+                :parent: Issue management, first cycle
+              - :start: 77
+                :bcf_issue_uuid: fb9705ea-b32c-46ff-bb6f-d1d049494e05
+                :assigned_to: BIM Modellers
+                :duration: 4
+                :parent: Issue management, first cycle
+              - :start: 77
                 :bcf_issue_uuid: fbe1d941-06ce-45f4-8ccb-ef48b8426f72
                 :assigned_to: BIM Modellers
                 :duration: 3

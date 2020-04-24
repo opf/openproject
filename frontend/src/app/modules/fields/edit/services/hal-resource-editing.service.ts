@@ -26,12 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {combine, deriveRaw, InputState, multiInput, MultiInputState, State, StatesGroup} from 'reactivestates';
 import {map} from 'rxjs/operators';
 import {Injectable, Injector} from '@angular/core';
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 import {Subject} from "rxjs";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {ChangeMap} from "core-app/modules/fields/changeset/changeset";
@@ -204,7 +201,9 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     if (changeset && !changeset.isEmpty()) {
       return changeset;
     }
-    if (!changeset || resource.hasOwnProperty('lockVersion') && changeset.pristineResource.lockVersion < resource.lockVersion) {
+    if (!changeset ||
+      changeset.pristineResource !== resource ||
+      resource.hasOwnProperty('lockVersion') && changeset.pristineResource.lockVersion < resource.lockVersion) {
       return this.edit<V, T>(resource);
     }
 

@@ -29,7 +29,7 @@
 module Entry
   [TimeEntry, CostEntry].each do |e| e.send :include, self end
 
-  class Delegator < ActiveRecord::Base
+  class Delegator < ApplicationRecord
     self.abstract_class = true
     class << self
       def ===(obj)

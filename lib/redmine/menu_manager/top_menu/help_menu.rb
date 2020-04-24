@@ -97,12 +97,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
               title: l('label_videos'),
               target: '_blank'
     }
-    result << content_tag(:li) {
-      link_to l('homescreen.links.shortcuts'),
-              '',
-              class: 'help-link-shortcuts-link',
-              title: l('homescreen.links.shortcuts')
-    }
+    result << static_link_item(:shortcuts)
     result << static_link_item(:forums)
     result << static_link_item(:professional_support)
     result << content_tag(:hr, '', class: 'form--separator')

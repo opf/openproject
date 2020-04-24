@@ -51,7 +51,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def success(content)
-    WorkPackage::Exporter::Success
+    WorkPackage::Exporter::Result::Success
       .new format: :csv,
            title: title,
            content: content,
@@ -59,7 +59,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def error(message)
-    WorkPackage::Exporter::Error.new message
+    WorkPackage::Exporter::Result::Error.new message
   end
 
   def cell_padding

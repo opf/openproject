@@ -17,16 +17,17 @@
       <p [textContent]="text.text"></p>
     </div>
     <div class="op-modal--modal-footer">
-      <button class="confirm-form-submit--cancel button"
-              (click)="closeMe($event)"
-              [textContent]="text.button_cancel"
-              [attr.title]="text.button_cancel">
-      </button>
       <button class="confirm-form-submit--continue button -highlight"
               (click)="confirmAndClose($event)"
               [textContent]="text.button_continue"
               [attr.title]="text.button_continue">
       </button>
+      <button class="confirm-form-submit--cancel button"
+              (click)="closeMe($event)"
+              [textContent]="text.button_cancel"
+              [attr.title]="text.button_cancel">
+      </button>
+      
     </div>
   </div>
 </div>

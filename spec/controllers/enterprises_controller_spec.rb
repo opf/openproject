@@ -73,7 +73,7 @@ describe EnterprisesController, type: :controller do
 
         it 'still renders #show with form' do
           expect(response).not_to render_template partial: 'enterprises/_current'
-          expect(response.body).to have_selector '.upsale-notification'
+          expect(response.body).to have_selector '.upsale-benefits'
         end
       end
     end

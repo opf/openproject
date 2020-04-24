@@ -27,6 +27,7 @@
 // ++
 
 import {APP_INITIALIZER, ApplicationRef, Injector, NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -73,6 +74,7 @@ import {OpenprojectProjectsModule} from "core-app/modules/projects/openproject-p
 import {KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-service";
 import {globalDynamicComponents} from "core-app/global-dynamic-components.const";
 import {OpenprojectMembersModule} from "core-app/modules/members/members.module";
+import {OpenprojectEnterpriseModule} from "core-components/enterprise/openproject-enterprise.module";
 
 @NgModule({
   imports: [
@@ -119,6 +121,7 @@ import {OpenprojectMembersModule} from "core-app/modules/members/members.module"
 
     // Admin module
     OpenprojectAdminModule,
+    OpenprojectEnterpriseModule,
 
     // Plugin hooks and modules
     OpenprojectPluginsModule,
@@ -127,9 +130,12 @@ import {OpenprojectMembersModule} from "core-app/modules/members/members.module"
 
     // Members
     OpenprojectMembersModule,
+
+    // Angular Forms
+    ReactiveFormsModule
   ],
   providers: [
-    {provide: States, useValue: new States()},
+    { provide: States, useValue: new States() },
     { provide: APP_INITIALIZER, useFactory: initializeServices, deps: [Injector], multi: true },
     PaginationService,
     OpenProjectFileUploadService,
@@ -177,7 +183,7 @@ export class OpenProjectModule {
     const hookService = (appRef as any)._injector.get(HookService);
     hookService
       .call('openProjectAngularBootstrap')
-      .forEach((results:{selector:string, cls:any}[]) => {
+      .forEach((results:{ selector:string, cls:any }[]) => {
         DynamicBootstrapper.bootstrapOptionalDocument(appRef, document, results);
       });
   }

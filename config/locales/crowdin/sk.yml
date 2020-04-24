@@ -63,13 +63,16 @@ sk:
         main-menu-bg-color: "Farba pozadia ľavého menu."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade na Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Nahrajte token podpory Enterprise Edition"
       replace_token: "Nahraďte aktuálny token podpory"
       order: "Objednať Enterprise Edition"
       paste: "Vložte token podpory Enterprise Edition"
       required_for_feature: "Táto funkcia je k dispozícii iba s aktívnym tokenom podpory Enterprise Edition."
       enterprise_link: "Pre ďalšie informácie kliknite sem."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Zobraziť do
     is_active: aktuálne zobrazené
@@ -763,6 +766,7 @@ sk:
     version: "Verzia"
     work_package: "Pracovný balíček"
   button_add: "Pridať"
+  button_add_comment: "Pridať komentár"
   button_add_member: Pridať člena
   button_add_watcher: "Pridať pozorovateľa"
   button_annotate: "Komentovať"
@@ -1171,13 +1175,8 @@ sk:
     blocks:
       community: "OpenProject komunita"
       upsale:
-        become_hero: "Staň sa hrdinom!"
         title: "Upgrade na Enterprise Edition"
-        description: "Aké sú výhody?"
         more_info: "Viac informácií"
-        additional_features: "Ďalšie doplnkové výkonné prémiové funkcie"
-        professional_support: "Profesionálna podpora od odborníkov OpenProject"
-        you_contribute: "Dokonca aj vývojári musia platiť svoje poplatky. S Enterprise Edition významne prispievate k otvorenej komunite OpenProjectu."
     links:
       upgrade_enterprise_edition: "Upgrade na Enterprise Edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1189,9 +1188,10 @@ sk:
       forums: "Komunitné fórum"
       newsletter: "Bezpečnostné upozornenia / Newsletter"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Sprievodca konfiguráciou'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Môžete prihlásiť ihneď potom, ako váš účet bude aktivovaný. Akciu iniciujete kliknutí na %{signin}."
   instructions_after_logout: "Môžete znovu prihlásiť kliknutím na tlačidlo %{signin}."
   instructions_after_error: "Skúste sa znova prihlásiť kliknutím na %{signin}. Ak chyba pretrváva, požiadajte správcu o pomoc."
@@ -1481,7 +1481,7 @@ sk:
   label_new: "Nový"
   label_new_features: "New features"
   label_new_statuses_allowed: "Nové stavy povolené"
-  label_news: "Novinky"
+  label_news_singular: "Novinky"
   label_news_added: "Novinky pridané"
   label_news_comment_added: "Komentár pridaný do Novinky"
   label_news_latest: "Najnovšie novinky"
@@ -1749,31 +1749,6 @@ sk:
     other: "%{count} projektov"
   label_year: "Rok"
   label_yesterday: "včera"
-  label_keyboard_function: "Funkcia"
-  label_keyboard_shortcut: "Skratka"
-  label_keyboard_accesskey: "Accesskey"
-  label_keyboard_shortcut_help_heading: "Dostupné klávesové skratky"
-  label_keyboard_shortcut_within_project: "S projektom súvisiace skratky:"
-  label_keyboard_shortcut_global_shortcuts: "Globálne klávesové skratky:"
-  label_keyboard_shortcut_some_pages_only: "Špeciálne klávesové skratky:"
-  label_keyboard_shortcut_search_global: "Globálne vyhľadávanie"
-  label_keyboard_shortcut_search_project: "Nájsť projekt"
-  label_keyboard_shortcut_go_my_page: "Prejsť na moju stránku"
-  label_keyboard_shortcut_show_help: "Zobraziť toto hlásenie Pomocníka"
-  label_keyboard_shortcut_go_overview: "Prejsť na prehľad projektu"
-  label_keyboard_shortcut_go_work_package: "Prejsť na projektové pracovné balíčky"
-  label_keyboard_shortcut_go_wiki: "Prejsť na projekt wiki"
-  label_keyboard_shortcut_go_activity: "Prejsť na projektové aktivity"
-  label_keyboard_shortcut_go_calendar: "Prejdite na kalendár projektu"
-  label_keyboard_shortcut_go_news: "Prejsť do aktualít projektu"
-  label_keyboard_shortcut_go_timelines: "Prejdite na časové osi"
-  label_keyboard_shortcut_new_work_package: "Vytvoriť nový pracovný balíček"
-  label_keyboard_shortcut_details_package: "Zobraziť panel s podrobnosťami o pracovných balíčkoch"
-  label_keyboard_shortcut_go_edit: "Prejdite na Upraviť aktuálnu položku (len na stránkach s podrobnosťami)"
-  label_keyboard_shortcut_open_more_menu: "Otvoriť rozšírené menu (iba na stránkach detailov)"
-  label_keyboard_shortcut_go_preview: "Prejsť na náhľad aktuálnej úpravy (iba na editačných stránkach)"
-  label_keyboard_shortcut_focus_previous_item: "Zamerať na predošlú položku zoznamu (iba na niektorých zoznamoch)"
-  label_keyboard_shortcut_focus_next_item: "Zamerať na ďalšiu položku zoznamu (iba na niektorých zoznamoch)"
   auth_source:
     using_abstract_auth_source: "Nie je možné použiť abstraktný zdroj overovania."
     ldap_error: "LDAP-Chyba: %{error_message}"
@@ -2569,6 +2544,7 @@ sk:
       mail_self_notified: "Chcem byť upozornený na zmeny, ktoré som urobil sám"
     status_user_and_brute_force: "%{user} a %{brute_force}"
     status_change: "Zmena stavu"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Odomknúť"
     unlock_and_reset_failed_logins: "Odomknúť a resetovať chybné prihlásenia"
   version_status_closed: "uzatvorené"

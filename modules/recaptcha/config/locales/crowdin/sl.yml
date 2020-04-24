@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+sl:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Prosimo počakajte ...'
+    verify_account: "Potrdi svoj račun"
+    error_captcha: "Vašega računa ni bilo mogoče preveriti. Obrnite se na skrbnika."
+    settings:
+      website_key: 'Ključ spletne strani'
+      website_key_text: 'Vnesite ključ spletnega mesta, ki ste ga ustvarili na skrbniški konzoli reCAPTCHA za to domeno.'
+      secret_key: 'Skrivni ključ'
+      secret_key_text: 'Vnesite skrivni ključ, ki ste ga ustvarili na skrbniški konzoli reCAPTCHA.'
+      type: 'Uporabite reCAPTCHA'
+      type_disabled: 'Onemogoči reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        reCAPTCHA je Googlova brezplačna storitev, ki jo je mogoče omogočiti za primerek OpenProject. Če je omogočen, bo ob prijavi prikazan obrazec captcha za vse uporabnike, ki se še niso preverili. <br/> Oglejte si spodnjo povezavo za več podrobnosti o reCAPTCHA in njihovih različicah ter kako ustvariti spletno mesto in skrivne ključe: %{recaptcha_link}

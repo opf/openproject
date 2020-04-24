@@ -74,12 +74,14 @@ sk:
   permission_send_meeting_agendas_notification: "Rozposielať notifikácie ne revízie agend stretnutí"
   permission_create_meeting_minutes: "Spravovať zápisnice zo stretnutí"
   permission_send_meeting_minutes_notification: "Rozposielať notifikácie na revízie zápisníc zo stretnutí"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Stretnutia"
   text_duration_in_hours: "Doba trvania v hodinách"
   text_in_hours: "v hodinách"
   text_meeting_agenda_for_meeting: 'agenda stretnutia "%{meeting}"'
   text_meeting_closing_are_you_sure: "Naozaj chcete ukončiť tento míting?"
-  text_meeting_agenda_open_are_you_sure: "Neuložené obsah zápisnice stretnutia bude stratený! Chcete pokračovať?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'zápisnica zo stretnutia "%{meeting}"'
   text_review_meeting_agenda: "%{author} odoslal %{link} na revíziu."
   text_review_meeting_minutes: "%{author} odoslal %{link} na revíziu."

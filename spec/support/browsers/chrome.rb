@@ -6,9 +6,7 @@ if ENV['CI']
   ::Webdrivers::Chromedriver.update
 end
 
-def register_chrome_headless(language)
-  name = :"chrome_headless_#{language}"
-
+def register_chrome_headless(language, name: :"chrome_headless_#{language}")
   Capybara.register_driver name do |app|
     options = Selenium::WebDriver::Chrome::Options.new
 
@@ -37,6 +35,12 @@ def register_chrome_headless(language)
 
     options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
 
+    capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+      loggingPrefs: { browser: 'ALL' }
+    )
+
+    yield(options, capabilities) if block_given?
+
     client = Selenium::WebDriver::Remote::Http::Default.new
     client.read_timeout = 180
     client.open_timeout = 180
@@ -44,6 +48,7 @@ def register_chrome_headless(language)
     driver = Capybara::Selenium::Driver.new(
       app,
       browser: :chrome,
+      desired_capabilities: capabilities,
       http_client: client,
       options: options
     )
@@ -68,3 +73,12 @@ end
 register_chrome_headless 'en'
 # Register german locale for custom field decimal test
 register_chrome_headless 'de'
+
+# Register mocking proxy driver
+register_chrome_headless 'en', name: :headless_chrome_billy do |options, capabilities|
+  options.add_argument("--proxy-server=#{Billy.proxy.host}:#{Billy.proxy.port}")
+  options.add_argument('--proxy-bypass-list=127.0.0.1;localhost')
+
+  capabilities[:acceptInsecureCerts] = true
+end
+

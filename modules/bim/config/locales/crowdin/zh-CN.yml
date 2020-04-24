@@ -29,7 +29,7 @@ zh-CN:
         num_issues_found: '%{x_bcf_issues} 包含在 BCF-XML 文件中，其详细信息在下面列出。'
         button_prepare: '准备导入'
         button_perform_import: '确认导入'
-        button_proceed: '继续'
+        button_proceed: '继续导入'
         button_back_to_list: '返回列表'
         no_permission_to_add_members: '您没有足够的权限将它们添加为项目的成员。'
         contact_project_admin: '请联系您的项目管理员将它们添加为成员，然后重新开始导入。'
@@ -55,6 +55,7 @@ zh-CN:
         import_as_system_user: '将他们导入为“系统”用户。'
         what_to_do: "你想做什么？"
         work_package_has_newer_changes: "已过时！此主题未更新，因为服务器上的最新更改比导入主题的“ModifiedDate”更新。但是，已导入该主题的注释。"
+        bcf_file_not_found: "无法找到 BCF 文件。请重新上传。"
   export:
     format:
       bcf: "BCF-XML"
@@ -70,7 +71,7 @@ zh-CN:
       bcf_v2_1_text: "应用程序将获得 OpenProject BCF API v2.1 的完全读写访问权限来代表您执行操作。"
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "IFC 模型"
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "IFC 文件"

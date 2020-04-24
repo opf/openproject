@@ -63,13 +63,16 @@ uk:
         main-menu-bg-color: "Колір фону меню зліва."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Оновлення до Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Завантажте маркер підтримки для Enterprise Edition"
       replace_token: "Замініть поточний маркер підтримки"
       order: "Замовити Enterprise Edition"
       paste: "Вставте маркер підтримки для Enterprise Edition"
       required_for_feature: "Ця функція доступна лише з активним маркером підтримки Enterprise Edition."
       enterprise_link: "Для отримання додаткової інформації натисніть тут."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: Показувати до
     is_active: наразі відображається
@@ -763,6 +766,7 @@ uk:
     version: "Версія"
     work_package: "Пакет робіт"
   button_add: "Додати"
+  button_add_comment: "Додати коментар"
   button_add_member: Додати учасника
   button_add_watcher: "Додати спостерігача"
   button_annotate: "Коментувати"
@@ -1171,13 +1175,8 @@ uk:
     blocks:
       community: "Спільнота OpenProject"
       upsale:
-        become_hero: "Стань героєм!"
         title: "Оновлення до Enterprise Edition"
-        description: "Які переваги?"
         more_info: "Більше інформації"
-        additional_features: "Додаткові потужні преміум функції"
-        professional_support: "Професійна підтримка експертів OpenProject"
-        you_contribute: "Розробникам також потрібно оплачувати свої рахунки. Завдяки Enterprise Edition ви суттєво сприяєте цьому зусиллям спільноти Open Source."
     links:
       upgrade_enterprise_edition: "Оновлення до Enterprise Edition"
       postgres_migration: "Міграція інсталяції в PostgreSQL"
@@ -1189,9 +1188,10 @@ uk:
       forums: "Форум спільноти"
       newsletter: "Сигнали безпеки / Інформаційний бюлетень"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: 'Посібник з налаштування'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "Ви можете ввійти, як тільки ваш обліковий запис активується, натиснувши %{signin}."
   instructions_after_logout: "Ви можете ввійти знову, натиснувши %{signin}."
   instructions_after_error: "Ви можете спробувати ввійти знову, натиснувши %{signin}. Якщо помилка не зникне, зверніться до адміністратора за допомогою."
@@ -1481,7 +1481,7 @@ uk:
   label_new: "Новий"
   label_new_features: "Нові можливості"
   label_new_statuses_allowed: "Дозволені нові статуси"
-  label_news: "Новини"
+  label_news_singular: "Новини"
   label_news_added: "Новину додано"
   label_news_comment_added: "Добавлено новий коментар до новини"
   label_news_latest: "Останні новини"
@@ -1749,31 +1749,6 @@ uk:
     other: "%{count} проектів"
   label_year: "Рік"
   label_yesterday: "вчора"
-  label_keyboard_function: "Функція"
-  label_keyboard_shortcut: "Ярлик"
-  label_keyboard_accesskey: "Ключ доступу"
-  label_keyboard_shortcut_help_heading: "Доступні Комбінації Клавіш"
-  label_keyboard_shortcut_within_project: "Комбінації клавіш, пов’язаних із проектом:"
-  label_keyboard_shortcut_global_shortcuts: "Глобальні скорочення:"
-  label_keyboard_shortcut_some_pages_only: "Спеціальні скорочення:"
-  label_keyboard_shortcut_search_global: "Глобальний пошук"
-  label_keyboard_shortcut_search_project: "Знайти проект"
-  label_keyboard_shortcut_go_my_page: "Перейдіть до моєї сторінки"
-  label_keyboard_shortcut_show_help: "Показати це довідкове повідомлення"
-  label_keyboard_shortcut_go_overview: "Перейти до огляду проекту"
-  label_keyboard_shortcut_go_work_package: "Перейти до робочих пакетів проекту"
-  label_keyboard_shortcut_go_wiki: "Перейти до wiki-сторінки проекту"
-  label_keyboard_shortcut_go_activity: "Перейти до проектної діяльності"
-  label_keyboard_shortcut_go_calendar: "Перейти до календаря проекту"
-  label_keyboard_shortcut_go_news: "Перейти до новин проекту"
-  label_keyboard_shortcut_go_timelines: "Перейти до термінів"
-  label_keyboard_shortcut_new_work_package: "Створити новий робочий пакет"
-  label_keyboard_shortcut_details_package: "Показати подробиці робочих пакетів"
-  label_keyboard_shortcut_go_edit: "Перейдіть до редагування поточного елемента (на сторінках тільки)"
-  label_keyboard_shortcut_open_more_menu: "Відкрити детальніше меню (лише на сторінках з деталями)"
-  label_keyboard_shortcut_go_preview: "Перейти до попереднього перегляду внесених змін (лише на сторінках редагування)"
-  label_keyboard_shortcut_focus_previous_item: "Сфокусуватися на попередньому елементі списку (лише в деяких списках)"
-  label_keyboard_shortcut_focus_next_item: "Сфокусуватися на наступному елементі списку (лише в деяких списках)"
   auth_source:
     using_abstract_auth_source: "Неможливо використовувати абстрактне джерело автентифікації."
     ldap_error: "LDAP-Помилка: %{error_message}"
@@ -2570,6 +2545,7 @@ uk:
       mail_self_notified: "Я хочу отримувати повідомлення про зміни, які я роблю сам"
     status_user_and_brute_force: "%{user} і %{brute_force}"
     status_change: "Зміна стану"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "Розблокувати"
     unlock_and_reset_failed_logins: "Розблокувати та скинути помилки входу до системи"
   version_status_closed: "зачинено"

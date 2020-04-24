@@ -1,0 +1,71 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2020 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+#---
+sl:
+  button_save_as: "Shrani poročilo kot..."
+  comments: "Komentar"
+  cost_reports_title: "Poročilo o stroških"
+  label_cost_report: "Cost report"
+  description_drill_down: "Pokaži podrobnosti"
+  description_filter_selection: "Izbor"
+  description_multi_select: "Prikaži večselektor"
+  description_remove_filter: "Odstrani filter"
+  information_restricted_depending_on_permission: "Glede na vaše dovoljenje, ta stran lahko vsebuje tajne informacije."
+  label_click_to_edit: "Kliknite za urejanje."
+  label_closed: "closed"
+  label_columns: "Stolpci"
+  label_cost_entry_attributes: "Atributi za vnos stroškov"
+  label_days_ago: "v času zadnjih dni"
+  label_entry: "Vnos stroškov"
+  label_filter_text: "Filtreraj besedilo"
+  label_filter_value: "vrednost"
+  label_filters: "Filtriraj"
+  label_greater: ">"
+  label_is_not_project_with_subprojects: "ni (s podprojekti) "
+  label_is_project_with_subprojects: "je (s podprojekti) "
+  label_work_package_attributes: "Atributi delovnega paketa"
+  label_less: "<"
+  label_money: "Vrednost stroškov"
+  label_month_reporting: "Mesec (porabljeno)"
+  label_new_report: "Novo stroškovno poročilo"
+  label_open: "open"
+  label_operator: "Operater"
+  label_private_report_plural: "Zasebno stroškovno poročilo"
+  label_progress_bar_explanation: "Generiram poročilo..."
+  label_public_report_plural: "Javno stroškovno poročilo"
+  label_really_delete_question: "Ali ste prepričani, da bi radi izbrisali to poročilo?"
+  label_rows: "Vrstice"
+  label_saving: "Shranjevanje..."
+  label_spent_on_reporting: "Datum (Porabljeno)"
+  label_sum: "Vsota"
+  label_units: "Enote"
+  label_week_reporting: "Teden (Porabljeno)"
+  label_year_reporting: "Leto (Porabljeno)"
+  load_query_question: "Poročilo bo imelo %{size} celice tabel zato lahko traja nekaj časa, da se upodobi. \nAli še vedno želite poskusiti upodabljanje?"
+  permission_save_cost_reports: "Shrani javno stroškovno poročilo"
+  permission_save_private_cost_reports: "Shrani zasebno stroškovno poročilo"
+  project_module_reporting_module: "Poročilo o stroških"
+  text_costs_are_rounded_note: "Prikazane vrednosti so zaokrožene. Vsi izračuni temeljijo na nezaokroženih vrednostih."
+  toggle_multiselect: "omogoči/onemogoči večizbor"
+  units: "Enote"
+  validation_failure_date: "ni veljaven datum"
+  validation_failure_integer: "ni veljavno število"

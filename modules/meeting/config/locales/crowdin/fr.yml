@@ -74,12 +74,14 @@ fr:
   permission_send_meeting_agendas_notification: "Envoyer une notification de révision pour les ordres du jour"
   permission_create_meeting_minutes: "Gérer les minutes"
   permission_send_meeting_minutes_notification: "Envoyer une notification de révision pour les minutes"
+  permission_meetings_send_invite: "Inviter des utilisateurs à des réunions"
+  permission_send_meeting_agendas_icalendar: "Envoyer l'ordre du jour de la réunion comme entrée du calendrier"
   project_module_meetings: "Réunions"
   text_duration_in_hours: "Durée en heures"
   text_in_hours: "en heures"
   text_meeting_agenda_for_meeting: 'ordre du jour de la réunion «%{meeting} »'
   text_meeting_closing_are_you_sure: "Êtes-vous certain de vouloir fermer la rencontre ?"
-  text_meeting_agenda_open_are_you_sure: "Le contenu non enregistré des minutes de la réunion sera perdu ! Continuer ?"
+  text_meeting_agenda_open_are_you_sure: "Ceci va écraser toutes les modifications dans les minutes ! Voulez-vous continuer ?"
   text_meeting_minutes_for_meeting: 'Minutes de la réunion "%{meeting}"'
   text_review_meeting_agenda: "%{author} à marqué le %{link} pour vérification."
   text_review_meeting_minutes: "%{author} à marqué le %{link} pour vérification."

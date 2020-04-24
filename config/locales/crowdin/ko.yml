@@ -61,15 +61,18 @@ ko:
         header-item-font-hover-color: "마우스로 가리킬 때 클릭 가능한 헤더 항목의 글꼴색입니다."
         header-border-bottom-color: "헤더 아래 가는 줄입니다. 줄을 원하지 않으면 이 필드를 비워 둡니다."
         main-menu-bg-color: "왼쪽 메뉴의 배경색입니다."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: 테마를 변경하면 사용자 정의 스타일을 덮어 씁니다. 그러면 디자인이 손실됩니다. 너 정말 계속하고 싶니?
     enterprise:
-      upgrade_to_ee: "Enterprise Edition으로 업그레이드 하세요."
+      upgrade_to_ee: "Enterprise Edition으로 업그레이드"
       add_token: "Enterprise Edition 지원 토큰을 업로드하세요."
       replace_token: "당신의 현재 지원 토큰을 바꾸세요."
       order: "Enterprise Edition을 주문하세요."
       paste: "당신의 Enterprise Edition 지원 토큰을 붙여넣으세요."
       required_for_feature: "이 기능은 활성화 된 Enterprise Edition 지원 토큰에서만 가능합니다."
       enterprise_link: "더 자세한 내용은 여기를 클릭하세요."
+      start_trial: '무료 평가판 시작'
+      book_now: '지금 예약'
+      get_quote: '견적 받기'
   announcements:
     show_until: 표시 기한
     is_active: 현재 표시됨
@@ -750,6 +753,7 @@ ko:
     version: "버전"
     work_package: "작업 패키지"
   button_add: "추가"
+  button_add_comment: "댓글 달기"
   button_add_member: 멤버 추가
   button_add_watcher: "주시자 추가"
   button_annotate: "주석 달기"
@@ -1122,13 +1126,8 @@ ko:
     blocks:
       community: "OpenProject 커뮤니티"
       upsale:
-        become_hero: "영웅이 되세요!"
         title: "Enterprise Edition으로 업그레이드 하세요."
-        description: "장점은 무엇입니까?"
         more_info: "더보기"
-        additional_features: "추가적인 강력한 프리미엄 기능들"
-        professional_support: "OpenProject 전문가들의 전문적인 지원"
-        you_contribute: "개발자들도 청구서를 지불해야 합니다. Enterprise Edition으로 당신은 이 오픈소스 커뮤니티의 노력에 실질적으로 기여할 수 있습니다."
     links:
       upgrade_enterprise_edition: "Enterprise Edition으로 업그레이드 하세요."
       postgres_migration: "설치를 PostgreSQL로 마이그레이션"
@@ -1140,9 +1139,10 @@ ko:
       forums: "커뮤니티 포럼"
       newsletter: "보안 알림/뉴스레터"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "변경 사항이 취소되었습니다."
   links:
     configuration_guide: '구성 가이드'
+    get_in_touch: "질문이 있으신가요? 문의해 주세요."
   instructions_after_registration: "%{signin}을(를) 클릭하여 계정이 활성화되면 바로 로그인할 수 있습니다."
   instructions_after_logout: "%{signin}을(를) 클릭하면 다시 로그인할 수 있습니다."
   instructions_after_error: "%{signin}을(를) 클릭하여 다시 로그인해 볼 수 있습니다. 오류가 계속되면 관리자에게 도움을 요청하세요."
@@ -1432,7 +1432,7 @@ ko:
   label_new: "새로 만들기"
   label_new_features: "새로운 기능"
   label_new_statuses_allowed: "새 상태 허용됨"
-  label_news: "뉴스"
+  label_news_singular: "뉴스"
   label_news_added: "뉴스 추가됨"
   label_news_comment_added: "뉴스에 추가된 코멘트"
   label_news_latest: "최신 뉴스"
@@ -1688,31 +1688,6 @@ ko:
     other: "1개 프로젝트\n%{count}개 프로젝트"
   label_year: "년"
   label_yesterday: "어제"
-  label_keyboard_function: "기능"
-  label_keyboard_shortcut: "바로 가기"
-  label_keyboard_accesskey: "액세스 키"
-  label_keyboard_shortcut_help_heading: "사용 가능한 바로 가기"
-  label_keyboard_shortcut_within_project: "프로젝트 관련 바로 가기:"
-  label_keyboard_shortcut_global_shortcuts: "글로벌 바로 가기:"
-  label_keyboard_shortcut_some_pages_only: "특수 바로 가기:"
-  label_keyboard_shortcut_search_global: "글로벌 검색"
-  label_keyboard_shortcut_search_project: "프로젝트 찾기"
-  label_keyboard_shortcut_go_my_page: "내 페이지 이동"
-  label_keyboard_shortcut_show_help: "이 도움말 메시지 표시"
-  label_keyboard_shortcut_go_overview: "프로젝트 개요로 이동"
-  label_keyboard_shortcut_go_work_package: "프로젝트 작업 패키지로 이동"
-  label_keyboard_shortcut_go_wiki: "프로젝트 위키로 이동"
-  label_keyboard_shortcut_go_activity: "프로젝트 작업으로 이동"
-  label_keyboard_shortcut_go_calendar: "프로젝트 달력으로 이동"
-  label_keyboard_shortcut_go_news: "프로젝트 뉴스로 이동"
-  label_keyboard_shortcut_go_timelines: "타임라인으로 이동"
-  label_keyboard_shortcut_new_work_package: "새 작업 패키지 만들기"
-  label_keyboard_shortcut_details_package: "작업 패키지 세부 정보 창 표시"
-  label_keyboard_shortcut_go_edit: "현재 항목을 편집하려면 이동(세부 정보 페이지에서만)"
-  label_keyboard_shortcut_open_more_menu: "추가 메뉴 열기(세부 정보 페이지에서만)"
-  label_keyboard_shortcut_go_preview: "현재 편집을 미리 보려면 이동(편집 페이지에서만)"
-  label_keyboard_shortcut_focus_previous_item: "이전 목록 요소에 포커스 맞추기(일부 목록에서만)"
-  label_keyboard_shortcut_focus_next_item: "다음 목록 요소에 포커스 맞추기(일부 목록에서만)"
   auth_source:
     using_abstract_auth_source: "추상 인증 소스를 사용할 수 없습니다."
     ldap_error: "LDAP 오류: %{error_message}"
@@ -2498,6 +2473,7 @@ ko:
       mail_self_notified: "내가 만든 것이 변경되면 알림을 받고 싶습니다."
     status_user_and_brute_force: "%{user} 및 %{brute_force}"
     status_change: "상태 변경"
+    text_change_disabled_for_provider_login: "이 이름은 로그인 공급자가 설정하므로 변경 가능하지 않습니다."
     unlock: "잠금 해제"
     unlock_and_reset_failed_logins: "실패한 로그인 잠금 해제 및 재설정"
   version_status_closed: "닫음"

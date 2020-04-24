@@ -65,7 +65,9 @@ module API
               helpers ::API::Helpers::AttachmentRenderer
 
               get do
-                respond_with_attachment @attachment, cache_seconds: 1.year.to_i
+                # Cache that value at max 604799 seconds, which is the max
+                # allowed expiry time for AWS generated links
+                respond_with_attachment @attachment, cache_seconds: 604799
               end
             end
           end

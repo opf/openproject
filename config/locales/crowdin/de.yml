@@ -70,6 +70,9 @@ de:
       paste: "Enterprise-Edition Support Token hier einfügen"
       required_for_feature: "Diese Funktion ist nur mit einem aktiven Enterprise-Edition-Support Token verfügbar."
       enterprise_link: "Klicken Sie hier für weitere Informationen."
+      start_trial: 'Kostenlose Testversion starten'
+      book_now: 'Jetzt buchen'
+      get_quote: 'Angebot anfordern'
   announcements:
     show_until: Anzeigen bis
     is_active: derzeit angezeigt
@@ -215,8 +218,8 @@ de:
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
   news:
     index:
-      no_results_title_text: Es gibt aktuell keine Neuigkeiten.
-      no_results_content_text: Neuigkeit hinzufügen
+      no_results_title_text: Es gibt aktuell keine Nachrichten.
+      no_results_content_text: Nachricht hinzufügen
   users:
     memberships:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
@@ -417,7 +420,7 @@ de:
         activity: "Aktivität"
         hours: "Stunden"
         spent_on: "Datum"
-        type: "Art"
+        type: "Typ"
       type:
         description: "Standardtext für Beschreibung"
         attribute_groups: ''
@@ -470,7 +473,7 @@ de:
         spent_time: "Aufgewendete Zeit"
         subproject: "Unterprojekt"
         time_entries: "Zeit buchen"
-        type: "Art"
+        type: "Typ"
         watcher: "Beobachter"
       'doorkeeper/application':
         uid: "Client-ID"
@@ -678,7 +681,7 @@ de:
       role:
         one: "Rollen"
         other: "Rollen"
-      type: "Art"
+      type: "Typ"
       user: "Benutzer"
       version: "Version"
       wiki: "Wiki"
@@ -743,7 +746,7 @@ de:
     subject: "Thema"
     summary: "Zusammenfassung"
     title: "Titel"
-    type: "Art"
+    type: "Typ"
     updated_at: "Aktualisiert am"
     updated_on: "Aktualisiert am"
     uploader: "Bereitgestellt von"
@@ -751,6 +754,7 @@ de:
     version: "Version"
     work_package: "Arbeitspaket"
   button_add: "Hinzufügen"
+  button_add_comment: "Kommentar hinzufügen"
   button_add_member: Mitglied hinzufügen
   button_add_watcher: "Beobachter hinzufügen"
   button_annotate: "Kommentieren"
@@ -1135,13 +1139,8 @@ de:
     blocks:
       community: "OpenProject Community"
       upsale:
-        become_hero: "Werde zum Held!"
         title: "Auf Enterprise-Edition upgraden"
-        description: "Was sind die Vorteile?"
         more_info: "Weitere Informationen"
-        additional_features: "Zusätzliche mächtige Premium-Funktionen"
-        professional_support: "Professioneller Support durch OpenProject Experten"
-        you_contribute: "Auch Entwickler müssen ihre Rechnungen begleichen. Mit der Enterprise-Edition tragen Sie wesentlich zu der Open-Source Community von OpenProject bei."
     links:
       upgrade_enterprise_edition: "Auf Enterprise-Edition upgraden"
       postgres_migration: "Migration Ihrer Installation zu PostgreSQL"
@@ -1156,6 +1155,7 @@ de:
     changes_retracted: "Die Änderungen wurden zurückgezogen."
   links:
     configuration_guide: 'Konfigurationsanleitung'
+    get_in_touch: "Sie haben Fragen? Nehmen Sie Kontakt mit uns auf."
   instructions_after_registration: "Sie können sich anmelden, sobald Ihr Konto aktiviert wurde, indem Sie auf %{signin} klicken."
   instructions_after_logout: "Sie können wieder anmelden indem Sie auf %{signin} klicken."
   instructions_after_error: "Sie können versuchen sich erneut anzumelden indem Sie auf %{signin} klicken. Wenn der Fehler weiterhin auftritt, fragen Sie Ihren Administrator um Hilfe."
@@ -1445,14 +1445,14 @@ de:
   label_new: "Neu"
   label_new_features: "Neue Funktionen"
   label_new_statuses_allowed: "Neuer Status"
-  label_news: "Nachrichten"
-  label_news_added: "Neuigkeit hinzugefügt"
-  label_news_comment_added: "Kommentar einer Neuigkeit hinzugefügt"
-  label_news_latest: "Aktuellste Neuigkeiten"
-  label_news_new: "Neuigkeit hinzufügen"
-  label_news_edit: "Neuigkeit bearbeiten"
+  label_news_singular: "Nachricht"
+  label_news_added: "Nachricht hinzugefügt"
+  label_news_comment_added: "Kommentar einer Nachricht hinzugefügt"
+  label_news_latest: "Aktuellste Nachrichten"
+  label_news_new: "Nachricht hinzufügen"
+  label_news_edit: "Nachricht bearbeiten"
   label_news_plural: "Nachrichten"
-  label_news_view_all: "Alle Neuigkeiten anzeigen"
+  label_news_view_all: "Alle Nachrichten anzeigen"
   label_next: "Weiter"
   label_next_week: "Woche vor"
   label_no_change_option: "(Keine Änderung)"
@@ -1705,31 +1705,6 @@ de:
     other: "%{count} Projekte"
   label_year: "Jahr"
   label_yesterday: "gestern"
-  label_keyboard_function: "Funktion"
-  label_keyboard_shortcut: "Tastaturkürzel"
-  label_keyboard_accesskey: "Accesskey"
-  label_keyboard_shortcut_help_heading: "Vorhandene Tastaturkürzel"
-  label_keyboard_shortcut_within_project: "Innerhalb von Projekten:"
-  label_keyboard_shortcut_global_shortcuts: "Globale Tastaturkürzel:"
-  label_keyboard_shortcut_some_pages_only: "Tastaturkürzel auf speziellen Seiten:"
-  label_keyboard_shortcut_search_global: "OpenProject weite Suche"
-  label_keyboard_shortcut_search_project: "Projektsuche"
-  label_keyboard_shortcut_go_my_page: "Zu \"Meine Seite\" gehen"
-  label_keyboard_shortcut_show_help: "Zeige diese Liste der Tastaturkürzel"
-  label_keyboard_shortcut_go_overview: "Gehe zu Projektübersicht"
-  label_keyboard_shortcut_go_work_package: "Gehe zur Arbeitspaket-Seite"
-  label_keyboard_shortcut_go_wiki: "Gehe zum Projekt-Wiki"
-  label_keyboard_shortcut_go_activity: "Gehe zur Projekt-Aktivität"
-  label_keyboard_shortcut_go_calendar: "Gehe zum Projekt-Kalender"
-  label_keyboard_shortcut_go_news: "Gehe zu den Projekt-Neuigkeiten"
-  label_keyboard_shortcut_go_timelines: "Gehe zur Zeitpläne-Seite"
-  label_keyboard_shortcut_new_work_package: "Erstelle neues Arbeitspaket"
-  label_keyboard_shortcut_details_package: "Arbeitspaketdetails anzeigen"
-  label_keyboard_shortcut_go_edit: "Gehe zur Bearbeiten-Ansicht (nur auf Detailseiten)"
-  label_keyboard_shortcut_open_more_menu: "Öffne 'Weitere-Aktionen' Menü (nur auf Detailseiten)"
-  label_keyboard_shortcut_go_preview: "Gehe zur Vorschau (nur auf Editieren-Seiten)"
-  label_keyboard_shortcut_focus_previous_item: "Fokussiere vorheriges Listenelement (nur bei einigen Listen)"
-  label_keyboard_shortcut_focus_next_item: "Fokussiere nächstes Listenelement (nur bei einigen Listen)"
   auth_source:
     using_abstract_auth_source: "Abstrakte Authentifizierungsquellen können nicht verwendet werden."
     ldap_error: "LDAP-Fehler: %{error_message}"
@@ -1881,7 +1856,7 @@ de:
   permission_assign_versions: "Versionen zuweisen"
   permission_browse_repository: "Lesezugriff auf Projektarchiv (in OpenProject und Checkout)"
   permission_change_wiki_parent_page: "Übergeordnete Wiki-Seite ändern"
-  permission_comment_news: "Neuigkeit kommentieren"
+  permission_comment_news: "Nachricht kommentieren"
   permission_commit_access: "Lese- und Schreibzugriff auf Projektarchiv (Commit)"
   permission_copy_projects: "Projekte kopieren"
   permission_delete_work_package_watchers: "Beobachter löschen"
@@ -1911,7 +1886,7 @@ de:
   permission_manage_categories: "Arbeitspaket-Kategorien verwalten"
   permission_manage_work_package_relations: "Arbeitspaket-Beziehungen verwalten"
   permission_manage_members: "Mitglieder verwalten"
-  permission_manage_news: "Neuigkeiten verwalten"
+  permission_manage_news: "Nachrichten verwalten"
   permission_manage_project_activities: "Aktivitäten (Zeiterfassung) verwalten"
   permission_manage_public_queries: "Öffentliche Ansichten verwalten"
   permission_manage_repository: "Projektarchiv verwalten"
@@ -2374,7 +2349,7 @@ de:
         default: "Standard"
       column:
         assigned_to: "Zugewiesen an"
-        type: "Art"
+        type: "Typ"
         due_date: "Abschlussdatum"
         name: "Name"
         status: "Status"
@@ -2520,6 +2495,7 @@ de:
       mail_self_notified: "Ich möchte über Änderungen benachrichtigt werden, die ich selbst vornehme"
     status_user_and_brute_force: "%{user} und %{brute_force}"
     status_change: "Status geändert"
+    text_change_disabled_for_provider_login: "Der Name wird von Ihrem Login-Provider gesetzt und kann daher nicht geändert werden."
     unlock: "Entsperren"
     unlock_and_reset_failed_logins: "Entsperren und fehlgeschlagene Logins zurücksetzen"
   version_status_closed: "Geschlossen"

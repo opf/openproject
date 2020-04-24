@@ -16,6 +16,10 @@ We eat our own ice cream so we use OpenProject for roadmap planning and team col
 - [Reporting a bug](https://www.openproject.org/development/report-a-bug/)
 - [Submit a feature idea](https://www.openproject.org/development/submit-feature-idea/)
 
+## Development Environment
+
+Take a look at the bottom under Additional resources to see how to setup your development environment.
+
 ## Branching model
 
 The main development branch for upcoming releases is `dev`. If in doubt, create your pull request against `dev`. All new features, gem updates and bugfixes for the upcoming release should go into the `dev` branch.
@@ -107,20 +111,20 @@ This code of conduct is adapted from the [Contributor Covenant](http://contribut
 
 
 
-## OpenProject Contributor License Agreement (CLA) 
+## OpenProject Contributor License Agreement (CLA)
 
-If you want to contribute to OpenProject, please make sure to accept our Contributor License Agreement first. The contributor license agreement documents the rights granted by contributors to OpenProject. 
+If you want to contribute to OpenProject, please make sure to accept our Contributor License Agreement first. The contributor license agreement documents the rights granted by contributors to OpenProject.
 
 [Read and accept the Contributor License Agreement here.](http://openproject.org/contributor-license-agreement/)
 
 # Additional resources
 
 
-* [Development environment for Ubuntu 16.04.](development-environment-ubuntu)
+* [Development environment for Ubuntu 18.04](development-environment-ubuntu)
 * [Development environment for Mac OS X](development-environment-osx)
+* [Development environment using docker](development-environment-docker)
 
 * [Developing Plugins](create-openproject-plugin)
 * [Running Tests](running-tests)
 * [API Documentation](/api/)
 * [Report a Bug](report-a-bug)
-

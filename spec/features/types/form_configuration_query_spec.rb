@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'form query configuration', type: :feature, js: true do
-  let(:admin) { FactoryBot.create :admin }
+  using_shared_fixtures :admin
   let(:type_bug) { FactoryBot.create :type_bug }
   let(:type_task) { FactoryBot.create :type_task }
 

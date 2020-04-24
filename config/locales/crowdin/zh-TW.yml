@@ -63,13 +63,16 @@ zh-TW:
         main-menu-bg-color: "左側選單的背景顏色"
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "升級到企業版"
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "上傳企業版support token"
       replace_token: "替換當前 support token"
       order: "訂購企業版"
       paste: "貼上您的企業版support token"
       required_for_feature: "此功能僅限企業版使用。"
       enterprise_link: "如需了解詳細信息，請點擊此處。"
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
   announcements:
     show_until: 顯示直到
     is_active: 當前已顯示
@@ -751,6 +754,7 @@ zh-TW:
     version: "版本"
     work_package: "工作項目"
   button_add: "增加"
+  button_add_comment: "新增評論"
   button_add_member: 新增成員
   button_add_watcher: "新增監看者"
   button_annotate: "注釋"
@@ -1123,13 +1127,8 @@ zh-TW:
     blocks:
       community: "OpenProject 社群"
       upsale:
-        become_hero: "成為英雄!"
         title: "升級到企業版"
-        description: "有什麼好處？"
         more_info: "更多資訊"
-        additional_features: "其他強大的高級功能"
-        professional_support: "由 OpenProject 專家提供專業支援"
-        you_contribute: "開發人員也需要生活費。使用企業版，您可以為此 Open-Source 社區工作提供大力的財力支持。"
     links:
       upgrade_enterprise_edition: "升級到企業版"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1141,9 +1140,10 @@ zh-TW:
       forums: "社群論壇"
       newsletter: "安全警報 / 消息"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "The changes were retracted."
   links:
     configuration_guide: '設定指南'
+    get_in_touch: "You have questions? Get in touch with us."
   instructions_after_registration: "帳號啟用後即可點擊 %{signin} 登入"
   instructions_after_logout: "您可點擊 %{signin} 再次登入。"
   instructions_after_error: "你可以試著再按一次 %{signin} 來嘗試登入。如果持續發生錯誤，請向您的管理員尋求幫助。"
@@ -1433,7 +1433,7 @@ zh-TW:
   label_new: "新增"
   label_new_features: "New features"
   label_new_statuses_allowed: "允許的新狀態"
-  label_news: "新知"
+  label_news_singular: "新知"
   label_news_added: "消息已新增"
   label_news_comment_added: "評論已新增"
   label_news_latest: "最新消息"
@@ -1689,31 +1689,6 @@ zh-TW:
     other: "%{count} 個專案"
   label_year: "年份"
   label_yesterday: "昨天"
-  label_keyboard_function: "功能"
-  label_keyboard_shortcut: "快捷鍵"
-  label_keyboard_accesskey: "執行鍵"
-  label_keyboard_shortcut_help_heading: "可用的鍵盤快捷鍵"
-  label_keyboard_shortcut_within_project: "與專案相關的快捷鍵:"
-  label_keyboard_shortcut_global_shortcuts: "全域快捷鍵"
-  label_keyboard_shortcut_some_pages_only: "特殊快捷鍵"
-  label_keyboard_shortcut_search_global: "全域搜尋"
-  label_keyboard_shortcut_search_project: "尋找一個專案"
-  label_keyboard_shortcut_go_my_page: "前往我的頁面"
-  label_keyboard_shortcut_show_help: "顯示說明訊息"
-  label_keyboard_shortcut_go_overview: "前往專案概要"
-  label_keyboard_shortcut_go_work_package: "前往專案迎工作項目"
-  label_keyboard_shortcut_go_wiki: "前往專案維基"
-  label_keyboard_shortcut_go_activity: "前往專案活動"
-  label_keyboard_shortcut_go_calendar: "前往專案行事曆"
-  label_keyboard_shortcut_go_news: "前往專案新聞"
-  label_keyboard_shortcut_go_timelines: "到時間軸"
-  label_keyboard_shortcut_new_work_package: "建立新的工作項目"
-  label_keyboard_shortcut_details_package: "顯示工作項目詳細版面"
-  label_keyboard_shortcut_go_edit: "前往編輯目前項目 (只在詳細資訊頁面)"
-  label_keyboard_shortcut_open_more_menu: "打開更多功能表 (只在詳細資訊頁面)"
-  label_keyboard_shortcut_go_preview: "前往預覽目前編輯的項目 (只在詳細資訊頁面)"
-  label_keyboard_shortcut_focus_previous_item: "停駐在前一個清單元素 (只在某些清單)"
-  label_keyboard_shortcut_focus_next_item: "停駐在下一個清單元素 (只在某些清單)"
   auth_source:
     using_abstract_auth_source: "不能使用抽象的認證來源"
     ldap_error: "LDAP 錯誤: %{error_message}"
@@ -2500,6 +2475,7 @@ zh-TW:
       mail_self_notified: "我想要在我自己有變更的時候被通知"
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: "狀態變更"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
     unlock: "解除鎖定"
     unlock_and_reset_failed_logins: "解除鎖定並重置失敗的登錄"
   version_status_closed: "已關閉"

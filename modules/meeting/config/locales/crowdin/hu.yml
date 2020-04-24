@@ -74,12 +74,14 @@ hu:
   permission_send_meeting_agendas_notification: "Napirend véleményezésre küldésének értesítése"
   permission_create_meeting_minutes: "Jegyzőkönyvek kezelése"
   permission_send_meeting_minutes_notification: "Jegyzőkönyvek véleményezésre küldésének értesítése"
+  permission_meetings_send_invite: "Invite users to meetings"
+  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
   project_module_meetings: "Megbeszélések"
   text_duration_in_hours: "Hossza (óra)"
   text_in_hours: "órában"
   text_meeting_agenda_for_meeting: 'a "%{meeting}" megbeszélés napirendje'
   text_meeting_closing_are_you_sure: "Biztosan le akarod zárni a találkozót?"
-  text_meeting_agenda_open_are_you_sure: "A jegyzőkönyv mentetlen tartalma elvész! Folytatja?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'a "%{meeting}" megbeszélés jegyzőkönyve'
   text_review_meeting_agenda: "%{author} véleményezésre küldte %{link} -t."
   text_review_meeting_minutes: "%{author} véleményezésre küldte %{link} -t."

@@ -75,6 +75,7 @@ describe 'Meetings close', type: :feature do
       # Go back to agenda, expect we can open it again
       find('.tabrow a', text: 'AGENDA').click
       find('.button', text: 'Open').click
+      page.accept_confirm
       expect(page).to have_selector('.button', text: 'Close')
     end
   end

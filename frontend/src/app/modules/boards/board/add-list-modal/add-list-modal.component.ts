@@ -75,7 +75,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   public text:any = {
     title: this.I18n.t('js.boards.add_list'),
-    button_continue: this.I18n.t('js.button_continue'),
+    button_add: this.I18n.t('js.button_add'),
     button_cancel: this.I18n.t('js.button_cancel'),
     close_popup: this.I18n.t('js.close_popup_title'),
 

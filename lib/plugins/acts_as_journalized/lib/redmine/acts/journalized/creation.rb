@@ -190,15 +190,6 @@ module Redmine::Acts::Journalized
       def activity_type
         self.class.name.underscore.pluralize
       end
-
-      # Specifies the attributes used during journal creation. This is separated into its own
-      # method so that it can be overridden by the VestalVersions::Users feature.
-      def journal_attributes
-        { journaled_id: id, activity_type: activity_type,
-          details: journal_changes, version: last_version + 1,
-          notes: journal_notes, user_id: (journal_user.try(:id) || User.current.try(:id))
-        }.merge(extra_journal_attributes || {})
-      end
     end
   end
 end

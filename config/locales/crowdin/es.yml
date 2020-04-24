@@ -61,15 +61,18 @@ es:
         header-item-font-hover-color: "Color de fuente de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
         header-border-bottom-color: "Línea fina debajo del encabezado. Deje este campo vacío si no quiere que se muestre ninguna línea."
         main-menu-bg-color: "Color de fondo del menú izquierdo."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Al cambiar el tema, se sobrescribirá su estilo personalizado y, como consecuencia, se perderá el diseño. ¿Seguro que quiere continuar?
     enterprise:
-      upgrade_to_ee: "Actualizar hasta versión corporativa"
+      upgrade_to_ee: "Actualizar a Enterprise Edition"
       add_token: "Cargue el token de soporte de versión corporativa"
       replace_token: "Reemplace su token de apoyo actual"
       order: "Solicitar versión corporativa"
       paste: "Pegue su token de apoyo de versión corporativa"
       required_for_feature: "Esta función solo está disponible con un token de apoyo activo de versión corporativa."
       enterprise_link: "Para obtener más información, haga clic aquí."
+      start_trial: 'Iniciar prueba gratuita'
+      book_now: 'Reservar ahora'
+      get_quote: 'Solicitar presupuesto'
   announcements:
     show_until: Muestran hasta
     is_active: mostrado actualmente
@@ -752,6 +755,7 @@ es:
     version: "Versión"
     work_package: "Paquete de trabajo"
   button_add: "Añadir"
+  button_add_comment: "Agregar comentario"
   button_add_member: Añadir miembro
   button_add_watcher: "Añadir observador"
   button_annotate: "Anotar"
@@ -1136,13 +1140,8 @@ es:
     blocks:
       community: "Comunidad de OpenProject"
       upsale:
-        become_hero: "¡Conviértete en héroe!"
         title: "Actualizar hasta versión corporativa"
-        description: "¿Cuáles son los beneficios?"
         more_info: "Más información"
-        additional_features: "Características Premium avanzadas adicionales"
-        professional_support: "Apoyo profesional de los expertos de OpenProject"
-        you_contribute: "Los desarrolladores también tienen facturas por las que pagar. Al obtener la versión corporativa, contribuirá de forma sustancial al esfuerzo de esta comunidad de código abierto."
     links:
       upgrade_enterprise_edition: "Actualizar hasta versión corporativa"
       postgres_migration: "Migrando su instalación a PostgreSQL"
@@ -1154,9 +1153,10 @@ es:
       forums: "Foro de la comunidad"
       newsletter: "Alertas de seguridad / boletín"
   journals:
-    changes_retracted: "The changes where retracted."
+    changes_retracted: "Se deshicieron los cambios."
   links:
     configuration_guide: 'Guía de configuración'
+    get_in_touch: "¿Tiene alguna pregunta? Póngase en contacto con nosotros."
   instructions_after_registration: "Podras entrar tan pronto como tu cuenta halla sido activada haciendo clic sobre %{signin}."
   instructions_after_logout: "Puedes entrar nuevamente haciendo clic sobre  %{signin}."
   instructions_after_error: "Puedes intentar entrar nuevamente haciendo clic sobre %{signin}. Si el error persiste, contacta a tu administrador para que te ayude."
@@ -1446,7 +1446,7 @@ es:
   label_new: "Nuevo"
   label_new_features: "Nuevas características"
   label_new_statuses_allowed: "Nuevos estados permitidos"
-  label_news: "Noticias"
+  label_news_singular: "Noticias"
   label_news_added: "Noticias añadidas"
   label_news_comment_added: "Comentario añadido a una noticia"
   label_news_latest: "Últimas noticias"
@@ -1706,31 +1706,6 @@ es:
     other: "%{count} projectos"
   label_year: "Año"
   label_yesterday: "ayer"
-  label_keyboard_function: "Función"
-  label_keyboard_shortcut: "Acceso directo"
-  label_keyboard_accesskey: "Clave de acceso"
-  label_keyboard_shortcut_help_heading: "Métodos abreviados de teclado disponibles"
-  label_keyboard_shortcut_within_project: "Atajos de teclado relacionados:"
-  label_keyboard_shortcut_global_shortcuts: "Atajos Globales:"
-  label_keyboard_shortcut_some_pages_only: "Atajos de teclado especiales:"
-  label_keyboard_shortcut_search_global: "Búsqueda global"
-  label_keyboard_shortcut_search_project: "Encontrar un proyecto"
-  label_keyboard_shortcut_go_my_page: "Ir a mi página de inicio"
-  label_keyboard_shortcut_show_help: "Mostrar este mensaje de ayuda"
-  label_keyboard_shortcut_go_overview: "Ir a la visión general del proyecto"
-  label_keyboard_shortcut_go_work_package: "Ir a paquetes de trabajo del proyecto"
-  label_keyboard_shortcut_go_wiki: "Ir al wiki del proyecto"
-  label_keyboard_shortcut_go_activity: "Ir a las actividades del proyecto"
-  label_keyboard_shortcut_go_calendar: "Ir al calendario del proyecto"
-  label_keyboard_shortcut_go_news: "Ir a noticias del proyecto"
-  label_keyboard_shortcut_go_timelines: "Ir a la línea del tiempo"
-  label_keyboard_shortcut_new_work_package: "Crear un nuevo paquete de trabajo"
-  label_keyboard_shortcut_details_package: "Mostrar el panel de detalles de los paquetes de trabajo"
-  label_keyboard_shortcut_go_edit: "Ir a editar el elemento actual (en las páginas de detalle solamente)"
-  label_keyboard_shortcut_open_more_menu: "Abrir el menú mas (en las páginas de detalle solamente)"
-  label_keyboard_shortcut_go_preview: "Vista preliminar de la edición actual (sólo en páginas de edición)"
-  label_keyboard_shortcut_focus_previous_item: "Activar elemento de lista previo (solo en algunas listas)"
-  label_keyboard_shortcut_focus_next_item: "Activar siguiente elemento de lista (sólo en algunas listas)"
   auth_source:
     using_abstract_auth_source: "No puede utilizar una fuente de autenticación abstracta."
     ldap_error: "Error de LDAP: %{error_message}"
@@ -2521,6 +2496,7 @@ es:
       mail_self_notified: "Deseo ser notificado de los cambios realizados por mí"
     status_user_and_brute_force: "%{user} y %{brute_force}"
     status_change: "Cambio de estado"
+    text_change_disabled_for_provider_login: "El nombre lo configura su proveedor de inicio de sesión y no se puede cambiar."
     unlock: "Desbloquear"
     unlock_and_reset_failed_logins: "Desbloquear y resetear los inicios de sesión fallidos"
   version_status_closed: "cerrado"

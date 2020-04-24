@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Multi-value custom fields creation', type: :feature, js: true do
-  let(:admin) { FactoryBot.create(:admin) }
+  using_shared_fixtures :admin
 
   def drag_and_drop(handle, to)
     scroll_to_element(handle)

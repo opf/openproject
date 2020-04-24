@@ -47,6 +47,7 @@ import {DragScrollModule} from "cdk-drag-scroll";
 import {BoardListMenuComponent} from "core-app/modules/boards/board/board-list/board-list-menu.component";
 import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
 import {DynamicModule} from "ng-dynamic-component";
+import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/assignee/assignee-board-header.component";
 
 const menuItemClass = 'board-view-menu-item';
 
@@ -63,7 +64,7 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     },
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
-      query_props: {type: 'opQueryString', dynamic: true}
+      query_props: { type: 'opQueryString', dynamic: true }
     },
     redirectTo: 'boards.list',
     component: BoardsRootComponent
@@ -81,8 +82,8 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     name: 'boards.show',
     url: '{board_id}',
     params: {
-      board_id: {type: 'int'},
-      isNew: {type: 'bool', inherit: false, dynamic: true}
+      board_id: { type: 'int' },
+      isNew: { type: 'bool', inherit: false, dynamic: true }
     },
     reloadOnSearch: false,
     component: BoardComponent,
@@ -135,6 +136,7 @@ export function uiRouterBoardsConfiguration(uiRouter:UIRouter) {
     BoardListMenuComponent,
     BoardFilterComponent,
     VersionBoardHeaderComponent,
+    AssigneeBoardHeaderComponent,
   ]
 })
 export class OpenprojectBoardsModule {

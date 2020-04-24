@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'color administration', type: :feature do
-  let(:admin) { FactoryBot.create(:admin) }
+  using_shared_fixtures :admin
 
   before do
     login_as(admin)

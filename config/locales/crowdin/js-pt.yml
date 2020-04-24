@@ -37,6 +37,7 @@ pt:
     close_filter_title: "Fechar filtro"
     close_form_title: "Fechar formulário"
     button_add_watcher: "Adicionar observadores"
+    button_add: "Adicionar"
     button_back: "Voltar"
     button_back_to_list_view: "Voltar à visualização de lista"
     button_cancel: "Cancelar"
@@ -163,6 +164,59 @@ pt:
         edit_query: 'Editar consulta'
         new_group: 'Novo Grupo'
         reset_to_defaults: 'Repor predefinições'
+      enterprise:
+        trial:
+          confirmation: "Confirmação de endereço de email"
+          confirmation_info: "Enviamos-lhe um e-mail. Veja os seus emails e clique no link de confirmação fornecido para iniciar a sua avaliação de 14 dias."
+          form:
+            general_consent: >
+              Concordo com os <a target="_blank" href="%{link_terms}">termos do serviço</a> e com a <a target="_blank" href="%{link_privacy}">política de privacidade</a>.
+            invalid_email: "Endereço de email inválido"
+            label_company: "Empresa"
+            label_first_name: "Primeiro nome"
+            label_last_name: "Último nome"
+            label_email: "E-mail"
+            label_domain: "Domínio"
+            label_subscriber: "Assinante"
+            label_maximum_users: "Máximo de utilizadores ativos"
+            label_starts_at: "Começa em"
+            label_expires_at: "Expira a"
+            receive_newsletter: Quero receber a <a target="_blank" href="%{link}">newsletter</a> do OpenProject.
+            taken_domain: Só pode haver um teste ativo por domínio.
+            taken_email: Cada utilizador só pode criar uma avaliação.
+          email_not_received: "Não recebeu um email? Pode reenviar o email através do link à direita."
+          try_another_email: "Ou experimentar com outro endereço de email."
+          next_steps: "Próximos passos"
+          resend_link: "Reenviar"
+          resend_success: "O email foi reenviado. Por favor, verifique os seus e-mails e clique no link de confirmação fornecido."
+          resend_warning: "Não foi possível reenviar o email."
+          session_timeout: "A sua sessão expirou. Tente recarregar a página ou reenvie o email."
+          status_label: "Estado:"
+          status_confirmed: "confirmado"
+          status_waiting: "email enviado - a aguardar confirmação"
+          test_ee: "Teste o Enterprise Edition gratuitamente durante 14 dias"
+          quick_overview: "Obter uma visão geral da gestão do projeto e colaboração da equipa com o OpenProject Enterprise Edition."
+        upsale:
+          become_hero: "Torne-se um herói!"
+          benefits:
+            description: "Quais são os benefícios?"
+            high_security: "Recursos de segurança"
+            high_security_text: "Início de sessão único (SAML, OpenID Connect, CAS), autenticação de dois fatores e sincronização automática de grupos LDAP."
+            installation: "Suporte à instalação"
+            installation_text: "Engenheiros de software experientes darão orientações durante toda a instalação e processo de configuração na sua própria infraestrutura."
+            premium_features: "Recursos premium"
+            premium_features_text: "Agile boards, gráficos de temas e logótipos personalizados, fluxos de trabalho inteligentes com ações personalizadas, pesquisa de texto completo para anexos em pacotes de trabalho, e campos personalizados de multi-seleção."
+            professional_support: "Suporte profissional"
+            professional_support_text: "Receba apoio fiável e de alto nível de engenheiros séniores de suporte, com conhecimento especializado sobre a gestão do OpenProject em ambientes de negócios críticos."
+          button_start_trial: "Iniciar avaliação gratuita"
+          button_book_now: "Reserve agora"
+          confidence: >
+            Fornecemos toda a segurança de um software de gestão de projetos de classe empresarial, testado e com suporte - com Open Source e mente aberta.
+          link_quote: "Fazer uma simulação"
+          text: >
+            O OpenProject Enterprise Edition é construído a partir da Community Edition. Inclui recursos premium e suporte profissional, dirigido sobretudo a organizações com mais de 10 utilizadores que gerem projetos de negócios críticos com o OpenProject.
+          unlimited: "Ilimitado"
+          you_contribute: "Os desenvolvedores também têm contas para pagar. Ao obter a Enterprise Edition, irá contribuir de forma substancial para os esforços desta comunidade de código aberto."
     custom_actions:
       date:
         specific: 'on'
@@ -210,13 +264,13 @@ pt:
           text_new_features: "Leia sobre novos recursos e atualizações de produtos."
           learn_about: "Saiba mais sobre os novos recursos"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-10-4
+            learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              O lançamento contém novos recursos e variadas melhorias: <br><br> <ul> <li><b>Modelos de design</b> padrão para selecionar um tema claro ou escuro (recurso premium).</li> <li>Novo <b>widget de controlo do tempo</b> para <i>A minha página</i> mostrar num gráfico de barras o tempo gasto.</li> <li><b>Esportação em XLS para relatórios de custos</b> e texto formatado na exportação em PDF dos pacotes de trabalho.</li> <li><b>Melhorias no design e na utilização</b>, como por exemplo nas abas e muito mais nas configurações de projeto e na administração.</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards accross lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-4
+            learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              O OpenProject contém um <b>novo módulo IFC para integrar modelos 3D</b> na sua aplicação de gestão de projeto, e para trabalhar em colaboração com a sua equipa sem instalar outros softwares ou licenças. <br><br> <ul> <li><b>Importar ficheiros IFC</b> de construção de modelos para a sua aplicação OpenProject.</li> <li><b>Abrir modelos Open 3D e visualizar modelos de construção</b> no seu navegador.</li> <li><b>Trabalhe com vários ficheiros IFC</b> facilmente com a sua equipa no OpenProject, sem ter de instalar programas separados e dispendiosos. </li> </ul>
+              O OpenProject 10.5 suporta agora o <b>BIM Colaboration Format (BCF)</b> - o padrão de rastreio de casos abertos para modelos BIM.<br><br> <ul> <li>Crie e <b>faça a gestão de problemas BIM facilmente,</b> tais como conflitos, solicitações e perguntas no modelo interativo de IFC 3D, e <b>partilhe com a equipa do projeto.</b></li> <li>Integre o OpenProject no seu software BIM favorito através do poderoso <a target="_blank" href="%{bcf_api_link}">REST API.</a></li> <li>Importação e exportação de ficheiros XML BCF.</li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna após"
     label_add_column_before: "Adicionar coluna antes"
@@ -268,6 +322,7 @@ pt:
     label_expand_all: "Expandir Tudo"
     label_expand_project_menu: "Expandir menu do projeto"
     label_export: "Exportar"
+    label_export_preparing: "A exportação está a ser preparada e será descarregada brevemente."
     label_filename: "Ficheiro"
     label_filesize: "Tamanho"
     label_general: "Geral"
@@ -286,6 +341,7 @@ pt:
     label_import: "Importar"
     label_latest_activity: "Atividade mais recente"
     label_last_updated_on: "Última actualização em"
+    label_learn_more_link: "Saber mais"
     label_less_or_equal: "<="
     label_less_than_ago: "menos que dias atrás"
     label_loading: "A carregar..."
@@ -526,18 +582,6 @@ pt:
       select_tag: 'Selecionar a tag'
       select_branch: 'Selecionar o branch'
     field_value_enter_prompt: "Insira um valor para '%{field}'"
-    select2:
-      input_too_short:
-        zero: "Por favor, insira mais caracteres"
-        one: "Por favor, insira um ou mais carateres"
-        other: "Por favor, insira mais {{count}} carateres"
-      load_more: "A carregar mais resultados ..."
-      no_matches: "Nenhuma correspondência encontrada"
-      searching: "A procurar..."
-      selection_too_big:
-        zero: "Não pode selecionar nenhum item"
-        one: "Só pode selecionar um item"
-        other: "Só pode selecionar {{limit}} itens"
     project_menu_details: "Detalhes"
     sort:
       sorted_asc: 'Ordenação crescente aplicada, '
@@ -782,7 +826,7 @@ pt:
           automatic: 'Automático'
           manually: 'Manualmente'
           warning: 'Perderá a sua ordenação anterior quando ativar o modo de ordenação automática.'
-        columns_help_text: "Utilize a entrada acima para adicionar ou remover colunas ao seu modo de vista de tabela. Pode arrastar e soltar as colunas para as reordenar."
+        columns_help_text: "Utilize a entrada acima para adicionar colunas ao seu modo de vista de tabela. Pode arrastar e soltar as colunas para as reordenar."
         upsale:
           attribute_highlighting: 'Precisa de certos pacotes de trabalho para se destacar do resto?'
           relation_columns: 'Precisa de ver as relações na lista do pacote de trabalho?'
