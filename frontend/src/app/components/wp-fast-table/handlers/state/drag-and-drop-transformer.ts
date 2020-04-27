@@ -16,7 +16,6 @@ import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/re
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
 import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
-import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class DragAndDropTransformer {

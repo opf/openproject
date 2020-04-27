@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {SimpleResource, SimpleResourceCollection} from 'core-app/modules/common/path-helper/apiv3/path-resources';
+import {SimpleResourceCollection} from 'core-app/modules/common/path-helper/apiv3/path-resources';
 import {Apiv3ProjectPaths} from 'core-app/modules/common/path-helper/apiv3/projects/apiv3-project-paths';
 
 export class Apiv3ProjectsPaths extends SimpleResourceCollection<Apiv3ProjectPaths> {

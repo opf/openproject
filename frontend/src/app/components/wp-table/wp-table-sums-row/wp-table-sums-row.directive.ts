@@ -26,8 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, Directive, ElementRef, Inject, Injector} from '@angular/core';
-import {combine} from 'reactivestates';
+import {AfterViewInit, Directive, ElementRef, Injector} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
@@ -39,7 +38,7 @@ import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {QueryColumn} from "core-components/wp-query/query-column";
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
-import {combineLatest, concat} from "rxjs";
+import {combineLatest} from "rxjs";
 
 @Directive({
   selector: '[wpTableSumsRow]'

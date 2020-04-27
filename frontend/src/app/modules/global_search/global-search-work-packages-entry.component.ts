@@ -27,7 +27,6 @@
 // ++
 
 import {Component} from '@angular/core';
-import {DynamicBootstrapper} from "app/globals/dynamic-bootstrapper";
 
 export const globalSearchWorkPackagesSelectorEntry = 'global-search-work-packages-entry';
 

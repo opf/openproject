@@ -27,7 +27,6 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {InputState} from 'reactivestates';
 
 export class StatusResource extends HalResource {

@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InputState} from 'reactivestates';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageViewColumnsService} from './wp-view-columns.service';
 import {WorkPackageViewBaseService} from './wp-view-base.service';

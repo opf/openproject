@@ -31,8 +31,6 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
 import {PayloadDmService} from "core-app/modules/hal/dm-services/payload-dm.service";
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";

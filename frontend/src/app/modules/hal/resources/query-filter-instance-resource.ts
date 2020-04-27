@@ -26,11 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource, HalResourceClass} from 'core-app/modules/hal/resources/hal-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
-import {Query} from "@angular/core";
 
 export class QueryFilterInstanceResource extends HalResource {
   public filter:QueryFilterResource;

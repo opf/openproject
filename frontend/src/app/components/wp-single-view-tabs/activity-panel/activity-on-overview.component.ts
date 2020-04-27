@@ -27,11 +27,8 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
-import {Component, Inject, Input} from '@angular/core';
-import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {Component, Input} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";

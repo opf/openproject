@@ -36,8 +36,6 @@ import {map} from "rxjs/operators";
 import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 
 export const usersAutocompleterSelector = 'user-autocompleter';

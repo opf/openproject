@@ -27,7 +27,6 @@
 // ++
 
 import {ResourcesDisplayField} from "./resources-display-field.module";
-import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {UserFieldPortalService} from "core-app/modules/fields/display/display-portal/display-user-field-portal/user-field-portal-service";
 import {DomPortalOutlet} from "@angular/cdk/portal";

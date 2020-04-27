@@ -27,7 +27,7 @@
 //++
 
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';

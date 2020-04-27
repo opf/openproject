@@ -30,7 +30,6 @@ import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,

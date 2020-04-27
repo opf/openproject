@@ -19,7 +19,6 @@ import {VersionCacheService} from "core-components/versions/version-cache.servic
 import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {FormsCacheService} from "core-components/forms/forms-cache.service";
-import {CallableHalLink} from "core-app/modules/hal/hal-link/hal-link";
 
 @Injectable()
 export class BoardVersionActionService implements BoardActionService {

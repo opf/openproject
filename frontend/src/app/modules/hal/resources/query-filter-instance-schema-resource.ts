@@ -36,7 +36,6 @@ import {SchemaDependencyResource} from 'core-app/modules/hal/resources/schema-de
 import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import Collection = api.v3.Collection;
 
 export interface QueryFilterInstanceSchemaResourceLinks {
   filter:QueryFilterResource;

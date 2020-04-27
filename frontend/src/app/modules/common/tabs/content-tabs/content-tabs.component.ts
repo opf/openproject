@@ -28,12 +28,9 @@
 
 import {
   Component,
-  OnDestroy,
-  Input,
   ElementRef,
   ChangeDetectionStrategy
 } from '@angular/core';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {GonService} from "core-app/modules/common/gon/gon.service";
 import {StateService} from '@uirouter/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
