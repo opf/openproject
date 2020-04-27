@@ -34,9 +34,8 @@ class GroupsController < ApplicationController
   helper_method :gon
 
   before_action :require_admin
-  before_action :find_group, only: [:destroy,
-                                    :show, :create_memberships, :destroy_membership,
-                                    :edit_membership]
+  before_action :find_group, only: %i[destroy show create_memberships destroy_membership
+                                      edit_membership add_users]
 
   # GET /groups
   # GET /groups.xml
@@ -123,11 +122,15 @@ class GroupsController < ApplicationController
   end
 
   def add_users
-    @group = Group.includes(:users).find(params[:id])
-    @users = User.includes(:memberships).where(id: params[:user_ids])
-    @group.users << @users
+    call = @group
+      .add_members!(User.where(id: params[:user_ids]).pluck(:id))
 
-    I18n.t :notice_successful_update
+    if call.success?
+      flash[:notice] = I18n.t(:notice_successful_update)
+    else
+      call.apply_flash_message!(flash)
+    end
+
     redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users'
   end
 

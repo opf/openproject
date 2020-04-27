@@ -30,7 +30,6 @@
 class Group < Principal
   has_and_belongs_to_many :users,
                           join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
-                          after_add:    :user_added,
                           after_remove: :user_removed
 
   acts_as_customizable
@@ -62,31 +61,6 @@ class Group < Principal
 
   alias :name :to_s
 
-  def user_added(user)
-    members.each do |member|
-      next if member.project.nil?
-
-      user_member = Member.find_by(project_id: member.project_id, user_id: user.id)
-
-      if user_member.nil?
-        user_member = Member.new.tap do |m|
-          m.project_id = member.project_id
-          m.user_id = user.id
-        end
-
-        member.member_roles.each do |member_role|
-          user_member.add_role(member_role.role, member_role.id)
-        end
-
-        user_member.save!
-      else
-        member.member_roles.each do |member_role|
-          user_member.add_and_save_role(member_role.role, member_role.id)
-        end
-      end
-    end
-  end
-
   def user_removed(user)
     member_roles = MemberRole
                    .includes(member: :member_roles)
@@ -105,8 +79,10 @@ class Group < Principal
 
   # adds group members
   # meaning users that are members of the group
-  def add_member!(users)
-    self.users << users
+  def add_members!(user_ids)
+    ::Groups::AddUsersService
+      .new(self, current_user: User.current)
+      .call(user_ids)
   end
 
   private
