@@ -142,7 +142,7 @@ module OpenProject::XlsExport
                 elsif c.class == BigDecimal
                   c.to_f
                 else
-                  c.to_s.gsub('_', ' ').gsub("\r\n", "\n").gsub("\r", "\n")
+                  c.to_s.gsub("\r\n", "\n").gsub("\r", "\n")
                 end
         column_array << value
         @column_widths[i] = 0 if @column_widths[i].nil?

@@ -226,13 +226,11 @@ module OpenProject::Plugins
       end
 
       def add_api_endpoint(base_endpoint, path = nil, &block)
-        config.to_prepare do
-          # we are expecting the base_endpoint as string for two reasons:
-          # 1. it does not seem possible to pass it as constant (auto loader not ready yet)
-          # 2. we can't constantize it here, because that would evaluate
-          #    the API before it can be patched
-          ::Constants::APIPatchRegistry.add_patch base_endpoint, path, &block
-        end
+        # we are expecting the base_endpoint as string for two reasons:
+        # 1. it does not seem possible to pass it as constant (auto loader not ready yet)
+        # 2. we can't constantize it here, because that would evaluate
+        #    the API before it can be patched
+        ::Constants::APIPatchRegistry.add_patch base_endpoint, path, &block
       end
 
       def extend_api_response(*args, &block)

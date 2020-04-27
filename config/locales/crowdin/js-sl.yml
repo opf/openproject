@@ -463,7 +463,7 @@ sl:
           task_board_select: '... in izberite <b>Tabela nalog</b> zapis.'
           task_board: "The <b>Task board</b> visualizes the progress for this sprint. Add new tasks or impediments with the + icon next to a user story. Via drag'n'drop you can update the status."
         boards:
-          overview: 'Manage your work within an intuitive <b>Boards</b> view.'
+          overview: 'Organiziraj svoje delo z intuitivnim <b>Board</b> pogledom.'
           lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
           add: 'Klik na + bo <b>dodal novo kartico</b> na seznam v vaš Board.'
           drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
