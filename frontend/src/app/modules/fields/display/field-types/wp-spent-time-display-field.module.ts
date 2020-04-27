@@ -33,6 +33,7 @@ import { ProjectResource } from "core-app/modules/hal/resources/project-resource
 import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import * as URI from 'urijs';
 import { TimeEntryCreateService } from 'core-app/modules/time_entries/create/create.service';
+import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   public text = {
@@ -43,6 +44,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   @InjectField() PathHelper:PathHelperService;
   @InjectField() projectCacheService:ProjectCacheService;
   @InjectField() timeEntryCreateService:TimeEntryCreateService;
+  @InjectField() timeEntryDm:TimeEntryDmService;
 
   public render(element:HTMLElement, displayText:string):void {
     if (!this.value) {
@@ -66,19 +68,30 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
         });
     }
 
-
-    const timelogLogo = document.createElement('a');
-    timelogLogo.setAttribute('class', 'icon icon-time');
-    timelogLogo.textContent = this.text.logTime;
-
     element.innerHTML = '';
     element.appendChild(link);
-    element.appendChild(timelogLogo);
 
-    let classContext = this;
-    timelogLogo.addEventListener('click', function () {
-      classContext.showTimelogWidget();
-    });
+    this.appendTimelogLink(element);
+  }
+
+  private appendTimelogLink(element:HTMLElement) {
+    this
+      .timeEntryDm
+      .list({ pageSize: 1 })
+      .then(collection => {
+        if (!!collection.createTimeEntry) {
+          const timelogElement = document.createElement('a');
+          timelogElement.setAttribute('class','icon icon-time');
+          timelogElement.textContent = this.text.logTime;
+
+          element.appendChild(timelogElement);
+
+          let classContext = this;
+          timelogElement.addEventListener('click', function() {
+            classContext.showTimelogWidget();
+          });
+        }
+      });
   }
 
   private showTimelogWidget() {
