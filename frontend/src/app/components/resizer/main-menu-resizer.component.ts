@@ -43,13 +43,15 @@ export const mainMenuResizerSelector = 'main-menu-resizer';
              (end)="resizeEnd()"
              (start)="resizeStart()"
              (move)="resizeMove($event)">
-      <a href="#"
-         [attr.title]="toggleTitle"
-         class="main-menu--navigation-toggler"
-         (accessibleClick)="toggleService.toggleNavigation($event)">
+      <div class="resizer-toggle-container">
+        <i [attr.title]="toggleTitle"
+            class="main-menu--navigation-toggler"
+            [ngClass]="{'open': toggleService.showNavigation}"
+            (accessibleClick)="toggleService.toggleNavigation($event)"></i>
+
         <i class="icon-resizer-vertical-lines"
            aria-hidden="true"></i>
-      </a>
+      </div>
     </resizer>
   `
 })

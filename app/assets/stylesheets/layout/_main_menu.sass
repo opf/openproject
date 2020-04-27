@@ -336,67 +336,6 @@ a.main-menu--parent-node
   padding-left: $hierarchy-span-width
   font-size: 0.7rem
 
-.main-menu--resizer
-  background: none
-  height: 100vh
-  width: 18px
-  position: fixed
-  top: 0px
-  border-left-width: 2px
-  border-left-style: solid
-  border-left-color: transparent
-  left: calc(#{$main-menu-width} - 2px)
-  left: calc(var(--main-menu-width) - 2px)
-  vertical-align: middle
-  z-index: 1
-  cursor: col-resize
-  &:hover
-    @include varprop(border-left-color, main-menu-resizer-color)
-    .main-menu--navigation-toggler
-      opacity: 1
-      i:before
-        @include varprop(color, main-menu-navigation-toggler-font-hover-color)
-
-  &.show
-    left: $main-menu-folded-width
-
-.main-menu--navigation-toggler
-  .hidden-navigation &
-    text-align: right
-    opacity: 0
-    cursor: col-resize
-    &:hover
-      @include varprop(color, main-menu-navigation-toggler-font-hover-color)
-      i:before
-        @include icon-mixin-arrow-right2
-    i:before
-      @include icon-mixin-arrow-right2
-
-  position: absolute
-  top: 0
-  height: 40px
-  text-align: left
-  margin-top: 50vh
-  margin-left: -14px
-  padding: 0
-  // Center toggle icon vertically. The element is higher than it looks like.
-  line-height: 38px
-  i
-    display: inline-block
-    width: 30px
-    cursor: pointer
-    line-height: 40px
-    &:before
-      color: $light-gray
-      padding-right: 0
-      padding-left: 2px
-  &:hover
-    @include varprop(color, main-menu-navigation-toggler-font-hover-color)
-    font-size: 11px
-    i:before
-      padding-left: 0
-      @include icon-mixin-arrow-left2
-
 #main-menu ul ul.main-menu--children ul.pages-hierarchy
   .tree-menu--hierarchy-indicator
     @include varprop(color, main-menu-font-color)
@@ -411,7 +350,55 @@ a.main-menu--parent-node
         @include varprop(color, main-menu-hover-font-color)
         text-decoration: none
 
+// Resizer & toggle styles
+.main-menu--resizer
+  background: none
+  height: 100vh
+  width: 18px
+  position: fixed
+  top: 0px
+  border-left-width: 2px
+  border-left-style: solid
+  border-left-color: transparent
+  left: calc(var(--main-menu-width) - 2px)
+  vertical-align: middle
+  z-index: 1
+  cursor: col-resize
+  &:hover
+    @include varprop(border-left-color, main-menu-resizer-color)
+    i:before
+      @include varprop(color, main-menu-navigation-toggler-font-hover-color)
+  &.show
+    left: $main-menu-folded-width
 
+.resizer-toggle-container
+  margin-top: 50vh
+  margin-left: -25px
+  display: inline-block  
+  .main-menu--navigation-toggler
+    cursor: pointer
+    &:before
+      font-family: openproject-icon-font
+      font-size: 11px
+      font-style: normal
+      text-transform: none
+      font-weight: 400
+    &:not(.open):before
+      @include icon-mixin-arrow-right2
+      position: absolute
+      right: 0
+  &:hover
+    @include varprop(color, main-menu-navigation-toggler-font-hover-color)
+    .main-menu--navigation-toggler
+      background-color: var(--main-menu-bg-color)
+      &.open:before
+        @include icon-mixin-arrow-left2
+  i
+    display: inline-block
+    width: 12px
+    &:before
+      vertical-align: middle
+      color: $light-gray
 
 // Badges for menu items such as "EXPERIMENTAL" or "BETA"
 $badge_offset: 4px
