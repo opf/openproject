@@ -1,6 +1,4 @@
 import {Injectable} from '@angular/core';
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 // -- copyright
 // OpenProject is an open source project management software.
@@ -29,8 +27,7 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 //
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
-import {input, InputState, multiInput, MultiInputState, State} from 'reactivestates';
-import {States} from '../states.service';
+import {multiInput, MultiInputState} from 'reactivestates';
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {StateCacheService} from "core-components/states/state-cache.service";
 

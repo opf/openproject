@@ -1,7 +1,6 @@
 import {Board} from "core-app/modules/boards/board/board";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {Component} from "@angular/compiler/src/core";
 import {ComponentType} from "@angular/cdk/portal";
 import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
 import {DisabledButtonPlaceholder} from "core-app/modules/boards/board/board-list/board-list.component";

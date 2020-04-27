@@ -31,7 +31,6 @@ import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {ProjectCacheService} from "core-components/projects/project-cache.service";
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {Observable} from "rxjs";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";

@@ -37,7 +37,6 @@ import {Observable} from 'rxjs';
 import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {QueryColumn} from "core-components/wp-query/query-column";
-import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
 
 @Injectable()
 export class WorkPackageViewSortByService extends WorkPackageQueryStateService<QuerySortByResource[]> {

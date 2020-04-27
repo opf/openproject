@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, DebugElement} from "@angular/core";
+import {DebugElement} from "@angular/core";
 
-import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed} from '@angular/core/testing';
 import {By} from "@angular/platform-browser";
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { HomescreenNewFeaturesBlockComponent } from './new-features.component';

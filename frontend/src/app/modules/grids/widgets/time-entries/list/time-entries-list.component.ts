@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef, Injector} from "@angular/core";
+import {OnInit, ChangeDetectorRef, Injector} from "@angular/core";
 import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {TimeEntryDmService} from "core-app/modules/hal/dm-services/time-entry-dm.service";

@@ -29,7 +29,6 @@
 import {Injector} from '@angular/core';
 import * as moment from 'moment';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';

@@ -29,7 +29,7 @@
 import {ActivityEntryInfo} from './activity-entry-info';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageLinkedResourceCache} from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
 import {TimezoneService} from 'core-components/datetime/timezone.service';

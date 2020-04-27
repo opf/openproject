@@ -30,7 +30,6 @@
 import {Injectable, Injector} from "@angular/core";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
-import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 
 @Injectable({ providedIn: 'root' })
 export class PreviewTriggerService {

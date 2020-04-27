@@ -7,8 +7,6 @@ import {WpGraphConfigurationFiltersTab} from "core-app/modules/work-package-grap
 import {ChartType} from 'chart.js';
 import {QueryFormDmService} from "core-app/modules/hal/dm-services/query-form-dm.service";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {StateService} from '@uirouter/core';
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 import {
   WpGraphConfiguration,

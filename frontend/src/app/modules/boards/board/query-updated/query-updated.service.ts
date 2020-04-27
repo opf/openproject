@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {interval, from} from 'rxjs';
+import {interval} from 'rxjs';
 import {startWith, switchMap, filter} from 'rxjs/operators';
 import {QueryDmService} from "core-app/modules/hal/dm-services/query-dm.service";
 

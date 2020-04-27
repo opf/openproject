@@ -28,7 +28,6 @@
 
 import {HideSectionService} from "./hide-section.service";
 import {Component, ElementRef, OnInit} from "@angular/core";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 export const showSectionDropdownSelector = 'show-section-dropdown';
 

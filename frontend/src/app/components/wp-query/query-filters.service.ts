@@ -1,5 +1,4 @@
 import {Injectable} from "@angular/core";
-import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {QueryFilterInstanceSchemaResource} from "core-app/modules/hal/resources/query-filter-instance-schema-resource";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";

@@ -33,7 +33,6 @@ import {WorkPackageCacheService} from "app/components/work-packages/work-package
 import {Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged, map, tap} from "rxjs/operators";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 import {input} from "reactivestates";
 import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";

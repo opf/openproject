@@ -2,7 +2,7 @@ import * as moment from 'moment';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {
   calculatePositionValueForDayCountingPx,
-  RenderInfo, timelineBackgroundElementClass,
+  RenderInfo,
   timelineElementCssClass
 } from '../wp-timeline';
 import {CellDateMovement, LabelPosition, TimelineCellRenderer} from './timeline-cell-renderer';

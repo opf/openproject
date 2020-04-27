@@ -27,7 +27,6 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {HttpErrorResponse} from "@angular/common/http";
 
 export const v3ErrorIdentifierQueryInvalid = 'urn:openproject-org:api:v3:errors:InvalidQuery';

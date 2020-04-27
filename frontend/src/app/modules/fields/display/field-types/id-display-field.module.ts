@@ -27,9 +27,6 @@
 // ++
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import {StateService} from '@uirouter/core';
-import {UiStateLinkBuilder} from "core-components/wp-fast-table/builders/ui-state-link-builder";
 
 export class IdDisplayField extends DisplayField {
   public text = {

@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Inject, Injector} from '@angular/core';
+import {Injector} from '@angular/core';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {Observable, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {States} from 'core-components/states.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 

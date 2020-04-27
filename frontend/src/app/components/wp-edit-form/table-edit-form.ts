@@ -27,17 +27,11 @@
 // ++
 
 import {Injector} from '@angular/core';
-import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {Observable, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {States} from 'core-components/states.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
 import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
 import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
