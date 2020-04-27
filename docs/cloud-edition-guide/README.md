@@ -40,8 +40,14 @@ You will get a detailed feature comparison [here](https://www.openproject.org/pr
 
 ### **Can I import my** **OpenProject** **community instance into my cloud environment?**
 
-Yes, we provide an upload possibility of your data to move from a Community installation to the Cloud Edition.To import your community instance into our cloud environment, please send us the following files:1. the database SQL dump of your local installation2. the attachments of your local installation For a package-based installation, you can create both as root user on your environment as follows openproject run backupThis creates the attachment and postgresql-dump or mysql-dump under /var/db/openproject/backup.If you are still running OpenProject under MySQL, your dump will be converted to PostgreSQL before importing, we will do this for you. More information about the backup tool can be found under this link: https://www.openproject.org/operations/backup/backup-guide-packaged-installation/Before uploading the attachments securely to us using the following form, please contact us via support@openproject.com:https://openproject.org/saas-importThe form generates a direct upload to our secure S3 environment from which the import takes place. 
-
+Yes, we provide an upload possibility of your data to move from a Community installation to the Cloud Edition.
+To import your community instance into our cloud environment, please send us the following files:
+1. the database SQL dump of your local installation
+2. the attachments of your local installation For a package-based installation, you can create both as root user on your environment as follows openproject run backup
+This creates the attachment and postgresql-dump or mysql-dump under /var/db/openproject/backup.
+If you are still running OpenProject under MySQL, your dump will be converted to PostgreSQL before importing, we will do this for you. More information about the backup tool can be found under this [link](https://www.openproject.org/operations/backup/backup-guide-packaged-installation/).
+Before uploading the attachments securely to us using the [following form](https://openproject.org/saas-import), please contact us via support@openproject.com.
+The form generates a direct upload to our secure S3 environment from which the import takes place.
 
 
 ### Is there an advantage of the annual over the monthly** **OpenProject** **plan?**
@@ -52,8 +58,7 @@ We offer two months of the cloud edition for free if you choose an annual plan.
 
 ### Where geographically is the** **OpenProject** **cloud data stored?**
 
-OpenProject cloud environment are hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland. AWS is a [GDPR compliant](https://aws.amazon.com/compliance/gdpr-center/) cloud infrastructure provider [with extensive security and compliance programs](https://aws.amazon.com/security/) as well as unparalleled access control mechanisms to ensure data privacy. Employed facilities are compliant with the ISO 27001 and 27018 standards. OpenProject cloud environment is continuously backing up user data with data at rest being fully encrypted with AES-256.  Each individual instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances.[ https://www.openproject.org/gdpr-compliance/](https://www.openproject.org/gdpr-compliance/) 
-
+The OpenProject Cloud Environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland. AWS is a GDPR compliant cloud infrastructure provider with extensive security and compliance programs as well as unparalleled access control mechanisms to ensure data privacy. Employed facilities are compliant with the ISO 27001 and 27018 standards. OpenProject Cloud Environment is continuously backing up user data with data at rest being fully encrypted with AES-256. Each individual's instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. You can find more information [here](https://www.openproject.org/gdpr-compliance/).
 
 
 ### Is there a size limit for uploading documents to the** **OpenProject** **cloud edition?**

@@ -48,3 +48,20 @@ First, navigate to the work package table. Highlight all work packages (in the h
 Select **Bulk copy** in order to copy all selected work packages including their relations.
 
 ![image-20200331132513748](image-20200331132513748.png)
+
+### Is it possible to adapt or rename the status list?
+
+Yes, this is absolutely possible. To do this, you would first have to [create new statuses](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-status/).
+In the second step you can then [assign them to workflows](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-workflows/).
+
+### We like for each department to have their own custom "status" with different value options in OpenProject. How do we do this?
+
+The status which can be selected by users (based on the workflow) is always determined based on the work package type and the role of the user. In order to use the same work package type (e.g. task) but display different status for each department, you would need to create a separate role for each department. You can then add the members of a department (ideally using a group) and assign them with the correct role. Please find the guide [here](../../system-admin-guide/manage-work-packages/work-package-workflows/#edit-workflows).
+To work with different status, first create those status in “Administration” > “Work packages” > “Status”.
+Next, go to “Administration” > “Work packages” > “Workflow” and select the combination of Type and Role for which you would like to set the allowed workflow transition.
+You can e.g. create a role “Marketing – Member” and select it as well as the type (e.g. “Task”). Make sure to uncheck the option “Only display statuses that are used by this type” and click on “Edit”. Now, you can select the correct status transitions.
+Repeat this step for the other (department) roles (e.g. “IT – Member”) and select the desired status transitions. This way, you can set different status for each department (only the default status is shared (i.e. “New” by default)). Please keep in mind that it may not be possible for a member of a different department to update the status of a work package if it has been updated before by another department (since the workflow may not support this status transition).
+
+### Is it possible to create a PDF export for the overview of the work packages with Gantt chart?
+
+The export is available via the browser print function (ideally Google Chrome).

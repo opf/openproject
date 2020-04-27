@@ -131,3 +131,10 @@ To **create new** boards, **open existing** boards, or **delete** boards, naviga
 Verify and **update roles and permissions for boards** in the system's Administration.
 
  ![OpenProject-Boards_manage-permissions](OpenProject-Boards_manage-permissions-1568640266543.png)
+ 
+ ## Frequently asked questions (FAQ)
+ 
+ ### How can I activate Boards in OpenProject? 
+ 
+The boards module is a premium feature of the Enterprise And Cloud Edition. You can upgrade your Community Edition installation by entering a valid subscription token in the application administration. You can purchase the token on our [website](https://www.openproject.org/enterprise-edition/).
+In addition, you need to activate the boards module in the project settings.

@@ -41,3 +41,18 @@ With the **Download link** you can download the inovices.
 The **Load more link** will open more positions on the list.
 
 ![Billing history overview](image-20200113135853806.png)
+
+## Frequently asked questions (FAQ)
+
+### Can we pay the OpenProject cloud edition by transfer?
+
+Yes, for customers in the EU it is possible to pay by bank transfer (as well as by credit card).
+To do this, you can sign into your OpenProject environment and select the "Buy now" button from the top menu. You are then directed to the payment page, where you can select the number of users you want to work with and your country. Then you can check the option to pay by invoice and fill out the billing information. You will then receive an invoice from us.
+
+### When does my OpenProject contract end?
+
+The user may terminate the contract at any time, which will apply by the end of the subscription period (including last day). In case of credit card payment the subscription period is one month or one year; in case of payment via invoice the subscription period is one year. The [agreed subscription period](https://www.openproject.org/terms-of-service/) will be extended automatically if the contract was not terminated on time. 
+
+### What shall I do when I run into payment issues with OpenProject?
+
+In case you use the bank transfer payment method please indicate the invoice number. You can find this information in the corresponding invoice (OP…). Otherwise the automatic banking system is not able to detect your payment. Please do not hesitate to contact accounting@openproject.com if you have any further questions. 
