@@ -112,3 +112,9 @@ You will then receive an email with a link to reset your password.
 
 </div>
 
+## Frequently asked questions (FAQ)
+
+### Is it possible to use multiple languages in OpenProject?
+
+Yes, it is possible to use OpenProject in multiple languages. We support English, German, French and a number of additional languages. Each user can select their own preferred language by signing into OpenProject, clicking on the user avatar on the upper right side and selecting "My account" from the dropdown menu.
+You can then select "Settings" from the side menu on the left side and [change the language](../my-account/#change-your-language).
