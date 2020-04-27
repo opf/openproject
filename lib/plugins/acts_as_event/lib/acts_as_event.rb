@@ -36,6 +36,7 @@ module Redmine
       module ClassMethods
         def acts_as_event(options = {})
           return if included_modules.include?(Redmine::Acts::Event::InstanceMethods)
+
           default_options = { datetime: :created_at,
                               title: :title,
                               description: :description,

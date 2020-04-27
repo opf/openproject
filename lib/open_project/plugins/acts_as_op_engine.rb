@@ -28,6 +28,7 @@
 
 require_dependency 'open_project/ui/extensible_tabs'
 require_dependency 'config/constants/api_patch_registry'
+require_dependency 'config/constants/open_project/activity'
 
 module OpenProject::Plugins
   module ActsAsOpEngine
@@ -288,6 +289,21 @@ module OpenProject::Plugins
           representer_class     = "::API::#{representer_namespace}Representer".constantize
           representer_class.prepend mod
         end
+      end
+
+      # Registers an activity provider.
+      #
+      # @param event_type [Symbol]
+      #
+      # Options:
+      # * <tt>:class_name</tt> - one or more model(s) that provide these events, those need to inherit from Activities::BaseActivityProvider
+      # * <tt>:default</tt> - setting this option to false will make the events not displayed by default
+      #
+      # Example
+      #   activity_provider :meetings, class_name: 'Activities::MeetingActivityProvider', default: false
+      #
+      def activity_provider(event_type, options = {})
+        OpenProject::Activity.register(event_type, options)
       end
 
       ##

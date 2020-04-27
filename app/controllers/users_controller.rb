@@ -76,7 +76,7 @@ class UsersController < ApplicationController
     @memberships = @user.memberships
                         .visible(current_user)
 
-    events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
+    events = Activities::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
     unless User.current.admin?
@@ -99,7 +99,6 @@ class UsersController < ApplicationController
     @auth_sources = AuthSource.all
   end
 
-  verify method: :post, only: :create, render: { nothing: true, status: :method_not_allowed }
   def create
     @user = User.new(language: Setting.default_language,
                      mail_notification: Setting.default_notification_option)
@@ -128,7 +127,6 @@ class UsersController < ApplicationController
     @membership ||= Member.new
   end
 
-  verify method: :put, only: :update, render: { nothing: true, status: :method_not_allowed }
   def update
     @user.attributes = permitted_params.user_update_as_admin(@user.uses_external_authentication?,
                                                              @user.change_password_allowed?)

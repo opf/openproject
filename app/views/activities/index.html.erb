@@ -29,15 +29,15 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= call_hook :activity_index_head %>
 
-<%= toolbar title: (@author.nil? ? l(:label_activity) : l(:label_user_activity, link_to_user(@author))).html_safe,
-            subtitle: l(:label_date_from_to, start: format_date(@date_to - @days), end: format_date(@date_to-1))
+<%= toolbar title: (@author.nil? ? t(:label_activity) : l(:label_user_activity, link_to_user(@author))).html_safe,
+            subtitle: t(:label_date_from_to, start: format_date(@date_to - @days), end: format_date(@date_to-1))
 %>
 
 <div id="activity">
   <% @events_by_day.keys.sort.reverse.each do |day| %>
     <h3><%= format_activity_day(day) %></h3>
     <ul class="generic-list">
-      <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
+      <% @events_by_day[day].sort { |x, y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
         <li class="<%= e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
           <div class="title">
             <% event_type = e.event_type.start_with?('meeting') ? 'meetings' : e.event_type %>
@@ -67,15 +67,15 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <div style="float:left;">
-  <%= link_to_content_update(l(:label_previous),
+  <%= link_to_content_update(t(:label_previous),
                              { from: (@date_to - @days - 1) },
-                             {title: l(:label_date_from_to, start: format_date(@date_to - 2*@days), end: format_date(@date_to - @days - 1)),
+                             {title: t(:label_date_from_to, start: format_date(@date_to - 2*@days), end: format_date(@date_to - @days - 1)),
                              class: 'navigate-left'}) %>
 </div>
 <div style="float:right;">
-  <%= link_to_content_update(l(:label_next),
+  <%= link_to_content_update(t(:label_next),
                              { from: (@date_to + @days - 1) },
-                             {title: l(:label_date_from_to, start: format_date(@date_to), end: format_date(@date_to + @days - 1)),
+                             {title: t(:label_date_from_to, start: format_date(@date_to), end: format_date(@date_to + @days - 1)),
                              class: 'navigate-right'}) unless @date_to >= Date.today %>
 </div>
 &nbsp;
@@ -90,23 +90,24 @@ See docs/COPYRIGHT.rdoc for more details.
 <% content_for :sidebar do %>
   <%= form_tag({}, method: :get) do %>
     <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= l(:description_filter) %></legend>
+      <legend class="form--fieldset-legend"><%= t(:description_filter) %></legend>
     <p>
-      <% @activity.event_types.each do |t| %>
-        <%= check_box_tag "show_#{t}", 1, @activity.scope.include?(t) %>
-        <label for="show_<%=t%>"><%=l("label_#{t.singularize}_plural")%></label>
+      <%= hidden_field_tag "event_types[]" %>
+      <% @activity.event_types.sort_by { |type| t("label_#{type.singularize}_plural") }.each do |t| %>
+        <%= check_box_tag "event_types[]", t, @activity.scope.include?(t), id: "event_types_#{t}" %>
+        <label for="event_types_<%=t%>"><%=t("label_#{t.singularize}_plural")%></label>
         <br />
       <% end %>
     </p>
     <% if @project && @project.descendants.active.any? %>
       <%= hidden_field_tag 'with_subprojects', 0 %>
-      <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
+      <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=t(:label_subproject_plural)%></label></p>
     <% end %>
     <%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
     <%= hidden_field_tag('apply', true) %>
-    <p><%= submit_tag l(:button_apply), class: 'button -small -highlight', name: nil %></p>
+    <p><%= submit_tag t(:button_apply), class: 'button -small -highlight', name: nil %></p>
     </fieldset>
   <% end %>
 <% end %>
 
-<% html_title(l(:label_activity), @author) -%>
+<% html_title(t(:label_activity), @author) -%>
