@@ -13,6 +13,10 @@ module LdapGroups
       end
 
       def sortable?
+        true
+      end
+
+      def sortable_column?(column)
         false
       end
 

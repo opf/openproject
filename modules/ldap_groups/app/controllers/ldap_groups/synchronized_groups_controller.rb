@@ -6,6 +6,7 @@ module LdapGroups
 
     layout 'admin'
     menu_item :plugin_ldap_groups
+    include PaginationHelper
 
     def index
       @groups = SynchronizedGroup.includes(:auth_source, :group)
