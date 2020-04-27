@@ -54,8 +54,6 @@ import {ProjectStatusEditFieldComponent} from "core-app/modules/fields/edit/fiel
 import {PortalCleanupService} from "core-app/modules/fields/display/display-portal/portal-cleanup.service";
 import {PlainFormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/plain-formattable-edit-field.component";
 import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/te-work-package-edit-field.component";
-import { TimeEntryCreateService } from '../time_entries/create/create.service';
-import { HalResourceEditingService } from './edit/services/hal-resource-editing.service';
 
 @NgModule({
   imports: [
@@ -84,8 +82,6 @@ import { HalResourceEditingService } from './edit/services/hal-resource-editing.
       deps: [DisplayFieldService],
       multi: true
     },
-    TimeEntryCreateService,
-    HalResourceEditingService,
   ],
   declarations: [
     EditFormPortalComponent,
