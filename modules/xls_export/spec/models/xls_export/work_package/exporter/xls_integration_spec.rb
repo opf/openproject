@@ -285,6 +285,24 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     end
   end
 
+  context 'with underscore in subject' do
+    let(:work_package) do
+      FactoryBot.create(:work_package,
+                        subject: 'underscore_is included',
+                        project: project,
+                        type: project.types.first)
+    end
+    let(:work_packages) { [work_package] }
+    let(:column_names) { %w[id subject] }
+
+    it 'includes the underscore' do
+      expect(sheet.rows.size).to eq(1 + 1)
+
+      expect(sheet.rows[1][1])
+        .to eql(work_package.subject)
+    end
+  end
+
   describe 'empty result' do
     let(:work_packages) { [] }
 
