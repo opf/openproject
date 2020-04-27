@@ -28,18 +28,10 @@ module OpenProject::LdapGroups
       groups = []
 
       each_group do |dn, name|
-        entry = LdapGroups::SynchronizedGroup.find_or_initialize_by(dn: dn)
-        # Always set the filter and auth source, in case multiple filters match the same group
-        # they are simply being re-assigned to the latest one
-        entry.filter_id = filter.id
-        entry.auth_source_id = filter.auth_source_id
+        sync = create_or_update_sync_group(dn)
+        create_or_update_group(sync, name)
 
-        # Create an OpenProject group
-        unless entry.group_id
-          entry.group = Group.find_or_initialize_by(groupname: name)
-        end
-
-        groups << entry
+        groups << sync
       end
 
       groups
@@ -65,5 +57,29 @@ module OpenProject::LdapGroups
         end
       end
     end
+
+    ##
+    # Create or update the synchronized group item
+    def create_or_update_sync_group(dn)
+      LdapGroups::SynchronizedGroup.find_or_initialize_by(dn: dn).tap do |sync|
+        # Always set the filter and auth source, in case multiple filters match the same group
+        # they are simply being re-assigned to the latest one
+        sync.filter_id = filter.id
+        sync.auth_source_id = filter.auth_source_id
+      end
+    end
+
+    ##
+    # Create or update the group
+    def create_or_update_group(sync, name)
+      if sync.group_id
+        # Update the group name
+        Group.where(id: sync.group_id).update_all(lastname: name)
+      else
+        # Create an OpenProject group
+        entry.group = Group.find_or_initialize_by(groupname: name)
+      end
+    end
+
   end
 end

@@ -62,9 +62,11 @@ module OpenProject::LdapGroups
 
       # Add new memberships
       group_members = sync.group.users.pluck(:id)
-      new_members = ldap_member_ids - set_by_us - group_members
-      new_users = User.where(id: new_members)
-      add_memberships!(new_users, sync)
+      new_member_ids = ldap_member_ids - set_by_us - group_members
+      add_memberships!(new_member_ids, sync)
+
+      # Reset the counters after manually inserting items
+      LdapGroups::SynchronizedGroup.reset_counters(sync.id, :users, touch: true)
     end
 
     ##
@@ -92,15 +94,25 @@ module OpenProject::LdapGroups
 
     ##
     # Add new users to the synced group
-    def add_memberships!(new_users, sync)
-      if new_users.empty?
+    def add_memberships!(new_member_ids, sync)
+      if new_member_ids.empty?
         Rails.logger.info "[LDAP groups] No new users to add for #{sync.dn}"
         return
       end
 
-      Rails.logger.info { "[LDAP groups] Adding users #{new_users.pluck(:login)} to #{sync.dn}" }
-      sync.users << new_users.map { |user| ::LdapGroups::Membership.new(group: sync, user: user) }
-      sync.group.users << new_users
+      Rails.logger.info { "[LDAP groups] Adding #{new_member_ids.length} users to #{sync.dn}" }
+
+      # Bulk insert the memberships
+      memberships = new_member_ids.map do |user_id|
+        {
+          group_id: sync.id,
+          user_id: user_id
+        }
+      end
+      ::LdapGroups::Membership.insert_all memberships
+
+      # Have to manually add the users to the group :-/
+      sync.group.users << User.where(id: new_member_ids).select(:id)
     end
 
     ##

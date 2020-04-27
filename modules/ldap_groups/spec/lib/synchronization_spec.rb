@@ -129,10 +129,8 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
           end
 
           it 'removes all memberships and groups after removing auth source' do
-            expect { auth_source.destroy }
+            expect { auth_source.destroy! }
               .to change { ::LdapGroups::Membership.count }.from(4).to(0)
-
-            auth_source.destroy
 
             expect { synced_foo.reload }.to raise_error ActiveRecord::RecordNotFound
             expect { synced_bar.reload }.to raise_error ActiveRecord::RecordNotFound

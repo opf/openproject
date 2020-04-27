@@ -4,7 +4,9 @@ require 'net/ldap/dn'
 module LdapGroups
   class SynchronizedGroup < ApplicationRecord
     belongs_to :group
+
     belongs_to :auth_source
+
     belongs_to :filter,
                class_name: '::LdapGroups::SynchronizedFilter',
                foreign_key: :filter_id
@@ -38,17 +40,11 @@ module LdapGroups
         # We don't have access to the join table
         # so we need to ensure we delete the users that are still present in the group
         # since users MAY want to remove users manually
-        user_ids.each { |id| remove_from_actual_group(id) }
+        group.users.where(id: user_ids).destroy_all
       end
     end
 
     private
-
-    def remove_from_actual_group(id)
-      group.users.delete(id)
-    rescue ActiveRecord::RecordNotFound
-      Rails.logger.warn "Tried to remove user##{id} from #{group.name}, but it was already removed."
-    end
 
     def remove_all_members
       remove_members!(users)
