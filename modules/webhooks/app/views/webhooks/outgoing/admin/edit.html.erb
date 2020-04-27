@@ -18,6 +18,6 @@
   <%= render partial: "form", locals: { f: f, webhook: @webhook } %>
   <p>
     <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-    <%= link_to t(:button_cancel), { action: :index }, class: 'button' %>
+    <%= link_to t(:button_cancel), { action: :index }, class: 'button -with-icon icon-cancel' %>
   </p>
 <% end %>
