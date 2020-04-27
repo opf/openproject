@@ -23,12 +23,12 @@ export class TimeEntryCreateService {
     readonly i18n:I18nService) {
   }
 
-  public create(date:Moment, wp?:WorkPackageResource) {
+  public create(date:Moment, wp?:WorkPackageResource, showWorkPackageField:boolean = true) {
     return new Promise<{ entry:TimeEntryResource, action:'create' }>((resolve, reject) => {
       this
         .createNewTimeEntry(date, wp)
         .then(changeset => {
-          const modal = this.opModalService.show(TimeEntryCreateModal, this.injector, { entry: changeset.pristineResource });
+          const modal = this.opModalService.show(TimeEntryCreateModal, this.injector, { entry: changeset.pristineResource, showWorkPackageField: showWorkPackageField });
 
           modal
             .closingEvent

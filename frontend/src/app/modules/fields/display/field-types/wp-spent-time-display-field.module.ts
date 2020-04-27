@@ -95,6 +95,6 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   }
 
   private showTimelogWidget() {
-    this.timeEntryCreateService.create(moment(new Date()), this.resource);
+    this.timeEntryCreateService.create(moment(new Date()), this.resource, false);
   }
 }

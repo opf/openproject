@@ -39,11 +39,17 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
     return this.locals.entry;
   }
 
+  public get showWorkPackageField() {
+    return this.locals.showWorkPackageField !== undefined ? this.locals.showWorkPackageField : true;
+  }
+
   public saveEntry() {
     this.editForm.save()
       .then(() => {
         // reload workPackage
-        this.workPackageCacheService.require(this.entry.workPackage.id, true);
+        if (this.entry.workPackage) {
+          this.workPackageCacheService.require(this.entry.workPackage.id, true);
+        }
         this.service.close();
       });
   }
