@@ -13,6 +13,7 @@ module LdapGroups
 
     has_many :users,
              class_name: '::LdapGroups::Membership',
+             dependent: :delete_all,
              foreign_key: 'group_id'
 
     validates_presence_of :dn
@@ -35,7 +36,6 @@ module LdapGroups
     def remove_members!(users_to_remove)
       self.class.transaction do
         user_ids = users_to_remove.pluck(:user_id)
-        users_to_remove.destroy_all
 
         # We don't have access to the join table
         # so we need to ensure we delete the users that are still present in the group

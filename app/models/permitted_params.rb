@@ -449,6 +449,7 @@ class PermittedParams
           account
           account_password
           base_dn
+          filter_string
           onthefly_register
           attr_login
           attr_firstname

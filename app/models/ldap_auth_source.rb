@@ -39,6 +39,8 @@ class LdapAuthSource < AuthSource
   validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :attr_admin, maximum: 30, allow_nil: true
   validates_numericality_of :port, only_integer: true
 
+  validate :validate_filter_string
+
   before_validation :strip_ldap_attributes
   after_initialize :set_default_port
 
@@ -106,6 +108,13 @@ class LdapAuthSource < AuthSource
     end
   end
 
+  ##
+  # Returns the filter object used for searching
+  def default_filter
+    object_filter = Net::LDAP::Filter.eq('objectClass', '*')
+    parsed_filter_string || object_filter
+  end
+
   private
 
   def strip_ldap_attributes
@@ -143,14 +152,14 @@ class LdapAuthSource < AuthSource
   def get_user_dn(login)
     ldap_con = initialize_ldap_con(account, account_password)
     login_filter = Net::LDAP::Filter.eq(attr_login, login)
-    object_filter = Net::LDAP::Filter.eq('objectClass', '*')
+
     attrs = {}
 
     Rails.logger.debug {
-      "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{(object_filter & login_filter).to_s})"
+      "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{(default_filter & login_filter).to_s})"
     }
     ldap_con.search(base: base_dn,
-                    filter: object_filter & login_filter,
+                    filter: default_filter & login_filter,
                     attributes: search_attributes) do |entry|
       if onthefly_register?
         attrs = get_user_attributes_from_ldap_entry(entry)
@@ -172,5 +181,17 @@ class LdapAuthSource < AuthSource
 
   def set_default_port
     self.port = 389 if port.to_i == 0
+  end
+
+  def parsed_filter_string
+    Net::LDAP::Filter.from_rfc2254(filter_string) if filter_string
+  end
+
+  private
+
+  def validate_filter_string
+    parsed_filter_string
+  rescue Net::LDAP::FilterSyntaxInvalidError
+    errors.add :filter_string, :invalid
   end
 end

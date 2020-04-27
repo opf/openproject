@@ -3,7 +3,7 @@ require 'ladle'
 
 describe OpenProject::LdapGroups::SynchronizeFilter, with_ee: %i[ldap_groups] do
   before(:all) do
-    ldif = File.expand_path('../../fixtures/users.ldif', __FILE__)
+    ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
     @ldap_server = Ladle::Server.new(quiet: false, port: '12389', domain: 'dc=example,dc=com', ldif: ldif).start
   end
 

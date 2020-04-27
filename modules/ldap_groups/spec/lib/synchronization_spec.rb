@@ -7,7 +7,7 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   end
 
   before(:all) do
-    ldif = File.expand_path('../../fixtures/users.ldif', __FILE__)
+    ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
     @ldap_server = Ladle::Server.new(quiet: false, port: '12389', domain: 'dc=example,dc=com', ldif: ldif).start
   end
 
@@ -25,6 +25,7 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
                       account_password: 'secret',
                       base_dn: 'ou=people,dc=example,dc=com',
                       onthefly_register: onthefly_register,
+                      filter_string: ldap_filter,
                       attr_login: 'uid',
                       attr_firstname: 'givenName',
                       attr_lastname: 'sn',
@@ -32,6 +33,7 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   end
 
   let(:onthefly_register) { false }
+  let(:ldap_filter) { nil }
 
   let(:user_aa729) { FactoryBot.create :user, login: 'aa729', auth_source: auth_source }
   let(:user_bb459) { FactoryBot.create :user, login: 'bb459', auth_source: auth_source }
@@ -175,6 +177,22 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
 
             expect(group_foo.users).to contain_exactly(user_aa729)
             expect(group_bar.users).to contain_exactly(user_aa729, user_bb459, user_cc414)
+          end
+        end
+
+        context 'with an LDAP filter for users starting with b and on-the-fly enabled' do
+          let(:onthefly_register) { true }
+          let(:ldap_filter) { '(uid=b*)' }
+          let(:user_bb459) { User.find_by login: 'bb459' }
+
+          it 'creates the remaining users' do
+            subject
+            expect(synced_foo.users.count).to eq(0)
+            expect(synced_bar.users.count).to eq(1)
+
+            expect(User.find_by(login: 'aa729')).to eq nil
+            # Only matched users are added to the group, meaning cc414 is not added
+            expect(group_bar.users).to contain_exactly(user_bb459)
           end
         end
       end
