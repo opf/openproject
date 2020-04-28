@@ -49,7 +49,7 @@
     "@fullcalendar/timegrid": "4.4.0",
     "@kolkov/ngx-gallery": "^1.0.11",
     "@ng-select/ng-option-highlight": "0.0.4",
-    "@ng-select/ng-select": "^3.7.2",
+    "@ng-select/ng-select": "^4.0.0",
     "@sentry/browser": "^5.13.0",
     "@types/assertion-error": "^1.1.0",
     "@types/chart.js": "^2.9.15",
