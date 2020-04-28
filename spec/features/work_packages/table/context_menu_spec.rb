@@ -8,6 +8,7 @@ describe 'Work package table context menu', js: true do
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(work_package.project) }
   let(:menu) { Components::WorkPackages::ContextMenu.new }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
+  let(:time_logging_modal) { Components::TimeLoggingModal.new }
   let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
 
   def goto_context_menu list_view = true
@@ -43,7 +44,9 @@ describe 'Work package table context menu', js: true do
         # Open log time
         goto_context_menu list_view
         menu.choose('Log time')
-        expect(page).to have_selector('h2', text: I18n.t(:label_spent_time))
+        time_logging_modal.is_visible true
+        time_logging_modal.work_package_is_missing false
+        time_logging_modal.perform_action 'Cancel'
 
         # Open Move
         goto_context_menu list_view
