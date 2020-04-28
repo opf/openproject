@@ -1,7 +1,7 @@
 require_relative './edit_field'
 
 class SpentTimeEditField < EditField
-  def timeLogIconVisible(visible)
+  def time_log_icon_visible(visible)
     if visible
       expect(page).to have_selector("#{@selector} #{display_selector} #{icon}")
     else
@@ -9,7 +9,7 @@ class SpentTimeEditField < EditField
     end
   end
 
-  def openTimeLogModal
+  def open_time_log_modal
     page.find("#{@selector} #{display_selector} #{icon}").click
   end
 

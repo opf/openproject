@@ -67,12 +67,12 @@ describe 'Logging time within the work package view', type: :feature, js: true d
       login_as(admin)
       wp_page.visit!
       loading_indicator_saveguard
-      spent_time_field.timeLogIconVisible true
+      spent_time_field.time_log_icon_visible true
     end
 
     it 'shows a logging button within the display field and can log time via a modal' do
       # click on button opens modal
-      spent_time_field.openTimeLogModal
+      spent_time_field.open_time_log_modal
 
       log_time_via_modal
     end
@@ -94,7 +94,7 @@ describe 'Logging time within the work package view', type: :feature, js: true d
     end
 
     it 'shows no logging button within the display field' do
-      spent_time_field.timeLogIconVisible false
+      spent_time_field.time_log_icon_visible false
       spent_time_field.expect_display_value '-'
     end
   end
