@@ -146,9 +146,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     const event = new Event(this.resizeEvent);
     window.dispatchEvent(event);
 
-    if (this.resizer.classList.contains('-error')) {
-      this.resizer.classList.remove('-error');
-    }
+    this.manageErrorClass(false);
   }
 
   resizeMove(deltas:ResizeDelta) {
@@ -164,15 +162,11 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
       newValue = this.elementMinWidth;
 
       // Show the resizer red when it reaches its limit (min-width)
-      if (!this.resizer.classList.contains('-error')) {
-        this.resizer.classList.add('-error');
-      }
+      this.manageErrorClass(true);
     } else {
       newValue = this.elementWidth;
 
-      if (this.resizer.classList.contains('-error')) {
-        this.resizer.classList.remove('-error');
-      }
+      this.manageErrorClass(false);
     }
 
     // Store item in local storage
@@ -217,5 +211,15 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   private toggleFullscreenColumns() {
     let fullScreenLeftView = jQuery('.work-packages-full-view--split-left')[0];
     this.toggleColumns(fullScreenLeftView);
+  }
+
+  private manageErrorClass(shouldBePresent:boolean) {
+    if (shouldBePresent && !this.resizer.classList.contains('-error')) {
+       this.resizer.classList.add('-error');
+    }
+
+    if (!shouldBePresent && this.resizer.classList.contains('-error')) {
+      this.resizer.classList.remove('-error');
+    }
   }
 }
