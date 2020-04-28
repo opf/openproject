@@ -36,11 +36,11 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 @Injectable({ providedIn: 'root' })
 export class MainMenuToggleService {
   public toggleTitle:string;
-
   private elementWidth:number;
+  private elementMinWidth = 11;
+  private readonly defaultWidth:number = 230;
   private readonly localStorageKey:string = 'openProject-mainMenuWidth';
   private readonly localStorageStateKey:string = 'openProject-mainMenuCollapsed';
-  private readonly defaultWidth:number = 230;
 
   @InjectField() currentProject:CurrentProjectService;
 
@@ -97,7 +97,10 @@ export class MainMenuToggleService {
       if (this.deviceService.isMobile) { // mobile version
         this.setWidth(window.innerWidth);
       } else { // desktop version
-        this.saveWidth(parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string));
+        const savedWidth = parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string);
+        const widthToSave = savedWidth >= this.elementMinWidth ? savedWidth : this.defaultWidth;
+
+        this.saveWidth(widthToSave);
       }
     } else { // sidebar is expanded -> close menu
       this.closeMenu();
@@ -156,11 +159,11 @@ export class MainMenuToggleService {
   }
 
   public get showNavigation():boolean {
-    return (this.elementWidth > 10);
+    return (this.elementWidth >= this.elementMinWidth);
   }
 
   private snapBack():void {
-    if (this.elementWidth <= 10) {
+    if (this.elementWidth < this.elementMinWidth) {
       this.elementWidth = 0;
     }
   }
