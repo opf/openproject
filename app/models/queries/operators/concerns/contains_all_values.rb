@@ -28,15 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Operators
-  class NotContains < Base
-    include Concerns::ContainsAllValues
+module Queries::Operators::Concerns
+  module ContainsAllValues
+    extend ActiveSupport::Concern
 
-    label 'not_contains'
-    set_symbol '!~'
-
-    def self.sql_for_field(values, db_table, db_field)
-      "NOT (#{super}) OR #{db_table}.#{db_field} IS NULL"
+    class_methods do
+      def sql_for_field(values, db_table, db_field)
+        values
+          .first
+          .split(/\s+/)
+          .map { |substr| "#{db_table}.#{db_field} ILIKE '%#{connection.quote_string(substr)}%'" }
+          .join(' AND ')
+      end
     end
   end
 end
