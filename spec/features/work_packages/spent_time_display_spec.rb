@@ -39,38 +39,50 @@ describe 'Logging time within the work package view', type: :feature, js: true d
 
   let!(:activity) { FactoryBot.create :time_entry_activity, project: project }
   let(:spent_time_field) { ::SpentTimeEditField.new(page, 'spentTime') }
-  let(:time_logging_modal) { ::Components::TimeLoggingModal.new }
 
   let(:work_package) { FactoryBot.create :work_package, project: project }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
 
+  let(:time_logging_modal) { ::Components::TimeLoggingModal.new }
+
+  def log_time_via_modal
+    time_logging_modal.is_visible true
+
+    # the fields are visible
+    time_logging_modal.has_field_with_value 'spent_on', Date.today.strftime("%Y-%m-%d")
+    time_logging_modal.shows_field 'work_package', false
+
+    time_logging_modal.update_field 'activity', activity.name
+
+    # a click on save creates a time entry
+    time_logging_modal.perform_action 'Create'
+    wp_page.expect_and_dismiss_notification message: 'Successful creation.'
+
+    # the value is updated automatically
+    spent_time_field.expect_display_value '1 h'
+  end
 
   context 'as an admin' do
     before do
       login_as(admin)
       wp_page.visit!
       loading_indicator_saveguard
+      spent_time_field.timeLogIconVisible true
     end
 
     it 'shows a logging button within the display field and can log time via a modal' do
-      spent_time_field.timeLogIconVisible true
-
       # click on button opens modal
       spent_time_field.openTimeLogModal
-      time_logging_modal.is_visible true
 
-      # the fields are visible
-      time_logging_modal.has_field_with_value 'spent_on', Date.today.strftime("%Y-%m-%d")
-      time_logging_modal.shows_field 'work_package', false
+      log_time_via_modal
+    end
 
-      time_logging_modal.update_field 'activity', activity.name
+    it 'the context menu entry to log time leads to the modal' do
+      # click on context menu opens the modal
+      find('#action-show-more-dropdown-menu .button').click
+      find('.menu-item', text: 'Log time').click
 
-      # a click on save creates a time entry
-      time_logging_modal.perform_action 'Create'
-      wp_page.expect_and_dismiss_notification message: 'Successful creation.'
-
-      # the value is updated automatically
-      spent_time_field.expect_display_value '1 h'
+      log_time_via_modal
     end
   end
 

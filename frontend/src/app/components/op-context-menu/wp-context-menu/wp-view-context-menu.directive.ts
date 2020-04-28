@@ -15,6 +15,7 @@ import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 import {StateService} from "@uirouter/core";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
@@ -24,6 +25,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   @InjectField() protected $state:StateService;
   @InjectField() protected wpTableSelection:WorkPackageViewSelectionService;
   @InjectField() protected WorkPackageContextMenuHelper:WorkPackageContextMenuHelperService;
+  @InjectField() protected timeEntryCreateService:TimeEntryCreateService;
 
   protected workPackage = this.states.workPackages.get(this.workPackageId).value!;
   protected selectedWorkPackages = this.getSelectedWorkPackages();
@@ -77,6 +79,10 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         this.wpRelationsHierarchyService.addNewChildWp(this.baseRoute, this.workPackage);
         break;
 
+      case 'log_time':
+        this.logTimeForSelectedWorkPackage();
+        break;
+
       default:
         window.location.href = link!;
         break;
@@ -110,6 +116,14 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     };
 
     this.$state.go(this.baseRoute + '.copy', params);
+  }
+
+  private logTimeForSelectedWorkPackage() {
+    this.timeEntryCreateService
+      .create(moment(new Date()), this.workPackage)
+      .catch(() => {
+        // do nothing, the user closed without changes
+      });
   }
 
   private getSelectedWorkPackages() {

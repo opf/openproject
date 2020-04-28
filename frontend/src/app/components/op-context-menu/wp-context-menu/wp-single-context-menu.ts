@@ -13,12 +13,16 @@ import {PERMITTED_CONTEXT_MENU_ACTIONS} from 'core-components/op-context-menu/wp
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WorkPackageAuthorization} from 'core-components/work-packages/work-package-authorization.service';
 import {WorkPackageAction} from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';
+import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
 
 @Directive({
   selector: '[wpSingleContextMenu]'
 })
 export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger {
   @Input('wpSingleContextMenu-workPackage') public workPackage:WorkPackageResource;
+
+  @InjectField() public timeEntryCreateService:TimeEntryCreateService;
 
   constructor(readonly HookService:HookService,
               readonly $state:StateService,
@@ -52,6 +56,13 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         break;
       case 'delete':
         this.opModalService.show(WpDestroyModal, this.injector, { workPackages: [this.workPackage] });
+        break;
+      case 'log_time':
+        this.timeEntryCreateService
+          .create(moment(new Date()), this.workPackage, false)
+          .catch(() => {
+            // do nothing, the user closed without changes
+          });
         break;
 
       default:
