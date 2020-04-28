@@ -27,7 +27,7 @@ module LdapGroups
     def add_members!(new_users)
       self.class.transaction do
         users << new_users.map { |u| Membership.new group: self, user: u }
-        group.users << new_users
+        group.add_members!(new_users)
       end
     end
 

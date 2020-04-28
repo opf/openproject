@@ -132,7 +132,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       let(:values) { [group.id.to_s] }
 
       before do
-        group.users << assignee
+        group.add_members!(assignee)
       end
 
       it 'does not return the work package' do
@@ -156,7 +156,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       let(:user) { FactoryBot.create(:user) }
 
       before do
-        group.users << user
+        group.add_members!(user)
       end
 
       it 'does not return the work package' do

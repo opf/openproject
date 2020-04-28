@@ -47,8 +47,8 @@ describe Group, type: :model do
   describe '#destroy' do
     describe 'work packages assigned to the group' do
       before do
-        group.add_member! user
-        group.add_member! watcher
+        group.add_members! user
+        group.add_members! watcher
 
         become_member_with_permissions project, group, [:view_work_packages]
         package.assigned_to = group

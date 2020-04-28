@@ -38,7 +38,7 @@ describe Group, type: :model do
     @member.save!
     @project = @member.project
     @user = FactoryBot.create :user
-    @group.users << @user
+    @group.add_members!(@user)
     @group.save!
   end
 
@@ -49,7 +49,7 @@ describe Group, type: :model do
 
   it 'should roles given to new user' do
     user = FactoryBot.build :user
-    @group.users << user
+    @group.add_members!(user)
 
     assert user.member_of? @project
   end
@@ -66,7 +66,7 @@ describe Group, type: :model do
     member.attributes = { principal: group, role_ids: role_ids }
     member.save!
     user = FactoryBot.create :user
-    group.users << user
+    group.add_members!(user)
     group.save!
 
     member.role_ids = [role_ids.first]

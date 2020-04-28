@@ -473,7 +473,7 @@ describe Project, type: :model do
       group = Group.create!(lastname: 'Copy group')
       user = User.find(7)
 
-      group.users << user
+      group.add_members!(user)
 
       # group role
       (Member.new.tap do |m|

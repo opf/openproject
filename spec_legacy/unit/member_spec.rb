@@ -167,7 +167,7 @@ describe Member, type: :model do
         end)
 
         @group.members << @member
-        @group.users << @watcher_user
+        @group.add_members!(@watcher_user)
         assert @group.save
       end
 

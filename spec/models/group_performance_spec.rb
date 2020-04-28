@@ -68,7 +68,7 @@ describe Group, type: :model do
 
   before do
     users.each do |user|
-      group.add_member! user
+      group.add_members! user
     end
   end
 

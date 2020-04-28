@@ -30,6 +30,7 @@
 class Group < Principal
   has_and_belongs_to_many :users,
                           join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
+                          before_add: :fail_add,
                           after_remove: :user_removed
 
   acts_as_customizable
@@ -79,7 +80,9 @@ class Group < Principal
 
   # adds group members
   # meaning users that are members of the group
-  def add_members!(user_ids)
+  def add_members!(users)
+    user_ids = Array(users).map { |user_or_id| user_or_id.is_a?(Integer) ? user_or_id : user_or_id.id }
+
     ::Groups::AddUsersService
       .new(self, current_user: User.current)
       .call(user_ids)
@@ -104,5 +107,9 @@ class Group < Principal
     if groups_with_name > 0
       errors.add :groupname, :taken
     end
+  end
+
+  def fail_add
+    fail "Do not add users through association, use `group.add_members!` instead."
   end
 end

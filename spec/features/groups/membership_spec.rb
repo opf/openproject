@@ -50,7 +50,7 @@ feature 'group memberships through project members page', type: :feature do
     before do
       allow(User).to receive(:current).and_return bob
 
-      group.add_member! alice
+      group.add_members! alice
     end
 
     scenario 'adding group1 as a member with the beta role', js: true do

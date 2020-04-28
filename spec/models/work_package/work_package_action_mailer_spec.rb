@@ -91,7 +91,7 @@ describe WorkPackage, type: :model do
       let(:group) { FactoryBot.create(:group) }
 
       before do
-        group.users << user_1
+        group.add_members!(user_1)
         work_package.assigned_to = group
       end
 
