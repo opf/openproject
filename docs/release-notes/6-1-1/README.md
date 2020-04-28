@@ -54,7 +54,6 @@ OpenProject 6.1.1 contains several bug fixes and improvements.
         [\#24334](https://community.openproject.com/projects/openproject/work_packages/24334/activity),
         [\#24335](https://community.openproject.com/projects/openproject/work_packages/24335/activity),
         [\#24339](https://community.openproject.com/projects/openproject/work_packages/24339/activity),
-        [\#24341](https://community.openproject.com/projects/costs-plugin/work_packages/24341/activity),
         [\#24372](https://community.openproject.com/projects/openproject/work_packages/24372/activity),
         [\#24373](https://community.openproject.com/projects/openproject/work_packages/24373/activity)).
 
