@@ -25,9 +25,9 @@ sl:
       property_groups:
         costs: "Stroški"
       properties:
-        costObject: "Budget"
+        costObject: "Proračun"
         overallCosts: "Celotni stroški"
-        spentUnits: "Spent units"
-    button_log_costs: "Log unit costs"
+        spentUnits: "Porabljene enote"
+    button_log_costs: "Stroški enote dnevnika"
     label_hour: "ura"
     label_hours: "Ur"

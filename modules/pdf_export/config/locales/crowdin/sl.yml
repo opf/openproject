@@ -38,7 +38,7 @@ sl:
   validation_error_uknown_key: "Nepoznan ključ:"
   yaml_error: "YAML napaka:"
   help_link_rows_format: "Oblikovanje Vrstic"
-  export_config_per_page: "Per page"
+  export_config_per_page: "na stran"
   export_config_page_size: "Velikost strani"
   export_config_orientation: "Usmerjenost"
   export_config_rows: "Vrstice"
@@ -46,6 +46,6 @@ sl:
     attributes:
       export_card_configuration:
         rows: "Vrstice"
-        per_page: "Per page"
+        per_page: "na stran"
         page_size: "Velikost strani"
         orientation: "Usmerjenost"

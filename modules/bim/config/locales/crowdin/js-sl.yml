@@ -3,7 +3,7 @@ sl:
   js:
     bcf:
       label_bcf: 'BCF'
-      import: 'Import'
+      import: 'Uvozi'
       export: 'Izvozi'
       viewpoint: 'Pogled/vidik'
       add_viewpoint: 'Dodaj pogled/vidik'
