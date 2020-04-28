@@ -81,4 +81,10 @@ export interface BoardActionService {
    * @returns {the icon class or nothing}
    */
   disabledAddButtonPlaceholder(resource?:HalResource):DisabledButtonPlaceholder|undefined;
+
+  /**
+   * Determines the specific warning to be shown, when there are no options to add as a list
+   * @returns {the text or nothing}
+   */
+  warningTextWhenNoOptionsAvailable():Promise<string|undefined>;
 }
