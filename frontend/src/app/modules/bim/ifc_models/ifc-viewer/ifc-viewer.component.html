@@ -16,7 +16,7 @@
   </div>
 
   <div class="ifc-model-viewer--container xeokit-busy-modal-backdrop">
-    <div *ngIf="!keyboardEnabled"
+    <div *ngIf="modelCount && !keyboardEnabled"
          class="ifc-model-viewer--focus-warning">
       <a class="ifc-model-viewer--keyboard-disabled-icon icon-no-color icon-input-disabled"
          (mousedown)="enableFromIcon($event)"

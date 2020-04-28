@@ -151,3 +151,7 @@ You can indirectly import MS Project files into OpenProject using MS Excel. We o
 ### How can we download** **the documentation loaded on OpenProject?**
 
 Currently, there is unfortunately no option to export all the documents in OpenProject. We could manually export the entire database (including the attachments) for you. Due to the manual effort, we would however need to charge a service fee for this. Please contact [sales@openproject.com](mailto:sales@openproject.com)
+
+### Is there an OpenProject app?
+
+There is no native app for OpenProject, but OpenProject is responsive - so it is displayed well on smaller displays.

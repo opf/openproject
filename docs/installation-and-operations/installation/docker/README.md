@@ -245,3 +245,54 @@ The apache configuration for this configuration then looks like this:
     </Location>
 </VirtualHost>
 ```
+
+### OpenProject plugins
+
+The docker image itself does not support plugins. But you can create your own docker image to include plugins.
+
+**1. Create a new folder** with any name, for instance `custom-openproject`. Change into that folder.
+
+**2. Create the file `Gemfile.plugins`** in that folder. In the file you declare the plugins you want to install.
+For instance:
+
+```
+group :opf_plugins do
+  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "release/10.0"
+end
+```
+
+**3. Create the `Dockerfile`** in the same folder. The contents have to look like this:
+
+```
+FROM openproject/community:10
+
+COPY Gemfile.plugins /app/
+
+RUN bundle config unset deployment && bundle install && bundle config set deployment 'true'
+RUN bash docker/precompile-assets.sh
+```
+
+The file is based on the normal OpenProject docker image.
+All the Dockerfile does is copy your custom plugins gemfile into the image, install the gems and precompile any new assets.
+
+**4. Build the image**
+
+To actually build the docker image run:
+
+```
+docker build -t openproject-with-slack .
+```
+
+The `-t` option is the tag for your image. You can choose what ever you want.
+
+**5. Run the image**
+
+You can run the image just like the normal OpenProject image (as shown earlier).
+You just have to use your chosen tag instead of `openproject/community:10`.
+To just give it a quick try you can run this:
+
+```
+docker run -p 8080:80 --rm -it openproject-with-slack
+```
+
+After which you can access OpenProject under http://localhost:8080.

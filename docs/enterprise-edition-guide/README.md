@@ -40,3 +40,7 @@ The Enterprise Edition is an upgrade of the self-hosted Community Edition. When 
 
 Yes, you can upgrade your existing OpenProject Community Edition to the Enterprise Edition. You can then continue to use the same data as before but also use the premium features. When you purchase the Enterprise Edition, you receive an Enterprise Edition license. You can use this license to upgrade your Community Edition.
 
+### Do you have a reseller program for OpenProject?
+
+We provide a [reseller program](https://www.openproject.org/reseller-program/) exclusively for the OpenProject Enterprise Edition (currently not for the Cloud Edition) and offer a 25% discount on the regular prices as a part of this. Once you purchased the first Enterprise Edition license for a client, you receive an Enterprise Edition license for 25 users free of charge (for internal use).
+Please let us know if you have a particular customer request that we can send you a quote for. 

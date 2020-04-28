@@ -35,7 +35,7 @@ sl:
           at_risk: 'Ogroženo'
           not_set: 'Ni nastavljeno'
         subprojects:
-          title: 'Subprojects'
+          title: 'Podprojekti'
           no_results: 'Ni podprojektov. '
         time_entries_current_user:
           title: 'Poglej porabljen čas'

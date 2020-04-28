@@ -35,7 +35,7 @@ class Project < ApplicationRecord
   include Projects::Copy
   include Projects::Storage
   include Projects::Activity
-  include Scopes::Scoped
+  include ::Scopes::Scoped
 
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
