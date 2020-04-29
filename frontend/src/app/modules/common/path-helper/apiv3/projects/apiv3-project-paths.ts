@@ -40,6 +40,9 @@ export class Apiv3ProjectPaths extends SimpleResource {
     super(projectPath, projectId);
   }
 
+  // /api/v3/projects/:project_id/available_assignees
+  public readonly available_assignees = this.path + '/available_assignees';
+
   public readonly queries = new Apiv3QueriesPaths(this.path);
 
   public readonly types = new Apiv3TypesPaths(this.path);
