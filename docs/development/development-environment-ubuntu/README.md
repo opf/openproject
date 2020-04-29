@@ -22,7 +22,7 @@ sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev 
 
 ## Install Ruby
 
-Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "2.6"
+Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "2.7"
 
 **Install rbenv and ruby-build**
 
@@ -51,23 +51,23 @@ ruby-build is an addon to rbenv that installs ruby versions
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 ```
 
-**Installing ruby-2.6**
+**Installing ruby-2.7**
 
-With both installed, we can now install the actual ruby version 2.6. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `2.6.6`, which we also require.
+With both installed, we can now install the actual ruby version 2.7. You can check available ruby versions with `rbenv install --list`.
+At the time of this writing, the latest stable version is `2.7.1`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-rbenv install 2.6.6
+rbenv install 2.7.1
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-rbenv global 2.6.6
+rbenv global 2.7.1
 rbenv rehash
 ```
 
@@ -149,7 +149,7 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 ruby --version
-ruby 2.6.6p114 (2019-10-01 revision 67812) [x86_64-linux]
+ruby 2.7.1p83 (2020-03-31 revision a0c7c23c9c) [x86_64-linux]
 
 bundler --version
 Bundler version 2.0.2

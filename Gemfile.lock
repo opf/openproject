@@ -518,7 +518,7 @@ GEM
     get_process_mem (0.2.5)
       ffi (~> 1.0)
     gherkin (5.1.0)
-    git (1.6.0)
+    git (1.7.0)
       rchardet (~> 1.8)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -1139,7 +1139,7 @@ DEPENDENCIES
   with_advisory_lock (~> 4.6.0)
 
 RUBY VERSION
-   ruby 2.6.6p146
+   ruby 2.7.1p83
 
 BUNDLED WITH
    2.1.4
