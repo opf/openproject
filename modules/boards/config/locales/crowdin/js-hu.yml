@@ -38,6 +38,10 @@ hu:
         action_by_attribute: 'Akció tábla (%{attribute})'
         action_text: >
           Hozzon létre táblát szűrt listákkal egyetlen attribútumon. A munkacsomagok áthelyezése más listákra frissíti az attribútumot.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "Akció attribútum"
       configuration_modal:
         title: 'Konfiguráld a táblát'

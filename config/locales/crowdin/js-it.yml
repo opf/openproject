@@ -522,7 +522,7 @@ it:
       duration: 'Durata'
       spent_on: 'Data'
       hours: 'Ore'
-      label: 'Inserimento tempo'
+      title: 'Registra l''orario effettuato'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticazione due fattori'
     watchers:

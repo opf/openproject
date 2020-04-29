@@ -29,7 +29,7 @@ sl:
   label_filter_add: "Dodajte filter"
   label_filter_plural: "Filtri"
   label_greater: ">"
-  label_group_by: "Group by"
+  label_group_by: "Razvrsti po"
   label_group_by_add: "Dodajte atribut Group-by"
   label_inactive: "«neaktiven»"
   label_less: "<"

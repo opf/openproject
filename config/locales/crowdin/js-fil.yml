@@ -522,7 +522,7 @@ fil:
       duration: 'Durasyon'
       spent_on: 'Petsa'
       hours: 'Mga oras'
-      label: 'Time entry'
+      title: 'Ang oras ng tala'
     two_factor_authentication:
       label_two_factor_authentication: 'Ang dalwang-Dahilan sa authentication'
     watchers:

@@ -38,6 +38,10 @@ sl:
         action_by_attribute: 'Tabela opravil (%{attribute})'
         action_text: >
           Ustvarite tabelo s filtriranimi seznami z enim atributom. Če premaknete delovne pakete na druge sezname, boste posodobili atribute.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "Atributi opravil"
       configuration_modal:
         title: 'Konfigurirajte to tabelo'

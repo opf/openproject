@@ -407,9 +407,9 @@ ru:
         code: 'Состояние'
         explanation: 'Описание статуса'
         codes:
-          on_track: 'На треке'
+          on_track: 'В работе'
           at_risk: 'Под угрозой'
-          off_track: 'Выключить трек'
+          off_track: 'Приостановлен'
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"
@@ -501,7 +501,7 @@ ru:
         confirmation: "не совпадает со значением поля %{attribute}."
         could_not_be_copied: "не может быть скопировано (полностью)."
         does_not_exist: "не существует."
-        error_unauthorized: "не может быть получен доступ."
+        error_unauthorized: "не доступен."
         error_readonly: "запись не разрешена."
         empty: "не может быть пустым."
         even: "должно быть чётным."
@@ -1162,7 +1162,7 @@ ru:
   general_text_yes: "Да"
   general_text_No: "Нет"
   general_text_Yes: "да"
-  general_text_true: "правда"
+  general_text_true: "да"
   general_text_false: "Ложно"
   gui_validation_error: "1 ошибка"
   gui_validation_error_plural: "%{count} ошибок"
@@ -1971,7 +1971,7 @@ ru:
       title: Измените идентификатор проекта
     archive:
       are_you_sure: "Уверены, что хотите архивизировать проект %{name}%?"
-      archived: "Архивировано"
+      archived: "Архивирован"
   project_module_activity: "Деятельность"
   project_module_forums: "Форумы"
   project_module_calendar: "Календарь"

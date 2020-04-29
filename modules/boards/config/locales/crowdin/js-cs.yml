@@ -38,6 +38,10 @@ cs:
         action_by_attribute: 'Akční tabule (%{attribute})'
         action_text: >
           Vytvořte tabuli s filtrovanými seznamy na jednom atributu. Přesunutí pracovních balíčků do jiných seznamů aktualizuje jejich atribut.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "Atribut akce"
       configuration_modal:
         title: 'Konfigurovat tuto tabuli'

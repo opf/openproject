@@ -522,7 +522,7 @@ sk:
       duration: 'Trvanie'
       spent_on: 'Dátum'
       hours: 'Hodín'
-      label: 'Time entry'
+      title: 'Zaprotokoluj čas'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvojfaktorové overenie (2FA)'
     watchers:

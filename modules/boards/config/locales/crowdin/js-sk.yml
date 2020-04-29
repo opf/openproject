@@ -38,6 +38,10 @@ sk:
         action_by_attribute: 'Action board (%{attribute})'
         action_text: >
           Create a board with filtered lists on a single attribute. Moving work packages to other lists will update their attribute.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "Action attribute"
       configuration_modal:
         title: 'Configure this board'

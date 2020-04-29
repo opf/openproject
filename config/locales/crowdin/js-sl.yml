@@ -98,7 +98,7 @@ sl:
         radar: 'Radar'
         polar_area: 'Polarno območje'
       tabs:
-        graph_settings: 'General'
+        graph_settings: 'Splošno'
         dataset: 'Nabor podatkov %{number}'
       errors:
         could_not_load: 'Podatkov za prikaz grafa ni bilo mogoče naložiti. Morda primankuje potrebno dovoljenje.'
@@ -161,7 +161,7 @@ sl:
         add_group: "Dodajte skupino atributov"
         add_table: "Dodajte tabelo povezanih delovnih paketov"
         edit_query: 'Uredi poizvedbo'
-        new_group: 'New group'
+        new_group: 'Nova skupina'
         reset_to_defaults: 'Ponastavi na privzete vrednosti'
       enterprise:
         trial:
@@ -213,9 +213,9 @@ sl:
             Zagotavljamo zaupanje preizkušene in podprte programske opreme za upravljanje projektov v podjetniškem razredu - z odprto kodo in odprto miselnostjo.
           link_quote: "Pridobite ponudbo"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            Izdaja OpenProject Enterprise temelji na različici Community Edition. Vključuje vrhunske funkcije in strokovno podporo, namenjeno predvsem organizacijam z več kot 10 uporabniki, ki z OpenProjectom upravljajo poslovno pomembne projekte.
           unlimited: "Neomejeno"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+          you_contribute: "Razvijalci morajo plačati tudi svoje račune. Z Enterprise Edition znatno prispevate k temu prizadevanju za odprtokodno skupnost."
     custom_actions:
       date:
         specific: 'vključeno'
@@ -265,11 +265,11 @@ sl:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards across lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
+              Izdaja vsebuje različne nove funkcije in izboljšave: <br> <br> <ul> <li> <b> Delovna deska za prejemnike </b>: ustvarite akcijske plošče, ki bodo samodejno posodobile prejemnika pri premikanju kart po seznamih. </ li> <li> Razvrstite različice po imenu, ne po datumih, kar olajša izbiro različice s seznama. </li> <li> <b> Odstranite 24-urno omejitev </b> za sledenje času. </ li> <li> Pokaži povzetek novic o pripomočku za pregled projekta. </li> <li> Različni popravki napak in <b> izboljšave uporabnosti </b>. </li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              OpenProject 10.5 zdaj podpira <b> BIM Collaboration Format (BCF) </b> - odprto problemski sledilni standard za modele BIM. <br> <br> <ul> <li> Preprosto ustvarjanje in <b> urejanje BIM težav < / b> kot so spopadi, zahteve in vprašanja v interaktivnem 3D-IFC modelu in <b>  ga delite s projektno skupino. </b> </li> <li> Integracija OpenProject s svojo najljubšo programsko opremo BIM s pomočjo zmogljive <a target = "_ blank" href = "% {bcf_api_link}"> BCF REST API. </a> </li> <li> Uvoz in izvoz datotek XML BCF. </li> </ul>
     label_activate: "Activate"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
@@ -321,13 +321,13 @@ sl:
     label_expand_all: "Razširi vse"
     label_expand_project_menu: "Razširi projektni meni"
     label_export: "Izvozi"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_export_preparing: "Izvoz je v pripravi in ​​bo kmalu prenesen."
     label_filename: "Datoteka"
     label_filesize: "Velikost"
-    label_general: "General"
+    label_general: "Splošno"
     label_greater_or_equal: ">="
     label_group: 'Skupina'
-    label_group_by: "Group by"
+    label_group_by: "Razvrsti po"
     label_group_plural: "Skupine"
     label_hide_attributes: "Prikaži manj"
     label_hide_column: "Skrij stolpec"
@@ -395,7 +395,7 @@ sl:
     label_sum: "Vsota"
     label_sum_for: "Vsota za"
     label_subject: "Zadeva"
-    label_this_week: "this week"
+    label_this_week: "ta teden"
     label_today: "Danes"
     label_time_entry_plural: "Porabljen čas"
     label_up: "Navzgor"
@@ -521,7 +521,7 @@ sl:
       duration: 'Duration'
       spent_on: 'Datum'
       hours: 'Ure'
-      label: 'Vnos časa'
+      title: 'Datum vpisa'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvofaktorna avtentikacija'
     watchers:
@@ -595,7 +595,7 @@ sl:
     text_attachment_destroy_confirmation: "Ali ste prepričani, da želite izbrisati to datoteko?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
+      gantt_chart: 'Gantogram'
       labels:
         title: 'Konfiguracija label'
         bar: 'Bar labele'
@@ -690,7 +690,7 @@ sl:
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Omogoči več selekcijo"
       label_disable_multi_select: "Onemogoči več selekcijo"
-      label_filter_add: "Add filter"
+      label_filter_add: "Dodaj filter"
       label_filter_by_text: "Filtreraj po besedilu"
       label_options: "Možnosti"
       label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
@@ -770,7 +770,7 @@ sl:
       query:
         column_names: "Stolpci"
         group_by: "Rezultati grupirani po"
-        group: "Group by"
+        group: "Razvrsti po"
         group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
         hierarchy_disabled_by_group_by: "Hirarhični pogled je onemogočen zaradi grupiranja po %{column}."
         sort_ascending: "Sortiraj naraščajoče"
@@ -942,4 +942,4 @@ sl:
     views:
       card: 'Kartice'
       list: 'Tabela'
-      timeline: 'Gantt'
+      timeline: 'Gant'

@@ -38,6 +38,10 @@ pl:
         action_by_attribute: 'Tablica działania (%{attribute})'
         action_text: >
           Utwórz tablicę z listami filtrowanymi według jednego atrybutu. Przeniesienie pakietów roboczych na inne listy spowoduje aktualizację ich atrybutu.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "Atrybut działania"
       configuration_modal:
         title: 'Skonfiguruj tę tablicę'

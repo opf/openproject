@@ -38,6 +38,10 @@ sv:
         action_by_attribute: 'Åtgärdstavla (%{attribute})'
         action_text: >
           Skapa en tavla med filtrerade listor på ett enda attribut. Flytta arbetspaket till andra listor kommer att uppdatera deras attribut.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "Åtgärdsattribut"
       configuration_modal:
         title: 'Konfigurera denna tavla'

@@ -29,7 +29,7 @@ ru:
       error_attribute_not_writable: "Невозможно переместить пакет работ, %{attribute} не доступен для записи."
       error_loading_the_list: "Ошибка загрузки списка: %{error_message}"
       error_permission_missing: "Отсутствует разрешение на создание публичных запросов"
-      click_to_remove_list: "Кликните, чтобы удалить этот список"
+      click_to_remove_list: "Нажмите, чтобы удалить этот список"
       board_type:
         free: 'Базовая доска'
         free_text: >
@@ -38,6 +38,10 @@ ru:
         action_by_attribute: 'Доска действий (%{attribute})'
         action_text: >
           Создайте доску с отфильтрованными по одному атрибуту списками. Перемещение пакетов работ в другие списки обновит их атрибут.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "Атрибут действия"
       configuration_modal:
         title: 'Настроить эту доску'

@@ -140,7 +140,7 @@ sl:
   label_fixed_date: "Fiksen datum"
   label_generic_user: "Generic user"
   label_greater_or_equal: ">="
-  label_group_by: "Group by"
+  label_group_by: "Razvrsti po"
   label_group_by_add: "Add grouping field"
   label_hourly_rate: "Urna postavka"
   label_include_deleted: "Include deleted"

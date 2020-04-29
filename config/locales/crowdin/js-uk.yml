@@ -522,7 +522,7 @@ uk:
       duration: 'Тривалість'
       spent_on: 'Дата'
       hours: 'Години'
-      label: 'Time entry'
+      title: 'Час журналу'
     two_factor_authentication:
       label_two_factor_authentication: 'Двофакторна аутентифікація'
     watchers:
