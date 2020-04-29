@@ -46,7 +46,7 @@ Every developer and reviewer should read the Rails Security Guide.
 
 ## Other
 
-- For external contributions: Check whether the author has signed a [Contributor License Agreement](../development/#openproject-contributor-license-agreement-cla) and kindly ask for it if not.
+- For external contributions: Check whether the author has signed a [Contributor License Agreement](../#openproject-contributor-license-agreement-cla) and kindly ask for it if not.
 - Copyright notice: When new files are added, make sure they contain the OpenProject copyright notice (copy from any file in OpenProject).
 - Adding Gems: When adding gems, make sure not only the Gemfile is updated, but also the Gemfile.lock.
 - No trailing whitespace.

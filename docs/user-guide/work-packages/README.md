@@ -34,7 +34,7 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 | [Exporting](exporting)                                       | How to export work packages for other tools such as Microsoft Excel? |
 | [Work package relations and hierarchies](work-package-relations-hierarchies) | How to create work package relations and hierarchies?        |
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/H-M6k-fFht8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/R6-p8HgFmm8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Frequently asked questions (FAQ)
 
