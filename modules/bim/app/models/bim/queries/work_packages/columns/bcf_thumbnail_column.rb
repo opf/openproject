@@ -28,28 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Bim
-  class QueryBcfThumbnailColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+module ::Bim::Queries::WorkPackages::Columns
+  class BcfThumbnailColumn < Queries::WorkPackages::Columns::WorkPackageColumn
     def caption
       I18n.t('attributes.bcf_thumbnail')
     end
 
-    class_attribute :bcf_thumbnail_columns
-
-    self.bcf_thumbnail_columns = {
-      bcf_thumbnail: {
-        summable: false,
-        groupable: false,
-        sortable: false
-      }
-    }
-
     def self.instances(_context = nil)
-      # return [] if context && !context.module_enabled?(:bcf_module)
+      return [] unless OpenProject::Configuration.bim?
 
-      bcf_thumbnail_columns.map do |name, options|
-        new(name, options)
-      end
+      [new(:bcf_thumbnail, { summable: false, groupable: false, sortable: false })]
     end
   end
 end

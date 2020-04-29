@@ -208,7 +208,7 @@ module OpenProject::Bim
         .register_for_list(:bcf, OpenProject::Bim::BcfXml::Exporter)
 
       ::Queries::Register.filter ::Query, ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
-      ::Queries::Register.column ::Query, OpenProject::Bim::QueryBcfThumbnailColumn
+      ::Queries::Register.column ::Query, ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn
 
       ::API::Root.class_eval do
         content_type :binary, 'application/octet-stream'
