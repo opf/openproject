@@ -64,7 +64,7 @@ For a guideline on how to report feature requests, refer to the [Feature request
 
 In regular intervals (e.g. once a week), PMs screen the requirements added to the Wish List and evaluate them:
 
-1. PM adjusts feature requests to a common format (see [Feature Request guideline]([https://docs.openproject.org/development/submit-feature-idea](https://docs.openproject.org/development/submit-feature-idea/)/)). 
+1. PM adjusts feature requests to a common format (see [Feature Request guideline](https://docs.openproject.org/development/submit-feature-idea/)). 
 2. PM rejects duplicated feature requests with a reference to the original feature requests.
 3. PM sets RICE values and a RICE score for feature requests.
 4. PM creates an Opportunity Canvas for requirements with a moderate to high level of uncertainty (> 80%) or for large requirements (effort > 1 week).
