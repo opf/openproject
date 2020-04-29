@@ -38,6 +38,10 @@ de:
         action_by_attribute: 'Aktionsboard (%{attribute})'
         action_text: >
           Erstellen Sie ein Board mit gefilterten Listen auf einem Attribut. Das Verschieben von Arbeitspaketen auf andere Listen aktualisiert das Attribut entsprechend.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "Aktionsattribut"
       configuration_modal:
         title: 'Board konfigurieren'

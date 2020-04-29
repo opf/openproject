@@ -521,7 +521,7 @@ vi:
       duration: 'Duration'
       spent_on: 'Ngày'
       hours: 'Giờ'
-      label: 'Thời gian nhập'
+      title: 'Thời gian truy cập'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

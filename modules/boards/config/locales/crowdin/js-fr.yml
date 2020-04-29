@@ -38,6 +38,10 @@ fr:
         action_by_attribute: 'Tableau d''action (%{attribute})'
         action_text: >
           Créez un tableau avec des listes filtrées sur un seul attribut. Déplacer des lots de travaux vers d'autres listes mettra à jour leur attribut.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "Attribut d'action"
       configuration_modal:
         title: 'Configurer ce tableau'

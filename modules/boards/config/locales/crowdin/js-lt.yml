@@ -38,6 +38,10 @@ lt:
         action_by_attribute: 'Veiksmų lenta (%{attribute})'
         action_text: >
           Sukurkite lentą, su filtruotais sąrašais pagal vieną atributą. Perkeliant darbo paketą tarp sąrašų bus keičiamas naudojamas atributas.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "Veiksmo atributas"
       configuration_modal:
         title: 'Konfigūruoti lentą'

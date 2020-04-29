@@ -38,6 +38,10 @@ ja:
         action_by_attribute: 'アクションボード (%{attribute})'
         action_text: >
           単一の属性でフィルターを適用したリストを使ってボードを作成します。 作業項目を他のリストに移動すると、それらの属性が更新されます。
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "アクション属性"
       configuration_modal:
         title: 'このボードの設定'

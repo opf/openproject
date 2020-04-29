@@ -38,6 +38,10 @@ ko:
         action_by_attribute: '작업 보드(%{attribute})'
         action_text: >
           단일 특성에서 필터가 적용한 목록을 사용하여 보드를 생성하십시오. 작업 패키지를 다른 목록으로 이동하면 해당 특성이 업데이트됩니다.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "작업 특성"
       configuration_modal:
         title: '이 보드 구성'

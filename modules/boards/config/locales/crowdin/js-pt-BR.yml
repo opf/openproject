@@ -38,6 +38,10 @@ pt-BR:
         action_by_attribute: 'Quadro de ação (%{attribute})'
         action_text: >
           Crie um quadro com listas filtradas em um único atributo. Mover pacotes de trabalho para outras listas irá atualizar seu atributo.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "Atributo de ação"
       configuration_modal:
         title: 'Configurar este quadro'

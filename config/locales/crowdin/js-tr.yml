@@ -166,13 +166,13 @@ tr:
         reset_to_defaults: 'Varsayılanlara geri yükle'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "E-posta adresi doğrulama"
           confirmation_info: "We sent you an email. Please check your emails and click the confirmation link provided to start your 14 days trial."
           form:
             general_consent: >
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+            invalid_email: "Geçersiz e-posta adresi"
+            label_company: "Şirket"
             label_first_name: "İsim"
             label_last_name: "Soyisim"
             label_email: "Eposta"
@@ -191,7 +191,7 @@ tr:
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
+          status_label: "Durum:"
           status_confirmed: "confirmed"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise Edition 14 days for free"
@@ -522,7 +522,7 @@ tr:
       duration: 'Süre'
       spent_on: 'Tarih'
       hours: 'Saat'
-      label: 'Zaman girişi'
+      title: 'Zaman kaydet'
     two_factor_authentication:
       label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
     watchers:

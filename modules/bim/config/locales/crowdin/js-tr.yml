@@ -17,5 +17,5 @@ tr:
         default: 'Varsayılan IFC modelleri'
         manage: 'Modelleri yönetin'
       views:
-        viewer: 'izleyici'
+        viewer: 'Görüntüleyici'
         split: 'Görüntüleyici ve kartlar'

@@ -38,6 +38,10 @@ el:
         action_by_attribute: 'Πίνακας ενεργειών (%{attribute})'
         action_text: >
           Δημιουργήστε ένα πίνακα με φιλτραρισμένες λίστες σε ένα μοναδικό χαρακτηριστικό. Η μετακίνηση των πακέτων εργασίας σε άλλες λίστες θα ενημερώσει τα χαρακτηριστικά τους.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
         select_attribute: "Χαρακτηριστικό ενέργειας"
       configuration_modal:
         title: 'Διαμόρφωση αυτού του πίνακα'
