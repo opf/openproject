@@ -207,7 +207,7 @@ module OpenProject::Bim
       ::WorkPackage::Exporter
         .register_for_list(:bcf, OpenProject::Bim::BcfXml::Exporter)
 
-      ::Queries::Register.filter ::Query, OpenProject::Bim::BcfIssueAssociatedFilter
+      ::Queries::Register.filter ::Query, ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
       ::Queries::Register.column ::Query, OpenProject::Bim::QueryBcfThumbnailColumn
 
       ::API::Root.class_eval do
