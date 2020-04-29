@@ -40,11 +40,14 @@ describe 'Assignee action board',
                       member_in_project: project,
                       member_through_role: role)
   end
+  let(:admin) { FactoryBot.create(:admin) }
   let(:type) { FactoryBot.create(:type_standard) }
   let(:project) { FactoryBot.create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:project_without_members) { FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
+  let(:other_board_index) { Pages::BoardIndex.new(project_without_members) }
 
   let(:permissions) {
     %i[show_board_views manage_board_views add_work_packages
@@ -78,84 +81,112 @@ describe 'Assignee action board',
                                           assigned_to: bobself_user,
                                           subject: 'Some Task' }
 
-  before do
-    with_enterprise_token :board_view
-    login_as(bobself_user)
-  end
-
-  it 'allows to move a task between two assignees' do
-    # Move to the board index page
-    board_index.visit!
-
-    # Create new board
-    board_page = board_index.create_board action: :Assignee, expect_empty: true
-
-    # Expect no assignees to be present
-    board_page.expect_empty
-
-    # Add myself to the board list
-    board_page.add_list option: 'Bob Self'
-    board_page.expect_list 'Bob Self'
-
-    # Add the other user to the board list
-    board_page.add_list option: 'Foo Bar'
-    board_page.expect_list 'Foo Bar'
-
-    # Add grouped list
-    board_page.add_list option: 'Grouped'
-    board_page.expect_list 'Grouped'
-
-    board_page.board(reload: true) do |board|
-      expect(board.name).to eq 'Action board (assignee)'
-      queries = board.contained_queries
-      expect(queries.count).to eq(3)
-
-      bob = queries.first
-      foo = queries.second
-      grouped = queries.last
-
-      expect(bob.name).to eq 'Bob Self'
-      expect(foo.name).to eq 'Foo Bar'
-      expect(grouped.name).to eq 'Grouped'
-
-      expect(bob.filters.first.name).to eq :assigned_to_id
-      expect(bob.filters.first.values).to eq [bobself_user.id.to_s]
-
-      expect(foo.filters.first.name).to eq :assigned_to_id
-      expect(foo.filters.first.values).to eq [foobar_user.id.to_s]
-
-      expect(grouped.filters.first.name).to eq :assigned_to_id
-      expect(grouped.filters.first.values).to eq [group.id.to_s]
+  context 'in a project with members' do
+    before do
+      with_enterprise_token :board_view
+      login_as(bobself_user)
     end
 
-    # First, expect work package to be assigned to "Bob self"
-    # For this, test the Bob self column to contain the work package
-    board_page.expect_card 'Bob Self', 'Some Task'
+    it 'allows to move a task between two assignees' do
+      # Move to the board index page
+      board_index.visit!
 
-    # Then, move the work package from one column to the next one
-    board_page.move_card(0, from: 'Bob Self', to: 'Foo Bar')
+      # Create new board
+      board_page = board_index.create_board action: :Assignee, expect_empty: true
 
-    # Then, the work package should be in the other column
-    # and assigned to "Foo Bar" user
-    board_page.expect_card 'Foo Bar', 'Some Task'
-    board_page.expect_card 'Bob Self', 'Some Task', present: false
+      # Expect no assignees to be present
+      board_page.expect_empty
 
-    # Expect to have changed the avatar
-    expect(page).to have_selector('.wp-card--assignee .avatar-default', text: 'FB', wait: 10)
+      # Add myself to the board list
+      board_page.add_list option: 'Bob Self'
+      board_page.expect_list 'Bob Self'
 
-    work_package.reload
-    expect(work_package.assigned_to).to eq(foobar_user)
+      # Add the other user to the board list
+      board_page.add_list option: 'Foo Bar'
+      board_page.expect_list 'Foo Bar'
 
-    # Move to group column
-    board_page.move_card(0, from: 'Foo Bar', to: 'Grouped')
-    board_page.expect_card 'Grouped', 'Some Task'
-    board_page.expect_card 'Foo Bar', 'Some Task', present: false
-    board_page.expect_card 'Bob Self', 'Some Task', present: false
+      # Add grouped list
+      board_page.add_list option: 'Grouped'
+      board_page.expect_list 'Grouped'
 
-    # Expect to have changed the avatar
-    expect(page).to have_selector('.wp-card--assignee .avatar-default', text: 'GG', wait: 10)
+      # There can't be any other users added
+      board_page.open_add_list_modal
+      board_page.add_list_modal_shows_warning true, with_link: false
+      click_on 'Cancel'
 
-    work_package.reload
-    expect(work_package.assigned_to).to eq(group)
+      board_page.board(reload: true) do |board|
+        expect(board.name).to eq 'Action board (assignee)'
+        queries = board.contained_queries
+        expect(queries.count).to eq(3)
+
+        bob = queries.first
+        foo = queries.second
+        grouped = queries.last
+
+        expect(bob.name).to eq 'Bob Self'
+        expect(foo.name).to eq 'Foo Bar'
+        expect(grouped.name).to eq 'Grouped'
+
+        expect(bob.filters.first.name).to eq :assigned_to_id
+        expect(bob.filters.first.values).to eq [bobself_user.id.to_s]
+
+        expect(foo.filters.first.name).to eq :assigned_to_id
+        expect(foo.filters.first.values).to eq [foobar_user.id.to_s]
+
+        expect(grouped.filters.first.name).to eq :assigned_to_id
+        expect(grouped.filters.first.values).to eq [group.id.to_s]
+      end
+
+      # First, expect work package to be assigned to "Bob self"
+      # For this, test the Bob self column to contain the work package
+      board_page.expect_card 'Bob Self', 'Some Task'
+
+      # Then, move the work package from one column to the next one
+      board_page.move_card(0, from: 'Bob Self', to: 'Foo Bar')
+
+      # Then, the work package should be in the other column
+      # and assigned to "Foo Bar" user
+      board_page.expect_card 'Foo Bar', 'Some Task'
+      board_page.expect_card 'Bob Self', 'Some Task', present: false
+
+      # Expect to have changed the avatar
+      expect(page).to have_selector('.wp-card--assignee .avatar-default', text: 'FB', wait: 10)
+
+      work_package.reload
+      expect(work_package.assigned_to).to eq(foobar_user)
+
+      # Move to group column
+      board_page.move_card(0, from: 'Foo Bar', to: 'Grouped')
+      board_page.expect_card 'Grouped', 'Some Task'
+      board_page.expect_card 'Foo Bar', 'Some Task', present: false
+      board_page.expect_card 'Bob Self', 'Some Task', present: false
+
+      # Expect to have changed the avatar
+      expect(page).to have_selector('.wp-card--assignee .avatar-default', text: 'GG', wait: 10)
+
+      work_package.reload
+      expect(work_package.assigned_to).to eq(group)
+    end
+  end
+
+  context 'in a project without members' do
+    before do
+      with_enterprise_token :board_view
+      login_as(admin)
+    end
+
+    it 'shows a warning when there are no members to add as a list with a link to add a new member' do
+      # Move to the board index page
+      other_board_index.visit!
+
+      # Create new board
+      board_page = other_board_index.create_board action: :Assignee, expect_empty: true
+
+      # Expect no assignees to be present
+      board_page.expect_empty
+
+      board_page.open_add_list_modal
+      board_page.add_list_modal_shows_warning true, with_link: true
+    end
   end
 end
