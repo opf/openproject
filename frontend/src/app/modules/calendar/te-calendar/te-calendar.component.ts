@@ -202,7 +202,13 @@ export class TimeEntryCalendarComponent implements OnInit, AfterViewInit {
     }
 
     if (oldRatio !== this.scaleRatio) {
-      this.ucCalendar.getApi().render();
+      // This is a hack.
+      // We already set the same function (different object) via angular.
+      // But it will trigger repainting the calendar.
+      // Weirdly, this.ucCalendar.getApi().rerender() does not.
+      this.ucCalendar.getApi().setOption('slotLabelFormat', (info:any) => {
+        return (this.maxHour - info.date.hour) / this.scaleRatio;
+      });
     }
   }
 
