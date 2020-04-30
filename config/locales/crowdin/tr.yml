@@ -63,16 +63,16 @@ tr:
         main-menu-bg-color: "Sol taraftaki menünün arka plan rengi."
       theme_warning: Temayı değiştirmek size özel stilin üzerine yazacaktır. Tasarım daha sonra kaybolacak. Devam etmek istediğine emin misin?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Enterprise Edition sürümüne geçin"
       add_token: "Enterprise Editon versiyonu destek anahtarını yükleyin"
       replace_token: "Geçerli destek anahtarını değiştirin"
       order: "Enterprise Edition versiyonunu sipariş edin"
       paste: "Enterprise Editon versiyonu destek anahtarını yapıştırın"
       required_for_feature: "Bu özellik yalnızca bir etkin Enterprise Edition destek anahtarı ile kullanılabilir."
       enterprise_link: "Daha fazla bilgi için burayı tıklatın."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: 'Deneme sürümüne başla'
+      book_now: 'Şimdi rezervasyon yaptırın'
+      get_quote: 'Fiyat teklifi alın'
   announcements:
     show_until: Son görüntülenme tarihi
     is_active: şu an görüntüleniyor
@@ -1156,10 +1156,10 @@ tr:
       forums: "Topluluk forumu"
       newsletter: "Güvenlik uyarıları / haber bülteni"
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "Değişiklikler geri çekildi."
   links:
     configuration_guide: 'Yapılandırma rehberi'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "Senin soruların var? Bizimle temasa geçin."
   instructions_after_registration: "%{signin} düğmesini tıklayarak hesabınız etkinleştirildiğinde hemen oturum açabilirsiniz."
   instructions_after_logout: "%{signin} düğmesini tıklayarak tekrar oturum açabilirsiniz."
   instructions_after_error: "%{signin} düğmesini tıklayarak tekrar oturum açmayı deneyebilirsiniz. Hata devam ederse, yöneticinizden yardım isteyin."
@@ -2499,7 +2499,7 @@ tr:
       mail_self_notified: "Yaptığım değişiklikleri kendim bildirmek istiyorum"
     status_user_and_brute_force: "%{user} ve %{brute_force}"
     status_change: "Durum değişikliği"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "Ad, giriş sağlayıcınız tarafından belirlenir ve bu nedenle değiştirilemez."
     unlock: "Kilidi kaldır"
     unlock_and_reset_failed_logins: "Başarısız oturum açma işlemlerinin kilidini aç ve sıfırla"
   version_status_closed: "kapalı"

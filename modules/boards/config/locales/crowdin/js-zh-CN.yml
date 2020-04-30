@@ -39,9 +39,9 @@ zh-CN:
         action_text: >
           创建一个在单个属性上具有筛选列表的面板。将工作包移动到其他列表将更新其属性。
         action_type:
-          assignee: assignee
-          status: status
-          version: version
+          assignee: 指派人
+          status: 状态
+          version: 版本
         select_attribute: "操作属性"
       configuration_modal:
         title: '配置此面板'
