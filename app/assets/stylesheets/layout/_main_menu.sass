@@ -378,10 +378,8 @@ a.main-menu--parent-node
   .main-menu--navigation-toggler
     cursor: pointer
     &:before
-      font-family: openproject-icon-font
+      @include icon-common
       font-size: 11px
-      font-style: normal
-      text-transform: none
       font-weight: 400
     &:not(.open):before
       @include icon-mixin-arrow-right2
