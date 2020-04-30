@@ -24,3 +24,8 @@ Configure **authentication** settings and authentication providers in OpenProjec
 | [LDAP authentication](ldap-authentication)                   | How to set up LDAP authentication in OpenProject?            |
 | [LDAP group synchronization](ldap-authentication/ldap-group-synchronization) | How to configure LDAP group synchronization in OpenProject (Premium feature)? |
 
+## Frequently asked questions (FAQ)
+
+### Which authentication provider are supported for single sign-on?
+
+We do support the main authentication provider, such as CAS, SAML, OpenID Connect, Kerberos, and Okta. Please note that single sign-on is a premium feature and can only be activated for the Cloud Edition and the Enterprise Edition.
