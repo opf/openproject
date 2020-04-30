@@ -522,7 +522,7 @@ fr:
       duration: 'Durée'
       spent_on: 'date'
       hours: 'Heures'
-      title: 'Consigner temps'
+      label: 'Saisie du temps'
     two_factor_authentication:
       label_two_factor_authentication: 'Authentification à deux facteurs'
     watchers:

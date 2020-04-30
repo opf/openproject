@@ -525,7 +525,7 @@ ja:
       duration: '期間'
       spent_on: '日付'
       hours: ' 時間'
-      title: '時間を記録'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: '2要素認証'
     watchers:

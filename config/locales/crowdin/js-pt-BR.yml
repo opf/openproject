@@ -521,7 +521,7 @@ pt-BR:
       duration: 'Duração'
       spent_on: 'Data'
       hours: 'horas'
-      title: 'Registro de tempo'
+      label: 'Entrada de tempo'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticação de dois fatores'
     watchers:

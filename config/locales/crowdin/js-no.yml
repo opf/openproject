@@ -522,7 +522,7 @@
       duration: 'Varighet'
       spent_on: 'Dato'
       hours: 'Timer'
-      title: 'Logg tid'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Tofaktorautentisering'
     watchers:

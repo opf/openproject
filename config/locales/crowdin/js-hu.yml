@@ -521,7 +521,7 @@ hu:
       duration: 'Időtartam'
       spent_on: 'dátum'
       hours: 'órák'
-      title: 'Eltöltött idő rögzítése'
+      label: 'Belépési idő'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

@@ -39,9 +39,9 @@ tr:
         action_text: >
           Tek bir özellik üzerinde filtrelenmiş listeler içeren bir tahta oluşturun. İş paketlerini diğer listelere taşımak, niteliklerini güncelleyecektir.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
+          assignee: vekil
+          status: durum
+          version: Sürüm
         select_attribute: "Eylem özelliği"
       configuration_modal:
         title: 'Bu kartı yapılandır'

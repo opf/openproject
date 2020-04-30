@@ -3,7 +3,7 @@ ru:
     attributes:
       webhooks/webhook:
         url: 'URL-адрес загрузки'
-        secret: 'Секрет подписи'
+        secret: 'Секретный ключ-подпись'
         events: 'События'
         projects: 'Доступные проекты'
       webhooks/log:
@@ -18,18 +18,18 @@ ru:
     plural: Вебхуки
     resources:
       time_entry:
-        name: "Время поступления"
+        name: "Временная запись"
     outgoing:
       no_results_table: Вебхуки еще не определены.
       label_add_new: Добавить новый вебхук
       label_edit: Изменить вебхук
-      label_event_resources: Ресурсы событий
+      label_event_resources: Ресурсы события
       events:
         created: "Создан"
         updated: "Обновлено"
       status:
-        enabled: 'Вебхук включен'
-        disabled: 'Webhook отключен'
+        enabled: 'Вебхук включён'
+        disabled: 'Вебхук отключён'
         enabled_text: 'Вебхук выпускать загруженные файлы для определенных событий ниже.'
         disabled_text: 'Нажмите кнопку редактирования, чтобы активировать вебхук.'
       deliveries:
