@@ -130,4 +130,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   private attributeHighlighting(type:string, wp:WorkPackageResource) {
     return Highlighting.inlineClass(type, wp.type.id!);
   }
+
+  public wpProjectName(wp:WorkPackageResource) {
+    return wp.project?.name;
+  }
 }
