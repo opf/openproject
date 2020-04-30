@@ -2,31 +2,26 @@
 
   <widget-menu [resource]="resource">
   </widget-menu>
-  
+
 </widget-header>
 <div class="grid--widget-content">
   <no-results *ngIf="noEntries" [title]="text.noResults">
   </no-results>
+
   <ul class="widget-box--arrow-links">
     <li class="-widget-box--arrow-multiline" *ngFor="let news of entries">
       <div>
-        <user-avatar *ngIf="news.author" [user]="news.author" data-class-list="avatar avatar-medium -spaced">
+        <user-avatar *ngIf="news.author" [user]="news.author" data-class-list="avatar" class="author-avatar">
         </user-avatar>
-        <a [href]="newsProjectPath(news)" [textContent]="newsProjectName(news)">
-        </a>:
-        <a [href]="newsPath(news)" [textContent]="news.title">
-        </a>
-
-        <p *ngIf="news.summary" [textContent]="news.summary" class="widget-box--additional-info"></p>
-
-        <p *ngIf="news.author" 
-           class="widget-box--additional-info">
-          {{text.createdBy}}
-          <a [href]="newsAuthorPath(news)" [textContent]="newsAuthorName(news)">
-          </a>
-          {{text.at}}
-          {{newsCreated(news)}}
-        </p>
+        <div class="title"><a [href]="newsProjectPath(news)" [textContent]="newsProjectName(news)">
+          </a>: <a [href]="newsPath(news)" [textContent]="news.title"> </a></div>
+        <div *ngIf="news.author" class="author"><span>{{text.createdBy}} </span>
+          <a [href]="newsAuthorPath(news)" [textContent]="newsAuthorName(news)"> </a>
+          <span> {{text.at}} {{newsCreated(news)}}</span>
+        </div>
+        <div>
+          <p *ngIf="news.summary" [textContent]="news.summary" class="widget-box--additional-info"></p>
+        </div>
       </div>
     </li>
   </ul>
