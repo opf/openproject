@@ -71,6 +71,9 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   /** Determine when query is initially loaded */
   tableInformationLoaded = false;
 
+  /** If loaded list of work packages is empty */
+  noResults:boolean = false;
+
   /** Whether we should render a blocked view */
   showResultOverlay$ = this.wpViewFilters.incomplete$;
 
@@ -99,6 +102,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     ).subscribe((query) => {
       // Update the visible representation
       this.updateViewRepresentation(query);
+      this.noResults = query.results.total === 0;
       this.cdRef.detectChanges();
     });
   }

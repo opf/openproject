@@ -35,6 +35,10 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
   }
 
   protected showResizerInCardView():boolean {
-    return this.bimView.currentViewerState() === bimSplitViewIdentifier;
+    if (this.noResults) {
+      return false;
+    } else {
+      return this.bimView.currentViewerState() === bimSplitViewIdentifier;
+    }
   }
 }
