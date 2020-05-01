@@ -521,14 +521,14 @@ sl:
       duration: 'Duration'
       spent_on: 'Datum'
       hours: 'Ure'
-      label: 'Vnos časa'
+      title: 'Datum vpisa'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvofaktorna avtentikacija'
     watchers:
       label_loading: branje udeležencev ...
       label_error_loading: Zgodila se je napaka med nalaganjem opazovalcev
       label_search_watchers: Išči udeležence
-      label_add: Add watchers
+      label_add: Dodaj opazovalce
       label_discard: Zavrži izbor
       typeahead_placeholder: Išči potencialne udeležence
     relation_labels:
@@ -590,7 +590,7 @@ sl:
       activate_asc: 'aktivirajte za uporabo naraščajočega razvrščanja'
       activate_dsc: 'aktivirajte za uporabo padajočega razvrščanja'
       activate_no: 'aktivirajte za odstranitev razvrščanja'
-    text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
+    text_work_packages_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbrane delovne pakete?"
     text_query_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbran pogled?"
     text_attachment_destroy_confirmation: "Ali ste prepričani, da želite izbrisati to datoteko?"
     timelines:

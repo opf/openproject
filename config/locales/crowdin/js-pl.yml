@@ -522,7 +522,7 @@ pl:
       duration: 'Czas trwania'
       spent_on: 'Data'
       hours: 'Godziny'
-      label: 'Wpis czasu'
+      title: 'Rejestruj czas pracy'
     two_factor_authentication:
       label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'
     watchers:
