@@ -522,7 +522,7 @@ lt:
       duration: 'Trukmė'
       spent_on: 'Data'
       hours: 'Valandų'
-      title: 'Registruoti laiką'
+      label: 'Laiko įrašas'
     two_factor_authentication:
       label_two_factor_authentication: 'Dviejų veiksnių autentikavimas'
     watchers:

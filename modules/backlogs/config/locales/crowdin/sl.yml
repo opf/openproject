@@ -83,7 +83,7 @@ sl:
     task_color: "Barva naloge"
     unassigned: "Nedodeljeno"
     x_more: "%{count} več..."
-  backlogs_active: "active"
+  backlogs_active: "aktiven"
   backlogs_any: "katerkoli"
   backlogs_card_specification: "Vrste nalepk za tiskanje kartic"
   backlogs_inactive: "Na projektu ni aktivnosti"

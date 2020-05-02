@@ -522,7 +522,7 @@ zh-CN:
       duration: '持续时间'
       spent_on: '日期'
       hours: '小时'
-      title: '记录时间'
+      label: '时间条目'
     two_factor_authentication:
       label_two_factor_authentication: '双重身份验证'
     watchers:

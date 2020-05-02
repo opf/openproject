@@ -521,7 +521,7 @@ sv:
       duration: 'Varaktighet'
       spent_on: 'Datum'
       hours: 'Timmar'
-      title: 'Logga tid'
+      label: 'Tidspost'
     two_factor_authentication:
       label_two_factor_authentication: 'Tvåfaktorsautentisering'
     watchers:

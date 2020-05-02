@@ -522,7 +522,7 @@ fi:
       duration: 'Kesto'
       spent_on: 'Päivä'
       hours: 'Tunnit'
-      title: 'Kirjaa lokiin aika'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Kaksivaiheinen tunnistautuminen'
     watchers:

@@ -284,7 +284,7 @@ sl:
     label_ago: "pred dnevi"
     label_all: "vsi"
     label_all_work_packages: "Vsi zahtevki"
-    label_and: "and"
+    label_and: "in"
     label_ascending: "Naraščajoče"
     label_author: "Avtor: %{user}"
     label_avatar: "Podoba"
@@ -340,7 +340,7 @@ sl:
     label_import: "Uvozi"
     label_latest_activity: "Zadnja dejavnost"
     label_last_updated_on: "Zadnjič posodobljeno dne"
-    label_learn_more_link: "Learn more"
+    label_learn_more_link: "Več o tem"
     label_less_or_equal: "<="
     label_less_than_ago: "pred manj kot nekaj dnevi"
     label_loading: "Nalaganje..."
@@ -383,7 +383,7 @@ sl:
     label_selected_filter_list: "Izbrani kriteriji"
     label_show_attributes: "Prikaži vse atribute"
     label_show_in_menu: "Prikaži pogled v meniju"
-    label_sort_by: "Sort by"
+    label_sort_by: "Sortiraj po"
     label_sorted_by: "Razvrščeno po"
     label_sort_higher: "Premakni gor"
     label_sort_lower: "Premakni dol"
@@ -496,7 +496,7 @@ sl:
       click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
       autocompleter:
         label: 'Samodejno dokončanje projekta'
-    text_are_you_sure: "Are you sure?"
+    text_are_you_sure: "Ste prepričani?"
     types:
       attribute_groups:
         error_duplicate_group_name: "Ime skupine %{group} je že uporabljeno. Imena skupin morajo biti unikatna."
@@ -521,7 +521,7 @@ sl:
       duration: 'Duration'
       spent_on: 'Datum'
       hours: 'Ure'
-      title: 'Datum vpisa'
+      label: 'Vnos časa'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvofaktorna avtentikacija'
     watchers:
@@ -614,20 +614,20 @@ sl:
       error: "Prišlo je do napake."
       errors:
         not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-        report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-        report_epicfail: "The timeline could not be loaded due to an unexpected error."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
+        report_comparison: "Časovnica ne more upodobiti konfigurirane primerjave. Prosimo preverite temu primerno sekcijo v konfiguraciji, ponastavitev lahko reši ta problem."
+        report_epicfail: "Časovnica se ni mogla naložiti zaradi nepričakovane napake."
+        report_timeout: "Časovnica se ne more naložiti v razumnem času."
       filter:
         grouping_other: "Drugo"
         noneSelection: "(brez)"
       name: "Ime"
-      outline: "Reset Outline"
+      outline: "Ponastavite oris"
       outlines:
-        aggregation: "Show aggregations only"
-        level1: "Expand level 1"
-        level2: "Expand level 2"
-        level3: "Expand level 3"
-        level4: "Expand level 4"
+        aggregation: "Prikaži samo agregacije"
+        level1: "Razširi prvo stopnjo"
+        level2: "Razširi drugo stopnjo"
+        level3: "Razširi tretjo stopnjo"
+        level4: "Razširi četrto stopnjo"
         level5: "Expand level 5"
         all: "Show all"
       project_status: "Status projekta"
@@ -881,10 +881,10 @@ sl:
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
         deletes_children: "All child work packages and their descendants will also be recursively deleted."
     notice_no_results_to_display: "Ni vidnih rezultatov za prikaz."
-    notice_successful_create: "Successful creation."
-    notice_successful_delete: "Successful deletion."
-    notice_successful_update: "Successful update."
-    notice_bad_request: "Bad Request."
+    notice_successful_create: "Ustvarjanje uspelo."
+    notice_successful_delete: "Uspešen izbris."
+    notice_successful_update: "Posodobitev uspela."
+    notice_bad_request: "Napačen zahtevek."
     relations:
       empty: Ni relacij
       remove: Odstrani povezavo

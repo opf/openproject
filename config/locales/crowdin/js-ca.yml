@@ -522,7 +522,7 @@ ca:
       duration: 'Durada'
       spent_on: 'Data'
       hours: 'Hores'
-      title: 'Temps de registre'
+      label: 'Entrada de temps'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
