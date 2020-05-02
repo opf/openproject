@@ -38,7 +38,7 @@ sl:
       meeting_agenda: "Dnevni red"
       meeting_minutes: "Minut"
   description_attended: "Udeleženi"
-  description_invite: "invited"
+  description_invite: "Povabljen"
   events:
     meeting: Sestanek uredil
     meeting_agenda: Dnevni red pripravil
