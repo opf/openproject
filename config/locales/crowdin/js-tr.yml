@@ -522,7 +522,7 @@ tr:
       duration: 'Süre'
       spent_on: 'Tarih'
       hours: 'Saat'
-      label: 'Zaman girişi'
+      title: 'Zaman kaydet'
     two_factor_authentication:
       label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
     watchers:

@@ -522,7 +522,7 @@ hr:
       duration: 'Trajanje'
       spent_on: 'Datum'
       hours: 'Sati'
-      label: 'Time entry'
+      title: 'Vrijeme pristupa'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

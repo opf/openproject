@@ -52,7 +52,7 @@ zh-TW:
   backlogs:
     add_new_story: "新增使用者需求"
     any: "任何"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "待辦事項設定"
     burndown_graph: "未完成圖"
     card_paper_size: "卡片印製大小"
     chart_options: "圖表選項"

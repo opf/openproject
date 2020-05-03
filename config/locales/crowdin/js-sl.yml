@@ -521,7 +521,7 @@ sl:
       duration: 'Duration'
       spent_on: 'Datum'
       hours: 'Ure'
-      label: 'Vnos časa'
+      title: 'Datum vpisa'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvofaktorna avtentikacija'
     watchers:

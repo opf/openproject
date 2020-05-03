@@ -522,7 +522,7 @@ id:
       duration: 'Durasi'
       spent_on: 'Tanggal'
       hours: 'Jam'
-      label: 'Time entry'
+      title: 'Catatan waktu'
     two_factor_authentication:
       label_two_factor_authentication: 'Autentikasi dua faktor'
     watchers:
