@@ -150,7 +150,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
           this.viewerBridge.showViewpoint(data);
         } else {
           window.location.href = this.pathHelper.bimDetailsPath(
-            this.currentProject.identifier!,
+            this.workPackage.project.identifier,
             this.workPackage.id!,
             index
           );

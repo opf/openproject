@@ -49,7 +49,7 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {Observable, of} from "rxjs";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {map, tap} from "rxjs/internal/operators";
+import {map, tap, take, filter} from "rxjs/internal/operators";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
@@ -205,13 +205,21 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.openCloseMenu(this.currentValue);
   }
 
-  // If Enter key is pressed before result list is loaded submit search in current scope
+  // If Enter key is pressed before result list is loaded, wait for the results to come
+  // in and then decide what to do. If a direct hit is present, follow that. Otherwise,
+  // go to the search in the current scope.
   public onEnterBeforeResultsLoaded() {
-    if (!this.requests.hasResults) {
-      this.searchInScope(this.currentScope);
-    } else {
-      this.followSelectedItem();
-    }
+    this.requests.loading$.pipe(
+        filter(value => value === false),
+        take(1)
+      )
+      .subscribe(() => {
+        if (this.selectedItem) {
+          this.followSelectedItem();
+        } else {
+          this.searchInScope(this.currentScope);
+        }
+      });
   }
 
   public statusHighlighting(statusId:string) {

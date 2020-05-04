@@ -53,8 +53,8 @@ See docs/COPYRIGHT.rdoc for more details.
           data-id="<%= User.current.id %>" />
   <% end %>
 
-  <% if OpenProject::Configuration.frontend_sentry? %>
-    <%= tag :meta, name: 'openproject_sentry', data: { dsn: OpenProject::Configuration.sentry_dsn } %>
+  <% if OpenProject::Configuration.sentry_frontend_dsn %>
+    <%= tag :meta, name: 'openproject_sentry', data: { dsn: OpenProject::Configuration.sentry_frontend_dsn } %>
   <% end %>
 
   <meta name="openproject_initializer"
