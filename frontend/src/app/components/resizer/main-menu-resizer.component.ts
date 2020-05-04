@@ -92,6 +92,8 @@ export class MainMenuResizerComponent extends UntilDestroyedMixin implements OnI
   }
 
   public resizeMove(deltas:ResizeDelta) {
+    // Avoid text-selection while the user is dragging the resizer
+    deltas.origin.preventDefault();
     this.toggleService.saveWidth(this.elementWidth + deltas.absolute.x);
   }
 
