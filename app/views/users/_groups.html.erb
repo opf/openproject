@@ -27,14 +27,12 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= labelled_tabular_form_for(:user, url: { action: 'update' }, html: {method: :put}) do %>
+  <%= link_to  t(:label_manage_groups), groups_path, class: 'button -highlight' %>
   <section class="form--section">
     <% Group.all.sort.each do |group| %>
-      <label class="form--label-with-check-box">
-        <%= styled_check_box_tag 'user[group_ids][]', group.id, @user.groups.include?(group) %>
-        <%= group %>
-      </label>
+      <ul>
+        <li><%= link_to group.name, group_path(group) %></li>
+      </ul>
     <% end %>
-    <%= hidden_field_tag 'user[group_ids][]', '' %>
   </section>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

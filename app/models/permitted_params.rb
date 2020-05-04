@@ -197,13 +197,6 @@ class PermittedParams
     permitted_params
   end
 
-  def user_update_as_admin(external_authentication, change_password_allowed)
-    # Found group_ids in safe_attributes and added them here as I
-    # didn't know the consequences of removing these.
-    # They were not allowed on create.
-    user_create_as_admin(external_authentication, change_password_allowed, [group_ids: []])
-  end
-
   def user_create_as_admin(external_authentication,
                            change_password_allowed,
                            additional_params = [])
