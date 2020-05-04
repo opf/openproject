@@ -27,28 +27,29 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
 
-module OpenProject::Bim
-  class QueryBcfThumbnailColumn < Queries::WorkPackages::Columns::WorkPackageColumn
-    def caption
-      I18n.t('attributes.bcf_thumbnail')
-    end
+describe Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter, type: :model do
+  include_context 'filter tests'
+  let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
 
-    class_attribute :bcf_thumbnail_columns
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :bcf_issue_associated }
+    let(:type) { :list }
 
-    self.bcf_thumbnail_columns = {
-      bcf_thumbnail: {
-        summable: false,
-        groupable: false,
-        sortable: false
-      }
-    }
+    describe '#available?' do
+      context 'if bim is enabled', with_config: { edition: 'bim' } do
+        it 'is available' do
+          expect(instance)
+            .to be_available
+        end
+      end
 
-    def self.instances(_context = nil)
-      # return [] if context && !context.module_enabled?(:bcf_module)
-
-      bcf_thumbnail_columns.map do |name, options|
-        new(name, options)
+      context 'if bim is disabled' do
+        it 'is not available' do
+          expect(instance)
+            .not_to be_available
+        end
       end
     end
   end

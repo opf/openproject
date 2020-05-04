@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module ::OpenProject::Bim
+module ::Bim::Queries::WorkPackages::Filter
   class BcfIssueAssociatedFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
     attr_reader :join_table_suffix
 
@@ -63,6 +63,10 @@ module ::OpenProject::Bim
 
     def dependency_class
       '::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter'
+    end
+
+    def available?
+      OpenProject::Configuration.bim?
     end
 
     private
