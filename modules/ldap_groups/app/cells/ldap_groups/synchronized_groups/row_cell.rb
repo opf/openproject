@@ -8,8 +8,8 @@ module LdapGroups
         model
       end
 
-      def entry
-        link_to synchronized_group.entry, ldap_groups_synchronized_group_path(synchronized_group)
+      def dn
+        link_to synchronized_group.dn, ldap_groups_synchronized_group_path(synchronized_group)
       end
 
       def auth_source
@@ -21,14 +21,16 @@ module LdapGroups
       end
 
       def users
-        synchronized_group.users.count
+        synchronized_group.users.size
       end
 
       def button_links
-        [delete_link]
+        [delete_link].compact
       end
 
       def delete_link
+        return if table.options[:deletable] == false
+
         link_to I18n.t(:button_delete),
                 { controller: table.target_controller, ldap_group_id: model.id, action: :destroy_info },
                 class: 'icon icon-delete',

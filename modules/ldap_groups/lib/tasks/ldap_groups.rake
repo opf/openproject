@@ -38,7 +38,7 @@ namespace :ldap_groups do
     desc 'Create a development LDAP server from the fixtures LDIF'
     task :ldap_server do
       require 'ladle'
-      ldif = File.expand_path('../../../spec/fixtures/users.ldif', __FILE__)
+      ldif = ENV['LDIF_FILE'] || Rails.root.join('spec/fixtures/ldap/users.ldif')
       ldap_server = Ladle::Server.new(quiet: false, port: '12389', domain: 'dc=example,dc=com', ldif: ldif).start
 
       puts <<~EOS
@@ -69,7 +69,6 @@ namespace :ldap_groups do
       Groups:
       cn=foo,ou=groups,dc=example,dc=com (Members: aa729)
       cn=bar,ou=groups,dc=example,dc=com (Members: aa729, bb459, cc414)
-
       EOS
 
 

@@ -1,0 +1,19 @@
+<% local_assigns[:additional_breadcrumb] = t('ldap_groups.synchronized_filters.add_new') %>
+<% html_title(t(:label_administration), t('ldap_groups.synchronized_filters.add_new')) -%>
+
+<%= error_messages_for @filter %>
+
+<%= toolbar title: t('ldap_groups.synchronized_filters.add_new') %>
+
+<%= labelled_tabular_form_for @filter,
+                              as: :synchronized_filter,
+                              url: { action: :create } do |f| %>
+
+  <%= render partial: 'form', locals: { f: f } %>
+
+  <p>
+    <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+    <%= link_to t(:button_cancel), ldap_groups_synchronized_groups_path, class: 'button -with-icon icon-cancel' %>
+  </p>
+<% end %>
+

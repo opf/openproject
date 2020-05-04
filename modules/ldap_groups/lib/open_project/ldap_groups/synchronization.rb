@@ -19,10 +19,33 @@ module OpenProject::LdapGroups
 
       ::LdapGroups::Membership.transaction do
         @synced_groups.find_each do |group|
-          members = get_members(ldap_con, group)
-          users = User.where(login: members)
+          user_data = get_members(ldap_con, group)
+
+          # Create users that are not existing
+          users = map_to_users(user_data)
+
           update_memberships!(group, users)
         end
+      end
+    end
+
+    ##
+    # Map LDAP entries to user accounts, creating them if necessary
+    def map_to_users(entries)
+      create_missing!(entries) if ldap.onthefly_register?
+
+      User.where(login: entries.keys)
+    end
+
+    ##
+    # Create missing users from ldap data
+    def create_missing!(entries)
+      existing = User.where(login: entries.keys).pluck(:login, :id).to_h
+
+      entries.each do |login, data|
+        next if existing[login]
+
+        User.try_to_create(data)
       end
     end
 
@@ -39,9 +62,11 @@ module OpenProject::LdapGroups
 
       # Add new memberships
       group_members = sync.group.users.pluck(:id)
-      new_members = ldap_member_ids - set_by_us - group_members
-      new_users = User.where(id: new_members)
-      add_memberships!(new_users, sync)
+      new_member_ids = ldap_member_ids - set_by_us - group_members
+      add_memberships!(new_member_ids, sync)
+
+      # Reset the counters after manually inserting items
+      LdapGroups::SynchronizedGroup.reset_counters(sync.id, :users, touch: true)
     end
 
     ##
@@ -49,45 +74,56 @@ module OpenProject::LdapGroups
     def get_members(ldap_con, group)
 
       # Get user login attribute and base dn which are private
-      attr_login = ldap.send :attr_login
-      base_dn = ldap.send :base_dn
+      base_dn = ldap.base_dn
 
       # memberOf filter to identifiy member entries of the group
       memberof_filter = Net::LDAP::Filter.eq('memberOf', group.dn)
 
-      logins = []
+      users = {}
       ldap_con.search(base: base_dn,
-                      filter: memberof_filter,
-                      attributes: [attr_login]) do |entry|
-        logins << ::LdapAuthSource.get_attr(entry, attr_login)
+                      filter: ldap.default_filter & memberof_filter,
+                      attributes: ldap.search_attributes) do |entry|
+        data = ldap.get_user_attributes_from_ldap_entry(entry)
+        users[data[:login]] = data.except(:dn)
       end
 
-      logins
+      users
     end
 
     ##
     # Add new users to the synced group
-    def add_memberships!(new_users, sync)
-      if new_users.empty?
-        Rails.logger.info "[LDAP groups] No new users to add for #{sync.entry}"
+    def add_memberships!(new_member_ids, sync)
+      if new_member_ids.empty?
+        Rails.logger.info "[LDAP groups] No new users to add for #{sync.dn}"
         return
       end
 
-      Rails.logger.info { "[LDAP groups] Adding users #{new_users.pluck(:login)} to #{sync.entry}" }
-      sync.users << new_users.map {|user| ::LdapGroups::Membership.new(group: sync, user: user)}
-      sync.group.users << new_users
+      Rails.logger.info { "[LDAP groups] Adding #{new_member_ids.length} users to #{sync.dn}" }
+
+      # Bulk insert the memberships
+      memberships = new_member_ids.map do |user_id|
+        {
+          group_id: sync.id,
+          user_id: user_id
+        }
+      end
+      ::LdapGroups::Membership.insert_all memberships
+
+      # Have to manually add the users to the group :-/
+      sync.group.users << User.where(id: new_member_ids).select(:id)
     end
 
     ##
     # Remove a set of memberships
     def remove_memberships!(memberships, sync)
       if memberships.empty?
-        Rails.logger.info "[LDAP groups] No users to remove for #{sync.entry}"
+        Rails.logger.info "[LDAP groups] No users to remove for #{sync.dn}"
         return
       end
 
-      Rails.logger.info "[LDAP groups] Removing users #{memberships.pluck(:user_id)} from #{sync.entry}"
+      Rails.logger.info "[LDAP groups] Removing users #{memberships.pluck(:user_id)} from #{sync.dn}"
       sync.remove_members!(memberships)
+      memberships.delete_all
     end
   end
 end

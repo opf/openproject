@@ -38,7 +38,12 @@ module LdapGroups
 
       begin
         LdapAuthSource.find_each do |ldap|
-          Rails.logger.info { "[LDAP groups] Start synchronization for ldap auth source #{ldap.name}" }
+          Rails.logger.info { "[LDAP groups] Retrieving groups from filters for ldap auth source #{ldap.name}" }
+          LdapGroups::SynchronizedFilter
+            .where(auth_source_id: ldap.id)
+            .find_each { |filter| OpenProject::LdapGroups::SynchronizeFilter.new(filter) }
+
+          Rails.logger.info { "[LDAP groups] Start group synchronization for ldap auth source #{ldap.name}" }
           OpenProject::LdapGroups::Synchronization.new(ldap)
         end
       rescue StandardError => e
