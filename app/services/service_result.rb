@@ -30,12 +30,12 @@
 
 class ServiceResult
   attr_accessor :success,
-                :errors,
                 :result,
-                :message,
                 :message_type,
                 :context,
                 :dependent_results
+
+  attr_writer :errors, :message
 
   def initialize(success: false,
                  errors: nil,
@@ -47,10 +47,10 @@ class ServiceResult
     self.success = success
     self.result = result
     self.context = context
-    self.dependent_results = dependent_results
+    self.errors = errors
+    self.message = message
 
-    initialize_errors(errors)
-    initialize_message(message)
+    self.dependent_results = dependent_results
   end
 
   alias success? :success
@@ -123,27 +123,25 @@ class ServiceResult
     yield(self) if failure?
   end
 
+  def errors
+    if @errors
+      @errors
+    elsif result.respond_to?(:errors)
+      result.errors
+    else
+      ActiveModel::Errors.new(self)
+    end
+  end
+
+  def message
+    if @message
+      @message
+    elsif failure? && errors.is_a?(ActiveModel::Errors)
+      errors.full_messages.join(". ")
+    end
+  end
+
   private
-
-  def initialize_errors(errors)
-    self.errors =
-      if errors
-        errors
-      elsif result.respond_to?(:errors)
-        result.errors
-      else
-        ActiveModel::Errors.new(self)
-      end
-  end
-
-  def initialize_message(message)
-    self.message =
-      if message
-        message
-      elsif failure? && errors.is_a?(ActiveModel::Errors)
-        errors.full_messages.join("")
-      end
-  end
 
   def get_message_type
     if message_type.present?
