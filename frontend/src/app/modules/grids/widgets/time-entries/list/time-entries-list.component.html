@@ -89,13 +89,12 @@
             <em [textContent]="item.sum"></em>
           </td>
           <td class="buttons">
-            <a [href]="editPath(item.entry)"
-               *ngIf="item.entry && item.entry.updateImmediately"
+            <a *ngIf="item.entry && item.entry.updateImmediately"
+               (click)="editTimeEntry(item.entry)"
                [title]="text.edit">
               <op-icon icon-classes="icon-context icon-edit"></op-icon>
             </a>
-            <a [href]="deletePath(item.entry)"
-               *ngIf="item.entry && item.entry.delete"
+            <a *ngIf="item.entry && item.entry.delete"
                (click)="deleteIfConfirmed($event, item.entry)"
                [title]="text.delete" >
               <op-icon icon-classes="icon-context icon-delete"></op-icon>
