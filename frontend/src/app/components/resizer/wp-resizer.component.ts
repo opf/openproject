@@ -150,9 +150,6 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   }
 
   resizeMove(deltas:ResizeDelta) {
-    // Avoid text-selection while the user is dragging the resizer
-    deltas.origin.preventDefault();
-
     // Get new value depending on the delta
     this.elementWidth = this.elementWidth - deltas.relative.x;
     let newValue;
