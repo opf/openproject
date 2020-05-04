@@ -46,7 +46,7 @@ session_options = {
   path:   relative_url_root
 }
 
-OpenProject::Application.config.session_store session_store, session_options
+OpenProject::Application.config.session_store session_store, **session_options
 
 ##
 # We use our own decorated session model to note the user_id

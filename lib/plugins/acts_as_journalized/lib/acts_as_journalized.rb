@@ -78,7 +78,7 @@ module Redmine
 
           has_many :journals, -> {
             order("#{Journal.table_name}.version ASC")
-          }, journal_hash, &block
+          }, **journal_hash, &block
         end
 
         private
