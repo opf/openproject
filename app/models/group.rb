@@ -86,6 +86,9 @@ class Group < Principal
     ::Groups::AddUsersService
       .new(self, current_user: User.current)
       .call(user_ids)
+      .tap do |result|
+      raise "Failed to add to group #{result.message}" if result.failure?
+    end
   end
 
   private
