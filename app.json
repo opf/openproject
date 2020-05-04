@@ -1,0 +1,11 @@
+{
+    "name": "openproject",
+    "description": "A openproject app",
+    "repository": "https://github.com/opf/openproject.git",
+    "logo": "https://node-js-sample.herokuapp.com/node.png",
+    "keywords": [
+        "node",
+        "express",
+        "static"
+    ]
+}
