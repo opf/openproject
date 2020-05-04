@@ -50,6 +50,7 @@
 | subject          | Work package subject                                   | String      | not null; 1 <= length <= 255                                                                                                                                 | READ / WRITE         |                                  |
 | type             | Name of the work package's type                        | String      | not null                                                                                                                                                     | READ                 |                                  |
 | description      | The work package description                           | Formattable |                                                                                                                                                              | READ / WRITE         |                                  |
+| scheduleManually | If false (default) schedule automatically.             | Boolean     |                                                                                                                                                              | READ / WRITE         |                                  |
 | startDate        | Scheduled beginning of a work package                  | Date        | Cannot be set for parent work packages; must be equal or greater than the earliest possible start date; Exists only on work packages of a non milestone type | READ / WRITE         |                                  |
 | dueDate          | Scheduled end of a work package                        | Date        | Cannot be set for parent work packages; must be greater than or equal to the start date; Exists only on work packages of a non milestone type                | READ / WRITE         |                                  |
 | date             | Date on which a milestone is achieved                  | Date        | Exists only on work packages of a milestone type
@@ -257,6 +258,7 @@ and [update](#work-packages-work-package-patch). The attachments the work packag
                     "raw": "Develop super cool OpenProject API.",
                     "html": "<p>Develop super cool OpenProject API.</p>"
                 },
+                "scheduleManually": false,
                 "startDate": null,
                 "dueDate": null,
                 "estimatedTime": "PT2H",
@@ -2312,4 +2314,3 @@ Gets a list of users that can be assigned as the responsible of a work package i
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified project does not exist."
             }
-
