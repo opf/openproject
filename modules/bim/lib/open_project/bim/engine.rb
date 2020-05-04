@@ -50,14 +50,14 @@ module OpenProject::Bim
                      'bim/ifc_models/ifc_viewer': %i[show]
                    }
         permission :manage_ifc_models,
-                   {'bim/ifc_models/ifc_models': %i[index show destroy edit update create new]},
+                   { 'bim/ifc_models/ifc_models': %i[index show destroy edit update create new] },
                    dependencies: %i[view_ifc_models]
 
         permission :view_linked_issues,
-                   {'bim/bcf/issues': %i[index]},
+                   { 'bim/bcf/issues': %i[index] },
                    dependencies: %i[view_work_packages]
         permission :manage_bcf,
-                   {'bim/bcf/issues': %i[index upload prepare_import perform_import]},
+                   { 'bim/bcf/issues': %i[index upload prepare_import perform_import] },
                    dependencies: %i[view_linked_issues
                                     view_work_packages
                                     add_work_packages
@@ -101,9 +101,6 @@ module OpenProject::Bim
     patch_with_namespace :DemoData, :WorkPackageBoardSeeder
 
     extend_api_response(:v3, :work_packages, :work_package) do
-      # extend cached_representer for bcf issue
-      cached_representer key_parts: %i(bcf_issue)
-
       include API::Bim::Utilities::PathHelper
 
       link :bcfTopic,
