@@ -470,10 +470,8 @@ describe Project, type: :model do
     end
 
     it 'should copy memberships with groups and additional roles' do
-      group = Group.create!(lastname: 'Copy group')
       user = User.find(7)
-
-      group.add_members!(user)
+      group = FactoryBot.create :group, lastname: 'Copy group', members: user
 
       # group role
       (Member.new.tap do |m|

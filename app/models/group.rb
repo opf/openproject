@@ -54,7 +54,7 @@ class Group < Principal
                :create_preference,
                :create_preference!
 
-  prepend Destroy
+  include Destroy
 
   def to_s
     lastname.to_s

@@ -55,7 +55,7 @@ describe UsersController, type: :controller do
   end
 
   it 'should index with name filter' do
-    get :index, params: { name: 'john' }
+    get :index, params: {name: 'john'}
     assert_response :success
     assert_template 'index'
     users = assigns(:users)
@@ -65,7 +65,7 @@ describe UsersController, type: :controller do
   end
 
   it 'should index with group filter' do
-    get :index, params: { group_id: '10' }
+    get :index, params: {group_id: '10'}
     assert_response :success
     assert_template 'index'
     users = assigns(:users)
@@ -80,32 +80,32 @@ describe UsersController, type: :controller do
     custom_field = CustomField.create!(name: 'Testing', field_format: 'text')
     user.custom_values.build(custom_field: custom_field).save!
 
-    get :show, params: { id: 2 }
+    get :show, params: {id: 2}
     assert_response :success
   end
 
   it 'should show inactive' do
     session[:user_id] = nil
-    get :show, params: { id: 5 }
+    get :show, params: {id: 5}
     assert_response 404
   end
 
   it 'should show should not reveal users with no visible activity or project' do
     session[:user_id] = nil
-    get :show, params: { id: 9 }
+    get :show, params: {id: 9}
     assert_response 404
   end
 
   it 'should show inactive by admin' do
     session[:user_id] = 1
-    get :show, params: { id: 5 }
+    get :show, params: {id: 5}
     assert_response 200
     refute_nil assigns(:user)
   end
 
   it 'should show displays memberships based on project visibility' do
     session[:user_id] = 1
-    get :show, params: { id: 2 }
+    get :show, params: {id: 2}
     assert_response :success
     memberships = assigns(:memberships)
     refute_nil memberships
@@ -115,13 +115,13 @@ describe UsersController, type: :controller do
 
   it 'should show current should require authentication' do
     session[:user_id] = nil
-    get :show, params: { id: 'current' }
+    get :show, params: {id: 'current'}
     assert_response 302
   end
 
   it 'should show current' do
     session[:user_id] = 2
-    get :show, params: { id: 'current' }
+    get :show, params: {id: 'current'}
     assert_response :success
     assert_template 'show'
     assert_equal User.find(2), assigns(:user)
@@ -183,7 +183,7 @@ describe UsersController, type: :controller do
       # Provide at least one user  field, otherwise strong_parameters regards the user parameter
       # as non-existent and raises ActionController::ParameterMissing, which in turn
       # results in a 400.
-      post :create, params: { user: { login: 'jdoe' } }
+      post :create, params: {user: {login: 'jdoe'}}
     end
 
     assert_response :success
@@ -191,7 +191,7 @@ describe UsersController, type: :controller do
   end
 
   it 'should edit' do
-    get :edit, params: { id: 2 }
+    get :edit, params: {id: 2}
 
     assert_response :success
     assert_template 'edit'
@@ -200,7 +200,7 @@ describe UsersController, type: :controller do
 
   it 'should update with failure' do
     assert_no_difference 'User.count' do
-      put :update, params: { id: 2, user: { firstname: '' } }
+      put :update, params: {id: 2, user: {firstname: ''}}
     end
 
     assert_response :success
@@ -210,10 +210,10 @@ describe UsersController, type: :controller do
   it 'should update with password change should send a notification' do
     Setting.bcc_recipients = '1'
 
-    put :update, params: { id: 2,
-                           user: { password: 'newpassPASS!',
-                                   password_confirmation: 'newpassPASS!' },
-                           send_information: '1' }
+    put :update, params: {id: 2,
+                          user: {password: 'newpassPASS!',
+                                 password_confirmation: 'newpassPASS!'},
+                          send_information: '1'}
     u = User.find(2)
     assert u.check_password?('newpassPASS!')
 

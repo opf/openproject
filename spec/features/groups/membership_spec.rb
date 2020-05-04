@@ -47,10 +47,9 @@ feature 'group memberships through project members page', type: :feature do
   end
 
   context 'given a group with members' do
+    let!(:group) { FactoryBot.create :group, lastname: 'group1', members: alice }
     before do
       allow(User).to receive(:current).and_return bob
-
-      group.add_members! alice
     end
 
     scenario 'adding group1 as a member with the beta role', js: true do

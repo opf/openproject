@@ -130,10 +130,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
 
     context 'for a group value with a group member being assignee' do
       let(:values) { [group.id.to_s] }
-
-      before do
-        group.add_members!(assignee)
-      end
+      let(:group) { FactoryBot.create(:group, members: assignee) }
 
       it 'does not return the work package' do
         is_expected
@@ -154,10 +151,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       let(:values) { [user.id.to_s] }
       let(:assignee) { group }
       let(:user) { FactoryBot.create(:user) }
-
-      before do
-        group.add_members!(user)
-      end
+      let(:group) { FactoryBot.create(:group, members: user) }
 
       it 'does not return the work package' do
         is_expected

@@ -32,24 +32,73 @@ require_relative '../support/shared/become_member'
 describe Group, type: :model do
   include BecomeMember
 
-  let(:group) { FactoryBot.build(:group) }
-  let(:user) { FactoryBot.build(:user) }
+  let(:group) { FactoryBot.create(:group) }
+  let(:user) { FactoryBot.create(:user) }
   let(:watcher) { FactoryBot.create :user }
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:status) { FactoryBot.create(:status) }
   let(:package) {
     FactoryBot.build(:work_package, type: project.types.first,
-                                     author: user,
-                                     project: project,
-                                     status: status)
+                     author: user,
+                     project: project,
+                     status: status)
   }
+
+  it 'should create' do
+    g = Group.new(lastname: 'New group')
+    expect(g.save).to eq true
+  end
+
+
+  describe 'from legacy specs' do
+    let!(:roles) { FactoryBot.create_list :role, 2 }
+    let!(:role_ids) { roles.map(&:id).sort }
+    let!(:member) { FactoryBot.create :member, project: project, principal: group, role_ids: role_ids }
+    let!(:group) { FactoryBot.create(:group, members: user) }
+
+
+    it 'should roles removed when removing group membership' do
+      expect(user).to be_member_of project
+      member.destroy
+      user.reload
+      project.reload
+      expect(user).not_to be_member_of project
+    end
+
+    it 'should roles removed when removing user from group' do
+      expect(user).to be_member_of project
+      group.destroy
+      user.reload
+      project.reload
+      expect(user).not_to be_member_of project
+    end
+
+    it 'should roles updated' do
+      group = FactoryBot.create :group, members: user
+      member = FactoryBot.build :member
+      roles = FactoryBot.create_list :role, 2
+      role_ids = roles.map(&:id)
+      member.attributes = {principal: group, role_ids: role_ids}
+      member.save!
+
+      member.role_ids = [role_ids.first]
+      expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq([role_ids.first])
+
+      member.role_ids = role_ids
+      expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq(role_ids)
+
+      member.role_ids = [role_ids.last]
+      expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq([role_ids.last])
+
+      member.role_ids = [role_ids.first]
+      expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq([role_ids.first])
+    end
+  end
 
   describe '#destroy' do
     describe 'work packages assigned to the group' do
+      let(:group) { FactoryBot.create(:group, members: [user, watcher]) }
       before do
-        group.add_members! user
-        group.add_members! watcher
-
         become_member_with_permissions project, group, [:view_work_packages]
         package.assigned_to = group
 
@@ -97,7 +146,9 @@ describe Group, type: :model do
       it { expect(group.valid?).to be_falsey }
 
       describe 'error message' do
-        before do group.valid? end
+        before do
+          group.valid?
+        end
 
         it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.groupname') }
       end

@@ -99,7 +99,9 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:values) { [group.id.to_s] }
 
       before do
-        group.add_members!(assignee)
+        User.system.run_given do
+          group.add_members!(assignee)
+        end
       end
 
       it 'returns the work package' do
@@ -121,10 +123,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:values) { [user.id.to_s] }
       let(:assignee) { group }
       let(:user) { FactoryBot.create(:user) }
-
-      before do
-        group.add_members!(user)
-      end
+      let!(:group) { FactoryBot.create(:group, members: user) }
 
       it 'returns the work package' do
         is_expected

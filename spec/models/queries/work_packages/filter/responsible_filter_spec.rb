@@ -130,10 +130,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
 
     context 'for a group value with a group member being assignee' do
       let(:values) { [group.id.to_s] }
-
-      before do
-        group.add_members!(responsible)
-      end
+      let(:group) { FactoryBot.create(:group, members: responsible) }
 
       it 'does not return the work package' do
         is_expected
@@ -154,10 +151,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
       let(:values) { [user.id.to_s] }
       let(:responsible) { group }
       let(:user) { FactoryBot.create(:user) }
-
-      before do
-        group.add_members!(user)
-      end
+      let(:group) { FactoryBot.create(:group, members: user) }
 
       it 'does not return the work package' do
         is_expected

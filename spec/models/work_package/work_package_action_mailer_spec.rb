@@ -88,10 +88,9 @@ describe WorkPackage, type: :model do
     end
 
     context 'group_assigned_work_package' do
-      let(:group) { FactoryBot.create(:group) }
+      let(:group) { FactoryBot.create(:group, members: user_1) }
 
       before do
-        group.add_members!(user_1)
         work_package.assigned_to = group
       end
 

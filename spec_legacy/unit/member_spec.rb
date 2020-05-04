@@ -159,7 +159,7 @@ describe Member, type: :model do
 
     context 'of group' do
       before do
-        @group = FactoryBot.create :group
+        @group = FactoryBot.create :group, members: @watcher_user
         @member = (Member.new.tap do |m|
           m.attributes = { project_id: @private_project.id,
                                  user_id: @group.id,
@@ -167,7 +167,6 @@ describe Member, type: :model do
         end)
 
         @group.members << @member
-        @group.add_members!(@watcher_user)
         assert @group.save
       end
 

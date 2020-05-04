@@ -256,9 +256,7 @@ describe Notifications::JournalWpMailService do
         let(:recipient) { FactoryBot.create(:user) }
 
         let(:group) do
-          FactoryBot.create(:group) do |group|
-            group.add_members!(recipient)
-
+          FactoryBot.create(:group, members: recipient) do |group|
             FactoryBot.create(:member,
                               project: project,
                               principal: group,
