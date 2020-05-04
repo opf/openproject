@@ -108,9 +108,7 @@ module OpenProject::LdapGroups
         }
       end
       ::LdapGroups::Membership.insert_all memberships
-
-      # Have to manually add the users to the group :-/
-      sync.group.users << User.where(id: new_member_ids).select(:id)
+      sync.group.add_members! new_member_ids
     end
 
     ##
