@@ -170,6 +170,10 @@ export class BoardVersionActionService implements BoardActionService {
     return value instanceof VersionResource && value.isOpen();
   }
 
+  public warningTextWhenNoOptionsAvailable() {
+    return Promise.resolve(undefined);
+  }
+
   private getVersions():Promise<VersionResource[]> {
     if (this.currentProject.id === null) {
       return Promise.resolve([]);
