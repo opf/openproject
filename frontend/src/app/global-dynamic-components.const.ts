@@ -130,6 +130,10 @@ import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector
 } from "core-components/enterprise/enterprise-active-trial/ee-active-saved-trial.component";
+import {
+  TriggerEditEntryComponent,
+  triggerEditEntryComponentSelector
+} from "core-app/modules/time_entries/edit/trigger-edit-entry.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -170,6 +174,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: wpQuerySelectSelector, cls: WorkPackageQuerySelectDropdownComponent },
+  { selector: triggerEditEntryComponentSelector, cls: TriggerEditEntryComponent },
 ];
 
 
