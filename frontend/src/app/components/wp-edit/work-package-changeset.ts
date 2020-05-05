@@ -6,11 +6,9 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
   public setValue(key:string, val:any) {
     super.setValue(key, val);
 
-    // Update the form for fields that may alter the form itself
-    // when the work package is new. Otherwise, the save request afterwards
-    // will update the form automatically.
-    if (this.pristineResource.isNew && (key === 'project' || key === 'type')) {
+    if (key === 'project' || key === 'type') {
       this.form$.clear(`${key} changed in a new work package`);
+      this.getForm();
     }
   }
 
