@@ -13,7 +13,7 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 })
 export class WidgetTimeEntriesProjectComponent extends WidgetTimeEntriesListComponent implements OnInit {
   constructor(readonly timeEntryDm:TimeEntryDmService,
-              readonly injector:Injector,
+              protected readonly injector:Injector,
               readonly timezone:TimezoneService,
               readonly i18n:I18nService,
               readonly pathHelper:PathHelperService,

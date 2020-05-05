@@ -58,7 +58,7 @@ export class TriggerEditEntryComponent implements OnInit {
     this.timeEntryEditService
       .edit(entry)
       .then(() => {
-        // ToDO: reload page
+        window.location.reload();
       })
       .catch(() => {
         // User canceled the modal

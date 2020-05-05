@@ -101,7 +101,9 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       this.timeEntryEditService
         .edit(loadedEntry)
         .then((changedEntry) => {
-          let newEntries = Object.assign(this.entries, [changedEntry.entry]);
+          let oldEntryIndex:number = this.entries.findIndex(el => el.id == changedEntry.entry.id);
+          let newEntries = this.entries;
+          newEntries[oldEntryIndex] = changedEntry.entry;
 
           this.buildEntries(newEntries);
         })

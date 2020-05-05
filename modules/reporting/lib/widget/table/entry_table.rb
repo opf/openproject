@@ -157,10 +157,8 @@ class ::Widget::Table::EntryTable < ::Widget::Table
       if entry_for(result).editable_by? User.current
         icons = content_tag(:'time-entry--trigger-edit-entry',
                             '',
-                            {
-                              title: l(:button_edit),
-                              data: { entry: result['id'] }
-                            })
+                            title: l(:button_edit),
+                            data: { entry: result['id'] })
         icons << link_to(icon_wrapper('icon-context icon-delete', l(:button_delete)),
                          (action_for(result, action: 'destroy')
                           .reverse_merge(authenticity_token: form_authenticity_token)),
@@ -168,7 +166,6 @@ class ::Widget::Table::EntryTable < ::Widget::Table
                          method: :delete,
                          class: 'no-decoration-on-hover',
                          title: l(:button_delete))
-
       end
     end
     icons
