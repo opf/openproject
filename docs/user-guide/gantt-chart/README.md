@@ -24,6 +24,8 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Synchronize data from OpenProject to Excel](#synchronize-data-from-openproject-to-excel) | How to synchronize data from OpenProject to Excel?           |
 | [Gantt chart views](#gantt-chart-views)                       | How to zoom in and out and activate the Zen mode?            |
 
+<iframe width="620" height="440" src="https://www.youtube.com/embed/JNRmqWwSfeU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Activate the Gantt chart
 
 A Gantt chart can be activated in any work package list, to display the work packages in a timeline view.

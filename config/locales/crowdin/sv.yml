@@ -107,10 +107,19 @@ sv:
         Ange bas-DN för underträdet i LDAP som du vill att OpenProject ska leta efter användare och grupper.
         OpenProject filtrerar endast angivna användarnamn i detta underträd.
         Exempel: ou=users,dc=exempel,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Om du kryssar i den här rutan kommer OpenProject automatiskt att skapa nya användare från sina LDAP-poster
         när de först autentiserar med OpenProject.
         Lämna detta avmarkerat för att endast tillåta befintliga konton i OpenProject att autentisera via LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Kryptering av anslutning'
     system_account: 'Systemkonto'
     system_account_legend: |
@@ -348,7 +357,7 @@ sv:
         attr_mail: "E-postattribut"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Skapa användarkonto i farten"
+        onthefly: "Automatic user creation"
         port: "Port"
       changeset:
         repository: "Versionsarkiv"
@@ -1315,6 +1324,7 @@ sv:
   label_duplicate: "dublett"
   label_duplicates: "dubblett av"
   label_edit: "Redigera"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Växla multival"
   label_enabled_project_custom_fields: 'Aktiverade anpassade fält'
   label_enabled_project_modules: 'Aktiverad Moduler'
