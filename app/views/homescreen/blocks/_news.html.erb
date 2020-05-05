@@ -4,11 +4,15 @@
   <% @news.each do |news| %>
     <li class="-widget-box--arrow-multiline">
       <div>
-        <%= avatar(news.author, {class: 'avatar author-avatar'}) %>
+        <%= avatar(news.author, {class: 'avatar news-author-avatar'}) %>
         <%= link_to_project(news.project) + ': ' %>
         <%= link_to h(news.title), news_path(news) %>
-        <div class="author"> <span><%= authoring news.created_at, news.author %></span> </div>
-       <div> <span class="additional-information"><%=  news.summary %></span></div>
+        <div class="news-author">
+         <span><%= authoring_at Date.strptime(news.created_at.to_s), news.author %></span>
+        </div>
+       <div> 
+       <p class="widget-box--additional-info"><%=  news.summary %></p>
+       </div>
       </div>
     </li>
   <% end %>
