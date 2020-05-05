@@ -521,7 +521,7 @@ zh-TW:
       duration: '時間長度'
       spent_on: '日期'
       hours: '小時'
-      title: '日誌的時間'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: '雙重身分驗證'
     watchers:

@@ -522,7 +522,7 @@ cs:
       duration: 'Doba trvání'
       spent_on: 'Datum'
       hours: 'Hodiny'
-      title: 'Čas protokolu'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

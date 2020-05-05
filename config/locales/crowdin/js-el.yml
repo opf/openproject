@@ -521,7 +521,7 @@ el:
       duration: 'Διάρκεια'
       spent_on: 'Ημερομηνία'
       hours: 'Ώρες'
-      title: 'Καταγραφή χρόνου'
+      label: 'Καταχώρηση χρόνου'
     two_factor_authentication:
       label_two_factor_authentication: 'Ταυτοποίηση δύο παραγόντων'
     watchers:

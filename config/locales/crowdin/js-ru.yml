@@ -521,7 +521,7 @@ ru:
       duration: 'Продолжительность'
       spent_on: 'Дата'
       hours: 'Часы'
-      title: 'Журналировать время'
+      label: 'Временная запись'
     two_factor_authentication:
       label_two_factor_authentication: 'Двухфакторная аутентификация'
     watchers:

@@ -521,7 +521,7 @@ ro:
       duration: 'Durată'
       spent_on: 'Dată'
       hours: 'Ore'
-      title: 'Consum timp'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

@@ -522,7 +522,7 @@ ko:
       duration: '기간'
       spent_on: '날짜'
       hours: '시간'
-      title: '작업시간 기록'
+      label: '시간 입력'
     two_factor_authentication:
       label_two_factor_authentication: '2단계 인증'
     watchers:

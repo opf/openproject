@@ -522,7 +522,7 @@ ar:
       duration: 'المدّة'
       spent_on: 'التاريخ'
       hours: 'الساعات'
-      title: 'وقت السجل'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
