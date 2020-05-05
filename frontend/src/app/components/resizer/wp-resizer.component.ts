@@ -211,12 +211,12 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   }
 
   private manageErrorClass(shouldBePresent:boolean) {
-    if (shouldBePresent && !this.resizer.classList.contains('-error')) {
-       this.resizer.classList.add('-error');
+    if (shouldBePresent && !this.resizer.classList.contains('-error-font')) {
+       this.resizer.classList.add('-error-font');
     }
 
-    if (!shouldBePresent && this.resizer.classList.contains('-error')) {
-      this.resizer.classList.remove('-error');
+    if (!shouldBePresent && this.resizer.classList.contains('-error-font')) {
+      this.resizer.classList.remove('-error-font');
     }
   }
 }
