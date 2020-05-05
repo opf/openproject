@@ -73,7 +73,19 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
    * This may be different from the base form when project or type is changed.
    */
   public getForm():Promise<FormResource> {
-    this.form$.putFromPromiseIfPristine(() => this.updateForm());
+    if (this.form$.isPristine() && !this.form$.hasActivePromiseRequest()) {
+      const promise = this
+        .updateForm()
+        .then((form) => {
+          this.form$.putValue(form);
+          this.setNewDefaults(form);
+          this.push();
+          return form;
+        });
+
+      this.form$.putFromPromiseIfPristine(() => promise);
+      return promise;
+    }
 
     return this
       .form$
@@ -96,13 +108,9 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   protected updateForm():Promise<FormResource> {
     let payload = this.buildPayloadFromChanges();
 
-    return this.pristineResource.$links
-      .update(payload)
-      .then((form:FormResource) => {
-        this.setNewDefaults(form);
-        this.push();
-        return form;
-      });
+    return this.pristineResource
+      .$links
+      .update(payload);
   }
 
   /**
