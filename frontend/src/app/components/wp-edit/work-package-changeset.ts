@@ -10,7 +10,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
     // when the work package is new. Otherwise, the save request afterwards
     // will update the form automatically.
     if (this.pristineResource.isNew && (key === 'project' || key === 'type')) {
-      this.updateForm();
+      this.form$.clear(`${key} changed in a new work package`);
     }
   }
 

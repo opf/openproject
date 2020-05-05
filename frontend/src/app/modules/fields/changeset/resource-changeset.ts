@@ -2,9 +2,10 @@ import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ChangeMap, Changeset} from "core-app/modules/fields/changeset/changeset";
-import {InputState} from "reactivestates";
+import {input, InputState} from "reactivestates";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {debugLog} from "core-app/helpers/debug_output";
+import {take} from "rxjs/operators";
 
 /**
  * Temporary class living while a resource is being edited
@@ -21,7 +22,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   protected changeset = new Changeset();
 
   /** Reference and load promise for the current form */
-  private formPromise:Promise<FormResource>|null;
+  protected form$ = input<FormResource>();
 
   /** Flag whether this is currently being saved */
   public inFlight = false;
@@ -40,7 +41,11 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
 
   constructor(public pristineResource:T,
               public readonly state?:InputState<ResourceChangeset<T>>,
-              public form:FormResource|null = null) {
+              loadedForm:FormResource|null = null) {
+
+    if (loadedForm) {
+      this.form$.putValue(loadedForm);
+    }
   }
 
   /**
@@ -56,12 +61,11 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   /**
    * Build the request attributes against the fresh form
    */
-  public buildRequestPayload():Promise<[FormResource, Object]> {
+  public buildRequestPayload():Promise<Object> {
     return this
-      .updateForm()
-      .then(form => [form, this.buildPayloadFromChanges()]) as Promise<[FormResource, Object]>;
+      .getForm()
+      .then(() => this.buildPayloadFromChanges());
   }
-
 
 
   /**
@@ -69,11 +73,13 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
    * This may be different from the base form when project or type is changed.
    */
   public getForm():Promise<FormResource> {
-    if (!this.form) {
-      return this.updateForm();
-    } else {
-      return Promise.resolve(this.form);
-    }
+    this.form$.putFromPromiseIfPristine(() => this.updateForm());
+
+    return this
+      .form$
+      .values$()
+      .pipe(take(1))
+      .toPromise();
   }
 
   public getSchemaName(attribute:string):string {
@@ -90,24 +96,13 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   protected updateForm():Promise<FormResource> {
     let payload = this.buildPayloadFromChanges();
 
-    if (!this.formPromise) {
-      this.formPromise = this.pristineResource.$links
-        .update(payload)
-        .then((form:FormResource) => {
-          this.formPromise = null;
-          this.form = form;
-          this.setNewDefaults(form);
-          this.push();
-          return form;
-        })
-        .catch((error:any) => {
-          this.formPromise = null;
-          this.form = null;
-          throw error;
-        }) as Promise<FormResource>;
-    }
-
-    return this.formPromise;
+    return this.pristineResource.$links
+      .update(payload)
+      .then((form:FormResource) => {
+        this.setNewDefaults(form);
+        this.push();
+        return form;
+      });
   }
 
   /**
@@ -215,9 +210,9 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   }
 
   public clear() {
-   this.state && this.state.clear();
-   this.changeset.clear();
-   this.form = null;
+    this.state && this.state.clear();
+    this.changeset.clear();
+    this.form$.clear();
   }
 
   /**
@@ -243,7 +238,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
    * and contains available values.
    */
   public get schema():SchemaResource {
-    return (this.form || this.pristineResource).schema;
+    return this.form$.getValueOr(this.pristineResource).schema;
   }
 
   protected get minimalPayload() {
@@ -259,8 +254,8 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   protected applyChanges(plainPayload:any) {
     // Fall back to the last known state of the HalResource should the form not be loaded.
     let reference = this.pristineResource.$source;
-    if (this.form) {
-      reference = this.form.payload.$source;
+    if (this.form$.value) {
+      reference = this.form$.value.payload.$source;
     }
 
     _.each(this.changeset.all, (val:unknown, key:string) => {
@@ -291,8 +286,8 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
     if (this.pristineResource.isNew) {
       // If the resource is new, we need to pass the entire form payload
       // to let all default values be transmitted (type, status, etc.)
-      if (this.form) {
-        payload = this.form.payload.$source;
+      if (this.form$.value) {
+        payload = this.form$.value.payload.$source;
       } else {
         payload = this.pristineResource.$source;
       }
@@ -305,7 +300,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
           .attachments
           .elements
           .map((a:HalResource) => {
-            return {href: a.href};
+            return { href: a.href };
           });
       }
 
