@@ -7,8 +7,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
     super.setValue(key, val);
 
     if (key === 'project' || key === 'type') {
-      this.form$.clear(`${key} changed in a new work package`);
-      this.getForm();
+      this.updateForm();
     }
   }
 

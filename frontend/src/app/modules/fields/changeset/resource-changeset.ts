@@ -6,6 +6,7 @@ import {input, InputState} from "reactivestates";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {debugLog} from "core-app/helpers/debug_output";
 import {take} from "rxjs/operators";
+import {Form} from "@angular/forms";
 
 /**
  * Temporary class living while a resource is being edited
@@ -68,31 +69,7 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   }
 
 
-  /**
-   * Returns the current work package form.
-   * This may be different from the base form when project or type is changed.
-   */
-  public getForm():Promise<FormResource> {
-    if (this.form$.isPristine() && !this.form$.hasActivePromiseRequest()) {
-      const promise = this
-        .updateForm()
-        .then((form) => {
-          this.form$.putValue(form);
-          this.setNewDefaults(form);
-          this.push();
-          return form;
-        });
 
-      this.form$.putFromPromiseIfPristine(() => promise);
-      return promise;
-    }
-
-    return this
-      .form$
-      .values$()
-      .pipe(take(1))
-      .toPromise();
-  }
 
   public getSchemaName(attribute:string):string {
     if (this.projectedResource.getSchemaName) {
@@ -103,14 +80,40 @@ export class ResourceChangeset<T extends HalResource|{ [key:string]:unknown; } =
   }
 
   /**
-   * Update the form resource from the API.
+   * Returns the cached form or loads it if necessary.
+   */
+  public getForm():Promise<FormResource> {
+    if (this.form$.isPristine() && !this.form$.hasActivePromiseRequest()) {
+      return this.updateForm();
+    }
+
+    return this
+      .form$
+      .values$()
+      .pipe(take(1))
+      .toPromise();
+  }
+
+
+  /**
+   * Posts to the form with the current changes
+   * to get the up to date projected object.
    */
   protected updateForm():Promise<FormResource> {
     let payload = this.buildPayloadFromChanges();
 
-    return this.pristineResource
+    const promise = this.pristineResource
       .$links
-      .update(payload);
+      .update(payload)
+      .then((form:FormResource) => {
+        this.form$.putValue(form);
+        this.setNewDefaults(form);
+        this.push();
+        return form;
+      });
+
+    this.form$.putFromPromiseIfPristine(() => promise);
+    return promise;
   }
 
   /**
