@@ -107,9 +107,18 @@ pt:
         Digite a Base DN da subárvore no LDAP que deseja que o OpenProject procure para utilizadores e grupos.
         O OpenProject irá filtrar os nomes de utilizadores fornecidos apenas nesta subárvore.
         Exemplo: ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Se marcar esta caixa, o OpenProject irá automaticamente criar novos utilizadores a partir das suas entradas LDAP quando se autenticarem pela primeira vez com o OpenProject.
         Deixe desmarcado para permitir que só as contas existentes no OpenProject se possam autenticar através do LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Encriptação da ligação'
     system_account: 'Conta do sistema'
     system_account_legend: |
@@ -347,7 +356,7 @@ pt:
         attr_mail: "Atributo e-mail"
         base_dn: "Base DN"
         host: "Hospedeiro"
-        onthefly: "Criação dinâmica do utilziador"
+        onthefly: "Automatic user creation"
         port: "Porta"
       changeset:
         repository: "Repositório"
@@ -1314,6 +1323,7 @@ pt:
   label_duplicate: "duplicado"
   label_duplicates: "duplicados"
   label_edit: "Editar"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Alternar para selecção múltipla"
   label_enabled_project_custom_fields: 'Campos personalizados activados'
   label_enabled_project_modules: 'Módulos activados'

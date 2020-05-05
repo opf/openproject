@@ -107,9 +107,18 @@ pl:
         Wprowadź bazową nazwę wyróżniającą poddrzewa w LDAP, w którym OpenProject ma szukać użytkowników i grup.
         OpenProject będzie filtrować w celu wyszukania podanych nazw użytkowników tylko w tym poddrzewie.
         Przykład: ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Jeśli zaznaczysz to pole, OpenProject będzie automatycznie tworzyć nowych użytkowników z ich wpisów LDAP przy pierwszym uwierzytelnieniu za pomocą OpenProject.
         Pozostaw to pole niezaznaczone, aby tylko istniejące konta w OpenProject mogły się uwierzytelniać za pomocą LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Szyfrowanie połączenia'
     system_account: 'Konto systemowe'
     system_account_legend: |
@@ -349,7 +358,7 @@ pl:
         attr_mail: "Atrybut adresu e-mail"
         base_dn: "Bazowa nazwa wyróżniająca"
         host: "Host"
-        onthefly: "Tworzenie użytkownika w locie"
+        onthefly: "Automatic user creation"
         port: "Port"
       changeset:
         repository: "Repozytorium"
@@ -1346,6 +1355,7 @@ pl:
   label_duplicate: "duplikat"
   label_duplicates: "Duplikaty"
   label_edit: "Edycja"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Włącz wybór wielokrotny"
   label_enabled_project_custom_fields: 'Aktywne pola niestandardowe'
   label_enabled_project_modules: 'Aktywne moduły'
