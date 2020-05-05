@@ -13,7 +13,6 @@ export class TimeEntryEditService {
   constructor(readonly opModalService:OpModalService,
               readonly injector:Injector,
               readonly halResource:HalResourceService,
-              protected halEditing:HalResourceEditingService,
               readonly i18n:I18nService) {
   }
 
