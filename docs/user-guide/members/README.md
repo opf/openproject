@@ -19,7 +19,7 @@ keywords: members
 | [Roles and permissions](#roles-and-permissions) | How to manage roles and permissions for members?             |
 | [Groups](#groups)                               | How to add members to a groups and add groups to a project?  |
 
-<iframe width="620" height="440" src="https://www.youtube.com/embed/aidzIYnmTvQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/aidzIYnmTvQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ## Add members
 
 Find out how to [add existing members](../../getting-started/invite-members/#add-existing-members) to join a project or [invite new team members](../../getting-started/invite-members/#invite-new-members).
