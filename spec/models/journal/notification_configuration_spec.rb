@@ -31,8 +31,13 @@ require 'spec_helper'
 describe Journal::NotificationConfiguration, type: :model do
   describe '.with' do
     let!(:send_notification_before) { described_class.active? }
-    let(:proc_called_counter) { OpenStruct.new called: false, send_notifications: !send_notification_before }
-    let(:proc) { Proc.new { proc_called_counter.called = true } }
+    let!(:proc_called_counter) { OpenStruct.new called: false, send_notifications: send_notification_before }
+    let(:proc) do
+      Proc.new do
+        proc_called_counter.called = true
+        proc_called_counter.send_notifications = described_class.active?
+      end
+    end
 
     it 'executes the block' do
       described_class.with !send_notification_before, &proc
@@ -53,6 +58,15 @@ describe Journal::NotificationConfiguration, type: :model do
 
       expect(described_class.active?)
         .to eql send_notification_before
+    end
+
+    it 'lets the first block dominate further block calls' do
+      described_class.with !send_notification_before do
+        described_class.with send_notification_before, &proc
+      end
+
+      expect(proc_called_counter.send_notifications)
+        .to eql !send_notification_before
     end
 
     context 'with an exception being raised within the block' do
