@@ -38,7 +38,7 @@
 .wp-card--content:not(.-new)
   display: grid
   grid-template-columns: auto 1fr auto
-  grid-template-rows: auto auto 1fr auto
+  grid-template-rows: auto auto auto 1fr auto
   grid-row-gap: 10px
   grid-template-areas: "project project project" "type type type" "subject subject subject" "image image image" "attributeTag avatar idlink"
   overflow: hidden
@@ -47,6 +47,8 @@
   .wp-card--project-name
     grid-area: project
     font-style: italic
+    color: gray
+    font-size: 15px
   .wp-card--type
     grid-area: type
   .wp-card--subject

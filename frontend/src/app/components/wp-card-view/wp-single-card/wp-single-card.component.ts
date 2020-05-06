@@ -96,6 +96,10 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     return wp.subject;
   }
 
+  public wpProjectName(wp:WorkPackageResource) {
+    return wp.project?.name;
+  }
+
   public cardHighlightingClass(wp:WorkPackageResource) {
     return this.cardHighlighting(wp);
   }
@@ -131,7 +135,4 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     return Highlighting.inlineClass(type, wp.type.id!);
   }
 
-  public wpProjectName(wp:WorkPackageResource) {
-    return wp.project?.name;
-  }
 }
