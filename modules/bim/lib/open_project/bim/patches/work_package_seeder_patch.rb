@@ -10,7 +10,7 @@ module OpenProject::Bim::Patches::WorkPackageSeederPatch
 
         start_date = calculate_start_date(attributes[:start])
         due_date = calculate_due_date(start_date, attributes[:duration])
-        
+
         work_package = find_bcf_issue(uuid)
 
         work_package.update_columns(created_at: Time.now,
@@ -26,13 +26,13 @@ module OpenProject::Bim::Patches::WorkPackageSeederPatch
     end
 
     def update_parent(work_package, attributes)
-      if attributes[:parent]
-        parent = WorkPackage.find_by(subject: attributes[:parent])
-        if parent.present?
-          work_package.parent = parent
-          work_package.save!
-        end
-      end
+      return unless attributes[:parent]
+
+      parent = WorkPackage.find_by(subject: attributes[:parent])
+      return if parent.nil?
+
+      work_package.parent = parent
+      work_package.save!
     end
 
     def find_bcf_issue(uuid)
