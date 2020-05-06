@@ -47,8 +47,9 @@
   .wp-card--project-name
     grid-area: project
     font-style: italic
-    color: gray
-    font-size: 15px
+    color: var(--gray-dark)
+    font-size: 12px
+    @include text-shortener(false)
   .wp-card--type
     grid-area: type
   .wp-card--subject

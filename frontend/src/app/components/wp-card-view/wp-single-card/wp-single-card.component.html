@@ -1,48 +1,49 @@
-<div class="wp-card" [ngClass]="cardClasses()">
+<div class="wp-card"
+     [ngClass]="cardClasses()">
 
-  <div class="wp-card--highlighting" [ngClass]="cardHighlightingClass(workPackage)">
+  <div class="wp-card--highlighting"
+       [ngClass]="cardHighlightingClass(workPackage)">
   </div>
 
   <div class="wp-card--inline-buttons hidden-for-mobile">
     <a class="wp-card--inline-cancel-button -no-decoration"
-     *ngIf="workPackage.isNew || showRemoveButton"
-      [ngClass]="{ '-show': workPackage.isNew }" 
-      [title]="text.removeCard" 
-      (accessibleClick)="onRemoved(workPackage)">
+       *ngIf="workPackage.isNew || showRemoveButton"
+       [ngClass]="{ '-show': workPackage.isNew }"
+       [title]="text.removeCard"
+       (accessibleClick)="onRemoved(workPackage)">
       <op-icon icon-classes="icon icon-close"></op-icon>
     </a>
     <a class="wp-card--details-button -no-decoration" 
-    *ngIf="!workPackage.isNew && showInfoButton"
-      [title]="text.detailsView" 
-      (accessibleClick)="openSplitScreen(workPackage)">
+       *ngIf="!workPackage.isNew && showInfoButton"
+       [title]="text.detailsView"
+       (accessibleClick)="openSplitScreen(workPackage)">
       <op-icon icon-classes="icon icon-info2"></op-icon>
     </a>
   </div>
   <edit-form [resource]="workPackage" 
-  [inEditMode]="workPackage.isNew"
-   *ngIf="workPackage.isNew">
+             [inEditMode]="workPackage.isNew"
+             *ngIf="workPackage.isNew">
     <div class="wp-card--content -new">
-      <editable-attribute-field 
-        [resource]="workPackage" 
-        [wrapperClasses]="'work-packages--type-selector'"
-        [fieldName]="'type'" class="wp-card--type">
+      <editable-attribute-field [resource]="workPackage"
+                                [wrapperClasses]="'work-packages--type-selector'"
+                                [fieldName]="'type'"
+                                class="wp-card--type">
       </editable-attribute-field>
-      <editable-attribute-field
-       [resource]="workPackage" 
-       fieldName="subject" 
-       class="wp-card--subject -bold">
+      <editable-attribute-field [resource]="workPackage"
+                                fieldName="subject"
+                                class="wp-card--subject -bold">
       </editable-attribute-field>
     </div>
   </edit-form>
 
   <div *ngIf="!workPackage.isNew"
-   class="wp-card--content">
+       class="wp-card--content">
     <span [textContent]="wpProjectName(workPackage)"
           class="wp-card--project-name">
     </span>
     <span [textContent]="wpTypeAttribute(workPackage)" 
           class="wp-card--type"
-      [ngClass]="typeHighlightingClass(workPackage)">
+          [ngClass]="typeHighlightingClass(workPackage)">
     </span>
     <a uiSref="work-packages.show" 
        [uiParams]="{workPackageId: workPackage.id}"
@@ -56,16 +57,14 @@
     <img *ngIf="this.cardCoverImageShown(workPackage)" 
          [src]="this.bcfSnapshotPath(workPackage)"
          class="wp-card--cover-image">
-    <wp-status-button 
-        *ngIf="showStatusButton" 
-        [workPackage]="workPackage" 
-        class="wp-card--status">
+    <wp-status-button *ngIf="showStatusButton"
+                      [workPackage]="workPackage"
+                      class="wp-card--status">
     </wp-status-button>
-    <user-avatar 
-        *ngIf="workPackage.assignee" 
-        [user]="workPackage.assignee" 
-        data-class-list="avatar-mini"
-        class="wp-card--assignee">
+    <user-avatar *ngIf="workPackage.assignee"
+                 [user]="workPackage.assignee"
+                 data-class-list="avatar-mini"
+                 class="wp-card--assignee">
     </user-avatar>
   </div>
 </div>
