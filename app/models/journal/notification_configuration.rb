@@ -30,12 +30,6 @@
 
 class Journal::NotificationConfiguration
   class << self
-    attr_reader :active
-
-    def reset
-      self.active = true
-    end
-
     def with(send_notifications, &block)
       old_value = active
 
@@ -46,15 +40,13 @@ class Journal::NotificationConfiguration
       self.active = old_value
     end
 
-    def with_reset(&block)
-      block.call
-    ensure
-      reset
+    def active?
+      active
     end
 
     protected
 
-    attr_writer :active
+    attr_accessor :active
   end
 
   self.active = true

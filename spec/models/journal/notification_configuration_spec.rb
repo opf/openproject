@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Journal::NotificationConfiguration, type: :model do
   describe '.with' do
-    let!(:send_notification_before) { described_class.active }
+    let!(:send_notification_before) { described_class.active? }
     let(:proc_called_counter) { OpenStruct.new called: false, send_notifications: !send_notification_before }
     let(:proc) { Proc.new { proc_called_counter.called = true } }
 
@@ -51,7 +51,7 @@ describe Journal::NotificationConfiguration, type: :model do
     it 'resets the send_notifications to the value before' do
       described_class.with !send_notification_before, &proc
 
-      expect(described_class.active)
+      expect(described_class.active?)
         .to eql send_notification_before
     end
 
@@ -60,7 +60,7 @@ describe Journal::NotificationConfiguration, type: :model do
         expect { described_class.with(!send_notification_before) { raise ArgumentError } }
           .to raise_error ArgumentError
 
-        expect(described_class.active)
+        expect(described_class.active?)
           .to eql send_notification_before
       end
     end
