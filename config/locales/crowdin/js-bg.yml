@@ -522,7 +522,7 @@ bg:
       duration: 'Продължителност'
       spent_on: 'Дата'
       hours: 'Часове'
-      label: 'Time entry'
+      title: 'Отчетено време'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

@@ -522,7 +522,7 @@ nl:
       duration: 'Duur'
       spent_on: 'Datum'
       hours: 'Uren'
-      label: 'Time entry'
+      title: 'Gelogde tijd'
     two_factor_authentication:
       label_two_factor_authentication: 'Twee-factor-authenticatie'
     watchers:
