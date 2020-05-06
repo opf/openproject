@@ -32,7 +32,9 @@ See docs/COPYRIGHT.rdoc for more details.
 </div>
 <h3><%= User.human_attribute_name(:default_rates) %></h3>
 <% if @rates_default.blank? %>
+<div class="user-history-rates-no-result">
   <%= no_results_box %>
+</div>
 <% else %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">

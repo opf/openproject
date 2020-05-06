@@ -45,7 +45,9 @@ See docs/COPYRIGHT.rdoc for more details.
 </div>
 <h3><%=h project.name %><%= (" - " + number_to_currency(current_rate.rate)) if current_rate %></h3>
 <% if rates.empty? %>
+<div class="user-history-rates-no-result">
   <%= no_results_box %>
+</div>
 <% else %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
