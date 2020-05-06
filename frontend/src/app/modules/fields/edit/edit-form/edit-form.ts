@@ -89,7 +89,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    */
   protected onSaved(isInitial:boolean, saved:HalResource):void {
     const eventType = isInitial ? 'created' : 'updated';
-    this.halEvents.push(saved, {eventType});
+    this.halEvents.push(saved, { eventType });
   }
 
   protected abstract focusOnFirstError():void;
@@ -168,6 +168,9 @@ export abstract class EditForm<T extends HalResource = HalResource> {
       return Promise.resolve(this.resource);
     }
 
+    // Mark changeset as in flight
+    this.change.inFlight = true;
+
     // Reset old error notifcations
     this.errorsPerAttribute = {};
 
@@ -188,6 +191,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
           this.halNotification.showSave(result.resource, result.wasNew);
           this.editMode = false;
           this.onSaved(result.wasNew, result.resource);
+          this.change.inFlight = false;
         })
         .catch((error:ErrorResource|Object) => {
           this.halNotification.handleRawError(error, this.resource);
@@ -196,6 +200,8 @@ export abstract class EditForm<T extends HalResource = HalResource> {
             this.handleSubmissionErrors(error);
             reject();
           }
+
+          this.change.inFlight = false;
         });
     });
   }
