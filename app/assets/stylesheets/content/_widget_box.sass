@@ -153,6 +153,7 @@ $widget-box--enumeration-width: 20px
 
   .-widget-box--arrow-multiline
     &:before
+      line-height: 2
       float: left
 
     &:after
@@ -172,3 +173,7 @@ $widget-box--enumeration-width: 20px
     &.-flex
       .widget-box
         flex-basis: 100%
+
+  .widget-box--arrow-links
+    .-widget-box--arrow-multiline:before
+      padding-top: 0

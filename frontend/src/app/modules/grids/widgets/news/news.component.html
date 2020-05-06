@@ -1,4 +1,5 @@
-<widget-header [name]="widgetName" [editable]="isEditable">
+<widget-header [name]="widgetName"
+               [editable]="isEditable">
 
   <widget-menu [resource]="resource">
   </widget-menu>
@@ -6,34 +7,32 @@
 </widget-header>
 <div class="grid--widget-content">
   <no-results *ngIf="noEntries" 
-  [title]="text.noResults">
+              [title]="text.noResults">
   </no-results>
   <ul class="widget-box--arrow-links">
     <li class="-widget-box--arrow-multiline" 
         *ngFor="let news of entries">
-      <div>
-        <user-avatar 
-        *ngIf="news.author" 
-        [user]="news.author" 
-        data-class-list="avatar news-author-avatar">
+      <div class="news-project">
+        <user-avatar *ngIf="news.author"
+                     [user]="news.author"
+                     data-class-list="avatar news-author-avatar hidden-for-mobile">
         </user-avatar>
         <div>
-          <a 
-          [href]="newsProjectPath(news)" 
-          [textContent]="newsProjectName(news)">
-        </a>:
-          <a [href]="newsPath(news)" 
-          [textContent]="news.title">
-        </a>
+          <a [href]="newsProjectPath(news)"
+             [textContent]="newsProjectName(news)">
+          </a>:
+          <a [href]="newsPath(news)"
+             [textContent]="news.title">
+          </a>
         </div>
         <div *ngIf="news.author" 
-        class="news-author">
-          <span [innerHTML]="text.addedBy(news)"> </span>
+             class="news-author">
+          <span [innerHTML]="text.addedBy(news)"></span>
         </div>
         <div>
           <p *ngIf="news.summary" 
-          [textContent]="news.summary" 
-          class="widget-box--additional-info"></p>
+             [textContent]="news.summary"
+             class="widget-box--additional-info"></p>
         </div>
       </div>
     </li>
