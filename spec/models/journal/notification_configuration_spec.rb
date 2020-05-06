@@ -69,6 +69,23 @@ describe Journal::NotificationConfiguration, type: :model do
         .to eql !send_notification_before
     end
 
+    it 'is thread safe' do
+      thread = Thread.new do
+        described_class.with true do
+          inner = Thread.new do
+            described_class.with false do
+              Journal::NotificationConfiguration.active?
+            end
+          end
+
+          [Journal::NotificationConfiguration.active?, inner.value]
+        end
+      end
+
+      expect(thread.value)
+        .to eql [true, false]
+    end
+
     context 'with an exception being raised within the block' do
       it 'raises the exception but always resets the notification value' do
         expect { described_class.with(!send_notification_before) { raise ArgumentError } }

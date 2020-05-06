@@ -36,7 +36,7 @@ class Journal::NotificationConfiguration
     # This allows to control the setting globally without having to pass the setting down the call stack in
     # order to ensure all subsequent code follows the provided setting.
     def with(send_notifications, &block)
-      if already_set
+      if already_set?
         log_warning(send_notifications)
         yield
       else
@@ -45,13 +45,13 @@ class Journal::NotificationConfiguration
     end
 
     def active?
-      active
+      active.value
     end
 
     protected
 
     def with_first(send_notifications)
-      old_value = active
+      old_value = active?
       self.already_set = true
 
       self.active = send_notifications
@@ -71,10 +71,24 @@ class Journal::NotificationConfiguration
       Rails.logger.debug message
     end
 
-    attr_accessor :active,
-                  :already_set
-  end
+    def active
+      @active ||= Concurrent::ThreadLocalVar.new(true)
+    end
 
-  self.active = true
-  self.already_set = false
+    def already_set
+      @already_set ||= Concurrent::ThreadLocalVar.new(false)
+    end
+
+    def already_set?
+      already_set.value
+    end
+
+    def active=(value)
+      @active.value = value
+    end
+
+    def already_set=(value)
+      @already_set.value = value
+    end
+  end
 end
