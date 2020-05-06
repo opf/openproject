@@ -71,7 +71,9 @@ module DemoData
       page = WikiPage.create! wiki: version.project.wiki, title: version.wiki_page_title
 
       content = with_references config[:content], project
-      WikiContent.create! page: page, author: User.admin.first, text: content
+      Journal::NotificationConfiguration.with false do
+        WikiContent.create! page: page, author: User.admin.first, text: content
+      end
 
       version.save!
     end

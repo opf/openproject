@@ -567,7 +567,7 @@ describe User, type: :model do
       it "is false for a user with :only_my_events who has no relation to the work package" do
         user = FactoryBot.build_stubbed(:user, mail_notification: 'only_my_events')
         (Member.new.tap do |m|
-          m.attributes = { user: user, project: project, role_ids: [role.id] }
+          m.attributes = { principal: user, project: project, role_ids: [role.id] }
         end)
         expect(user.notify_about?(work_package)).to be_falsey
       end
@@ -625,7 +625,7 @@ describe User, type: :model do
       it "is false for a user with :only_my_events who has no relation to the work package" do
         user = FactoryBot.build(:user, mail_notification: 'selected')
         (Member.new.tap do |m|
-          m.attributes = { user: user, project: project, role_ids: [role.id] }
+          m.attributes = { principal: user, project: project, role_ids: [role.id] }
         end)
         expect(user.notify_about?(work_package)).to be_falsey
       end

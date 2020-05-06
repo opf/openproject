@@ -47,7 +47,7 @@ describe WorkPackage, type: :model do
       allow(work_package).to receive(:recipients).and_return([user_1])
       allow(work_package).to receive(:watcher_recipients).and_return([user_2])
 
-      JournalManager.with_send_notifications true do
+      Journal::NotificationConfiguration.with true do
         work_package.save
       end
     end
@@ -79,7 +79,7 @@ describe WorkPackage, type: :model do
       before do
         ActionMailer::Base.deliveries.clear # clear mails sent due to prior WP creation
 
-        JournalManager.with_send_notifications false do
+        Journal::NotificationConfiguration.with false do
           work_package.save!
         end
       end

@@ -29,23 +29,22 @@
 require 'spec_helper'
 
 describe ::API::V3::Relations::RelationRepresenter do
-  using_shared_fixtures :admin
-  let(:user) { admin }
+  let(:user) { FactoryBot.build_stubbed(:admin) }
 
-  let(:from) { FactoryBot.create :work_package }
-  let(:to) { FactoryBot.create :work_package }
+  let(:from) { FactoryBot.build_stubbed :work_package }
+  let(:to) { FactoryBot.build_stubbed :work_package }
 
   let(:type) { "follows" }
   let(:description) { "This first" }
   let(:delay) { 3 }
 
   let(:relation) do
-    FactoryBot.create :relation,
-                      from: from,
-                      to: to,
-                      relation_type: type,
-                      description: description,
-                      delay: delay
+    FactoryBot.build_stubbed :relation,
+                             from: from,
+                             to: to,
+                             relation_type: type,
+                             description: description,
+                             delay: delay
   end
 
   let(:representer) { described_class.new relation, current_user: user }

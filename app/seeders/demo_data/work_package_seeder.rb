@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -117,7 +118,7 @@ module DemoData
 
     def find_principal(name)
       if name
-        group_assignee =  Group.find_by(lastname: name)
+        group_assignee = Group.find_by(lastname: name)
         return group_assignee unless group_assignee.nil?
       end
 
@@ -175,7 +176,7 @@ module DemoData
     end
 
     def set_workpackage_relations
-      work_packages_data =  project_data_for(key, 'work_packages')
+      work_packages_data = project_data_for(key, 'work_packages')
 
       work_packages_data.each do |attributes|
         create_relations attributes
