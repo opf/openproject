@@ -42,7 +42,7 @@ class AddWorkPackageNoteService
   end
 
   def call(notes, send_notifications: true)
-    JournalManager.with_send_notifications send_notifications do
+    Journal::NotificationConfiguration.with send_notifications do
       work_package.add_journal(user, notes)
 
       success, errors = validate_and_yield(work_package, user) do

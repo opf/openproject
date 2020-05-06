@@ -77,13 +77,19 @@ module Redmine::Acts::Journalized
 
           OpenProject::Notifications.send('journal_created',
                                           journal: journal,
-                                          send_notification: JournalManager.send_notification)
+                                          send_notification: Journal::NotificationConfiguration.active?)
 
-          # Need to clear the notification setting after each usage otherwise it might be cached
-          JournalManager.reset_notification
+          true
         end
       end
     end
+
+    def add_journal(user = User.current, notes = '')
+      @journal_user ||= user
+      @journal_notes ||= notes
+    end
+
+    private
 
     def with_ensured_journal_attributes
       @journal_user ||= User.current
@@ -93,11 +99,6 @@ module Redmine::Acts::Journalized
     ensure
       @journal_user = nil
       @journal_notes = nil
-    end
-
-    def add_journal(user = User.current, notes = '')
-      @journal_user ||= user
-      @journal_notes ||= notes
     end
 
     module ClassMethods

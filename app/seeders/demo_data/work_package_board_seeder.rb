@@ -161,7 +161,6 @@ module DemoData
           query.save!
         end
       end
-
     end
 
     def scrum_query_work_packages

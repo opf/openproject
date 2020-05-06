@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -30,7 +31,9 @@
 class Seeder
   def seed!
     if applicable?
-      seed_data!
+      without_notifications do
+        seed_data!
+      end
     else
       puts "   *** #{not_applicable_message}"
     end
@@ -75,5 +78,9 @@ class Seeder
 
   def project_has_data_for?(project, key)
     I18n.exists?("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{project}.#{key}")
+  end
+
+  def without_notifications(&block)
+    Journal::NotificationConfiguration.with(false, &block)
   end
 end
