@@ -6,7 +6,6 @@ require 'test_prof/ext/active_record_refind'
 # This will allow to lazily define fixtures through FactoryBot calls
 # that are created once and reloaded (instead of recreated) for each example.
 class SharedFixture
-
   # Keep a registry of fixture to instantiate
   # them lazily.
   cattr_accessor :fixtures
