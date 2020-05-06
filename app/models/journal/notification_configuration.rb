@@ -66,7 +66,7 @@ class Journal::NotificationConfiguration
       return if active == send_notifications
 
       message = <<~MSG
-        Ignoring setting journal notifications to '#{send_notifications}' as a parent block already send it to #{active}"
+        Ignoring setting journal notifications to '#{send_notifications}' as a parent block already set it to #{active}"
       MSG
       Rails.logger.debug message
     end
