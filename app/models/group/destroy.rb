@@ -1,4 +1,10 @@
 module Group::Destroy
+  extend ActiveSupport::Concern
+
+  included do
+    before_destroy :destroy_members
+  end
+
   ##
   # Instead of firing of separate queries for each and every Member and MemberRole
   # instance upon group deletion this implementation does most of the deletion
@@ -40,7 +46,7 @@ module Group::Destroy
   #
   # num_queries_post_patch = 5 + 150 + W = 155 + W
   #
-  def destroy
+  def destroy_members
     MemberRole.transaction do
       members = Member.table_name
       member_roles = MemberRole.table_name
@@ -70,13 +76,13 @@ module Group::Destroy
       MemberRole
         .joins("INNER JOIN #{member_roles} b on #{member_roles}.inherited_from = b.id")
         .joins("INNER JOIN #{members} on #{members}.id = b.member_id")
-        .where("#{members}.user_id" => self.id) # group ID
+        .where("#{members}.user_id" => id) # group ID
         .delete_all
 
       # Delete all MemberRoles associating this group itself with a project.
       MemberRole
         .joins("INNER JOIN #{members} on #{members}.id = #{member_roles}.member_id")
-        .where("#{members}.user_id" => self.id)
+        .where("#{members}.user_id" => id)
         .delete_all
 
       Watcher.prune(user: users, project_id: project_ids)
@@ -84,7 +90,7 @@ module Group::Destroy
       # Destroy member instances for this group itself to trigger
       # member destroyed notifications.
       Member
-        .where(user_id: self.id)
+        .where(user_id: id)
         .destroy_all
 
       # Remove category based auto assignments for this member.
@@ -93,13 +99,11 @@ module Group::Destroy
         .joins("INNER JOIN #{members}
                 ON #{members}.project_id = categories.project_id
                 AND #{members}.user_id = categories.assigned_to_id")
-        .where("#{members}.user_id" => self.id)
+        .where("#{members}.user_id" => id)
         .update_all "assigned_to_id = NULL"
 
       self.users.delete_all # remove all users from this group
-      self.reload # so associated member instances are not destroyed again
-
-      super # destroy the actual, now empty group
+      reload # so associated member instances are not destroyed again
     end
   end
 end

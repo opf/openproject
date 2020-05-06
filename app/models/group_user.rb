@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -26,25 +27,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryBot.define do
-  factory :group, parent: :principal, class: Group do
-    # groups have lastnames? hmm...
-    sequence(:lastname) { |g| "Group #{g}" }
-
-    transient do
-      members { [] }
-    end
-
-    callback(:after_create) do |group, evaluator|
-      members = Array(evaluator.members)
-      next if members.empty?
-
-      User.system.run_given do |system_user|
-        ::Groups::AddUsersService
-          .new(group, current_user: system_user)
-          .call(members.map(&:id))
-          .on_failure { |call| raise call.message }
-      end
-    end
-  end
+class GroupUser < ApplicationRecord
+  self.table_name = "#{table_name_prefix}group_users#{table_name_suffix}"
 end

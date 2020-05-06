@@ -26,24 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryBot.define do
-  factory :group, parent: :principal, class: Group do
-    # groups have lastnames? hmm...
-    sequence(:lastname) { |g| "Group #{g}" }
+module Groups
+  class BaseContract < ::ModelContract
 
-    transient do
-      members { [] }
+    def validate
+      user_allowed_to_manage
+
+      super
     end
 
-    callback(:after_create) do |group, evaluator|
-      members = Array(evaluator.members)
-      next if members.empty?
-
-      User.system.run_given do |system_user|
-        ::Groups::AddUsersService
-          .new(group, current_user: system_user)
-          .call(members.map(&:id))
-          .on_failure { |call| raise call.message }
+    def user_allowed_to_manage
+      unless user.admin?
+        errors.add :base, :error_unauthorized
       end
     end
   end

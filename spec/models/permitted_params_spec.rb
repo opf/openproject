@@ -35,17 +35,19 @@ describe PermittedParams, type: :model do
   shared_context 'prepare params comparison' do
     let(:params_key) { defined?(hash_key) ? hash_key : attribute }
     let(:params) do
-      nested_params = if defined?(nested_key)
-                        { nested_key => hash }
-                      else
-                        hash
-                      end
+      nested_params =
+        if defined?(nested_key)
+          { nested_key => hash }
+        else
+          hash
+        end
 
-      ac_params = if defined?(flat) && flat
-                    nested_params
-                  else
-                    { params_key => nested_params }
-                  end
+      ac_params =
+        if defined?(flat) && flat
+          nested_params
+        else
+          { params_key => nested_params }
+        end
 
       ActionController::Parameters.new(ac_params)
     end
@@ -563,90 +565,62 @@ describe PermittedParams, type: :model do
                          'auth_source_id',
                          'force_password_change']
 
-    %i(user_update_as_admin user_create_as_admin).each do |method|
-      describe method do
-        let(:attribute) { method }
+    describe :user_create_as_admin do
+      let(:attribute) { :user_create_as_admin }
 
-        context 'non-admin' do
-          let(:hash) { Hash[admin_permissions.zip(admin_permissions)] }
+      context 'non-admin' do
+        let(:hash) { Hash[admin_permissions.zip(admin_permissions)] }
 
-          it 'permits nothing' do
+        it 'permits nothing' do
+          expect(subject).to eq({})
+        end
+      end
+
+      context 'admin' do
+        let(:user) { admin }
+
+        admin_permissions.each do |field|
+          context field do
+            let(:hash) { { field => 'test' } }
+
+            it "permits #{field}" do
+              expect(subject).to eq(field => 'test')
+            end
+          end
+        end
+
+        context 'with no password change allowed' do
+          let(:hash) { { 'force_password_change' => 'true' } }
+          let(:change_password_allowed) { false }
+
+          it 'does not permit force_password_change' do
             expect(subject).to eq({})
           end
         end
 
-        context 'admin' do
-          let(:user) { admin }
+        context 'with external authentication' do
+          let(:hash) { { 'auth_source_id' => 'true' } }
+          let(:external_authentication) { true }
 
-          admin_permissions.each do |field|
-            context field do
-              let(:hash) { { field => 'test' } }
-
-              it "permits #{field}" do
-                expect(subject).to eq(field => 'test')
-              end
-            end
-          end
-
-          context 'with no password change allowed' do
-            let(:hash) { { 'force_password_change' => 'true' } }
-            let(:change_password_allowed) { false }
-
-            it 'does not permit force_password_change' do
-              expect(subject).to eq({})
-            end
-          end
-
-          context 'with external authentication' do
-            let(:hash) { { 'auth_source_id' => 'true' } }
-            let(:external_authentication) { true }
-
-            it 'does not permit auth_source_id' do
-              expect(subject).to eq({})
-            end
-          end
-
-          context 'custom field values' do
-            let(:hash) { { 'custom_field_values' => { '1' => '5' } } }
-
-            it 'permits custom_field_values' do
-              expect(subject).to eq(hash)
-            end
-          end
-
-          context "custom field values that do not follow the schema 'id as string' => 'value as string'" do
-            let(:hash) { { 'custom_field_values' => { 'blubs' => '5', '5' => { '1' => '2' } } } }
-
-            it 'are removed' do
-              expect(subject).to eq({})
-            end
+          it 'does not permit auth_source_id' do
+            expect(subject).to eq({})
           end
         end
-      end
-    end
 
-    describe '#user_update_as_admin' do
-      let(:attribute) { :user_update_as_admin }
-      let(:user) { admin }
+        context 'custom field values' do
+          let(:hash) { { 'custom_field_values' => { '1' => '5' } } }
 
-      context 'group_ids' do
-        let(:hash) { { 'group_ids' => ['1', '2'] } }
-
-        it 'permits group_ids' do
-          expect(subject).to eq(hash)
+          it 'permits custom_field_values' do
+            expect(subject).to eq(hash)
+          end
         end
-      end
-    end
 
-    describe '#user_create_as_admin' do
-      let(:attribute) { :user_create_as_admin }
-      let(:user) { admin }
+        context "custom field values that do not follow the schema 'id as string' => 'value as string'" do
+          let(:hash) { { 'custom_field_values' => { 'blubs' => '5', '5' => { '1' => '2' } } } }
 
-      context 'group_ids' do
-        let(:hash) { { 'group_ids' => ['1', '2'] } }
-
-        it 'forbids group_ids' do
-          expect(subject).to eq({})
+          it 'are removed' do
+            expect(subject).to eq({})
+          end
         end
       end
     end
@@ -784,7 +758,7 @@ describe PermittedParams, type: :model do
       before do
         allow(OpenProject::Configuration)
           .to receive(:disable_password_login?)
-          .and_return(false)
+                .and_return(false)
       end
 
       let(:hash) do
@@ -806,7 +780,7 @@ describe PermittedParams, type: :model do
       before do
         allow(OpenProject::Configuration)
           .to receive(:disable_password_login?)
-          .and_return(true)
+                .and_return(true)
       end
 
       let(:hash) do
@@ -835,7 +809,7 @@ describe PermittedParams, type: :model do
       before do
         allow(OpenProject::Configuration)
           .to receive(:registration_footer)
-          .and_return({})
+                .and_return({})
       end
 
       let(:hash) do
@@ -855,7 +829,7 @@ describe PermittedParams, type: :model do
       before do
         allow(OpenProject::Configuration)
           .to receive(:registration_footer)
-          .and_return("en" => "configured footer")
+                .and_return("en" => "configured footer")
       end
 
       let(:hash) do

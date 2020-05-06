@@ -128,7 +128,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.attributes = permitted_params.user_update_as_admin(@user.uses_external_authentication?,
+    @user.attributes = permitted_params.user_create_as_admin(@user.uses_external_authentication?,
                                                              @user.change_password_allowed?)
 
     if @user.change_password_allowed?

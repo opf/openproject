@@ -45,7 +45,12 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   let(:synced_foo) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=groups,dc=example,dc=com', group: group_foo, auth_source: auth_source }
   let(:synced_bar) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=groups,dc=example,dc=com', group: group_bar, auth_source: auth_source }
 
-  subject { described_class.new auth_source }
+  subject do
+    # Need the system user for admin permission
+    User.system.run_given do
+      described_class.new auth_source
+    end
+  end
 
   shared_examples 'does not change membership count' do
     it 'does not change membership count' do
@@ -199,14 +204,14 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
     end
 
     context 'foo group exists' do
+      let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal', members: user_aa729 }
+
       before do
         group_foo
         synced_foo
       end
 
       it 'ignores users that are already in the group' do
-        group_foo.users << user_aa729
-
         # Outputs that nothing was added to sync group
         expect(Rails.logger).to receive(:info).with("[LDAP groups] No users to remove for cn=foo,ou=groups,dc=example,dc=com")
         expect(Rails.logger).to receive(:info).with("[LDAP groups] No new users to add for cn=foo,ou=groups,dc=example,dc=com")
@@ -221,8 +226,9 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
 
   describe 'removing memberships' do
     context 'with a user in a group thats not in ldap' do
+      let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal', members: [user_cc414, user_aa729] }
+
       before do
-        group_foo.users << [user_cc414, user_aa729]
         synced_foo.users.create(user: user_aa729)
         synced_foo.users.create(user: user_cc414)
 
