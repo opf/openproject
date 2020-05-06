@@ -79,6 +79,7 @@ module Redmine::Acts::Journalized
                                           journal: journal,
                                           send_notification: Journal::NotificationConfiguration.active?)
 
+          true
         end
       end
     end
