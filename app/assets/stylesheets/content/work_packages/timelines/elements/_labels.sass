@@ -1,8 +1,10 @@
 @mixin timeline-label
+  display: flex
+  align-items: center
   height: 16px
   min-width: 20px
+  width: max-content
   font-size: 14px
-  display: inline-block
   white-space: nowrap
   vertical-align: middle
   pointer-events: none
@@ -33,7 +35,7 @@
     left: 0px
     top: 0px
     // Then translate by its own width + some margin
-    transform: translateX(calc(-100% - 10px))
+    transform: translateX(calc(-100% - 15px))
     // Ensure line-height is normal
     line-height: 1
 

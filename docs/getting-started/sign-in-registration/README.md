@@ -25,7 +25,7 @@ Here you will get an overview how to sign in and register to an existing OpenPro
 | [Choose your language](#choose-your-language)                | How to select your language in OpenProject?                  |
 | [Reset your password](#reset-your-password)                  | If you forgot your password find out how to reset it.        |
 
-<iframe width="620" height="440" src="https://www.youtube.com/embed/JO-ugpygx68" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/JO-ugpygx68" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Sign in with an existing account
 
@@ -112,3 +112,9 @@ You will then receive an email with a link to reset your password.
 
 </div>
 
+## Frequently asked questions (FAQ)
+
+### Is it possible to use multiple languages in OpenProject?
+
+Yes, it is possible to use OpenProject in multiple languages. We support English, German, French and a number of additional languages. Each user can select their own preferred language by signing into OpenProject, clicking on the user avatar on the upper right side and selecting "My account" from the dropdown menu.
+You can then select "Settings" from the side menu on the left side and [change the language](../my-account/#change-your-language).

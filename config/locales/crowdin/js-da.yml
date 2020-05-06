@@ -521,7 +521,7 @@ da:
       duration: 'Varighed'
       spent_on: 'Dato'
       hours: 'Timer'
-      label: 'Time entry'
+      title: 'Tidsregistrering'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

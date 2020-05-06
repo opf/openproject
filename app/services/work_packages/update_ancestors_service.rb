@@ -44,7 +44,7 @@ class WorkPackages::UpdateAncestorsService
     set_journal_note(modified)
 
     # Do not send notification for parent updates
-    success = JournalManager.with_send_notifications(false) do
+    success = Journal::NotificationConfiguration.with(false) do
       modified.all? { |wp| wp.save(validate: false) }
     end
 

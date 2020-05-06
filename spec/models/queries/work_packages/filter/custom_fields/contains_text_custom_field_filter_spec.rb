@@ -31,7 +31,6 @@ require 'spec_helper'
 describe Queries::WorkPackages::Filter::CustomFieldFilter,
          'with contains filter (Regression test #28348)',
          type: :model do
-
   let(:cf_accessor) { "cf_#{custom_field.id}" }
   let(:query) { FactoryBot.build_stubbed(:query, project: project) }
   let(:instance) do

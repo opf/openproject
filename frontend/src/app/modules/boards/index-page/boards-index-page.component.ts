@@ -29,7 +29,7 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
     type: this.I18n.t('js.boards.label_board_type'),
     type_free: this.I18n.t('js.boards.board_type.free'),
     action_by_attribute: (attr:string) => this.I18n.t('js.boards.board_type.action_by_attribute',
-      { attribute: attr }),
+      { attribute: this.I18n.t('js.boards.board_type.action_type.' + attr ) }),
     createdAt: this.I18n.t('js.label_created_on'),
     delete: this.I18n.t('js.button_delete'),
     areYouSure: this.I18n.t('js.text_are_you_sure'),

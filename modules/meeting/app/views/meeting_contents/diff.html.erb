@@ -44,7 +44,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= l(:label_version) %> <%= link_to @diff.content_from.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_from.version) %>
 <em>(<%= link_to_user(@diff.content_from.user) %>, <%= format_time(@diff.content_from.created_at) %>)</em>
 &#8594;
-<%= l(:label_version) %> <%= link_to @diff.content_to.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_to.version) %>/<%= @content.version %>
+<%= l(:label_version) %> <%= link_to @diff.content_to.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_to.version) %>/<%= @content.last_journal&.version || 0 %>
 <em>(<%= link_to_user(@diff.content_to.user) %>, <%= format_time(@diff.content_to.created_at) %>)</em>
 </p>
 

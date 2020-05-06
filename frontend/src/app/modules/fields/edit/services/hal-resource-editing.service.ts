@@ -103,25 +103,14 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   }
 
   public async save<V extends HalResource, T extends ResourceChangeset<V>>(change:T):Promise<ResourceChangesetCommit<V>> {
-    change.inFlight = true;
-
     // Form the payload we're going to save
-    const [form, payload] = await change.buildRequestPayload();
-    // Reject errors when occurring in form validation
-    const errors = form.getErrors();
-    if (errors !== null) {
-      change.inFlight = false;
-      throw(errors);
-    }
-
+    const payload = await change.buildRequestPayload();
     const savedResource = await change.pristineResource.$links.updateImmediately(payload);
 
     // Initialize any potentially new HAL values
     savedResource.retainFrom(change.pristineResource);
 
     this.onSaved(savedResource);
-
-    change.inFlight = false;
 
     // Complete the change
     return this.complete(change, savedResource);

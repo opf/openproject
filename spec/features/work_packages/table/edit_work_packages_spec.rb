@@ -110,8 +110,8 @@ describe 'Inline editing work packages', js: true do
       subject_field.set_value('')
       subject_field.expect_invalid
 
-      expect(WorkPackages::UpdateService).not_to receive(:new)
       subject_field.save!
+      expect(work_package.reload.subject).to eq 'Foobar'
     end
   end
 

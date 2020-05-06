@@ -17,7 +17,7 @@ release_date: 2020-04-23
 # OpenProject 10.5.0
 
 We released [OpenProject 10.5.0](https://community.openproject.com/versions/1386).
-The new release of the open source project management software contains new action boards for assignees, much more intuitive sorting of versions by name, the removed 24-hours booking restriction for time tracking, the summary of news on the project over view page, and much more usability improvements and bug fixes.
+The new release of the open source project management software contains new action boards for assignees, much more intuitive sorting of versions by name, the removed 24-hours booking restriction for time tracking, the summary of news on the project overview page, and much more usability improvements and bug fixes.
 
 We recommend updating to the newest version.
 

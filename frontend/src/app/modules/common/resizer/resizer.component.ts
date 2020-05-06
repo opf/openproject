@@ -48,6 +48,7 @@ export class ResizerComponent implements OnDestroy {
   @HostListener('mousedown', ['$event'])
   @HostListener('touchstart', ['$event'])
   public startResize(event:any) {
+    event.preventDefault();
     event.stopPropagation();
 
     // Only on left mouse click the resizing is started
@@ -76,6 +77,7 @@ export class ResizerComponent implements OnDestroy {
   }
 
   private onMouseMove(event:any) {
+    event.preventDefault();
     event.stopPropagation();
 
     this.oldX = this.newX;

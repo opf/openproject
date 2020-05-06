@@ -30,8 +30,8 @@ ru:
       type_not_active: "Тип задачи не активирован для этого проекта."
       import:
         num_issues_found: '%{x_bcf_issues} содержатся в файле BCF-XML, их данные перечислены ниже.'
-        button_prepare: 'Подготовка импорта'
-        button_perform_import: 'Подтверждение импорта'
+        button_prepare: 'Подготовить к импорту'
+        button_perform_import: 'Утвердить импорт'
         button_proceed: 'Продолжить импорт'
         button_back_to_list: 'Назад к списку'
         no_permission_to_add_members: 'У вас недостаточно прав для добавления участников в проект.'

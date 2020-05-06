@@ -63,7 +63,18 @@ export class DurationEditFieldComponent extends EditFieldComponent {
   }
 
   protected parseValue(val:moment.Moment | null) {
-    return val === null ? null : val.toISOString();
+    if (val === null) {
+      return val
+    }
+
+    let parsedValue;
+    if (val.isValid()) {
+      parsedValue = val.toISOString();
+    } else {
+      parsedValue = this.resource[this.name];
+    }
+
+    return parsedValue;
   }
 }
 

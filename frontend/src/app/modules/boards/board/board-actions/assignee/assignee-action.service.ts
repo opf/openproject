@@ -15,6 +15,7 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/assignee/assignee-board-header.component";
 import {input} from "reactivestates";
 import {take} from "rxjs/operators";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Injectable()
 export class BoardAssigneeActionService implements BoardActionService {
@@ -24,6 +25,7 @@ export class BoardAssigneeActionService implements BoardActionService {
   constructor(protected boardListsService:BoardListsService,
               protected I18n:I18nService,
               protected halResourceService:HalResourceService,
+              protected pathHelper:PathHelperService,
               protected currentProject:CurrentProjectService
   ) {
   }
@@ -129,7 +131,7 @@ export class BoardAssigneeActionService implements BoardActionService {
     const projectIdentifier = this.currentProject.identifier!;
     this.assignees.putFromPromiseIfPristine(() =>
       this.halResourceService
-        .get('/api/v3/projects/' + projectIdentifier + '/available_assignees')
+        .get(this.pathHelper.api.v3.projects.id(projectIdentifier).available_assignees)
         .toPromise()
         .then((collection:CollectionResource<UserResource>) => collection.elements)
     );

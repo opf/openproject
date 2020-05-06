@@ -42,7 +42,6 @@ describe 'Work package filtering by subject', js: true do
     login_as admin
   end
 
-
   it 'shows the one work package filtering for myself' do
     wp_table.visit!
     wp_table.expect_work_package_listed(wp_match, wp_nomatch)

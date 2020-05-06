@@ -20,8 +20,7 @@ your OpenProject installation to this version.
 ## Bug fixes (11)
 
   - On the packaged installation the “Send iCalendar” button in meetings
-    caused an error
-    ([\#24445](https://community.openproject.com/projects/plugin-meetings/work_packages/24445/activity)).
+    caused an error.
   - The breadcrumb was partially hidden when following the link to
     activities
     ([\#24477](https://community.openproject.com/projects/openproject/work_packages/24477/activity)).

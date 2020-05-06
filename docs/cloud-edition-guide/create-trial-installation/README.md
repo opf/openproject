@@ -38,3 +38,12 @@ You will then be asked to [**create an OpenProject account**](../../getting-star
 ![Cloud-create-trial](Cloud-create-trial.png)
 
 Your OpenProject instance will be created and you will be directed to your OpenProject installation.
+
+## Frequently asked questions (FAQ)
+
+### My OpenProject cloud trial expired – can I still access my data?
+
+Due to data privacy reasons we automatically delete OpenProject trial environments a couple of weeks after they have expired.
+If your OpenProject Trial is not accessible through the known URL, it has likely been deleted.
+You can easily [create a new OpenProject trial environment](https://start.openproject.com/). Simply enter your organization name (you can use the same name as before) and click on "Start Free Trial".
+In order to avoid that your data is getting deleted, please select a plan during your trial duration or shortly after your OpenProject trial environment has expired.

@@ -26,3 +26,9 @@ Create budgets, log time and costs on specific work packages and  create time an
 Watch this short video to get a first overview about time and cost reporting and budgets in OpenProject.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/CU0pcDQvZuM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Frequently asked questions (FAQ)
+
+### Does OpenProject provide resource management?
+
+Please note that OpenProject currently does not yet support resource management. However, this is scheduled as our main topic for 2020. You can check out our roadmap [here](https://community.openproject.com/projects/openproject/work_packages?query_id=1993)

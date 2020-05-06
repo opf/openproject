@@ -266,7 +266,7 @@ it:
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
-              Questa versione contiene molte funzionalità nuove e miglioramenti: <br><br> <ul> <li><b>Scheda azione per gli assegnatari</b>: crea una scheda azione che aggiornerà automaticamente l'assegnatario quando si spostano le schede tra le liste.</li> <li>Ordinamento delle versioni per nome e non per data che facilita la selezione di una versione dall'elenco.</li> <li><b>Rimozione della restrizione di 24 ore</b> per il modulo Monitoraggio tempi.</li> <li>Mostra il riepilogo delle notizie nel widget della panoramica del progetto.</li> <li>Diverse correzioni di bug e <b>miglioramenti nell'usabilità</b>.</li> </ul>
+              The release contains various new features and improvements: <br><br> <ul> <li><b>Action board for assignees</b>: create action boards that will automatically update the assignee when moving cards across lists.</li> <li>Sort versions by name not by dates which makes it much easier to select a version from the list.</li> <li><b>Remove 24-hour restriction</b> for time tracking.</li> <li>Show news summary on project overview widget.</li> <li>Various bug fixes and <b>usability improvements</b>.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-bim-10-5
             current_new_feature_html: >
@@ -522,7 +522,7 @@ it:
       duration: 'Durata'
       spent_on: 'Data'
       hours: 'Ore'
-      label: 'Inserimento tempo'
+      title: 'Registra l''orario effettuato'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticazione due fattori'
     watchers:

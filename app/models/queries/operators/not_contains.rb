@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -29,12 +30,13 @@
 
 module Queries::Operators
   class NotContains < Base
+    include Concerns::ContainsAllValues
+
     label 'not_contains'
     set_symbol '!~'
 
     def self.sql_for_field(values, db_table, db_field)
-      "COALESCE(LOWER(#{db_table}.#{db_field}), '') NOT LIKE " +
-        "'%#{connection.quote_string(values.first.to_s.downcase)}%'"
+      "NOT (#{super}) OR #{db_table}.#{db_field} IS NULL"
     end
   end
 end

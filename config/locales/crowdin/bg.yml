@@ -107,10 +107,19 @@ bg:
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
         OpenProject will filter for provided usernames in this subtree only.
         Example: ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Connection encryption'
     system_account: 'System account'
     system_account_legend: |
@@ -349,7 +358,7 @@ bg:
         attr_mail: "Имейл атрибут"
         base_dn: "Базов DN"
         host: "Хост"
-        onthefly: "Създаване на потребител на момента"
+        onthefly: "Automatic user creation"
         port: "Порт"
       changeset:
         repository: "Хранилище"
@@ -1316,6 +1325,7 @@ bg:
   label_duplicate: "duplicate"
   label_duplicates: "дублирания"
   label_edit: "Редактиране"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Превключване към множествен избор"
   label_enabled_project_custom_fields: 'Разрешени потребителски полета'
   label_enabled_project_modules: 'Разрешени модули'

@@ -21,7 +21,7 @@ sl:
       other: '%{count} BCF napak'
     bcf_xml:
       xml_file: 'BCF XML datoteka'
-      import_title: 'Import'
+      import_title: 'Uvozi'
       export: 'Izvozi'
       import_update_comment: '(Posodobljeno v uvozu BCF)'
       import_failed: 'BCF datoteke ni mogoče uvoziti: %{error}'
@@ -56,7 +56,7 @@ sl:
         perform_description: "Ali želite uvoziti ali posodobiti zgoraj navedene težave?"
         replace_with_system_user: 'Zamenjajte jih z "Sistem" uporabnikom '
         import_as_system_user: 'Uvozite jih kot "sistem" uporabnika.'
-        what_to_do: "What do you want to do?"
+        what_to_do: "Kaj želite storiti?"
         work_package_has_newer_changes: "Zastarelo! Ta tema ni bila posodobljena, saj so bile zadnje spremembe na strežniku novejše od \"Datum spremembe\" uvožene teme. Pripombe k temi pa so bile uvožene."
         bcf_file_not_found: "Datoteke BCF ni bilo mogoče najti. Znova zaženite postopek nalaganja."
   export:

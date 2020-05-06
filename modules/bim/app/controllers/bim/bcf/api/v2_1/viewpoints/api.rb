@@ -81,7 +81,9 @@ module Bim::Bcf::API::V2_1
             get do
               viewpoint = @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid])
               if snapshot = viewpoint.snapshot
-                respond_with_attachment snapshot, cache_seconds: 1.year.to_i
+                # Cache that value at max 604799 seconds, which is the max
+                # allowed expiry time for AWS generated links
+                respond_with_attachment snapshot, cache_seconds: 604799
               else
                 raise ActiveRecord::RecordNotFound
               end

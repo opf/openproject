@@ -521,7 +521,7 @@ de:
       duration: 'Dauer'
       spent_on: 'Datum'
       hours: 'Stunden'
-      label: 'Zeiterfassung'
+      title: 'Zeit buchen'
     two_factor_authentication:
       label_two_factor_authentication: 'Zwei-Faktor-Authentifizierung'
     watchers:

@@ -29,8 +29,6 @@
 
 class JournalManager
   class << self
-    attr_accessor :send_notification
-
     def changes_on_association(current, predecessor, association, key, value)
       merged_journals = merge_reference_journals_by_id(current, predecessor, key.to_s, value.to_s)
 
@@ -39,10 +37,6 @@ class JournalManager
         .merge(changed_references(merged_journals))
 
       to_changes_format(changes, association.to_s)
-    end
-
-    def reset_notification
-      @send_notification = true
     end
 
     private
@@ -151,8 +145,6 @@ class JournalManager
       end
     end
   end
-
-  self.send_notification = true
 
   def self.journalized?(obj)
     not obj.nil? and obj.respond_to? :journals
@@ -348,17 +340,5 @@ class JournalManager
     data.each_with_object({}) do |e, h|
       h[e[0]] = (e[1].is_a?(String) ? e[1].gsub(/\r\n/, "\n") : e[1])
     end
-  end
-
-  def self.with_send_notifications(send_notifications, &block)
-    old_value = send_notification
-
-    self.send_notification = send_notifications
-
-    result = block.call
-  ensure
-    self.send_notification = old_value
-
-    result
   end
 end
