@@ -232,6 +232,9 @@ fil:
       no_results_title_text: Sa kasalukuyan ay walang mga balita para ma-ireport.
       no_results_content_text: Magdagdag ng bagong news item
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Ang user na ito ay kasalukuyang hindi myembro ng proyekto.
   prioritiies:

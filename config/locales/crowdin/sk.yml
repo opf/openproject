@@ -232,6 +232,9 @@ sk:
       no_results_title_text: V súčasnosti nie sú žiadne novinky pre nahlásenie.
       no_results_content_text: Pridať novinku
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Tento používateľ nie je v súčasnosti členom projektu.
   prioritiies:

@@ -281,7 +281,7 @@ id:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Tambahkan kolom terpilih"
     label_added_by: "ditambahkan oleh"
-    label_added_time_by: "Ditambahkan oleh %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "hari yang lalu"
     label_all: "semua"
     label_all_work_packages: "Semua paket kerja"

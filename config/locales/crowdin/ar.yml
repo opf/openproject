@@ -232,6 +232,9 @@ ar:
       no_results_title_text: لا يوجد حالياً أخبار لتقدم.
       no_results_content_text: أضف عنصر أخبار
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: هذا المستخدم حالياً ليس عضواً في المشروع.
   prioritiies:

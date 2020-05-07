@@ -231,6 +231,9 @@ sl:
       no_results_title_text: Trenutno ni nobenih novic za poročanje.
       no_results_content_text: Dodajte novico
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Ta uporabnik trenutno ni član projekta.
   prioritiies:
@@ -281,10 +284,10 @@ sl:
       no_results_title_text: Trenutno ni poslovnih procesov
   work_packages:
     x_descendants:
-      one: 'One descendant work package'
-      two: '%{count} work package descendants'
-      few: '%{count} work package descendants'
-      other: '%{count} work package descendants'
+      one: 'En padajoči delovni paket'
+      two: 'Dva padajoča delovna paketa'
+      few: 'Več padajočih delovnih paketov'
+      other: '% {count} padajočih delovnega paketa'
     bulk:
       could_not_be_saved: "Naslednjih delovnih paketov ni bilo mogoče shraniti"
     move:
@@ -1133,7 +1136,7 @@ sl:
   error_attribute_not_highlightable: "Atribut(i) niso označljivi: %{attributes}"
   events:
     project: 'Projekt urejen'
-    changeset: 'Changeset edited'
+    changeset: 'Sprememba je bila urejena'
     message: Sporočilo urejeno
     news: Novice
     reply: Odgovori
@@ -1739,22 +1742,22 @@ sl:
     other: "%{count} closed"
   label_x_comments:
     zero: "Ni komentarjev"
-    one: "1 comment"
-    two: "%{count} comments"
-    few: "%{count} comments"
-    other: "%{count} comments"
+    one: "1 komentar"
+    two: "2 komentarja"
+    few: "Več komentarjev"
+    other: "% {count} komentarjev"
   label_x_open_work_packages_abbr:
     zero: "0 odprtih"
-    one: "1 open"
-    two: "%{count} open"
-    few: "%{count} open"
-    other: "%{count} open"
+    one: "1 odprt"
+    two: "2 odprta\n"
+    few: "Več odprtih"
+    other: "% {count} odprto"
   label_x_projects:
     zero: "Brez projektov"
-    one: "1 project"
-    two: "%{count} projects"
-    few: "%{count} projects"
-    other: "%{count} projects"
+    one: "1 projekt"
+    two: "2 projekta"
+    few: "Več projektov"
+    other: "% {count} projektov"
   label_year: "leto"
   label_yesterday: "včeraj"
   auth_source:
@@ -1842,7 +1845,7 @@ sl:
   notice_file_not_found: "Stran na katero se želite povezati ne obstaja ali pa je bila umaknjena."
   notice_forced_logout: "Avtomatično ste bili izpisani po %{ttl_time} neaktivnih minutah."
   notice_internal_server_error: "Napaka se je pojavila na strani do katere ste želeli dostopati. Če imate še vedno težave, se za pomoč obrnite na skrbnika %{app_title}"
-  notice_work_package_done_ratios_updated: "Work package done ratios updated."
+  notice_work_package_done_ratios_updated: "Razmerja dokončanega dela so posodobljena"
   notice_locking_conflict: "Medtem so bili podatki posodobljeni od vsaj še enega uporabnika."
   notice_locking_conflict_additional_information: "Posodobitev je prišla od %{users}."
   notice_locking_conflict_reload_page: "Prosimo osvežite stran. Preverite spremembe in na novo potrdite posodobitve."
@@ -2022,7 +2025,7 @@ sl:
           Prosimo, preberite dokumentacijo Subversion-a, če potrebujete več informacij o postopku prevzema in razpoložljivih strankah.
       enable_instructions_text: "Displays checkout instructions defined below on all repository-related pages."
       instructions: "Navodila za prevzem"
-      show_instructions: "Display checkout instructions"
+      show_instructions: "Prikaži navodila za plačilo"
       text_instructions: "To besedilo je prikazano zraven URL-ja za prevzeem  za navodila, kako preveriti odlagališče."
       not_available: "Navodila za prevzem niso definirana za to odlagališče. Povprašajte vašega administratorja, da jih omogoči za to odlagališče v sistemskih nastavitvah."
     create_managed_delay: "Prosimo upoštevajte: Odlagališče se upravlja, ustvari se asinhrono na disku in bo kmalu na voljo."
@@ -2048,8 +2051,8 @@ sl:
       not_manageable: "Ta prodajalec odlagališč ne more biti upravljan z OpenProject."
       path_permission_failed: "Napaka se je pojavila med ustvarjanjem sledeče poti: %{path}. Prosimo preverite, če lahko OpenProject dostopa do te mape."
       unauthorized: "Niste odobreni ali pa vaše poverilnice niso veljavne za dostop do odlagališča."
-      unavailable: "The repository is unavailable."
-      exception_title: "Cannot access the repository: %{message}"
+      unavailable: "Repozitorij ni na voljo"
+      exception_title: "Do skladišča ni mogoče dostopati:% {message}"
       disabled_or_unknown_type: "The selected type %{type} is disabled or no longer available for the SCM vendor %{vendor}."
       disabled_or_unknown_vendor: "The SCM vendor %{vendor} is disabled or no longer available."
       remote_call_failed: "Calling the managed remote failed with message '%{message}' (Code: %{code})"
@@ -2062,17 +2065,17 @@ sl:
           Specify the path to your local Git repository ( e.g., %{example_path} ). You can also use remote repositories which are cloned to a local copy by using a value starting with http(s):// or file://.
         path_encoding: "Override Git path encoding (Default: UTF-8)"
       local_title: "Link existing local Git repository"
-      local_url: "Local URL"
+      local_url: "Lokalni URL"
       local_introduction: "If you have an existing local Git repository, you can link it with OpenProject to access it from within the application."
       managed_introduction: "Let OpenProject create and integrate a local Git repository automatically."
       managed_title: "Git repository integrated into OpenProject"
-      managed_url: "Managed URL"
+      managed_url: "Upravljani URL"
       path: "Pot do skladišča Git"
       path_encoding: "Kodiranje poti"
     go_to_revision: "Pojdite na revizijo"
     managed_remote: "Upravljana skladišča tega prodajalca se upravljajo na daljavo."
     managed_remote_note: "Podatki o URL-ju in poti tega skladišča niso na voljo pred njegovo izdelavo."
-    managed_url: "Managed URL"
+    managed_url: "Upravljani URL"
     settings:
       automatic_managed_repos_disabled: "Onemogoči samodejno ustvarjanje"
       automatic_managed_repos: "samodejno ustvarjanje upravljanih skladišč"
@@ -2087,15 +2090,15 @@ sl:
       not_available: "Poraba diskovne shrambe za to vrsto shrambo ni na voljo."
       update_timeout: "Zadnje potrebne podatke o diskovnem prostoru shranite za N minut.\nKer je lahko štetje potrebnega diskovnega prostora v skladišču drago, povečajte to vrednost, da zmanjšate njegov učinek na zmogljivost."
     subversion:
-      existing_title: "Existing Subversion repository"
-      existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
-      existing_url: "Existing URL"
+      existing_title: "Obstoječe skladišče Subverzije"
+      existing_introduction: "Če imate obstoječe skladišče Subverzije, ga lahko povežete z OpenProjectom, če želite dostopati do njega znotraj aplikacije."
+      existing_url: "Obstoječi URL"
       instructions:
-        managed_url: "This is the URL of the managed (local) Subversion repository."
-        url: "Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.\nThe following URL schemes are supported:"
-      managed_title: "Subversion repository integrated into OpenProject"
-      managed_introduction: "Let OpenProject create and integrate a local Subversion repository automatically."
-      managed_url: "Managed URL"
+        managed_url: "To je URL upravljanega (lokalnega) skladišča subverzije."
+        url: "Vnesite URL skladišča. To lahko cilja na lokalno skladišče (začenja z % {local_proto}) ali na oddaljeno skladišče.\nPodprte so naslednje sheme URL-jev:"
+      managed_title: "Subverzijsko skladišče, integrirano v OpenProject"
+      managed_introduction: "Naj OpenProject samodejno ustvari in vključi lokalno skladišče Subverzije."
+      managed_url: "Upravljani URL"
       password: "Geslo odlagališča"
       username: "Uporbniški ime odlagališča"
     truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
@@ -2105,7 +2108,7 @@ sl:
     warnings:
       cannot_annotate: "Te datoteke ni mogoče opomniti."
   search_input_placeholder: "Iskanje..."
-  setting_email_delivery_method: "Email delivery method"
+  setting_email_delivery_method: "Način dostave po e-pošti"
   setting_sendmail_location: "Lokacija izvršljive pošte"
   setting_smtp_enable_starttls_auto: "Avtomatično uporabi STARTTLS, če je možno"
   setting_smtp_ssl: "Uporabi SSL povezavo"
@@ -2132,7 +2135,7 @@ sl:
   setting_commit_logs_encoding: "Commit messages encoding"
   setting_commit_logtime_activity_id: "Aktivnost uporabnika za čas prijave"
   setting_commit_logtime_enabled: "Omogoči beleženje časa"
-  setting_commit_ref_keywords: "Referencing keywords"
+  setting_commit_ref_keywords: "Referenčne ključne besede"
   setting_consent_time: "Beleži čas"
   setting_consent_info: "Informacijski tekst soglasja"
   setting_consent_required: "Soglasje potrebno"
@@ -2196,19 +2199,19 @@ sl:
   setting_sequential_project_identifiers: "Generiraj sekvenčne identifikatorje projekta"
   setting_session_ttl: "Čas poteka seje po neaktivnosti"
   setting_session_ttl_hint: "Vrednost pod 5 deluje kot onemogočena"
-  setting_session_ttl_enabled: "Session expires"
+  setting_session_ttl_enabled: "Seja je potekla"
   setting_start_of_week: "Teden se začne na (Automatic Translation)"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Time format"
-  setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
-  setting_user_default_timezone: "Users default time zone"
-  setting_users_deletable_by_admins: "User accounts deletable by admins"
-  setting_users_deletable_by_self: "Users allowed to delete their accounts"
-  setting_welcome_text: "Welcome block text"
-  setting_welcome_title: "Welcome block title"
-  setting_welcome_on_homescreen: "Display welcome block on homescreen"
+  setting_time_format: "Format časa"
+  setting_accessibility_mode_for_anonymous: "Omogoči način dostopa za anonimne uporabnike"
+  setting_user_format: "Oblika prikaza uporabnikov"
+  setting_user_default_timezone: "Uporabniški privzeti časovni pas"
+  setting_users_deletable_by_admins: "Uporabniške račune, ki jih skrbniki lahko izbrišejo"
+  setting_users_deletable_by_self: "Uporabnikom je dovoljeno brisanje njihovih računov"
+  setting_welcome_text: "Dobrodošli blok besedila"
+  setting_welcome_title: "Dobrodošli blok naslov"
+  setting_welcome_on_homescreen: "Prikažite blok dobrodošlice na osnovnem zaslonu"
   setting_work_package_group_assignment: "Dovoli dodeljevanje skupinam"
   setting_work_package_list_default_highlighting_mode: "Privzeti način osvetlitve"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
@@ -2224,7 +2227,7 @@ sl:
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
-        none: "No highlighting"
+        none: "Brez poudarjanja"
         status: "Celotna vrstica razvrščena glede na Status"
         type: "Celotna vrstica glede na Tip"
         priority: "Celotna vrstica glede na pomembnost."
@@ -2288,7 +2291,7 @@ sl:
   text_work_package_watcher_added: "Dodani ste bili kot opazovalec delovnemu paketu %{id} od %{watcher_changer}"
   text_work_package_watcher_removed: "Odstranjeni ste bili iz opazovalcev delovnega paketa %{id} od %{watcher_changer}"
   text_work_packages_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbrane delovne pakete?"
-  text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
+  text_work_packages_ref_in_commit_messages: "Sklicevanje in popravljanje delovnih paketov v sporočilih"
   text_journal_added: "%{label} %{value} dodan"
   text_journal_aggregation_time_explanation: "Združite dnevnike za prikaz, če je njihova starostna razlika manjša od navedenega časovnega obdobja.\nTo bo hkrati zakasnilo obvestila po pošti za enako časovno obdobje."
   text_journal_changed: "%{label} se je spremenila iz %{old} <br/><strong>v</strong>%{new}"
@@ -2301,10 +2304,10 @@ sl:
   text_journal_set_with_diff: "%{label} nastavljen (%{link})"
   text_latest_note: "Zadnji komentar je: %{note}"
   text_length_between: "Dolžina med %{min} in %{max} znakov."
-  text_line_separated: "Multiple values allowed (one line for each value)."
-  text_load_default_configuration: "Load the default configuration"
-  text_min_max_length_info: "0 means no restriction"
-  text_no_roles_defined: There are no roles defined.
+  text_line_separated: "Dovoljenih več vrednosti (ena vrstica za vsako vrednost)."
+  text_load_default_configuration: "Naloži privzeto konfiguracijo"
+  text_min_max_length_info: "0 pomeni brez omejitev"
+  text_no_roles_defined: Nobene vloge ni definirane
   text_no_access_tokens_configurable: "Dostopnih žetonov ni mogoče konfigurirati."
   text_no_configuration_data: "Vloge, vrste, statusi delovnega paketa in potek dela še niso konfigurirani.\nZelo priporočljivo je, da naložite privzeto konfiguracijo. Ko ga boste naložili, ga boste lahko spremenili."
   text_no_notes: "Za ta delovni paket ni komentarjev."
@@ -2315,29 +2318,29 @@ sl:
   text_plugin_assets_writable: "Imenik vtičnikov se lahko zapiše"
   text_powered_by: "Poganja% {link}"
   text_project_identifier_info: "Dovoljene so samo male črke (a-z), številke, črtice in podčrtaji, ki se začnejo z malo začetnico."
-  text_reassign: "Reassign to work package:"
+  text_reassign: "Ponovno dodelitev delovnemu paketu:"
   text_regexp_info: "npr. ^[A-Z0-9]+$"
   text_regexp_multiline: 'The regex is applied in a multi-line mode. e.g., ^---\s+'
-  text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
-  text_select_mail_notifications: "Select actions for which email notifications should be sent."
-  text_status_changed_by_changeset: "Applied in changeset %{value}."
-  text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
-  text_time_logged_by_changeset: "Applied in changeset %{value}."
-  text_tip_work_package_begin_day: "work package beginning this day"
-  text_tip_work_package_begin_end_day: "work package beginning and ending this day"
-  text_tip_work_package_end_day: "work package ending this day"
-  text_type_no_workflow: "No workflow defined for this type"
-  text_unallowed_characters: "Unallowed characters"
-  text_user_invited: The user has been invited and is pending registration.
-  text_user_wrote: "%{value} wrote:"
-  text_warn_on_leaving_unsaved: "The work package contains unsaved text that will be lost if you leave this page."
-  text_what_did_you_change_click_to_add_comment: "What did you change? Click to add comment"
-  text_wiki_destroy_confirmation: "Are you sure you want to delete this wiki and all its content?"
-  text_wiki_page_destroy_children: "Delete child pages and all their descendants"
-  text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
-  text_wiki_page_nullify_children: "Keep child pages as root pages"
-  text_wiki_page_reassign_children: "Reassign child pages to this parent page"
-  text_workflow_edit: "Select a role and a type to edit the workflow"
+  text_repository_usernames_mapping: "Izberite ali posodobite uporabnika OpenProject, vezanega na vsako uporabniško ime, ki ga najdete v dnevniku repozitorija.\nUporabniki z istim uporabniškim imenom ali e-poštnim imenom skladišča OpenProject se samodejno povežejo."
+  text_select_mail_notifications: "Izberi dejanja za katera naj bodo poslana oznanila preko e-pošto."
+  text_status_changed_by_changeset: "Dodano v zapis sprememb %{value}."
+  text_table_difference_description: "V tej tabeli so prikazani posamezni% {entries}. Razliko med dvema vnosoma si lahko ogledate tako, da najprej izberete potrditvena polja v tabeli. Ko kliknete na gumb pod tabelo, so prikazane razlike."
+  text_time_logged_by_changeset: "Dodano v zapis sprememb %{value}."
+  text_tip_work_package_begin_day: "delovni paket, ki se začne z današnjim dnem"
+  text_tip_work_package_begin_end_day: "delovni paket, ki se začne in konča ta dan"
+  text_tip_work_package_end_day: "delovni paket, ki se konča ta dan"
+  text_type_no_workflow: "Potek dela za to vrsto zahtevka ni določen"
+  text_unallowed_characters: "Nedovoljeni znaki"
+  text_user_invited: Uporabnik je bil povabljen in čaka na registracijo.
+  text_user_wrote: "%{value} je napisal(a):"
+  text_warn_on_leaving_unsaved: "Delovni paket vsebuje neshranjeno besedilo, ki bo izgubljeno, če zapustite to stran."
+  text_what_did_you_change_click_to_add_comment: "Kaj ste spremenili? Kliknite, če želite dodati komentar"
+  text_wiki_destroy_confirmation: "Ali ste prepričani da želite izbrisati to wiki stran in vso njeno vsebino?"
+  text_wiki_page_destroy_children: "Izbriši podstrani in vse njihove naslednike"
+  text_wiki_page_destroy_question: "Ta stran ima %{descendants} podstran(i) in naslednik(ov). Kaj želite storiti?"
+  text_wiki_page_nullify_children: "Obdrži podstrani kot glavne strani"
+  text_wiki_page_reassign_children: "Znova dodeli podstrani tej glavni strani"
+  text_workflow_edit: "Izberite vlogo in zahtevek za urejanje poteka dela"
   text_zoom_in: "Povečaj"
   text_zoom_out: "Pomanjšaj"
   text_setup_mail_configuration: "Konfigurirajte ponudnika e-pošte"
@@ -2350,7 +2353,7 @@ sl:
       time: "%I:%M %p"
     pm: "pm"
   timeframe:
-    show: "Show timeframe"
+    show: "Pokaži časovni okvir"
     end: "do"
     start: "od"
   timelines:
@@ -2363,25 +2366,25 @@ sl:
     children: "Podrejeni elementi"
     color_could_not_be_saved: "Barve ni mogoče shraniti"
     current_planning: "Trenutno načrtovanje"
-    dates: "Dates"
-    dates_are_calculated_based_on_sub_elements: "Dates are calculated based on sub elements."
+    dates: "Datumi"
+    dates_are_calculated_based_on_sub_elements: "Datumi se izračunajo na podlagi elementov."
     delete_all: "Izbriši vse"
     delete_thing: "Izbriši"
-    duration: "Duration"
+    duration: "Trajanje"
     duration_days:
       one: "1 dan"
       two: "%{count} dni"
       few: "%{count} dni"
       other: "%{count} dni"
-    edit_color: "Edit color"
+    edit_color: "Uredi barvo"
     edit_thing: "Uredi"
-    edit_timeline: "Edit timeline report %{timeline}"
+    edit_timeline: "Urejanje poročila o časovni premici% {timeline}"
     delete_timeline: "Delete timeline report %{timeline}"
-    empty: "(empty)"
-    enable_type_in_project: 'Enable type "%{type}"'
-    end: "End"
+    empty: "(prazno)"
+    enable_type_in_project: 'Omogoči tip "% {type}"'
+    end: "Konec"
     errors:
-      not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
+      not_implemented: "Časovnice ni bilo mogoče upodobiti, ker uporablja funkcijo, ki še ni izvedena."
       report_comparison: "Časovnica ne more upodobiti konfigurirane primerjave. Prosimo preverite temu primerno sekcijo v konfiguraciji, ponastavitev lahko reši ta problem."
       report_epicfail: "Časovnica se ni mogla naložiti zaradi nepričakovane napake."
       report_timeout: "Časovnica se ne more naložiti v razumnem času."
@@ -2436,7 +2439,7 @@ sl:
       outline: "Začetna širitev orisa"
       parent: "Prikaži podprojekt od"
       work_package_filters: "Filtriraj delovne pakete"
-      work_package_responsible: "Show work packages with accountable"
+      work_package_responsible: "Pokažite delovne pakete z odgovornostjo"
       work_package_assignee: "Pokaži delovne pakete z dodeljenimi osebami."
       types: "Prikaži tipe"
       status: "Prikaži status"
@@ -2449,7 +2452,7 @@ sl:
       project_filters: "Filtriraj projekte"
       project_responsible: "Prikaži projekte z dodeljenimi osebami"
       project_status: "Prikaži status projekta"
-      timeframe: "Show timeframe"
+      timeframe: "Pokaži časovni okvir"
       timeframe_end: "do"
       timeframe_start: "od"
       timeline: "Osnovne nastavitve\n"
@@ -2486,10 +2489,10 @@ sl:
     reporting_could_not_be_saved: "Reporting could not be saved"
     properties: "Properties"
     really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Ali ste prepričani, da želite izbrisati naslednjo barvo? Tipi, ki uporabljajo to barvo, ne bodo izbrisani.
     really_delete_reporting: >
-      Are you sure, you want to delete the following reporting? Previous reporting statuses will be deleted, too.
-    start: "Start"
+      Ali ste prepričani, da želite izbrisati naslednje poročanje? Tudi prejšnja stanja poročanja bodo izbrisana.
+    start: "Začetek"
     timeline: "Timeline report"
     timelines: "Timeline reports"
     settings: "Časovnice"
@@ -2498,20 +2501,20 @@ sl:
     zoom:
       in: "Povečaj"
       out: "Pomanjšaj"
-      days: "Days"
-      weeks: "Weeks"
-      months: "Months"
-      quarters: "Quarters"
-      years: "Years"
-  title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
-  title_enterprise_upgrade: "Upgrade to unlock more users."
+      days: "Dnevi"
+      weeks: "Tednov"
+      months: "Mesecev"
+      quarters: "Četrtletje"
+      years: "let"
+  title_remove_and_delete_user: Povabljenega uporabnika odstranite iz projekta in izbrišite.
+  title_enterprise_upgrade: "Nadgradite, da odklenete več uporabnikov."
   tooltip_user_default_timezone: >
     The default time zone for new users. Can be changed in a user's settings.
   tooltip_resend_invitation: >
-    Sends another invitation email with a fresh token in case the old one expired or the user did not get the original email. Can also be used for active users to choose a new authentication method. When used with active users their status will be changed to 'invited'.
+    Pošlje drugo e-poštno sporočilo s svežim žetonom v primeru, da je stari potekel ali uporabnik ni dobil izvirnega e-poštnega sporočila. Aktivni uporabniki se lahko odločijo za izbiro novega načina preverjanja pristnosti. Če se uporabljajo z aktivnimi uporabniki, se njihov status spremeni v »povabljeni«.
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      Če je omogočeno, uporabnik med registracijo ne bo mogel izbrati prijave. Namesto tega bo njihov e-poštni naslov služil kot prijava. Skrbnik lahko še vedno ločeno spremeni prijavo.
   queries:
     apply_filter: Apply preconfigured filter
   top_menu:
@@ -2523,20 +2526,20 @@ sl:
     all: "vsi"
     active: "aktiven"
     activate: "Activate"
-    activate_and_reset_failed_logins: "Activate and reset failed logins"
-    authentication_provider: "Authentication Provider"
+    activate_and_reset_failed_logins: "Aktivirajte in ponastavite neuspele prijave"
+    authentication_provider: "Ponudnik overovitve"
     authentication_settings_disabled_due_to_external_authentication: >
       This user authenticates via an external authentication provider, so there is no password in OpenProject to be changed.
-    authorization_rejected: "You are not allowed to sign in."
-    assign_random_password: "Assign random password (sent to user via email)"
-    blocked: "locked temporarily"
+    authorization_rejected: "Nimate dovoljenja za prijavo."
+    assign_random_password: "Dodelite naključno geslo (poslano uporabniku po e-pošti)"
+    blocked: "začasno zaklenjen"
     blocked_num_failed_logins:
-      one: "locked temporarily (one failed login attempt)"
-      two: "locked temporarily (%{count} failed login attempts)"
-      few: "locked temporarily (%{count} failed login attempts)"
-      other: "locked temporarily (%{count} failed login attempts)"
+      one: "začasno zaklenjen (en neuspeli poskus prijave)"
+      two: "začasno zaklenjen (dva neuspela poskusa prijave)"
+      few: "začasno zaklenjen (več neuspelih poskusov prijave)"
+      other: "začasno zaklenjen (% {count} neuspeli poskusi prijave)"
     confirm_status_change: "You are about to change the status of '%{name}'. Are you sure you want to continue?"
-    deleted: "Deleted user"
+    deleted: "Izbrisani uporabnik"
     error_status_change_failed: "Spreminjanje uporabnikovega statusa je spodletelo zaradi naslednjih napak: %{errors}"
     invite: Povabi uporabnika preko e-sporočila
     invited: Povabljen
@@ -2551,44 +2554,44 @@ sl:
       mail_project_explanaition: "Na neizbrane projekte boste prejemali le obvestila o zadevah ki jih spremljate ali v katere ste vključeni (npr. delovni paketi katerih ste avtor)."
       mail_self_notified: "Želim biti opozorjen(a) za spremembe, ki jih naredim sam(a)"
     status_user_and_brute_force: "%{user} and %{brute_force}"
-    status_change: "Status change"
+    status_change: "Sprememba stanja"
     text_change_disabled_for_provider_login: "Ime je določil skrbnik in ga ni mogoče spremeniti."
     unlock: "Odkleni"
-    unlock_and_reset_failed_logins: "Unlock and reset failed logins"
+    unlock_and_reset_failed_logins: "Odklepanje in ponastavitev neuspelih prijav"
   version_status_closed: "Zaprto"
   version_status_locked: "zaklenjen"
   version_status_open: "odpri"
-  note: Note
-  note_password_login_disabled: "Password login has been disabled by %{configuration}."
-  warning: Warning
+  note: Opomba
+  note_password_login_disabled: "Prijava z geslom je bila onemogočena zaradi %{configuration}."
+  warning: Opozorilo
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
   warning_imminent_user_limit: >
-    You invited more users than are supported by your current plan. Invited users may not be able to join your OpenProject environment. Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users in order to allow invited and registered users to join.
+    Povabili ste več uporabnikov, kot jih podpira vaš trenutni načrt. Povabljeni uporabniki se ne bodo mogli pridružiti vašemu okolju OpenProject. <a href="%{upgrade_url}"> nadgradite svoj načrt </a> ali blokirajte obstoječe uporabnike, če želite povabljenim in registriranim uporabnikom omogočiti pridružitev.
   warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+    E-poštno sporočilo za aktivacijo je poteklo. Poslali smo vam novo na% {email}.
+    Kliknite povezavo v njej, da aktivirate svoj račun.
   warning_user_limit_reached: >
-    User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
+    Dosežena omejitev uporabnika. Ne morete več aktivirati uporabnikov. <a href="%{upgrade_url}"> nadgradite svoj načrt </a> ali blokirajte člane, da omogočite dodatne uporabnike.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
   0: >
 
   warning_bar:
     protocol_mismatch:
-      title: 'Protocol setting mismatch'
+      title: 'Neusklajenost nastavitve protokola'
       text_html: >
         Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
     hostname_mismatch:
-      title: 'Hostname setting mismatch'
+      title: 'Neskladje nastavitve imena gostitelja'
       text_html: >
         Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
-  menu_item: "Menu item"
-  menu_item_setting: "Visibility"
+  menu_item: "Elementi menija"
+  menu_item_setting: "Vidljivost"
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
-  wiki_menu_item_setting: "Visibility"
+  wiki_menu_item_setting: "Vidljivost"
   wiki_menu_item_new_main_item_explanation: >
-    You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
-  wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
+    Izbrisali boste edini glavni element menija wiki. Zdaj morate izbrati stran wiki, za katero bo ustvarjen nov glavni element. Da bi izbrisali wiki, lahko modul wiki deaktivirajo skrbniki projektov.
+  wiki_menu_item_delete_not_permitted: Elementa v meniju wiki na edini strani wikija ni mogoče izbrisati.
   query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:

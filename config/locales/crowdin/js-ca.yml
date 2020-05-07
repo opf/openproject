@@ -42,7 +42,7 @@ ca:
     button_back_to_list_view: "Tornar al llistat"
     button_cancel: "Cancel·la"
     button_close: "Tancar"
-    button_change_project: "Change project"
+    button_change_project: "Canviar el projecte"
     button_check_all: "Marcar-ho tot"
     button_configure-form: "Configurar formulari"
     button_confirm: "Confirmar"
@@ -63,8 +63,8 @@ ca:
     button_open_details: "Obrir vista detallada"
     button_close_details: "Tancar vista detallada"
     button_open_fullscreen: "Obrir vista a pantalla completa"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Mostra la vista de targeta"
+    button_show_list: "Mostrar la vista de llista"
     button_quote: "Citar"
     button_save: "Desa"
     button_settings: "Configuració"
@@ -74,34 +74,34 @@ ca:
     button_export-atom: "Descarregar Atom"
     calendar:
       title: 'Calendari'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Hi ha %{count} paquets de treball en total, però només %{max} es poden mostrar'
     card:
-      add_new: 'Add new card'
+      add_new: 'Afegir nova targeta'
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
+        inline: 'Ressaltar en línia:'
+        entire_card_by: 'targeta sencera per'
+      remove_from_list: 'Suprimeix la targeta de la llista'
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "El seu navegador no suporta copiar al porta-retalls. Si us plau, copieu el text seleccionat manualment."
       copied_successful: "S'ha copiat correctament al porta-retalls!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Tipus de gràfica'
+      axis_criteria: 'Criteri d''eix'
+      modal_title: 'Configuració gràfica de paquet de treball'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
+        line: 'Línia'
+        horizontal_bar: 'Barra horitzontal'
+        bar: 'Barra'
+        pie: 'Pastís'
+        doughnut: 'Donut'
         radar: 'Radar'
-        polar_area: 'Polar area'
+        polar_area: 'Àrea polar'
       tabs:
         graph_settings: 'General'
         dataset: 'Dataset %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'Les dades mostrades al gràfic no es poden carregar. Pot ser que faltin els permisos necessaris.'
     description_available_columns: "Columnes disponibles"
     description_current_position: "You are here: "
     description_select_work_package: "Seleccionar el paquet de treball #%{id}"
@@ -158,10 +158,10 @@ ca:
       type_form:
         custom_field: 'Camp personalitzat'
         inactive: 'Inactive'
-        drag_to_activate: "Drag fields from here to activate them"
-        add_group: "Add attribute group"
+        drag_to_activate: "Arrossega els camps aquí per a activar-los"
+        add_group: "Afegir atribut de grup"
         add_table: "Afegeix una taula de paquets de treball relacionats"
-        edit_query: 'Edit query'
+        edit_query: 'Editar consulta'
         new_group: 'Nou grup'
         reset_to_defaults: 'Reset to defaults'
       enterprise:
@@ -253,8 +253,8 @@ ca:
     global_roles: Global Roles
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "Cliqui aquí per refrescar la font i actualitzar a la última versió."
+        edit_prohibited: "L'edició de %{attribute} està bloquejada per a aquest paquet de treball. Ja sigui perquè aquest atribut es deriva d'alguna relació (per exemple, els fills) o perquè no és configurable."
         format:
           date: "%{attribute} no és una data vàlida - s'espera en format AAAA-MM-DD."
         general: "S'ha produït un error."
@@ -281,7 +281,7 @@ ca:
     label_add_row_before: "Afegir fila abans"
     label_add_selected_columns: "Afegir columnes seleccionades"
     label_added_by: "afegit per"
-    label_added_time_by: "Afegit per %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "dies abans"
     label_all: "tot"
     label_all_work_packages: "tots els paquets de treball"

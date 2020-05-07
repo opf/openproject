@@ -280,7 +280,7 @@ sl:
     label_add_row_before: "Dodaj vrstico pred"
     label_add_selected_columns: "Dodajte izbrane stolpce"
     label_added_by: "dodal"
-    label_added_time_by: "Dodal %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "pred dnevi"
     label_all: "vsi"
     label_all_work_packages: "Vsi zahtevki"
@@ -406,7 +406,7 @@ sl:
     label_total_amount: "Skupaj: %{amount}"
     label_updated_on: "Posodobljeno"
     label_value_derived_from_children: "(vrednost izpeljana iz podrejenih)"
-    label_warning: "Warning"
+    label_warning: "Opozorilo"
     label_work_package: "Zahtevek"
     label_work_package_plural: "Delovni paketi"
     label_watch: "Glej"
@@ -518,7 +518,7 @@ sl:
       work_package_required: 'Najprej izberite opravilo'
       activity: 'Aktivnost'
       comment: 'Komentar'
-      duration: 'Duration'
+      duration: 'Trajanje'
       spent_on: 'Datum'
       hours: 'Ure'
       title: 'Datum vpisa'
@@ -567,7 +567,7 @@ sl:
       add_new_relation: "Ustvari novo povezavo"
       add_existing_relation: "Dodaj obstoječo povezavo"
       update_description: "Dodaj ali posodobi opis te povezave"
-      toggle_description: "Toggle relation description"
+      toggle_description: "Preklopi opis razmerja"
       update_relation: "Za spremembo tipa povezave kliknite tukaj"
       add_follower: "Dodaj naslednjika"
       add_predecessor: "Dodaj prednika"
@@ -576,7 +576,7 @@ sl:
       abort: "Prekliči"
     relations_autocomplete:
       placeholder: "Iskalni niz"
-      parent_placeholder: "Choose new parent or press escape to cancel."
+      parent_placeholder: "Izberite novo nadrejeno ali pritisnite izhod za preklic."
     repositories:
       select_tag: 'Izberite oznako'
       select_branch: 'Izberite vejo'
@@ -610,10 +610,10 @@ sl:
       cancel: Prekliči
       change: "Spremembe v načrtovanju"
       due_date: "Končni datum"
-      empty: "(empty)"
+      empty: "(prazno)"
       error: "Prišlo je do napake."
       errors:
-        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
+        not_implemented: "Časovnice ni bilo mogoče upodobiti, ker uporablja funkcijo, ki še ni izvedena."
         report_comparison: "Časovnica ne more upodobiti konfigurirane primerjave. Prosimo preverite temu primerno sekcijo v konfiguraciji, ponastavitev lahko reši ta problem."
         report_epicfail: "Časovnica se ni mogla naložiti zaradi nepričakovane napake."
         report_timeout: "Časovnica se ne more naložiti v razumnem času."
@@ -642,11 +642,11 @@ sl:
         in: "Povečaj"
         out: "Pomanjšaj"
         auto: "Samodejna povečava"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        days: "Dnevi"
+        weeks: "Tednov"
+        months: "Mesecev"
+        quarters: "Četrtletje"
+        years: "let"
         slider: "Drsnik za povečevanje"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
@@ -813,7 +813,7 @@ sl:
         highlighting: 'Poudarjanje'
         highlighting_mode:
           description: "Poudarjanje z barvo"
-          none: "No highlighting"
+          none: "Brez poudarjanja"
           inline: 'Poudarjeni atribut(i)'
           inline_all: 'Vsi atributi'
           entire_row_by: 'Celotna vrstica od'

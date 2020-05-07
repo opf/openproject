@@ -25,7 +25,7 @@ sl:
     attributes:
       meeting:
         location: "Lokacija"
-        duration: "Duration"
+        duration: "Trajanje"
         participants: "Udeleženci"
         participants_attended: "Udeleženi"
         participants_invited: "Povabljeni"

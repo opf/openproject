@@ -232,6 +232,9 @@ ca:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
       no_results_content_text: Afegir una notícia
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Aquest usuari no és actualment membre de cap projecte.
   prioritiies:

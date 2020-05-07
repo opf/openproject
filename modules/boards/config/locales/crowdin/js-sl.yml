@@ -39,9 +39,9 @@ sl:
         action_text: >
           Ustvarite tabelo s filtriranimi seznami z enim atributom. Če premaknete delovne pakete na druge sezname, boste posodobili atribute.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
+          assignee: Pooblaščenec
+          status: Stanje
+          version: različica
         select_attribute: "Atributi opravil"
       add_list_modal:
         warning:
