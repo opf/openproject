@@ -44,7 +44,6 @@ import {CurrentProjectService} from "core-components/projects/current-project.se
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {IfcModelsDataService} from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
 
 @Component({
   selector: 'wp-list-view',
@@ -90,7 +89,6 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
               readonly deviceService:DeviceService,
               readonly CurrentProject:CurrentProjectService,
               readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
-              readonly ifcModelsService:IfcModelsDataService,
               readonly cdRef:ChangeDetectorRef) {
     super();
   }
