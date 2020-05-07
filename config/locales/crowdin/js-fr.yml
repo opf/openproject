@@ -281,7 +281,7 @@ fr:
     label_add_row_before: "Ajouter une ligne avant"
     label_add_selected_columns: "Ajouter les colonnes sélectionnées"
     label_added_by: "Ajouté par"
-    label_added_time_by: "Ajouté par %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "il y a quelques jours"
     label_all: "tous"
     label_all_work_packages: "tous les lots de travaux"

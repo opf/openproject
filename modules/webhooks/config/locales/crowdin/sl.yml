@@ -2,20 +2,20 @@ sl:
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'Payload URL'
+        url: 'URL obremenitve'
         secret: 'Podpis skrivnost'
         events: 'Dogodki'
         projects: 'Omogočeni projekti'
       webhooks/log:
         event_name: 'Ime dogodka'
-        url: 'Payload URL'
+        url: 'URL obremenitve'
         response_code: 'Odzivna koda'
         response_body: 'Odziv'
     models:
-      webhooks/outgoing_webhook: "Outgoing webhook"
+      webhooks/outgoing_webhook: "Odhodna spletna kljuka"
   webhooks:
-    singular: Webhook
-    plural: Webhooks
+    singular: Spletna kljuka
+    plural: Spletne kljuke
     resources:
       time_entry:
         name: "Vnos časa"

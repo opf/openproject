@@ -281,7 +281,7 @@ sk:
     label_add_row_before: "Pridať riadok pred"
     label_add_selected_columns: "Pridať vybraté stĺpce"
     label_added_by: "Pridal"
-    label_added_time_by: "Pridal %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "dní späť"
     label_all: "Všetky"
     label_all_work_packages: "všetky pracovné balíčky"

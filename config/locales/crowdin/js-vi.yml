@@ -280,7 +280,7 @@ vi:
     label_add_row_before: "Thêm dòng bên trên"
     label_add_selected_columns: "Thêm cột đang chọn"
     label_added_by: "được gửi bởi"
-    label_added_time_by: "Thêm bởi %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "vài ngày trước"
     label_all: "tất cả"
     label_all_work_packages: "Tất cả công việc"

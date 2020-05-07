@@ -281,7 +281,7 @@ ar:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "اضف الأعمدة المحددة"
     label_added_by: "أضيف بواسطة"
-    label_added_time_by: "أضيف بواسطة %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "أيام مضت"
     label_all: "الكل"
     label_all_work_packages: "جميع مجموعات العمل"

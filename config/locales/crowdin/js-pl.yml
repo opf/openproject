@@ -281,7 +281,7 @@ pl:
     label_add_row_before: "Dodaj wiersz przed"
     label_add_selected_columns: "Dodaj wybrane kolumny"
     label_added_by: "dodał"
-    label_added_time_by: "Dodał %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "dni temu"
     label_all: "wszystkie"
     label_all_work_packages: "wszystkie pakiety pracy"

@@ -281,7 +281,7 @@ ko:
     label_add_row_before: "다음 앞에 행 추가"
     label_add_selected_columns: "선택된 열 추가"
     label_added_by: "추가함 : "
-    label_added_time_by: "%{author} %{age}가 추가함"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "일 전"
     label_all: "모두"
     label_all_work_packages: "모든 작업 패키지"
