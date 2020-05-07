@@ -7,20 +7,23 @@ module AuthSourceSSO
     user = super
 
     return user if user || sso_in_progress!
+    return nil unless header_name
 
+    perform_header_sso
+  end
+
+  def perform_header_sso
     if login = read_sso_login
       user = find_user_from_auth_source(login) || create_user_from_auth_source(login)
 
       handle_sso_for! user, login
+    else
+      handle_sso_failure!
     end
   end
 
   def read_sso_login
-    return nil unless header_name && secret
-
-    login, given_secret = String(request.headers[header_name]).split(":")
-
-    login if valid_credentials? login, given_secret
+    get_validated_login! String(request.headers[header_name])
   end
 
   def sso_config
@@ -35,25 +38,34 @@ module AuthSourceSSO
     sso_config && sso_config[:secret]
   end
 
-  def valid_credentials?(login, secret)
-    !invalid_credentials?(login, secret)
+  def optional?
+    sso_config && sso_config[:optional]
   end
 
-  def invalid_credentials?(login, secret)
-    if secret != self.secret.to_s
-      Rails.logger.error(
-        "Secret contained in auth source SSO header not valid. " +
-        "(#{header_name}: #{request.headers[header_name]})"
-      )
+  def get_validated_login!(value)
+    login, valid_secret = extract_from_header(value)
 
-      true
-    elsif login.nil?
-      Rails.logger.error(
-        "No login contained in auth source SSO header. " +
-        "(#{header_name}: #{request.headers[header_name]})"
-      )
+    unless valid_secret
+      Rails.logger.error("Secret contained in auth source SSO header #{header_name} is not valid.")
+      return nil
+    end
 
-      true
+    unless login.present?
+      Rails.logger.error("Secret contained in auth source SSO header #{header_name} is not valid.")
+      return nil
+    end
+
+    login
+  end
+
+  def extract_from_header(value)
+    if self.secret.present?
+      valid_secret = value.end_with?(":#{self.secret}")
+      login = value.gsub(/:#{Regexp.escape(self.secret)}\z/, '')
+
+      [login, valid_secret]
+    else
+      [value, true]
     end
   end
 
@@ -82,7 +94,7 @@ module AuthSourceSSO
       if logger && user.auth_source
         logger.info(
           "User '#{user.login}' created from external auth source: " +
-          "#{user.auth_source.type} - #{user.auth_source.name}"
+            "#{user.auth_source.type} - #{user.auth_source.name}"
         )
       end
     end
@@ -112,7 +124,7 @@ module AuthSourceSSO
 
   def handle_sso_for!(user, login)
     if sso_login_failed?(user)
-      handle_sso_failure! user, login
+      handle_sso_failure!({ user: user, login: login })
     else # valid user
       handle_sso_success user
     end
@@ -124,13 +136,13 @@ module AuthSourceSSO
     user
   end
 
-  def handle_sso_failure!(user, login)
-    session[:auth_source_sso_failure] = {
-      user: user,
-      login: login,
+  def handle_sso_failure!(session_args = {})
+    return if optional?
+
+    session[:auth_source_sso_failure] = session_args.merge(
       back_url: request.base_url + request.original_fullpath,
       ttl: 1
-    }
+    )
 
     redirect_to sso_failure_path
   end

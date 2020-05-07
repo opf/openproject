@@ -58,13 +58,23 @@ describe MyController, type: :controller do
     auth_source # create auth source
     user # create user
 
-    request.headers[header] = "#{login}:#{secret}"
+    separator = secret ? ':' : ''
+    request.headers[header] = "#{login}#{separator}#{secret}"
 
     get :account
   end
 
   it "should log in given user" do
     expect(response.body.squish).to have_content("Username   h.wurst")
+  end
+
+
+  context 'when the secret being null' do
+    let(:secret) { nil }
+
+    it "should log in given user" do
+      expect(response.body.squish).to have_content("Username   h.wurst")
+    end
   end
 
   shared_examples "auth source sso failure" do
@@ -83,6 +93,20 @@ describe MyController, type: :controller do
       expect(failure[:login]).to eq login
       expect(failure[:back_url]).to eq "http://test.host/my/account"
       expect(failure[:ttl]).to eq 1
+    end
+
+    context 'when the config is marked optional' do
+      let(:sso_config) do
+        {
+          header: header,
+          secret: secret,
+          optional: true
+        }
+      end
+
+      it "should redirect to login" do
+        expect(response).to redirect_to("/login?back_url=http%3A%2F%2Ftest.host%2Fmy%2Faccount")
+      end
     end
   end
 

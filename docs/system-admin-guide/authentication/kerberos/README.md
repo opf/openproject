@@ -114,6 +114,8 @@ production:
     # You can comment it out to disable if your outer server
     # fully controls this header value and you trust it.
     secret: MyPassword
+    # Uncomment to make the header optional.
+    # optional: true
 ```
 
 
@@ -141,6 +143,12 @@ As with all the rest of the OpenProject configuration settings, the Kerberos hea
 openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_HEADER="X-Authenticated-User"
 openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_SECRET="MyPassword"
 ```
+
+  In case you want to make the header optional, i.e. the header may or may not be present for a subset of users going through Apache, you can set the following value:
+
+  ```bash
+  openproject config:set OPENPROJECT_AUTH__SOURCE__SSO_OPTIONAL=true
+  ```
 
 Please note that every underscore (`_`) in the original configuration key has to be replaced by a duplicate underscore
 (`__`) in the environment variable as the single underscore denotes namespaces.
