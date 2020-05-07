@@ -38,12 +38,18 @@ describe OpenProject::JournalFormatter::CustomField do
   let(:journal) do
     OpenStruct.new(id: id)
   end
-  let(:user) { FactoryBot.create(:user) }
-  let(:custom_field) { FactoryBot.create(:issue_custom_field) }
+  let(:custom_field) do
+    FactoryBot.build_stubbed(:work_package_custom_field).tap do |cf|
+      allow(CustomField)
+        .to receive(:find_by)
+        .with(id: cf.id)
+        .and_return(cf)
+    end
+  end
   let(:key) { "custom_fields_#{custom_field.id}" }
 
   describe '#render' do
-    describe 'WITH the first value beeing nil, and the second a valid value as string' do
+    describe 'WITH the first value being nil, and the second a valid value as string' do
       let(:values) { [nil, '1'] }
       let(:formatted_value) { format_value(values.last, custom_field) }
 
@@ -56,8 +62,8 @@ describe OpenProject::JournalFormatter::CustomField do
       it { expect(instance.render(key, values)).to eq(expected) }
     end
 
-    describe 'WITH the first value beeing a valid value as a string, and the second beeing a valid value as a string' do
-      let(:values) { ['0', '1'] }
+    describe 'WITH the first value being a valid value as a string, and the second being a valid value as a string' do
+      let(:values) { %w[0 1] }
       let(:old_formatted_value) { format_value(values.first, custom_field) }
       let(:new_formatted_value) { format_value(values.last, custom_field) }
 
@@ -71,7 +77,7 @@ describe OpenProject::JournalFormatter::CustomField do
       it { expect(instance.render(key, values)).to eq(expected) }
     end
 
-    describe 'WITH the first value beeing a valid value as a string, and the second beeing nil' do
+    describe 'WITH the first value being a valid value as a string, and the second being nil' do
       let(:values) { ['0', nil] }
       let(:formatted_value) { format_value(values.first, custom_field) }
 
@@ -84,7 +90,7 @@ describe OpenProject::JournalFormatter::CustomField do
       it { expect(instance.render(key, values)).to eq(expected) }
     end
 
-    describe "WITH the first value beeing nil, and the second a valid value as string
+    describe "WITH the first value being nil, and the second a valid value as string
               WITH no html requested" do
       let(:values) { [nil, '1'] }
 
@@ -97,9 +103,9 @@ describe OpenProject::JournalFormatter::CustomField do
       it { expect(instance.render(key, values, no_html: true)).to eq(expected) }
     end
 
-    describe "WITH the first value beeing a valid value as a string, and the second beeing a valid value as a string
+    describe "WITH the first value being a valid value as a string, and the second being a valid value as a string
               WITH no html requested" do
-      let(:values) { ['0', '1'] }
+      let(:values) { %w[0 1] }
 
       let(:expected) do
         I18n.t(:text_journal_changed_plain,
@@ -111,7 +117,7 @@ describe OpenProject::JournalFormatter::CustomField do
       it { expect(instance.render(key, values, no_html: true)).to eq(expected) }
     end
 
-    describe "WITH the first value beeing a valid value as a string, and the second beeing nil
+    describe "WITH the first value being a valid value as a string, and the second being nil
               WITH no html requested" do
       let(:values) { ['0', nil] }
 
@@ -124,8 +130,8 @@ describe OpenProject::JournalFormatter::CustomField do
       it { expect(instance.render(key, values, no_html: true)).to eq(expected) }
     end
 
-    describe "WITH the first value beeing nil, and the second a valid value as string
-              WITH the custom field beeing deleted" do
+    describe "WITH the first value being nil, and the second a valid value as string
+              WITH the custom field being deleted" do
       let(:values) { [nil, '1'] }
       let(:key) { 'custom_values0' }
 
@@ -138,9 +144,9 @@ describe OpenProject::JournalFormatter::CustomField do
       it { expect(instance.render(key, values)).to eq(expected) }
     end
 
-    describe "WITH the first value beeing a valid value as a string, and the second beeing a valid value as a string
-              WITH the custom field beeing deleted" do
-      let(:values) { ['0', '1'] }
+    describe "WITH the first value being a valid value as a string, and the second being a valid value as a string
+              WITH the custom field being deleted" do
+      let(:values) { %w[0 1] }
       let(:key) { 'custom_values0' }
 
       let(:expected) do
@@ -153,8 +159,8 @@ describe OpenProject::JournalFormatter::CustomField do
       it { expect(instance.render(key, values)).to eq(expected) }
     end
 
-    describe "WITH the first value beeing a valid value as a string, and the second beeing nil
-              WITH the custom field beeing deleted" do
+    describe "WITH the first value being a valid value as a string, and the second being nil
+              WITH the custom field being deleted" do
       let(:values) { ['0', nil] }
       let(:key) { 'custom_values0' }
 
@@ -165,6 +171,84 @@ describe OpenProject::JournalFormatter::CustomField do
       end
 
       it { expect(instance.render(key, values)).to eq(expected) }
+    end
+
+    context 'for a multi list cf' do
+      let(:custom_field) do
+        FactoryBot.build_stubbed(:list_wp_custom_field, multi_value: true).tap do |cf|
+          allow(CustomField)
+            .to receive(:find_by)
+            .with(id: cf.id)
+            .and_return(cf)
+
+          cf_options = double('custom_options')
+          old_options = double('selected options')
+          new_options = double('selected options')
+
+          allow(cf)
+            .to receive(:custom_options)
+            .and_return cf_options
+
+          allow(cf_options)
+            .to receive(:where)
+            .with(id: [1, 2])
+            .and_return old_options
+
+          allow(cf_options)
+            .to receive(:where)
+            .with(id: [3, 4])
+            .and_return new_options
+
+          allow(old_options)
+            .to receive(:order)
+            .with(:position)
+            .and_return(old_options)
+
+          allow(new_options)
+            .to receive(:order)
+            .with(:position)
+            .and_return(new_options)
+
+          allow(old_options)
+            .to receive(:pluck)
+            .with(:id, :value)
+            .and_return(old_custom_option_names)
+
+          allow(new_options)
+            .to receive(:pluck)
+            .with(:id, :value)
+            .and_return(new_custom_option_names)
+        end
+      end
+      let(:old_custom_option_names) { [[1, 'cf 1'], [2, 'cf 2']] }
+      let(:new_custom_option_names) { [[3, 'cf 3'], [4, 'cf 4']] }
+
+      describe "WITH the first value being a comma separated list of ids, and the second being a comma separated list of ids" do
+        let(:values) { %w[1,2 3,4] }
+
+        let(:expected) do
+          I18n.t(:text_journal_changed,
+                 label: "<strong>#{custom_field.name}</strong>",
+                 old: "<i title=\"cf 1, cf 2\">cf 1, cf 2</i>",
+                 new: "<i title=\"cf 3, cf 4\">cf 3, cf 4</i>")
+        end
+
+        it { expect(instance.render(key, values)).to eq(expected) }
+      end
+
+      describe "WITH the first value being a comma separated list of ids, and the second being a comma separated list of ids that no longer exist" do
+        let(:values) { %w[1,2 3,4] }
+        let(:new_custom_option_names) { [[4, 'cf 4']] }
+
+        let(:expected) do
+          I18n.t(:text_journal_changed,
+                 label: "<strong>#{custom_field.name}</strong>",
+                 old: "<i title=\"cf 1, cf 2\">cf 1, cf 2</i>",
+                 new: "<i title=\"(deleted option), cf 4\">(deleted option), cf 4</i>")
+        end
+
+        it { expect(instance.render(key, values)).to eq(expected) }
+      end
     end
   end
 end

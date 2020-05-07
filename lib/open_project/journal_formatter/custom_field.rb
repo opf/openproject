@@ -70,12 +70,17 @@ class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
   end
 
   def find_list_value(custom_field, id)
-    custom_field
-      .custom_options
-      .where(id: id.split(","))
-      .order(:position)
-      .pluck(:value)
-      .select(&:present?)
-      .join(', ')
+    ids = id.split(",").map(&:to_i)
+
+    id_value = custom_field
+               .custom_options
+               .where(id: ids)
+               .order(:position)
+               .pluck(:id, :value)
+               .to_h
+
+    ids.map do |id|
+      id_value[id] || I18n.t(:label_deleted_custom_option)
+    end.join(', ')
   end
 end
