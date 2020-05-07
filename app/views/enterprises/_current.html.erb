@@ -1,8 +1,11 @@
-<enterprise-active-saved-trial data-subscriber="<%= @current_token.subscriber %>"
-                         data-email="<%= @current_token.mail %>"
-                         data-user-count="<%= @current_token.restrictions.nil? ? t('js.admin.enterprise.upsale.unlimited') : @current_token.restrictions[:active_user_count] %>"
-                         data-starts-at="<%= format_date @current_token.starts_at %>"
-                         data-expires-at="<%= (!@current_token.will_expire?) ? t('js.admin.enterprise.upsale.unlimited') : (format_date @current_token.expires_at) %>">
+<enterprise-active-saved-trial
+  data-subscriber="<%= @current_token.subscriber %>"
+  data-email="<%= @current_token.mail %>"
+  data-company="<%= @current_token.has_attribute?(:company) ? @current_token.company : nil %>"
+  data-domain="<%= @current_token.has_attribute?(:domain) ? @current_token.domain : nil %>"
+  data-user-count="<%= @current_token.restrictions.nil? ? t('js.admin.enterprise.upsale.unlimited') : @current_token.restrictions[:active_user_count] %>"
+  data-starts-at="<%= format_date @current_token.starts_at %>"
+  data-expires-at="<%= (!@current_token.will_expire?) ? t('js.admin.enterprise.upsale.unlimited') : (format_date @current_token.expires_at) %>">
 </enterprise-active-saved-trial>
 
 <%= form_tag({}, method: :delete) do %>

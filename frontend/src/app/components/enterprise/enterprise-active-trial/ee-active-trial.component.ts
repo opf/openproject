@@ -42,11 +42,11 @@ import {GonService} from "core-app/modules/common/gon/gon.service";
 export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit {
   public subscriber:string;
   public email:string;
+  public company:string;
+  public domain:string;
   public userCount:string;
   public startsAt:string;
   public expiresAt:string;
-  public company:string;
-  public domain:string;
 
   constructor(readonly elementRef:ElementRef,
               readonly cdRef:ChangeDetectorRef,
