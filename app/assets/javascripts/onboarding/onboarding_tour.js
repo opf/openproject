@@ -45,6 +45,13 @@
                 $('.op-modal--modal-close-button').click(function () {
                     homescreenTour();
                 });
+
+                //Start automatically when the escape button is pressed
+                $(document).on('keydown', function(event) {
+                    if (event.key == "Escape") {
+                        homescreenTour();
+                    }
+                });
             }
 
             // ------------------------------- Tutorial Homescreen page -------------------------------
