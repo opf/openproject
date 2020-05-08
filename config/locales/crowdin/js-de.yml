@@ -280,7 +280,7 @@ de:
     label_add_row_before: "Zeile davor hinzufügen"
     label_add_selected_columns: "Ausgewählte Spalten hinzufügen"
     label_added_by: "hinzugefügt von"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Von %{author} %{age} hinzugefügt"
     label_ago: "vor (Tage)"
     label_all: "alle"
     label_all_work_packages: "alle Arbeitspakete"
@@ -521,7 +521,7 @@ de:
       duration: 'Dauer'
       spent_on: 'Datum'
       hours: 'Stunden'
-      title: 'Zeit buchen'
+      label: 'Zeiterfassung'
     two_factor_authentication:
       label_two_factor_authentication: 'Zwei-Faktor-Authentifizierung'
     watchers:

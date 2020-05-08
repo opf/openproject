@@ -2,34 +2,18 @@ sv:
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        dn: 'DN'
+        entry: 'Identifierare för inlägg'
         auth_source: 'LDAP-anslutning'
-      ldap_groups/synchronized_filter:
-        filter_string: 'LDAP filter'
-        auth_source: 'LDAP-anslutning'
-        group_name_attribute: "Group name attribute"
     models:
       ldap_groups/synchronized_group: 'Synkroniserad LDAP-grupp'
-      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
   ldap_groups:
     label_menu_item: 'Synkronisering av LDAP-grupp'
     label_group_key: 'Filternyckel för LDAP-grupp'
-    label_synchronize: 'Synchronize'
     settings:
-      name_attribute: 'LDAP groups name attribute'
-      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
-    synchronized_filters:
-      add_new: 'Add synchronized LDAP filter'
-      singular: 'LDAP Group synchronization filter'
-      plural: 'LDAP Group synchronization filters'
-      destroy:
-        title: 'Remove synchronized filter %{name}'
-        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
-        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
-        verification: "Enter the filter name %{name} to verify the deletion."
-      form:
-        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
-        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
+      group_key: 'LDAP-gruppattribut'
+      group_key_text: 'LDAP-attributnamnet som används för att identifiera grupperna.'
+      group_base: 'LDAP-gruppbas'
+      group_base_text: 'LDAP-gruppbas används för att söka efter gruppposter.'
     synchronized_groups:
       add_new: 'Lägg till synkroniserad LDAP-grupp'
       destroy:
@@ -48,7 +32,7 @@ sv:
       plural: 'Synkroniserade LDAP-grupper'
       singular: 'Synkroniserad LDAP-grupp'
       form:
-        auth_source_text: 'Select which LDAP connection should be used.'
-        dn_text: 'Enter the full DN of the group in LDAP'
+        auth_source_text: 'Välj vilket LDAP-autentiseringsläge som används.'
+        entry_text: 'Definiera LDAP-gruppsidentifieraren.'
         group_text: 'Välj en befintlig OpenProject-grupp som medlemmar i LDAP-gruppen ska synkroniseras med'
 

@@ -280,7 +280,7 @@ sl:
     label_add_row_before: "Dodaj vrstico pred"
     label_add_selected_columns: "Dodajte izbrane stolpce"
     label_added_by: "dodal"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Dodal %{author} %{age}"
     label_ago: "pred dnevi"
     label_all: "vsi"
     label_all_work_packages: "Vsi zahtevki"
@@ -521,7 +521,7 @@ sl:
       duration: 'Trajanje'
       spent_on: 'Datum'
       hours: 'Ure'
-      title: 'Datum vpisa'
+      label: 'Vnos časa'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvofaktorna avtentikacija'
     watchers:

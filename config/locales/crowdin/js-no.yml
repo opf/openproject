@@ -281,7 +281,7 @@
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Legg til valgte kolonner"
     label_added_by: "lagt til av"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Lagt inn av %{author} %{age}"
     label_ago: "dager siden"
     label_all: "alle"
     label_all_work_packages: "alle arbeidspakker"
@@ -522,7 +522,7 @@
       duration: 'Varighet'
       spent_on: 'Dato'
       hours: 'Timer'
-      title: 'Logg tid'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Tofaktorautentisering'
     watchers:

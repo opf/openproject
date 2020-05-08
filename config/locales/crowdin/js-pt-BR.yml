@@ -280,7 +280,7 @@ pt-BR:
     label_add_row_before: "Adicionar linha antes"
     label_add_selected_columns: "Adicionar colunas selecionadas"
     label_added_by: "adicionado por"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Adicionado por %{author} %{age}"
     label_ago: "dias atrás"
     label_all: "todos"
     label_all_work_packages: "todos pacotes de trabalho"
@@ -521,7 +521,7 @@ pt-BR:
       duration: 'Duração'
       spent_on: 'Data'
       hours: 'horas'
-      title: 'Registro de tempo'
+      label: 'Entrada de tempo'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticação de dois fatores'
     watchers:

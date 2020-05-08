@@ -281,7 +281,7 @@ fil:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Magdagdag ng napiling hanay"
     label_added_by: "idinagdag ni"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Idinagdag ni %{author} %{age}"
     label_ago: "ang mga araw nakalipas"
     label_all: "lahat"
     label_all_work_packages: "lahat ng mga work package"
@@ -522,7 +522,7 @@ fil:
       duration: 'Durasyon'
       spent_on: 'Petsa'
       hours: 'Mga oras'
-      title: 'Ang oras ng tala'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Ang dalwang-Dahilan sa authentication'
     watchers:

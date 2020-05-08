@@ -281,7 +281,7 @@ fi:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Lisää valitut sarakkeet"
     label_added_by: "lisännyt"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Lisännyt %{author} %{age}"
     label_ago: "päiviä sitten"
     label_all: "kaikki"
     label_all_work_packages: "kaikki työpaketit"
@@ -522,7 +522,7 @@ fi:
       duration: 'Kesto'
       spent_on: 'Päivä'
       hours: 'Tunnit'
-      title: 'Kirjaa lokiin aika'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Kaksivaiheinen tunnistautuminen'
     watchers:

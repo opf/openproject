@@ -281,7 +281,7 @@ nl:
     label_add_row_before: "Rij voor toevoegen"
     label_add_selected_columns: "Geselecteerde kolommen toevoegen"
     label_added_by: "toegevoegd door"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Toegevoegd door %{author} %{age}"
     label_ago: "dagen geleden"
     label_all: "alle"
     label_all_work_packages: "alle werkpakketten"
@@ -522,7 +522,7 @@ nl:
       duration: 'Duur'
       spent_on: 'Datum'
       hours: 'Uren'
-      title: 'Gelogde tijd'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Twee-factor-authenticatie'
     watchers:

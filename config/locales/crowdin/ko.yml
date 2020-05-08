@@ -107,19 +107,10 @@ ko:
         OpenProject가 사용자 및 그룹을 검색할 LDAP 하위 트리의 기본 DN을 입력하세요.
         OpenProject는 이 하위 트리에서 제공된 사용자 이름만 필터링합니다.
         예: ou=users,dc=example,dc=com
-      filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
-      filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         이 확인란을 선택하면 OpenProject로 처음 인증할 때 OpenProject가 LDAP 항목에서
         자동으로 새 사용자를 만듭니다.
         OpenProject의 기존 계정만 LDAP를 통해 인증할 수 있게 하려면 이 확인란을 선택하지 마세요!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: '연결 암호화'
     system_account: '시스템 계정'
     system_account_legend: |
@@ -232,9 +223,6 @@ ko:
       no_results_title_text: 보고할 소식이 없습니다.
       no_results_content_text: 소식 항목 추가
   users:
-    groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: 이 사용자는 프로젝트의 멤버가 아닙니다.
   prioritiies:
@@ -359,7 +347,7 @@ ko:
         attr_mail: "이메일 속성"
         base_dn: "기본 DN"
         host: "호스트"
-        onthefly: "Automatic user creation"
+        onthefly: "필요에 따라 자동으로 계정 생성"
         port: "포트"
       changeset:
         repository: "리포지토리"
@@ -1311,7 +1299,6 @@ ko:
   label_duplicate: "중복"
   label_duplicates: "복제"
   label_edit: "편집"
-  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "다중 선택 토글"
   label_enabled_project_custom_fields: '사용자 정의 필드 사용'
   label_enabled_project_modules: '사용 가능한 모듈'

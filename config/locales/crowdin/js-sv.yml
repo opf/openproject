@@ -280,7 +280,7 @@ sv:
     label_add_row_before: "Lägg till rad före"
     label_add_selected_columns: "Lägga till markerade kolumner"
     label_added_by: "lagts till av"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Lagts till av %{author} %{age}"
     label_ago: "dagar sedan"
     label_all: "alla"
     label_all_work_packages: "alla arbetspaket"
@@ -521,7 +521,7 @@ sv:
       duration: 'Varaktighet'
       spent_on: 'Datum'
       hours: 'Timmar'
-      title: 'Logga tid'
+      label: 'Tidspost'
     two_factor_authentication:
       label_two_factor_authentication: 'Tvåfaktorsautentisering'
     watchers:
