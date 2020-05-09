@@ -261,8 +261,8 @@ ca:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Read about new features and product updates."
-          learn_about: "Learn more about the new features"
+          text_new_features: "Llegeixi sobre les noves característiques i actualitzacions del producte. "
+          learn_about: "Aprengui més sobre les noves característiques"
           standard:
             learn_about_link: https://www.openproject.org/openproject-10-5
             current_new_feature_html: >
@@ -290,9 +290,9 @@ ca:
     label_author: "Autor: %{user}"
     label_avatar: "Avatar"
     label_between: "between"
-    label_board: "Board"
+    label_board: "Taulell"
     label_board_locked: "Bloquejat"
-    label_board_plural: "Boards"
+    label_board_plural: "Taulells"
     label_board_sticky: "Fixa't"
     label_create: "Crear"
     label_create_work_package: "Crear paquet de treball nou"
@@ -454,7 +454,7 @@ ca:
       steps:
         help_menu: 'Al menú d''<b>Ajuda</b> vostè trobarà una guia d''usuari i material adicional de suport. <br>Gaudeixi de la seva feina amb OpenProject!'
         members: 'Convidi nous <b>Membres</b> per afegir-se al seu projecte.'
-        project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        project_selection: 'Si us plau cliqui a un dels projectes amb informació útil per a introduir-se.<br>El <b>Projecte demo</b> encaixa millor per a la gestió clàssica de projectes, mentre que el <b>Projecte Scrum</b> es millor per a gestió Àgil de projectes.'
         sidebar_arrow: "Amb la fletxa vostè pot navegar enrrere cap al <b>Menu principal</b> del projecte."
         welcome: 'Realitzi un tour de tres minuts per aprendre els <b> aspectes més importants</b>. <br>Recomanem completar les passes fins el final. Podrà recomençar el tour en qualsevol moment.'
         wiki: 'Dintre del <b>Wiki</b> pot documentar i compartir el coneixement amb el seu equip.'
@@ -464,10 +464,10 @@ ca:
           task_board_select: '... i seleccioni l''entrada <b>Tauler de tasca</b>.'
           task_board: "Al <b>Tauler de tasca</b> visualitza el progrés d'aquest esprint. Afegeixi noves tasques o problemes amb la icona + al costat de la història d'usuari. Arrossegant podrà actualitzar l'estatus."
         boards:
-          overview: 'Manage your work within an intuitive <b>Boards</b> view.'
-          lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
-          add: 'Click the + will <b>add a new card</b> to the list within a Board.'
-          drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
+          overview: 'Administri el seu traball amb la vista intuitiva de <b>Taulells</b>.'
+          lists: 'Pot crear llistes múltiples (columnes) en un únic Taulell, per exemple per a creat un taulell KANBAN. '
+          add: 'Faci clic a + per a <b>afegir una nova targeta</b> a la llista dintre del Taulell.'
+          drag: 'Arrossegui les seves targetes per la llista per a reordenar-les, o moure a una altra llista. Amb doble clic obrirà la vista de detalls.'
         wp:
           toggler: "Ara fem un cop d'ull a la secció <b>Paquets de treball</b>, la qual ens dona una vista més detallada de la seva feina."
           list: 'Aquesta es la llista <b>Paquet de treball</b> amb el treball important dintre del seu projecte, com tasques, característiques, fites, errors i mes. <br> Pot crear o editar un paquet de treball directament dintre d''aquesta llista. Per a veure els seus detalls pot fer doble clic en una fila.'
@@ -491,7 +491,7 @@ ca:
       relation_description: 'Cliqui per afegir una descripció per aquesta relació'
     project:
       required_outside_context: >
-        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+        Si us plau, seleccioni un projecte on crear el paquet de treball per a veure tots els atributs. Només pot seleccionar projectes que tinguin activat el tipus anterior.
       context: 'Context de projecte'
       work_package_belongs_to: 'Aquest paquet de treball pertany al projecte %{projectname}.'
       click_to_switch_context: 'Obrir aquest paquet de treball d''aquell projecte.'
@@ -510,13 +510,13 @@ ca:
         more_information: "More information"
         nevermind: "No importa"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Configuració del formulari"
         projects: "Projectes"
         settings: "Configuració"
     time_entry:
       project: 'Projecte'
       work_package: 'Paquet de treball'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Requereix seleccionar un paquet de treball primer.'
       activity: 'Activitat'
       comment: 'Comentari'
       duration: 'Durada'
@@ -576,8 +576,8 @@ ca:
       save: "Guardar la relació"
       abort: "Avortar"
     relations_autocomplete:
-      placeholder: "Type to search"
-      parent_placeholder: "Choose new parent or press escape to cancel."
+      placeholder: "Escriviu per cercar..."
+      parent_placeholder: "Escull nou pare o clica escapar per cancel·lar."
     repositories:
       select_tag: 'Seleccionar l''etiqueta'
       select_branch: 'Seleccionar branca'
@@ -588,26 +588,26 @@ ca:
       sorted_dsc: 'Ordre descendent aplicat,'
       sorted_no: 'Sense ordre aplicat,'
       sorting_disabled: 'ordenació des-habilitada'
-      activate_asc: 'activate to apply an ascending sort'
-      activate_dsc: 'activate to apply a descending sort'
-      activate_no: 'activate to remove the sort'
+      activate_asc: 'activeu per aplicar endreçament ascendent '
+      activate_dsc: 'activeu per aplicar endreçament descendent'
+      activate_no: 'activeu per desactivar l''endreçament'
     text_work_packages_destroy_confirmation: "¿Està segur que desitja eliminar el(s) paquet(s) de treball seleccionat(s)?"
-    text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
+    text_query_destroy_confirmation: "Esteu segur que voleu suprimir la consulta seleccionada?"
     text_attachment_destroy_confirmation: "Esteu segur que voleu suprimir el fitxer adjunt?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt chart'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
-        showNone: '-- No label --'
+        title: 'Configuració d''etiquetes'
+        bar: 'Etiquetes de barres'
+        left: 'Esquerra'
+        right: 'Dreta'
+        farRight: 'Extrem dret'
+        showNone: '-- Sense etiqueta --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Seleccioni els atributs que vol que es mostrin en les posicions corresponents del diagrama de Gantt en tot moment. Tingui en compte que, al mantenir el ratolí sobre un element, se mostraran les etiquetes de data, en lloc d'aquests atributs. 
+      button_activate: 'Mostra gràfica de Gantt'
+      button_deactivate: 'Amaga gràfica de Gantt'
       cancel: Cancel·la
       change: "Canvi en la planificació"
       due_date: "Finish date"
@@ -638,7 +638,7 @@ ca:
       start_date: "Data d'inici"
       tooManyProjects: "Més de %{count} projectes. Si us plau, utilitzeu un filtre millor!"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Faci clic en qualsevol paquet de treball destacat per a crear la relació. Cliqui Esc per a cancel·lar.'
       zoom:
         in: "Ampliar"
         out: "Allunyar"
@@ -650,12 +650,12 @@ ca:
         years: "Anys"
         slider: "Control de zoom"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Seleccioni el l¡nivell inicial de zoom que s'ha de mostrar quan l'autozoom no estigui disponible.
     tl_toolbar:
       zooms: "Nivell de zoom"
       outlines: "Nivell de jerarquia"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Característica només disponible a la versió Enterprise'
     wiki_formatting:
       strong: "Fort"
       italic: "Cursiva"
@@ -674,10 +674,10 @@ ca:
       image: "Imatge"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
-        edit: 'Bulk edit'
-        copy: 'Bulk copy'
-        delete: 'Bulk delete'
+        move: 'Canvi massiu del projecte'
+        edit: 'Edició massiva'
+        copy: 'Copiat massiu'
+        delete: 'Eliminat massiu'
       button_clear: "Netejar"
       comment_added: "El comentari s'ha afegit correctament."
       comment_send_failed: "S'ha produït un error. No es pot enviar el comentari."
@@ -692,29 +692,29 @@ ca:
       label_enable_multi_select: "Permetre sel·lecció múltiple"
       label_disable_multi_select: "Deshabilita la selecció múltiple"
       label_filter_add: "Afegir un filtre"
-      label_filter_by_text: "Filter by text"
+      label_filter_by_text: "Filtrar per text"
       label_options: "Opcions"
       label_column_multiselect: "Camp combinat desplegable: selecciona amb les tecles de fletxa, confirmar la selecció amb enter, suprimir amb retrocés"
       message_error_during_bulk_delete: S'ha produït un error en intentar suprimir paquets de treball.
       message_successful_bulk_delete: Paquets de treball suprimits correctament.
       message_successful_show_in_fullscreen: "Feu clic aquí per obrir aquest paquet de treball en visualització de pantalla completa."
-      message_view_spent_time: "Show spent time for this work package"
-      message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      placeholder_filter_by_text: "Subject, description, comments, ..."
+      message_view_spent_time: "Mostra el temps invertit en aquest paquet de treball"
+      message_work_package_read_only: "El paquet de treball esta bloquejat en aquest estat. Cap atribut excepte l'estat es pot modificar."
+      message_work_package_status_blocked: "L'estat del paquet de treball no permet l'escriptura perquè s'assignarà l'estat tancat i la versió tancada."
+      placeholder_filter_by_text: "Assumpte, descripció, comentaris, ..."
       inline_create:
         title: 'Feu clic aquí per afegir un nou paquet de treball a aquesta llista'
       create:
         title: 'Paquet de treball nou'
-        header: 'New %{type}'
-        header_no_type: 'New work package (Type not yet set)'
-        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        header: 'Nou %{type}'
+        header_no_type: 'Nou paquet de treball (Tipus no establert encara)'
+        header_with_parent: 'Nou %{type} (Fill de %{parent_type} #%{id})'
         button: 'Crear'
       copy:
-        title: 'Copy work package'
+        title: 'Copiar paquets de treball'
       hierarchy:
-        show: "Show hierarchy mode"
-        hide: "Hide hierarchy mode"
+        show: "Mostra l'estructura jeràrquica"
+        hide: "Amaga l'estructura jeràrquica"
         toggle_button: 'Click to toggle hierarchy mode.'
         leaf: 'Work package leaf at level %{level}.'
         children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'
