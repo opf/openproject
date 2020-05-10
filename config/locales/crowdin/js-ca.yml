@@ -281,7 +281,7 @@ ca:
     label_add_row_before: "Afegir fila abans"
     label_add_selected_columns: "Afegir columnes seleccionades"
     label_added_by: "afegit per"
-    label_added_time_by: "Afegit per %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "dies abans"
     label_all: "tot"
     label_all_work_packages: "tots els paquets de treball"
@@ -522,7 +522,7 @@ ca:
       duration: 'Durada'
       spent_on: 'Data'
       hours: 'Hores'
-      label: 'Entrada de temps'
+      title: 'Temps de registre'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

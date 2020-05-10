@@ -280,7 +280,7 @@ hu:
     label_add_row_before: "Sor hozzáadása előtte"
     label_add_selected_columns: "A kiválasztott oszlopok hozzáadása"
     label_added_by: "Hozzáadta"
-    label_added_time_by: "Hozzáadva %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "nappal ezelőtt"
     label_all: "mind"
     label_all_work_packages: "minden feladatcsoport"
@@ -521,7 +521,7 @@ hu:
       duration: 'Időtartam'
       spent_on: 'dátum'
       hours: 'órák'
-      label: 'Belépési idő'
+      title: 'Eltöltött idő rögzítése'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

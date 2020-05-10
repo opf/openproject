@@ -280,7 +280,7 @@ ru:
     label_add_row_before: "Добавить строку перед"
     label_add_selected_columns: "Добавить выбранные столбцы"
     label_added_by: "Добавил(-а)"
-    label_added_time_by: "Добавил(-а) %{author} %{age}"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "дней назад"
     label_all: "все"
     label_all_work_packages: "Все пакеты работ"
@@ -521,7 +521,7 @@ ru:
       duration: 'Продолжительность'
       spent_on: 'Дата'
       hours: 'Часы'
-      label: 'Временная запись'
+      title: 'Журналировать время'
     two_factor_authentication:
       label_two_factor_authentication: 'Двухфакторная аутентификация'
     watchers:

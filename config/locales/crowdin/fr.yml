@@ -107,10 +107,19 @@ fr:
         Entrez le DN de base de la sous-arborescence LDAP dans laquelle voulez qu'OpenProject recherche des utilisateurs et des groupes.
         OpenProject filtrera les noms d'utilisateur fournis dans cette sous-arborescence seulement.
         Exemple : ou=utilisateurs,dc=exemple,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Si vous cochez cette case, OpenProject créera automatiquement de nouveaux utilisateurs à partir de leurs entrées LDAP
         lorsqu'ils s'authentifieront pour la première fois avec OpenProject.
         Laissez ceci non coché pour permettre uniquement aux comptes existants dans OpenProject de s'authentifier via LDAP!
+      onthefly_group_sync: |
+        If you enable group synchronization for this LDAP connection, users will also be automatically created
+        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Cryptage de la connexion'
     system_account: 'Compte système'
     system_account_legend: |
@@ -223,6 +232,9 @@ fr:
       no_results_title_text: Il n'y a actuellement aucune actualité à publier.
       no_results_content_text: Ajouter une actualité
   users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Cet utilisateur n'est membre d'aucun projet pour le moment.
   prioritiies:
@@ -348,7 +360,7 @@ fr:
         attr_mail: "Attribut Courriel (Email)"
         base_dn: "DN de base"
         host: "Hôte"
-        onthefly: "Création de l'utilisateur à la volée"
+        onthefly: "Automatic user creation"
         port: "Port"
       changeset:
         repository: "Référentiel"
@@ -1315,6 +1327,7 @@ fr:
   label_duplicate: "dupliquer"
   label_duplicates: "Doublons"
   label_edit: "Éditer"
+  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Basculer multisélection"
   label_enabled_project_custom_fields: 'Champs personnalisés activés'
   label_enabled_project_modules: 'Modules activés'
