@@ -34,12 +34,16 @@ module AuthSourceSSO
     sso_config && sso_config[:header]
   end
 
-  def secret
+  def header_secret
     sso_config && sso_config[:secret]
   end
 
-  def optional?
+  def header_optional?
     sso_config && sso_config[:optional]
+  end
+
+  def header_slo_url
+    sso_config && sso_config[:logout_url]
   end
 
   def get_validated_login!(value)
@@ -59,9 +63,9 @@ module AuthSourceSSO
   end
 
   def extract_from_header(value)
-    if self.secret.present?
-      valid_secret = value.end_with?(":#{self.secret}")
-      login = value.gsub(/:#{Regexp.escape(self.secret)}\z/, '')
+    if header_secret.present?
+      valid_secret = value.end_with?(":#{header_secret}")
+      login = value.gsub(/:#{Regexp.escape(header_secret)}\z/, '')
 
       [login, valid_secret]
     else
@@ -132,12 +136,21 @@ module AuthSourceSSO
 
   def handle_sso_success(user)
     session[:user_id] = user.id
+    session[:user_from_auth_header] = true
 
     user
   end
 
+  def perform_post_logout(prev_session)
+    if prev_session[:user_from_auth_header] && header_slo_url.present?
+      redirect_to header_slo_url
+    else
+      super
+    end
+  end
+
   def handle_sso_failure!(session_args = {})
-    return if optional?
+    return if header_optional?
 
     session[:auth_source_sso_failure] = session_args.merge(
       back_url: request.base_url + request.original_fullpath,

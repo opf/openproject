@@ -110,18 +110,21 @@ production:
   auth_source_sso:
     # The header name is configured here
     header: X-Authenticated-User
+
     # The secret is configurable here
     # You can comment it out to disable if your outer server
     # fully controls this header value and you trust it.
     secret: MyPassword
+
     # Uncomment to make the header optional.
     # optional: true
+
+    # Specify a logout URL that gets redirected
+    # after the OpenProject internal logout flow
+    # logout_url: https://sso.example.com/logout
 ```
 
-
-
 Be sure to choose the correct indentation and base key. The `auth_source_sso` key should be indented two spaces (and all other keys accordingly) and the configuration should belong to the `production` group.
-
 
 
 The configuration can be provided in one of three ways:
