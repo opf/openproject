@@ -19,9 +19,8 @@ updating to the newest version.
   - Fixed: Highlighting of timeline missing with highlighting mode none
     \[[\#28564](https://community.openproject.com/wp/28564)\]
   - Fixed: Jumping comment container when reverse activity sorting is
-    activated \[[\#28562](https://comunity.openproject.com/wp/28562)\]
+    activated
   - Fixed: Signed outgoing webhooks incorrectly set signature header
-    \[[\#28375](https://comunity.openproject.com/wp/28375)\]
   - Fixed: A newline was added to WYSIWYG code blocks when editing a
     document that contained such blocks
     \[[\#28609](https://community.openproject.com/wp/28609)\]

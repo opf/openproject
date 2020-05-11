@@ -107,18 +107,9 @@ lt:
         Įveskite submedžio, kuriame OpenProject ieškos vartotojų ir grupių šaknies DN (Base DN).
         OpenProject ieškos vartotojų tik šio submedžio ribose.
         Pavyzdys: ou=users,dc=example,dc=com
-      filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
-      filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Jei pažymėsite šį lauką, OpenProject automatiškai sukurs naujus vartotojus pagal LDAP informaciją, kai tik šie vartotojai pirmą kartą prisijungs prie OpenProject.
         Nežymėkite šio lauko, jei norite, kad tik jau sukurti vartotojai galėtų prisijungti pasinaudodami LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Jungties šifravimas'
     system_account: 'Sistemos paskyra'
     system_account_legend: |
@@ -230,9 +221,6 @@ lt:
       no_results_title_text: Nėra jokių naujienų.
       no_results_content_text: Pridėti kaip naujieną
   users:
-    groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Šis vartotojas šiuo metu nėra projekto narys.
   prioritiies:
@@ -360,7 +348,7 @@ lt:
         attr_mail: "El. paštos atributas"
         base_dn: "Bazinis DN"
         host: "Hostas"
-        onthefly: "Automatic user creation"
+        onthefly: "Automatinis vartotojų registravimas"
         port: "Jungtis"
       changeset:
         repository: "Repozitorija"
@@ -1357,7 +1345,6 @@ lt:
   label_duplicate: "dubliuoti"
   label_duplicates: "dubliuojasi"
   label_edit: "Redaguoti"
-  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Perjungti daugybinį pažymėjimą"
   label_enabled_project_custom_fields: 'Įgalinti papildomi laukai'
   label_enabled_project_modules: 'Įgalinti moduliai'

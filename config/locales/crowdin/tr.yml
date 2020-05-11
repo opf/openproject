@@ -107,19 +107,10 @@ tr:
         LDAP'da, OpenProject'in kullanıcıları ve grupları aramasını istediğiniz alt ağacın Temel DN'sini girin.
         OpenProject yalnızca bu alt ağaçta belirtilen kullanıcı adlarını filtreleyecektir.
         Örnek: ou = kullanıcılar, dc = örnek, dc = com
-      filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
-      filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Bu kutuyu işaretlerseniz, OpenProject otomatik olarak LDAP girişlerinden yeni kullanıcılar oluşturur
         OpenProject ile ilk kimlik doğrulaması yaptıklarında.
         Yalnızca OpenProject’deki mevcut hesapların LDAP üzerinden kimlik doğrulaması yapmasına izin vermek için işaretlenmemiş bırakın!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Bağlantı şifreleme'
     system_account: 'Sistem hesabı'
     system_account_legend: |
@@ -232,9 +223,6 @@ tr:
       no_results_title_text: Şu anda rapor edilecek bir haber yok.
       no_results_content_text: Haber öğesi ekle
   users:
-    groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
   prioritiies:
@@ -361,7 +349,7 @@ tr:
         attr_mail: "E-posta özniteliği"
         base_dn: "Temel DN"
         host: "Sunucu"
-        onthefly: "Automatic user creation"
+        onthefly: "Anında kullanıcı oluşturma"
         port: "Port"
       changeset:
         repository: "Depo"
@@ -1328,7 +1316,6 @@ tr:
   label_duplicate: "kopya"
   label_duplicates: "çoğaltır"
   label_edit: "Düzenle"
-  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Çoklu seçimi etkinleştir"
   label_enabled_project_custom_fields: 'Etkin özel alanlar'
   label_enabled_project_modules: 'Aktif modüller'

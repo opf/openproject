@@ -282,7 +282,7 @@ ja:
     label_add_row_before: "前に行を追加"
     label_add_selected_columns: "選択した列を追加"
     label_added_by: "追加した人"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "%{author} %{age}によって追加されました。"
     label_ago: "○日前"
     label_all: "全て"
     label_all_work_packages: "全ての作業項目"
@@ -525,7 +525,7 @@ ja:
       duration: '期間'
       spent_on: '日付'
       hours: ' 時間'
-      title: '時間を記録'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: '2要素認証'
     watchers:

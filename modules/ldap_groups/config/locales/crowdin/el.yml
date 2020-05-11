@@ -2,34 +2,18 @@ el:
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        dn: 'DN'
+        entry: 'Αναγνωριστικό καταχώρησης'
         auth_source: 'Σύνδεση LDAP'
-      ldap_groups/synchronized_filter:
-        filter_string: 'LDAP filter'
-        auth_source: 'Σύνδεση LDAP'
-        group_name_attribute: "Group name attribute"
     models:
       ldap_groups/synchronized_group: 'Συγχρονισμένη ομάδα LDAP'
-      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
   ldap_groups:
     label_menu_item: 'Ομαδικός συγχρονισμός LDAP'
     label_group_key: 'Κλειδί φίλτρου ομάδα LDAP'
-    label_synchronize: 'Synchronize'
     settings:
-      name_attribute: 'LDAP groups name attribute'
-      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
-    synchronized_filters:
-      add_new: 'Add synchronized LDAP filter'
-      singular: 'LDAP Group synchronization filter'
-      plural: 'LDAP Group synchronization filters'
-      destroy:
-        title: 'Remove synchronized filter %{name}'
-        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
-        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
-        verification: "Enter the filter name %{name} to verify the deletion."
-      form:
-        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
-        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
+      group_key: 'Χαρακτηριστικό ομάδας LDAP'
+      group_key_text: 'Το όνομα του χαρακτηριστικού LDAP χρησιμοποιείται για την αναγνώριση των ομάδων.'
+      group_base: 'Βάση ομάδας LDAP'
+      group_base_text: 'Η βάση ομάδας LDAP χρησιμοποιείται για αναζήτηση οντοτήτων ομάδας.'
     synchronized_groups:
       add_new: 'Προσθήκη συγχρονισμένης LDAP ομάδας'
       destroy:
@@ -48,7 +32,7 @@ el:
       plural: 'Συγχρονισμένες ομάδες LDAP'
       singular: 'Συγχρονισμένη ομάδα LDAP'
       form:
-        auth_source_text: 'Select which LDAP connection should be used.'
-        dn_text: 'Enter the full DN of the group in LDAP'
+        auth_source_text: 'Επιλέξτε ποια λειτουργία ταυτοποίησης LDAP θα χρησιμοποιείται.'
+        entry_text: 'Ορίστε το αναγνωριστικό της ομάδας LDAP.'
         group_text: 'Επιλέξτε μια υπάρχουσα ομάδα OpenProject με το οποία θα συγχρονιστούν τα μέλη της ομάδας LDAP'
 

@@ -281,7 +281,7 @@ es:
     label_add_row_before: "Añadir fila encima"
     label_add_selected_columns: "Agregar columnas seleccionadas"
     label_added_by: "agregado por"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Agregado por %{author} %{age}"
     label_ago: "días antes"
     label_all: "todos"
     label_all_work_packages: "todos los paquetes de trabajo"
@@ -522,7 +522,7 @@ es:
       duration: 'Duración'
       spent_on: 'Fecha'
       hours: 'Horas'
-      title: 'Registro de tiempo'
+      label: 'Entrada de tiempo'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticación de dos factores'
     watchers:

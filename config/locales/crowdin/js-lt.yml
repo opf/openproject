@@ -281,7 +281,7 @@ lt:
     label_add_row_before: "Pridėti eilutę prieš"
     label_add_selected_columns: "Pridėti pažymėtus stulpelius"
     label_added_by: "pridėta"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Pridėta %{author} %{age}"
     label_ago: "dienų prieš"
     label_all: "visi"
     label_all_work_packages: "visi darbų paketai"
@@ -522,7 +522,7 @@ lt:
       duration: 'Trukmė'
       spent_on: 'Data'
       hours: 'Valandų'
-      title: 'Registruoti laiką'
+      label: 'Laiko įrašas'
     two_factor_authentication:
       label_two_factor_authentication: 'Dviejų veiksnių autentikavimas'
     watchers:

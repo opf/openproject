@@ -107,18 +107,9 @@ sl:
         Vnesite Base DN poddrevesa v LDAP, če želite, da vam OpenProject išče uporabnike ter skupine.
         OpenProject bo filtriral samo za podana uporabniška imena v tem podrevjuju.
         Primer: ou=users,dc=example,dc=com
-      filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
-      filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         Če potrdite to polje, bo OpenProject samodejno ustvaril nove uporabnike iz njihovih vnosov LDAP, ko se prvič potrdijo z OpenProject.
         Pustite to polje brez potrditve, da samo obstoječim računom v programu OpenProject dovolite avtentikacijo preko LDAP.
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Šifriranje povezave'
     system_account: 'Sistemski račun'
     system_account_legend: |
@@ -231,9 +222,6 @@ sl:
       no_results_title_text: Trenutno ni nobenih novic za poročanje.
       no_results_content_text: Dodajte novico
   users:
-    groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Ta uporabnik trenutno ni član projekta.
   prioritiies:
@@ -361,7 +349,7 @@ sl:
         attr_mail: "Atribut elektronskega naslova"
         base_dn: "Bazni DN"
         host: "Gostitelj"
-        onthefly: "Automatic user creation"
+        onthefly: "Sprotna izdelava uporabnikov"
         port: "Vrata"
       changeset:
         repository: "Repozitorij"
@@ -1358,7 +1346,6 @@ sl:
   label_duplicate: "Podvoji"
   label_duplicates: "dvojniki"
   label_edit: "Uredi"
-  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Preklopite na več selekcijo"
   label_enabled_project_custom_fields: 'Omogočena polja po meri'
   label_enabled_project_modules: 'Omogočeni moduli'
