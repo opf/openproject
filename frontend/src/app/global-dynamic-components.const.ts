@@ -174,7 +174,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: wpQuerySelectSelector, cls: WorkPackageQuerySelectDropdownComponent },
-  { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent },
+  { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
 ];
 
 
