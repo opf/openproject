@@ -21,7 +21,6 @@ updating to the newest version.
   - Fixed: Jumping comment container when reverse activity sorting is
     activated
   - Fixed: Signed outgoing webhooks incorrectly set signature header
-    \[[\#28375](https://comunity.openproject.com/wp/28375)\]
   - Fixed: A newline was added to WYSIWYG code blocks when editing a
     document that contained such blocks
     \[[\#28609](https://community.openproject.com/wp/28609)\]
