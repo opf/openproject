@@ -33,7 +33,7 @@ import {TimeEntryCreateModal} from "core-app/modules/time_entries/create/create.
 import {TimeEntryEditModal} from "core-app/modules/time_entries/edit/edit.modal";
 import {TimeEntryFormComponent} from "core-app/modules/time_entries/form/form.component";
 import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
-import {TriggerEditEntryComponent} from "core-app/modules/time_entries/edit/trigger-edit-entry.component";
+import {TriggerActionsEntryComponent} from "core-app/modules/time_entries/edit/trigger-actions-entry.component";
 
 @NgModule({
   imports: [
@@ -50,7 +50,7 @@ import {TriggerEditEntryComponent} from "core-app/modules/time_entries/edit/trig
     TimeEntryEditModal,
     TimeEntryCreateModal,
     TimeEntryFormComponent,
-    TriggerEditEntryComponent
+    TriggerActionsEntryComponent
   ]
 })
 export class OpenprojectTimeEntriesModule {
