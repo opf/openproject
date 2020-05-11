@@ -163,4 +163,4 @@ For non-existing users, if you have an LDAP configured with automatic user regis
 
 # Additional  resources
 
-- [https://help.ubuntu.com/community/Kerberos](Kerberos documentation by Ubuntu)
+- [Kerberos documentation by Ubuntu](https://help.ubuntu.com/community/Kerberos)
