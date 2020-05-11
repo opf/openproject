@@ -11,11 +11,13 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponent {
 
   ngAfterViewInit():void {
-    super.ngAfterViewInit();
+    if (this.viewerVisible) {
+      super.ngAfterViewInit();
 
-    // Save any leftover viewpoints when saving the work package
-    if (this.workPackage.isNew) {
-      this.observeCreation();
+      // Save any leftover viewpoints when saving the work package
+      if (this.workPackage.isNew) {
+        this.observeCreation();
+      }
     }
   }
 
