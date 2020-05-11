@@ -43,13 +43,6 @@ ar:
           status: status
           version: version
         select_attribute: "Action attribute"
-      add_list_modal:
-        warning:
-          status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: This project currently does not have any members that can be added. <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
       configuration_modal:
         title: 'Configure this board'
         display_settings:

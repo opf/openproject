@@ -107,18 +107,9 @@ zh-CN:
         输入 LDAP 中您希望 OpenProject 查找用户和组的子树的基本 DN。
         OpenProject 将仅在此子树中筛选提供的用户名。
         示例：ou=users,dc=example,dc=com
-      filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
-      filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         如果选中此框，OpenProject 将在新用户首次向 OpenProject 验证身份时从其 LDAP 条目创建这些用户。
         不选中此框则会仅允许 OpenProject 中的现有帐户通过 LDAP 验证身份！
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: '连接加密'
     system_account: '系统帐户'
     system_account_legend: |
@@ -230,9 +221,6 @@ zh-CN:
       no_results_title_text: 目前没有消息报告。
       no_results_content_text: 添加新闻项
   users:
-    groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: 该用户当前不是项目的成员。
   prioritiies:
@@ -357,7 +345,7 @@ zh-CN:
         attr_mail: "电子邮件属性"
         base_dn: "基本 DN"
         host: "主机"
-        onthefly: "Automatic user creation"
+        onthefly: "运行中用户创建"
         port: "端口"
       changeset:
         repository: "代码库"
@@ -1309,7 +1297,6 @@ zh-CN:
   label_duplicate: "重复"
   label_duplicates: "复制"
   label_edit: "编辑"
-  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "切换多选"
   label_enabled_project_custom_fields: '启用自定义字段'
   label_enabled_project_modules: '启用的模块'

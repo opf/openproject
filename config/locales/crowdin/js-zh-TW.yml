@@ -280,7 +280,7 @@ zh-TW:
     label_add_row_before: "在前面增加一列"
     label_add_selected_columns: "新增所選欄"
     label_added_by: "新增者"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "由 %{author} 於%{age} 新增"
     label_ago: "天前"
     label_all: "所有"
     label_all_work_packages: "所有工作項目"
@@ -521,7 +521,7 @@ zh-TW:
       duration: '時間長度'
       spent_on: '日期'
       hours: '小時'
-      title: '日誌的時間'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: '雙重身分驗證'
     watchers:

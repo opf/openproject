@@ -281,7 +281,7 @@ uk:
     label_add_row_before: "Додати рядок перед"
     label_add_selected_columns: "Додати вибрані стовпці"
     label_added_by: "додав(-ла)"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Додав(-ла) %{author} %{age}"
     label_ago: "днів тому"
     label_all: "всі"
     label_all_work_packages: "всі пакети в роботі"
@@ -522,7 +522,7 @@ uk:
       duration: 'Тривалість'
       spent_on: 'Дата'
       hours: 'Години'
-      title: 'Час журналу'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Двофакторна аутентифікація'
     watchers:

@@ -2,34 +2,18 @@ zh-CN:
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        dn: 'DN'
+        entry: '条目标识符'
         auth_source: 'LDAP 连接'
-      ldap_groups/synchronized_filter:
-        filter_string: 'LDAP filter'
-        auth_source: 'LDAP 连接'
-        group_name_attribute: "Group name attribute"
     models:
       ldap_groups/synchronized_group: '同步的 LDAP 组'
-      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
   ldap_groups:
     label_menu_item: 'LDAP 组同步'
     label_group_key: 'LDAP 组筛选器密钥'
-    label_synchronize: 'Synchronize'
     settings:
-      name_attribute: 'LDAP groups name attribute'
-      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
-    synchronized_filters:
-      add_new: 'Add synchronized LDAP filter'
-      singular: 'LDAP Group synchronization filter'
-      plural: 'LDAP Group synchronization filters'
-      destroy:
-        title: 'Remove synchronized filter %{name}'
-        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
-        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
-        verification: "Enter the filter name %{name} to verify the deletion."
-      form:
-        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
-        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
+      group_key: 'LDAP 组属性'
+      group_key_text: '用于识别组的 LDAP 属性名称。'
+      group_base: 'LDAP 组库'
+      group_base_text: '用于搜索组条目的 LDAP 组库。'
     synchronized_groups:
       add_new: '添加同步的 LDAP 组'
       destroy:
@@ -48,7 +32,7 @@ zh-CN:
       plural: '同步的 LDAP 组'
       singular: '同步的 LDAP 组'
       form:
-        auth_source_text: 'Select which LDAP connection should be used.'
-        dn_text: 'Enter the full DN of the group in LDAP'
+        auth_source_text: '选择使用哪种 LDAP 身份验证模式。'
+        entry_text: '定义 LDAP 组标识符。'
         group_text: '选择 LDAP 组的成员应与其同步的现有 OpenProject 组'
 

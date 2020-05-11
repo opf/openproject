@@ -281,7 +281,7 @@ it:
     label_add_row_before: "Aggiungi riga prima"
     label_add_selected_columns: "Aggiungi colonne selezionate"
     label_added_by: "aggiunto da"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Aggiunto da %{author} %{age}"
     label_ago: "giorni fa"
     label_all: "tutti"
     label_all_work_packages: "tutte le macro-attività"
@@ -522,7 +522,7 @@ it:
       duration: 'Durata'
       spent_on: 'Data'
       hours: 'Ore'
-      title: 'Registra l''orario effettuato'
+      label: 'Inserimento tempo'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticazione due fattori'
     watchers:

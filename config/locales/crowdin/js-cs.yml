@@ -281,7 +281,7 @@ cs:
     label_add_row_before: "Přidat řádek před"
     label_add_selected_columns: "Přidat vybrané sloupce"
     label_added_by: "přidal"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Přidal %{author} %{age}"
     label_ago: "dnů před"
     label_all: "vše"
     label_all_work_packages: "všechny pracovní balíčky"
@@ -522,7 +522,7 @@ cs:
       duration: 'Doba trvání'
       spent_on: 'Datum'
       hours: 'Hodiny'
-      title: 'Čas protokolu'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

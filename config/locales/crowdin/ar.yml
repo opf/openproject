@@ -107,19 +107,10 @@ ar:
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
         OpenProject will filter for provided usernames in this subtree only.
         Example: ou=users,dc=example,dc=com
-      filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
-      filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Connection encryption'
     system_account: 'System account'
     system_account_legend: |
@@ -232,9 +223,6 @@ ar:
       no_results_title_text: لا يوجد حالياً أخبار لتقدم.
       no_results_content_text: أضف عنصر أخبار
   users:
-    groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: هذا المستخدم حالياً ليس عضواً في المشروع.
   prioritiies:
@@ -365,7 +353,7 @@ ar:
         attr_mail: "سمة البريد الإلكتروني"
         base_dn: "قاعدة DN"
         host: "المضيف"
-        onthefly: "Automatic user creation"
+        onthefly: "إنشاء مستخدم On-the-fly"
         port: "منفذ"
       changeset:
         repository: "مستودع البيانات"
@@ -1392,7 +1380,6 @@ ar:
   label_duplicate: "مكرر"
   label_duplicates: "التكرارات"
   label_edit: "تعديل"
-  label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "تبديل متعدد الخيارات"
   label_enabled_project_custom_fields: 'تمكين الحقول المخصصة'
   label_enabled_project_modules: 'تمكين الأنماط'

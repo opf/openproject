@@ -280,7 +280,7 @@ da:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Tilføj valgte kolonner"
     label_added_by: "tilføjet af"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Tilføjet af %{author} %{age}"
     label_ago: "dage siden"
     label_all: "alle"
     label_all_work_packages: "alle arbejdspakker"
@@ -521,7 +521,7 @@ da:
       duration: 'Varighed'
       spent_on: 'Dato'
       hours: 'Timer'
-      title: 'Tidsregistrering'
+      label: 'Time entry'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
