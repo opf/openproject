@@ -49,6 +49,7 @@ module Accounts::OmniauthLogin
   def omniauth_login
     auth_hash = request.env['omniauth.auth']
 
+    Rails.logger.debug { "Returning from omniauth with hash #{auth_hash&.to_hash.inspect} Valid? #{auth_hash.valid?}" }
     return render_400 unless auth_hash.valid?
 
     # Set back url to page the omniauth login link was clicked on
