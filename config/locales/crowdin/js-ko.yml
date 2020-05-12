@@ -281,7 +281,7 @@ ko:
     label_add_row_before: "다음 앞에 행 추가"
     label_add_selected_columns: "선택된 열 추가"
     label_added_by: "추가함 : "
-    label_added_time_by: "%{author} %{age}가 추가함"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "일 전"
     label_all: "모두"
     label_all_work_packages: "모든 작업 패키지"
@@ -522,7 +522,7 @@ ko:
       duration: '기간'
       spent_on: '날짜'
       hours: '시간'
-      label: '시간 입력'
+      title: '작업시간 기록'
     two_factor_authentication:
       label_two_factor_authentication: '2단계 인증'
     watchers:

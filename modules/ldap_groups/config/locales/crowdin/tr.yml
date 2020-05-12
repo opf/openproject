@@ -2,18 +2,34 @@ tr:
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
-        entry: 'Giriş tanımlayıcısı'
+        dn: 'DN'
         auth_source: 'LDAP bağlantısı'
+      ldap_groups/synchronized_filter:
+        filter_string: 'LDAP filter'
+        auth_source: 'LDAP bağlantısı'
+        group_name_attribute: "Group name attribute"
     models:
       ldap_groups/synchronized_group: 'Senkronize LDAP grubu'
+      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
   ldap_groups:
     label_menu_item: 'LDAP grup senkronizasyonu'
     label_group_key: 'LDAP grubu filtre anahtarı'
+    label_synchronize: 'Synchronize'
     settings:
-      group_key: 'LDAP group attribute'
-      group_key_text: 'Grupları tanımlamak için kullanılan LDAP özellik adı.'
-      group_base: 'LDAP grup tabanı'
-      group_base_text: 'LDAP grup tabanı, grup girişlerini aramak için kullanılır.'
+      name_attribute: 'LDAP groups name attribute'
+      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
+    synchronized_filters:
+      add_new: 'Add synchronized LDAP filter'
+      singular: 'LDAP Group synchronization filter'
+      plural: 'LDAP Group synchronization filters'
+      destroy:
+        title: 'Remove synchronized filter %{name}'
+        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
+        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
+        verification: "Enter the filter name %{name} to verify the deletion."
+      form:
+        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
+        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
     synchronized_groups:
       add_new: 'Senkronize LDAP grubu ekle'
       destroy:
@@ -32,7 +48,7 @@ tr:
       plural: 'Senkronize LDAP grupları'
       singular: 'Senkronize LDAP grubu'
       form:
-        auth_source_text: 'Hangi LDAP kimlik doğrulama modunun kullanılacağını seçin.'
-        entry_text: 'LDAP grup tanımlayıcısını tanımlayın.'
+        auth_source_text: 'Select which LDAP connection should be used.'
+        dn_text: 'Enter the full DN of the group in LDAP'
         group_text: 'LDAP grubunun üyelerinin senkronize edileceği mevcut bir OpenProject grubunu seçin.'
 

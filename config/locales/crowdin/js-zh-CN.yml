@@ -281,7 +281,7 @@ zh-CN:
     label_add_row_before: "之前添加行"
     label_add_selected_columns: "添加所选的列"
     label_added_by: "添加人"
-    label_added_time_by: "由 %{author} %{age} 添加"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "天前"
     label_all: "所有"
     label_all_work_packages: "所有工作包"
@@ -522,7 +522,7 @@ zh-CN:
       duration: '持续时间'
       spent_on: '日期'
       hours: '小时'
-      label: '时间条目'
+      title: '记录时间'
     two_factor_authentication:
       label_two_factor_authentication: '双重身份验证'
     watchers:
